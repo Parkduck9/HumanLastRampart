@@ -1,0 +1,69 @@
+# ============================================================
+# Human Last Rampart .gitignore
+# 작성: Claude (조정 담당) / RULES 4장
+# Unity 프로젝트는 저장소 루트의 Game/ 하위 폴더에 있다.
+# ============================================================
+
+# ---------- Unity (Game/) ----------
+/Game/[Ll]ibrary/
+/Game/[Tt]emp/
+/Game/[Oo]bj/
+/Game/[Bb]uild/
+/Game/[Bb]uilds/
+/Game/[Ll]ogs/
+/Game/[Uu]ser[Ss]ettings/
+/Game/[Mm]emoryCaptures/
+/Game/[Rr]ecordings/
+
+# Asset Store 도구 등이 만드는 폴더
+/Game/[Aa]ssets/AssetStoreTools*
+
+# Visual Studio / Rider / VS Code
+/Game/.vs/
+/Game/.idea/
+/Game/.vscode/
+/Game/.gradle/
+/Game/ExportedObj/
+/Game/.consulo/
+/Game/*.csproj
+/Game/*.unityproj
+/Game/*.sln
+/Game/*.suo
+/Game/*.tmp
+/Game/*.user
+/Game/*.userprefs
+/Game/*.pidb
+/Game/*.booproj
+/Game/*.svd
+/Game/*.pdb
+/Game/*.mdb
+/Game/*.opendb
+/Game/*.VC.db
+
+# Unity 자동 생성 메타 (빈 폴더용)
+/Game/*.pidb.meta
+/Game/*.pdb.meta
+/Game/*.mdb.meta
+
+# 크래시 리포트
+/Game/sysinfo.txt
+
+# 빌드 산출물
+*.apk
+*.aab
+*.unitypackage
+*.app
+
+# Burst / 기타 생성물
+/Game/[Aa]ssets/[Ss]treamingAssets/aa.meta
+/Game/[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# ---------- 협업 (RULES 4장) ----------
+# 실시간 소통 파일은 Git에 올리지 않는다. status.html만 예외로 추적한다.
+Docs/collab/live/*
+!Docs/collab/live/status.html
+
+# ---------- OS ----------
+.DS_Store
+Thumbs.db
+Desktop.ini

@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>작업 현황판</title>
+<!--
+  Human Last Rampart 작업 현황 대시보드 (RULES 13장)
+  - 작성자: Claude. 이 파일은 거의 고정이며, 데이터는 각자의 status.js에서 읽는다.
+  - 원본은 각자의 MD(tasks / outbox / questions). status.js는 표시용 요약 사본이다.
+  - 각 AI는 자기 파일만 갱신한다: claude/status.js (Claude), codex/status.js (Codex)
+
+  status.js 형식:
+  window.HLR_STATUS = window.HLR_STATUS || {};
+  window.HLR_STATUS.<claude|codex> = {
+    agent: "Codex",
+    updated: "2026-10-14 15:30 KST",        // 한국 시간. 앞부분 YYYY-MM-DD HH:mm 를 읽는다
+    roles: ["..."],
+    coordinator: "Claude",                   // 이 AI가 알고 있는 현재 조정 담당
+    tasks: [{ id, title, status, area, baseCommit, resultCommit, verify, images: ["review/codex_T-CX-001_x.png"] }],
+    questions: [{ id, text, status }],       // status: "대기" | "답변됨"
+    messages: [{ id, to, type, date, summary }],
+    git: [{ id, step, time, note }],         // step: "요청" | "허가" | "시작" | "종료"
+    notes: ""
+  };
+-->
+<style>
+:root {
+  --bg: #f6f4ef; --surface: #ffffff; --surface-2: #efece4; --text: #22201c; --muted: #6b665c;
+  --line: #ddd8cc; --accent: #8a5a2b; --claude: #c2622d; --claude-soft: #f7e3d6;
+  --codex: #2f6f8f; --codex-soft: #dcebf2; --ok: #4f6b2a; --ok-soft: #e6ecd5;
+  --warn: #a8432f; --warn-soft: #f6dfd9; --wait: #8a6a12; --wait-soft: #f5ecd0;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #171614; --surface: #211f1c; --surface-2: #2a2824; --text: #ece8df; --muted: #a39d91;
+    --line: #3a3732; --accent: #d9a066; --claude: #e8895a; --claude-soft: #3a2a20;
+    --codex: #6bb3d6; --codex-soft: #1d3240; --ok: #a9bf6a; --ok-soft: #2b3320;
+    --warn: #e58a75; --warn-soft: #3d2420; --wait: #e0c46a; --wait-soft: #3a3220;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #171614; --surface: #211f1c; --surface-2: #2a2824; --text: #ece8df; --muted: #a39d91;
+  --line: #3a3732; --accent: #d9a066; --claude: #e8895a; --claude-soft: #3a2a20;
+  --codex: #6bb3d6; --codex-soft: #1d3240; --ok: #a9bf6a; --ok-soft: #2b3320;
+  --warn: #e58a75; --warn-soft: #3d2420; --wait: #e0c46a; --wait-soft: #3a3220;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif; font-size: 15px; line-height: 1.55; }
+.wrap { max-width: 1100px; margin: 0 auto; padding: 28px 16px 64px; }
+h1 { font-size: 26px; margin: 2px 0 6px; }
+h2 { font-size: 17px; margin: 0 0 12px; }
+.eyebrow { color: var(--accent); font-weight: 700; font-size: 12px; letter-spacing: .05em; }
+.muted { color: var(--muted); }
+.bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 10px 0 20px; }
+.pill { font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--line); color: var(--muted); }
+.pill.claude { background: var(--claude-soft); color: var(--claude); border-color: transparent; }
+.pill.codex { background: var(--codex-soft); color: var(--codex); border-color: transparent; }
+.pill.ok { background: var(--ok-soft); color: var(--ok); border-color: transparent; }
+.pill.warn { background: var(--warn-soft); color: var(--warn); border-color: transparent; }
+.pill.wait { background: var(--wait-soft); color: var(--wait); border-color: transparent; }
+section { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px; margin-bottom: 16px; }
+.agents { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 16px; }
+@media (max-width: 720px) { .agents { grid-template-columns: 1fr; } }
+.agent { border: 1px solid var(--line); border-radius: 12px; padding: 16px; background: var(--surface); }
+.agent.claude { border-top: 3px solid var(--claude); }
+.agent.codex { border-top: 3px solid var(--codex); }
+.agent h3 { margin: 0 0 6px; font-size: 16px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.agent .row { font-size: 14px; margin: 3px 0; }
+.empty { color: var(--muted); font-size: 14px; padding: 6px 0; }
+.alert { border-radius: 8px; padding: 8px 12px; font-size: 13px; margin-top: 8px; background: var(--warn-soft); color: var(--warn); }
+.tbl { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--muted); font-weight: 600; font-size: 13px; white-space: nowrap; }
+code { font-family: "Cascadia Code", Consolas, monospace; font-size: 12.5px; background: var(--surface-2); padding: 1px 5px; border-radius: 4px; }
+.imgs { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+.imgs figure { margin: 0; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--surface-2); }
+.imgs img { width: 100%; display: block; aspect-ratio: 16 / 9; object-fit: cover; }
+.imgs figcaption { font-size: 12px; padding: 6px 8px; color: var(--muted); word-break: break-all; }
+.imgs .missing { aspect-ratio: 16 / 9; display: grid; place-items: center; font-size: 12px; color: var(--warn); }
+.help { font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">HUMAN LAST RAMPART</div>
+  <h1>작업 현황판</h1>
+  <div class="bar">
+    <span class="pill" id="coord">현재 조정 담당: -</span>
+    <span class="pill" id="loaded">-</span>
+    <span class="muted help">파일이 바뀌어도 자동으로 갱신되지 않습니다. <b>F5</b>로 새로고침하세요.</span>
+  </div>
+
+  <div class="agents" id="agents"></div>
+
+  <section>
+    <h2>사용자에게 묻는 질문</h2>
+    <div id="questions"></div>
+  </section>
+
+  <section>
+    <h2>작업 목록</h2>
+    <div class="tbl" id="tasks"></div>
+  </section>
+
+  <section>
+    <h2>최근 메시지</h2>
+    <div class="tbl" id="messages"></div>
+  </section>
+
+  <section>
+    <h2>Git 쓰기 기록</h2>
+    <div class="tbl" id="git"></div>
+  </section>
+
+  <section>
+    <h2>검토 이미지</h2>
+    <div id="images"></div>
+  </section>
+
+  <p class="muted help">원본: <code>live/claude/</code>, <code>live/codex/</code>의 MD 파일 · 규칙: <a href="../RULES.html">RULES.html</a> · 데이터: 각 폴더의 <code>status.js</code></p>
+</div>
+
+<script src="claude/status.js"></script>
+<script src="codex/status.js"></script>
+<script>
+(function () {
+  var S = window.HLR_STATUS || {};
+  var AGENTS = [
+    { key: "claude", name: "Claude" },
+    { key: "codex", name: "Codex" }
+  ];
+  var STALE_HOURS = 72;
+
+  function esc(v) {
+    return String(v == null ? "" : v).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function parseTime(s) {
+    var m = /^(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{2}):(\d{2}))?/.exec(s || "");
+    if (!m) return null;
+    // 한국 시간(UTC+9) 기준으로 해석
+    return new Date(Date.UTC(+m[1], +m[2] - 1, +m[3], (+m[4] || 0) - 9, +m[5] || 0));
+  }
+  function statusPill(st) {
+    var cls = "pill";
+    if (st === "완료") cls += " ok";
+    else if (st === "보류") cls += " warn";
+    else if (/대기/.test(st || "")) cls += " wait";
+    return '<span class="' + cls + '">' + esc(st || "-") + "</span>";
+  }
+  function table(head, rows) {
+    if (!rows.length) return '<div class="empty">없음</div>';
+    return "<table><thead><tr>" + head.map(function (h) { return "<th>" + h + "</th>"; }).join("") +
+      "</tr></thead><tbody>" + rows.join("") + "</tbody></table>";
+  }
+  function who(a) { return '<span class="pill ' + a.key + '">' + a.name + "</span>"; }
+
+  // 에이전트 카드
+  var loadedCount = 0, coords = [];
+  var cards = AGENTS.map(function (a) {
+    var d = S[a.key];
+    if (!d) {
+      return '<div class="agent ' + a.key + '"><h3>' + who(a) + '</h3><div class="empty">데이터 없음 — <code>' +
+        a.key + '/status.js</code> 파일이 아직 없거나 읽지 못했습니다.</div></div>';
+    }
+    loadedCount++;
+    if (d.coordinator) coords.push(d.coordinator);
+    var t = parseTime(d.updated), stale = "";
+    if (!t) stale = '<div class="alert">갱신 시각을 읽을 수 없습니다.</div>';
+    else if ((Date.now() - t.getTime()) / 36e5 > STALE_HOURS) stale = '<div class="alert">마지막 갱신 후 ' + STALE_HOURS + "시간이 지났습니다. 상태가 오래됐을 수 있습니다.</div>";
+    var active = (d.tasks || []).filter(function (x) { return x.status !== "완료"; });
+    var waitingQ = (d.questions || []).filter(function (q) { return q.status !== "답변됨"; });
+    return '<div class="agent ' + a.key + '"><h3>' + who(a) +
+      (d.roles || []).map(function (r) { return '<span class="pill">' + esc(r) + "</span>"; }).join("") + "</h3>" +
+      '<div class="row muted">갱신: ' + esc(d.updated || "-") + "</div>" +
+      '<div class="row">진행 중 작업 <b>' + active.length + "</b>개 · 대기 질문 <b>" + waitingQ.length + "</b>개</div>" +
+      (d.notes ? '<div class="row muted">' + esc(d.notes) + "</div>" : "") + stale + "</div>";
+  });
+  document.getElementById("agents").innerHTML = cards.join("");
+
+  var coordEl = document.getElementById("coord");
+  var uniq = coords.filter(function (c, i) { return coords.indexOf(c) === i; });
+  if (uniq.length === 1) { coordEl.textContent = "현재 조정 담당: " + uniq[0]; coordEl.className = "pill " + uniq[0].toLowerCase(); }
+  else if (uniq.length > 1) { coordEl.textContent = "조정 담당 기록 불일치: " + uniq.join(" / "); coordEl.className = "pill warn"; }
+  var loadedEl = document.getElementById("loaded");
+  loadedEl.textContent = "데이터 " + loadedCount + "/2 불러옴";
+  loadedEl.className = "pill " + (loadedCount === 2 ? "ok" : "wait");
+
+  function collect(field) {
+    var out = [];
+    AGENTS.forEach(function (a) {
+      var d = S[a.key];
+      ((d && d[field]) || []).forEach(function (x) { out.push({ a: a, x: x }); });
+    });
+    return out;
+  }
+
+  // 질문
+  var qs = collect("questions").filter(function (r) { return r.x.status !== "답변됨"; });
+  document.getElementById("questions").innerHTML = table(["ID", "작성", "질문", "상태"], qs.map(function (r) {
+    return "<tr><td><code>" + esc(r.x.id) + "</code></td><td>" + who(r.a) + "</td><td>" + esc(r.x.text) + "</td><td>" + statusPill(r.x.status || "대기") + "</td></tr>";
+  }));
+
+  // 작업
+  var ts = collect("tasks");
+  document.getElementById("tasks").innerHTML = table(["ID", "담당", "작업", "상태", "영역", "기준 → 결과 커밋", "검증"], ts.map(function (r) {
+    var x = r.x;
+    return "<tr><td><code>" + esc(x.id) + "</code></td><td>" + who(r.a) + "</td><td>" + esc(x.title) + "</td><td>" + statusPill(x.status) +
+      "</td><td>" + esc(x.area) + "</td><td><code>" + esc(x.baseCommit || "-") + "</code> → <code>" + esc(x.resultCommit || "-") + "</code></td><td>" + esc(x.verify) + "</td></tr>";
+  }));
+
+  // 메시지
+  var ms = collect("messages").slice(-20).reverse();
+  document.getElementById("messages").innerHTML = table(["ID", "보낸 쪽", "받는 쪽", "유형", "날짜", "요약"], ms.map(function (r) {
+    var x = r.x;
+    return "<tr><td><code>" + esc(x.id) + "</code></td><td>" + who(r.a) + "</td><td>" + esc(x.to) + "</td><td>" + esc(x.type) + "</td><td>" + esc(x.date) + "</td><td>" + esc(x.summary) + "</td></tr>";
+  }));
+
+  // Git
+  var gs = collect("git").slice(-20).reverse();
+  document.getElementById("git").innerHTML = table(["ID", "기록", "단계", "시각", "내용"], gs.map(function (r) {
+    var x = r.x;
+    return "<tr><td><code>" + esc(x.id) + "</code></td><td>" + who(r.a) + "</td><td>" + esc(x.step) + "</td><td>" + esc(x.time) + "</td><td>" + esc(x.note) + "</td></tr>";
+  }));
+
+  // 이미지
+  var imgs = [];
+  ts.forEach(function (r) { (r.x.images || []).forEach(function (p) { imgs.push({ a: r.a, id: r.x.id, p: p }); }); });
+  var box = document.getElementById("images");
+  if (!imgs.length) { box.innerHTML = '<div class="empty">없음</div>'; }
+  else {
+    box.innerHTML = '<div class="imgs">' + imgs.map(function (m, i) {
+      return '<figure><img id="img' + i + '" src="' + esc(m.p) + '" alt="' + esc(m.id) + ' 검토 이미지"><figcaption>' + esc(m.id) + " · " + esc(m.p) + "</figcaption></figure>";
+    }).join("") + "</div>";
+    imgs.forEach(function (m, i) {
+      var el = document.getElementById("img" + i);
+      el.onerror = function () { var d = document.createElement("div"); d.className = "missing"; d.textContent = "파일 없음: " + m.p; el.replaceWith(d); };
+    });
+  }
+})();
+</script>
+</body>
+</html>
