@@ -8,7 +8,7 @@ namespace HumanLastRampart.Combat.PerfLab
 {
     // 대량 전투 성능 시제품 순서 3 (Docs/GDD/PERF_PROTOTYPE.md, 구조: Docs/collab/view/PERFLAB_ARCH.html)
     // ① 적 행군 → ② 공간 격자 → ③④ 표적·발사 → ④ 화살 풀 → ⑤ 화살 이동·명중 → ⑥ 사건 처리 → ⑦ 그리기 데이터
-    // 조작: 1/2/3 단계 전환(S1~S3), C 카메라 원근/직교 전환, F8 성능 표시
+    // 조작: 1/2/3 단계 전환(S1~S3), C 카메라 원근/직교, R 해상도(내부 절반+2배 / 네이티브), B 자동 측정, F8 성능 표시
     public sealed class PerfLabBootstrap : MonoBehaviour
     {
         struct Stage
@@ -40,6 +40,7 @@ namespace HumanLastRampart.Combat.PerfLab
         [SerializeField] float wallHeight = 4f;
         [SerializeField] float spawnDepthMin = 80f;
         [SerializeField] float spawnDepthMax = 320f;
+        [SerializeField] float benchmarkSpawnDepthMin = 10f;   // 자동 측정 때는 가까이서 출발해 바로 교전
         [SerializeField] float enemySpeedMin = 3f;
         [SerializeField] float enemySpeedMax = 6f;
         [SerializeField] float cellSize = 4f;
@@ -127,6 +128,24 @@ namespace HumanLastRampart.Combat.PerfLab
         Camera viewCamera;
         bool orthographic;
         PerfLabOverlay overlay;
+        PerfLabResolution resolution;
+        PerfLabBenchmark benchmark;
+        int requestedStage = -1;
+        bool requestedClose;
+
+        public int AllyCount => allyCount;
+        public int EnemyCount => enemyCount;
+        public string StageLabel => Stages[stageIndex].Name;
+        public int ActiveArrows { get; private set; }
+        public int DeathsTotal { get; private set; }
+        public int PoolOverflowTotal { get; private set; }
+
+        // 단계 변경은 다음 Update 맨 앞(작업 예약 전)에 적용한다 — 실행 중인 Job의 배열을 지우지 않기 위해
+        public void RequestStage(int index, bool closeSpawn)
+        {
+            requestedStage = Mathf.Clamp(index, 0, Stages.Length - 1);
+            requestedClose = closeSpawn;
+        }
 
         void Awake()
         {
@@ -178,9 +197,13 @@ namespace HumanLastRampart.Combat.PerfLab
 
             BuildEnvironment();
             overlay = gameObject.AddComponent<PerfLabOverlay>();
+            resolution = gameObject.AddComponent<PerfLabResolution>();
+            resolution.Init(viewCamera);
+            benchmark = gameObject.AddComponent<PerfLabBenchmark>();
+            benchmark.Init(this, resolution);
 
             stageIndex = Mathf.Clamp(startStage, 0, Stages.Length - 1);
-            Spawn(Stages[stageIndex]);
+            Spawn(Stages[stageIndex], false);
         }
 
         void Update()
@@ -333,11 +356,16 @@ namespace HumanLastRampart.Combat.PerfLab
             Graphics.DrawMeshInstancedProcedural(quad, 0, material, drawBounds, allyCount, allyProperties);
             Graphics.DrawMeshInstancedProcedural(quad, 0, material, drawBounds, arrowCapacity, arrowProperties);
 
+            ActiveArrows = stats[PerfLabStat.ActiveArrows];
+            DeathsTotal = stats[PerfLabStat.DeathsTotal];
+            PoolOverflowTotal = stats[PerfLabStat.PoolOverflowTotal];
             if (overlay != null)
             {
-                overlay.ActiveArrows = stats[PerfLabStat.ActiveArrows];
-                overlay.DeathsTotal = stats[PerfLabStat.DeathsTotal];
-                overlay.PoolOverflowTotal = stats[PerfLabStat.PoolOverflowTotal];
+                overlay.ActiveArrows = ActiveArrows;
+                overlay.DeathsTotal = DeathsTotal;
+                overlay.PoolOverflowTotal = PoolOverflowTotal;
+                overlay.ResolutionName = resolution != null ? resolution.Describe() : "";
+                overlay.BenchmarkText = benchmark != null && benchmark.Running ? "자동 측정 중… (끝날 때까지 조작하지 마세요)" : (benchmark != null ? benchmark.LastSummary : "");
             }
         }
 
@@ -364,29 +392,41 @@ namespace HumanLastRampart.Combat.PerfLab
         void HandleInput()
         {
             var keyboard = Keyboard.current;
-            if (keyboard == null)
+            bool benchmarking = benchmark != null && benchmark.Running;
+            if (keyboard != null && !benchmarking)
             {
-                return;
+                if (keyboard.digit1Key.wasPressedThisFrame) RequestStage(0, false);
+                if (keyboard.digit2Key.wasPressedThisFrame) RequestStage(1, false);
+                if (keyboard.digit3Key.wasPressedThisFrame) RequestStage(2, false);
+
+                if (keyboard.cKey.wasPressedThisFrame)
+                {
+                    orthographic = !orthographic;
+                    ApplyCamera();
+                }
+
+                if (keyboard.rKey.wasPressedThisFrame && resolution != null)
+                {
+                    resolution.SetHalfScale(!resolution.HalfScale);
+                }
+
+                if (keyboard.bKey.wasPressedThisFrame && benchmark != null)
+                {
+                    orthographic = false;
+                    ApplyCamera();
+                    benchmark.Begin();
+                }
             }
 
-            int requested = -1;
-            if (keyboard.digit1Key.wasPressedThisFrame) requested = 0;
-            if (keyboard.digit2Key.wasPressedThisFrame) requested = 1;
-            if (keyboard.digit3Key.wasPressedThisFrame) requested = 2;
-            if (requested >= 0 && requested != stageIndex)
+            if (requestedStage >= 0)
             {
-                stageIndex = requested;
-                Spawn(Stages[stageIndex]);
-            }
-
-            if (keyboard.cKey.wasPressedThisFrame)
-            {
-                orthographic = !orthographic;
-                ApplyCamera();
+                stageIndex = requestedStage;
+                Spawn(Stages[stageIndex], requestedClose);
+                requestedStage = -1;
             }
         }
 
-        void Spawn(Stage stage)
+        void Spawn(Stage stage, bool closeSpawn)
         {
             ReleaseData();
 
@@ -437,12 +477,13 @@ namespace HumanLastRampart.Combat.PerfLab
 
             var random = new Unity.Mathematics.Random(randomSeed == 0 ? 1u : randomSeed);
             float halfLength = wallLength * 0.5f;
+            float depthMin = closeSpawn ? benchmarkSpawnDepthMin : spawnDepthMin;
             for (int i = 0; i < enemyCount; i++)
             {
                 enemyPositions[i] = new float3(
                     random.NextFloat(-halfLength, halfLength),
                     0f,
-                    random.NextFloat(spawnDepthMin, spawnDepthMax));
+                    random.NextFloat(depthMin, spawnDepthMax));
                 enemySpeeds[i] = random.NextFloat(enemySpeedMin, enemySpeedMax);
                 float phase = random.NextFloat();
                 enemyAnimPhases[i] = phase;
