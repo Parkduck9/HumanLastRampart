@@ -12,12 +12,11 @@
 
 ## 현재 위치
 
-- **지금 단계:** Phase 2 기반 구현 (Claude ① Core·② App 완료, Codex 화면 뼈대 진행중)
+- **지금 단계:** Phase 2 기반 구현 (Core·App·전투 뼈대·Codex 화면 뼈대·빌드 목록 완료 → 사용자 Play 확인, C-007 결과 반영 남음)
 - **다음 할 일:**
-  - 사용자: Boot 씬 Play로 흐름 확인(임시 화면 + 실제 전투 뼈대, 절차는 tasks.md T-CL-016). Codex 작업 끝나면 G-CX Git 요청이 오니 Claude에게 '협업 확인'
-  - Claude: Codex 씬이 오면 ③ 빌드 씬 목록·템플릿 정리(P2-C07) → P2-U01 검증 → main 반영 묶음
-  - Codex: P2-X01~X03 원본 적용·Claude QA 23/23 통과 → G-CX-013 커밋 (허가됨)
-  - 결정 대기: C-007 결과 반영(골드·손실)을 Phase 2에 넣을지, E2 오류를 Boot 안내로 보내는 IScreenContext 추가 API
+  - 사용자: Boot 씬 Play로 실제 화면 흐름 확인(P2-U01, Codex 화면 + Claude 전투 뼈대). Codex에게 '협업 확인'(M-CL-026: C-007 결과 반영)
+  - Codex: C-007 결과 반영 최소 범위(D-035) — 골드·영웅·분대·성벽, 중복 방지, 오류는 ReportDataError
+  - Claude: Codex 반영 QA → P2-U01 재확인 → main 반영 묶음(R-003). P1-C16 명령 겹침 규칙 문서화
 
 ---
 
@@ -86,15 +85,15 @@
 - [?] **P2-C04** `App/`: Boot 씬, GameFlow(순서표·패배 엔딩·4번째 후 메인), 추가 로딩, 컨텍스트 무효화·입력 차단, 카탈로그 검증, 새 게임 생성(난이도·시드), E2 오류 안내
 - [?] **P2-C05** Battle 씬 뼈대 + 진입 컴포넌트
 - [?] **P2-C06** 테스트용 진입 방법 (임시 `BattleResult`로 4번 화면 바로 열기 등)
-- [ ] **P2-C07** 빌드 씬 목록 등록 + 템플릿 예제 삭제(C2) (공용 경로, 예약 기록)
+- [x] **P2-C07** 빌드 씬 목록 등록 + 템플릿 예제 삭제(C2) (공용 경로, 예약 기록)
 - [x] **P2-C08** 대량 적 조기 성능 시험 — M2 빌드 측정 D-023 기준 통과, 구조 확정 D-024 · (PERF_PROTOTYPE 순서 1~5, 착수 D-022): 데이터 처리·이동·공격·표시를 켜고 아군/적 1,000/5,000 → 3,000/10,000 → 최대 10,000/50,000 동시 활성 검증(C-012·013). RTX 2060·4K/60 FPS 목표, 5800X급·시스템 RAM 12GB 잠정 기준. 품질 모드/실측 확인 후 사용자 Play
 - [?] **P2-C09** 1회차 시작 데이터 초안: CombatCatalog, CampaignStartDef(성벽 4개·대포 4문·분대·마법사), 지형 4·웨이브 4 틀(임시 수치)
 - [x] **P2-C10** HLR.Combat → HLR.Core 참조 정리 (PerfLab은 시험 도구로 유지)
 
 ### Codex
-- [ ] **P2-X01** (검토대기 — QA 통과) `Frontend/`, `Story/`, `Meta/`, `UI/` 폴더와 asmdef
-- [ ] **P2-X02** (검토대기 — QA 통과) MainMenu(시작 → 난이도 선택 → CompleteNewGame, 종료), Story, Result, Prep 씬 뼈대 + 진입 컴포넌트 — Claude Core 커밋 후
-- [ ] **P2-X03** (검토대기 — QA 통과) 공용 UI 기초 (버튼, 팝업, 임시 한글 글꼴 — 시스템 맑은 고딕) — 공용 UI 예약 승인 M-CL-024
+- [x] **P2-X01** `Frontend/`, `Story/`, `Meta/`, `UI/` 폴더와 asmdef
+- [x] **P2-X02** MainMenu(시작 → 난이도 선택 → CompleteNewGame, 종료), Story, Result, Prep 씬 뼈대 + 진입 컴포넌트 — Claude Core 커밋 후
+- [x] **P2-X03** 공용 UI 기초 (버튼, 팝업, 임시 한글 글꼴 — 시스템 맑은 고딕) — 공용 UI 예약 승인 M-CL-024
 
 ### 사용자
 - [ ] **P2-U01** 검증: Boot → 메인 → 난이도 → 스토리 → 전투(승리/패배) → 결과 → 정비 … 빈 화면 흐름 전체, 콘솔 에러 0 (PHASE2_PLAN 6장)
@@ -239,3 +238,5 @@
 | 2026-10-13 | 진행 | Phase 2 ② 커밋 `52f34f5`: App(Boot·GameFlow 화면 전환·검사·전투 준비·E2 오류 안내), 실제 Battle 뼈대(시험 승리/패배), 개발용 임시 화면·화면 단독 Play, 1회차 시작 데이터 68개(성벽 4·대포 지점 16·웨이브 4·마법 2 등). 배치 모드 QA 23/23 통과(실제 데이터 검사 포함). 사용자 Boot Play 대기 |
 | 2026-10-13 | 협업 | Codex Phase 2 착수(T-CX-010). M-CX-019 공용 UI 예약(UI.meta·HLR.UI.asmdef·ScreenView·ScreenEntryBase, 작성자 Codex) 승인 M-CL-024, 해제는 T-CX-010 커밋 때. 임시 한글 글꼴은 시스템 맑은 고딕(D-033 F1) |
 | 2026-10-13 | QA | Codex 화면 뼈대 32개 파일 원본 적용. Claude 배치 모드 QA [AI 직접 확인]: 컴파일 에러 0, 23/23 통과. G-CX-013 커밋 허가. 남은 결정: C-007 결과 반영의 Phase 2 포함 여부, E2 오류 전달 API |
+| 2026-10-13 | 결정 | D-035: C-007 결과 반영(골드·영웅·분대·성벽, 중복 방지)을 Phase 2에 포함(Codex), 화면→Boot 오류 안내 통로 C-003 v1.3 ReportDataError(Claude) |
+| 2026-10-13 | 진행 | Codex 화면 뼈대 커밋 0a4ae5f(G-CX-013). Claude ReportDataError 383a9c1, P2-C07 빌드 씬 목록(Boot·MainMenu·Story·Battle·Result·Prep)·템플릿 예제 17개 삭제 cd594bf. 배치 QA 26/26 [AI 직접 확인] |
