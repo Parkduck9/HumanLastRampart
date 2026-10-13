@@ -113,7 +113,7 @@ a { color: var(--accent); }
 
   <section>
     <h2>다음 할 일</h2>
-    <p class="small muted">현재 조정 담당: Codex (사용자 지시로 Claude 대체). C-005~C-007·C-004 v1.1은 제안이며 E1~E4 검토 대기입니다.</p>
+    <p class="small muted">현재 조정 담당: Codex (사용자 지시로 Claude 대체). C-005~C-007·C-004 v1.1 r2에 사용자 답변을 반영했습니다. E2는 오류 안내 후 사용자가 메인 복귀를 선택합니다. 구현은 아직 시작하지 않았습니다.</p>
     <div class="next" id="next"></div>
   </section>
 
@@ -176,7 +176,7 @@ a { color: var(--accent); }
 <script src="../live/codex/status.js"></script>
 <script>
 // ===== ROADMAP 데이터 (원본: Docs/GDD/ROADMAP.md, Claude 관리) =====
-var UPDATED = "2026-10-13 14:09 KST";
+var UPDATED = "2026-10-13 14:14 KST";
 var PHASES = [
   { id: "P0", name: "Phase 0 — 초기 준비", groups: [
     { owner: "*", items: [
@@ -203,7 +203,7 @@ var PHASES = [
       ["P1-C02", "진행 체크리스트 작성 (ROADMAP.md + 이 화면)", "완료"],
       ["P1-C03", "CONTRACTS: C-001 폴더·씬 소유권, C-002 어셈블리 의존, C-003 화면 전환 — r3 승인 (D-014)", "완료"],
       ["P1-C04", "CONTRACTS: C-004 CampaignState, C-010 정의 데이터 클래스, C-003 v1.1 — r3 승인 (D-015)", "완료"],
-      ["P1-C05", "C-005~C-007 r1 및 C-004 v1.1 제안 (Codex 대체, E1~E4 검토 대기)", "검토대기"],
+      ["P1-C05", "C-005~C-007·C-004 v1.1 r2 승인 (E2: 안내 후 사용자 메인 복귀 선택)", "완료"],
       ["P1-C06", "CONTRACTS 초안: C-008 함정 경계, C-011 표적 우선순위 (+ C-009 반영)", "대기"],
       ["P1-C07", "카메라 목업 A: 원근 투영", "대기"],
       ["P1-C08", "카메라 목업 B: 기울인 직교 투영", "대기"],
@@ -304,10 +304,10 @@ var PHASES = [
   ]}
 ];
 var DECISIONS = [
-  ["E1", "승리 결과 화면 진입 때 보상·손실 1회 반영 여부", "P1-C05"],
-  ["E2", "잘못된 결과는 부분 반영 없이 메인 복귀 여부", "P1-C05"],
-  ["E3", "마지막 웨이브 후 처리: 최소 두 전투 준비 후 메인 복귀 제안", "P1-C05"],
-  ["E4", "C-004 v1.1: ActiveBattleSetup·LastAppliedBattleRunId 추가 여부", "P1-C05"],
+
+
+
+
   ["-", "카메라 방식 (원근 / 직교)", "P1-U02"],
   ["-", "한글 폰트", "P1-U05"]
 ];
@@ -337,6 +337,7 @@ var LOG = [
 ];
 LOG.push(["2026-10-13", "인계", "사용자 지시로 Codex가 Claude 대체. live 백업 5b557fd, 세 문서 경로별 수정 허가. 기존 약속 보존."]);
 LOG.push(["2026-10-13", "제안", "P1-C05 C-005~C-007 r1 및 C-004 v1.1 제안 반영. E1~E4 사용자 검토 대기. 구현 미착수."]);
+LOG.push(["2026-10-13", "결정", "P1-C05 r2 사용자 답변 반영. E2 오류 안내·중단 후 사용자가 메인 복귀 선택. 자동 복귀 없음. E1·E3·E4 채택, 구현 미착수."]);
 // ===== 데이터 끝 =====
 
 (function () {
