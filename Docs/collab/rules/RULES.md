@@ -6,6 +6,7 @@
 - 우선순위: **FirstRead.md > RULES.md > 기타 문서.** 충돌하면 상위 문서를 따르고 사용자에게 알린다.
 - **원본은 이 MD 파일이다.** [`view/RULES.html`](../view/RULES.html)은 사용자가 보기 위한 요약 화면이며, 내용이 다르면 이 MD가 우선한다. 조정 담당이 RULES를 바꿀 때 HTML도 함께 갱신한다.
 - 확정 후에는 조정 담당만 수정하며, 변경하려면 사용자 승인이 필요하다.
+- **추가 규칙 (2026-10-13, D-011):** 7.3 진행 체크리스트 갱신 의무 (사용자 지시)
 - **경로 정리 (2026-10-13, D-010):** 협업 문서를 `rules/`, `view/`, `history/`로 나눴다. 규칙 내용은 바뀌지 않았다. 아래 Codex 의견 섹션과 `history/`의 문서에 남은 옛 경로(`Docs/collab/RULES.md`, `archive/` 등)는 기록 당시의 표기로 보존한다.
 
 ### v0.2 → v0.3 변경 요약
@@ -274,6 +275,12 @@ AI가 상대에게 메시지를 남겨도 상대는 자동으로 읽지 않는�
 - 이미지: Docs/collab/live/review/claude_T-CL-003_wave.png (목업 / 실제 캡처)
 - 남은 문제: ...
 ```
+
+### 7.3 진행 체크리스트 갱신 (D-011, 2026-10-13 추가)
+- 진행 체크리스트 원본은 `Docs/GDD/ROADMAP.md`, 사용자용 화면은 `Docs/collab/view/ROADMAP.html`이다. 둘 다 Claude가 관리한다.
+- **어떤 작업이든 끝날 때마다 md와 html을 함께 갱신한다.** 계획 변경과 특이 상황(막힘, 보류, 결정 변경, 규칙 예외)도 두 파일의 "변경·특이사항 기록"에 남긴다.
+- Codex는 자기 항목(`P*-X##`)의 진행을 `live/codex/tasks.md`와 `live/codex/status.js`의 `roadmap` 값으로 갱신한다. ROADMAP.html은 이 값을 바로 읽어 표시한다. ROADMAP.md의 Codex 체크 상태는 Claude가 "협업 확인" 때 맞춘다(단일 작성자).
+- `roadmap` 값 형식: `roadmap: { "P1-X01": "진행중" }` — 상태는 `대기` / `진행중` / `완료` / `보류` / `검토대기`
 
 ---
 

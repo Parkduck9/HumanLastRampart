@@ -89,3 +89,12 @@
   - 기존 기록(D-001~D-009, Codex 의견, history 문서)의 옛 경로 표기는 수정하지 않는다
 - 승인 근거: 사용자 요청과 선택 (2026-10-13 대화, "용도별" 선택)
 - 관련: RULES 4장, T-CL-001
+
+## D-011 진행 체크리스트(ROADMAP) md·html 갱신 의무
+- 날짜: 2026-10-13
+- 내용:
+  - 진행 체크리스트 원본은 `Docs/GDD/ROADMAP.md`, 사용자용 화면은 `Docs/collab/view/ROADMAP.html` (둘 다 Claude 관리)
+  - **어떤 작업이든 끝날 때마다** md와 html을 함께 갱신한다. 계획 변경과 특이 상황(막힘, 보류, 결정 변경, 규칙 예외)도 "변경·특이사항 기록"에 남긴다
+  - Codex는 자기 항목의 진행을 `live/codex/tasks.md`(md)와 `live/codex/status.js`의 `roadmap` 값(html에 바로 표시)으로 갱신한다. ROADMAP.md의 Codex 체크 상태는 Claude가 "협업 확인" 때 맞춘다
+- 승인 근거: 사용자 지시 (2026-10-13 대화)
+- 관련: RULES 7.3, ARCHITECTURE.md, ROADMAP.md
