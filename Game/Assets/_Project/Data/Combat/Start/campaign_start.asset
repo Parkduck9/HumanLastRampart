@@ -18,13 +18,13 @@ MonoBehaviour:
   firstStoryId: story_intro
   walls:
   - Side: 0
-    MaxHp: 1000
+    MaxHp: 10000
   - Side: 1
-    MaxHp: 1000
+    MaxHp: 10000
   - Side: 2
-    MaxHp: 1000
+    MaxHp: 10000
   - Side: 3
-    MaxHp: 1000
+    MaxHp: 10000
   heroes:
   - UnitDefId: unit_hero
     PostId:
