@@ -34,7 +34,7 @@
 <!-- 약속은 이 아래에 추가한다 -->
 
 ## C-001 폴더·씬 소유권
-- 상태: **제안 r2** (2026-10-13 초안, Codex 검토 반영. 근거 D-013·ARCHITECTURE 승인 v1.0 2·4장)
+- 상태: **승인** (2026-10-13, 사용자 확정 D-014. r3 기준 — Codex 검토 M-CX-007 반영, C1·C2 답변 포함)
 - 위치: `Game/Assets/` 전체
 - 정의:
 
@@ -59,8 +59,8 @@
   | `_Project/Audio/` | 공용 | **공용 경로** | 1회차는 최소한만 |
   | `ThirdParty/` | 공용 | **공용 경로** | 외부 에셋 추가는 사용자 승인 (RULES 8장) |
   | `Settings/` | 공용 | **공용 경로** | URP 설정 에셋 (템플릿이 만든 위치 그대로) |
-  | `InputSystem_Actions.inputactions` | Claude | **공용 경로** | 입력 동작 정의. 변경은 예약 (결정 필요 C1) |
-  | `Scenes/SampleScene.unity`, `TutorialInfo/`, `Readme.asset` | — | 템플릿 예제 | 처리 방법은 결정 필요 C2 |
+  | `InputSystem_Actions.inputactions` | Claude | **공용 경로** | 입력 동작 정의. Claude도 변경 전 예약. Codex는 메뉴 입력 등이 필요하면 메시지로 요청 (C1 답변) |
+  | `Scenes/SampleScene.unity`, `TutorialInfo/`, `Readme.asset` | Claude | 템플릿 예제 | **Phase 2 시작 때 Claude가 삭제**하고 빌드 씬 목록을 Boot로 바꾼다. `Settings/`는 유지 (C2 답변) |
 
   **2) 씬 소유자** — 씬 파일은 소유자 한 명만 연다·저장한다 (RULES 9장).
 
@@ -84,7 +84,7 @@
 - 변경 규칙: 폴더·씬 추가나 소유자 변경은 새 버전으로 추가하고 사용자 승인을 받는다. 각자 자기 폴더 안의 하위 폴더는 자유롭게 만든다.
 
 ## C-002 어셈블리(asmdef) 구성과 의존 방향
-- 상태: **제안** (2026-10-13 초안, 근거 D-013·ARCHITECTURE 3장)
+- 상태: **승인** (2026-10-13, 사용자 확정 D-014. r3 기준 — C3 답변 포함)
 - 위치: 각 모듈 폴더의 `.asmdef` 파일
 - 정의:
 
@@ -107,14 +107,14 @@
   ```
   - **금지:** 표에 없는 참조, 순환 참조. 특히 화면 모듈끼리(Combat↔Meta, Frontend↔Story 등) 직접 참조하지 않는다. App도 화면 모듈을 참조하지 않는다 (C-003의 인터페이스로만 연결).
   - **Unity 패키지 참조:** 각 어셈블리는 필요한 Unity 패키지 어셈블리(`Unity.InputSystem`, `Unity.TextMeshPro`, `UnityEngine.UI` 등)를 자유롭게 참조할 수 있다. 새 **패키지 설치**는 사용자 승인 (RULES 8장).
-  - **ARCHITECTURE와 다른 점 (확인 필요 C3):** ARCHITECTURE 3장 표에는 "모든 모듈은 Core만 참조"로 적었지만, Q-A1에서 공용 UI를 따로 두기로 했으므로 **Codex 화면 모듈(Frontend·Story·Meta)이 `HLR.UI`를 참조하는 것**을 허용해야 공용 UI를 쓸 수 있다. Combat은 전투 HUD를 자기 안에 두므로 UI를 참조하지 않는다.
+  - **ARCHITECTURE와 다른 점 (C3 답변: 허용):** ARCHITECTURE 3장 표에는 "모든 모듈은 Core만 참조"로 적었지만, Q-A1에서 공용 UI를 따로 두기로 했으므로 **Codex 화면 모듈(Frontend·Story·Meta)이 `HLR.UI`를 참조하는 것을 허용**한다(Codex 동의 M-CX-007). Combat은 전투 HUD를 자기 안에 두므로 UI를 참조하지 않는다. 승인되면 ARCHITECTURE 3장도 맞춘다.
   - 에디터 전용 코드는 `Editor/` 폴더와 별도 asmdef(Include Platforms: Editor)에 둔다.
   - 기본 어셈블리(`Assembly-CSharp`)에는 게임 코드를 두지 않는다. 템플릿 예제 코드는 C2 결정에 따른다.
 - 사용처: 모든 모듈
 - 변경 규칙: 참조 추가는 새 버전 + 사용자 승인. 순환이 생기는 변경은 승인하지 않는다.
 
 ## C-003 화면 전환
-- 상태: **제안 r2** (2026-10-13 초안, Codex 검토 반영. 근거 D-013 Q-A2·Q-A3, ARCHITECTURE 2·5장)
+- 상태: **승인** (2026-10-13, 사용자 확정 D-014. r3 기준 — Codex 검토 M-CX-007 반영, C4 답변 포함). 단 `IScreenContext.Campaign`의 타입 `CampaignState` 내용은 C-004에서 정한다
 - 위치: `HLR.Core` (`HumanLastRampart.Core.Flow`), 구현은 `HLR.App`
 - 정의:
 
@@ -200,12 +200,15 @@
   | (게임 시작) | — | MainMenu |
   | MainMenu | StartNewGame | Story (새 진행 데이터 생성) |
   | MainMenu | QuitGame | 게임 종료 (에디터에서는 Play 중지) |
-  | Story | Done | Battle |
-  | Battle | Done | Result |
-  | Result | Done | 승리: Prep / **패배: 결정 필요 C4** |
+  | Story (일반 스토리) | Done | Battle |
+  | Battle | Done | 승리: Result / **패배: Story (패배 엔딩)** |
+  | Story (패배 엔딩) | Done | MainMenu (진행 데이터 폐기, 처음부터) |
+  | Result | Done | Prep |
   | Prep | Done | Battle (다음 전투) |
   | 어느 화면이든 | BackToMainMenu | MainMenu |
 
+  - **패배 흐름 (C4 답변):** 전투에서 지면 **4번 결과 화면을 건너뛰고** 바로 5번 스토리 화면에서 패배 엔딩(캐릭터 + 대사)을 보여 준 뒤 메인 화면으로 간다. 새 화면을 만들지 않고 스토리 화면을 다시 쓴다. 엔딩 내용은 Codex가 스토리 데이터로 만든다.
+  - 이 분기를 위해 App은 두 가지를 알아야 한다. **(a) 전투 승패**, **(b) 스토리 화면이 지금 무엇을 재생할지(일반 스토리 / 패배 엔딩).** 화면 신호(`ScreenOutcome`)를 늘리지 않고, 이 값은 진행 데이터와 전투 결과 약속에서 정한다 → C-004 `CampaignState`, C-006 `BattleResult`, C-009 스토리 데이터에 반영할 요구사항.
   - 나중에 스토리를 전투 사이에 넣는 등의 변경은 이 표(App)만 고친다.
 
   **5) 단독 테스트** — 화면 씬 하나만 열고 Play해도 테스트할 수 있도록 Claude가 Phase 2에서 테스트용 진입 방법을 제공한다(ROADMAP P2-C06). 방식은 그때 제안한다.
@@ -217,8 +220,9 @@
 |---|---|---|
 | 2026-10-13 | r1 | 초안 작성 (제안) |
 | 2026-10-13 | r2 | Codex 검토 M-CX-007 반영: C-001 4) 공용 경로 파일별 작성자 절차, C-003 3-1) App 방어 규칙(컨텍스트 무효화·중복/허용 외 신호 처리·전환 순서·입력 차단), 3-2) EventSystem·카메라·AudioListener 배치, 3-3) 씬 로드·진입 컴포넌트 오류 처리. Codex는 C3와 ScreenOutcome 4값에 동의 |
+| 2026-10-13 | r3 | 사용자 답변 반영: C1 입력 정의 파일 Claude 소유, C2 템플릿 예제 Phase 2 시작 때 삭제, C3 화면 모듈의 HLR.UI 참조 허용, C4 패배 시 결과 화면 건너뛰고 스토리 화면 패배 엔딩 → 메인 (C-004·C-006·C-009 요구사항 추가) |
 
-### C-001~C-003 결정 필요 항목 (사용자)
+### C-001~C-003 결정 항목 (사용자 답변 완료, D-014)
 
 | ID | 질문 | Claude 제안 |
 |---|---|---|
@@ -226,3 +230,5 @@
 | C2 | 템플릿 예제(`SampleScene`, `TutorialInfo/`, `Readme.asset`) 처리 | Phase 2 시작 때 Claude가 삭제하고 빌드 씬 목록을 Boot로 교체 (URP 설정 `Settings/`는 유지) |
 | C3 | Codex 화면 모듈(Frontend·Story·Meta)이 공용 UI(`HLR.UI`)를 참조하는 것 허용 | 허용 (Q-A1 공용 UI 결정을 쓰려면 필요). **Codex 동의(M-CX-007).** 확정되면 ARCHITECTURE 3장 표·문구도 고친다 |
 | C4 | 전투 패배 후 어디로 갈지 | 1회차는 결과 화면(4번)에서 패배를 보여 준 뒤 **메인 화면**으로. 재도전 기능은 다음 마일스톤 |
+
+**답변 (2026-10-13, D-014):** C1 제안대로(Claude 소유) · C2 제안대로(Phase 2 시작 때 삭제) · C3 허용 · C4 패배 시 결과 화면을 건너뛰고 스토리 화면 패배 엔딩 → 메인(처음부터). 위 표의 'Claude 제안' 열은 기록으로 남긴다.
