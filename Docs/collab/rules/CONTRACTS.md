@@ -232,3 +232,133 @@
 | C4 | 전투 패배 후 어디로 갈지 | 1회차는 결과 화면(4번)에서 패배를 보여 준 뒤 **메인 화면**으로. 재도전 기능은 다음 마일스톤 |
 
 **답변 (2026-10-13, D-014):** C1 제안대로(Claude 소유) · C2 제안대로(Phase 2 시작 때 삭제) · C3 허용 · C4 패배 시 결과 화면을 건너뛰고 스토리 화면 패배 엔딩 → 메인(처음부터). 위 표의 'Claude 제안' 열은 기록으로 남긴다.
+
+---
+
+## C-004 진행 데이터 `CampaignState`
+- 상태: **제안** (2026-10-13 초안 r1, 근거 D-013 Q-A5·Q-A7, D-014 C4, ARCHITECTURE 1장 원칙 3·4)
+- 위치: `HLR.Core` (`HumanLastRampart.Core.Campaign`). 실제 객체는 App이 만들고 보관한다(C-003).
+- 정의:
+
+  **1) 원칙**
+  - 한 판(새 게임 ~ 패배 엔딩)의 진행 상황은 **이 객체 하나**에 모은다. 화면끼리 값을 직접 넘기지 않는다.
+  - **일반 C# 클래스**로 만든다. ScriptableObject에 진행 값을 쓰지 않는다 (RULES 9장 5번).
+  - 정의 데이터(C-010)는 **ID 문자열로만** 가리킨다(에셋 직접 참조 금지). 나중에 저장 기능을 붙일 때 그대로 쓸 수 있게 하기 위해서다(Q-A7: 1회차는 저장 없음).
+  - 메인 화면에서 "시작"하면 App이 새로 만들고, 패배 엔딩 뒤 메인으로 가면 버린다(D-014 C4).
+
+  **2) 필드 (제안)**
+  ```csharp
+  namespace HumanLastRampart.Core.Campaign
+  {
+      public sealed class CampaignState
+      {
+          public int BattleNumber;                 // 다음(또는 진행 중) 전투가 몇 번째인지. 1부터
+          public int Gold;                         // 화폐 (결정 필요 D2)
+
+          public List<WallSegmentState> Wall;      // 성벽 구간별 상태 (구간 수는 전투 설계 P1-C09에서)
+          public List<HeroState> Heroes;           // 주인공·특수 장교·강력한 병사: 한 명씩 관리
+          public List<SquadState> Squads;          // 일반·특수 병사: 병종별 인원 수로 관리 (결정 필요 D1)
+          public List<TrapPlacement> Traps;        // 설치한 함정 — 형태는 C-008에서 정함
+
+          public TargetingSettings Targeting;      // 표적 우선순위 설정, 다음 전투에도 유지(Q-A5) — 형태는 C-011에서 정함
+
+          public StoryRequest NextStory;           // 스토리 화면이 다음에 재생할 것 (D-014 C4)
+          public BattleResult LastBattle;          // 가장 최근 전투 결과, 없으면 null — 형태는 C-006에서 정함
+      }
+
+      public sealed class WallSegmentState { public string SegmentId; public int MaxHp; public int Hp; }
+
+      public sealed class HeroState
+      {
+          public string InstanceId;   // 이 판에서의 고유 ID
+          public string UnitDefId;    // C-010 UnitDef
+          public int Hp;
+          public bool IsAlive;
+          // 장착 아이템 등은 다음 마일스톤 (FirstRead: 아이템 강화)
+      }
+
+      public sealed class SquadState
+      {
+          public string UnitDefId;    // C-010 UnitDef (병종)
+          public int Count;           // 인원 수
+          public string PostId;       // 배치 지점 (전투 설계 P1-C09에서 정함). 미배치면 null
+      }
+
+      public enum StoryKind { Normal, DefeatEnding }
+      public sealed class StoryRequest { public StoryKind Kind; public string StoryId; }  // StoryId 형식은 C-009
+  }
+  ```
+  - `List`는 `System.Collections.Generic`. 필드 이름과 형태는 Phase 2 구현 때 C# 관례(프로퍼티 등)로 다듬을 수 있지만, **담는 정보와 쓰는 쪽(아래 3)은 이 약속을 따른다.**
+
+  **3) 누가 언제 바꾸는가** — 같은 값을 두 화면이 동시에 고치지 않도록 정한다.
+
+  | 필드 | 만들기·바꾸는 쪽 | 시점 |
+  |---|---|---|
+  | 객체 전체 | App | MainMenu `StartNewGame` 때 새로 생성(초기값은 1회차 설정), 패배 엔딩 후 폐기 |
+  | `BattleNumber` | App | 전투가 끝나 Result로 갈 때 1 증가 |
+  | `NextStory` | App | 새 게임 시작 시 첫 스토리, 전투 패배 시 `DefeatEnding` |
+  | `LastBattle` | Combat(Battle 화면) | 전투 종료 직전 한 번 기록 |
+  | `Targeting` | Combat(Battle 화면) | 전투 중 플레이어가 바꿀 때 |
+  | `Gold`, `Heroes`, `Squads`, `Wall` | Meta(Result·Prep 화면) | 결과 반영(C-007)과 정비(수리·모집·상점) |
+  | `Traps` | Meta(Prep 화면) | 함정 구매·배치 (C-008) |
+  | (읽기) | 모든 화면 | 자기 화면이 열려 있는 동안(C-003 컨텍스트 유효 기간) |
+
+  - **전투 중 손실은 Combat이 `CampaignState`에 직접 쓰지 않는다.** 잃은 병력·성벽 피해는 `LastBattle`(C-006)에 담고, Result 화면이 반영한다(C-007). 이렇게 하면 결과가 한 번만 반영된다.
+  - 패배 시에는 Result를 건너뛰므로 반영하지 않는다(어차피 폐기).
+  - 전투 승패: App은 Battle의 `Done` 신호를 받으면 `LastBattle`의 승패 값을 보고 Result(승리) 또는 Story 패배 엔딩(패배)으로 보낸다(C-003 순서표).
+
+  **4) 1회차 초기값** — 시작 골드, 시작 병력, 성벽 구간 수·내구도 같은 숫자는 이 약속에 적지 않는다. 정의 데이터의 "1회차 시작 설정" 에셋(C-010 `CampaignStartDef`)에서 읽는다.
+- 사용처: App(생성·보관·흐름), Combat, Frontend(시작 신호만), Story(`NextStory` 읽기), Meta
+- 변경 규칙: 필드 추가는 새 판(r)으로 기록하고 사용자 승인. 필드 삭제·의미 변경은 사용 중인 쪽의 동의(메시지) + 사용자 승인. 쓰는 쪽(3) 변경도 사용자 승인.
+
+## C-010 정의 데이터 클래스
+- 상태: **제안** (2026-10-13 초안 r1, 근거 ARCHITECTURE 1장 원칙 4·6장, RULES 9장 5번)
+- 위치: 클래스는 `HLR.Core` (`HumanLastRampart.Core.Definitions`), 에셋은 C-001의 `Data/` 하위 폴더
+- 정의:
+
+  **1) 공통 규칙**
+  - 모두 **ScriptableObject**이고 공통 부모 `DefinitionBase`(`Id`, `DisplayName`)를 상속한다. 기본 수치만 담고, 게임 중에 값을 바꾸지 않는다(읽기 전용으로 쓴다).
+  - 모든 정의는 고유 `Id`(영문 소문자·숫자·`_`, 예: `enemy_ghoul`)와 화면에 보일 `DisplayName`(한국어, Q-A6)을 가진다. 진행 데이터는 이 `Id`로 가리킨다(C-004).
+  - **클래스(코드)는 Claude가 Core에 만들고, 에셋(실제 수치)은 C-001 폴더 소유자가 만든다.** 필드 추가는 Core 변경이므로 메시지로 요청한다.
+  - 수치 밸런스는 약속이 아니다. 에셋 소유자가 자유롭게 고친다.
+
+  **2) 클래스 목록 (제안)**
+
+  | 클래스 | 에셋 위치·작성 | 담는 것 (1회차 최소) |
+  |---|---|---|
+  | `UnitDef` | `Data/Combat/` Claude | 아군 유닛: 구분(`UnitKind`: Hero 주인공 / Officer 특수 장교 / Elite 강력한 병사 / Soldier 일반 병사 / SpecialSoldier 특수 병사), 최대 체력, 기본 무기(`WeaponDef` ID), 모집 비용, 스프라이트 |
+  | `WeaponDef` | `Data/Combat/` Claude | 무기: 종류(`WeaponKind`: Bow 활 / Crossbow 석궁 / Cannon 대포 / Gun 총 / Magic 마법 …), 피해, 사거리, 공격 간격, 범위(광역이면 반경) |
+  | `EnemyDef` | `Data/Combat/` Claude | 적: 일반/특수 구분(`IsSpecial`), 최대 체력, 이동 속도, 성벽 공격력, 처치 보상 골드, 스프라이트 |
+  | `WaveDef` | `Data/Combat/` Claude | 전투 하나의 적 구성: 등장 순서·수·간격 (상세는 전투 설계 P1-C09) |
+  | `TrapDef` | `Data/Traps/` 공용 | 함정: 가격, 발동 조건, 피해 — **필드와 작성자 경계는 C-008에서 정함** |
+  | `ItemDef` | `Data/Meta/` Codex | 상점 품목: 가격, 효과 종류 — 1회차 품목과 효과는 Codex 정비 화면 설계(P1-X06)에서 정함 |
+  | `CampaignStartDef` | `Data/Combat/` Claude (결정 필요 D3) | 1회차 시작 설정: 시작 골드, 시작 영웅·분대, 성벽 구간과 내구도, 첫 스토리 ID, 전투 번호별 `WaveDef` |
+
+  - 종류 목록(`UnitKind`, `WeaponKind`)은 FirstRead의 병력·무기 구분을 따른다. 1회차에 실제로 쓰는 것은 일부(무기 1~2종, 적 1~2종 — RULES 12장)이고, 나머지 값은 미리 두기만 한다.
+  - `StoryDef`(스토리 데이터)는 C-009에서 Codex 제안으로 정한다. 상점 외 모집 목록·수리 비용 정의가 필요하면 Codex가 P1-X06 설계에서 제안한다.
+
+  **3) 정의 찾기**
+  ```csharp
+  namespace HumanLastRampart.Core.Definitions
+  {
+      public interface IDefinitionLookup
+      {
+          T Get<T>(string id) where T : DefinitionBase;   // 없으면 null + 에러 로그
+          IReadOnlyList<T> All<T>() where T : DefinitionBase;
+      }
+  }
+  ```
+  - App이 구현해서 화면에 넘긴다(`IScreenContext`에 `Definitions` 속성을 추가하는 것을 제안 — **C-003 변경이므로 이 초안 승인 시 함께 승인**).
+  - 에셋 목록은 소유자별 **카탈로그 에셋**으로 모은다: `Data/Combat/CombatCatalog`(Claude), `Data/Meta/MetaCatalog`(Codex), `Data/Story/StoryCatalog`(Codex), `Data/Traps/TrapCatalog`(C-008에서 작성자 결정). 각 소유자가 자기 카탈로그에 에셋을 등록하고, Claude가 Boot에서 카탈로그들을 연결한다.
+  - `Resources` 폴더와 Addressables는 1회차에 쓰지 않는다.
+- 사용처: 모든 모듈 (읽기)
+- 변경 규칙: 클래스·필드 추가는 Core 변경(공용 경로 예약) + 사용자 승인. `Id` 값은 한 번 쓰기 시작하면 바꾸지 않는다(진행 데이터가 가리키므로).
+
+### C-004·C-010 결정 필요 항목 (사용자)
+
+| ID | 질문 | Claude 제안 |
+|---|---|---|
+| D1 | 일반·특수 병사를 어떻게 셀까 | **병종별 인원 수**(예: 궁수 20명). 주인공·특수 장교·강력한 병사만 한 명씩 관리. FirstRead의 "일반 병사는 단체 훈련·단체 아이템으로 강화"와 맞고, 대규모 전투에 가볍다 |
+| D2 | 화폐 종류 | 1회차는 **골드 하나** |
+| D3 | 1회차 시작 설정(시작 골드·병력·성벽) 에셋의 작성자 | **Claude**. 전투 균형과 직결되므로 전투 담당이 만든다. Codex는 정비 쪽 값 조정이 필요하면 요청 |
+| D4 | `IScreenContext`에 정의 찾기(`Definitions`) 추가 (C-003 변경) | 추가. 모든 화면이 이름·가격을 표시하려면 필요 |
