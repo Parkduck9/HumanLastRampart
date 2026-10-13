@@ -14,9 +14,9 @@
 
 - **지금 단계:** Phase 0 완료 → Phase 1 설계
 - **다음 할 일:**
-  - 사용자: Unity 열기 → 컴파일 확인 → Test Runner EditMode 'Run All'(Core 시험 9개)
-  - Claude: 통과 확인 후 Codex 시작 안내(F4) → ② App·Battle 뼈대·시험 진입·시작 데이터
-  - Codex: Core 확인 후 P2-X01~X03 (사용자 '협업 확인' 때)
+  - 사용자: Codex에게 '협업 확인' — Phase 2 시작(P2-X01~X03, M-CL-022)
+  - Claude: Phase 2 ② App(Boot·GameFlow)·Battle 뼈대·시험 진입·1회차 시작 데이터
+  - Codex: Frontend·Story·Meta·UI 어셈블리와 씬 뼈대, 난이도 선택 창
 
 ---
 
@@ -78,17 +78,17 @@
 ## Phase 2 — 기반 구현
 
 ### Claude
-- [?] **P2-C01** `Core/` 폴더와 `HLR.Core` asmdef
-- [?] **P2-C02** 화면 전환 코드: `ScreenId`, `IGameFlow`, `IScreenEntry` (C-003)
-- [?] **P2-C03** 진행·정의 데이터 클래스 (C-004 v1.3, C-010 v1.2, C-005·C-006 v1.2, C-011 v1.1)
-- [?] **P2-C03b** Core 공용 함수: `BattleForecast`(날씨 예보, D-031), `TrapRules`(C-015)
+- [x] **P2-C01** `Core/` 폴더와 `HLR.Core` asmdef
+- [x] **P2-C02** 화면 전환 코드: `ScreenId`, `IGameFlow`, `IScreenEntry` (C-003)
+- [x] **P2-C03** 진행·정의 데이터 클래스 (C-004 v1.3, C-010 v1.2, C-005·C-006 v1.2, C-011 v1.1)
+- [x] **P2-C03b** Core 공용 함수: `BattleForecast`(날씨 예보, D-031), `TrapRules`(C-015)
 - [ ] **P2-C04** `App/`: Boot 씬, GameFlow(순서표·패배 엔딩·4번째 후 메인), 추가 로딩, 컨텍스트 무효화·입력 차단, 카탈로그 검증, 새 게임 생성(난이도·시드), E2 오류 안내
 - [ ] **P2-C05** Battle 씬 뼈대 + 진입 컴포넌트
 - [ ] **P2-C06** 테스트용 진입 방법 (임시 `BattleResult`로 4번 화면 바로 열기 등)
 - [ ] **P2-C07** 빌드 씬 목록 등록 + 템플릿 예제 삭제(C2) (공용 경로, 예약 기록)
 - [x] **P2-C08** 대량 적 조기 성능 시험 — M2 빌드 측정 D-023 기준 통과, 구조 확정 D-024 · (PERF_PROTOTYPE 순서 1~5, 착수 D-022): 데이터 처리·이동·공격·표시를 켜고 아군/적 1,000/5,000 → 3,000/10,000 → 최대 10,000/50,000 동시 활성 검증(C-012·013). RTX 2060·4K/60 FPS 목표, 5800X급·시스템 RAM 12GB 잠정 기준. 품질 모드/실측 확인 후 사용자 Play
 - [ ] **P2-C09** 1회차 시작 데이터 초안: CombatCatalog, CampaignStartDef(성벽 4개·대포 4문·분대·마법사), 지형 4·웨이브 4 틀(임시 수치)
-- [?] **P2-C10** HLR.Combat → HLR.Core 참조 정리 (PerfLab은 시험 도구로 유지)
+- [x] **P2-C10** HLR.Combat → HLR.Core 참조 정리 (PerfLab은 시험 도구로 유지)
 
 ### Codex
 - [ ] **P2-X01** `Frontend/`, `Story/`, `Meta/`, `UI/` 폴더와 asmdef
@@ -233,3 +233,5 @@
 | 2026-10-13 | 계획 | Phase 2 기반 구현 계획 `PHASE2_PLAN.md` r1: 빈 화면 흐름 전체 연결 목표, Claude ① Core → ② App·Battle·시험 진입·시작 데이터 → ③ 빌드 목록·템플릿 정리, Codex 씬 뼈대는 Core 커밋 후. P2-C03b·C09·C10 추가. 결정 F1~F4 |
 | 2026-10-13 | 결정 | D-033 Phase 2 계획 승인: 임시 글꼴, 자동 시험 어셈블리(C-002 v1.1), 템플릿 삭제는 P2-C07, Codex는 Core 커밋 직후 시작 |
 | 2026-10-13 | 진행 | Phase 2 ① Core 약속 코드 커밋 `183f004`: 화면 전환·진행 데이터·전투 준비/결과·정의 14종·표적 명령·날씨 예보(결정적 무작위)·1회차 회수 계산, 자동 시험 9개. Unity 컴파일·시험은 사용자 확인 대기 |
+| 2026-10-13 | 결정 | D-034: 사용자 지시로 Claude가 배치 모드(화면 없음) 컴파일·EditMode 자동 시험을 직접 실행 가능(에디터 닫힘·씬/Play/저장 없음). Play·캡처는 여전히 사용자 |
+| 2026-10-13 | QA | Core 배치 모드 QA [AI 직접 확인]: 컴파일 에러 0, 자동 시험 9/9 통과, 추적 파일 변경 없음. P2-C01·C02·C03·C03b·C10 완료 |
