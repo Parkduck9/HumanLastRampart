@@ -1167,3 +1167,15 @@ public sealed class WallTargetRule { public string WallId; public TargetPriority
 |---|---|---|
 | 2026-10-13 | r1 | Claude 작성. Battle.md r5(D-026~D-030) 연결. 결정 K1~K4 |
 | 2026-10-13 | r2 승인 | D-031: 난이도별 적 수(현실 50,000·쉬움 절반), 대포 운용병 70% 기준 포함, 성벽 명령 초기화(겹침 규칙 추후), 예보 공용 함수로 스토리 힌트 |
+
+---
+
+## C-002 v1.1 — 자동 시험 어셈블리 추가
+- 상태: **승인** (2026-10-13, D-033 F2). C-002(v1)의 나머지는 그대로.
+
+| 어셈블리 | 폴더 | 소유 | 참조 | 비고 |
+|---|---|---|---|---|
+| `HLR.Core.Tests` | `_Project/Core/Tests/` | Claude | Core, Unity 시험 도구 | 에디터 전용(Include Platforms: Editor), 빌드에 들어가지 않음 |
+| `HLR.App.Tests` | `_Project/App/Tests/` | Claude | Core, App, Unity 시험 도구 | 에디터 전용 |
+
+- 다른 어셈블리는 시험 어셈블리를 참조하지 않는다. Codex가 자기 시험 어셈블리를 원하면 같은 방식으로 새 판을 제안한다.

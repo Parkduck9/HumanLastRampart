@@ -2,6 +2,7 @@
     "name": "HLR.Combat",
     "rootNamespace": "HumanLastRampart.Combat",
     "references": [
+        "HLR.Core",
         "Unity.Burst",
         "Unity.Collections",
         "Unity.Mathematics",
