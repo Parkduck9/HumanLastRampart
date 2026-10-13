@@ -19,7 +19,7 @@
 - 내 기록은 `Docs/collab/live/claude/`에만 쓰고, 모든 기록은 맨 아래에 추가만 한다.
 - `live/claude/tasks.md`나 `outbox.md`를 바꾸면 `live/claude/status.js`도 갱신한다.
 - **어떤 작업이든 끝나면 [`Docs/GDD/ROADMAP.md`](Docs/GDD/ROADMAP.md)와 [`Docs/collab/view/ROADMAP.html`](Docs/collab/view/ROADMAP.html)을 함께 갱신한다** (체크 상태, 다음 할 일, 결정 대기, 변경·특이사항 기록). status.js의 `roadmap` 값도 맞춘다 (D-011, RULES 7.3).
-- 설계 기준 문서: [`Docs/GDD/ARCHITECTURE.md`](Docs/GDD/ARCHITECTURE.md) (승인 전에는 구현 근거로 쓰지 않는다).
+- 설계 기준 문서: [`Docs/GDD/ARCHITECTURE.md`](Docs/GDD/ARCHITECTURE.md) (승인 v1.0, D-013. 6장 데이터 약속은 CONTRACTS 승인 전까지 확정 API가 아니다).
 - **브랜치를 전환하지 않는다** (최초 develop 전환 1회는 2026-10-13 초기 준비에서 수행). 커밋은 내 파일만 파일 단위로 지정하고, Git 쓰기는 10.3 순서를 따른다.
 - 검증 구간("검증 시작"~"검증 끝")에는 `Game/`을 수정하지 않는다.
 

@@ -1,7 +1,7 @@
 # Human Last Rampart 진행 체크리스트 (ROADMAP)
 
 - 작성·관리: Claude (조정 담당). 사용자용 화면: [`ROADMAP.html`](../collab/view/ROADMAP.html)
-- 근거: [`ARCHITECTURE.md`](ARCHITECTURE.md) 제안 v0.1 9장, RULES 확정 v0.3
+- 근거: [`ARCHITECTURE.md`](ARCHITECTURE.md) 승인 v1.0 9장 (D-013), RULES 확정 v0.3
 - **갱신 규칙 (D-011):** 어떤 작업이든 끝날 때마다 이 MD와 ROADMAP.html을 **함께** 갱신한다. 계획 변경과 특이 상황(막힘, 보류, 결정 변경, 규칙 예외)도 맨 아래 "변경·특이사항 기록"에 남긴다.
   - Claude 항목: Claude가 이 MD·HTML과 `live/claude/status.js`의 `roadmap` 값을 갱신한다.
   - Codex 항목: Codex는 자기 `live/codex/tasks.md`와 `live/codex/status.js`의 `roadmap` 값을 갱신한다. HTML은 Codex 값을 바로 읽어서 표시한다. 이 MD의 Codex 체크 상태는 Claude가 "협업 확인" 때 맞춘다(단일 작성자 원칙).
@@ -12,10 +12,10 @@
 
 ## 현재 위치
 
-- **지금 단계:** Phase 0 마무리(main 반영 R-002 승인 대기) + Phase 1 설계 시작
+- **지금 단계:** Phase 0 완료 → Phase 1 설계
 - **다음 할 일:**
-  - 사용자: P0-U03 (R-002 승인), P1-U01 (아키텍처 검토, Q-A1~A7)
-  - Claude: P1-U01 답변 후 P1-C03 (CONTRACTS 초안)
+  - 사용자: 다음 작업 시작 지시 (구현은 아직 시작하지 않음)
+  - Claude: P1-C03 (CONTRACTS 초안 C-001~C-003) — 사용자 지시 후
   - Codex: 아키텍처 초안 의견(선택), T-CX-002 레퍼런스 HTML 커밋은 G-CX 요청으로. 화면 설계는 사용자 지시 후
 
 ---
@@ -35,8 +35,8 @@
 - [x] **P0-U02** Unity 프로젝트 생성: Unity 6.3 LTS(6000.3.25f1), **Universal 3D**(URP 17.3.0), 위치 `C:\Unity\1\HumanLastRampart\Game`
 - [x] **P0-C07** Unity 기본 설정 확인(Force Text, Visible Meta Files) + `Game/` 기본 파일 61개 커밋 (`cf004c2`, G-CL-006)
 - [x] **P0-C09** 아키텍처·ROADMAP·D-011 문서 커밋 (G-CL-007)
-- [ ] **P0-C10** main 반영 승인 요청 R-002 (`69a0af6` 이후 커밋 묶음)
-- [ ] **P0-U03** R-002 승인
+- [x] **P0-C10** main 반영 R-002: `69a0af6` → `7043218` (로컬 fast-forward, G-CL-009)
+- [x] **P0-U03** R-002 승인
 
 ## Phase 1 — 설계
 
@@ -64,7 +64,7 @@
 - [ ] **P1-X08** 공용 UI(`HLR.UI`) 범위 제안
 
 ### 사용자
-- [ ] **P1-U01** 아키텍처 검토와 Q-A1~A7 답변
+- [x] **P1-U01** 아키텍처 검토와 Q-A1~A7 답변 → 승인 v1.0 (D-013)
 - [ ] **P1-U02** 카메라 방식 결정 (목업 A/B 비교)
 - [ ] **P1-U03** Codex 화면 설계 승인 (0·5·4·3번 + 스토리 툴)
 - [ ] **P1-U04** CONTRACTS 승인 (C-001~C-011)
@@ -147,10 +147,8 @@
 
 | ID | 내용 | 관련 항목 |
 |---|---|---|
-| Q-A1~A7 | 아키텍처 질문 (ARCHITECTURE.md 10장) | P1-U01 |
 | - | 카메라 방식 | P1-U02 |
 | - | 한글 폰트 | P1-U05 |
-| R-002 | develop `69a0af6` 이후 커밋의 main 반영 | P0-U03 |
 
 ## 변경·특이사항 기록
 
@@ -170,3 +168,5 @@
 | 2026-10-13 | 정정 | P4-C04·P4-U02의 묶음 ID "R-001"은 이미 사용됨 → 마일스톤 묶음은 그때 번호를 새로 붙임. Phase 0에 R-002 항목(P0-C10, P0-U03) 추가 |
 | 2026-10-13 | 특이 | Codex가 사용자 요청으로 `Docs/References/codex_hero_reference_v1.html`(Codex 소유)을 만듦(M-CX-004). RULES 4장 폴더 표에 없는 새 폴더이므로 소유 표기를 다음 RULES 정리 때 반영 필요. 커밋은 Codex가 G-CX 요청으로 |
 | 2026-10-13 | 결정 | 사용자 요청으로 루트에 HTML 바로가기 폴더 `_HTML/` 생성 (D-012). 원본은 그대로, 바로가기 4개 + 전체 목록 |
+| 2026-10-13 | 완료 | R-002 main 반영: `69a0af6` → `7043218` (사용자 승인, G-CL-009). Phase 0 완료. `42b86aa`(_HTML)는 다음 묶음 |
+| 2026-10-13 | 결정 | 아키텍처 승인 v1.0 (D-013): Q-A1~A7 모두 제안대로. 데이터 약속 세부는 CONTRACTS로 따로 승인. 구현은 사용자 지시 전까지 시작하지 않음 |
