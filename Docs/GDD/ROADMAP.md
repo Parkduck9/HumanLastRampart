@@ -16,7 +16,8 @@
 - **다음 할 일:**
   - 사용자: Boot 씬 Play로 흐름 확인(임시 화면 + 실제 전투 뼈대, 절차는 tasks.md T-CL-016). Codex 작업 끝나면 G-CX Git 요청이 오니 Claude에게 '협업 확인'
   - Claude: Codex 씬이 오면 ③ 빌드 씬 목록·템플릿 정리(P2-C07) → P2-U01 검증 → main 반영 묶음
-  - Codex: P2-X01~X03 진행중 (T-CX-010, 공용 UI 예약 승인 M-CL-024)
+  - Codex: P2-X01~X03 원본 적용·Claude QA 23/23 통과 → G-CX-013 커밋 (허가됨)
+  - 결정 대기: C-007 결과 반영(골드·손실)을 Phase 2에 넣을지, E2 오류를 Boot 안내로 보내는 IScreenContext 추가 API
 
 ---
 
@@ -91,9 +92,9 @@
 - [x] **P2-C10** HLR.Combat → HLR.Core 참조 정리 (PerfLab은 시험 도구로 유지)
 
 ### Codex
-- [ ] **P2-X01** (진행중) `Frontend/`, `Story/`, `Meta/`, `UI/` 폴더와 asmdef
-- [ ] **P2-X02** (진행중) MainMenu(시작 → 난이도 선택 → CompleteNewGame, 종료), Story, Result, Prep 씬 뼈대 + 진입 컴포넌트 — Claude Core 커밋 후
-- [ ] **P2-X03** (진행중) 공용 UI 기초 (버튼, 팝업, 임시 한글 글꼴 — 시스템 맑은 고딕) — 공용 UI 예약 승인 M-CL-024
+- [ ] **P2-X01** (검토대기 — QA 통과) `Frontend/`, `Story/`, `Meta/`, `UI/` 폴더와 asmdef
+- [ ] **P2-X02** (검토대기 — QA 통과) MainMenu(시작 → 난이도 선택 → CompleteNewGame, 종료), Story, Result, Prep 씬 뼈대 + 진입 컴포넌트 — Claude Core 커밋 후
+- [ ] **P2-X03** (검토대기 — QA 통과) 공용 UI 기초 (버튼, 팝업, 임시 한글 글꼴 — 시스템 맑은 고딕) — 공용 UI 예약 승인 M-CL-024
 
 ### 사용자
 - [ ] **P2-U01** 검증: Boot → 메인 → 난이도 → 스토리 → 전투(승리/패배) → 결과 → 정비 … 빈 화면 흐름 전체, 콘솔 에러 0 (PHASE2_PLAN 6장)
@@ -237,3 +238,4 @@
 | 2026-10-13 | QA | Core 배치 모드 QA [AI 직접 확인]: 컴파일 에러 0, 자동 시험 9/9 통과, 추적 파일 변경 없음. P2-C01·C02·C03·C03b·C10 완료 |
 | 2026-10-13 | 진행 | Phase 2 ② 커밋 `52f34f5`: App(Boot·GameFlow 화면 전환·검사·전투 준비·E2 오류 안내), 실제 Battle 뼈대(시험 승리/패배), 개발용 임시 화면·화면 단독 Play, 1회차 시작 데이터 68개(성벽 4·대포 지점 16·웨이브 4·마법 2 등). 배치 모드 QA 23/23 통과(실제 데이터 검사 포함). 사용자 Boot Play 대기 |
 | 2026-10-13 | 협업 | Codex Phase 2 착수(T-CX-010). M-CX-019 공용 UI 예약(UI.meta·HLR.UI.asmdef·ScreenView·ScreenEntryBase, 작성자 Codex) 승인 M-CL-024, 해제는 T-CX-010 커밋 때. 임시 한글 글꼴은 시스템 맑은 고딕(D-033 F1) |
+| 2026-10-13 | QA | Codex 화면 뼈대 32개 파일 원본 적용. Claude 배치 모드 QA [AI 직접 확인]: 컴파일 에러 0, 23/23 통과. G-CX-013 커밋 허가. 남은 결정: C-007 결과 반영의 Phase 2 포함 여부, E2 오류 전달 API |
