@@ -15,8 +15,13 @@ namespace HumanLastRampart.Combat.PerfLab
         float elapsed;
         int frames;
 
+        int deathsAtLastRefresh;
+
         public int EnemyCount { get; set; }
         public int AllyCount { get; set; }
+        public int ActiveArrows { get; set; }
+        public int DeathsTotal { get; set; }
+        public int PoolOverflowTotal { get; set; }
         public string StageName { get; set; } = "";
 
         void Awake()
@@ -34,7 +39,7 @@ namespace HumanLastRampart.Combat.PerfLab
             panelRect.anchorMax = new Vector2(0f, 1f);
             panelRect.pivot = new Vector2(0f, 1f);
             panelRect.anchoredPosition = new Vector2(8f, -8f);
-            panelRect.sizeDelta = new Vector2(360f, 110f);
+            panelRect.sizeDelta = new Vector2(380f, 160f);
             var image = panel.GetComponent<Image>();
             image.color = new Color(0f, 0f, 0f, 0.6f);
             image.raycastTarget = false;
@@ -76,9 +81,11 @@ namespace HumanLastRampart.Combat.PerfLab
             {
                 float fps = frames / elapsed;
                 float ms = elapsed * 1000f / frames;
-                label.text = $"{StageName}\n적 {EnemyCount:N0} / 아군 {AllyCount:N0}\nFPS {fps:F1} / {ms:F2} ms";
+                float deathsPerSecond = (DeathsTotal - deathsAtLastRefresh) / elapsed;
+                label.text = $"{StageName}\n적 {EnemyCount:N0} / 아군 {AllyCount:N0}\n화살 {ActiveArrows:N0} / 풀 부족 {PoolOverflowTotal:N0}\n처치 {DeathsTotal:N0} (초당 {deathsPerSecond:F0})\nFPS {fps:F1} / {ms:F2} ms";
             }
 
+            deathsAtLastRefresh = DeathsTotal;
             elapsed = 0f;
             frames = 0;
         }

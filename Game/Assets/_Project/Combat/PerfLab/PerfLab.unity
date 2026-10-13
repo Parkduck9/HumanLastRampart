@@ -164,6 +164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteShader: {fileID: 4800000, guid: 7386e0cc0f7742c3a56baba93db9d36c, type: 3}
+  enemySheet: {fileID: 2800000, guid: b3d4ea76535e4d6d85ca1a232a8d7b12, type: 3}
   startStage: 0
   wallLength: 400
   wallHeight: 4
