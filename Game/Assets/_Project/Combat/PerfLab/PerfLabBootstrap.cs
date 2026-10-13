@@ -127,7 +127,13 @@ namespace HumanLastRampart.Combat.PerfLab
         int allyCount;
 
         Camera viewCamera;
-        bool orthographic;
+        // 카메라: A 원근 낮은 카메라 / B 기울인 직교 (P1-C07·08 비교 후보, D-004) / 측정용(M1·M2와 같은 위치)
+        enum CameraMode { CandidateA, CandidateB, Measure }
+        static readonly string[] CameraModeNames = { "카메라 A: 원근 낮은", "카메라 B: 기울인 직교", "카메라: 측정용" };
+        CameraMode cameraMode = CameraMode.CandidateA;
+        float cameraX;
+        [Header("카메라 비교")]
+        [SerializeField] float cameraPanSpeed = 25f;
         PerfLabOverlay overlay;
         PerfLabResolution resolution;
         PerfLabBenchmark benchmark;
@@ -141,10 +147,11 @@ namespace HumanLastRampart.Combat.PerfLab
         public int DeathsTotal { get; private set; }
         public int PoolOverflowTotal { get; private set; }
 
-        // 자동 측정은 항상 같은 조건(원근 카메라)에서 한다
+        // 자동 측정은 항상 같은 조건(측정용 카메라, 가운데)에서 한다
         public void PrepareBenchmark()
         {
-            orthographic = false;
+            cameraMode = CameraMode.Measure;
+            cameraX = 0f;
             ApplyCamera();
         }
 
@@ -205,6 +212,7 @@ namespace HumanLastRampart.Combat.PerfLab
 
             BuildEnvironment();
             overlay = gameObject.AddComponent<PerfLabOverlay>();
+            ApplyCamera();   // 표시에 카메라 이름 반영
             resolution = gameObject.AddComponent<PerfLabResolution>();
             resolution.Init(viewCamera);
             benchmark = gameObject.AddComponent<PerfLabBenchmark>();
@@ -409,7 +417,18 @@ namespace HumanLastRampart.Combat.PerfLab
 
                 if (keyboard.cKey.wasPressedThisFrame)
                 {
-                    orthographic = !orthographic;
+                    cameraMode = (CameraMode)(((int)cameraMode + 1) % 3);
+                    ApplyCamera();
+                }
+
+                // A/D(또는 ←/→): 성벽을 따라 좌우 이동 (1번 화면에서 주인공이 성벽을 오가는 느낌)
+                float pan = 0f;
+                if (keyboard.aKey.isPressed || keyboard.leftArrowKey.isPressed) pan -= 1f;
+                if (keyboard.dKey.isPressed || keyboard.rightArrowKey.isPressed) pan += 1f;
+                if (pan != 0f)
+                {
+                    float halfLength = wallLength * 0.5f;
+                    cameraX = Mathf.Clamp(cameraX + pan * cameraPanSpeed * Time.unscaledDeltaTime, -halfLength, halfLength);
                     ApplyCamera();
                 }
 
@@ -616,7 +635,9 @@ namespace HumanLastRampart.Combat.PerfLab
             ApplyCamera();
         }
 
-        // 원근: 성벽 뒤 낮은 카메라 / 직교: 기울여 내려다보는 카메라 (카메라 목업 P1-C07·08과 같은 두 방식)
+        // A: 성벽 위 병사들 바로 뒤, 낮은 원근 카메라 — 앞쪽 병사가 크고, 들판의 적이 멀어질수록 작아진다
+        // B: 들판 쪽을 30도로 내려다보는 직교 카메라 — 거리와 상관없이 크기가 같고 도트가 고르게 보인다
+        // 측정용: M1·M2와 같은 위치 (측정값 비교를 위해 바꾸지 않는다)
         void ApplyCamera()
         {
             if (viewCamera == null)
@@ -624,16 +645,33 @@ namespace HumanLastRampart.Combat.PerfLab
                 return;
             }
 
-            viewCamera.orthographic = orthographic;
-            if (orthographic)
+            Transform cameraTransform = viewCamera.transform;
+            switch (cameraMode)
             {
-                viewCamera.transform.SetPositionAndRotation(new Vector3(0f, 90f, -90f), Quaternion.Euler(35f, 0f, 0f));
-                viewCamera.orthographicSize = 70f;
+                case CameraMode.CandidateA:
+                    viewCamera.orthographic = false;
+                    viewCamera.fieldOfView = 40f;
+                    cameraTransform.SetPositionAndRotation(new Vector3(cameraX, wallHeight + 2.6f, -7f), Quaternion.Euler(8f, 0f, 0f));
+                    break;
+                case CameraMode.CandidateB:
+                {
+                    viewCamera.orthographic = true;
+                    viewCamera.orthographicSize = 14f;
+                    Quaternion rotation = Quaternion.Euler(30f, 0f, 0f);
+                    var lookAt = new Vector3(cameraX, 2f, 15f);
+                    cameraTransform.SetPositionAndRotation(lookAt - rotation * Vector3.forward * 60f, rotation);
+                    break;
+                }
+                default:
+                    viewCamera.orthographic = false;
+                    viewCamera.fieldOfView = 50f;
+                    cameraTransform.SetPositionAndRotation(new Vector3(cameraX, 14f, -30f), Quaternion.Euler(18f, 0f, 0f));
+                    break;
             }
-            else
+
+            if (overlay != null)
             {
-                viewCamera.transform.SetPositionAndRotation(new Vector3(0f, 14f, -30f), Quaternion.Euler(18f, 0f, 0f));
-                viewCamera.fieldOfView = 50f;
+                overlay.CameraName = CameraModeNames[(int)cameraMode];
             }
         }
     }

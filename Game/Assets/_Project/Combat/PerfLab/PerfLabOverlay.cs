@@ -27,6 +27,7 @@ namespace HumanLastRampart.Combat.PerfLab
         public int PoolOverflowTotal { get; set; }
         public string StageName { get; set; } = "";
         public string ResolutionName { get; set; } = "";
+        public string CameraName { get; set; } = "";
         public string BenchmarkText { get; set; } = "";
 
         void Awake()
@@ -37,7 +38,7 @@ namespace HumanLastRampart.Combat.PerfLab
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;
             canvas.sortingOrder = 1000;
 
-            panel = CreatePanel(canvasObject.transform, "Stats", new Vector2(0f, 1f), new Vector2(8f, -8f), new Vector2(420f, 190f), out label);
+            panel = CreatePanel(canvasObject.transform, "Stats", new Vector2(0f, 1f), new Vector2(8f, -8f), new Vector2(440f, 215f), out label);
             panel.SetActive(false);
 
             benchPanel = CreatePanel(canvasObject.transform, "Benchmark", new Vector2(0f, 0f), new Vector2(8f, 8f), new Vector2(1100f, 230f), out benchLabel);
@@ -108,7 +109,7 @@ namespace HumanLastRampart.Combat.PerfLab
                 float fps = frames / elapsed;
                 float ms = elapsed * 1000f / frames;
                 float deathsPerSecond = (DeathsTotal - deathsAtLastRefresh) / elapsed;
-                label.text = $"{StageName}\n{ResolutionName} (R 전환, B 자동 측정)\n적 {EnemyCount:N0} / 아군 {AllyCount:N0}\n화살 {ActiveArrows:N0} / 풀 부족 {PoolOverflowTotal:N0}\n처치 {DeathsTotal:N0} (초당 {deathsPerSecond:F0})\nFPS {fps:F1} / {ms:F2} ms";
+                label.text = $"{StageName}\n{CameraName} (C 전환, A/D 이동)\n{ResolutionName} (R 전환, B 자동 측정)\n적 {EnemyCount:N0} / 아군 {AllyCount:N0}\n화살 {ActiveArrows:N0} / 풀 부족 {PoolOverflowTotal:N0}\n처치 {DeathsTotal:N0} (초당 {deathsPerSecond:F0})\nFPS {fps:F1} / {ms:F2} ms";
             }
 
             deathsAtLastRefresh = DeathsTotal;
