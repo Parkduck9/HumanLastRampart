@@ -14,9 +14,9 @@
 
 - **지금 단계:** Phase 0 완료 → Phase 1 설계
 - **다음 할 일:**
-  - 사용자: Unity로 `Game/` 열기 → `PerfLab` 씬 Play 확인(절차는 tasks.md T-CL-009). 측정 PC 사양(H3)
-  - Claude: 결과에 따라 수정 → packages-lock 커밋·예약 해제 → 순서 3(격자·표적·화살·사건)
-  - Codex: P1-C14 검토 의견(M-CL-016), 화면 설계는 사용자 지시 후
+  - 사용자: PerfLab 순서 3 Play 확인(고블린·화살·처치, 절차는 tasks.md T-CL-009), 가능하면 S1·S3 F8 캡처. 측정 PC 사양(H3)
+  - Claude: 결과 반영 → 순서 4(S2·S3 측정, 해상도·카메라 비교, 측정 기록표)
+  - Codex: P1-C14 검토 의견(M-CL-016), References 원본 커밋 요청(G-CX)
 
 ---
 
@@ -206,3 +206,4 @@
 | 2026-10-13 | 진행 | P2-C08 성능 시제품 순서 1 완료(manifest에 Burst 1.8.30·Collections 2.6.8·Mathematics 1.3.3 명시, `908acd7`). 순서 2 코드 작성(`Combat/HLR.Combat.asmdef`, `Combat/PerfLab/` 셰이더·Job·그리기·F8·씬 만들기 메뉴). Unity 미실행이라 컴파일·화면 미확인, .meta 생성 후 커밋 예정 |
 | 2026-10-13 | 문서 | 사용자 질문(DOTS처럼 DOD로 처리해도 힘든지)에 답하고 구조 다이어그램 `Docs/collab/view/PERFLAB_ARCH.html` 작성(DOTS 5부품 중 4개 사용, 한 프레임 Job 흐름, 데이터 배치, CPU 추정 5~8ms·GPU가 주 위험). `_HTML/6` 바로가기 추가 |
 | 2026-10-13 | 진행 | 사용자 요청으로 PerfLab 씬을 Claude가 텍스트(YAML)로 직접 작성(에디터 조작 없음, RULES 11.1). 스크립트·셰이더·asmdef·씬·.meta 19개 커밋 `9525393`. Unity 컴파일·화면은 아직 미확인 |
+| 2026-10-13 | 진행 | PerfLab 순서 2 사용자 Play 확인('나온다!'), packages-lock 커밋(`96d063c`)·패키지 예약 해제. 순서 3 작성: 공간 격자·표적(체력 비율 낮은 적)·화살 풀(슬롯+세대)·명중 사건 일괄 처리·사망 시 뒤쪽 재생성, F8에 화살·처치·풀 부족. Codex 고블린 시트를 `Art/Characters/Goblin/`에 복사해 적 그림으로 적용(걷기/공격 4+4). 커밋 `ff9f395`, Unity 확인 대기 |
