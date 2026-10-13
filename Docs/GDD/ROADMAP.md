@@ -1,6 +1,6 @@
 # Human Last Rampart 진행 체크리스트 (ROADMAP)
 
-- 작성·관리: Claude (조정 담당). 사용자용 화면: [`ROADMAP.html`](../collab/view/ROADMAP.html)
+- 작성·관리: Claude. 현재 임시 조정 담당: Codex (사용자 인계 및 세 파일 수정 허가). 사용자용 화면: [`ROADMAP.html`](../collab/view/ROADMAP.html)
 - 근거: [`ARCHITECTURE.md`](ARCHITECTURE.md) 승인 v1.0 9장 (D-013), RULES 확정 v0.3
 - **갱신 규칙 (D-011):** 어떤 작업이든 끝날 때마다 이 MD와 ROADMAP.html을 **함께** 갱신한다. 계획 변경과 특이 상황(막힘, 보류, 결정 변경, 규칙 예외)도 맨 아래 "변경·특이사항 기록"에 남긴다.
   - Claude 항목: Claude가 이 MD·HTML과 `live/claude/status.js`의 `roadmap` 값을 갱신한다.
@@ -14,8 +14,8 @@
 
 - **지금 단계:** Phase 0 완료 → Phase 1 설계
 - **다음 할 일:**
-  - 사용자: 다음 작업 지시 (구현은 아직 시작하지 않음)
-  - Claude: P1-C05 (C-005 `BattleSetup`, C-006 `BattleResult`, C-007 결과 반영) — Codex 후속 요구(끝난 전투 번호, 1회 반영, 함정 소비) 포함
+  - 사용자: C-005~C-007 및 C-004 v1.1 제안 검토, E1~E4 답변 (구현은 아직 시작하지 않음)
+  - Codex(임시 조정 담당): P1-C05 r1 초안 작성 완료. E1~E4 답변 후 확정안 정리. Claude는 토큰 소진으로 작업 중단, 복귀는 사용자 지시 후
   - Codex: P1-X07 이어서 (C-006·C-007·C-008 초안 검토)
   - Codex: 아키텍처 초안 의견(선택), T-CX-002 레퍼런스 HTML 커밋은 G-CX 요청으로. 화면 설계는 사용자 지시 후
 
@@ -46,7 +46,7 @@
 - [x] **P1-C02** 진행 체크리스트 작성 (이 문서 + ROADMAP.html)
 - [x] **P1-C03** CONTRACTS: C-001 폴더·씬 소유권, C-002 어셈블리 의존, C-003 화면 전환 — r3 **승인** (D-014)
 - [x] **P1-C04** CONTRACTS: C-004 `CampaignState`, C-010 정의 데이터 클래스, C-003 v1.1 — r3 **승인** (D-015)
-- [ ] **P1-C05** CONTRACTS 초안: C-005 `BattleSetup`, C-006 `BattleResult`, C-007 결과 반영 규칙
+- [?] **P1-C05** CONTRACTS 초안: C-005 `BattleSetup`, C-006 `BattleResult`, C-007 결과 반영 규칙 — r1 작성(Codex 대체), E1~E4 사용자 검토 대기
 - [ ] **P1-C06** CONTRACTS 초안: C-008 함정 경계, C-011 표적 우선순위 (+ Codex의 C-009 제안 반영)
 - [ ] **P1-C07** 카메라 목업 A: 원근 투영 (낮은 카메라, 큰 캐릭터, 긴 성벽)
 - [ ] **P1-C08** 카메라 목업 B: 기울인 직교 투영 (같은 조건)
@@ -179,3 +179,5 @@
 | 2026-10-13 | 특이 | Codex T-CX-004: 주인공 걷기 시트(4방향×4프레임)와 미리보기 HTML 작성(`Docs/References/codex_hero_walk_preview_v1.html`, 검토용 초안). `_HTML`에 5번 바로가기 추가 (M-CX-008) |
 | 2026-10-13 | 진행 | Codex 검토 M-CX-009 반영 → C-004·C-010 r2: 분대 SquadId·영웅 PostId·고유 ID 발급, 전투에서 쓴 함정은 LastBattle→Result 반영, LastBattle은 전투 직전 비움, 카탈로그 검증 실패 시 새 게임 차단. 결정 D5(배치 화면) 추가 |
 | 2026-10-13 | 결정 | CONTRACTS C-004·C-010 r3 승인 + C-003 v1.1 (D-015): D1 분대별 인원 수, D2 골드 하나, D3 시작 설정 Claude, D4 화면 컨텍스트에 Definitions 추가, D5 배치는 정비 화면·첫 배치는 시작 설정. 구현은 아직 시작하지 않음 |
+| 2026-10-13 | 인계 | Claude 토큰 소진으로 사용자 지시하에 Codex 대체 시작. G-CL-016 종료·미종료 허가 없음 확인. live 텍스트 백업 5b557fd. CONTRACTS·ROADMAP md/html 수정 경로별 허가 받음 |
+| 2026-10-13 | 제안 | P1-C05 r1 작성: 전투 스냅샷, 끝난 번호+고유 실행 ID, 결과 1회 반영, 소비 함정 제거, 검증 후 일괄 적용. C-004 v1.1 두 필드 연결 제안. E1~E4 검토 대기; 기존 승인 약속 보존. 구현 미착수 |
