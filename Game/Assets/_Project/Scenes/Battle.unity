@@ -163,6 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d39918e729a749b69f3512aaef42b616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteShader: {fileID: 4800000, guid: 7386e0cc0f7742c3a56baba93db9d36c, type: 3}
 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

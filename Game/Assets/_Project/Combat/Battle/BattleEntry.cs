@@ -1,80 +1,191 @@
-using System.Text;
 using HumanLastRampart.Core.Campaign;
 using HumanLastRampart.Core.CombatContracts;
 using HumanLastRampart.Core.Definitions;
 using HumanLastRampart.Core.Flow;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 namespace HumanLastRampart.Combat.Battle
 {
-    // 1·2번 전투 화면의 진입 컴포넌트 (C-003, C-005, C-006) — Phase 2 뼈대
-    // 지금은 전투 준비 정보를 보여 주고, 시험용 [승리]/[패배] 버튼으로 전투 결과를 만든다.
-    // Phase 3에서 PerfLab 구조(D-024)로 실제 전투를 채운다.
+    // 1·2번 전투 화면의 진입 컴포넌트 (C-003, C-005, C-006)
+    // CY1-C1: 실제 전투 — BattleSetup의 웨이브가 4면에서 오고, 성벽 위 분대가 자동으로 쏘고, 승패를 판정해 BattleResult를 만든다.
+    // [시험] 버튼은 결과 화면 시험용으로 남긴다.
     public sealed class BattleEntry : MonoBehaviour, IScreenEntry
     {
+        [Tooltip("적·병사·투사체 그리기 셰이더 (HLR/PerfLabSprite)")]
+        [SerializeField] Shader spriteShader;
+
         IScreenContext context;
-        GameObject ui;
         Camera battleCamera;
+        BattleSim sim;
+        BattleView view;
+        BattleCameraRig rig;
+        BattleHud hud;
+        int speed = 1;
+        bool paused;
+        bool endShown;
+        bool finishing;
 
         public ScreenId Id => ScreenId.Battle;
 
         void Awake()
         {
-            // 화면 씬마다 카메라·AudioListener 하나 (C-003 3-2). 1번 화면은 원근 낮은 카메라(D-025) 자리
+            // 화면 씬마다 카메라·AudioListener 하나 (C-003 3-2). 1번 화면은 원근 낮은 카메라 (D-025)
             var cameraObject = new GameObject("Battle Camera", typeof(Camera), typeof(AudioListener));
             cameraObject.transform.SetParent(transform, false);
             battleCamera = cameraObject.GetComponent<Camera>();
             battleCamera.clearFlags = CameraClearFlags.SolidColor;
-            battleCamera.backgroundColor = new Color(0.35f, 0.45f, 0.4f);
+            battleCamera.backgroundColor = new Color(0.45f, 0.6f, 0.75f);
             battleCamera.fieldOfView = 40f;
         }
 
         public void OnEnter(IScreenContext screenContext)
         {
             context = screenContext;
-            CampaignState campaign = context.Campaign;
-            BattleSetup setup = campaign != null ? campaign.ActiveBattleSetup : null;
+            finishing = false;
+            endShown = false;
+            BattleSetup setup = context.Campaign?.ActiveBattleSetup;
+            IDefinitionLookup defs = context.Definitions;
 
-            ui = new GameObject("Battle UI", typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
-            ui.transform.SetParent(transform, false);
-            var canvas = ui.GetComponent<Canvas>();
-            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            var scaler = ui.GetComponent<CanvasScaler>();
-            scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-            scaler.referenceResolution = new Vector2(1920f, 1080f);
+            if (spriteShader == null)
+            {
+                spriteShader = Shader.Find("HLR/PerfLabSprite");
+            }
 
-            Text title = NewText("Title", 44);
-            Place(title.rectTransform, 0.5f, 0.85f, 1500f, 120f);
-            title.text = "전투 (Phase 2 뼈대)\n<size=24>실제 전투는 Phase 3에서 PerfLab 구조로 채운다</size>";
+            string line = setup != null ? Describe(setup) : "전투 준비 정보가 없습니다 (ActiveBattleSetup 없음) — [시험] 버튼만 쓸 수 있습니다";
+            if (setup != null && defs != null && spriteShader != null)
+            {
+                sim = new BattleSim(setup, defs);
+                view = new BattleView(sim, spriteShader, transform);
+                rig = new BattleCameraRig(battleCamera, sim.CastleHalf, BattleSim.WallHeight);
+            }
+            else if (setup != null && spriteShader == null)
+            {
+                Debug.LogError("[Battle] HLR/PerfLabSprite 셰이더가 없어 실제 전투를 시작하지 못합니다. [시험] 버튼만 쓸 수 있습니다.");
+            }
 
-            Text info = NewText("Info", 26);
-            Place(info.rectTransform, 0.5f, 0.58f, 1500f, 340f);
-            info.text = setup != null ? Describe(setup, context.Definitions) : "전투 준비 정보가 없습니다 (ActiveBattleSetup 없음)";
-
-            AddButton("[시험] 승리", 0.3f, () => Finish(BattleOutcome.Victory, DefeatReason.None));
-            AddButton("[시험] 패배 — 성벽 붕괴", 0.2f, () => Finish(BattleOutcome.Defeat, DefeatReason.WallDestroyed));
-            AddButton("[시험] 패배 — 병력 70% 손실", 0.1f, () => Finish(BattleOutcome.Defeat, DefeatReason.GarrisonLost));
+            hud = new BattleHud(transform, line, FinishFromSim, s => speed = s,
+                new System.Action[]
+                {
+                    () => FinishTest(BattleOutcome.Victory, DefeatReason.None),
+                    () => FinishTest(BattleOutcome.Defeat, DefeatReason.WallDestroyed),
+                    () => FinishTest(BattleOutcome.Defeat, DefeatReason.GarrisonLost),
+                },
+                new[] { "[시험] 승리", "[시험] 패배 — 성벽 붕괴", "[시험] 패배 — 병력 70%" });
         }
 
         public void OnExit()
         {
-            if (ui != null)
-            {
-                Destroy(ui);
-            }
-
+            sim?.Complete();
+            view?.Dispose();
+            view = null;
+            sim?.Dispose();
+            sim = null;
+            hud?.Dispose();
+            hud = null;
+            rig = null;
             context = null;
         }
 
-        // 전투 결과를 한 번 완성해 진행 데이터에 기록하고 끝낸다 (C-006: Combat이 LastBattle을 쓴다)
-        void Finish(BattleOutcome outcome, DefeatReason reason)
+        void OnDestroy() => OnExit();
+
+        void Update()
         {
-            if (context == null)
+            if (sim == null)
             {
                 return;
             }
 
+            var keyboard = Keyboard.current;
+            if (keyboard != null)
+            {
+                if (keyboard.digit1Key.wasPressedThisFrame) speed = 1;
+                if (keyboard.digit2Key.wasPressedThisFrame) speed = 2;
+                if (keyboard.digit3Key.wasPressedThisFrame) speed = 4;
+                if (keyboard.pKey.wasPressedThisFrame) paused = !paused;
+            }
+
+            rig?.Update(Time.unscaledDeltaTime);
+            if (paused)
+            {
+                return;
+            }
+
+            // 큰 프레임 지연에도 한 번에 너무 멀리 가지 않게 자른다
+            float dt = Mathf.Min(Time.deltaTime, 1f / 20f) * speed;
+            sim.BeginFrame(dt);
+            if (sim.Ended)
+            {
+                ShowEnd();
+                return;
+            }
+
+            sim.Schedule(dt, Time.time);
+        }
+
+        void LateUpdate()
+        {
+            if (sim == null)
+            {
+                return;
+            }
+
+            sim.Complete();
+            view.Draw();
+            hud?.Refresh(sim, rig, speed, paused);
+        }
+
+        void ShowEnd()
+        {
+            if (endShown)
+            {
+                return;
+            }
+
+            endShown = true;
+            string message;
+            if (sim.Outcome == BattleOutcome.Victory)
+            {
+                message = $"승리!\n<size=28>처치 {sim.Kills:N0} · 얻은 골드 {sim.Gold:N0}</size>";
+            }
+            else
+            {
+                string wall = sim.DefeatSide >= 0 ? new[] { "북쪽", "동쪽", "남쪽", "서쪽" }[sim.DefeatSide] : "";
+                string reason = sim.DefeatReason == DefeatReason.WallDestroyed ? $"{wall} 성벽이 무너졌습니다" : $"{wall} 성벽 병력을 70% 넘게 잃었습니다";
+                message = $"패배\n<size=28>{reason}</size>";
+                if (sim.DefeatSide >= 0)
+                {
+                    rig?.ShowSide(sim.DefeatSide);
+                }
+            }
+
+            hud.ShowEnd(message);
+        }
+
+        // 실제 전투 결과로 끝내기 (C-006: Combat이 LastBattle을 쓴다)
+        void FinishFromSim()
+        {
+            if (context == null || sim == null || !sim.Ended || finishing)
+            {
+                return;
+            }
+
+            finishing = true;
+            sim.Complete();
+            context.Campaign.LastBattle = sim.BuildResult();
+            context.Complete(ScreenOutcome.Done);
+        }
+
+        // 개발용 시험 결과: 첫 분대 1명 손실·북쪽 성벽 50 피해 (결과 화면 C-007 시험용, M-CX-022)
+        void FinishTest(BattleOutcome outcome, DefeatReason reason)
+        {
+            if (context == null || finishing || context.Campaign?.ActiveBattleSetup == null)
+            {
+                return;
+            }
+
+            finishing = true;
+            sim?.Complete();
             CampaignState campaign = context.Campaign;
             BattleSetup setup = campaign.ActiveBattleSetup;
             var result = new BattleResult
@@ -89,21 +200,9 @@ namespace HumanLastRampart.Combat.Battle
                 DefeatWallId = outcome == BattleOutcome.Defeat ? WallIds.North : null,
             };
 
-            // 참가 영웅마다 정확히 한 항목 (C-006). 시험 결과라 시작 상태 그대로
-            foreach (string heroId in setup.ParticipatingHeroIds)
-            {
-                HeroState hero = setup.Heroes.Find(h => h.InstanceId == heroId);
-                result.HeroOutcomes.Add(new HeroOutcome
-                {
-                    InstanceId = heroId,
-                    HpAfter = hero != null ? hero.Hp : 0,
-                    IsAliveAfter = hero != null && hero.IsAlive,
-                });
-            }
-
+            BattleResultHelper.AddUnchangedHeroes(setup, result);
             if (outcome == BattleOutcome.Victory)
             {
-                // 시험용 손실: 병사가 있는 첫 분대 1명, 북쪽 성벽 50 피해 — 결과 화면(C-007)의 반영 확인용
                 SquadState squad = setup.Squads.Find(s => s.Count > 0);
                 if (squad != null)
                 {
@@ -121,73 +220,14 @@ namespace HumanLastRampart.Combat.Battle
             context.Complete(ScreenOutcome.Done);
         }
 
-        static string Describe(BattleSetup setup, IDefinitionLookup defs)
+        static string Describe(BattleSetup setup)
         {
-            var text = new StringBuilder();
             WeatherForecast f = setup.Forecast;
-            text.AppendLine($"전투 {setup.BattleNumber} · 지형 {setup.TerrainId} · 웨이브 {setup.WaveDefId}");
-            text.AppendLine($"난이도 {setup.Difficulty} (적 수 ×{setup.EnemyCountMultiplier:0.##}, 최대 동시 {setup.MaxConcurrentEnemies:N0})");
             string change = f.Changes
-                ? $" → {f.ChangeAtSeconds:0}초에 {f.ChangedWeather}{(f.IsShower ? "(소나기)" : "")}{(f.Reverts ? $" → {f.RevertAtSeconds:0}초에 원래대로" : "")}"
-                : " (변화 없음)";
-            text.AppendLine($"날씨 {f.InitialWeather} · {f.TimeOfDay}{change}");
-
-            int enemies = 0;
-            WaveDef wave = defs != null ? defs.Get<WaveDef>(setup.WaveDefId) : null;
-            if (wave != null)
-            {
-                var bySide = new int[4];
-                foreach (WaveGroup group in wave.Groups)
-                {
-                    int count = Mathf.Max(1, Mathf.RoundToInt(group.Count * setup.EnemyCountMultiplier));
-                    bySide[(int)group.Side] += count;
-                    enemies += count;
-                }
-
-                text.AppendLine($"적 {enemies:N0} (북 {bySide[0]:N0} · 동 {bySide[1]:N0} · 남 {bySide[2]:N0} · 서 {bySide[3]:N0})");
-            }
-
-            int soldiers = 0;
-            foreach (SquadState squad in setup.Squads) soldiers += squad.Count;
-            text.Append($"아군 분대 {setup.Squads.Count}개 · 병사 {soldiers:N0} · 영웅 참가 {setup.ParticipatingHeroIds.Count} · 성벽 {setup.Wall.Count}개 · 함정 {setup.Traps.Count}");
-            return text.ToString();
-        }
-
-        Text NewText(string name, int size)
-        {
-            var go = new GameObject(name, typeof(RectTransform), typeof(Text));
-            go.transform.SetParent(ui.transform, false);
-            var text = go.GetComponent<Text>();
-            text.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");   // 임시 글꼴 (D-033 F1)
-            text.fontSize = size;
-            text.alignment = TextAnchor.MiddleCenter;
-            text.color = Color.white;
-            text.raycastTarget = false;
-            return text;
-        }
-
-        void AddButton(string label, float y, System.Action onClick)
-        {
-            var go = new GameObject("Button " + label, typeof(RectTransform), typeof(Image), typeof(Button));
-            go.transform.SetParent(ui.transform, false);
-            go.GetComponent<Image>().color = new Color(0.25f, 0.3f, 0.4f, 1f);
-            go.GetComponent<Button>().onClick.AddListener(() => onClick());
-            Place((RectTransform)go.transform, 0.5f, y, 520f, 76f);
-
-            Text text = NewText("Label", 28);
-            text.transform.SetParent(go.transform, false);
-            text.text = label;
-            var rect = text.rectTransform;
-            rect.anchorMin = Vector2.zero;
-            rect.anchorMax = Vector2.one;
-            rect.offsetMin = Vector2.zero;
-            rect.offsetMax = Vector2.zero;
-        }
-
-        static void Place(RectTransform rect, float x, float y, float width, float height)
-        {
-            rect.anchorMin = rect.anchorMax = new Vector2(x, y);
-            rect.sizeDelta = new Vector2(width, height);
+                ? $" → {f.ChangeAtSeconds:0}초에 {f.ChangedWeather}{(f.IsShower ? "(소나기)" : "")}"
+                : "";
+            return $"전투 {setup.BattleNumber} · {setup.TerrainId} · {setup.Difficulty} (적 ×{setup.EnemyCountMultiplier:0.##})\n" +
+                   $"날씨 {f.InitialWeather} · {f.TimeOfDay}{change}  (날씨 효과는 다음 바퀴)";
         }
     }
 }
