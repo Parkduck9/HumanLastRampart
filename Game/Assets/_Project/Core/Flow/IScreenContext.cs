@@ -20,5 +20,9 @@ namespace HumanLastRampart.Core.Flow
 
         // MainMenu 전용: 난이도를 고른 뒤 새 게임 시작 (C-003 v1.2)
         void CompleteNewGame(NewGameOptions options);
+
+        // 데이터 검증 실패를 Boot의 오류 안내로 알린다 (C-003 v1.3, D-017 E2).
+        // 알린 뒤 이 컨텍스트의 Complete·CompleteNewGame은 무시된다. 여러 번 알려도 안내는 하나.
+        void ReportDataError(string reason);
     }
 }

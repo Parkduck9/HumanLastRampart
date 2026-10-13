@@ -12,6 +12,7 @@ namespace HumanLastRampart.App.Flow
         readonly GameFlow flow;
         bool valid = true;
         bool accepted;
+        bool errorReported;
 
         public ScreenId Screen { get; }
 
@@ -43,8 +44,33 @@ namespace HumanLastRampart.App.Flow
 
         public void CompleteNewGame(NewGameOptions options) => Submit(ScreenOutcome.StartNewGame, true, options);
 
+        public void ReportDataError(string reason)
+        {
+            if (!valid)
+            {
+                Debug.LogWarning($"[App] 이미 닫힌 화면({Screen})의 데이터 오류 알림을 무시합니다: {reason}");
+                return;
+            }
+
+            if (errorReported)
+            {
+                Debug.LogWarning($"[App] {Screen} 화면이 데이터 오류를 다시 알렸습니다. 안내는 하나만 유지합니다: {reason}");
+                return;
+            }
+
+            errorReported = true;
+            accepted = true;   // 이후 신호는 받지 않는다 (C-003 v1.3)
+            flow.OnScreenDataError(this, string.IsNullOrEmpty(reason) ? $"{Screen} 화면 데이터 오류" : reason);
+        }
+
         // 받아들인 신호를 App이 처리하지 못했을 때(예: 새 게임 거부) 다시 보낼 수 있게 한다
-        internal void Reopen() => accepted = false;
+        internal void Reopen()
+        {
+            if (!errorReported)
+            {
+                accepted = false;
+            }
+        }
 
         internal void Invalidate() => valid = false;
 
@@ -53,6 +79,12 @@ namespace HumanLastRampart.App.Flow
             if (!valid)
             {
                 Debug.LogWarning($"[App] 이미 닫힌 화면({Screen})의 신호 {outcome}를 무시합니다.");
+                return;
+            }
+
+            if (errorReported)
+            {
+                Debug.LogWarning($"[App] {Screen} 화면은 데이터 오류를 알렸으므로 {outcome} 신호를 무시합니다 (C-003 v1.3).");
                 return;
             }
 

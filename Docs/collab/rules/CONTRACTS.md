@@ -1179,3 +1179,24 @@ public sealed class WallTargetRule { public string WallId; public TargetPriority
 | `HLR.App.Tests` | `_Project/App/Tests/` | Claude | Core, App, Unity 시험 도구 | 에디터 전용 |
 
 - 다른 어셈블리는 시험 어셈블리를 참조하지 않는다. Codex가 자기 시험 어셈블리를 원하면 같은 방식으로 새 판을 제안한다.
+
+## C-003 v1.3 — 화면에서 데이터 오류 알리기
+- 상태: **승인** (2026-10-13, D-035). C-003의 나머지와 D-017 E2 정책은 그대로.
+- 배경: D-017 E2 r2는 "알림 전달 API는 담당 구현 전에 약속 형태로 구체화"로 남겨 두었다. Codex 지적(M-CX-020).
+
+```csharp
+public interface IScreenContext
+{
+    // ... v1.2까지의 항목 그대로 ...
+
+    // 데이터 검증 실패(예: 결과 반영 검사 실패)를 Boot의 E2 안내로 알린다.
+    // reason은 로그·안내 괄호 안에 표시할 짧은 원인.
+    void ReportDataError(string reason);
+}
+```
+
+- **App 동작:** 오류 로그 → Boot 안내 창(“메인으로 돌아가기” 버튼 하나) 표시 → 화면 입력은 안내 창이 가린다. 사용자가 버튼을 누르면 진행 데이터를 버리고 MainMenu를 연다(E2 5).
+- **그 컨텍스트는 이후 신호를 받지 않는다:** 알린 뒤의 Complete·CompleteNewGame은 경고 로그 후 무시. 같은 화면이 여러 번 알려도 안내는 하나(E2 4).
+- 이미 무효가 된 컨텍스트(OnExit 이후)에서 부르면 경고 로그 후 무시한다. 신호를 이미 받아들인 뒤(전환 중)에 부르면 안내를 띄운다(전환이 끝난 뒤 표시).
+- 모든 화면에서 쓸 수 있다. 화면은 알린 뒤 자기 버튼을 비활성화해도 되고 그대로 두어도 된다(신호는 어차피 무시됨).
+- 정상 패배·씬 로드 실패는 이 통로를 쓰지 않는다(각각 D-014, C-003 3-3).

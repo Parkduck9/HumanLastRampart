@@ -41,6 +41,7 @@ namespace HumanLastRampart.App.Flow
         bool transitioning;
         bool stopped;
         (ScreenContext context, ScreenOutcome outcome, NewGameOptions options)? pending;
+        string pendingError;
 
         // 개발용: 화면 씬 하나만 열고 Play했을 때 (DevHarness)
         bool adoptOnStart;
@@ -117,6 +118,23 @@ namespace HumanLastRampart.App.Flow
             }
 
             Handle(context, outcome, options);
+        }
+
+        // 화면이 알린 데이터 오류 (C-003 v1.3)
+        internal void OnScreenDataError(ScreenContext context, string reason)
+        {
+            if (stopped || context != currentContext)
+            {
+                return;
+            }
+
+            if (transitioning)
+            {
+                pendingError = $"{context.Screen}: {reason}";   // 전환이 끝난 뒤 안내
+                return;
+            }
+
+            ShowDataError($"{context.Screen}: {reason}");
         }
 
         void Handle(ScreenContext context, ScreenOutcome outcome, NewGameOptions options)
@@ -211,6 +229,15 @@ namespace HumanLastRampart.App.Flow
 
             transitioning = false;
             SetInputBlocked(false);
+
+            if (pendingError != null)
+            {
+                string error = pendingError;
+                pendingError = null;
+                pending = null;   // 오류를 알린 화면의 신호는 처리하지 않는다
+                ShowDataError(error);
+                yield break;
+            }
 
             if (pending.HasValue)
             {
