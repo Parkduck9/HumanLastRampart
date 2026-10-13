@@ -236,7 +236,7 @@
 ---
 
 ## C-004 진행 데이터 `CampaignState`
-- 상태: **제안 r2** (2026-10-13, Codex 검토 M-CX-009 반영. 근거 D-013 Q-A5·Q-A7, D-014 C4, ARCHITECTURE 1장 원칙 3·4)
+- 상태: **승인** (2026-10-13, 사용자 확정 D-015. r3 기준 — Codex 검토 M-CX-009 반영, D1·D2·D5 답변 포함). 단 `TrapPlacement`·`TargetingSettings`·`BattleResult`의 내용은 C-008·C-011·C-006에서 정한다
 - 위치: `HLR.Core` (`HumanLastRampart.Core.Campaign`). 실제 객체는 App이 만들고 보관한다(C-003).
 - 정의:
 
@@ -253,11 +253,11 @@
       public sealed class CampaignState
       {
           public int BattleNumber;                 // 다음(또는 진행 중) 전투가 몇 번째인지. 1부터
-          public int Gold;                         // 화폐 (결정 필요 D2)
+          public int Gold;                         // 화폐. 1회차는 골드 하나 (D2)
 
           public List<WallSegmentState> Wall;      // 성벽 구간별 상태 (구간 수는 전투 설계 P1-C09에서)
           public List<HeroState> Heroes;           // 주인공·특수 장교·강력한 병사: 한 명씩 관리
-          public List<SquadState> Squads;          // 일반·특수 병사: 병종별 인원 수로 관리 (결정 필요 D1)
+          public List<SquadState> Squads;          // 일반·특수 병사: 분대별 인원 수로 관리 (D1)
           public List<TrapPlacement> Traps;        // 설치한 함정 — 형태는 C-008에서 정함
 
           public TargetingSettings Targeting;      // 표적 우선순위 설정, 다음 전투에도 유지(Q-A5) — 형태는 C-011에서 정함
@@ -305,7 +305,7 @@
   | `LastBattle` | App: Battle을 열기 직전 `null`로 비움 (r2) / Combat: 전투 종료 직전 한 번 기록 | 이전 결과를 다시 쓰는 일 방지 |
   | `Targeting` | Combat(Battle 화면) | 전투 중 플레이어가 바꿀 때 |
   | `Gold`, `Heroes`, `Squads`, `Wall` | Meta(Result·Prep 화면) | 결과 반영(C-007)과 정비(수리·모집·상점) |
-  | `Heroes`·`Squads`의 `PostId` | **결정 필요 D5** | 배치를 어느 화면에서 하는지 |
+  | `Heroes`·`Squads`의 `PostId` | App: 새 게임 때 `CampaignStartDef`의 첫 배치로 채움 / **Meta(Prep 화면)**: 정비 중 배치 변경 (D5) | Battle 화면은 배치를 바꾸지 않는다(가서 대포·표적 설정만) |
   | `Traps` | Meta: Prep(구매·배치) / **Result(전투에서 쓴 함정 반영, r2)** | 함정 구매·배치는 C-008, 소비 반영은 C-007 |
   | `NextInstanceNumber` | 새 분대·영웅·함정을 만드는 쪽 | `NewInstanceId` 호출로만 |
   | (읽기) | 모든 화면 | 자기 화면이 열려 있는 동안(C-003 컨텍스트 유효 기간) |
@@ -321,7 +321,7 @@
 - 변경 규칙: 필드 추가는 새 판(r)으로 기록하고 사용자 승인. 필드 삭제·의미 변경은 사용 중인 쪽의 동의(메시지) + 사용자 승인. 쓰는 쪽(3) 변경도 사용자 승인.
 
 ## C-010 정의 데이터 클래스
-- 상태: **제안 r2** (2026-10-13, Codex 검토 M-CX-009 반영. 근거 ARCHITECTURE 1장 원칙 4·6장, RULES 9장 5번)
+- 상태: **승인** (2026-10-13, 사용자 확정 D-015. r3 기준 — Codex 검토 M-CX-009 반영, D3·D4 답변 포함). 단 `TrapDef` 필드는 C-008, `ItemDef` 효과는 Codex 정비 설계(P1-X06)에서 정한다
 - 위치: 클래스는 `HLR.Core` (`HumanLastRampart.Core.Definitions`), 에셋은 C-001의 `Data/` 하위 폴더
 - 정의:
 
@@ -341,7 +341,7 @@
   | `WaveDef` | `Data/Combat/` Claude | 전투 하나의 적 구성: 등장 순서·수·간격 (상세는 전투 설계 P1-C09) |
   | `TrapDef` | `Data/Traps/` 공용 | 함정: 가격, 발동 조건, 피해 — **필드와 작성자 경계는 C-008에서 정함** |
   | `ItemDef` | `Data/Meta/` Codex | 상점 품목: 가격, 효과 종류 — 1회차 품목과 효과는 Codex 정비 화면 설계(P1-X06)에서 정함 |
-  | `CampaignStartDef` | `Data/Combat/` Claude (결정 필요 D3) | 1회차 시작 설정: 시작 골드, 시작 영웅·분대, 성벽 구간과 내구도, 첫 스토리 ID, 전투 번호별 `WaveDef` |
+  | `CampaignStartDef` | `Data/Combat/` Claude (D3) | 1회차 시작 설정: 시작 골드, 시작 영웅·분대와 **첫 배치 지점**(D5), 성벽 구간과 내구도, 첫 스토리 ID, 전투 번호별 `WaveDef`. Codex는 정비 쪽 값 조정이 필요하면 메시지로 요청 |
 
   - 종류 목록(`UnitKind`, `WeaponKind`)은 FirstRead의 병력·무기 구분을 따른다. 1회차에 실제로 쓰는 것은 일부(무기 1~2종, 적 1~2종 — RULES 12장)이고, 나머지 값은 미리 두기만 한다.
   - `StoryDef`(스토리 데이터)는 C-009에서 Codex 제안으로 정한다. 상점 외 모집 목록·수리 비용 정의가 필요하면 Codex가 P1-X06 설계에서 제안한다.
@@ -357,7 +357,7 @@
       }
   }
   ```
-  - App이 구현해서 화면에 넘긴다(`IScreenContext`에 `Definitions` 속성을 추가하는 것을 제안 — **C-003 변경이므로 이 초안 승인 시 함께 승인**).
+  - App이 구현해서 화면에 넘긴다. `IScreenContext.Definitions`로 받는다 (D4, C-003 v1.1).
   - 에셋 목록은 소유자별 **카탈로그 에셋**으로 모은다: `Data/Combat/CombatCatalog`(Claude), `Data/Meta/MetaCatalog`(Codex), `Data/Story/StoryCatalog`(Codex), `Data/Traps/TrapCatalog`(C-008에서 작성자 결정). 각 소유자가 자기 카탈로그에 에셋을 등록하고, Claude가 Boot에서 카탈로그들을 연결한다.
   - `Resources` 폴더와 Addressables는 1회차에 쓰지 않는다.
 
@@ -369,7 +369,7 @@
 - 사용처: 모든 모듈 (읽기)
 - 변경 규칙: 클래스·필드 추가는 Core 변경(공용 경로 예약) + 사용자 승인. `Id` 값은 한 번 쓰기 시작하면 바꾸지 않는다(진행 데이터가 가리키므로).
 
-### C-004·C-010 결정 필요 항목 (사용자)
+### C-004·C-010 결정 항목 (사용자 답변 완료, D-015)
 
 | ID | 질문 | Claude 제안 |
 |---|---|---|
@@ -384,3 +384,24 @@
 |---|---|---|
 | 2026-10-13 | r1 | 초안 작성 (제안) |
 | 2026-10-13 | r2 | Codex 검토 M-CX-009 반영: 분대 `SquadId`·영웅 `PostId`·고유 ID 발급, 함정 소비는 `LastBattle`→Result 반영, `LastBattle`은 전투 직전 비움, C-006·007 요구사항(끝난 전투 번호, 1회 반영), 카탈로그 검증과 실패 시 새 게임 차단. 결정 D5 추가 |
+| 2026-10-13 | r3 | 사용자 답변 반영 후 승인(D-015): D1 분대별 인원 수, D2 골드 하나, D3 시작 설정 Claude, D4 화면 컨텍스트에 Definitions(C-003 v1.1), D5 배치는 정비 화면·첫 배치는 시작 설정 |
+
+**답변 (2026-10-13, D-015):** D1 분대별 인원 수 · D2 골드 하나 · D3 Claude · D4 추가 · D5 정비 화면에서 배치(첫 전투 배치는 시작 설정). 위 표의 'Claude 제안' 열은 기록으로 남긴다.
+
+---
+
+## C-003 v1.1 화면 컨텍스트에 정의 찾기 추가
+- 상태: **승인** (2026-10-13, 사용자 확정 D-015, D4 답변). C-003(v1)의 나머지 내용은 그대로이고, 이 항목만 더한다.
+- 위치: `HLR.Core` (`HumanLastRampart.Core.Flow`)
+- 정의: `IScreenContext`에 속성 하나를 추가한다.
+  ```csharp
+  public interface IScreenContext
+  {
+      CampaignState Campaign { get; }          // v1
+      IDefinitionLookup Definitions { get; }   // v1.1 추가 (C-010 3)
+      void Complete(ScreenOutcome outcome);    // v1
+  }
+  ```
+  - 컨텍스트가 무효가 된 뒤(C-003 3-1) `Definitions`에 접근하면 `Campaign`과 같이 `InvalidOperationException`을 던진다.
+- 사용처: 모든 화면 (읽기)
+- 변경 규칙: C-003과 같다.
