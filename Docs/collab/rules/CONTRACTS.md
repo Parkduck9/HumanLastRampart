@@ -1038,3 +1038,129 @@ public sealed class RecoveryResult
 |---|---|---|
 | 2026-10-13 | r1 | Claude 작성. D-021 G4·G5 반영, C-008 r1/r3 위치 표현 정리, 1회차 회수 단순화 |
 | 2026-10-13 | 승인 | 사용자 확정 (D-022), I1~I5 제안대로 |
+
+---
+
+## P1-C15 전투 설계 연결 약속 초안 (제안 r1)
+- 상태: **제안 r1** (2026-10-13, Claude. 근거 Battle.md 승인 r5 — D-026~D-030). 사용자 승인과 Codex 검토 전에는 구현하지 않는다.
+- 이 절은 전투 설계 확정으로 생긴 약속 변경을 한곳에 모은 것이다. 승인되면 각 버전 번호로 적용하고, 기존 승인 본문은 보존한다.
+
+### 1) C-003 v1.2 — 메인에서 난이도를 넘기기 (D-026 B4, D-027 Q8)
+```csharp
+namespace HumanLastRampart.Core.Flow
+{
+    public enum Difficulty { Easy, Realistic }        // 쉬움: 지도 모드에서 시간 정지 / 현실: 계속 흐름
+
+    public struct NewGameOptions { public Difficulty Difficulty; }
+
+    public interface IScreenContext
+    {
+        // v1, v1.1 그대로 + 아래 추가
+        void CompleteNewGame(NewGameOptions options);   // MainMenu 전용: 옵션과 함께 StartNewGame 신호
+    }
+}
+```
+- 메인 화면은 "게임 시작" → **난이도 선택 창** → 고른 뒤 `CompleteNewGame(옵션)`을 부른다. 옵션 없이 `Complete(StartNewGame)`만 오면 App은 받아들이지 않고 에러 로그를 남긴다(C-003 3-1 "허용되지 않은 신호"와 같은 처리).
+- `CompleteNewGame`은 MainMenu 컨텍스트에서만 유효하다. 다른 화면에서 부르면 무시 + 에러 로그.
+- 난이도 선택 창의 모양·문구·취소 동작은 Codex의 0번 화면 설계에서 정한다.
+
+### 2) C-004 v1.3 — 진행 데이터 추가·정리
+```csharp
+// CampaignState 추가 필드
+public Difficulty Difficulty;      // App이 새 게임 때 한 번 설정. 판 도중 변경 불가 (D-027 Q8)
+
+// 성벽: 기존 Wall 목록(WallSegmentState)을 '성벽 4개'로 고정 해석한다
+//   SegmentId = "wall_north" | "wall_east" | "wall_south" | "wall_west"  (정확히 4개)
+// 배치 지점: Heroes/Squads의 PostId는 C-010 v1.2 PostDef를 가리킨다 (PostDef가 어느 성벽인지 안다)
+```
+| 필드 | 쓰는 쪽 | 시점 |
+|---|---|---|
+| `Difficulty` | App | 새 게임 생성 때만 (`CompleteNewGame` 옵션) |
+| `Wall` 4개 | App: 새 게임 때 `CampaignStartDef`로 생성 / Meta.Result: 전투 결과 반영 / Meta.Prep: 수리 | 기존 C-004·C-007 규칙 그대로 |
+| `Targeting` | C-011 v1.1 참고 | |
+
+- 성벽이 정확히 4개가 아니거나 ID가 위 4개가 아니면 새 게임 생성 단계에서 검증 오류(C-010 4) 카탈로그 검증과 같은 처리).
+
+### 3) C-011 v1.1 — 표적 명령을 성벽 단위로 (D-028, D-029 R1)
+```csharp
+public enum TargetPriority
+{
+    LowestHpRatio,    // 체력 낮은 적부터 (기본)
+    HighestHpRatio,   // 체력 높은 적부터
+    Nearest,          // 가까운 적부터
+    ClimbingFirst,    // 오르는 적부터 (사다리·시체 더미)
+    SpecialFirst,     // 특수 적 먼저 (없으면 체력 낮은 적)
+    DensestArea,      // 밀집한 곳 쏘기 (범위 무기에 유효, 단일 무기는 밀집 칸 안의 체력 낮은 적)
+}
+
+public sealed class TargetingSettings
+{
+    public TargetPriority GlobalPriority;            // 4면 지도의 전체 명령
+    public List<WallTargetRule> WallRules;           // 성벽 명령 (있으면 그 성벽은 이것을 따른다)
+}
+public sealed class WallTargetRule { public string WallId; public TargetPriority Priority; }
+```
+- C-011 r1의 `PostTargetRule`(지점 단위)은 **성벽 단위 `WallTargetRule`로 대체**한다. 같은 WallId는 한 항목만.
+- 전체 명령을 새로 내리면 `GlobalPriority`가 바뀌고, **모든 `WallRules`를 지운다**(전체 명령이 각 성벽에 새로 적용된 것으로 본다).
+- 성벽 명령은 **전달이 끝난 시점**(명령하기=즉시, 전령=도착, 소리 지르기=판정 후)에 Combat이 기록한다. 소리 지르기 오인(D-030)으로 다른 성벽이 수행한 경우 그 성벽에 기록한다.
+- 새 게임: `GlobalPriority = LowestHpRatio`, `WallRules` 비움. 다음 전투에도 유지(D-013 Q5).
+- **대포 조준 지점은 진행 데이터에 저장하지 않는다**(지형이 전투마다 바뀌므로 전투 안에서만 유지).
+
+### 4) C-005 v1.2 — 전투 준비 정보 추가 (D-026 B8, D-027 Q4, D-028 C5)
+| 추가 항목 | 의미 | 만드는 쪽 |
+|---|---|---|
+| `Difficulty` | 진행 데이터의 난이도 복사 | App |
+| `TerrainId` | P1-C14 지형 순서 (C-005 v1.1) | App |
+| `InitialWeather` | `Clear` / `Cloudy` / `Rain` / `Fog` 중 무작위 | App (시드: `RngSeed` + 전투 번호) |
+| `TimeOfDay` | `Day` / `Night` 무작위 | App (같은 시드) |
+| `WeatherChange` | 전투 중 날씨 변화 계획을 **시작 때 미리 정한다**: 변화 여부(15%), 변화 시각, 바뀔 날씨(맑음↔비·안개, 비→그침 등 '원래로만 돌아오는' 규칙), 소나기면 그칠지(50%)·그칠 시각 | App (같은 시드) |
+
+- 날씨를 시작 때 미리 정해 두면 같은 판에서 결과가 재현되고, Combat은 계획대로 바꾸기만 한다.
+- 날씨 효과의 수치(공격 속도 -20%, 불 피해 -90%/소나기 -50%, 시야 거리, 먼 거리 명중 -20%, 소리 지르기 확률)는 C-010 v1.2 `BattleRulesDef`에서 읽는다.
+
+### 5) C-006 v1.2 — 전투 결과 추가 (D-026 B10, D-027 Q1)
+| 추가·변경 항목 | 의미 |
+|---|---|
+| `WallOutcomes` | 기존 그대로, `SegmentId`는 성벽 4개 ID |
+| `DefeatReason` | 패배일 때만: `WallDestroyed`(성벽 체력 0) / `GarrisonLost`(그 성벽 병력 70% 이상 사망) |
+| `DefeatWallId` | 패배를 일으킨 성벽 |
+| `DefeatedSpecialCount` | 처치한 특수 적 수 (`DefeatedEnemyCount`에 포함) |
+| `TrapMoves` | P1-C14 C-006 v1.1 그대로 |
+
+- 등반한 적에게 잃은 병사는 기존 `SquadLosses`(SquadId별)로 보고한다. 결과 화면은 성벽별로 묶어 보여 줄 수 있다(PostDef로 성벽을 안다).
+- 70% 판정의 기준 병력 = **전투 시작 때 그 성벽 지점에 배치된 분대 인원 합계**(영웅·마법사 제외, 대포 운용병 포함).
+
+### 6) C-010 v1.2 — 정의 데이터 추가
+| 클래스 | 위치·작성 | 담는 것 |
+|---|---|---|
+| `PostDef` (신규) | `Data/Combat/` Claude | 지점 ID, `WallId`, 종류(`Squad` / `Cannon`), 성벽 위 위치. **성벽마다 대포 지점 정확히 4개**(D-027) |
+| `UnitDef` 추가 | Claude | `UnitKind`에 병종 구분: 궁수·총병·대포 운용병·마법사. 마법사는 영웅처럼 한 명 관리(`HeroState`) |
+| `WeaponDef` 추가 | Claude | `Trajectory`(`Arc` 곡사 / `Straight` 직선 / `HighArc` 포물선), 거리별 명중 곡선(가까움·중간·멀리), 거리별 흩어짐, 범위 반경 (D-028 C7, D-029 6.4) |
+| `SpellDef` (신규) | `Data/Combat/` Claude | 마법: 폭발·불바다. 범위, 피해, 지속 시간, 재사용 대기, `IsFire`(비 감소 대상) (D-027 Q3) |
+| `EnemyDef` 추가 | Claude | `IsSpecial`(기존), `CarriesLadder`(사다리 든 변형), 등반 속도, 성벽 위 공격력 |
+| `WaveDef` 변경 | Claude | **방향별 무리 목록**: 방향(북·동·남·서), 적 종류, 수, 등장 시각 — 방향별 규모가 다르다(D-026 B8) |
+| `BattleRulesDef` (신규) | `Data/Combat/` Claude, 1개 | 날씨·밤낮 효과와 확률, 시야 거리, 소리 지르기 확률(못 들음 옆 10%·맞은편 30%, 오인 옆 15%·맞은편 30% — D-030), 전령 속도 70%, 패배 병력 비율 70%, 시체 더미 높이 규칙 |
+| `CampaignStartDef` 추가 | Claude | 성벽 4개 체력, 시작 분대의 PostId(벽마다 대포 4문 운용병 포함), 마법사 영웅 |
+
+- 수치는 모두 시작값이며 에셋에서 조정한다(약속이 아님).
+
+### 7) 다른 담당에 미치는 영향 (Codex)
+| 화면 | 할 일 |
+|---|---|
+| 0번 메인 | 게임 시작 → 난이도 선택 창 → `CompleteNewGame` |
+| 3번 정비 | 배치 UI가 성벽 4개·`PostDef` 기준. 대포 지점에는 대포 운용병 분대만. 성벽 4개 수리 |
+| 4번 결과 | 성벽 4개 피해, 성벽별 잃은 병력 표시. (패배는 결과 화면을 건너뜀 — D-014) |
+| 그림 | 오우거형 특수 적, 사다리 든 고블린·등반 동작, 병사 3종(+ 공격 동작은 이후), 마법사, 마법 이펙트 2종 |
+
+### 8) 결정 필요 항목 (사용자)
+| ID | 질문 | Claude 제안 |
+|---|---|---|
+| K1 | 난이도가 지도 시간 정지 말고 다른 것에도 영향을 주나 | **1회차는 지도 시간 정지만.** 적 수·피해 차이는 시험 플레이 후 |
+| K2 | 70% 패배 기준에 대포 운용병을 포함하나 | **포함.** 영웅·마법사는 제외 |
+| K3 | 전체 명령을 내리면 성벽별로 따로 내린 명령을 지우나 | **지운다**(전체 명령이 모든 성벽에 새로 적용) |
+| K4 | 날씨 변화를 시작 때 미리 정해 두는 방식 | **미리 정함**(같은 판에서 다시 보면 같은 결과, 시험·버그 재현이 쉬움) |
+
+### 변경 기록
+| 날짜 | 판 | 내용 |
+|---|---|---|
+| 2026-10-13 | r1 | Claude 작성. Battle.md r5(D-026~D-030) 연결. 결정 K1~K4 |
