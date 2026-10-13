@@ -236,7 +236,7 @@
 ---
 
 ## C-004 진행 데이터 `CampaignState`
-- 상태: **제안** (2026-10-13 초안 r1, 근거 D-013 Q-A5·Q-A7, D-014 C4, ARCHITECTURE 1장 원칙 3·4)
+- 상태: **제안 r2** (2026-10-13, Codex 검토 M-CX-009 반영. 근거 D-013 Q-A5·Q-A7, D-014 C4, ARCHITECTURE 1장 원칙 3·4)
 - 위치: `HLR.Core` (`HumanLastRampart.Core.Campaign`). 실제 객체는 App이 만들고 보관한다(C-003).
 - 정의:
 
@@ -264,24 +264,29 @@
 
           public StoryRequest NextStory;           // 스토리 화면이 다음에 재생할 것 (D-014 C4)
           public BattleResult LastBattle;          // 가장 최근 전투 결과, 없으면 null — 형태는 C-006에서 정함
+
+          public int NextInstanceNumber;           // 고유 ID 발급용 번호 (r2). 아래 NewInstanceId만 사용
+          public string NewInstanceId(string prefix);  // 예: "squad_7", "hero_2", "trap_3". 이 판 안에서 겹치지 않음
       }
 
       public sealed class WallSegmentState { public string SegmentId; public int MaxHp; public int Hp; }
 
       public sealed class HeroState
       {
-          public string InstanceId;   // 이 판에서의 고유 ID
+          public string InstanceId;   // 이 판에서의 고유 ID ("hero_" 접두사)
           public string UnitDefId;    // C-010 UnitDef
           public int Hp;
           public bool IsAlive;
+          public string PostId;       // 배치 지점 (r2). 미배치면 null. 지점 목록은 전투 설계 P1-C09
           // 장착 아이템 등은 다음 마일스톤 (FirstRead: 아이템 강화)
       }
 
       public sealed class SquadState
       {
-          public string UnitDefId;    // C-010 UnitDef (병종)
-          public int Count;           // 인원 수
-          public string PostId;       // 배치 지점 (전투 설계 P1-C09에서 정함). 미배치면 null
+          public string SquadId;      // 분대 고유 ID ("squad_" 접두사, r2). 결과 반영은 이 ID로 맞춘다
+          public string UnitDefId;    // C-010 UnitDef (병종). 같은 병종이 여러 분대일 수 있다
+          public int Count;           // 인원 수. 0이 되면 반영하는 쪽이 목록에서 뺀다
+          public string PostId;       // 배치 지점. 미배치면 null
       }
 
       public enum StoryKind { Normal, DefeatEnding }
@@ -297,13 +302,17 @@
   | 객체 전체 | App | MainMenu `StartNewGame` 때 새로 생성(초기값은 1회차 설정), 패배 엔딩 후 폐기 |
   | `BattleNumber` | App | 전투가 끝나 Result로 갈 때 1 증가 |
   | `NextStory` | App | 새 게임 시작 시 첫 스토리, 전투 패배 시 `DefeatEnding` |
-  | `LastBattle` | Combat(Battle 화면) | 전투 종료 직전 한 번 기록 |
+  | `LastBattle` | App: Battle을 열기 직전 `null`로 비움 (r2) / Combat: 전투 종료 직전 한 번 기록 | 이전 결과를 다시 쓰는 일 방지 |
   | `Targeting` | Combat(Battle 화면) | 전투 중 플레이어가 바꿀 때 |
   | `Gold`, `Heroes`, `Squads`, `Wall` | Meta(Result·Prep 화면) | 결과 반영(C-007)과 정비(수리·모집·상점) |
-  | `Traps` | Meta(Prep 화면) | 함정 구매·배치 (C-008) |
+  | `Heroes`·`Squads`의 `PostId` | **결정 필요 D5** | 배치를 어느 화면에서 하는지 |
+  | `Traps` | Meta: Prep(구매·배치) / **Result(전투에서 쓴 함정 반영, r2)** | 함정 구매·배치는 C-008, 소비 반영은 C-007 |
+  | `NextInstanceNumber` | 새 분대·영웅·함정을 만드는 쪽 | `NewInstanceId` 호출로만 |
   | (읽기) | 모든 화면 | 자기 화면이 열려 있는 동안(C-003 컨텍스트 유효 기간) |
 
-  - **전투 중 손실은 Combat이 `CampaignState`에 직접 쓰지 않는다.** 잃은 병력·성벽 피해는 `LastBattle`(C-006)에 담고, Result 화면이 반영한다(C-007). 이렇게 하면 결과가 한 번만 반영된다.
+  - **전투 중 손실은 Combat이 `CampaignState`에 직접 쓰지 않는다.** 잃은 병력·성벽 피해·**발동해서 없어진 함정**은 `LastBattle`(C-006)에 담고, Result 화면이 한 번만 반영한다(C-007). 이렇게 하면 결과가 한 번만 반영된다 (r2, M-CX-009 요청 1).
+  - **식별 (r2, M-CX-009 요청 2):** 결과의 손실은 병종 ID가 아니라 `SquadId`·영웅 `InstanceId`·함정 고유 ID(C-008)로 가리킨다. 같은 병종을 두 지점에 나눠도 어느 분대가 몇 명 잃었는지 정확히 맞출 수 있다.
+  - **C-006·C-007에 넘길 요구사항 (r2):** `BattleResult`는 끝난 전투의 번호(`BattleNumber`)를 담는다. Result는 결과 번호가 현재 전투와 맞는지, 이미 반영했는지 확인한 뒤 한 번만 반영한다(중복 반영 방지 규칙은 C-007에서).
   - 패배 시에는 Result를 건너뛰므로 반영하지 않는다(어차피 폐기).
   - 전투 승패: App은 Battle의 `Done` 신호를 받으면 `LastBattle`의 승패 값을 보고 Result(승리) 또는 Story 패배 엔딩(패배)으로 보낸다(C-003 순서표).
 
@@ -312,7 +321,7 @@
 - 변경 규칙: 필드 추가는 새 판(r)으로 기록하고 사용자 승인. 필드 삭제·의미 변경은 사용 중인 쪽의 동의(메시지) + 사용자 승인. 쓰는 쪽(3) 변경도 사용자 승인.
 
 ## C-010 정의 데이터 클래스
-- 상태: **제안** (2026-10-13 초안 r1, 근거 ARCHITECTURE 1장 원칙 4·6장, RULES 9장 5번)
+- 상태: **제안 r2** (2026-10-13, Codex 검토 M-CX-009 반영. 근거 ARCHITECTURE 1장 원칙 4·6장, RULES 9장 5번)
 - 위치: 클래스는 `HLR.Core` (`HumanLastRampart.Core.Definitions`), 에셋은 C-001의 `Data/` 하위 폴더
 - 정의:
 
@@ -351,6 +360,12 @@
   - App이 구현해서 화면에 넘긴다(`IScreenContext`에 `Definitions` 속성을 추가하는 것을 제안 — **C-003 변경이므로 이 초안 승인 시 함께 승인**).
   - 에셋 목록은 소유자별 **카탈로그 에셋**으로 모은다: `Data/Combat/CombatCatalog`(Claude), `Data/Meta/MetaCatalog`(Codex), `Data/Story/StoryCatalog`(Codex), `Data/Traps/TrapCatalog`(C-008에서 작성자 결정). 각 소유자가 자기 카탈로그에 에셋을 등록하고, Claude가 Boot에서 카탈로그들을 연결한다.
   - `Resources` 폴더와 Addressables는 1회차에 쓰지 않는다.
+
+  **4) 카탈로그 검증 (r2, M-CX-009 요청 3)** — 잘못된 데이터로 새 게임이 반쯤 만들어지는 일을 막는다.
+  - **검증 시점:** App이 Boot에서 카탈로그를 합칠 때 한 번, 메인 화면을 열기 전에 검사한다.
+  - **검사 항목:** 비어 있는 ID, 카탈로그 안·카탈로그 사이의 **중복 ID**, 빈 칸(null) 항목, 정의 종류가 맞지 않는 참조(예: `UnitDef`의 기본 무기 ID가 `WeaponDef`가 아님), 없는 ID를 가리키는 참조(무기, 적, 웨이브, 시작 설정의 영웅·분대·첫 스토리 등), `CampaignStartDef`가 정확히 하나인지.
+  - **실패하면:** 문제를 **모두** 에러 로그로 남긴다(카탈로그 이름·에셋 이름·ID). 중복 ID를 "나중 것이 이긴다"는 식으로 덮어쓰지 않는다. 메인 화면은 열리지만 App은 `StartNewGame`을 받아들이지 않고 에러 로그를 남긴다(망가진 새 게임을 만들지 않음).
+  - 에디터에서 미리 검사하는 메뉴 도구는 Phase 2에서 Claude가 제공할 수 있다(선택).
 - 사용처: 모든 모듈 (읽기)
 - 변경 규칙: 클래스·필드 추가는 Core 변경(공용 경로 예약) + 사용자 승인. `Id` 값은 한 번 쓰기 시작하면 바꾸지 않는다(진행 데이터가 가리키므로).
 
@@ -361,4 +376,11 @@
 | D1 | 일반·특수 병사를 어떻게 셀까 | **병종별 인원 수**(예: 궁수 20명). 주인공·특수 장교·강력한 병사만 한 명씩 관리. FirstRead의 "일반 병사는 단체 훈련·단체 아이템으로 강화"와 맞고, 대규모 전투에 가볍다 |
 | D2 | 화폐 종류 | 1회차는 **골드 하나** |
 | D3 | 1회차 시작 설정(시작 골드·병력·성벽) 에셋의 작성자 | **Claude**. 전투 균형과 직결되므로 전투 담당이 만든다. Codex는 정비 쪽 값 조정이 필요하면 요청 |
-| D4 | `IScreenContext`에 정의 찾기(`Definitions`) 추가 (C-003 변경) | 추가. 모든 화면이 이름·가격을 표시하려면 필요 |
+| D4 | `IScreenContext`에 정의 찾기(`Definitions`) 추가 (C-003 변경) | 추가. 모든 화면이 이름·가격을 표시하려면 필요 (Codex 동의 M-CX-009) |
+| D5 | 영웅·분대를 성벽 위 어느 지점에 둘지(배치)는 어느 화면에서 정할까 (r2 추가) | 1회차는 **정비 화면(3번, Codex)에서 배치**, 전투 화면에서는 배치된 병사에게 가서 대포·표적 설정만 한다. 첫 전투 배치는 시작 설정(D3)에 넣는다 |
+
+#### C-004·C-010 변경 기록
+| 날짜 | 판 | 내용 |
+|---|---|---|
+| 2026-10-13 | r1 | 초안 작성 (제안) |
+| 2026-10-13 | r2 | Codex 검토 M-CX-009 반영: 분대 `SquadId`·영웅 `PostId`·고유 ID 발급, 함정 소비는 `LastBattle`→Result 반영, `LastBattle`은 전투 직전 비움, C-006·007 요구사항(끝난 전투 번호, 1회 반영), 카탈로그 검증과 실패 시 새 게임 차단. 결정 D5 추가 |
