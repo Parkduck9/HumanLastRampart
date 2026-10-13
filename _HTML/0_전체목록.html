@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HTML 모음</title>
+<style>
+  :root { --bg:#f6f5f2; --card:#fff; --text:#1f1d1a; --muted:#6b675f; --line:#e2dfd8; --accent:#7a4b1e; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#1a1917; --card:#242320; --text:#ece9e3; --muted:#a39e94; --line:#38362f; --accent:#e0a868; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font-family:"Malgun Gothic","Apple SD Gothic Neo",sans-serif; }
+  main { max-width:720px; margin:0 auto; padding:32px 16px; }
+  h1 { font-size:22px; margin:0 0 4px; }
+  p.sub { color:var(--muted); margin:0 0 24px; font-size:14px; }
+  a.card { display:block; background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px 18px; margin-bottom:12px; color:inherit; text-decoration:none; }
+  a.card:hover { border-color:var(--accent); }
+  .t { font-weight:700; font-size:16px; }
+  .t small { font-weight:400; color:var(--muted); font-size:12px; margin-left:6px; }
+  .d { color:var(--muted); font-size:14px; margin-top:4px; }
+  .path { color:var(--muted); font-size:12px; margin-top:6px; font-family:Consolas,monospace; word-break:break-all; }
+  .note { color:var(--muted); font-size:13px; margin-top:24px; line-height:1.6; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Human Last Rampart — HTML 모음</h1>
+  <p class="sub">눌러서 여세요. 파일이 바뀌면 열린 화면에서 F5로 새로고침합니다.</p>
+
+  <a class="card" href="../Docs/collab/live/status.html">
+    <div class="t">작업 현황판 <small>Claude</small></div>
+    <div class="d">Claude·Codex의 작업 상태, 메시지, Git 기록, 질문</div>
+    <div class="path">Docs/collab/live/status.html</div>
+  </a>
+  <a class="card" href="../Docs/collab/view/ROADMAP.html">
+    <div class="t">진행 체크리스트 (ROADMAP) <small>Claude</small></div>
+    <div class="d">단계별 할 일, 다음 할 일, 결정 대기, 변경·특이사항</div>
+    <div class="path">Docs/collab/view/ROADMAP.html</div>
+  </a>
+  <a class="card" href="../Docs/collab/view/RULES.html">
+    <div class="t">협업 규칙 (RULES) <small>Claude</small></div>
+    <div class="d">Claude·Codex 협업 규칙 요약 (원본은 RULES.md)</div>
+    <div class="path">Docs/collab/view/RULES.html</div>
+  </a>
+  <a class="card" href="../Docs/References/codex_hero_reference_v1.html">
+    <div class="t">주인공 외형 레퍼런스 <small>Codex</small></div>
+    <div class="d">선택한 주인공 외형 이미지 보관용</div>
+    <div class="path">Docs/References/codex_hero_reference_v1.html</div>
+  </a>
+
+  <p class="note">
+    이 폴더(<b>_HTML</b>)에는 바로가기만 있고, 원본 HTML은 원래 위치에 그대로 있습니다.
+    원본을 옮기면 안에서 불러오는 데이터 경로가 깨지기 때문입니다.<br>
+    새 HTML이 생기면 Claude가 이 목록과 바로가기 파일을 함께 추가합니다.
+  </p>
+</main>
+</body>
+</html>
