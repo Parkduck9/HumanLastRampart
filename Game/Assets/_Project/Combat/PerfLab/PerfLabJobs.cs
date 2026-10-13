@@ -4,6 +4,7 @@ using Unity.Collections;
 using Unity.Jobs;
 using Unity.Mathematics;
 
+// 모든 Job은 Burst 동기 컴파일: 에디터에서 첫 실행 때 느린 일반 코드로 돌다가 바뀌는 구간이 측정에 섞이지 않게 한다.
 namespace HumanLastRampart.Combat.PerfLab
 {
     // 셰이더 PerfLabInstance와 같은 배치 (32바이트). 바꾸면 셰이더도 같이 바꾼다.
@@ -66,7 +67,7 @@ namespace HumanLastRampart.Combat.PerfLab
     }
 
     // ① 적 행군: 성벽 쪽으로 직진, 각자 정해진 줄 위치에 닿으면 멈춰 공격 상태
-    [BurstCompile]
+    [BurstCompile(CompileSynchronously = true)]
     public struct EnemyMoveJob : IJobParallelFor
     {
         public NativeArray<float3> Positions;
@@ -95,7 +96,7 @@ namespace HumanLastRampart.Combat.PerfLab
     }
 
     // ② 격자 칸 계산 (병렬)
-    [BurstCompile]
+    [BurstCompile(CompileSynchronously = true)]
     public struct AssignCellsJob : IJobParallelFor
     {
         [ReadOnly] public NativeArray<float3> Positions;
@@ -109,7 +110,7 @@ namespace HumanLastRampart.Combat.PerfLab
     }
 
     // ② 격자 만들기 (단일): 칸별 개수 → 시작 위치 → 칸 순서로 적 번호 정렬
-    [BurstCompile]
+    [BurstCompile(CompileSynchronously = true)]
     public struct BuildGridJob : IJob
     {
         [ReadOnly] public NativeArray<int> CellOfEnemy;
@@ -149,7 +150,7 @@ namespace HumanLastRampart.Combat.PerfLab
 
     // ③④ 표적 고르기와 발사 요청 (아군별 병렬)
     // 재장전이 끝난 아군만 사거리 안 칸을 조회하고, 체력 비율이 가장 낮은 적(같으면 가까운 적)을 고른다 (D-019).
-    [BurstCompile]
+    [BurstCompile(CompileSynchronously = true)]
     public struct TargetAndFireJob : IJobParallelFor
     {
         [ReadOnly] public NativeArray<float3> AllyPositions;
@@ -241,7 +242,7 @@ namespace HumanLastRampart.Combat.PerfLab
     }
 
     // ④ 화살 풀에서 빈 슬롯 꺼내기 (단일). 풀이 모자라면 발사를 버리지 않고 부족 횟수를 센다.
-    [BurstCompile]
+    [BurstCompile(CompileSynchronously = true)]
     public struct AllocateArrowsJob : IJob
     {
         public NativeQueue<ArrowSpawn> Spawns;
@@ -283,7 +284,7 @@ namespace HumanLastRampart.Combat.PerfLab
 
     // ⑤ 화살 이동과 명중 (슬롯별 병렬). 착지 시점에 명중을 판정해 사건으로 보낸다.
     // 순서 3은 착지 지점 판정만 한다 (이동 구간 판정은 순서 4 비교 항목).
-    [BurstCompile]
+    [BurstCompile(CompileSynchronously = true)]
     public struct MoveArrowsJob : IJobParallelFor
     {
         public NativeArray<byte> ArrowActive;
@@ -377,7 +378,7 @@ namespace HumanLastRampart.Combat.PerfLab
     // ⑥ 사건 처리 (단일): 피해를 한꺼번에 적용하고, 사망은 세대값으로 한 번만 확정한다.
     // 죽은 적은 같은 슬롯에서 뒤쪽 출발선으로 다시 태어난다(세대 +1) — 동시 활성 수를 유지하는 시험용 규칙.
     // 끝난 화살 슬롯은 여기서 풀로 돌려준다.
-    [BurstCompile]
+    [BurstCompile(CompileSynchronously = true)]
     public struct ApplyHitsJob : IJob
     {
         public NativeQueue<HitEvent> Hits;
@@ -448,7 +449,7 @@ namespace HumanLastRampart.Combat.PerfLab
     }
 
     // ⑦ 적 그리기 데이터: 걷기는 0~3번 칸, 성벽에 닿으면 공격 4~7번 칸
-    [BurstCompile]
+    [BurstCompile(CompileSynchronously = true)]
     public struct WriteEnemyInstancesJob : IJobParallelFor
     {
         [ReadOnly] public NativeArray<float3> Positions;
@@ -480,7 +481,7 @@ namespace HumanLastRampart.Combat.PerfLab
     }
 
     // ⑦ 화살 그리기 데이터: 쓰지 않는 슬롯은 크기 0 (그려지지 않음)
-    [BurstCompile]
+    [BurstCompile(CompileSynchronously = true)]
     public struct WriteArrowInstancesJob : IJobParallelFor
     {
         [ReadOnly] public NativeArray<byte> ArrowActive;

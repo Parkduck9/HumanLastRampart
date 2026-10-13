@@ -6,12 +6,14 @@ using UnityEngine;
 
 namespace HumanLastRampart.Combat.PerfLab
 {
-    // 자동 측정 (PERF_PROTOTYPE.md 5장, 순서 4). B 키로 시작.
-    // 해상도 2모드(내부 절반+2배 / 네이티브) × S1~S3. 각 실행: 준비 3초 → 측정 10초.
-    // 결과는 콘솔(Editor.log)과 CSV에 남긴다. 측정 중 프레임마다 메모리를 새로 잡지 않는다.
+    // 자동 측정 (PERF_PROTOTYPE.md 5장·8장). 에디터는 B 키로 시작.
+    // 해상도 2모드(내부 절반+2배 / 네이티브) × S1~S3. 각 실행: 준비 5초 → 측정 10초. 적은 사거리 안에서 출발(교전 최대).
+    // 결과는 로그(에디터 Editor.log / 빌드 Player.log)와 CSV에 남긴다. 측정 중 프레임마다 메모리를 새로 잡지 않는다.
+    // 성능 시험 빌드에서는 실행 2초 뒤 자동으로 시작하고, 끝나면 스스로 종료한다 (D-023).
     public sealed class PerfLabBenchmark : MonoBehaviour
     {
-        const float WarmupSeconds = 3f;
+        const float WarmupSeconds = 5f;
+        const float BuildAutoStartSeconds = 2f;
         const float MeasureSeconds = 10f;
         const int MaxSamples = 4096;
 
@@ -89,10 +91,24 @@ namespace HumanLastRampart.Combat.PerfLab
             StopRecorders();
         }
 
+        bool autoStarted;
+        float autoStartTimer;
+
         void Update()
         {
             if (!Running)
             {
+                if (!Application.isEditor && !autoStarted && bootstrap != null)
+                {
+                    autoStartTimer += Time.unscaledDeltaTime;
+                    if (autoStartTimer >= BuildAutoStartSeconds)
+                    {
+                        autoStarted = true;
+                        bootstrap.PrepareBenchmark();
+                        Begin();
+                    }
+                }
+
                 return;
             }
 
@@ -220,6 +236,11 @@ namespace HumanLastRampart.Combat.PerfLab
             Debug.Log("[PerfLab][BENCH] 끝 · CSV: " + path);
             summary.AppendLine("CSV: " + path);
             LastSummary = summary.ToString();
+
+            if (!Application.isEditor)
+            {
+                Application.Quit();
+            }
         }
 
         string WriteCsv()

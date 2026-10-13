@@ -40,7 +40,8 @@ namespace HumanLastRampart.Combat.PerfLab
         [SerializeField] float wallHeight = 4f;
         [SerializeField] float spawnDepthMin = 80f;
         [SerializeField] float spawnDepthMax = 320f;
-        [SerializeField] float benchmarkSpawnDepthMin = 10f;   // 자동 측정 때는 가까이서 출발해 바로 교전
+        [SerializeField] float benchmarkSpawnDepthMin = 5f;    // 자동 측정 때는 사거리 안에 몰아 두고 출발: 교전 최대·성벽 앞 밀집
+        [SerializeField] float benchmarkSpawnDepthMax = 45f;
         [SerializeField] float enemySpeedMin = 3f;
         [SerializeField] float enemySpeedMax = 6f;
         [SerializeField] float cellSize = 4f;
@@ -139,6 +140,13 @@ namespace HumanLastRampart.Combat.PerfLab
         public int ActiveArrows { get; private set; }
         public int DeathsTotal { get; private set; }
         public int PoolOverflowTotal { get; private set; }
+
+        // 자동 측정은 항상 같은 조건(원근 카메라)에서 한다
+        public void PrepareBenchmark()
+        {
+            orthographic = false;
+            ApplyCamera();
+        }
 
         // 단계 변경은 다음 Update 맨 앞(작업 예약 전)에 적용한다 — 실행 중인 Job의 배열을 지우지 않기 위해
         public void RequestStage(int index, bool closeSpawn)
@@ -412,8 +420,7 @@ namespace HumanLastRampart.Combat.PerfLab
 
                 if (keyboard.bKey.wasPressedThisFrame && benchmark != null)
                 {
-                    orthographic = false;
-                    ApplyCamera();
+                    PrepareBenchmark();
                     benchmark.Begin();
                 }
             }
@@ -478,12 +485,13 @@ namespace HumanLastRampart.Combat.PerfLab
             var random = new Unity.Mathematics.Random(randomSeed == 0 ? 1u : randomSeed);
             float halfLength = wallLength * 0.5f;
             float depthMin = closeSpawn ? benchmarkSpawnDepthMin : spawnDepthMin;
+            float depthMax = closeSpawn ? benchmarkSpawnDepthMax : spawnDepthMax;
             for (int i = 0; i < enemyCount; i++)
             {
                 enemyPositions[i] = new float3(
                     random.NextFloat(-halfLength, halfLength),
                     0f,
-                    random.NextFloat(depthMin, spawnDepthMax));
+                    random.NextFloat(depthMin, depthMax));
                 enemySpeeds[i] = random.NextFloat(enemySpeedMin, enemySpeedMax);
                 float phase = random.NextFloat();
                 enemyAnimPhases[i] = phase;
