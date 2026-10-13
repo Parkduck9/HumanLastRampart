@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b213dba238c84de29ff412c3840cee5e, type: 3}
+  m_Name: enemy_goblin_ladder
+  m_EditorClassIdentifier:
+  id: enemy_goblin_ladder
+  displayName: 사다리 고블린
+  maxHp: 30
+  moveSpeed: 3.5
+  wallDamage: 1
+  rewardGold: 2
+  carriesLadder: 1
+  sheet: {fileID: 2800000, guid: b3d4ea76535e4d6d85ca1a232a8d7b12, type: 3}

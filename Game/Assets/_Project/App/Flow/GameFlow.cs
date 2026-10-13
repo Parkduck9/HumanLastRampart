@@ -1,0 +1,498 @@
+using System.Collections;
+using System.Collections.Generic;
+using HumanLastRampart.App.Data;
+using HumanLastRampart.App.Dev;
+using HumanLastRampart.App.Ui;
+using HumanLastRampart.Core.Campaign;
+using HumanLastRampart.Core.CombatContracts;
+using HumanLastRampart.Core.Definitions;
+using HumanLastRampart.Core.Flow;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.UI;
+using UnityEngine.SceneManagement;
+
+namespace HumanLastRampart.App.Flow
+{
+    // Boot 씬에 하나. 화면 전환·진행 데이터·전투 준비/결과 분기를 맡는다 (C-003, C-004, C-005~C-007, D-017 E2).
+    // 화면 씬은 한 번에 하나만 추가로 열고, 다음 화면으로 갈 때 닫는다.
+    public sealed class GameFlow : MonoBehaviour
+    {
+        const string DefeatStoryId = "story_defeat";   // C-009(Codex 제안) 확정 전 임시 ID
+
+        [SerializeField] List<DefinitionCatalog> catalogs = new List<DefinitionCatalog>();
+        [SerializeField] string scenesFolder = "Assets/_Project/Scenes";
+        [Tooltip("화면 씬이 아직 없으면 개발용 임시 화면으로 대신한다 (에디터·개발 빌드만, P2-C06)")]
+        [SerializeField] bool useDevPlaceholders = true;
+
+        public static GameFlow Instance { get; private set; }
+
+        public CampaignState Campaign { get; private set; }
+        public IDefinitionLookup Definitions => lookup;
+        public ScreenId CurrentScreen { get; private set; }
+
+        DefinitionLookup lookup;
+        BootOverlay overlay;
+        EventSystem eventSystem;
+
+        Scene currentScene;
+        IScreenEntry currentEntry;
+        ScreenContext currentContext;
+        bool transitioning;
+        bool stopped;
+        (ScreenContext context, ScreenOutcome outcome, NewGameOptions options)? pending;
+
+        // 개발용: 화면 씬 하나만 열고 Play했을 때 (DevHarness)
+        bool adoptOnStart;
+        Scene adoptScene;
+        IScreenEntry adoptEntry;
+
+        void Awake()
+        {
+            if (Instance != null && Instance != this)
+            {
+                Debug.LogError("[App] GameFlow가 둘 이상입니다. 나중 것을 끕니다.");
+                enabled = false;
+                return;
+            }
+
+            Instance = this;
+        }
+
+        void OnDestroy()
+        {
+            if (Instance == this)
+            {
+                Instance = null;
+            }
+        }
+
+        void Start()
+        {
+            lookup = DefinitionLookup.Build(catalogs);
+            foreach (string error in lookup.Errors)
+            {
+                Debug.LogError("[정의 검사] " + error);
+            }
+
+            EnsureEventSystem();
+            overlay = BootOverlay.Create(transform);
+
+            if (adoptOnStart)
+            {
+                StartCoroutine(AdoptRoutine());
+            }
+            else
+            {
+                StartCoroutine(Transition(FlowStep.Open(ScreenId.MainMenu), null));
+            }
+        }
+
+        public void ConfigureCatalogs(IEnumerable<DefinitionCatalog> list)
+        {
+            catalogs = new List<DefinitionCatalog>(list);
+        }
+
+        // DevHarness가 Start 전에 부른다
+        internal void AdoptOnStart(Scene scene, IScreenEntry entry)
+        {
+            adoptOnStart = true;
+            adoptScene = scene;
+            adoptEntry = entry;
+        }
+
+        // ── 화면이 끝났다는 신호 ──────────────────────────────────────────
+
+        internal void OnScreenCompleted(ScreenContext context, ScreenOutcome outcome, NewGameOptions options)
+        {
+            if (stopped)
+            {
+                return;
+            }
+
+            if (transitioning)
+            {
+                pending = (context, outcome, options);   // OnEnter 안에서 바로 끝낸 경우: 전환이 끝난 뒤 처리
+                return;
+            }
+
+            Handle(context, outcome, options);
+        }
+
+        void Handle(ScreenContext context, ScreenOutcome outcome, NewGameOptions options)
+        {
+            if (context != currentContext)
+            {
+                return;
+            }
+
+            var state = new FlowState();
+            if (outcome == ScreenOutcome.StartNewGame)
+            {
+                if (!lookup.IsValid)
+                {
+                    Debug.LogError("[App] 정의 데이터 검사에 실패해 새 게임을 시작하지 않습니다 (C-010 4). 콘솔의 [정의 검사] 오류를 확인하세요.");
+                    context.Reopen();
+                    return;
+                }
+
+                CampaignState created = CampaignFactory.Create(lookup, options, NewSeed());
+                if (created == null)
+                {
+                    Debug.LogError("[App] 시작 설정이 없어 새 게임을 만들 수 없습니다.");
+                    context.Reopen();
+                    return;
+                }
+
+                Campaign = created;
+            }
+            else if (context.Screen == ScreenId.Story && Campaign != null)
+            {
+                state.StoryIsDefeatEnding = Campaign.NextStory != null && Campaign.NextStory.Kind == StoryKind.DefeatEnding;
+            }
+            else if (context.Screen == ScreenId.Battle && outcome == ScreenOutcome.Done)
+            {
+                string error = BattleResultCheck.Validate(Campaign);
+                if (error != null)
+                {
+                    ShowDataError(error);
+                    return;
+                }
+
+                state.LastBattleOutcome = Campaign.LastBattle.Outcome;
+            }
+            else if (context.Screen == ScreenId.Prep && Campaign != null)
+            {
+                state.HasNextBattle = NextBattleExists();
+            }
+
+            FlowStep step = FlowRouter.Next(context.Screen, outcome, state);
+            if (step.Action == FlowAction.Stay)
+            {
+                context.Reopen();
+                return;
+            }
+
+            StartCoroutine(Transition(step, context));
+        }
+
+        bool NextBattleExists()
+        {
+            IReadOnlyList<CampaignStartDef> starts = lookup.All<CampaignStartDef>();
+            return starts.Count > 0 && starts[0].WaveFor(Campaign.BattleNumber) != null;
+        }
+
+        static int NewSeed() => System.Environment.TickCount ^ System.Guid.NewGuid().GetHashCode();
+
+        // ── 전환 ─────────────────────────────────────────────────────────
+
+        IEnumerator Transition(FlowStep step, ScreenContext from)
+        {
+            transitioning = true;
+            SetInputBlocked(true);
+
+            yield return CloseCurrent();
+
+            if (step.Action == FlowAction.Quit)
+            {
+                Quit();
+                yield break;
+            }
+
+            ApplyCampaignChanges(step);
+            if (step.PrepareBattle && !PrepareBattle())
+            {
+                transitioning = false;
+                SetInputBlocked(false);
+                yield break;   // 오류 안내가 떠 있다
+            }
+
+            yield return OpenScreen(step.Screen);
+
+            transitioning = false;
+            SetInputBlocked(false);
+
+            if (pending.HasValue)
+            {
+                var p = pending.Value;
+                pending = null;
+                Handle(p.context, p.outcome, p.options);
+            }
+        }
+
+        void ApplyCampaignChanges(FlowStep step)
+        {
+            if (step.DiscardCampaign)
+            {
+                Campaign = null;
+            }
+
+            if (Campaign == null)
+            {
+                return;
+            }
+
+            if (step.AdvanceBattle)
+            {
+                Campaign.BattleNumber = Campaign.LastBattle.BattleNumber + 1;   // C-006: App이 한 번 증가
+            }
+
+            if (step.QueueDefeatEnding)
+            {
+                Campaign.NextStory = new StoryRequest { Kind = StoryKind.DefeatEnding, StoryId = DefeatStoryId };
+            }
+        }
+
+        bool PrepareBattle()
+        {
+            Campaign.LastBattle = null;   // 이전 결과 재사용 방지 (C-004 r2)
+            BattleSetup setup = BattleSetupFactory.Create(Campaign, lookup, BattleSetupFactory.NewRunId(), out string error);
+            if (setup == null)
+            {
+                ShowDataError(error);
+                return false;
+            }
+
+            Campaign.ActiveBattleSetup = setup;
+            return true;
+        }
+
+        IEnumerator CloseCurrent()
+        {
+            if (currentEntry != null)
+            {
+                try
+                {
+                    currentEntry.OnExit();
+                }
+                catch (System.Exception exception)
+                {
+                    Debug.LogException(exception);
+                }
+            }
+
+            currentContext?.Invalidate();
+            currentContext = null;
+            currentEntry = null;
+
+            if (currentScene.IsValid() && currentScene.isLoaded && currentScene != gameObject.scene)
+            {
+                yield return SceneManager.UnloadSceneAsync(currentScene);
+            }
+
+            currentScene = default;
+        }
+
+        IEnumerator OpenScreen(ScreenId screen)
+        {
+            var load = new ScreenLoad();
+            yield return LoadScreenScene(screen, load);
+
+            if (load.Entry == null)
+            {
+                Debug.LogError($"[App] {screen} 화면을 열지 못했습니다: {load.Error} (C-003 3-3)");
+                if (load.Scene.IsValid() && load.Scene.isLoaded)
+                {
+                    yield return SceneManager.UnloadSceneAsync(load.Scene);
+                }
+
+                if (screen == ScreenId.MainMenu)
+                {
+                    stopped = true;   // 무한 반복 방지
+                    Debug.LogError("[App] 메인 화면도 열 수 없어 멈춥니다.");
+                    yield break;
+                }
+
+                Campaign = null;
+                yield return OpenScreen(ScreenId.MainMenu);
+                yield break;
+            }
+
+            Enter(screen, load.Scene, load.Entry);
+        }
+
+        void Enter(ScreenId screen, Scene scene, IScreenEntry entry)
+        {
+            currentScene = scene;
+            currentEntry = entry;
+            CurrentScreen = screen;
+            currentContext = new ScreenContext(this, screen);
+            if (scene.IsValid())
+            {
+                SceneManager.SetActiveScene(scene);
+            }
+
+            try
+            {
+                entry.OnEnter(currentContext);
+            }
+            catch (System.Exception exception)
+            {
+                Debug.LogException(exception);
+            }
+        }
+
+        sealed class ScreenLoad
+        {
+            public Scene Scene;
+            public IScreenEntry Entry;
+            public string Error;
+        }
+
+        IEnumerator LoadScreenScene(ScreenId screen, ScreenLoad load)
+        {
+            string sceneName = screen.ToString();
+            string path = scenesFolder + "/" + sceneName + ".unity";
+            AsyncOperation operation = null;
+
+            if (Application.CanStreamedLevelBeLoaded(sceneName))
+            {
+                operation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+            }
+#if UNITY_EDITOR
+            else if (System.IO.File.Exists(path))
+            {
+                // 빌드 씬 목록에 아직 없을 때(P2-C07 전) 에디터에서만 경로로 연다
+                operation = UnityEditor.SceneManagement.EditorSceneManager.LoadSceneAsyncInPlayMode(path, new LoadSceneParameters(LoadSceneMode.Additive));
+            }
+#endif
+
+            if (operation == null)
+            {
+                if (useDevPlaceholders && (Application.isEditor || Debug.isDebugBuild))
+                {
+                    load.Scene = SceneManager.CreateScene("Dev_" + sceneName);
+                    load.Entry = DevPlaceholderScreen.Create(load.Scene, screen);
+                    yield break;
+                }
+
+                load.Error = $"씬 '{path}'이 없습니다";
+                yield break;
+            }
+
+            yield return operation;
+            load.Scene = SceneManager.GetSceneByName(sceneName);
+            if (!load.Scene.IsValid())
+            {
+                load.Scene = SceneManager.GetSceneByPath(path);
+            }
+
+            load.Entry = FindSingleEntry(load.Scene, screen, out load.Error);
+        }
+
+        public static IScreenEntry FindSingleEntry(Scene scene, ScreenId screen, out string error)
+        {
+            error = null;
+            if (!scene.IsValid() || !scene.isLoaded)
+            {
+                error = "씬을 불러오지 못했습니다";
+                return null;
+            }
+
+            var found = new List<IScreenEntry>();
+            foreach (GameObject root in scene.GetRootGameObjects())
+            {
+                foreach (MonoBehaviour behaviour in root.GetComponentsInChildren<MonoBehaviour>(true))
+                {
+                    if (behaviour is IScreenEntry entry)
+                    {
+                        found.Add(entry);
+                    }
+                }
+            }
+
+            if (found.Count != 1)
+            {
+                error = $"진입 컴포넌트가 {found.Count}개입니다 (정확히 1개여야 함)";
+                return null;
+            }
+
+            if (found[0].Id != screen)
+            {
+                error = $"진입 컴포넌트의 Id가 {found[0].Id}입니다 ({screen}이어야 함)";
+                return null;
+            }
+
+            return found[0];
+        }
+
+        // ── 개발용: 화면 씬을 직접 Play했을 때 ─────────────────────────────
+
+        IEnumerator AdoptRoutine()
+        {
+            transitioning = true;
+            ScreenId screen = adoptEntry.Id;
+            if (screen != ScreenId.MainMenu)
+            {
+                Campaign = CampaignFactory.Create(lookup, new NewGameOptions(Difficulty.Realistic), NewSeed());
+                if (Campaign == null)
+                {
+                    Debug.LogError("[개발 진입] 시작 설정이 없어 임시 진행 데이터를 만들 수 없습니다.");
+                }
+                else
+                {
+                    PrepareBattle();
+                    if (screen == ScreenId.Result)
+                    {
+                        // 임시 승리 결과로 결과 화면 열기 (P2-C06)
+                        Campaign.LastBattle = DevPlaceholderScreen.MakeTestResult(Campaign.ActiveBattleSetup, BattleOutcome.Victory, DefeatReason.None);
+                        Campaign.BattleNumber = Campaign.LastBattle.BattleNumber + 1;
+                    }
+                }
+            }
+
+            Debug.Log($"[개발 진입] {screen} 화면을 Boot 없이 시작합니다. 임시 진행 데이터: {(Campaign != null ? "있음(현실)" : "없음")}");
+            yield return null;
+            Enter(screen, adoptScene, adoptEntry);
+            transitioning = false;
+        }
+
+        // ── 입력·오류·종료 ───────────────────────────────────────────────
+
+        void EnsureEventSystem()
+        {
+            eventSystem = FindAnyObjectByType<EventSystem>();
+            if (eventSystem == null)
+            {
+                var go = new GameObject("EventSystem", typeof(EventSystem), typeof(InputSystemUIInputModule));
+                go.transform.SetParent(transform, false);
+                eventSystem = go.GetComponent<EventSystem>();
+            }
+        }
+
+        void SetInputBlocked(bool blocked)
+        {
+            if (eventSystem != null && !(overlay != null && overlay.ErrorShown))
+            {
+                eventSystem.enabled = !blocked;
+            }
+
+            overlay?.SetFade(blocked);
+        }
+
+        void ShowDataError(string reason)
+        {
+            Debug.LogError("[App] 데이터 오류로 진행을 멈춥니다 (D-017 E2): " + reason);
+            if (eventSystem != null)
+            {
+                eventSystem.enabled = true;   // 안내 버튼은 눌려야 한다
+            }
+
+            overlay.SetFade(false);
+            overlay.ShowError(reason, () =>
+            {
+                overlay.HideError();
+                StartCoroutine(Transition(FlowStep.ToMainMenu(), currentContext));
+            });
+        }
+
+        static void Quit()
+        {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
+        }
+    }
+}
