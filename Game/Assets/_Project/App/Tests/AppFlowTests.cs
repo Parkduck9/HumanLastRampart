@@ -146,5 +146,28 @@ namespace HumanLastRampart.App.Tests
             campaign.LastBattle.Outcome = BattleOutcome.Defeat;
             Assert.IsNotNull(BattleResultCheck.Validate(campaign), "패배 사유 없음 거부");
         }
+
+        [Test]
+        public void ResultCheck_RequiresOneOutcomePerParticipatingHero()   // C-006, M-CX-022
+        {
+            var setup = new BattleSetup { BattleRunId = "run_a", BattleNumber = 1 };
+            setup.Heroes.Add(new HeroState { InstanceId = "hero_1", UnitDefId = "unit_hero", Hp = 300 });
+            setup.ParticipatingHeroIds.Add("hero_1");
+            var campaign = new CampaignState { ActiveBattleSetup = setup };
+
+            campaign.LastBattle = new BattleResult { BattleRunId = "run_a", BattleNumber = 1, Outcome = BattleOutcome.Victory };
+            Assert.IsNotNull(BattleResultCheck.Validate(campaign), "영웅 결과 누락 거부");
+
+            campaign.LastBattle.HeroOutcomes.Add(new HeroOutcome { InstanceId = "hero_1", HpAfter = 300, IsAliveAfter = true });
+            Assert.IsNull(BattleResultCheck.Validate(campaign));
+
+            campaign.LastBattle.HeroOutcomes.Add(new HeroOutcome { InstanceId = "hero_1", HpAfter = 300, IsAliveAfter = true });
+            Assert.IsNotNull(BattleResultCheck.Validate(campaign), "같은 영웅 두 항목 거부");
+
+            // 시험용 결과(개발용 임시 화면)도 이 검사를 통과해야 한다
+            campaign.LastBattle = Dev.DevPlaceholderScreen.MakeTestResult(setup, BattleOutcome.Victory, DefeatReason.None);
+            Assert.IsNull(BattleResultCheck.Validate(campaign));
+            Assert.AreEqual(300, campaign.LastBattle.HeroOutcomes[0].HpAfter);
+        }
     }
 }

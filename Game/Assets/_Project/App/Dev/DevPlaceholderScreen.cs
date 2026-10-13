@@ -95,7 +95,7 @@ namespace HumanLastRampart.App.Dev
 
         public static BattleResult MakeTestResult(BattleSetup setup, BattleOutcome outcome, DefeatReason reason)
         {
-            return new BattleResult
+            var result = new BattleResult
             {
                 BattleRunId = setup != null ? setup.BattleRunId : null,
                 BattleNumber = setup != null ? setup.BattleNumber : 0,
@@ -105,6 +105,23 @@ namespace HumanLastRampart.App.Dev
                 DefeatReason = outcome == BattleOutcome.Defeat ? reason : DefeatReason.None,
                 DefeatWallId = outcome == BattleOutcome.Defeat ? WallIds.North : null,
             };
+
+            if (setup != null)
+            {
+                // 참가 영웅마다 정확히 한 항목 (C-006). 손실 없음 = 시작 상태 그대로
+                foreach (string heroId in setup.ParticipatingHeroIds)
+                {
+                    HeroState hero = setup.Heroes.Find(h => h.InstanceId == heroId);
+                    result.HeroOutcomes.Add(new HeroOutcome
+                    {
+                        InstanceId = heroId,
+                        HpAfter = hero != null ? hero.Hp : 0,
+                        IsAliveAfter = hero != null && hero.IsAlive,
+                    });
+                }
+            }
+
+            return result;
         }
 
         static string Describe(CampaignState campaign)

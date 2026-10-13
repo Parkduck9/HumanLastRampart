@@ -89,10 +89,27 @@ namespace HumanLastRampart.Combat.Battle
                 DefeatWallId = outcome == BattleOutcome.Defeat ? WallIds.North : null,
             };
 
-            if (outcome == BattleOutcome.Victory && setup.Squads.Count > 0)
+            // 참가 영웅마다 정확히 한 항목 (C-006). 시험 결과라 시작 상태 그대로
+            foreach (string heroId in setup.ParticipatingHeroIds)
             {
-                // 시험용 손실: 첫 분대 1명, 북쪽 성벽 50 피해 — 결과 화면(C-007)의 반영 확인용
-                result.SquadLosses.Add(new SquadLoss { SquadId = setup.Squads[0].SquadId, LostCount = 1 });
+                HeroState hero = setup.Heroes.Find(h => h.InstanceId == heroId);
+                result.HeroOutcomes.Add(new HeroOutcome
+                {
+                    InstanceId = heroId,
+                    HpAfter = hero != null ? hero.Hp : 0,
+                    IsAliveAfter = hero != null && hero.IsAlive,
+                });
+            }
+
+            if (outcome == BattleOutcome.Victory)
+            {
+                // 시험용 손실: 병사가 있는 첫 분대 1명, 북쪽 성벽 50 피해 — 결과 화면(C-007)의 반영 확인용
+                SquadState squad = setup.Squads.Find(s => s.Count > 0);
+                if (squad != null)
+                {
+                    result.SquadLosses.Add(new SquadLoss { SquadId = squad.SquadId, LostCount = 1 });
+                }
+
                 WallSegmentState north = setup.Wall.Find(w => w.SegmentId == WallIds.North);
                 if (north != null)
                 {
