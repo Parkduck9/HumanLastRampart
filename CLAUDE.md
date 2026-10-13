@@ -3,8 +3,8 @@
 @FirstRead.md
 
 ## 세션 시작 시 반드시
-1. 위 FirstRead.md와 [`Docs/collab/RULES.md`](Docs/collab/RULES.md)(확정 v0.3)를 읽는다. **FirstRead > RULES > 기타 문서.**
-2. [`Docs/collab/DECISIONS.md`](Docs/collab/DECISIONS.md) → [`Docs/collab/CONTRACTS.md`](Docs/collab/CONTRACTS.md)를 읽는다.
+1. 위 FirstRead.md와 [`Docs/collab/rules/RULES.md`](Docs/collab/rules/RULES.md)(확정 v0.3)를 읽는다. **FirstRead > RULES > 기타 문서.**
+2. [`Docs/collab/rules/DECISIONS.md`](Docs/collab/rules/DECISIONS.md) → [`Docs/collab/rules/CONTRACTS.md`](Docs/collab/rules/CONTRACTS.md)를 읽는다.
 3. Codex의 메시지 `Docs/collab/live/codex/outbox.md`와 내 기록 `Docs/collab/live/claude/tasks.md`를 확인한다.
 4. 사용자가 **"협업 확인"**이라고 하면 RULES 6.1 절차를 따른다.
 

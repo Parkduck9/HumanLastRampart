@@ -134,9 +134,9 @@ a { color: var(--accent); }
 <header>
   <div class="eyebrow">HUMAN LAST RAMPART · 협업 규칙</div>
   <h1>Claude × Codex 협업 규칙 한눈에 보기</h1>
-  <p class="muted">이 화면은 사용자가 보기 위한 요약입니다. 원본은 <a href="RULES.md">RULES.md</a>이고, 내용이 다르면 MD가 우선합니다.</p>
+  <p class="muted">이 화면은 사용자가 보기 위한 요약입니다. 원본은 <a href="../rules/RULES.md">rules/RULES.md</a>이고, 내용이 다르면 MD가 우선합니다.</p>
   <div class="meta">
-    <span class="badge warn">초안 v0.3 · Codex 재확인 대기</span>
+    <span class="badge user">확정 v0.3 · 2026-10-13 (D-001)</span>
     <span class="badge">2026-10-13</span>
     <span class="badge">작성: Claude (조정 담당)</span>
   </div>
@@ -246,7 +246,7 @@ a { color: var(--accent); }
         <li>Codex 소유 구현</li>
         <li>공용 경로 예약 순서 조정, Git 쓰기 허가 발급</li>
         <li>이미 승인된 커밋의 main 반영</li>
-        <li>Codex 표시 백업 폴더(<code>archive/live_*_CX/</code>) 작성·커밋</li>
+        <li>Codex 표시 백업 폴더(<code>history/live_*_CX/</code>) 작성·커밋</li>
       </ul>
     </div>
     <div class="card">
@@ -274,11 +274,14 @@ a { color: var(--accent); }
 ├─ CLAUDE.md                 <span style="color:var(--claude)">Claude</span>
 ├─ AGENTS.md                 <span style="color:var(--codex)">Codex</span>
 ├─ Docs/collab/
-│  ├─ RULES.md / RULES.html  <span style="color:var(--claude)">Claude</span>   ┐
-│  ├─ DECISIONS.md           <span style="color:var(--claude)">Claude</span>   │ Git 추적
-│  ├─ CONTRACTS.md           <span style="color:var(--claude)">Claude</span>   │
-│  ├─ archive/                          ┘ 이전 버전·live 백업
-│  │  ├─ RULES_v*.md         <span style="color:var(--claude)">Claude</span>
+│  ├─ rules/                 규칙·결정 (Git 추적)
+│  │  ├─ RULES.md            <span style="color:var(--claude)">Claude</span>
+│  │  ├─ DECISIONS.md        <span style="color:var(--claude)">Claude</span>
+│  │  └─ CONTRACTS.md        <span style="color:var(--claude)">Claude</span>
+│  ├─ view/                  사용자용 HTML (Git 추적)
+│  │  └─ RULES.html          <span style="color:var(--claude)">Claude</span>   ← 지금 보는 페이지
+│  ├─ history/               지난 기록·백업 (Git 추적)
+│  │  ├─ PROPOSAL, RULES_v*  <span style="color:var(--claude)">Claude</span>
 │  │  ├─ live_..._CL/        <span style="color:var(--claude)">Claude</span>   백업
 │  │  └─ live_..._CX/        <span style="color:var(--codex)">Codex</span>    대체 기간 백업
 │  └─ live/                  ← gitignore (실시간 소통)
@@ -481,7 +484,7 @@ a { color: var(--accent); }
   <p class="muted" style="margin-top:10px">공용 폴더를 먼저 만든다고 해서 상대 소유 파일을 대신 만들 수는 없습니다.</p>
 </section>
 
-<footer>원본: RULES.md · 이 페이지는 조정 담당(Claude)이 RULES 변경 시 함께 갱신합니다.</footer>
+<footer>원본: <a href="../rules/RULES.md">rules/RULES.md</a> · 현황판: <a href="../live/status.html">live/status.html</a> · 이 페이지는 조정 담당(Claude)이 RULES 변경 시 함께 갱신합니다.</footer>
 </div>
 </body>
 </html>

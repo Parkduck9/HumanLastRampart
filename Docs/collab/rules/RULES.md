@@ -1,11 +1,12 @@
 # Human Last Rampart 협업 규칙 (RULES)
 
-- 상태: **초안 v0.3 (Codex 재확인 대기 → 사용자 최종 확정 전)**
+- 상태: **확정 v0.3** (2026-10-13 사용자 최종 확정, Codex 재확인 동의 — [`DECISIONS.md`](DECISIONS.md) D-001)
 - 작성: Claude (조정 담당) / 작성일: 2026-10-13
-- 근거: [`FirstRead.md`](../../FirstRead.md), [`PROPOSAL_Claude_to_Codex.md`](PROPOSAL_Claude_to_Codex.md), [`archive/RULES_v0.1.md`](archive/RULES_v0.1.md)의 Codex 확인 의견, [`archive/RULES_v0.2.md`](archive/RULES_v0.2.md)의 Codex 최종 확인 의견, 사용자 답변(2026-10-13)
+- 근거: [`FirstRead.md`](../../../FirstRead.md), [`history/PROPOSAL_Claude_to_Codex.md`](../history/PROPOSAL_Claude_to_Codex.md), [`history/RULES_v0.1.md`](../history/RULES_v0.1.md)의 Codex 확인 의견, [`history/RULES_v0.2.md`](../history/RULES_v0.2.md)의 Codex 최종 확인 의견, 사용자 답변(2026-10-13)
 - 우선순위: **FirstRead.md > RULES.md > 기타 문서.** 충돌하면 상위 문서를 따르고 사용자에게 알린다.
-- **원본은 이 MD 파일이다.** [`RULES.html`](RULES.html)은 사용자가 보기 위한 요약 화면이며, 내용이 다르면 이 MD가 우선한다. 조정 담당이 RULES를 바꿀 때 HTML도 함께 갱신한다.
+- **원본은 이 MD 파일이다.** [`view/RULES.html`](../view/RULES.html)은 사용자가 보기 위한 요약 화면이며, 내용이 다르면 이 MD가 우선한다. 조정 담당이 RULES를 바꿀 때 HTML도 함께 갱신한다.
 - 확정 후에는 조정 담당만 수정하며, 변경하려면 사용자 승인이 필요하다.
+- **경로 정리 (2026-10-13, D-010):** 협업 문서를 `rules/`, `view/`, `history/`로 나눴다. 규칙 내용은 바뀌지 않았다. 아래 Codex 의견 섹션과 `history/`의 문서에 남은 옛 경로(`Docs/collab/RULES.md`, `archive/` 등)는 기록 당시의 표기로 보존한다.
 
 ### v0.2 → v0.3 변경 요약
 | 장 | 변경 |
@@ -107,7 +108,7 @@
 1. **사용자가 지시할 때만** Codex가 임시로 조정·통합·main 반영 실행을 맡는다. 복귀 시점도 사용자가 지시한다. AI끼리 알아서 넘기지 않는다.
 2. **전환 시 확인:** 두 조정 담당이 동시에 활동하지 않도록, 전환 전에 Claude의 진행 중 저장과 Git 작업이 끝났는지 확인한다. 끝났는지 알 수 없으면 사용자에게 보고하고 기다린다.
 3. **인계:** 가능하면 Claude가 `live/claude/tasks.md`에 인계 메모(진행 중 작업, 미반영 커밋, 유효 예약, **발급했지만 종료되지 않은 Git 허가**, 대기 질문)를 남긴다. 못 남겼으면 Codex는 Git 기록과 Claude의 작업 기록을 읽고 이어받는다. 미종료 Git 허가는 종료를 추정하지 않고 사용자에게 보고한다.
-4. **대체 담당이 할 수 있는 것:** 읽기와 검토, 사용자 확인 절차 작성, Codex 소유 구현, 공용 경로 예약 순서 조정, Git 쓰기 허가 발급(10.3), 이미 승인된 커밋의 main 반영, **Codex 작성자 표시가 붙은 신규 백업 경로(`archive/live_*_CX/`) 작성·커밋**(4장).
+4. **대체 담당이 할 수 있는 것:** 읽기와 검토, 사용자 확인 절차 작성, Codex 소유 구현, 공용 경로 예약 순서 조정, Git 쓰기 허가 발급(10.3), 이미 승인된 커밋의 main 반영, **Codex 작성자 표시가 붙은 신규 백업 경로(`history/live_*_CX/`) 작성·커밋**(4장).
 5. **할 수 없는 것:** Claude 소유 코드와 문서(부트스트랩 씬, 화면 전환, Core 포함) 수정. 수정이 필요한 통합은 **보류**하고, 필요한 경로와 이유를 사용자에게 보고한다. 사용자가 **경로별로 허가**한 경우에만 그 경로를 수정한다. 대체 담당 지정만으로 수정 예외가 생기지 않는다.
 6. 예약 승인 권한과 파일 수정 권한은 별개다. 기존 Claude 예약은 사용자의 인계 지시에 따라 유지·해제·재배정하며 임의로 해제하지 않는다.
 7. **기록:** `live/codex/tasks.md`에 사용자 지시 근거, 대체 시작·종료 시각, 인계 상태, 공용 예약, 승인 내용, main 반영 커밋, 확인 결과를 남긴다. 이 기록은 대체 기간 동안 유효한 운영 기록이다.
@@ -138,16 +139,18 @@ HumanLastRampart/                          (Git 저장소 루트)
 ├─ .gitignore                              Claude (조정 담당)
 ├─ Docs/
 │  ├─ GDD/                                 기획 상세 (화면별로 담당자 표기)
-│  └─ collab/
-│     ├─ RULES.md                          Claude      ┐
-│     ├─ RULES.html                        Claude      │
-│     ├─ DECISIONS.md                      Claude      │ Git 추적
-│     ├─ CONTRACTS.md                      Claude      │ (확정 문서)
-│     ├─ PROPOSAL_Claude_to_Codex.md       기록 보관   │
-│     ├─ archive/                          ┘ 이전 버전, live 백업
-│     │  ├─ RULES_v*.md, 기존 파일          Claude
-│     │  ├─ live_YYYYMMDD_HHMMSS_CL/        Claude (Claude가 만든 백업)
-│     │  └─ live_YYYYMMDD_HHMMSS_CX/        Codex  (대체 기간에 Codex가 만든 백업)
+│  └─ collab/                                          ┐
+│     ├─ rules/                            규칙·결정    │
+│     │  ├─ RULES.md                       Claude      │
+│     │  ├─ DECISIONS.md                   Claude      │
+│     │  └─ CONTRACTS.md                   Claude      │ Git 추적
+│     ├─ view/                             사용자용 HTML │
+│     │  └─ RULES.html                     Claude      │
+│     ├─ history/                          지난 기록·백업│
+│     │  ├─ PROPOSAL_Claude_to_Codex.md    기록 보관    │
+│     │  ├─ RULES_v*.md                    Claude      │
+│     │  ├─ live_YYYYMMDD_HHMMSS_CL/       Claude (Claude가 만든 백업)
+│     │  └─ live_YYYYMMDD_HHMMSS_CX/       Codex  (대체 기간에 Codex가 만든 백업) ┘
 │     └─ live/                             ← 실시간 소통 (gitignore)
 │        ├─ status.html                    Claude  (예외적으로 Git 추적)
 │        ├─ claude/                        Claude만 저장
@@ -171,7 +174,7 @@ Docs/collab/live/*
 - `live/`는 Git으로 복원되지 않는다. **기록을 지우지 않는다.** 모든 MD는 맨 아래에만 추가하고, 상태 변경도 새 줄로 기록한다.
 - 중요한 결정과 약속은 반드시 DECISIONS·CONTRACTS로 옮긴다.
 - **백업 시점:** 마일스톤 완료 시, 대체 전환 시(Claude의 최종 인계 저장 이후), 복귀 시(Codex의 대체 기록 저장 이후).
-- **백업 담당과 경로:** 현재 유효한 조정 담당이 새 폴더를 만든다. Claude는 `archive/live_YYYYMMDD_HHMMSS_CL/`, Codex는 `archive/live_YYYYMMDD_HHMMSS_CX/`. 자기 표시가 붙은 신규 폴더에만 쓰고, 기존 archive와 상대 백업은 수정하지 않는다. 백업 경로 작성 권한이 다른 Claude 문서의 수정 허가를 뜻하지는 않는다.
+- **백업 담당과 경로:** 현재 유효한 조정 담당이 새 폴더를 만든다. Claude는 `history/live_YYYYMMDD_HHMMSS_CL/`, Codex는 `history/live_YYYYMMDD_HHMMSS_CX/`. 자기 표시가 붙은 신규 폴더에만 쓰고, 기존 history 파일과 상대 백업은 수정하지 않는다. 백업 경로 작성 권한이 다른 Claude 문서의 수정 허가를 뜻하지는 않는다.
 - **백업 절차:**
   1. 양쪽 텍스트 저장이 끝났는지 확인한다.
   2. live의 텍스트 파일(md, js)을 `claude/`, `codex/` 상대경로 그대로 복사한다. 이미지는 제외한다(이미지는 Git 백업에 없다).
@@ -475,7 +478,7 @@ AI가 상대에게 메시지를 남겨도 상대는 자동으로 읽지 않는�
 ## Codex 재확인 (v0.3)
 
 > 이 섹션만 Codex가 작성한다. 본문은 수정하지 말고, 수정이 필요하면 여기에 적는다.
-> 아래 "Codex 최종 확인"은 v0.2에 대한 기존 의견으로 원문 그대로 보존한다(같은 내용이 [`archive/RULES_v0.2.md`](archive/RULES_v0.2.md)에도 있다).
+> 아래 "Codex 최종 확인"은 v0.2에 대한 기존 의견으로 원문 그대로 보존한다(같은 내용이 [`history/RULES_v0.2.md`](../history/RULES_v0.2.md)에도 있다).
 
 확인 요청 항목:
 - [ ] A. 10.3 Git 쓰기 요청 → 허가 → 시작 → 종료 절차
@@ -538,7 +541,7 @@ Claude는 자기 환경에서 이 절대 경로로 실행 가능한지 먼저 �
 
 ## Codex 최종 확인
 
-> 이 섹션만 Codex가 작성한다. 본문은 수정하지 말고, 수정이 필요하면 여기에 적는다. v0.1 확인 의견은 [`archive/RULES_v0.1.md`](archive/RULES_v0.1.md)에 보관했다.
+> 이 섹션만 Codex가 작성한다. 본문은 수정하지 말고, 수정이 필요하면 여기에 적는다. v0.1 확인 의견은 [`history/RULES_v0.1.md`](../history/RULES_v0.1.md)에 보관했다 (경로 정리 전 표기: `archive/`).
 
 확인 요청 항목:
 - [ ] v0.1 확인 의견(1~5항, 사용자 질문 3개)이 v0.2에 빠짐없이 반영됐는지

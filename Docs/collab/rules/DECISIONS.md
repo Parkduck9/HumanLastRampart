@@ -78,3 +78,14 @@
   - 첫 마일스톤 "1회차 완주"는 에디터 Play 기준이며, 빌드 실행은 다음 마일스톤에서 다룬다.
 - 승인 근거: 사용자 답변 (2026-10-13 대화)
 - 관련: RULES 3.3·3.4·11·12장
+
+## D-010 협업 문서 폴더 정리
+- 날짜: 2026-10-13
+- 내용: `Docs/collab/`을 용도별로 나눈다. 규칙 내용은 바뀌지 않는다.
+  - `rules/`: RULES.md, DECISIONS.md, CONTRACTS.md
+  - `view/`: RULES.html (사용자용 HTML)
+  - `history/`: PROPOSAL_Claude_to_Codex.md, RULES_v0.1·v0.2, 이후 live 백업(`live_*_CL` / `live_*_CX`). 기존 `archive/`를 대체
+  - `live/`: 그대로 (status.html 내부 경로 유지). CLAUDE.md·AGENTS.md·FirstRead.md는 루트에 그대로
+  - 기존 기록(D-001~D-009, Codex 의견, history 문서)의 옛 경로 표기는 수정하지 않는다
+- 승인 근거: 사용자 요청과 선택 (2026-10-13 대화, "용도별" 선택)
+- 관련: RULES 4장, T-CL-001
