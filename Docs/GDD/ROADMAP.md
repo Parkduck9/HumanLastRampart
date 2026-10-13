@@ -1,6 +1,6 @@
 # Human Last Rampart 진행 체크리스트 (ROADMAP)
 
-- 작성·관리: Claude. 현재 임시 조정 담당: Codex (사용자 인계 및 세 파일 수정 허가). 사용자용 화면: [`ROADMAP.html`](../collab/view/ROADMAP.html)
+- 작성·관리: Claude. 현재 조정 담당: Claude (사용자 복귀 지시, Codex 대체 종료 인계). 사용자용 화면: [`ROADMAP.html`](../collab/view/ROADMAP.html)
 - 근거: [`ARCHITECTURE.md`](ARCHITECTURE.md) 승인 v1.0 9장 (D-013), RULES 확정 v0.3
 - **갱신 규칙 (D-011):** 어떤 작업이든 끝날 때마다 이 MD와 ROADMAP.html을 **함께** 갱신한다. 계획 변경과 특이 상황(막힘, 보류, 결정 변경, 규칙 예외)도 맨 아래 "변경·특이사항 기록"에 남긴다.
   - Claude 항목: Claude가 이 MD·HTML과 `live/claude/status.js`의 `roadmap` 값을 갱신한다.
@@ -196,3 +196,4 @@
 | 2026-10-13 | 목표 확대 | 최신 최대 아군 10,000·적 50,000 동시 활성 + 화살/총알/포탄/마법/VFX/UI/이벤트까지 최적화. C-013 데이터 슬롯/표시 풀 분리·좁은 일괄 사건·중복/초과 방지 제안, P1-C12 추가. 특정 Framework·PC/FPS·부하 예산 미정. 달성 미검증 |
 | 2026-10-13 | 제안 | 방법 비교: 1 데이터/Jobs/Burst+표시풀+사건큐, 2 DOTS/ECS, 3 중앙 갱신 GO풀, 4 개체 Update/전역 구독. 실측 순위 아님. C-014 F8 토글 적/아군/FPS/ms·투사체 카운터, 0.5초 UI 갱신 제안. 사용자 선택 전 코드/패키지 변경 없음 |
 | 2026-10-13 | 기준 사양 | RTX 2060·4K 출력·60 FPS 목표. CPU 5800X급·시스템 RAM 12GB는 잠정. 아군1만/적5만·투사체/VFX/UI 부하 유지. 저사양 성능 옵션 검토, 내부 해상도 감소 허용은 질문 중. 실측/지원 사양 확정 아님 |
+| 2026-10-13 | 복귀 인계 | 사용자 Claude 복귀 지시. Codex 대체 담당 종료, 인계 M-CX-016·자기 tasks에 기록. 설계/사용자 결정 정리·미확정 연결 API/성능 시제품은 Claude가 이어받음. Game 구현/성능 실측 없음 |
