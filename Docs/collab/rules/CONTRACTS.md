@@ -932,3 +932,108 @@
 #### 참고와 남은 확인
 - [AMD Ryzen 7 5800X 공식 정보](https://www.amd.com/en/products/processors/desktops/ryzen/5000-series/amd-ryzen-7-5800x.html), [NVIDIA RTX 2060 공식 정보](https://www.nvidia.com/en-gb/geforce/graphics-cards/rtx-2060). 공식 사양 확인은 이 게임의 성능 검증을 대체하지 않는다.
 - 미정: 4K 출력과 내부 렌더링 해상도 분리 허용 여부, RTX 2060 정확한 VRAM, 잠정 CPU/RAM 확정·낮은 지원 장치, 보유 에셋 및 투사체/VFX 예산.
+
+---
+
+## P1-C14 데이터 연결 초안 — 함정 실제 위치·지형·1회차 회수 (제안 r1)
+- 상태: **제안 r1** (2026-10-13, Claude 복귀 후 작성. 근거 D-018·D-019·D-021 G4·G5, C-008 r1~r4 요구, C-005~C-007 승인 D-017). 사용자 승인과 Codex 검토 전에는 구현하지 않는다.
+- 범위: **1회차 완주(D-021 G5)**에 필요한 만큼만 정한다. 회수 파견 지도·동시 파견·보고서·귀환 보너스·지형 편집·병력 예약은 다음 마일스톤에서 이 위에 더한다.
+- 이 절은 아래 약속들의 새 버전 제안을 한곳에 모은 것이다. 승인되면 각 버전 번호로 적용하고, 기존 승인 본문은 보존한다.
+
+### 1) C-008 r5 — r1(슬롯만)과 r3(실제 위치)의 정리
+- 설치물 하나 = `TrapId` 하나(이동·회수해도 바뀌지 않음, 회수 후 재설치하면 새 `TrapId`).
+- 위치는 세 가지를 따로 둔다: **설치 지점**(`SlotId`, 처음 놓은 곳), **실제 위치**(`ActualX/Z`, 전투 중 이동 반영), **지도 표시**(`MarkX/Z`, 플레이어가 남긴 기록 — 자동으로 고쳐지지 않음).
+- 함정은 자기 지형(`TerrainId`)에 남는다. 다른 지형에서 싸우는 동안에는 발동·이동하지 않는다.
+
+### 2) C-010 v1.1 — 정의 추가
+| 클래스 | 위치·작성 | 담는 것 |
+|---|---|---|
+| `TrapDef` 필드 추가 | `Data/Traps/` Claude (공용 경로, 작성자 Claude) | `Price`, `TriggerRadius`, `DamageRadius`, `Damage`, `DetectRadius`(회수 병력이 알아채는 거리), `RecoverRisk`(확인 못 한 채 지날 때 폭발 판정 반경) — 수치는 전투 설계에서 |
+| `TerrainDef` (신규) | `Data/Combat/` Claude | 지형 ID·이름, 지면 범위, 성문(회수 출발) 위치. 1회차 4개 (D-018 4지형·4전투) |
+| `TrapSlotDef` (신규) | `Data/Combat/` Claude | 지점 ID, `TerrainId`, X·Z. 지형마다 여러 개 |
+| `CampaignStartDef` 필드 추가 | `Data/Combat/` Claude | 지형 순서(전투 번호 → `TerrainId`, 4개 반복) |
+| `TrapCatalog` | `Data/Traps/` Claude | (C-008 r1 제안 그대로) |
+
+### 3) C-004 v1.2 — 진행 데이터 추가
+```csharp
+public sealed class TrapPlacement          // C-004의 Traps 목록 항목 (C-008 r5)
+{
+    public string TrapId;      // "trap_" 고유 ID
+    public string TrapDefId;
+    public string TerrainId;
+    public string SlotId;      // 처음 놓은 지점
+    public float ActualX, ActualZ;   // 실제 위치 (설치 시 = 지점 좌표)
+    public bool Marked;        // 지도에 표시했는가
+    public float MarkX, MarkZ; // 표시 위치 (Marked일 때만 의미)
+}
+public sealed class TrapStockEntry { public string TrapDefId; public int Count; }  // 회수해 보관 중인 함정
+
+// CampaignState 추가 필드
+public List<TrapStockEntry> TrapStock;     // 회수 함정 보관 (재설치 시 골드 없이 사용)
+public int RngSeed;                         // 새 게임 때 App이 정함. 전투·회수의 무작위 판정 기준
+public string LastAppliedRecoveryId;        // 회수 결과 중복 반영 방지 (C-007 방식과 같음)
+```
+| 필드 | 쓰는 쪽 |
+|---|---|
+| `TrapStock` | Meta: Prep(재설치 때 감소), 회수 결과 반영(증가) |
+| `Traps`의 `ActualX/Z` | Meta.Result: 전투 결과의 함정 이동 반영(C-007 v1.1) / Meta.Prep: 회수 결과 반영(제거) |
+| `Traps`의 `Marked`, `MarkX/Z` | Meta.Prep: 설치 시 표시 선택, 회수 중 확인한 함정의 표시 갱신 |
+| `RngSeed` | App: 새 게임 때만 |
+| `LastAppliedRecoveryId` | Meta.Prep: 회수 결과 반영 직후 한 번 |
+
+- 현재 전투의 지형은 저장하지 않고 `BattleNumber`와 `CampaignStartDef`의 지형 순서로 계산한다.
+
+### 4) C-005 v1.1 / C-006 v1.1 / C-007 v1.1 — 전투와 함정 위치
+- C-005 v1.1: `BattleSetup`에 `TerrainId`와 **그 지형의 함정만** 담는다(실제 위치 기준). 지도 표시는 전투에 넘기지 않는다.
+- C-006 v1.1: `BattleResult`에 `TrapMoves`(살아남은 함정 중 위치가 바뀐 것: `TrapId`, 새 X·Z)를 추가한다. 같은 함정이 `ConsumedTrapIds`에도 있으면 잘못된 결과다.
+- 이동 판정(낮은 확률, D-018)은 Combat이 전투 중 한 번 확정한다. 확률·거리 수치는 전투 설계에서 정한다.
+- C-007 v1.1: 승리 결과 반영 때 소비 함정 제거와 함께 `TrapMoves`의 실제 위치를 적용한다. 지도 표시는 바꾸지 않는다. 오류는 D-017 E2를 따른다.
+
+### 5) C-015 함정 규칙 공용 함수 (D-021 G4, 신규)
+- 위치: `HLR.Core` (`HumanLastRampart.Core.Traps`), 작성 Claude. 상태를 갖지 않는 계산 함수다.
+```csharp
+public static class TrapRules
+{
+    // 회수 1회의 결과를 계산한다. 같은 입력(시드 포함)이면 항상 같은 결과.
+    public static RecoveryResult ResolveRecovery(RecoveryOrder order,
+        IReadOnlyList<TrapPlacement> trapsOnTerrain, TerrainDef terrain,
+        IDefinitionLookup defs, int seed);
+}
+public sealed class RecoveryOrder
+{
+    public string RecoveryId;          // "recovery_" 고유 ID (NewInstanceId)
+    public string TerrainId;
+    public string SquadId;             // 투입 분대 하나 (1회차)
+    public List<string> TargetTrapIds; // 회수하려는 함정 (플레이어가 지도 표시를 보고 고름)
+}
+public sealed class RecoveryResult
+{
+    public string RecoveryId;
+    public List<string> RecoveredTrapIds;  // 회수 성공 → 보관함으로
+    public List<string> ExplodedTrapIds;   // 경로에서 터짐 → 제거, 보관 안 함
+    public int SquadLoss;                  // 투입 분대 손실 인원
+    public List<string> NewlySpottedTrapIds; // 근처에서 확인해 지도 표시가 갱신될 함정
+}
+```
+- **1회차 경로 규칙 (제안):** 성문에서 출발해, 고른 함정의 **지도 표시 위치**로 차례대로 직선 이동 후 귀환한다. 경로 근처(`RecoverRisk`)에 확인하지 못한 함정의 **실제 위치**가 있으면 폭발 판정, `DetectRadius` 안에 들어온 함정은 확인(표시 갱신)된다. 표시 위치와 실제 위치가 멀면 그 함정은 회수 실패로 남는다.
+- 전투 중 함정 발동(C-008 Combat)과 같은 반경 정의를 쓴다. 판정 순서·수치는 전투 설계에서 확정한다.
+
+### 6) C-016 1회차 회수 실행 (Codex Prep)
+- 정비 화면에서 플레이어가 지형·투입 분대·회수할 함정을 고르거나 **회수하지 않음**을 고른다.
+- Prep이 `TrapRules.ResolveRecovery`를 부르고, 결과를 **목록으로 보여 준다**(지도 이동 연출 없음 — D-021 G5).
+- 반영: 검증 → 회수 함정을 `Traps`에서 빼고 `TrapStock` 증가, 폭발 함정 제거, 분대 인원 감소(0이면 목록에서 제외), 확인한 함정의 표시 갱신 → `LastAppliedRecoveryId` 기록. 같은 `RecoveryId`는 두 번 반영하지 않는다. 실패는 부분 반영 없이 D-017 E2 안내.
+- 시드: `RngSeed`와 `RecoveryId`로 정해서 화면을 다시 열어도 결과가 바뀌지 않는다.
+
+### 7) 결정 필요 항목 (사용자)
+| ID | 질문 | Claude 제안 |
+|---|---|---|
+| I1 | 1회차 회수는 결과 목록만 보여 줄까 (지도 이동 연출 없음) | 예 (D-021 G5와 같음) |
+| I2 | 회수에 투입하는 병력 | 분대 하나를 고름. 손실은 그 분대에서 |
+| I3 | 설치할 때 지도 표시를 안 하는 선택도 1회차에 넣을까 | 넣음 (D-018 요구, 데이터는 `Marked` 하나라 부담 작음) |
+| I4 | 1회차 지형 4개의 모양 | 데이터는 4개, 처음에는 2개만 모양을 다르게 하고 2개는 복사본으로 시작 (전투 설계에서 늘림) |
+| I5 | 4번째 전투 승리 뒤 | 1회차는 정비 후 메인으로 돌아감(진행 폐기). 다음 사이클은 다음 마일스톤 (D-018 미정 사항) |
+
+### 변경 기록
+| 날짜 | 판 | 내용 |
+|---|---|---|
+| 2026-10-13 | r1 | Claude 작성. D-021 G4·G5 반영, C-008 r1/r3 위치 표현 정리, 1회차 회수 단순화 |
