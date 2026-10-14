@@ -46,6 +46,12 @@ namespace HumanLastRampart.Combat.Battle
         readonly MaterialPropertyBlock soldierBlock;
         readonly GraphicsBuffer shotBuffer;
         readonly MaterialPropertyBlock shotBlock;
+        // 주인공 (성벽 위 한 명). 시트가 없으면 임시 그림 — 같은 4행 순서 (PerfLabArt.HeroLayout)
+        readonly GraphicsBuffer heroBuffer;
+        readonly MaterialPropertyBlock heroBlock;
+        readonly Texture2D heroPlaceholder;
+        readonly PerfLabInstance[] heroInstance = new PerfLabInstance[1];
+        bool heroVisible;
         readonly Renderer[] walls = new Renderer[4];
         Light sunLight;
         Transform[] pileBlocks;          // 시체 더미 칸마다 상자 (높이가 생기면 만든다)
@@ -56,7 +62,7 @@ namespace HumanLastRampart.Combat.Battle
         readonly Bounds bounds;
         readonly GameObject root;
 
-        public BattleView(BattleSim sim, Shader shader, Transform parent)
+        public BattleView(BattleSim sim, Shader shader, Transform parent, Texture2D heroSheet = null)
         {
             this.sim = sim;
             quad = PerfLabArt.CreateQuad();
@@ -112,6 +118,20 @@ namespace HumanLastRampart.Combat.Battle
             Apply(shotBlock, shotTexture, PerfLabArt.ArrowLayout);
             shotBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, sim.ShotCapacity, PerfLabInstance.Stride);
             shotBlock.SetBuffer(InstancesId, shotBuffer);
+
+            heroBlock = new MaterialPropertyBlock();
+            if (heroSheet != null)
+            {
+                Apply(heroBlock, heroSheet, PerfLabArt.HeroLayout);
+            }
+            else
+            {
+                heroPlaceholder = PerfLabArt.CreateHeroPlaceholderSheet();
+                Apply(heroBlock, heroPlaceholder, PerfLabArt.HeroPlaceholderLayout);
+            }
+
+            heroBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, 1, PerfLabInstance.Stride);
+            heroBlock.SetBuffer(InstancesId, heroBuffer);
 
             root = new GameObject("Battlefield");
             root.transform.SetParent(parent, false);
@@ -174,6 +194,20 @@ namespace HumanLastRampart.Combat.Battle
 
         static Vector3 ToVector(Unity.Mathematics.float3 v) => new Vector3(v.x, v.y, v.z);
 
+        // 주인공 한 명 (성벽 위). frame = 시트 칸 번호(행×4+열), flip이면 좌우 뒤집기
+        public const float HeroDrawSize = 1.5f * BattleSim.WallFigureScale;   // 병사(1.4×0.25)보다 조금 크게
+
+        public void SetHero(Vector3 feet, int frame, bool flip, bool visible)
+        {
+            heroVisible = visible;
+            float shade = sim.Brightness;
+            heroInstance[0] = new PerfLabInstance
+            {
+                PosFrame = new float4(feet.x, feet.y, feet.z, flip ? -frame - 1 : frame),
+                TintSize = new float4(shade, shade, shade, HeroDrawSize),
+            };
+        }
+
         // 작업이 끝난 뒤(sim.Complete 후) 부른다. 지도 모드면 같은 데이터를 점으로 그린다(mapDotSize = 최소 점 크기 m)
         public void Draw(bool mapMode = false, float mapDotSize = 0f)
         {
@@ -218,6 +252,11 @@ namespace HumanLastRampart.Combat.Battle
             {
                 shotBuffer.SetData(sim.ShotInstances);
                 Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, sim.ShotCapacity, shotBlock);
+                if (heroVisible)
+                {
+                    heroBuffer.SetData(heroInstance);
+                    Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, 1, heroBlock);
+                }
             }
 
             if (Time.unscaledTime >= nextPileRefresh)
@@ -470,6 +509,8 @@ namespace HumanLastRampart.Combat.Battle
             enemyDraws.Clear();
             soldierBuffer?.Release();
             shotBuffer?.Release();
+            heroBuffer?.Release();
+            if (heroPlaceholder != null) UnityEngine.Object.Destroy(heroPlaceholder);
             if (material != null) UnityEngine.Object.Destroy(material);
             if (quad != null) UnityEngine.Object.Destroy(quad);
             if (placeholderSheet != null) UnityEngine.Object.Destroy(placeholderSheet);

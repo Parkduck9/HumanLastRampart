@@ -65,7 +65,7 @@ namespace HumanLastRampart.Combat.Battle
             if (setup != null && defs != null && spriteShader != null)
             {
                 sim = new BattleSim(setup, defs);
-                view = new BattleView(sim, spriteShader, transform);
+                view = new BattleView(sim, spriteShader, transform, HeroSheet(setup, defs));
                 rig = new BattleCameraRig(battleCamera, sim.CastleHalf, BattleSim.WallHeight);
                 mapCamera = new BattleMapCamera(battleCamera, sim.CastleHalf, sim.FieldSize);
                 easy = setup.Difficulty == Difficulty.Easy;
@@ -97,6 +97,35 @@ namespace HumanLastRampart.Combat.Battle
                 hud.SpellChosen += SelectSpell;   // MAP-4 마법
                 hud.CannonClearChosen += () => { if (selectedCannon >= 0) sim.ClearCannonAim(selectedCannon); };
             }
+        }
+
+        // 주인공 그림 시트: 참가 영웅 중 주인공(UnitKind.Hero)의 UnitDef.Sheet (없으면 BattleView가 임시 그림)
+        static Texture2D HeroSheet(BattleSetup setup, IDefinitionLookup defs)
+        {
+            foreach (HeroState hero in setup.Heroes)
+            {
+                UnitDef unit = defs.Get<UnitDef>(hero.UnitDefId);
+                if (unit != null && unit.Kind == UnitKind.Hero) return unit.Sheet;
+            }
+
+            return null;
+        }
+
+        // 주인공 그리기 (P3-C02 준비): 카메라가 따라가는 자리에 서고, 서 있으면 뒷모습·A/D 옆모습 걷기·Q/E 옆모습 달리기
+        const float HeroWalkFps = 6f;    // 시트 기본 (M-CX-045)
+        const float HeroRunFps = 12f;    // 달리기 행이 없어 걷기 행을 두 배로
+
+        void DrawHero()
+        {
+            if (rig == null || view == null) return;
+            int row = rig.Pose == BattleCameraRig.HeroPose.Run ? PerfLab.PerfLabArt.HeroRowSideRun
+                : rig.Pose == BattleCameraRig.HeroPose.Walk ? PerfLab.PerfLabArt.HeroRowSideWalk
+                : PerfLab.PerfLabArt.HeroRowBack;
+            float fps = rig.Pose == BattleCameraRig.HeroPose.Run ? HeroRunFps : HeroWalkFps;
+            int column = rig.Pose == BattleCameraRig.HeroPose.Idle ? 0 : (int)(Time.unscaledTime * fps) % PerfLab.PerfLabArt.FramesPerAction;
+            bool flip = rig.Pose != BattleCameraRig.HeroPose.Idle && rig.FacingRight;   // 시트 옆모습은 왼쪽을 본다
+            if (flip) column = PerfLab.PerfLabArt.HeroFlipPhase[column];
+            view.SetHero(rig.HeroFeet, row * PerfLab.PerfLabArt.FramesPerAction + column, flip, !mapOpen);
         }
 
         TargetingSettings Targeting()
@@ -238,6 +267,7 @@ namespace HumanLastRampart.Combat.Battle
                 sim.WeatherDirty = false;
             }
 
+            DrawHero();
             view.Draw(mapOpen, mapOpen ? mapCamera.DotWorldSize : 0f);
             if (mapOpen)
             {

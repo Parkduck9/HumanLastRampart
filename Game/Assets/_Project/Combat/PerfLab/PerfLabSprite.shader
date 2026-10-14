@@ -1,7 +1,7 @@
 // 성능 시제품용 스프라이트 셰이더 (PERF_PROTOTYPE.md 4장)
 // - 개체 데이터는 StructuredBuffer로 받고 SV_InstanceID로 읽는다 (DrawMeshInstancedProcedural)
 // - 세로로 선 빌보드: 카메라 좌우 방향으로만 돌린다 (2.5D)
-// - 시트는 열×행 격자. 프레임 번호 = 행 × 열 수 + 열 (왼쪽 위부터)
+// - 시트는 열×행 격자. 프레임 번호 = 행 × 열 수 + 열 (왼쪽 위부터). 음수면 좌우 뒤집기 (-번호-1)
 // - 도트 그림은 반투명 대신 알파 잘라내기 + 깊이 기록으로 그린다
 // 종류별 값(_MainTex, _Grid, _Pivot, _Aspect)은 MaterialPropertyBlock으로 넘긴다.
 Shader "HLR/PerfLabSprite"
@@ -94,19 +94,23 @@ Shader "HLR/PerfLabSprite"
                 float lenSq = dot(camRight, camRight);
                 camRight = lenSq > 1e-6 ? camRight * rsqrt(lenSq) : float3(1.0, 0.0, 0.0);
 
-                float localX = (input.positionOS.x + 0.5 - _Pivot.x) * _Aspect * size;
+                // 프레임 번호가 음수면 좌우 뒤집기: 실제 번호 = -w - 1 (주인공 오른쪽 보기 등)
+                bool flip = data.posFrame.w < 0.0;
+                float frame = flip ? -data.posFrame.w - 1.0 : data.posFrame.w;
+                float pivotX = flip ? 1.0 - _Pivot.x : _Pivot.x;
+                float localX = (input.positionOS.x + 0.5 - pivotX) * _Aspect * size;
                 float localY = (input.positionOS.y - _Pivot.y) * size;
                 float3 world = data.posFrame.xyz + camRight * localX + float3(0.0, localY, 0.0);
 
                 float columns = max(_Grid.x, 1.0);
                 float rows = max(_Grid.y, 1.0);
-                float frame = data.posFrame.w;
                 float column = fmod(frame, columns);
                 float row = floor(frame / columns);
+                float u = flip ? 1.0 - input.uv.x : input.uv.x;
 
                 Varyings output;
                 output.positionCS = TransformWorldToHClip(world);
-                output.uv = float2((column + input.uv.x) / columns, 1.0 - (row + 1.0 - input.uv.y) / rows);
+                output.uv = float2((column + u) / columns, 1.0 - (row + 1.0 - input.uv.y) / rows);
                 output.tint = (half3)data.tintSize.rgb;
                 return output;
             }

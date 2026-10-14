@@ -16,6 +16,7 @@ namespace HumanLastRampart.Combat.Battle
     public sealed partial class BattleSim
     {
         public const float HeroSpeed = 10f;  // 주인공 달리기(m/초) — 성벽 한 면(120m) 약 12초 (D-046)
+        public const float HeroWalkSpeed = 4f;   // A/D 걷기(m/초) — 달리기와 구분 (D-049)
 
         public enum CommandVia { Direct, Messenger, Shout, Global }
 
