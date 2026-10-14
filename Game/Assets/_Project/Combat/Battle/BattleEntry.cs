@@ -26,6 +26,9 @@ namespace HumanLastRampart.Combat.Battle
         int cannonSide;
         int selectedCannon = -1;
         int selectedSpell = -1;
+        Vector3? lens;                 // 망원경 렌즈 위치 (오른쪽 버튼 누르는 동안)
+        float nextSpot;
+        float nextGroupRefresh;
         bool easy;
         int speed = 1;
         bool paused;
@@ -192,6 +195,14 @@ namespace HumanLastRampart.Combat.Battle
                     if (selectedSpell >= 0) CastSelectedSpellAt(world);
                     else AimSelectedCannonAt(world);
                 }
+
+                // 망원경 (MAP-5): 오른쪽 버튼을 누르고 있는 동안 렌즈, 0.15초마다 무리 확인
+                lens = null;
+                if (mouse != null && mouse.rightButton.isPressed)
+                {
+                    Vector3 world = battleCamera.ScreenToWorldPoint(new Vector3(mouse.position.ReadValue().x, mouse.position.ReadValue().y, battleCamera.nearClipPlane));
+                    UseTelescope(world);
+                }
             }
             else rig?.Update(Time.unscaledDeltaTime);
 
@@ -230,7 +241,14 @@ namespace HumanLastRampart.Combat.Battle
             view.Draw(mapOpen, mapOpen ? mapCamera.DotWorldSize : 0f);
             if (mapOpen)
             {
-                view.DrawMapMarkers(cannonSide, selectedCannon, mapCamera.DotWorldSize, selectedSpell >= 0);
+                view.DrawMapMarkers(cannonSide, selectedCannon, mapCamera.DotWorldSize, selectedSpell >= 0, lens);
+                if (Time.unscaledTime >= nextGroupRefresh)
+                {
+                    nextGroupRefresh = Time.unscaledTime + 0.25f;
+                    sim.RefreshSpottedGroups();
+                }
+
+                hud?.RefreshGroupLabels(sim, battleCamera);
                 hud?.RefreshCannons(sim, cannonSide, selectedCannon);
                 hud?.RefreshSpells(sim, selectedSpell);
             }
@@ -247,6 +265,14 @@ namespace HumanLastRampart.Combat.Battle
         {
             selectedCannon = -1;
             selectedSpell = selectedSpell == index ? -1 : index;
+        }
+
+        public void UseTelescope(Vector3 world)
+        {
+            lens = new Vector3(world.x, 0f, world.z);
+            if (Time.unscaledTime < nextSpot) return;
+            nextSpot = Time.unscaledTime + 0.15f;
+            sim.LookThroughTelescope(world);
         }
 
         public bool CastSelectedSpellAt(Vector3 world)

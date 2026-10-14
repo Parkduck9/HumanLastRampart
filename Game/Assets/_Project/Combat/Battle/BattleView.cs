@@ -354,7 +354,7 @@ namespace HumanLastRampart.Combat.Battle
         }
 
         // 지도 대포 표시: 모든 대포 위치(흰), 고른 벽 대포의 사거리 원(회색 점선), 조준점(빨강, 쉬는 중이면 회색), 고른 대포(노랑)
-        public void DrawMapMarkers(int selectedSide, int selectedCannon, float dot, bool showSpellRange = false)
+        public void DrawMapMarkers(int selectedSide, int selectedCannon, float dot, bool showSpellRange = false, Vector3? lens = null)
         {
             int n = 0;
             void Add(Vector3 p, Color c, float size)
@@ -370,6 +370,13 @@ namespace HumanLastRampart.Combat.Battle
                     float a = k * Mathf.PI * 2f / count;
                     Add(center + new Vector3(Mathf.Cos(a), 0f, Mathf.Sin(a)) * radius, c, size);
                 }
+            }
+
+            // 망원경 렌즈 (하늘색 원, MAP-5)
+            if (lens.HasValue)
+            {
+                Ring(lens.Value, BattleSim.TelescopeRadius, new Color(0.4f, 0.9f, 1f), dot * 1.2f, 48);
+                Ring(lens.Value, BattleSim.TelescopeRadius * 0.96f, new Color(0.4f, 0.9f, 1f), dot * 0.8f, 48);
             }
 
             // 마법 효과: 불바다(주황 원), 터질 폭발(노랑 원)

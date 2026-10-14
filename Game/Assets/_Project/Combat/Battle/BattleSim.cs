@@ -117,6 +117,7 @@ namespace HumanLastRampart.Combat.Battle
         NativeArray<int> eGen;
         NativeArray<int> eIncoming;
         NativeArray<float> eAnim;
+        NativeArray<int> eGroup;            // 웨이브 무리 번호 (망원경, MAP-5)
         NativeArray<EnemyKind> kinds;
         NativeArray<PerfLabInstance> enemyInstances;
 
@@ -195,6 +196,7 @@ namespace HumanLastRampart.Combat.Battle
             InitWeather();
             InitCannons(p);
             InitSpells(defs);
+            InitTelescope(p);
         }
 
         // ── 준비 ──────────────────────────────────────────────
@@ -258,6 +260,7 @@ namespace HumanLastRampart.Combat.Battle
             eGen = new NativeArray<int>(n, p);
             eIncoming = new NativeArray<int>(n, p);
             eAnim = new NativeArray<float>(n, p);
+            eGroup = new NativeArray<int>(n, p);
             enemyInstances = new NativeArray<PerfLabInstance>(n, p);
             kinds = new NativeArray<EnemyKind>(Mathf.Max(1, kindList.Count), p);
             for (int k = 0; k < kindList.Count; k++)
@@ -269,14 +272,18 @@ namespace HumanLastRampart.Combat.Battle
             var entries = new List<SpawnEntry>(total);
             var cursor = (int[])kindStart.Clone();
             float lateralLimit = CastleHalf * 0.95f;
+            int groupIndex = -1;
             foreach (var (group, count) in groups)
             {
+                groupIndex++;
                 EnemyDef def = defs.Get<EnemyDef>(group.EnemyDefId);
                 int k = kindIndex[def.Id];
+                waveGroups.Add(((int)group.Side, def.IsSpecial));
                 for (int j = 0; j < count; j++)
                 {
                     int slot = cursor[k]++;
                     eKind[slot] = k;
+                    eGroup[slot] = groupIndex;
                     eMaxHp[slot] = Mathf.Max(1, def.MaxHp);
                     eHp[slot] = eMaxHp[slot];
                     eSpeed[slot] = def.MoveSpeed * random.NextFloat(0.85f, 1.15f);
@@ -670,6 +677,8 @@ namespace HumanLastRampart.Combat.Battle
                 EnemyIncoming = eIncoming,
                 EnemyKindOf = eKind,
                 Kinds = kinds,
+                EnemyGroup = eGroup,
+                GroupSpotted = groupSpotted,
                 CellOfEnemy = cellOfEnemy,
                 CellStart = cellStart,
                 CellCount = cellCount,
@@ -751,6 +760,8 @@ namespace HumanLastRampart.Combat.Battle
                 KindOf = eKind,
                 Kinds = kinds,
                 Sides = eSide,
+                EnemyGroup = eGroup,
+                GroupSpotted = groupSpotted,
                 Instances = enemyInstances,
                 CastleHalf = CastleHalf,
                 VisibleDistance = VisibleDistance,
@@ -868,6 +879,8 @@ namespace HumanLastRampart.Combat.Battle
             Release(ref eGen);
             Release(ref eIncoming);
             Release(ref eAnim);
+            Release(ref eGroup);
+            Release(ref groupSpotted);
             Release(ref kinds);
             Release(ref enemyInstances);
             Release(ref sPos);

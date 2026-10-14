@@ -352,6 +352,8 @@ namespace HumanLastRampart.Combat.Battle
         [ReadOnly] public NativeArray<int> EnemyIncoming;   // 이미 날아가는 중인 피해 (헛방 줄이기)
         [ReadOnly] public NativeArray<int> EnemyKindOf;
         [ReadOnly] public NativeArray<EnemyKind> Kinds;
+        [ReadOnly] public NativeArray<int> EnemyGroup;        // 망원경으로 확인한 무리는 먼 거리 명중 감소 없음 (Battle.md 6.4)
+        [ReadOnly] public NativeArray<byte> GroupSpotted;
         [ReadOnly] public NativeArray<int> CellOfEnemy;
         [ReadOnly] public NativeArray<int> CellStart;
         [ReadOnly] public NativeArray<int> CellCount;
@@ -482,7 +484,7 @@ namespace HumanLastRampart.Combat.Battle
             }
             else if (distance >= weapon.FarDistance)
             {
-                accuracy = weapon.AccuracyFar * FarAccuracyMultiplier;
+                accuracy = weapon.AccuracyFar * (GroupSpotted[EnemyGroup[best]] != 0 ? 1f : FarAccuracyMultiplier);
                 spread = weapon.SpreadFar;
             }
             else
@@ -845,6 +847,8 @@ namespace HumanLastRampart.Combat.Battle
         [ReadOnly] public NativeArray<int> KindOf;
         [ReadOnly] public NativeArray<EnemyKind> Kinds;
         [ReadOnly] public NativeArray<byte> Sides;
+        [ReadOnly] public NativeArray<int> EnemyGroup;
+        [ReadOnly] public NativeArray<byte> GroupSpotted;     // 망원경으로 확인한 무리는 시야 밖이어도 보인다
         [WriteOnly] public NativeArray<PerfLabInstance> Instances;
         public float CastleHalf;
         public float VisibleDistance;   // 안개·밤 시야(성벽에서 m). 이 너머는 흐리게, 더 너머는 안 그림
@@ -874,7 +878,7 @@ namespace HumanLastRampart.Combat.Battle
             EnemyKind kind = Kinds[KindOf[i]];
             float shade = Brightness;
             float beyond = math.dot(Positions[i], WallGeometry.Outward(Sides[i])) - CastleHalf - VisibleDistance;
-            if (beyond > 0f)
+            if (beyond > 0f && GroupSpotted[EnemyGroup[i]] == 0)
             {
                 if (beyond > 20f)
                 {

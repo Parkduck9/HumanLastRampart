@@ -55,6 +55,10 @@ namespace HumanLastRampart.Combat.Battle
             if (cannonPanel == null) BuildCannonPanel();
             cannonPanel.SetActive(open);
             if (spellPanel != null) spellPanel.SetActive(open);
+            if (!open)
+            {
+                foreach (Text label in groupLabels) label.gameObject.SetActive(false);
+            }
             if (open)
             {
                 mapBanner.text = frozen ? "지도 — 시간 멈춤 (쉬움)" : "지도 — 시간이 흐릅니다 (현실)";
@@ -171,6 +175,36 @@ namespace HumanLastRampart.Combat.Battle
                 spellLabels[i].text = (i == selected ? "▶ " : "") + $"{info.Name} — {state}";
                 spellButtons[i].color = i == selected ? new Color(0.5f, 0.3f, 0.6f, 0.95f) : info.Ready && sim.WizardPresent ? new Color(0.25f, 0.3f, 0.4f, 0.95f) : new Color(0.2f, 0.2f, 0.22f, 0.95f);
             }
+        }
+
+        // 망원경으로 확인한 무리 표시 (MAP-5): 지도 위 무리 가운데에 "북쪽 약 320 · 오우거 1"
+        readonly System.Collections.Generic.List<Text> groupLabels = new System.Collections.Generic.List<Text>();
+
+        public void RefreshGroupLabels(BattleSim sim, Camera camera)
+        {
+            string[] names = { "북쪽", "동쪽", "남쪽", "서쪽" };
+            var groups = sim.SpottedGroups;
+            float scale = 1080f / Mathf.Max(1, Screen.height);
+            for (int i = 0; i < groups.Count; i++)
+            {
+                if (groupLabels.Count <= i)
+                {
+                    Text t = NewText(root.transform, "Group Label", 20, TextAnchor.MiddleCenter);
+                    t.color = new Color(0.6f, 0.95f, 1f);
+                    t.rectTransform.anchorMin = t.rectTransform.anchorMax = Vector2.zero;
+                    t.rectTransform.sizeDelta = new Vector2(320f, 30f);
+                    groupLabels.Add(t);
+                }
+
+                BattleSim.GroupSummary g = groups[i];
+                Vector3 screen = camera.WorldToScreenPoint(g.Center);
+                Text label = groupLabels[i];
+                label.gameObject.SetActive(mapMode);
+                label.rectTransform.anchoredPosition = new Vector2(screen.x, screen.y + 26f) * scale;
+                label.text = $"{names[g.Side]} 약 {g.Alive}{(g.Special > 0 ? $" · 특수 {g.Special}" : "")}";
+            }
+
+            for (int i = groups.Count; i < groupLabels.Count; i++) groupLabels[i].gameObject.SetActive(false);
         }
 
         // 지금 성벽별 명령 (패널 아래)
