@@ -62,6 +62,21 @@ namespace HumanLastRampart.App.Tests
             Assert.IsNull(error);
             Assert.AreEqual("terrain_1", setup.TerrainId);
             Assert.AreEqual(25000, setup.MaxConcurrentEnemies);
+
+            // C-005 v1.3 (D-044 M7): 주인공·마법사는 배치 지점 없이도 참가
+            Assert.AreEqual(2, setup.ParticipatingHeroIds.Count, "주인공 + 마법사 참가");
+            CollectionAssert.AreEquivalent(campaign.Heroes.Select(h => h.InstanceId), setup.ParticipatingHeroIds);
+        }
+
+        [Test]
+        public void RealRules_EasyBattle4Multiplier()   // D-047
+        {
+            DefinitionLookup lookup = LoadAll();
+            BattleRulesDef rules = lookup.All<BattleRulesDef>()[0];
+            Assert.AreEqual(0.5f, rules.EasyEnemyMultiplierFor(1));
+            Assert.AreEqual(0.5f, rules.EasyEnemyMultiplierFor(3));
+            Assert.AreEqual(0.4f, rules.EasyEnemyMultiplierFor(4), 0.0001f);
+            Assert.AreEqual(0.5f, rules.EasyEnemyMultiplierFor(9), "칸이 없으면 기본값");
         }
     }
 }

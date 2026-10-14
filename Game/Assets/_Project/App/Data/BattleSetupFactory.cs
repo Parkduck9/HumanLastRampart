@@ -45,10 +45,13 @@ namespace HumanLastRampart.App.Data
                 InitialTargeting = (campaign.Targeting ?? TargetingSettings.CreateDefault()).Clone(),
             };
 
+            // 참가 영웅 (C-005 v1.3, D-044 M7): 살아 있고 배치됐거나, 주인공·마법사는 배치 지점 없이도 참가
             foreach (HeroState hero in campaign.Heroes)
             {
                 setup.Heroes.Add(hero.Clone());
-                if (hero.IsAlive && hero.PostId != null)
+                UnitDef unit = defs.Get<UnitDef>(hero.UnitDefId);
+                bool alwaysJoins = unit != null && (unit.Kind == UnitKind.Hero || unit.Kind == UnitKind.Wizard);
+                if (hero.IsAlive && (hero.PostId != null || alwaysJoins))
                 {
                     setup.ParticipatingHeroIds.Add(hero.InstanceId);
                 }

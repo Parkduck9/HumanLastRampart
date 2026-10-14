@@ -1229,3 +1229,6 @@ public interface IScreenContext
 - `BattleRulesDef.easyEnemyMultiplierByBattle` (float[], 0번 칸 = 1번 전투). 0이거나 칸이 없으면 `easyEnemyMultiplier`(0.5). 읽기는 `EasyEnemyMultiplierFor(battleNumber)`
 - App `BattleSetupFactory`가 쉬움일 때 `BattleSetup.EnemyCountMultiplier`에 이 값을 넣는다(C-003 필드는 그대로). 현재 값 [0, 0, 0, 0.4]
 - 참고: C-017 검토 메모 (a) '160명 분대 화면 배치'는 D-046(무조건 1줄, 자기 구간 안에서 간격 자동)으로 해결
+## C-005 v1.3 — 적용 완료 (2026-10-14 14:06 KST)
+- Codex 결과 반영기(T-CX-024, PostId 요구 제거) + Claude App BattleSetupFactory(살아 있고 배치됐거나 주인공·마법사면 참가). 위 '적용 대기'는 해소
+- 확인 [AI 직접 확인 — 배치 Unity]: EditMode 28/28(RealDataTests: 실제 데이터 참가 영웅 2명, 쉬움 4번 배율 0.4). PlayMode EasyFullRun 통과 — 전투 1·2 승리 → 결과(영웅 결과 2개, 골드·병사·성벽 한 번 반영, 상세 3개) → 정비 → 다음 전투, 전투 3 패배 → 패배 엔딩 → 메인 복귀·진행 데이터 폐기. (정비 모집이 아직 없어 병사 300 그대로라 3번 패배는 예상대로)
