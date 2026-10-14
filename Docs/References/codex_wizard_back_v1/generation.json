@@ -1,0 +1,15 @@
+{
+  "useCase": "identity-preserve",
+  "tool": "image_gen.imagegen",
+  "transparentBackground": true,
+  "prompt": "Use case: identity-preserve. Create ONE rear-facing idle standing pixel-art wizard sprite of EXACTLY the same wizard in reference image 1. Image 1 is character identity/costume/pixel rendering reference; image 2 is rear-view pose/layout style reference only, NOT its archer costume. Fully back-facing, no face/eyes visible, looking away toward the top of the screen, full body including boots. Retain white/silver shaggy short hair, approx 2.2-head-tall compact chibi body, dark purple short coat/robe, narrow gold edging on collar, cuffs and split lower coat tails, brown leather belt, dark trousers, brown boots. The blue crystal wooden staff is held in the wizard's anatomical right hand, therefore on SCREEN RIGHT in this rear view (screen-left in front reference); staff wooden shaft goes down beside feet, no extra weapons. Arms relaxed, both feet planted evenly, neutral static idle, absolutely no walk/cast/motion. Match original big crisp visible square pixel clusters and stair-step dark outlines, limited stepped palette, flat crisp pixel shading, no blur, no soft airbrush, no volumetric lighting or glow, blue crystal remains crisp. Same compact proportions and overall silhouette size as existing references. Only one character centered, generous transparent margin all around, genuine transparent background, no floor/shadow/backdrop/labels/frames/grid. Do not add hat, backpack, wings, sword, long cape, or new accessories. This is a single sprite to be packed later into a 256x384 game cell.",
+  "references": [
+    "Docs/References/codex_character_pixel_v2/wizard.png",
+    "Docs/References/codex_soldier_back_v1/archer_back.png"
+  ],
+  "generatedOriginalPath": "C:/Users/User/.codex/generated_images/01a1331e-99b0-7811-8751-cad0561a4e6e/exec-e02a45b7-d677-436c-920a-742bc8e17a52.png",
+  "projectSource": "wizard_back_source.png",
+  "intendedUse": "demo-static-back-idle",
+  "frames": 1,
+  "unityPlayVerified": false
+}
