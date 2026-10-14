@@ -25,6 +25,7 @@ namespace HumanLastRampart.Combat.Battle
         bool mapOpen;
         int cannonSide;
         int selectedCannon = -1;
+        int selectedSpell = -1;
         bool easy;
         int speed = 1;
         bool paused;
@@ -90,6 +91,7 @@ namespace HumanLastRampart.Combat.Battle
                 hud.GlobalCommandChosen += priority => sim?.IssueGlobal(priority);   // MAP-2 지도 전체 명령
                 hud.CannonSideChosen += side => { cannonSide = side; selectedCannon = -1; };   // MAP-3 대포 조준
                 hud.CannonNumberChosen += SelectCannon;
+                hud.SpellChosen += SelectSpell;   // MAP-4 마법
                 hud.CannonClearChosen += () => { if (selectedCannon >= 0) sim.ClearCannonAim(selectedCannon); };
             }
         }
@@ -183,11 +185,12 @@ namespace HumanLastRampart.Combat.Battle
             {
                 mapCamera.Update(Time.unscaledDeltaTime);
                 // 대포를 고른 상태에서 들판(UI 바깥)을 왼쪽 클릭 → 조준점
-                if (mouse != null && selectedCannon >= 0 && mouse.leftButton.wasPressedThisFrame
+                if (mouse != null && (selectedCannon >= 0 || selectedSpell >= 0) && mouse.leftButton.wasPressedThisFrame
                     && (UnityEngine.EventSystems.EventSystem.current == null || !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()))
                 {
                     Vector3 world = battleCamera.ScreenToWorldPoint(new Vector3(mouse.position.ReadValue().x, mouse.position.ReadValue().y, battleCamera.nearClipPlane));
-                    AimSelectedCannonAt(world);
+                    if (selectedSpell >= 0) CastSelectedSpellAt(world);
+                    else AimSelectedCannonAt(world);
                 }
             }
             else rig?.Update(Time.unscaledDeltaTime);
@@ -227,8 +230,9 @@ namespace HumanLastRampart.Combat.Battle
             view.Draw(mapOpen, mapOpen ? mapCamera.DotWorldSize : 0f);
             if (mapOpen)
             {
-                view.DrawMapMarkers(cannonSide, selectedCannon, mapCamera.DotWorldSize);
+                view.DrawMapMarkers(cannonSide, selectedCannon, mapCamera.DotWorldSize, selectedSpell >= 0);
                 hud?.RefreshCannons(sim, cannonSide, selectedCannon);
+                hud?.RefreshSpells(sim, selectedSpell);
             }
             hud?.SetMapMode(mapOpen, MapFreezesTime);
             hud?.Refresh(sim, rig, speed, paused || MapFreezesTime);
@@ -238,9 +242,25 @@ namespace HumanLastRampart.Combat.Battle
         public BattleMapCamera MapCamera => mapCamera;
         bool MapFreezesTime => mapOpen && easy;
 
+        // 마법 고르기 → 들판 클릭으로 쓰기 (대포 선택은 풀린다). 같은 마법을 다시 누르면 취소
+        public void SelectSpell(int index)
+        {
+            selectedCannon = -1;
+            selectedSpell = selectedSpell == index ? -1 : index;
+        }
+
+        public bool CastSelectedSpellAt(Vector3 world)
+        {
+            if (selectedSpell < 0) return false;
+            bool cast = sim.CastSpell(selectedSpell, world);
+            if (cast) selectedSpell = -1;
+            return cast;
+        }
+
         // 대포 고르기: 지금 고른 벽의 1~4번
         public void SelectCannon(int number)
         {
+            selectedSpell = -1;
             selectedCannon = -1;
             for (int c = 0; c < sim.CannonCount; c++)
             {
@@ -267,6 +287,7 @@ namespace HumanLastRampart.Combat.Battle
                 mapCamera.Open(rig != null ? rig.Side : 0);
                 cannonSide = rig != null ? rig.Side : 0;
                 selectedCannon = -1;
+                selectedSpell = -1;
                 RenderSettings.fog = false;   // 위에서 멀리 보는 지도에는 안개를 끈다 (시야 규칙은 점 그리기에서 그대로)
             }
             else

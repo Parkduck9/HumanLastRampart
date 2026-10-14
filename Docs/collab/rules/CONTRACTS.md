@@ -1208,3 +1208,9 @@ public interface IScreenContext
 - **P1-C14 R2 (처음부터 아는 함정의 기준):** 지금은 지도 표시와 실제 위치의 거리가 `DetectRadius` 이하면 '아는 함정'으로 친다 — "표시가 실제와 같은 함정"보다 넓어서, 이동했어도 반경 안이면 위험이 사라진다. 일치 허용 오차와 경로 탐지 반경을 나눌지 **사용자 결정 필요**.
 - **P1-C14 R3 (전투 준비 복사본의 지도 필드):** C-005 v1.1은 지도 표시를 Combat에 넘기지 않는다고 했지만 `BattleSetupFactory`가 `TrapPlacement.Clone`으로 표시 필드까지 복사한다. 제안: 준비 복사본에서 지도 필드를 비우거나 Combat은 Actual 좌표만 쓴다고 명시. (Claude App 담당)
 - **연결 완료 기준 추가 제안:** NaN/무한대 좌표, 중복·다른 지형 TrapId, 회수 결과의 회수/폭발 목록 중복 검증 — Phase 3 함정 연결의 완료 기준으로 둔다.
+
+## C-005 v1.3 — 참가 영웅 고르기 (D-044 M7)
+- 상태: **승인** (2026-10-14, D-044 M7). C-005의 나머지는 그대로.
+- `ParticipatingHeroIds`: 살아 있는 영웅 중 **배치된 영웅(PostId 있음) + 주인공(UnitKind.Hero)·마법사(UnitKind.Wizard)는 배치 지점 없이도** 참가. App(BattleSetupFactory)이 고른다.
+- 영향: 결과 `HeroOutcomes`에 주인공·마법사 항목이 생긴다(C-006 '참가 영웅마다 정확히 한 항목' 그대로). Codex 결과 반영(BattleResultApplier)은 이미 영웅 Hp·생존을 처리하므로 변경 없음. 1회차에는 영웅이 성벽 위 싸움에 끼지 않아 Hp가 줄지 않는다.
+- **적용 대기 (2026-10-14 11:36):** Codex `BattleResultApplier`가 참가 영웅에 배치 지점(PostId)을 요구해서(83행), App 변경만 먼저 넣으면 결과 화면이 E2 오류로 멈춘다(Claude 자동 확인에서 발견). Codex가 반영기를 v1.3 규칙으로 고친 뒤 Claude가 App(BattleSetupFactory)을 바꾼다. 그동안 전투는 살아 있는 마법사가 있으면 마법을 쓸 수 있게 한다.

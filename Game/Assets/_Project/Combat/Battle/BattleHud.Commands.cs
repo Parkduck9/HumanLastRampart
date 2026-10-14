@@ -44,7 +44,7 @@ namespace HumanLastRampart.Combat.Battle
             menuPanel.SetActive(false);
 
             notices = NewText(root.transform, "Notices", 22, TextAnchor.LowerLeft);
-            Anchor(notices.rectTransform, new Vector2(0f, 0f), new Vector2(20f, 80f), new Vector2(1100f, 200f));
+            Anchor(notices.rectTransform, new Vector2(0f, 0f), new Vector2(20f, 80f), new Vector2(1100f, 170f));
         }
 
         public void ToggleMenu(int side)

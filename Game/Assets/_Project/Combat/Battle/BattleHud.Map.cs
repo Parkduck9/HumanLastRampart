@@ -26,6 +26,13 @@ namespace HumanLastRampart.Combat.Battle
         readonly Text[] cannonLabels = new Text[4];
         readonly Image[] sideTabs = new Image[4];
 
+        // 마법 (MAP-4, Battle.md 5.3): 고르고 들판 클릭
+        public event Action<int> SpellChosen;
+        GameObject spellPanel;
+        Text spellTitle;
+        readonly System.Collections.Generic.List<Text> spellLabels = new System.Collections.Generic.List<Text>();
+        readonly System.Collections.Generic.List<Image> spellButtons = new System.Collections.Generic.List<Image>();
+
         public void SetMapMode(bool open, bool frozen)
         {
             if (mapBanner == null)
@@ -47,6 +54,7 @@ namespace HumanLastRampart.Combat.Battle
             globalPanel.SetActive(open);
             if (cannonPanel == null) BuildCannonPanel();
             cannonPanel.SetActive(open);
+            if (spellPanel != null) spellPanel.SetActive(open);
             if (open)
             {
                 mapBanner.text = frozen ? "지도 — 시간 멈춤 (쉬움)" : "지도 — 시간이 흐릅니다 (현실)";
@@ -57,7 +65,8 @@ namespace HumanLastRampart.Combat.Battle
         {
             Image panel = NewImage(root.transform, "Global Command", new Color(0.05f, 0.07f, 0.1f, 0.85f));
             globalPanel = panel.gameObject;
-            Anchor(panel.rectTransform, new Vector2(0f, 0.5f), new Vector2(20f, 40f), new Vector2(330f, 540f), new Vector2(0f, 0.5f));
+            // 왼쪽 위 상태 창(높이 300) 바로 아래, 왼쪽 아래 알림과 겹치지 않게
+            Anchor(panel.rectTransform, new Vector2(0f, 1f), new Vector2(20f, -330f), new Vector2(330f, 490f), new Vector2(0f, 1f));
             Text title = NewText(panel.transform, "Title", 26, TextAnchor.MiddleCenter);
             Anchor(title.rectTransform, new Vector2(0.5f, 1f), new Vector2(0f, -12f), new Vector2(310f, 40f), new Vector2(0.5f, 1f));
             title.text = "전체 명령 (4면)";
@@ -65,11 +74,11 @@ namespace HumanLastRampart.Combat.Battle
             {
                 var priority = (TargetPriority)i;
                 Button button = NewButton(panel.transform, BattleSim.PriorityNames[i], () => GlobalCommandChosen?.Invoke(priority));
-                Anchor((RectTransform)button.transform, new Vector2(0.5f, 1f), new Vector2(0f, -60f - i * 62f), new Vector2(300f, 54f), new Vector2(0.5f, 1f));
+                Anchor((RectTransform)button.transform, new Vector2(0.5f, 1f), new Vector2(0f, -56f - i * 54f), new Vector2(300f, 48f), new Vector2(0.5f, 1f));
             }
 
             globalStatus = NewText(panel.transform, "Status", 18, TextAnchor.UpperLeft);
-            Anchor(globalStatus.rectTransform, new Vector2(0.5f, 0f), new Vector2(0f, 12f), new Vector2(300f, 110f), new Vector2(0.5f, 0f));
+            Anchor(globalStatus.rectTransform, new Vector2(0.5f, 0f), new Vector2(0f, 8f), new Vector2(300f, 96f), new Vector2(0.5f, 0f));
             globalPanel.SetActive(false);
         }
 
@@ -129,6 +138,39 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             cannonGuide.text = guide;
+        }
+
+        // 마법 패널 (지도 아래 가운데). 정의 수만큼 버튼
+        public void RefreshSpells(BattleSim sim, int selected)
+        {
+            if (!mapMode) return;
+            if (spellPanel == null)
+            {
+                Image panel = NewImage(root.transform, "Spell Panel", new Color(0.08f, 0.05f, 0.12f, 0.88f));
+                spellPanel = panel.gameObject;
+                Anchor(panel.rectTransform, new Vector2(0.5f, 0f), new Vector2(0f, 70f), new Vector2(660f, 120f), new Vector2(0.5f, 0f));
+                spellTitle = NewText(panel.transform, "Title", 20, TextAnchor.MiddleCenter);
+                Anchor(spellTitle.rectTransform, new Vector2(0.5f, 1f), new Vector2(0f, -6f), new Vector2(640f, 30f), new Vector2(0.5f, 1f));
+                for (int i = 0; i < sim.SpellCount; i++)
+                {
+                    int index = i;
+                    Button button = NewButton(panel.transform, "", () => SpellChosen?.Invoke(index));
+                    Anchor((RectTransform)button.transform, new Vector2(0f, 0f), new Vector2(16f + i * 318f, 12f), new Vector2(306f, 60f), new Vector2(0f, 0f));
+                    spellLabels.Add(button.GetComponentInChildren<Text>());
+                    spellButtons.Add(button.GetComponent<Image>());
+                }
+            }
+
+            spellPanel.SetActive(true);
+            spellTitle.text = !sim.WizardPresent ? "마법사 — 이번 전투에 없음"
+                : selected >= 0 ? "들판을 왼쪽 클릭 (보라 점선 = 성벽에서 150m 안)" : "마법사 — 마법을 고른 뒤 들판 클릭";
+            for (int i = 0; i < spellLabels.Count; i++)
+            {
+                BattleSim.SpellInfo info = sim.GetSpell(i);
+                string state = info.Ready ? "준비" : $"{info.CooldownLeft:0}초";
+                spellLabels[i].text = (i == selected ? "▶ " : "") + $"{info.Name} — {state}";
+                spellButtons[i].color = i == selected ? new Color(0.5f, 0.3f, 0.6f, 0.95f) : info.Ready && sim.WizardPresent ? new Color(0.25f, 0.3f, 0.4f, 0.95f) : new Color(0.2f, 0.2f, 0.22f, 0.95f);
+            }
         }
 
         // 지금 성벽별 명령 (패널 아래)

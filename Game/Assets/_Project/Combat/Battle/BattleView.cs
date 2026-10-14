@@ -49,6 +49,8 @@ namespace HumanLastRampart.Combat.Battle
         readonly Renderer[] walls = new Renderer[4];
         Light sunLight;
         Transform[] pileBlocks;          // 시체 더미 칸마다 상자 (높이가 생기면 만든다)
+        readonly List<Renderer> effectDiscs = new List<Renderer>();     // 마법 효과 (MAP-4) — 임시 모양
+        readonly List<Renderer> effectFlashes = new List<Renderer>();
         Material pileMaterial;
         float nextPileRefresh;
         readonly Bounds bounds;
@@ -223,6 +225,8 @@ namespace HumanLastRampart.Combat.Battle
                 RefreshPiles();
             }
 
+            DrawEffects();
+
             // 성벽 색: 체력이 줄수록 붉게
             for (int side = 0; side < 4; side++)
             {
@@ -269,6 +273,50 @@ namespace HumanLastRampart.Combat.Battle
             RenderSettings.fogEndDistance = visible + 40f;
         }
 
+        // 마법 효과 (임시 모양): 불바다 = 주황 원판, 폭발 대기 = 어두운 노랑 원판, 터짐 = 밝은 공
+        void DrawEffects()
+        {
+            IReadOnlyList<BattleSim.SpellEffect> list = sim.Effects;
+            int discs = 0, flashes = 0;
+            foreach (BattleSim.SpellEffect e in list)
+            {
+                if (e.Fire || e.Pending)
+                {
+                    Renderer disc = Pooled(effectDiscs, discs++, PrimitiveType.Cylinder, "Spell Disc");
+                    disc.transform.localPosition = new Vector3(e.Position.x, 0.06f, e.Position.z);
+                    disc.transform.localScale = new Vector3(e.Radius * 2f, 0.03f, e.Radius * 2f);
+                    float flicker = 0.85f + 0.15f * Mathf.Sin(Time.time * 18f + e.Position.x);
+                    disc.material.color = e.Fire ? new Color(1f, 0.35f, 0.05f) * flicker : new Color(0.55f, 0.5f, 0.1f);
+                }
+                else
+                {
+                    Renderer flash = Pooled(effectFlashes, flashes++, PrimitiveType.Sphere, "Spell Flash");
+                    float grow = 1f - Mathf.Clamp01(e.TimeLeft / 0.4f);
+                    flash.transform.localPosition = new Vector3(e.Position.x, 1f, e.Position.z);
+                    flash.transform.localScale = Vector3.one * e.Radius * (0.6f + grow * 1.2f);
+                    flash.material.color = Color.Lerp(new Color(1f, 0.95f, 0.6f), new Color(1f, 0.4f, 0.1f), grow);
+                }
+            }
+
+            for (int i = discs; i < effectDiscs.Count; i++) effectDiscs[i].gameObject.SetActive(false);
+            for (int i = flashes; i < effectFlashes.Count; i++) effectFlashes[i].gameObject.SetActive(false);
+        }
+
+        Renderer Pooled(List<Renderer> pool, int index, PrimitiveType type, string name)
+        {
+            while (pool.Count <= index)
+            {
+                var go = GameObject.CreatePrimitive(type);
+                go.name = name;
+                UnityEngine.Object.Destroy(go.GetComponent<Collider>());
+                go.transform.SetParent(root.transform, false);
+                pool.Add(go.GetComponent<Renderer>());
+            }
+
+            pool[index].gameObject.SetActive(true);
+            return pool[index];
+        }
+
         // 시체 더미: 성벽 앞 칸마다 높이만큼 어두운 상자 (그림은 이후 Codex 아트)
         void RefreshPiles()
         {
@@ -306,13 +354,44 @@ namespace HumanLastRampart.Combat.Battle
         }
 
         // 지도 대포 표시: 모든 대포 위치(흰), 고른 벽 대포의 사거리 원(회색 점선), 조준점(빨강, 쉬는 중이면 회색), 고른 대포(노랑)
-        public void DrawMapMarkers(int selectedSide, int selectedCannon, float dot)
+        public void DrawMapMarkers(int selectedSide, int selectedCannon, float dot, bool showSpellRange = false)
         {
             int n = 0;
             void Add(Vector3 p, Color c, float size)
             {
                 if (n >= MarkerCapacity) return;
                 markers[n++] = new PerfLabInstance { PosFrame = new float4(p.x, 0.5f, p.z, 0f), TintSize = new float4(c.r, c.g, c.b, size) };
+            }
+
+            void Ring(Vector3 center, float radius, Color c, float size, int count)
+            {
+                for (int k = 0; k < count; k++)
+                {
+                    float a = k * Mathf.PI * 2f / count;
+                    Add(center + new Vector3(Mathf.Cos(a), 0f, Mathf.Sin(a)) * radius, c, size);
+                }
+            }
+
+            // 마법 효과: 불바다(주황 원), 터질 폭발(노랑 원)
+            foreach (BattleSim.SpellEffect e in sim.Effects)
+            {
+                if (e.Fire) Ring(e.Position, e.Radius, new Color(1f, 0.45f, 0.1f), dot * 1.1f, 28);
+                else if (e.Pending) Ring(e.Position, e.Radius, new Color(1f, 0.95f, 0.2f), dot * 1.1f, 28);
+            }
+
+            // 마법을 고른 동안: 쓸 수 있는 범위(성벽에서 150m) 네모 점선
+            if (showSpellRange)
+            {
+                float edge = sim.CastleHalf + BattleSim.SpellCastRange;
+                for (int k = -20; k <= 20; k++)
+                {
+                    float t = k / 20f * edge;
+                    Color c = new Color(0.75f, 0.5f, 1f);
+                    Add(new Vector3(t, 0f, edge), c, dot * 0.6f);
+                    Add(new Vector3(t, 0f, -edge), c, dot * 0.6f);
+                    Add(new Vector3(edge, 0f, t), c, dot * 0.6f);
+                    Add(new Vector3(-edge, 0f, t), c, dot * 0.6f);
+                }
             }
 
             for (int i = 0; i < sim.CannonCount; i++)

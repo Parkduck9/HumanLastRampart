@@ -194,6 +194,7 @@ namespace HumanLastRampart.Combat.Battle
             InitCommands(p);
             InitWeather();
             InitCannons(p);
+            InitSpells(defs);
         }
 
         // ── 준비 ──────────────────────────────────────────────
@@ -512,6 +513,7 @@ namespace HumanLastRampart.Combat.Battle
 
             Spawn();
             UpdateMessengers(dt);
+            UpdateSpells(dt);
             CheckEnd();
         }
 
