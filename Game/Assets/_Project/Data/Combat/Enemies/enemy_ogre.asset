@@ -19,4 +19,4 @@ MonoBehaviour:
   moveSpeed: 1.5
   wallDamage: 20
   rewardGold: 30
-  onWallAttack: 5
+  onWallAttack: 25

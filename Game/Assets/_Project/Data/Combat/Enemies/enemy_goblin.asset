@@ -18,4 +18,5 @@ MonoBehaviour:
   moveSpeed: 4
   wallDamage: 1
   rewardGold: 1
+  onWallAttack: 5
   sheet: {fileID: 2800000, guid: b3d4ea76535e4d6d85ca1a232a8d7b12, type: 3}
