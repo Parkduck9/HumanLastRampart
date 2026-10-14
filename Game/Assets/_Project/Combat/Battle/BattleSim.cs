@@ -26,6 +26,10 @@ namespace HumanLastRampart.Combat.Battle
         const float SoldierDrawSize = 1.4f * WallFigureScale;
         const float SoldierMaxSpacing = 0.45f;              // 인원이 적으면 이 간격, 많으면 자기 구간에 맞춰 촘촘히
         const float SoldierInset = 0.5f;                    // 성벽 바깥 모서리에서 안쪽으로
+
+        // 병종별 병사 구간 (그리기용): 병종 정의, 병사 배열 시작, 수
+        readonly List<(UnitDef unit, int start, int count)> soldierGroups = new List<(UnitDef, int, int)>();
+        public IReadOnlyList<(UnitDef unit, int start, int count)> SoldierGroups => soldierGroups;
         const float RetryInterval = 0.25f;
         const float SpawnSpreadSeconds = 12f;   // 한 무리가 나오는 데 걸리는 시간
         const float FieldBand = 40f;            // 들판 끝에서 이만큼 안쪽까지 흩어져 나온다
@@ -373,10 +377,11 @@ namespace HumanLastRampart.Combat.Battle
                 IsSpecial = (byte)(def.IsSpecial ? 1 : 0),
                 CarriesLadder = (byte)(def.CarriesLadder ? 1 : 0),
                 DrawSize = def.IsSpecial ? (hasSheet ? 4.2f : 3.2f) : (hasSheet ? 2.4f : 1.6f),
-                // 그림이 없으면 임시 그림에 색을 입힌다. 사다리 고블린은 같은 시트에 노란 기운
+                // 그림이 없으면 임시 그림에 색을 입힌다 (사다리 고블린·오우거는 Codex 정적 데모 그림, M-CX-049)
                 Tint = hasSheet
-                    ? (def.CarriesLadder ? new float3(1f, 0.9f, 0.55f) : new float3(1f, 1f, 1f))
+                    ? new float3(1f, 1f, 1f)
                     : (def.IsSpecial ? new float3(0.55f, 0.3f, 0.75f) : new float3(0.85f, 0.25f, 0.2f)),
+                StaticSheet = (byte)(hasSheet && PerfLabArt.FrameCount(def.Sheet) < PerfLabArt.FramesPerAction * 2 ? 1 : 0),
             };
         }
 
@@ -385,6 +390,7 @@ namespace HumanLastRampart.Combat.Battle
             var weaponIndex = new Dictionary<string, int>();
             var weaponList = new List<WeaponKindData>();
             var placed = new List<(SquadState squad, PostDef post, int weapon, float hp)>();
+            var placedUnits = new List<UnitDef>();
             foreach (SquadState squad in setup.Squads)
             {
                 PostDef post = string.IsNullOrEmpty(squad.PostId) ? null : defs.Get<PostDef>(squad.PostId);
@@ -403,7 +409,28 @@ namespace HumanLastRampart.Combat.Battle
                 }
 
                 placed.Add((squad, post, w, unit.MaxHp > 0 ? unit.MaxHp : SoldierHpFallback));
+                placedUnits.Add(unit);
             }
+
+            // 같은 병종 병사를 이어 붙인다 — 그리기를 병종별 한 번씩 (병종마다 그림, M-CX-049). 처음 나온 순서 유지
+            var order = new List<int>();
+            var unitOrder = new List<UnitDef>();
+            foreach (UnitDef u in placedUnits) if (!unitOrder.Contains(u)) unitOrder.Add(u);
+            foreach (UnitDef u in unitOrder)
+                for (int k = 0; k < placed.Count; k++)
+                    if (placedUnits[k] == u) order.Add(k);
+            var sortedPlaced = new List<(SquadState squad, PostDef post, int weapon, float hp)>();
+            foreach (int k in order) sortedPlaced.Add(placed[k]);
+            int groupStart = 0;
+            foreach (UnitDef u in unitOrder)
+            {
+                int count = 0;
+                for (int k = 0; k < placed.Count; k++) if (placedUnits[k] == u) count += placed[k].squad.Count;
+                soldierGroups.Add((u, groupStart, count));
+                groupStart += count;
+            }
+
+            placed = sortedPlaced;
 
             weapons = new NativeArray<WeaponKindData>(Mathf.Max(1, weaponList.Count), p);
             for (int w = 0; w < weaponList.Count; w++)
@@ -875,7 +902,7 @@ namespace HumanLastRampart.Combat.Battle
                 soldierInstances[i] = new PerfLabInstance
                 {
                     PosFrame = new float4(sPos[i], 0f),
-                    TintSize = sAlive[i] != 0 ? new float4(new float3(0.3f, 0.5f, 0.95f) * Brightness, SoldierDrawSize) : float4.zero,
+                    TintSize = sAlive[i] != 0 ? new float4(new float3(1f, 1f, 1f) * Brightness, SoldierDrawSize) : float4.zero,
                 };
             }
         }

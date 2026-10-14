@@ -42,8 +42,10 @@ namespace HumanLastRampart.Combat.Battle
         readonly Texture2D shotTexture;
         readonly List<(GraphicsBuffer buffer, MaterialPropertyBlock block, int start, int count)> enemyDraws =
             new List<(GraphicsBuffer, MaterialPropertyBlock, int, int)>();
-        readonly GraphicsBuffer soldierBuffer;
+        readonly GraphicsBuffer soldierBuffer;   // 전체 병사 (지도 점)
         readonly MaterialPropertyBlock soldierBlock;
+        readonly List<(GraphicsBuffer buffer, MaterialPropertyBlock block, int start, int count)> soldierDraws =
+            new List<(GraphicsBuffer, MaterialPropertyBlock, int, int)>();
         readonly GraphicsBuffer shotBuffer;
         readonly MaterialPropertyBlock shotBlock;
         // 주인공 (성벽 위 한 명). 시트가 없으면 임시 그림 — 같은 4행 순서 (PerfLabArt.HeroLayout)
@@ -80,7 +82,7 @@ namespace HumanLastRampart.Combat.Battle
                 var block = new MaterialPropertyBlock();
                 if (def.Sheet != null)
                 {
-                    Apply(block, def.Sheet, PerfLabArt.GoblinLayout);   // 4열×2행 고블린 규격 (EnemyDef 주석)
+                    Apply(block, def.Sheet, PerfLabArt.FromSheet(def.Sheet));   // 칸 256×384 — 고블린 4×2, 정적 데모 1×1
                 }
                 else
                 {
@@ -99,9 +101,20 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             soldierBlock = new MaterialPropertyBlock();
-            Apply(soldierBlock, placeholderSheet, PerfLabArt.PlaceholderLayout);   // 병사 그림은 Codex 아트 이후
+            Apply(soldierBlock, placeholderSheet, PerfLabArt.PlaceholderLayout);   // 그림 없는 병종용
             soldierBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, Mathf.Max(1, sim.SoldierCount), PerfLabInstance.Stride);
             soldierBlock.SetBuffer(InstancesId, soldierBuffer);
+            // 병종별 그림 (Codex 정적 뒷모습 데모, M-CX-049). 그림이 없으면 임시 그림
+            foreach (var (unit, start, count) in sim.SoldierGroups)
+            {
+                if (count <= 0) continue;
+                var block = new MaterialPropertyBlock();
+                if (unit != null && unit.Sheet != null) Apply(block, unit.Sheet, PerfLabArt.FromSheet(unit.Sheet));
+                else Apply(block, placeholderSheet, PerfLabArt.PlaceholderLayout);
+                var buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, PerfLabInstance.Stride);
+                block.SetBuffer(InstancesId, buffer);
+                soldierDraws.Add((buffer, block, start, count));
+            }
             mapSoldierBlock = new MaterialPropertyBlock();
             mapSoldierBlock.SetTexture(MainTexId, dotTexture);
             mapSoldierBlock.SetColor(MapColorId, MapSoldierColor);
@@ -244,6 +257,7 @@ namespace HumanLastRampart.Combat.Battle
             {
                 sim.RefreshSoldierInstances();
                 soldierBuffer.SetData(sim.SoldierInstances);
+                foreach (var (buffer, _, start, count) in soldierDraws) buffer.SetData(sim.SoldierInstances, start, 0, count);
                 sim.SoldiersDirty = false;
             }
 
@@ -256,7 +270,8 @@ namespace HumanLastRampart.Combat.Battle
                 }
                 else
                 {
-                    Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, sim.SoldierCount, soldierBlock);
+                    foreach (var (_, block, _, count) in soldierDraws)
+                        Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, count, block);
                 }
             }
 
@@ -557,6 +572,8 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             enemyDraws.Clear();
+            foreach (var draw in soldierDraws) draw.buffer.Release();
+            soldierDraws.Clear();
             soldierBuffer?.Release();
             shotBuffer?.Release();
             heroBuffer?.Release();

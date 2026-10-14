@@ -74,6 +74,7 @@ namespace HumanLastRampart.Combat.Battle
         public byte CarriesLadder;
         public float DrawSize;
         public float3 Tint;
+        public byte StaticSheet;     // 그림이 한 칸뿐(정적 데모) — 걷기·공격 프레임 없이 0번만
     }
 
     // 무기 종류별 값 (WeaponDef에서 복사)
@@ -891,6 +892,7 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             EnemyKind kind = Kinds[KindOf[i]];
+            if (kind.StaticSheet != 0) frame = 0;
             float shade = Brightness;
             float fromWall = math.dot(Positions[i], WallGeometry.Outward(Sides[i])) - CastleHalf;
             float size = kind.DrawSize * math.lerp(WallScale, 1f, math.saturate((fromWall - 1f) / math.max(0.1f, WallScaleBand - 1f)));

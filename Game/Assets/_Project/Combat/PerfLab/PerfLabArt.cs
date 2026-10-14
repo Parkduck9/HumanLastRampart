@@ -29,6 +29,14 @@ namespace HumanLastRampart.Combat.PerfLab
         public static readonly SheetLayout GoblinLayout = SheetLayout.Make(4, 2, 0.5f, (384f - 352f) / 384f, 256f / 384f);
         public static readonly SheetLayout PlaceholderLayout = SheetLayout.Make(4, 2, 0.5f, 0f, 1f);
 
+        // Codex 캐릭터 시트 공통 규격: 칸 256×384, 모든 칸 발 (128, 352). 그림 크기로 열·행을 센다
+        // (고블린 1024×768 = 4×2 걷기·공격, 주인공 1024×1536 = 4×4, 정적 데모 256×384 = 1×1)
+        public const int CellWidth = 256, CellHeight = 384;
+        public static SheetLayout FromSheet(Texture sheet) => SheetLayout.Make(
+            Mathf.Max(1, sheet.width / CellWidth), Mathf.Max(1, sheet.height / CellHeight),
+            0.5f, (CellHeight - 352f) / CellHeight, (float)CellWidth / CellHeight);
+        public static int FrameCount(Texture sheet) => Mathf.Max(1, sheet.width / CellWidth) * Mathf.Max(1, sheet.height / CellHeight);
+
         // 주인공 시트 (Codex M-CX-048, Docs/References/codex_hero_grid_v2): 4열×4행, 칸 256×384, 모든 칸 발 (128, 352).
         // 행: 0 뒷모습 걷기(첫 칸 = 서 있기) / 1 옆모습 걷기(왼쪽 보기) / 2 옆모습 달리기(왼쪽) / 3 앞모습 걷기.
         // 오른쪽은 왼쪽 행 좌우 뒤집기. 걷기는 칸 순서 HeroWalkFlipPhase, 달리기는 그대로 (JSON)

@@ -18,3 +18,4 @@ MonoBehaviour:
   maxHp: 10
   defaultWeaponId: weapon_bow
   recruitCost: 5
+  sheet: {fileID: 2800000, guid: 9bbb432c5b1d445cb092d3e80eb1aa65, type: 3}

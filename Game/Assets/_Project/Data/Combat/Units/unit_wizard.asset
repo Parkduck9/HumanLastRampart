@@ -16,3 +16,4 @@ MonoBehaviour:
   displayName: 마법사
   kind: 3
   maxHp: 60
+  sheet: {fileID: 2800000, guid: 01dc04a024d34e08b29ec75ba6216e56, type: 3}
