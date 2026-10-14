@@ -20,7 +20,7 @@ namespace HumanLastRampart.Core.Definitions
         [SerializeField] UnitKind kind;
         [SerializeField] int maxHp = 10;
         [SerializeField] string defaultWeaponId;   // WeaponDef
-        [SerializeField] int recruitCost;
+        [SerializeField] int recruitCost;          // 정비 견적에는 쓰지 않는다 — 가격 원본은 PreparationEconomyDef (C-017)
         [SerializeField] Texture2D sheet;          // 그림 시트 (규격은 그림 확정 후)
 
         public UnitKind Kind => kind;
