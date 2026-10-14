@@ -294,6 +294,8 @@ namespace HumanLastRampart.Combat.Battle
                 }
             }
 
+            PlanAttack(groups);   // 무리마다 나오는 면·시각 (D-053: 정면 북쪽, 우회는 늦게)
+
             // 종류별로 슬롯을 이어 붙인다 — 그리기를 종류별 한 번씩 하기 위해
             var kindStart = new int[kindList.Count];
             int total = 0;
@@ -337,7 +339,9 @@ namespace HumanLastRampart.Combat.Battle
                 groupIndex++;
                 EnemyDef def = defs.Get<EnemyDef>(group.EnemyDefId);
                 int k = kindIndex[def.Id];
-                waveGroups.Add(((int)group.Side, def.IsSpecial));
+                GroupPlan plan = attackPlan[groupIndex];
+                waveGroups.Add((plan.Side, def.IsSpecial));
+                groupSlots.Add((cursor[k], count));   // 한 무리의 슬롯은 이어져 있다 (발견 판정용)
                 for (int j = 0; j < count; j++)
                 {
                     int slot = cursor[k]++;
@@ -349,12 +353,12 @@ namespace HumanLastRampart.Combat.Battle
                     float phase = random.NextFloat();
                     eAnim[slot] = phase;
                     eStop[slot] = CastleHalf + 1.5f + phase * 6f;   // 성벽 앞에 여러 줄로
-                    eSide[slot] = (byte)(int)group.Side;
+                    eSide[slot] = (byte)plan.Side;
                     entries.Add(new SpawnEntry
                     {
                         Slot = slot,
-                        Time = group.SpawnAtSeconds + random.NextFloat(0f, SpawnSpreadSeconds),
-                        Side = (int)group.Side,
+                        Time = plan.SpawnAt + random.NextFloat(0f, SpawnSpreadSeconds),
+                        Side = plan.Side,
                         Lateral = random.NextFloat(-lateralLimit, lateralLimit),
                         Depth = random.NextFloat(FieldSize - FieldBand, FieldSize),
                     });
@@ -614,6 +618,7 @@ namespace HumanLastRampart.Combat.Battle
 
             Spawn();
             UpdateMessengers(dt);
+            UpdateFlank(dt);
             UpdateSpells(dt);
             UpdateTraps(dt);
             CheckEnd();

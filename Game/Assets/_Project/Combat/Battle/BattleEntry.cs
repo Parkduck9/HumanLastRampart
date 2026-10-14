@@ -245,6 +245,7 @@ namespace HumanLastRampart.Combat.Battle
 
             // 큰 프레임 지연에도 한 번에 너무 멀리 가지 않게 자른다
             float dt = Mathf.Min(Time.deltaTime, 1f / 20f) * speed;
+            if (rig != null) sim.SetCommander(rig.Side, rig.Along);   // 발견 전령이 찾아갈 지휘관 위치 (D-053)
             sim.BeginFrame(dt);
             if (sim.Ended)
             {

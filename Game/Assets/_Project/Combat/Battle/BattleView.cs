@@ -479,6 +479,20 @@ namespace HumanLastRampart.Combat.Battle
                 }
             }
 
+            // 우회 적 보고를 받은 면 (D-053): 성벽 앞에 빨간 줄이 깜빡인다
+            bool blinkOn = Mathf.Repeat(Time.unscaledTime, 0.6f) < 0.35f;
+            for (int side = 0; side < 4 && blinkOn; side++)
+            {
+                if (!sim.SideAlert(side)) continue;
+                var outward = WallGeometry.Outward(side);
+                var right = WallGeometry.Right(side);
+                for (int k = -12; k <= 12; k++)
+                {
+                    Vector3 p = new Vector3(outward.x, 0f, outward.z) * (sim.CastleHalf + 12f) + new Vector3(right.x, 0f, right.z) * (k / 12f * sim.CastleHalf);
+                    Add(p, new Color(1f, 0.15f, 0.15f), dot * 1.6f);
+                }
+            }
+
             // 함정 (D-050): 설치 때 남긴 표시 위치에만. 묻힘(주황) · 점화 중(노랑, 피해 거리 원) · 터짐(구덩이 모양) · 불발(회색)
             for (int i = 0; i < sim.TrapCount; i++)
             {
