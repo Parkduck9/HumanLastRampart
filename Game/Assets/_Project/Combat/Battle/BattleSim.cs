@@ -340,6 +340,8 @@ namespace HumanLastRampart.Combat.Battle
                 EnemyDef def = defs.Get<EnemyDef>(group.EnemyDefId);
                 int k = kindIndex[def.Id];
                 GroupPlan plan = attackPlan[groupIndex];
+                // 무리가 나오는 데 걸리는 시간: 규칙에 속도가 있으면 수에 맞춰 길게 (작은 무리는 최소 12초)
+                float spread = rules != null && rules.SpawnPerSecond > 0f ? Mathf.Max(SpawnSpreadSeconds, count / rules.SpawnPerSecond) : SpawnSpreadSeconds;
                 waveGroups.Add((plan.Side, def.IsSpecial));
                 groupSlots.Add((cursor[k], count));   // 한 무리의 슬롯은 이어져 있다 (발견 판정용)
                 for (int j = 0; j < count; j++)
@@ -357,7 +359,7 @@ namespace HumanLastRampart.Combat.Battle
                     entries.Add(new SpawnEntry
                     {
                         Slot = slot,
-                        Time = plan.SpawnAt + random.NextFloat(0f, SpawnSpreadSeconds),
+                        Time = plan.SpawnAt + random.NextFloat(0f, spread),
                         Side = plan.Side,
                         Lateral = random.NextFloat(-lateralLimit, lateralLimit),
                         Depth = random.NextFloat(FieldSize - FieldBand, FieldSize),

@@ -10,6 +10,10 @@ namespace HumanLastRampart.Core.Definitions
         [SerializeField] float easyEnemyMultiplier = 0.5f;
         [Tooltip("v1.3: 쉬움에서 전투 번호별 배율 (0번 칸 = 1번 전투). 0이거나 칸이 없으면 위 기본값")]
         [SerializeField] float[] easyEnemyMultiplierByBattle = new float[0];
+        [Tooltip("현실에서 전투 번호별 배율 (0번 칸 = 1번 전투). 0이거나 칸이 없으면 1")]
+        [SerializeField] float[] realisticEnemyMultiplierByBattle = new float[0];
+        [Tooltip("무리가 나오는 속도(초당 마리). 0이면 예전처럼 무리마다 12초 안에 모두 나온다")]
+        [SerializeField] float spawnPerSecond = 0f;
         [SerializeField] int maxConcurrentEnemiesRealistic = 50000;
         [SerializeField] int maxConcurrentEnemiesEasy = 25000;
 
@@ -47,6 +51,16 @@ namespace HumanLastRampart.Core.Definitions
         [SerializeField] int recoveryExplosionLoss = 3;         // 회수 중 폭발 1회당 잃는 병사
 
         public float EasyEnemyMultiplier => easyEnemyMultiplier;
+
+        public float SpawnPerSecond => spawnPerSecond;
+
+        // 현실 n번 전투의 적 배율 (기본 1)
+        public float RealisticEnemyMultiplierFor(int battleNumber)
+        {
+            int index = battleNumber - 1;
+            bool has = realisticEnemyMultiplierByBattle != null && index >= 0 && index < realisticEnemyMultiplierByBattle.Length && realisticEnemyMultiplierByBattle[index] > 0f;
+            return has ? realisticEnemyMultiplierByBattle[index] : 1f;
+        }
 
         // 쉬움 n번 전투의 적 배율 (D-047: 4번만 0.4)
         public float EasyEnemyMultiplierFor(int battleNumber)

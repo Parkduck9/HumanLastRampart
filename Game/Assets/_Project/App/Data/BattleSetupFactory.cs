@@ -39,7 +39,7 @@ namespace HumanLastRampart.App.Data
                 WaveDefId = waveId,
                 TerrainId = start.TerrainFor(campaign.BattleNumber),
                 Difficulty = campaign.Difficulty,
-                EnemyCountMultiplier = easy ? rules.EasyEnemyMultiplierFor(campaign.BattleNumber) : 1f,
+                EnemyCountMultiplier = easy ? rules.EasyEnemyMultiplierFor(campaign.BattleNumber) : rules.RealisticEnemyMultiplierFor(campaign.BattleNumber),
                 MaxConcurrentEnemies = easy ? rules.MaxConcurrentEnemiesEasy : rules.MaxConcurrentEnemiesRealistic,
                 Forecast = BattleForecast.Get(campaign.RngSeed, campaign.BattleNumber, rules),
                 InitialTargeting = (campaign.Targeting ?? TargetingSettings.CreateDefault()).Clone(),
