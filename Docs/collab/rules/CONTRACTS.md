@@ -1241,3 +1241,21 @@ public interface IScreenContext
   - UnitDef.RecruitCost에 '정비 견적에 쓰지 않음' 주석
 - **App(Claude) 대기:** 시작 검사(정확히 1개·Id·Validate)와 Boot GameFlow.catalogs에 MetaCatalog 연결은 Codex 에셋·MetaCatalog가 생긴 뒤 넣는다(먼저 넣으면 새 게임이 막힘)
 - 확인 [AI 직접 확인 — 배치 EditMode]: 32/32 (PreparationEconomyTests 4: 599→2명 13골드, 1199→2명 20, 나눠 사도 같음, 0→2000 전체, 정원·음수·병종·넘침 거부, 수리 5HP 1골드·11HP 2골드·만피 0, 기본값 Validate 통과)
+## C-008 r6 · C-004 v1.3 · C-005 v1.2 · C-010 v1.5 — 함정 칸 배치·점화식·상점 재고 (D-050)
+- 상태: **D-050 사용자 방향에 따른 데이터 형태 — Codex 검토 요청** (2026-10-14 15:48 KST). 동작은 D-050으로 승인됨, 아래는 Claude가 정한 데이터 모양
+- **칸 (C-008 r6):** 고정 설치 지점(TrapSlotDef) 대신 칸. `Core/Traps/TrapGrid`(Claude, 상태 없음)
+  - 칸 ID `cell_{성벽 0북·1동·2남·3서}_{열}_{행}` → `TrapPlacement.SlotId`에 넣는다(필드 이름은 그대로, 뜻이 '처음 놓은 칸')
+  - `Columns(terrain)`(성벽 폭 ÷ 칸, 지금 24) · `Rows(terrain)`(10~80m ÷ 칸, 지금 14) · `Center(terrain, side, col, row)` → 전장 X·Z (성 가운데 원점, 북 +Z) · `IsPlaceable(terrain, side, col, row)` / `IsPlaceable(terrain, cellId)` · `TryParse`
+  - 설치 때 `ActualX/Z` = 칸 가운데, `Marked` 기본 true, `MarkX/Z` = 칸 가운데. 한 칸에 하나(같은 지형·같은 SlotId 중복 금지 — 회수 전 이동한 함정도 처음 칸은 점유로 본다)
+  - TrapSlotDef는 쓰지 않는다(클래스는 남김, 에셋 없음)
+- **C-010 v1.5:** `TerrainDef`에 trapCellSize(5)·trapNear(10)·trapFar(80)·hills(Vector3[]: x·z 중심, y 반경 — 언덕, 놓을 수 없음). `TrapDef`에 fuseSeconds(0.5)·dudChance(0.01)·autoChance(0.01)·craterRadius(3)·craterSpeedMultiplier(0.7)·shopStockStart(6)·shopStockPerPrep(3)·shopStockMax(12), 기본값 변경 price 25·damageRadius 6·damage 300
+- **C-004 v1.3:** `CampaignState.TrapShop`(List<TrapStockEntry>, 상점에 남은 재고 — App이 새 게임 때 종류마다 shopStockStart) · `TrapShopRestockedForBattle`(int, 새 게임 2). Meta.Prep: 정비 진입 때 `BattleNumber != TrapShopRestockedForBattle`이면 종류마다 +shopStockPerPrep(최대 shopStockMax) 후 값 기록(재진입 두 번 보충 금지). 구매 = TrapShop −1 + 골드 −price + 새 TrapId. 보관함(TrapStock, 회수품) 재설치는 골드 없이
+- **C-005 v1.2:** `BattleSetup.Traps`에 지도 표시(Marked·MarkX/Z)도 담는다(D-050 G3 — 지도에서 표시를 눌러 점화). P1-C14 R3 '표시를 넘기지 않음'을 대체
+- **전투(Claude, 완료 예정):** 점화(지도 표시 클릭 → 0.5초 뒤 실제 위치 폭발) · 불발 1% · 저절로 1% · 구덩이 감속 · 결과 `ConsumedTrapIds`(터진 것만) · `TrapMoves`(T4)
+- **결과 반영(Codex, C-007 v1.1):** 지금 BattleResultApplier는 ConsumedTrapIds·TrapMoves가 비어 있어야 통과(111·113행) → 소비 함정 제거·TrapMoves 실제 위치 적용으로 바꿔야 함정이 든 전투 결과를 받을 수 있다
+### C-008 r6 보완 — Codex 검토 V1~V5 반영 (2026-10-14 16:26 KST)
+- **표기 정정(V5):** 위 제목의 'C-005 v1.2'는 **C-005 v1.4**로 읽는다(v1.3 = M7 참가 규칙, 그대로 유지). `TrapPlacement.SlotId` 주석을 칸 ID로 고침
+- **V1 칸 ID 정규형:** `TrapGrid.TryParse`는 `CellId(side, col, row)`와 문자열이 같을 때만 성공(앞자리 0 같은 별칭 거부). 점유 검사는 정규 ID 문자열 또는 (성벽·열·행)으로
+- **V2 시작 검사(App DefinitionLookup, Claude):** TrapDef — 값·피해 ≥ 0, 반경 > 0(구덩이 ≥ 0), 점화 지연 ≥ 0, 불발·저절로 0~1, 구덩이 속도 (0, 1], 상점 시작·보충 ≥ 0·최대 ≥ 시작 / TerrainDef — 칸 > 0, 0 ≤ 가까운 끝 < 먼 끝 ≤ 들판−성벽, 언덕 반경 > 0. 틀리면 새 게임 시작 차단
+- **V3 보충(Meta):** 모든 종류를 검증·복사한 뒤 TrapShop과 TrapShopRestockedForBattle을 함께 반영, 부분 보충 금지 — 동의
+- **V4 결과 반영(Meta, C-007 v1.1):** ConsumedTrapIds·TrapMoves는 이번 BattleSetup 지형의 TrapId만, 중복·서로 겹침·모르는 ID·비유한 좌표 거부, 다른 결과와 함께 원자 반영 — 동의. **이동 좌표 허용 범위(Combat 보장):** 원래 위치에서 2~5m, 성벽에서 (trapNear÷2) 이상·들판(FieldSize) 이하, 언덕 밖. Meta는 '성벽에서 trapNear÷2 이상, FieldSize 이하, 유한 값'을 검사하면 된다(언덕 검사는 선택)
