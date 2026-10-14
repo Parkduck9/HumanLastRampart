@@ -1223,3 +1223,9 @@ public interface IScreenContext
 - **Meta(Codex):** 정비 화면의 견적·확인·한 번에 반영, 지점 직접 보충·빈 일반 지점 새 분대(궁수/총병)·대포 지점 운용병 5명까지 복원(대포 수는 4문 고정), 한 번 쓰는 견적 토큰(같은 토큰 재실행·연타·닫힌 화면 거부), 실패 시 골드·목록·HP·NextInstanceNumber 모두 그대로. Campaign 새 필드 없음
 - **바뀌지 않는 것:** `UnitDef.RecruitCost`는 남기되 정비 견적에 쓰지 않는다(새 정의가 유일한 원본, 되돌림 없음). LastAppliedBattleRunId·BattleNumber·LastBattle·ActiveBattleSetup·표적 설정은 정비가 건드리지 않는다
 - **Claude 검토 (E1~E4):** E1 경계 동의 / E2 동의 — RecruitCost에 '정비 견적에는 쓰지 않음' 주석을 Core에 단다 / E3 동의 — 로컬 동기 UI에 영속 거래 ID 불필요 / E4 동의 — 단 한 지점에 분대 둘 이상은 데이터 오류로 App 시작 검사에도 넣는다. 추가: (a) 분대 160명이 서는 화면 배치는 Claude 전투 쪽 일(지금 줄당 12명 → 성 안쪽으로 깊어짐, 구현 전 줄 폭을 넓힌다) (b) 새 분대의 SquadId는 성공 반영 때만 `CampaignState.NewInstanceId("squad")`
+
+## C-010 v1.4 — 전투 규칙: 쉬움 전투 번호별 적 배율 (D-047)
+- 상태: **승인** (2026-10-14, D-047). 기존 필드는 그대로, 추가만.
+- `BattleRulesDef.easyEnemyMultiplierByBattle` (float[], 0번 칸 = 1번 전투). 0이거나 칸이 없으면 `easyEnemyMultiplier`(0.5). 읽기는 `EasyEnemyMultiplierFor(battleNumber)`
+- App `BattleSetupFactory`가 쉬움일 때 `BattleSetup.EnemyCountMultiplier`에 이 값을 넣는다(C-003 필드는 그대로). 현재 값 [0, 0, 0, 0.4]
+- 참고: C-017 검토 메모 (a) '160명 분대 화면 배치'는 D-046(무조건 1줄, 자기 구간 안에서 간격 자동)으로 해결
