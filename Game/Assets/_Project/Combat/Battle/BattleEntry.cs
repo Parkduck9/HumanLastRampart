@@ -21,6 +21,9 @@ namespace HumanLastRampart.Combat.Battle
         BattleView view;
         BattleCameraRig rig;
         BattleHud hud;
+        BattleMapCamera mapCamera;
+        bool mapOpen;
+        bool easy;
         int speed = 1;
         bool paused;
         bool endShown;
@@ -58,6 +61,8 @@ namespace HumanLastRampart.Combat.Battle
                 sim = new BattleSim(setup, defs);
                 view = new BattleView(sim, spriteShader, transform);
                 rig = new BattleCameraRig(battleCamera, sim.CastleHalf, BattleSim.WallHeight);
+                mapCamera = new BattleMapCamera(battleCamera, sim.CastleHalf, sim.FieldSize);
+                easy = setup.Difficulty == Difficulty.Easy;
             }
             else if (setup != null && spriteShader == null)
             {
@@ -132,10 +137,17 @@ namespace HumanLastRampart.Combat.Battle
 
             var keyboard = Keyboard.current;
             var mouse = Mouse.current;
-            if (mouse != null && !sim.Ended)
+            if (mouse != null && !sim.Ended && !mapOpen)
             {
                 if (mouse.middleButton.wasPressedThisFrame) hud.ToggleMenu(rig != null ? rig.Side : 0);
                 if (mouse.rightButton.wasPressedThisFrame) hud.CloseMenu();
+            }
+
+            if (keyboard != null && !sim.Ended)
+            {
+                // 2번 지도 모드 (BattleMap.md): M 열고 닫기, Esc 닫기(명령 메뉴가 열려 있으면 메뉴 먼저)
+                if (keyboard.mKey.wasPressedThisFrame) ToggleMap();
+                else if (keyboard.escapeKey.wasPressedThisFrame && mapOpen && !hud.MenuOpen) ToggleMap();
             }
 
             if (keyboard != null)
@@ -161,8 +173,11 @@ namespace HumanLastRampart.Combat.Battle
                 if (keyboard.pKey.wasPressedThisFrame) paused = !paused;
             }
 
-            rig?.Update(Time.unscaledDeltaTime);
-            if (paused)
+            if (mapOpen) mapCamera.Update(Time.unscaledDeltaTime);
+            else rig?.Update(Time.unscaledDeltaTime);
+
+            // 쉬움: 지도가 열린 동안 전투 시간 정지 (확정 B4). 멈춘 동안 내린 명령은 바로 적용된다(작업이 돌지 않음, D-044 M8)
+            if (paused || MapFreezesTime)
             {
                 return;
             }
@@ -187,14 +202,40 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             sim.Complete();
-            if (sim.WeatherDirty)
+            if (sim.WeatherDirty && !mapOpen)
             {
                 view.ApplyAtmosphere(battleCamera, sim);
                 sim.WeatherDirty = false;
             }
 
-            view.Draw();
-            hud?.Refresh(sim, rig, speed, paused);
+            view.Draw(mapOpen, mapOpen ? mapCamera.DotWorldSize : 0f);
+            hud?.SetMapMode(mapOpen, MapFreezesTime);
+            hud?.Refresh(sim, rig, speed, paused || MapFreezesTime);
+        }
+
+        public bool MapOpen => mapOpen;
+        public BattleMapCamera MapCamera => mapCamera;
+        bool MapFreezesTime => mapOpen && easy;
+
+        public void ToggleMap()
+        {
+            if (sim == null || mapCamera == null) return;
+            mapOpen = !mapOpen;
+            if (mapOpen)
+            {
+                hud.CloseMenu();
+                mapCamera.Open(rig != null ? rig.Side : 0);
+                RenderSettings.fog = false;   // 위에서 멀리 보는 지도에는 안개를 끈다 (시야 규칙은 점 그리기에서 그대로)
+            }
+            else
+            {
+                battleCamera.orthographic = false;
+                battleCamera.fieldOfView = 40f;
+                battleCamera.nearClipPlane = 0.3f;
+                battleCamera.farClipPlane = 1200f;
+                rig?.SetPreset(rig.PresetIndex);
+                sim.WeatherDirty = true;      // 안개·빛 다시 맞춤
+            }
         }
 
         void ShowEnd()

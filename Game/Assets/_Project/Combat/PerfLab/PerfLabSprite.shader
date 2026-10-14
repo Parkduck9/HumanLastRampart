@@ -13,6 +13,10 @@ Shader "HLR/PerfLabSprite"
         _Pivot ("Pivot (x, y in cell 0..1, from bottom-left)", Vector) = (0.5, 0, 0, 0)
         _Aspect ("Cell width / height", Float) = 1
         _Cutoff ("Alpha Cutoff", Range(0, 1)) = 0.5
+        // 2번 지도 모드(BattleMap.md): 화면을 정면으로 보는 점으로 그린다. 0이면 기존 세로 빌보드 (PerfLab 그대로)
+        _MapMode ("Map dot mode", Float) = 0
+        _MapColor ("Map dot color (a=0: instance tint)", Color) = (0, 0, 0, 0)
+        _MinWorldSize ("Map dot minimum size (world)", Float) = 0
     }
 
     SubShader
@@ -48,6 +52,9 @@ Shader "HLR/PerfLabSprite"
             float4 _Pivot;
             float _Aspect;
             float _Cutoff;
+            float _MapMode;
+            float4 _MapColor;
+            float _MinWorldSize;
 
             struct Attributes
             {
@@ -67,6 +74,20 @@ Shader "HLR/PerfLabSprite"
             {
                 PerfLabInstance data = _Instances[input.instanceID];
                 float size = data.tintSize.a;
+
+                if (_MapMode > 0.5)
+                {
+                    // 지도: 카메라를 정면으로 보는 점(가운데 기준), 너무 작으면 최소 크기. 크기 0(숨김)은 그대로 숨김
+                    float dot = size > 0.0 ? max(size, _MinWorldSize) : 0.0;
+                    float3 right = UNITY_MATRIX_V[0].xyz;
+                    float3 up = UNITY_MATRIX_V[1].xyz;
+                    float3 mapWorld = data.posFrame.xyz + right * (input.positionOS.x * dot) + up * ((input.positionOS.y - 0.5) * dot);
+                    Varyings mapOut;
+                    mapOut.positionCS = TransformWorldToHClip(mapWorld);
+                    mapOut.uv = input.uv;
+                    mapOut.tint = _MapColor.a > 0.0 ? (half3)_MapColor.rgb : (half3)data.tintSize.rgb;
+                    return mapOut;
+                }
 
                 // 뷰 행렬 첫 행 = 카메라 오른쪽 방향(월드). 높이 성분을 빼서 세로로 선 빌보드
                 float3 camRight = float3(UNITY_MATRIX_V[0].x, 0.0, UNITY_MATRIX_V[0].z);

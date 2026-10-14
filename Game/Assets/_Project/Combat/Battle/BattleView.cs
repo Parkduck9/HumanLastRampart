@@ -15,9 +15,22 @@ namespace HumanLastRampart.Combat.Battle
         static readonly int GridId = Shader.PropertyToID("_Grid");
         static readonly int PivotId = Shader.PropertyToID("_Pivot");
         static readonly int AspectId = Shader.PropertyToID("_Aspect");
+        static readonly int MapModeId = Shader.PropertyToID("_MapMode");
+        static readonly int MapColorId = Shader.PropertyToID("_MapColor");
+        static readonly int MinWorldSizeId = Shader.PropertyToID("_MinWorldSize");
+
+        // 2번 지도 모드 점 색 (BattleMap.md 2장)
+        static readonly Color MapEnemyColor = new Color(1f, 0.72f, 0.2f, 1f);
+        static readonly Color MapSpecialColor = new Color(1f, 0.15f, 0.15f, 1f);
+        static readonly Color MapSoldierColor = new Color(0.35f, 0.6f, 1f, 1f);
 
         readonly BattleSim sim;
         readonly Material material;
+        readonly Material mapMaterial;     // 같은 버퍼를 점으로 그리는 지도용
+        readonly Texture2D dotTexture;
+        readonly List<(MaterialPropertyBlock block, int start, int count, bool special)> mapEnemyDraws =
+            new List<(MaterialPropertyBlock, int, int, bool)>();
+        readonly MaterialPropertyBlock mapSoldierBlock;
         readonly Mesh quad;
         readonly Texture2D placeholderSheet;
         readonly Texture2D shotTexture;
@@ -42,6 +55,9 @@ namespace HumanLastRampart.Combat.Battle
             placeholderSheet = PerfLabArt.CreatePlaceholderSheet();
             shotTexture = PerfLabArt.CreateArrowTexture();
             material = new Material(shader) { name = "BattleSprite (runtime)" };
+            mapMaterial = new Material(shader) { name = "BattleMapDots (runtime)" };
+            mapMaterial.SetFloat(MapModeId, 1f);
+            dotTexture = CreateDotTexture();
             float extent = sim.FieldSize + 20f;
             bounds = new Bounds(Vector3.zero, new Vector3(extent * 2f, 200f, extent * 2f));
 
@@ -60,12 +76,22 @@ namespace HumanLastRampart.Combat.Battle
                 var buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, Mathf.Max(1, count), PerfLabInstance.Stride);
                 block.SetBuffer(InstancesId, buffer);
                 enemyDraws.Add((buffer, block, start, count));
+
+                var mapBlock = new MaterialPropertyBlock();
+                mapBlock.SetTexture(MainTexId, dotTexture);
+                mapBlock.SetColor(MapColorId, def.IsSpecial ? MapSpecialColor : MapEnemyColor);
+                mapBlock.SetBuffer(InstancesId, buffer);
+                mapEnemyDraws.Add((mapBlock, start, count, def.IsSpecial));
             }
 
             soldierBlock = new MaterialPropertyBlock();
             Apply(soldierBlock, placeholderSheet, PerfLabArt.PlaceholderLayout);   // 병사 그림은 Codex 아트 이후
             soldierBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, Mathf.Max(1, sim.SoldierCount), PerfLabInstance.Stride);
             soldierBlock.SetBuffer(InstancesId, soldierBuffer);
+            mapSoldierBlock = new MaterialPropertyBlock();
+            mapSoldierBlock.SetTexture(MainTexId, dotTexture);
+            mapSoldierBlock.SetColor(MapColorId, MapSoldierColor);
+            mapSoldierBlock.SetBuffer(InstancesId, soldierBuffer);
 
             shotBlock = new MaterialPropertyBlock();
             Apply(shotBlock, shotTexture, PerfLabArt.ArrowLayout);
@@ -132,14 +158,24 @@ namespace HumanLastRampart.Combat.Battle
 
         static Vector3 ToVector(Unity.Mathematics.float3 v) => new Vector3(v.x, v.y, v.z);
 
-        // 작업이 끝난 뒤(sim.Complete 후) 부른다
-        public void Draw()
+        // 작업이 끝난 뒤(sim.Complete 후) 부른다. 지도 모드면 같은 데이터를 점으로 그린다(mapDotSize = 최소 점 크기 m)
+        public void Draw(bool mapMode = false, float mapDotSize = 0f)
         {
             foreach (var (buffer, block, start, count) in enemyDraws)
             {
                 if (count <= 0) continue;
                 buffer.SetData(sim.EnemyInstances, start, 0, count);
-                Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, count, block);
+                if (!mapMode) Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, count, block);
+            }
+
+            if (mapMode)
+            {
+                foreach (var (block, _, count, special) in mapEnemyDraws)
+                {
+                    if (count <= 0) continue;
+                    block.SetFloat(MinWorldSizeId, special ? mapDotSize * 2.2f : mapDotSize);
+                    Graphics.DrawMeshInstancedProcedural(quad, 0, mapMaterial, bounds, count, block);
+                }
             }
 
             if (sim.SoldiersDirty)
@@ -151,11 +187,22 @@ namespace HumanLastRampart.Combat.Battle
 
             if (sim.SoldierCount > 0)
             {
-                Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, sim.SoldierCount, soldierBlock);
+                if (mapMode)
+                {
+                    mapSoldierBlock.SetFloat(MinWorldSizeId, mapDotSize * 0.8f);
+                    Graphics.DrawMeshInstancedProcedural(quad, 0, mapMaterial, bounds, sim.SoldierCount, mapSoldierBlock);
+                }
+                else
+                {
+                    Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, sim.SoldierCount, soldierBlock);
+                }
             }
 
-            shotBuffer.SetData(sim.ShotInstances);
-            Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, sim.ShotCapacity, shotBlock);
+            if (!mapMode)
+            {
+                shotBuffer.SetData(sim.ShotInstances);
+                Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, sim.ShotCapacity, shotBlock);
+            }
 
             if (Time.unscaledTime >= nextPileRefresh)
             {
@@ -245,8 +292,30 @@ namespace HumanLastRampart.Combat.Battle
             }
         }
 
+        // 지도 점: 가장자리가 부드럽지 않은 둥근 점 (알파 잘라내기)
+        static Texture2D CreateDotTexture()
+        {
+            const int size = 16;
+            var texture = new Texture2D(size, size, TextureFormat.RGBA32, false) { name = "MapDot", filterMode = FilterMode.Point, wrapMode = TextureWrapMode.Clamp };
+            var pixels = new Color32[size * size];
+            for (int y = 0; y < size; y++)
+            {
+                for (int x = 0; x < size; x++)
+                {
+                    float dx = x + 0.5f - size * 0.5f, dy = y + 0.5f - size * 0.5f;
+                    pixels[y * size + x] = dx * dx + dy * dy <= size * size * 0.25f ? new Color32(255, 255, 255, 255) : new Color32(0, 0, 0, 0);
+                }
+            }
+
+            texture.SetPixels32(pixels);
+            texture.Apply(false, true);
+            return texture;
+        }
+
         public void Dispose()
         {
+            if (mapMaterial != null) UnityEngine.Object.Destroy(mapMaterial);
+            if (dotTexture != null) UnityEngine.Object.Destroy(dotTexture);
             if (pileMaterial != null) UnityEngine.Object.Destroy(pileMaterial);
             foreach (var draw in enemyDraws)
             {

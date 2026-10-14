@@ -1,0 +1,84 @@
+using UnityEngine;
+using UnityEngine.InputSystem;
+
+namespace HumanLastRampart.Combat.Battle
+{
+    // 2번 지도 모드 카메라 (BattleMap.md, D-025 직교·D-044 M1)
+    // 위에서 내려다보는 직교 시점, 북쪽이 위. 마우스 휠로 3단계(전체·한 면·가까이), A/D/W/S(화살표)로 이동.
+    public sealed class BattleMapCamera
+    {
+        public enum Level { Full, Side, Close }
+
+        const float SideHalfHeight = 130f;    // 한 면: 세로 약 260m
+        const float CloseHalfHeight = 50f;    // 가까이: 세로 약 100m
+        const float DotPixels = 7f;           // 화면에서 점 크기(픽셀)
+
+        readonly Camera camera;
+        readonly float castleHalf;
+        readonly float fieldSize;
+        Vector2 center;   // (x, z)
+
+        public Level Current { get; private set; } = Level.Side;
+        public float HalfHeight => Current == Level.Full ? fieldSize + 20f : Current == Level.Side ? SideHalfHeight : CloseHalfHeight;
+
+        // 지도 점의 최소 크기(m) — 몇 단계로 보든 화면에서 비슷한 크기
+        public float DotWorldSize => HalfHeight * 2f / Mathf.Max(1, Screen.height) * DotPixels;
+
+        public BattleMapCamera(Camera camera, float castleHalf, float fieldSize)
+        {
+            this.camera = camera;
+            this.castleHalf = castleHalf;
+            this.fieldSize = fieldSize;
+        }
+
+        // 처음 열면 바라보던 성벽 쪽 '한 면' (M1)
+        public void Open(int side)
+        {
+            Current = Level.Side;
+            var n = WallGeometry.Outward(side);
+            center = new Vector2(n.x, n.z) * (castleHalf + 70f);
+            Apply();
+        }
+
+        public void SetLevel(Level level)
+        {
+            Current = level;
+            Apply();
+        }
+
+        public void Update(float unscaledDt)
+        {
+            var mouse = Mouse.current;
+            if (mouse != null)
+            {
+                float scroll = mouse.scroll.ReadValue().y;
+                if (scroll > 0f && Current != Level.Close) Current++;
+                else if (scroll < 0f && Current != Level.Full) Current--;
+            }
+
+            var keyboard = Keyboard.current;
+            if (keyboard != null)
+            {
+                Vector2 move = Vector2.zero;
+                if (keyboard.aKey.isPressed || keyboard.leftArrowKey.isPressed) move.x -= 1f;
+                if (keyboard.dKey.isPressed || keyboard.rightArrowKey.isPressed) move.x += 1f;
+                if (keyboard.wKey.isPressed || keyboard.upArrowKey.isPressed) move.y += 1f;
+                if (keyboard.sKey.isPressed || keyboard.downArrowKey.isPressed) move.y -= 1f;
+                center += move * HalfHeight * 1.2f * unscaledDt;
+            }
+
+            Apply();
+        }
+
+        void Apply()
+        {
+            float limit = Current == Level.Full ? 0f : fieldSize;
+            center = new Vector2(Mathf.Clamp(center.x, -limit, limit), Mathf.Clamp(center.y, -limit, limit));
+            camera.orthographic = true;
+            camera.orthographicSize = HalfHeight;
+            camera.nearClipPlane = 1f;
+            camera.farClipPlane = 1000f;
+            camera.transform.SetPositionAndRotation(new Vector3(center.x, 500f, center.y), Quaternion.Euler(90f, 0f, 0f));
+        }
+    }
+}
