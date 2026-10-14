@@ -6,7 +6,8 @@ namespace HumanLastRampart.Meta
     public sealed class PreparationSessionLifetime : MonoBehaviour
     {
         internal PreparationTransactions Session;
-        void OnDisable() { Session?.Close(); }
-        void OnDestroy() { Session?.Close(); }
+        internal TrapPreparationTransactions Traps;
+        void OnDisable() { Session?.Close(); Traps?.Close(); }
+        void OnDestroy() { Session?.Close(); Traps?.Close(); }
     }
 }

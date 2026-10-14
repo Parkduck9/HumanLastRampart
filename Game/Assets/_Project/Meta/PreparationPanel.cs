@@ -135,7 +135,7 @@ namespace HumanLastRampart.Meta
         {
             var texts=source.transform.parent.GetComponentsInChildren<Text>();
             foreach(var text in texts) if(text.gameObject.name=="Label" && text.fontSize==27)
-                text.text=$"다음 전투: {context.Campaign.BattleNumber}\n보유 골드: {context.Campaign.Gold:N0} · 병력 {session.TotalCount():N0}/{session.Rules.GlobalCapacity:N0}\n성벽을 선택해 모집·수리하세요. 함정 기능은 후속 작업입니다.";
+                text.text=$"다음 전투: {context.Campaign.BattleNumber}\n보유 골드: {context.Campaign.Gold:N0} · 병력 {session.TotalCount():N0}/{session.Rules.GlobalCapacity:N0}\n성벽을 선택해 모집·수리하세요. 함정은 빈 격자 칸에 설치할 수 있습니다.";
         }
         Button AddButton(string text,Action action)
         {
