@@ -217,12 +217,14 @@ namespace HumanLastRampart.Combat.Battle
             {
                 mapCamera.Update(Time.unscaledDeltaTime);
                 // 대포를 고른 상태에서 들판(UI 바깥)을 왼쪽 클릭 → 조준점
-                if (mouse != null && (selectedCannon >= 0 || selectedSpell >= 0) && mouse.leftButton.wasPressedThisFrame
+                // 아무것도 고르지 않았으면 내 함정 표시를 눌러 점화 (D-050)
+                if (mouse != null && mouse.leftButton.wasPressedThisFrame
                     && (UnityEngine.EventSystems.EventSystem.current == null || !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()))
                 {
                     Vector3 world = battleCamera.ScreenToWorldPoint(new Vector3(mouse.position.ReadValue().x, mouse.position.ReadValue().y, battleCamera.nearClipPlane));
                     if (selectedSpell >= 0) CastSelectedSpellAt(world);
-                    else AimSelectedCannonAt(world);
+                    else if (selectedCannon >= 0) AimSelectedCannonAt(world);
+                    else DetonateTrapAt(world);
                 }
 
                 // 망원경 (MAP-5): 오른쪽 버튼을 누르고 있는 동안 렌즈, 0.15초마다 무리 확인
@@ -284,6 +286,28 @@ namespace HumanLastRampart.Combat.Battle
             }
             hud?.SetMapMode(mapOpen, MapFreezesTime);
             hud?.Refresh(sim, rig, speed, paused || MapFreezesTime);
+        }
+
+        // 지도에서 누른 곳 가까이(표시 반경 + 점 크기)에 있는 묻힌 함정 표시 하나를 점화. 없으면 false
+        public bool DetonateTrapAt(Vector3 world)
+        {
+            if (sim == null || !mapOpen) return false;
+            float pick = Mathf.Max(4f, mapCamera.DotWorldSize * 3f);
+            int best = -1;
+            float bestSq = pick * pick;
+            for (int i = 0; i < sim.TrapCount; i++)
+            {
+                BattleSim.TrapInfo t = sim.GetTrap(i);
+                if (!t.Marked || t.State != BattleSim.TrapState.Armed) continue;
+                float dx = t.Mark.x - world.x, dz = t.Mark.z - world.z;
+                if (dx * dx + dz * dz <= bestSq)
+                {
+                    bestSq = dx * dx + dz * dz;
+                    best = i;
+                }
+            }
+
+            return best >= 0 && sim.DetonateTrap(best);
         }
 
         public bool MapOpen => mapOpen;

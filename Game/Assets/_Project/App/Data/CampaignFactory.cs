@@ -55,6 +55,13 @@ namespace HumanLastRampart.App.Data
                 });
             }
 
+            // 함정 상점 재고 시작값 (D-050, C-004 v1.3). 첫 정비(2번 전투 앞)는 시작값 그대로 보이게 2로 둔다 — 그 뒤 정비마다 Meta가 보충
+            foreach (TrapDef trap in defs.All<TrapDef>())
+            {
+                campaign.TrapShop.Add(new TrapStockEntry { TrapDefId = trap.Id, Count = trap.ShopStockStart });
+            }
+
+            campaign.TrapShopRestockedForBattle = 2;
             return campaign;
         }
     }

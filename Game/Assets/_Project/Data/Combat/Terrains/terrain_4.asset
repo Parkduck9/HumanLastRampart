@@ -17,3 +17,5 @@ MonoBehaviour:
   fieldSize: 320
   castleHalfSize: 60
   recoveryGate: {x: 0, y: -70}
+  hills:
+  - {x: 95, y: 11, z: -25}

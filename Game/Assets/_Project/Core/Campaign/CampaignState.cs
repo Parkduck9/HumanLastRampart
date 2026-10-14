@@ -21,6 +21,8 @@ namespace HumanLastRampart.Core.Campaign
         public List<SquadState> Squads = new List<SquadState>();
         public List<TrapPlacement> Traps = new List<TrapPlacement>();
         public List<TrapStockEntry> TrapStock = new List<TrapStockEntry>();  // v1.2: 회수해 보관 중인 함정
+        public List<TrapStockEntry> TrapShop = new List<TrapStockEntry>();   // v1.3 (D-050): 상점에 남은 함정 재고. 시작값 App, 보충·구매 Meta.Prep
+        public int TrapShopRestockedForBattle;      // v1.3: 상점 보충을 마지막으로 한 전투 번호 (정비 재진입 때 두 번 보충하지 않게)
 
         public TargetingSettings Targeting = TargetingSettings.CreateDefault();
         public StoryRequest NextStory;
@@ -99,7 +101,7 @@ namespace HumanLastRampart.Core.Campaign
         public string TrapId;      // "trap_" 고유 ID. 이동·회수해도 바뀌지 않음
         public string TrapDefId;
         public string TerrainId;   // 함정은 자기 지형에 남는다
-        public string SlotId;      // 처음 놓은 지점 (TrapSlotDef)
+        public string SlotId;      // 처음 놓은 칸 — TrapGrid 칸 ID "cell_{성벽}_{열}_{행}" (C-008 r6, D-050). 이동해도 바뀌지 않음
         public float ActualX;      // 실제 위치 (전투 중 이동 반영)
         public float ActualZ;
         public bool Marked;        // 지도에 표시했는가

@@ -33,7 +33,7 @@ namespace HumanLastRampart.Combat.Battle
             new List<(MaterialPropertyBlock, int, int, bool)>();
         readonly MaterialPropertyBlock mapSoldierBlock;
         // 지도 표시(대포 위치·사거리 원·조준점) — 점 셰이더로 그린다 (MAP-3)
-        const int MarkerCapacity = 512;
+        const int MarkerCapacity = 2048;   // 대포 사거리 원 + 함정 표시 (D-050)
         readonly GraphicsBuffer markerBuffer;
         readonly MaterialPropertyBlock markerBlock;
         NativeArray<PerfLabInstance> markers;
@@ -175,6 +175,18 @@ namespace HumanLastRampart.Combat.Battle
                 wall.transform.localRotation = Quaternion.LookRotation(n);
                 wall.transform.localScale = new Vector3(half * 2f + 2f, BattleSim.WallHeight, 2f);
                 walls[side] = wall.GetComponent<Renderer>();
+            }
+
+            // 언덕 (함정을 놓을 수 없는 곳, D-050) — 낮고 넓은 둔덕. 적은 그냥 지나간다(1회차는 통행 영향 없음)
+            foreach (Vector3 hill in sim.Hills)
+            {
+                var mound = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                mound.name = "Hill";
+                UnityEngine.Object.Destroy(mound.GetComponent<Collider>());
+                mound.transform.SetParent(root.transform, false);
+                mound.transform.localPosition = new Vector3(hill.x, -0.6f, hill.z);
+                mound.transform.localScale = new Vector3(hill.y * 2f, 2.4f, hill.y * 2f);   // 꼭대기 0.6m — 적이 파묻혀 보이지 않게 낮게
+                Tint(mound.GetComponent<Renderer>(), new Color(0.36f, 0.43f, 0.24f));
             }
 
             pileBlocks = new Transform[4 * sim.Pile.Bins];
@@ -338,6 +350,17 @@ namespace HumanLastRampart.Combat.Battle
                 }
             }
 
+            // 터진 함정 구덩이 (실제 위치, 어두운 원) — D-050
+            for (int t = 0; t < sim.TrapCount; t++)
+            {
+                BattleSim.TrapInfo trap = sim.GetTrap(t);
+                if (trap.State != BattleSim.TrapState.Exploded) continue;
+                Renderer crater = Pooled(effectDiscs, discs++, PrimitiveType.Cylinder, "Trap Crater");
+                crater.transform.localPosition = new Vector3(trap.Position.x, 0.04f, trap.Position.z);
+                crater.transform.localScale = new Vector3(trap.CraterRadius * 2f, 0.02f, trap.CraterRadius * 2f);
+                crater.material.color = new Color(0.18f, 0.13f, 0.09f);
+            }
+
             for (int i = discs; i < effectDiscs.Count; i++) effectDiscs[i].gameObject.SetActive(false);
             for (int i = flashes; i < effectFlashes.Count; i++) effectFlashes[i].gameObject.SetActive(false);
         }
@@ -438,6 +461,33 @@ namespace HumanLastRampart.Combat.Battle
                     Add(new Vector3(t, 0f, -edge), c, dot * 0.6f);
                     Add(new Vector3(edge, 0f, t), c, dot * 0.6f);
                     Add(new Vector3(-edge, 0f, t), c, dot * 0.6f);
+                }
+            }
+
+            // 함정 (D-050): 설치 때 남긴 표시 위치에만. 묻힘(주황) · 점화 중(노랑, 피해 거리 원) · 터짐(구덩이 모양) · 불발(회색)
+            for (int i = 0; i < sim.TrapCount; i++)
+            {
+                BattleSim.TrapInfo t = sim.GetTrap(i);
+                if (!t.Marked) continue;
+                switch (t.State)
+                {
+                    case BattleSim.TrapState.Armed:
+                        Add(t.Mark, new Color(1f, 0.55f, 0.1f), dot * 1.8f);
+                        Ring(t.Mark, 2.5f, new Color(1f, 0.55f, 0.1f), dot * 0.6f, 10);
+                        break;
+                    case BattleSim.TrapState.Fusing:
+                        Add(t.Mark, new Color(1f, 0.95f, 0.3f), dot * 2.4f);
+                        Ring(t.Mark, t.DamageRadius, new Color(1f, 0.95f, 0.3f), dot * 0.8f, 24);
+                        break;
+                    case BattleSim.TrapState.Exploded:
+                        Add(t.Mark, new Color(0.12f, 0.08f, 0.05f), dot * 2.2f);
+                        Ring(t.Mark, t.CraterRadius, new Color(0.45f, 0.28f, 0.12f), dot * 0.9f, 16);
+                        Ring(t.Mark, t.CraterRadius + 1.6f, new Color(0.9f, 0.4f, 0.1f), dot * 0.5f, 8);   // 터져 나간 자국
+                        break;
+                    default:
+                        Add(t.Mark, new Color(0.55f, 0.55f, 0.55f), dot * 1.6f);
+                        Ring(t.Mark, 2.5f, new Color(0.55f, 0.55f, 0.55f), dot * 0.5f, 10);
+                        break;
                 }
             }
 

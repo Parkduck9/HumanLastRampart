@@ -202,6 +202,7 @@ namespace HumanLastRampart.Combat.Battle
             InitCannons(p);
             InitSpells(defs);
             InitTelescope(p);
+            InitTraps(defs, p);
         }
 
         // ── 준비 ──────────────────────────────────────────────
@@ -587,6 +588,7 @@ namespace HumanLastRampart.Combat.Battle
             Spawn();
             UpdateMessengers(dt);
             UpdateSpells(dt);
+            UpdateTraps(dt);
             CheckEnd();
         }
 
@@ -695,6 +697,8 @@ namespace HumanLastRampart.Combat.Battle
                 KindOf = eKind,
                 Kinds = kinds,
                 Piles = piles,
+                Craters = craters,
+                CraterCount = craterCount,
                 Pile = pile,
                 CastleHalf = CastleHalf,
                 WallHeight = WallHeight,
@@ -913,6 +917,7 @@ namespace HumanLastRampart.Combat.Battle
                 }
             }
 
+            AddTrapResults(result);   // 터진 함정·밀려난 함정 (D-050, C-006 v1.1)
             return result;
         }
 
@@ -949,6 +954,7 @@ namespace HumanLastRampart.Combat.Battle
             Release(ref eAnim);
             Release(ref eGroup);
             Release(ref groupSpotted);
+            Release(ref craters);
             Release(ref kinds);
             Release(ref enemyInstances);
             Release(ref sPos);

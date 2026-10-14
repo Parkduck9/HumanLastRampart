@@ -88,6 +88,19 @@ namespace HumanLastRampart.App.Tests
         }
 
         [Test]
+        public void PreparationEconomy_MustBeExactlyOne()   // C-017, D-048
+        {
+            List<DefinitionBase> none = AppTestData.ValidSet().Where(d => !(d is PreparationEconomyDef)).ToList();
+            DefinitionLookup missing = DefinitionLookup.Build(new[] { AppTestData.Catalog(none) });
+            Assert.IsTrue(missing.Errors.Any(e => e.Contains("PreparationEconomyDef")), "없으면 시작을 막는다");
+
+            List<DefinitionBase> wrongId = AppTestData.ValidSet().Where(d => !(d is PreparationEconomyDef)).ToList();
+            wrongId.Add(AppTestData.Make<PreparationEconomyDef>("economy_other"));
+            DefinitionLookup wrong = DefinitionLookup.Build(new[] { AppTestData.Catalog(wrongId) });
+            Assert.IsTrue(wrong.Errors.Any(e => e.Contains("economy_preparation_1")), "Id가 다르면 오류");
+        }
+
+        [Test]
         public void MissingReference_IsReported()
         {
             List<DefinitionBase> set = AppTestData.ValidSet();

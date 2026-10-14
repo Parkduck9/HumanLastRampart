@@ -139,6 +139,8 @@ namespace HumanLastRampart.Combat.Battle
         [ReadOnly] public NativeArray<int> KindOf;
         [ReadOnly] public NativeArray<EnemyKind> Kinds;
         [ReadOnly] public NativeArray<float> Piles;
+        [ReadOnly] public NativeArray<float4> Craters;   // 터진 함정 구덩이 (x, z, 반경², 속도 배율) — D-050
+        public int CraterCount;
         public PileSpec Pile;
         public float CastleHalf;
         public float WallHeight;
@@ -172,7 +174,18 @@ namespace HumanLastRampart.Combat.Battle
             if (state == EnemyState.Walking)
             {
                 float3 n = WallGeometry.Outward(Sides[i]);
-                float3 position = Positions[i] - n * Speeds[i] * DeltaTime;
+                // 구덩이 안이면 느려진다 (들어올 때·나갈 때 모두, 겹치면 가장 느린 값)
+                float slow = 1f;
+                for (int c = 0; c < CraterCount; c++)
+                {
+                    float4 crater = Craters[c];
+                    float dx = Positions[i].x - crater.x, dz = Positions[i].z - crater.y;
+                    if (dx * dx + dz * dz <= crater.z) slow = math.min(slow, crater.w);
+                }
+
+                float speed = Speeds[i] * slow;
+                float3 position = Positions[i] - n * speed * DeltaTime;
+                Velocities[i] = -n * speed;
                 float distance = math.dot(position, n);
                 if (distance <= StopDistance[i])
                 {

@@ -45,6 +45,7 @@ namespace HumanLastRampart.App.Tests
                 Make<EnemyDef>("enemy_goblin"),
                 Make<TerrainDef>("terrain_1"),
                 Make<BattleRulesDef>("battle_rules"),
+                Make<PreparationEconomyDef>(PreparationEconomyDef.ExpectedId),   // C-017 (기본값 = 후보 A)
                 Make<WaveDef>("wave_1", ("groups", new List<WaveGroup> { new WaveGroup { Side = WallSide.North, EnemyDefId = "enemy_goblin", Count = 100 } })),
                 Make<WaveDef>("wave_2", ("groups", new List<WaveGroup> { new WaveGroup { Side = WallSide.South, EnemyDefId = "enemy_goblin", Count = 301 } })),
             };

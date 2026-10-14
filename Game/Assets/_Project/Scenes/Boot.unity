@@ -166,6 +166,7 @@ MonoBehaviour:
   catalogs:
   - {fileID: 11400000, guid: 9fa0c4cdffbc47acbef3ce250ac7bf14, type: 2}
   - {fileID: 11400000, guid: 8a764bea0a254fdc920a7deb9ea88746, type: 2}
+  - {fileID: 11400000, guid: 68116f93a85243b892592fb56bb952bb, type: 2}
   scenesFolder: Assets/_Project/Scenes
   useDevPlaceholders: 1
 --- !u!1660057539 &9223372036854775807

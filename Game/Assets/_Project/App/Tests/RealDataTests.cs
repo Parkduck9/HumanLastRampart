@@ -33,6 +33,8 @@ namespace HumanLastRampart.App.Tests
             Assert.AreEqual(4, lookup.All<WaveDef>().Count);
             Assert.AreEqual(2, lookup.All<SpellDef>().Count);
             Assert.AreEqual(1, lookup.All<TrapDef>().Count);
+            Assert.AreEqual(1, lookup.All<PreparationEconomyDef>().Count, "정비 가격 (C-017, Codex MetaCatalog)");
+            Assert.AreEqual(5, lookup.All<PreparationEconomyDef>()[0].ArcherPrices[0], "후보 A 궁수 첫 단계 5골드");
         }
 
         [Test]

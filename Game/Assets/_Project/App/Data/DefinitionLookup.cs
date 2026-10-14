@@ -133,7 +133,24 @@ namespace HumanLastRampart.App.Data
                 Require<TerrainDef>(slot.Id, "지형", slot.TerrainId);
 
             foreach (TrapDef trap in All<TrapDef>())
+            {
                 if (!trap.ConsumeOnTrigger) errors.Add($"{trap.Id}: 반복 함정은 아직 지원하지 않음 (C-008)");
+                // D-050 점화식·구덩이·상점 재고 (C-010 v1.5)
+                if (trap.Price < 0 || trap.Damage < 0) errors.Add($"{trap.Id}: 값·피해는 0 이상");
+                if (trap.TriggerRadius <= 0f || trap.DamageRadius <= 0f || trap.CraterRadius < 0f) errors.Add($"{trap.Id}: 반경이 잘못됨");
+                if (trap.FuseSeconds < 0f) errors.Add($"{trap.Id}: 점화 지연이 음수");
+                if (trap.DudChance < 0f || trap.DudChance > 1f || trap.AutoChance < 0f || trap.AutoChance > 1f) errors.Add($"{trap.Id}: 불발·저절로 확률은 0~1");
+                if (trap.CraterSpeedMultiplier <= 0f || trap.CraterSpeedMultiplier > 1f) errors.Add($"{trap.Id}: 구덩이 속도 배율은 0 초과 1 이하");
+                if (trap.ShopStockStart < 0 || trap.ShopStockPerPrep < 0 || trap.ShopStockMax < trap.ShopStockStart) errors.Add($"{trap.Id}: 상점 재고 값이 잘못됨 (시작·보충 0 이상, 최대 ≥ 시작)");
+            }
+
+            foreach (TerrainDef terrain in All<TerrainDef>())
+            {
+                if (terrain.TrapCellSize <= 0f || terrain.TrapNear < 0f || terrain.TrapFar <= terrain.TrapNear || terrain.TrapFar > terrain.FieldSize - terrain.CastleHalfSize)
+                    errors.Add($"{terrain.Id}: 함정 칸 규격이 잘못됨 (칸 > 0, 0 ≤ 가까운 끝 < 먼 끝 ≤ 들판)");
+                foreach (Vector3 hill in terrain.Hills)
+                    if (hill.y <= 0f) errors.Add($"{terrain.Id}: 언덕 반경이 0 이하");
+            }
 
             // 성벽마다 대포 지점 정확히 4개 (D-027)
             var cannonCount = new int[4];
@@ -144,6 +161,19 @@ namespace HumanLastRampart.App.Data
                     if (cannonCount[i] != 4) errors.Add($"{WallIds.All[i]}: 대포 지점이 {cannonCount[i]}개 (4개여야 함)");
 
             if (All<BattleRulesDef>().Count != 1) errors.Add($"전투 규칙(BattleRulesDef)이 {All<BattleRulesDef>().Count}개 (정확히 1개)");
+
+            // 정비 가격 (C-017, D-048): 정확히 1개, Id 고정, 값 검사. 없거나 틀리면 임의 기본값으로 숨기지 않고 시작을 막는다
+            IReadOnlyList<PreparationEconomyDef> economies = All<PreparationEconomyDef>();
+            if (economies.Count != 1)
+            {
+                errors.Add($"정비 가격(PreparationEconomyDef)이 {economies.Count}개 (정확히 1개)");
+            }
+            else
+            {
+                if (economies[0].Id != PreparationEconomyDef.ExpectedId)
+                    errors.Add($"정비 가격 Id가 {economies[0].Id} ({PreparationEconomyDef.ExpectedId}이어야 함)");
+                errors.AddRange(Core.Economy.PreparationEconomyRules.Validate(economies[0]));
+            }
 
             IReadOnlyList<CampaignStartDef> starts = All<CampaignStartDef>();
             if (starts.Count != 1)
@@ -168,11 +198,14 @@ namespace HumanLastRampart.App.Data
                 Require<PostDef>(start.Id, "영웅 배치", hero.PostId, allowEmpty: true);
             }
 
+            var usedPosts = new HashSet<string>();
             foreach (SquadStart squad in start.Squads)
             {
                 Require<UnitDef>(start.Id, "분대", squad.UnitDefId);
                 Require<PostDef>(start.Id, "분대 배치", squad.PostId, allowEmpty: true);
                 if (squad.Count <= 0) errors.Add($"{start.Id}: 분대 {squad.UnitDefId} 인원이 0 이하");
+                // 한 지점에 분대 하나 (C-017 E4)
+                if (!string.IsNullOrEmpty(squad.PostId) && !usedPosts.Add(squad.PostId)) errors.Add($"{start.Id}: 지점 {squad.PostId}에 분대가 둘 이상");
             }
 
             if (start.WaveByBattle.Count == 0) errors.Add($"{start.Id}: 전투 웨이브가 없음");
