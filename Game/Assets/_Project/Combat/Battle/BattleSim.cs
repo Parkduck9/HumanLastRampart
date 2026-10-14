@@ -193,6 +193,7 @@ namespace HumanLastRampart.Combat.Battle
             BuildGridAndShots(p);
             InitCommands(p);
             InitWeather();
+            InitCannons(p);
         }
 
         // ── 준비 ──────────────────────────────────────────────
@@ -654,6 +655,9 @@ namespace HumanLastRampart.Combat.Battle
                 SoldierWeapon = sWeapon,
                 SoldierCooldowns = sCooldown,
                 SidePriority = sidePriority,
+                SoldierAim = sAim,
+                SoldierHasAim = sHasAim,
+                SoldierIdle = sIdle,
                 Weapons = weapons,
                 EnemyPositions = ePos,
                 EnemyVelocities = eVel,
@@ -871,6 +875,9 @@ namespace HumanLastRampart.Combat.Battle
             Release(ref sSide);
             Release(ref sAway);
             Release(ref sidePriority);
+            Release(ref sAim);
+            Release(ref sHasAim);
+            Release(ref sIdle);
             Release(ref weapons);
             Release(ref soldierInstances);
             Release(ref cellOfEnemy);

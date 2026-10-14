@@ -23,6 +23,8 @@ namespace HumanLastRampart.Combat.Battle
         BattleHud hud;
         BattleMapCamera mapCamera;
         bool mapOpen;
+        int cannonSide;
+        int selectedCannon = -1;
         bool easy;
         int speed = 1;
         bool paused;
@@ -86,6 +88,9 @@ namespace HumanLastRampart.Combat.Battle
                 sim.GlobalCommandApplied += priority => Targeting()?.SetGlobal(priority);
                 hud.CommandChosen += OnCommandChosen;
                 hud.GlobalCommandChosen += priority => sim?.IssueGlobal(priority);   // MAP-2 지도 전체 명령
+                hud.CannonSideChosen += side => { cannonSide = side; selectedCannon = -1; };   // MAP-3 대포 조준
+                hud.CannonNumberChosen += SelectCannon;
+                hud.CannonClearChosen += () => { if (selectedCannon >= 0) sim.ClearCannonAim(selectedCannon); };
             }
         }
 
@@ -174,7 +179,17 @@ namespace HumanLastRampart.Combat.Battle
                 if (keyboard.pKey.wasPressedThisFrame) paused = !paused;
             }
 
-            if (mapOpen) mapCamera.Update(Time.unscaledDeltaTime);
+            if (mapOpen)
+            {
+                mapCamera.Update(Time.unscaledDeltaTime);
+                // 대포를 고른 상태에서 들판(UI 바깥)을 왼쪽 클릭 → 조준점
+                if (mouse != null && selectedCannon >= 0 && mouse.leftButton.wasPressedThisFrame
+                    && (UnityEngine.EventSystems.EventSystem.current == null || !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()))
+                {
+                    Vector3 world = battleCamera.ScreenToWorldPoint(new Vector3(mouse.position.ReadValue().x, mouse.position.ReadValue().y, battleCamera.nearClipPlane));
+                    AimSelectedCannonAt(world);
+                }
+            }
             else rig?.Update(Time.unscaledDeltaTime);
 
             // 쉬움: 지도가 열린 동안 전투 시간 정지 (확정 B4). 멈춘 동안 내린 명령은 바로 적용된다(작업이 돌지 않음, D-044 M8)
@@ -210,6 +225,11 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             view.Draw(mapOpen, mapOpen ? mapCamera.DotWorldSize : 0f);
+            if (mapOpen)
+            {
+                view.DrawMapMarkers(cannonSide, selectedCannon, mapCamera.DotWorldSize);
+                hud?.RefreshCannons(sim, cannonSide, selectedCannon);
+            }
             hud?.SetMapMode(mapOpen, MapFreezesTime);
             hud?.Refresh(sim, rig, speed, paused || MapFreezesTime);
         }
@@ -217,6 +237,25 @@ namespace HumanLastRampart.Combat.Battle
         public bool MapOpen => mapOpen;
         public BattleMapCamera MapCamera => mapCamera;
         bool MapFreezesTime => mapOpen && easy;
+
+        // 대포 고르기: 지금 고른 벽의 1~4번
+        public void SelectCannon(int number)
+        {
+            selectedCannon = -1;
+            for (int c = 0; c < sim.CannonCount; c++)
+            {
+                BattleSim.CannonInfo info = sim.GetCannon(c);
+                if (info.Side == cannonSide && info.Number == number) selectedCannon = c;
+            }
+        }
+
+        public void SelectCannonSide(int side)
+        {
+            cannonSide = side;
+            selectedCannon = -1;
+        }
+
+        public bool AimSelectedCannonAt(Vector3 world) => selectedCannon >= 0 && sim.SetCannonAim(selectedCannon, world);
 
         public void ToggleMap()
         {
@@ -226,6 +265,8 @@ namespace HumanLastRampart.Combat.Battle
             {
                 hud.CloseMenu();
                 mapCamera.Open(rig != null ? rig.Side : 0);
+                cannonSide = rig != null ? rig.Side : 0;
+                selectedCannon = -1;
                 RenderSettings.fog = false;   // 위에서 멀리 보는 지도에는 안개를 끈다 (시야 규칙은 점 그리기에서 그대로)
             }
             else

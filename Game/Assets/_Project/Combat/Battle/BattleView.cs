@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using HumanLastRampart.Combat.PerfLab;
 using HumanLastRampart.Core.Definitions;
 using Unity.Collections;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace HumanLastRampart.Combat.Battle
@@ -31,6 +32,11 @@ namespace HumanLastRampart.Combat.Battle
         readonly List<(MaterialPropertyBlock block, int start, int count, bool special)> mapEnemyDraws =
             new List<(MaterialPropertyBlock, int, int, bool)>();
         readonly MaterialPropertyBlock mapSoldierBlock;
+        // 지도 표시(대포 위치·사거리 원·조준점) — 점 셰이더로 그린다 (MAP-3)
+        const int MarkerCapacity = 512;
+        readonly GraphicsBuffer markerBuffer;
+        readonly MaterialPropertyBlock markerBlock;
+        NativeArray<PerfLabInstance> markers;
         readonly Mesh quad;
         readonly Texture2D placeholderSheet;
         readonly Texture2D shotTexture;
@@ -92,6 +98,13 @@ namespace HumanLastRampart.Combat.Battle
             mapSoldierBlock.SetTexture(MainTexId, dotTexture);
             mapSoldierBlock.SetColor(MapColorId, MapSoldierColor);
             mapSoldierBlock.SetBuffer(InstancesId, soldierBuffer);
+            markerBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, MarkerCapacity, PerfLabInstance.Stride);
+            markers = new NativeArray<PerfLabInstance>(MarkerCapacity, Allocator.Persistent);
+            markerBlock = new MaterialPropertyBlock();
+            markerBlock.SetTexture(MainTexId, dotTexture);
+            markerBlock.SetColor(MapColorId, new Color(0f, 0f, 0f, 0f));   // 개체 색 사용
+            markerBlock.SetFloat(MinWorldSizeId, 0f);
+            markerBlock.SetBuffer(InstancesId, markerBuffer);
 
             shotBlock = new MaterialPropertyBlock();
             Apply(shotBlock, shotTexture, PerfLabArt.ArrowLayout);
@@ -292,6 +305,49 @@ namespace HumanLastRampart.Combat.Battle
             }
         }
 
+        // 지도 대포 표시: 모든 대포 위치(흰), 고른 벽 대포의 사거리 원(회색 점선), 조준점(빨강, 쉬는 중이면 회색), 고른 대포(노랑)
+        public void DrawMapMarkers(int selectedSide, int selectedCannon, float dot)
+        {
+            int n = 0;
+            void Add(Vector3 p, Color c, float size)
+            {
+                if (n >= MarkerCapacity) return;
+                markers[n++] = new PerfLabInstance { PosFrame = new float4(p.x, 0.5f, p.z, 0f), TintSize = new float4(c.r, c.g, c.b, size) };
+            }
+
+            for (int i = 0; i < sim.CannonCount; i++)
+            {
+                BattleSim.CannonInfo c = sim.GetCannon(i);
+                if (!c.Alive) continue;
+                bool selected = i == selectedCannon;
+                if (c.Side == selectedSide)
+                {
+                    const int ringDots = 72;
+                    for (int k = 0; k < ringDots; k++)
+                    {
+                        float a = k * Mathf.PI * 2f / ringDots;
+                        Add(c.Position + new Vector3(Mathf.Cos(a), 0f, Mathf.Sin(a)) * c.Range, selected ? new Color(1f, 0.9f, 0.3f) : new Color(0.8f, 0.8f, 0.8f), dot * (selected ? 0.7f : 0.45f));
+                    }
+                }
+
+                Add(c.Position, selected ? new Color(1f, 0.9f, 0.2f) : Color.white, dot * (selected ? 2.4f : 1.7f));
+                if (c.HasAim)
+                {
+                    Color aimColor = c.Idle ? new Color(0.6f, 0.6f, 0.6f) : new Color(1f, 0.2f, 0.2f);
+                    Add(c.Aim, aimColor, dot * 2.2f);
+                    for (int k = 0; k < 12; k++)
+                    {
+                        float a = k * Mathf.PI * 2f / 12f;
+                        Add(c.Aim + new Vector3(Mathf.Cos(a), 0f, Mathf.Sin(a)) * 5f, aimColor, dot * 0.6f);
+                    }
+                }
+            }
+
+            for (int k = n; k < MarkerCapacity; k++) markers[k] = default;
+            markerBuffer.SetData(markers);
+            if (n > 0) Graphics.DrawMeshInstancedProcedural(quad, 0, mapMaterial, bounds, n, markerBlock);
+        }
+
         // 지도 점: 가장자리가 부드럽지 않은 둥근 점 (알파 잘라내기)
         static Texture2D CreateDotTexture()
         {
@@ -315,6 +371,8 @@ namespace HumanLastRampart.Combat.Battle
         public void Dispose()
         {
             if (mapMaterial != null) UnityEngine.Object.Destroy(mapMaterial);
+            markerBuffer?.Release();
+            if (markers.IsCreated) markers.Dispose();
             if (dotTexture != null) UnityEngine.Object.Destroy(dotTexture);
             if (pileMaterial != null) UnityEngine.Object.Destroy(pileMaterial);
             foreach (var draw in enemyDraws)

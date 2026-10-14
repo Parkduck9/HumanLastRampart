@@ -338,6 +338,9 @@ namespace HumanLastRampart.Combat.Battle
         [ReadOnly] public NativeArray<byte> SoldierSide;
         [ReadOnly] public NativeArray<int> SoldierWeapon;
         public NativeArray<float> SoldierCooldowns;
+        [ReadOnly] public NativeArray<float3> SoldierAim;     // 대포 조준점 (MAP-3)
+        [ReadOnly] public NativeArray<byte> SoldierHasAim;
+        public NativeArray<byte> SoldierIdle;                 // 조준점 근처에 적이 없어 쉼
         [ReadOnly] public NativeArray<byte> SidePriority;     // 성벽별 TargetPriority
         [ReadOnly] public NativeArray<WeaponKindData> Weapons;
         [ReadOnly] public NativeArray<float3> EnemyPositions;
@@ -380,6 +383,12 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             WeaponKindData weapon = Weapons[SoldierWeapon[s]];
+            if (weapon.AreaRadius > 0f && SoldierHasAim[s] != 0)
+            {
+                FireAtAim(s, weapon);
+                return;
+            }
+
             int side = SoldierSide[s];
             byte mode = weapon.AreaRadius > 0f ? DensestArea : SidePriority[side];
             float3 wallOut = WallGeometry.Outward(side);
@@ -501,6 +510,67 @@ namespace HumanLastRampart.Combat.Battle
                 From = from + new float3(0f, 1f, 0f),
                 To = new float3(aim.x, aim.y + 1f, aim.z),
                 Target = new EnemyHandle { Index = best, Generation = EnemyGeneration[best] },
+                Weapon = SoldierWeapon[s],
+            });
+            SoldierCooldowns[s] = weapon.Interval * IntervalMultiplier;
+        }
+
+        // 지도에서 정한 지점으로 포격 (MAP-3). 지점 근처(범위 + 6m)에 적이 없으면 쉰다 (D-044 M2)
+        void FireAtAim(int s, WeaponKindData weapon)
+        {
+            float3 aim = SoldierAim[s];
+            float watch = weapon.AreaRadius + 6f;
+            int2 minCell = Grid.CellOf(aim - new float3(watch, 0f, watch));
+            int2 maxCell = Grid.CellOf(aim + new float3(watch, 0f, watch));
+            int nearest = -1;
+            float nearestSq = watch * watch;
+            for (int z = minCell.y; z <= maxCell.y; z++)
+            {
+                for (int x = minCell.x; x <= maxCell.x; x++)
+                {
+                    int cell = Grid.IndexOf(new int2(x, z));
+                    int start = CellStart[cell];
+                    int end = start + CellCount[cell];
+                    for (int k = start; k < end; k++)
+                    {
+                        int e = SortedEnemies[k];
+                        float3 d = EnemyPositions[e] - aim;
+                        float distSq = d.x * d.x + d.z * d.z;
+                        if (distSq <= nearestSq)
+                        {
+                            nearest = e;
+                            nearestSq = distSq;
+                        }
+                    }
+                }
+            }
+
+            if (nearest < 0)
+            {
+                SoldierIdle[s] = 1;
+                SoldierCooldowns[s] = RetryInterval;
+                return;
+            }
+
+            SoldierIdle[s] = 0;
+            float3 from = SoldierPositions[s];
+            float3 toAim = aim - from;
+            float distance = math.sqrt(toAim.x * toAim.x + toAim.z * toAim.z);
+            float accuracy = distance <= weapon.NearDistance ? weapon.AccuracyNear : distance >= weapon.FarDistance ? weapon.AccuracyFar * FarAccuracyMultiplier : weapon.AccuracyMid;
+            float spread = distance <= weapon.NearDistance ? weapon.SpreadNear : distance >= weapon.FarDistance ? weapon.SpreadFar : weapon.SpreadMid;
+            var random = Random.CreateFromIndex(FrameSeed ^ (uint)(s * 7919 + 17));
+            float3 point = aim;
+            if (random.NextFloat() > accuracy)
+            {
+                float2 offset = random.NextFloat2Direction() * random.NextFloat(math.max(spread, 1.3f), math.max(spread, 1.3f) * 2f);
+                point += new float3(offset.x, 0f, offset.y);
+            }
+
+            Shots.Enqueue(new Shot
+            {
+                From = from + new float3(0f, 1f, 0f),
+                To = new float3(point.x, 1f, point.z),
+                Target = new EnemyHandle { Index = nearest, Generation = EnemyGeneration[nearest] },
                 Weapon = SoldierWeapon[s],
             });
             SoldierCooldowns[s] = weapon.Interval * IntervalMultiplier;
