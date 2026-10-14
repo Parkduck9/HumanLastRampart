@@ -13,7 +13,8 @@ namespace HumanLastRampart.Combat.Battle
 {
     // 실제 전투 계산 (CY1-C1: P3-C01 성벽 내구도, P3-C04 자동 공격, P3-C05 웨이브, P3-C11 승패·결과)
     // 프레임 순서: BeginFrame(메인 스레드: 지난 프레임 집계 반영·등장·승패) → Schedule(작업 예약) → Complete(그리기 전)
-    // 아직 없는 것: 시체 더미 등반, 명령·표적 설정, 날씨 효과, 대포 지도 조준, 마법, 함정 — 다음 바퀴
+    // CY2-C2: 시체 더미 — 성벽 앞에서 죽은 적이 칸마다 쌓이고, 높아지면 밟고 올라온다 (Battle.md 3.3 B10)
+    // 아직 없는 것: 명령·표적 설정, 날씨 효과, 대포 지도 조준, 마법, 함정
     public sealed class BattleSim : IDisposable
     {
         public const float WallHeight = 4f;
@@ -22,6 +23,9 @@ namespace HumanLastRampart.Combat.Battle
         const float SpawnSpreadSeconds = 12f;   // 한 무리가 나오는 데 걸리는 시간
         const float FieldBand = 40f;            // 들판 끝에서 이만큼 안쪽까지 흩어져 나온다
         const float SoldierHpFallback = 10f;
+        const float PileBinWidth = 2f;          // 시체 더미 칸 폭
+        const float PileDepth = 8f;             // 성벽에서 이 거리 안에서 죽으면 쌓인다
+        const float PileClimbRatio = 0.75f;     // 성벽 높이의 3/4부터 밟고 오른다
 
         public struct SideStatus
         {
@@ -34,6 +38,7 @@ namespace HumanLastRampart.Combat.Battle
             public int Climbing;
             public int OnWall;
             public int InField;
+            public float MaxPile;   // 이 벽 앞 가장 높은 시체 더미(m)
         }
 
         struct SpawnEntry
@@ -77,6 +82,8 @@ namespace HumanLastRampart.Combat.Battle
         public bool SoldiersDirty { get; set; } = true;
         public IReadOnlyList<(EnemyDef def, int start, int count)> EnemyGroups => enemyGroups;
         public int ShotCapacity => shotCapacity;
+        public NativeArray<float> PileHeights => piles;
+        public PileSpec Pile => pile;
 
         readonly BattleSetup setup;
         readonly List<(EnemyDef def, int start, int count)> enemyGroups = new List<(EnemyDef, int, int)>();
@@ -145,6 +152,10 @@ namespace HumanLastRampart.Combat.Battle
         NativeArray<int> stats;
         NativeArray<float> tally;
 
+        // 시체 더미 (면 × 칸)
+        PileSpec pile;
+        NativeArray<float> piles;
+
         float garrisonLossRatio;
 
         public BattleSim(BattleSetup setup, IDefinitionLookup defs)
@@ -157,6 +168,15 @@ namespace HumanLastRampart.Combat.Battle
             FieldSize = terrain != null ? terrain.FieldSize : 320f;
             var rules = defs.All<BattleRulesDef>();
             garrisonLossRatio = rules.Count > 0 ? rules[0].GarrisonLossDefeatRatio : 0.7f;
+            pile = new PileSpec
+            {
+                Bins = Mathf.Max(1, Mathf.CeilToInt(CastleHalf * 2f / PileBinWidth)),
+                BinWidth = PileBinWidth,
+                Depth = PileDepth,
+                PerKill = rules.Count > 0 ? rules[0].CorpseHeightPerKill : 0.02f,
+                ClimbStart = WallHeight * PileClimbRatio,
+                MaxHeight = WallHeight,
+            };
             maxConcurrent = setup.MaxConcurrentEnemies > 0 ? setup.MaxConcurrentEnemies : int.MaxValue;
 
             var p = Allocator.Persistent;
@@ -442,6 +462,7 @@ namespace HumanLastRampart.Combat.Battle
             hitQueue = new NativeQueue<HitEvent>(p);
             stats = new NativeArray<int>(BattleStat.Count, p);
             tally = new NativeArray<float>(4 * SideStat.Count, p);
+            piles = new NativeArray<float>(4 * pile.Bins, p);
         }
 
         // ── 매 프레임 ────────────────────────────────────────
@@ -468,6 +489,9 @@ namespace HumanLastRampart.Combat.Battle
                 status.Climbing = (int)tally[b + SideStat.Climbing];
                 status.OnWall = (int)tally[b + SideStat.OnWall];
                 status.InField = (int)tally[b + SideStat.InField];
+                float maxPile = 0f;
+                for (int k = side * pile.Bins; k < (side + 1) * pile.Bins; k++) maxPile = Mathf.Max(maxPile, piles[k]);
+                status.MaxPile = maxPile;
                 Sides[side] = status;
             }
 
@@ -579,6 +603,8 @@ namespace HumanLastRampart.Combat.Battle
                 StopDistance = eStop,
                 KindOf = eKind,
                 Kinds = kinds,
+                Piles = piles,
+                Pile = pile,
                 CastleHalf = CastleHalf,
                 WallHeight = WallHeight,
                 DeltaTime = dt,
@@ -680,6 +706,11 @@ namespace HumanLastRampart.Combat.Battle
                 FreeSlots = freeSlots,
                 FreeCount = freeCount,
                 Stats = stats,
+                EnemyPositions = ePos,
+                EnemySides = eSide,
+                Piles = piles,
+                Pile = pile,
+                CastleHalf = CastleHalf,
             }.Schedule(h);
 
             JobHandle enemyDraw = new WriteBattleEnemyInstancesJob
@@ -827,6 +858,7 @@ namespace HumanLastRampart.Combat.Battle
             Release(ref shotInstances);
             Release(ref stats);
             Release(ref tally);
+            Release(ref piles);
             if (shotQueue.IsCreated) shotQueue.Dispose();
             if (hitQueue.IsCreated) hitQueue.Dispose();
         }

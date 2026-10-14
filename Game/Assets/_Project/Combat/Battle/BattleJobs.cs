@@ -42,6 +42,25 @@ namespace HumanLastRampart.Combat.Battle
             float3 n = Outward(side);
             return new float3(n.z, 0f, -n.x);
         }
+
+        // 시체 더미 칸: 성벽을 따라 BinWidth 폭으로 나눈 칸 번호 (면 × Bins + 칸)
+        public static int PileIndex(float3 position, int side, float castleHalf, float binWidth, int bins)
+        {
+            float lateral = math.dot(position, Right(side)) + castleHalf;
+            int bin = math.clamp((int)math.floor(lateral / binWidth), 0, bins - 1);
+            return side * bins + bin;
+        }
+    }
+
+    // 시체 더미 설정 (Battle.md 3.3 B10)
+    public struct PileSpec
+    {
+        public int Bins;            // 면마다 칸 수
+        public float BinWidth;      // 칸 폭(m)
+        public float Depth;         // 성벽에서 이 거리 안에서 죽은 적만 쌓인다(m)
+        public float PerKill;       // 한 마리당 높이(m) — BattleRulesDef.corpseHeightPerKill
+        public float ClimbStart;    // 이 높이부터 밟고 올라온다(m)
+        public float MaxHeight;     // 성벽 높이까지만
     }
 
     // 적 종류별 값 (EnemyDef에서 복사)
@@ -119,6 +138,8 @@ namespace HumanLastRampart.Combat.Battle
         [ReadOnly] public NativeArray<float> StopDistance;
         [ReadOnly] public NativeArray<int> KindOf;
         [ReadOnly] public NativeArray<EnemyKind> Kinds;
+        [ReadOnly] public NativeArray<float> Piles;
+        public PileSpec Pile;
         public float CastleHalf;
         public float WallHeight;
         public float DeltaTime;
@@ -126,6 +147,28 @@ namespace HumanLastRampart.Combat.Battle
         public void Execute(int i)
         {
             byte state = States[i];
+            if (state == EnemyState.AtWall)
+            {
+                // 성벽 앞 적: 시체 더미 위에 서고, 더미가 충분히 높으면 밟고 오르기 시작한다
+                float3 n = WallGeometry.Outward(Sides[i]);
+                float3 position = Positions[i];
+                float pile = Piles[WallGeometry.PileIndex(position, Sides[i], CastleHalf, Pile.BinWidth, Pile.Bins)];
+                if (pile >= Pile.ClimbStart)
+                {
+                    position += n * (CastleHalf + 0.6f - math.dot(position, n));
+                    position.y = pile;
+                    Climb[i] = pile;
+                    States[i] = EnemyState.Climbing;
+                }
+                else
+                {
+                    position.y = math.dot(position, n) - CastleHalf <= Pile.Depth ? pile : 0f;
+                }
+
+                Positions[i] = position;
+                return;
+            }
+
             if (state == EnemyState.Walking)
             {
                 float3 n = WallGeometry.Outward(Sides[i]);
@@ -282,7 +325,8 @@ namespace HumanLastRampart.Combat.Battle
     }
 
     // ④ 병사별 표적 고르기·발사 (병렬)
-    // 우선순위: 성벽 위 적 → 오르는 적 → 체력 비율 낮은 적(D-019 기본) → 가까운 적.
+    // 우선순위: 성벽 위 적(바로 앞에서 병사를 치는 적) → 체력 비율 낮은 적(D-019 기본) → 가까운 적.
+    // "오르는 적부터" 등은 명령(CY2-C3, Battle.md 3.1-1)으로 바꾼다 — 기본값에서 오르는 적을 먼저 쏘지 않는다.
     // 명중률은 거리 구간별(D-028 C7). 빗나가면 조준점이 퍼짐만큼 흩어진다.
     [BurstCompile(CompileSynchronously = true)]
     public struct SoldierFireJob : IJobParallelFor
@@ -357,7 +401,7 @@ namespace HumanLastRampart.Combat.Battle
                         }
 
                         byte state = EnemyStates[e];
-                        int rank = state == EnemyState.OnWall ? 0 : (state == EnemyState.Climbing ? 1 : 2);
+                        int rank = state == EnemyState.OnWall ? 0 : 1;
                         float ratio = (float)remaining / math.max(1, EnemyMaxHp[e]);
                         if (rank < bestRank
                             || (rank == bestRank && (ratio < bestRatio || (ratio == bestRatio && distSq < bestDistSq))))
@@ -399,7 +443,8 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             // 오르는 적·성벽 위 적은 맞히기 쉽다 (Battle.md 6.4)
-            if (bestRank < 2)
+            byte bestState = EnemyStates[best];
+            if (bestState == EnemyState.OnWall || bestState == EnemyState.Climbing)
             {
                 accuracy = math.min(1f, accuracy + 0.2f);
             }
@@ -611,6 +656,11 @@ namespace HumanLastRampart.Combat.Battle
         public NativeArray<int> FreeSlots;
         public NativeArray<int> FreeCount;   // [0]
         public NativeArray<int> Stats;
+        [ReadOnly] public NativeArray<float3> EnemyPositions;
+        [ReadOnly] public NativeArray<byte> EnemySides;
+        public NativeArray<float> Piles;
+        public PileSpec Pile;
+        public float CastleHalf;
 
         public void Execute()
         {
@@ -632,6 +682,15 @@ namespace HumanLastRampart.Combat.Battle
                 EnemyStates[e] = EnemyState.Dead;
                 EnemyGeneration[e] = EnemyGeneration[e] + 1;
                 EnemyIncoming[e] = 0;
+
+                // 성벽 가까이(오르다 떨어진 적 포함)에서 죽으면 그 칸 더미가 높아진다
+                int side = EnemySides[e];
+                float3 position = EnemyPositions[e];
+                if (math.dot(position, WallGeometry.Outward(side)) - CastleHalf <= Pile.Depth)
+                {
+                    int p = WallGeometry.PileIndex(position, side, CastleHalf, Pile.BinWidth, Pile.Bins);
+                    Piles[p] = math.min(Piles[p] + Pile.PerKill, Pile.MaxHeight);
+                }
                 EnemyKind kind = Kinds[KindOf[e]];
                 Stats[BattleStat.Kills]++;
                 Stats[BattleStat.Gold] += kind.RewardGold;

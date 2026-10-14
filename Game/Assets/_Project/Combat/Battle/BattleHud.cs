@@ -40,14 +40,14 @@ namespace HumanLastRampart.Combat.Battle
             scaler.referenceResolution = new Vector2(1920f, 1080f);
 
             Image panel = NewImage(root.transform, "Status Panel", new Color(0f, 0f, 0f, 0.55f));
-            Anchor(panel.rectTransform, new Vector2(0f, 1f), new Vector2(20f, -20f), new Vector2(760f, 300f));
+            Anchor(panel.rectTransform, new Vector2(0f, 1f), new Vector2(20f, -20f), new Vector2(900f, 300f));
 
             header = NewText(panel.transform, "Header", 24, TextAnchor.UpperLeft);
-            Anchor(header.rectTransform, new Vector2(0f, 1f), new Vector2(16f, -12f), new Vector2(730f, 90f));
+            Anchor(header.rectTransform, new Vector2(0f, 1f), new Vector2(16f, -12f), new Vector2(870f, 90f));
             header.text = battleLine;
 
             walls = NewText(panel.transform, "Walls", 22, TextAnchor.UpperLeft);
-            Anchor(walls.rectTransform, new Vector2(0f, 1f), new Vector2(16f, -110f), new Vector2(730f, 180f));
+            Anchor(walls.rectTransform, new Vector2(0f, 1f), new Vector2(16f, -110f), new Vector2(870f, 180f));
 
             help = NewText(root.transform, "Help", 20, TextAnchor.LowerLeft);
             Anchor(help.rectTransform, new Vector2(0f, 0f), new Vector2(20f, 20f), new Vector2(1100f, 60f));
@@ -104,7 +104,8 @@ namespace HumanLastRampart.Combat.Battle
                     .Append(s.WallHp).Append('/').Append(s.WallMaxHp)
                     .Append("  병력 ").Append(s.GarrisonAlive).Append('/').Append(s.GarrisonStart)
                     .Append("  들판 ").Append(s.InField).Append(" · 벽 앞 ").Append(s.AtWall)
-                    .Append(" · 오름 ").Append(s.Climbing).Append(" · 위 ").Append(s.OnWall).Append('\n');
+                    .Append(" · 오름 ").Append(s.Climbing).Append(" · 위 ").Append(s.OnWall)
+                    .Append("  더미 ").Append(s.MaxPile.ToString("0.0")).Append("m\n");
             }
 
             walls.text = text.ToString();

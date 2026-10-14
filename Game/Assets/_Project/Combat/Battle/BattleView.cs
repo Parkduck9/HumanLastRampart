@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using HumanLastRampart.Combat.PerfLab;
 using HumanLastRampart.Core.Definitions;
+using Unity.Collections;
 using UnityEngine;
 
 namespace HumanLastRampart.Combat.Battle
@@ -27,6 +28,9 @@ namespace HumanLastRampart.Combat.Battle
         readonly GraphicsBuffer shotBuffer;
         readonly MaterialPropertyBlock shotBlock;
         readonly Renderer[] walls = new Renderer[4];
+        Transform[] pileBlocks;          // 시체 더미 칸마다 상자 (높이가 생기면 만든다)
+        Material pileMaterial;
+        float nextPileRefresh;
         readonly Bounds bounds;
         readonly GameObject root;
 
@@ -110,6 +114,9 @@ namespace HumanLastRampart.Combat.Battle
                 walls[side] = wall.GetComponent<Renderer>();
             }
 
+            pileBlocks = new Transform[4 * sim.Pile.Bins];
+            pileMaterial = new Material(walls[0].sharedMaterial) { name = "Corpse Pile (runtime)", color = new Color(0.32f, 0.22f, 0.14f) };
+
             var sun = new GameObject("Sun", typeof(Light));
             sun.transform.SetParent(root.transform, false);
             sun.transform.rotation = Quaternion.Euler(50f, -30f, 0f);
@@ -148,6 +155,12 @@ namespace HumanLastRampart.Combat.Battle
             shotBuffer.SetData(sim.ShotInstances);
             Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, sim.ShotCapacity, shotBlock);
 
+            if (Time.unscaledTime >= nextPileRefresh)
+            {
+                nextPileRefresh = Time.unscaledTime + 0.25f;
+                RefreshPiles();
+            }
+
             // 성벽 색: 체력이 줄수록 붉게
             for (int side = 0; side < 4; side++)
             {
@@ -157,8 +170,45 @@ namespace HumanLastRampart.Combat.Battle
             }
         }
 
+        // 시체 더미: 성벽 앞 칸마다 높이만큼 어두운 상자 (그림은 이후 Codex 아트)
+        void RefreshPiles()
+        {
+            PileSpec spec = sim.Pile;
+            NativeArray<float> heights = sim.PileHeights;
+            for (int k = 0; k < pileBlocks.Length; k++)
+            {
+                float h = heights[k];
+                if (h < 0.05f)
+                {
+                    continue;
+                }
+
+                if (pileBlocks[k] == null)
+                {
+                    int side = k / spec.Bins;
+                    int bin = k % spec.Bins;
+                    Vector3 n = ToVector(WallGeometry.Outward(side));
+                    Vector3 r = ToVector(WallGeometry.Right(side));
+                    var block = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                    block.name = $"Pile {side}-{bin}";
+                    UnityEngine.Object.Destroy(block.GetComponent<Collider>());
+                    block.transform.SetParent(root.transform, false);
+                    block.transform.localRotation = Quaternion.LookRotation(n);
+                    block.transform.localPosition = n * (sim.CastleHalf + 2f) + r * (-sim.CastleHalf + (bin + 0.5f) * spec.BinWidth);
+                    block.GetComponent<Renderer>().sharedMaterial = pileMaterial;
+                    pileBlocks[k] = block.transform;
+                }
+
+                Transform t = pileBlocks[k];
+                Vector3 p = t.localPosition;
+                t.localPosition = new Vector3(p.x, h * 0.5f, p.z);
+                t.localScale = new Vector3(spec.BinWidth, h, 4f);
+            }
+        }
+
         public void Dispose()
         {
+            if (pileMaterial != null) UnityEngine.Object.Destroy(pileMaterial);
             foreach (var draw in enemyDraws)
             {
                 draw.buffer.Release();
