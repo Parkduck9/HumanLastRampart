@@ -98,6 +98,35 @@ namespace HumanLastRampart.Combat.Battle
             return true;
         }
 
+        // 어떤 점에서 range 안, 성 밖에서 적이 가장 많이 모인 격자 칸의 가운데 (없으면 null).
+        // 작업이 끝난 뒤(그리기 단계·측정 도구)에서만 부른다 — 지난 프레임 격자를 읽는다
+        public Vector3? DensestPointNear(Vector3 from, float range)
+        {
+            if (scheduled) return null;
+            var c = new float3(from.x, 0f, from.z);
+            int2 minCell = grid.CellOf(c - new float3(range, 0f, range));
+            int2 maxCell = grid.CellOf(c + new float3(range, 0f, range));
+            int best = 0;
+            Vector3 bestPoint = default;
+            for (int z = minCell.y; z <= maxCell.y; z++)
+            {
+                for (int x = minCell.x; x <= maxCell.x; x++)
+                {
+                    int cell = grid.IndexOf(new int2(x, z));
+                    int count = cellCount[cell];
+                    if (count <= best) continue;
+                    var center = new Vector3(grid.MinX + (x + 0.5f) * grid.CellSize, 0f, grid.MinZ + (z + 0.5f) * grid.CellSize);
+                    if (math.max(math.abs(center.x), math.abs(center.z)) < CastleHalf + 2f) continue;   // 성 안·성벽 위 제외
+                    float dx = center.x - from.x, dz = center.z - from.z;
+                    if (dx * dx + dz * dz > range * range) continue;
+                    best = count;
+                    bestPoint = center;
+                }
+            }
+
+            return best > 0 ? bestPoint : (Vector3?)null;
+        }
+
         public void ClearCannonAim(int index)
         {
             if (index < 0 || index >= cannons.Count) return;
