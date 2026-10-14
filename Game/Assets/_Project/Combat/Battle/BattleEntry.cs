@@ -85,6 +85,7 @@ namespace HumanLastRampart.Combat.Battle
                 sim.WallCommandApplied += (side, priority) => Targeting()?.SetWall(WallIds.Of((WallSide)side), priority);
                 sim.GlobalCommandApplied += priority => Targeting()?.SetGlobal(priority);
                 hud.CommandChosen += OnCommandChosen;
+                hud.GlobalCommandChosen += priority => sim?.IssueGlobal(priority);   // MAP-2 지도 전체 명령
             }
         }
 

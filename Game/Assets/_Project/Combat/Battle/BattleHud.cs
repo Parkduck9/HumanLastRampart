@@ -116,7 +116,8 @@ namespace HumanLastRampart.Combat.Battle
 
             walls.text = text.ToString();
             RefreshNotices();
-            help.text = mapMode ? "지도: 휠 확대(전체·한 면·가까이) · A/D/W/S 이동 · M/Esc 닫기   (전체 명령·대포 조준·마법·망원경은 다음 단계)" : "휠 버튼 명령 · A/D 성벽 따라 이동 · Q/E 다른 성벽 · Tab 전체 보기 · C 카메라 [" + (rig != null ? rig.PresetName : "") + "] · 1/2/3 속도 · P 멈춤   (임시 조작, 투사체 " + sim.ActiveShots + ")";
+            RefreshGlobalStatus(sim);
+            help.text = mapMode ? "지도: 왼쪽 전체 명령 · 휠 확대(전체·한 면·가까이) · A/D/W/S 이동 · M/Esc 닫기   (대포 조준·마법·망원경은 다음 단계)" : "휠 버튼 명령 · A/D 성벽 따라 이동 · Q/E 다른 성벽 · Tab 전체 보기 · C 카메라 [" + (rig != null ? rig.PresetName : "") + "] · 1/2/3 속도 · P 멈춤   (임시 조작, 투사체 " + sim.ActiveShots + ")";
         }
 
         public void SetHeader(string line) => header.text = line;
