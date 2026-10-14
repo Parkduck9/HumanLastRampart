@@ -1,0 +1,64 @@
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>정비 함정 설치 확인</title><style>body{font-family:Malgun Gothic,sans-serif;background:#161c26;color:#e9eef7;margin:0;padding:24px}main{max-width:1100px;margin:auto}section{background:#222d3a;border:1px solid #47546a;padding:20px;border-radius:12px;margin:16px 0}button,select{color:white;background:#345065;border:1px solid #65738c;border-radius:6px;padding:10px;cursor:pointer}button:disabled{opacity:.4;cursor:default}.controls{display:flex;gap:10px;flex-wrap:wrap}.grid{display:grid;grid-template-columns:repeat(24,minmax(0,1fr));gap:3px;margin-top:12px;overflow-x:auto}.grid button{padding:0;height:27px;border-radius:3px;font-size:13px;min-width:0}.grid .selected{background:#187953}.grid .placed{background:#955930}.grid .hill{background:#52432e}pre{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.6}.castle{text-align:center;background:#574b3e;padding:15px;margin-top:12px}.muted{color:#b7c7dd}#message{white-space:pre-wrap;min-height:90px}@media(max-width:550px){body{padding:8px}.grid{gap:1px}.grid button{font-size:10px}}</style><main><h1>정비 · 함정 구매·설치</h1><p class="muted">독립 클릭 데모 · 게임 저장과 연결되지 않음 · 실제 Unity 화면은 QA 대기</p><section><h2 id="summary"></h2><div class="controls"><select id="side"><option value="0">북쪽</option><option value="1">동쪽</option><option value="2">남쪽</option><option value="3">서쪽</option></select><select id="source"><option value="buy">상점 구매 · 25골드</option><option value="stored">보관품 재설치 · 무료</option></select><label><input id="mark" type="checkbox" checked> 지도 표시</label><button id="reset">데모 초기화</button></div><p>□ 빈 칸 · ■ 설치됨 · × 언덕 · ● 선택 / 5m 칸, 성벽 밖10~80m</p><div id="grid" class="grid"></div><div class="castle">▣ 중앙 성 · 선택한 성벽 바깥을 보는 격자</div><p id="picked">칸을 선택하세요.</p><div class="controls"><button id="quote">설치 견적 확인</button><button id="confirm" disabled>확정 설치</button></div><p id="message">환불은 불가능합니다. 회수는 후속으로 연결합니다.</p></section><section><h2>구현·검증 기록</h2><pre># 정비 함정 구매·설치 구현 (T-CX-036)
+
+- 상태: 구현·직접 소스 검사 완료, Claude Unity 화면/연동 QA 및 커밋 허가 대기.
+- 담당 Codex. 승인 설계 PrepTrapsProposal·D-050/051·C-008 r6/C-004 v1.3.
+
+## 구현 범위
+
+정비에 ‘함정 구매·설치’ 버튼을 추가한다. 다음 전투 지형은 CampaignStartDef의 전투 번호 매핑으로 고른다. 북/동/남/서 성벽을 바꿔 공용 TrapGrid의 24열×14행(현재 지형값)에서 빈 칸을 선택한다. 성벽에 가까운 줄은 아래에 표시한다. 언덕 칸·이미 점유한 원래 설치 칸은 비활성화한다.
+
+함정 종류·상점 재고·보관 재고, 구매/보관 재설치, 지도 표시(기본 켜짐)를 선택한 뒤 견적→확정한다. 구매는 정의 가격(현재25골드)과 상점1개 차감, 보관품은 골드 없이 보관1개 사용. 성공 때만 새TrapId와 칸 가운데 좌표를 기록한다. 미표시 함정은 지도 점화가 불가능함을 안내한다. 환불·판매·회수 실행은 제공하지 않는다.
+
+정비 재입장 때 같은 전투 번호에는 상점 보충을 반복하지 않는다. 모든 종류의 재고를 검사한 뒤 다음 목록과 보충 번호를 함께 반영한다. 상점/보관 목록 오류·재고 부족·골드 부족·언덕/점유/범위 밖·ID 범위 초과·만료 견적·정의/상태 변경은 구매 상태를 변경하지 않는다. 닫기·정비 화면 종료로 견적을 무효화한다. 다른 지형 설치물과 모집/수리·보상 상태는 보존한다.
+
+재고 수치는 코드에 고정하지 않고 TrapDef.ShopStockStart/PerPrep/Max를 사용한다. 작업 중 Claude가 TrapDef 기본값을12/+6/24로 바꾼 것을 읽었다(기존 D-050은6/+3/12). Codex는 그 값을 수정하거나 새로운 밸런스로 확정하지 않았으며, Claude에게 최신 승인/기록 확인을 요청한다. 두 데이터값 모두 거래 시험으로 확인했다.
+
+## 검증
+
+- 실제 Core/Meta 소스 거래40/40: 처음 정비·다음 정비·재진입·상한·다른 재고 값 적용, 4면 설치/좌표, 구매/보관/미표시, 부족/중복/범위/언덕, 상태변경/취소/닫힘/다른 세션/같은 견적 재사용, 실패 시 모든 진행 데이터 무변경.
+- HTML 클릭 로직9/9 및JS문법검사 통과(최소 DOM 대체, 브라우저 시각 검증 아님).
+- Unity6.3.25f1·현재 프로젝트 Core/UI 참조로 Meta 전체 직접 컴파일 오류0.
+- Unity 에디터/Play/실제 화면 캡처를 수행하지 않았다. 24×14칸 선택·휠·작은 해상도·팝업닫기/화면종료·다음 BattleSetup 전달은 Claude 연동 QA가 필요하다.
+- 아래 HTML은 독립 클릭 데모(예시 골드100/재고6/보관2)이며 게임 저장 데이터와 연결되지 않는다. 미리보기의 칸 좌표는 같은5m 규격, 언덕은 예시이고 실제 Unity 화면 캡처가 아니다.
+
+## 변경과 커밋 범위
+
+G-CX-024: Meta/TrapPreparationTransactions.cs 및meta, TrapPreparationPanel.cs 및meta, PrepEntry.cs, PreparationPanel.cs, PreparationSessionLifetime.cs — 자기7파일. 이전 T035 결과반영기2파일과 분리한다.
+G-CX-025: 이 MD, References HTML, _HTML/codex_정비함정구현_v1.html — 3파일. 별도 허가 후 커밋한다.
+
+시험/로그는 live/codex/qa/T-CX-036에 보관(Git무시). Core/App/Combat/Scene/ProjectSettings 변경과 Git 쓰기 없음.
+
+## 협업 확인 최신 상태
+
+M-CL-050: 정비 함정 화면 연동 QA는 Claude가 진행 중이다. D-054 사용자 승인 기록 확인: 현재 잠정 함정 재고12/+6/최대24, 피해거리10m이며 북쪽성벽15000/분대지점5개로 변경됐다. 앞의 승인 기록 확인 요청은 해소됐다. 거래 구현은 정의값을 사용하므로 별도 하드코딩 변경이 필요 없다. HTML의 골드100/상점6/보관2는 독립 데모 예시이고 현재 게임의 실제 초기 재고를 뜻하지 않는다.
+
+## 정비 함정 연동 QA 통과 (Claude 보고)
+
+M-CL-051/052: 최초 재고12→북쪽 cell_0_12_12 구매·설치(−25골드·재고11·표시/점유)→다음 BattleSetup에 포함→지도 점화→승리→결과 소비 제거→다음 정비17(+6), 재진입 보충없음 확인. Codex 직접 Unity 실행이 아닌 Claude 배치 QA 보고다. 작은 화면 격자 오른쪽 여백과 □/■ 표시 글꼴 문제는 후속 개선으로 남긴다. 정비 코드 G-CX-024는 아직 별도 허가 대기.
+
+## 코드 커밋 완료
+
+M-CL-053의 G-CX-024 허가에 따라 정비함정 자기7파일을 develop b9f067f로 커밋했다. D-056 뒤 Claude 재확인 QA도 통과 보고. 문서 G-CX-025·마법사 G-CX-026은 별도 허가 대기. 사용자 승인 R-005 main 반영은 조정 담당 Claude가 처리하며 Codex는 실행하지 않았다.
+
+## R-005 로컬 main 반영 확인
+
+M-CL-054: Claude가 사용자 승인 R-005로 main을 b9f067f45e11d16de6c67a4adc9b16a2218f5e29까지 fast-forward했다. Codex도 main 참조값이 같은지 직접 읽어 확인했다. 정비 함정 코드는 로컬 main에 반영됐다. 원격 게시는 하지 않았다. 이 문서 묶음은 별도의 G-CX-025 develop 커밋 대상이다.
+</pre></section></main><script>
+let state,selected=null,pending=null;
+const get=id=>document.getElementById(id);
+function reset(){state={gold:100,shop:6,stored:2,traps:[],serial:0};changed();}
+function stamp(){return JSON.stringify(state);}
+function changed(){pending=null;get('confirm').disabled=true;get('message').textContent='선택 후 견적을 확인하세요. 환불 불가.';render();}
+function render(){get('summary').textContent=`골드 ${state.gold} · 상점 ${state.shop}개 · 보관 ${state.stored}개`;
+ const grid=get('grid');grid.replaceChildren();const side=Number(get('side').value);
+ for(let row=13;row>=0;row--)for(let col=0;col<24;col++){let id=`cell_${side}_${col}_${row}`,hill=side===2&&col>=14&&col<=16&&row>=4&&row<=6,placed=state.traps.some(t=>t.id===id);const b=document.createElement('button');b.textContent=hill?'×':placed?'■':selected===id?'●':'□';b.title=`열${col+1}, 줄${row+1} · ${id}`;b.disabled=hill||placed;b.className=hill?'hill':placed?'placed':selected===id?'selected':'';b.onclick=()=>{selected=id;changed();};grid.appendChild(b);}
+ get('picked').textContent=selected?'선택: '+selected:'칸을 선택하세요.';}
+get('quote').onclick=()=>{pending=null;get('confirm').disabled=true;if(!selected||state.traps.some(t=>t.id===selected)){get('message').textContent='빈 칸을 선택하세요.';return;}const stored=get('source').value==='stored',cost=stored?0:25;
+ if((stored?state.stored:state.shop)<1||state.gold<cost){get('message').textContent='골드 또는 선택한 재고가 부족합니다.';return;}
+ pending={stamp:stamp(),id:selected,cost,stored,marked:get('mark').checked};get('message').textContent=`폭발 함정 · ${selected}
+비용 ${cost}골드 · 잔액 ${state.gold-cost}
+${pending.marked?'지도 표시 켜짐':'지도 표시 없음 — 지도 점화 불가'}
+환불 불가`;get('confirm').disabled=false;};
+get('confirm').onclick=()=>{const q=pending;pending=null;get('confirm').disabled=true;if(!q||q.stamp!==stamp()){get('message').textContent='견적이 만료되었습니다.';return;}state.gold-=q.cost;q.stored?state.stored--:state.shop--;state.serial++;state.traps.push({id:q.id,marked:q.marked,trapId:'trap_'+state.serial});render();get('message').textContent='설치 완료 · 같은 칸에 중복 설치할 수 없습니다.';};
+get('side').onchange=()=>{selected=null;changed();};get('source').onchange=changed;get('mark').onchange=changed;get('reset').onclick=()=>{selected=null;reset();};reset();
+</script></html>
