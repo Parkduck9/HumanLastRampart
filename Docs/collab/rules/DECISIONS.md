@@ -485,3 +485,10 @@
   - 데이터: BattleRulesDef `easyEnemyMultiplierByBattle`(C-010 v1.4 추가 필드)
 - 승인 근거: 사용자 '고블린 더 멀리서부터 줄이고 균형은 가로 하자' (2026-10-14). 10%가 부족해 0.4로 한 것은 보고에 명시
 - 관련: D-045, D-046, T-CL-038, balance_20261014/d047_*.txt
+## D-048 정비 화면 설계(P1-X06)·정비 경제 약속(C-017) 승인
+- 날짜: 2026-10-14
+- 내용: Codex 정비 화면 설계(P1-X06)와 CONTRACTS C-017 정비 모집·수리 경제(제안 r1, Claude 검토 E1~E4 포함)를 승인한다. 가격·정원은 D-042 후보 A 그대로
+  - Claude: Core `PreparationEconomyDef`·`PreparationEconomyRules`·RecruitCost 주석 → App 시작 검사(정확히 1개, Id economy_preparation_1, Validate)·Boot에 MetaCatalog 연결
+  - Codex: Data/Meta `economy_preparation_1` 에셋·MetaCatalog 등록, 정비 화면 견적·확인·한 번에 반영(지점 직접 보충·빈 지점 새 분대·대포 운용병 5명 복원·일회 견적 토큰)
+- 승인 근거: 사용자 'P1-X06이랑 C-017 승인' (2026-10-14)
+- 관련: D-042, C-017, M-CX-038, M-CL-039

@@ -1232,3 +1232,12 @@ public interface IScreenContext
 ## C-005 v1.3 — 적용 완료 (2026-10-14 14:06 KST)
 - Codex 결과 반영기(T-CX-024, PostId 요구 제거) + Claude App BattleSetupFactory(살아 있고 배치됐거나 주인공·마법사면 참가). 위 '적용 대기'는 해소
 - 확인 [AI 직접 확인 — 배치 Unity]: EditMode 28/28(RealDataTests: 실제 데이터 참가 영웅 2명, 쉬움 4번 배율 0.4). PlayMode EasyFullRun 통과 — 전투 1·2 승리 → 결과(영웅 결과 2개, 골드·병사·성벽 한 번 반영, 상세 3개) → 정비 → 다음 전투, 전투 3 패배 → 패배 엔딩 → 메인 복귀·진행 데이터 폐기. (정비 모집이 아직 없어 병사 300 그대로라 3번 패배는 예상대로)
+## C-017 — 승인 (D-048, 2026-10-14 14:10 KST)
+- 상태: 위 제안 r1을 **승인**. C-010 v1.3 PreparationEconomyDef 추가
+- **Core 완료(Claude):** Core/Definitions/PreparationEconomyDef.cs(필드 기본값 = 후보 A, ExpectedId = economy_preparation_1, PricesFor(UnitKind) — 궁수·총병·대포 운용병 외 null), Core/Economy/PreparationEconomyRules.cs
+  - `TryQuoteRecruit(def, kind, ownedSoldierCount, requestedCount, out goldCost, out reason)` — 구매 직전 인원 기준 1명씩 단계 가격, long 합산, 전체 정원만 검사, 0명은 비용 0 성공
+  - `TryQuoteRepair(def, currentHp, maxHp, requestedHp, out actualRepairHp, out goldCost, out reason)` — 벽 하나, 올림. 여러 벽은 호출한 쪽이 벽마다 불러 합산
+  - `Validate(def)` → 오류 문자열 목록(비면 정상)
+  - UnitDef.RecruitCost에 '정비 견적에 쓰지 않음' 주석
+- **App(Claude) 대기:** 시작 검사(정확히 1개·Id·Validate)와 Boot GameFlow.catalogs에 MetaCatalog 연결은 Codex 에셋·MetaCatalog가 생긴 뒤 넣는다(먼저 넣으면 새 게임이 막힘)
+- 확인 [AI 직접 확인 — 배치 EditMode]: 32/32 (PreparationEconomyTests 4: 599→2명 13골드, 1199→2명 20, 나눠 사도 같음, 0→2000 전체, 정원·음수·병종·넘침 거부, 수리 5HP 1골드·11HP 2골드·만피 0, 기본값 Validate 통과)
