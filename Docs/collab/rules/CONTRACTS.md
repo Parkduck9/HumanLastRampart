@@ -1214,3 +1214,12 @@ public interface IScreenContext
 - `ParticipatingHeroIds`: 살아 있는 영웅 중 **배치된 영웅(PostId 있음) + 주인공(UnitKind.Hero)·마법사(UnitKind.Wizard)는 배치 지점 없이도** 참가. App(BattleSetupFactory)이 고른다.
 - 영향: 결과 `HeroOutcomes`에 주인공·마법사 항목이 생긴다(C-006 '참가 영웅마다 정확히 한 항목' 그대로). Codex 결과 반영(BattleResultApplier)은 이미 영웅 Hp·생존을 처리하므로 변경 없음. 1회차에는 영웅이 성벽 위 싸움에 끼지 않아 Hp가 줄지 않는다.
 - **적용 대기 (2026-10-14 11:36):** Codex `BattleResultApplier`가 참가 영웅에 배치 지점(PostId)을 요구해서(83행), App 변경만 먼저 넣으면 결과 화면이 E2 오류로 멈춘다(Claude 자동 확인에서 발견). Codex가 반영기를 v1.3 규칙으로 고친 뒤 Claude가 App(BattleSetupFactory)을 바꾼다. 그동안 전투는 살아 있는 마법사가 있으면 마법을 쓸 수 있게 한다.
+
+## C-017 정비 모집·수리 경제 (제안 r1 — Codex 초안 + Claude 검토)
+- 상태: **제안** — 사용자 승인 대기. 원문: `Docs/GDD/screens/EconomyContractProposal.md` r1 (Codex, M-CX-038). 가격·정원 값 자체는 D-042(후보 A)로 이미 잠정 승인
+- **C-010 v1.3 (새 정의 타입):** `PreparationEconomyDef`(Core/Definitions, Claude) — 단계 경계 `TierStartCounts`(0·600·1,200), 병종별 단계 가격(궁수 5·8·12 / 총병 8·12·18 / 대포 운용병 10·15·20), 정원(전체 2,000·성벽 500·분대 지점 160·대포 지점 5), 수리(10HP=1골드, 기본 100HP). 데이터 에셋 `economy_preparation_1`·카탈로그 등록은 Codex(Data/Meta)
+- **순수 계산 `PreparationEconomyRules`**(Core/Economy, Claude): `TryQuoteRecruit`(구매 직전 인원 기준 1명씩 단계 가격 합산, long/checked) · `TryQuoteRepair`(min(요청, 손상), 벽별 올림) · `Validate(def)`(배열 길이·양수·경계 증가·정원 관계). Campaign을 바꾸지 않고 ID를 만들지 않는다
+- **App(Claude):** 시작 검사에서 `PreparationEconomyDef`가 정확히 1개이고 `Validate`를 통과해야 새 게임 허용(C-010 4). Boot의 GameFlow.catalogs에 MetaCatalog 연결
+- **Meta(Codex):** 정비 화면의 견적·확인·한 번에 반영, 지점 직접 보충·빈 일반 지점 새 분대(궁수/총병)·대포 지점 운용병 5명까지 복원(대포 수는 4문 고정), 한 번 쓰는 견적 토큰(같은 토큰 재실행·연타·닫힌 화면 거부), 실패 시 골드·목록·HP·NextInstanceNumber 모두 그대로. Campaign 새 필드 없음
+- **바뀌지 않는 것:** `UnitDef.RecruitCost`는 남기되 정비 견적에 쓰지 않는다(새 정의가 유일한 원본, 되돌림 없음). LastAppliedBattleRunId·BattleNumber·LastBattle·ActiveBattleSetup·표적 설정은 정비가 건드리지 않는다
+- **Claude 검토 (E1~E4):** E1 경계 동의 / E2 동의 — RecruitCost에 '정비 견적에는 쓰지 않음' 주석을 Core에 단다 / E3 동의 — 로컬 동기 UI에 영속 거래 ID 불필요 / E4 동의 — 단 한 지점에 분대 둘 이상은 데이터 오류로 App 시작 검사에도 넣는다. 추가: (a) 분대 160명이 서는 화면 배치는 Claude 전투 쪽 일(지금 줄당 12명 → 성 안쪽으로 깊어짐, 구현 전 줄 폭을 넓힌다) (b) 새 분대의 SquadId는 성공 반영 때만 `CampaignState.NewInstanceId("squad")`
