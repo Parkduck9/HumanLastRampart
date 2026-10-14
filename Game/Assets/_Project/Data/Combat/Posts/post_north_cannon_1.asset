@@ -16,4 +16,4 @@ MonoBehaviour:
   displayName: 북쪽 대포 1
   wall: 0
   kind: 1
-  positionAlongWall: 0.15
+  positionAlongWall: 0.2

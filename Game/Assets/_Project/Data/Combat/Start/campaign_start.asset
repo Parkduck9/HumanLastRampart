@@ -18,7 +18,7 @@ MonoBehaviour:
   firstStoryId: story_intro
   walls:
   - Side: 0
-    MaxHp: 10000
+    MaxHp: 15000
   - Side: 1
     MaxHp: 10000
   - Side: 2

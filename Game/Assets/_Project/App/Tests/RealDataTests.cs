@@ -29,7 +29,7 @@ namespace HumanLastRampart.App.Tests
         {
             DefinitionLookup lookup = LoadAll();
             Assert.IsTrue(lookup.IsValid, string.Join("\n", lookup.Errors));
-            Assert.AreEqual(28, lookup.All<PostDef>().Count, "성벽 4개 × (대포 4 + 분대 3)");
+            Assert.AreEqual(30, lookup.All<PostDef>().Count, "성벽 4개 × (대포 4 + 분대 3) + 정면(북) 분대 2 (D-054)");
             Assert.AreEqual(4, lookup.All<WaveDef>().Count);
             Assert.AreEqual(2, lookup.All<SpellDef>().Count);
             Assert.AreEqual(1, lookup.All<TrapDef>().Count);

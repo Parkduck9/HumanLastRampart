@@ -16,4 +16,4 @@ MonoBehaviour:
   displayName: 북쪽 분대 1
   wall: 0
   kind: 0
-  positionAlongWall: 0.27
+  positionAlongWall: 0.3

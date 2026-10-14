@@ -8,7 +8,7 @@ namespace HumanLastRampart.Core.Definitions
     {
         [SerializeField] int price = 25;               // D-050
         [SerializeField] float triggerRadius = 2f;     // 저절로 터짐 판정 거리 (D-050: 점화식, 저절로는 1%)
-        [SerializeField] float damageRadius = 6f;      // D-050 (T2)
+        [SerializeField] float damageRadius = 10f;     // D-054: 6m → 10m (함정으로 통과하는 전략이 되게)
         [SerializeField] int damage = 300;             // 고블린 30 한 방, 오우거 600 절반
         [SerializeField] bool consumeOnTrigger = true; // 1회차는 true만 허용 (C-008)
         [SerializeField] float detectRadius = 6f;      // 회수 병력이 알아채는 거리
@@ -22,9 +22,9 @@ namespace HumanLastRampart.Core.Definitions
         [SerializeField] float craterSpeedMultiplier = 0.7f;   // 구덩이를 지나는 적 이동 속도
 
         [Header("상점 재고 (D-050, 대장장이가 적음)")]
-        [SerializeField] int shopStockStart = 6;
-        [SerializeField] int shopStockPerPrep = 3;     // 정비마다 (전투 번호당 한 번)
-        [SerializeField] int shopStockMax = 12;
+        [SerializeField] int shopStockStart = 12;      // D-054: 6 → 12
+        [SerializeField] int shopStockPerPrep = 6;     // 정비마다 (전투 번호당 한 번) D-054: 3 → 6
+        [SerializeField] int shopStockMax = 24;        // D-054: 12 → 24
 
         public float FuseSeconds => fuseSeconds;
         public float DudChance => dudChance;
