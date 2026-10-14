@@ -29,13 +29,12 @@ namespace HumanLastRampart.Combat.PerfLab
         public static readonly SheetLayout GoblinLayout = SheetLayout.Make(4, 2, 0.5f, (384f - 352f) / 384f, 256f / 384f);
         public static readonly SheetLayout PlaceholderLayout = SheetLayout.Make(4, 2, 0.5f, 0f, 1f);
 
-        // 주인공 시트 (Codex M-CX-045, Docs/References/codex_hero_grid_v1): 4열×3행, 칸 256×384, 모든 칸 발 (128, 352).
-        // 행: 0 뒷모습 걷기(첫 칸 = 서 있기) / 1 옆모습 걷기(왼쪽 보기) / 2 앞모습 걷기. 오른쪽은 왼쪽 행 좌우 뒤집기 + 칸 순서 HeroFlipPhase
-        // 달리기 행은 아직 없다 — 옆모습 걷기를 빠르게 돌린다 (행이 생기면 HeroRowSideRun만 바꾼다)
-        public const int HeroRows = 3;
-        public const int HeroRowBack = 0, HeroRowSideWalk = 1, HeroRowFront = 2;
-        public const int HeroRowSideRun = HeroRowSideWalk;
-        public static readonly int[] HeroFlipPhase = { 2, 3, 0, 1 };   // 뒤집을 때 발 순서가 맞게 (JSON phaseColumns)
+        // 주인공 시트 (Codex M-CX-048, Docs/References/codex_hero_grid_v2): 4열×4행, 칸 256×384, 모든 칸 발 (128, 352).
+        // 행: 0 뒷모습 걷기(첫 칸 = 서 있기) / 1 옆모습 걷기(왼쪽 보기) / 2 옆모습 달리기(왼쪽) / 3 앞모습 걷기.
+        // 오른쪽은 왼쪽 행 좌우 뒤집기. 걷기는 칸 순서 HeroWalkFlipPhase, 달리기는 그대로 (JSON)
+        public const int HeroRows = 4;
+        public const int HeroRowBack = 0, HeroRowSideWalk = 1, HeroRowSideRun = 2, HeroRowFront = 3;
+        public static readonly int[] HeroWalkFlipPhase = { 2, 3, 0, 1 };
         public static readonly SheetLayout HeroLayout = SheetLayout.Make(4, HeroRows, 0.5f, (384f - 352f) / 384f, 256f / 384f);
         public static readonly SheetLayout HeroPlaceholderLayout = SheetLayout.Make(4, HeroRows, 0.5f, 0f, 1f);
         public static readonly SheetLayout ArrowLayout = SheetLayout.Make(1, 1, 0.5f, 0.5f, 0.35f);
@@ -106,15 +105,17 @@ namespace HumanLastRampart.Combat.PerfLab
             for (int row = 0; row < HeroRows; row++)
             {
                 int y0 = (HeroRows - 1 - row) * CellSize;   // 텍스처 y는 아래가 0
-                bool side = row == HeroRowSideWalk;
+                bool side = row == HeroRowSideWalk || row == HeroRowSideRun;
+                bool run = row == HeroRowSideRun;
                 for (int frame = 0; frame < FramesPerAction; frame++)
                 {
                     int x0 = frame * CellSize;
-                    FillRect(pixels, width, x0 + 6, y0 + 12, 4, 3);   // 머리
-                    if (side) FillRect(pixels, width, x0 + 4, y0 + 13, 2, 1);   // 얼굴 방향(왼쪽)
+                    int lean = run ? -1 : 0;   // 달리기는 앞(왼쪽)으로 기울임
+                    FillRect(pixels, width, x0 + 6 + lean, y0 + 12, 4, 3);   // 머리
+                    if (side) FillRect(pixels, width, x0 + 4 + lean, y0 + 13, 2, 1);   // 얼굴 방향(왼쪽)
                     if (row == HeroRowFront) FillRect(pixels, width, x0 + 7, y0 + 11, 2, 1);   // 앞: 목깃
-                    FillRect(pixels, width, x0 + 5, y0 + 6, 6, 6);    // 몸 (장교 옷)
-                    int stride = frame == 0 && row == HeroRowBack ? 0 : frame % 3;
+                    FillRect(pixels, width, x0 + 5 + lean, y0 + 6, 6, 6);    // 몸 (장교 옷)
+                    int stride = frame == 0 && row == HeroRowBack ? 0 : (run ? (frame % 2) * 3 : frame % 3);
                     FillRect(pixels, width, x0 + 5 - stride, y0, 2, 6);
                     FillRect(pixels, width, x0 + 9 + stride, y0, 2, 6);
                 }

@@ -113,7 +113,7 @@ namespace HumanLastRampart.Combat.Battle
 
         // 주인공 그리기 (P3-C02 준비): 카메라가 따라가는 자리에 서고, 서 있으면 뒷모습·A/D 옆모습 걷기·Q/E 옆모습 달리기
         const float HeroWalkFps = 6f;    // 시트 기본 (M-CX-045)
-        const float HeroRunFps = 12f;    // 달리기 행이 없어 걷기 행을 두 배로
+        const float HeroRunFps = 8f;     // 달리기 행 (M-CX-048 시트 JSON runFps)
 
         void DrawHero()
         {
@@ -124,7 +124,7 @@ namespace HumanLastRampart.Combat.Battle
             float fps = rig.Pose == BattleCameraRig.HeroPose.Run ? HeroRunFps : HeroWalkFps;
             int column = rig.Pose == BattleCameraRig.HeroPose.Idle ? 0 : (int)(Time.unscaledTime * fps) % PerfLab.PerfLabArt.FramesPerAction;
             bool flip = rig.Pose != BattleCameraRig.HeroPose.Idle && rig.FacingRight;   // 시트 옆모습은 왼쪽을 본다
-            if (flip) column = PerfLab.PerfLabArt.HeroFlipPhase[column];
+            if (flip && row == PerfLab.PerfLabArt.HeroRowSideWalk) column = PerfLab.PerfLabArt.HeroWalkFlipPhase[column];
             view.SetHero(rig.HeroFeet, row * PerfLab.PerfLabArt.FramesPerAction + column, flip, !mapOpen);
         }
 
