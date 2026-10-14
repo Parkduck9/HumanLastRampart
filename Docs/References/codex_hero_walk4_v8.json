@@ -1,0 +1,276 @@
+{
+  "sources": [
+    {
+      "path": "codex_hero_walk_v6_front_back.png",
+      "size": [
+        1774,
+        887
+      ]
+    },
+    {
+      "path": "codex_hero_walk_v4_side.png",
+      "size": [
+        2172,
+        724
+      ]
+    }
+  ],
+  "framesPerDirection": 4,
+  "directions": [
+    "front",
+    "left",
+    "right",
+    "back"
+  ],
+  "defaultFps": 6,
+  "frames": [
+    {
+      "x": 209,
+      "y": 28,
+      "w": 192,
+      "h": 392,
+      "pivotX": 96.0,
+      "pivotY": 392,
+      "sourceIndex": 0,
+      "flipX": false,
+      "unitScale": 0.7722007722007722,
+      "direction": "front",
+      "frame": 0
+    },
+    {
+      "x": 579,
+      "y": 28,
+      "w": 188,
+      "h": 392,
+      "pivotX": 94.0,
+      "pivotY": 392,
+      "sourceIndex": 0,
+      "flipX": false,
+      "unitScale": 0.7722007722007722,
+      "direction": "front",
+      "frame": 1
+    },
+    {
+      "x": 978,
+      "y": 28,
+      "w": 197,
+      "h": 392,
+      "pivotX": 101.5,
+      "pivotY": 392,
+      "sourceIndex": 0,
+      "flipX": false,
+      "unitScale": 0.7722007722007722,
+      "direction": "front",
+      "frame": 2
+    },
+    {
+      "x": 1378,
+      "y": 29,
+      "w": 192,
+      "h": 391,
+      "pivotX": 96.0,
+      "pivotY": 391,
+      "sourceIndex": 0,
+      "flipX": false,
+      "unitScale": 0.7722007722007722,
+      "direction": "front",
+      "frame": 3
+    },
+    {
+      "x": 1176,
+      "y": 51,
+      "w": 292,
+      "h": 585,
+      "pivotX": 156.0,
+      "pivotY": 585,
+      "sourceIndex": 1,
+      "flipX": false,
+      "unitScale": 0.5128205128205128,
+      "direction": "left",
+      "frame": 0
+    },
+    {
+      "x": 1745,
+      "y": 51,
+      "w": 270,
+      "h": 587,
+      "pivotX": 135.0,
+      "pivotY": 587,
+      "sourceIndex": 1,
+      "flipX": false,
+      "unitScale": 0.5128205128205128,
+      "direction": "left",
+      "frame": 1
+    },
+    {
+      "x": 156,
+      "y": 52,
+      "w": 284,
+      "h": 584,
+      "pivotX": 148.0,
+      "pivotY": 584,
+      "sourceIndex": 1,
+      "flipX": false,
+      "unitScale": 0.5128205128205128,
+      "direction": "left",
+      "frame": 2
+    },
+    {
+      "x": 675,
+      "y": 52,
+      "w": 269,
+      "h": 585,
+      "pivotX": 134.5,
+      "pivotY": 585,
+      "sourceIndex": 1,
+      "flipX": false,
+      "unitScale": 0.5128205128205128,
+      "direction": "left",
+      "frame": 3
+    },
+    {
+      "x": 156,
+      "y": 52,
+      "w": 284,
+      "h": 584,
+      "pivotX": 148.0,
+      "pivotY": 584,
+      "sourceIndex": 1,
+      "flipX": true,
+      "unitScale": 0.5128205128205128,
+      "direction": "right",
+      "frame": 0
+    },
+    {
+      "x": 675,
+      "y": 52,
+      "w": 269,
+      "h": 585,
+      "pivotX": 134.5,
+      "pivotY": 585,
+      "sourceIndex": 1,
+      "flipX": true,
+      "unitScale": 0.5128205128205128,
+      "direction": "right",
+      "frame": 1
+    },
+    {
+      "x": 1176,
+      "y": 51,
+      "w": 292,
+      "h": 585,
+      "pivotX": 156.0,
+      "pivotY": 585,
+      "sourceIndex": 1,
+      "flipX": true,
+      "unitScale": 0.5128205128205128,
+      "direction": "right",
+      "frame": 2
+    },
+    {
+      "x": 1745,
+      "y": 51,
+      "w": 270,
+      "h": 587,
+      "pivotX": 135.0,
+      "pivotY": 587,
+      "sourceIndex": 1,
+      "flipX": true,
+      "unitScale": 0.5128205128205128,
+      "direction": "right",
+      "frame": 3
+    },
+    {
+      "x": 984,
+      "y": 454,
+      "w": 191,
+      "h": 385,
+      "pivotX": 95.5,
+      "pivotY": 385,
+      "sourceIndex": 0,
+      "flipX": false,
+      "unitScale": 0.7722007722007722,
+      "direction": "back",
+      "frame": 0
+    },
+    {
+      "x": 1377,
+      "y": 454,
+      "w": 194,
+      "h": 386,
+      "pivotX": 97.0,
+      "pivotY": 386,
+      "sourceIndex": 0,
+      "flipX": false,
+      "unitScale": 0.7722007722007722,
+      "direction": "back",
+      "frame": 1
+    },
+    {
+      "x": 207,
+      "y": 454,
+      "w": 194,
+      "h": 385,
+      "pivotX": 97.0,
+      "pivotY": 385,
+      "sourceIndex": 0,
+      "flipX": false,
+      "unitScale": 0.7722007722007722,
+      "direction": "back",
+      "frame": 2
+    },
+    {
+      "x": 581,
+      "y": 454,
+      "w": 194,
+      "h": 386,
+      "pivotX": 97.0,
+      "pivotY": 386,
+      "sourceIndex": 0,
+      "flipX": false,
+      "unitScale": 0.7722007722007722,
+      "direction": "back",
+      "frame": 3
+    }
+  ],
+  "playbackMode": "loop",
+  "playbackSequence": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "alternatePlaybackSequence": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+  ],
+  "phases": [
+    "왼팔·오른발 앞 / 오른팔·왼발 뒤",
+    "오른발 지지 / 왼발 통과",
+    "오른팔·왼발 앞 / 왼팔·오른발 뒤",
+    "왼발 지지 / 오른발 통과"
+  ],
+  "notes": "Whole-frame images, no head lock or segmented arms. Right-facing side uses whole-sprite flipX. Source-native frame order mapped per direction.",
+  "hairRevision": "Front/back fourth source poses edited to keep consistent part and crown direction; whole-frame rendering, side v4 unchanged.",
+  "eyeRevision": {
+    "source": {
+      "x": 271,
+      "y": 155
+    },
+    "target": {
+      "x": 1441,
+      "y": 155
+    },
+    "width": 21,
+    "height": 23,
+    "changedPixels": 483,
+    "changedPixelsOutsideEye": 0
+  },
+  "selectedFramesPerDirection": 4,
+  "selectionReason": "User rejected 12-frame version and selected approved 4-frame eye-corrected v6 poses.",
+  "cleanup": "사용자 지시로 미선택 시안과 작업 원본 삭제. 현재 선택한 4프레임 PNG만 보관."
+}

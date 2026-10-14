@@ -1,0 +1,49 @@
+{
+  "id": "wizard",
+  "label": "마법사",
+  "facing": "front",
+  "image": "wizard_static_grid.png",
+  "size": [
+    256,
+    384
+  ],
+  "columns": 1,
+  "rows": 1,
+  "cell": [
+    256,
+    384
+  ],
+  "footPivotTopLeft": [
+    128,
+    352
+  ],
+  "unityPivotBottomLeft": [
+    0.5,
+    0.08333333333333333
+  ],
+  "aspect": 0.6666666666666666,
+  "frameIndex": 0,
+  "frames": 1,
+  "animated": false,
+  "fps": 0,
+  "status": "demo-static-only",
+  "source": "codex_character_pixel_v2/wizard.png",
+  "sourceSha256": "7b72a7da42ee25af60f08869525cbd9da478ceed58f9e75cfb8ceafb3b59440d",
+  "sourceRect": [
+    197,
+    182,
+    884,
+    1206
+  ],
+  "sourceFootX": 393.5,
+  "pivotMethod": "lower boot-color quantiles; demo inference, review in Unity",
+  "uniformScale": 0.2846251588310038,
+  "packedRect": [
+    16,
+    61,
+    196,
+    291
+  ],
+  "sheetSha256": "37bd3496149413cf2fbf50cec0221408a58cc6774995ab7926c9290d101a7705",
+  "unityPlayVerified": false
+}

@@ -1,0 +1,299 @@
+{
+  "staticOnly": true,
+  "sheets": [
+    {
+      "id": "archer",
+      "label": "궁수",
+      "facing": "back",
+      "image": "archer_static_grid.png",
+      "size": [
+        256,
+        384
+      ],
+      "columns": 1,
+      "rows": 1,
+      "cell": [
+        256,
+        384
+      ],
+      "footPivotTopLeft": [
+        128,
+        352
+      ],
+      "unityPivotBottomLeft": [
+        0.5,
+        0.08333333333333333
+      ],
+      "aspect": 0.6666666666666666,
+      "frameIndex": 0,
+      "frames": 1,
+      "animated": false,
+      "fps": 0,
+      "status": "demo-static-only",
+      "source": "codex_soldier_back_v1/archer_back.png",
+      "sourceSha256": "1e7db7dd02060382d35c627f2ad1260fdcd93b63ec442d4a38752baab7cda1ed",
+      "sourceRect": [
+        387,
+        113,
+        926,
+        1108
+      ],
+      "sourceFootX": 287.0,
+      "pivotMethod": "lower boot-color quantiles; demo inference, review in Unity",
+      "uniformScale": 0.3015075376884422,
+      "packedRect": [
+        41,
+        52,
+        163,
+        300
+      ],
+      "sheetSha256": "2d9fcc469018d73d48b2e044c2388f0ba74de8c9f958366ad20bd1ffe44a7e06",
+      "unityPlayVerified": false
+    },
+    {
+      "id": "gunner",
+      "label": "총병",
+      "facing": "back",
+      "image": "gunner_static_grid.png",
+      "size": [
+        256,
+        384
+      ],
+      "columns": 1,
+      "rows": 1,
+      "cell": [
+        256,
+        384
+      ],
+      "footPivotTopLeft": [
+        128,
+        352
+      ],
+      "unityPivotBottomLeft": [
+        0.5,
+        0.08333333333333333
+      ],
+      "aspect": 0.6666666666666666,
+      "frameIndex": 0,
+      "frames": 1,
+      "animated": false,
+      "fps": 0,
+      "status": "demo-static-only",
+      "source": "codex_soldier_back_v1/gunner_back.png",
+      "sourceSha256": "e87d0615649ac6310e57534f220a10b75cffc6b7b69681a1dfed3c896c2f2e57",
+      "sourceRect": [
+        85,
+        122,
+        914,
+        1364
+      ],
+      "sourceFootX": 454.0,
+      "pivotMethod": "lower boot-color quantiles; demo inference, review in Unity",
+      "uniformScale": 0.24154589371980675,
+      "packedRect": [
+        18,
+        52,
+        200,
+        300
+      ],
+      "sheetSha256": "f513d4261420d4d9709e9513cc2f4e640459eb8407ee060ffaaf49cf8db9c46c",
+      "unityPlayVerified": false
+    },
+    {
+      "id": "cannon_crew",
+      "label": "대포병",
+      "facing": "back",
+      "image": "cannon_crew_static_grid.png",
+      "size": [
+        256,
+        384
+      ],
+      "columns": 1,
+      "rows": 1,
+      "cell": [
+        256,
+        384
+      ],
+      "footPivotTopLeft": [
+        128,
+        352
+      ],
+      "unityPivotBottomLeft": [
+        0.5,
+        0.08333333333333333
+      ],
+      "aspect": 0.6666666666666666,
+      "frameIndex": 0,
+      "frames": 1,
+      "animated": false,
+      "fps": 0,
+      "status": "demo-static-only",
+      "source": "codex_soldier_back_v1/cannon_crew_back.png",
+      "sourceSha256": "e9e3aa7bcdd59fdc32149b890fabe40119cebe8495a81dcc8962177c8b726e82",
+      "sourceRect": [
+        255,
+        188,
+        921,
+        1261
+      ],
+      "sourceFootX": 290.5,
+      "pivotMethod": "lower boot-color quantiles; demo inference, review in Unity",
+      "uniformScale": 0.27958993476234856,
+      "packedRect": [
+        47,
+        52,
+        186,
+        300
+      ],
+      "sheetSha256": "5ee84f511a5351aa9e93cc6e4a22adbb063b2c54f7993a5557eb039c17122ea3",
+      "unityPlayVerified": false
+    },
+    {
+      "id": "ogre",
+      "label": "오우거",
+      "facing": "front",
+      "image": "ogre_static_grid.png",
+      "size": [
+        256,
+        384
+      ],
+      "columns": 1,
+      "rows": 1,
+      "cell": [
+        256,
+        384
+      ],
+      "footPivotTopLeft": [
+        128,
+        352
+      ],
+      "unityPivotBottomLeft": [
+        0.5,
+        0.08333333333333333
+      ],
+      "aspect": 0.6666666666666666,
+      "frameIndex": 0,
+      "frames": 1,
+      "animated": false,
+      "fps": 0,
+      "status": "demo-static-only",
+      "source": "codex_character_pixel_v2/ogre.png",
+      "sourceSha256": "7115b19b97609905770e7952ff56b56504d78d013927f26c2988fdab62fa2bf3",
+      "sourceRect": [
+        138,
+        227,
+        999,
+        1054
+      ],
+      "sourceFootX": 534.0,
+      "pivotMethod": "lower boot-color quantiles; demo inference, review in Unity",
+      "uniformScale": 0.20973782771535582,
+      "packedRect": [
+        16,
+        179,
+        181,
+        173
+      ],
+      "sheetSha256": "ae75c2b19fc2ded77a0714f81be5176cb7701605ff70f430ef478571a264d06f",
+      "unityPlayVerified": false
+    },
+    {
+      "id": "ladder_goblin",
+      "label": "사다리 고블린",
+      "facing": "front",
+      "image": "ladder_goblin_static_grid.png",
+      "size": [
+        256,
+        384
+      ],
+      "columns": 1,
+      "rows": 1,
+      "cell": [
+        256,
+        384
+      ],
+      "footPivotTopLeft": [
+        128,
+        352
+      ],
+      "unityPivotBottomLeft": [
+        0.5,
+        0.08333333333333333
+      ],
+      "aspect": 0.6666666666666666,
+      "frameIndex": 0,
+      "frames": 1,
+      "animated": false,
+      "fps": 0,
+      "status": "demo-static-only",
+      "source": "codex_character_pixel_v2/ladder_goblin.png",
+      "sourceSha256": "ff1a4a16038119ad54e798e067bc1b344b8131e4ced38704ed8e9018b9d6354f",
+      "sourceRect": [
+        253,
+        119,
+        1078,
+        1124
+      ],
+      "sourceFootX": 414.0,
+      "pivotMethod": "lower boot-color quantiles; demo inference, review in Unity",
+      "uniformScale": 0.27053140096618356,
+      "packedRect": [
+        16,
+        80,
+        223,
+        272
+      ],
+      "sheetSha256": "f6fa814cdb4521e775d99f6da685656519e6e89bca9158473498d5c6fa6118db",
+      "unityPlayVerified": false
+    },
+    {
+      "id": "wizard",
+      "label": "마법사",
+      "facing": "front",
+      "image": "wizard_static_grid.png",
+      "size": [
+        256,
+        384
+      ],
+      "columns": 1,
+      "rows": 1,
+      "cell": [
+        256,
+        384
+      ],
+      "footPivotTopLeft": [
+        128,
+        352
+      ],
+      "unityPivotBottomLeft": [
+        0.5,
+        0.08333333333333333
+      ],
+      "aspect": 0.6666666666666666,
+      "frameIndex": 0,
+      "frames": 1,
+      "animated": false,
+      "fps": 0,
+      "status": "demo-static-only",
+      "source": "codex_character_pixel_v2/wizard.png",
+      "sourceSha256": "7b72a7da42ee25af60f08869525cbd9da478ceed58f9e75cfb8ceafb3b59440d",
+      "sourceRect": [
+        197,
+        182,
+        884,
+        1206
+      ],
+      "sourceFootX": 393.5,
+      "pivotMethod": "lower boot-color quantiles; demo inference, review in Unity",
+      "uniformScale": 0.2846251588310038,
+      "packedRect": [
+        16,
+        61,
+        196,
+        291
+      ],
+      "sheetSha256": "37bd3496149413cf2fbf50cec0221408a58cc6774995ab7926c9290d101a7705",
+      "unityPlayVerified": false
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "ogre",
+    "label": "오우거",
+    "source": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-bdc343ba-d051-40d1-be78-27ff557463d8.png",
+    "file": "ogre.png"
+  },
+  {
+    "id": "ladder_goblin",
+    "label": "사다리 고블린",
+    "source": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-de2b57c6-a85f-40e2-849d-78ed3da811c9.png",
+    "file": "ladder_goblin.png"
+  },
+  {
+    "id": "archer",
+    "label": "궁수",
+    "source": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-c1dd5048-c67a-4aae-b475-4f6790f3ccc7.png",
+    "file": "archer.png"
+  },
+  {
+    "id": "gunner",
+    "label": "총병",
+    "source": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-7d1724c9-2271-4015-bf41-4cfd81956486.png",
+    "file": "gunner.png"
+  },
+  {
+    "id": "cannon_crew",
+    "label": "대포병",
+    "source": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-481718a0-b979-424f-8a81-9456f15143aa.png",
+    "file": "cannon_crew.png"
+  },
+  {
+    "id": "wizard",
+    "label": "마법사",
+    "source": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-55b22ad5-85df-43fc-8da5-2cbbe1e238bf.png",
+    "file": "wizard.png"
+  }
+]

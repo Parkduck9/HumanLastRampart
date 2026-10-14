@@ -1,0 +1,148 @@
+{
+  "image": "hero_walk_run_grid.png",
+  "size": [
+    1024,
+    1536
+  ],
+  "columns": 4,
+  "rows": 4,
+  "cell": [
+    256,
+    384
+  ],
+  "rowOrder": [
+    "back_walk",
+    "left_walk",
+    "left_run",
+    "front_walk"
+  ],
+  "footPivotTopLeft": [
+    128,
+    352
+  ],
+  "unityPivotBottomLeft": [
+    0.5,
+    0.08333333333333333
+  ],
+  "aspect": 0.6666666666666666,
+  "framesPerAction": 4,
+  "walkFps": 6,
+  "runFps": 8,
+  "runAvailable": true,
+  "runRow": 2,
+  "rightWalkPhaseColumns": [
+    2,
+    3,
+    0,
+    1
+  ],
+  "rightRunPhaseColumns": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "rightRequiresFlipX": true,
+  "requestedWorldSpeed": 10,
+  "worldSpeedImplementedHere": false,
+  "walkSourceSha256": "08cb477b4754eb406c2b98cd6e8a7362339c77f1ae8edd3de892d9f16e17fae6",
+  "runFrames": [
+    {
+      "frame": 0,
+      "index": 8,
+      "source": "run_pose_0.png",
+      "sourceSha256": "294136ddf0aa83fe36f2470e7da472b0d32220925cd4d15585bcc15f30914038",
+      "sourceRect": [
+        299,
+        80,
+        990,
+        1177
+      ],
+      "scale": 0.27213822894168466,
+      "packedRect": [
+        50,
+        53,
+        188,
+        299
+      ],
+      "footPivot": [
+        128,
+        352
+      ],
+      "wholeSpriteBob": 0
+    },
+    {
+      "frame": 1,
+      "index": 9,
+      "source": "run_pose_1.png",
+      "sourceSha256": "198c54804c2a53d48a8d72c726ff18121d33130d2b5ef0516cb1ded388f03a20",
+      "sourceRect": [
+        278,
+        190,
+        999,
+        1109
+      ],
+      "scale": 0.27450980392156865,
+      "packedRect": [
+        52,
+        56,
+        198,
+        252
+      ],
+      "footPivot": [
+        128,
+        352
+      ],
+      "wholeSpriteBob": -3
+    },
+    {
+      "frame": 2,
+      "index": 10,
+      "source": "run_pose_2.png",
+      "sourceSha256": "95f8a03f4e8559ae7289a44bb5346486bb0e90535587f3c869deb20f415b10d6",
+      "sourceRect": [
+        219,
+        69,
+        1082,
+        1148
+      ],
+      "scale": 0.2381852551984877,
+      "packedRect": [
+        48,
+        45,
+        206,
+        257
+      ],
+      "footPivot": [
+        128,
+        352
+      ],
+      "wholeSpriteBob": 0
+    },
+    {
+      "frame": 3,
+      "index": 11,
+      "source": "run_pose_3.png",
+      "sourceSha256": "b1c51b0efd65a4b8491f6b5358259fcdcb03b6543a9e19b358f583f40de2da0c",
+      "sourceRect": [
+        306,
+        157,
+        909,
+        1173
+      ],
+      "scale": 0.3050847457627119,
+      "packedRect": [
+        48,
+        51,
+        184,
+        310
+      ],
+      "footPivot": [
+        128,
+        352
+      ],
+      "wholeSpriteBob": -3
+    }
+  ],
+  "sheetSha256": "3ac773e6922c1ae1a3281730fec4ed26679fff808f448e0d0e3e96550d085c15"
+}

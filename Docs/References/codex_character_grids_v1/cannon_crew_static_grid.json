@@ -1,0 +1,49 @@
+{
+  "id": "cannon_crew",
+  "label": "대포병",
+  "facing": "back",
+  "image": "cannon_crew_static_grid.png",
+  "size": [
+    256,
+    384
+  ],
+  "columns": 1,
+  "rows": 1,
+  "cell": [
+    256,
+    384
+  ],
+  "footPivotTopLeft": [
+    128,
+    352
+  ],
+  "unityPivotBottomLeft": [
+    0.5,
+    0.08333333333333333
+  ],
+  "aspect": 0.6666666666666666,
+  "frameIndex": 0,
+  "frames": 1,
+  "animated": false,
+  "fps": 0,
+  "status": "demo-static-only",
+  "source": "codex_soldier_back_v1/cannon_crew_back.png",
+  "sourceSha256": "e9e3aa7bcdd59fdc32149b890fabe40119cebe8495a81dcc8962177c8b726e82",
+  "sourceRect": [
+    255,
+    188,
+    921,
+    1261
+  ],
+  "sourceFootX": 290.5,
+  "pivotMethod": "lower boot-color quantiles; demo inference, review in Unity",
+  "uniformScale": 0.27958993476234856,
+  "packedRect": [
+    47,
+    52,
+    186,
+    300
+  ],
+  "sheetSha256": "5ee84f511a5351aa9e93cc6e4a22adbb063b2c54f7993a5557eb039c17122ea3",
+  "unityPlayVerified": false
+}

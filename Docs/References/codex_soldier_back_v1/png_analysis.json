@@ -1,0 +1,74 @@
+[
+  {
+    "file": "archer_back.png",
+    "size": [
+      1330,
+      1182
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "raw_bbox": [
+      49,
+      21,
+      1300,
+      1162
+    ],
+    "visible_alpha32_bbox": [
+      387,
+      113,
+      926,
+      1108
+    ],
+    "sha256": "1e7db7dd02060382d35c627f2ad1260fdcd93b63ec442d4a38752baab7cda1ed"
+  },
+  {
+    "file": "cannon_crew_back.png",
+    "size": [
+      1103,
+      1426
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "raw_bbox": [
+      0,
+      111,
+      1065,
+      1396
+    ],
+    "visible_alpha32_bbox": [
+      255,
+      188,
+      921,
+      1261
+    ],
+    "sha256": "e9e3aa7bcdd59fdc32149b890fabe40119cebe8495a81dcc8962177c8b726e82"
+  },
+  {
+    "file": "gunner_back.png",
+    "size": [
+      1073,
+      1466
+    ],
+    "alpha": [
+      0,
+      255
+    ],
+    "raw_bbox": [
+      41,
+      9,
+      1043,
+      1466
+    ],
+    "visible_alpha32_bbox": [
+      85,
+      122,
+      914,
+      1364
+    ],
+    "sha256": "e87d0615649ac6310e57534f220a10b75cffc6b7b69681a1dfed3c896c2f2e57"
+  }
+]

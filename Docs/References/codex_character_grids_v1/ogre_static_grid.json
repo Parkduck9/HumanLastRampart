@@ -1,0 +1,49 @@
+{
+  "id": "ogre",
+  "label": "오우거",
+  "facing": "front",
+  "image": "ogre_static_grid.png",
+  "size": [
+    256,
+    384
+  ],
+  "columns": 1,
+  "rows": 1,
+  "cell": [
+    256,
+    384
+  ],
+  "footPivotTopLeft": [
+    128,
+    352
+  ],
+  "unityPivotBottomLeft": [
+    0.5,
+    0.08333333333333333
+  ],
+  "aspect": 0.6666666666666666,
+  "frameIndex": 0,
+  "frames": 1,
+  "animated": false,
+  "fps": 0,
+  "status": "demo-static-only",
+  "source": "codex_character_pixel_v2/ogre.png",
+  "sourceSha256": "7115b19b97609905770e7952ff56b56504d78d013927f26c2988fdab62fa2bf3",
+  "sourceRect": [
+    138,
+    227,
+    999,
+    1054
+  ],
+  "sourceFootX": 534.0,
+  "pivotMethod": "lower boot-color quantiles; demo inference, review in Unity",
+  "uniformScale": 0.20973782771535582,
+  "packedRect": [
+    16,
+    179,
+    181,
+    173
+  ],
+  "sheetSha256": "ae75c2b19fc2ded77a0714f81be5176cb7701605ff70f430ef478571a264d06f",
+  "unityPlayVerified": false
+}

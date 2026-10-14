@@ -1,0 +1,435 @@
+{
+  "image": "hero_walk_grid.png",
+  "size": [
+    1024,
+    1152
+  ],
+  "columns": 4,
+  "rows": 3,
+  "cell": [
+    256,
+    384
+  ],
+  "footPivotTopLeft": [
+    128,
+    352
+  ],
+  "unityPivotBottomLeft": [
+    0.5,
+    0.08333333333333333
+  ],
+  "aspect": 0.6666666666666666,
+  "rowOrder": [
+    "back",
+    "left",
+    "front"
+  ],
+  "framesPerAction": 4,
+  "defaultFps": 6,
+  "playbackSequence": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "alternatePlaybackSequence": [
+    0,
+    1,
+    2,
+    3,
+    2,
+    1
+  ],
+  "rightFacing": {
+    "row": 1,
+    "flipX": true,
+    "phaseColumns": [
+      2,
+      3,
+      0,
+      1
+    ]
+  },
+  "runAvailable": false,
+  "runRow": null,
+  "frames": [
+    {
+      "direction": "back",
+      "frame": 0,
+      "index": 0,
+      "x": 0,
+      "y": 0,
+      "w": 256,
+      "h": 384,
+      "pivotX": 128,
+      "pivotY": 352,
+      "sourceIndex": 0,
+      "sourceRect": [
+        984,
+        454,
+        191,
+        385
+      ],
+      "sourceUnitScale": 0.7722007722007722,
+      "packedRect": [
+        54,
+        55,
+        147,
+        297
+      ],
+      "alphaBBox": [
+        54,
+        55,
+        201,
+        352
+      ]
+    },
+    {
+      "direction": "back",
+      "frame": 1,
+      "index": 1,
+      "x": 256,
+      "y": 0,
+      "w": 256,
+      "h": 384,
+      "pivotX": 128,
+      "pivotY": 352,
+      "sourceIndex": 0,
+      "sourceRect": [
+        1377,
+        454,
+        194,
+        386
+      ],
+      "sourceUnitScale": 0.7722007722007722,
+      "packedRect": [
+        53,
+        54,
+        150,
+        298
+      ],
+      "alphaBBox": [
+        53,
+        54,
+        203,
+        352
+      ]
+    },
+    {
+      "direction": "back",
+      "frame": 2,
+      "index": 2,
+      "x": 512,
+      "y": 0,
+      "w": 256,
+      "h": 384,
+      "pivotX": 128,
+      "pivotY": 352,
+      "sourceIndex": 0,
+      "sourceRect": [
+        207,
+        454,
+        194,
+        385
+      ],
+      "sourceUnitScale": 0.7722007722007722,
+      "packedRect": [
+        53,
+        55,
+        150,
+        297
+      ],
+      "alphaBBox": [
+        53,
+        55,
+        203,
+        352
+      ]
+    },
+    {
+      "direction": "back",
+      "frame": 3,
+      "index": 3,
+      "x": 768,
+      "y": 0,
+      "w": 256,
+      "h": 384,
+      "pivotX": 128,
+      "pivotY": 352,
+      "sourceIndex": 0,
+      "sourceRect": [
+        581,
+        454,
+        194,
+        386
+      ],
+      "sourceUnitScale": 0.7722007722007722,
+      "packedRect": [
+        53,
+        54,
+        150,
+        298
+      ],
+      "alphaBBox": [
+        53,
+        54,
+        203,
+        352
+      ]
+    },
+    {
+      "direction": "left",
+      "frame": 0,
+      "index": 4,
+      "x": 0,
+      "y": 384,
+      "w": 256,
+      "h": 384,
+      "pivotX": 128,
+      "pivotY": 352,
+      "sourceIndex": 1,
+      "sourceRect": [
+        1176,
+        51,
+        292,
+        585
+      ],
+      "sourceUnitScale": 0.5128205128205128,
+      "packedRect": [
+        48,
+        52,
+        150,
+        300
+      ],
+      "alphaBBox": [
+        48,
+        52,
+        198,
+        352
+      ]
+    },
+    {
+      "direction": "left",
+      "frame": 1,
+      "index": 5,
+      "x": 256,
+      "y": 384,
+      "w": 256,
+      "h": 384,
+      "pivotX": 128,
+      "pivotY": 352,
+      "sourceIndex": 1,
+      "sourceRect": [
+        1745,
+        51,
+        270,
+        587
+      ],
+      "sourceUnitScale": 0.5128205128205128,
+      "packedRect": [
+        59,
+        51,
+        138,
+        301
+      ],
+      "alphaBBox": [
+        59,
+        51,
+        197,
+        352
+      ]
+    },
+    {
+      "direction": "left",
+      "frame": 2,
+      "index": 6,
+      "x": 512,
+      "y": 384,
+      "w": 256,
+      "h": 384,
+      "pivotX": 128,
+      "pivotY": 352,
+      "sourceIndex": 1,
+      "sourceRect": [
+        156,
+        52,
+        284,
+        584
+      ],
+      "sourceUnitScale": 0.5128205128205128,
+      "packedRect": [
+        52,
+        53,
+        146,
+        299
+      ],
+      "alphaBBox": [
+        52,
+        53,
+        198,
+        352
+      ]
+    },
+    {
+      "direction": "left",
+      "frame": 3,
+      "index": 7,
+      "x": 768,
+      "y": 384,
+      "w": 256,
+      "h": 384,
+      "pivotX": 128,
+      "pivotY": 352,
+      "sourceIndex": 1,
+      "sourceRect": [
+        675,
+        52,
+        269,
+        585
+      ],
+      "sourceUnitScale": 0.5128205128205128,
+      "packedRect": [
+        59,
+        52,
+        138,
+        300
+      ],
+      "alphaBBox": [
+        59,
+        52,
+        197,
+        352
+      ]
+    },
+    {
+      "direction": "front",
+      "frame": 0,
+      "index": 8,
+      "x": 0,
+      "y": 768,
+      "w": 256,
+      "h": 384,
+      "pivotX": 128,
+      "pivotY": 352,
+      "sourceIndex": 0,
+      "sourceRect": [
+        209,
+        28,
+        192,
+        392
+      ],
+      "sourceUnitScale": 0.7722007722007722,
+      "packedRect": [
+        54,
+        49,
+        148,
+        303
+      ],
+      "alphaBBox": [
+        54,
+        49,
+        202,
+        352
+      ]
+    },
+    {
+      "direction": "front",
+      "frame": 1,
+      "index": 9,
+      "x": 256,
+      "y": 768,
+      "w": 256,
+      "h": 384,
+      "pivotX": 128,
+      "pivotY": 352,
+      "sourceIndex": 0,
+      "sourceRect": [
+        579,
+        28,
+        188,
+        392
+      ],
+      "sourceUnitScale": 0.7722007722007722,
+      "packedRect": [
+        56,
+        49,
+        145,
+        303
+      ],
+      "alphaBBox": [
+        56,
+        49,
+        201,
+        352
+      ]
+    },
+    {
+      "direction": "front",
+      "frame": 2,
+      "index": 10,
+      "x": 512,
+      "y": 768,
+      "w": 256,
+      "h": 384,
+      "pivotX": 128,
+      "pivotY": 352,
+      "sourceIndex": 0,
+      "sourceRect": [
+        978,
+        28,
+        197,
+        392
+      ],
+      "sourceUnitScale": 0.7722007722007722,
+      "packedRect": [
+        50,
+        49,
+        152,
+        303
+      ],
+      "alphaBBox": [
+        50,
+        49,
+        202,
+        352
+      ]
+    },
+    {
+      "direction": "front",
+      "frame": 3,
+      "index": 11,
+      "x": 768,
+      "y": 768,
+      "w": 256,
+      "h": 384,
+      "pivotX": 128,
+      "pivotY": 352,
+      "sourceIndex": 0,
+      "sourceRect": [
+        1378,
+        29,
+        192,
+        391
+      ],
+      "sourceUnitScale": 0.7722007722007722,
+      "packedRect": [
+        54,
+        50,
+        148,
+        302
+      ],
+      "alphaBBox": [
+        54,
+        50,
+        202,
+        352
+      ]
+    }
+  ],
+  "sourceSha256": {
+    "codex_hero_walk_v6_front_back.png": "908c3637ac0673c43397eea9e8af79227f7259007754fb72c3c6c0159203364d",
+    "codex_hero_walk_v4_side.png": "f3c4babba2c925f0fbda73180a6d2fdfcac3c63cfc75684b215a64916d30cbfd",
+    "codex_hero_walk4_v8.json": "a54b25bfd359f4d3e21e5bb1c2a5a24eb54d9f16e13b13407617131bc161caf9"
+  },
+  "sheetSha256": "08cb477b4754eb406c2b98cd6e8a7362339c77f1ae8edd3de892d9f16e17fae6"
+}

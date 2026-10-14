@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "frameCount": 12,
+  "dimensions": [
+    1024,
+    1152
+  ],
+  "transparentBackground": true,
+  "allFramesInsideCell": true,
+  "commonFootPivot": [
+    128,
+    352
+  ],
+  "sourceFilesUnchanged": true,
+  "exactExportMatch": true,
+  "nearestNeighborOnly": true,
+  "nativeUnityPlayVerified": false
+}
