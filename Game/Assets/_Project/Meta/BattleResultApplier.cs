@@ -79,8 +79,9 @@ namespace HumanLastRampart.Meta
                 foreach (string id in setup.ParticipatingHeroIds)
                 {
                     Require(!string.IsNullOrWhiteSpace(id) && participants.Add(id), "참가 영웅 ID가 비었거나 중복됐습니다");
-                    Require(startHeroes.TryGetValue(id, out HeroState hero) && hero.IsAlive &&
-                        !string.IsNullOrWhiteSpace(hero.PostId), "참가 영웅이 시작 배치와 맞지 않습니다: " + id);
+                    // C-005 v1.3: 참가 선정은 App이 맡는다. 주인공·마법사는 배치 지점 없이도 참가한다.
+                    Require(startHeroes.TryGetValue(id, out HeroState hero) && hero.IsAlive,
+                        "참가 영웅이 시작 생존 상태와 맞지 않습니다: " + id);
                 }
                 var heroes = Index(result.HeroOutcomes, h => h.InstanceId, "영웅 결과");
                 Require(heroes.Count == participants.Count, "참가 영웅별 결과가 누락되거나 추가됐습니다");
