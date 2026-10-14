@@ -11,7 +11,8 @@ namespace HumanLastRampart.Meta
         protected override ScreenView BuildView(IScreenContext context)
         {
             var campaign = context.Campaign;
-            bool valid = BattleResultApplier.TryApply(campaign, out string error);
+            bool valid = BattleResultApplier.TryApply(campaign, out string error,
+                context.Definitions.Get<TerrainDef>(campaign?.ActiveBattleSetup?.TerrainId));
             var result = campaign?.LastBattle;
             ResultReportFormatter.Report report = null;
             if (valid)

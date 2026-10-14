@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using HumanLastRampart.Core.Campaign;
 using HumanLastRampart.Core.CombatContracts;
+using HumanLastRampart.Core.Definitions;
 
 namespace HumanLastRampart.Meta
 {
@@ -9,7 +10,7 @@ namespace HumanLastRampart.Meta
     public static class BattleResultApplier
     {
         // 성공(이미 반영된 결과 포함)은 true. 실패 시 Campaign은 그대로다.
-        public static bool TryApply(CampaignState campaign, out string error)
+        public static bool TryApply(CampaignState campaign, out string error, TerrainDef terrain = null)
         {
             error = null;
             try
@@ -107,11 +108,8 @@ namespace HumanLastRampart.Meta
                         "성벽 체력이 시작 범위를 넘습니다: " + pair.Key);
                 }
 
-                // 함정은 Phase 3에서 연결한다. 미지원 결과를 조용히 일부만 적용하지 않는다.
-                Require(result.ConsumedTrapIds != null && result.TrapMoves != null,
-                    "함정 결과 목록이 없습니다");
-                Require(result.ConsumedTrapIds.Count == 0 && result.TrapMoves.Count == 0,
-                    "함정 결과 반영은 아직 지원하지 않습니다");
+                // C-007 v1.1: 소비/이동을 다른 결과와 함께 검증·복사 후 반영한다.
+                List<TrapPlacement> nextTraps = PrepareTraps(campaign, setup, result, terrain);
 
                 var nextHeroes = new List<HeroState>(campaign.Heroes.Count);
                 foreach (HeroState current in campaign.Heroes)
@@ -144,6 +142,7 @@ namespace HumanLastRampart.Meta
                 campaign.Heroes = nextHeroes;
                 campaign.Squads = nextSquads;
                 campaign.Wall = nextWalls;
+                campaign.Traps = nextTraps;
                 campaign.LastAppliedBattleRunId = result.BattleRunId;
                 return true;
             }
@@ -153,6 +152,70 @@ namespace HumanLastRampart.Meta
                 return false;
             }
         }
+
+        static List<TrapPlacement> PrepareTraps(CampaignState campaign, BattleSetup setup,
+            BattleResult result, TerrainDef terrain)
+        {
+            Require(result.ConsumedTrapIds != null && result.TrapMoves != null, "함정 결과 목록이 없습니다");
+            var starts = Index(setup.Traps, t => t.TrapId, "시작 함정");
+            var current = Index(campaign.Traps, t => t.TrapId, "진행 함정");
+            bool hasResults = result.ConsumedTrapIds.Count > 0 || result.TrapMoves.Count > 0;
+            Require((starts.Count == 0 && !hasResults) || !string.IsNullOrWhiteSpace(setup.TerrainId),
+                "함정 결과의 전투 지형이 없습니다");
+            foreach (var pair in starts)
+            {
+                TrapPlacement start = pair.Value;
+                Require(start.TerrainId == setup.TerrainId && !string.IsNullOrWhiteSpace(start.TrapDefId) &&
+                    !string.IsNullOrWhiteSpace(start.SlotId) && Finite(start.ActualX) && Finite(start.ActualZ) &&
+                    (!start.Marked || (Finite(start.MarkX) && Finite(start.MarkZ))), "시작 함정 상태가 올바르지 않습니다");
+                Require(current.TryGetValue(pair.Key, out TrapPlacement value) &&
+                    value.TerrainId == start.TerrainId && value.TrapDefId == start.TrapDefId && value.SlotId == start.SlotId &&
+                    value.ActualX == start.ActualX && value.ActualZ == start.ActualZ && value.Marked == start.Marked &&
+                    (!start.Marked || (value.MarkX == start.MarkX && value.MarkZ == start.MarkZ)),
+                    "전투 시작 후 함정 상태가 변경됐습니다: " + pair.Key);
+            }
+            if (!string.IsNullOrWhiteSpace(setup.TerrainId))
+                foreach (var pair in current)
+                    Require(pair.Value.TerrainId != setup.TerrainId || starts.ContainsKey(pair.Key),
+                        "전투 시작 후 이 지형에 함정이 추가됐습니다: " + pair.Key);
+
+            var consumed = new HashSet<string>(StringComparer.Ordinal);
+            foreach (string id in result.ConsumedTrapIds)
+                Require(!string.IsNullOrWhiteSpace(id) && consumed.Add(id) && starts.ContainsKey(id),
+                    "소비 함정 ID가 비었거나 중복되거나 이번 전투에 없습니다");
+            var moves = Index(result.TrapMoves, m => m.TrapId, "이동 함정");
+            if (moves.Count > 0)
+                Require(terrain != null && terrain.Id == setup.TerrainId && Finite(terrain.CastleHalfSize) &&
+                    terrain.CastleHalfSize > 0f && Finite(terrain.TrapNear) && terrain.TrapNear >= 0f &&
+                    Finite(terrain.FieldSize) && terrain.FieldSize > 0f, "이동 함정의 지형 정의가 올바르지 않습니다");
+            foreach (var pair in moves)
+            {
+                Require(starts.ContainsKey(pair.Key) && !consumed.Contains(pair.Key),
+                    "이동 함정이 이번 전투에 없거나 이미 소비됐습니다: " + pair.Key);
+                TrapMove move = pair.Value;
+                Require(Finite(move.NewX) && Finite(move.NewZ), "함정 이동 좌표가 유한 값이 아닙니다");
+                // Combat.ValidGround와 같은 사각 성벽 거리. Mark/Slot은 이동시키지 않는다.
+                double fromWall = Math.Max(Math.Abs((double)move.NewX), Math.Abs((double)move.NewZ)) - terrain.CastleHalfSize;
+                Require(fromWall >= terrain.TrapNear * 0.5d && fromWall <= terrain.FieldSize,
+                    "함정 이동 좌표가 성 안 또는 들판 밖입니다");
+            }
+            if (!hasResults) return campaign.Traps;
+            var next = new List<TrapPlacement>(campaign.Traps.Count);
+            foreach (TrapPlacement value in campaign.Traps)
+            {
+                if (consumed.Contains(value.TrapId)) continue;
+                TrapPlacement copy = value.Clone();
+                if (moves.TryGetValue(value.TrapId, out TrapMove move))
+                {
+                    copy.ActualX = move.NewX;
+                    copy.ActualZ = move.NewZ;
+                }
+                next.Add(copy);
+            }
+            return next;
+        }
+
+        static bool Finite(float value) => !float.IsNaN(value) && !float.IsInfinity(value);
 
         static Dictionary<string, T> Index<T>(List<T> list, Func<T, string> getId, string name) where T : class
         {
