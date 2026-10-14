@@ -14,8 +14,9 @@ namespace HumanLastRampart.Combat.Battle
     // 실제 전투 계산 (CY1-C1: P3-C01 성벽 내구도, P3-C04 자동 공격, P3-C05 웨이브, P3-C11 승패·결과)
     // 프레임 순서: BeginFrame(메인 스레드: 지난 프레임 집계 반영·등장·승패) → Schedule(작업 예약) → Complete(그리기 전)
     // CY2-C2: 시체 더미 — 성벽 앞에서 죽은 적이 칸마다 쌓이고, 높아지면 밟고 올라온다 (Battle.md 3.3 B10)
-    // 아직 없는 것: 명령·표적 설정, 날씨 효과, 대포 지도 조준, 마법, 함정
-    public sealed class BattleSim : IDisposable
+    // CY2-C3: 성벽별 명령(표적 우선순위)·전령·소리 지르기 — BattleSim.Commands.cs
+    // 아직 없는 것: 날씨 효과, 대포 지도 조준·지도의 전체 명령, 마법, 함정
+    public sealed partial class BattleSim : IDisposable
     {
         public const float WallHeight = 4f;
         const float SoldierSpacing = 0.8f;
@@ -123,6 +124,9 @@ namespace HumanLastRampart.Combat.Battle
         NativeArray<byte> sAlive;
         NativeArray<int> sWeapon;
         NativeArray<float> sCooldown;
+        NativeArray<byte> sSide;
+        NativeArray<byte> sAway;
+        NativeArray<byte> sidePriority;   // 성벽별 TargetPriority (명령)
         NativeArray<WeaponKindData> weapons;
         NativeArray<PerfLabInstance> soldierInstances;
 
@@ -157,6 +161,7 @@ namespace HumanLastRampart.Combat.Battle
         NativeArray<float> piles;
 
         float garrisonLossRatio;
+        BattleRulesDef rules;
 
         public BattleSim(BattleSetup setup, IDefinitionLookup defs)
         {
@@ -168,6 +173,7 @@ namespace HumanLastRampart.Combat.Battle
             FieldSize = terrain != null ? terrain.FieldSize : 320f;
             var rules = defs.All<BattleRulesDef>();
             garrisonLossRatio = rules.Count > 0 ? rules[0].GarrisonLossDefeatRatio : 0.7f;
+            this.rules = rules.Count > 0 ? rules[0] : null;
             pile = new PileSpec
             {
                 Bins = Mathf.Max(1, Mathf.CeilToInt(CastleHalf * 2f / PileBinWidth)),
@@ -184,6 +190,7 @@ namespace HumanLastRampart.Combat.Battle
             BuildSoldiers(defs, p);
             BuildWalls();
             BuildGridAndShots(p);
+            InitCommands(p);
         }
 
         // ── 준비 ──────────────────────────────────────────────
@@ -350,6 +357,8 @@ namespace HumanLastRampart.Combat.Battle
             sAlive = new NativeArray<byte>(n, p);
             sWeapon = new NativeArray<int>(n, p);
             sCooldown = new NativeArray<float>(n, p);
+            sSide = new NativeArray<byte>(n, p);
+            sAway = new NativeArray<byte>(n, p);
             soldierInstances = new NativeArray<PerfLabInstance>(n, p);
 
             var random = new Unity.Mathematics.Random(seed ^ 0x9E3779B9u);
@@ -373,6 +382,7 @@ namespace HumanLastRampart.Combat.Battle
                     float3 position = n3 * (CastleHalf - 0.6f - row * 0.8f) + right * lateral + new float3(0f, WallHeight, 0f);
                     sPos[index] = position;
                     sAlive[index] = 1;
+                    sSide[index] = (byte)side;
                     // 대포는 분대에 한 문: 맨 앞 병사만 쏘고 나머지는 운용병 (병력 수에는 들어간다, D-031 K2).
                     // 병사는 뒤에서부터 잃으므로 마지막 한 명이 남을 때까지 대포는 쏜다.
                     bool cannon = weapons[w].AreaRadius > 0f;
@@ -475,6 +485,7 @@ namespace HumanLastRampart.Combat.Battle
                 return;
             }
 
+            RunPendingCommands();   // 작업이 끝난 지금 메뉴에서 고른 명령을 적용
             Elapsed += dt;
             for (int side = 0; side < 4; side++)
             {
@@ -496,6 +507,7 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             Spawn();
+            UpdateMessengers(dt);
             CheckEnd();
         }
 
@@ -634,8 +646,11 @@ namespace HumanLastRampart.Combat.Battle
             {
                 SoldierPositions = sPos,
                 SoldierAlive = sAlive,
+                SoldierAway = sAway,
+                SoldierSide = sSide,
                 SoldierWeapon = sWeapon,
                 SoldierCooldowns = sCooldown,
+                SidePriority = sidePriority,
                 Weapons = weapons,
                 EnemyPositions = ePos,
                 EnemyVelocities = eVel,
@@ -644,11 +659,15 @@ namespace HumanLastRampart.Combat.Battle
                 EnemyMaxHp = eMaxHp,
                 EnemyGeneration = eGen,
                 EnemyIncoming = eIncoming,
+                EnemyKindOf = eKind,
+                Kinds = kinds,
+                CellOfEnemy = cellOfEnemy,
                 CellStart = cellStart,
                 CellCount = cellCount,
                 SortedEnemies = sorted,
                 Shots = shotQueue.AsParallelWriter(),
                 Grid = grid,
+                CastleHalf = CastleHalf,
                 DeltaTime = dt,
                 RetryInterval = RetryInterval,
                 FrameSeed = seed ^ (frameNumber * 2654435761u),
@@ -839,6 +858,9 @@ namespace HumanLastRampart.Combat.Battle
             Release(ref sAlive);
             Release(ref sWeapon);
             Release(ref sCooldown);
+            Release(ref sSide);
+            Release(ref sAway);
+            Release(ref sidePriority);
             Release(ref weapons);
             Release(ref soldierInstances);
             Release(ref cellOfEnemy);

@@ -72,6 +72,40 @@ namespace HumanLastRampart.Combat.Battle
                     () => FinishTest(BattleOutcome.Defeat, DefeatReason.GarrisonLost),
                 },
                 new[] { "[시험] 승리", "[시험] 패배 — 성벽 붕괴", "[시험] 패배 — 병력 70%" });
+
+            if (sim != null)
+            {
+                // 명령 (CY2-C3): 적용될 때 진행 데이터의 표적 설정에도 기록 (C-011 — 다음 전투에도 유지)
+                sim.Notice += hud.PushNotice;
+                sim.WallCommandApplied += (side, priority) => Targeting()?.SetWall(WallIds.Of((WallSide)side), priority);
+                sim.GlobalCommandApplied += priority => Targeting()?.SetGlobal(priority);
+                hud.CommandChosen += OnCommandChosen;
+            }
+        }
+
+        TargetingSettings Targeting()
+        {
+            CampaignState campaign = context?.Campaign;
+            if (campaign == null) return null;
+            if (campaign.Targeting == null) campaign.Targeting = TargetingSettings.CreateDefault();
+            return campaign.Targeting;
+        }
+
+        void OnCommandChosen(BattleSim.CommandVia via, TargetPriority priority, int targetSide)
+        {
+            if (sim == null || rig == null) return;
+            switch (via)
+            {
+                case BattleSim.CommandVia.Direct:
+                    sim.IssueDirect(rig.Side, priority);
+                    break;
+                case BattleSim.CommandVia.Messenger:
+                    sim.IssueMessenger(rig.Side, rig.Along, targetSide, priority);
+                    break;
+                case BattleSim.CommandVia.Shout:
+                    sim.IssueShout(rig.Side, targetSide, priority);
+                    break;
+            }
         }
 
         public void OnExit()
@@ -97,11 +131,33 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             var keyboard = Keyboard.current;
+            var mouse = Mouse.current;
+            if (mouse != null && !sim.Ended)
+            {
+                if (mouse.middleButton.wasPressedThisFrame) hud.ToggleMenu(rig != null ? rig.Side : 0);
+                if (mouse.rightButton.wasPressedThisFrame) hud.CloseMenu();
+            }
+
             if (keyboard != null)
             {
-                if (keyboard.digit1Key.wasPressedThisFrame) speed = 1;
-                if (keyboard.digit2Key.wasPressedThisFrame) speed = 2;
-                if (keyboard.digit3Key.wasPressedThisFrame) speed = 4;
+                if (hud.MenuOpen)
+                {
+                    // 메뉴가 열려 있으면 숫자 키는 메뉴 고르기 (D-028)
+                    Key[] keys = { Key.Digit1, Key.Digit2, Key.Digit3, Key.Digit4, Key.Digit5, Key.Digit6 };
+                    for (int i = 0; i < keys.Length; i++)
+                    {
+                        if (keyboard[keys[i]].wasPressedThisFrame) hud.Choose(i);
+                    }
+
+                    if (keyboard.escapeKey.wasPressedThisFrame) hud.CloseMenu();
+                }
+                else
+                {
+                    if (keyboard.digit1Key.wasPressedThisFrame) speed = 1;
+                    if (keyboard.digit2Key.wasPressedThisFrame) speed = 2;
+                    if (keyboard.digit3Key.wasPressedThisFrame) speed = 4;
+                }
+
                 if (keyboard.pKey.wasPressedThisFrame) paused = !paused;
             }
 

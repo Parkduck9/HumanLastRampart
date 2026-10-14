@@ -44,6 +44,7 @@ namespace HumanLastRampart.Combat.Battle
         bool overview;
 
         public int Side { get; private set; }
+        public float Along => along;   // 지금 성벽에서 가운데 기준 좌우 위치 (주인공 위치 대용)
         public bool Overview => overview;
 
         public BattleCameraRig(Camera camera, float castleHalf, float wallHeight)

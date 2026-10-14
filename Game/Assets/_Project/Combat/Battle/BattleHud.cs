@@ -6,7 +6,7 @@ using UnityEngine.UI;
 namespace HumanLastRampart.Combat.Battle
 {
     // 전투 HUD (임시 모양 — 정식 UI는 전투 화면 설계 CY1-C3 이후). 전투 HUD는 Combat 안에 둔다 (C-002).
-    public sealed class BattleHud : IDisposable
+    public sealed partial class BattleHud : IDisposable
     {
         static readonly string[] SideNames = { "북", "동", "남", "서" };
 
@@ -40,14 +40,14 @@ namespace HumanLastRampart.Combat.Battle
             scaler.referenceResolution = new Vector2(1920f, 1080f);
 
             Image panel = NewImage(root.transform, "Status Panel", new Color(0f, 0f, 0f, 0.55f));
-            Anchor(panel.rectTransform, new Vector2(0f, 1f), new Vector2(20f, -20f), new Vector2(900f, 300f));
+            Anchor(panel.rectTransform, new Vector2(0f, 1f), new Vector2(20f, -20f), new Vector2(1120f, 300f));
 
             header = NewText(panel.transform, "Header", 24, TextAnchor.UpperLeft);
-            Anchor(header.rectTransform, new Vector2(0f, 1f), new Vector2(16f, -12f), new Vector2(870f, 90f));
+            Anchor(header.rectTransform, new Vector2(0f, 1f), new Vector2(16f, -12f), new Vector2(1090f, 90f));
             header.text = battleLine;
 
-            walls = NewText(panel.transform, "Walls", 22, TextAnchor.UpperLeft);
-            Anchor(walls.rectTransform, new Vector2(0f, 1f), new Vector2(16f, -110f), new Vector2(870f, 180f));
+            walls = NewText(panel.transform, "Walls", 20, TextAnchor.UpperLeft);
+            Anchor(walls.rectTransform, new Vector2(0f, 1f), new Vector2(16f, -110f), new Vector2(1090f, 180f));
 
             help = NewText(root.transform, "Help", 20, TextAnchor.LowerLeft);
             Anchor(help.rectTransform, new Vector2(0f, 0f), new Vector2(20f, 20f), new Vector2(1100f, 60f));
@@ -78,6 +78,8 @@ namespace HumanLastRampart.Combat.Battle
             Button finish = NewButton(endPanel.transform, "결과로", () => onFinish());
             Anchor((RectTransform)finish.transform, new Vector2(0.5f, 0f), new Vector2(0f, 40f), new Vector2(320f, 80f), new Vector2(0.5f, 0f));
             endPanel.SetActive(false);
+
+            BuildCommandMenu();
         }
 
         public void Refresh(BattleSim sim, BattleCameraRig rig, int speed, bool paused)
@@ -105,11 +107,13 @@ namespace HumanLastRampart.Combat.Battle
                     .Append("  병력 ").Append(s.GarrisonAlive).Append('/').Append(s.GarrisonStart)
                     .Append("  들판 ").Append(s.InField).Append(" · 벽 앞 ").Append(s.AtWall)
                     .Append(" · 오름 ").Append(s.Climbing).Append(" · 위 ").Append(s.OnWall)
-                    .Append("  더미 ").Append(s.MaxPile.ToString("0.0")).Append("m\n");
+                    .Append("  더미 ").Append(s.MaxPile.ToString("0.0")).Append("m")
+                    .Append("  [").Append(BattleSim.PriorityNames[(int)sim.PriorityOf(side)]).Append("]\n");
             }
 
             walls.text = text.ToString();
-            help.text = "A/D 성벽 따라 이동 · Q/E 다른 성벽 · Tab 전체 보기 · C 카메라 [" + (rig != null ? rig.PresetName : "") + "] · 1/2/3 속도 · P 멈춤   (임시 조작, 투사체 " + sim.ActiveShots + ")";
+            RefreshNotices();
+            help.text = "휠 버튼 명령 · A/D 성벽 따라 이동 · Q/E 다른 성벽 · Tab 전체 보기 · C 카메라 [" + (rig != null ? rig.PresetName : "") + "] · 1/2/3 속도 · P 멈춤   (임시 조작, 투사체 " + sim.ActiveShots + ")";
         }
 
         public void SetHeader(string line) => header.text = line;

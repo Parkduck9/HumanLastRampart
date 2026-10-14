@@ -325,16 +325,20 @@ namespace HumanLastRampart.Combat.Battle
     }
 
     // ④ 병사별 표적 고르기·발사 (병렬)
-    // 우선순위: 성벽 위 적(바로 앞에서 병사를 치는 적) → 체력 비율 낮은 적(D-019 기본) → 가까운 적.
-    // "오르는 적부터" 등은 명령(CY2-C3, Battle.md 3.1-1)으로 바꾼다 — 기본값에서 오르는 적을 먼저 쏘지 않는다.
+    // 성벽 위 적(바로 앞에서 병사를 치는 적)은 언제나 먼저. 그다음은 그 성벽의 명령(Battle.md 3.1-1, C-011, D-039):
+    // 체력 낮은/높은 적부터, 가까운 적부터(성벽에 가까운), 오르는 적부터, 특수 적 먼저, 밀집한 곳 쏘기.
+    // 대포는 명령을 따르지 않고 밀집한 곳을 쏜다 (D-039 C16-3 — 지도 조준이 생기기 전).
     // 명중률은 거리 구간별(D-028 C7). 빗나가면 조준점이 퍼짐만큼 흩어진다.
     [BurstCompile(CompileSynchronously = true)]
     public struct SoldierFireJob : IJobParallelFor
     {
         [ReadOnly] public NativeArray<float3> SoldierPositions;
         [ReadOnly] public NativeArray<byte> SoldierAlive;
+        [ReadOnly] public NativeArray<byte> SoldierAway;      // 전령으로 뛰는 중이면 쏘지 않는다 (C16-2)
+        [ReadOnly] public NativeArray<byte> SoldierSide;
         [ReadOnly] public NativeArray<int> SoldierWeapon;
         public NativeArray<float> SoldierCooldowns;
+        [ReadOnly] public NativeArray<byte> SidePriority;     // 성벽별 TargetPriority
         [ReadOnly] public NativeArray<WeaponKindData> Weapons;
         [ReadOnly] public NativeArray<float3> EnemyPositions;
         [ReadOnly] public NativeArray<float3> EnemyVelocities;
@@ -343,20 +347,27 @@ namespace HumanLastRampart.Combat.Battle
         [ReadOnly] public NativeArray<int> EnemyMaxHp;
         [ReadOnly] public NativeArray<int> EnemyGeneration;
         [ReadOnly] public NativeArray<int> EnemyIncoming;   // 이미 날아가는 중인 피해 (헛방 줄이기)
+        [ReadOnly] public NativeArray<int> EnemyKindOf;
+        [ReadOnly] public NativeArray<EnemyKind> Kinds;
+        [ReadOnly] public NativeArray<int> CellOfEnemy;
         [ReadOnly] public NativeArray<int> CellStart;
         [ReadOnly] public NativeArray<int> CellCount;
         [ReadOnly] public NativeArray<int> SortedEnemies;
         public NativeQueue<Shot>.ParallelWriter Shots;
         public GridSpec Grid;
+        public float CastleHalf;
         public float DeltaTime;
         public float RetryInterval;
         public uint FrameSeed;
 
+        // TargetPriority 순서 (Core.Campaign.TargetPriority와 같게)
+        const byte LowestHpRatio = 0, HighestHpRatio = 1, Nearest = 2, ClimbingFirst = 3, SpecialFirst = 4, DensestArea = 5;
+
         public void Execute(int s)
         {
-            if (SoldierAlive[s] == 0 || SoldierWeapon[s] < 0)
+            if (SoldierAlive[s] == 0 || SoldierWeapon[s] < 0 || SoldierAway[s] != 0)
             {
-                return;   // 죽은 병사, 대포 운용병(쏘지 않음)
+                return;   // 죽은 병사, 대포 운용병(쏘지 않음), 전령
             }
 
             float cooldown = SoldierCooldowns[s] - DeltaTime;
@@ -367,6 +378,9 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             WeaponKindData weapon = Weapons[SoldierWeapon[s]];
+            int side = SoldierSide[s];
+            byte mode = weapon.AreaRadius > 0f ? DensestArea : SidePriority[side];
+            float3 wallOut = WallGeometry.Outward(side);
             float3 from = SoldierPositions[s];
             float rangeSq = weapon.Range * weapon.Range;
             int2 minCell = Grid.CellOf(from - new float3(weapon.Range, 0f, weapon.Range));
@@ -374,7 +388,7 @@ namespace HumanLastRampart.Combat.Battle
 
             int best = -1;
             int bestRank = int.MaxValue;
-            float bestRatio = float.MaxValue;
+            float bestKey = float.MaxValue;
             float bestDistSq = float.MaxValue;
             for (int z = minCell.y; z <= maxCell.y; z++)
             {
@@ -401,20 +415,44 @@ namespace HumanLastRampart.Combat.Battle
                         }
 
                         byte state = EnemyStates[e];
-                        int rank = state == EnemyState.OnWall ? 0 : 1;
                         float ratio = (float)remaining / math.max(1, EnemyMaxHp[e]);
+                        int rank = state == EnemyState.OnWall ? 0 : 2;
+                        float key;
+                        switch (mode)
+                        {
+                            case HighestHpRatio:
+                                key = -ratio;
+                                break;
+                            case Nearest:
+                                key = math.dot(EnemyPositions[e], wallOut) - CastleHalf;   // 성벽에 가까운 적
+                                break;
+                            case ClimbingFirst:
+                                if (state == EnemyState.Climbing) rank = 1;
+                                key = ratio;
+                                break;
+                            case SpecialFirst:
+                                if (Kinds[EnemyKindOf[e]].IsSpecial != 0) rank = 1;
+                                key = ratio;
+                                break;
+                            case DensestArea:
+                                key = -CellCount[CellOfEnemy[e]];   // 같은 칸에 적이 많을수록
+                                break;
+                            default:
+                                key = ratio;
+                                break;
+                        }
+
                         if (rank < bestRank
-                            || (rank == bestRank && (ratio < bestRatio || (ratio == bestRatio && distSq < bestDistSq))))
+                            || (rank == bestRank && (key < bestKey || (key == bestKey && distSq < bestDistSq))))
                         {
                             best = e;
                             bestRank = rank;
-                            bestRatio = ratio;
+                            bestKey = key;
                             bestDistSq = distSq;
                         }
                     }
                 }
             }
-
             if (best < 0)
             {
                 SoldierCooldowns[s] = RetryInterval;
