@@ -108,7 +108,7 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             walls.text = text.ToString();
-            help.text = "A/D 성벽 따라 이동 · Q/E 다른 성벽 · Tab 전체 보기 · 1/2/3 속도 · P 멈춤   (임시 조작, 투사체 " + sim.ActiveShots + ")";
+            help.text = "A/D 성벽 따라 이동 · Q/E 다른 성벽 · Tab 전체 보기 · C 카메라 [" + (rig != null ? rig.PresetName : "") + "] · 1/2/3 속도 · P 멈춤   (임시 조작, 투사체 " + sim.ActiveShots + ")";
         }
 
         public void SetHeader(string line) => header.text = line;
