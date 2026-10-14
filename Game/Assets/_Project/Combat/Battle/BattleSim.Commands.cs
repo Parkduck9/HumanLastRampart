@@ -15,7 +15,7 @@ namespace HumanLastRampart.Combat.Battle
     // - 겹침: 나중에 "내린" 명령이 이긴다 (D-039 C16-1). 늦게 도착한 옛 명령은 무시하고 알린다
     public sealed partial class BattleSim
     {
-        public const float HeroSpeed = 6f;   // 주인공 달리기(m/초) — 주인공 이동(P3-C02) 전 임시값
+        public const float HeroSpeed = 10f;  // 주인공 달리기(m/초) — 성벽 한 면(120m) 약 12초 (D-046)
 
         public enum CommandVia { Direct, Messenger, Shout, Global }
 

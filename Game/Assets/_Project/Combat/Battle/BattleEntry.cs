@@ -320,7 +320,7 @@ namespace HumanLastRampart.Combat.Battle
             {
                 battleCamera.orthographic = false;
                 battleCamera.fieldOfView = 40f;
-                battleCamera.nearClipPlane = 0.3f;
+                battleCamera.nearClipPlane = BattleCameraRig.NearClip;
                 battleCamera.farClipPlane = 1200f;
                 rig?.SetPreset(rig.PresetIndex);
                 sim.WeatherDirty = true;      // 안개·빛 다시 맞춤

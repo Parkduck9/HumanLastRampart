@@ -15,3 +15,8 @@ MonoBehaviour:
   id: battle_rules
   displayName: 전투 규칙
   corpseHeightPerKill: 0.1
+  easyEnemyMultiplierByBattle:
+  - 0
+  - 0
+  - 0
+  - 0.4

@@ -134,7 +134,8 @@ namespace HumanLastRampart.Combat.Battle
             var ground = GameObject.CreatePrimitive(PrimitiveType.Plane);
             ground.name = "Ground";
             ground.transform.SetParent(root.transform, false);
-            ground.transform.localScale = new Vector3((field + 20f) * 2f / 10f, 1f, (field + 20f) * 2f / 10f);
+            // 지도 전체 보기(세로 ±field+20)를 넓은 화면 비율로 봐도 회색 가장자리가 없게 가로·세로 두 배로 깐다
+            ground.transform.localScale = new Vector3((field + 20f) * 4f / 10f, 1f, (field + 20f) * 4f / 10f);
             Tint(ground.GetComponent<Renderer>(), new Color(0.42f, 0.5f, 0.3f));
 
             var yard = GameObject.CreatePrimitive(PrimitiveType.Cube);

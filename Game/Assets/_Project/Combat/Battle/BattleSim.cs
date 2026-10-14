@@ -20,7 +20,12 @@ namespace HumanLastRampart.Combat.Battle
     public sealed partial class BattleSim : IDisposable
     {
         public const float WallHeight = 4f;
-        const float SoldierSpacing = 0.8f;
+        // 성벽 위 비율 (D-046): 병사·대포는 작게 무조건 1줄. 적은 들판에선 원래 크기, 성벽 앞 가려진 구역에서 이 비율로 줄어든다
+        public const float WallFigureScale = 0.25f;
+        public const float WallScaleBand = 30f;             // 성벽에서 이 거리(m) 안에서 점점 줄어든다 (8m는 가까운 고블린이 너무 커 보여 늘림, D-047)
+        const float SoldierDrawSize = 1.4f * WallFigureScale;
+        const float SoldierMaxSpacing = 0.45f;              // 인원이 적으면 이 간격, 많으면 자기 구간에 맞춰 촘촘히
+        const float SoldierInset = 0.5f;                    // 성벽 바깥 모서리에서 안쪽으로
         const float RetryInterval = 0.25f;
         const float SpawnSpreadSeconds = 12f;   // 한 무리가 나오는 데 걸리는 시간
         const float FieldBand = 40f;            // 들판 끝에서 이만큼 안쪽까지 흩어져 나온다
@@ -201,6 +206,47 @@ namespace HumanLastRampart.Combat.Battle
 
         // ── 준비 ──────────────────────────────────────────────
 
+        // 난이도 배율 (D-031 K1). 무리마다 따로 반올림하면 합이 어긋나므로(쉬움 1,501 등)
+        // 전체 = 원래 합 × 배율(반올림)이 되게 나머지가 큰 무리부터 1씩 더한다. 무리마다 최소 1
+        public static int[] ScaledGroupCounts(IReadOnlyList<WaveGroup> groups, float multiplier)
+        {
+            var counts = new int[groups.Count];
+            var remainders = new float[groups.Count];
+            int raw = 0, floorSum = 0;
+            for (int g = 0; g < groups.Count; g++)
+            {
+                float exact = groups[g].Count * multiplier;
+                counts[g] = (int)math.floor(exact);
+                remainders[g] = exact - counts[g];
+                raw += groups[g].Count;
+                floorSum += counts[g];
+            }
+
+            int left = (int)math.floor(raw * multiplier + 0.5f) - floorSum;
+            var order = new List<int>();
+            for (int g = 0; g < groups.Count; g++) order.Add(g);
+            order.Sort((a, b) => remainders[b] != remainders[a] ? remainders[b].CompareTo(remainders[a]) : a.CompareTo(b));
+            for (int k = 0; k < left && k < order.Count; k++) counts[order[k]]++;
+
+            // 작은 무리(특수 적 1마리 등)는 최소 1 — 그만큼 가장 큰 무리에서 뺀다
+            int excess = 0;
+            for (int g = 0; g < counts.Length; g++)
+            {
+                if (counts[g] < 1) { excess += 1 - counts[g]; counts[g] = 1; }
+            }
+
+            while (excess > 0)
+            {
+                int largest = -1;
+                for (int g = 0; g < counts.Length; g++) if (counts[g] > 1 && (largest < 0 || counts[g] > counts[largest])) largest = g;
+                if (largest < 0) break;
+                counts[largest]--;
+                excess--;
+            }
+
+            return counts;
+        }
+
         SpawnEntry[] BuildEnemies(IDefinitionLookup defs, Allocator p)
         {
             WaveDef wave = defs.Get<WaveDef>(setup.WaveDefId);
@@ -211,6 +257,7 @@ namespace HumanLastRampart.Combat.Battle
             var kindDefs = new List<EnemyDef>();
             if (wave != null)
             {
+                var valid = new List<WaveGroup>();
                 foreach (WaveGroup group in wave.Groups)
                 {
                     EnemyDef def = defs.Get<EnemyDef>(group.EnemyDefId);
@@ -220,8 +267,15 @@ namespace HumanLastRampart.Combat.Battle
                         continue;
                     }
 
-                    // 난이도 배율 (D-031 K1) — BattleEntry 표시와 같은 계산
-                    int count = Mathf.Max(1, Mathf.RoundToInt(group.Count * setup.EnemyCountMultiplier));
+                    valid.Add(group);
+                }
+
+                int[] counts = ScaledGroupCounts(valid, setup.EnemyCountMultiplier);
+                for (int g = 0; g < valid.Count; g++)
+                {
+                    WaveGroup group = valid[g];
+                    EnemyDef def = defs.Get<EnemyDef>(group.EnemyDefId);
+                    int count = counts[g];
                     groups.Add((group, count));
                     if (!kindIndex.ContainsKey(def.Id))
                     {
@@ -372,6 +426,14 @@ namespace HumanLastRampart.Combat.Battle
             sAway = new NativeArray<byte>(n, p);
             soldierInstances = new NativeArray<PerfLabInstance>(n, p);
 
+            // 성벽마다 모든 지점 위치(성벽 따라 m) — 분대 구간 = 양옆 지점과의 가운데까지
+            var postsBySide = new List<float>[4];
+            for (int s = 0; s < 4; s++) postsBySide[s] = new List<float>();
+            foreach (PostDef def in defs.All<PostDef>())
+            {
+                postsBySide[(int)def.Wall].Add((def.PositionAlongWall - 0.5f) * 2f * CastleHalf);
+            }
+
             var random = new Unity.Mathematics.Random(seed ^ 0x9E3779B9u);
             int index = 0;
             foreach (var (squad, post, w, hp) in placed)
@@ -380,18 +442,22 @@ namespace HumanLastRampart.Combat.Battle
                 float3 n3 = WallGeometry.Outward(side);
                 float3 right = WallGeometry.Right(side);
                 float along = (post.PositionAlongWall - 0.5f) * 2f * CastleHalf;
-                // 분대는 지점을 가운데로 성벽 따라 한 줄(넘치면 뒷줄)
-                int perRow = 12;
+                // 분대는 자기 구간 안에 무조건 한 줄 (D-046). 인원이 많으면 간격을 좁힌다
+                float lo = -CastleHalf + 1f, hi = CastleHalf - 1f;
+                foreach (float other in postsBySide[side])
+                {
+                    if (other < along - 0.01f) lo = Mathf.Max(lo, (other + along) * 0.5f + 0.5f);
+                    else if (other > along + 0.01f) hi = Mathf.Min(hi, (other + along) * 0.5f - 0.5f);
+                }
+
+                float spacing = squad.Count > 1 ? Mathf.Min(SoldierMaxSpacing, (hi - lo) / (squad.Count - 1)) : 0f;
+                float halfSpan = (squad.Count - 1) * spacing * 0.5f;
+                float center = Mathf.Clamp(along, lo + halfSpan, Mathf.Max(lo + halfSpan, hi - halfSpan));
                 squads.Add(new SquadInfo { State = squad, Side = side, FirstSoldier = index, Alive = squad.Count, SoldierHp = hp });
                 for (int i = 0; i < squad.Count; i++)
                 {
-                    int row = i / perRow;
-                    int column = i % perRow;
-                    int inRow = Mathf.Min(perRow, squad.Count - row * perRow);
-                    float offset = (column - (inRow - 1) * 0.5f) * SoldierSpacing;
-                    float lateral = Mathf.Clamp(along + offset, -CastleHalf + 0.5f, CastleHalf - 0.5f);
-                    float3 position = n3 * (CastleHalf - 0.6f - row * 0.8f) + right * lateral + new float3(0f, WallHeight, 0f);
-                    sPos[index] = position;
+                    float lateral = center - halfSpan + i * spacing;
+                    float3 position = n3 * (CastleHalf - SoldierInset) + right * lateral + new float3(0f, WallHeight, 0f);                    sPos[index] = position;
                     sAlive[index] = 1;
                     sSide[index] = (byte)side;
                     // 대포는 분대에 한 문: 맨 앞 병사만 쏘고 나머지는 운용병 (병력 수에는 들어간다, D-031 K2).
@@ -764,6 +830,8 @@ namespace HumanLastRampart.Combat.Battle
                 GroupSpotted = groupSpotted,
                 Instances = enemyInstances,
                 CastleHalf = CastleHalf,
+                WallScale = WallFigureScale,
+                WallScaleBand = WallScaleBand,
                 VisibleDistance = VisibleDistance,
                 Brightness = Brightness,
                 Time = time,
@@ -803,7 +871,7 @@ namespace HumanLastRampart.Combat.Battle
                 soldierInstances[i] = new PerfLabInstance
                 {
                     PosFrame = new float4(sPos[i], 0f),
-                    TintSize = sAlive[i] != 0 ? new float4(new float3(0.3f, 0.5f, 0.95f) * Brightness, 1.4f) : float4.zero,
+                    TintSize = sAlive[i] != 0 ? new float4(new float3(0.3f, 0.5f, 0.95f) * Brightness, SoldierDrawSize) : float4.zero,
                 };
             }
         }

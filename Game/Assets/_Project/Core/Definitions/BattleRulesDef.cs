@@ -8,6 +8,8 @@ namespace HumanLastRampart.Core.Definitions
     {
         [Header("난이도 (D-031 K1)")]
         [SerializeField] float easyEnemyMultiplier = 0.5f;
+        [Tooltip("v1.3: 쉬움에서 전투 번호별 배율 (0번 칸 = 1번 전투). 0이거나 칸이 없으면 위 기본값")]
+        [SerializeField] float[] easyEnemyMultiplierByBattle = new float[0];
         [SerializeField] int maxConcurrentEnemiesRealistic = 50000;
         [SerializeField] int maxConcurrentEnemiesEasy = 25000;
 
@@ -45,6 +47,14 @@ namespace HumanLastRampart.Core.Definitions
         [SerializeField] int recoveryExplosionLoss = 3;         // 회수 중 폭발 1회당 잃는 병사
 
         public float EasyEnemyMultiplier => easyEnemyMultiplier;
+
+        // 쉬움 n번 전투의 적 배율 (D-047: 4번만 0.4)
+        public float EasyEnemyMultiplierFor(int battleNumber)
+        {
+            int index = battleNumber - 1;
+            bool has = easyEnemyMultiplierByBattle != null && index >= 0 && index < easyEnemyMultiplierByBattle.Length && easyEnemyMultiplierByBattle[index] > 0f;
+            return has ? easyEnemyMultiplierByBattle[index] : easyEnemyMultiplier;
+        }
         public int MaxConcurrentEnemiesRealistic => maxConcurrentEnemiesRealistic;
         public int MaxConcurrentEnemiesEasy => maxConcurrentEnemiesEasy;
         public float WeatherChangeChance => weatherChangeChance;

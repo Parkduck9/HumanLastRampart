@@ -851,6 +851,8 @@ namespace HumanLastRampart.Combat.Battle
         [ReadOnly] public NativeArray<byte> GroupSpotted;     // 망원경으로 확인한 무리는 시야 밖이어도 보인다
         [WriteOnly] public NativeArray<PerfLabInstance> Instances;
         public float CastleHalf;
+        public float WallScale;         // 성벽 위·사다리에서의 크기 비율 (병사와 맞춤, D-046)
+        public float WallScaleBand;     // 성벽에서 이 거리 안(카메라에서 성벽에 가려지는 곳)에서 원래 크기 → WallScale
         public float VisibleDistance;   // 안개·밤 시야(성벽에서 m). 이 너머는 흐리게, 더 너머는 안 그림
         public float Brightness;        // 밤·비에 어둡게
         public float Time;
@@ -877,7 +879,9 @@ namespace HumanLastRampart.Combat.Battle
 
             EnemyKind kind = Kinds[KindOf[i]];
             float shade = Brightness;
-            float beyond = math.dot(Positions[i], WallGeometry.Outward(Sides[i])) - CastleHalf - VisibleDistance;
+            float fromWall = math.dot(Positions[i], WallGeometry.Outward(Sides[i])) - CastleHalf;
+            float size = kind.DrawSize * math.lerp(WallScale, 1f, math.saturate((fromWall - 1f) / math.max(0.1f, WallScaleBand - 1f)));
+            float beyond = fromWall - VisibleDistance;
             if (beyond > 0f && GroupSpotted[EnemyGroup[i]] == 0)
             {
                 if (beyond > 20f)
@@ -892,7 +896,7 @@ namespace HumanLastRampart.Combat.Battle
             Instances[i] = new PerfLabInstance
             {
                 PosFrame = new float4(Positions[i], frame),
-                TintSize = new float4(kind.Tint * shade, kind.DrawSize),
+                TintSize = new float4(kind.Tint * shade, size),
             };
         }
     }
@@ -920,7 +924,7 @@ namespace HumanLastRampart.Combat.Battle
             Instances[slot] = new PerfLabInstance
             {
                 PosFrame = new float4(ShotPositions[slot], 0f),
-                TintSize = cannon ? new float4(0.15f, 0.15f, 0.15f, 1.6f) : new float4(new float3(0.95f, 0.9f, 0.75f) * Brightness, 0.9f),
+                TintSize = cannon ? new float4(0.15f, 0.15f, 0.15f, 1.6f) : new float4(new float3(0.95f, 0.9f, 0.75f) * Brightness, 0.45f),
             };
         }
     }

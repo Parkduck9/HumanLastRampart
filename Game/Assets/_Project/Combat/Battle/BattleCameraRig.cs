@@ -4,13 +4,14 @@ using UnityEngine.InputSystem;
 namespace HumanLastRampart.Combat.Battle
 {
     // 1번 화면 카메라 (D-025: 평소 원근 낮은 카메라). 임시 조작 — 모서리 돌기·주인공 이동은 CY1-C3 설계 후
-    // A/D(←/→) 성벽 따라 이동, Q/E 왼쪽/오른쪽 성벽으로, Tab 전체 보기, C 카메라 방식 바꾸기
+    // A/D(←/→) 성벽 따라 이동, Q/E 왼쪽/오른쪽 성벽 가운데까지 자동 달리기(D-046), Tab 전체 보기, C 카메라 방식 바꾸기
     // 기본은 자동(D-040): 멈춰 있으면 A(가깝게), 움직이면 B(조금 높게)로 부드럽게 바뀐다
     public sealed class BattleCameraRig
     {
-        const float PanSpeed = 25f;
+        const float PanSpeed = BattleSim.HeroSpeed;   // 카메라 = 주인공 위치 대용. 주인공 달리기 속도로 (D-046)
 
         // 성벽 위 병사 뒤에서 바깥을 보는 카메라 후보 (CY2-C1). 뒤로 거리·병사 머리 위 높이·내려다보는 각도
+        // 병사를 작게 그리므로(D-046) 거리·높이도 같은 비율로 줄였다 (원래 A 7·2.6 / B 12·6 / C 18·11)
         public struct ViewPreset
         {
             public string Name;
@@ -21,10 +22,17 @@ namespace HumanLastRampart.Combat.Battle
 
         public static readonly ViewPreset[] Presets =
         {
-            new ViewPreset { Name = "A 낮게 (바퀴 1)", Back = 7f, Up = 2.6f, Pitch = 8f },
-            new ViewPreset { Name = "B 조금 높게", Back = 12f, Up = 6f, Pitch = 16f },
-            new ViewPreset { Name = "C 높게", Back = 18f, Up = 11f, Pitch = 25f },
+            new ViewPreset { Name = "A 낮게 (바퀴 1)", Back = 7f * BattleSim.WallFigureScale, Up = 2.6f * BattleSim.WallFigureScale, Pitch = 8f },
+            new ViewPreset { Name = "B 조금 높게", Back = 12f * BattleSim.WallFigureScale, Up = 6f * BattleSim.WallFigureScale, Pitch = 16f },
+            new ViewPreset { Name = "C 높게", Back = 18f * BattleSim.WallFigureScale, Up = 11f * BattleSim.WallFigureScale, Pitch = 25f },
         };
+
+        public const float NearClip = 0.05f;
+
+        // Q/E: 옆 성벽 가운데까지 자동으로 달린다 (D-046). A/D를 누르면 멈춘다
+        int runDir;          // -1 왼쪽(Q), +1 오른쪽(E), 0 없음
+        bool runTurned;      // 모서리를 돌았는가 (돌고 나면 가운데로)
+        public bool AutoRunning => runDir != 0;
 
         const float BlendSeconds = 0.3f;       // A↔B 바뀌는 시간
         const float ReturnDelaySeconds = 0.6f;  // 멈춘 뒤 A로 돌아가기까지 기다림 (짧게 손을 뗐다 눌러도 출렁이지 않게)
@@ -54,7 +62,7 @@ namespace HumanLastRampart.Combat.Battle
             this.wallHeight = wallHeight;
             camera.orthographic = false;
             camera.fieldOfView = 40f;
-            camera.nearClipPlane = 0.3f;
+            camera.nearClipPlane = NearClip;
             camera.farClipPlane = 1200f;
             Apply();
         }
@@ -64,7 +72,10 @@ namespace HumanLastRampart.Combat.Battle
             var keyboard = Keyboard.current;
             if (keyboard == null)
             {
-                Step(false, unscaledDt);
+                float alongBefore = along;
+                int sideBeforeRun = Side;
+                if (runDir != 0) AutoRun(unscaledDt);
+                Step(!Mathf.Approximately(alongBefore, along) || sideBeforeRun != Side, unscaledDt);
                 return;
             }
 
@@ -78,19 +89,48 @@ namespace HumanLastRampart.Combat.Battle
                 PresetIndex = PresetIndex + 1 >= Presets.Length ? -1 : PresetIndex + 1;   // 자동 → A → B → C → 자동
             }
 
-            bool moved = false;
             // 성 안에서 바깥을 볼 때 왼쪽 벽 = 시계 반대 방향 (북 → 서)
-            if (keyboard.qKey.wasPressedThisFrame) { Side = (Side + 3) % 4; along = 0f; moved = true; }
-            if (keyboard.eKey.wasPressedThisFrame) { Side = (Side + 1) % 4; along = 0f; moved = true; }
+            if (keyboard.qKey.wasPressedThisFrame) RunToNextWall(-1);
+            if (keyboard.eKey.wasPressedThisFrame) RunToNextWall(1);
 
             float pan = 0f;
             if (keyboard.aKey.isPressed || keyboard.leftArrowKey.isPressed) pan -= 1f;
             if (keyboard.dKey.isPressed || keyboard.rightArrowKey.isPressed) pan += 1f;
+            if (pan != 0f) runDir = 0;
             float before = along;
-            along = Mathf.Clamp(along + pan * PanSpeed * unscaledDt, -castleHalf, castleHalf);
-            moved |= !Mathf.Approximately(before, along);
+            int sideBefore = Side;
+            if (runDir != 0) AutoRun(unscaledDt);
+            else along = Mathf.Clamp(along + pan * PanSpeed * unscaledDt, -castleHalf, castleHalf);
+            bool moved = !Mathf.Approximately(before, along) || sideBefore != Side;
 
             Step(moved, unscaledDt);
+        }
+
+        // dir -1 = 왼쪽 성벽(Q), +1 = 오른쪽 성벽(E). 달리는 중에 다시 누르면 지금 자리에서 그 방향 다음 성벽으로
+        public void RunToNextWall(int dir)
+        {
+            runDir = dir < 0 ? -1 : 1;
+            runTurned = false;
+            overview = false;
+        }
+
+        void AutoRun(float dt)
+        {
+            float step = PanSpeed * dt;
+            if (!runTurned)
+            {
+                float corner = runDir * castleHalf;
+                along = Mathf.MoveTowards(along, corner, step);
+                if (!Mathf.Approximately(along, corner)) return;
+                // 모서리: 옆 성벽으로 넘어가 그 벽의 반대쪽 끝에서 시작 (오른쪽 벽이면 그 벽의 왼쪽 끝)
+                Side = (Side + (runDir > 0 ? 1 : 3)) % 4;
+                along = -corner;
+                runTurned = true;
+                return;
+            }
+
+            along = Mathf.MoveTowards(along, 0f, step);
+            if (Mathf.Approximately(along, 0f)) runDir = 0;
         }
 
         // 움직였는지 알려 주고 카메라를 한 걸음 옮긴다 (나중에 주인공 이동이 생기면 그 이동으로 부른다)
@@ -113,6 +153,7 @@ namespace HumanLastRampart.Combat.Battle
             Side = side;
             along = 0f;
             overview = false;
+            runDir = 0;
             Apply();
         }
 
