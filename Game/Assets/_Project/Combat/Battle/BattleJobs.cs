@@ -359,6 +359,8 @@ namespace HumanLastRampart.Combat.Battle
         public float DeltaTime;
         public float RetryInterval;
         public uint FrameSeed;
+        public float IntervalMultiplier;      // 비: 공격 간격 길어짐 (공격 속도 −20%, D-028 C4)
+        public float FarAccuracyMultiplier;   // 안개·밤: 먼 거리 명중 감소 (Battle.md 6.4)
 
         // TargetPriority 순서 (Core.Campaign.TargetPriority와 같게)
         const byte LowestHpRatio = 0, HighestHpRatio = 1, Nearest = 2, ClimbingFirst = 3, SpecialFirst = 4, DensestArea = 5;
@@ -471,7 +473,7 @@ namespace HumanLastRampart.Combat.Battle
             }
             else if (distance >= weapon.FarDistance)
             {
-                accuracy = weapon.AccuracyFar;
+                accuracy = weapon.AccuracyFar * FarAccuracyMultiplier;
                 spread = weapon.SpreadFar;
             }
             else
@@ -501,7 +503,7 @@ namespace HumanLastRampart.Combat.Battle
                 Target = new EnemyHandle { Index = best, Generation = EnemyGeneration[best] },
                 Weapon = SoldierWeapon[s],
             });
-            SoldierCooldowns[s] = weapon.Interval;
+            SoldierCooldowns[s] = weapon.Interval * IntervalMultiplier;
         }
     }
 
@@ -772,7 +774,11 @@ namespace HumanLastRampart.Combat.Battle
         [ReadOnly] public NativeArray<float> AnimPhases;
         [ReadOnly] public NativeArray<int> KindOf;
         [ReadOnly] public NativeArray<EnemyKind> Kinds;
+        [ReadOnly] public NativeArray<byte> Sides;
         [WriteOnly] public NativeArray<PerfLabInstance> Instances;
+        public float CastleHalf;
+        public float VisibleDistance;   // 안개·밤 시야(성벽에서 m). 이 너머는 흐리게, 더 너머는 안 그림
+        public float Brightness;        // 밤·비에 어둡게
         public float Time;
         public float WalkFps;
         public float AttackFps;
@@ -796,10 +802,23 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             EnemyKind kind = Kinds[KindOf[i]];
+            float shade = Brightness;
+            float beyond = math.dot(Positions[i], WallGeometry.Outward(Sides[i])) - CastleHalf - VisibleDistance;
+            if (beyond > 0f)
+            {
+                if (beyond > 20f)
+                {
+                    Instances[i] = new PerfLabInstance { PosFrame = new float4(Positions[i], 0f), TintSize = float4.zero };
+                    return;
+                }
+
+                shade *= math.lerp(0.45f, 0.15f, beyond / 20f);   // 시야 밖: 검은 그림자처럼 흐려지다 사라짐
+            }
+
             Instances[i] = new PerfLabInstance
             {
                 PosFrame = new float4(Positions[i], frame),
-                TintSize = new float4(kind.Tint, kind.DrawSize),
+                TintSize = new float4(kind.Tint * shade, kind.DrawSize),
             };
         }
     }
@@ -812,6 +831,7 @@ namespace HumanLastRampart.Combat.Battle
         [ReadOnly] public NativeArray<int> ShotWeapon;
         [ReadOnly] public NativeArray<WeaponKindData> Weapons;
         [WriteOnly] public NativeArray<PerfLabInstance> Instances;
+        public float Brightness;
 
         public void Execute(int slot)
         {
@@ -826,7 +846,7 @@ namespace HumanLastRampart.Combat.Battle
             Instances[slot] = new PerfLabInstance
             {
                 PosFrame = new float4(ShotPositions[slot], 0f),
-                TintSize = cannon ? new float4(0.15f, 0.15f, 0.15f, 1.6f) : new float4(0.95f, 0.9f, 0.75f, 0.9f),
+                TintSize = cannon ? new float4(0.15f, 0.15f, 0.15f, 1.6f) : new float4(new float3(0.95f, 0.9f, 0.75f) * Brightness, 0.9f),
             };
         }
     }

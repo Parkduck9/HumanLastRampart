@@ -93,6 +93,9 @@ namespace HumanLastRampart.Combat.Battle
             text.Clear();
             int minutes = (int)(sim.Elapsed / 60f);
             int seconds = (int)(sim.Elapsed % 60f);
+            text.Append("날씨 ").Append(BattleSim.WeatherName(sim.CurrentWeather)).Append(sim.TimeOfDay == HumanLastRampart.Core.CombatContracts.TimeOfDay.Night ? " · 밤" : " · 낮")
+                .Append(sim.LowVisibility ? $" (시야 {sim.VisibleDistance:0}m)" : "").Append(sim.IsRaining ? " (공격 속도 −20%)" : "").Append(sim.HidesDirections ? " (흐림: 방향별 규모 모름)" : "")
+                .Append("   ");
             text.Append("경과 ").Append(minutes).Append(':').Append(seconds.ToString("00"))
                 .Append("   속도 ×").Append(speed).Append(paused ? " (멈춤)" : "")
                 .Append("\n적 처치 ").Append(sim.Kills.ToString("N0")).Append(" / ").Append(sim.TotalEnemies.ToString("N0"))
@@ -105,7 +108,7 @@ namespace HumanLastRampart.Combat.Battle
                 text.Append(watching ? "▶ " : "   ").Append(SideNames[side]).Append("  성벽 ")
                     .Append(s.WallHp).Append('/').Append(s.WallMaxHp)
                     .Append("  병력 ").Append(s.GarrisonAlive).Append('/').Append(s.GarrisonStart)
-                    .Append("  들판 ").Append(s.InField).Append(" · 벽 앞 ").Append(s.AtWall)
+                    .Append("  들판 ").Append(sim.HidesDirections ? "?" : s.InField.ToString()).Append(" · 벽 앞 ").Append(s.AtWall)
                     .Append(" · 오름 ").Append(s.Climbing).Append(" · 위 ").Append(s.OnWall)
                     .Append("  더미 ").Append(s.MaxPile.ToString("0.0")).Append("m")
                     .Append("  [").Append(BattleSim.PriorityNames[(int)sim.PriorityOf(side)]).Append("]\n");

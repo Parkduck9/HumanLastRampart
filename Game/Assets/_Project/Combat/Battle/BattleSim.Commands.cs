@@ -254,7 +254,7 @@ namespace HumanLastRampart.Combat.Battle
             }
         }
 
-        bool BadHearing() => setup.Forecast.InitialWeather == Weather.Rain || setup.Forecast.TimeOfDay == TimeOfDay.Night;
+        bool BadHearing() => CurrentWeather == Weather.Rain || TimeOfDay == TimeOfDay.Night;   // 지금 날씨 기준
 
         int NearestFreeSoldier(int side, float along)
         {

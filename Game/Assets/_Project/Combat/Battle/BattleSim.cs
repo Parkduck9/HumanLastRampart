@@ -15,7 +15,8 @@ namespace HumanLastRampart.Combat.Battle
     // 프레임 순서: BeginFrame(메인 스레드: 지난 프레임 집계 반영·등장·승패) → Schedule(작업 예약) → Complete(그리기 전)
     // CY2-C2: 시체 더미 — 성벽 앞에서 죽은 적이 칸마다 쌓이고, 높아지면 밟고 올라온다 (Battle.md 3.3 B10)
     // CY2-C3: 성벽별 명령(표적 우선순위)·전령·소리 지르기 — BattleSim.Commands.cs
-    // 아직 없는 것: 날씨 효과, 대포 지도 조준·지도의 전체 명령, 마법, 함정
+    // CY2-C4: 날씨·밤낮 효과 — BattleSim.Weather.cs
+    // 아직 없는 것: 대포 지도 조준·지도의 전체 명령, 마법, 함정
     public sealed partial class BattleSim : IDisposable
     {
         public const float WallHeight = 4f;
@@ -191,6 +192,7 @@ namespace HumanLastRampart.Combat.Battle
             BuildWalls();
             BuildGridAndShots(p);
             InitCommands(p);
+            InitWeather();
         }
 
         // ── 준비 ──────────────────────────────────────────────
@@ -487,6 +489,7 @@ namespace HumanLastRampart.Combat.Battle
 
             RunPendingCommands();   // 작업이 끝난 지금 메뉴에서 고른 명령을 적용
             Elapsed += dt;
+            UpdateWeather();
             for (int side = 0; side < 4; side++)
             {
                 int b = side * SideStat.Count;
@@ -671,6 +674,8 @@ namespace HumanLastRampart.Combat.Battle
                 DeltaTime = dt,
                 RetryInterval = RetryInterval,
                 FrameSeed = seed ^ (frameNumber * 2654435761u),
+                IntervalMultiplier = IntervalMultiplier,
+                FarAccuracyMultiplier = FarAccuracyMultiplier,
             }.Schedule(soldierCount, 64, JobHandle.CombineDependencies(h, tallyJob));
 
             h = new AllocateShotsJob
@@ -739,7 +744,11 @@ namespace HumanLastRampart.Combat.Battle
                 AnimPhases = eAnim,
                 KindOf = eKind,
                 Kinds = kinds,
+                Sides = eSide,
                 Instances = enemyInstances,
+                CastleHalf = CastleHalf,
+                VisibleDistance = VisibleDistance,
+                Brightness = Brightness,
                 Time = time,
                 WalkFps = 6f,
                 AttackFps = 7f,
@@ -753,6 +762,7 @@ namespace HumanLastRampart.Combat.Battle
                 ShotWeapon = shotWeapon,
                 Weapons = weapons,
                 Instances = shotInstances,
+                Brightness = Brightness,
             }.Schedule(shotCapacity, 512, h);
 
             frameJob = JobHandle.CombineDependencies(enemyDraw, shotDraw);
@@ -776,7 +786,7 @@ namespace HumanLastRampart.Combat.Battle
                 soldierInstances[i] = new PerfLabInstance
                 {
                     PosFrame = new float4(sPos[i], 0f),
-                    TintSize = sAlive[i] != 0 ? new float4(0.3f, 0.5f, 0.95f, 1.4f) : float4.zero,
+                    TintSize = sAlive[i] != 0 ? new float4(new float3(0.3f, 0.5f, 0.95f) * Brightness, 1.4f) : float4.zero,
                 };
             }
         }

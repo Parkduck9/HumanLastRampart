@@ -28,6 +28,7 @@ namespace HumanLastRampart.Combat.Battle
         readonly GraphicsBuffer shotBuffer;
         readonly MaterialPropertyBlock shotBlock;
         readonly Renderer[] walls = new Renderer[4];
+        Light sunLight;
         Transform[] pileBlocks;          // 시체 더미 칸마다 상자 (높이가 생기면 만든다)
         Material pileMaterial;
         float nextPileRefresh;
@@ -120,7 +121,8 @@ namespace HumanLastRampart.Combat.Battle
             var sun = new GameObject("Sun", typeof(Light));
             sun.transform.SetParent(root.transform, false);
             sun.transform.rotation = Quaternion.Euler(50f, -30f, 0f);
-            sun.GetComponent<Light>().type = LightType.Directional;
+            sunLight = sun.GetComponent<Light>();
+            sunLight.type = LightType.Directional;
         }
 
         static void Tint(Renderer renderer, Color color)
@@ -168,6 +170,43 @@ namespace HumanLastRampart.Combat.Battle
                 float ratio = status.WallMaxHp > 0 ? Mathf.Clamp01((float)status.WallHp / status.WallMaxHp) : 1f;
                 walls[side].material.color = Color.Lerp(new Color(0.75f, 0.2f, 0.15f), new Color(0.72f, 0.7f, 0.66f), ratio);
             }
+        }
+
+        // 날씨·밤낮 연출 (CY2-C4): 하늘색·햇빛·안개. 화면 씬이 활성 씬이라 RenderSettings는 이 전투에만 쓰인다
+        public void ApplyAtmosphere(Camera camera, BattleSim battle)
+        {
+            bool night = battle.TimeOfDay == HumanLastRampart.Core.CombatContracts.TimeOfDay.Night;
+            Color sky;
+            float sunIntensity;
+            switch (battle.CurrentWeather)
+            {
+                case HumanLastRampart.Core.CombatContracts.Weather.Cloudy: sky = new Color(0.58f, 0.62f, 0.66f); sunIntensity = 0.7f; break;
+                case HumanLastRampart.Core.CombatContracts.Weather.Rain: sky = new Color(0.42f, 0.46f, 0.5f); sunIntensity = 0.5f; break;
+                case HumanLastRampart.Core.CombatContracts.Weather.Fog: sky = new Color(0.72f, 0.74f, 0.76f); sunIntensity = 0.6f; break;
+                default: sky = new Color(0.45f, 0.6f, 0.75f); sunIntensity = 1f; break;
+            }
+
+            if (night)
+            {
+                sky = Color.Lerp(sky, new Color(0.03f, 0.05f, 0.12f), 0.8f);
+                sunIntensity *= 0.25f;
+            }
+
+            camera.clearFlags = CameraClearFlags.SolidColor;
+            camera.backgroundColor = sky;
+            if (sunLight != null)
+            {
+                sunLight.intensity = sunIntensity;
+                sunLight.color = night ? new Color(0.6f, 0.7f, 1f) : Color.white;
+            }
+
+            RenderSettings.ambientLight = sky * (night ? 0.6f : 1f);
+            RenderSettings.fog = battle.LowVisibility || battle.IsRaining;
+            RenderSettings.fogMode = FogMode.Linear;
+            RenderSettings.fogColor = sky;
+            float visible = Mathf.Min(battle.VisibleDistance, battle.IsRaining ? 140f : 10000f);
+            RenderSettings.fogStartDistance = 8f;
+            RenderSettings.fogEndDistance = visible + 40f;
         }
 
         // 시체 더미: 성벽 앞 칸마다 높이만큼 어두운 상자 (그림은 이후 Codex 아트)

@@ -187,6 +187,12 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             sim.Complete();
+            if (sim.WeatherDirty)
+            {
+                view.ApplyAtmosphere(battleCamera, sim);
+                sim.WeatherDirty = false;
+            }
+
             view.Draw();
             hud?.Refresh(sim, rig, speed, paused);
         }
@@ -278,12 +284,9 @@ namespace HumanLastRampart.Combat.Battle
 
         static string Describe(BattleSetup setup)
         {
-            WeatherForecast f = setup.Forecast;
-            string change = f.Changes
-                ? $" → {f.ChangeAtSeconds:0}초에 {f.ChangedWeather}{(f.IsShower ? "(소나기)" : "")}"
-                : "";
-            return $"전투 {setup.BattleNumber} · {setup.TerrainId} · {setup.Difficulty} (적 ×{setup.EnemyCountMultiplier:0.##})\n" +
-                   $"날씨 {f.InitialWeather} · {f.TimeOfDay}{change}  (날씨 효과는 다음 바퀴)";
+            // 날씨가 언제 바뀌는지는 보여 주지 않는다 (전투 중 무작위 변화, Battle.md 6장)
+            string difficulty = setup.Difficulty == Difficulty.Easy ? "쉬움" : "현실";
+            return $"전투 {setup.BattleNumber} · {setup.TerrainId} · {difficulty} (적 ×{setup.EnemyCountMultiplier:0.##})";
         }
     }
 }
