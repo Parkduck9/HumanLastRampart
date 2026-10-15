@@ -282,11 +282,14 @@ namespace HumanLastRampart.Combat.Battle
                 }
 
                 // 성벽 바깥쪽으로 4m 띄워 성을 덮지 않게. 글자는 짧게(궁10) — 묶음끼리 4~5m 간격이라 길면 겹친다
+                // 같은 성벽 묶음은 성벽 따라 순서대로 바깥 4m·안쪽 마당 5m 번갈아 — 북·남쪽은 글자가 가로로 붙어 겹쳤고,
+                // 바깥 8m로 두 줄을 쌓으면 남쪽 줄이 아래 마법 창에 가렸다
                 Vector3 world = new Vector3(info.Center.x, info.Center.y, info.Center.z);
                 if (info.Side >= 0)
                 {
                     Unity.Mathematics.float3 n = WallGeometry.Outward(info.Side);
-                    world += new Vector3(n.x, 0f, n.z) * 4f;
+                    float lift = MarkerRow(sim, g, info) % 2 == 0 ? 4f : -5f;
+                    world += new Vector3(n.x, 0f, n.z) * lift;
                 }
 
                 Vector3 screen = camera.WorldToScreenPoint(world);
@@ -305,6 +308,23 @@ namespace HumanLastRampart.Combat.Battle
 
             for (int i = used; i < groupMarkers.Count; i++) groupMarkers[i].gameObject.SetActive(false);
             ShowGroupPopup(sim, selected, dragScreen.HasValue);
+        }
+
+        // 같은 성벽에 선 옮길 수 있는 묶음 중 성벽 따라(오른쪽 방향) 몇 번째인지 — 번갈아 띄우기용
+        static int MarkerRow(BattleSim sim, int group, BattleSim.GroupInfo info)
+        {
+            Unity.Mathematics.float3 r = WallGeometry.Right(info.Side);
+            float mine = Unity.Mathematics.math.dot(info.Center, r);
+            int order = 0;
+            for (int g = 0; g < sim.GroupCount; g++)
+            {
+                if (g == group) continue;
+                BattleSim.GroupInfo other = sim.GetGroup(g);
+                if (!other.Movable || other.Alive <= 0 || other.Side != info.Side || other.Moving) continue;
+                if (Unity.Mathematics.math.dot(other.Center, r) < mine) order++;
+            }
+
+            return order;
         }
 
         // 화면 화소 위치 가까이(28화소)의 묶음 번호, 없으면 -1
