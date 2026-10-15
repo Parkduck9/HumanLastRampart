@@ -1,0 +1,262 @@
+{
+  "card": "K-012",
+  "checks": [
+    {
+      "name": "magic_burst 투명 배경 존재",
+      "passed": true
+    },
+    {
+      "name": "magic_burst 효과 내용 존재",
+      "passed": true
+    },
+    {
+      "name": "magic_burst 가로6칸 공백 분리",
+      "passed": true
+    },
+    {
+      "name": "magic_burst 최종 규격",
+      "passed": true
+    },
+    {
+      "name": "magic_burst 프레임6개 서로 다름",
+      "passed": true
+    },
+    {
+      "name": "magic_burst 모든 프레임 비어있지 않음",
+      "passed": true
+    },
+    {
+      "name": "magic_burst 위/좌우 여유",
+      "passed": true
+    },
+    {
+      "name": "fire_field 투명 배경 존재",
+      "passed": true
+    },
+    {
+      "name": "fire_field 효과 내용 존재",
+      "passed": true
+    },
+    {
+      "name": "fire_field 가로6칸 공백 분리",
+      "passed": true
+    },
+    {
+      "name": "fire_field 최종 규격",
+      "passed": true
+    },
+    {
+      "name": "fire_field 프레임6개 서로 다름",
+      "passed": true
+    },
+    {
+      "name": "fire_field 모든 프레임 비어있지 않음",
+      "passed": true
+    },
+    {
+      "name": "fire_field 위/좌우 여유",
+      "passed": true
+    },
+    {
+      "name": "trap_burst 투명 배경 존재",
+      "passed": true
+    },
+    {
+      "name": "trap_burst 효과 내용 존재",
+      "passed": true
+    },
+    {
+      "name": "trap_burst 가로6칸 공백 분리",
+      "passed": true
+    },
+    {
+      "name": "trap_burst 최종 규격",
+      "passed": true
+    },
+    {
+      "name": "trap_burst 프레임6개 서로 다름",
+      "passed": true
+    },
+    {
+      "name": "trap_burst 모든 프레임 비어있지 않음",
+      "passed": true
+    },
+    {
+      "name": "trap_burst 위/좌우 여유",
+      "passed": true
+    },
+    {
+      "name": "arrow_hit 투명 배경 존재",
+      "passed": true
+    },
+    {
+      "name": "arrow_hit 효과 내용 존재",
+      "passed": true
+    },
+    {
+      "name": "arrow_hit 가로6칸 공백 분리",
+      "passed": true
+    },
+    {
+      "name": "arrow_hit 최종 규격",
+      "passed": true
+    },
+    {
+      "name": "arrow_hit 프레임6개 서로 다름",
+      "passed": true
+    },
+    {
+      "name": "arrow_hit 모든 프레임 비어있지 않음",
+      "passed": true
+    },
+    {
+      "name": "arrow_hit 위/좌우 여유",
+      "passed": true
+    },
+    {
+      "name": "bullet_hit 투명 배경 존재",
+      "passed": true
+    },
+    {
+      "name": "bullet_hit 효과 내용 존재",
+      "passed": true
+    },
+    {
+      "name": "bullet_hit 가로6칸 공백 분리",
+      "passed": true
+    },
+    {
+      "name": "bullet_hit 최종 규격",
+      "passed": true
+    },
+    {
+      "name": "bullet_hit 프레임6개 서로 다름",
+      "passed": true
+    },
+    {
+      "name": "bullet_hit 모든 프레임 비어있지 않음",
+      "passed": true
+    },
+    {
+      "name": "bullet_hit 위/좌우 여유",
+      "passed": true
+    },
+    {
+      "name": "torch_flame 투명 배경 존재",
+      "passed": true
+    },
+    {
+      "name": "torch_flame 효과 내용 존재",
+      "passed": true
+    },
+    {
+      "name": "torch_flame 가로6칸 공백 분리",
+      "passed": true
+    },
+    {
+      "name": "torch_flame 최종 규격",
+      "passed": true
+    },
+    {
+      "name": "torch_flame 프레임6개 서로 다름",
+      "passed": true
+    },
+    {
+      "name": "torch_flame 모든 프레임 비어있지 않음",
+      "passed": true
+    },
+    {
+      "name": "torch_flame 위/좌우 여유",
+      "passed": true
+    },
+    {
+      "name": "독립 HTML 사본일치",
+      "passed": true
+    },
+    {
+      "name": "README 원문 내장",
+      "passed": true
+    },
+    {
+      "name": "PNG6종 데이터 내장",
+      "passed": true
+    },
+    {
+      "name": "외부 리소스 없음",
+      "passed": true
+    },
+    {
+      "name": "HTML JavaScript 구문",
+      "passed": true
+    },
+    {
+      "name": "플레이어 자동동작 검사",
+      "passed": true
+    },
+    {
+      "name": "재생 시 프레임 자동 진행",
+      "passed": true
+    },
+    {
+      "name": "정지 시 프레임 유지",
+      "passed": true
+    },
+    {
+      "name": "다음 칸 수동 이동",
+      "passed": true
+    },
+    {
+      "name": "이전 칸 되돌리기",
+      "passed": true
+    },
+    {
+      "name": "재생 재개",
+      "passed": true
+    },
+    {
+      "name": "효과0 전환 시 첫칸",
+      "passed": true
+    },
+    {
+      "name": "효과1 전환 시 첫칸",
+      "passed": true
+    },
+    {
+      "name": "효과2 전환 시 첫칸",
+      "passed": true
+    },
+    {
+      "name": "효과3 전환 시 첫칸",
+      "passed": true
+    },
+    {
+      "name": "효과4 전환 시 첫칸",
+      "passed": true
+    },
+    {
+      "name": "효과5 전환 시 첫칸",
+      "passed": true
+    },
+    {
+      "name": "한번 재생 마지막칸 정지",
+      "passed": true
+    },
+    {
+      "name": "속도 표시 갱신",
+      "passed": true
+    },
+    {
+      "name": "밝은 배경 전환",
+      "passed": true
+    },
+    {
+      "name": "확대 전환",
+      "passed": true
+    }
+  ],
+  "count": 63,
+  "result": "passed",
+  "browserQA": "미수행: 부모 추가확인 예정",
+  "unityQA": "미수행",
+  "visualQA": "원안/최종 시트 직접 확인은 CARD_RESULT 참고"
+}

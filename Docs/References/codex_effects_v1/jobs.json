@@ -1,0 +1,74 @@
+[
+  {
+    "id": "magic_burst",
+    "title": "마법 폭발",
+    "loop": false,
+    "prompt": "Create a STRICT hard-pixel 16-bit videogame sprite sheet of a blue magical impact explosion, six DIFFERENT sequential frames in ONE horizontal row. Transparent PNG1536x1024, six equal256px columns, all artwork centered vertically on row y512. Flat EIGHT-COLOR sprite palette only: navy outline, purple, blue, cyan and white. Solid opaque square pixels with hard stair-step edges and deliberate dark navy outlines around the effect. No gradients of any kind, no atmospheric or diffuse light halo, no translucent haze, no bloom. Everything outside the discrete pixel shapes must be alpha0. Frame1 small navy/cyan spark,2 expanding purpleblast,3 large cyan sharpburst,4 fragmentedbluearc,5 scatteredsmallbluespecks,6 finalfewpixels. Same baseliney640. Entireartfitsinsideeach256column leaving24px padding. Do not fill background black. This is unlit sprite art, NOT an emissive render. Do not draw shadows, texts, characters, grid, floor. Each frame visibly DIFFERENT; preserve peak growth and decay.",
+    "tool": "built-in imagegen",
+    "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-99240622-367f-4f46-bf99-5712b772ab29.png",
+    "targetMaxExtent": 232,
+    "styleReferenceNote": "기존 주인공 도트 굵기 직접 확인. 채택된 재생성에는 참조 이미지 없이 제한색/도트 외곽선 프롬프트 사용.",
+    "rejectedInitialSource": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-f75bf597-22cb-4a3a-b5f3-1f394e021493.png",
+    "rejectedReason": "첫 원안은 부드러운 빛 번짐이 강해 제외. 원안 편집보다 새 제한색 원안을 채택."
+  },
+  {
+    "id": "fire_field",
+    "title": "불바다",
+    "loop": true,
+    "prompt": "Create a STRICT hard-pixel 16-bit videogame sprite sheet, exactly SIX DIFFERENT sequential frames in ONE horizontal row. Actual transparent PNG, panoramic3:1 canvas, six cells equally spaced with generous completely empty transparent gaps between objects. A LOW WIDE carpet of fire in six different seamless-loop poses. Palette: opaque dark maroon outline, darkred, orange, yellow, ivory. Flame tongues shift left/right, same broad ground footprint, sixth flows back to first. Every shape consists of solid opaque square pixels with hard stair-step edges and deliberate dark outlines. NO gradients of any kind, NO atmospheric or diffuse light halo, NO translucent haze, NO bloom, NO light rays. Everything outside discrete pixel shapes is ALPHA ZERO. Same common scale and baseline across all6frames. Keep every particle well inside its cell. Do not draw black background, shadows, text, labels, grid, ground, objects, character. This is unlit flat-color sprite art, NOT an emissive render. Six poses must differ visibly. Entire effect fully visible in every frame with generous margins.",
+    "tool": "built-in imagegen",
+    "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-e8a385cb-84cc-454d-b851-af43650b0b69.png",
+    "targetMaxExtent": 232,
+    "styleReferenceNote": "기존 주인공 도트 굵기 직접 확인. 채택된 재생성에는 참조 이미지 없이 제한색/도트 외곽선 프롬프트 사용.",
+    "rejectedInitialSource": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-2bdb54fb-45a7-4bda-8230-769ac3d4da79.png",
+    "rejectedReason": "첫 원안은 부드러운 빛 번짐이 강해 제외. 원안 편집보다 새 제한색 원안을 채택."
+  },
+  {
+    "id": "trap_burst",
+    "title": "함정 폭발",
+    "loop": false,
+    "prompt": "Create a STRICT hard-pixel 16-bit videogame sprite sheet, exactly SIX DIFFERENT sequential frames in ONE horizontal row. Actual transparent PNG, panoramic3:1 canvas, six cells equally spaced with generous completely empty transparent gaps between objects. Ground trap blast sequence: small gold ignition, rising orange plume, large orange/brown debris burst, breaking angular gray-brown dust cloud, falling tiny chips, last few dust dots. Opaque flat darkbrown outline, brown, gray, orange, yellow, ivory palette. Every shape consists of solid opaque square pixels with hard stair-step edges and deliberate dark outlines. NO gradients of any kind, NO atmospheric or diffuse light halo, NO translucent haze, NO bloom, NO light rays. Everything outside discrete pixel shapes is ALPHA ZERO. Same common scale and baseline across all6frames. Keep every particle well inside its cell. Do not draw black background, shadows, text, labels, grid, ground, objects, character. This is unlit flat-color sprite art, NOT an emissive render. Six poses must differ visibly. Entire effect fully visible in every frame with generous margins.",
+    "tool": "built-in imagegen",
+    "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-485ed9fa-6208-4322-9a14-4da4b77e6946.png",
+    "targetMaxExtent": 232,
+    "styleReferenceNote": "기존 주인공 도트 굵기 직접 확인. 채택된 재생성에는 참조 이미지 없이 제한색/도트 외곽선 프롬프트 사용.",
+    "rejectedInitialSource": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-e34fa40e-2771-43b2-b936-bf8be32c437f.png",
+    "rejectedReason": "첫 원안은 부드러운 빛 번짐이 강해 제외. 원안 편집보다 새 제한색 원안을 채택."
+  },
+  {
+    "id": "arrow_hit",
+    "title": "화살 명중 불꽃",
+    "loop": false,
+    "prompt": "Create a STRICT hard-pixel 16-bit videogame sprite sheet, exactly SIX DIFFERENT sequential frames in ONE horizontal row. Actual transparent PNG, panoramic3:1 canvas, six cells equally spaced with generous completely empty transparent gaps between objects. TINY arrow hit spark sequence, no arrow drawn: pinpoint, short ivory-gold star, tan chips flying, separated tan splinters, few specks, last speck. Flat opaque darkbrown outline/ochre/tan/ivory pixels. Much smaller than256px cells, peak about70px. Every shape consists of solid opaque square pixels with hard stair-step edges and deliberate dark outlines. NO gradients of any kind, NO atmospheric or diffuse light halo, NO translucent haze, NO bloom, NO light rays. Everything outside discrete pixel shapes is ALPHA ZERO. Same common scale and baseline across all6frames. Keep every particle well inside its cell. Do not draw black background, shadows, text, labels, grid, ground, objects, character. This is unlit flat-color sprite art, NOT an emissive render. Six poses must differ visibly. Entire effect fully visible in every frame with generous margins.",
+    "tool": "built-in imagegen",
+    "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-7dc749cb-89fe-4834-8fd4-45bf75981e81.png",
+    "targetMaxExtent": 80,
+    "styleReferenceNote": "기존 주인공 도트 굵기 직접 확인. 채택된 재생성에는 참조 이미지 없이 제한색/도트 외곽선 프롬프트 사용.",
+    "rejectedInitialSource": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-33aea0c1-80af-4d49-ba29-2034c1edb60f.png",
+    "rejectedReason": "첫 원안은 부드러운 빛 번짐이 강해 제외. 원안 편집보다 새 제한색 원안을 채택."
+  },
+  {
+    "id": "bullet_hit",
+    "title": "총알 명중 불꽃",
+    "loop": false,
+    "prompt": "Create a STRICT hard-pixel 16-bit videogame sprite sheet, exactly SIX DIFFERENT sequential frames in ONE horizontal row. Actual transparent PNG, panoramic3:1 canvas, six cells equally spaced with generous completely empty transparent gaps between objects. TINY musket bullet hit spark sequence, no gun: pinpoint, white/gold sharpstar, gold sparks and small angular gray puff, scattered sparks and gray chunks, tiny dim orange specks, finalgraydot. Opaque charcoal outline,gray,gold,ivory palette. Peak about85px. Every shape consists of solid opaque square pixels with hard stair-step edges and deliberate dark outlines. NO gradients of any kind, NO atmospheric or diffuse light halo, NO translucent haze, NO bloom, NO light rays. Everything outside discrete pixel shapes is ALPHA ZERO. Same common scale and baseline across all6frames. Keep every particle well inside its cell. Do not draw black background, shadows, text, labels, grid, ground, objects, character. This is unlit flat-color sprite art, NOT an emissive render. Six poses must differ visibly. Entire effect fully visible in every frame with generous margins.",
+    "tool": "built-in imagegen",
+    "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-0a3230d2-b118-4bef-9c45-eba80ccad3ba.png",
+    "targetMaxExtent": 96,
+    "styleReferenceNote": "기존 주인공 도트 굵기 직접 확인. 채택된 재생성에는 참조 이미지 없이 제한색/도트 외곽선 프롬프트 사용.",
+    "rejectedInitialSource": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-4b1dbce7-e251-40b7-a463-b2030383b01a.png",
+    "rejectedReason": "첫 원안은 부드러운 빛 번짐이 강해 제외. 원안 편집보다 새 제한색 원안을 채택."
+  },
+  {
+    "id": "torch_flame",
+    "title": "성벽 횃불 불꽃",
+    "loop": true,
+    "prompt": "Create a STRICT hard-pixel 16-bit videogame sprite sheet, exactly SIX DIFFERENT sequential frames in ONE horizontal row. Actual transparent PNG, panoramic3:1 canvas, six cells equally spaced with generous completely empty transparent gaps between objects. ONE upright torch FLAME ONLY in six different seamless-loop poses. No wooden handle or sconce. Flat opaque dark maroon outline,red,orange,yellow,ivory. Narrow curved tongues sway mildly with a few square embers, same base, sixth pose flows to first. Every shape consists of solid opaque square pixels with hard stair-step edges and deliberate dark outlines. NO gradients of any kind, NO atmospheric or diffuse light halo, NO translucent haze, NO bloom, NO light rays. Everything outside discrete pixel shapes is ALPHA ZERO. Same common scale and baseline across all6frames. Keep every particle well inside its cell. Do not draw black background, shadows, text, labels, grid, ground, objects, character. This is unlit flat-color sprite art, NOT an emissive render. Six poses must differ visibly. Entire effect fully visible in every frame with generous margins.",
+    "tool": "built-in imagegen",
+    "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-022ca5d3-21cd-4f78-b7de-167454df1015.png",
+    "targetMaxExtent": 180,
+    "styleReferenceNote": "기존 주인공 도트 굵기 직접 확인. 채택된 재생성에는 참조 이미지 없이 제한색/도트 외곽선 프롬프트 사용.",
+    "rejectedInitialSource": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-ab0c70c3-8915-4c2e-8f73-d7f641833c52.png",
+    "rejectedReason": "첫 원안은 부드러운 빛 번짐이 강해 제외. 원안 편집보다 새 제한색 원안을 채택."
+  }
+]
