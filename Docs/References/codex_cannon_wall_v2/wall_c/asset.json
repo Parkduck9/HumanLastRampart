@@ -1,0 +1,34 @@
+{
+  "id": "wall_c",
+  "label": "C 두꺼운 요새벽",
+  "size": [
+    1024,
+    512
+  ],
+  "columns": 1,
+  "rows": 1,
+  "frames": 1,
+  "fps": 0,
+  "pivotTopLeft": [
+    512,
+    394
+  ],
+  "packedRect": [
+    16,
+    117,
+    992,
+    277
+  ],
+  "sourceRect": [
+    1,
+    66,
+    2172,
+    672
+  ],
+  "sourceSha256": "84c28c1c93e3a78d7f220e1724a827e874b745a1297bc743cd12852cd4d3d443",
+  "packedSha256": "8eb71821d37e06d7a9aa9c8387f8942796c917ecbd8e77264e8b710b25fcb40c",
+  "demoMuzzle": null,
+  "demoMuzzleVerified": false,
+  "status": "user-review",
+  "unityPlayVerified": false
+}

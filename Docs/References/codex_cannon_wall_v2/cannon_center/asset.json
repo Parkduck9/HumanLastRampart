@@ -1,0 +1,37 @@
+{
+  "id": "cannon_center",
+  "label": "대포 중앙 조준",
+  "size": [
+    512,
+    384
+  ],
+  "columns": 1,
+  "rows": 1,
+  "frames": 1,
+  "fps": 0,
+  "pivotTopLeft": [
+    256,
+    352
+  ],
+  "packedRect": [
+    83,
+    32,
+    345,
+    320
+  ],
+  "sourceRect": [
+    147,
+    97,
+    1204,
+    1078
+  ],
+  "sourceSha256": "3ddb7572aec0da35b3f25ceb8b81636dd51c871a9b7e3e315ef7495ded325c70",
+  "packedSha256": "97024d21e99ba7a72952d55f6cefa08cd497f49b8ac013e1ca811025508a446c",
+  "demoMuzzle": [
+    256,
+    55
+  ],
+  "demoMuzzleVerified": false,
+  "status": "user-review",
+  "unityPlayVerified": false
+}

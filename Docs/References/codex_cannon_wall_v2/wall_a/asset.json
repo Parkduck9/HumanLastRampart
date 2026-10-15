@@ -1,0 +1,34 @@
+{
+  "id": "wall_a",
+  "label": "A 큰 사각석",
+  "size": [
+    1024,
+    512
+  ],
+  "columns": 1,
+  "rows": 1,
+  "frames": 1,
+  "fps": 0,
+  "pivotTopLeft": [
+    512,
+    394
+  ],
+  "packedRect": [
+    16,
+    118,
+    992,
+    276
+  ],
+  "sourceRect": [
+    13,
+    60,
+    2167,
+    660
+  ],
+  "sourceSha256": "7b8a52ffd48e2472d4a60a44bb86c6e77c63928753ed07f2f4aef74a03488b78",
+  "packedSha256": "28d8a5cb07975c7dc2558b99865d0707eba4e2ed3f5b8ac52201d01905dae1b3",
+  "demoMuzzle": null,
+  "demoMuzzleVerified": false,
+  "status": "user-review",
+  "unityPlayVerified": false
+}

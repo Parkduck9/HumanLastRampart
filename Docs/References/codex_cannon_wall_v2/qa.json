@@ -1,0 +1,34 @@
+{
+  "status": "PASS",
+  "newStaticAssets": 6,
+  "threeDirectionSheet": [
+    1536,
+    384
+  ],
+  "rgba": true,
+  "noPackedClipping": true,
+  "nearestOnly": true,
+  "unityPlayVerified": false,
+  "gameConnected": false,
+  "jsSyntax": true,
+  "embeddedAssetBytesExact": true,
+  "sourceBytesExact": true,
+  "sheetCellsExact": true,
+  "externalRequests": false,
+  "htmlCopiesExact": true,
+  "browserQa": {
+    "cards": 6,
+    "imagesLoaded": 6,
+    "installationAimCombinations": 9,
+    "shots": 9,
+    "shotExpiry": true,
+    "autoAim": true,
+    "wallSwitches": 3,
+    "wallApplyButton": true,
+    "reset": true,
+    "consoleErrors": 0,
+    "horizontalOverflow": false,
+    "screenshot": "browser_review.png",
+    "fileSchemeTested": false
+  }
+}

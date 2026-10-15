@@ -1,0 +1,251 @@
+{
+  "items": [
+    {
+      "id": "cannon_left",
+      "label": "대포 왼쪽 조준",
+      "size": [
+        512,
+        384
+      ],
+      "columns": 1,
+      "rows": 1,
+      "frames": 1,
+      "fps": 0,
+      "pivotTopLeft": [
+        256,
+        352
+      ],
+      "packedRect": [
+        95,
+        32,
+        321,
+        320
+      ],
+      "sourceRect": [
+        196,
+        114,
+        1160,
+        1074
+      ],
+      "sourceSha256": "1e43e44ea1be705a9c326372694cf4856ed14eadca9ac3d3fccb2c7acec48b5f",
+      "packedSha256": "2cd841fd331e7252e55c419358c867abfce9442c4310a1dbd4fceebe8623202e",
+      "demoMuzzle": [
+        155,
+        55
+      ],
+      "demoMuzzleVerified": false,
+      "status": "user-review",
+      "unityPlayVerified": false
+    },
+    {
+      "id": "cannon_center",
+      "label": "대포 중앙 조준",
+      "size": [
+        512,
+        384
+      ],
+      "columns": 1,
+      "rows": 1,
+      "frames": 1,
+      "fps": 0,
+      "pivotTopLeft": [
+        256,
+        352
+      ],
+      "packedRect": [
+        83,
+        32,
+        345,
+        320
+      ],
+      "sourceRect": [
+        147,
+        97,
+        1204,
+        1078
+      ],
+      "sourceSha256": "3ddb7572aec0da35b3f25ceb8b81636dd51c871a9b7e3e315ef7495ded325c70",
+      "packedSha256": "97024d21e99ba7a72952d55f6cefa08cd497f49b8ac013e1ca811025508a446c",
+      "demoMuzzle": [
+        256,
+        55
+      ],
+      "demoMuzzleVerified": false,
+      "status": "user-review",
+      "unityPlayVerified": false
+    },
+    {
+      "id": "cannon_right",
+      "label": "대포 오른쪽 조준",
+      "size": [
+        512,
+        384
+      ],
+      "columns": 1,
+      "rows": 1,
+      "frames": 1,
+      "fps": 0,
+      "pivotTopLeft": [
+        256,
+        352
+      ],
+      "packedRect": [
+        87,
+        32,
+        338,
+        320
+      ],
+      "sourceRect": [
+        174,
+        106,
+        1211,
+        1087
+      ],
+      "sourceSha256": "efd14ec685fb7547e03bfa0eed02d39dac55c277d058703ef79d0eeb934441bf",
+      "packedSha256": "067acdc136bb40ea6e28bb071840653c14639fbc275fad2b58a9f938d75ac166",
+      "demoMuzzle": [
+        365,
+        55
+      ],
+      "demoMuzzleVerified": false,
+      "status": "user-review",
+      "unityPlayVerified": false
+    },
+    {
+      "id": "wall_a",
+      "label": "A 큰 사각석",
+      "size": [
+        1024,
+        512
+      ],
+      "columns": 1,
+      "rows": 1,
+      "frames": 1,
+      "fps": 0,
+      "pivotTopLeft": [
+        512,
+        394
+      ],
+      "packedRect": [
+        16,
+        118,
+        992,
+        276
+      ],
+      "sourceRect": [
+        13,
+        60,
+        2167,
+        660
+      ],
+      "sourceSha256": "7b8a52ffd48e2472d4a60a44bb86c6e77c63928753ed07f2f4aef74a03488b78",
+      "packedSha256": "28d8a5cb07975c7dc2558b99865d0707eba4e2ed3f5b8ac52201d01905dae1b3",
+      "demoMuzzle": null,
+      "demoMuzzleVerified": false,
+      "status": "user-review",
+      "unityPlayVerified": false
+    },
+    {
+      "id": "wall_b",
+      "label": "B 거친 거석",
+      "size": [
+        1024,
+        512
+      ],
+      "columns": 1,
+      "rows": 1,
+      "frames": 1,
+      "fps": 0,
+      "pivotTopLeft": [
+        512,
+        400
+      ],
+      "packedRect": [
+        16,
+        112,
+        992,
+        288
+      ],
+      "sourceRect": [
+        11,
+        49,
+        2165,
+        675
+      ],
+      "sourceSha256": "381e250f5dcc1502506dc563f0f1c40760db9a50ada6bc61408bff58659f0f64",
+      "packedSha256": "315810ab5c71f8f905a226cce5f0a4f3a8a2fda3347c002381f96b30877c3eb1",
+      "demoMuzzle": null,
+      "demoMuzzleVerified": false,
+      "status": "user-review",
+      "unityPlayVerified": false
+    },
+    {
+      "id": "wall_c",
+      "label": "C 두꺼운 요새벽",
+      "size": [
+        1024,
+        512
+      ],
+      "columns": 1,
+      "rows": 1,
+      "frames": 1,
+      "fps": 0,
+      "pivotTopLeft": [
+        512,
+        394
+      ],
+      "packedRect": [
+        16,
+        117,
+        992,
+        277
+      ],
+      "sourceRect": [
+        1,
+        66,
+        2172,
+        672
+      ],
+      "sourceSha256": "84c28c1c93e3a78d7f220e1724a827e874b745a1297bc743cd12852cd4d3d443",
+      "packedSha256": "8eb71821d37e06d7a9aa9c8387f8942796c917ecbd8e77264e8b710b25fcb40c",
+      "demoMuzzle": null,
+      "demoMuzzleVerified": false,
+      "status": "user-review",
+      "unityPlayVerified": false
+    }
+  ],
+  "directionSheet": {
+    "columns": 3,
+    "rows": 1,
+    "cell": [
+      512,
+      384
+    ],
+    "pivotTopLeft": [
+      256,
+      352
+    ],
+    "directions": [
+      "left",
+      "center",
+      "right"
+    ],
+    "framesAreDirections": true,
+    "animationFps": 0,
+    "demoMuzzles": [
+      [
+        155,
+        55
+      ],
+      [
+        256,
+        55
+      ],
+      [
+        365,
+        55
+      ]
+    ],
+    "gameConnected": false
+  }
+}
