@@ -1,0 +1,79 @@
+﻿[
+    {
+        "file":  "command_band_hover.png",
+        "width":  380,
+        "height":  48,
+        "alphaMin":  0,
+        "alphaMax":  255
+    },
+    {
+        "file":  "command_band_normal.png",
+        "width":  380,
+        "height":  48,
+        "alphaMin":  0,
+        "alphaMax":  255
+    },
+    {
+        "file":  "command_circle.png",
+        "width":  34,
+        "height":  34,
+        "alphaMin":  0,
+        "alphaMax":  255
+    },
+    {
+        "file":  "command_line.png",
+        "width":  3,
+        "height":  360,
+        "alphaMin":  0,
+        "alphaMax":  247
+    },
+    {
+        "file":  "command_number_1.png",
+        "width":  34,
+        "height":  34,
+        "alphaMin":  0,
+        "alphaMax":  255
+    },
+    {
+        "file":  "command_number_2.png",
+        "width":  34,
+        "height":  34,
+        "alphaMin":  0,
+        "alphaMax":  255
+    },
+    {
+        "file":  "command_number_3.png",
+        "width":  34,
+        "height":  34,
+        "alphaMin":  0,
+        "alphaMax":  255
+    },
+    {
+        "file":  "command_number_4.png",
+        "width":  34,
+        "height":  34,
+        "alphaMin":  0,
+        "alphaMax":  255
+    },
+    {
+        "file":  "command_number_5.png",
+        "width":  34,
+        "height":  34,
+        "alphaMin":  0,
+        "alphaMax":  255
+    },
+    {
+        "file":  "command_number_6.png",
+        "width":  34,
+        "height":  34,
+        "alphaMin":  0,
+        "alphaMax":  255
+    },
+    {
+        "file":  "command_underline.png",
+        "width":  320,
+        "height":  8,
+        "alphaMin":  0,
+        "alphaMax":  253
+    }
+]
