@@ -1,0 +1,32 @@
+{
+  "status": "PASS",
+  "materials": 9,
+  "mapPairs": 9,
+  "pixelsPerMeter": 32,
+  "exactOppositeAlbedoEdges": true,
+  "exactOppositeNormalEdges": true,
+  "normalVectors": true,
+  "sourceArtwork": "AI reference + technical mirrored tiling export, not seamless hand-painted original",
+  "unityPlayVerified": false,
+  "browser": {
+    "status": "PASS",
+    "consoleErrors": 0,
+    "horizontalOverflow": false,
+    "lightAzimuthAndElevation": true,
+    "flatComparison": true,
+    "materialsVisited": 9,
+    "repeatsTested": [
+      2,
+      3
+    ],
+    "sizesAndMetadata": true,
+    "screenshots": [
+      "browser_stone.png",
+      "browser_grass.png"
+    ]
+  },
+  "standaloneHtmlCopiesExact": true,
+  "jsSyntax": true,
+  "noExternalAssets": true,
+  "fileSchemeTested": false
+}

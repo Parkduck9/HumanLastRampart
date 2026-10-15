@@ -1,0 +1,31 @@
+{
+  "id": "hill_grass",
+  "label": "언덕 풀",
+  "albedo": "hill_grass/albedo.png",
+  "normal": "hill_grass/normal.png",
+  "size": [
+    256,
+    256
+  ],
+  "worldMeters": [
+    8,
+    8
+  ],
+  "pixelsPerMeter": 32,
+  "source": "hill_grass_source.png",
+  "sourceSha256": "0b142f63676cf306881b9908cf2a8ac07202319c12006568425e977354c718ba",
+  "albedoSha256": "2b5880acaa961cc6d112183d4263f7410c5abc25152f2ae9441d136de70bec4f",
+  "normalSha256": "8d3f59f9647536e0f0d2df8fc53b438a87b97eab65c1d672949f160881154403",
+  "normalSpace": "tangent OpenGL Y+",
+  "normalStrength": 0.55,
+  "normalMaxUnitError": 0.005719896677428116,
+  "wrap": "Repeat",
+  "filter": "Point",
+  "seamMethod": "mirrored periodization of AI material quarter; reflected normal XY corrected; reflection-axis tangent=0",
+  "edgesExact": true,
+  "normalEdgesExact": true,
+  "albedoColorSpace": "sRGB",
+  "normalColorSpace": "Linear",
+  "status": "reference-sample-user-review-pending",
+  "unityPlayVerified": false
+}

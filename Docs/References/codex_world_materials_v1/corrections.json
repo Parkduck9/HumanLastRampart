@@ -1,0 +1,20 @@
+{
+  "reason": "난간 전체 형상 제거, 표면 전용 원안으로 재생성",
+  "requests": [
+    {
+      "id": "walkway_stone",
+      "prompt": "Square pixel-art technical material sheet, exactly 2x2 equal quadrants with no gutters or labels. Upper two quadrants identical seamless repeating ALBEDO tiles; lower two quadrants identical corresponding OpenGL Y+ tangent-space NORMAL maps pixel-aligned to above albedo. Neutral flat blue normals with subtle bevels. Unlit diffuse albedo with no baked highlights or shadows, neutral diffuse color. All edges repeat seamlessly. Coarse native pixel clusters appropriate final128px swatches, restrained contrast and limited palette, no photorealistic grain. NO reference architecture, only material. A TOP-DOWN FLAT FLOOR MATERIAL of worn irregular rectangular gray stone paving slabs, haphazard staggered joints like a courtyard floor. Equal-scale paving over whole tile, no wall face, no masonry elevation, no building. Muted gray beige limestone matching fortress stone.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-5c8d784a-1eae-4b4f-be4c-63bb491341d2.png"
+    },
+    {
+      "id": "parapet_top",
+      "prompt": "Square pixel-art technical material sheet, exactly 2x2 equal quadrants with no gutters or labels. Upper two quadrants identical seamless repeating ALBEDO tiles; lower two quadrants identical corresponding OpenGL Y+ tangent-space NORMAL maps pixel-aligned to above albedo. Neutral flat blue normals with subtle bevels. Unlit diffuse albedo with no baked highlights or shadows, neutral diffuse color. All edges repeat seamlessly. Coarse native pixel clusters appropriate final128px swatches, restrained contrast and limited palette, no photorealistic grain. NO reference architecture, only material. A TOP-DOWN FLAT STONE COPING SURFACE MATERIAL. Broad gray-beige flat limestone paving slabs seen straight down, shallow narrow joints, subtle chipped edges, wear. ONLY surface material covering entire square. ABSOLUTELY no crenellations, battlements, silhouette, parapet shape, architecture, walls, ledges, empty sky, black void or perspective.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-7509d5a3-8c76-4fab-b0ed-f3eac8707182.png"
+    },
+    {
+      "id": "parapet_side",
+      "prompt": "Square pixel-art technical material sheet, exactly 2x2 equal quadrants with no gutters or labels. Upper two quadrants identical seamless repeating ALBEDO tiles; lower two quadrants identical corresponding OpenGL Y+ tangent-space NORMAL maps pixel-aligned to above albedo. Neutral flat blue normals with subtle bevels. Unlit diffuse albedo with no baked highlights or shadows, neutral diffuse color. All edges repeat seamlessly. Coarse native pixel clusters appropriate final128px swatches, restrained contrast and limited palette, no photorealistic grain. NO reference architecture, only material. A FLAT VERTICAL MASONRY SURFACE MATERIAL: small gray-beige rectangular limestone blocks and shallow mortar joints, exactly straight-on. ONLY masonry surface filling every pixel. ABSOLUTELY no battlements/crenellations/whole wall silhouette/pillars/ledges/architectural profiles/sky/background. Do not depict a parapet object, only the plain surface swatch.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-d36a9518-bbba-4b97-bb39-dbf0c0a7984c.png"
+    }
+  ]
+}

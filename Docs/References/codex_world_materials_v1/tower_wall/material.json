@@ -1,0 +1,31 @@
+{
+  "id": "tower_wall",
+  "label": "모서리 탑 벽",
+  "albedo": "tower_wall/albedo.png",
+  "normal": "tower_wall/normal.png",
+  "size": [
+    128,
+    192
+  ],
+  "worldMeters": [
+    4,
+    6
+  ],
+  "pixelsPerMeter": 32,
+  "source": "tower_wall_source.png",
+  "sourceSha256": "348e6f24e956581eaa7f8eab83fe5de1bc18071d22a660946e2545b570f539e2",
+  "albedoSha256": "a3d0c55a46902e252904baf886ab89a024d3abe3be9ed84e5f66d6e98b6250ab",
+  "normalSha256": "8a3d3792658345eb9e2ec3bc64af2ab1cfbe672ab455e99ea1952871358cfcb2",
+  "normalSpace": "tangent OpenGL Y+",
+  "normalStrength": 0.55,
+  "normalMaxUnitError": 0.005597559347107817,
+  "wrap": "Repeat",
+  "filter": "Point",
+  "seamMethod": "mirrored periodization of AI material quarter; reflected normal XY corrected; reflection-axis tangent=0",
+  "edgesExact": true,
+  "normalEdgesExact": true,
+  "albedoColorSpace": "sRGB",
+  "normalColorSpace": "Linear",
+  "status": "reference-sample-user-review-pending",
+  "unityPlayVerified": false
+}

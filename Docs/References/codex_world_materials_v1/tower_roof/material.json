@@ -1,0 +1,31 @@
+{
+  "id": "tower_roof",
+  "label": "모서리 탑 지붕",
+  "albedo": "tower_roof/albedo.png",
+  "normal": "tower_roof/normal.png",
+  "size": [
+    128,
+    128
+  ],
+  "worldMeters": [
+    4,
+    4
+  ],
+  "pixelsPerMeter": 32,
+  "source": "tower_roof_source.png",
+  "sourceSha256": "681449b40c9bc4ee665d4d33d5413ff30ff9a1cb9b161b8f8b86754a124b9836",
+  "albedoSha256": "e5f17f9aca5b3ab0048e83722b5b21c832fde6a75940de9ae90ad40b71bc52e2",
+  "normalSha256": "c5c1c92d7171d23c62c60acfb5cd640938577895a66255332fe903346e06cedf",
+  "normalSpace": "tangent OpenGL Y+",
+  "normalStrength": 0.55,
+  "normalMaxUnitError": 0.0051652043353486166,
+  "wrap": "Repeat",
+  "filter": "Point",
+  "seamMethod": "mirrored periodization of AI material quarter; reflected normal XY corrected; reflection-axis tangent=0",
+  "edgesExact": true,
+  "normalEdgesExact": true,
+  "albedoColorSpace": "sRGB",
+  "normalColorSpace": "Linear",
+  "status": "reference-sample-user-review-pending",
+  "unityPlayVerified": false
+}
