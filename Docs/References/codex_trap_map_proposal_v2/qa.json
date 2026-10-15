@@ -1,0 +1,56 @@
+{
+  "staticChecks": "PASS",
+  "jsSyntax": true,
+  "standaloneHtmlCopiesExact": true,
+  "externalAssets": false,
+  "browserQa": {
+    "terrainSideCombinations": 16,
+    "cellsPerSide": 112,
+    "size": [
+      8,
+      14
+    ],
+    "blockedCountsByTerrainSide": [
+      [
+        2,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        4,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        3,
+        0,
+        0
+      ]
+    ],
+    "sideChangeCancelsQuote": true,
+    "demoInstallGold": [
+      250,
+      225
+    ],
+    "demoInstalledCells": 1,
+    "reset": true,
+    "selectedNorthCol3Row2World": [
+      -2.5,
+      42.5
+    ],
+    "consoleErrors": 0,
+    "horizontalOverflow": false,
+    "screenshot": "browser_review.png"
+  },
+  "unityPlay": false,
+  "fileSchemeTested": false
+}

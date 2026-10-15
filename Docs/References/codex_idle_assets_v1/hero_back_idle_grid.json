@@ -1,0 +1,56 @@
+{
+  "id": "hero_back_idle",
+  "label": "주인공 · 후면 서 있기",
+  "image": "hero_back_idle_grid.png",
+  "size": [
+    256,
+    384
+  ],
+  "cell": [
+    256,
+    384
+  ],
+  "columns": 1,
+  "rows": 1,
+  "frames": 1,
+  "animated": false,
+  "fps": 0,
+  "footPivotTopLeft": [
+    128,
+    352
+  ],
+  "unityPivotBottomLeft": [
+    0.5,
+    0.08333333333333333
+  ],
+  "facing": "back",
+  "source": "hero_back_idle_source.png",
+  "sourceSha256": "09864d16d713e8b0d2dc3cf58be5c23fdc1aa2cf26c99277f3c5bb2d527a0b98",
+  "sheetSha256": "dc29add2be5beb8661b24e6ca9eb1152294fb54eff312218636f71284ce37067",
+  "sourceRect": [
+    234,
+    225,
+    784,
+    1321
+  ],
+  "sourceBootRegions": [
+    [
+      114,
+      239
+    ],
+    [
+      317,
+      441
+    ]
+  ],
+  "sourceFootX": 277.5,
+  "packedRect": [
+    52,
+    52,
+    151,
+    300
+  ],
+  "scale": 0.2737226277372263,
+  "status": "user-review-pending",
+  "unityPlayVerified": false
+}

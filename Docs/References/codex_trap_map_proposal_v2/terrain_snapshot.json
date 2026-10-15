@@ -1,0 +1,80 @@
+[
+  {
+    "id": "terrain_1",
+    "label": "지형 1",
+    "half": 20.0,
+    "cell": 5,
+    "near": 10,
+    "far": 80,
+    "columns": 8,
+    "rows": 14,
+    "hills": [
+      {
+        "x": -25.0,
+        "z": 95.0,
+        "radius": 10.0
+      },
+      {
+        "x": 110.0,
+        "z": 20.0,
+        "radius": 8.0
+      }
+    ]
+  },
+  {
+    "id": "terrain_2",
+    "label": "지형 2",
+    "half": 20.0,
+    "cell": 5,
+    "near": 10,
+    "far": 80,
+    "columns": 8,
+    "rows": 14,
+    "hills": [
+      {
+        "x": 20.0,
+        "z": -100.0,
+        "radius": 12.0
+      }
+    ]
+  },
+  {
+    "id": "terrain_3",
+    "label": "지형 3",
+    "half": 20.0,
+    "cell": 5,
+    "near": 10,
+    "far": 80,
+    "columns": 8,
+    "rows": 14,
+    "hills": [
+      {
+        "x": -100.0,
+        "z": -30.0,
+        "radius": 10.0
+      },
+      {
+        "x": 30.0,
+        "z": 120.0,
+        "radius": 9.0
+      }
+    ]
+  },
+  {
+    "id": "terrain_4",
+    "label": "지형 4",
+    "half": 20.0,
+    "cell": 5,
+    "near": 10,
+    "far": 80,
+    "columns": 8,
+    "rows": 14,
+    "hills": [
+      {
+        "x": 95.0,
+        "z": -25.0,
+        "radius": 11.0
+      }
+    ]
+  }
+]
