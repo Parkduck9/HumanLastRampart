@@ -1,0 +1,205 @@
+{
+  "id": "archer_fire",
+  "title": "궁수 후면 사격",
+  "kind": "character",
+  "frames": 6,
+  "w": 256,
+  "h": 384,
+  "pivot": [
+    128,
+    352
+  ],
+  "fps": 8,
+  "ref": "Docs/References/codex_soldier_back_v1/archer_back.png",
+  "prompt": "Use case: stylized-concept. Asset: game sprite animation reference, not a game screenshot. Strict crisp chunky 16-bit PIXEL ART with limited flat palette, opaque pixel clusters and dark stepped outline. No painting, no gradients, no diffuse halo, no shadow, floor, captions, grid or text. True transparent PNG. Panoramic3:1 canvas. Exactly SIX frames in ONE horizontal row, evenly spaced, clearly separate generous transparent gaps. No frames on another row. Same character, same scale, same rear camera, head/hair identity and body proportions in ALL six frames, feet planted on identical baseline. Preserve 2.2-head tall compact character proportions and original reference colors. All6poses visibly DIFFER, especially forearms and weapon: prepare,raise,aim,release,recover,reload. Draw full body with margins, never cut hair/weapon/toes. Soldier faces OUTWARD away from viewer, mostly rear view with only a subtle15degree angle so hands and weapon read, NEVER turns front or faces viewer. Match image1 identity EXACTLY: tousled medium brown hair, dark navy tunic with IVORY collar/cuffs/hem, brown belt/gloves/boots, brown diagonal quiver with ivory arrow feathers over right shoulder, simple brown wooden bow. Six poses: 1 bow held relaxed left; 2 left arm raises bow toward distant field upper-left; 3 right hand pulls string back next to cheek/back of head, bow visibly bent and arrow nocked; 4 string RELEASES, right arm moves back and arrow gone, left bow arm remains extended; 5 lowers bow; 6 right hand reaches to quiver for next arrow. Eyes/face should not show from rear. Bow always same side; head/hair never mirror or rotate. Do not change tunic to gold officer coat.",
+  "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-b6dc04c4-8895-4830-8809-8492933b4428.png",
+  "tool": "built-in imagegen",
+  "source": "archer_fire_source.png",
+  "sourceSize": [
+    2172,
+    724
+  ],
+  "sourceSha256": "2c24d969929b50c4ad4a748aacea20a5d3aa93fa0579b58f9165915f7d9f940c",
+  "sheet": "archer_fire_sheet.png",
+  "sheetSize": [
+    1536,
+    384
+  ],
+  "sheetSha256": "0a0ec70a23684c8e94040e8f28dad0baa15a763928e7ee004b02b7306ca80a30",
+  "sourceColumnBounds": [
+    0,
+    335,
+    699,
+    1101,
+    1506,
+    1823,
+    2172
+  ],
+  "commonScale": 0.49361702127659574,
+  "framesMeta": [
+    {
+      "index": 0,
+      "rect": [
+        0,
+        0,
+        256,
+        384
+      ],
+      "pivotPixels": [
+        128,
+        352
+      ],
+      "alphaBBox": [
+        52,
+        89,
+        191,
+        352
+      ],
+      "rgbaSha256": "ad23ca23fc1db98abd898a25023eb1ec7cc876ce6e7c2cf57f461aae252d9c25",
+      "sourceRect": [
+        0,
+        83,
+        335,
+        617
+      ],
+      "sourceAnchorX": 183.5
+    },
+    {
+      "index": 1,
+      "rect": [
+        256,
+        0,
+        256,
+        384
+      ],
+      "pivotPixels": [
+        128,
+        352
+      ],
+      "alphaBBox": [
+        26,
+        88,
+        194,
+        352
+      ],
+      "rgbaSha256": "728d69052e9987bafe465e66cf718a89820ea94dc3792ddae9b62a4a613d7425",
+      "sourceRect": [
+        335,
+        83,
+        699,
+        617
+      ],
+      "sourceAnchorX": 562.5
+    },
+    {
+      "index": 2,
+      "rect": [
+        512,
+        0,
+        256,
+        384
+      ],
+      "pivotPixels": [
+        128,
+        352
+      ],
+      "alphaBBox": [
+        11,
+        88,
+        205,
+        352
+      ],
+      "rgbaSha256": "8467aeb6afbe30537a5b3eda175b23aabd6cb265371f203edb5a54048e236b25",
+      "sourceRect": [
+        699,
+        83,
+        1101,
+        617
+      ],
+      "sourceAnchorX": 941.0
+    },
+    {
+      "index": 3,
+      "rect": [
+        768,
+        0,
+        256,
+        384
+      ],
+      "pivotPixels": [
+        128,
+        352
+      ],
+      "alphaBBox": [
+        20,
+        94,
+        213,
+        352
+      ],
+      "rgbaSha256": "c985a96cf8ce51352a894c369c6b7053e6d62a96407daf69f8d32a62a47a6da0",
+      "sourceRect": [
+        1101,
+        83,
+        1506,
+        617
+      ],
+      "sourceAnchorX": 1325.5
+    },
+    {
+      "index": 4,
+      "rect": [
+        1024,
+        0,
+        256,
+        384
+      ],
+      "pivotPixels": [
+        128,
+        352
+      ],
+      "alphaBBox": [
+        50,
+        101,
+        193,
+        352
+      ],
+      "rgbaSha256": "93b424adef755bd3a1f50be7a4f38c0235b7c4ac721ad5cf056c543db5ca0a94",
+      "sourceRect": [
+        1506,
+        83,
+        1823,
+        617
+      ],
+      "sourceAnchorX": 1669.0
+    },
+    {
+      "index": 5,
+      "rect": [
+        1280,
+        0,
+        256,
+        384
+      ],
+      "pivotPixels": [
+        128,
+        352
+      ],
+      "alphaBBox": [
+        50,
+        101,
+        198,
+        352
+      ],
+      "rgbaSha256": "57530d7caf24550c94a0d9f4d654139f898eb5aeaf0d7459523c4767be5bef55",
+      "sourceRect": [
+        1823,
+        83,
+        2172,
+        617
+      ],
+      "sourceAnchorX": 2005.5
+    }
+  ],
+  "reviewStatus": "외형사용자검토대기·게임연결없음",
+  "processing": "원안분리·동일시트공통배율·최근접정렬만. 병사발/대포바퀴접지 기준. 내용덧칠/프레임복제없음."
+}

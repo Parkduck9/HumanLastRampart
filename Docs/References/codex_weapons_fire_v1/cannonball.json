@@ -1,0 +1,65 @@
+{
+  "id": "cannonball",
+  "title": "포탄",
+  "kind": "projectile",
+  "frames": 1,
+  "w": 256,
+  "h": 128,
+  "pivot": [
+    128,
+    64
+  ],
+  "fps": 0,
+  "ref": null,
+  "prompt": "Use case: stylized-concept. ONE small projectile sprite concept for a16-bit pixel defensegame: one small round darkiron cannonball, charcoal/gray limitedpalette with tiny upperleft grayhighlight, no fire, fuse, smoke or trail. A round sphere readable as a solid shot. Center the single object in actual transparent PNG, generous empty margins. Crisp chunky square pixels, flat limited palette, dark steppedoutline. No realisticpainting, smooth glow, gradients,shadow,background,floor,text,grid,duplicates or extra items. Object only. Aim right +X as canonical rotation direction. Gameplay rotation/size set later, this is only art reference.",
+  "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-2782a7ec-8744-4344-af93-32328d3448b0.png",
+  "tool": "built-in imagegen",
+  "source": "cannonball_source.png",
+  "sourceSize": [
+    1536,
+    1024
+  ],
+  "sourceSha256": "f59d168326de968a9f7fb18b396e381d650e5291b9c745a1be889786f0d71596",
+  "sheet": "cannonball_sheet.png",
+  "sheetSize": [
+    256,
+    128
+  ],
+  "sheetSha256": "0bc24da3d582b2a1ebf6408e7899ba1b73b0d86373856bda63fe86e52a0f95e7",
+  "sourceColumnBounds": [
+    0,
+    1536
+  ],
+  "commonScale": 0.2465753424657534,
+  "framesMeta": [
+    {
+      "index": 0,
+      "rect": [
+        0,
+        0,
+        256,
+        128
+      ],
+      "pivotPixels": [
+        128,
+        64
+      ],
+      "alphaBBox": [
+        92,
+        28,
+        165,
+        100
+      ],
+      "rgbaSha256": "f5f27fec0829d6ac79a1ddb5d68a4730aaa386e89fa95d661af0377a9d142284",
+      "sourceRect": [
+        0,
+        364,
+        1536,
+        656
+      ],
+      "sourceAnchorX": 767.5
+    }
+  ],
+  "reviewStatus": "외형사용자검토대기·게임연결없음",
+  "processing": "원안분리·동일시트공통배율·최근접정렬만. 병사발/대포바퀴접지 기준. 내용덧칠/프레임복제없음."
+}

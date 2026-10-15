@@ -1,0 +1,941 @@
+{
+  "card": "K-016",
+  "task": "T-CX-057",
+  "approval": "사용자외형검토대기",
+  "assets": [
+    {
+      "id": "archer_fire",
+      "title": "궁수 후면 사격",
+      "kind": "character",
+      "frames": 6,
+      "w": 256,
+      "h": 384,
+      "pivot": [
+        128,
+        352
+      ],
+      "fps": 8,
+      "ref": "Docs/References/codex_soldier_back_v1/archer_back.png",
+      "prompt": "Use case: stylized-concept. Asset: game sprite animation reference, not a game screenshot. Strict crisp chunky 16-bit PIXEL ART with limited flat palette, opaque pixel clusters and dark stepped outline. No painting, no gradients, no diffuse halo, no shadow, floor, captions, grid or text. True transparent PNG. Panoramic3:1 canvas. Exactly SIX frames in ONE horizontal row, evenly spaced, clearly separate generous transparent gaps. No frames on another row. Same character, same scale, same rear camera, head/hair identity and body proportions in ALL six frames, feet planted on identical baseline. Preserve 2.2-head tall compact character proportions and original reference colors. All6poses visibly DIFFER, especially forearms and weapon: prepare,raise,aim,release,recover,reload. Draw full body with margins, never cut hair/weapon/toes. Soldier faces OUTWARD away from viewer, mostly rear view with only a subtle15degree angle so hands and weapon read, NEVER turns front or faces viewer. Match image1 identity EXACTLY: tousled medium brown hair, dark navy tunic with IVORY collar/cuffs/hem, brown belt/gloves/boots, brown diagonal quiver with ivory arrow feathers over right shoulder, simple brown wooden bow. Six poses: 1 bow held relaxed left; 2 left arm raises bow toward distant field upper-left; 3 right hand pulls string back next to cheek/back of head, bow visibly bent and arrow nocked; 4 string RELEASES, right arm moves back and arrow gone, left bow arm remains extended; 5 lowers bow; 6 right hand reaches to quiver for next arrow. Eyes/face should not show from rear. Bow always same side; head/hair never mirror or rotate. Do not change tunic to gold officer coat.",
+      "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-b6dc04c4-8895-4830-8809-8492933b4428.png",
+      "tool": "built-in imagegen",
+      "source": "archer_fire_source.png",
+      "sourceSize": [
+        2172,
+        724
+      ],
+      "sourceSha256": "2c24d969929b50c4ad4a748aacea20a5d3aa93fa0579b58f9165915f7d9f940c",
+      "sheet": "archer_fire_sheet.png",
+      "sheetSize": [
+        1536,
+        384
+      ],
+      "sheetSha256": "0a0ec70a23684c8e94040e8f28dad0baa15a763928e7ee004b02b7306ca80a30",
+      "sourceColumnBounds": [
+        0,
+        335,
+        699,
+        1101,
+        1506,
+        1823,
+        2172
+      ],
+      "commonScale": 0.49361702127659574,
+      "framesMeta": [
+        {
+          "index": 0,
+          "rect": [
+            0,
+            0,
+            256,
+            384
+          ],
+          "pivotPixels": [
+            128,
+            352
+          ],
+          "alphaBBox": [
+            52,
+            89,
+            191,
+            352
+          ],
+          "rgbaSha256": "ad23ca23fc1db98abd898a25023eb1ec7cc876ce6e7c2cf57f461aae252d9c25",
+          "sourceRect": [
+            0,
+            83,
+            335,
+            617
+          ],
+          "sourceAnchorX": 183.5
+        },
+        {
+          "index": 1,
+          "rect": [
+            256,
+            0,
+            256,
+            384
+          ],
+          "pivotPixels": [
+            128,
+            352
+          ],
+          "alphaBBox": [
+            26,
+            88,
+            194,
+            352
+          ],
+          "rgbaSha256": "728d69052e9987bafe465e66cf718a89820ea94dc3792ddae9b62a4a613d7425",
+          "sourceRect": [
+            335,
+            83,
+            699,
+            617
+          ],
+          "sourceAnchorX": 562.5
+        },
+        {
+          "index": 2,
+          "rect": [
+            512,
+            0,
+            256,
+            384
+          ],
+          "pivotPixels": [
+            128,
+            352
+          ],
+          "alphaBBox": [
+            11,
+            88,
+            205,
+            352
+          ],
+          "rgbaSha256": "8467aeb6afbe30537a5b3eda175b23aabd6cb265371f203edb5a54048e236b25",
+          "sourceRect": [
+            699,
+            83,
+            1101,
+            617
+          ],
+          "sourceAnchorX": 941.0
+        },
+        {
+          "index": 3,
+          "rect": [
+            768,
+            0,
+            256,
+            384
+          ],
+          "pivotPixels": [
+            128,
+            352
+          ],
+          "alphaBBox": [
+            20,
+            94,
+            213,
+            352
+          ],
+          "rgbaSha256": "c985a96cf8ce51352a894c369c6b7053e6d62a96407daf69f8d32a62a47a6da0",
+          "sourceRect": [
+            1101,
+            83,
+            1506,
+            617
+          ],
+          "sourceAnchorX": 1325.5
+        },
+        {
+          "index": 4,
+          "rect": [
+            1024,
+            0,
+            256,
+            384
+          ],
+          "pivotPixels": [
+            128,
+            352
+          ],
+          "alphaBBox": [
+            50,
+            101,
+            193,
+            352
+          ],
+          "rgbaSha256": "93b424adef755bd3a1f50be7a4f38c0235b7c4ac721ad5cf056c543db5ca0a94",
+          "sourceRect": [
+            1506,
+            83,
+            1823,
+            617
+          ],
+          "sourceAnchorX": 1669.0
+        },
+        {
+          "index": 5,
+          "rect": [
+            1280,
+            0,
+            256,
+            384
+          ],
+          "pivotPixels": [
+            128,
+            352
+          ],
+          "alphaBBox": [
+            50,
+            101,
+            198,
+            352
+          ],
+          "rgbaSha256": "57530d7caf24550c94a0d9f4d654139f898eb5aeaf0d7459523c4767be5bef55",
+          "sourceRect": [
+            1823,
+            83,
+            2172,
+            617
+          ],
+          "sourceAnchorX": 2005.5
+        }
+      ],
+      "reviewStatus": "외형사용자검토대기·게임연결없음",
+      "processing": "원안분리·동일시트공통배율·최근접정렬만. 병사발/대포바퀴접지 기준. 내용덧칠/프레임복제없음."
+    },
+    {
+      "id": "gunner_fire",
+      "title": "총병 후면 사격",
+      "kind": "character",
+      "frames": 6,
+      "w": 256,
+      "h": 384,
+      "pivot": [
+        128,
+        352
+      ],
+      "fps": 8,
+      "ref": "Docs/References/codex_soldier_back_v1/gunner_back.png",
+      "prompt": "Use case: stylized-concept. Asset: game sprite animation reference, not a game screenshot. Strict crisp chunky 16-bit PIXEL ART with limited flat palette, opaque pixel clusters and dark stepped outline. No painting, no gradients, no diffuse halo, no shadow, floor, captions, grid or text. True transparent PNG. Panoramic3:1 canvas. Exactly SIX frames in ONE horizontal row, evenly spaced, clearly separate generous transparent gaps. No frames on another row. Same character, same scale, same rear camera, head/hair identity and body proportions in ALL six frames, feet planted on identical baseline. Preserve 2.2-head tall compact character proportions and original reference colors. All6poses visibly DIFFER, especially forearms and weapon: prepare,raise,aim,release,recover,reload. Draw full body with margins, never cut hair/weapon/toes. Soldier faces OUTWARD away from viewer, mostly rear view with only a subtle15degree angle so hands and weapon read, NEVER turns front or faces viewer. Match image1 identity EXACTLY: dark brown tousled hair, navy coat with IVORY trim and small gold fastening, silver RIGHT shoulder pad, brown diagonal strap, brown right hip pouch, brown boots, wooden-stock dark iron long musket. Six poses: 1 rifle low across body; 2 brings stock to right shoulder; 3 aims long barrel away upper-left toward field; 4 firing recoil clearly moves shoulder and barrel a LITTLE backward (NO giant muzzlefire, separate effect supplied); 5 lowers rifle and reaches pouch; 6 reloads with ramrod before resetting. Same right shoulder metal guard in everypose. Head fixed identity, no face view and no mirroring.\nCRITICAL layout correction: leave MUCH WIDER transparent gaps so NO TWO frames overlap in horizontal extent. Each soldier INCLUDING raised rifle fits inside 260px wide by430px tall area on a2172x724canvas. Six columncenters181,543,905,1267,1629,1991. Maximum width260px leaves100px transparent gap. Soldier bodyheight350px, feet y630. Rifle points mostly UP out ofscreen toward field, not long sideways across columns. Frame2/3/4 barrel held close toleftside ofhead with moderate upwarddiagonal, no horizontalbarrel crossingframeboundary. Keep all feet samey. Make ZERO stray pixels above figures, no ghost background marks. The whole canvas except six silhouettes is transparent alpha0.",
+      "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-0c7abbb5-3856-4815-86f9-6620088512c5.png",
+      "tool": "built-in imagegen",
+      "source": "gunner_fire_source.png",
+      "sourceSize": [
+        2172,
+        724
+      ],
+      "sourceSha256": "928ed856e5f96012da815e7f5391213ceab9bcd99faad151075d96ab2a51982c",
+      "sheet": "gunner_fire_sheet.png",
+      "sheetSize": [
+        1536,
+        384
+      ],
+      "sheetSha256": "43982f8fbf1242b0f7ca63271746936d9f62b8eb8c619638d4e23892ba1aafb7",
+      "sourceColumnBounds": [
+        0,
+        372,
+        718,
+        1109,
+        1488,
+        1835,
+        2172
+      ],
+      "commonScale": 0.4793388429752066,
+      "framesMeta": [
+        {
+          "index": 0,
+          "rect": [
+            0,
+            0,
+            256,
+            384
+          ],
+          "pivotPixels": [
+            128,
+            352
+          ],
+          "alphaBBox": [
+            46,
+            85,
+            215,
+            352
+          ],
+          "rgbaSha256": "9f8526676ff9b4518441637e662fbdd1d070a02b97452cc8dc7d04f3014de348",
+          "sourceRect": [
+            0,
+            73,
+            372,
+            670
+          ],
+          "sourceAnchorX": 188.5
+        },
+        {
+          "index": 1,
+          "rect": [
+            256,
+            0,
+            256,
+            384
+          ],
+          "pivotPixels": [
+            128,
+            352
+          ],
+          "alphaBBox": [
+            26,
+            66,
+            188,
+            352
+          ],
+          "rgbaSha256": "ba5597ac39f139b259590928cdd3fadfee0c193cfe30695efb92fd59caa14dfd",
+          "sourceRect": [
+            372,
+            73,
+            718,
+            670
+          ],
+          "sourceAnchorX": 584.5
+        },
+        {
+          "index": 2,
+          "rect": [
+            512,
+            0,
+            256,
+            384
+          ],
+          "pivotPixels": [
+            128,
+            352
+          ],
+          "alphaBBox": [
+            8,
+            70,
+            189,
+            352
+          ],
+          "rgbaSha256": "cf141f098c2bd60b4e73d6b2e3c1e573726cd812afdd07803c6fbdf62e32500c",
+          "sourceRect": [
+            718,
+            73,
+            1109,
+            670
+          ],
+          "sourceAnchorX": 975.0
+        },
+        {
+          "index": 3,
+          "rect": [
+            768,
+            0,
+            256,
+            384
+          ],
+          "pivotPixels": [
+            128,
+            352
+          ],
+          "alphaBBox": [
+            17,
+            85,
+            189,
+            352
+          ],
+          "rgbaSha256": "976135273f6a8bba4230cec98fae99cf2ca18d16fa515f00e815312bc1fb68fa",
+          "sourceRect": [
+            1109,
+            73,
+            1488,
+            670
+          ],
+          "sourceAnchorX": 1352.5
+        },
+        {
+          "index": 4,
+          "rect": [
+            1024,
+            0,
+            256,
+            384
+          ],
+          "pivotPixels": [
+            128,
+            352
+          ],
+          "alphaBBox": [
+            39,
+            74,
+            197,
+            352
+          ],
+          "rgbaSha256": "8a1abf3abf104b25c68772d283a00835c57575eb0479fdf3537a2d66d9d94a4f",
+          "sourceRect": [
+            1488,
+            73,
+            1835,
+            670
+          ],
+          "sourceAnchorX": 1688.0
+        },
+        {
+          "index": 5,
+          "rect": [
+            1280,
+            0,
+            256,
+            384
+          ],
+          "pivotPixels": [
+            128,
+            352
+          ],
+          "alphaBBox": [
+            58,
+            66,
+            185,
+            352
+          ],
+          "rgbaSha256": "dadb5ca689d3fec0bc8f901f83b9c50df4966c2dfaec9397d8a70eacc8ea2be1",
+          "sourceRect": [
+            1835,
+            73,
+            2172,
+            670
+          ],
+          "sourceAnchorX": 2006.5
+        }
+      ],
+      "reviewStatus": "외형사용자검토대기·게임연결없음",
+      "processing": "원안분리·동일시트공통배율·최근접정렬만. 병사발/대포바퀴접지 기준. 내용덧칠/프레임복제없음."
+    },
+    {
+      "id": "cannon_recoil",
+      "title": "바깥향 대포 반동",
+      "kind": "cannon",
+      "frames": 3,
+      "w": 256,
+      "h": 256,
+      "pivot": [
+        128,
+        240
+      ],
+      "fps": 10,
+      "ref": "Docs/References/codex_cannon_wall_v2/cannon_center/static_grid.png",
+      "prompt": "Use case: stylized-concept. Pixel-art cannon RECOIL animation sheet. True transparent PNG, panoramic3:1. EXACTLY THREE evenly-spaced full cannons in ONE horizontal row, no otherobjects. Match reference rear-facing darkiron barrel, dark-brown wood carriage/two chunky wheels, ironbands, breechring facing viewer. Barrel points AWAY from viewer toward TOP of image (outside castle), straight same direction all3. Low rear3/4view as reference, NOT side view, NO angle rotation. Frame1 resting; Frame2 barrel slides BACK toward viewer about12percent of barrel length while carriage/wheels STAY sameposition; Frame3 barrel halfway returns to original. BREECH positions visibly differ between frames, wheels identical size andbaseline. Do not draw smoke/fire, crew,wall,floor,shadows,text,borders. Crisp chunky opaque pixels with dark steppedoutline, restrained graphite/brownpalette, no gradients/glow. Full object inside eachcolumn with generousgaps. Proposed smallcannon fits1.12m gunport, no giant fortress.",
+      "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-43055ea2-078f-4842-b859-a2b44adb3b6c.png",
+      "tool": "built-in imagegen",
+      "source": "cannon_recoil_source.png",
+      "sourceSize": [
+        2172,
+        724
+      ],
+      "sourceSha256": "3108d71a6cebfc8285c2b500792031d40ee98ff8dae55d3ca76d7c6009cb85f4",
+      "sheet": "cannon_recoil_sheet.png",
+      "sheetSize": [
+        768,
+        256
+      ],
+      "sheetSha256": "c0b5a4cacb8839d3856daa26390e6882f95e1375b8828c662d5c245daf25d44d",
+      "sourceColumnBounds": [
+        0,
+        752,
+        1419,
+        2172
+      ],
+      "commonScale": 0.36427320490367776,
+      "framesMeta": [
+        {
+          "index": 0,
+          "rect": [
+            0,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            240
+          ],
+          "alphaBBox": [
+            11,
+            32,
+            245,
+            240
+          ],
+          "rgbaSha256": "420bdbc07d1a2937f4ee59344ae1bb23a2bf33af6fdcb108c066e5848a59eec2",
+          "sourceRect": [
+            0,
+            77,
+            752,
+            648
+          ],
+          "sourceAnchorX": 418.0
+        },
+        {
+          "index": 1,
+          "rect": [
+            256,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            240
+          ],
+          "alphaBBox": [
+            11,
+            37,
+            244,
+            240
+          ],
+          "rgbaSha256": "b8f179665949f49c98c466f3c17961c231a718fb11956cd007837b41f18a75a8",
+          "sourceRect": [
+            752,
+            77,
+            1419,
+            648
+          ],
+          "sourceAnchorX": 1086.0
+        },
+        {
+          "index": 2,
+          "rect": [
+            512,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            240
+          ],
+          "alphaBBox": [
+            10,
+            37,
+            245,
+            240
+          ],
+          "rgbaSha256": "ae2222c1d0f060b8225a711b571624ea14d5ac9e6ce757bd6984979573033762",
+          "sourceRect": [
+            1419,
+            77,
+            2172,
+            648
+          ],
+          "sourceAnchorX": 1753.0
+        }
+      ],
+      "reviewStatus": "외형사용자검토대기·게임연결없음",
+      "processing": "원안분리·동일시트공통배율·최근접정렬만. 병사발/대포바퀴접지 기준. 내용덧칠/프레임복제없음."
+    },
+    {
+      "id": "muzzle_smoke",
+      "title": "대포 포구 연기",
+      "kind": "effect",
+      "frames": 6,
+      "w": 256,
+      "h": 256,
+      "pivot": [
+        128,
+        240
+      ],
+      "fps": 10,
+      "ref": null,
+      "prompt": "Use case: stylized-concept. A strict hard-pixel 16bit game effect sheet. True transparent PNG panoramic3:1, EXACTLY SIX different frames ONE horizontal row with generousclear gaps. Cannon muzzle SMOKE puff only, no cannon,weapon,person,floor or shadow. Smoke originates same lowercenter and expands outward/up away fromcamera. Frame1 tinywhite-gold ignition speck;2 compact pale-gray puff;3 fuller chunky gray-white puff rising;4 broken irregular detached gray islands;5 few tiny lightergrayfragments;6 lastsinglegray speck. No diffuse glow, no radial gradient, no haze. Solid angular pixel clusters, limited opaque gray palette with charcoaloutline, hardsteppedges. Common scale, no enlargement oflatefragments. Eachframe fullyvisible noedgeclipping. No text,labels,grid.",
+      "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-70b77fff-47a6-4308-8515-240356c6d70b.png",
+      "tool": "built-in imagegen",
+      "source": "muzzle_smoke_source.png",
+      "sourceSize": [
+        2172,
+        724
+      ],
+      "sourceSha256": "8e692bbef4791532e3ed1834ff2bd5356f6573fc802e1d99cd9938eb2ffeea5f",
+      "sheet": "muzzle_smoke_sheet.png",
+      "sheetSize": [
+        1536,
+        256
+      ],
+      "sheetSha256": "82773ff6dfe13ac3d23b1c51d9584c967d2111aba2312b52d1408393f9131caa",
+      "sourceColumnBounds": [
+        0,
+        237,
+        610,
+        1089,
+        1547,
+        1947,
+        2172
+      ],
+      "commonScale": 0.491725768321513,
+      "framesMeta": [
+        {
+          "index": 0,
+          "rect": [
+            0,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            240
+          ],
+          "alphaBBox": [
+            73,
+            187,
+            150,
+            234
+          ],
+          "rgbaSha256": "3a2aa471cdef16a89417f67c9a0b8ab1f1d81e4740acd304ffe7726029a63a5e",
+          "sourceRect": [
+            0,
+            177,
+            237,
+            600
+          ],
+          "sourceAnchorX": 136.0
+        },
+        {
+          "index": 1,
+          "rect": [
+            256,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            240
+          ],
+          "alphaBBox": [
+            60,
+            122,
+            193,
+            236
+          ],
+          "rgbaSha256": "9ffbd060ed45e3ad1d6811aba00a830e32b4dd1eec9c193c19595c8adc9452df",
+          "sourceRect": [
+            237,
+            177,
+            610,
+            600
+          ],
+          "sourceAnchorX": 427.5
+        },
+        {
+          "index": 2,
+          "rect": [
+            512,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            240
+          ],
+          "alphaBBox": [
+            33,
+            32,
+            224,
+            240
+          ],
+          "rgbaSha256": "54c8bc01ab895b999298db8a3549b2f392a511662543e8667db54ab5456d1093",
+          "sourceRect": [
+            610,
+            177,
+            1089,
+            600
+          ],
+          "sourceAnchorX": 851.5
+        },
+        {
+          "index": 3,
+          "rect": [
+            768,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            240
+          ],
+          "alphaBBox": [
+            35,
+            41,
+            221,
+            240
+          ],
+          "rgbaSha256": "1f178a57e0bae227146819402d1f97e8acd9933e8cf5fa1e9353994a27328f15",
+          "sourceRect": [
+            1089,
+            177,
+            1547,
+            600
+          ],
+          "sourceAnchorX": 1318.5
+        },
+        {
+          "index": 4,
+          "rect": [
+            1024,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            240
+          ],
+          "alphaBBox": [
+            49,
+            51,
+            196,
+            238
+          ],
+          "rgbaSha256": "b0ddb316935db397c43089b1208a0389f80998e6b80bdba0c56a892008580962",
+          "sourceRect": [
+            1547,
+            177,
+            1947,
+            600
+          ],
+          "sourceAnchorX": 1730.5
+        },
+        {
+          "index": 5,
+          "rect": [
+            1280,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            240
+          ],
+          "alphaBBox": [
+            116,
+            185,
+            141,
+            208
+          ],
+          "rgbaSha256": "3944afe65cc17cb8fe34a3280d6957d0398a873ad7d081bfaf5346588f900121",
+          "sourceRect": [
+            1947,
+            177,
+            2172,
+            600
+          ],
+          "sourceAnchorX": 2047.5
+        }
+      ],
+      "reviewStatus": "외형사용자검토대기·게임연결없음",
+      "processing": "원안분리·동일시트공통배율·최근접정렬만. 병사발/대포바퀴접지 기준. 내용덧칠/프레임복제없음."
+    },
+    {
+      "id": "arrow",
+      "title": "화살",
+      "kind": "projectile",
+      "frames": 1,
+      "w": 256,
+      "h": 128,
+      "pivot": [
+        128,
+        64
+      ],
+      "fps": 0,
+      "ref": null,
+      "prompt": "Use case: stylized-concept. ONE small projectile sprite concept for a16-bit pixel defensegame: a single small thin wooden arrow with pale ivory feather fletching at LEFT and a dark iron triangular point at RIGHT. Straight horizontal shaft. No bow. Center the single object in actual transparent PNG, generous empty margins. Crisp chunky square pixels, flat limited palette, dark steppedoutline. No realisticpainting, smooth glow, gradients,shadow,background,floor,text,grid,duplicates or extra items. Object only. Aim right +X as canonical rotation direction. Gameplay rotation/size set later, this is only art reference.",
+      "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-d44494ae-d34b-4634-a90b-329c78f19be9.png",
+      "tool": "built-in imagegen",
+      "source": "arrow_source.png",
+      "sourceSize": [
+        2172,
+        724
+      ],
+      "sourceSha256": "48835dc3cdcc0ab628d3282e2520fd86075a5fca8aacd91e8e42f90619483914",
+      "sheet": "arrow_sheet.png",
+      "sheetSize": [
+        256,
+        128
+      ],
+      "sheetSha256": "f4459006db5a56e975ca58a48e265a5472f44192543cc0dd3c63acafe5408141",
+      "sourceColumnBounds": [
+        0,
+        2172
+      ],
+      "commonScale": 0.16682113067655235,
+      "framesMeta": [
+        {
+          "index": 0,
+          "rect": [
+            0,
+            0,
+            256,
+            128
+          ],
+          "pivotPixels": [
+            128,
+            64
+          ],
+          "alphaBBox": [
+            37,
+            48,
+            218,
+            80
+          ],
+          "rgbaSha256": "855c08a5f0f5937c08608b6cc1e030cdf4e44c0290fea3f60359eab4bf2efccf",
+          "sourceRect": [
+            0,
+            276,
+            2172,
+            465
+          ],
+          "sourceAnchorX": 1088.0
+        }
+      ],
+      "reviewStatus": "외형사용자검토대기·게임연결없음",
+      "processing": "원안분리·동일시트공통배율·최근접정렬만. 병사발/대포바퀴접지 기준. 내용덧칠/프레임복제없음."
+    },
+    {
+      "id": "bullet_trace",
+      "title": "총알 흔적",
+      "kind": "projectile",
+      "frames": 1,
+      "w": 256,
+      "h": 128,
+      "pivot": [
+        128,
+        64
+      ],
+      "fps": 0,
+      "ref": null,
+      "prompt": "Use case: stylized-concept. ONE small projectile sprite concept for a16-bit pixel defensegame: a single very thin short pale ivory/gold musket bullet trail pointing RIGHT, a tiny ochre tip at right and2-3 short square-pixel streaks trailing left. No gun, no shell casing, no giant flame. Hardpixels only. Center the single object in actual transparent PNG, generous empty margins. Crisp chunky square pixels, flat limited palette, dark steppedoutline. No realisticpainting, smooth glow, gradients,shadow,background,floor,text,grid,duplicates or extra items. Object only. Aim right +X as canonical rotation direction. Gameplay rotation/size set later, this is only art reference.",
+      "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-76f33509-6ebc-4393-94de-9210ba88158f.png",
+      "tool": "built-in imagegen",
+      "source": "bullet_trace_source.png",
+      "sourceSize": [
+        1774,
+        887
+      ],
+      "sourceSha256": "f208c9ca6700f791eb4897f502c9b3cbed47f2b5b6847291d0317849e67cfa14",
+      "sheet": "bullet_trace_sheet.png",
+      "sheetSize": [
+        256,
+        128
+      ],
+      "sheetSha256": "b65fec4ee29fccab7acba06d7da9fb8942d5a7129da5ee75b7243ea6f58fbc07",
+      "sourceColumnBounds": [
+        0,
+        1774
+      ],
+      "commonScale": 0.5325443786982249,
+      "framesMeta": [
+        {
+          "index": 0,
+          "rect": [
+            0,
+            0,
+            256,
+            128
+          ],
+          "pivotPixels": [
+            128,
+            64
+          ],
+          "alphaBBox": [
+            37,
+            44,
+            223,
+            85
+          ],
+          "rgbaSha256": "6e6d2c60e49c83188c5846bf172e9e4abf9a021a7acaf998889b8fa65e4146df",
+          "sourceRect": [
+            0,
+            409,
+            1774,
+            486
+          ],
+          "sourceAnchorX": 886.5
+        }
+      ],
+      "reviewStatus": "외형사용자검토대기·게임연결없음",
+      "processing": "원안분리·동일시트공통배율·최근접정렬만. 병사발/대포바퀴접지 기준. 내용덧칠/프레임복제없음."
+    },
+    {
+      "id": "cannonball",
+      "title": "포탄",
+      "kind": "projectile",
+      "frames": 1,
+      "w": 256,
+      "h": 128,
+      "pivot": [
+        128,
+        64
+      ],
+      "fps": 0,
+      "ref": null,
+      "prompt": "Use case: stylized-concept. ONE small projectile sprite concept for a16-bit pixel defensegame: one small round darkiron cannonball, charcoal/gray limitedpalette with tiny upperleft grayhighlight, no fire, fuse, smoke or trail. A round sphere readable as a solid shot. Center the single object in actual transparent PNG, generous empty margins. Crisp chunky square pixels, flat limited palette, dark steppedoutline. No realisticpainting, smooth glow, gradients,shadow,background,floor,text,grid,duplicates or extra items. Object only. Aim right +X as canonical rotation direction. Gameplay rotation/size set later, this is only art reference.",
+      "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-2782a7ec-8744-4344-af93-32328d3448b0.png",
+      "tool": "built-in imagegen",
+      "source": "cannonball_source.png",
+      "sourceSize": [
+        1536,
+        1024
+      ],
+      "sourceSha256": "f59d168326de968a9f7fb18b396e381d650e5291b9c745a1be889786f0d71596",
+      "sheet": "cannonball_sheet.png",
+      "sheetSize": [
+        256,
+        128
+      ],
+      "sheetSha256": "0bc24da3d582b2a1ebf6408e7899ba1b73b0d86373856bda63fe86e52a0f95e7",
+      "sourceColumnBounds": [
+        0,
+        1536
+      ],
+      "commonScale": 0.2465753424657534,
+      "framesMeta": [
+        {
+          "index": 0,
+          "rect": [
+            0,
+            0,
+            256,
+            128
+          ],
+          "pivotPixels": [
+            128,
+            64
+          ],
+          "alphaBBox": [
+            92,
+            28,
+            165,
+            100
+          ],
+          "rgbaSha256": "f5f27fec0829d6ac79a1ddb5d68a4730aaa386e89fa95d661af0377a9d142284",
+          "sourceRect": [
+            0,
+            364,
+            1536,
+            656
+          ],
+          "sourceAnchorX": 767.5
+        }
+      ],
+      "reviewStatus": "외형사용자검토대기·게임연결없음",
+      "processing": "원안분리·동일시트공통배율·최근접정렬만. 병사발/대포바퀴접지 기준. 내용덧칠/프레임복제없음."
+    }
+  ],
+  "existingCharacterSheetsChanged": false,
+  "scopeCorrection": "M-CL-077: 석궁병과 석궁 볼트 제외, 궁수(활)·총병과 투사체3종만",
+  "unityRun": false
+}

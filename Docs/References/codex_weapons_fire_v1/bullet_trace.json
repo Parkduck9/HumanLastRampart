@@ -1,0 +1,65 @@
+{
+  "id": "bullet_trace",
+  "title": "총알 흔적",
+  "kind": "projectile",
+  "frames": 1,
+  "w": 256,
+  "h": 128,
+  "pivot": [
+    128,
+    64
+  ],
+  "fps": 0,
+  "ref": null,
+  "prompt": "Use case: stylized-concept. ONE small projectile sprite concept for a16-bit pixel defensegame: a single very thin short pale ivory/gold musket bullet trail pointing RIGHT, a tiny ochre tip at right and2-3 short square-pixel streaks trailing left. No gun, no shell casing, no giant flame. Hardpixels only. Center the single object in actual transparent PNG, generous empty margins. Crisp chunky square pixels, flat limited palette, dark steppedoutline. No realisticpainting, smooth glow, gradients,shadow,background,floor,text,grid,duplicates or extra items. Object only. Aim right +X as canonical rotation direction. Gameplay rotation/size set later, this is only art reference.",
+  "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-76f33509-6ebc-4393-94de-9210ba88158f.png",
+  "tool": "built-in imagegen",
+  "source": "bullet_trace_source.png",
+  "sourceSize": [
+    1774,
+    887
+  ],
+  "sourceSha256": "f208c9ca6700f791eb4897f502c9b3cbed47f2b5b6847291d0317849e67cfa14",
+  "sheet": "bullet_trace_sheet.png",
+  "sheetSize": [
+    256,
+    128
+  ],
+  "sheetSha256": "b65fec4ee29fccab7acba06d7da9fb8942d5a7129da5ee75b7243ea6f58fbc07",
+  "sourceColumnBounds": [
+    0,
+    1774
+  ],
+  "commonScale": 0.5325443786982249,
+  "framesMeta": [
+    {
+      "index": 0,
+      "rect": [
+        0,
+        0,
+        256,
+        128
+      ],
+      "pivotPixels": [
+        128,
+        64
+      ],
+      "alphaBBox": [
+        37,
+        44,
+        223,
+        85
+      ],
+      "rgbaSha256": "6e6d2c60e49c83188c5846bf172e9e4abf9a021a7acaf998889b8fa65e4146df",
+      "sourceRect": [
+        0,
+        409,
+        1774,
+        486
+      ],
+      "sourceAnchorX": 886.5
+    }
+  ],
+  "reviewStatus": "외형사용자검토대기·게임연결없음",
+  "processing": "원안분리·동일시트공통배율·최근접정렬만. 병사발/대포바퀴접지 기준. 내용덧칠/프레임복제없음."
+}
