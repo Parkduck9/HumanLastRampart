@@ -32,6 +32,7 @@ namespace HumanLastRampart.App.Flow
         public bool StoryIsDefeatEnding;
         public BattleOutcome? LastBattleOutcome;   // 검증을 통과한 결과만
         public bool HasNextBattle;                  // 다음 전투 번호에 웨이브가 있는가
+        public bool LastBattleWasPractice;          // 연습 전투가 끝남 (D-063, C-005 v1.5 초안)
     }
 
     // 다음 화면 순서표 — App 한 곳에서만 정한다 (C-003 4, D-014, D-017 E3, D-022 I5)
@@ -63,6 +64,9 @@ namespace HumanLastRampart.App.Flow
                     return PrepareBattle();
 
                 case ScreenId.Battle:
+                    // 연습: 결과 화면(결과 반영 C-007)·전투 번호 증가·패배 엔딩 없이 같은 번호의 실전으로 (D-063).
+                    // 실전 준비 정보는 새로 만들어 연습 표시가 남지 않는다. 연습 뒤 갈 곳은 튜토리얼 흐름 확정 전 임시
+                    if (outcome == ScreenOutcome.Done && state.LastBattleWasPractice) return PrepareBattle();
                     if (outcome != ScreenOutcome.Done || state.LastBattleOutcome == null) return FlowStep.Stay();
                     if (state.LastBattleOutcome == BattleOutcome.Victory)
                     {

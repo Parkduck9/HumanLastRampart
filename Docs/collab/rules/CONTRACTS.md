@@ -1266,3 +1266,12 @@ public interface IScreenContext
 
 ## C-010 v1.7 — 서 있기 그림 (D-066)
 - `UnitDef`에 선택 필드 `idleSheet`(Texture2D, 1칸 256×384, 발 128·352). 전투에서 주인공이 서 있을 때 이 그림, 없으면 기존 시트 0번 칸. Meta·UI 영향 없음
+
+## C-005 v1.5 초안 — 연습 전투 표시 (D-063)
+- 상태: **제안 — Codex 검토 필요** (2026-10-15, 작업 카드 K-014, 작성 Claude). 9단계 세부·병사/지휘관 무적·연습 자원/저장 분리·재시도는 D-063대로 미정
+- **필드:** `BattleSetup.IsPractice`(bool, 기본 false). true = 튜토리얼 연습 전투. 기존 데이터·저장은 false로 읽혀 지금과 같다(BattleSetup에는 Clone이 없고 App이 전투마다 새로 만든다)
+- **전투(Combat, Claude):** 연습이면 네 성벽 모두 **실제 체력(wallHp)이 줄지 않는다.** 성벽 피해 경로는 '성벽 앞 적 공격 → 프레임 집계' 하나뿐이고(등반 뒤 성벽 위 공격은 병사 피해), 그 공통 지점(`BattleSim.BeginFrame`)에서 깎지 않는다. 깎았다가 회복하거나 화면 숫자만 고정하지 않는다. 적 이동·공격 동작·병사 피해·병력 70% 손실 패배는 그대로. 결과 `WallOutcomes`는 비고 `WallDestroyed` 패배는 나지 않는다
+- **결과 반영 건너뜀(App, Claude):** 전투 화면이 `Done`을 알렸을 때 `ActiveBattleSetup.IsPractice`면 GameFlow가 `LastBattle`·`ActiveBattleSetup`을 버리고 결과 화면(BattleResultApplier, C-007)으로 보내지 않는다. 전투 번호 증가·패배 엔딩 요청도 없다. 그다음은 같은 번호의 **실전 준비 정보를 새로 만들어** 전투를 연다(새 BattleSetup은 IsPractice=false — 연습 보호가 실전으로 새지 않음). 연습 뒤 갈 곳(실전/스토리/메인)은 튜토리얼 흐름 확정 전 임시. `BackToMainMenu`는 지금과 같다(진행 데이터 버림)
+- **연습 시작 방법 제안(Codex 튜토리얼 화면 → App):** 지금은 IsPractice=true를 만드는 길이 없다. 제안: 스토리(인수인계) 화면이 끝날 때 '연습으로'를 알리면 App이 `BattleSetupFactory.Create` 뒤 `IsPractice = true`로 전투를 연다. 신호 방법 후보 ① `ScreenOutcome`에 연습 시작 값 추가(C-003 개정) ② `StoryRequest`/스토리 정의에 '끝나면 연습' 표시. 연습 건너뛰기는 그냥 실전 준비로. CampaignState에 새 저장 필드는 만들지 않는다(PROPOSAL 원칙)
+- **전투 화면 안내(Combat·UI):** 연습 표시 문구·성벽 피격 연출 유지 여부는 별도 제안
+- 확인: 편집 시험 `Combat/Tests/BattlePracticeTests`(실전은 깎임·연습은 그대로·순서표). 합칠 때 실행 예정

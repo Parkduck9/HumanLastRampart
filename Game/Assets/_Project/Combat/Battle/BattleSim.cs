@@ -611,7 +611,13 @@ namespace HumanLastRampart.Combat.Battle
             for (int side = 0; side < 4; side++)
             {
                 int b = side * SideStat.Count;
-                wallHp[side] = Mathf.Max(0f, wallHp[side] - tally[b + SideStat.WallDamage]);
+                // 성벽 피해는 모두 여기서만 깎인다 (성벽 앞 공격 → 집계). 연습이면 실제 체력이 줄지 않는다 (D-063).
+                // 적 이동·공격 동작과 성벽 위 적의 병사 피해는 그대로
+                if (!setup.IsPractice)
+                {
+                    wallHp[side] = Mathf.Max(0f, wallHp[side] - tally[b + SideStat.WallDamage]);
+                }
+
                 garrisonDamage[side] += tally[b + SideStat.GarrisonDamage];
                 KillSoldiersFromDamage(side);
 
