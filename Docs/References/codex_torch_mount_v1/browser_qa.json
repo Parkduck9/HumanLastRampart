@@ -1,0 +1,24 @@
+{
+  "tested": true,
+  "url": "http://127.0.0.1:8770/K-018/Docs/References/codex_torch_mount_v1/preview.html",
+  "autoFrameObserved": [
+    1,
+    3
+  ],
+  "manualNext": [
+    3,
+    4
+  ],
+  "manualPrevious": [
+    4,
+    3
+  ],
+  "fpsChange": 12,
+  "smallToggle": true,
+  "sameBody": true,
+  "imagesLoaded": true,
+  "horizontalOverflow": false,
+  "consoleWarnError": 0,
+  "unityTested": false,
+  "fileProtocolTested": false
+}
