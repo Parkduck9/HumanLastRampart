@@ -14,6 +14,7 @@ namespace HumanLastRampart.Core.Definitions
         [SerializeField] float climbSpeed = 1f;
         [SerializeField] int onWallAttack = 1;      // 성벽 위에서 병사 공격력
         [SerializeField] Texture2D sheet;           // 4열×2행 (걷기 4·공격 4) 규격 — 고블린 시트 기준
+        [SerializeField] Texture2D normalSheet;     // sheet 짝 노멀맵 (같은 칸 배치, 초록 = 위, D-062 G4). 없으면 노멀맵 없이
 
         public bool IsSpecial => isSpecial;
         public int MaxHp => maxHp;
@@ -24,5 +25,6 @@ namespace HumanLastRampart.Core.Definitions
         public float ClimbSpeed => climbSpeed;
         public int OnWallAttack => onWallAttack;
         public Texture2D Sheet => sheet;
+        public Texture2D NormalSheet => normalSheet;
     }
 }

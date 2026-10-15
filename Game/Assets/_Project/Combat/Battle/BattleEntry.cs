@@ -65,7 +65,9 @@ namespace HumanLastRampart.Combat.Battle
             if (setup != null && defs != null && spriteShader != null)
             {
                 sim = new BattleSim(setup, defs);
-                view = new BattleView(sim, spriteShader, transform, HeroSheet(setup, defs), HeroUnit(setup, defs)?.IdleSheet);
+                UnitDef heroUnit = HeroUnit(setup, defs);
+                view = new BattleView(sim, spriteShader, transform, HeroSheet(setup, defs), heroUnit?.IdleSheet,
+                    heroUnit?.NormalSheet, heroUnit?.IdleNormalSheet);   // 노멀맵 짝 (D-062 G4) — 없으면 null
                 rig = new BattleCameraRig(battleCamera, sim.CastleHalf, BattleSim.WallHeight);
                 mapCamera = new BattleMapCamera(battleCamera, sim.CastleHalf, sim.FieldSize);
                 easy = setup.Difficulty == Difficulty.Easy;
