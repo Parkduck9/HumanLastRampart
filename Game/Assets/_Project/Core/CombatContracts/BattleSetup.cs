@@ -5,7 +5,7 @@ using HumanLastRampart.Core.Flow;
 
 namespace HumanLastRampart.Core.CombatContracts
 {
-    // 전투 준비 정보 (C-005 r2·v1.1·v1.2). App이 만들고 Combat이 읽는다.
+    // 전투 준비 정보 (C-005 r2·v1.1·v1.2·v1.5 초안). App이 만들고 Combat이 읽는다.
     // 진행 데이터와 가변 객체를 공유하지 않도록 목록과 내부 객체까지 복사본이다.
     [Serializable]
     public sealed class BattleSetup
@@ -19,6 +19,7 @@ namespace HumanLastRampart.Core.CombatContracts
         public float EnemyCountMultiplier = 1f;      // v1.2: 현실 1.0, 쉬움 0.5 (D-031 K1)
         public int MaxConcurrentEnemies;             // v1.2: 현실 50,000, 쉬움 25,000
         public WeatherForecast Forecast;             // v1.2: 날씨·밤낮·변화 계획 (D-031 K4)
+        public bool IsPractice;                      // v1.5 초안: 튜토리얼 연습 전투 (D-063). 성벽 실제 체력이 줄지 않고 결과는 진행 데이터에 반영하지 않는다. 기본 false
 
         public List<HeroState> Heroes = new List<HeroState>();
         public List<SquadState> Squads = new List<SquadState>();

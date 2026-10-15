@@ -168,6 +168,13 @@ namespace HumanLastRampart.App.Flow
             {
                 state.StoryIsDefeatEnding = Campaign.NextStory != null && Campaign.NextStory.Kind == StoryKind.DefeatEnding;
             }
+            else if (context.Screen == ScreenId.Battle && outcome == ScreenOutcome.Done && Campaign?.ActiveBattleSetup != null && Campaign.ActiveBattleSetup.IsPractice)
+            {
+                // 연습 결과는 진행 데이터에 남기지 않는다 — 결과 반영(C-007)으로 보내지 않고 버린다 (D-063)
+                Campaign.LastBattle = null;
+                Campaign.ActiveBattleSetup = null;
+                state.LastBattleWasPractice = true;
+            }
             else if (context.Screen == ScreenId.Battle && outcome == ScreenOutcome.Done)
             {
                 string error = BattleResultCheck.Validate(Campaign);
