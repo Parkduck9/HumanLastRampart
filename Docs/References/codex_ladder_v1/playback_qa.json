@@ -1,0 +1,25 @@
+{
+  "method": "Node VM 재생 상태·타이머·이벤트 단위 검사; 실제 DOM/브라우저/캔버스 렌더 검증 아님",
+  "checks": {
+    "images_loaded": true,
+    "initial_autoplay": true,
+    "raf_advances_frame": true,
+    "pause_stops_frame": true,
+    "status_matches_pause": true,
+    "manual_next_one_frame": true,
+    "manual_previous_one_frame": true,
+    "resume_advances": true,
+    "status_matches_resume": true,
+    "deploy_stops_last_frame": true,
+    "deploy_replay_restarts": true,
+    "climb_loops_to_first": true,
+    "scrub_pauses_and_selects": true,
+    "double_scale": true,
+    "zoom_expands_layout": true,
+    "light_background_control": true,
+    "side_prop_control_no_error": true,
+    "fps_control": true
+  },
+  "passed": 18,
+  "total": 18
+}
