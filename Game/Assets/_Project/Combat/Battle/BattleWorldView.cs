@@ -8,7 +8,8 @@ namespace HumanLastRampart.Combat.Battle
     // - 성벽 윗면 바깥 모서리에 낮은 난간 벽 + 그 위 돌출부(총안 사이 돌), 대포 자리는 난간을 낮추고 벌린 사격구
     // - 네 모서리 포탑: 통로와 같은 높이의 발판(주인공이 그대로 지나감) + 바깥쪽에 높이 솟은 탑
     // - 크기는 병사 키(0.35m)에 맞춘 비율로 정한다. 시안 번호(Draft)로 비율을 바꿔 비교한다 (확정 전 목업)
-    // - 질감은 아직 단색 회색 돌 (Codex 3D 질감 카드 K-005가 오면 입힌다)
+    // - 질감: 재질 공용 코드(BattleWorldMaterials, K-007)가 Art/Battle/Resources/BattleArt/World의 그림을 읽는다. 그림이 없으면 단색 돌
+    // - 확정 D-068: 시안 1(도트 비율), 모서리 포탑은 바깥쪽에 솟음. 시안 2는 비교용으로만 남김
     public sealed class BattleWorldView
     {
         // 0 = 끔(예전 난간 그림 판), 1 = 시안 1 '도트 비율'(허리 높이 난간), 2 = 시안 2 '실제 비율'(가슴 높이 난간·큰 탑)
@@ -42,7 +43,7 @@ namespace HumanLastRampart.Combat.Battle
         public static Proportion Current => Drafts[math.clamp(Draft, 0, Drafts.Length - 1)];
 
         readonly GameObject root;
-        readonly Material stone, stoneDark, roof;
+        readonly BattleWorldMaterials materials;
 
         public int PieceCount { get; private set; }
 
@@ -52,12 +53,7 @@ namespace HumanLastRampart.Combat.Battle
             root.transform.SetParent(parent, false);
             if (!Active) return;
 
-            var probe = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            Material lit = probe.GetComponent<Renderer>().sharedMaterial;
-            Object.Destroy(probe);
-            stone = new Material(lit) { name = "Stone (목업)", color = new Color(0.62f, 0.61f, 0.58f) };
-            stoneDark = new Material(lit) { name = "Stone Dark (목업)", color = new Color(0.48f, 0.47f, 0.45f) };
-            roof = new Material(lit) { name = "Roof (목업)", color = new Color(0.36f, 0.30f, 0.27f) };
+            materials = new BattleWorldMaterials();
 
             Proportion p = Current;
             float half = sim.CastleHalf;
@@ -104,7 +100,7 @@ namespace HumanLastRampart.Combat.Battle
                     foreach (float bay in bays[side]) if (Mathf.Abs(m - bay) < p.BayWidth * 0.5f + p.MerlonWidth * 0.5f) inBay = true;
                     if (inBay) continue;
                     Box("Merlon", n * (half - p.ParapetDepth * 0.5f) + r * m + Vector3.up * (top + p.ParapetHeight + p.MerlonHeight * 0.5f),
-                        face, new Vector3(p.MerlonWidth, p.MerlonHeight, p.ParapetDepth), stone);
+                        face, new Vector3(p.MerlonWidth, p.MerlonHeight, p.ParapetDepth), BattleWorldMaterials.Surface.ParapetSide);
                 }
             }
 
@@ -116,10 +112,10 @@ namespace HumanLastRampart.Combat.Battle
                 var outward = new Vector3(a.x + b.x, 0f, a.z + b.z).normalized;
                 // 발판: 모서리를 중심으로, 위가 통로 높이
                 var platformCenter = corner - outward * 0.7f;
-                Box("Corner Platform", platformCenter + Vector3.up * (top * 0.5f), Quaternion.identity, new Vector3(p.TowerPlatform, top, p.TowerPlatform), stoneDark);
+                Box("Corner Platform", platformCenter + Vector3.up * (top * 0.5f), Quaternion.identity, new Vector3(p.TowerPlatform, top, p.TowerPlatform), BattleWorldMaterials.Surface.TowerWall);
                 // 솟은 탑: 발판 바깥쪽 끝 (통로 밖이라 길을 막지 않음)
                 var towerCenter = corner + outward * (p.TowerSize * 0.5f * 0.9f);
-                Box("Corner Tower", towerCenter + Vector3.up * ((top + p.TowerRise) * 0.5f), Quaternion.LookRotation(outward), new Vector3(p.TowerSize, top + p.TowerRise, p.TowerSize), stone);
+                Box("Corner Tower", towerCenter + Vector3.up * ((top + p.TowerRise) * 0.5f), Quaternion.LookRotation(outward), new Vector3(p.TowerSize, top + p.TowerRise, p.TowerSize), BattleWorldMaterials.Surface.TowerWall);
                 // 탑 위 돌출부 4면
                 float towerTop = top + p.TowerRise;
                 for (int k = 0; k < 4; k++)
@@ -128,11 +124,11 @@ namespace HumanLastRampart.Combat.Battle
                     Vector3 f = q * Vector3.forward, rr = q * Vector3.right;
                     for (int j = -1; j <= 1; j++)
                         Box("Tower Merlon", towerCenter + f * (p.TowerSize * 0.5f - p.ParapetDepth * 0.5f) + rr * (j * p.TowerSize * 0.32f) + Vector3.up * (towerTop + p.MerlonHeight * 0.5f),
-                            q, new Vector3(p.MerlonWidth * 1.1f, p.MerlonHeight, p.ParapetDepth), stone);
+                            q, new Vector3(p.MerlonWidth * 1.1f, p.MerlonHeight, p.ParapetDepth), BattleWorldMaterials.Surface.ParapetSide);
                 }
 
                 // 탑 지붕 (낮은 피라미드 대신 납작한 상자 — 목업)
-                Box("Tower Roof", towerCenter + Vector3.up * (towerTop + p.MerlonHeight + 0.15f), Quaternion.LookRotation(outward), new Vector3(p.TowerSize * 0.7f, 0.3f, p.TowerSize * 0.7f), roof);
+                Box("Tower Roof", towerCenter + Vector3.up * (towerTop + p.MerlonHeight + 0.15f), Quaternion.LookRotation(outward), new Vector3(p.TowerSize * 0.7f, 0.3f, p.TowerSize * 0.7f), BattleWorldMaterials.Surface.TowerRoof);
             }
         }
 
@@ -147,10 +143,10 @@ namespace HumanLastRampart.Combat.Battle
         {
             if (to - from < 0.05f || height <= 0.001f) return;
             float mid = (from + to) * 0.5f;
-            Box("Parapet", n * (half - p.ParapetDepth * 0.5f) + r * mid + Vector3.up * (top + height * 0.5f), face, new Vector3(to - from, height, p.ParapetDepth), stone);
+            Box("Parapet", n * (half - p.ParapetDepth * 0.5f) + r * mid + Vector3.up * (top + height * 0.5f), face, new Vector3(to - from, height, p.ParapetDepth), BattleWorldMaterials.Surface.ParapetSide);
         }
 
-        void Box(string name, Vector3 position, Quaternion rotation, Vector3 size, Material material)
+        void Box(string name, Vector3 position, Quaternion rotation, Vector3 size, BattleWorldMaterials.Surface surface)
         {
             var go = GameObject.CreatePrimitive(PrimitiveType.Cube);
             go.name = name;
@@ -159,16 +155,16 @@ namespace HumanLastRampart.Combat.Battle
             go.transform.localPosition = position;
             go.transform.localRotation = rotation;
             go.transform.localScale = size;
-            go.GetComponent<Renderer>().sharedMaterial = material;
+            var renderer = go.GetComponent<Renderer>();
+            renderer.sharedMaterial = materials.Get(surface);
+            materials.Apply(renderer, surface, new Vector2(size.x, size.y));   // 1m당 32화소로 반복 (그림이 있을 때만)
             PieceCount++;
         }
 
         public void Dispose()
         {
             if (root != null) Object.Destroy(root);
-            if (stone != null) Object.Destroy(stone);
-            if (stoneDark != null) Object.Destroy(stoneDark);
-            if (roof != null) Object.Destroy(roof);
+            materials?.Dispose();
         }
     }
 }
