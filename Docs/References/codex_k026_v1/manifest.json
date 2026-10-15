@@ -1,0 +1,286 @@
+{
+    "version":  "v1",
+    "card":  "K-026",
+    "baseSize":  24,
+    "sizes":  [
+                  24,
+                  32,
+                  48
+              ],
+    "icons":  [
+                  {
+                      "id":  "unit_archer",
+                      "name":  "궁수",
+                      "group":  "병종",
+                      "meaning":  "활과 화살",
+                      "api":  null,
+                      "files":  {
+                                    "24":  "png/24/unit_archer.png",
+                                    "32":  "png/32/unit_archer.png",
+                                    "48":  "png/48/unit_archer.png"
+                                }
+                  },
+                  {
+                      "id":  "unit_gunner",
+                      "name":  "총병",
+                      "group":  "병종",
+                      "meaning":  "긴 총열과 개머리판",
+                      "api":  null,
+                      "files":  {
+                                    "24":  "png/24/unit_gunner.png",
+                                    "32":  "png/32/unit_gunner.png",
+                                    "48":  "png/48/unit_gunner.png"
+                                }
+                  },
+                  {
+                      "id":  "unit_cannon",
+                      "name":  "대포병",
+                      "group":  "병종",
+                      "meaning":  "바퀴 달린 대포",
+                      "api":  null,
+                      "files":  {
+                                    "24":  "png/24/unit_cannon.png",
+                                    "32":  "png/32/unit_cannon.png",
+                                    "48":  "png/48/unit_cannon.png"
+                                }
+                  },
+                  {
+                      "id":  "unit_wizard",
+                      "name":  "마법사",
+                      "group":  "병종",
+                      "meaning":  "푸른 수정 지팡이",
+                      "api":  null,
+                      "files":  {
+                                    "24":  "png/24/unit_wizard.png",
+                                    "32":  "png/32/unit_wizard.png",
+                                    "48":  "png/48/unit_wizard.png"
+                                }
+                  },
+                  {
+                      "id":  "unit_hero",
+                      "name":  "주인공",
+                      "group":  "병종",
+                      "meaning":  "장교 제복의 견장과 훈장",
+                      "api":  null,
+                      "files":  {
+                                    "24":  "png/24/unit_hero.png",
+                                    "32":  "png/32/unit_hero.png",
+                                    "48":  "png/48/unit_hero.png"
+                                }
+                  },
+                  {
+                      "id":  "stat_gold",
+                      "name":  "골드",
+                      "group":  "자원·전황",
+                      "meaning":  "겹친 금화",
+                      "api":  null,
+                      "files":  {
+                                    "24":  "png/24/stat_gold.png",
+                                    "32":  "png/32/stat_gold.png",
+                                    "48":  "png/48/stat_gold.png"
+                                }
+                  },
+                  {
+                      "id":  "stat_troops",
+                      "name":  "병력",
+                      "group":  "자원·전황",
+                      "meaning":  "세 사람의 묶음",
+                      "api":  null,
+                      "files":  {
+                                    "24":  "png/24/stat_troops.png",
+                                    "32":  "png/32/stat_troops.png",
+                                    "48":  "png/48/stat_troops.png"
+                                }
+                  },
+                  {
+                      "id":  "stat_wall_hp",
+                      "name":  "성벽 체력",
+                      "group":  "자원·전황",
+                      "meaning":  "성벽과 작은 체력 십자",
+                      "api":  null,
+                      "files":  {
+                                    "24":  "png/24/stat_wall_hp.png",
+                                    "32":  "png/32/stat_wall_hp.png",
+                                    "48":  "png/48/stat_wall_hp.png"
+                                }
+                  },
+                  {
+                      "id":  "stat_kills",
+                      "name":  "처치 수",
+                      "group":  "자원·전황",
+                      "meaning":  "쓰러진 적의 해골",
+                      "api":  null,
+                      "files":  {
+                                    "24":  "png/24/stat_kills.png",
+                                    "32":  "png/32/stat_kills.png",
+                                    "48":  "png/48/stat_kills.png"
+                                }
+                  },
+                  {
+                      "id":  "weather_clear",
+                      "name":  "맑음",
+                      "group":  "날씨·밤낮",
+                      "meaning":  "사방으로 빛나는 해",
+                      "api":  null,
+                      "files":  {
+                                    "24":  "png/24/weather_clear.png",
+                                    "32":  "png/32/weather_clear.png",
+                                    "48":  "png/48/weather_clear.png"
+                                }
+                  },
+                  {
+                      "id":  "weather_cloudy",
+                      "name":  "흐림",
+                      "group":  "날씨·밤낮",
+                      "meaning":  "구름 두 겹",
+                      "api":  null,
+                      "files":  {
+                                    "24":  "png/24/weather_cloudy.png",
+                                    "32":  "png/32/weather_cloudy.png",
+                                    "48":  "png/48/weather_cloudy.png"
+                                }
+                  },
+                  {
+                      "id":  "weather_rain",
+                      "name":  "비",
+                      "group":  "날씨·밤낮",
+                      "meaning":  "구름 아래 성긴 빗줄기",
+                      "api":  null,
+                      "files":  {
+                                    "24":  "png/24/weather_rain.png",
+                                    "32":  "png/32/weather_rain.png",
+                                    "48":  "png/48/weather_rain.png"
+                                }
+                  },
+                  {
+                      "id":  "weather_shower",
+                      "name":  "소나기",
+                      "group":  "날씨·밤낮",
+                      "meaning":  "구름 아래 굵고 촘촘한 빗줄기",
+                      "api":  null,
+                      "files":  {
+                                    "24":  "png/24/weather_shower.png",
+                                    "32":  "png/32/weather_shower.png",
+                                    "48":  "png/48/weather_shower.png"
+                                }
+                  },
+                  {
+                      "id":  "weather_fog",
+                      "name":  "안개",
+                      "group":  "날씨·밤낮",
+                      "meaning":  "엇갈린 수평 안개층",
+                      "api":  null,
+                      "files":  {
+                                    "24":  "png/24/weather_fog.png",
+                                    "32":  "png/32/weather_fog.png",
+                                    "48":  "png/48/weather_fog.png"
+                                }
+                  },
+                  {
+                      "id":  "time_day",
+                      "name":  "낮",
+                      "group":  "날씨·밤낮",
+                      "meaning":  "지평선 위의 해",
+                      "api":  null,
+                      "files":  {
+                                    "24":  "png/24/time_day.png",
+                                    "32":  "png/32/time_day.png",
+                                    "48":  "png/48/time_day.png"
+                                }
+                  },
+                  {
+                      "id":  "time_night",
+                      "name":  "밤",
+                      "group":  "날씨·밤낮",
+                      "meaning":  "초승달과 별",
+                      "api":  null,
+                      "files":  {
+                                    "24":  "png/24/time_night.png",
+                                    "32":  "png/32/time_night.png",
+                                    "48":  "png/48/time_night.png"
+                                }
+                  },
+                  {
+                      "id":  "priority_low_hp",
+                      "name":  "체력 낮은 적부터",
+                      "group":  "우선순위 명령",
+                      "meaning":  "빈 체력 모양과 아래 화살표",
+                      "api":  "LowestHpRatio",
+                      "files":  {
+                                    "24":  "png/24/priority_low_hp.png",
+                                    "32":  "png/32/priority_low_hp.png",
+                                    "48":  "png/48/priority_low_hp.png"
+                                }
+                  },
+                  {
+                      "id":  "priority_high_hp",
+                      "name":  "체력 높은 적부터",
+                      "group":  "우선순위 명령",
+                      "meaning":  "채운 체력 모양과 위 화살표",
+                      "api":  "HighestHpRatio",
+                      "files":  {
+                                    "24":  "png/24/priority_high_hp.png",
+                                    "32":  "png/32/priority_high_hp.png",
+                                    "48":  "png/48/priority_high_hp.png"
+                                }
+                  },
+                  {
+                      "id":  "priority_nearest",
+                      "name":  "가까운 적부터",
+                      "group":  "우선순위 명령",
+                      "meaning":  "성벽 가까이 향하는 화살표",
+                      "api":  "Nearest",
+                      "files":  {
+                                    "24":  "png/24/priority_nearest.png",
+                                    "32":  "png/32/priority_nearest.png",
+                                    "48":  "png/48/priority_nearest.png"
+                                }
+                  },
+                  {
+                      "id":  "priority_climbing",
+                      "name":  "오르는 적부터",
+                      "group":  "우선순위 명령",
+                      "meaning":  "사다리와 위쪽 이동",
+                      "api":  "ClimbingFirst",
+                      "files":  {
+                                    "24":  "png/24/priority_climbing.png",
+                                    "32":  "png/32/priority_climbing.png",
+                                    "48":  "png/48/priority_climbing.png"
+                                }
+                  },
+                  {
+                      "id":  "priority_special",
+                      "name":  "특수 적 먼저",
+                      "group":  "우선순위 명령",
+                      "meaning":  "뿔 달린 큰 적과 집중 표시",
+                      "api":  "SpecialFirst",
+                      "files":  {
+                                    "24":  "png/24/priority_special.png",
+                                    "32":  "png/32/priority_special.png",
+                                    "48":  "png/48/priority_special.png"
+                                }
+                  },
+                  {
+                      "id":  "priority_dense",
+                      "name":  "밀집한 곳 쏘기",
+                      "group":  "우선순위 명령",
+                      "meaning":  "조준 괄호 안의 밀집한 세 적",
+                      "api":  "DensestArea",
+                      "files":  {
+                                    "24":  "png/24/priority_dense.png",
+                                    "32":  "png/32/priority_dense.png",
+                                    "48":  "png/48/priority_dense.png"
+                                }
+                  }
+              ],
+    "palette":  {
+                    "ink":  "#101613",
+                    "shade":  "#786344",
+                    "brass":  "#d5b16b",
+                    "light":  "#eee4cf",
+                    "blue":  "#88b9c7",
+                    "red":  "#c37e70",
+                    "green":  "#91ad8b"
+                },
+    "status":  "사용자 확정 전 시안"
+}
