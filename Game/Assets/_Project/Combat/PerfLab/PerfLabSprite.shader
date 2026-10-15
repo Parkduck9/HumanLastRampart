@@ -110,6 +110,9 @@ Shader "HLR/PerfLabSprite"
             #pragma target 4.5
             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
             #pragma multi_compile_fragment _ _SHADOWS_SOFT
+            // 추가 조명 (횃불·폭발 빛, D-062 4단계). 포워드 플러스는 6.1부터 _CLUSTER_LIGHT_LOOP (예전 _FORWARD_PLUS)
+            #pragma multi_compile _ _ADDITIONAL_LIGHTS
+            #pragma multi_compile _ _CLUSTER_LIGHT_LOOP
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 
@@ -122,7 +125,15 @@ Shader "HLR/PerfLabSprite"
                 float3 faceRight : TEXCOORD3;
                 float3 faceNormal : TEXCOORD4;    // 카메라 쪽 (수평)
                 float lit : TEXCOORD5;            // 0 = 빛 계산 안 함 (지도 점)
+                float3 positionWS : TEXCOORD6;    // 추가 조명 거리 감쇠용 (픽셀마다)
             };
+
+            // 추가 조명 하나: 해·달과 같은 감싸는 빛 × 거리 감쇠. 그림자는 받지 않는다 (주 조명만)
+            half3 WrapAdditional(Light light, float3 n)
+            {
+                float wrap = saturate((dot(n, light.direction) + 0.6) / 1.6);
+                return light.color * (wrap * light.distanceAttenuation * 0.85);
+            }
 
             Varyings Vert(Attributes input)
             {
@@ -148,6 +159,7 @@ Shader "HLR/PerfLabSprite"
                 float3 world; float2 uv; float3 faceRight;
                 Billboard(input, camRight, world, uv, faceRight);
                 output.positionCS = TransformWorldToHClip(world);
+                output.positionWS = world;
                 output.uv = uv;
                 output.tint = (half3)data.tintSize.rgb;
                 output.faceRight = faceRight;
@@ -177,7 +189,28 @@ Shader "HLR/PerfLabSprite"
                 float wrap = saturate((dot(n, mainLight.direction) + 0.6) / 1.6);
                 half3 sun = mainLight.color * (wrap * mainLight.shadowAttenuation * 0.85);
                 half3 ambient = SampleSH(n) * 0.75;
-                return half4(albedo * (sun + ambient), 1.0h);
+
+                // 추가 조명 (횃불·폭발): 포워드 플러스면 화면 칸 목록, 아니면 개체별 목록을 돈다
+                half3 extra = 0;
+                #if defined(_ADDITIONAL_LIGHTS)
+                    InputData inputData = (InputData)0;   // LIGHT_LOOP_BEGIN(포워드 플러스)이 이 이름으로 읽는다
+                    inputData.positionWS = input.positionWS;
+                    inputData.normalizedScreenSpaceUV = GetNormalizedScreenSpaceUV(input.positionCS);
+                    uint lightsCount = GetAdditionalLightsCount();
+                    #if USE_CLUSTER_LIGHT_LOOP
+                        // 포워드 플러스: 추가 방향 빛은 칸 목록 밖에 따로 있다
+                        [loop] for (uint lightIndex = 0; lightIndex < min(URP_FP_DIRECTIONAL_LIGHTS_COUNT, MAX_VISIBLE_LIGHTS); lightIndex++)
+                        {
+                            CLUSTER_LIGHT_LOOP_SUBTRACTIVE_LIGHT_CHECK
+                            extra += WrapAdditional(GetAdditionalLight(lightIndex, input.positionWS), n);
+                        }
+                    #endif
+                    LIGHT_LOOP_BEGIN(lightsCount)
+                        extra += WrapAdditional(GetAdditionalLight(lightIndex, input.positionWS), n);
+                    LIGHT_LOOP_END
+                #endif
+
+                return half4(albedo * (sun + ambient + extra), 1.0h);
             }
             ENDHLSL
         }

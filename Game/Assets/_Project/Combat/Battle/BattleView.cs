@@ -55,6 +55,7 @@ namespace HumanLastRampart.Combat.Battle
         readonly MaterialPropertyBlock mapRunnerBlock;
         readonly BattlePropView props;          // 성벽 난간·대포 그림
         readonly BattleWorldView world;         // 성벽·포탑 3D 목업 (K-001)
+        readonly BattleLights lights;           // 밤 횃불·폭발 빛 (K-010)
         HumanLastRampart.Combat.Render.BattleLook look;   // 화면 효과 (빛번짐·색 보정·미니어처 흐림)
         readonly GraphicsBuffer shotBuffer;
         readonly MaterialPropertyBlock shotBlock;
@@ -195,6 +196,7 @@ namespace HumanLastRampart.Combat.Battle
             root.transform.SetParent(parent, false);
             props = new BattlePropView(sim, material, quad, bounds);
             world = new BattleWorldView(sim, root.transform);
+            lights = new BattleLights(sim, root.transform);   // 밤 횃불·폭발 빛 (K-010, D-062 4단계)
             BuildEnvironment();
         }
 
@@ -296,6 +298,7 @@ namespace HumanLastRampart.Combat.Battle
                 look.Refresh();
                 if (litBefore != HumanLastRampart.Combat.Render.BattleLook.LitActive) sim.SoldiersDirty = true;   // 밝기 숫자가 바뀌었으니 병사 그림 다시
             }
+            lights?.Update(mapMode);
             foreach (var (buffer, block, start, count) in enemyDraws)
             {
                 if (count <= 0) continue;
@@ -679,6 +682,7 @@ namespace HumanLastRampart.Combat.Battle
             runnerBuffer?.Release();
             props?.Dispose();
             world?.Dispose();
+            lights?.Dispose();
             soldierBuffer?.Release();
             shotBuffer?.Release();
             heroBuffer?.Release();
