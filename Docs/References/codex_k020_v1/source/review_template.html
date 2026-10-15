@@ -1,0 +1,60 @@
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>K-020 지도 표식 · 1판 검토</title>
+<style>
+:root{color-scheme:dark;--gold:#d5b16b;--text:#eee4cf}*{box-sizing:border-box}body{margin:0;background:#101613;color:var(--text);font:15px/1.6 'Malgun Gothic',sans-serif}main{max-width:1240px;margin:auto;padding:36px 24px 70px}h1,h2{font-family:Batang,serif}h1{font-size:34px;margin:8px 0}h2{font-size:24px;margin-top:36px}.eyebrow{color:var(--gold);letter-spacing:2px}.muted{color:#b7bead}.pill{border:1px solid #a68a55;border-radius:20px;padding:4px 12px;font-size:13px;display:inline-block}button,select{font:inherit;color:var(--text);background:#26352d;border:1px solid #8d7b53;border-radius:4px;min-height:44px;padding:8px 12px;cursor:pointer}button[aria-pressed=true]{background:#635639;border-color:#ffe0a1}button:hover,select:hover{border-color:#ffe0a1}button:focus-visible,select:focus-visible{outline:2px solid #fff1cf;outline-offset:3px}.controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:18px 0}.frame{overflow:auto;border:1px solid #6c6146;background:#18221c;padding:12px}canvas{display:block;image-rendering:pixelated;max-width:none;touch-action:manipulation}.hint{font-size:13px;color:#bcc3b4}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(270px,100%),1fr));gap:12px}.card{border:1px solid #56604e;background:#1c2922;padding:16px}.swatch{display:flex;align-items:center;gap:18px;min-height:150px;background:repeating-conic-gradient(#26352d 0 25%,#344537 0 50%) 0/16px 16px;padding:12px;overflow:hidden}.swatch img{image-rendering:pixelated;flex-shrink:0}.card h3{font-size:15px;margin:12px 0 0}.card p{margin:4px 0}.reference{max-width:100%;height:auto;display:block}table{border-collapse:collapse;width:100%;font-size:14px}td,th{text-align:left;padding:10px;border-bottom:1px solid #45503f}a{color:#e8c582}.legend{display:flex;gap:24px;flex-wrap:wrap}.legend span{display:flex;align-items:center;gap:8px}.legend img{width:32px;height:32px;image-rendering:pixelated}details{border:1px solid #45503f;padding:12px}summary{cursor:pointer}#status{min-height:24px;color:#d9c491}@media(max-width:600px){main{padding:22px 14px}h1{font-size:28px}table{font-size:12px}}
+</style><main>
+<div class="eyebrow">HUMAN LAST RAMPART / K-020 / 1판</div><h1>작은 표식으로 읽는 전장</h1><span class="pill">사용자 확정 전 · 게임 연결 없음</span>
+<p>궁수는 청록색과 활, 총병은 자주색과 총으로 구분합니다. 금색은 방위 장식·선택·이동에 쓰고, 대포 조준점은 빈 중앙을 남겨 목표를 가리지 않습니다.</p>
+<h2>01 · 지도 위 배치와 가독성</h2><p class="muted">위에서 본 직교 배치도입니다. 실제 게임 화면을 재현한 캡처가 아니며, 표식은 화면 화소 기준입니다.</p>
+<div class="controls"><label>배경 <select id="background"><option value="day">낮 들판</option><option value="night">밤 들판</option><option value="stone">회색 석재</option></select></label><button id="zoom" aria-pressed="false">2배 확대</button><button id="moving" aria-pressed="true">이동 화살표 켜짐</button><label>이동 방향 <select id="direction"><option value="east">동쪽</option><option value="south">남쪽</option><option value="west">서쪽</option><option value="north">북쪽</option></select></label><button id="active" aria-pressed="true">조준점 선택됨</button><button id="reset">배치 초기화</button></div>
+<div class="frame"><canvas id="map" width="960" height="600" role="img" aria-label="정사각형 성벽 주위 궁수·총병 깃발, 방위 받침과 들판 대포 조준점 시안"></canvas></div>
+<p class="hint">들판을 누르면 조준점을 옮깁니다. 조준점은 고정 32화소이며 실제 피해 반경·사거리·목표 유효 판정을 뜻하지 않습니다. 좁은 창과 2배 확대에서는 가로로 스크롤할 수 있습니다.</p><p id="status" role="status" aria-live="polite">그림을 불러오는 중입니다.</p>
+<div class="legend"><span><img id="archerLegend" alt="궁수 깃발">궁수 10명</span><span><img id="gunnerLegend" alt="총병 깃발">총병 10명</span><span>테두리 = 선택한 묶음</span><span>화살표 = 이동 중인 묶음</span></div>
+<h2>02 · 투명 PNG 원래 크기와 확대</h2><p class="muted">각 칸의 왼쪽은 원래 크기, 오른쪽은 4배입니다. 방위 받침은 64화소 원본과 2배로 보입니다. 받침의 북·동·남·서 글자는 게임에서 별도 글자로 겹칩니다.</p><div class="grid" id="gallery"></div>
+<h2>03 · 참고한 실제 지도</h2><details><summary>기존 화면 펼치기 · 원본 1600 × 900</summary><p class="hint">사용자 PC의 Game/playprobe/62_prep_map.png를 읽기만 하여 사본 보관. 기존 금색 방위 글자와 회색 성벽을 참고했습니다. 아래 사진에는 새 표식이 적용되지 않았습니다.</p><img id="reference" class="reference" alt="표식 적용 전 실제 전투 준비 지도 화면"></details>
+<h2>04 · 연결 전 확인할 규격</h2><table><thead><tr><th>항목</th><th>시안 규격</th><th>판단할 점</th></tr></thead><tbody><tr><td>병력 깃발</td><td>32 × 32, 기둥 발 (7,29)</td><td>청록·자주색 / 활·총 문양 / 10명 숫자 가독성</td></tr><tr><td>이동 화살표</td><td>24 × 24, 중심 (12,12), 네 방향</td><td>깃발 옆 4화소 간격. 경로를 따라 방향 교체</td></tr><tr><td>방위 글자 받침</td><td>64 × 64, 중심 (32,32)</td><td>중앙 20 × 20에 금색 글자 별도 배치, 글자 크기 약 18~20</td></tr><tr><td>대포 조준점</td><td>32 × 32, 중심 (16,16), 보통·선택</td><td>선택은 밝은 금색과 위아래 막대로 구분. 번호는 별도 표시</td></tr><tr><td>병력 선택 테두리</td><td>40 × 40, 중심 (20,20)</td><td>32화소 깃발과 중앙 정렬, 추가 그림자 효과 없음</td></tr></tbody></table>
+<p>모든 좌표는 좌상단 원점입니다. 투명 PNG · 점 필터 · 압축 없음 · 밉맵 끔 · 가장자리 고정이 연결 제안이며, 현재 게임 설정을 변경하지 않았습니다. 캐릭터·석재의 월드 화소 비율을 화면 UI 표식에 적용하지 않습니다.</p>
+<p class="muted">남은 검토: 1~9명 잔여 묶음의 숫자는 동적 글자로 분리할지, 표식이 몰릴 때 간격·쌓기 방식, 실제 해상도·UI 배율·밤·안개에서의 가독성, 클릭 영역과 전령 대기 상태. HTML 조작은 외형 검토용입니다.</p>
+<p><a download="K-020_표식목록.json" id="download">그림 목록 저장</a> · 재생성 원본: Docs/References/codex_k020_v1/source/ · 정식 연결은 사용자 방향 확정 뒤 Claude가 진행합니다.</p>
+</main><script>
+const sources=__IMAGES__,manifest=__MANIFEST__;
+const loaded={};let zoomed=false,moving=true,active=true,target={x:780,y:156};
+const canvas=document.querySelector('#map'),ctx=canvas.getContext('2d');
+const names={east:'동쪽',south:'남쪽',west:'서쪽',north:'북쪽'};
+const state=()=>({background:document.querySelector('#background').value,direction:document.querySelector('#direction').value});
+function icon(name,x,y,w,h){const im=loaded[name];ctx.drawImage(im,Math.round(x),Math.round(y),w||im.width,h||im.height)}
+function text(t,x,y,color='#eee4cf',size=14){ctx.font=`bold ${size}px Malgun Gothic, sans-serif`;ctx.fillStyle=color;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(t,x,y)}
+function draw(){
+ ctx.imageSmoothingEnabled=false;const s=state();ctx.fillStyle={day:'#63764f',night:'#253c36',stone:'#777b76'}[s.background];ctx.fillRect(0,0,960,600);
+ ctx.strokeStyle=s.background==='night'?'#334940':'#71805b';ctx.lineWidth=1;
+ for(let x=0;x<960;x+=40){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,600);ctx.stroke()}for(let y=0;y<600;y+=40){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(960,y);ctx.stroke()}
+ ctx.fillStyle=s.background==='night'?'#363c39':'#666a65';ctx.fillRect(292,140,376,320);
+ ctx.fillStyle=ctx.createPattern(loaded.wall,'repeat');ctx.fillRect(270,118,420,22);ctx.fillRect(270,460,420,22);ctx.fillRect(270,118,22,364);ctx.fillRect(668,118,22,364);
+ for(const [x,y] of [[258,106],[658,106],[258,450],[658,450]])ctx.fillRect(x,y,44,44);
+ if(s.background==='night'){ctx.fillStyle='#10252188';ctx.fillRect(258,106,444,388)}
+ const compass=[['북',480,200],['동',580,300],['남',480,400],['서',380,300]];
+ for(const [t,x,y]of compass){icon('compass_back.png',x-32,y-32);text(t,x,y,'#edcb83',20)}
+ const groups=[['archer',342,80],['gunner',444,80],['archer',546,80],['gunner',720,242],['archer',720,344],['archer',342,504],['gunner',444,504],['gunner',546,504],['archer',208,242],['gunner',208,344]];
+ for(const[k,x,y]of groups)icon(`flag_${k}.png`,x,y);
+ icon('group_selected.png',440,76);
+ if(moving){icon(`move_${s.direction}.png`,480,84);text('이동 중',529,99,'#f2dab0',12)}
+ icon(`cannon_target_${active?'active':'normal'}.png`,target.x-16,target.y-16);text('대포 1',target.x,target.y+32,'#f5dfb1',13);
+ text('표식 배치 시안 · 실제 게임 캡처 아님',480,24,'#eee4cf',16);
+ text('깃발 32화소 / 화살표 24화소 / 방위 받침 64화소 / 조준점 32화소',480,578,'#eee4cf',13);
+ document.querySelector('#status').textContent=`${{day:'낮',night:'밤',stone:'석재'}[s.background]} 배경 · ${zoomed?'2배':'원래 크기'} · ${moving?names[s.direction]+' 이동 표시':'이동 표시 꺼짐'} · 조준점 ${active?'선택':'보통'}`;
+}
+async function start(){
+ await Promise.all(Object.entries(sources).map(([key,src])=>new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>{loaded[key]=im;resolve()};im.onerror=()=>reject(Error(key));im.src=src})));
+ document.querySelector('#reference').src=sources.reference;
+ document.querySelector('#archerLegend').src=sources['flag_archer.png'];document.querySelector('#gunnerLegend').src=sources['flag_gunner.png'];
+ for(const a of manifest.assets){const el=document.createElement('article');el.className='card';const scale=a.width===64?2:4;el.innerHTML=`<div class="swatch"><img src="${sources[a.file]}" alt="${a.label} 원래 크기" width="${a.width}" height="${a.height}"><img src="${sources[a.file]}" alt="${a.label} 확대" width="${a.width*scale}" height="${a.height*scale}"></div><h3>${a.label}</h3><p class="hint">${a.width} × ${a.height} · ${a.file}</p>`;document.querySelector('#gallery').append(el)}
+ document.querySelector('#download').href='data:application/json;charset=utf-8,'+encodeURIComponent(JSON.stringify(manifest,null,2));draw();
+}
+document.querySelector('#background').onchange=draw;document.querySelector('#direction').onchange=draw;
+document.querySelector('#zoom').onclick=e=>{zoomed=!zoomed;canvas.style.width=zoomed?'1920px':'960px';canvas.style.height=zoomed?'1200px':'600px';e.currentTarget.setAttribute('aria-pressed',zoomed);e.currentTarget.textContent=zoomed?'원래 크기':'2배 확대';draw()};
+document.querySelector('#moving').onclick=e=>{moving=!moving;e.currentTarget.setAttribute('aria-pressed',moving);e.currentTarget.textContent=moving?'이동 화살표 켜짐':'이동 화살표 꺼짐';draw()};
+document.querySelector('#active').onclick=e=>{active=!active;e.currentTarget.setAttribute('aria-pressed',active);e.currentTarget.textContent=active?'조준점 선택됨':'조준점 보통';draw()};
+document.querySelector('#reset').onclick=()=>{target={x:780,y:156};draw()};
+canvas.onclick=e=>{const r=canvas.getBoundingClientRect();const x=(e.clientX-r.left)*960/r.width,y=(e.clientY-r.top)*600/r.height;if(x>240&&x<720&&y>90&&y<510)return;target={x:Math.max(18,Math.min(942,Math.round(x))),y:Math.max(50,Math.min(530,Math.round(y)))};draw()};
+start().catch(e=>{document.querySelector('#status').textContent='그림 불러오기 실패: '+e.message;console.error(e)});
+</script></html>

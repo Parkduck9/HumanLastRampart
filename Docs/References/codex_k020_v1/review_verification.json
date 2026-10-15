@@ -1,0 +1,58 @@
+{
+  "type": "정적 검사",
+  "browserVerified": false,
+  "checks": [
+    {
+      "name": "내장 스크립트 구문",
+      "pass": true
+    },
+    {
+      "name": "flag_archer.png 내장 사본·크기 일치",
+      "pass": true
+    },
+    {
+      "name": "flag_gunner.png 내장 사본·크기 일치",
+      "pass": true
+    },
+    {
+      "name": "move_east.png 내장 사본·크기 일치",
+      "pass": true
+    },
+    {
+      "name": "move_south.png 내장 사본·크기 일치",
+      "pass": true
+    },
+    {
+      "name": "move_west.png 내장 사본·크기 일치",
+      "pass": true
+    },
+    {
+      "name": "move_north.png 내장 사본·크기 일치",
+      "pass": true
+    },
+    {
+      "name": "compass_back.png 내장 사본·크기 일치",
+      "pass": true
+    },
+    {
+      "name": "cannon_target_normal.png 내장 사본·크기 일치",
+      "pass": true
+    },
+    {
+      "name": "cannon_target_active.png 내장 사본·크기 일치",
+      "pass": true
+    },
+    {
+      "name": "group_selected.png 내장 사본·크기 일치",
+      "pass": true
+    },
+    {
+      "name": "외부 스크립트·스타일·웹 요청 없음",
+      "pass": true
+    },
+    {
+      "name": "이미지 12개 내장",
+      "pass": true
+    }
+  ]
+}
