@@ -98,9 +98,18 @@ namespace HumanLastRampart.UI
         GameObject popup;
         Button firstButton;
         bool disposed;
+        readonly bool storyPresentation;
 
         public ScreenView(Transform owner, string title, string description)
+            : this(owner, title, description, false, null, null) { }
+
+        // 스토리 전용 배치. 기존 3인자 메인·정비·결과 화면은 중앙 패널을 그대로 쓴다.
+        public ScreenView(Transform owner, string title, string description, Texture2D character, string speaker)
+            : this(owner, title, description, true, character, speaker) { }
+
+        ScreenView(Transform owner, string title, string description, bool story, Texture2D character, string speaker)
         {
+            storyPresentation = story;
             root = new GameObject("Screen UI", typeof(RectTransform), typeof(Canvas),
                 typeof(CanvasScaler), typeof(GraphicRaycaster), typeof(CanvasGroup));
             root.transform.SetParent(owner, false);
@@ -117,11 +126,16 @@ namespace HumanLastRampart.UI
 
             var background = Image(root.transform, "Background", UiStyle.Background);
             Stretch(background.rectTransform);
-            panel = MakePanel(root.transform, "Content");
-            Label(panel, title, 46, 80, UiStyle.Brass);
-            Divider(panel);
-            // 설명 글 크기 27은 정비 요약 갱신(PreparationPanel.RefreshSummary)이 찾는 기준이라 유지한다
-            Label(panel, description, 27, 150, UiStyle.Body);
+            if (storyPresentation)
+                panel = MakeStory(root.transform, title, description, character, speaker);
+            else
+            {
+                panel = MakePanel(root.transform, "Content");
+                Label(panel, title, 46, 80, UiStyle.Brass);
+                Divider(panel);
+                // 설명 글 크기 27은 정비 요약 갱신(PreparationPanel.RefreshSummary)이 찾는 기준이라 유지한다
+                Label(panel, description, 27, 150, UiStyle.Body);
+            }
         }
 
         // 화면의 주된 다음 행동 하나를 황동색으로 표시
@@ -130,6 +144,13 @@ namespace HumanLastRampart.UI
         public Button AddButton(string text, UnityAction action)
         {
             var button = MakeButton(panel, text, action);
+            if (storyPresentation)
+            {
+                var rect = button.GetComponent<RectTransform>();
+                rect.anchorMin = rect.anchorMax = rect.pivot = new Vector2(1, 0);
+                rect.sizeDelta = new Vector2(220, 64);
+                rect.anchoredPosition = new Vector2(-32, 24);
+            }
             if (firstButton == null) firstButton = button;
             return button;
         }
@@ -183,6 +204,75 @@ namespace HumanLastRampart.UI
                 button.onClick.RemoveAllListeners();
             root.SetActive(false);
             UnityEngine.Object.Destroy(root);
+        }
+
+        // 승인된 공통 시안의 배경 공간·오른쪽 인물·하단 대사창. 새 배경 아트 대신 단순 색면을 쓴다.
+        static RectTransform MakeStory(Transform parent, string title, string description, Texture2D character, string speaker)
+        {
+            var sky = Image(parent, "Story Backdrop", new Color(0.145f, 0.212f, 0.180f));
+            Stretch(sky.rectTransform);
+            sky.raycastTarget = false;
+            StoryBand(parent, "Distant Landscape", new Vector2(0, 0.45f), new Vector2(1, 0.66f),
+                new Color(0.25f, 0.29f, 0.22f));
+            StoryBand(parent, "Wall Silhouette", new Vector2(0, 0.33f), new Vector2(1, 0.49f),
+                new Color(0.31f, 0.34f, 0.28f));
+            StoryBand(parent, "Walkway Silhouette", new Vector2(0, 0), new Vector2(1, 0.33f),
+                UiStyle.PanelDeep);
+
+            var heading = Label(parent, title, 34, 60, UiStyle.Brass);
+            StoryRect(heading.rectTransform, new Vector2(0.055f, 0.87f), new Vector2(0.62f, 0.95f));
+            heading.alignment = TextAnchor.MiddleLeft;
+            if (character != null)
+            {
+                var holder = new GameObject("Story Character", typeof(RectTransform)).GetComponent<RectTransform>();
+                holder.SetParent(parent, false);
+                StoryRect(holder, new Vector2(0.60f, 0.335f), new Vector2(0.88f, 0.90f));
+                var art = new GameObject("Wizard Front", typeof(RectTransform), typeof(CanvasRenderer),
+                    typeof(RawImage), typeof(AspectRatioFitter));
+                art.transform.SetParent(holder, false);
+                var image = art.GetComponent<RawImage>();
+                image.texture = character;
+                image.color = Color.white;
+                image.raycastTarget = false;
+                var fit = art.GetComponent<AspectRatioFitter>();
+                fit.aspectMode = AspectRatioFitter.AspectMode.FitInParent;
+                fit.aspectRatio = (float)character.width / Mathf.Max(1, character.height);
+            }
+
+            var dialogue = Image(parent, "Story Dialogue", UiStyle.PanelSolid);
+            var rect = dialogue.rectTransform;
+            StoryRect(rect, new Vector2(0.055f, 0.055f), new Vector2(0.945f, 0.335f));
+            dialogue.gameObject.AddComponent<CanvasGroup>();
+            UiStyle.Border(dialogue, 1f);
+
+            var name = Label(rect, speaker ?? "", 28, 48, UiStyle.Brass);
+            name.gameObject.name = "Story Speaker";
+            StoryRect(name.rectTransform, new Vector2(0, 0.75f), new Vector2(1, 1));
+            name.rectTransform.offsetMin = new Vector2(32, 0);
+            name.rectTransform.offsetMax = new Vector2(-32, -12);
+            name.alignment = TextAnchor.MiddleLeft;
+
+            var body = Label(rect, description, 30, 120, UiStyle.Body);
+            body.gameObject.name = "Story Line";
+            StoryRect(body.rectTransform, new Vector2(0, 0.32f), new Vector2(1, 0.76f));
+            body.rectTransform.offsetMin = new Vector2(32, 0);
+            body.rectTransform.offsetMax = new Vector2(-32, 0);
+            body.alignment = TextAnchor.UpperLeft;
+            return rect;
+        }
+
+        static void StoryBand(Transform parent, string name, Vector2 min, Vector2 max, Color color)
+        {
+            var image = Image(parent, name, color);
+            StoryRect(image.rectTransform, min, max);
+            image.raycastTarget = false;
+        }
+
+        static void StoryRect(RectTransform rect, Vector2 min, Vector2 max)
+        {
+            rect.anchorMin = min;
+            rect.anchorMax = max;
+            rect.offsetMin = rect.offsetMax = Vector2.zero;
         }
 
         static RectTransform MakePanel(Transform parent, string name)

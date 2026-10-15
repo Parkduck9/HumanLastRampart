@@ -1,6 +1,7 @@
 using HumanLastRampart.Core.Campaign;
 using HumanLastRampart.Core.Flow;
 using HumanLastRampart.UI;
+using UnityEngine;
 
 namespace HumanLastRampart.Story
 {
@@ -12,8 +13,11 @@ namespace HumanLastRampart.Story
         {
             var request = context.Campaign?.NextStory;
             bool ending = request != null && request.Kind == StoryKind.DefeatEnding;
+            // 원본 Art는 읽기 전용. 동일 PNG의 Story 소유 Resources 사본을 쓴다.
+            var character = Resources.Load<Texture2D>("StoryArt/wizard_front_chestnut");
             var view = new ScreenView(transform, ending ? "패배 엔딩" : "스토리",
-                ending ? "성벽의 방어가 끝났습니다." : "성벽을 지키기 위한 여정이 시작됩니다.");
+                ending ? "성벽의 방어가 끝났습니다." : "성벽을 지키기 위한 여정이 시작됩니다.",
+                character, "마법사");
             var next = view.AddButton(ending ? "메인으로" : "다음", () => Complete(ScreenOutcome.Done));
             view.MarkPrimary(next);   // 주된 다음 행동 (D-066)
             return view;
