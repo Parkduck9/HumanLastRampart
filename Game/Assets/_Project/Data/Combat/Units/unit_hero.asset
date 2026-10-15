@@ -17,4 +17,5 @@ MonoBehaviour:
   kind: 0
   maxHp: 100
   sheet: {fileID: 2800000, guid: c4e761f2657a4ac284f9c21bbf2ab6fa, type: 3}
+  normalSheet: {fileID: 2800000, guid: cac8495632e14c56b0e5e429000b757f, type: 3}
   idleSheet: {fileID: 2800000, guid: bfd7be73219f4cf2824e70126bda9be6, type: 3}

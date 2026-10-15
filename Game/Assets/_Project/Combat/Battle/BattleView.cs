@@ -19,6 +19,8 @@ namespace HumanLastRampart.Combat.Battle
         static readonly int MapModeId = Shader.PropertyToID("_MapMode");
         static readonly int MapColorId = Shader.PropertyToID("_MapColor");
         static readonly int MinWorldSizeId = Shader.PropertyToID("_MinWorldSize");
+        static readonly int NormalTexId = Shader.PropertyToID("_NormalTex");
+        static readonly int HasNormalId = Shader.PropertyToID("_HasNormal");
 
         // 2번 지도 모드 점 색 (BattleMap.md 2장)
         static readonly Color MapEnemyColor = new Color(1f, 0.72f, 0.2f, 1f);
@@ -77,7 +79,8 @@ namespace HumanLastRampart.Combat.Battle
         readonly Bounds bounds;
         readonly GameObject root;
 
-        public BattleView(BattleSim sim, Shader shader, Transform parent, Texture2D heroSheet = null, Texture2D heroIdleSheet = null)
+        public BattleView(BattleSim sim, Shader shader, Transform parent, Texture2D heroSheet = null, Texture2D heroIdleSheet = null,
+            Texture2D heroNormalSheet = null, Texture2D heroIdleNormalSheet = null)
         {
             this.sim = sim;
             quad = PerfLabArt.CreateQuad();
@@ -95,7 +98,7 @@ namespace HumanLastRampart.Combat.Battle
                 var block = new MaterialPropertyBlock();
                 if (def.Sheet != null)
                 {
-                    Apply(block, def.Sheet, PerfLabArt.FromSheet(def.Sheet));   // 칸 256×384 — 고블린 4×2, 정적 데모 1×1
+                    Apply(block, def.Sheet, PerfLabArt.FromSheet(def.Sheet), def.NormalSheet);   // 칸 256×384 — 고블린 4×2, 정적 데모 1×1
                 }
                 else
                 {
@@ -122,7 +125,7 @@ namespace HumanLastRampart.Combat.Battle
             {
                 if (count <= 0) continue;
                 var block = new MaterialPropertyBlock();
-                if (unit != null && unit.Sheet != null) Apply(block, unit.Sheet, PerfLabArt.FromSheet(unit.Sheet));
+                if (unit != null && unit.Sheet != null) Apply(block, unit.Sheet, PerfLabArt.FromSheet(unit.Sheet), unit.NormalSheet);
                 else Apply(block, placeholderSheet, PerfLabArt.PlaceholderLayout);
                 var buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, PerfLabInstance.Stride);
                 block.SetBuffer(InstancesId, buffer);
@@ -131,7 +134,7 @@ namespace HumanLastRampart.Combat.Battle
                 if (unit != null && unit.RunSheet != null)
                 {
                     var runBlock = new MaterialPropertyBlock();
-                    Apply(runBlock, unit.RunSheet, PerfLabArt.FromSheet(unit.RunSheet));
+                    Apply(runBlock, unit.RunSheet, PerfLabArt.FromSheet(unit.RunSheet), unit.RunNormalSheet);
                     var runBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, PerfLabInstance.Stride);
                     runBlock.SetBuffer(InstancesId, runBuffer);
                     runnerDraws.Add((runBuffer, runBlock, start, count));
@@ -163,7 +166,7 @@ namespace HumanLastRampart.Combat.Battle
             heroBlock = new MaterialPropertyBlock();
             if (heroSheet != null)
             {
-                Apply(heroBlock, heroSheet, PerfLabArt.HeroLayout);
+                Apply(heroBlock, heroSheet, PerfLabArt.HeroLayout, heroNormalSheet);
             }
             else
             {
@@ -176,14 +179,14 @@ namespace HumanLastRampart.Combat.Battle
             if (heroIdleSheet != null)
             {
                 heroIdleBlock = new MaterialPropertyBlock();
-                Apply(heroIdleBlock, heroIdleSheet, PerfLabArt.FromSheet(heroIdleSheet));
+                Apply(heroIdleBlock, heroIdleSheet, PerfLabArt.FromSheet(heroIdleSheet), heroIdleNormalSheet);
                 heroIdleBlock.SetBuffer(InstancesId, heroBuffer);
             }
 
             if (sim.WizardPresent && sim.WizardUnit != null && sim.WizardUnit.Sheet != null)
             {
                 wizardBlock = new MaterialPropertyBlock();
-                Apply(wizardBlock, sim.WizardUnit.Sheet, PerfLabArt.FromSheet(sim.WizardUnit.Sheet));   // 정적 뒷모습 1×1
+                Apply(wizardBlock, sim.WizardUnit.Sheet, PerfLabArt.FromSheet(sim.WizardUnit.Sheet), sim.WizardUnit.NormalSheet);   // 정적 뒷모습 1×1
                 wizardBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, 1, PerfLabInstance.Stride);
                 wizardBlock.SetBuffer(InstancesId, wizardBuffer);
             }
@@ -195,12 +198,15 @@ namespace HumanLastRampart.Combat.Battle
             BuildEnvironment();
         }
 
-        static void Apply(MaterialPropertyBlock block, Texture texture, PerfLabArt.SheetLayout layout)
+        // normal = 짝 노멀맵(같은 칸 배치). 없으면 _HasNormal 0 — 셰이더가 기본 감싸는 빛으로 그린다 (D-062 G4)
+        static void Apply(MaterialPropertyBlock block, Texture texture, PerfLabArt.SheetLayout layout, Texture normal = null)
         {
             block.SetTexture(MainTexId, texture);
             block.SetVector(GridId, layout.Grid);
             block.SetVector(PivotId, layout.Pivot);
             block.SetFloat(AspectId, layout.Aspect);
+            if (normal != null) block.SetTexture(NormalTexId, normal);
+            block.SetFloat(HasNormalId, normal != null ? 1f : 0f);
         }
 
         void BuildEnvironment()
