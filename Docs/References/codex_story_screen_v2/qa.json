@@ -1,0 +1,41 @@
+{
+  "card": "K-013",
+  "checks": {
+    "portrait_byte_identical": true,
+    "portrait_new_guid": true,
+    "portrait_point_filter": true,
+    "portrait_resource_name": true,
+    "next_and_ending_labels_preserved": true,
+    "completion_signal_preserved": true,
+    "no_proposed_story_api": true,
+    "old_constructor_default_path": true,
+    "new_story_constructor_path": true,
+    "story_dialogue_bottom_anchors": true,
+    "portrait_aspect_preserved": true,
+    "portrait_does_not_block_pointer": true,
+    "html_copies_identical": true,
+    "html_embedded_png_matches": true,
+    "html_not_real_capture_claim": true,
+    "html_no_remote_dependencies": true,
+    "HLR.UI_compile": true,
+    "HLR.Story_compile": true
+  },
+  "passed": 18,
+  "total": 18,
+  "compile": [
+    {
+      "assembly": "HLR.UI",
+      "exitCode": 0,
+      "output": ""
+    },
+    {
+      "assembly": "HLR.Story",
+      "exitCode": 0,
+      "output": ""
+    }
+  ],
+  "compileMethod": "기존 메인 Unity Library의 읽기 전용 참조 rsp를 사용한 별도 Roslyn 컴파일; 출력은 임시 폴더, Unity 실행 아님",
+  "portraitSha256": "e3994c5f0d2bb08ce99fb0d75dd9aecda3af417ed1b03b6b1e7a02ae764bd511",
+  "browserReview": "이 카드 작업자 미수행; 부모 검토 대기",
+  "unityReview": "미수행; 합친 뒤 조정 담당/사용자 실제 화면 검증 필요"
+}
