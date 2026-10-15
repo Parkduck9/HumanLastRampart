@@ -280,7 +280,13 @@ namespace HumanLastRampart.Combat.Battle
         // 작업이 끝난 뒤(sim.Complete 후) 부른다. 지도 모드면 같은 데이터를 점으로 그린다(mapDotSize = 최소 점 크기 m)
         public void Draw(bool mapMode = false, float mapDotSize = 0f)
         {
-            if (look != null) { look.SetMapMode(mapMode); look.Refresh(); }
+            if (look != null)
+            {
+                bool litBefore = HumanLastRampart.Combat.Render.BattleLook.LitActive;
+                look.SetMapMode(mapMode);
+                look.Refresh();
+                if (litBefore != HumanLastRampart.Combat.Render.BattleLook.LitActive) sim.SoldiersDirty = true;   // 밝기 숫자가 바뀌었으니 병사 그림 다시
+            }
             foreach (var (buffer, block, start, count) in enemyDraws)
             {
                 if (count <= 0) continue;

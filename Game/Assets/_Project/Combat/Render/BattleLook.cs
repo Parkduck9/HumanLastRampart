@@ -10,6 +10,8 @@ namespace HumanLastRampart.Combat.Render
     public sealed class BattleLook
     {
         public static bool Enabled = true;
+        public static bool LitActive { get; private set; }   // 캐릭터가 빛을 받는 중 (2단계) — 이때는 밝기 숫자로 어둡게 하지 않는다
+        static readonly int SpriteLitId = Shader.PropertyToID("_SpriteLit");
 
         readonly Camera camera;
         readonly GameObject host;
@@ -94,11 +96,16 @@ namespace HumanLastRampart.Combat.Render
             bool on = Enabled && !mapMode;
             volume.weight = on ? 1f : 0f;
             TiltShiftFeature.Strength = on ? 1f : 0f;
+            // 2단계: 빛 받는 캐릭터·그림자. 지도에서도 꺼 둔다(지도는 점만)
+            LitActive = Enabled;
+            Shader.SetGlobalFloat(SpriteLitId, LitActive ? 1f : 0f);
         }
 
         public void Dispose()
         {
             TiltShiftFeature.Strength = 0f;
+            LitActive = false;
+            Shader.SetGlobalFloat(SpriteLitId, 0f);
             if (host != null) Object.Destroy(host);
             if (profile != null) Object.Destroy(profile);
         }

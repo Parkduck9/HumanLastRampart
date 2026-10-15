@@ -48,11 +48,12 @@ namespace HumanLastRampart.Combat.Battle
             }
         }
 
-        // 그림 밝기 (빛을 받지 않는 그림이라 직접 어둡게)
+        // 그림 밝기 (빛을 받지 않는 그림이라 직접 어둡게). 빛 받는 그림(D-062 2단계)이면 해·달 빛이 대신하므로 1
         public float Brightness
         {
             get
             {
+                if (HumanLastRampart.Combat.Render.BattleLook.LitActive) return 1f;
                 float b = TimeOfDay == TimeOfDay.Night ? 0.5f : 1f;
                 if (IsRaining) b *= 0.8f;
                 else if (CurrentWeather == Weather.Fog) b *= 0.85f;

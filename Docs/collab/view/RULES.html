@@ -375,6 +375,21 @@ a { color: var(--accent); }
     </div>
   </div>
 
+  <h3 style="margin-top:18px">병렬 작업 — 작업 카드 + 카드별 작업 폴더 (10.6, D-067)</h3>
+  <div class="flow">
+    <span class="node hl">Claude가 작은 카드로 나눔</span><span class="arrow">→</span>
+    <span class="node">카드마다 작업 폴더·가지</span><span class="arrow">→</span>
+    <span class="node">Claude 2~3 · Codex 2~3 동시에</span><span class="arrow">→</span>
+    <span class="node">Claude가 하나씩 develop에 합침</span><span class="arrow">→</span>
+    <span class="node hl">밤 시험 (고칠 일 생기면 낮에도)</span>
+  </div>
+  <ul style="margin-top:8px">
+    <li>카드끼리 고칠 파일이 겹치지 않게 나누고, 담당 영역(소유권)은 그대로</li>
+    <li>카드 자기 가지 안에서는 허가 없이 커밋, develop에 합치는 것만 Claude가 순서대로</li>
+    <li>카드 폴더에서는 유니티를 열지 않음 — 유니티는 메인 폴더에서 Claude만, 한 번에 하나</li>
+    <li>협업 확인·허가 알림 같은 절차 메시지는 Claude가 Codex 대화로 직접 보냄. 새 지시·설계 결정은 사용자에게 먼저</li>
+  </ul>
+
   <h3 style="margin-top:18px">최초 develop 전환 (유일한 예외)</h3>
   <div class="flow">
     <span class="node hl">규칙 최종 확정</span><span class="arrow">→</span>
