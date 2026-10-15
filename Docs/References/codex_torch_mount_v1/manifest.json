@@ -1,0 +1,83 @@
+{
+  "card": "K-018",
+  "task": "T-CX-059",
+  "status": "사용자 외형 검토 대기 / Game 미연결",
+  "body": {
+    "file": "torch_mount_off.png",
+    "size": [
+      128,
+      256
+    ],
+    "pivotTopLeft": [
+      64,
+      224
+    ],
+    "visibleHeightMetersProposal": 0.3,
+    "alphaBBox": [
+      34,
+      32,
+      94,
+      224
+    ],
+    "sourceCrop": [
+      359,
+      203,
+      750,
+      1432
+    ],
+    "nearestLogicalSize": [
+      15,
+      48
+    ],
+    "sha256": "6c74611beb21e06401cbb87c1c8ed5e7b6fbce4894e6adddc2bfca5af78a51bd"
+  },
+  "litState": {
+    "method": "동일 body PNG + 기존 torch_flame 별도 레이어",
+    "bodySharedExactly": true,
+    "flameFile": "torch_flame_existing.png",
+    "flameColumns": 6,
+    "flameCell": [
+      256,
+      256
+    ],
+    "flameBaseTopLeft": [
+      52,
+      36
+    ],
+    "previewFlameCellSize": [
+      36,
+      36
+    ],
+    "fps": 10,
+    "sha256": "21b26184607e5b8ccd1c493eb792b1fb60e00348855c55adc2d0f3d00ab50a40"
+  },
+  "gameReferenceOnly": {
+    "spacingMeters": 3,
+    "insetMeters": 0.5,
+    "flameHeightAboveWalkwayMeters": 0.24
+  },
+  "placementNote": "0.3m는 받침 전체 높이 제안. 게임의 0.24m는 기존 불꽃 위치이므로 몸체 피벗/불꽃 접점을 실제 난간에 맞춰 Claude가 정한다. 기존 높이를 이 카드에서 바꾸지 않음.",
+  "normalMap": null,
+  "unityTested": false,
+  "newGameCode": false,
+  "source": {
+    "file": "torch_mount_source.png",
+    "sha256": "8ef362e02f63cc9c01a401abd87d36e9052a4fdd4c160192c74d610cc685e374",
+    "size": [
+      971,
+      1619
+    ]
+  },
+  "tool": "built-in imagegen",
+  "promptRecord": {
+    "tool": "built-in imagegen",
+    "acceptedPrompt": "Create ONE UNLIT wall mounted medieval torch as STRICT LOW RESOLUTION PIXEL GAME ART, isolated transparent PNG. SINGLE object, front view, entirely visible. Effective art grid 24x64 pixels enlarged nearest-neighbor, chunky OPAQUE rectangular pixel clusters, only 12 solid flat colors. Dark charcoal outline 1 logical pixel thick, warm brown wooden handle, 2 gunmetal iron bands, blackened cloth head. Small curved iron bracket with 2-bolt mounting plate at bottom-right. Absolutely NO flames, NO glow, NO haze, NO cast shadow, NO gradient, NO lighting effects, NO blurry semi-transparent edge pixels; every pixel is fully opaque or fully transparent. Thin narrow shaft, compact socket and bracket, simple readable silhouette at 32 pixels tall, classic 16-bit RPG item sprite matching black-outlined pixel characters. Subject central with large transparent margins. No scene, wall, ground, text, grids, labels, border, additional props. This is an OFF torch in daylight. Strong hard stepped square pixel edges. Do NOT render a realistic 3D object.",
+    "sourcePath": "C:/Users/User/.codex/generated_images/01a1331e-99b0-7811-8751-cad0561a4e6e/exec-42511d25-d8ca-4aa7-a800-5ce166ff3ae4.png",
+    "rejectedInitial": {
+      "prompt": "Use case: stylized-concept. Asset type: Human Last Rampart pixel game PROP reference, UNLIT wall-mounted torch, transparent cutout. Create ONE small medieval wooden torch mounted in a modest dark wrought-iron socket/bracket, front view with slight visible right-side thickness, essentially orthographic camera. Tall narrow warm brown shaft, two dark iron retaining bands, dark charred cloth wrapping at top. Compact bent iron lower mount and tiny two-bolt plate extending a little right, for mounting inside a gray castle parapet. NO stone wall attached. The requested real size is about 0.30m tall, rendered as deliberate chunky 16-bit pixel art with a limited earthy palette, hard dark stepped outlines, crisp square pixel clusters, no smoothing/AA, no gradients or bloom. Use an effective source resolution of roughly 24x48 pixels enlarged by nearest-neighbor, object must still read at very small game size. Plain actual alpha-zero transparent background, one centered full object generous transparent margins, no contact shadow, no text, labels, grids, scenery, flame, smoke, glow or embers. It is OFF in daylight. Preserve simple readable silhouette, torch tip near top center and attachment bottom centered. Reference image1 gives the existing flame pixel cluster style only; do NOT draw flame in this off-state. Reference2 gives muted gray/earthy background palette only; do not reproduce wall sheet.",
+      "path": "C:/Users/User/.codex/generated_images/01a1331e-99b0-7811-8751-cad0561a4e6e/exec-f7f17b88-2b20-4f65-b939-c3dfd5c126d2.png",
+      "reason": "흐린 가장자리·후광 때문에 새 제한색 도트 원안 채택"
+    },
+    "litState": "동일 받침 + 승인 전 기존 K012 불꽃을 별도 레이어로. 그림 재생성으로 받침이 바뀌지 않게 함."
+  }
+}
