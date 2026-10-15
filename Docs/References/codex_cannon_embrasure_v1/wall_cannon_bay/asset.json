@@ -1,0 +1,30 @@
+{
+  "id": "wall_cannon_bay",
+  "label": "대포 전용 사격구 성벽",
+  "size": [
+    1024,
+    512
+  ],
+  "columns": 1,
+  "rows": 1,
+  "frames": 1,
+  "fps": 0,
+  "packedRect": [
+    16,
+    117,
+    992,
+    278
+  ],
+  "sourceCrop": [
+    12,
+    60,
+    2159,
+    661
+  ],
+  "sourceSha256": "7594cc4c24a24742749149ad7eaa7a5984b39d74e14a8c13957aaa6fcc6373d9",
+  "packedSha256": "a616fd6949ed398b952853444d6a014949388fb910f67d367d57276835106210",
+  "centralOpeningAlpha": 0,
+  "status": "review-draft",
+  "gameConnected": false,
+  "unityPlayVerified": false
+}

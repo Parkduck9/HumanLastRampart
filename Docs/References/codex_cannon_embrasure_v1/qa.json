@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "newStaticAssets": 2,
+  "rgba": true,
+  "noPackedClipping": true,
+  "centralOpeningTransparent": true,
+  "nearestOnly": true,
+  "savedPixelsExact": true,
+  "gameConnected": false,
+  "unityPlayVerified": false,
+  "sourceBytesExact": true,
+  "embeddedAssetBytesExact": true,
+  "htmlCopiesExact": true,
+  "jsSyntax": true,
+  "externalRequests": false,
+  "browserQa": {
+    "assetsLoaded": 9,
+    "visibleAssetCards": 2,
+    "aimDirectionsTested": 3,
+    "shots": 3,
+    "foregroundToggle": true,
+    "soldierToggle": true,
+    "heightAndSizeSliders": true,
+    "reset": true,
+    "consoleErrors": 0,
+    "horizontalOverflow": false,
+    "fileSchemeTested": false,
+    "screenshot": "browser_review.png"
+  }
+}
