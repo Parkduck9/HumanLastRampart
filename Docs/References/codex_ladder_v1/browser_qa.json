@@ -1,0 +1,39 @@
+{
+  "observer": "부모 Codex 작업자",
+  "evidence": "부모의 실제 브라우저 조작 결과 공유와 최종 캡처를 이 카드 작업자가 읽고 확인",
+  "targetFile": "_HTML/codex_K017_사다리_v1.html",
+  "checks": {
+    "three_clips_selectable": true,
+    "deploy_stops_frame4": true,
+    "deploy_status_becomes_paused": true,
+    "climb_autoplay_advances": true,
+    "manual_next_advances_one": true,
+    "light_background_selectable": true,
+    "side_prop_selectable": true,
+    "all_images_loaded": true,
+    "pause_status_synced": true,
+    "zoom_512x768_without_horizontal_crop": true,
+    "page_horizontal_overflow_false": true,
+    "console_warning_error_count_zero": true
+  },
+  "observations": {
+    "zoomDetailSize": [
+      512,
+      768
+    ],
+    "zoomParentWidth": 1167,
+    "zoomOverflow": "auto"
+  },
+  "fixedIssues": [
+    "정지 뒤에도 로딩 문구가 자동 재생 중이던 상태 오표기를 실제 상태에 맞게 동기화",
+    "2배 확대를 한 열 배치로 넓히고 좁은 창 가로 스크롤로 손/팔 잘림 보완"
+  ],
+  "limitations": [
+    "Unity Play/실제3D/4m 사다리 접촉/가로대와 손 접점 미검증",
+    "사용자 최종 아트 승인 아님"
+  ],
+  "proofFiles": [
+    "browser_review.png",
+    "browser_zoom_review.png"
+  ]
+}
