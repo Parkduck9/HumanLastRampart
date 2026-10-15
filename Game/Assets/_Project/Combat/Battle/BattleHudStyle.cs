@@ -9,7 +9,7 @@ namespace HumanLastRampart.Combat.Battle
     {
         public static readonly Color Background = Hex(0x101613, 0.82f);   // 큰 판(끝 화면 등)
         public static readonly Color Panel = Hex(0x26352d, 0.86f);        // 창
-        public static readonly Color PanelSoft = Hex(0x26352d, 0.62f);    // 전장을 덜 가리는 창 (상태판)
+        public static readonly Color PanelSoft = Hex(0x26352d, 0.74f);    // 전장을 덜 가리는 창 (상태판). 뒤로 적이 비쳐 글이 묻히지 않게 조금 짙게 (K-002)
         public static readonly Color Brass = Hex(0xd5b16b, 1f);           // 강조·테두리
         public static readonly Color Text = Hex(0xeee4cf, 1f);            // 본문
         public static readonly Color TextDim = Hex(0xb9c2b0, 1f);         // 보조 글

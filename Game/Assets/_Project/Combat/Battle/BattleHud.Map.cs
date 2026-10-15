@@ -70,8 +70,8 @@ namespace HumanLastRampart.Combat.Battle
             Image panel = NewImage(root.transform, "Global Command", HudStyle.Panel);
             HudStyle.Border(panel);
             globalPanel = panel.gameObject;
-            // 왼쪽 위 상태 창(높이 300) 바로 아래, 왼쪽 아래 알림과 겹치지 않게
-            Anchor(panel.rectTransform, new Vector2(0f, 1f), new Vector2(20f, -330f), new Vector2(330f, 490f), new Vector2(0f, 1f));
+            // 왼쪽 위 상태판 바로 아래 (상태판을 접고 펴면 LayoutStatus가 따라 옮긴다)
+            Anchor(panel.rectTransform, new Vector2(0f, 1f), new Vector2(20f, -30f - StatusHeight), new Vector2(330f, 490f), new Vector2(0f, 1f));
             Text title = NewText(panel.transform, "Title", 26, TextAnchor.MiddleCenter);
             Anchor(title.rectTransform, new Vector2(0.5f, 1f), new Vector2(0f, -12f), new Vector2(310f, 40f), new Vector2(0.5f, 1f));
             title.text = "전체 명령 (4면)";

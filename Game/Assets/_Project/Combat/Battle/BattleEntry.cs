@@ -222,6 +222,7 @@ namespace HumanLastRampart.Combat.Battle
                 }
 
                 if (keyboard.pKey.wasPressedThisFrame) paused = !paused;
+                if (keyboard.hKey.wasPressedThisFrame) hud.ToggleStatusDetail();   // 상태판 자세히/간단히 (K-002)
                 if (keyboard.gKey.wasPressedThisFrame) HumanLastRampart.Combat.Render.BattleLook.Enabled = !HumanLastRampart.Combat.Render.BattleLook.Enabled;   // 화면 효과 켜고 끔 (비교용)
             }
 

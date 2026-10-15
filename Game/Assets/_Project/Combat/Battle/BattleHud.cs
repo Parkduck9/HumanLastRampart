@@ -13,9 +13,18 @@ namespace HumanLastRampart.Combat.Battle
         readonly GameObject root;
         readonly Font font;
         readonly bool ownsFont;
+        // 상태판 크기 (기준 해상도 1920×1080). 간단히 = 머리 줄 + 지금 성벽 한 줄, 자세히 = 날씨·처치·4면
+        const float StatusCompactWidth = 640f;
+        const float StatusCompactHeight = 76f;
+        const float StatusDetailWidth = 820f;
+        const float StatusDetailHeight = 196f;
+
+        readonly RectTransform statusPanel;
         readonly Text header;
+        readonly Text toggleHint;
         readonly Text walls;
         readonly Text help;
+        bool statusDetail;
         readonly GameObject endPanel;
         readonly Text endText;
         readonly StringBuilder text = new StringBuilder(512);
@@ -39,21 +48,29 @@ namespace HumanLastRampart.Combat.Battle
             scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
             scaler.referenceResolution = new Vector2(1920f, 1080f);
 
+            // 상태판: 먼 들판의 적을 덜 가리게 작게. H로 자세히/간단히 접는다 (처음은 간단히)
             Image panel = NewImage(root.transform, "Status Panel", HudStyle.PanelSoft);
             HudStyle.Border(panel, 0.6f);
-            Anchor(panel.rectTransform, new Vector2(0f, 1f), new Vector2(20f, -20f), new Vector2(1120f, 300f));
+            statusPanel = panel.rectTransform;
+            Anchor(statusPanel, new Vector2(0f, 1f), new Vector2(20f, -20f), new Vector2(StatusCompactWidth, StatusCompactHeight));
 
-            header = NewText(panel.transform, "Header", 24, TextAnchor.UpperLeft);
+            header = NewText(panel.transform, "Header", 18, TextAnchor.UpperLeft);
             header.color = HudStyle.Brass;
-            Anchor(header.rectTransform, new Vector2(0f, 1f), new Vector2(16f, -12f), new Vector2(1090f, 90f));
+            Anchor(header.rectTransform, new Vector2(0f, 1f), new Vector2(14f, -8f), new Vector2(StatusCompactWidth - 150f, 26f));
             header.text = battleLine;
 
-            walls = NewText(panel.transform, "Walls", 20, TextAnchor.UpperLeft);
-            Anchor(walls.rectTransform, new Vector2(0f, 1f), new Vector2(16f, -110f), new Vector2(1090f, 180f));
+            toggleHint = NewText(panel.transform, "Toggle Hint", 16, TextAnchor.UpperRight);
+            toggleHint.color = HudStyle.TextDim;
+            Anchor(toggleHint.rectTransform, new Vector2(1f, 1f), new Vector2(-12f, -9f), new Vector2(130f, 24f), new Vector2(1f, 1f));
 
-            help = NewText(root.transform, "Help", 20, TextAnchor.LowerLeft);
+            walls = NewText(panel.transform, "Walls", 18, TextAnchor.UpperLeft);
+            Anchor(walls.rectTransform, new Vector2(0f, 1f), new Vector2(14f, -36f), new Vector2(StatusCompactWidth - 28f, StatusCompactHeight - 42f));
+
+            // 조작 안내: 오른쪽 아래 [시험] 버튼(가로 1520부터) 앞에서 줄을 바꾼다
+            help = NewText(root.transform, "Help", 18, TextAnchor.LowerLeft);
             help.color = HudStyle.TextDim;
-            Anchor(help.rectTransform, new Vector2(0f, 0f), new Vector2(20f, 20f), new Vector2(1100f, 60f));
+            help.horizontalOverflow = HorizontalWrapMode.Wrap;
+            Anchor(help.rectTransform, new Vector2(0f, 0f), new Vector2(20f, 20f), new Vector2(1460f, 60f));
 
             // 속도 버튼 (시험 플레이용)
             string[] speeds = { "×1", "×2", "×4" };
@@ -84,6 +101,7 @@ namespace HumanLastRampart.Combat.Battle
             endPanel.SetActive(false);
 
             BuildCommandMenu();
+            LayoutStatus();
         }
 
         public void Refresh(BattleSim sim, BattleCameraRig rig, int speed, bool paused)
@@ -97,31 +115,82 @@ namespace HumanLastRampart.Combat.Battle
             text.Clear();
             int minutes = (int)(sim.Elapsed / 60f);
             int seconds = (int)(sim.Elapsed % 60f);
-            text.Append("날씨 ").Append(BattleSim.WeatherName(sim.CurrentWeather)).Append(sim.TimeOfDay == HumanLastRampart.Core.CombatContracts.TimeOfDay.Night ? " · 밤" : " · 낮")
-                .Append(sim.LowVisibility ? $" (시야 {sim.VisibleDistance:0}m)" : "").Append(sim.IsRaining ? " (공격 속도 −20%)" : "").Append(sim.HidesDirections ? " (흐림: 방향별 규모 모름)" : "")
-                .Append("   ");
-            text.Append("경과 ").Append(minutes).Append(':').Append(seconds.ToString("00"))
-                .Append("   속도 ×").Append(speed).Append(paused ? " (멈춤)" : "")
-                .Append("\n적 처치 ").Append(sim.Kills.ToString("N0")).Append(" / ").Append(sim.TotalEnemies.ToString("N0"))
-                .Append("  (등장 ").Append(sim.Spawned.ToString("N0")).Append(")   얻은 골드 ").Append(sim.Gold.ToString("N0"))
-                .Append('\n');
-            for (int side = 0; side < 4; side++)
+            if (!statusDetail)
             {
-                BattleSim.SideStatus s = sim.Sides[side];
-                bool watching = rig != null && !rig.Overview && rig.Side == side;
-                text.Append(watching ? "▶ " : "   ").Append(SideNames[side]).Append("  성벽 ")
-                    .Append(s.WallHp).Append('/').Append(s.WallMaxHp)
-                    .Append("  병력 ").Append(s.GarrisonAlive).Append('/').Append(s.GarrisonStart)
-                    .Append("  들판 ").Append(sim.HidesDirections ? "?" : s.InField.ToString()).Append(" · 벽 앞 ").Append(s.AtWall)
-                    .Append(" · 오름 ").Append(s.Climbing).Append(" · 위 ").Append(s.OnWall)
-                    .Append("  더미 ").Append(s.MaxPile.ToString("0.0")).Append("m")
-                    .Append("  [").Append(BattleSim.PriorityNames[(int)sim.PriorityOf(side)]).Append("]\n");
+                // 간단히: 지금 보는 성벽 한 줄 + 처치 수·경과·속도
+                int watched = rig != null && !rig.Overview ? rig.Side : -1;
+                if (watched >= 0)
+                {
+                    BattleSim.SideStatus w = sim.Sides[watched];
+                    text.Append("▶ ").Append(SideNames[watched]).Append(" 성벽 ").Append(w.WallHp).Append('/').Append(w.WallMaxHp)
+                        .Append(" · 병력 ").Append(w.GarrisonAlive).Append('/').Append(w.GarrisonStart);
+                }
+                else
+                {
+                    text.Append("전체 보기");
+                }
+
+                text.Append(" · 처치 ").Append(sim.Kills.ToString("N0")).Append('/').Append(sim.TotalEnemies.ToString("N0"))
+                    .Append(" · ").Append(minutes).Append(':').Append(seconds.ToString("00"))
+                    .Append(" ×").Append(speed).Append(paused ? " (멈춤)" : "");
+            }
+            else
+            {
+                // 자세히: 날씨 / 경과·처치·골드 / 4면 (6줄)
+                text.Append("날씨 ").Append(BattleSim.WeatherName(sim.CurrentWeather)).Append(sim.TimeOfDay == HumanLastRampart.Core.CombatContracts.TimeOfDay.Night ? " · 밤" : " · 낮")
+                    .Append(sim.LowVisibility ? $" (시야 {sim.VisibleDistance:0}m)" : "").Append(sim.IsRaining ? " (공격 속도 −20%)" : "").Append(sim.HidesDirections ? " (흐림: 방향별 규모 모름)" : "")
+                    .Append('\n');
+                text.Append("경과 ").Append(minutes).Append(':').Append(seconds.ToString("00"))
+                    .Append(" ×").Append(speed).Append(paused ? " (멈춤)" : "")
+                    .Append(" · 적 처치 ").Append(sim.Kills.ToString("N0")).Append('/').Append(sim.TotalEnemies.ToString("N0"))
+                    .Append(" (등장 ").Append(sim.Spawned.ToString("N0")).Append(") · 얻은 골드 ").Append(sim.Gold.ToString("N0"))
+                    .Append('\n');
+                for (int side = 0; side < 4; side++)
+                {
+                    BattleSim.SideStatus s = sim.Sides[side];
+                    bool watching = rig != null && !rig.Overview && rig.Side == side;
+                    text.Append(watching ? "▶ " : "   ").Append(SideNames[side]).Append(" 성벽 ")
+                        .Append(s.WallHp).Append('/').Append(s.WallMaxHp)
+                        .Append(" 병력 ").Append(s.GarrisonAlive).Append('/').Append(s.GarrisonStart)
+                        .Append(" 들판 ").Append(sim.HidesDirections ? "?" : s.InField.ToString()).Append(" · 벽 앞 ").Append(s.AtWall)
+                        .Append(" · 오름 ").Append(s.Climbing).Append(" · 위 ").Append(s.OnWall)
+                        .Append(" 더미 ").Append(s.MaxPile.ToString("0.0")).Append("m")
+                        .Append(" [").Append(BattleSim.PriorityNames[(int)sim.PriorityOf(side)]).Append("]\n");
+                }
             }
 
             walls.text = text.ToString();
             RefreshNotices();
             RefreshGlobalStatus(sim);
-            help.text = mapMode ? "지도: 왼쪽 전체 명령 · 오른쪽 대포(벽→대포→들판 클릭) · 아래 마법(고르고 들판 클릭) · 함정 표시 클릭 = 점화 · 오른쪽 버튼 누르고 있기 = 망원경 · 휠 확대 · A/D/W/S 이동 · M/Esc 닫기" : "휠 버튼 명령 · A/D 달리기(모서리 돌기) · W/S 통로 앞뒤 · Q/E 옆 성벽 가운데 · Tab 전체 보기 · C 카메라 [" + (rig != null ? rig.PresetName : "") + "] · 1/2/3 속도 · P 멈춤 · G 화면 효과   (임시 조작, 투사체 " + sim.ActiveShots + ")";
+            help.text = mapMode ? "지도: 왼쪽 전체 명령 · 오른쪽 대포(벽→대포→들판 클릭) · 아래 마법(고르고 들판 클릭) · 함정 표시 클릭 = 점화 · 오른쪽 버튼 누르고 있기 = 망원경 · 휠 확대 · A/D/W/S 이동 · H 상태판 접기 · M/Esc 닫기" : "휠 버튼 명령 · A/D 달리기(모서리 돌기) · W/S 통로 앞뒤 · Q/E 옆 성벽 가운데 · Tab 전체 보기 · C 카메라 [" + (rig != null ? rig.PresetName : "") + "] · 1/2/3 속도 · P 멈춤 · G 화면 효과 · H 상태판 자세히/간단히   (임시 조작, 투사체 " + sim.ActiveShots + ")";
+        }
+
+        // H 키: 상태판 자세히/간단히 (BattleEntry가 부름)
+        public void ToggleStatusDetail()
+        {
+            statusDetail = !statusDetail;
+            LayoutStatus();
+        }
+
+        float StatusHeight => statusDetail ? StatusDetailHeight : StatusCompactHeight;
+
+        void LayoutStatus()
+        {
+            float width = statusDetail ? StatusDetailWidth : StatusCompactWidth;
+            float height = StatusHeight;
+            statusPanel.sizeDelta = new Vector2(width, height);
+            header.rectTransform.sizeDelta = new Vector2(width - 150f, 26f);
+            walls.fontSize = statusDetail ? 17 : 18;
+            walls.rectTransform.sizeDelta = new Vector2(width - 28f, height - 42f);
+            toggleHint.text = statusDetail ? "H 간단히" : "H 자세히";
+
+            // 지도의 전체 명령 창은 상태판 바로 아래에 붙인다
+            if (globalPanel != null)
+            {
+                ((RectTransform)globalPanel.transform).anchoredPosition = new Vector2(20f, -30f - height);
+            }
+
+            nextRefresh = 0f;   // 글자를 바로 새 모양으로
         }
 
         public void SetHeader(string line) => header.text = line;
