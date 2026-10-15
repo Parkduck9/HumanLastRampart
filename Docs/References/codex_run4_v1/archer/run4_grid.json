@@ -1,0 +1,107 @@
+{
+  "id": "archer",
+  "label": "궁수",
+  "action": "run",
+  "facing": "side",
+  "columns": 4,
+  "rows": 1,
+  "cell": [
+    256,
+    384
+  ],
+  "size": [
+    1024,
+    384
+  ],
+  "frames": 4,
+  "fps": 8,
+  "frameOrder": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "footPivotTopLeft": [
+    128,
+    352
+  ],
+  "groundPolicy": "shared source baseline; airborne boots stay above ground",
+  "uniformScale": 0.35331230283911674,
+  "sourceSha256": "2d2a1737056e7b79ddd6599630dced4565303cbe7bd4867e5bd02a5f2ff3f20a",
+  "sheetSha256": "22accb9800c05ef2336296a0e55d692f9a969343c1b10c7dcc0f91a67c047419",
+  "frameHashes": [
+    "7a43e654a951f49bf01be18fafba7ce5e9b07974208c8821a235756837bdbd29",
+    "bb9090bef40c8955b56971c74a1a4606262283d8217be1c98748cf776ce9d6f8",
+    "104abeaa5341bf5d767fb9cd58c37cb470593dba16b841211b1c7928a91edf28",
+    "09cdfa4bd5562a688953e719d4fa107eb1e93fded17c679128974960f3aac2df"
+  ],
+  "framesData": [
+    {
+      "frame": 0,
+      "packedRect": [
+        68,
+        152,
+        167,
+        197
+      ],
+      "groundGap": 3,
+      "sourceRect": [
+        60,
+        116,
+        474,
+        558
+      ]
+    },
+    {
+      "frame": 1,
+      "packedRect": [
+        67,
+        151,
+        166,
+        177
+      ],
+      "groundGap": 24,
+      "sourceRect": [
+        591,
+        112,
+        469,
+        501
+      ]
+    },
+    {
+      "frame": 2,
+      "packedRect": [
+        67,
+        153,
+        173,
+        199
+      ],
+      "groundGap": 0,
+      "sourceRect": [
+        1126,
+        117,
+        490,
+        564
+      ]
+    },
+    {
+      "frame": 3,
+      "packedRect": [
+        67,
+        151,
+        150,
+        183
+      ],
+      "groundGap": 18,
+      "sourceRect": [
+        1686,
+        111,
+        425,
+        517
+      ]
+    }
+  ],
+  "rightPreview": "mirror",
+  "status": "user-review-draft",
+  "unityPlayVerified": false
+}
