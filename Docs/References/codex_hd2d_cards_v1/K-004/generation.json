@@ -1,0 +1,87 @@
+{
+  "card": "K-004",
+  "status": "정식 카드 worktree 검토자료 완료 / 사용자 검토·조정 담당 병합 대기",
+  "tool": "built-in imagegen",
+  "prompt": "Use case: stylized-concept\nAsset type: proposed camera-and-art reference still for Human Last Rampart, NOT a screenshot of implemented gameplay.\nInput image 1 is an ACTUAL early game screenshot: use its camera and composition as the PRIMARY strict reference. Input image 2 is the existing player sprite: preserve its rear-view identity, white hair, black officer coat, small gold shoulders and gold trim, brown boots, 2.2-head tall pixel-art proportions.\nGenerate a single widescreen 1600x900 HD-2D-inspired defense scene viewed from BEHIND the commander on the broad castle wall walkway. Match the actual reference's LOW, NEARLY LEVEL angle and lateral straight-on camera: the long outward gray stone parapet runs horizontally across the entire width at about 52-60 percent image height. Wide worn gray stone walkway foreground, muted olive field beyond above the wall, distant scattered goblins. No isometric view, no dramatic diagonal wall vanishing point, no bird's-eye camera.\nLarge white-haired 2D pixel commander rear-view near lower center, about 200px tall, and a distinct chestnut-haired purple-clad pixel mage on lower left, about the same size. A SINGLE continuous row of brown-haired blue-and-gold 2D pixel archers and riflemen stands on the WALKWAY immediately behind the outward battlements looking into the field, each around 140px tall. Feet rest on stone floor; nobody stands floating on top of merlon blocks. Cannons placed in TWO of the wide lowered gaps, barrels aim OUTWARD toward the field, away from camera. Keep the commander and soldier scale nearly identical to input1, soldiers somewhat shorter than commander.\nArchitecture must read as real 3D VOLUMES with pixel-textured surfaces, NOT perspective baked into pasted PNG buildings. A modest partial square corner tower at far RIGHT edge, integrated with walkway and parapet in exactly the SAME camera and lighting, not a separate isometric icon. Flat fighting platform, gray stone, crenellations, no conical roof. The main wall continues laterally and feels long.\nAged neutral gray limestone with soft gray mortar, chipped stone edges, sparse muted moss at crevices; walkway matching worn gray flags, no black grid. Sharp visible pixel clusters on characters and coarse pixel textures on 3D stone, restrained rich shading. Soft warm-neutral daylight from upper left with cast shadows and modest ambient occlusion, subtle atmospheric depth to field, only very mild blur at extreme distant background. Readable field and battlement row. Sparse distant broadleaf and conifer tree silhouettes, not dense forest.\nRemove ALL original debugging HUD, text, frames, buttons, cursor and interface. No captions, no logo, no watermark. Do not copy UI or exact buildings from another game. Do not change this into painterly anime, a realistic 3D human scene, flat vector art, cinematic concept painting, top-down strategy game, or an oblique diorama. Character pixel silhouettes must remain crisp against the softer 3D environment.",
+  "generatedSource": "C:/Users/User/.codex/generated_images/01a13e59-017d-7d51-9bb0-f2bbf0db14dc/exec-43c86e37-28cc-498d-bc3c-6f3c40b7c605.png",
+  "references": [
+    {
+      "role": "실제 게임 캡처: 카메라와 배치 기준",
+      "path": "Game/playprobe/93_weather_Clear_Day.png",
+      "localCopy": "actual_capture.png",
+      "sourceInfo": {
+        "width": 1600,
+        "height": 900,
+        "mode": "RGB",
+        "sha256": "6d58e5672ad5aac8a92afc059e55401516ec24e9f17061a3e98dc033a1d9752f"
+      }
+    },
+    {
+      "role": "주인공 외형과 도트 비율 기준",
+      "path": "Docs/References/codex_idle_assets_v1/hero_back_idle_grid.png",
+      "sourceInfo": {
+        "width": 256,
+        "height": 384,
+        "mode": "RGBA",
+        "sha256": "dc29add2be5beb8661b24e6ca9eb1152294fb54eff312218636f71284ce37067"
+      }
+    }
+  ],
+  "cameraCode": {
+    "path": "Game/Assets/_Project/Combat/Battle/BattleCameraRig.cs",
+    "projection": "Perspective",
+    "fieldOfView": 40,
+    "presets": [
+      {
+        "name": "A",
+        "back": 1.05,
+        "up": 0.75,
+        "pitch": 17
+      },
+      {
+        "name": "B",
+        "back": 1.6,
+        "up": 1.05,
+        "pitch": 19
+      },
+      {
+        "name": "C",
+        "back": 3.2,
+        "up": 2.75,
+        "pitch": 28
+      }
+    ],
+    "note": "읽기 확인한 현행 코드값. 생성 이미지의 수치적 재현 보장이 아님"
+  },
+  "limitations": [
+    "reference.png는 생성 레퍼런스이고 실제 구현 캡처가 아님. 실제 캡처는 actual_capture.png.",
+    "주요 수평 난간·병사 1줄·하단 중앙 주인공 구도는 유사하나 생성 컷에 하늘과 수평선이 추가되어 투영/화각/위치가 정확히 같지 않음.",
+    "배경 석재가 세밀함. 최종 32px/m 타일과 같은 질감 재현을 보장하지 않음.",
+    "생성 PNG는 3D 메시·실시간 조명·게임 에셋 시트가 아님.",
+    "인원수·대포 수·포탑 크기는 전투/모형 규격 확정 근거가 아님.",
+    "Unity Play·실제 연결·움직임·빛 방향 검증은 수행하지 않음."
+  ],
+  "files": {
+    "reference.png": {
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "sha256": "4e46e0b1dd61081af9d7df5f9d1e18a2e82d99f873bd87401bb426a940f80856"
+    },
+    "actual_capture.png": {
+      "width": 1600,
+      "height": 900,
+      "mode": "RGB",
+      "sha256": "6d58e5672ad5aac8a92afc059e55401516ec24e9f17061a3e98dc033a1d9752f"
+    }
+  },
+  "cardWorktree": "C:/Unity/1/HLR-cards/K-004",
+  "cardBranch": "card/K-004",
+  "storageDisposition": {
+    "message": "M-CL-072",
+    "branchCommit": "a9d34db3e2e5d5d8781985c6c91fb0db61a57514",
+    "branchMerged": false,
+    "currentStorage": "main-folder consolidated review bundle G-CX-038",
+    "note": "latest card README and metadata selected; generated artwork unchanged"
+  }
+}

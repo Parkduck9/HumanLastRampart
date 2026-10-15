@@ -1,0 +1,172 @@
+{
+  "materialChecks": [
+    {
+      "albedoDownload": "wall_stone_albedo.png",
+      "aspect": "128 / 128",
+      "images": true,
+      "material": "wall_stone",
+      "normalDownload": "wall_stone_normal.png",
+      "renderMaterial": "wall_stone",
+      "repeat": "1",
+      "sizeLabel": "128×128 px / 4×4m / 32px/m"
+    },
+    {
+      "albedoDownload": "wall_stone_albedo.png",
+      "aspect": "128 / 128",
+      "images": true,
+      "material": "wall_stone",
+      "normalDownload": "wall_stone_normal.png",
+      "renderMaterial": "wall_stone",
+      "repeat": "3",
+      "sizeLabel": "128×128 px / 4×4m / 32px/m"
+    },
+    {
+      "albedoDownload": "walkway_stone_albedo.png",
+      "aspect": "128 / 128",
+      "images": true,
+      "material": "walkway_stone",
+      "normalDownload": "walkway_stone_normal.png",
+      "renderMaterial": "walkway_stone",
+      "repeat": "1",
+      "sizeLabel": "128×128 px / 4×4m / 32px/m"
+    },
+    {
+      "albedoDownload": "walkway_stone_albedo.png",
+      "aspect": "128 / 128",
+      "images": true,
+      "material": "walkway_stone",
+      "normalDownload": "walkway_stone_normal.png",
+      "renderMaterial": "walkway_stone",
+      "repeat": "3",
+      "sizeLabel": "128×128 px / 4×4m / 32px/m"
+    },
+    {
+      "albedoDownload": "parapet_top_albedo.png",
+      "aspect": "128 / 64",
+      "images": true,
+      "material": "parapet_top",
+      "normalDownload": "parapet_top_normal.png",
+      "renderMaterial": "parapet_top",
+      "repeat": "1",
+      "sizeLabel": "128×64 px / 4×2m / 32px/m"
+    },
+    {
+      "albedoDownload": "parapet_top_albedo.png",
+      "aspect": "128 / 64",
+      "images": true,
+      "material": "parapet_top",
+      "normalDownload": "parapet_top_normal.png",
+      "renderMaterial": "parapet_top",
+      "repeat": "3",
+      "sizeLabel": "128×64 px / 4×2m / 32px/m"
+    },
+    {
+      "albedoDownload": "parapet_side_albedo.png",
+      "aspect": "128 / 64",
+      "images": true,
+      "material": "parapet_side",
+      "normalDownload": "parapet_side_normal.png",
+      "renderMaterial": "parapet_side",
+      "repeat": "1",
+      "sizeLabel": "128×64 px / 4×2m / 32px/m"
+    },
+    {
+      "albedoDownload": "parapet_side_albedo.png",
+      "aspect": "128 / 64",
+      "images": true,
+      "material": "parapet_side",
+      "normalDownload": "parapet_side_normal.png",
+      "renderMaterial": "parapet_side",
+      "repeat": "3",
+      "sizeLabel": "128×64 px / 4×2m / 32px/m"
+    },
+    {
+      "albedoDownload": "tower_wall_albedo.png",
+      "aspect": "128 / 128",
+      "images": true,
+      "material": "tower_wall",
+      "normalDownload": "tower_wall_normal.png",
+      "renderMaterial": "tower_wall",
+      "repeat": "1",
+      "sizeLabel": "128×128 px / 4×4m / 32px/m"
+    },
+    {
+      "albedoDownload": "tower_wall_albedo.png",
+      "aspect": "128 / 128",
+      "images": true,
+      "material": "tower_wall",
+      "normalDownload": "tower_wall_normal.png",
+      "renderMaterial": "tower_wall",
+      "repeat": "3",
+      "sizeLabel": "128×128 px / 4×4m / 32px/m"
+    },
+    {
+      "albedoDownload": "tower_roof_albedo.png",
+      "aspect": "128 / 128",
+      "images": true,
+      "material": "tower_roof",
+      "normalDownload": "tower_roof_normal.png",
+      "renderMaterial": "tower_roof",
+      "repeat": "1",
+      "sizeLabel": "128×128 px / 4×4m / 32px/m"
+    },
+    {
+      "albedoDownload": "tower_roof_albedo.png",
+      "aspect": "128 / 128",
+      "images": true,
+      "material": "tower_roof",
+      "normalDownload": "tower_roof_normal.png",
+      "renderMaterial": "tower_roof",
+      "repeat": "3",
+      "sizeLabel": "128×128 px / 4×4m / 32px/m"
+    },
+    {
+      "albedoDownload": "field_grass_albedo.png",
+      "aspect": "256 / 256",
+      "images": true,
+      "material": "field_grass",
+      "normalDownload": "field_grass_normal.png",
+      "renderMaterial": "field_grass",
+      "repeat": "1",
+      "sizeLabel": "256×256 px / 8×8m / 32px/m"
+    },
+    {
+      "albedoDownload": "field_grass_albedo.png",
+      "aspect": "256 / 256",
+      "images": true,
+      "material": "field_grass",
+      "normalDownload": "field_grass_normal.png",
+      "renderMaterial": "field_grass",
+      "repeat": "3",
+      "sizeLabel": "256×256 px / 8×8m / 32px/m"
+    },
+    {
+      "albedoDownload": "field_dirt_albedo.png",
+      "aspect": "256 / 256",
+      "images": true,
+      "material": "field_dirt",
+      "normalDownload": "field_dirt_normal.png",
+      "renderMaterial": "field_dirt",
+      "repeat": "1",
+      "sizeLabel": "256×256 px / 8×8m / 32px/m"
+    },
+    {
+      "albedoDownload": "field_dirt_albedo.png",
+      "aspect": "256 / 256",
+      "images": true,
+      "material": "field_dirt",
+      "normalDownload": "field_dirt_normal.png",
+      "renderMaterial": "field_dirt",
+      "repeat": "3",
+      "sizeLabel": "256×256 px / 8×8m / 32px/m"
+    }
+  ],
+  "cardsVisibleOneAtATime": true,
+  "towerLoaded": true,
+  "lightControlPassed": true,
+  "strengthControlPassed": true,
+  "consoleErrors": 0,
+  "defaultOverflow": false,
+  "unityTested": false,
+  "fileProtocolTested": false
+}

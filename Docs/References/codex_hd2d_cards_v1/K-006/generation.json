@@ -1,0 +1,44 @@
+{
+  "card": "K-006",
+  "status": "review_material_complete_pending_worktree_transfer_and_user_review",
+  "tool": "built-in image_gen",
+  "intent": "generate architectural reference using existing material/style reference",
+  "sourcePath": "C:/Users/User/.codex/generated_images/01a13e59-4119-7f70-8718-e1eb3c7739be/exec-c76584fc-9dee-4d3a-a440-a38ed891ca6b.png",
+  "referencePath": "Docs/References/codex_gray_fortress_v2/tower_square_intact/source.png",
+  "requestedCanvas": {
+    "width": 1536,
+    "height": 1024
+  },
+  "prompt": "Use case: stylized-concept / architectural reference diagram.\nAsset type: single landscape 1536x1024 THREE-VIEW ORTHOGRAPHIC MODELING REFERENCE sheet for a real 3D medieval corner artillery tower in an HD-2D pixel-art game.\nInput image role: STYLE AND MATERIAL REFERENCE ONLY. Keep its aged neutral gray limestone, small restrained olive moss patches, crenellated top and black iron cannon on a brown wooden carriage. Do not retain its perspective view or black vignette.\nPrimary request: show ONE intact square corner tower as front elevation, right elevation and true top-down plan, all unperspectived, consistent architecture and aligned scale. Three clearly separated panels from left to right, broad empty margins on warm plain light-gray paper. NO labels, NO text, NO numbers or measurement lines; technical dimension labels will be added externally.\nConcept dimensions (still a proposal): tower exterior square 5m by 5m, maximum top of battlements 7m above ground. Flat open fighting roof inside the battlements at about 6m. Connected fortress wall walk floor at 4m, usable walkway 2m wide. Wall connects to two adjoining faces of the corner tower at right angles (L junction), NOT across the roof. A modest tower doorway at the 4m wall-walk level gives access to the interior; a small inset stair opening on the roof implies internal stair access. Clearly distinguish the taller tower from its lower adjoining wall segments. One cannon faces the front across a wide depressed embrasure. Two narrow arrow slits below the wall-walk level. Roof is flat gray stone, NO cone, NO red tiles.\nLayout: left panel exact front elevation with ground baseline at y850; central panel exact right elevation with same tower height, width and y850 ground baseline; right panel exact top-down plan with the SAME tower width on page as front and side. Each view contains the same distinct corner stones, same crenellation count and same cannon placement from the relevant angle. Draw tower masonry slightly darker neutral gray and the two connected wall stubs pale gray so their junctions are readable. Show short wall stubs only, not a whole 40m wall.\nStyle: clean game environment modeling concept sheet, crisp stepped pixel-textured material patches, simplified readable shapes, restrained stone wear, diffuse even lighting. Elevations must remain RECTANGULAR with perfectly horizontal roof/ground lines and vertical sides, no converging lines, no isometric view, no exploded view. Top plan must be square, no tilt, no foreshortening, roof platform/cannon/stair opening/battlements readable. No baked cast shadows on the backdrop, no characters, no scenic vegetation, no damage states. This is an intact structural reference, not a finished sprite.",
+  "proposedTowerMeters": {
+    "width": 5,
+    "depth": 5,
+    "height": 7,
+    "status": "proposal_not_approved_dimensions"
+  },
+  "wallReferenceMeters": {
+    "oneSideLength": 40,
+    "height": 4,
+    "walkwayWidth": 2
+  },
+  "limitations": [
+    "생성 이미지는 CAD 정밀도면이 아니며 이미지에서 치수를 측정하지 않는다.",
+    "상면의 표시 배율은 입면과 정확히 일치하지 않는다.",
+    "세 뷰의 난간 수와 석재 세부 배치는 완전히 일치하지 않는다.",
+    "두 성벽의 직각 연결은 각 입면의 짧은 벽 한 구간으로 암시되며 정확한 평면 연결은 별도 비율 도해로 확인한다.",
+    "3D 모델, 게임 연결, 파손·붕괴 상태, 노멀맵은 이 카드에서 제작하지 않았다.",
+    "실제 게임 화면 캡처 또는 Unity 검증을 수행하지 않았다."
+  ],
+  "output": "orthographic_reference.png",
+  "storage": "검토용 staging bundle; 정식 카드 worktree 이관 및 사용자 검토 대기",
+  "actualImage": {
+    "width": 2172,
+    "height": 724,
+    "mode": "RGB",
+    "format": "PNG",
+    "bytes": 2680316,
+    "sha256": "e0d8f003712f79c9d5e10ebb7264e9bd3d7268bf181fc1ac35fbdb7e7311e212"
+  },
+  "sourceSha256": "e0d8f003712f79c9d5e10ebb7264e9bd3d7268bf181fc1ac35fbdb7e7311e212",
+  "copiedByteIdentical": true
+}

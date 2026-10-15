@@ -1,0 +1,40 @@
+{
+  "id": "wall_stone",
+  "label": "성벽 바깥면",
+  "size": [
+    128,
+    128
+  ],
+  "meters": [
+    4,
+    4
+  ],
+  "pixelsPerMeter": 32,
+  "albedo": "K-005/wall_stone/albedo.png",
+  "normal": "K-005/wall_stone/normal.png",
+  "source": "K-005/wall_stone/source.png",
+  "sourceSize": [
+    1774,
+    887
+  ],
+  "sourceSha256": "3eaedc6ee165e6bc411401dede0bd530b825997ac41860d807eb9d7b6be753c6",
+  "albedoSha256": "787b0ceaff1fbe074d7aace85849bc74e32609c4a1e879c2c68c1137a28fa3e7",
+  "normalSha256": "04ec4602aa7e0fd121dba3599c7a05669331590f60294f5471ff2561de249694",
+  "normalMaxUnitError": 0.005350724198155743,
+  "normalConvention": "tangent Y+ requested; Unity orientation not verified",
+  "wrap": "Repeat",
+  "filter": "Point",
+  "normalStrengthSuggestion": 0.45,
+  "seam": {
+    "edgeX": 14.721354166666666,
+    "edgeY": 33.325520833333336,
+    "interiorX": 18.09844570209974,
+    "interiorY": 20.808501476377952,
+    "ratioX": 0.813404333663787,
+    "ratioY": 1.6015339149320698
+  },
+  "seamlessCertified": false,
+  "normalShapeAlignmentCertified": false,
+  "unityVerified": false,
+  "processing": "split full left/right panels, nearest resize, normalize normal vectors; no mirror or painted edge correction"
+}

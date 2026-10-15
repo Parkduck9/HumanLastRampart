@@ -1,0 +1,41 @@
+[
+  {
+    "id": "wall_stone",
+    "initialRatios": [
+      0.813404333663787,
+      1.6015339149320698
+    ],
+    "candidateRatios": [
+      0.8349686153102936,
+      1.6969775205232873
+    ],
+    "selectedCandidate": false,
+    "note": "lower maximum edge/internal difference chosen; not seamless certification"
+  },
+  {
+    "id": "parapet_top",
+    "initialRatios": [
+      1.025764023845252,
+      2.115892619659249
+    ],
+    "candidateRatios": [
+      1.0943298618913,
+      1.572742943778687
+    ],
+    "selectedCandidate": true,
+    "note": "lower maximum edge/internal difference chosen; not seamless certification"
+  },
+  {
+    "id": "parapet_side",
+    "initialRatios": [
+      0.9156850653490182,
+      2.2356316172108066
+    ],
+    "candidateRatios": [
+      1.0373937281106114,
+      2.088348944225058
+    ],
+    "selectedCandidate": true,
+    "note": "lower maximum edge/internal difference chosen; not seamless certification"
+  }
+]

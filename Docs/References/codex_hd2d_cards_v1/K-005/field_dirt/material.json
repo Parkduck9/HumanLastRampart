@@ -1,0 +1,40 @@
+{
+  "id": "field_dirt",
+  "label": "들판 흙",
+  "size": [
+    256,
+    256
+  ],
+  "meters": [
+    8,
+    8
+  ],
+  "pixelsPerMeter": 32,
+  "albedo": "K-005/field_dirt/albedo.png",
+  "normal": "K-005/field_dirt/normal.png",
+  "source": "K-005/field_dirt/source.png",
+  "sourceSize": [
+    1774,
+    887
+  ],
+  "sourceSha256": "be459c5ec2eface91fb332eb7f70db2821f1ded653d6b13f1b2055db6934fac9",
+  "albedoSha256": "b56b4a115e667840c0f1d68d2c243de1cd2184e7a790aeea4b038bbc52b39d2d",
+  "normalSha256": "9afba43d51111658ada450ef3d46cf0650b9c92e981db8a225fea35817f08ee4",
+  "normalMaxUnitError": 0.006453608379858755,
+  "normalConvention": "tangent Y+ requested; Unity orientation not verified",
+  "wrap": "Repeat",
+  "filter": "Point",
+  "normalStrengthSuggestion": 0.45,
+  "seam": {
+    "edgeX": 19.692708333333332,
+    "edgeY": 16.213541666666668,
+    "interiorX": 17.430014297385622,
+    "interiorY": 18.01984272875817,
+    "ratioX": 1.129815959834703,
+    "ratioY": 0.899760442458868
+  },
+  "seamlessCertified": false,
+  "normalShapeAlignmentCertified": false,
+  "unityVerified": false,
+  "processing": "split full left/right panels, nearest resize, normalize normal vectors; no mirror or painted edge correction"
+}

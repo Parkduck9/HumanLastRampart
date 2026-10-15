@@ -1,0 +1,40 @@
+{
+  "id": "walkway_stone",
+  "label": "성벽 통로",
+  "size": [
+    128,
+    128
+  ],
+  "meters": [
+    4,
+    4
+  ],
+  "pixelsPerMeter": 32,
+  "albedo": "K-005/walkway_stone/albedo.png",
+  "normal": "K-005/walkway_stone/normal.png",
+  "source": "K-005/walkway_stone/source.png",
+  "sourceSize": [
+    1774,
+    887
+  ],
+  "sourceSha256": "624eff95297b0e202b46d0b0ddf09573beff21b46302a4957a2b280a5b82f060",
+  "albedoSha256": "7a48c2577f7d90246e461de84503193cc05f27ac8ffa0a7cd25ac6447e586bdf",
+  "normalSha256": "04aa12af39f3cca4deef6253833b768017acf611a85d63149288441cfc470cc2",
+  "normalMaxUnitError": 0.005536385100440411,
+  "normalConvention": "tangent Y+ requested; Unity orientation not verified",
+  "wrap": "Repeat",
+  "filter": "Point",
+  "normalStrengthSuggestion": 0.45,
+  "seam": {
+    "edgeX": 15.578125,
+    "edgeY": 20.236979166666668,
+    "interiorX": 19.340838254593177,
+    "interiorY": 20.365998195538058,
+    "ratioX": 0.805452421189677,
+    "ratioY": 0.9936649788715165
+  },
+  "seamlessCertified": false,
+  "normalShapeAlignmentCertified": false,
+  "unityVerified": false,
+  "processing": "split full left/right panels, nearest resize, normalize normal vectors; no mirror or painted edge correction"
+}

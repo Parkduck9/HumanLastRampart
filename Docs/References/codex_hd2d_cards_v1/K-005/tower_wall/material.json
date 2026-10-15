@@ -1,0 +1,40 @@
+{
+  "id": "tower_wall",
+  "label": "포탑 벽",
+  "size": [
+    128,
+    128
+  ],
+  "meters": [
+    4,
+    4
+  ],
+  "pixelsPerMeter": 32,
+  "albedo": "K-005/tower_wall/albedo.png",
+  "normal": "K-005/tower_wall/normal.png",
+  "source": "K-005/tower_wall/source.png",
+  "sourceSize": [
+    1774,
+    887
+  ],
+  "sourceSha256": "dc7376a317358ed8552e79ea9fbbaed7f5efbb88f99694b34d4fbaf2f7f1f032",
+  "albedoSha256": "6e66e969959646e6c2dad647f56da55bbe631e2f58946930bc9c60d322ec8eee",
+  "normalSha256": "891ff045d4d9b1c6be657a38ad7cb39ba7a02f7e9a6c97e011ebb434b98c40c3",
+  "normalMaxUnitError": 0.0057218677708220644,
+  "normalConvention": "tangent Y+ requested; Unity orientation not verified",
+  "wrap": "Repeat",
+  "filter": "Point",
+  "normalStrengthSuggestion": 0.45,
+  "seam": {
+    "edgeX": 27.408854166666668,
+    "edgeY": 22.643229166666668,
+    "interiorX": 23.81719570209974,
+    "interiorY": 27.405204232283463,
+    "ratioX": 1.150801064469999,
+    "ratioY": 0.8262382930900706
+  },
+  "seamlessCertified": false,
+  "normalShapeAlignmentCertified": false,
+  "unityVerified": false,
+  "processing": "split full left/right panels, nearest resize, normalize normal vectors; no mirror or painted edge correction"
+}

@@ -1,0 +1,40 @@
+{
+  "id": "parapet_top",
+  "label": "난간 윗면",
+  "size": [
+    128,
+    64
+  ],
+  "meters": [
+    4,
+    2
+  ],
+  "pixelsPerMeter": 32,
+  "albedo": "K-005/parapet_top/albedo.png",
+  "normal": "K-005/parapet_top/normal.png",
+  "source": "K-005/parapet_top/source.png",
+  "sourceSize": [
+    1774,
+    887
+  ],
+  "sourceSha256": "20cc80b587db728ad6f73efad7e1901b69ce9104cbc4cf35134e90658f7181bc",
+  "albedoSha256": "0ac2fe4f34ee51af9d5dc1a7b86f3eb27270c66a13a942279f8bc643eb4b9cb1",
+  "normalSha256": "6bf1249f1ac2419f9a5cde424e21d1d01719916ad1187f0b521536fe1bb4b844",
+  "normalMaxUnitError": 0.005352840026259464,
+  "normalConvention": "tangent Y+ requested; Unity orientation not verified",
+  "wrap": "Repeat",
+  "filter": "Point",
+  "normalStrengthSuggestion": 0.45,
+  "seam": {
+    "edgeX": 17.177083333333332,
+    "edgeY": 31.302083333333332,
+    "interiorX": 15.69644028871391,
+    "interiorY": 19.90286044973545,
+    "ratioX": 1.0943298618913,
+    "ratioY": 1.572742943778687
+  },
+  "seamlessCertified": false,
+  "normalShapeAlignmentCertified": false,
+  "unityVerified": false,
+  "processing": "split full left/right panels, nearest resize, normalize normal vectors; no mirror or painted edge correction"
+}

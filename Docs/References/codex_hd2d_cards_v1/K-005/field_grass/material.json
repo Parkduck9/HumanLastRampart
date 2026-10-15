@@ -1,0 +1,40 @@
+{
+  "id": "field_grass",
+  "label": "들판 풀",
+  "size": [
+    256,
+    256
+  ],
+  "meters": [
+    8,
+    8
+  ],
+  "pixelsPerMeter": 32,
+  "albedo": "K-005/field_grass/albedo.png",
+  "normal": "K-005/field_grass/normal.png",
+  "source": "K-005/field_grass/source.png",
+  "sourceSize": [
+    1774,
+    887
+  ],
+  "sourceSha256": "1350e97677f47ba713e2adca2e059e337304552de8eda2264c60b6a19a68d03e",
+  "albedoSha256": "928d68bbf035563cb15c797dc84df819782a452b345a8c24c3dc2272c5093302",
+  "normalSha256": "e57edfd6bd1fcd1f92a9c1d4e650af8e35b2df13f5996af2529514f353a4aafe",
+  "normalMaxUnitError": 0.005903374775555692,
+  "normalConvention": "tangent Y+ requested; Unity orientation not verified",
+  "wrap": "Repeat",
+  "filter": "Point",
+  "normalStrengthSuggestion": 0.45,
+  "seam": {
+    "edgeX": 15.08203125,
+    "edgeY": 14.791666666666666,
+    "interiorX": 15.064802900326798,
+    "interiorY": 13.920261437908497,
+    "ratioX": 1.0011436160026248,
+    "ratioY": 1.0625997746267255
+  },
+  "seamlessCertified": false,
+  "normalShapeAlignmentCertified": false,
+  "unityVerified": false,
+  "processing": "split full left/right panels, nearest resize, normalize normal vectors; no mirror or painted edge correction"
+}
