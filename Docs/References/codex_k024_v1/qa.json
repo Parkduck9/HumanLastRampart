@@ -1,0 +1,244 @@
+{
+    "date":  "2026-10-16",
+    "browser":  "사용 가능한 브라우저 없음: iab 열기 실패, 브라우저 목록 비어 있음. 실제 브라우저 조작 미검증",
+    "unity":  "실행하지 않음",
+    "checks":  [
+                   {
+                       "name":  "references/wall_stone_albedo.png 크기",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "references/wall_stone_albedo.png 불투명",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "references/wall_stone_albedo.png 기존 경계 네 화소 일치",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "textures/wall_stone_damage1_albedo.png 크기",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "textures/wall_stone_damage1_albedo.png 불투명",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "textures/wall_stone_damage1_albedo.png 기존 경계 네 화소 일치",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "textures/wall_stone_damage2_albedo.png 크기",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "textures/wall_stone_damage2_albedo.png 불투명",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "textures/wall_stone_damage2_albedo.png 기존 경계 네 화소 일치",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "wall_stone 멀쩡 사본 SHA256",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "references/parapet_side_albedo.png 크기",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "references/parapet_side_albedo.png 불투명",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "references/parapet_side_albedo.png 기존 경계 네 화소 일치",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "textures/parapet_side_damage1_albedo.png 크기",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "textures/parapet_side_damage1_albedo.png 불투명",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "textures/parapet_side_damage1_albedo.png 기존 경계 네 화소 일치",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "textures/parapet_side_damage2_albedo.png 크기",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "textures/parapet_side_damage2_albedo.png 불투명",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "textures/parapet_side_damage2_albedo.png 기존 경계 네 화소 일치",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "parapet_side 멀쩡 사본 SHA256",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "references/parapet_top_albedo.png 크기",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "references/parapet_top_albedo.png 불투명",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "references/parapet_top_albedo.png 기존 경계 네 화소 일치",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "textures/parapet_top_damage1_albedo.png 크기",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "textures/parapet_top_damage1_albedo.png 불투명",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "textures/parapet_top_damage1_albedo.png 기존 경계 네 화소 일치",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "textures/parapet_top_damage2_albedo.png 크기",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "textures/parapet_top_damage2_albedo.png 불투명",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "textures/parapet_top_damage2_albedo.png 기존 경계 네 화소 일치",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "parapet_top 멀쩡 사본 SHA256",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "sprites/corpse_pile_1.png 크기",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "sprites/corpse_pile_1.png 투명 여백과 실체 존재",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "sprites/corpse_pile_1.png 알파 0 또는 255",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "sprites/corpse_pile_1.png 외곽 잘림 없음",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "sprites/corpse_pile_1.png 접점 위에 그림",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "sprites/corpse_pile_2.png 크기",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "sprites/corpse_pile_2.png 투명 여백과 실체 존재",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "sprites/corpse_pile_2.png 알파 0 또는 255",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "sprites/corpse_pile_2.png 외곽 잘림 없음",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "sprites/corpse_pile_2.png 접점 위에 그림",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "sprites/corpse_pile_3.png 크기",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "sprites/corpse_pile_3.png 투명 여백과 실체 존재",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "sprites/corpse_pile_3.png 알파 0 또는 255",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "sprites/corpse_pile_3.png 외곽 잘림 없음",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "sprites/corpse_pile_3.png 접점 위에 그림",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "sprites/trap_1.png 크기",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "sprites/trap_1.png 투명 여백과 실체 존재",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "sprites/trap_1.png 알파 0 또는 255",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "sprites/trap_1.png 외곽 잘림 없음",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "sprites/trap_1.png 접점 위에 그림",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "sprites/trap_2.png 크기",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "sprites/trap_2.png 투명 여백과 실체 존재",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "sprites/trap_2.png 알파 0 또는 255",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "sprites/trap_2.png 외곽 잘림 없음",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "sprites/trap_2.png 접점 위에 그림",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "시체 더미 높이 순서",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "HTML 치환 완료",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "HTML 외부 리소스 참조 없음",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "HTML 그림 17장 내장",
+                       "passed":  true
+                   }
+               ],
+    "passed":  59
+}
