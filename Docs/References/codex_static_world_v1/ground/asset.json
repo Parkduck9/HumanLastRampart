@@ -1,0 +1,43 @@
+{
+  "id": "ground",
+  "label": "들판 바닥",
+  "category": "환경",
+  "status": "review-draft",
+  "columns": 1,
+  "rows": 1,
+  "frames": 1,
+  "fps": 0,
+  "cell": [
+    256,
+    256
+  ],
+  "size": [
+    256,
+    256
+  ],
+  "pivotTopLeft": [
+    128,
+    128
+  ],
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "sourceCrop": [
+    0,
+    0,
+    1254,
+    1254
+  ],
+  "packedRect": [
+    0,
+    0,
+    256,
+    256
+  ],
+  "sourceSha256": "c72ffe6eb378734ee7005d4d09e02a0c3d07ac805df588bc8adad0927f61d52b",
+  "imageSha256": "f8cbb7caecc3305b690a181d6591177f35ccc94b2fdfcb700557d12d10cd06f0",
+  "unityPlayVerified": false,
+  "gameConnected": false,
+  "tilingVerified": false
+}

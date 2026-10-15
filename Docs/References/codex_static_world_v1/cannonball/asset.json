@@ -1,0 +1,43 @@
+{
+  "id": "cannonball",
+  "label": "포탄",
+  "category": "투사체",
+  "status": "review-draft",
+  "columns": 1,
+  "rows": 1,
+  "frames": 1,
+  "fps": 0,
+  "cell": [
+    64,
+    64
+  ],
+  "size": [
+    64,
+    64
+  ],
+  "pivotTopLeft": [
+    32,
+    32
+  ],
+  "sourceSize": [
+    1281,
+    1227
+  ],
+  "sourceCrop": [
+    242,
+    230,
+    1037,
+    1017
+  ],
+  "packedRect": [
+    4,
+    4,
+    56,
+    55
+  ],
+  "sourceSha256": "d80d1a3b599f6e0f7c7a0710351af0b574aa5b1abae1a15f5478be13082d13ab",
+  "imageSha256": "afaa6bb0bcd1b1e7b701242baf3ab4f85487d88a872248b01b2cc249b9ed8116",
+  "unityPlayVerified": false,
+  "gameConnected": false,
+  "tilingVerified": false
+}

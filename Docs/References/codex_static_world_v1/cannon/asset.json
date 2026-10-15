@@ -1,0 +1,43 @@
+{
+  "id": "cannon",
+  "label": "대포",
+  "category": "장비",
+  "status": "review-draft",
+  "columns": 1,
+  "rows": 1,
+  "frames": 1,
+  "fps": 0,
+  "cell": [
+    512,
+    384
+  ],
+  "size": [
+    512,
+    384
+  ],
+  "pivotTopLeft": [
+    256,
+    372
+  ],
+  "sourceSize": [
+    1351,
+    1164
+  ],
+  "sourceCrop": [
+    153,
+    64,
+    1307,
+    1088
+  ],
+  "packedRect": [
+    53,
+    12,
+    406,
+    360
+  ],
+  "sourceSha256": "f1f502ced7b710440a65847157d4a29a34dcb10d3b5b119f0d209315f8a78980",
+  "imageSha256": "93f3051db145ac238a39f0c69da37f7e5da415e63bcf9b42adf60f9ad8f771d4",
+  "unityPlayVerified": false,
+  "gameConnected": false,
+  "tilingVerified": false
+}

@@ -1,0 +1,31 @@
+{
+  "status": "PASS",
+  "newAssets": 8,
+  "rgba": true,
+  "sourcePreserved": true,
+  "nearestOnly": true,
+  "savedPixelsExact": true,
+  "noPackedClipping": true,
+  "unityPlayVerified": false,
+  "gameConnected": false,
+  "seamlessTilingVerified": false,
+  "jsSyntax": true,
+  "embeddedAssetsExact": true,
+  "externalRequests": false,
+  "groundOpaque": true,
+  "objectTransparency": true,
+  "htmlCopiesExact": true,
+  "browserQa": {
+    "cards": 8,
+    "imagesLoaded": 11,
+    "projectileFilterCount": 3,
+    "lightBackground": true,
+    "smallMode": true,
+    "localReplacement": true,
+    "restoreOriginal": true,
+    "consoleErrors": 0,
+    "horizontalOverflow": false,
+    "fileSchemeTested": false,
+    "screenshot": "browser_review.png"
+  }
+}

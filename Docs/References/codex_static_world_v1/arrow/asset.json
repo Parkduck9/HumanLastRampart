@@ -1,0 +1,43 @@
+{
+  "id": "arrow",
+  "label": "화살",
+  "category": "투사체",
+  "status": "review-draft",
+  "columns": 1,
+  "rows": 1,
+  "frames": 1,
+  "fps": 0,
+  "cell": [
+    256,
+    64
+  ],
+  "size": [
+    256,
+    64
+  ],
+  "pivotTopLeft": [
+    128,
+    32
+  ],
+  "sourceSize": [
+    2172,
+    724
+  ],
+  "sourceCrop": [
+    120,
+    184,
+    2098,
+    574
+  ],
+  "packedRect": [
+    4,
+    7,
+    248,
+    49
+  ],
+  "sourceSha256": "872892224af3bc2b4ab89b4b2ab34c4033769877606c06a637a5fa57e52d40f0",
+  "imageSha256": "078b8080d70737bc774df7b565757c55b390417715a8299614136c42632ae151",
+  "unityPlayVerified": false,
+  "gameConnected": false,
+  "tilingVerified": false
+}

@@ -1,0 +1,43 @@
+{
+  "id": "wall_straight",
+  "label": "직선 성벽",
+  "category": "환경",
+  "status": "review-draft",
+  "columns": 1,
+  "rows": 1,
+  "frames": 1,
+  "fps": 0,
+  "cell": [
+    768,
+    384
+  ],
+  "size": [
+    768,
+    384
+  ],
+  "pivotTopLeft": [
+    384,
+    279
+  ],
+  "sourceSize": [
+    2172,
+    724
+  ],
+  "sourceCrop": [
+    21,
+    115,
+    2151,
+    616
+  ],
+  "packedRect": [
+    12,
+    104,
+    744,
+    175
+  ],
+  "sourceSha256": "ae445634f528b14ef80bdde39251fe42cf5927dda8ab248686ca4fb7d6272045",
+  "imageSha256": "173ef3d1c264fcc9129e9942006097ab624676d855799299846a9d4106c82b25",
+  "unityPlayVerified": false,
+  "gameConnected": false,
+  "tilingVerified": false
+}
