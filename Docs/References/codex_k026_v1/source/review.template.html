@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ko">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>K-026 · UI 아이콘 시안 1판</title>
+<style>
+:root{color-scheme:dark;--bg:#101613;--panel:#26352d;--gold:#d5b16b;--text:#eee4cf;--muted:#b6baaa;--danger:#c37e70}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.65 'Malgun Gothic',sans-serif}main{max-width:1440px;margin:auto;padding:36px 30px 60px}h1,h2{font-family:Batang,serif;font-weight:500;line-height:1.3}h1{font-size:38px;margin:14px 0}h2{font-size:25px;margin:0 0 18px}.eyebrow{letter-spacing:3px;color:var(--gold);font-size:12px}.intro{max-width:850px;color:var(--muted)}.tag{display:inline-block;border:1px solid var(--danger);padding:4px 12px;color:var(--danger);font-size:12px}.toolbar{position:sticky;top:0;z-index:2;background:#101613f5;padding:15px 0;display:flex;align-items:center;gap:12px;flex-wrap:wrap;border-block:1px solid #d5b16b55;margin:26px 0}select,button{font:inherit;min-height:44px;background:var(--panel);color:var(--text);border:1px solid #d5b16b80;padding:8px 14px;cursor:pointer}button.active,button:hover,select:focus{border-color:var(--gold);background:#3a4b3c}button:focus-visible,a:focus-visible{outline:2px solid var(--gold);outline-offset:3px}label{display:flex;gap:8px;align-items:center}.layout{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:28px}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:12px}.card{display:block;text-align:left;width:100%;padding:14px;background:#1c2821;border-color:#50604b;min-width:0}.card[aria-pressed=true]{border-color:var(--gold);background:#344438;box-shadow:inset 0 0 0 1px var(--gold)}.iconstage{height:100px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;background:var(--sample,#26352d)}img{image-rendering:pixelated}.card strong{display:block;font-size:14px;font-weight:500}.card small{color:var(--muted);font-size:11px;display:block;overflow-wrap:anywhere}.section{margin-bottom:32px}.detail{position:sticky;top:100px;align-self:start;border:1px solid #d5b16b80;padding:22px;background:#1c2821}.detail h2{color:var(--gold);font-size:26px;margin-bottom:4px}.detail p{color:var(--muted);font-size:13px}.zoom{display:flex;height:220px;justify-content:center;align-items:center;background:var(--sample,#26352d);margin:18px 0}.sizes{display:flex;align-items:center;justify-content:space-around;height:74px;background:var(--sample,#26352d)}.sizes span{text-align:center;font-size:11px}.sizes img{display:block;margin:auto}.download{display:block;text-align:center;margin-top:14px;padding:9px;border:1px solid var(--gold);color:var(--gold);text-decoration:none}.hud{display:flex;gap:12px;flex-wrap:wrap;padding:18px;background:var(--panel);border:1px solid #d5b16b80;margin-top:30px}.hud span{display:flex;gap:9px;align-items:center;padding-right:16px}.notes{border-top:1px solid #d5b16b55;margin-top:36px;padding-top:22px;color:var(--muted);max-width:960px}.notes li{margin:8px 0}.checker{--sample:repeating-conic-gradient(#617067 0 25%,#78857c 0 50%) 0/12px 12px}body[data-bg=light]{--sample:#eee4cf}body[data-bg=dark]{--sample:#101613}body[data-bg=panel]{--sample:#26352d}.legend{display:flex;flex-wrap:wrap;gap:14px;margin:20px 0;color:var(--muted);font-size:12px}.swatch{display:inline-block;width:12px;height:12px;margin-right:5px;vertical-align:middle}.notice{color:var(--danger)}@media(max-width:850px){.layout{grid-template-columns:1fr}.detail{position:static;order:-1}.zoom{height:150px}.grid{grid-template-columns:repeat(auto-fill,minmax(145px,1fr))}main{padding:24px 16px}.toolbar{position:static}h1{font-size:30px}}
+</style>
+<body data-bg="panel"><main>
+<div class="eyebrow">HUMAN LAST RAMPART / K-026 / V1</div>
+<h1>전장을 읽는 작은 표식</h1>
+<span class="tag">사용자 확정 전 시안 · 게임 미연결</span>
+<p class="intro">병종 5종, 자원·전황 4종, 날씨·밤낮 7종, 우선순위 명령 6종. 황동과 아이보리를 중심으로 만든 22종 도트 아이콘입니다. 아이콘을 누르면 세 크기를 함께 살펴보고 PNG를 저장할 수 있습니다.</p>
+<div class="legend"><span><i class="swatch" style="background:#d5b16b"></i>황동 · 강조</span><span><i class="swatch" style="background:#eee4cf"></i>아이보리 · 주요 형태</span><span><i class="swatch" style="background:#88b9c7"></i>청색 · 물·수정</span><span><i class="swatch" style="background:#c37e70"></i>붉은색 · 낮은 체력</span></div>
+<div class="toolbar">
+<label>표시 크기 <select id="size"><option value="24">24px</option><option value="32" selected>32px</option><option value="48">48px</option></select></label>
+<label>바탕 <select id="bg"><option value="panel">공통 창</option><option value="dark">어두운 바탕</option><option value="light">밝은 바탕</option><option value="checker">투명 격자</option></select></label>
+<button id="scale" type="button" aria-pressed="false">목록 2배 확대</button>
+<span id="count">22종 · PNG 66장</span>
+</div>
+<div class="layout"><div id="catalog"></div><aside class="detail" aria-label="선택한 아이콘">
+<div class="eyebrow">선택한 아이콘</div><h2 id="name"></h2><p id="meaning"></p>
+<div class="zoom"><img id="large" alt=""></div>
+<div class="sizes" id="sizes"></div><p>위: 현재 크기의 4배 확대<br>아래: 24 · 32 · 48px 실제 크기</p>
+<a class="download" id="download" download>선택 크기 PNG 저장</a>
+<p id="selection" aria-live="polite"></p>
+</aside></div>
+<h2>상태판 배치 예시</h2><p class="intro">수치와 날씨는 배치 검토용 가상 값입니다. 실제 게임 화면 캡처가 아닙니다.</p><div class="hud" id="hud"></div>
+<div class="notes"><h2>검토할 점</h2><ul>
+<li>24px에서 활·총·대포와 여섯 명령의 형태를 빠르게 구분할 수 있는지 확인해 주세요. 실사용 시 명령 이름을 함께 표시하는 안입니다.</li>
+<li>비는 성긴 빗줄기, 소나기는 굵고 촘촘한 빗줄기로 구분했습니다. 번개는 추가하지 않았습니다.</li>
+<li>맑음은 사방으로 빛나는 해, 낮은 지평선 위의 해입니다. 날씨와 시간은 별도 표식입니다.</li>
+<li>주인공은 장교 제복과 훈장, 특수 적은 뿔 달린 큰 적으로 표현했습니다. 이 두 상징의 적합성은 사용자 확인이 필요합니다.</li>
+<li>기준 도트는 24px입니다. 48px는 정확한 2배이며, 32px는 색 번짐 없는 최근접 좌표 변환입니다. 32px의 도트 폭은 1~2px로 달라질 수 있습니다.</li>
+<li>게임 연결·Unity 가져오기·실제 HUD 가독성은 미검증입니다. 방향 확정 후 연결하고 실제 화면과 비교합니다.</li>
+</ul><p>원본: Docs/References/codex_k026_v1/source/build.ps1 · SVG 22장 · 투명 PNG 66장 · manifest.json · 전체 검토 그림. 이 페이지는 이미지와 스크립트를 내장해 서버와 인터넷 없이 열립니다.</p></div>
+</main><script>
+'use strict';
+const icons=__ICON_DATA__;
+const groups=['병종','자원·전황','날씨·밤낮','우선순위 명령'];
+let chosen=icons[0], size=32, doubled=false;
+const $=id=>document.getElementById(id);
+for(const group of groups){
+ const section=document.createElement('section');section.className='section';
+ const title=document.createElement('h2');title.textContent=group;section.append(title);
+ const grid=document.createElement('div');grid.className='grid';
+ for(const icon of icons.filter(i=>i.group===group)){
+  const b=document.createElement('button');b.type='button';b.className='card';b.dataset.id=icon.id;b.setAttribute('aria-pressed','false');b.setAttribute('aria-label',icon.name+' 자세히 보기');
+  const stage=document.createElement('span');stage.className='iconstage';const im=document.createElement('img');im.alt='';stage.append(im);
+  const name=document.createElement('strong');name.textContent=icon.name;const id=document.createElement('small');id.textContent=icon.id;b.append(stage,name,id);
+  b.onclick=()=>{chosen=icon;render()};grid.append(b);
+ }section.append(grid);$('catalog').append(section);
+}
+function render(){
+ for(const b of document.querySelectorAll('.card')){const item=icons.find(i=>i.id===b.dataset.id);const im=b.querySelector('img');im.src=item.images[size];im.width=im.height=size*(doubled?2:1);b.setAttribute('aria-pressed',String(chosen.id===item.id))}
+ $('name').textContent=chosen.name;$('meaning').textContent=chosen.meaning;
+ $('large').src=chosen.images[size];$('large').width=$('large').height=size*4;
+ $('large').alt=chosen.name+' 확대';$('sizes').replaceChildren();
+ for(const s of [24,32,48]){const span=document.createElement('span');const im=document.createElement('img');im.src=chosen.images[s];im.width=im.height=s;im.alt=chosen.name+' '+s+'px';span.append(im,document.createTextNode(s+'px'));$('sizes').append(span)}
+ $('download').href=chosen.images[size];$('download').download=chosen.id+'_'+size+'.png';$('download').textContent=size+'px PNG 저장';$('selection').textContent=chosen.name+' · '+size+'px 선택됨';
+}
+$('size').onchange=e=>{size=Number(e.target.value);render()};
+$('bg').onchange=e=>{document.body.dataset.bg=e.target.value;document.body.classList.toggle('checker',e.target.value==='checker')};
+$('scale').onclick=()=>{doubled=!doubled;$('scale').setAttribute('aria-pressed',String(doubled));$('scale').classList.toggle('active',doubled);$('scale').textContent=doubled?'실제 크기로 보기':'목록 2배 확대';render()};
+for(const [id,text] of [['stat_gold','1,280'],['stat_troops','300 / 500'],['stat_wall_hp','850 / 1,000'],['stat_kills','128'],['weather_rain','비'],['time_night','밤']]){const span=document.createElement('span');const img=document.createElement('img');img.src=icons.find(i=>i.id===id).images[24];img.width=img.height=24;img.alt=icons.find(i=>i.id===id).name;span.append(img,document.createTextNode(text));$('hud').append(span)}
+render();
+</script></body></html>
