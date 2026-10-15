@@ -1,0 +1,47 @@
+{
+  "scope": "V8 문법·최소 DOM/캔버스 모형. 실제 브라우저·실제 렌더링 검증 아님.",
+  "checks": [
+    {
+      "name": "스크립트 파싱·초기 로드 모형",
+      "passed": true
+    },
+    {
+      "name": "소품 5쌍·표 5행",
+      "passed": true
+    },
+    {
+      "name": "밤 선택 상태",
+      "passed": true
+    },
+    {
+      "name": "낮 복귀 상태",
+      "passed": true
+    },
+    {
+      "name": "2배 확대",
+      "passed": true
+    },
+    {
+      "name": "밝은 배경 선택",
+      "passed": true
+    },
+    {
+      "name": "소품 숨김",
+      "passed": true
+    },
+    {
+      "name": "소품 표시 복원",
+      "passed": true
+    },
+    {
+      "name": "직접 반복 입력 실행",
+      "passed": true
+    },
+    {
+      "name": "회전 범위 입력 실행",
+      "passed": true
+    }
+  ],
+  "passed": 10,
+  "failed": 0
+}
