@@ -1226,7 +1226,97 @@ public sealed class PlayProbe
         for (int i = 0; i < frames && (GameFlow.Instance == null || GameFlow.Instance.CurrentScreen != screen || !InputOpen()); i++) yield return null;
         Assert.AreEqual(screen, GameFlow.Instance.CurrentScreen, "화면 전환");
         for (int i = 0; i < 5; i++) yield return null;
+        // 전투 준비(D-071) 지도는 기본으로 바로 넘긴다 — 준비 화면 자체는 PrepPhase에서 찍는다
+        if (screen == ScreenId.Battle && !KeepPreparation) StartPreparedBattle();
     }
+
+    static bool KeepPreparation;
+
+    static void StartPreparedBattle()
+    {
+        foreach (var entry in UnityEngine.Object.FindObjectsByType<HumanLastRampart.Combat.Battle.BattleEntry>(FindObjectsSortMode.None))
+            if (entry.Preparing) entry.StartBattle();
+    }
+
+    // D-071 전투 준비: 전투 시작 전 지도가 열리고 시간이 멈춤 → 성벽 하나에 명령 → [전투 시작]으로 1번 화면
+    [UnityTest]
+    public IEnumerator PrepPhase()
+    {
+        Directory.CreateDirectory(Out);
+        log = new StringBuilder();
+        SceneManager.LoadScene("Boot");
+        yield return null;
+        yield return null;
+        yield return WaitScreen(ScreenId.MainMenu, 900);
+        yield return Click("게임 시작", 600);
+        yield return Click("현실", 300);
+        yield return WaitScreen(ScreenId.Story, 600);
+        yield return Click("다음", 600);
+        KeepPreparation = true;
+        try
+        {
+            yield return WaitScreen(ScreenId.Battle, 900);
+        }
+        finally { KeepPreparation = false; }
+
+        var entry = UnityEngine.Object.FindObjectsByType<HumanLastRampart.Combat.Battle.BattleEntry>(FindObjectsSortMode.None)[0];
+        var sim = (HumanLastRampart.Combat.Battle.BattleSim)typeof(HumanLastRampart.Combat.Battle.BattleEntry).GetField("sim", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(entry);
+        Assert.IsTrue(entry.Preparing, "전투 시작 전 준비 상태");
+        float before = sim.Elapsed;
+        for (int i = 0; i < 30; i++) yield return null;
+        Assert.AreEqual(before, sim.Elapsed, 0.0001f, "준비 중에는 시간이 멈춘다 (현실도)");
+        yield return Click("동쪽", 60);   // 받을 곳: 동쪽 성벽
+        yield return Click("특수 적 먼저", 60);
+        Note($"준비 중 동쪽 명령: {BattleSim_PriorityName(sim, 1)}");
+        Assert.AreEqual(HumanLastRampart.Core.Campaign.TargetPriority.SpecialFirst, sim.PriorityOf(1), "준비 중 성벽 명령은 바로 적용");
+        // D-072 병력 묶음: 준비 중 북쪽 묶음 하나를 동쪽으로 → 바로 옮겨지고 병력 수가 따라간다
+        int northStart = sim.Sides[0].GarrisonStart, eastStart = sim.Sides[1].GarrisonStart;
+        int moved = -1;
+        for (int g = 0; g < sim.GroupCount && moved < 0; g++)
+        {
+            var info = sim.GetGroup(g);
+            if (info.Movable && info.Side == 0 && info.Alive > 0) moved = g;
+        }
+        Assert.GreaterOrEqual(moved, 0, "북쪽에 옮길 수 있는 묶음");
+        int movedCount = sim.GetGroup(moved).Alive;
+        Assert.LessOrEqual(movedCount, HumanLastRampart.Combat.Battle.BattleSim.GroupSize, "10명 묶음");
+        entry.OrderGroupMove(moved, 1);
+        yield return null;
+        Assert.AreEqual(1, sim.GetGroup(moved).Side, "준비 중 묶음 이동은 바로");
+        Assert.AreEqual(northStart - movedCount, sim.Sides[0].GarrisonStart, "북쪽 처음 병력에서 빠짐 (떠났다고 패배 아님)");
+        Assert.AreEqual(eastStart + movedCount, sim.Sides[1].GarrisonStart, "동쪽에 더해짐");
+        Note($"준비 중 묶음 이동: {movedCount}명 북→동, 북 {northStart}→{sim.Sides[0].GarrisonStart}, 동 {eastStart}→{sim.Sides[1].GarrisonStart}");
+        yield return Capture("prep_map");
+        yield return Click("전투 시작", 60);
+        Assert.IsFalse(entry.Preparing, "전투 시작 버튼");
+        for (int i = 0; i < 30; i++) yield return null;
+        Assert.Greater(sim.Elapsed, before, "시작 뒤 시간이 흐른다");
+        yield return Capture("prep_started");
+
+        // 전투 중: 주인공(북쪽) 성벽의 다른 묶음을 서쪽으로 → 달려서 간다
+        int running = -1;
+        for (int g = 0; g < sim.GroupCount && running < 0; g++)
+        {
+            var info = sim.GetGroup(g);
+            if (info.Movable && info.Side == 0 && info.Alive > 0) running = g;
+        }
+        if (running >= 0)
+        {
+            Time.captureDeltaTime = 1f / 20f;
+            entry.OrderGroupMove(running, 3);
+            yield return null;
+            yield return null;
+            Assert.IsTrue(sim.GetGroup(running).Moving, "전투 중 묶음은 달려서 간다");
+            float started = sim.Elapsed;
+            for (int i = 0; i < 1200 && sim.GetGroup(running).Moving; i++) yield return null;
+            Time.captureDeltaTime = 0f;
+            Assert.AreEqual(3, sim.GetGroup(running).Side, "서쪽 도착");
+            Note($"전투 중 묶음 이동 북→서: {sim.Elapsed - started:0.0}초");
+        }
+        File.WriteAllText(Path.Combine(Out, "prep_phase.txt"), log.ToString(), new UTF8Encoding(false));
+    }
+
+    static string BattleSim_PriorityName(HumanLastRampart.Combat.Battle.BattleSim sim, int side) => HumanLastRampart.Combat.Battle.BattleSim.PriorityNames[(int)sim.PriorityOf(side)];
 
     // 배치 모드에는 화면 그리기 단계(WaitForEndOfFrame)가 없다. 전투의 LateUpdate(인스턴싱 그리기 예약) 뒤에
     // 도는 찍개 컴포넌트가 같은 프레임 안에서 카메라를 직접 그려 찍는다. 화면 덮개 UI는 잠시 카메라 공간으로 바꾼다.

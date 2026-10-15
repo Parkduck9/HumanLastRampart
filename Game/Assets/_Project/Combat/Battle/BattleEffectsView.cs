@@ -40,10 +40,10 @@ namespace HumanLastRampart.Combat.Battle
         const float CannonShotSize = 1f;             // 투사체 그림 크기가 이보다 크면 대포알 (WriteShotInstancesJob 1.6)
 
         // 횃불 자리 — BattleLights와 같은 규칙 (그쪽 값이 바뀌면 함께 맞춘다)
-        const float TorchSpacing = 8f;
-        const float TorchInset = 1.9f;
-        const float TorchFootHeight = 0.15f;         // 빛(성벽 위 0.5m)보다 조금 아래에서 불꽃이 솟는다
-        const float TorchSize = 0.9f;
+        const float TorchSpacing = BattleLights.TorchSpacing;   // 빛과 같은 자리 (D-071 피드백: 그림과 빛이 따로 놀던 것)
+        const float TorchInset = BattleLights.TorchInset;
+        const float TorchFootHeight = BattleLights.TorchHeight - 0.1f;   // 빛보다 조금 아래에서 불꽃이 솟는다
+        const float TorchSize = 0.35f;   // 병사 키(0.35m)와 같은 칸 크기 — 0.9는 병사보다 훨씬 컸다
 
         // 빛을 받는 그림(D-062)이라 밤에는 어두워진다 — 스스로 빛나는 불·마법은 색을 올려 덜 어둡게 (화면 확인 뒤 조정)
         const float DayGlow = 1.15f, NightGlow = 2.6f;

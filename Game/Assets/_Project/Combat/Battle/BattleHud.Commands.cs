@@ -66,12 +66,19 @@ namespace HumanLastRampart.Combat.Battle
 
         void BuildCommandMenu()
         {
-            Image panel = NewImage(root.transform, "Command Menu", HudStyle.Panel);
-            HudStyle.Border(panel);
-            menuPanel = panel.gameObject;
-            Anchor(panel.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0f, -40f), new Vector2(560f, 520f), new Vector2(0.5f, 0.5f));
-            menuTitle = NewText(panel.transform, "Title", 26, TextAnchor.MiddleCenter);
-            Anchor(menuTitle.rectTransform, new Vector2(0.5f, 1f), new Vector2(0f, -16f), new Vector2(540f, 50f), new Vector2(0.5f, 1f));
+            // D-072 사용자 그림: 주인공 오른쪽에 세로선 + 글자와 밑줄만 (상자 버튼 없음). 마우스 가까운 항목이 커진다
+            var container = new GameObject("Command Menu", typeof(RectTransform));
+            container.transform.SetParent(root.transform, false);
+            menuPanel = container;
+            var rect = (RectTransform)container.transform;
+            rect.anchorMin = rect.anchorMax = Vector2.zero;   // 왼쪽 아래 기준 — 주인공 화면 위치로 옮긴다
+            rect.pivot = new Vector2(0f, 0.5f);
+            rect.sizeDelta = new Vector2(MenuWidth, 400f);
+            menuLine = NewImage(container.transform, "Line", new Color(HudStyle.Text.r, HudStyle.Text.g, HudStyle.Text.b, 0.55f));
+            menuLine.raycastTarget = false;
+            menuTitle = NewText(container.transform, "Title", 18, TextAnchor.LowerLeft);
+            menuTitle.color = HudStyle.TextDim;
+            AddMenuOutline(menuTitle);
             menuPanel.SetActive(false);
 
             // 알림: 오른쪽 위, 속도 버튼 아래. 아래 가운데·왼쪽(주인공·마법사 자리)을 피하고,
@@ -173,6 +180,14 @@ namespace HumanLastRampart.Combat.Battle
             CommandChosen?.Invoke(chosenVia, chosenPriority, targetSide);
         }
 
+        const float MenuWidth = 420f;
+        const float MenuSpacing = 58f;      // 항목 사이 (화면 1080 기준)
+        const float MenuLineGap = 34f;      // 세로선과 글자 사이
+        const float MenuGrow = 0.45f;       // 가장 가까운 항목이 커지는 정도 (1.45배)
+        const float MenuGrowReach = 70f;    // 이 거리(위아래) 안에서만 커진다
+        Image menuLine;
+        readonly List<RectTransform> menuItems = new List<RectTransform>();
+
         void SetOptions(string title, string[] labels, Action[] actions)
         {
             foreach (GameObject button in menuButtons)
@@ -182,17 +197,110 @@ namespace HumanLastRampart.Combat.Battle
 
             menuButtons.Clear();
             menuChoices.Clear();
+            menuItems.Clear();
+            menuBands.Clear();
             menuTitle.text = title;
+
+            float height = labels.Length * MenuSpacing;
+            float top = height * 0.5f;
+            Anchor(menuLine.rectTransform, new Vector2(0f, 0.5f), Vector2.zero, new Vector2(3f, height + 20f), new Vector2(0.5f, 0.5f));
+            Anchor(menuTitle.rectTransform, new Vector2(0f, 0.5f), new Vector2(MenuLineGap, top + 14f), new Vector2(MenuWidth, 30f), new Vector2(0f, 0f));
+            // 사용자 참고 그림(D-072): 항목이 주인공 오른쪽으로 부채꼴처럼 휜다 — 가운데 항목이 가장 바깥
+            float mid = (labels.Length - 1) * 0.5f;
             for (int i = 0; i < labels.Length; i++)
             {
                 Action action = actions[i];
-                Button button = NewButton(menuPanel.transform, $"{i + 1}. {labels[i]}", () => action());
-                Anchor((RectTransform)button.transform, new Vector2(0.5f, 1f), new Vector2(0f, -80f - i * 70f), new Vector2(500f, 60f), new Vector2(0.5f, 1f));
-                menuButtons.Add(button.gameObject);
+                float k = mid > 0f ? (i - mid) / mid : 0f;
+                float bulge = MenuArc * (1f - k * k);
+                menuButtons.Add(NewMenuItem(i, labels[i], () => action(), top - (i + 0.5f) * MenuSpacing, bulge));
                 menuChoices.Add(action);
             }
 
             menuPanel.SetActive(true);
+        }
+
+        const float MenuArc = 46f;          // 부채꼴로 가운데 항목이 바깥으로 나가는 거리
+        const float MenuSlant = 6f;         // 띠가 비스듬히 기운 각도(도)
+        static readonly string[] CircledNumbers = { "①", "②", "③", "④", "⑤", "⑥", "⑦", "⑧", "⑨" };
+        static readonly Color MenuBand = new Color(0.06f, 0.07f, 0.07f, 0.72f);
+        static readonly Color MenuBandHover = new Color(0.12f, 0.16f, 0.2f, 0.88f);
+        readonly List<Image> menuBands = new List<Image>();
+
+        // 참고 그림처럼: 비스듬한 어두운 띠 + 동그라미 번호 + 글자 + 금색 밑줄. 띠는 누르는 자리, 크기·밝기는 UpdateMenuHover가 바꾼다
+        GameObject NewMenuItem(int index, string label, Action onClick, float y, float bulge)
+        {
+            var go = new GameObject("Item", typeof(RectTransform), typeof(Image), typeof(Button));
+            go.transform.SetParent(menuPanel.transform, false);
+            var rect = (RectTransform)go.transform;
+            float width = MenuWidth - MenuLineGap - MenuArc;
+            Anchor(rect, new Vector2(0f, 0.5f), new Vector2(MenuLineGap + bulge, y), new Vector2(width, MenuSpacing - 10f), new Vector2(0f, 0.5f));
+            rect.localRotation = Quaternion.Euler(0f, 0f, MenuSlant);   // 오른쪽이 조금 올라간 비스듬한 띠
+            var band = go.GetComponent<Image>();
+            band.color = MenuBand;
+            var button = go.GetComponent<Button>();
+            button.transition = Selectable.Transition.None;
+            button.onClick.AddListener(() => onClick());
+
+            Text number = NewText(go.transform, "Number", 26, TextAnchor.MiddleCenter);
+            Anchor(number.rectTransform, new Vector2(0f, 0.5f), new Vector2(8f, 0f), new Vector2(34f, 34f), new Vector2(0f, 0.5f));
+            number.text = index < CircledNumbers.Length ? CircledNumbers[index] : (index + 1).ToString();
+            number.color = HudStyle.Brass;
+
+            Text text = NewText(go.transform, "Text", 24, TextAnchor.MiddleLeft);
+            Anchor(text.rectTransform, new Vector2(0f, 0.5f), new Vector2(50f, 2f), new Vector2(width - 60f, 34f), new Vector2(0f, 0.5f));
+            text.text = label;
+            AddMenuOutline(text);
+
+            // 금색 붓 자국 밑줄: 띠 아래쪽을 따라 끝으로 갈수록 가늘게(두 겹)
+            Image underline = NewImage(go.transform, "Underline", HudStyle.Brass);
+            underline.raycastTarget = false;
+            Anchor(underline.rectTransform, new Vector2(0f, 0f), new Vector2(44f, 3f), new Vector2(Mathf.Min(width - 50f, text.preferredWidth + 40f), 2f), new Vector2(0f, 0f));
+            Image tail = NewImage(go.transform, "Underline Tail", new Color(HudStyle.Brass.r, HudStyle.Brass.g, HudStyle.Brass.b, 0.45f));
+            tail.raycastTarget = false;
+            Anchor(tail.rectTransform, new Vector2(0f, 0f), new Vector2(44f, 0f), new Vector2(width - 50f, 1f), new Vector2(0f, 0f));
+            menuItems.Add(rect);
+            menuBands.Add(band);
+            return go;
+        }
+
+        static void AddMenuOutline(Text text)
+        {
+            var outline = text.gameObject.AddComponent<Outline>();   // 들판 위에서도 읽히게 (상자 바탕이 없으므로)
+            outline.effectColor = new Color(0.04f, 0.03f, 0.02f, 0.9f);
+            outline.effectDistance = new Vector2(1.5f, -1.5f);
+        }
+
+        // 메뉴를 주인공 화면 위치 오른쪽에 둔다 (BattleEntry가 열려 있는 동안 매 프레임). screen = 화면 화소 좌표
+        // 화면 비율 자리(0~1)에 기준점을 두고 오른쪽으로 60만큼 — 화면 크기·화면 배율과 상관없이 주인공 옆에 붙는다
+        public void PlaceMenu(Vector2 screen)
+        {
+            if (!MenuOpen || menuPanel == null) return;
+            var rect = (RectTransform)menuPanel.transform;
+            Vector2 viewport = new Vector2(screen.x / Mathf.Max(1, Screen.width), screen.y / Mathf.Max(1, Screen.height));
+            rect.anchorMin = rect.anchorMax = viewport;
+            rect.anchoredPosition = new Vector2(60f, 0f);
+            UpdateMenuHover();
+        }
+
+        // 마우스와 위아래로 가까운 항목일수록 크게 (손을 뻗으면 고를 것처럼 커지는 느낌)
+        void UpdateMenuHover()
+        {
+            var mouse = UnityEngine.InputSystem.Mouse.current;
+            if (mouse == null) return;
+            var parent = (RectTransform)menuPanel.transform;
+            if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(parent, mouse.position.ReadValue(), null, out Vector2 local)) return;
+            bool near = local.x > -40f && local.x < MenuWidth + 40f;
+            for (int i = 0; i < menuItems.Count; i++)
+            {
+                RectTransform item = menuItems[i];
+                float d = Mathf.Abs(local.y - item.anchoredPosition.y);
+                float t = near ? Mathf.Clamp01(1f - d / MenuGrowReach) : 0f;
+                float target = 1f + MenuGrow * t * t;
+                float current = item.localScale.x;
+                float next = Mathf.MoveTowards(current, target, Time.unscaledDeltaTime * 4f);   // 부드럽게
+                item.localScale = new Vector3(next, next, 1f);
+                if (i < menuBands.Count) menuBands[i].color = Color.Lerp(MenuBand, MenuBandHover, (next - 1f) / MenuGrow);   // 커질수록 밝은 띠
+            }
         }
 
         public void PushNotice(string text)

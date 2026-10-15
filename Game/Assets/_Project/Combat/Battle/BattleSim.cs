@@ -24,7 +24,7 @@ namespace HumanLastRampart.Combat.Battle
         public const float WallFigureScale = 0.25f;
         const float EnemyWallScale = 0.33f;
         // D-065 깔때기: 성벽 앞 반폭(성벽 끝 조금 안쪽) → 들판 끝(반폭 FunnelFieldHalfWidth)까지 넓어진다
-        public static float FunnelFieldHalfWidth = 150f;   // 측정용으로 바꿀 수 있게 static
+        public static float FunnelFieldHalfWidth = 75f;    // D-071 들판 160m에 맞춰 반으로 (예전 320m에서 150m)   // 측정용으로 바꿀 수 있게 static
         float FunnelBase => CastleHalf * 0.95f;
         float FunnelSlope => Mathf.Max(0f, (FunnelFieldHalfWidth - FunnelBase) / Mathf.Max(1f, FieldSize - CastleHalf));               // 성벽 가까이에서 적 크기 비율 — 고블린 0.4m(병사 0.35m와 비슷), 오우거 0.66m
         public const float WallScaleBand = 30f;             // 성벽에서 이 거리(m) 안에서 점점 줄어든다 (8m는 가까운 고블린이 너무 커 보여 늘림, D-047)
@@ -72,6 +72,9 @@ namespace HumanLastRampart.Combat.Battle
             public int Side;
             public int FirstSoldier;
             public int Alive;
+            public int Start;         // 이 묶음의 처음 인원 (분대를 10명 묶음으로 나눔, D-072)
+            public bool Movable;      // 대포 분대는 옮기지 않는다
+            public string UnitName;
             public float SoldierHp;
         }
 
@@ -186,7 +189,7 @@ namespace HumanLastRampart.Combat.Battle
 
             var terrain = defs.Get<TerrainDef>(setup.TerrainId);
             CastleHalf = terrain != null ? terrain.CastleHalfSize : 60f;
-            FieldSize = terrain != null ? terrain.FieldSize : 320f;
+            FieldSize = terrain != null ? terrain.FieldSize : 160f;
             var rules = defs.All<BattleRulesDef>();
             garrisonLossRatio = rules.Count > 0 ? rules[0].GarrisonLossDefeatRatio : 0.7f;
             this.rules = rules.Count > 0 ? rules[0] : null;
@@ -495,7 +498,16 @@ namespace HumanLastRampart.Combat.Battle
                 float spacing = squad.Count > 1 ? Mathf.Min(SoldierMaxSpacing, (hi - lo) / (squad.Count - 1)) : 0f;
                 float halfSpan = (squad.Count - 1) * spacing * 0.5f;
                 float center = Mathf.Clamp(along, lo + halfSpan, Mathf.Max(lo + halfSpan, hi - halfSpan));
-                squads.Add(new SquadInfo { State = squad, Side = side, FirstSoldier = index, Alive = squad.Count, SoldierHp = hp });
+                // 10명 묶음으로 나눈다 (D-072 지도에서 묶음 이동). 대포 분대는 한 묶음 그대로
+                bool cannonSquad = weapons[w].AreaRadius > 0f;
+                int chunk = cannonSquad ? squad.Count : GroupSize;
+                UnitDef unitDef = defs.Get<UnitDef>(squad.UnitDefId);
+                string unitName = unitDef != null && !string.IsNullOrEmpty(unitDef.DisplayName) ? unitDef.DisplayName : "병사";
+                for (int c = 0; c < squad.Count; c += chunk)
+                {
+                    int size = Mathf.Min(chunk, squad.Count - c);
+                    squads.Add(new SquadInfo { State = squad, Side = side, FirstSoldier = index + c, Alive = size, Start = size, Movable = !cannonSquad, UnitName = unitName, SoldierHp = hp });
+                }
                 for (int i = 0; i < squad.Count; i++)
                 {
                     float lateral = center - halfSpan + i * spacing;
@@ -541,7 +553,7 @@ namespace HumanLastRampart.Combat.Battle
                 int garrison = 0;
                 foreach (SquadInfo squad in squads)
                 {
-                    if (squad.Side == side) garrison += squad.State.Count;
+                    if (squad.Side == side) garrison += squad.Start;
                 }
 
                 wallHp[side] = wall != null ? wall.Hp : 0;
@@ -635,6 +647,7 @@ namespace HumanLastRampart.Combat.Battle
 
             Spawn();
             UpdateMessengers(dt);
+            UpdateGroupMoves(dt);
             UpdateFlank(dt);
             UpdateWizard(dt);
             UpdateSpells(dt);
@@ -951,12 +964,21 @@ namespace HumanLastRampart.Combat.Battle
 
             BattleResultHelper.AddUnchangedHeroes(setup, result);
 
+            // 10명 묶음(D-072)을 원래 분대별로 다시 더한다 — 결과 화면·진행 데이터는 분대 단위 그대로
+            var lostBySquad = new Dictionary<string, int>();
+            var squadOrder = new List<string>();
             foreach (SquadInfo squad in squads)
             {
-                int lost = squad.State.Count - squad.Alive;
-                if (lost > 0)
+                string id = squad.State.SquadId;
+                if (!lostBySquad.ContainsKey(id)) { lostBySquad[id] = 0; squadOrder.Add(id); }
+                lostBySquad[id] += squad.Start - squad.Alive;
+            }
+
+            foreach (string id in squadOrder)
+            {
+                if (lostBySquad[id] > 0)
                 {
-                    result.SquadLosses.Add(new SquadLoss { SquadId = squad.State.SquadId, LostCount = lost });
+                    result.SquadLosses.Add(new SquadLoss { SquadId = id, LostCount = lostBySquad[id] });
                 }
             }
 

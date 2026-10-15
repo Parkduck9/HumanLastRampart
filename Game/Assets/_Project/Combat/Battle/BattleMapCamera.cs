@@ -9,8 +9,8 @@ namespace HumanLastRampart.Combat.Battle
     {
         public enum Level { Full, Side, Close }
 
-        const float SideHalfHeight = 130f;    // 한 면: 세로 약 260m
-        const float CloseHalfHeight = 50f;    // 가까이: 세로 약 100m
+        const float SideHalfHeight = 80f;     // 한 면: 세로 약 160m (D-071 들판 160m에 맞춤, 예전 130)
+        const float CloseHalfHeight = 40f;    // 가까이: 세로 약 80m — 성(40m)과 병력 묶음이 잘 보인다
         const float DotPixels = 7f;           // 화면에서 점 크기(픽셀)
 
         readonly Camera camera;
@@ -36,7 +36,15 @@ namespace HumanLastRampart.Combat.Battle
         {
             Current = Level.Side;
             var n = WallGeometry.Outward(side);
-            center = new Vector2(n.x, n.z) * (castleHalf + 70f);
+            center = new Vector2(n.x, n.z) * (castleHalf + 40f);
+            Apply();
+        }
+
+        // 전투 준비(D-071·072): 성 가운데를 가까이 — 병력 묶음 옮기기·명령 정하기가 먼저다. 휠로 넓혀 대포 조준
+        public void OpenCastle()
+        {
+            Current = Level.Close;
+            center = Vector2.zero;
             Apply();
         }
 

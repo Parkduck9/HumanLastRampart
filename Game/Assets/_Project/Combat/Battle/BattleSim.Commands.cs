@@ -15,8 +15,8 @@ namespace HumanLastRampart.Combat.Battle
     // - 겹침: 나중에 "내린" 명령이 이긴다 (D-039 C16-1). 늦게 도착한 옛 명령은 무시하고 알린다
     public sealed partial class BattleSim
     {
-        public const float HeroSpeed = 10f;  // 주인공 달리기(m/초) — 성벽 한 면(120m) 약 12초 (D-046)
-        public const float HeroWalkSpeed = 4f;   // A/D 걷기(m/초) — 달리기와 구분 (D-049)
+        public const float HeroSpeed = 5f;   // 주인공 달리기(m/초) — 성벽 한 면(40m) 약 8초 (D-071, 예전 10m는 120m 성벽 기준). 전령은 이 값 × 비율(0.7)
+        public const float HeroWalkSpeed = 2.5f; // 통로 안쪽·바깥쪽 걷기(m/초) — 달리기와 구분 (D-049, D-071)
 
         public enum CommandVia { Direct, Messenger, Shout, Global }
 
@@ -40,6 +40,8 @@ namespace HumanLastRampart.Combat.Battle
             public float Travelled;
             public bool Returning;
             public float3 Home;
+            public int MoveGroup = -1;     // D-072: 명령 대신 '이 묶음을 MoveTarget 성벽으로' 전하러 간다
+            public int MoveTarget;
         }
 
         readonly TargetPriority[] wallPriority = new TargetPriority[4];
@@ -190,6 +192,29 @@ namespace HumanLastRampart.Combat.Battle
             return true;
         }
 
+        // D-072: 주인공이 없는 성벽의 묶음을 옮길 때 — 전령이 그 묶음의 성벽에 닿아야 출발한다
+        public void IssueGroupMoveByMessenger(int fromSide, float fromAlong, int group, int targetSide)
+        {
+            float issuedAt = Elapsed;
+            RunOrQueue(() =>
+            {
+                if (group < 0 || group >= squads.Count || squads[group].Side < 0) return;
+                int groupSide = squads[group].Side;
+                if (StartMessenger(fromSide, fromAlong, groupSide, PriorityOf(groupSide), issuedAt))
+                {
+                    Messenger m = messengers[messengers.Count - 1];
+                    m.MoveGroup = group;
+                    m.MoveTarget = targetSide;
+                }
+            });
+        }
+
+        // 바로 옮기기 (전투 준비 중이면 순간, 아니면 달려서) — BattleEntry가 주인공 성벽 묶음에 쓴다
+        public void IssueGroupMove(int group, int targetSide, bool instant)
+        {
+            RunOrQueue(() => MoveGroup(group, targetSide, instant));
+        }
+
         float MessengerSpeed() => HeroSpeed * (rules != null ? rules.MessengerSpeedRatio : 0.7f);
 
         void UpdateMessengers(float dt)
@@ -216,7 +241,8 @@ namespace HumanLastRampart.Combat.Battle
                 if (m.Travelled < m.Distance) continue;
                 if (!m.Returning)
                 {
-                    Apply(m.TargetSide, m.Priority, m.IssuedAt, CommandVia.Messenger);
+                    if (m.MoveGroup >= 0) MoveGroup(m.MoveGroup, m.MoveTarget, false);   // 전령이 닿으면 묶음이 출발
+                    else Apply(m.TargetSide, m.Priority, m.IssuedAt, CommandVia.Messenger);
                     m.Returning = true;
                     m.Travelled = 0f;
                 }

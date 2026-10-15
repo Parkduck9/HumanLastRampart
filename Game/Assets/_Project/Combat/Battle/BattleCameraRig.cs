@@ -6,12 +6,12 @@ namespace HumanLastRampart.Combat.Battle
     // 1번 화면 카메라와 주인공 이동 (D-025·D-040·D-046, D-061 옥토패스식 이동·카메라)
     // - A/D(←/→): 성벽을 따라 늘 달린다. 끝까지 가면 모서리를 돌아 옆 성벽으로 이어서 간다 (카메라는 부드럽게 돈다)
     // - W/S(↑/↓): 성벽 통로 안에서 바깥쪽/안쪽으로 걷는다 (뒷모습/앞모습)
-    // - Tab 전체 보기, C 카메라 방식 바꾸기
+    // - C 카메라 방식 바꾸기. Tab은 지도(BattleEntry, D-071) — 예전 3D 전체 보기는 시험 도구 비교용으로만 남김
     // - Q/E 자동 달리기 키는 없앴다 (D-069 사용자 지시: A/D 누르고 있는 동안만 달리기, 모서리 돌기는 그대로)
     // 기본은 자동: 멈춰 있으면 A(가깝게), 움직이면 B(조금 넓게)로 부드럽게 바뀐다
     public sealed class BattleCameraRig
     {
-        const float RunSpeed = BattleSim.HeroSpeed;          // 늘 달리기 (D-061) — 성벽 한 면 40m 약 4초
+        const float RunSpeed = BattleSim.HeroSpeed;          // 늘 달리기 (D-061) — 성벽 한 면 40m 약 8초 (D-071)
         const float DepthSpeed = BattleSim.HeroWalkSpeed;    // 통로 안쪽·바깥쪽 걷기
         const float TurnDegreesPerSecond = 300f;             // 모서리에서 카메라가 도는 빠르기 (90도 약 0.3초)
         const float FollowSharpness = 14f;                   // 카메라가 주인공을 따라붙는 빠르기
@@ -113,7 +113,6 @@ namespace HumanLastRampart.Combat.Battle
             float pan = 0f, depth = 0f;
             if (keyboard != null)
             {
-                if (keyboard.tabKey.wasPressedThisFrame) overview = !overview;
                 if (keyboard.cKey.wasPressedThisFrame) PresetIndex = PresetIndex + 1 >= Presets.Length ? -1 : PresetIndex + 1;
                 if (keyboard.aKey.isPressed || keyboard.leftArrowKey.isPressed) pan -= 1f;
                 if (keyboard.dKey.isPressed || keyboard.rightArrowKey.isPressed) pan += 1f;

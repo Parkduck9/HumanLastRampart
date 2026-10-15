@@ -6,7 +6,7 @@ namespace HumanLastRampart.Core.Definitions
     [CreateAssetMenu(menuName = "HLR/정의/지형", fileName = "TerrainDef")]
     public sealed class TerrainDef : DefinitionBase
     {
-        [SerializeField] float fieldSize = 320f;          // 성 중심에서 들판 끝까지 거리
+        [SerializeField] float fieldSize = 160f;          // 성 중심에서 들판 끝까지 거리 (D-071: 320 → 160, 적이 성벽까지 약 35초)
         [SerializeField] float castleHalfSize = 60f;      // 성 중심에서 성벽까지 거리
         [SerializeField] Vector2 recoveryGate;            // 회수 병력 출발 위치 (X, Z)
 

@@ -58,12 +58,22 @@ namespace HumanLastRampart.Combat.Battle
             if (!open)
             {
                 foreach (Text label in groupLabels) label.gameObject.SetActive(false);
+                foreach (Text marker in groupMarkers) marker.gameObject.SetActive(false);
+                if (groupPopup != null) groupPopup.SetActive(false);
             }
             if (open)
             {
-                mapBanner.text = frozen ? "지도 — 시간 멈춤 (쉬움)" : "지도 — 시간이 흐릅니다 (현실)";
+                mapBanner.text = preparing ? "전투 준비 — 명령·대포 조준을 정하세요"
+                    : frozen ? "지도 — 시간 멈춤 (쉬움)" : "지도 — 시간이 흐릅니다 (현실)";
             }
         }
+
+        // 병사 명령 (D-071): 받을 곳 고르기(전체·북·동·남·서) → 명령 고르기. 전체는 4면 한 번에(MAP-2)
+        // 성벽 하나를 고르면 WallCommandChosen — 전투 준비 중에는 바로, 전투 중에는 있는 자리 성벽만 바로·나머지는 전령(BattleEntry)
+        public event Action<int, TargetPriority> WallCommandChosen;
+        int commandTarget = -1;   // -1 = 전체
+        readonly Image[] commandTabs = new Image[5];
+        Text globalTitle;
 
         void BuildGlobalPanel()
         {
@@ -71,20 +81,53 @@ namespace HumanLastRampart.Combat.Battle
             HudStyle.Border(panel);
             globalPanel = panel.gameObject;
             // 왼쪽 위 상태판 바로 아래 (상태판을 접고 펴면 LayoutStatus가 따라 옮긴다)
-            Anchor(panel.rectTransform, new Vector2(0f, 1f), new Vector2(20f, -30f - StatusHeight), new Vector2(330f, 490f), new Vector2(0f, 1f));
-            Text title = NewText(panel.transform, "Title", 26, TextAnchor.MiddleCenter);
-            Anchor(title.rectTransform, new Vector2(0.5f, 1f), new Vector2(0f, -12f), new Vector2(310f, 40f), new Vector2(0.5f, 1f));
-            title.text = "전체 명령 (4면)";
+            Anchor(panel.rectTransform, new Vector2(0f, 1f), new Vector2(20f, -30f - StatusHeight), new Vector2(330f, 550f), new Vector2(0f, 1f));
+            globalTitle = NewText(panel.transform, "Title", 24, TextAnchor.MiddleCenter);
+            Anchor(globalTitle.rectTransform, new Vector2(0.5f, 1f), new Vector2(0f, -10f), new Vector2(310f, 36f), new Vector2(0.5f, 1f));
+
+            string[] targets = { "전체", "북쪽", "동쪽", "남쪽", "서쪽" };   // 대포 패널의 북·동·남·서 탭과 구분
+            for (int i = 0; i < targets.Length; i++)
+            {
+                int target = i - 1;
+                Button tab = NewButton(panel.transform, targets[i], () => commandTarget = target);
+                Anchor((RectTransform)tab.transform, new Vector2(0f, 1f), new Vector2(12f + i * 62f, -50f), new Vector2(58f, 44f), new Vector2(0f, 1f));
+                commandTabs[i] = tab.GetComponent<Image>();
+            }
+
             for (int i = 0; i < BattleSim.PriorityNames.Length; i++)
             {
                 var priority = (TargetPriority)i;
-                Button button = NewButton(panel.transform, BattleSim.PriorityNames[i], () => GlobalCommandChosen?.Invoke(priority));
-                Anchor((RectTransform)button.transform, new Vector2(0.5f, 1f), new Vector2(0f, -56f - i * 54f), new Vector2(300f, 48f), new Vector2(0.5f, 1f));
+                Button button = NewButton(panel.transform, BattleSim.PriorityNames[i], () =>
+                {
+                    if (commandTarget < 0) GlobalCommandChosen?.Invoke(priority);
+                    else WallCommandChosen?.Invoke(commandTarget, priority);
+                });
+                Anchor((RectTransform)button.transform, new Vector2(0.5f, 1f), new Vector2(0f, -106f - i * 54f), new Vector2(300f, 48f), new Vector2(0.5f, 1f));
             }
 
             globalStatus = NewText(panel.transform, "Status", 18, TextAnchor.UpperLeft);
             Anchor(globalStatus.rectTransform, new Vector2(0.5f, 0f), new Vector2(0f, 8f), new Vector2(300f, 96f), new Vector2(0.5f, 0f));
             globalPanel.SetActive(false);
+        }
+
+        // 전투 준비 (D-071): 전투 시작 전에 지도가 열린 채 시간이 멈춰 있다. 명령·대포 조준을 정하고 [전투 시작]
+        public event Action BattleStartChosen;
+        GameObject startButton;
+        bool preparing;
+
+        public void SetPreparing(bool value)
+        {
+            preparing = value;
+            if (startButton == null)
+            {
+                Button button = NewButton(root.transform, "전투 시작", () => BattleStartChosen?.Invoke());
+                Anchor((RectTransform)button.transform, new Vector2(0.5f, 1f), new Vector2(0f, -84f), new Vector2(300f, 56f), new Vector2(0.5f, 1f));
+                button.GetComponentInChildren<Text>().fontSize = 26;
+                startButton = button.gameObject;
+            }
+
+            startButton.SetActive(value);
+            nextRefresh = 0f;
         }
 
         void BuildCannonPanel()
@@ -210,11 +253,110 @@ namespace HumanLastRampart.Combat.Battle
             for (int i = groups.Count; i < groupLabels.Count; i++) groupLabels[i].gameObject.SetActive(false);
         }
 
+        // ── 병력 묶음 (D-072): 지도 위 10명 묶음 표시. 누르면 갈 성벽이 바로 뜨고, 끌어다 다른 성벽에 놓아도 된다 ──
+        public event Action<int> GroupDestinationChosen;   // 고른 성벽 0~3
+        readonly System.Collections.Generic.List<Text> groupMarkers = new System.Collections.Generic.List<Text>();
+        readonly System.Collections.Generic.List<Vector2> groupMarkerScreen = new System.Collections.Generic.List<Vector2>();
+        readonly System.Collections.Generic.List<int> groupMarkerIndex = new System.Collections.Generic.List<int>();
+        GameObject groupPopup;
+        Text groupPopupTitle;
+        readonly Button[] groupPopupButtons = new Button[4];
+
+        public void RefreshGroupMarkers(BattleSim sim, Camera camera, int selected, Vector2? dragScreen)
+        {
+            groupMarkerScreen.Clear();
+            groupMarkerIndex.Clear();
+            int used = 0;
+            for (int g = 0; g < sim.GroupCount; g++)
+            {
+                BattleSim.GroupInfo info = sim.GetGroup(g);
+                if (!info.Movable || info.Alive <= 0) continue;
+                if (groupMarkers.Count <= used)
+                {
+                    Text t = NewText(root.transform, "Group Marker", 17, TextAnchor.MiddleCenter);
+                    t.rectTransform.anchorMin = t.rectTransform.anchorMax = Vector2.zero;
+                    t.rectTransform.sizeDelta = new Vector2(64f, 24f);
+                    var outline = t.gameObject.AddComponent<Outline>();
+                    outline.effectColor = new Color(0f, 0f, 0f, 0.9f);
+                    groupMarkers.Add(t);
+                }
+
+                // 성벽 바깥쪽으로 4m 띄워 성을 덮지 않게. 글자는 짧게(궁10) — 묶음끼리 4~5m 간격이라 길면 겹친다
+                Vector3 world = new Vector3(info.Center.x, info.Center.y, info.Center.z);
+                if (info.Side >= 0)
+                {
+                    Unity.Mathematics.float3 n = WallGeometry.Outward(info.Side);
+                    world += new Vector3(n.x, 0f, n.z) * 4f;
+                }
+
+                Vector3 screen = camera.WorldToScreenPoint(world);
+                if (g == selected && dragScreen.HasValue) screen = dragScreen.Value;   // 끄는 중이면 마우스를 따라온다
+                Text label = groupMarkers[used++];
+                label.gameObject.SetActive(mapMode);
+                // 화면 비율 자리에 기준점 (화면 크기와 상관없이 지도 위 그 자리)
+                label.rectTransform.anchorMin = label.rectTransform.anchorMax = new Vector2(screen.x / Mathf.Max(1, Screen.width), screen.y / Mathf.Max(1, Screen.height));
+                label.rectTransform.anchoredPosition = Vector2.zero;
+                string shortName = string.IsNullOrEmpty(info.UnitName) ? "병" : info.UnitName.Substring(0, 1);
+                label.text = info.Moving ? $"{shortName}{info.Alive}→{SideShort[info.TargetSide]}" : $"{shortName}{info.Alive}";
+                label.color = g == selected ? HudStyle.Brass : info.Moving ? HudStyle.TextDim : new Color(0.75f, 0.9f, 1f);
+                groupMarkerScreen.Add(new Vector2(screen.x, screen.y));
+                groupMarkerIndex.Add(g);
+            }
+
+            for (int i = used; i < groupMarkers.Count; i++) groupMarkers[i].gameObject.SetActive(false);
+            ShowGroupPopup(sim, selected, dragScreen.HasValue);
+        }
+
+        // 화면 화소 위치 가까이(28화소)의 묶음 번호, 없으면 -1
+        public int GroupAtScreen(Vector2 screen)
+        {
+            int best = -1;
+            float bestSq = 28f * 28f;
+            for (int i = 0; i < groupMarkerScreen.Count; i++)
+            {
+                float d = (groupMarkerScreen[i] - screen).sqrMagnitude;
+                if (d < bestSq) { bestSq = d; best = groupMarkerIndex[i]; }
+            }
+
+            return best;
+        }
+
+        void ShowGroupPopup(BattleSim sim, int selected, bool dragging)
+        {
+            if (groupPopup == null)
+            {
+                Image panel = NewImage(root.transform, "Group Popup", HudStyle.Panel);
+                HudStyle.Border(panel);
+                groupPopup = panel.gameObject;
+                Anchor(panel.rectTransform, new Vector2(0.5f, 0f), new Vector2(0f, 200f), new Vector2(560f, 110f), new Vector2(0.5f, 0f));
+                groupPopupTitle = NewText(panel.transform, "Title", 20, TextAnchor.MiddleCenter);
+                Anchor(groupPopupTitle.rectTransform, new Vector2(0.5f, 1f), new Vector2(0f, -6f), new Vector2(540f, 30f), new Vector2(0.5f, 1f));
+                for (int i = 0; i < 4; i++)
+                {
+                    int side = i;
+                    Button button = NewButton(panel.transform, $"{SideShort[i]}쪽으로", () => GroupDestinationChosen?.Invoke(side));
+                    Anchor((RectTransform)button.transform, new Vector2(0f, 0f), new Vector2(14f + i * 134f, 12f), new Vector2(126f, 52f), new Vector2(0f, 0f));
+                    groupPopupButtons[i] = button;
+                }
+            }
+
+            bool show = mapMode && selected >= 0 && selected < sim.GroupCount;
+            groupPopup.SetActive(show);
+            if (!show) return;
+            BattleSim.GroupInfo info = sim.GetGroup(selected);
+            groupPopupTitle.text = dragging ? $"{info.UnitName} {info.Alive}명 — 갈 성벽 위에 놓으세요"
+                : $"{info.UnitName} {info.Alive}명 ({(info.Side >= 0 ? SideShort[info.Side] + "쪽" : "이동 중")}) — 어디로 보낼까요";
+            for (int i = 0; i < 4; i++) groupPopupButtons[i].gameObject.SetActive(info.Side >= 0 && i != info.Side);
+        }
+
         // 지금 성벽별 명령 (패널 아래)
         void RefreshGlobalStatus(BattleSim sim)
         {
             if (globalStatus == null || !mapMode) return;
             string[] names = { "북", "동", "남", "서" };
+            for (int i = 0; i < commandTabs.Length; i++)
+                if (commandTabs[i] != null) commandTabs[i].color = i - 1 == commandTarget ? HudStyle.ButtonActive : HudStyle.Button;
+            globalTitle.text = commandTarget < 0 ? "병사 명령 — 4면 전체" : $"병사 명령 — {names[commandTarget]}쪽 성벽";
             var lines = new string[4];
             for (int side = 0; side < 4; side++)
             {

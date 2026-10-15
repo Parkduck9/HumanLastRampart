@@ -10,7 +10,7 @@ namespace HumanLastRampart.Combat.Battle
     // - 쓴 뒤에는 다음 마법 전까지 그 성벽에 머문다. 이동 중에는 다른 마법을 쓸 수 없다
     public sealed partial class BattleSim
     {
-        public const float WizardSpeed = HeroSpeed;   // 성벽 한 면(120m) 약 12초
+        public const float WizardSpeed = HeroSpeed;   // 주인공과 같은 속도 (D-071 초당 5m)
         const float WizardAlong = -0.4f;               // 가운데에서 왼쪽으로 — 카메라 A/B/C 모두 화면 안, 오른쪽 아래 버튼과 안 겹침
         const float WizardInset = BattleCameraRig.HeroInset;   // 주인공과 같은 줄 (가까워 보여 커지지 않게)
 

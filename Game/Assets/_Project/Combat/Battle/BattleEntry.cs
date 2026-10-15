@@ -34,6 +34,10 @@ namespace HumanLastRampart.Combat.Battle
         bool paused;
         bool endShown;
         bool finishing;
+        bool preparing;   // 전투 준비 (D-071) — 시작 전 지도
+        int selectedGroup = -1;   // 지도에서 고른 병력 묶음 (D-072)
+        bool dragging;
+        Vector2 dragStart;
 
         public ScreenId Id => ScreenId.Battle;
 
@@ -53,6 +57,8 @@ namespace HumanLastRampart.Combat.Battle
             context = screenContext;
             finishing = false;
             endShown = false;
+            preparing = false;
+            mapOpen = false;
             BattleSetup setup = context.Campaign?.ActiveBattleSetup;
             IDefinitionLookup defs = context.Definitions;
 
@@ -98,7 +104,53 @@ namespace HumanLastRampart.Combat.Battle
                 hud.CannonNumberChosen += SelectCannon;
                 hud.SpellChosen += SelectSpell;   // MAP-4 마법
                 hud.CannonClearChosen += () => { if (selectedCannon >= 0) sim.ClearCannonAim(selectedCannon); };
+                hud.WallCommandChosen += OnMapWallCommand;
+                hud.BattleStartChosen += StartBattle;
+                hud.GroupDestinationChosen += side => OrderGroupMove(selectedGroup, side);
+
+                // 전투 준비 (D-071): 지도가 열린 채 시간이 멈춘다. 명령·대포 조준을 정하고 [전투 시작] (지도 닫기도 시작)
+                preparing = true;
+                ToggleMap();
+                mapCamera.OpenCastle();
+                hud.SetPreparing(true);
             }
+        }
+
+        // D-072 병력 묶음 이동: 준비 중이면 바로 그 자리에, 전투 중 주인공 성벽 묶음은 바로 출발, 다른 성벽 묶음은 전령이 닿아야 출발
+        public void OrderGroupMove(int group, int targetSide)
+        {
+            if (sim == null || group < 0 || group >= sim.GroupCount) return;
+            BattleSim.GroupInfo info = sim.GetGroup(group);
+            if (info.Side < 0 || info.Side == targetSide) return;
+            if (preparing) sim.IssueGroupMove(group, targetSide, true);
+            else if (rig == null || rig.Side == info.Side) sim.IssueGroupMove(group, targetSide, false);
+            else sim.IssueGroupMoveByMessenger(rig.Side, rig.Along, group, targetSide);
+            selectedGroup = -1;
+        }
+
+        // 지도 위 한 점에서 가장 가까운 성벽 (성 가운데 기준으로 더 많이 치우친 축)
+        static int SideOfPoint(Vector3 world)
+        {
+            if (Mathf.Abs(world.x) > Mathf.Abs(world.z)) return world.x > 0f ? 1 : 3;
+            return world.z > 0f ? 0 : 2;
+        }
+
+        // 지도에서 성벽 하나에 내린 명령: 준비 중이면 바로, 전투 중이면 주인공이 있는 성벽만 바로·나머지는 전령 (D-071)
+        void OnMapWallCommand(int side, TargetPriority priority)
+        {
+            if (sim == null) return;
+            if (preparing || rig == null || side == rig.Side) sim.IssueDirect(side, priority);
+            else sim.IssueMessenger(rig.Side, rig.Along, side, priority);
+        }
+
+        public bool Preparing => preparing;
+
+        public void StartBattle()
+        {
+            if (!preparing) return;
+            preparing = false;
+            hud?.SetPreparing(false);
+            if (mapOpen) ToggleMap();
         }
 
         // 주인공 그림 시트: 참가 영웅 중 주인공(UnitKind.Hero)의 UnitDef.Sheet (없으면 BattleView가 임시 그림)
@@ -198,9 +250,15 @@ namespace HumanLastRampart.Combat.Battle
 
             if (keyboard != null && !sim.Ended)
             {
-                // 2번 지도 모드 (BattleMap.md): M 열고 닫기, Esc 닫기(명령 메뉴가 열려 있으면 메뉴 먼저)
-                if (keyboard.mKey.wasPressedThisFrame) ToggleMap();
-                else if (keyboard.escapeKey.wasPressedThisFrame && mapOpen && !hud.MenuOpen) ToggleMap();
+                // 2번 지도 모드 (BattleMap.md): Tab·M 열고 닫기, Esc 닫기(명령 메뉴가 열려 있으면 메뉴 먼저). D-071: Tab = 지도
+                // 전투 준비 중에 지도를 닫으면 전투가 시작된다
+                bool toggle = keyboard.tabKey.wasPressedThisFrame || keyboard.mKey.wasPressedThisFrame
+                    || (keyboard.escapeKey.wasPressedThisFrame && mapOpen && !hud.MenuOpen);
+                if (toggle)
+                {
+                    if (preparing) StartBattle();
+                    else ToggleMap();
+                }
             }
 
             if (keyboard != null)
@@ -233,13 +291,36 @@ namespace HumanLastRampart.Combat.Battle
                 mapCamera.Update(Time.unscaledDeltaTime);
                 // 대포를 고른 상태에서 들판(UI 바깥)을 왼쪽 클릭 → 조준점
                 // 아무것도 고르지 않았으면 내 함정 표시를 눌러 점화 (D-050)
-                if (mouse != null && mouse.leftButton.wasPressedThisFrame
-                    && (UnityEngine.EventSystems.EventSystem.current == null || !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()))
+                bool overUi = UnityEngine.EventSystems.EventSystem.current != null && UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject();
+                if (mouse != null && mouse.leftButton.wasPressedThisFrame && !overUi)
                 {
-                    Vector3 world = battleCamera.ScreenToWorldPoint(new Vector3(mouse.position.ReadValue().x, mouse.position.ReadValue().y, battleCamera.nearClipPlane));
-                    if (selectedSpell >= 0) CastSelectedSpellAt(world);
+                    Vector2 point = mouse.position.ReadValue();
+                    Vector3 world = battleCamera.ScreenToWorldPoint(new Vector3(point.x, point.y, battleCamera.nearClipPlane));
+                    // D-072: 병력 묶음 표시를 누르면 고르고 끌기 시작 (마법·대포보다 먼저)
+                    int group = hud.GroupAtScreen(point);
+                    if (group >= 0)
+                    {
+                        selectedGroup = group;
+                        selectedSpell = -1;
+                        selectedCannon = -1;
+                        dragStart = point;
+                        dragging = true;
+                    }
+                    else if (selectedSpell >= 0) CastSelectedSpellAt(world);
                     else if (selectedCannon >= 0) AimSelectedCannonAt(world);
-                    else DetonateTrapAt(world);
+                    else if (!DetonateTrapAt(world)) selectedGroup = -1;   // 빈 들판을 누르면 묶음 선택 해제
+                }
+
+                // 끌어다 놓기: 28화소 넘게 움직였으면 놓은 곳에서 가까운 성벽으로 보낸다. 조금만 움직였으면 고른 채로(창에서 성벽 고르기)
+                if (dragging && mouse != null && !mouse.leftButton.isPressed)
+                {
+                    dragging = false;
+                    Vector2 point = mouse.position.ReadValue();
+                    if ((point - dragStart).sqrMagnitude > 28f * 28f && selectedGroup >= 0)
+                    {
+                        Vector3 world = battleCamera.ScreenToWorldPoint(new Vector3(point.x, point.y, battleCamera.nearClipPlane));
+                        OrderGroupMove(selectedGroup, SideOfPoint(world));
+                    }
                 }
 
                 // 망원경 (MAP-5): 오른쪽 버튼을 누르고 있는 동안 렌즈, 0.15초마다 무리 확인
@@ -286,6 +367,12 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             DrawHero();
+            // 명령 메뉴는 주인공 가슴 높이 오른쪽에 붙는다 (D-072)
+            if (hud.MenuOpen && rig != null && !mapOpen)
+            {
+                Vector3 screen = battleCamera.WorldToScreenPoint(rig.HeroFeet + Vector3.up * 0.25f);
+                if (screen.z > 0f) hud.PlaceMenu(new Vector2(screen.x, screen.y));
+            }
             view.Draw(mapOpen, mapOpen ? mapCamera.DotWorldSize : 0f);
             if (mapOpen)
             {
@@ -297,6 +384,8 @@ namespace HumanLastRampart.Combat.Battle
                 }
 
                 hud?.RefreshGroupLabels(sim, battleCamera);
+                Mouse dragMouse = Mouse.current;
+                hud?.RefreshGroupMarkers(sim, battleCamera, selectedGroup, dragging && dragMouse != null ? dragMouse.position.ReadValue() : (Vector2?)null);
                 hud?.RefreshCannons(sim, cannonSide, selectedCannon);
                 hud?.RefreshSpells(sim, selectedSpell);
             }
@@ -328,7 +417,7 @@ namespace HumanLastRampart.Combat.Battle
 
         public bool MapOpen => mapOpen;
         public BattleMapCamera MapCamera => mapCamera;
-        bool MapFreezesTime => mapOpen && easy;
+        bool MapFreezesTime => mapOpen && (easy || preparing);
 
         // 마법 고르기 → 들판 클릭으로 쓰기 (대포 선택은 풀린다). 같은 마법을 다시 누르면 취소
         public void SelectSpell(int index)
@@ -384,6 +473,8 @@ namespace HumanLastRampart.Combat.Battle
                 cannonSide = rig != null ? rig.Side : 0;
                 selectedCannon = -1;
                 selectedSpell = -1;
+                selectedGroup = -1;
+                dragging = false;
                 RenderSettings.fog = false;   // 위에서 멀리 보는 지도에는 안개를 끈다 (시야 규칙은 점 그리기에서 그대로)
             }
             else
