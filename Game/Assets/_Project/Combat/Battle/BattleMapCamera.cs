@@ -67,14 +67,23 @@ namespace HumanLastRampart.Combat.Battle
             var keyboard = Keyboard.current;
             if (keyboard != null)
             {
+                // 화살표만 (D-073: Q·W는 마법, 지도는 왼쪽 버튼으로 끌어 옮긴다)
                 Vector2 move = Vector2.zero;
-                if (keyboard.aKey.isPressed || keyboard.leftArrowKey.isPressed) move.x -= 1f;
-                if (keyboard.dKey.isPressed || keyboard.rightArrowKey.isPressed) move.x += 1f;
-                if (keyboard.wKey.isPressed || keyboard.upArrowKey.isPressed) move.y += 1f;
-                if (keyboard.sKey.isPressed || keyboard.downArrowKey.isPressed) move.y -= 1f;
+                if (keyboard.leftArrowKey.isPressed) move.x -= 1f;
+                if (keyboard.rightArrowKey.isPressed) move.x += 1f;
+                if (keyboard.upArrowKey.isPressed) move.y += 1f;
+                if (keyboard.downArrowKey.isPressed) move.y -= 1f;
                 center += move * HalfHeight * 1.2f * unscaledDt;
             }
 
+            Apply();
+        }
+
+        // 왼쪽 버튼으로 끌기 (D-073): 화면에서 움직인 화소만큼 반대로 — 손으로 지도를 잡아 미는 느낌
+        public void DragBy(Vector2 screenDelta)
+        {
+            float metersPerPixel = HalfHeight * 2f / Mathf.Max(1, Screen.height);
+            center -= screenDelta * metersPerPixel;
             Apply();
         }
 

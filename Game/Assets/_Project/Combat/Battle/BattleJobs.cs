@@ -391,6 +391,10 @@ namespace HumanLastRampart.Combat.Battle
 
         // TargetPriority 순서 (Core.Campaign.TargetPriority와 같게)
         const byte LowestHpRatio = 0, HighestHpRatio = 1, Nearest = 2, ClimbingFirst = 3, SpecialFirst = 4, DensestArea = 5;
+        const float Cos30 = 0.8660254f, Cos60 = 0.5f;
+
+        // 체력 비율을 10% 띠로 — 97%와 95%를 같은 적으로 보고 병사들이 나눠 쏘게 (D-073)
+        static float BandOf(float ratio) => math.floor(ratio * 10f);
 
         public void Execute(int s)
         {
@@ -425,6 +429,7 @@ namespace HumanLastRampart.Combat.Battle
             int bestRank = int.MaxValue;
             float bestKey = float.MaxValue;
             float bestDistSq = float.MaxValue;
+            uint bestScatter = uint.MaxValue;
             for (int z = minCell.y; z <= maxCell.y; z++)
             {
                 for (int x = minCell.x; x <= maxCell.x; x++)
@@ -450,40 +455,57 @@ namespace HumanLastRampart.Combat.Battle
                         }
 
                         byte state = EnemyStates[e];
+
+                        // 자기 성벽 앞만 쏜다 (D-073): 성벽 바깥 방향에서 좌우 30도 안 = 1순위, 60도 = 2순위, 90도 = 3순위,
+                        // 90도 넘게(옆·뒤 = 다른 성벽 쪽)는 쏘지 않는다. 성벽 위 적은 통로 옆이라 거의 90도 — 조금 넘어도 허용
+                        float flat = math.sqrt(math.max(distSq, 0.0001f));
+                        float cosine = (d.x * wallOut.x + d.z * wallOut.z) / flat;
+                        bool onWall = state == EnemyState.OnWall;
+                        if (cosine <= (onWall ? -0.2f : 0f))
+                        {
+                            continue;
+                        }
+
+                        int band = cosine >= Cos30 ? 0 : cosine >= Cos60 ? 1 : 2;
                         float ratio = (float)remaining / math.max(1, EnemyMaxHp[e]);
-                        int rank = state == EnemyState.OnWall ? 0 : 2;
+                        // 순위: 성벽 위 적(0) → 각도 띠마다 [명령이 고른 적, 나머지] (1 + 띠×2 + 0/1)
+                        int favored = 1;
                         float key;
                         switch (mode)
                         {
                             case HighestHpRatio:
-                                key = -ratio;
+                                key = -BandOf(ratio);
                                 break;
                             case Nearest:
-                                key = math.dot(EnemyPositions[e], wallOut) - CastleHalf;   // 성벽에 가까운 적
+                                key = math.floor((math.dot(EnemyPositions[e], wallOut) - CastleHalf) / 3f);   // 성벽에 가까운 적 (3m 띠)
                                 break;
                             case ClimbingFirst:
-                                if (state == EnemyState.Climbing) rank = 1;
-                                key = ratio;
+                                if (state == EnemyState.Climbing) favored = 0;
+                                key = BandOf(ratio);
                                 break;
                             case SpecialFirst:
-                                if (Kinds[EnemyKindOf[e]].IsSpecial != 0) rank = 1;
-                                key = ratio;
+                                if (Kinds[EnemyKindOf[e]].IsSpecial != 0) favored = 0;
+                                key = BandOf(ratio);
                                 break;
                             case DensestArea:
                                 key = -CellCount[CellOfEnemy[e]];   // 같은 칸에 적이 많을수록
                                 break;
                             default:
-                                key = ratio;
+                                key = BandOf(ratio);
                                 break;
                         }
 
+                        int rank = onWall ? 0 : 1 + band * 2 + favored;
+                        // 몰림 방지 (D-073): 키를 띠로 묶어 비슷한 적은 같은 값 → 병사마다 다른 순서(해시)로 골라 흩어 쏜다
+                        uint scatter = math.hash(new uint2((uint)s, (uint)e));
                         if (rank < bestRank
-                            || (rank == bestRank && (key < bestKey || (key == bestKey && distSq < bestDistSq))))
+                            || (rank == bestRank && (key < bestKey || (key == bestKey && scatter < bestScatter))))
                         {
                             best = e;
                             bestRank = rank;
                             bestKey = key;
                             bestDistSq = distSq;
+                            bestScatter = scatter;
                         }
                     }
                 }

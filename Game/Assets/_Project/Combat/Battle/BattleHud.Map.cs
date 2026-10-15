@@ -59,6 +59,7 @@ namespace HumanLastRampart.Combat.Battle
             {
                 foreach (Text label in groupLabels) label.gameObject.SetActive(false);
                 foreach (Text marker in groupMarkers) marker.gameObject.SetActive(false);
+                foreach (Text c in compass) if (c != null) c.gameObject.SetActive(false);
                 if (groupPopup != null) groupPopup.SetActive(false);
             }
             if (open)
@@ -83,7 +84,7 @@ namespace HumanLastRampart.Combat.Battle
             // 왼쪽 위 상태판 바로 아래 (상태판을 접고 펴면 LayoutStatus가 따라 옮긴다)
             Anchor(panel.rectTransform, new Vector2(0f, 1f), new Vector2(20f, -30f - StatusHeight), new Vector2(330f, 550f), new Vector2(0f, 1f));
             globalTitle = NewText(panel.transform, "Title", 24, TextAnchor.MiddleCenter);
-            Anchor(globalTitle.rectTransform, new Vector2(0.5f, 1f), new Vector2(0f, -10f), new Vector2(310f, 36f), new Vector2(0.5f, 1f));
+            Anchor(globalTitle.rectTransform, new Vector2(0.5f, 1f), new Vector2(-14f, -10f), new Vector2(280f, 36f), new Vector2(0.5f, 1f));
 
             string[] targets = { "전체", "북쪽", "동쪽", "남쪽", "서쪽" };   // 대포 패널의 북·동·남·서 탭과 구분
             for (int i = 0; i < targets.Length; i++)
@@ -107,7 +108,30 @@ namespace HumanLastRampart.Combat.Battle
 
             globalStatus = NewText(panel.transform, "Status", 18, TextAnchor.UpperLeft);
             Anchor(globalStatus.rectTransform, new Vector2(0.5f, 0f), new Vector2(0f, 8f), new Vector2(300f, 96f), new Vector2(0.5f, 0f));
+            MakeCollapsible(panel, globalTitle.gameObject, 550f);
             globalPanel.SetActive(false);
+        }
+
+        // 창 접기 (D-073): 오른쪽 위 ▲/▼ 단추 — 접으면 제목 줄만 남는다. 지도를 넓게 보려고
+        const float CollapsedHeight = 56f;
+
+        void MakeCollapsible(Image panel, GameObject title, float fullHeight)
+        {
+            var content = new System.Collections.Generic.List<GameObject>();
+            foreach (Transform child in panel.transform)
+                if (child.gameObject != title) content.Add(child.gameObject);
+
+            bool collapsed = false;
+            Button toggle = null;
+            toggle = NewButton(panel.transform, "▲", () =>
+            {
+                collapsed = !collapsed;
+                foreach (GameObject go in content) go.SetActive(!collapsed);
+                var size = panel.rectTransform.sizeDelta;
+                panel.rectTransform.sizeDelta = new Vector2(size.x, collapsed ? CollapsedHeight : fullHeight);
+                toggle.GetComponentInChildren<Text>().text = collapsed ? "▼" : "▲";
+            });
+            Anchor((RectTransform)toggle.transform, new Vector2(1f, 1f), new Vector2(-8f, -8f), new Vector2(40f, 40f), new Vector2(1f, 1f));
         }
 
         // 전투 준비 (D-071): 전투 시작 전에 지도가 열린 채 시간이 멈춰 있다. 명령·대포 조준을 정하고 [전투 시작]
@@ -135,7 +159,8 @@ namespace HumanLastRampart.Combat.Battle
             Image panel = NewImage(root.transform, "Cannon Panel", HudStyle.Panel);
             HudStyle.Border(panel);
             cannonPanel = panel.gameObject;
-            Anchor(panel.rectTransform, new Vector2(1f, 0.5f), new Vector2(-20f, 40f), new Vector2(380f, 520f), new Vector2(1f, 0.5f));
+            // 위 끝 기준(접으면 위로 접힌다). 위치는 예전(가운데 기준 +40)과 같다: 위 끝 = 가운데 + 300
+            Anchor(panel.rectTransform, new Vector2(1f, 0.5f), new Vector2(-20f, 300f), new Vector2(380f, 520f), new Vector2(1f, 1f));
             cannonTitle = NewText(panel.transform, "Title", 26, TextAnchor.MiddleCenter);
             Anchor(cannonTitle.rectTransform, new Vector2(0.5f, 1f), new Vector2(0f, -12f), new Vector2(360f, 40f), new Vector2(0.5f, 1f));
 
@@ -161,6 +186,7 @@ namespace HumanLastRampart.Combat.Battle
             cannonGuide = NewText(panel.transform, "Guide", 18, TextAnchor.UpperLeft);
             Anchor(cannonGuide.rectTransform, new Vector2(0.5f, 0f), new Vector2(0f, 10f), new Vector2(350f, 80f), new Vector2(0.5f, 0f));
             cannonGuide.horizontalOverflow = HorizontalWrapMode.Wrap;
+            MakeCollapsible(panel, cannonTitle.gameObject, 520f);
             cannonPanel.SetActive(false);
         }
 
@@ -218,7 +244,8 @@ namespace HumanLastRampart.Combat.Battle
             {
                 BattleSim.SpellInfo info = sim.GetSpell(i);
                 string state = info.Ready ? "준비" : $"{info.CooldownLeft:0}초";
-                spellLabels[i].text = (i == selected ? "▶ " : "") + $"{info.Name} — {state}";
+                string key = i == 0 ? "[Q] " : i == 1 ? "[W] " : "";   // D-073 단축키
+                spellLabels[i].text = (i == selected ? "▶ " : "") + $"{key}{info.Name} — {state}";
                 spellButtons[i].color = i == selected ? HudStyle.MagicActive : info.Ready && sim.WizardPresent ? HudStyle.Magic : HudStyle.ButtonDisabled;
             }
         }
@@ -308,6 +335,40 @@ namespace HumanLastRampart.Combat.Battle
 
             for (int i = used; i < groupMarkers.Count; i++) groupMarkers[i].gameObject.SetActive(false);
             ShowGroupPopup(sim, selected, dragScreen.HasValue);
+        }
+
+        // 동서남북 표시 (D-073): 성벽 바깥 14m에 큰 글자 — 지도를 옮기거나 넓혀도 어느 쪽인지 바로 보이게
+        readonly Text[] compass = new Text[4];
+
+        public void RefreshCompass(Camera camera, float castleHalf)
+        {
+            string[] names = { "북", "동", "남", "서" };
+            for (int side = 0; side < 4; side++)
+            {
+                if (compass[side] == null)
+                {
+                    Text t = NewText(root.transform, "Compass " + names[side], 40, TextAnchor.MiddleCenter);
+                    t.rectTransform.sizeDelta = new Vector2(80f, 56f);
+                    t.color = HudStyle.Brass;
+                    t.fontStyle = FontStyle.Bold;
+                    var outline = t.gameObject.AddComponent<Outline>();
+                    outline.effectColor = new Color(0f, 0f, 0f, 0.9f);
+                    outline.effectDistance = new Vector2(2f, -2f);
+                    t.text = names[side];
+                    t.transform.SetAsFirstSibling();   // 창들보다 뒤
+                    compass[side] = t;
+                }
+
+                // 가까이 볼 때(성 가까이, 전투 준비)는 성 마당 가운데에서 8m — 바깥 14m는 화면 끝 창들에 가렸다
+                Unity.Mathematics.float3 n = WallGeometry.Outward(side);
+                float distance = camera.orthographicSize <= 45f ? 8f : castleHalf + 14f;
+                Vector3 screen = camera.WorldToScreenPoint(new Vector3(n.x, 0f, n.z) * distance);
+                // 화면 밖이면 가장자리에 붙여 둔다 (방향은 그대로 알 수 있게)
+                var viewport = new Vector2(Mathf.Clamp(screen.x / Mathf.Max(1, Screen.width), 0.04f, 0.96f), Mathf.Clamp(screen.y / Mathf.Max(1, Screen.height), 0.06f, 0.94f));
+                compass[side].rectTransform.anchorMin = compass[side].rectTransform.anchorMax = viewport;
+                compass[side].rectTransform.anchoredPosition = Vector2.zero;
+                compass[side].gameObject.SetActive(mapMode);
+            }
         }
 
         // 같은 성벽에 선 옮길 수 있는 묶음 중 성벽 따라(오른쪽 방향) 몇 번째인지 — 번갈아 띄우기용

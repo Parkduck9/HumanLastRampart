@@ -38,6 +38,9 @@ namespace HumanLastRampart.Combat.Battle
         int selectedGroup = -1;   // 지도에서 고른 병력 묶음 (D-072)
         bool dragging;
         Vector2 dragStart;
+        bool panPending, panMoved;   // 빈 지도 끌기 (D-073)
+        Vector2 panLast;
+        Vector3 panPress;
 
         public ScreenId Id => ScreenId.Battle;
 
@@ -281,6 +284,13 @@ namespace HumanLastRampart.Combat.Battle
                     if (keyboard.digit3Key.wasPressedThisFrame) speed = 4;
                 }
 
+                // 마법 빠른 쓰기 (D-073): 지도에서 Q = 첫째 마법, W = 둘째 마법 고르기 → 왼쪽 클릭으로 그 자리에. 다시 누르면 취소
+                if (mapOpen && !hud.MenuOpen)
+                {
+                    if (keyboard.qKey.wasPressedThisFrame && sim.SpellCount > 0) SelectSpell(0);
+                    if (keyboard.wKey.wasPressedThisFrame && sim.SpellCount > 1) SelectSpell(1);
+                }
+
                 if (keyboard.pKey.wasPressedThisFrame) paused = !paused;
                 if (keyboard.hKey.wasPressedThisFrame) hud.ToggleStatusDetail();   // 상태판 자세히/간단히 (K-002)
                 if (keyboard.gKey.wasPressedThisFrame) HumanLastRampart.Combat.Render.BattleLook.Enabled = !HumanLastRampart.Combat.Render.BattleLook.Enabled;   // 화면 효과 켜고 끔 (비교용)
@@ -308,7 +318,34 @@ namespace HumanLastRampart.Combat.Battle
                     }
                     else if (selectedSpell >= 0) CastSelectedSpellAt(world);
                     else if (selectedCannon >= 0) AimSelectedCannonAt(world);
-                    else if (!DetonateTrapAt(world)) selectedGroup = -1;   // 빈 들판을 누르면 묶음 선택 해제
+                    else
+                    {
+                        // 아무것도 고르지 않았으면: 끌면 지도 옮기기(D-073), 그냥 떼면 함정 점화·묶음 선택 해제
+                        panPending = true;
+                        panMoved = false;
+                        panLast = point;
+                        panPress = world;
+                    }
+                }
+
+                if (panPending && mouse != null)
+                {
+                    Vector2 point = mouse.position.ReadValue();
+                    if (mouse.leftButton.isPressed)
+                    {
+                        // 누른 자리에서 6화소 넘게 움직이면 그때부터 끌기 (손떨림으로 함정 점화가 끌기로 바뀌지 않게)
+                        if (!panMoved && (point - panLast).sqrMagnitude > 36f) panMoved = true;
+                        if (panMoved)
+                        {
+                            mapCamera.DragBy(point - panLast);
+                            panLast = point;
+                        }
+                    }
+                    else
+                    {
+                        panPending = false;
+                        if (!panMoved && !DetonateTrapAt(panPress)) selectedGroup = -1;
+                    }
                 }
 
                 // 끌어다 놓기: 28화소 넘게 움직였으면 놓은 곳에서 가까운 성벽으로 보낸다. 조금만 움직였으면 고른 채로(창에서 성벽 고르기)
@@ -384,6 +421,7 @@ namespace HumanLastRampart.Combat.Battle
                 }
 
                 hud?.RefreshGroupLabels(sim, battleCamera);
+                hud?.RefreshCompass(battleCamera, sim.CastleHalf);
                 Mouse dragMouse = Mouse.current;
                 hud?.RefreshGroupMarkers(sim, battleCamera, selectedGroup, dragging && dragMouse != null ? dragMouse.position.ReadValue() : (Vector2?)null);
                 hud?.RefreshCannons(sim, cannonSide, selectedCannon);
