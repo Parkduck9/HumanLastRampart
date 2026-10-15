@@ -53,7 +53,11 @@ namespace HumanLastRampart.Combat.Battle
             foreach (var hero in setup.Heroes)
             {
                 UnitDef unit = defs.Get<UnitDef>(hero.UnitDefId);
-                if (hero.IsAlive && unit != null && unit.Kind == UnitKind.Wizard) WizardPresent = true;
+                if (hero.IsAlive && unit != null && unit.Kind == UnitKind.Wizard)
+                {
+                    WizardPresent = true;
+                    InitWizard(unit);
+                }
             }
 
             // 정의 순서: 즉시(폭발) 먼저, 지속(불바다) 다음
@@ -100,8 +104,28 @@ namespace HumanLastRampart.Combat.Battle
                 return false;
             }
 
+            if (WizardMoving)
+            {
+                Notice?.Invoke($"마법사가 {SideNames[WizardSide]} 성벽으로 이동 중입니다");
+                return false;
+            }
+
             var at = new Vector3(point.x, 0f, point.z);
             spellCooldown[index] = spell.Cooldown;   // 바로 대기 시작(같은 프레임 두 번 방지)
+            // D-058: 다른 성벽 쪽이면 마법사가 그 성벽 가운데로 가서 도착하면 쏜다
+            if (!WizardReadyAt(SideOfPoint(at), index, at))
+            {
+                Notice?.Invoke($"마법사가 {SideNames[WizardSide]} 성벽으로 이동 (약 {wizardDistanceLeft / WizardSpeed:0}초) — 도착하면 {spell.DisplayName}");
+                return true;
+            }
+
+            StartSpellEffect(index, at);
+            return true;
+        }
+
+        void StartSpellEffect(int index, Vector3 at)
+        {
+            SpellDef spell = spells[index];
             RunOrQueue(() =>
             {
                 bool fire = spell.Duration > 0f;
@@ -110,7 +134,6 @@ namespace HumanLastRampart.Combat.Battle
                 effectDamage.Add(spell.Damage);
             });
             Notice?.Invoke(spell.Duration > 0f ? $"불바다! ({spell.Duration:0}초)" : "폭발 준비 — 1초 뒤 터집니다");
-            return true;
         }
 
         // BeginFrame에서 (작업이 끝난 뒤) — 재사용 대기, 폭발 대기, 불바다 피해

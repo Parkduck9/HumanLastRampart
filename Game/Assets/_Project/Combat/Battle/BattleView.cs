@@ -54,6 +54,9 @@ namespace HumanLastRampart.Combat.Battle
         readonly Texture2D heroPlaceholder;
         readonly PerfLabInstance[] heroInstance = new PerfLabInstance[1];
         bool heroVisible;
+        readonly GraphicsBuffer wizardBuffer;          // 마법사 (D-058) — 그림이 있을 때만
+        readonly MaterialPropertyBlock wizardBlock;
+        readonly PerfLabInstance[] wizardInstance = new PerfLabInstance[1];
         readonly Renderer[] walls = new Renderer[4];
         Light sunLight;
         Transform[] pileBlocks;          // 시체 더미 칸마다 상자 (높이가 생기면 만든다)
@@ -145,6 +148,14 @@ namespace HumanLastRampart.Combat.Battle
 
             heroBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, 1, PerfLabInstance.Stride);
             heroBlock.SetBuffer(InstancesId, heroBuffer);
+
+            if (sim.WizardPresent && sim.WizardUnit != null && sim.WizardUnit.Sheet != null)
+            {
+                wizardBlock = new MaterialPropertyBlock();
+                Apply(wizardBlock, sim.WizardUnit.Sheet, PerfLabArt.FromSheet(sim.WizardUnit.Sheet));   // 정적 뒷모습 1×1
+                wizardBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, 1, PerfLabInstance.Stride);
+                wizardBlock.SetBuffer(InstancesId, wizardBuffer);
+            }
 
             root = new GameObject("Battlefield");
             root.transform.SetParent(parent, false);
@@ -283,6 +294,19 @@ namespace HumanLastRampart.Combat.Battle
                 {
                     heroBuffer.SetData(heroInstance);
                     Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, 1, heroBlock);
+                }
+
+                if (wizardBuffer != null)
+                {
+                    Vector3 feet = sim.WizardFeet;
+                    float shade = sim.Brightness;
+                    wizardInstance[0] = new PerfLabInstance
+                    {
+                        PosFrame = new float4(feet.x, feet.y, feet.z, 0f),
+                        TintSize = new float4(shade, shade, shade, HeroDrawSize),   // 주인공과 같은 크기
+                    };
+                    wizardBuffer.SetData(wizardInstance);
+                    Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, 1, wizardBlock);
                 }
             }
 
@@ -457,6 +481,9 @@ namespace HumanLastRampart.Combat.Battle
                 Ring(lens.Value, BattleSim.TelescopeRadius * 0.96f, new Color(0.4f, 0.9f, 1f), dot * 0.8f, 48);
             }
 
+            // 마법사 위치 (보라 점, D-058)
+            if (sim.WizardPresent) Add(sim.WizardFeet, new Color(0.75f, 0.45f, 1f), dot * 1.8f);
+
             // 마법 효과: 불바다(주황 원), 터질 폭발(노랑 원)
             foreach (BattleSim.SpellEffect e in sim.Effects)
             {
@@ -591,6 +618,7 @@ namespace HumanLastRampart.Combat.Battle
             soldierBuffer?.Release();
             shotBuffer?.Release();
             heroBuffer?.Release();
+            wizardBuffer?.Release();
             if (heroPlaceholder != null) UnityEngine.Object.Destroy(heroPlaceholder);
             if (material != null) UnityEngine.Object.Destroy(material);
             if (quad != null) UnityEngine.Object.Destroy(quad);

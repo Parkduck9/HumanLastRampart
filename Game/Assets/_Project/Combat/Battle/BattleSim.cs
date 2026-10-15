@@ -621,6 +621,7 @@ namespace HumanLastRampart.Combat.Battle
             Spawn();
             UpdateMessengers(dt);
             UpdateFlank(dt);
+            UpdateWizard(dt);
             UpdateSpells(dt);
             UpdateTraps(dt);
             CheckEnd();
