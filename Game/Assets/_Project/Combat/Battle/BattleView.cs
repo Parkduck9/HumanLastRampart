@@ -56,6 +56,7 @@ namespace HumanLastRampart.Combat.Battle
         readonly BattlePropView props;          // 성벽 난간·대포 그림
         readonly BattleWorldView world;         // 성벽·포탑 3D 목업 (K-001)
         readonly BattleLights lights;           // 밤 횃불·폭발 빛 (K-010)
+        readonly BattleEffectsView effectArt;   // 마법·함정 폭발, 불바다, 맞음 불꽃, 횃불 불꽃 그림 (K-015)
         HumanLastRampart.Combat.Render.BattleLook look;   // 화면 효과 (빛번짐·색 보정·미니어처 흐림)
         readonly GraphicsBuffer shotBuffer;
         readonly MaterialPropertyBlock shotBlock;
@@ -197,6 +198,7 @@ namespace HumanLastRampart.Combat.Battle
             props = new BattlePropView(sim, material, quad, bounds);
             world = new BattleWorldView(sim, root.transform);
             lights = new BattleLights(sim, root.transform);   // 밤 횃불·폭발 빛 (K-010, D-062 4단계)
+            effectArt = new BattleEffectsView(sim, material, quad, bounds);   // 효과 도트 그림 (K-015)
             BuildEnvironment();
         }
 
@@ -376,6 +378,7 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             DrawEffects();
+            effectArt?.Draw(mapMode);
 
             // 성벽 색: 체력이 줄수록 붉게
             for (int side = 0; side < 4; side++)
@@ -432,6 +435,7 @@ namespace HumanLastRampart.Combat.Battle
             int discs = 0, flashes = 0;
             foreach (BattleSim.SpellEffect e in list)
             {
+                if (!e.Fire && !e.Pending && effectArt != null && effectArt.HasBurstArt) continue;   // 터짐은 도트 그림으로 (K-015). 원판은 그대로
                 if (e.Fire || e.Pending)
                 {
                     Renderer disc = Pooled(effectDiscs, discs++, PrimitiveType.Cylinder, "Spell Disc");
@@ -683,6 +687,7 @@ namespace HumanLastRampart.Combat.Battle
             props?.Dispose();
             world?.Dispose();
             lights?.Dispose();
+            effectArt?.Dispose();
             soldierBuffer?.Release();
             shotBuffer?.Release();
             heroBuffer?.Release();
