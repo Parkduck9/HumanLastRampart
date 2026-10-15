@@ -176,6 +176,47 @@ public sealed class SimProbe
         log.Append($"    (준비: 정면으로 {moved}명 옮김) ");
     }
 
+    // 사용자 결정(2026-10-16): 난이도 기준 = 준비 단계에 옆·뒤 묶음 1/3을 정면으로 옮기는 플레이.
+    // 목표 쉬움 1~4 승리, 현실 1~3 승리·4 패배 → 현실 4번 배율만 올려 본다
+    [Test]
+    public void Realistic4Sweep()
+    {
+        var catalogs = new List<DefinitionCatalog>();
+        foreach (string guid in AssetDatabase.FindAssets("t:DefinitionCatalog"))
+            catalogs.Add(AssetDatabase.LoadAssetAtPath<DefinitionCatalog>(AssetDatabase.GUIDToAssetPath(guid)));
+        DefinitionLookup lookup = DefinitionLookup.Build(catalogs);
+        var rules = lookup.All<BattleRulesDef>()[0];
+        var realByField = typeof(BattleRulesDef).GetField("realisticEnemyMultiplierByBattle", F);
+        var perKillField = typeof(BattleRulesDef).GetField("corpseHeightPerKill", F);
+        var atkField = typeof(EnemyDef).GetField("onWallAttack", F);
+        var enemies = lookup.All<EnemyDef>();
+        object realBy0 = realByField.GetValue(rules), perKill0 = perKillField.GetValue(rules);
+        int[] atk0 = enemies.Select(e => (int)atkField.GetValue(e)).ToArray();
+        var log = new StringBuilder();
+        const string economy = "4차 10HP=1골드 수리+남은 골드 전부 궁수";
+        try
+        {
+            perKillField.SetValue(rules, 0.1f);
+            for (int i = 0; i < enemies.Count; i++) atkField.SetValue(enemies[i], atk0[i] * 5);
+            ReinforceShare = 0.34f;
+            foreach (float last in new[] { 2.0f, 2.5f, 3.0f, 4.0f })
+            {
+                realByField.SetValue(rules, new[] { 1.5f, 1.5f, 1.5f, last });
+                log.AppendLine($"== 현실 4번 배율 {last} (1~3번 1.5) · 정면으로 1/3");
+                RunCampaign(lookup, Difficulty.Realistic, economy, log);
+            }
+        }
+        finally
+        {
+            ReinforceShare = 0f;
+            realByField.SetValue(rules, realBy0);
+            perKillField.SetValue(rules, perKill0);
+            for (int i = 0; i < enemies.Count; i++) atkField.SetValue(enemies[i], atk0[i]);
+        }
+
+        File.WriteAllText(Environment.GetEnvironmentVariable("HLR_PROBE_OUT") ?? "probe.txt", log.ToString(), new UTF8Encoding(false));
+    }
+
     // D-073 각도 규칙 + 플레이어가 병력을 정면으로 옮길 때 (옮기는 비율 × 배율)
     [Test]
     public void ReinforceSweep()
