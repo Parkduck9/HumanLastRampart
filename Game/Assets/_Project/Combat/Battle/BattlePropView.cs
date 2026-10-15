@@ -51,8 +51,9 @@ namespace HumanLastRampart.Combat.Battle
             this.quad = quad;
             this.bounds = bounds;
 
-            var wall = Resources.Load<Texture2D>("BattleArt/wall_a");
-            var bay = Resources.Load<Texture2D>("BattleArt/wall_cannon_bay");
+            // 3D 성벽 목업(BattleWorldView)이 켜져 있으면 난간 그림 판은 그리지 않는다 (대포 그림은 그대로)
+            var wall = BattleWorldView.Active ? null : Resources.Load<Texture2D>("BattleArt/wall_a");
+            var bay = BattleWorldView.Active ? null : Resources.Load<Texture2D>("BattleArt/wall_cannon_bay");
             var cannon = Resources.Load<Texture2D>("BattleArt/cannon_aim3");
             float half = sim.CastleHalf;
 

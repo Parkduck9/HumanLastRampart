@@ -52,6 +52,7 @@ namespace HumanLastRampart.Combat.Battle
         readonly GraphicsBuffer runnerBuffer;   // 전체 (지도 점)
         readonly MaterialPropertyBlock mapRunnerBlock;
         readonly BattlePropView props;          // 성벽 난간·대포 그림
+        readonly BattleWorldView world;         // 성벽·포탑 3D 목업 (K-001)
         HumanLastRampart.Combat.Render.BattleLook look;   // 화면 효과 (빛번짐·색 보정·미니어처 흐림)
         readonly GraphicsBuffer shotBuffer;
         readonly MaterialPropertyBlock shotBlock;
@@ -190,6 +191,7 @@ namespace HumanLastRampart.Combat.Battle
             root = new GameObject("Battlefield");
             root.transform.SetParent(parent, false);
             props = new BattlePropView(sim, material, quad, bounds);
+            world = new BattleWorldView(sim, root.transform);
             BuildEnvironment();
         }
 
@@ -249,7 +251,8 @@ namespace HumanLastRampart.Combat.Battle
 
             var sun = new GameObject("Sun", typeof(Light));
             sun.transform.SetParent(root.transform, false);
-            sun.transform.rotation = Quaternion.Euler(50f, -30f, 0f);
+            // 3D 목업이면 해를 옆에서 비춰 난간·탑 그림자가 통로에 보이게 (카메라 뒤에서 비추면 그림자가 성벽 밖으로만 떨어진다)
+            sun.transform.rotation = BattleWorldView.Active ? Quaternion.Euler(42f, 125f, 0f) : Quaternion.Euler(50f, -30f, 0f);
             sunLight = sun.GetComponent<Light>();
             sunLight.type = LightType.Directional;
         }
@@ -669,6 +672,7 @@ namespace HumanLastRampart.Combat.Battle
             runnerDraws.Clear();
             runnerBuffer?.Release();
             props?.Dispose();
+            world?.Dispose();
             soldierBuffer?.Release();
             shotBuffer?.Release();
             heroBuffer?.Release();
