@@ -1,0 +1,315 @@
+{
+  "id": "hero",
+  "label": "주인공 4행 시트",
+  "albedo": "hero_albedo.png",
+  "normal": "hero_normal.png",
+  "size": [
+    1024,
+    1536
+  ],
+  "cell": [
+    256,
+    384
+  ],
+  "columns": 4,
+  "rows": 4,
+  "footPivotTopLeft": [
+    128,
+    352
+  ],
+  "unityPivotBottomLeft": [
+    0.5,
+    0.08333333333333333
+  ],
+  "rowOrder": [
+    "후면 걷기",
+    "왼쪽 걷기",
+    "왼쪽 달리기",
+    "정면 걷기"
+  ],
+  "normalSpace": "tangent OpenGL Y+",
+  "neutral": [
+    128,
+    128,
+    255
+  ],
+  "normalAlpha": "opaque RGB; diffuse alpha controls visibility",
+  "aiSource": "hero_normal_source.png",
+  "sourceColorSha256": "3ac773e6922c1ae1a3281730fec4ed26679fff808f448e0d0e3e96550d085c15",
+  "colorCopyExact": true,
+  "normalSha256": "84f709abcb3e0e3819616cdec068c4524dd2f3e53c123febda4c5b57858938c2",
+  "normalSourceSha256": "e261da413bd7a00fbbedd90a12111396875ba776a4e1059407294d99e278ff66",
+  "normalSourceSize": [
+    1024,
+    1536
+  ],
+  "backgroundMedian": [
+    103.0,
+    121.0,
+    253.0
+  ],
+  "xyStrength": 0.55,
+  "blankMaskThreshold": 32,
+  "maxUnitLengthError": 0.006526487833136807,
+  "geometry": "source grid unchanged; AI internal surface alignment needs user/Unity review",
+  "status": "sample-user-review-pending",
+  "unityPlayVerified": false,
+  "cellRegistration": [
+    {
+      "column": 0,
+      "row": 0,
+      "colorBounds": [
+        54,
+        55,
+        201,
+        352
+      ],
+      "normalSourceBounds": [
+        56,
+        56,
+        201,
+        351
+      ]
+    },
+    {
+      "column": 1,
+      "row": 0,
+      "colorBounds": [
+        53,
+        54,
+        203,
+        352
+      ],
+      "normalSourceBounds": [
+        56,
+        56,
+        202,
+        352
+      ]
+    },
+    {
+      "column": 2,
+      "row": 0,
+      "colorBounds": [
+        53,
+        55,
+        203,
+        352
+      ],
+      "normalSourceBounds": [
+        55,
+        56,
+        201,
+        352
+      ]
+    },
+    {
+      "column": 3,
+      "row": 0,
+      "colorBounds": [
+        53,
+        54,
+        203,
+        352
+      ],
+      "normalSourceBounds": [
+        55,
+        56,
+        201,
+        352
+      ]
+    },
+    {
+      "column": 0,
+      "row": 1,
+      "colorBounds": [
+        48,
+        52,
+        198,
+        352
+      ],
+      "normalSourceBounds": [
+        49,
+        57,
+        197,
+        352
+      ]
+    },
+    {
+      "column": 1,
+      "row": 1,
+      "colorBounds": [
+        59,
+        51,
+        197,
+        352
+      ],
+      "normalSourceBounds": [
+        61,
+        57,
+        196,
+        352
+      ]
+    },
+    {
+      "column": 2,
+      "row": 1,
+      "colorBounds": [
+        52,
+        53,
+        198,
+        352
+      ],
+      "normalSourceBounds": [
+        52,
+        57,
+        196,
+        352
+      ]
+    },
+    {
+      "column": 3,
+      "row": 1,
+      "colorBounds": [
+        59,
+        52,
+        197,
+        352
+      ],
+      "normalSourceBounds": [
+        61,
+        57,
+        195,
+        352
+      ]
+    },
+    {
+      "column": 0,
+      "row": 2,
+      "colorBounds": [
+        50,
+        53,
+        238,
+        352
+      ],
+      "normalSourceBounds": [
+        51,
+        56,
+        237,
+        351
+      ]
+    },
+    {
+      "column": 1,
+      "row": 2,
+      "colorBounds": [
+        52,
+        56,
+        250,
+        308
+      ],
+      "normalSourceBounds": [
+        54,
+        58,
+        250,
+        308
+      ]
+    },
+    {
+      "column": 2,
+      "row": 2,
+      "colorBounds": [
+        48,
+        45,
+        254,
+        302
+      ],
+      "normalSourceBounds": [
+        48,
+        48,
+        254,
+        303
+      ]
+    },
+    {
+      "column": 3,
+      "row": 2,
+      "colorBounds": [
+        48,
+        51,
+        232,
+        361
+      ],
+      "normalSourceBounds": [
+        52,
+        52,
+        231,
+        359
+      ]
+    },
+    {
+      "column": 0,
+      "row": 3,
+      "colorBounds": [
+        54,
+        49,
+        202,
+        352
+      ],
+      "normalSourceBounds": [
+        55,
+        49,
+        201,
+        351
+      ]
+    },
+    {
+      "column": 1,
+      "row": 3,
+      "colorBounds": [
+        56,
+        49,
+        201,
+        352
+      ],
+      "normalSourceBounds": [
+        57,
+        49,
+        201,
+        352
+      ]
+    },
+    {
+      "column": 2,
+      "row": 3,
+      "colorBounds": [
+        50,
+        49,
+        202,
+        352
+      ],
+      "normalSourceBounds": [
+        51,
+        49,
+        200,
+        351
+      ]
+    },
+    {
+      "column": 3,
+      "row": 3,
+      "colorBounds": [
+        54,
+        50,
+        202,
+        352
+      ],
+      "normalSourceBounds": [
+        55,
+        50,
+        200,
+        351
+      ]
+    }
+  ]
+}

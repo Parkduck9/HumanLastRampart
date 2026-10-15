@@ -1,0 +1,17 @@
+{
+  "tool": "image_gen.imagegen",
+  "requests": [
+    {
+      "id": "hero",
+      "ref": "C:/Unity/1/HumanLastRampart/Docs/References/codex_hero_grid_v2/hero_walk_run_grid.png",
+      "prompt": "Produce a technical TANGENT SPACE NORMAL MAP for the supplied 1024x1536 sprite sheet. EXACT same 1024x1536 canvas, 4 columns x4 rows, each256x384, preserve every sprite silhouette, pose, placement and frame boundary. Do not redraw/move/rearrange frames, add objects, change proportions. ALL pixels of transparent empty reference area must be solid neutral normal RGB(128,128,255); output opaque normal data, not transparency. OpenGL +Y convention: red right tangent, green UP tangent, blue toward camera; Z must positive. Sculpt gentle volume to hair, head, shoulders, sleeves, coat and boots; broad modest gradients not noisy color/luminance tracing, modest pixel-cluster bevels. NO diffuse colors, NO lighting baked in, no shadows, text or backgrounds other than flat normal blue. Exact normal data only. Align feet to same(128,352) inside each cell.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-3d54d63d-96d7-42a9-8838-6def861f79d2.png"
+    },
+    {
+      "id": "archer",
+      "ref": "C:/Unity/1/HumanLastRampart/Game/Assets/_Project/Art/Characters/Static/archer_static.png",
+      "prompt": "Create a technical TANGENT SPACE NORMAL MAP of this exact rear-facing archer sprite. Same 256x384 canvas and exact same silhouette and coordinates, feet at(128,352). Preserve bow, quiver, hair, coat, boots placement. Opaque output: every transparent reference pixel must be neutral RGB(128,128,255). OpenGL/Unity Y+ convention: red right tangent, green UP tangent, blue positive toward camera. Broad gentle convex body/hair and cloth volume, small controlled bevels for bow and quiver. Crisp pixel-art normal clusters. No diffuse colors, no rendered lighting, no shadows, no labels, no rearranging, no portrait enlargement. Whole output is technical normal map, flat blue empty space.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-77d94fdb-ce93-422d-a229-6abb4dad8253.png"
+    }
+  ]
+}
