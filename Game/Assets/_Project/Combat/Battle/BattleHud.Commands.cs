@@ -44,8 +44,13 @@ namespace HumanLastRampart.Combat.Battle
             Anchor(menuTitle.rectTransform, new Vector2(0.5f, 1f), new Vector2(0f, -16f), new Vector2(540f, 50f), new Vector2(0.5f, 1f));
             menuPanel.SetActive(false);
 
-            notices = NewText(root.transform, "Notices", 22, TextAnchor.LowerLeft);
-            Anchor(notices.rectTransform, new Vector2(0f, 0f), new Vector2(20f, 80f), new Vector2(1100f, 170f));
+            // 알림: 오른쪽 위, 속도 버튼 아래. 아래 가운데·왼쪽(주인공·마법사 자리)을 피하고,
+            // 지도 모드 오른쪽 대포 창(위 끝이 화면 위에서 240)에 닿지 않게 높이를 맞춘다
+            notices = NewText(root.transform, "Notices", 20, TextAnchor.UpperRight);
+            Anchor(notices.rectTransform, new Vector2(1f, 1f), new Vector2(-20f, -84f), new Vector2(760f, 148f), new Vector2(1f, 1f));
+            var shadow = notices.gameObject.AddComponent<Shadow>();   // 밝은 들판 위에서도 읽히게
+            shadow.effectColor = new Color(0f, 0f, 0f, 0.8f);
+            shadow.effectDistance = new Vector2(1.5f, -1.5f);
         }
 
         public void ToggleMenu(int side)
