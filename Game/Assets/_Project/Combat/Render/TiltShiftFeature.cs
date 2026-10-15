@@ -26,7 +26,8 @@ namespace HumanLastRampart.Combat.Render
 
         public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
         {
-            if (Strength <= 0f || renderingData.cameraData.cameraType != CameraType.Game) return;
+            // 화면 효과를 끈 사진기(시험 도구의 글씨 전용 사진기 등)에는 걸지 않는다
+            if (Strength <= 0f || renderingData.cameraData.cameraType != CameraType.Game || !renderingData.cameraData.postProcessEnabled) return;
             if (material == null)
             {
                 if (shader == null) shader = Shader.Find("HLR/TiltShift");

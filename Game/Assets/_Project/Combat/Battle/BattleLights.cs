@@ -6,19 +6,21 @@ using UnityEngine;
 namespace HumanLastRampart.Combat.Battle
 {
     // 전투 빛 효과 (카드 K-010, D-062 4단계)
-    // - 밤 횃불: 네 성벽 안쪽 가장자리(통로 안쪽)를 따라 약 8m마다 따뜻한 점광원. 낮이면 꺼 둔다. 비가 오면 조금 약하게
+    // - 밤 횃불: 네 성벽 바깥 난간 바로 안쪽을 따라 약 3m마다 따뜻한 점광원 + 보이는 작은 불꽃. 낮이면 꺼 둔다. 비가 오면 조금 약하게
     // - 폭발 빛: 마법 폭발(0.4초 번쩍)·불바다(지속 중 흔들리는 주황빛)·함정 폭발(터지는 순간 0.4초) 자리에 잠깐 밝은 빛
     // - 폭발 빛은 풀에서 다시 쓴다 (동시에 최대 FlashCapacity개). 지도 모드면 모두 끈다
     // 캐릭터(PerfLabSprite)는 추가 조명을 감싸는 빛으로 받고, 성벽·땅(기본 Lit)도 함께 밝아진다
     public sealed class BattleLights
     {
-        const float TorchSpacing = 8f;          // 성벽 따라 간격 (m)
-        const float TorchInset = 1.9f;          // 성벽 바깥 모서리에서 안쪽으로 (성벽 두께 2m — 통로 안쪽 끝)
-        const float TorchHeight = 0.5f;         // 성벽 위 높이
-        const float TorchRange = 4.5f;
-        const float TorchIntensity = 2.2f;
+        const float TorchSpacing = 3f;          // 성벽 따라 간격 (m). 가까운 사진기에 보이는 성벽 폭이 몇 m뿐이라 8m 간격이면 한 개도 안 잡혔다
+        const float TorchInset = 0.5f;          // 성벽 바깥 모서리에서 안쪽으로 — 바깥 난간 바로 안쪽 (예전 1.9m 안쪽 끝은 사진기 뒤라 안 보였다)
+        const float TorchHeight = 0.24f;        // 성벽 위 높이 (돌출부 끝쯤 — 병사 키 0.35m 기준)
+        const float TorchRange = 2f;            // 통로와 난간을 비춘다 (이웃 횃불과 조금 겹치게)
+        const float TorchIntensity = 0.8f;      // 바로 옆 병사가 하얗게 날아가지 않게
         const float RainTorchMultiplier = 0.75f;
+        const float FlameSize = 0.035f;         // 눈에 보이는 불꽃 지름 (m) — 병사 머리보다 작게
         static readonly Color TorchColor = new Color(1f, 0.58f, 0.26f);
+        static readonly Color FlameColor = new Color(2.2f, 1.1f, 0.35f);   // 조금 밝게(HDR) 칠해 은은히 번지게
 
         const int FlashCapacity = 16;
         const float BlastSeconds = 0.4f;        // 폭발 번쩍 (BattleSim 폭발 표시 시간과 같다)
@@ -31,6 +33,9 @@ namespace HumanLastRampart.Combat.Battle
         readonly BattleSim sim;
         readonly GameObject root;
         readonly List<Light> torches = new List<Light>();
+        readonly List<GameObject> flames = new List<GameObject>();   // 횃불마다 보이는 불꽃
+        Material flameMaterial;
+        float torchBase;
         readonly List<Light> flashes = new List<Light>();
         readonly BattleSim.TrapState[] trapStates;   // 지난 프레임 함정 상태 (터지는 순간 찾기)
         readonly List<(Vector3 position, float radius, float timeLeft)> trapBlasts = new List<(Vector3, float, float)>();
@@ -57,6 +62,12 @@ namespace HumanLastRampart.Combat.Battle
             // 한 면을 간격으로 나눠 가운데 맞춤 (모서리 발판 근처는 비운다)
             int count = Mathf.Max(1, Mathf.FloorToInt((inner * 2f) / TorchSpacing));
             float start = -(count - 1) * TorchSpacing * 0.5f;
+            Shader unlit = Shader.Find("Universal Render Pipeline/Unlit");
+            if (unlit != null)
+            {
+                flameMaterial = new Material(unlit);
+                flameMaterial.SetColor("_BaseColor", FlameColor);
+            }
             for (int side = 0; side < 4; side++)
             {
                 float3 n = WallGeometry.Outward(side);
@@ -70,6 +81,18 @@ namespace HumanLastRampart.Combat.Battle
                     light.range = TorchRange;
                     light.enabled = false;
                     torches.Add(light);
+
+                    if (flameMaterial == null) continue;
+                    var flame = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                    flame.name = "Torch Flame";
+                    Object.Destroy(flame.GetComponent<Collider>());
+                    flame.transform.SetParent(light.transform, false);
+                    flame.transform.localScale = new Vector3(FlameSize, FlameSize * 1.4f, FlameSize);
+                    var renderer = flame.GetComponent<Renderer>();
+                    renderer.sharedMaterial = flameMaterial;
+                    renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                    flame.SetActive(false);
+                    flames.Add(flame);
                 }
             }
         }
@@ -105,6 +128,7 @@ namespace HumanLastRampart.Combat.Battle
                 SetTorches(night, sim.IsRaining ? TorchIntensity * RainTorchMultiplier : TorchIntensity);
             }
 
+            if (torchesOn) FlickerTorches();
             TrackTraps(Time.deltaTime);
             UpdateFlashes();
         }
@@ -113,11 +137,21 @@ namespace HumanLastRampart.Combat.Battle
         {
             if (!on && !torchesOn) return;
             torchesOn = on;
+            torchBase = intensity;
             foreach (Light torch in torches)
             {
                 torch.enabled = on;
                 torch.intensity = intensity;
             }
+            foreach (GameObject flame in flames) flame.SetActive(on);
+        }
+
+        // 횃불마다 조금씩 다르게 흔들린다
+        void FlickerTorches()
+        {
+            float t = Time.time;
+            for (int i = 0; i < torches.Count; i++)
+                torches[i].intensity = torchBase * (0.85f + 0.15f * Mathf.PerlinNoise(t * 5f, i * 1.7f));
         }
 
         // 함정이 터지는 순간(Exploded로 바뀔 때) 번쩍 하나를 남기고, 남은 시간을 줄인다
@@ -196,6 +230,8 @@ namespace HumanLastRampart.Combat.Battle
         {
             if (root != null) Object.Destroy(root);
             torches.Clear();
+            flames.Clear();
+            if (flameMaterial != null) Object.Destroy(flameMaterial);
             flashes.Clear();
             trapBlasts.Clear();
         }

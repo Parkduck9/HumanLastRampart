@@ -985,6 +985,19 @@ public sealed class PlayProbe
             sim.WeatherDirty = true;
             for (int i = 0; i < 3; i++) yield return null;
             Note($"{w}·{t}: 현재 {sim.CurrentWeather}, 시야 {sim.VisibleDistance:0}, 밝기 {sim.Brightness:0.00}, 낮은 시야 {sim.LowVisibility}, 비 {sim.IsRaining}");
+            // 횃불: 켜진 수와 화면 안에 들어온 수 (화면 좌표 0~1)
+            int torchOn = 0, torchSeen = 0;
+            Camera view = Camera.allCameras.OrderBy(c => c.depth).FirstOrDefault();
+            foreach (Light l in UnityEngine.Object.FindObjectsByType<Light>(FindObjectsSortMode.None))
+            {
+                if (l.name != "Torch" || !l.enabled) continue;
+                torchOn++;
+                if (torchOn <= 4) Note($"  횃불 위치 {l.transform.position.ToString("0.0")} 세기 {l.intensity:0.0} 범위 {l.range:0.0}");
+                if (view == null) continue;
+                Vector3 vp = view.WorldToViewportPoint(l.transform.position);
+                if (vp.z > 0f && vp.x > 0f && vp.x < 1f && vp.y > 0f && vp.y < 1f) { torchSeen++; Note($"  횃불 화면 {vp.x:0.00},{vp.y:0.00} 거리 {vp.z:0.0}"); }
+            }
+            Note($"  횃불 켜짐 {torchOn}, 화면 안 {torchSeen}, 사진기 {(view != null ? view.transform.position.ToString("0.0") : "없음")}");
             yield return Capture($"weather_{w}_{t}");
         }
 
@@ -1234,6 +1247,20 @@ public sealed class ProbeShooter : MonoBehaviour
     public string Path;
     public bool Done;
 
+    const int ProbeLayer = 31;   // 사진 찍는 동안만 표시판을 옮겨 두는 층 (게임에서 안 쓴다)
+
+    static Color[] RenderUi(Camera ui, RenderTexture rt, Texture2D tex, Color background)
+    {
+        ui.backgroundColor = background;
+        ui.targetTexture = rt;
+        ui.Render();
+        ui.targetTexture = null;
+        RenderTexture.active = rt;
+        tex.ReadPixels(new Rect(0, 0, rt.width, rt.height), 0, 0);
+        RenderTexture.active = null;
+        return tex.GetPixels();
+    }
+
     void LateUpdate()
     {
         if (Done || Path == null) return;
@@ -1242,32 +1269,58 @@ public sealed class ProbeShooter : MonoBehaviour
         var rt = new RenderTexture(w, h, 24);
         var tex = new Texture2D(w, h, TextureFormat.RGB24, false);
         var cams = Camera.allCameras.OrderBy(c => c.depth).ToArray();
-        Camera top = cams.LastOrDefault();
         var changed = new System.Collections.Generic.List<Canvas>();
+        var layers = new System.Collections.Generic.List<(GameObject go, int layer)>();
+        GameObject uiCamObject = null;
         try
         {
-            foreach (Canvas canvas in FindObjectsByType<Canvas>(FindObjectsSortMode.None))
-            {
-                if (top != null && canvas.isRootCanvas && canvas.renderMode == RenderMode.ScreenSpaceOverlay)
-                {
-                    canvas.renderMode = RenderMode.ScreenSpaceCamera;
-                    canvas.worldCamera = top;
-                    canvas.planeDistance = 1f;
-                    changed.Add(canvas);
-                }
-            }
-            Canvas.ForceUpdateCanvases();
+            // 1) 장면만 찍는다 (화면 위 표시판은 사진기에 안 그려진다)
             foreach (Camera cam in cams) { var old = cam.targetTexture; cam.targetTexture = rt; cam.Render(); cam.targetTexture = old; }
             RenderTexture.active = rt;
             tex.ReadPixels(new Rect(0, 0, w, h), 0, 0);
-            tex.Apply();
             RenderTexture.active = null;
+            Color[] scene = tex.GetPixels();
+
+            // 2) 표시판은 화면 효과·안개 없는 전용 사진기로 검은 바탕·흰 바탕에 한 번씩 찍어 덧그린다
+            //    (예전에는 표시판을 장면 사진기 앞에 붙여 찍어서, 사진에서만 글씨가 흐림·번짐·어둡게 효과를 받았다)
+            uiCamObject = new GameObject("PlayProbe UI Camera");
+            var ui = uiCamObject.AddComponent<Camera>();
+            ui.enabled = false;
+            ui.cullingMask = 1 << ProbeLayer;
+            ui.clearFlags = CameraClearFlags.SolidColor;
+            ui.orthographic = true;
+            ui.nearClipPlane = 0.1f; ui.farClipPlane = 10f;
+            foreach (Canvas canvas in FindObjectsByType<Canvas>(FindObjectsSortMode.None))
+            {
+                if (!canvas.isRootCanvas || canvas.renderMode != RenderMode.ScreenSpaceOverlay || !canvas.isActiveAndEnabled) continue;
+                foreach (Transform t in canvas.GetComponentsInChildren<Transform>(true)) { layers.Add((t.gameObject, t.gameObject.layer)); t.gameObject.layer = ProbeLayer; }
+                canvas.renderMode = RenderMode.ScreenSpaceCamera;
+                canvas.worldCamera = ui;
+                canvas.planeDistance = 1f;
+                changed.Add(canvas);
+            }
+            if (changed.Count > 0)
+            {
+                Canvas.ForceUpdateCanvases();
+                Color[] black = RenderUi(ui, rt, tex, Color.black);
+                Color[] onWhite = RenderUi(ui, rt, tex, Color.white);
+                for (int i = 0; i < scene.Length; i++)
+                {
+                    Color b = black[i], k = onWhite[i], s = scene[i];
+                    // 흰 바탕과 검은 바탕의 차이 = 표시판이 비치는 정도
+                    scene[i] = new Color(b.r + s.r * (k.r - b.r), b.g + s.g * (k.g - b.g), b.b + s.b * (k.b - b.b), 1f);
+                }
+            }
+            tex.SetPixels(scene);
+            tex.Apply();
             File.WriteAllBytes(Path, tex.EncodeToPNG());
         }
         catch (Exception e) { Debug.LogWarning("[PlayProbe] 캡처 실패: " + e.Message); }
         finally
         {
             foreach (Canvas canvas in changed) { if (canvas != null) { canvas.renderMode = RenderMode.ScreenSpaceOverlay; canvas.worldCamera = null; } }
+            foreach (var (go, layer) in layers) if (go != null) go.layer = layer;
+            if (uiCamObject != null) Destroy(uiCamObject);
             Destroy(rt);
             Destroy(tex);
         }

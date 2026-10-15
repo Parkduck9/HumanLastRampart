@@ -24,7 +24,8 @@ namespace HumanLastRampart.Combat.Battle
         static readonly float[] NoticeSeconds = { 8f, 5f, 5f, 3f, 3f };   // 종류별 머무는 시간
         static readonly string[] NoticeColorTags =
         {
-            ColorTag(HudStyle.Danger), ColorTag(HudStyle.Brass), ColorTag(HudStyle.Text), ColorTag(HudStyle.TextDim), ColorTag(HudStyle.TextDim),
+            // 날씨·기타도 본문색 그대로 — 보조색(TextDim)은 안개 바탕과 밝기가 같아 묻혔다. 중요도는 순서·머무는 시간으로 가른다
+            ColorTag(HudStyle.Danger), ColorTag(HudStyle.Brass), ColorTag(HudStyle.Text), ColorTag(HudStyle.Text), ColorTag(HudStyle.Text),
         };
 
         // 전투 코드의 알림 문장은 그대로 두고 낱말로 종류를 가른다. 위험 → 마법·함정 → 날씨 → 명령 순으로 먼저 맞는 것
@@ -53,6 +54,7 @@ namespace HumanLastRampart.Combat.Battle
         int currentSide;
 
         Text notices;
+        Image noticeBacking;
         readonly List<NoticeLine> noticeLines = new List<NoticeLine>();
         readonly System.Text.StringBuilder noticeText = new System.Text.StringBuilder(512);
         bool noticesDirty;
@@ -74,12 +76,22 @@ namespace HumanLastRampart.Combat.Battle
 
             // 알림: 오른쪽 위, 속도 버튼 아래. 아래 가운데·왼쪽(주인공·마법사 자리)을 피하고,
             // 지도 모드 오른쪽 대포 창(위 끝이 화면 위에서 240)에 닿지 않게 높이를 맞춘다
+            // 받침: 안개(밝은 회색) 위에서 글씨가 바탕과 같은 밝기가 되어 안 보였다 — 글 높이에 맞춘 어두운 띠를 깐다
+            noticeBacking = NewImage(root.transform, "Notice Backing", new Color(0.05f, 0.07f, 0.06f, 0.55f));
+            noticeBacking.raycastTarget = false;
+            Anchor(noticeBacking.rectTransform, new Vector2(1f, 1f), new Vector2(-12f, -80f), new Vector2(400f, 0f), new Vector2(1f, 1f));
+            noticeBacking.gameObject.SetActive(false);
             notices = NewText(root.transform, "Notices", 20, TextAnchor.UpperRight);
+            notices.fontStyle = FontStyle.Bold;   // 가는 획은 밝기가 다 올라오지 않아 흐려 보였다
             Anchor(notices.rectTransform, new Vector2(1f, 1f), new Vector2(-20f, -84f), new Vector2(760f, 148f), new Vector2(1f, 1f));
             notices.supportRichText = true;   // 종류별 색 (K-011)
-            var shadow = notices.gameObject.AddComponent<Shadow>();   // 밝은 들판 위에서도 읽히게
+            // 밝은 들판·안개 위에서도 읽히게: 사방 진한 테두리 + 아래 그림자 (그림자만으로는 안개에서 흐렸다)
+            var outline = notices.gameObject.AddComponent<Outline>();
+            outline.effectColor = new Color(0.04f, 0.03f, 0.02f, 0.95f);
+            outline.effectDistance = new Vector2(1.6f, -1.6f);
+            var shadow = notices.gameObject.AddComponent<Shadow>();
             shadow.effectColor = new Color(0f, 0f, 0f, 0.8f);
-            shadow.effectDistance = new Vector2(1.5f, -1.5f);
+            shadow.effectDistance = new Vector2(2.5f, -2.5f);
         }
 
         public void ToggleMenu(int side)
@@ -273,6 +285,17 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             notices.text = noticeText.ToString();
+
+            // 받침 크기를 글에 맞춘다 (글이 없으면 숨김)
+            bool any = noticeLines.Count > 0;
+            noticeBacking.gameObject.SetActive(any);
+            if (any)
+            {
+                Canvas.ForceUpdateCanvases();
+                float width = Mathf.Min(notices.preferredWidth, notices.rectTransform.rect.width) + 16f;
+                float height = Mathf.Min(notices.preferredHeight, notices.rectTransform.rect.height) + 8f;
+                noticeBacking.rectTransform.sizeDelta = new Vector2(width, height);
+            }
         }
     }
 }
