@@ -22,6 +22,7 @@ namespace HumanLastRampart.Combat.Battle
         public const float WallHeight = 4f;
         // 성벽 위 비율 (D-046): 병사·대포는 작게 무조건 1줄. 적은 들판에선 원래 크기, 성벽 앞 가려진 구역에서 이 비율로 줄어든다
         public const float WallFigureScale = 0.25f;
+        const float EnemyWallScale = 0.33f;               // 성벽 가까이에서 적 크기 비율 — 고블린 0.4m(병사 0.35m와 비슷), 오우거 0.66m
         public const float WallScaleBand = 30f;             // 성벽에서 이 거리(m) 안에서 점점 줄어든다 (8m는 가까운 고블린이 너무 커 보여 늘림, D-047)
         const float SoldierDrawSize = 1.4f * WallFigureScale;
         const float SoldierMaxSpacing = 0.45f;              // 인원이 적으면 이 간격, 많으면 자기 구간에 맞춰 촘촘히
@@ -382,7 +383,7 @@ namespace HumanLastRampart.Combat.Battle
                 RewardGold = def.RewardGold,
                 IsSpecial = (byte)(def.IsSpecial ? 1 : 0),
                 CarriesLadder = (byte)(def.CarriesLadder ? 1 : 0),
-                DrawSize = def.IsSpecial ? (hasSheet ? 4.2f : 3.2f) : (hasSheet ? 2.4f : 1.6f),
+                DrawSize = def.IsSpecial ? (hasSheet ? 2.0f : 1.6f) : (hasSheet ? 1.2f : 0.8f),   // 사용자 의견 8: 적이 너무 커 보임 → 절반 (D-061)
                 // 그림이 없으면 임시 그림에 색을 입힌다 (사다리 고블린·오우거는 Codex 정적 데모 그림, M-CX-049)
                 Tint = hasSheet
                     ? new float3(1f, 1f, 1f)
@@ -871,7 +872,7 @@ namespace HumanLastRampart.Combat.Battle
                 GroupSpotted = groupSpotted,
                 Instances = enemyInstances,
                 CastleHalf = CastleHalf,
-                WallScale = WallFigureScale,
+                WallScale = EnemyWallScale,
                 WallScaleBand = WallScaleBand,
                 VisibleDistance = VisibleDistance,
                 Brightness = Brightness,

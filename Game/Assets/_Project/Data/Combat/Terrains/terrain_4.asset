@@ -15,7 +15,7 @@ MonoBehaviour:
   id: terrain_4
   displayName: 지형 4
   fieldSize: 320
-  castleHalfSize: 60
+  castleHalfSize: 20
   recoveryGate: {x: 0, y: -70}
   hills:
   - {x: 95, y: 11, z: -25}

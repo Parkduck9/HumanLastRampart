@@ -104,11 +104,11 @@ namespace HumanLastRampart.Combat.Tests
         {
             DefinitionLookup lookup = LoadAll();
             TerrainDef terrain = lookup.Get<TerrainDef>("terrain_1");
-            Assert.AreEqual(24, TrapGrid.Columns(terrain), "성벽 120m ÷ 5m");
+            Assert.AreEqual(8, TrapGrid.Columns(terrain), "성벽 40m ÷ 5m (D-061)");
             Assert.AreEqual(14, TrapGrid.Rows(terrain), "10~80m ÷ 5m");
             Vector2 first = TrapGrid.Center(terrain, 0, 0, 0);
-            Assert.AreEqual(-57.5f, first.x, 0.01f);
-            Assert.AreEqual(72.5f, first.y, 0.01f, "북쪽 첫 줄 = 성벽 60 + 10 + 2.5");
+            Assert.AreEqual(-17.5f, first.x, 0.01f);
+            Assert.AreEqual(32.5f, first.y, 0.01f, "북쪽 첫 줄 = 성벽 20 + 10 + 2.5");
             Assert.IsTrue(TrapGrid.TryParse(TrapGrid.CellId(3, 7, 9), out int side, out int column, out int row));
             Assert.AreEqual((3, 7, 9), (side, column, row));
             Assert.IsFalse(TrapGrid.TryParse("post_north_squad_1", out _, out _, out _));
@@ -119,7 +119,7 @@ namespace HumanLastRampart.Combat.Tests
                     for (int r = 0; r < TrapGrid.Rows(terrain); r++)
                         if (!TrapGrid.IsPlaceable(terrain, s, col, r)) blocked++;
             Assert.Greater(blocked, 0, "지형 1 언덕 칸은 놓을 수 없다");
-            Assert.IsFalse(TrapGrid.IsPlaceable(terrain, 0, 24, 0), "범위 밖");
+            Assert.IsFalse(TrapGrid.IsPlaceable(terrain, 0, 8, 0), "범위 밖");
         }
     }
 }

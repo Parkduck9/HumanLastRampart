@@ -118,13 +118,13 @@ namespace HumanLastRampart.Combat.Battle
         void DrawHero()
         {
             if (rig == null || view == null) return;
+            // D-061: 옆으로는 늘 달리기, 통로 안쪽·바깥쪽은 앞모습·뒷모습 걷기. 서 있기는 뒷모습 0번 칸(진짜 서 있는 그림은 Codex 요청 중)
             int row = rig.Pose == BattleCameraRig.HeroPose.Run ? PerfLab.PerfLabArt.HeroRowSideRun
-                : rig.Pose == BattleCameraRig.HeroPose.Walk ? PerfLab.PerfLabArt.HeroRowSideWalk
+                : rig.Pose == BattleCameraRig.HeroPose.Walk ? (rig.FacingFront ? PerfLab.PerfLabArt.HeroRowFront : PerfLab.PerfLabArt.HeroRowBack)
                 : PerfLab.PerfLabArt.HeroRowBack;
             float fps = rig.Pose == BattleCameraRig.HeroPose.Run ? HeroRunFps : HeroWalkFps;
             int column = rig.Pose == BattleCameraRig.HeroPose.Idle ? 0 : (int)(Time.unscaledTime * fps) % PerfLab.PerfLabArt.FramesPerAction;
-            bool flip = rig.Pose != BattleCameraRig.HeroPose.Idle && rig.FacingRight;   // 시트 옆모습은 왼쪽을 본다
-            if (flip && row == PerfLab.PerfLabArt.HeroRowSideWalk) column = PerfLab.PerfLabArt.HeroWalkFlipPhase[column];
+            bool flip = rig.Pose == BattleCameraRig.HeroPose.Run && rig.FacingRight;   // 시트 옆모습은 왼쪽을 본다
             view.SetHero(rig.HeroFeet, row * PerfLab.PerfLabArt.FramesPerAction + column, flip, !mapOpen);
         }
 

@@ -87,11 +87,11 @@ namespace HumanLastRampart.Combat.Tests
                 Assert.AreEqual(0, sim.Effects.Count, "도착 전에는 안 나간다");
                 Assert.IsFalse(sim.CastSpell(1, new Vector3(-sim.CastleHalf - 40f, 0f, 0f)), "이동 중에는 다른 마법 불가");
 
-                // 북 가운데 → 동 가운데 = 120m, 10m/초 = 12초
+                // 북 가운데 → 동 가운데 = 성벽 한 면(2 × 반 길이), 10m/초
                 float start = time;
                 for (int i = 0; i < 400 && sim.WizardMoving && !sim.Ended; i++) Step(sim, ref time);
                 Assert.IsFalse(sim.WizardMoving, "도착");
-                Assert.AreEqual(12f, time - start, 0.3f, "약 12초");
+                Assert.AreEqual(2f * sim.CastleHalf / BattleSim.WizardSpeed, time - start, 0.3f, "성벽 한 면을 달리는 시간");
                 Assert.AreEqual(1, sim.Effects.Count, "도착하면 나간다");
                 Vector3 feet = sim.WizardFeet;
                 Assert.Greater(feet.x, sim.CastleHalf - 2f, "동쪽 성벽 위");
