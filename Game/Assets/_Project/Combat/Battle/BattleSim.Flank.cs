@@ -198,6 +198,7 @@ namespace HumanLastRampart.Combat.Battle
                     if (sAlive[soldier] == 0)
                     {
                         sAway[soldier] = 0;
+                        SetRunning(soldier, 0f);
                         pair.Soldiers[k] = -1;
                         continue;
                     }
@@ -205,6 +206,7 @@ namespace HumanLastRampart.Combat.Battle
                     float direction = k == 0 ? 1f : -1f;   // 한 명은 시계, 한 명은 반시계
                     float u = pair.StartU[k] + direction * pair.Travelled;
                     sPos[soldier] = RingPosition(u);
+                    SetRunning(soldier, direction);
                     if (!pair.Reported && math.abs(Wrap(u - commanderU, perimeter)) <= RunnerMeetDistance)
                     {
                         pair.Reported = true;
@@ -222,6 +224,7 @@ namespace HumanLastRampart.Combat.Battle
                     if (pair.Soldiers[k] < 0) continue;
                     sPos[pair.Soldiers[k]] = pair.Home[k];
                     sAway[pair.Soldiers[k]] = 0;
+                    SetRunning(pair.Soldiers[k], 0f);
                 }
 
                 runners[side] = null;

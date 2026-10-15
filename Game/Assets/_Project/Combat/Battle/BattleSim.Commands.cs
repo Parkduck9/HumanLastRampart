@@ -202,6 +202,7 @@ namespace HumanLastRampart.Combat.Battle
                     // 원래 성벽에서 병사를 잃을 때 전령이 뽑혔다 (C16-2: 전령도 원래 성벽 병력)
                     if (!m.Returning) Notice?.Invoke($"{SideNames[m.TargetSide]}으로 가던 전령을 잃었습니다");
                     sAway[m.Soldier] = 0;
+                    SetRunning(m.Soldier, 0f);
                     messengers.RemoveAt(i);
                     continue;
                 }
@@ -209,6 +210,7 @@ namespace HumanLastRampart.Combat.Battle
                 m.Travelled = math.min(m.Travelled + MessengerSpeed() * dt, m.Distance);
                 float u = m.Returning ? m.EndU - m.Direction * m.Travelled : m.StartU + m.Direction * m.Travelled;
                 sPos[m.Soldier] = RingPosition(u);
+                SetRunning(m.Soldier, m.Returning ? -m.Direction : m.Direction);
                 SoldiersDirty = true;
 
                 if (m.Travelled < m.Distance) continue;
@@ -222,6 +224,7 @@ namespace HumanLastRampart.Combat.Battle
                 {
                     sPos[m.Soldier] = m.Home;
                     sAway[m.Soldier] = 0;
+                    SetRunning(m.Soldier, 0f);
                     messengers.RemoveAt(i);
                 }
             }

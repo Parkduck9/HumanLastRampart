@@ -17,6 +17,8 @@ Shader "HLR/PerfLabSprite"
         _MapMode ("Map dot mode", Float) = 0
         _MapColor ("Map dot color (a=0: instance tint)", Color) = (0, 0, 0, 0)
         _MinWorldSize ("Map dot minimum size (world)", Float) = 0
+        // 성벽 그림처럼 카메라를 따라 돌지 않고 정해진 방향으로 선 판 (w=1이면 xyz = 판의 오른쪽 방향)
+        _FixedRight ("Fixed right axis (w=1 on)", Vector) = (1, 0, 0, 0)
     }
 
     SubShader
@@ -55,6 +57,7 @@ Shader "HLR/PerfLabSprite"
             float _MapMode;
             float4 _MapColor;
             float _MinWorldSize;
+            float4 _FixedRight;
 
             struct Attributes
             {
@@ -93,6 +96,7 @@ Shader "HLR/PerfLabSprite"
                 float3 camRight = float3(UNITY_MATRIX_V[0].x, 0.0, UNITY_MATRIX_V[0].z);
                 float lenSq = dot(camRight, camRight);
                 camRight = lenSq > 1e-6 ? camRight * rsqrt(lenSq) : float3(1.0, 0.0, 0.0);
+                if (_FixedRight.w > 0.5) camRight = _FixedRight.xyz;
 
                 // 프레임 번호가 음수면 좌우 뒤집기: 실제 번호 = -w - 1 (주인공 오른쪽 보기 등)
                 bool flip = data.posFrame.w < 0.0;

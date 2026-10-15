@@ -1259,3 +1259,7 @@ public interface IScreenContext
 - **V2 시작 검사(App DefinitionLookup, Claude):** TrapDef — 값·피해 ≥ 0, 반경 > 0(구덩이 ≥ 0), 점화 지연 ≥ 0, 불발·저절로 0~1, 구덩이 속도 (0, 1], 상점 시작·보충 ≥ 0·최대 ≥ 시작 / TerrainDef — 칸 > 0, 0 ≤ 가까운 끝 < 먼 끝 ≤ 들판−성벽, 언덕 반경 > 0. 틀리면 새 게임 시작 차단
 - **V3 보충(Meta):** 모든 종류를 검증·복사한 뒤 TrapShop과 TrapShopRestockedForBattle을 함께 반영, 부분 보충 금지 — 동의
 - **V4 결과 반영(Meta, C-007 v1.1):** ConsumedTrapIds·TrapMoves는 이번 BattleSetup 지형의 TrapId만, 중복·서로 겹침·모르는 ID·비유한 좌표 거부, 다른 결과와 함께 원자 반영 — 동의. **이동 좌표 허용 범위(Combat 보장):** 원래 위치에서 2~5m, 성벽에서 (trapNear÷2) 이상·들판(FieldSize) 이하, 언덕 밖. Meta는 '성벽에서 trapNear÷2 이상, FieldSize 이하, 유한 값'을 검사하면 된다(언덕 검사는 선택)
+## C-010 v1.6 — 아군 유닛 달리기 그림 (미리 연결, D-060)
+- 날짜: 2026-10-15 · 작성 Claude · Core 소유 Claude
+- `UnitDef`에 선택 필드 `runSheet`(Texture2D, 없으면 null) — 성벽 위를 달릴 때(전령·우회 보고) 쓰는 옆모습 달리기 4칸(1024×384, 칸 256×384, 발 128·352, 왼쪽을 봄). 없으면 기존 `sheet` 그대로. Meta·UI는 읽지 않아도 된다(필드 추가만, 기존 값·의미 변화 없음)
+- 적 시트 칸 수 해석(Combat 내부): 1칸 = 정적, 4칸 = 걷기만(공격 중에도 걷기 칸), 8칸 = 걷기 4 + 공격 4. EnemyDef 필드 변화 없음

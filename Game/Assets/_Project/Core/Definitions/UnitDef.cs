@@ -22,12 +22,14 @@ namespace HumanLastRampart.Core.Definitions
         [SerializeField] string defaultWeaponId;   // WeaponDef
         [SerializeField] int recruitCost;          // 정비 견적에는 쓰지 않는다 — 가격 원본은 PreparationEconomyDef (C-017)
         [SerializeField] Texture2D sheet;          // 그림 시트 (규격은 그림 확정 후)
+        [SerializeField] Texture2D runSheet;       // 성벽 위를 달릴 때(전령·우회 보고) 옆모습 달리기 4칸, 왼쪽을 본다. 없으면 sheet 그대로 (미리 연결, 사용자 검토 전)
 
         public UnitKind Kind => kind;
         public int MaxHp => maxHp;
         public string DefaultWeaponId => defaultWeaponId;
         public int RecruitCost => recruitCost;
         public Texture2D Sheet => sheet;
+        public Texture2D RunSheet => runSheet;
 
         // 한 명씩 관리하는 종류 (HeroState) / 분대로 관리하는 종류 (SquadState) — D-015 D1
         public bool IsIndividual => kind == UnitKind.Hero || kind == UnitKind.Officer || kind == UnitKind.Elite || kind == UnitKind.Wizard;

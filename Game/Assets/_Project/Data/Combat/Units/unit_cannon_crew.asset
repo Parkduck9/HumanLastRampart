@@ -19,3 +19,4 @@ MonoBehaviour:
   defaultWeaponId: weapon_cannon
   recruitCost: 10
   sheet: {fileID: 2800000, guid: 7f645c3e19234801a7ff1e384a13b293, type: 3}
+  runSheet: {fileID: 2800000, guid: 1e75ca3ef8ba4eefb256edfa72eca636, type: 3}

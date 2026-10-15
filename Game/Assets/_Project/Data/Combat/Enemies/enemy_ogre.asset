@@ -20,4 +20,4 @@ MonoBehaviour:
   wallDamage: 20
   rewardGold: 30
   onWallAttack: 25
-  sheet: {fileID: 2800000, guid: d03684aa8c6e4a67a4524846dd206b16, type: 3}
+  sheet: {fileID: 2800000, guid: 66768a11424c46e18ebf47a6236d46f7, type: 3}

@@ -46,6 +46,12 @@ namespace HumanLastRampart.Combat.Battle
         readonly MaterialPropertyBlock soldierBlock;
         readonly List<(GraphicsBuffer buffer, MaterialPropertyBlock block, int start, int count)> soldierDraws =
             new List<(GraphicsBuffer, MaterialPropertyBlock, int, int)>();
+        // 달리는 병사(전령·우회 보고) — 병종별 달리기 그림, 미리 연결 (사용자 검토 전)
+        readonly List<(GraphicsBuffer buffer, MaterialPropertyBlock block, int start, int count)> runnerDraws =
+            new List<(GraphicsBuffer, MaterialPropertyBlock, int, int)>();
+        readonly GraphicsBuffer runnerBuffer;   // 전체 (지도 점)
+        readonly MaterialPropertyBlock mapRunnerBlock;
+        readonly BattlePropView props;          // 성벽 난간·대포 그림
         readonly GraphicsBuffer shotBuffer;
         readonly MaterialPropertyBlock shotBlock;
         // 주인공 (성벽 위 한 명). 시트가 없으면 임시 그림 — 같은 4행 순서 (PerfLabArt.HeroLayout)
@@ -117,7 +123,22 @@ namespace HumanLastRampart.Combat.Battle
                 var buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, PerfLabInstance.Stride);
                 block.SetBuffer(InstancesId, buffer);
                 soldierDraws.Add((buffer, block, start, count));
+
+                if (unit != null && unit.RunSheet != null)
+                {
+                    var runBlock = new MaterialPropertyBlock();
+                    Apply(runBlock, unit.RunSheet, PerfLabArt.FromSheet(unit.RunSheet));
+                    var runBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, PerfLabInstance.Stride);
+                    runBlock.SetBuffer(InstancesId, runBuffer);
+                    runnerDraws.Add((runBuffer, runBlock, start, count));
+                }
             }
+
+            runnerBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, Mathf.Max(1, sim.SoldierCount), PerfLabInstance.Stride);
+            mapRunnerBlock = new MaterialPropertyBlock();
+            mapRunnerBlock.SetTexture(MainTexId, dotTexture);
+            mapRunnerBlock.SetColor(MapColorId, MapSoldierColor);
+            mapRunnerBlock.SetBuffer(InstancesId, runnerBuffer);
             mapSoldierBlock = new MaterialPropertyBlock();
             mapSoldierBlock.SetTexture(MainTexId, dotTexture);
             mapSoldierBlock.SetColor(MapColorId, MapSoldierColor);
@@ -159,6 +180,7 @@ namespace HumanLastRampart.Combat.Battle
 
             root = new GameObject("Battlefield");
             root.transform.SetParent(parent, false);
+            props = new BattlePropView(sim, material, quad, bounds);
             BuildEnvironment();
         }
 
@@ -269,6 +291,8 @@ namespace HumanLastRampart.Combat.Battle
                 sim.RefreshSoldierInstances();
                 soldierBuffer.SetData(sim.SoldierInstances);
                 foreach (var (buffer, _, start, count) in soldierDraws) buffer.SetData(sim.SoldierInstances, start, 0, count);
+                runnerBuffer.SetData(sim.RunnerInstances);
+                foreach (var (buffer, _, start, count) in runnerDraws) buffer.SetData(sim.RunnerInstances, start, 0, count);
                 sim.SoldiersDirty = false;
             }
 
@@ -278,16 +302,21 @@ namespace HumanLastRampart.Combat.Battle
                 {
                     mapSoldierBlock.SetFloat(MinWorldSizeId, mapDotSize * 0.8f);
                     Graphics.DrawMeshInstancedProcedural(quad, 0, mapMaterial, bounds, sim.SoldierCount, mapSoldierBlock);
+                    mapRunnerBlock.SetFloat(MinWorldSizeId, mapDotSize * 0.8f);
+                    Graphics.DrawMeshInstancedProcedural(quad, 0, mapMaterial, bounds, sim.SoldierCount, mapRunnerBlock);
                 }
                 else
                 {
                     foreach (var (_, block, _, count) in soldierDraws)
+                        Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, count, block);
+                    foreach (var (_, block, _, count) in runnerDraws)
                         Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, count, block);
                 }
             }
 
             if (!mapMode)
             {
+                props.Draw();
                 shotBuffer.SetData(sim.ShotInstances);
                 Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, sim.ShotCapacity, shotBlock);
                 if (heroVisible)
@@ -615,6 +644,10 @@ namespace HumanLastRampart.Combat.Battle
             enemyDraws.Clear();
             foreach (var draw in soldierDraws) draw.buffer.Release();
             soldierDraws.Clear();
+            foreach (var draw in runnerDraws) draw.buffer.Release();
+            runnerDraws.Clear();
+            runnerBuffer?.Release();
+            props?.Dispose();
             soldierBuffer?.Release();
             shotBuffer?.Release();
             heroBuffer?.Release();

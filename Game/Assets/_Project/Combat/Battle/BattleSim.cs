@@ -387,7 +387,8 @@ namespace HumanLastRampart.Combat.Battle
                 Tint = hasSheet
                     ? new float3(1f, 1f, 1f)
                     : (def.IsSpecial ? new float3(0.55f, 0.3f, 0.75f) : new float3(0.85f, 0.25f, 0.2f)),
-                StaticSheet = (byte)(hasSheet && PerfLabArt.FrameCount(def.Sheet) < PerfLabArt.FramesPerAction * 2 ? 1 : 0),
+                // 오우거·사다리 고블린은 걷기 4칸 미리 연결(사용자 검토 전) — 공격 중에도 걷기 칸
+                SheetFrames = (byte)(hasSheet ? Mathf.Min(PerfLabArt.FrameCount(def.Sheet), 255) : PerfLabArt.FramesPerAction * 2),
             };
         }
 
@@ -503,6 +504,7 @@ namespace HumanLastRampart.Combat.Battle
                 }
             }
 
+            InitRunnerArt(p);
             RefreshSoldierInstances();
         }
 
@@ -907,10 +909,11 @@ namespace HumanLastRampart.Combat.Battle
         {
             for (int i = 0; i < soldierCount; i++)
             {
+                bool runner = WriteRunner(i);   // 달리기 그림으로 그리면 원래 그림은 숨김
                 soldierInstances[i] = new PerfLabInstance
                 {
                     PosFrame = new float4(sPos[i], 0f),
-                    TintSize = sAlive[i] != 0 ? new float4(new float3(1f, 1f, 1f) * Brightness, SoldierDrawSize) : float4.zero,
+                    TintSize = sAlive[i] != 0 && !runner ? new float4(new float3(1f, 1f, 1f) * Brightness, SoldierDrawSize) : float4.zero,
                 };
             }
         }
@@ -1004,6 +1007,7 @@ namespace HumanLastRampart.Combat.Battle
             Release(ref sIdle);
             Release(ref weapons);
             Release(ref soldierInstances);
+            Release(ref runnerInstances);
             Release(ref cellOfEnemy);
             Release(ref cellStart);
             Release(ref cellCount);

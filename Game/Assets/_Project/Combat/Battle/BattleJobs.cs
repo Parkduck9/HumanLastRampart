@@ -74,7 +74,7 @@ namespace HumanLastRampart.Combat.Battle
         public byte CarriesLadder;
         public float DrawSize;
         public float3 Tint;
-        public byte StaticSheet;     // 그림이 한 칸뿐(정적 데모) — 걷기·공격 프레임 없이 0번만
+        public byte SheetFrames;     // 시트 칸 수: 1 = 정적(0번만), 4 = 걷기만(공격도 걷기 칸), 8 = 걷기 4 + 공격 4
     }
 
     // 무기 종류별 값 (WeaponDef에서 복사)
@@ -886,13 +886,13 @@ namespace HumanLastRampart.Combat.Battle
             bool attacking = state == EnemyState.AtWall || state == EnemyState.OnWall;
             float fps = attacking ? AttackFps : WalkFps;
             float frame = math.floor(math.frac(Time * fps / FramesPerAction + AnimPhases[i]) * FramesPerAction);
-            if (attacking)
+            EnemyKind kind = Kinds[KindOf[i]];
+            if (attacking && kind.SheetFrames >= FramesPerAction * 2)
             {
                 frame += FramesPerAction;
             }
 
-            EnemyKind kind = Kinds[KindOf[i]];
-            if (kind.StaticSheet != 0) frame = 0;
+            if (kind.SheetFrames < FramesPerAction) frame = 0;
             float shade = Brightness;
             float fromWall = math.dot(Positions[i], WallGeometry.Outward(Sides[i])) - CastleHalf;
             float size = kind.DrawSize * math.lerp(WallScale, 1f, math.saturate((fromWall - 1f) / math.max(0.1f, WallScaleBand - 1f)));
