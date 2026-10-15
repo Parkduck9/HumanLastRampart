@@ -59,16 +59,30 @@ namespace HumanLastRampart.Combat.Battle
 
         // 상자 하나의 반복 — 재질은 같이 쓰고 이 상자에만 _BaseMap_ST를 준다. 노멀맵도 같은 UV 변환을 쓴다
         // sizeMeters: 그림이 붙는 면의 가로·세로(m). 유니티 기본 상자는 면마다 UV 0~1이라 면 크기를 그대로 넣는다
-        public void Apply(Renderer renderer, Surface surface, Vector2 sizeMeters)
+        // offsetMeters: 그림을 얼마나 밀어서 시작할지(m). 성벽 따라 위치를 넣으면 이웃 조각과 그림이 끊김 없이 이어진다
+        public void Apply(Renderer renderer, Surface surface, Vector2 sizeMeters, Vector2 offsetMeters = default)
         {
             if (renderer == null) return;
             Entry e = GetEntry(surface);
             if (e.TileMeters.x <= 0f || e.TileMeters.y <= 0f) return;   // 그림 없음 — 단색
 
-            var st = new Vector4(sizeMeters.x / e.TileMeters.x, sizeMeters.y / e.TileMeters.y, 0f, 0f);
+            var st = new Vector4(sizeMeters.x / e.TileMeters.x, sizeMeters.y / e.TileMeters.y, offsetMeters.x / e.TileMeters.x, offsetMeters.y / e.TileMeters.y);
             renderer.GetPropertyBlock(block);
             block.SetVector(BaseMapStId, st);
             block.SetVector(MainTexStId, st);   // 대비책 재질(_MainTex)용
+            renderer.SetPropertyBlock(block);
+            block.Clear();
+        }
+
+        public bool HasArt(Surface surface) => GetEntry(surface).TileMeters.x > 0f;
+
+        // 이 조각만 색을 곱한다 (성벽 체력 붉은 기 등). 반복 값(_BaseMap_ST)은 그대로 둔다
+        public void Tint(Renderer renderer, Color color)
+        {
+            if (renderer == null) return;
+            renderer.GetPropertyBlock(block);
+            block.SetColor(BaseColorId, color);
+            block.SetColor(ColorId, color);
             renderer.SetPropertyBlock(block);
             block.Clear();
         }

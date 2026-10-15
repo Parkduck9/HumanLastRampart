@@ -42,8 +42,15 @@ namespace HumanLastRampart.Combat.Battle
         public static bool Active => Draft > 0 && Draft < Drafts.Length;
         public static Proportion Current => Drafts[math.clamp(Draft, 0, Drafts.Length - 1)];
 
+        const float WallThickness = 2f;   // 성벽 몸통 두께 (BattleView 상자와 같게)
+        const float SkinLift = 0.01f;     // 덮는 판 두께 — 몸통 면과 겹쳐 깜빡이지 않게 1cm 띄운다
+        // 난간 그림(벽돌 8줄, 한 줄 0.25m)에서 줄눈 바로 위 높이(m). 난간+돌출부(0.21m)가 벽돌 한 줄 안에 들어가
+        // 가로 줄눈이 난간을 가로지르지 않는다. 그림을 바꾸면 이 값을 다시 맞춘다 (D-070)
+        const float BrickRowStart = 40f / 32f;   // 아래에서 40화소 (줄눈 39화소 바로 위, 위 줄눈 47화소 아래)
+
         readonly GameObject root;
         readonly BattleWorldMaterials materials;
+        readonly List<Renderer>[] sideSkins = new List<Renderer>[4];
 
         public int PieceCount { get; private set; }
 
@@ -80,6 +87,23 @@ namespace HumanLastRampart.Combat.Battle
                 // 모서리 발판이 차지하는 끝은 비워 둔다
                 float from = -half + platformHalf, to = half - platformHalf;
 
+                // 통로 바닥·성벽 바깥면: 성벽 몸통(BattleView의 상자 하나)은 면마다 질감을 못 나누므로 얇은 판을 덮는다 (그림 있을 때만)
+                var tinted = new List<Renderer>();
+                if (materials.HasArt(BattleWorldMaterials.Surface.WalkwayStone))
+                {
+                    float walkLength = half * 2f - WallThickness * 2f;   // 모서리 네모는 발판이 덮는다 — 두 판이 겹쳐 깜빡이지 않게
+                    tinted.Add(Box("Walkway", n * (half - WallThickness * 0.5f) + Vector3.up * (top + SkinLift * 0.5f), face,
+                        new Vector3(walkLength, SkinLift, WallThickness), BattleWorldMaterials.Surface.WalkwayStone,
+                        new Vector2(walkLength, WallThickness), new Vector2(-walkLength * 0.5f, 0f)));
+                }
+                if (materials.HasArt(BattleWorldMaterials.Surface.WallStone))
+                {
+                    float faceLength = half * 2f + WallThickness;
+                    tinted.Add(Box("Wall Face", n * (half + SkinLift * 0.5f) + Vector3.up * (top * 0.5f), face,
+                        new Vector3(faceLength, top, SkinLift), BattleWorldMaterials.Surface.WallStone));
+                }
+                sideSkins[side] = tinted;
+
                 // 난간 벽 (사격구에서는 낮게)
                 float along = from;
                 foreach (float bay in Sorted(bays[side]))
@@ -99,8 +123,10 @@ namespace HumanLastRampart.Combat.Battle
                     bool inBay = false;
                     foreach (float bay in bays[side]) if (Mathf.Abs(m - bay) < p.BayWidth * 0.5f + p.MerlonWidth * 0.5f) inBay = true;
                     if (inBay) continue;
+                    // 돌출부도 난간과 같은 벽돌 줄에서 이어진다 (위치 = 성벽 따라 m, 높이 = 난간 위)
                     Box("Merlon", n * (half - p.ParapetDepth * 0.5f) + r * m + Vector3.up * (top + p.ParapetHeight + p.MerlonHeight * 0.5f),
-                        face, new Vector3(p.MerlonWidth, p.MerlonHeight, p.ParapetDepth), BattleWorldMaterials.Surface.ParapetSide);
+                        face, new Vector3(p.MerlonWidth, p.MerlonHeight, p.ParapetDepth), BattleWorldMaterials.Surface.ParapetSide,
+                        new Vector2(p.MerlonWidth, p.MerlonHeight), new Vector2(m - p.MerlonWidth * 0.5f, BrickRowStart + p.ParapetHeight));
                 }
             }
 
@@ -143,10 +169,18 @@ namespace HumanLastRampart.Combat.Battle
         {
             if (to - from < 0.05f || height <= 0.001f) return;
             float mid = (from + to) * 0.5f;
-            Box("Parapet", n * (half - p.ParapetDepth * 0.5f) + r * mid + Vector3.up * (top + height * 0.5f), face, new Vector3(to - from, height, p.ParapetDepth), BattleWorldMaterials.Surface.ParapetSide);
+            // 그림 시작을 성벽 따라 위치(from)에 맞춰 이웃 조각과 끊김 없이, 높이는 벽돌 한 줄 안쪽에서 시작
+            Box("Parapet", n * (half - p.ParapetDepth * 0.5f) + r * mid + Vector3.up * (top + height * 0.5f), face, new Vector3(to - from, height, p.ParapetDepth), BattleWorldMaterials.Surface.ParapetSide,
+                new Vector2(to - from, height), new Vector2(from, BrickRowStart));
         }
 
-        void Box(string name, Vector3 position, Quaternion rotation, Vector3 size, BattleWorldMaterials.Surface surface)
+        // 크기만 주면 면 크기 = 가로·세로 (그림 시작은 0)
+        Renderer Box(string name, Vector3 position, Quaternion rotation, Vector3 size, BattleWorldMaterials.Surface surface)
+            => Box(name, position, rotation, size, surface, new Vector2(size.x, size.y), Vector2.zero);
+
+        // uvSize: 그림이 붙는 면의 가로·세로(m), uvOffset: 그림을 밀어 시작할 거리(m)
+        // 유니티 기본 상자에서 통로 쪽(안쪽) 면은 가로 그림 방향이 성벽 따라 + 방향과 같다 — 위치를 넣으면 조각끼리 이어진다
+        Renderer Box(string name, Vector3 position, Quaternion rotation, Vector3 size, BattleWorldMaterials.Surface surface, Vector2 uvSize, Vector2 uvOffset)
         {
             var go = GameObject.CreatePrimitive(PrimitiveType.Cube);
             go.name = name;
@@ -157,8 +191,17 @@ namespace HumanLastRampart.Combat.Battle
             go.transform.localScale = size;
             var renderer = go.GetComponent<Renderer>();
             renderer.sharedMaterial = materials.Get(surface);
-            materials.Apply(renderer, surface, new Vector2(size.x, size.y));   // 1m당 32화소로 반복 (그림이 있을 때만)
+            materials.Apply(renderer, surface, uvSize, uvOffset);   // 1m당 32화소로 반복 (그림이 있을 때만)
             PieceCount++;
+            return renderer;
+        }
+
+        // 성벽 체력 색(BattleView): 덮은 판에도 같은 붉은 기를 곱한다. ratio 1 = 멀쩡
+        public void SetWallHealth(int side, float ratio)
+        {
+            if (sideSkins == null || side < 0 || side >= sideSkins.Length || sideSkins[side] == null) return;
+            Color tint = Color.Lerp(new Color(1f, 0.3f, 0.25f), Color.white, ratio);
+            foreach (Renderer skin in sideSkins[side]) materials.Tint(skin, tint);
         }
 
         public void Dispose()

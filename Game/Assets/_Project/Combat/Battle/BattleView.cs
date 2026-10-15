@@ -386,6 +386,7 @@ namespace HumanLastRampart.Combat.Battle
                 BattleSim.SideStatus status = sim.Sides[side];
                 float ratio = status.WallMaxHp > 0 ? Mathf.Clamp01((float)status.WallHp / status.WallMaxHp) : 1f;
                 walls[side].material.color = Color.Lerp(new Color(0.75f, 0.2f, 0.15f), new Color(0.72f, 0.7f, 0.66f), ratio);
+                world?.SetWallHealth(side, ratio);   // 질감 판(통로·바깥면)에도 같은 붉은 기
             }
         }
 
