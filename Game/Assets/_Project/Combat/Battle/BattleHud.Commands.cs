@@ -15,7 +15,33 @@ namespace HumanLastRampart.Combat.Battle
         enum MenuStep { Closed, Root, Words, Target }
 
         static readonly string[] SideShort = { "북", "동", "남", "서" };
-        const float NoticeSeconds = 6f;
+
+        // 알림 종류 (K-011). 숫자가 작을수록 중요 — 줄이 넘치면 큰 것부터 밀어낸다
+        enum NoticeKind { Danger, MagicTrap, Command, Weather, Other }
+
+        const int NoticeMaxLines = 6;
+        const float NoticeRepeatWindow = 3f;   // 이 안에 같은 문장이 다시 오면 새 줄 대신 ×2, ×3
+        static readonly float[] NoticeSeconds = { 8f, 5f, 5f, 3f, 3f };   // 종류별 머무는 시간
+        static readonly string[] NoticeColorTags =
+        {
+            ColorTag(HudStyle.Danger), ColorTag(HudStyle.Brass), ColorTag(HudStyle.Text), ColorTag(HudStyle.TextDim), ColorTag(HudStyle.TextDim),
+        };
+
+        // 전투 코드의 알림 문장은 그대로 두고 낱말로 종류를 가른다. 위험 → 마법·함정 → 날씨 → 명령 순으로 먼저 맞는 것
+        // (예: "전령: …돌아오고 있습니다"는 위험, "북쪽 대포 1: 조준점 지정"은 명령)
+        static readonly string[] DangerWords = { "잃었습니다", "돌아오고 있습니다", "병사가 없습니다", "듣지 못했습니다", "무너", "뚫", "위험", "전멸" };
+        static readonly string[] MagicTrapWords = { "함정", "폭발", "불바다", "점화", "불발", "재사용 대기", "마법" };
+        static readonly string[] WeatherWords = { "날씨", "비가", "소나기", "안개" };
+        static readonly string[] CommandWords = { "전령", "명령", "전체:", "대포", "망원경", "외침", "잘못 듣고", "(직접)" };
+
+        sealed class NoticeLine
+        {
+            public string Text;
+            public NoticeKind Kind;
+            public int Count;
+            public float Last;    // 마지막으로 들어온 때
+            public float Until;   // 사라질 때
+        }
 
         GameObject menuPanel;
         Text menuTitle;
@@ -27,7 +53,9 @@ namespace HumanLastRampart.Combat.Battle
         int currentSide;
 
         Text notices;
-        readonly List<(string text, float until)> noticeLines = new List<(string, float)>();
+        readonly List<NoticeLine> noticeLines = new List<NoticeLine>();
+        readonly System.Text.StringBuilder noticeText = new System.Text.StringBuilder(512);
+        bool noticesDirty;
 
         // 명령을 내릴 때 (방법, 명령어, 받을 성벽)
         public event Action<BattleSim.CommandVia, TargetPriority, int> CommandChosen;
@@ -48,6 +76,7 @@ namespace HumanLastRampart.Combat.Battle
             // 지도 모드 오른쪽 대포 창(위 끝이 화면 위에서 240)에 닿지 않게 높이를 맞춘다
             notices = NewText(root.transform, "Notices", 20, TextAnchor.UpperRight);
             Anchor(notices.rectTransform, new Vector2(1f, 1f), new Vector2(-20f, -84f), new Vector2(760f, 148f), new Vector2(1f, 1f));
+            notices.supportRichText = true;   // 종류별 색 (K-011)
             var shadow = notices.gameObject.AddComponent<Shadow>();   // 밝은 들판 위에서도 읽히게
             shadow.effectColor = new Color(0f, 0f, 0f, 0.8f);
             shadow.effectDistance = new Vector2(1.5f, -1.5f);
@@ -156,25 +185,94 @@ namespace HumanLastRampart.Combat.Battle
 
         public void PushNotice(string text)
         {
-            noticeLines.Add((text, Time.unscaledTime + NoticeSeconds));
-            if (noticeLines.Count > 6)
+            if (string.IsNullOrEmpty(text)) return;
+            float now = Time.unscaledTime;
+            NoticeKind kind = ClassifyNotice(text);
+
+            // 같은 문장이 짧은 시간 안에 다시 오면 기존 줄에 ×N을 붙이고 시간을 늘린다
+            for (int i = 0; i < noticeLines.Count; i++)
             {
-                noticeLines.RemoveAt(0);
+                NoticeLine line = noticeLines[i];
+                if (line.Until >= now && now - line.Last <= NoticeRepeatWindow && line.Text == text)
+                {
+                    line.Count++;
+                    line.Last = now;
+                    line.Until = now + NoticeSeconds[(int)kind];
+                    noticesDirty = true;
+                    RefreshNotices();
+                    return;
+                }
             }
 
+            noticeLines.Add(new NoticeLine { Text = text, Kind = kind, Count = 1, Last = now, Until = now + NoticeSeconds[(int)kind] });
+            while (noticeLines.Count > NoticeMaxLines)
+            {
+                noticeLines.RemoveAt(LeastImportantNotice());
+            }
+
+            noticesDirty = true;
             RefreshNotices();
         }
 
-        void RefreshNotices()
+        // 넘칠 때 밀어낼 줄: 가장 덜 중요한 종류 중 가장 오래된 것
+        int LeastImportantNotice()
         {
-            noticeLines.RemoveAll(n => n.until < Time.unscaledTime);
-            var lines = new string[noticeLines.Count];
-            for (int i = 0; i < lines.Length; i++)
+            int pick = 0;
+            for (int i = 1; i < noticeLines.Count; i++)
             {
-                lines[i] = noticeLines[i].text;
+                if (noticeLines[i].Kind > noticeLines[pick].Kind) pick = i;
             }
 
-            notices.text = string.Join("\n", lines);
+            return pick;
+        }
+
+        static NoticeKind ClassifyNotice(string text)
+        {
+            if (ContainsAny(text, DangerWords)) return NoticeKind.Danger;
+            if (ContainsAny(text, MagicTrapWords)) return NoticeKind.MagicTrap;
+            if (ContainsAny(text, WeatherWords)) return NoticeKind.Weather;
+            if (ContainsAny(text, CommandWords)) return NoticeKind.Command;
+            return NoticeKind.Other;
+        }
+
+        static bool ContainsAny(string text, string[] words)
+        {
+            foreach (string word in words)
+            {
+                if (text.IndexOf(word, StringComparison.Ordinal) >= 0) return true;
+            }
+
+            return false;
+        }
+
+        static string ColorTag(Color color) => "<color=#" + ColorUtility.ToHtmlStringRGB(color) + ">";
+
+        // 매 프레임 불린다 — 사라진 줄이 있거나 새 알림이 왔을 때만 글을 다시 만든다
+        void RefreshNotices()
+        {
+            float now = Time.unscaledTime;
+            for (int i = noticeLines.Count - 1; i >= 0; i--)
+            {
+                if (noticeLines[i].Until < now)
+                {
+                    noticeLines.RemoveAt(i);
+                    noticesDirty = true;
+                }
+            }
+
+            if (!noticesDirty) return;
+            noticesDirty = false;
+            noticeText.Clear();
+            for (int i = 0; i < noticeLines.Count; i++)
+            {
+                NoticeLine line = noticeLines[i];
+                if (i > 0) noticeText.Append('\n');
+                noticeText.Append(NoticeColorTags[(int)line.Kind]).Append(line.Text);
+                if (line.Count > 1) noticeText.Append(" ×").Append(line.Count);
+                noticeText.Append("</color>");
+            }
+
+            notices.text = noticeText.ToString();
         }
     }
 }
