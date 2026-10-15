@@ -1,0 +1,10 @@
+{
+  "tool": "image_gen.imagegen",
+  "useCase": "precise-object-edit",
+  "editReference": "Docs/References/codex_wizard_back_v1/wizard_back_source.png",
+  "transparentBackground": true,
+  "status": "color-proposal-unapproved",
+  "hairColor": "warm chestnut/auburn candidate",
+  "frames": 1,
+  "unityPlayVerified": false
+}
