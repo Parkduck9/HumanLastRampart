@@ -17,24 +17,57 @@
     1774,
     887
   ],
-  "sourceSha256": "20cc80b587db728ad6f73efad7e1901b69ce9104cbc4cf35134e90658f7181bc",
-  "albedoSha256": "0ac2fe4f34ee51af9d5dc1a7b86f3eb27270c66a13a942279f8bc643eb4b9cb1",
-  "normalSha256": "6bf1249f1ac2419f9a5cde424e21d1d01719916ad1187f0b521536fe1bb4b844",
-  "normalMaxUnitError": 0.005352840026259464,
+  "sourceSha256": "0ecd5cf6971f4d217c1911bfc6bdbe2e4d577811e2a1c817fdad493f70b06caa",
+  "albedoSha256": "766c5e20ff43a286b64f201cd5d1fa24b812850006bb88007c88143e718dfbc6",
+  "normalSha256": "fd238b6469019066228771754ce2ed9d34603e5267c05ec49e9305b3e71f5624",
+  "normalMaxUnitError": 0.0052888803993733635,
   "normalConvention": "tangent Y+ requested; Unity orientation not verified",
   "wrap": "Repeat",
   "filter": "Point",
   "normalStrengthSuggestion": 0.45,
   "seam": {
-    "edgeX": 17.177083333333332,
-    "edgeY": 31.302083333333332,
-    "interiorX": 15.69644028871391,
-    "interiorY": 19.90286044973545,
-    "ratioX": 1.0943298618913,
-    "ratioY": 1.572742943778687
+    "edgeX": 7.515625,
+    "edgeY": 10.020833333333334,
+    "interiorX": 9.473712270341208,
+    "interiorY": 14.099371693121693,
+    "ratioX": 0.793313622530919,
+    "ratioY": 0.7107290701628887
   },
   "seamlessCertified": false,
   "normalShapeAlignmentCertified": false,
   "unityVerified": false,
-  "processing": "split full left/right panels, nearest resize, normalize normal vectors; no mirror or painted edge correction"
+  "processing": "same crop coordinates in left/right panels when D068 selected, nearest resize, normalize normals; no mirror/blend/repaint",
+  "selectedCropPixels": [
+    7,
+    133,
+    882,
+    875
+  ],
+  "D068Finalization": {
+    "id": "parapet_top",
+    "cropPixels": [
+      7,
+      133,
+      882,
+      875
+    ],
+    "colorRatios": [
+      0.793313622530919,
+      0.7107290701628887
+    ],
+    "normalRatiosBeforeEncoding": [
+      0.6948543207485504,
+      0.7550764354343449
+    ],
+    "sourcePairSize": [
+      1774,
+      887
+    ],
+    "method": "same-window crop only; no pixel painting, blending, mirroring or source modification",
+    "generatedSource": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-bdb4518b-e5a4-4c40-9ce4-81d3e7643c7a.png",
+    "generationRecord": "K-005/finalization_generation.json",
+    "visualReviewPassed": true,
+    "visualReview": "3x3 color/normal contact sheet reviewed; no distinct boundary stripe; repeated brick motif remains visible; actual Unity unverified"
+  },
+  "repeatBoundaryMetricsPass": true
 }

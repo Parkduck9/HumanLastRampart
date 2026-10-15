@@ -36,5 +36,13 @@
   "seamlessCertified": false,
   "normalShapeAlignmentCertified": false,
   "unityVerified": false,
-  "processing": "split full left/right panels, nearest resize, normalize normal vectors; no mirror or painted edge correction"
+  "processing": "same crop coordinates in left/right panels when D068 selected, nearest resize, normalize normals; no mirror/blend/repaint",
+  "selectedCropPixels": [
+    0,
+    0,
+    887,
+    887
+  ],
+  "D068Finalization": null,
+  "repeatBoundaryMetricsPass": true
 }

@@ -1,0 +1,497 @@
+{
+  "decision": {
+    "decision": "D-068",
+    "wallSideMeters": 40,
+    "wallHeightMeters": 4,
+    "walkwayWidthMeters": 2,
+    "soldierHeightMeters": 0.35,
+    "parapetWallHeightMeters": 0.105,
+    "parapetThicknessMeters": 0.3,
+    "merlonHeightMeters": 0.105,
+    "merlonWidthMeters": 0.26,
+    "merlonGapMeters": 0.21,
+    "cannonOpeningWidthMeters": 1.12,
+    "cornerPlatformSizeMeters": [
+      4.5,
+      4.5
+    ],
+    "cornerPlatformHeightMeters": 4,
+    "outerTowerSizeMeters": [
+      2.6,
+      2.6
+    ],
+    "outerTowerAboveWalkwayMeters": 2.1,
+    "outerTowerGroundTopMeters": 6.1
+  },
+  "pixelsPerMeter": 32,
+  "materials": [
+    {
+      "id": "wall_stone",
+      "label": "성벽 바깥면",
+      "size": [
+        128,
+        128
+      ],
+      "meters": [
+        4,
+        4
+      ],
+      "pixelsPerMeter": 32,
+      "albedo": "K-005/wall_stone/albedo.png",
+      "normal": "K-005/wall_stone/normal.png",
+      "source": "K-005/wall_stone/source.png",
+      "sourceSize": [
+        1774,
+        887
+      ],
+      "sourceSha256": "c734e7ca2ad45d7349986aba4a1c7ce0168c4d8cdf6aec9f01710c63f2ce7a30",
+      "albedoSha256": "207226d53c8a8b414d621422506d1a1f81d6e48d649e75c1f4ae3a25d686093f",
+      "normalSha256": "796641b39607635bbe67ce3c282a19a61a8cab3f91ca739fbc8071126ee38c19",
+      "normalMaxUnitError": 0.005783738502963209,
+      "normalConvention": "tangent Y+ requested; Unity orientation not verified",
+      "wrap": "Repeat",
+      "filter": "Point",
+      "normalStrengthSuggestion": 0.45,
+      "seam": {
+        "edgeX": 10.385416666666666,
+        "edgeY": 13.651041666666666,
+        "interiorX": 12.867659120734908,
+        "interiorY": 16.096948818897637,
+        "ratioX": 0.8070944815387312,
+        "ratioY": 0.8480515046827071
+      },
+      "seamlessCertified": false,
+      "normalShapeAlignmentCertified": false,
+      "unityVerified": false,
+      "processing": "same crop coordinates in left/right panels when D068 selected, nearest resize, normalize normals; no mirror/blend/repaint",
+      "selectedCropPixels": [
+        21,
+        84,
+        868,
+        861
+      ],
+      "D068Finalization": {
+        "id": "wall_stone",
+        "cropPixels": [
+          21,
+          84,
+          868,
+          861
+        ],
+        "colorRatios": [
+          0.8070944815387312,
+          0.8480515046827071
+        ],
+        "normalRatiosBeforeEncoding": [
+          0.7895806565409748,
+          0.582091535106171
+        ],
+        "sourcePairSize": [
+          1774,
+          887
+        ],
+        "method": "same-window crop only; no pixel painting, blending, mirroring or source modification",
+        "generatedSource": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-21c4400b-d6e8-4722-8e39-feba792318a7.png",
+        "generationRecord": "K-005/finalization_generation.json",
+        "visualReviewPassed": true,
+        "visualReview": "3x3 color/normal contact sheet reviewed; no distinct boundary stripe; repeated brick motif remains visible; actual Unity unverified"
+      },
+      "repeatBoundaryMetricsPass": true
+    },
+    {
+      "id": "walkway_stone",
+      "label": "성벽 통로",
+      "size": [
+        128,
+        128
+      ],
+      "meters": [
+        4,
+        4
+      ],
+      "pixelsPerMeter": 32,
+      "albedo": "K-005/walkway_stone/albedo.png",
+      "normal": "K-005/walkway_stone/normal.png",
+      "source": "K-005/walkway_stone/source.png",
+      "sourceSize": [
+        1774,
+        887
+      ],
+      "sourceSha256": "624eff95297b0e202b46d0b0ddf09573beff21b46302a4957a2b280a5b82f060",
+      "albedoSha256": "7a48c2577f7d90246e461de84503193cc05f27ac8ffa0a7cd25ac6447e586bdf",
+      "normalSha256": "04aa12af39f3cca4deef6253833b768017acf611a85d63149288441cfc470cc2",
+      "normalMaxUnitError": 0.005536385100440411,
+      "normalConvention": "tangent Y+ requested; Unity orientation not verified",
+      "wrap": "Repeat",
+      "filter": "Point",
+      "normalStrengthSuggestion": 0.45,
+      "seam": {
+        "edgeX": 15.578125,
+        "edgeY": 20.236979166666668,
+        "interiorX": 19.340838254593177,
+        "interiorY": 20.365998195538058,
+        "ratioX": 0.805452421189677,
+        "ratioY": 0.9936649788715165
+      },
+      "seamlessCertified": false,
+      "normalShapeAlignmentCertified": false,
+      "unityVerified": false,
+      "processing": "same crop coordinates in left/right panels when D068 selected, nearest resize, normalize normals; no mirror/blend/repaint",
+      "selectedCropPixels": [
+        0,
+        0,
+        887,
+        887
+      ],
+      "D068Finalization": null,
+      "repeatBoundaryMetricsPass": true
+    },
+    {
+      "id": "parapet_top",
+      "label": "난간 윗면",
+      "size": [
+        128,
+        64
+      ],
+      "meters": [
+        4,
+        2
+      ],
+      "pixelsPerMeter": 32,
+      "albedo": "K-005/parapet_top/albedo.png",
+      "normal": "K-005/parapet_top/normal.png",
+      "source": "K-005/parapet_top/source.png",
+      "sourceSize": [
+        1774,
+        887
+      ],
+      "sourceSha256": "0ecd5cf6971f4d217c1911bfc6bdbe2e4d577811e2a1c817fdad493f70b06caa",
+      "albedoSha256": "766c5e20ff43a286b64f201cd5d1fa24b812850006bb88007c88143e718dfbc6",
+      "normalSha256": "fd238b6469019066228771754ce2ed9d34603e5267c05ec49e9305b3e71f5624",
+      "normalMaxUnitError": 0.0052888803993733635,
+      "normalConvention": "tangent Y+ requested; Unity orientation not verified",
+      "wrap": "Repeat",
+      "filter": "Point",
+      "normalStrengthSuggestion": 0.45,
+      "seam": {
+        "edgeX": 7.515625,
+        "edgeY": 10.020833333333334,
+        "interiorX": 9.473712270341208,
+        "interiorY": 14.099371693121693,
+        "ratioX": 0.793313622530919,
+        "ratioY": 0.7107290701628887
+      },
+      "seamlessCertified": false,
+      "normalShapeAlignmentCertified": false,
+      "unityVerified": false,
+      "processing": "same crop coordinates in left/right panels when D068 selected, nearest resize, normalize normals; no mirror/blend/repaint",
+      "selectedCropPixels": [
+        7,
+        133,
+        882,
+        875
+      ],
+      "D068Finalization": {
+        "id": "parapet_top",
+        "cropPixels": [
+          7,
+          133,
+          882,
+          875
+        ],
+        "colorRatios": [
+          0.793313622530919,
+          0.7107290701628887
+        ],
+        "normalRatiosBeforeEncoding": [
+          0.6948543207485504,
+          0.7550764354343449
+        ],
+        "sourcePairSize": [
+          1774,
+          887
+        ],
+        "method": "same-window crop only; no pixel painting, blending, mirroring or source modification",
+        "generatedSource": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-bdb4518b-e5a4-4c40-9ce4-81d3e7643c7a.png",
+        "generationRecord": "K-005/finalization_generation.json",
+        "visualReviewPassed": true,
+        "visualReview": "3x3 color/normal contact sheet reviewed; no distinct boundary stripe; repeated brick motif remains visible; actual Unity unverified"
+      },
+      "repeatBoundaryMetricsPass": true
+    },
+    {
+      "id": "parapet_side",
+      "label": "난간 옆면",
+      "size": [
+        128,
+        64
+      ],
+      "meters": [
+        4,
+        2
+      ],
+      "pixelsPerMeter": 32,
+      "albedo": "K-005/parapet_side/albedo.png",
+      "normal": "K-005/parapet_side/normal.png",
+      "source": "K-005/parapet_side/source.png",
+      "sourceSize": [
+        1774,
+        887
+      ],
+      "sourceSha256": "65aef56f15f5948f5be7f4e19bf0c858f9efb3f694372aaca8773b7124b4d62c",
+      "albedoSha256": "5c28f110b706196dcbcd5b23f2f5a2b7a15298327eb6390cd8caa38c6754d771",
+      "normalSha256": "08fdfc0d0f170cac42df97a91f9873a6d5d666fb7ac2cd801ea298f89d628496",
+      "normalMaxUnitError": 0.005108061122221841,
+      "normalConvention": "tangent Y+ requested; Unity orientation not verified",
+      "wrap": "Repeat",
+      "filter": "Point",
+      "normalStrengthSuggestion": 0.45,
+      "seam": {
+        "edgeX": 5.067708333333333,
+        "edgeY": 9.364583333333334,
+        "interiorX": 8.072793635170603,
+        "interiorY": 14.492476851851851,
+        "ratioX": 0.627751502435902,
+        "ratioY": 0.6461685900251568
+      },
+      "seamlessCertified": false,
+      "normalShapeAlignmentCertified": false,
+      "unityVerified": false,
+      "processing": "same crop coordinates in left/right panels when D068 selected, nearest resize, normalize normals; no mirror/blend/repaint",
+      "selectedCropPixels": [
+        21,
+        7,
+        833,
+        854
+      ],
+      "D068Finalization": {
+        "id": "parapet_side",
+        "cropPixels": [
+          21,
+          7,
+          833,
+          854
+        ],
+        "colorRatios": [
+          0.627751502435902,
+          0.6461685900251568
+        ],
+        "normalRatiosBeforeEncoding": [
+          0.6812603064729538,
+          0.5916218687961455
+        ],
+        "sourcePairSize": [
+          1774,
+          887
+        ],
+        "method": "same-window crop only; no pixel painting, blending, mirroring or source modification",
+        "generatedSource": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-3ecec5fb-abe2-4ce6-8448-edce63a9df96.png",
+        "generationRecord": "K-005/finalization_generation.json",
+        "visualReviewPassed": true,
+        "visualReview": "3x3 color/normal contact sheet reviewed; no distinct boundary stripe; repeated brick motif remains visible; actual Unity unverified"
+      },
+      "repeatBoundaryMetricsPass": true
+    },
+    {
+      "id": "tower_wall",
+      "label": "포탑 벽",
+      "size": [
+        128,
+        128
+      ],
+      "meters": [
+        4,
+        4
+      ],
+      "pixelsPerMeter": 32,
+      "albedo": "K-005/tower_wall/albedo.png",
+      "normal": "K-005/tower_wall/normal.png",
+      "source": "K-005/tower_wall/source.png",
+      "sourceSize": [
+        1774,
+        887
+      ],
+      "sourceSha256": "dc7376a317358ed8552e79ea9fbbaed7f5efbb88f99694b34d4fbaf2f7f1f032",
+      "albedoSha256": "6e66e969959646e6c2dad647f56da55bbe631e2f58946930bc9c60d322ec8eee",
+      "normalSha256": "891ff045d4d9b1c6be657a38ad7cb39ba7a02f7e9a6c97e011ebb434b98c40c3",
+      "normalMaxUnitError": 0.0057218677708220644,
+      "normalConvention": "tangent Y+ requested; Unity orientation not verified",
+      "wrap": "Repeat",
+      "filter": "Point",
+      "normalStrengthSuggestion": 0.45,
+      "seam": {
+        "edgeX": 27.408854166666668,
+        "edgeY": 22.643229166666668,
+        "interiorX": 23.81719570209974,
+        "interiorY": 27.405204232283463,
+        "ratioX": 1.150801064469999,
+        "ratioY": 0.8262382930900706
+      },
+      "seamlessCertified": false,
+      "normalShapeAlignmentCertified": false,
+      "unityVerified": false,
+      "processing": "same crop coordinates in left/right panels when D068 selected, nearest resize, normalize normals; no mirror/blend/repaint",
+      "selectedCropPixels": [
+        0,
+        0,
+        887,
+        887
+      ],
+      "D068Finalization": null,
+      "repeatBoundaryMetricsPass": true
+    },
+    {
+      "id": "tower_roof",
+      "label": "포탑 옥상 바닥",
+      "size": [
+        128,
+        128
+      ],
+      "meters": [
+        4,
+        4
+      ],
+      "pixelsPerMeter": 32,
+      "albedo": "K-005/tower_roof/albedo.png",
+      "normal": "K-005/tower_roof/normal.png",
+      "source": "K-005/tower_roof/source.png",
+      "sourceSize": [
+        1774,
+        887
+      ],
+      "sourceSha256": "c41656700313eacf73e47ae3b3f0e1c8bc0a7249801b5c0f5b361dc6b0a4154b",
+      "albedoSha256": "bbaf16aeb3c67bc211d116f8ae9ac25ea27536c903fccf546d83e244297020f4",
+      "normalSha256": "971598b663d70a47cf42a13c3957dfaafe10da0fb8f9aba79bad083fece114c0",
+      "normalMaxUnitError": 0.006650333382466123,
+      "normalConvention": "tangent Y+ requested; Unity orientation not verified",
+      "wrap": "Repeat",
+      "filter": "Point",
+      "normalStrengthSuggestion": 0.45,
+      "seam": {
+        "edgeX": 26.830729166666668,
+        "edgeY": 23.372395833333332,
+        "interiorX": 22.72865403543307,
+        "interiorY": 24.25658218503937,
+        "ratioX": 1.180480336619961,
+        "ratioY": 0.9635486011606625
+      },
+      "seamlessCertified": false,
+      "normalShapeAlignmentCertified": false,
+      "unityVerified": false,
+      "processing": "same crop coordinates in left/right panels when D068 selected, nearest resize, normalize normals; no mirror/blend/repaint",
+      "selectedCropPixels": [
+        0,
+        0,
+        887,
+        887
+      ],
+      "D068Finalization": null,
+      "repeatBoundaryMetricsPass": true
+    },
+    {
+      "id": "field_grass",
+      "label": "들판 풀",
+      "size": [
+        256,
+        256
+      ],
+      "meters": [
+        8,
+        8
+      ],
+      "pixelsPerMeter": 32,
+      "albedo": "K-005/field_grass/albedo.png",
+      "normal": "K-005/field_grass/normal.png",
+      "source": "K-005/field_grass/source.png",
+      "sourceSize": [
+        1774,
+        887
+      ],
+      "sourceSha256": "1350e97677f47ba713e2adca2e059e337304552de8eda2264c60b6a19a68d03e",
+      "albedoSha256": "928d68bbf035563cb15c797dc84df819782a452b345a8c24c3dc2272c5093302",
+      "normalSha256": "e57edfd6bd1fcd1f92a9c1d4e650af8e35b2df13f5996af2529514f353a4aafe",
+      "normalMaxUnitError": 0.005903374775555692,
+      "normalConvention": "tangent Y+ requested; Unity orientation not verified",
+      "wrap": "Repeat",
+      "filter": "Point",
+      "normalStrengthSuggestion": 0.45,
+      "seam": {
+        "edgeX": 15.08203125,
+        "edgeY": 14.791666666666666,
+        "interiorX": 15.064802900326798,
+        "interiorY": 13.920261437908497,
+        "ratioX": 1.0011436160026248,
+        "ratioY": 1.0625997746267255
+      },
+      "seamlessCertified": false,
+      "normalShapeAlignmentCertified": false,
+      "unityVerified": false,
+      "processing": "same crop coordinates in left/right panels when D068 selected, nearest resize, normalize normals; no mirror/blend/repaint",
+      "selectedCropPixels": [
+        0,
+        0,
+        887,
+        887
+      ],
+      "D068Finalization": null,
+      "repeatBoundaryMetricsPass": true
+    },
+    {
+      "id": "field_dirt",
+      "label": "들판 흙",
+      "size": [
+        256,
+        256
+      ],
+      "meters": [
+        8,
+        8
+      ],
+      "pixelsPerMeter": 32,
+      "albedo": "K-005/field_dirt/albedo.png",
+      "normal": "K-005/field_dirt/normal.png",
+      "source": "K-005/field_dirt/source.png",
+      "sourceSize": [
+        1774,
+        887
+      ],
+      "sourceSha256": "be459c5ec2eface91fb332eb7f70db2821f1ded653d6b13f1b2055db6934fac9",
+      "albedoSha256": "b56b4a115e667840c0f1d68d2c243de1cd2184e7a790aeea4b038bbc52b39d2d",
+      "normalSha256": "9afba43d51111658ada450ef3d46cf0650b9c92e981db8a225fea35817f08ee4",
+      "normalMaxUnitError": 0.006453608379858755,
+      "normalConvention": "tangent Y+ requested; Unity orientation not verified",
+      "wrap": "Repeat",
+      "filter": "Point",
+      "normalStrengthSuggestion": 0.45,
+      "seam": {
+        "edgeX": 19.692708333333332,
+        "edgeY": 16.213541666666668,
+        "interiorX": 17.430014297385622,
+        "interiorY": 18.01984272875817,
+        "ratioX": 1.129815959834703,
+        "ratioY": 0.899760442458868
+      },
+      "seamlessCertified": false,
+      "normalShapeAlignmentCertified": false,
+      "unityVerified": false,
+      "processing": "same crop coordinates in left/right panels when D068 selected, nearest resize, normalize normals; no mirror/blend/repaint",
+      "selectedCropPixels": [
+        0,
+        0,
+        887,
+        887
+      ],
+      "D068Finalization": null,
+      "repeatBoundaryMetricsPass": true
+    }
+  ],
+  "threeSurfacesRepeatReviewed": [
+    "wall_stone",
+    "parapet_top",
+    "parapet_side"
+  ],
+  "unityVerified": false,
+  "normalOrientationUnityVerified": false,
+  "gameFolderModified": false,
+  "importNote": "Claude copies World/<surface>_albedo.png and <surface>_normal.png to Resources/BattleArt/World, Unity creates .meta"
+}

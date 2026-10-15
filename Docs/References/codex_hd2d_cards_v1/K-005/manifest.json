@@ -18,26 +18,59 @@
       1774,
       887
     ],
-    "sourceSha256": "3eaedc6ee165e6bc411401dede0bd530b825997ac41860d807eb9d7b6be753c6",
-    "albedoSha256": "787b0ceaff1fbe074d7aace85849bc74e32609c4a1e879c2c68c1137a28fa3e7",
-    "normalSha256": "04ec4602aa7e0fd121dba3599c7a05669331590f60294f5471ff2561de249694",
-    "normalMaxUnitError": 0.005350724198155743,
+    "sourceSha256": "c734e7ca2ad45d7349986aba4a1c7ce0168c4d8cdf6aec9f01710c63f2ce7a30",
+    "albedoSha256": "207226d53c8a8b414d621422506d1a1f81d6e48d649e75c1f4ae3a25d686093f",
+    "normalSha256": "796641b39607635bbe67ce3c282a19a61a8cab3f91ca739fbc8071126ee38c19",
+    "normalMaxUnitError": 0.005783738502963209,
     "normalConvention": "tangent Y+ requested; Unity orientation not verified",
     "wrap": "Repeat",
     "filter": "Point",
     "normalStrengthSuggestion": 0.45,
     "seam": {
-      "edgeX": 14.721354166666666,
-      "edgeY": 33.325520833333336,
-      "interiorX": 18.09844570209974,
-      "interiorY": 20.808501476377952,
-      "ratioX": 0.813404333663787,
-      "ratioY": 1.6015339149320698
+      "edgeX": 10.385416666666666,
+      "edgeY": 13.651041666666666,
+      "interiorX": 12.867659120734908,
+      "interiorY": 16.096948818897637,
+      "ratioX": 0.8070944815387312,
+      "ratioY": 0.8480515046827071
     },
     "seamlessCertified": false,
     "normalShapeAlignmentCertified": false,
     "unityVerified": false,
-    "processing": "split full left/right panels, nearest resize, normalize normal vectors; no mirror or painted edge correction"
+    "processing": "same crop coordinates in left/right panels when D068 selected, nearest resize, normalize normals; no mirror/blend/repaint",
+    "selectedCropPixels": [
+      21,
+      84,
+      868,
+      861
+    ],
+    "D068Finalization": {
+      "id": "wall_stone",
+      "cropPixels": [
+        21,
+        84,
+        868,
+        861
+      ],
+      "colorRatios": [
+        0.8070944815387312,
+        0.8480515046827071
+      ],
+      "normalRatiosBeforeEncoding": [
+        0.7895806565409748,
+        0.582091535106171
+      ],
+      "sourcePairSize": [
+        1774,
+        887
+      ],
+      "method": "same-window crop only; no pixel painting, blending, mirroring or source modification",
+      "generatedSource": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-21c4400b-d6e8-4722-8e39-feba792318a7.png",
+      "generationRecord": "K-005/finalization_generation.json",
+      "visualReviewPassed": true,
+      "visualReview": "3x3 color/normal contact sheet reviewed; no distinct boundary stripe; repeated brick motif remains visible; actual Unity unverified"
+    },
+    "repeatBoundaryMetricsPass": true
   },
   {
     "id": "walkway_stone",
@@ -77,7 +110,15 @@
     "seamlessCertified": false,
     "normalShapeAlignmentCertified": false,
     "unityVerified": false,
-    "processing": "split full left/right panels, nearest resize, normalize normal vectors; no mirror or painted edge correction"
+    "processing": "same crop coordinates in left/right panels when D068 selected, nearest resize, normalize normals; no mirror/blend/repaint",
+    "selectedCropPixels": [
+      0,
+      0,
+      887,
+      887
+    ],
+    "D068Finalization": null,
+    "repeatBoundaryMetricsPass": true
   },
   {
     "id": "parapet_top",
@@ -98,26 +139,59 @@
       1774,
       887
     ],
-    "sourceSha256": "20cc80b587db728ad6f73efad7e1901b69ce9104cbc4cf35134e90658f7181bc",
-    "albedoSha256": "0ac2fe4f34ee51af9d5dc1a7b86f3eb27270c66a13a942279f8bc643eb4b9cb1",
-    "normalSha256": "6bf1249f1ac2419f9a5cde424e21d1d01719916ad1187f0b521536fe1bb4b844",
-    "normalMaxUnitError": 0.005352840026259464,
+    "sourceSha256": "0ecd5cf6971f4d217c1911bfc6bdbe2e4d577811e2a1c817fdad493f70b06caa",
+    "albedoSha256": "766c5e20ff43a286b64f201cd5d1fa24b812850006bb88007c88143e718dfbc6",
+    "normalSha256": "fd238b6469019066228771754ce2ed9d34603e5267c05ec49e9305b3e71f5624",
+    "normalMaxUnitError": 0.0052888803993733635,
     "normalConvention": "tangent Y+ requested; Unity orientation not verified",
     "wrap": "Repeat",
     "filter": "Point",
     "normalStrengthSuggestion": 0.45,
     "seam": {
-      "edgeX": 17.177083333333332,
-      "edgeY": 31.302083333333332,
-      "interiorX": 15.69644028871391,
-      "interiorY": 19.90286044973545,
-      "ratioX": 1.0943298618913,
-      "ratioY": 1.572742943778687
+      "edgeX": 7.515625,
+      "edgeY": 10.020833333333334,
+      "interiorX": 9.473712270341208,
+      "interiorY": 14.099371693121693,
+      "ratioX": 0.793313622530919,
+      "ratioY": 0.7107290701628887
     },
     "seamlessCertified": false,
     "normalShapeAlignmentCertified": false,
     "unityVerified": false,
-    "processing": "split full left/right panels, nearest resize, normalize normal vectors; no mirror or painted edge correction"
+    "processing": "same crop coordinates in left/right panels when D068 selected, nearest resize, normalize normals; no mirror/blend/repaint",
+    "selectedCropPixels": [
+      7,
+      133,
+      882,
+      875
+    ],
+    "D068Finalization": {
+      "id": "parapet_top",
+      "cropPixels": [
+        7,
+        133,
+        882,
+        875
+      ],
+      "colorRatios": [
+        0.793313622530919,
+        0.7107290701628887
+      ],
+      "normalRatiosBeforeEncoding": [
+        0.6948543207485504,
+        0.7550764354343449
+      ],
+      "sourcePairSize": [
+        1774,
+        887
+      ],
+      "method": "same-window crop only; no pixel painting, blending, mirroring or source modification",
+      "generatedSource": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-bdb4518b-e5a4-4c40-9ce4-81d3e7643c7a.png",
+      "generationRecord": "K-005/finalization_generation.json",
+      "visualReviewPassed": true,
+      "visualReview": "3x3 color/normal contact sheet reviewed; no distinct boundary stripe; repeated brick motif remains visible; actual Unity unverified"
+    },
+    "repeatBoundaryMetricsPass": true
   },
   {
     "id": "parapet_side",
@@ -138,26 +212,59 @@
       1774,
       887
     ],
-    "sourceSha256": "3802a1304584e6f3412f25dbaadc5137f8e49521f142ae615d05c9d82fce3008",
-    "albedoSha256": "c3b61465b35afc91b4adba7dc4f5c99629610fba3d0f89499a77931c8799cc98",
-    "normalSha256": "0136a7aabe375930cf35ea3d5ae9eca2ebf4150cf5651d2b7db854fa893b2983",
-    "normalMaxUnitError": 0.005783738502963209,
+    "sourceSha256": "65aef56f15f5948f5be7f4e19bf0c858f9efb3f694372aaca8773b7124b4d62c",
+    "albedoSha256": "5c28f110b706196dcbcd5b23f2f5a2b7a15298327eb6390cd8caa38c6754d771",
+    "normalSha256": "08fdfc0d0f170cac42df97a91f9873a6d5d666fb7ac2cd801ea298f89d628496",
+    "normalMaxUnitError": 0.005108061122221841,
     "normalConvention": "tangent Y+ requested; Unity orientation not verified",
     "wrap": "Repeat",
     "filter": "Point",
     "normalStrengthSuggestion": 0.45,
     "seam": {
-      "edgeX": 15.828125,
-      "edgeY": 52.901041666666664,
-      "interiorX": 15.257586942257218,
-      "interiorY": 25.33151455026455,
-      "ratioX": 1.0373937281106114,
-      "ratioY": 2.088348944225058
+      "edgeX": 5.067708333333333,
+      "edgeY": 9.364583333333334,
+      "interiorX": 8.072793635170603,
+      "interiorY": 14.492476851851851,
+      "ratioX": 0.627751502435902,
+      "ratioY": 0.6461685900251568
     },
     "seamlessCertified": false,
     "normalShapeAlignmentCertified": false,
     "unityVerified": false,
-    "processing": "split full left/right panels, nearest resize, normalize normal vectors; no mirror or painted edge correction"
+    "processing": "same crop coordinates in left/right panels when D068 selected, nearest resize, normalize normals; no mirror/blend/repaint",
+    "selectedCropPixels": [
+      21,
+      7,
+      833,
+      854
+    ],
+    "D068Finalization": {
+      "id": "parapet_side",
+      "cropPixels": [
+        21,
+        7,
+        833,
+        854
+      ],
+      "colorRatios": [
+        0.627751502435902,
+        0.6461685900251568
+      ],
+      "normalRatiosBeforeEncoding": [
+        0.6812603064729538,
+        0.5916218687961455
+      ],
+      "sourcePairSize": [
+        1774,
+        887
+      ],
+      "method": "same-window crop only; no pixel painting, blending, mirroring or source modification",
+      "generatedSource": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-3ecec5fb-abe2-4ce6-8448-edce63a9df96.png",
+      "generationRecord": "K-005/finalization_generation.json",
+      "visualReviewPassed": true,
+      "visualReview": "3x3 color/normal contact sheet reviewed; no distinct boundary stripe; repeated brick motif remains visible; actual Unity unverified"
+    },
+    "repeatBoundaryMetricsPass": true
   },
   {
     "id": "tower_wall",
@@ -197,7 +304,15 @@
     "seamlessCertified": false,
     "normalShapeAlignmentCertified": false,
     "unityVerified": false,
-    "processing": "split full left/right panels, nearest resize, normalize normal vectors; no mirror or painted edge correction"
+    "processing": "same crop coordinates in left/right panels when D068 selected, nearest resize, normalize normals; no mirror/blend/repaint",
+    "selectedCropPixels": [
+      0,
+      0,
+      887,
+      887
+    ],
+    "D068Finalization": null,
+    "repeatBoundaryMetricsPass": true
   },
   {
     "id": "tower_roof",
@@ -237,7 +352,15 @@
     "seamlessCertified": false,
     "normalShapeAlignmentCertified": false,
     "unityVerified": false,
-    "processing": "split full left/right panels, nearest resize, normalize normal vectors; no mirror or painted edge correction"
+    "processing": "same crop coordinates in left/right panels when D068 selected, nearest resize, normalize normals; no mirror/blend/repaint",
+    "selectedCropPixels": [
+      0,
+      0,
+      887,
+      887
+    ],
+    "D068Finalization": null,
+    "repeatBoundaryMetricsPass": true
   },
   {
     "id": "field_grass",
@@ -277,7 +400,15 @@
     "seamlessCertified": false,
     "normalShapeAlignmentCertified": false,
     "unityVerified": false,
-    "processing": "split full left/right panels, nearest resize, normalize normal vectors; no mirror or painted edge correction"
+    "processing": "same crop coordinates in left/right panels when D068 selected, nearest resize, normalize normals; no mirror/blend/repaint",
+    "selectedCropPixels": [
+      0,
+      0,
+      887,
+      887
+    ],
+    "D068Finalization": null,
+    "repeatBoundaryMetricsPass": true
   },
   {
     "id": "field_dirt",
@@ -317,6 +448,14 @@
     "seamlessCertified": false,
     "normalShapeAlignmentCertified": false,
     "unityVerified": false,
-    "processing": "split full left/right panels, nearest resize, normalize normal vectors; no mirror or painted edge correction"
+    "processing": "same crop coordinates in left/right panels when D068 selected, nearest resize, normalize normals; no mirror/blend/repaint",
+    "selectedCropPixels": [
+      0,
+      0,
+      887,
+      887
+    ],
+    "D068Finalization": null,
+    "repeatBoundaryMetricsPass": true
   }
 ]

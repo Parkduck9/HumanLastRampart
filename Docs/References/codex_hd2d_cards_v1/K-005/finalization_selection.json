@@ -1,0 +1,80 @@
+{
+  "wall_stone": {
+    "id": "wall_stone",
+    "cropPixels": [
+      21,
+      84,
+      868,
+      861
+    ],
+    "colorRatios": [
+      0.8070944815387312,
+      0.8480515046827071
+    ],
+    "normalRatiosBeforeEncoding": [
+      0.7895806565409748,
+      0.582091535106171
+    ],
+    "sourcePairSize": [
+      1774,
+      887
+    ],
+    "method": "same-window crop only; no pixel painting, blending, mirroring or source modification",
+    "generatedSource": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-21c4400b-d6e8-4722-8e39-feba792318a7.png",
+    "generationRecord": "K-005/finalization_generation.json",
+    "visualReviewPassed": true,
+    "visualReview": "3x3 color/normal contact sheet reviewed; no distinct boundary stripe; repeated brick motif remains visible; actual Unity unverified"
+  },
+  "parapet_top": {
+    "id": "parapet_top",
+    "cropPixels": [
+      7,
+      133,
+      882,
+      875
+    ],
+    "colorRatios": [
+      0.793313622530919,
+      0.7107290701628887
+    ],
+    "normalRatiosBeforeEncoding": [
+      0.6948543207485504,
+      0.7550764354343449
+    ],
+    "sourcePairSize": [
+      1774,
+      887
+    ],
+    "method": "same-window crop only; no pixel painting, blending, mirroring or source modification",
+    "generatedSource": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-bdb4518b-e5a4-4c40-9ce4-81d3e7643c7a.png",
+    "generationRecord": "K-005/finalization_generation.json",
+    "visualReviewPassed": true,
+    "visualReview": "3x3 color/normal contact sheet reviewed; no distinct boundary stripe; repeated brick motif remains visible; actual Unity unverified"
+  },
+  "parapet_side": {
+    "id": "parapet_side",
+    "cropPixels": [
+      21,
+      7,
+      833,
+      854
+    ],
+    "colorRatios": [
+      0.627751502435902,
+      0.6461685900251568
+    ],
+    "normalRatiosBeforeEncoding": [
+      0.6812603064729538,
+      0.5916218687961455
+    ],
+    "sourcePairSize": [
+      1774,
+      887
+    ],
+    "method": "same-window crop only; no pixel painting, blending, mirroring or source modification",
+    "generatedSource": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-3ecec5fb-abe2-4ce6-8448-edce63a9df96.png",
+    "generationRecord": "K-005/finalization_generation.json",
+    "visualReviewPassed": true,
+    "visualReview": "3x3 color/normal contact sheet reviewed; no distinct boundary stripe; repeated brick motif remains visible; actual Unity unverified"
+  }
+}
