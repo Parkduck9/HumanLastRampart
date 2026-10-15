@@ -1,0 +1,39 @@
+{
+  "id": "battery_low_damaged",
+  "label": "낮은 포대 · 파손",
+  "kind": "cutout_reference",
+  "family": "battery_low",
+  "state": "damaged",
+  "file": "battery_low_damaged/sprite.png",
+  "size": [
+    256,
+    384
+  ],
+  "pivotPixelsTopLeft": [
+    128,
+    352
+  ],
+  "pivotUnityNormalized": [
+    0.5,
+    0.08333333333333333
+  ],
+  "sourceSize": [
+    1024,
+    1536
+  ],
+  "sourceCrop": [
+    26,
+    627,
+    999,
+    1290
+  ],
+  "sharedSourceScale": 0.22764227642276422,
+  "packedBodySize": [
+    221,
+    151
+  ],
+  "pixelsPerMeter": null,
+  "normalMapIncluded": false,
+  "sha256": "521a507004ae9992892fd747fa29b5ed5665e6c6b4f75bf8a709cb9f94de95a1",
+  "sourceSha256": "8a6970c8577a82c669635cf931496bf9a1e40d92b97518bb7b42a5267c844b57"
+}

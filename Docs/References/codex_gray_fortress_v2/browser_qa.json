@@ -1,0 +1,133 @@
+{
+  "checks": [
+    {
+      "backgroundSize": "100% 100%",
+      "caption": "128 × 128 · 4 × 4m",
+      "material": "wall_gray",
+      "newImage": true,
+      "repeat": "1",
+      "type": "texture"
+    },
+    {
+      "backgroundSize": "33.3333% 33.3333%",
+      "caption": "128 × 128 · 4 × 4m",
+      "material": "wall_gray",
+      "newImage": true,
+      "repeat": "3",
+      "type": "texture"
+    },
+    {
+      "backgroundSize": "100% 100%",
+      "caption": "128 × 128 · 4 × 4m",
+      "material": "walkway_gray",
+      "newImage": true,
+      "repeat": "1",
+      "type": "texture"
+    },
+    {
+      "backgroundSize": "33.3333% 33.3333%",
+      "caption": "128 × 128 · 4 × 4m",
+      "material": "walkway_gray",
+      "newImage": true,
+      "repeat": "3",
+      "type": "texture"
+    },
+    {
+      "backgroundSize": "100% 100%",
+      "caption": "256 × 256 · 8 × 8m",
+      "material": "grass_muted",
+      "newImage": true,
+      "repeat": "1",
+      "type": "texture"
+    },
+    {
+      "backgroundSize": "33.3333% 33.3333%",
+      "caption": "256 × 256 · 8 × 8m",
+      "material": "grass_muted",
+      "newImage": true,
+      "repeat": "3",
+      "type": "texture"
+    },
+    {
+      "cards": 3,
+      "downloads": [
+        "tower_square_intact.png",
+        "tower_square_damaged.png",
+        "tower_square_rubble.png"
+      ],
+      "family": "tower_square",
+      "imageLoaded": true,
+      "state": "intact",
+      "type": "fort"
+    },
+    {
+      "cards": 3,
+      "downloads": [
+        "tower_square_intact.png",
+        "tower_square_damaged.png",
+        "tower_square_rubble.png"
+      ],
+      "family": "tower_square",
+      "imageLoaded": true,
+      "state": "damaged",
+      "type": "fort"
+    },
+    {
+      "cards": 3,
+      "downloads": [
+        "tower_square_intact.png",
+        "tower_square_damaged.png",
+        "tower_square_rubble.png"
+      ],
+      "family": "tower_square",
+      "imageLoaded": true,
+      "state": "rubble",
+      "type": "fort"
+    },
+    {
+      "cards": 3,
+      "downloads": [
+        "battery_low_intact.png",
+        "battery_low_damaged.png",
+        "battery_low_rubble.png"
+      ],
+      "family": "battery_low",
+      "imageLoaded": true,
+      "state": "intact",
+      "type": "fort"
+    },
+    {
+      "cards": 3,
+      "downloads": [
+        "battery_low_intact.png",
+        "battery_low_damaged.png",
+        "battery_low_rubble.png"
+      ],
+      "family": "battery_low",
+      "imageLoaded": true,
+      "state": "damaged",
+      "type": "fort"
+    },
+    {
+      "cards": 3,
+      "downloads": [
+        "battery_low_intact.png",
+        "battery_low_damaged.png",
+        "battery_low_rubble.png"
+      ],
+      "family": "battery_low",
+      "imageLoaded": true,
+      "state": "rubble",
+      "type": "fort"
+    }
+  ],
+  "imagesLoaded": true,
+  "downloadLinkCount": 11,
+  "stages": 5,
+  "smallLightPassed": true,
+  "oldSceneTogglePassed": true,
+  "defaultViewportOverflow": false,
+  "consoleErrors": 0,
+  "unityTested": false,
+  "fileProtocolTested": false
+}

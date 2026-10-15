@@ -1,0 +1,294 @@
+{
+  "task": "T-CX-051",
+  "checks": [
+    {
+      "check": "새 PNG 11종",
+      "passed": true
+    },
+    {
+      "check": "wall_gray 규격·RGBA·해시",
+      "passed": true
+    },
+    {
+      "check": "wall_gray 32px/m",
+      "passed": true
+    },
+    {
+      "check": "walkway_gray 규격·RGBA·해시",
+      "passed": true
+    },
+    {
+      "check": "walkway_gray 32px/m",
+      "passed": true
+    },
+    {
+      "check": "grass_muted 규격·RGBA·해시",
+      "passed": true
+    },
+    {
+      "check": "grass_muted 32px/m",
+      "passed": true
+    },
+    {
+      "check": "tree_broadleaf 규격·RGBA·해시",
+      "passed": true
+    },
+    {
+      "check": "tree_broadleaf 투명 여백·접지",
+      "passed": true
+    },
+    {
+      "check": "tree_conifer 규격·RGBA·해시",
+      "passed": true
+    },
+    {
+      "check": "tree_conifer 투명 여백·접지",
+      "passed": true
+    },
+    {
+      "check": "tower_square_intact 규격·RGBA·해시",
+      "passed": true
+    },
+    {
+      "check": "tower_square_intact 투명 여백·접지",
+      "passed": true
+    },
+    {
+      "check": "battery_low_intact 규격·RGBA·해시",
+      "passed": true
+    },
+    {
+      "check": "battery_low_intact 투명 여백·접지",
+      "passed": true
+    },
+    {
+      "check": "tower_square_damaged 규격·RGBA·해시",
+      "passed": true
+    },
+    {
+      "check": "tower_square_damaged 투명 여백·접지",
+      "passed": true
+    },
+    {
+      "check": "tower_square_rubble 규격·RGBA·해시",
+      "passed": true
+    },
+    {
+      "check": "tower_square_rubble 투명 여백·접지",
+      "passed": true
+    },
+    {
+      "check": "battery_low_damaged 규격·RGBA·해시",
+      "passed": true
+    },
+    {
+      "check": "battery_low_damaged 투명 여백·접지",
+      "passed": true
+    },
+    {
+      "check": "battery_low_rubble 규격·RGBA·해시",
+      "passed": true
+    },
+    {
+      "check": "battery_low_rubble 투명 여백·접지",
+      "passed": true
+    },
+    {
+      "check": "tower_square 세 상태 공통 배율",
+      "passed": true
+    },
+    {
+      "check": "tower_square 잔해 낮음",
+      "passed": true
+    },
+    {
+      "check": "battery_low 세 상태 공통 배율",
+      "passed": true
+    },
+    {
+      "check": "battery_low 잔해 낮음",
+      "passed": true
+    },
+    {
+      "check": "HTML 사본 일치",
+      "passed": true
+    },
+    {
+      "check": "이미지·스크립트 외부 의존 없음",
+      "passed": true
+    },
+    {
+      "check": "내장 MD 일치",
+      "passed": true
+    },
+    {
+      "check": "내장 PNG 16개",
+      "passed": true
+    },
+    {
+      "check": "에셋 ZIP 손상 없음",
+      "passed": true
+    },
+    {
+      "check": "사용자 타게임 참고 이미지 ZIP 제외",
+      "passed": true
+    },
+    {
+      "check": "ZIP 새 PNG 11개",
+      "passed": true
+    },
+    {
+      "check": "브라우저 이미지/선택/크기/콘솔",
+      "passed": true
+    },
+    {
+      "check": "질감 6조합·포탑 6조합 확인",
+      "passed": true
+    },
+    {
+      "check": "JS 구문",
+      "passed": true
+    }
+  ],
+  "passed": 37,
+  "failed": 0,
+  "browser": {
+    "checks": [
+      {
+        "backgroundSize": "100% 100%",
+        "caption": "128 × 128 · 4 × 4m",
+        "material": "wall_gray",
+        "newImage": true,
+        "repeat": "1",
+        "type": "texture"
+      },
+      {
+        "backgroundSize": "33.3333% 33.3333%",
+        "caption": "128 × 128 · 4 × 4m",
+        "material": "wall_gray",
+        "newImage": true,
+        "repeat": "3",
+        "type": "texture"
+      },
+      {
+        "backgroundSize": "100% 100%",
+        "caption": "128 × 128 · 4 × 4m",
+        "material": "walkway_gray",
+        "newImage": true,
+        "repeat": "1",
+        "type": "texture"
+      },
+      {
+        "backgroundSize": "33.3333% 33.3333%",
+        "caption": "128 × 128 · 4 × 4m",
+        "material": "walkway_gray",
+        "newImage": true,
+        "repeat": "3",
+        "type": "texture"
+      },
+      {
+        "backgroundSize": "100% 100%",
+        "caption": "256 × 256 · 8 × 8m",
+        "material": "grass_muted",
+        "newImage": true,
+        "repeat": "1",
+        "type": "texture"
+      },
+      {
+        "backgroundSize": "33.3333% 33.3333%",
+        "caption": "256 × 256 · 8 × 8m",
+        "material": "grass_muted",
+        "newImage": true,
+        "repeat": "3",
+        "type": "texture"
+      },
+      {
+        "cards": 3,
+        "downloads": [
+          "tower_square_intact.png",
+          "tower_square_damaged.png",
+          "tower_square_rubble.png"
+        ],
+        "family": "tower_square",
+        "imageLoaded": true,
+        "state": "intact",
+        "type": "fort"
+      },
+      {
+        "cards": 3,
+        "downloads": [
+          "tower_square_intact.png",
+          "tower_square_damaged.png",
+          "tower_square_rubble.png"
+        ],
+        "family": "tower_square",
+        "imageLoaded": true,
+        "state": "damaged",
+        "type": "fort"
+      },
+      {
+        "cards": 3,
+        "downloads": [
+          "tower_square_intact.png",
+          "tower_square_damaged.png",
+          "tower_square_rubble.png"
+        ],
+        "family": "tower_square",
+        "imageLoaded": true,
+        "state": "rubble",
+        "type": "fort"
+      },
+      {
+        "cards": 3,
+        "downloads": [
+          "battery_low_intact.png",
+          "battery_low_damaged.png",
+          "battery_low_rubble.png"
+        ],
+        "family": "battery_low",
+        "imageLoaded": true,
+        "state": "intact",
+        "type": "fort"
+      },
+      {
+        "cards": 3,
+        "downloads": [
+          "battery_low_intact.png",
+          "battery_low_damaged.png",
+          "battery_low_rubble.png"
+        ],
+        "family": "battery_low",
+        "imageLoaded": true,
+        "state": "damaged",
+        "type": "fort"
+      },
+      {
+        "cards": 3,
+        "downloads": [
+          "battery_low_intact.png",
+          "battery_low_damaged.png",
+          "battery_low_rubble.png"
+        ],
+        "family": "battery_low",
+        "imageLoaded": true,
+        "state": "rubble",
+        "type": "fort"
+      }
+    ],
+    "imagesLoaded": true,
+    "downloadLinkCount": 11,
+    "stages": 5,
+    "smallLightPassed": true,
+    "oldSceneTogglePassed": true,
+    "defaultViewportOverflow": false,
+    "consoleErrors": 0,
+    "unityTested": false,
+    "fileProtocolTested": false
+  },
+  "limitations": [
+    "완전한 무봉제·Unity·실제 조명 비교 미검증",
+    "file://·4K 열람 미실행",
+    "PNG는 레퍼런스/임시 정적 컷아웃, 3D 메시 없음",
+    "새 노멀맵 없음"
+  ]
+}

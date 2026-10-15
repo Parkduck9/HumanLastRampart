@@ -1,0 +1,39 @@
+{
+  "id": "tower_square_damaged",
+  "label": "사각 포탑 · 파손",
+  "kind": "cutout_reference",
+  "family": "tower_square",
+  "state": "damaged",
+  "file": "tower_square_damaged/sprite.png",
+  "size": [
+    256,
+    384
+  ],
+  "pivotPixelsTopLeft": [
+    128,
+    352
+  ],
+  "pivotUnityNormalized": [
+    0.5,
+    0.08333333333333333
+  ],
+  "sourceSize": [
+    1024,
+    1536
+  ],
+  "sourceCrop": [
+    42,
+    151,
+    981,
+    1491
+  ],
+  "sharedSourceScale": 0.21940298507462686,
+  "packedBodySize": [
+    206,
+    294
+  ],
+  "pixelsPerMeter": null,
+  "normalMapIncluded": false,
+  "sha256": "3e19c79bec23c650860a019e41f543bc3a39d143efd66182aa5dbfabf485aa36",
+  "sourceSha256": "6b0941c243089fdd59630a694fa575a1e0d7c4cb1136c09a969bff0e35e6de27"
+}

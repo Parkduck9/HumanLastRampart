@@ -1,0 +1,39 @@
+{
+  "id": "battery_low_rubble",
+  "label": "낮은 포대 · 잔해",
+  "kind": "cutout_reference",
+  "family": "battery_low",
+  "state": "rubble",
+  "file": "battery_low_rubble/sprite.png",
+  "size": [
+    256,
+    384
+  ],
+  "pivotPixelsTopLeft": [
+    128,
+    352
+  ],
+  "pivotUnityNormalized": [
+    0.5,
+    0.08333333333333333
+  ],
+  "sourceSize": [
+    1024,
+    1536
+  ],
+  "sourceCrop": [
+    20,
+    764,
+    1004,
+    1314
+  ],
+  "sharedSourceScale": 0.22764227642276422,
+  "packedBodySize": [
+    224,
+    125
+  ],
+  "pixelsPerMeter": null,
+  "normalMapIncluded": false,
+  "sha256": "82d22994a6c7989901290b09a42146276c4d44a3658108ea77969697a9a120f7",
+  "sourceSha256": "a16dbac8445cd3ac5c6bb4836a334ef6c9054b1cc94de1e972f72c9be0f0511c"
+}

@@ -1,0 +1,39 @@
+{
+  "id": "tree_conifer",
+  "label": "짙은 침엽수",
+  "kind": "cutout_reference",
+  "family": null,
+  "state": null,
+  "file": "tree_conifer/sprite.png",
+  "size": [
+    256,
+    384
+  ],
+  "pivotPixelsTopLeft": [
+    128,
+    352
+  ],
+  "pivotUnityNormalized": [
+    0.5,
+    0.08333333333333333
+  ],
+  "sourceSize": [
+    1024,
+    1536
+  ],
+  "sourceCrop": [
+    63,
+    15,
+    970,
+    1511
+  ],
+  "sharedSourceScale": 0.20053475935828877,
+  "packedBodySize": [
+    182,
+    300
+  ],
+  "pixelsPerMeter": null,
+  "normalMapIncluded": false,
+  "sha256": "8899358ee080630b4aec468a922aa8ba0e2fbfc87674f7a641ba3c7c5b52bf13",
+  "sourceSha256": "e2ed6e861a855948351ff8eee2f58b8e8a0ff7edd9589bdb2a8140f9468de51e"
+}
