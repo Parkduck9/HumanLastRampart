@@ -124,7 +124,7 @@ namespace HumanLastRampart.Combat.Battle
             return null;
         }
 
-        // 주인공 그리기 (P3-C02 준비): 카메라가 따라가는 자리에 서고, 서 있으면 뒷모습·A/D 옆모습 걷기·Q/E 옆모습 달리기
+        // 주인공 그리기 (P3-C02 준비): 카메라가 따라가는 자리에 서고, 서 있으면 뒷모습·A/D 옆모습 달리기
         const float HeroWalkFps = 6f;    // 시트 기본 (M-CX-045)
         const float HeroRunFps = 8f;     // 달리기 행 (M-CX-048 시트 JSON runFps)
 

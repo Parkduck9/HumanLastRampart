@@ -6,7 +6,8 @@ namespace HumanLastRampart.Combat.Battle
     // 1번 화면 카메라와 주인공 이동 (D-025·D-040·D-046, D-061 옥토패스식 이동·카메라)
     // - A/D(←/→): 성벽을 따라 늘 달린다. 끝까지 가면 모서리를 돌아 옆 성벽으로 이어서 간다 (카메라는 부드럽게 돈다)
     // - W/S(↑/↓): 성벽 통로 안에서 바깥쪽/안쪽으로 걷는다 (뒷모습/앞모습)
-    // - Q/E: 왼쪽/오른쪽 성벽 가운데까지 자동 달리기, Tab 전체 보기, C 카메라 방식 바꾸기
+    // - Tab 전체 보기, C 카메라 방식 바꾸기
+    // - Q/E 자동 달리기 키는 없앴다 (D-069 사용자 지시: A/D 누르고 있는 동안만 달리기, 모서리 돌기는 그대로)
     // 기본은 자동: 멈춰 있으면 A(가깝게), 움직이면 B(조금 넓게)로 부드럽게 바뀐다
     public sealed class BattleCameraRig
     {
@@ -47,7 +48,7 @@ namespace HumanLastRampart.Combat.Battle
         public Vector3 HeroFeet => FeetAt(Side, along, inset);
         public float Inset => inset;
 
-        // Q/E: 옆 성벽 가운데까지 자동으로 달린다 (D-046). A/D를 누르면 멈춘다
+        // 옆 성벽 가운데까지 자동으로 달린다 (D-046). 키 연결은 D-069로 없앴고 시험 도구만 부른다. A/D를 누르면 멈춘다
         int runDir;
         bool runTurned;
         public bool AutoRunning => runDir != 0;
@@ -114,8 +115,6 @@ namespace HumanLastRampart.Combat.Battle
             {
                 if (keyboard.tabKey.wasPressedThisFrame) overview = !overview;
                 if (keyboard.cKey.wasPressedThisFrame) PresetIndex = PresetIndex + 1 >= Presets.Length ? -1 : PresetIndex + 1;
-                if (keyboard.qKey.wasPressedThisFrame) RunToNextWall(-1);
-                if (keyboard.eKey.wasPressedThisFrame) RunToNextWall(1);
                 if (keyboard.aKey.isPressed || keyboard.leftArrowKey.isPressed) pan -= 1f;
                 if (keyboard.dKey.isPressed || keyboard.rightArrowKey.isPressed) pan += 1f;
                 if (keyboard.wKey.isPressed || keyboard.upArrowKey.isPressed) depth += 1f;
