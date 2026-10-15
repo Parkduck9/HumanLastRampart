@@ -113,6 +113,48 @@ public sealed class SimProbe
     }
 
     static float ReinforceShare;   // 0 = 옮기지 않음
+    static bool MeasureFrames;     // 전투마다 계산 시간 기록
+
+    // 성능 (밤사이 계획 6): 병력 이동·각도 규칙 뒤 전투 계산 한 프레임 시간. 각도 규칙 켬/끔 비교, 정면으로 1/3 옮기는 플레이
+    [Test]
+    public void FrameCost()
+    {
+        var catalogs = new List<DefinitionCatalog>();
+        foreach (string guid in AssetDatabase.FindAssets("t:DefinitionCatalog"))
+            catalogs.Add(AssetDatabase.LoadAssetAtPath<DefinitionCatalog>(AssetDatabase.GUIDToAssetPath(guid)));
+        DefinitionLookup lookup = DefinitionLookup.Build(catalogs);
+        var rules = lookup.All<BattleRulesDef>()[0];
+        var perKillField = typeof(BattleRulesDef).GetField("corpseHeightPerKill", F);
+        var atkField = typeof(EnemyDef).GetField("onWallAttack", F);
+        var enemies = lookup.All<EnemyDef>();
+        object perKill0 = perKillField.GetValue(rules);
+        int[] atk0 = enemies.Select(e => (int)atkField.GetValue(e)).ToArray();
+        bool arc0 = HumanLastRampart.Combat.Battle.BattleSim.FrontArcOnly;
+        var log = new StringBuilder();
+        try
+        {
+            perKillField.SetValue(rules, 0.1f);
+            for (int i = 0; i < enemies.Count; i++) atkField.SetValue(enemies[i], atk0[i] * 5);
+            MeasureFrames = true;
+            ReinforceShare = 0.34f;
+            foreach (bool arc in new[] { true, false })
+            {
+                HumanLastRampart.Combat.Battle.BattleSim.FrontArcOnly = arc;
+                log.AppendLine($"== 현실 · 앞만 쏘기 {(arc ? "켬" : "끔")} · 정면으로 1/3");
+                RunCampaign(lookup, Difficulty.Realistic, "4차 10HP=1골드 수리+남은 골드 전부 궁수", log);
+            }
+        }
+        finally
+        {
+            MeasureFrames = false;
+            ReinforceShare = 0f;
+            HumanLastRampart.Combat.Battle.BattleSim.FrontArcOnly = arc0;
+            perKillField.SetValue(rules, perKill0);
+            for (int i = 0; i < enemies.Count; i++) atkField.SetValue(enemies[i], atk0[i]);
+        }
+
+        File.WriteAllText(Environment.GetEnvironmentVariable("HLR_PROBE_OUT") ?? "probe.txt", log.ToString(), new UTF8Encoding(false));
+    }
 
     static void Reinforce(HumanLastRampart.Combat.Battle.BattleSim sim, float share, StringBuilder log)
     {
@@ -244,13 +286,23 @@ public sealed class SimProbe
             {
                 // 전투 준비(D-071·072) 플레이어 흉내: 옆·뒤 성벽 묶음 중 이 비율을 정면(북)으로 옮긴다
                 if (ReinforceShare > 0f) Reinforce(sim, ReinforceShare, log);
+                var frameWatch = new System.Diagnostics.Stopwatch();   // 성능 측정: 전투 계산 한 프레임(0.05초) 걸린 시간
+                double frameTotal = 0, frameMax = 0;
+                int frames = 0;
                 while (!sim.Ended && sim.Elapsed < 1500f)
                 {
+                    frameWatch.Restart();
                     sim.BeginFrame(0.05f);
                     if (sim.Ended) break;
                     sim.Schedule(0.05f, sim.Elapsed);
                     sim.Complete();
+                    double ms = frameWatch.Elapsed.TotalMilliseconds;
+                    frameTotal += ms;
+                    frameMax = Math.Max(frameMax, ms);
+                    frames++;
                 }
+
+                if (MeasureFrames) log.Append($"    (계산 평균 {frameTotal / Math.Max(1, frames):0.00}ms·최대 {frameMax:0.0}ms, 병사 {sim.SoldierCount}) ");
                 if (!sim.Ended) { log.AppendLine($"  전투{battle}: 시간초과 처치 {sim.Kills}/{sim.TotalEnemies}"); return; }
                 r = sim.BuildResult();
                 elapsed = sim.Elapsed;
