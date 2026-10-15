@@ -60,6 +60,7 @@ namespace HumanLastRampart.Combat.Battle
                 foreach (Text label in groupLabels) label.gameObject.SetActive(false);
                 foreach (Text marker in groupMarkers) marker.gameObject.SetActive(false);
                 foreach (Text c in compass) if (c != null) c.gameObject.SetActive(false);
+                if (heroMarker != null) heroMarker.gameObject.SetActive(false);
                 if (groupPopup != null) groupPopup.SetActive(false);
             }
             if (open)
@@ -335,6 +336,28 @@ namespace HumanLastRampart.Combat.Battle
 
             for (int i = used; i < groupMarkers.Count; i++) groupMarkers[i].gameObject.SetActive(false);
             ShowGroupPopup(sim, selected, dragScreen.HasValue);
+        }
+
+        // 주인공 위치 (밤사이 계획 4): 지도에서 어느 성벽 명령이 바로 가고 어느 쪽이 전령인지 알 수 있게
+        Text heroMarker;
+
+        public void RefreshHeroMarker(Camera camera, Vector3 heroFeet, int heroSide, bool preparing)
+        {
+            if (heroMarker == null)
+            {
+                heroMarker = NewText(root.transform, "Hero Marker", 18, TextAnchor.MiddleCenter);
+                heroMarker.rectTransform.sizeDelta = new Vector2(220f, 26f);
+                heroMarker.color = HudStyle.Brass;
+                var outline = heroMarker.gameObject.AddComponent<Outline>();
+                outline.effectColor = new Color(0f, 0f, 0f, 0.9f);
+            }
+
+            Vector3 screen = camera.WorldToScreenPoint(heroFeet);
+            heroMarker.rectTransform.anchorMin = heroMarker.rectTransform.anchorMax = new Vector2(screen.x / Mathf.Max(1, Screen.width), screen.y / Mathf.Max(1, Screen.height));
+            heroMarker.rectTransform.anchoredPosition = new Vector2(0f, 18f);
+            // 준비 중에는 모든 성벽이 바로라 '바로 전달' 안내를 빼고 위치만
+            heroMarker.text = preparing ? "◆ 주인공" : $"◆ 주인공 ({SideShort[heroSide]}쪽만 바로, 다른 성벽은 전령)";
+            heroMarker.gameObject.SetActive(mapMode);
         }
 
         // 동서남북 표시 (D-073): 성벽 바깥 14m에 큰 글자 — 지도를 옮기거나 넓혀도 어느 쪽인지 바로 보이게

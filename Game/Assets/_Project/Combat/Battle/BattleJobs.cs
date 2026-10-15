@@ -388,6 +388,7 @@ namespace HumanLastRampart.Combat.Battle
         public uint FrameSeed;
         public float IntervalMultiplier;      // 비: 공격 간격 길어짐 (공격 속도 −20%, D-028 C4)
         public float FarAccuracyMultiplier;   // 안개·밤: 먼 거리 명중 감소 (Battle.md 6.4)
+        public byte FrontArc;                 // 1 = 자기 성벽 앞 90도·각도 순위(D-073). 0 = 예전처럼 둘레 전부 (측정 비교용)
 
         // TargetPriority 순서 (Core.Campaign.TargetPriority와 같게)
         const byte LowestHpRatio = 0, HighestHpRatio = 1, Nearest = 2, ClimbingFirst = 3, SpecialFirst = 4, DensestArea = 5;
@@ -461,12 +462,15 @@ namespace HumanLastRampart.Combat.Battle
                         float flat = math.sqrt(math.max(distSq, 0.0001f));
                         float cosine = (d.x * wallOut.x + d.z * wallOut.z) / flat;
                         bool onWall = state == EnemyState.OnWall;
-                        if (cosine <= (onWall ? -0.2f : 0f))
+                        if (FrontArc != 0 && cosine <= (onWall ? -0.2f : 0f))
                         {
                             continue;
                         }
 
-                        int band = cosine >= Cos30 ? 0 : cosine >= Cos60 ? 1 : 2;
+                        // 성벽 앞에 붙은 적·오르는 적은 바로 발밑이라 옆으로 몇 m만 비켜도 60~90도가 된다 —
+                        // 각도 띠로 미루면 멀리 정면만 쏘다 성벽을 내준다(측정: 쉬움 4·현실 3 패배). 성벽 앞(90도 안)이면 1순위 띠
+                        bool atWall = state == EnemyState.AtWall || state == EnemyState.Climbing;
+                        int band = FrontArc == 0 || atWall || cosine >= Cos30 ? 0 : cosine >= Cos60 ? 1 : 2;
                         float ratio = (float)remaining / math.max(1, EnemyMaxHp[e]);
                         // 순위: 성벽 위 적(0) → 각도 띠마다 [명령이 고른 적, 나머지] (1 + 띠×2 + 0/1)
                         int favored = 1;

@@ -422,6 +422,7 @@ namespace HumanLastRampart.Combat.Battle
 
                 hud?.RefreshGroupLabels(sim, battleCamera);
                 hud?.RefreshCompass(battleCamera, sim.CastleHalf);
+                if (rig != null) hud?.RefreshHeroMarker(battleCamera, rig.HeroFeet, rig.Side, preparing);
                 Mouse dragMouse = Mouse.current;
                 hud?.RefreshGroupMarkers(sim, battleCamera, selectedGroup, dragging && dragMouse != null ? dragMouse.position.ReadValue() : (Vector2?)null);
                 hud?.RefreshCannons(sim, cannonSide, selectedCannon);

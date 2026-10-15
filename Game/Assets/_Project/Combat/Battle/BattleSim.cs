@@ -24,6 +24,7 @@ namespace HumanLastRampart.Combat.Battle
         public const float WallFigureScale = 0.25f;
         const float EnemyWallScale = 0.33f;
         // D-065 깔때기: 성벽 앞 반폭(성벽 끝 조금 안쪽) → 들판 끝(반폭 FunnelFieldHalfWidth)까지 넓어진다
+        public static bool FrontArcOnly = true;   // D-073 자기 성벽 앞만 쏘기 (측정에서 끄고 비교)
         public static float FunnelFieldHalfWidth = 75f;    // D-071 들판 160m에 맞춰 반으로 (예전 320m에서 150m)   // 측정용으로 바꿀 수 있게 static
         float FunnelBase => CastleHalf * 0.95f;
         float FunnelSlope => Mathf.Max(0f, (FunnelFieldHalfWidth - FunnelBase) / Mathf.Max(1f, FieldSize - CastleHalf));               // 성벽 가까이에서 적 크기 비율 — 고블린 0.4m(병사 0.35m와 비슷), 오우거 0.66m
@@ -107,6 +108,7 @@ namespace HumanLastRampart.Combat.Battle
         readonly BattleSetup setup;
         readonly List<(EnemyDef def, int start, int count)> enemyGroups = new List<(EnemyDef, int, int)>();
         readonly List<SquadInfo> squads = new List<SquadInfo>();
+        readonly bool[] garrisonWarned = new bool[4];
         readonly SpawnEntry[] spawnOrder;
         readonly float[] wallHp = new float[4];
         readonly float[] garrisonDamage = new float[4];
@@ -724,6 +726,14 @@ namespace HumanLastRampart.Combat.Battle
                     End(BattleOutcome.Defeat, DefeatReason.GarrisonLost, side);
                     return;
                 }
+
+                // 패배 선(70% 손실)의 절반 넘게 잃으면 한 번 경고 — 지도에서 묶음을 옮겨 보강할 수 있게 (밤사이 계획 5, D-072)
+                if (!garrisonWarned[side] && status.GarrisonStart > 0
+                    && status.GarrisonStart - status.GarrisonAlive >= status.GarrisonStart * garrisonLossRatio * 0.6f)
+                {
+                    garrisonWarned[side] = true;
+                    Notice?.Invoke($"위험: {SideNames[side]} 병력이 {status.GarrisonAlive}/{status.GarrisonStart}명 — 다른 성벽 묶음을 보내 보강하세요");
+                }
             }
 
             // 승리: 모든 웨이브를 처치 (Battle.md B2)
@@ -826,6 +836,7 @@ namespace HumanLastRampart.Combat.Battle
                 FrameSeed = seed ^ (frameNumber * 2654435761u),
                 IntervalMultiplier = IntervalMultiplier,
                 FarAccuracyMultiplier = FarAccuracyMultiplier,
+                FrontArc = (byte)(FrontArcOnly ? 1 : 0),
             }.Schedule(soldierCount, 64, JobHandle.CombineDependencies(h, tallyJob));
 
             h = new AllocateShotsJob

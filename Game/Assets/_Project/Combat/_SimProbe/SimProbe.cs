@@ -61,6 +61,171 @@ public sealed class SimProbe
         File.WriteAllText(Environment.GetEnvironmentVariable("HLR_PROBE_OUT") ?? "probe.txt", log.ToString(), new UTF8Encoding(false));
     }
 
+    // D-073 뒤 난이도 다시 맞추기: 적 수 배율 후보마다 쉬움·현실 4전투 한 바퀴 (목표: 쉬움 1~4 승리, 현실 1~3 승리·4 패배)
+    [Test]
+    public void MultiplierSweep()
+    {
+        var catalogs = new List<DefinitionCatalog>();
+        foreach (string guid in AssetDatabase.FindAssets("t:DefinitionCatalog"))
+            catalogs.Add(AssetDatabase.LoadAssetAtPath<DefinitionCatalog>(AssetDatabase.GUIDToAssetPath(guid)));
+        DefinitionLookup lookup = DefinitionLookup.Build(catalogs);
+        var rules = lookup.All<BattleRulesDef>()[0];
+        var easyField = typeof(BattleRulesDef).GetField("easyEnemyMultiplier", F);
+        var easyByField = typeof(BattleRulesDef).GetField("easyEnemyMultiplierByBattle", F);
+        var realByField = typeof(BattleRulesDef).GetField("realisticEnemyMultiplierByBattle", F);
+        var perKillField = typeof(BattleRulesDef).GetField("corpseHeightPerKill", F);
+        var atkField = typeof(EnemyDef).GetField("onWallAttack", F);
+        var enemies = lookup.All<EnemyDef>();
+        object easy0 = easyField.GetValue(rules), easyBy0 = easyByField.GetValue(rules), realBy0 = realByField.GetValue(rules), perKill0 = perKillField.GetValue(rules);
+        int[] atk0 = enemies.Select(e => (int)atkField.GetValue(e)).ToArray();
+        var log = new StringBuilder();
+        const string economy = "4차 10HP=1골드 수리+남은 골드 전부 궁수";
+        try
+        {
+            // CampaignBalance와 같은 조건(더미 0.1m·성벽 위 공격 5배)
+            perKillField.SetValue(rules, 0.1f);
+            for (int i = 0; i < enemies.Count; i++) atkField.SetValue(enemies[i], atk0[i] * 5);
+            foreach (float easy in new[] { 0.75f, 0.6f, 0.5f })
+            {
+                easyField.SetValue(rules, easy);
+                easyByField.SetValue(rules, new[] { 0f, 0f, 0f, easy * 0.8f });
+                log.AppendLine($"== 쉬움 배율 {easy} (4번 {easy * 0.8f})");
+                RunCampaign(lookup, Difficulty.Easy, economy, log);
+            }
+
+            foreach (float real in new[] { 1.5f, 1.2f, 1.0f })
+            {
+                realByField.SetValue(rules, new[] { real, real, real, real });
+                log.AppendLine($"== 현실 배율 {real}");
+                RunCampaign(lookup, Difficulty.Realistic, economy, log);
+            }
+        }
+        finally
+        {
+            easyField.SetValue(rules, easy0);
+            easyByField.SetValue(rules, easyBy0);
+            realByField.SetValue(rules, realBy0);
+            perKillField.SetValue(rules, perKill0);
+            for (int i = 0; i < enemies.Count; i++) atkField.SetValue(enemies[i], atk0[i]);
+        }
+
+        File.WriteAllText(Environment.GetEnvironmentVariable("HLR_PROBE_OUT") ?? "probe.txt", log.ToString(), new UTF8Encoding(false));
+    }
+
+    static float ReinforceShare;   // 0 = 옮기지 않음
+
+    static void Reinforce(HumanLastRampart.Combat.Battle.BattleSim sim, float share, StringBuilder log)
+    {
+        int moved = 0;
+        for (int side = 1; side < 4; side++)
+        {
+            var groups = new List<int>();
+            for (int g = 0; g < sim.GroupCount; g++)
+            {
+                var info = sim.GetGroup(g);
+                if (info.Movable && info.Side == side && info.Alive > 0) groups.Add(g);
+            }
+
+            int take = Mathf.FloorToInt(groups.Count * share);
+            for (int k = 0; k < take; k++)
+                if (sim.MoveGroup(groups[k], HumanLastRampart.Combat.Battle.BattleSim.FrontSide, true)) moved += sim.GetGroup(groups[k]).Alive;
+        }
+
+        log.Append($"    (준비: 정면으로 {moved}명 옮김) ");
+    }
+
+    // D-073 각도 규칙 + 플레이어가 병력을 정면으로 옮길 때 (옮기는 비율 × 배율)
+    [Test]
+    public void ReinforceSweep()
+    {
+        var catalogs = new List<DefinitionCatalog>();
+        foreach (string guid in AssetDatabase.FindAssets("t:DefinitionCatalog"))
+            catalogs.Add(AssetDatabase.LoadAssetAtPath<DefinitionCatalog>(AssetDatabase.GUIDToAssetPath(guid)));
+        DefinitionLookup lookup = DefinitionLookup.Build(catalogs);
+        var rules = lookup.All<BattleRulesDef>()[0];
+        var perKillField = typeof(BattleRulesDef).GetField("corpseHeightPerKill", F);
+        var atkField = typeof(EnemyDef).GetField("onWallAttack", F);
+        var enemies = lookup.All<EnemyDef>();
+        object perKill0 = perKillField.GetValue(rules);
+        int[] atk0 = enemies.Select(e => (int)atkField.GetValue(e)).ToArray();
+        var log = new StringBuilder();
+        const string economy = "4차 10HP=1골드 수리+남은 골드 전부 궁수";
+        try
+        {
+            perKillField.SetValue(rules, 0.1f);
+            for (int i = 0; i < enemies.Count; i++) atkField.SetValue(enemies[i], atk0[i] * 5);
+            foreach (float share in new[] { 0.34f, 0.5f, 0.67f })
+            {
+                ReinforceShare = share;
+                foreach (Difficulty difficulty in new[] { Difficulty.Easy, Difficulty.Realistic })
+                {
+                    log.AppendLine($"== 옆·뒤 묶음 {share:P0}를 정면으로 · {difficulty}");
+                    RunCampaign(lookup, difficulty, economy, log);
+                }
+            }
+        }
+        finally
+        {
+            ReinforceShare = 0f;
+            perKillField.SetValue(rules, perKill0);
+            for (int i = 0; i < enemies.Count; i++) atkField.SetValue(enemies[i], atk0[i]);
+        }
+
+        File.WriteAllText(Environment.GetEnvironmentVariable("HLR_PROBE_OUT") ?? "probe.txt", log.ToString(), new UTF8Encoding(false));
+    }
+
+    // 원인 가르기: 들판(160/320m) × 자기 성벽 앞만 쏘기(켬/끔), 지금 배율 그대로 쉬움·현실 한 바퀴
+    [Test]
+    public void CauseSweep()
+    {
+        var catalogs = new List<DefinitionCatalog>();
+        foreach (string guid in AssetDatabase.FindAssets("t:DefinitionCatalog"))
+            catalogs.Add(AssetDatabase.LoadAssetAtPath<DefinitionCatalog>(AssetDatabase.GUIDToAssetPath(guid)));
+        DefinitionLookup lookup = DefinitionLookup.Build(catalogs);
+        var rules = lookup.All<BattleRulesDef>()[0];
+        var perKillField = typeof(BattleRulesDef).GetField("corpseHeightPerKill", F);
+        var atkField = typeof(EnemyDef).GetField("onWallAttack", F);
+        var fieldField = typeof(TerrainDef).GetField("fieldSize", F);
+        var enemies = lookup.All<EnemyDef>();
+        var terrains = lookup.All<TerrainDef>();
+        object perKill0 = perKillField.GetValue(rules);
+        int[] atk0 = enemies.Select(e => (int)atkField.GetValue(e)).ToArray();
+        float[] field0 = terrains.Select(t => (float)fieldField.GetValue(t)).ToArray();
+        float funnel0 = HumanLastRampart.Combat.Battle.BattleSim.FunnelFieldHalfWidth;
+        bool arc0 = HumanLastRampart.Combat.Battle.BattleSim.FrontArcOnly;
+        var log = new StringBuilder();
+        const string economy = "4차 10HP=1골드 수리+남은 골드 전부 궁수";
+        try
+        {
+            perKillField.SetValue(rules, 0.1f);
+            for (int i = 0; i < enemies.Count; i++) atkField.SetValue(enemies[i], atk0[i] * 5);
+            foreach (float field in new[] { 160f, 320f })
+            {
+                foreach (TerrainDef t in terrains) fieldField.SetValue(t, field);
+                HumanLastRampart.Combat.Battle.BattleSim.FunnelFieldHalfWidth = field * 75f / 160f;
+                foreach (bool arc in new[] { true, false })
+                {
+                    HumanLastRampart.Combat.Battle.BattleSim.FrontArcOnly = arc;
+                    foreach (Difficulty difficulty in new[] { Difficulty.Easy, Difficulty.Realistic })
+                    {
+                        log.AppendLine($"== 들판 {field}m · 앞만 쏘기 {(arc ? "켬" : "끔")} · {difficulty}");
+                        RunCampaign(lookup, difficulty, economy, log);
+                    }
+                }
+            }
+        }
+        finally
+        {
+            perKillField.SetValue(rules, perKill0);
+            for (int i = 0; i < enemies.Count; i++) atkField.SetValue(enemies[i], atk0[i]);
+            for (int i = 0; i < terrains.Count; i++) fieldField.SetValue(terrains[i], field0[i]);
+            HumanLastRampart.Combat.Battle.BattleSim.FunnelFieldHalfWidth = funnel0;
+            HumanLastRampart.Combat.Battle.BattleSim.FrontArcOnly = arc0;
+        }
+
+        File.WriteAllText(Environment.GetEnvironmentVariable("HLR_PROBE_OUT") ?? "probe.txt", log.ToString(), new UTF8Encoding(false));
+    }
+
     static void RunCampaign(DefinitionLookup lookup, Difficulty difficulty, string economy, StringBuilder log)
     {
         CampaignState c = CampaignFactory.Create(lookup, new NewGameOptions(difficulty), 1234);
@@ -77,6 +242,8 @@ public sealed class SimProbe
             float elapsed;
             using (var sim = new BattleSim(setup, lookup))
             {
+                // 전투 준비(D-071·072) 플레이어 흉내: 옆·뒤 성벽 묶음 중 이 비율을 정면(북)으로 옮긴다
+                if (ReinforceShare > 0f) Reinforce(sim, ReinforceShare, log);
                 while (!sim.Ended && sim.Elapsed < 1500f)
                 {
                     sim.BeginFrame(0.05f);
@@ -310,10 +477,10 @@ public sealed class SimProbe
                     {
                         arrivals++;
                         movingSince = -1f;
-                        if (sim.Effects.Count <= lastEffects && !sim.Ended) Problem(sim, "마법사 도착했는데 마법 효과가 안 생김");
+                        if (sim.EffectsStarted <= lastEffects && !sim.Ended) Problem(sim, "마법사 도착했는데 마법 효과가 안 생김");   // 시작 수로 (활성 수는 같은 순간 끝난 효과 때문에 그대로일 수 있음)
                     }
                 }
-                lastEffects = sim.Effects.Count;
+                lastEffects = sim.EffectsStarted;
                 if (sim.Effects.Count > 20) Problem(sim, $"마법 효과가 {sim.Effects.Count}개 쌓임");
                 for (int side = 0; side < 4; side++)
                 {

@@ -123,6 +123,9 @@ namespace HumanLastRampart.Combat.Battle
             return true;
         }
 
+        // 지금까지 시작된 마법 효과 수 (줄지 않음) — 같은 순간 다른 효과가 끝나도 시험이 '새 효과'를 셀 수 있게
+        public int EffectsStarted { get; private set; }
+
         void StartSpellEffect(int index, Vector3 at)
         {
             SpellDef spell = spells[index];
@@ -130,6 +133,7 @@ namespace HumanLastRampart.Combat.Battle
             {
                 bool fire = spell.Duration > 0f;
                 effects.Add(new SpellEffect { Fire = fire, Pending = !fire, Position = at, Radius = spell.Radius, TimeLeft = fire ? spell.Duration : ExplosionDelay });
+                EffectsStarted++;
                 fireTick.Add(0f);
                 effectDamage.Add(spell.Damage);
             });
