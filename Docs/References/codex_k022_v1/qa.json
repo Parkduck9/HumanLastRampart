@@ -1,0 +1,201 @@
+﻿{
+    "checks":  [
+                   {
+                       "name":  "goblin_fall4 1024×384",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "goblin_fall4 1번 실체·가장자리 여백",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "goblin_fall4 2번 실체·가장자리 여백",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "goblin_fall4 3번 실체·가장자리 여백",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "goblin_fall4 4번 실체·가장자리 여백",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "goblin_fall4 서로 다른 4칸",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "goblin_fall4 투명 배경",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "goblin_fall4 기록 해시",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "ogre_attack4 1024×384",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "ogre_attack4 1번 실체·가장자리 여백",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "ogre_attack4 2번 실체·가장자리 여백",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "ogre_attack4 3번 실체·가장자리 여백",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "ogre_attack4 4번 실체·가장자리 여백",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "ogre_attack4 서로 다른 4칸",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "ogre_attack4 투명 배경",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "ogre_attack4 기록 해시",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "ogre_fall4 1024×384",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "ogre_fall4 1번 실체·가장자리 여백",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "ogre_fall4 2번 실체·가장자리 여백",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "ogre_fall4 3번 실체·가장자리 여백",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "ogre_fall4 4번 실체·가장자리 여백",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "ogre_fall4 서로 다른 4칸",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "ogre_fall4 투명 배경",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "ogre_fall4 기록 해시",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "goblin 노멀 크기",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "goblin 투명 영역 평면 노멀",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "goblin 단위벡터 오차 0.012 이하",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "goblin 노멀 해시",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "ogre 노멀 크기",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "ogre 투명 영역 평면 노멀",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "ogre 단위벡터 오차 0.012 이하",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "ogre 노멀 해시",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "ladder_goblin 노멀 크기",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "ladder_goblin 투명 영역 평면 노멀",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "ladder_goblin 단위벡터 오차 0.012 이하",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "ladder_goblin 노멀 해시",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "K-017 carry_run4 바이트 동일",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "K-017 deploy4 바이트 동일",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "K-017 climb4 바이트 동일",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "K-017 ladder_front 바이트 동일",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "K-017 ladder_side 바이트 동일",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "HTML 데이터 치환 완료",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "HTML 외부 리소스 없음",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "HTML PNG 14종 내장",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "검토 HTML과 자료 사본 동일",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Game 594개 파일 해시와 파일 수 유지",
+                       "passed":  true
+                   }
+               ],
+    "gameFiles":  594,
+    "passed":  46,
+    "gitWrites":  "없음",
+    "browser":  "미수행: CUA 브라우저 목록이 비어 있음",
+    "card":  "K-022",
+    "limits":  [
+                   "HTML 상호작용 실제 브라우저 미검증",
+                   "게임 타격점과 발 위치 미검증",
+                   "노멀 내부 대응 근사"
+               ],
+    "unity":  "미실행",
+    "failed":  0,
+    "visual":  "생성 원안 6장과 최종 동작·노멀 6장을 직접 열어 확인"
+}
