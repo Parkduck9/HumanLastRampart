@@ -1,0 +1,317 @@
+﻿{
+    "pivotTopLeft":  [
+                         128,
+                         352
+                     ],
+    "unityPivot":  [
+                       0.5,
+                       0.0833333333
+                   ],
+    "card":  "K-022",
+    "assets":  [
+                   {
+                       "scale":  0.44444444444444442,
+                       "file":  "assets/goblin_fall4.png",
+                       "cells":  [
+                                     {
+                                         "destination":  [
+                                                             16,
+                                                             141,
+                                                             224,
+                                                             211
+                                                         ],
+                                         "source":  [
+                                                        36,
+                                                        147,
+                                                        504,
+                                                        474
+                                                    ],
+                                         "frame":  1
+                                     },
+                                     {
+                                         "destination":  [
+                                                             25,
+                                                             174,
+                                                             206,
+                                                             178
+                                                         ],
+                                         "source":  [
+                                                        540,
+                                                        220,
+                                                        464,
+                                                        401
+                                                    ],
+                                         "frame":  2
+                                     },
+                                     {
+                                         "destination":  [
+                                                             20,
+                                                             223,
+                                                             215,
+                                                             129
+                                                         ],
+                                         "source":  [
+                                                        1020,
+                                                        330,
+                                                        484,
+                                                        291
+                                                    ],
+                                         "frame":  3
+                                     },
+                                     {
+                                         "destination":  [
+                                                             28,
+                                                             250,
+                                                             200,
+                                                             102
+                                                         ],
+                                         "source":  [
+                                                        1563,
+                                                        401,
+                                                        450,
+                                                        229
+                                                    ],
+                                         "frame":  4
+                                     }
+                                 ],
+                       "frames":  4,
+                       "name":  "goblin_fall4",
+                       "loop":  false,
+                       "size":  [
+                                    1024,
+                                    384
+                                ],
+                       "sha256":  "1D6975CA6774DC412B686262A4B7AFAF0B057326840BEE2FC45F3AB204E133BA"
+                   },
+                   {
+                       "scale":  0.44444444444444442,
+                       "file":  "assets/ogre_attack4.png",
+                       "cells":  [
+                                     {
+                                         "destination":  [
+                                                             37,
+                                                             153,
+                                                             181,
+                                                             201
+                                                         ],
+                                         "source":  [
+                                                        31,
+                                                        228,
+                                                        408,
+                                                        453
+                                                    ],
+                                         "frame":  1
+                                     },
+                                     {
+                                         "destination":  [
+                                                             40,
+                                                             93,
+                                                             175,
+                                                             261
+                                                         ],
+                                         "source":  [
+                                                        609,
+                                                        93,
+                                                        393,
+                                                        588
+                                                    ],
+                                         "frame":  2
+                                     },
+                                     {
+                                         "destination":  [
+                                                             40,
+                                                             176,
+                                                             175,
+                                                             204
+                                                         ],
+                                         "source":  [
+                                                        1109,
+                                                        280,
+                                                        394,
+                                                        459
+                                                    ],
+                                         "frame":  3
+                                     },
+                                     {
+                                         "destination":  [
+                                                             35,
+                                                             153,
+                                                             185,
+                                                             201
+                                                         ],
+                                         "source":  [
+                                                        1573,
+                                                        228,
+                                                        417,
+                                                        453
+                                                    ],
+                                         "frame":  4
+                                     }
+                                 ],
+                       "frames":  4,
+                       "name":  "ogre_attack4",
+                       "loop":  true,
+                       "size":  [
+                                    1024,
+                                    384
+                                ],
+                       "sha256":  "D9671BCB22509579BDD060E262CD5FE8ED87B4F9948D0D0EA71EFA0961D33E7C"
+                   },
+                   {
+                       "scale":  0.44889779559118237,
+                       "file":  "assets/ogre_fall4.png",
+                       "cells":  [
+                                     {
+                                         "destination":  [
+                                                             20,
+                                                             165,
+                                                             215,
+                                                             187
+                                                         ],
+                                         "source":  [
+                                                        52,
+                                                        229,
+                                                        478,
+                                                        417
+                                                    ],
+                                         "frame":  1
+                                     },
+                                     {
+                                         "destination":  [
+                                                             28,
+                                                             181,
+                                                             199,
+                                                             171
+                                                         ],
+                                         "source":  [
+                                                        530,
+                                                        270,
+                                                        444,
+                                                        380
+                                                    ],
+                                         "frame":  2
+                                     },
+                                     {
+                                         "destination":  [
+                                                             16,
+                                                             196,
+                                                             224,
+                                                             156
+                                                         ],
+                                         "source":  [
+                                                        1024,
+                                                        327,
+                                                        499,
+                                                        347
+                                                    ],
+                                         "frame":  3
+                                     },
+                                     {
+                                         "destination":  [
+                                                             22,
+                                                             220,
+                                                             212,
+                                                             132
+                                                         ],
+                                         "source":  [
+                                                        1550,
+                                                        383,
+                                                        473,
+                                                        295
+                                                    ],
+                                         "frame":  4
+                                     }
+                                 ],
+                       "frames":  4,
+                       "name":  "ogre_fall4",
+                       "loop":  false,
+                       "size":  [
+                                    1024,
+                                    384
+                                ],
+                       "sha256":  "6C06484C8D54F61F4AFBF48E7B94252BCED2EBC8BA41F28B83052E116D056A12"
+                   }
+               ],
+    "normals":  [
+                    {
+                        "albedoBounds":  [
+                                             27,
+                                             112,
+                                             184,
+                                             240
+                                         ],
+                        "flatPixels":  73405,
+                        "size":  [
+                                     256,
+                                     384
+                                 ],
+                        "normalSourceBounds":  [
+                                                   109,
+                                                   456,
+                                                   747,
+                                                   970
+                                               ],
+                        "strength":  0.55,
+                        "maxUnitVectorError":  0.0064645708475408181,
+                        "name":  "goblin",
+                        "albedo":  "references/goblin_albedo.png",
+                        "sha256":  "07E83735385CF93BA6D7E76E28724A3C9C5A008304B7C96AD54ADE25CB08D34E",
+                        "file":  "assets/goblin_normal.png"
+                    },
+                    {
+                        "albedoBounds":  [
+                                             16,
+                                             179,
+                                             181,
+                                             173
+                                         ],
+                        "flatPixels":  79508,
+                        "size":  [
+                                     256,
+                                     384
+                                 ],
+                        "normalSourceBounds":  [
+                                                   71,
+                                                   738,
+                                                   730,
+                                                   696
+                                               ],
+                        "strength":  0.55,
+                        "maxUnitVectorError":  0.0060312599436790348,
+                        "name":  "ogre",
+                        "albedo":  "references/ogre_albedo.png",
+                        "sha256":  "097CA1EF413F07DC319E4BA22A50B6326E45BDD1A3E1B0331B6543A62FD4DF50",
+                        "file":  "assets/ogre_normal.png"
+                    },
+                    {
+                        "albedoBounds":  [
+                                             40,
+                                             92,
+                                             176,
+                                             260
+                                         ],
+                        "flatPixels":  74700,
+                        "size":  [
+                                     256,
+                                     384
+                                 ],
+                        "normalSourceBounds":  [
+                                                   170,
+                                                   377,
+                                                   703,
+                                                   1057
+                                               ],
+                        "strength":  0.55,
+                        "maxUnitVectorError":  0.0064645708475409291,
+                        "name":  "ladder_goblin",
+                        "albedo":  "references/ladder_goblin_albedo.png",
+                        "sha256":  "A5250941749D8915FA90B6C8E7BD3720EB285B5B796DA9CC5C6170E8BE01841C",
+                        "file":  "assets/ladder_goblin_normal.png"
+                    }
+                ],
+    "status":  "시안·사용자 확정 전·게임 미연결",
+    "cell":  [
+                 256,
+                 384
+             ]
+}

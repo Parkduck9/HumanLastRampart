@@ -1,0 +1,61 @@
+{
+  "tool": "image_gen.imagegen",
+  "mode": "built-in",
+  "sources": [
+    {
+      "file": "sources/goblin_fall4.png",
+      "toolOriginalPath": "C:\\Users\\User\\.codex\\generated_images\\01a141b5-1860-7a61-8f13-fe2d7fea5533\\exec-7605d422-6216-4443-a697-1913ed46870b.png"
+    },
+    {
+      "file": "sources/ogre_attack4.png",
+      "toolOriginalPath": "C:\\Users\\User\\.codex\\generated_images\\01a141b5-1860-7a61-8f13-fe2d7fea5533\\exec-6af87a54-9bc9-4eed-9cd7-80ce71ed8afc.png"
+    },
+    {
+      "file": "sources/ogre_fall4.png",
+      "toolOriginalPath": "C:\\Users\\User\\.codex\\generated_images\\01a141b5-1860-7a61-8f13-fe2d7fea5533\\exec-1b045c34-01b6-4f97-b187-196485b14e08.png"
+    },
+    {
+      "file": "sources/goblin_normal.png",
+      "toolOriginalPath": "C:\\Users\\User\\.codex\\generated_images\\01a141b5-1860-7a61-8f13-fe2d7fea5533\\exec-46da510a-70dd-4ae4-bc29-15e3c47bf090.png"
+    },
+    {
+      "file": "sources/ogre_normal.png",
+      "toolOriginalPath": "C:\\Users\\User\\.codex\\generated_images\\01a141b5-1860-7a61-8f13-fe2d7fea5533\\exec-298d1a12-246c-458a-9fc9-72ac055d452f.png"
+    },
+    {
+      "file": "sources/ladder_goblin_normal.png",
+      "toolOriginalPath": "C:\\Users\\User\\.codex\\generated_images\\01a141b5-1860-7a61-8f13-fe2d7fea5533\\exec-8d7511c2-e15a-4a2c-8b03-a9b4109f3201.png"
+    }
+  ],
+  "references": {
+    "goblin_albedo": {
+      "source": "Game/Assets/_Project/Art/Characters/Goblin/goblin_walk_attack4.png",
+      "crop": [
+        0,
+        0,
+        256,
+        384
+      ]
+    },
+    "ogre_albedo": {
+      "source": "Game/Assets/_Project/Art/Characters/Static/ogre_static.png",
+      "crop": [
+        0,
+        0,
+        256,
+        384
+      ]
+    },
+    "ladder_goblin_albedo": {
+      "source": "Docs/References/codex_ladder_v1/assets/carry_run4.png",
+      "crop": [
+        0,
+        0,
+        256,
+        384
+      ]
+    }
+  },
+  "packing": "build.ps1",
+  "prompts": "generation.json"
+}
