@@ -1,0 +1,457 @@
+﻿{
+    "passed":  48,
+    "card":  "K-025",
+    "browser":  "연결된 브라우저 없음. 실제 브라우저 동작·반응형·콘솔 미검증",
+    "git":  "쓰기 없음",
+    "limitations":  {
+                        "dayNightSilhouetteDifferentPixelsAt128":  5495,
+                        "dayDirectSeamDifferentRows":  99,
+                        "dayNightAlphaDifferentPixels":  31954,
+                        "notes":  "생성 낮밤 형태 차이와 직접 반복 불일치. 무봉제·보간 전환 완료 아님."
+                    },
+    "unity":  "미실행",
+    "checks":  [
+                   {
+                       "detail":  {
+                                      "nonzero":  7384,
+                                      "corners":  [
+                                                      0,
+                                                      0,
+                                                      0,
+                                                      0
+                                                  ],
+                                      "transparent":  13096,
+                                      "size":  [
+                                                   128,
+                                                   160
+                                               ],
+                                      "opaque":  6063
+                                  },
+                       "name":  "oak 크기·투명 여백·실체",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  {
+                                      "nonzero":  10621,
+                                      "corners":  [
+                                                      0,
+                                                      0,
+                                                      0,
+                                                      0
+                                                  ],
+                                      "transparent":  18051,
+                                      "size":  [
+                                                   128,
+                                                   224
+                                               ],
+                                      "opaque":  7433
+                                  },
+                       "name":  "pine 크기·투명 여백·실체",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  {
+                                      "nonzero":  3399,
+                                      "corners":  [
+                                                      0,
+                                                      0,
+                                                      0,
+                                                      0
+                                                  ],
+                                      "transparent":  4281,
+                                      "size":  [
+                                                   96,
+                                                   80
+                                               ],
+                                      "opaque":  3283
+                                  },
+                       "name":  "rock_a 크기·투명 여백·실체",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  {
+                                      "nonzero":  2566,
+                                      "corners":  [
+                                                      0,
+                                                      0,
+                                                      0,
+                                                      0
+                                                  ],
+                                      "transparent":  4602,
+                                      "size":  [
+                                                   64,
+                                                   112
+                                               ],
+                                      "opaque":  2476
+                                  },
+                       "name":  "rock_b 크기·투명 여백·실체",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  {
+                                      "nonzero":  824,
+                                      "corners":  [
+                                                      0,
+                                                      0,
+                                                      0,
+                                                      0
+                                                  ],
+                                      "transparent":  2248,
+                                      "size":  [
+                                                   64,
+                                                   48
+                                               ],
+                                      "opaque":  693
+                                  },
+                       "name":  "bush 크기·투명 여백·실체",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  {
+                                      "nonzero":  8345,
+                                      "corners":  [
+                                                      0,
+                                                      0,
+                                                      0,
+                                                      0
+                                                  ],
+                                      "transparent":  8039,
+                                      "size":  [
+                                                   128,
+                                                   128
+                                               ],
+                                      "opaque":  7693
+                                  },
+                       "name":  "oak_top 크기·투명 여백·실체",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  {
+                                      "nonzero":  7533,
+                                      "corners":  [
+                                                      0,
+                                                      0,
+                                                      0,
+                                                      0
+                                                  ],
+                                      "transparent":  8851,
+                                      "size":  [
+                                                   128,
+                                                   128
+                                               ],
+                                      "opaque":  5483
+                                  },
+                       "name":  "pine_top 크기·투명 여백·실체",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  {
+                                      "nonzero":  3890,
+                                      "corners":  [
+                                                      0,
+                                                      0,
+                                                      0,
+                                                      0
+                                                  ],
+                                      "transparent":  5326,
+                                      "size":  [
+                                                   96,
+                                                   96
+                                               ],
+                                      "opaque":  3769
+                                  },
+                       "name":  "rock_a_top 크기·투명 여백·실체",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  {
+                                      "nonzero":  1319,
+                                      "corners":  [
+                                                      0,
+                                                      0,
+                                                      0,
+                                                      0
+                                                  ],
+                                      "transparent":  2777,
+                                      "size":  [
+                                                   64,
+                                                   64
+                                               ],
+                                      "opaque":  1276
+                                  },
+                       "name":  "rock_b_top 크기·투명 여백·실체",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  {
+                                      "nonzero":  969,
+                                      "corners":  [
+                                                      0,
+                                                      0,
+                                                      0,
+                                                      0
+                                                  ],
+                                      "transparent":  3127,
+                                      "size":  [
+                                                   64,
+                                                   64
+                                               ],
+                                      "opaque":  784
+                                  },
+                       "name":  "bush_top 크기·투명 여백·실체",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  {
+                                      "changed":  0,
+                                      "before":  594,
+                                      "after":  594
+                                  },
+                       "name":  "Game 전후 해시와 파일 수 일치",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  "originals\\oak.png",
+                       "name":  "oak 원안 보존",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  "originals\\pine.png",
+                       "name":  "pine 원안 보존",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  "originals\\rock_a.png",
+                       "name":  "rock_a 원안 보존",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  "originals\\rock_b.png",
+                       "name":  "rock_b 원안 보존",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  "originals\\bush.png",
+                       "name":  "bush 원안 보존",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  "originals\\horizon_day.png",
+                       "name":  "horizon_day 원안 보존",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  "originals\\horizon_clean.png",
+                       "name":  "horizon_clean 원안 보존",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  "originals\\pine_clean.png",
+                       "name":  "pine_clean 원안 보존",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  "originals\\rock_a_clean.png",
+                       "name":  "rock_a_clean 원안 보존",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  "originals\\bush_clean.png",
+                       "name":  "bush_clean 원안 보존",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  "originals\\horizon_night.png",
+                       "name":  "horizon_night 원안 보존",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  "originals\\oak_top.png",
+                       "name":  "oak_top 원안 보존",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  "originals\\pine_top.png",
+                       "name":  "pine_top 원안 보존",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  "originals\\rock_a_top.png",
+                       "name":  "rock_a_top 원안 보존",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  "originals\\rock_b_top.png",
+                       "name":  "rock_b_top 원안 보존",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  "originals\\bush_top.png",
+                       "name":  "bush_top 원안 보존",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  [
+                                      1024,
+                                      352
+                                  ],
+                       "name":  "horizon_day 크기",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  [
+                                      1024,
+                                      352
+                                  ],
+                       "name":  "horizon_night 크기",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  [
+                                      32,
+                                      256
+                                  ],
+                       "name":  "sky_day 크기",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  [
+                                      32,
+                                      256
+                                  ],
+                       "name":  "sky_night 크기",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  "내장 자료 15종",
+                       "name":  "HTML 데이터 치환 완료",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  "서버·인터넷·외부 파일 의존 없음",
+                       "name":  "HTML 외부 리소스 없음",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  [
+                                      64,
+                                      64
+                                  ],
+                       "name":  "HTML 그림 rock_b_top",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  [
+                                      64,
+                                      112
+                                  ],
+                       "name":  "HTML 그림 rock_b",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  [
+                                      96,
+                                      80
+                                  ],
+                       "name":  "HTML 그림 rock_a",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  [
+                                      128,
+                                      160
+                                  ],
+                       "name":  "HTML 그림 oak",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  [
+                                      256,
+                                      256
+                                  ],
+                       "name":  "HTML 그림 grass",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  [
+                                      1024,
+                                      352
+                                  ],
+                       "name":  "HTML 그림 horizon_night",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  [
+                                      128,
+                                      128
+                                  ],
+                       "name":  "HTML 그림 oak_top",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  [
+                                      128,
+                                      128
+                                  ],
+                       "name":  "HTML 그림 pine_top",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  [
+                                      64,
+                                      48
+                                  ],
+                       "name":  "HTML 그림 bush",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  [
+                                      64,
+                                      64
+                                  ],
+                       "name":  "HTML 그림 bush_top",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  [
+                                      96,
+                                      96
+                                  ],
+                       "name":  "HTML 그림 rock_a_top",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  [
+                                      32,
+                                      256
+                                  ],
+                       "name":  "HTML 그림 sky_night",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  [
+                                      128,
+                                      224
+                                  ],
+                       "name":  "HTML 그림 pine",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  [
+                                      1024,
+                                      352
+                                  ],
+                       "name":  "HTML 그림 horizon_day",
+                       "passed":  true
+                   },
+                   {
+                       "detail":  [
+                                      32,
+                                      256
+                                  ],
+                       "name":  "HTML 그림 sky_day",
+                       "passed":  true
+                   }
+               ],
+    "failed":  0
+}
