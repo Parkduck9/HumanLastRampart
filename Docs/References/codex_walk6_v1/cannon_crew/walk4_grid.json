@@ -1,0 +1,113 @@
+{
+  "id": "cannon_crew",
+  "label": "대포병",
+  "facing": "side",
+  "source": "source.png",
+  "sourceSha256": "147cd0c0531285f42f3bec621c2662f83beb1f7adcc07090366fc9bb998d34d3",
+  "image": "walk4_grid.png",
+  "columns": 4,
+  "rows": 1,
+  "size": [
+    1024,
+    384
+  ],
+  "cell": [
+    256,
+    384
+  ],
+  "frames": 4,
+  "footPivotTopLeft": [
+    128,
+    352
+  ],
+  "unityPivotBottomLeft": [
+    0.5,
+    0.08333333333333333
+  ],
+  "aspect": 0.6666666666666666,
+  "frameOrder": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "fps": 6,
+  "loop": "1-2-3-4",
+  "rightPreview": "mirror same ordered frames",
+  "uniformScale": 0.4666666666666667,
+  "framesData": [
+    {
+      "frame": 0,
+      "sourceRect": [
+        47,
+        41,
+        454,
+        640
+      ],
+      "sourceBodyX": 261.0,
+      "packedRect": [
+        28,
+        53,
+        212,
+        299
+      ]
+    },
+    {
+      "frame": 1,
+      "sourceRect": [
+        588,
+        41,
+        405,
+        640
+      ],
+      "sourceBodyX": 803.0,
+      "packedRect": [
+        28,
+        53,
+        189,
+        299
+      ]
+    },
+    {
+      "frame": 2,
+      "sourceRect": [
+        1132,
+        41,
+        422,
+        640
+      ],
+      "sourceBodyX": 1346.0,
+      "packedRect": [
+        28,
+        53,
+        197,
+        299
+      ]
+    },
+    {
+      "frame": 3,
+      "sourceRect": [
+        1673,
+        41,
+        406,
+        640
+      ],
+      "sourceBodyX": 1889,
+      "packedRect": [
+        27,
+        53,
+        189,
+        299
+      ]
+    }
+  ],
+  "frameHashes": [
+    "a3071404d4214f9388c8ff5bb0af7e3ec15a2a4cd51122f6d93fe84441f44641",
+    "3e92e1679be1f6c56bea3dfe8ae124d555fde94734c0e58a46d173e1cbc8cf4a",
+    "ccc017c4a2c1e05d137706f01a159be161a22558f258241bbcca265c92c3e301",
+    "ee746072c382f1bdcd64c0068a3c9ce670e0382cc89b6e1388b636061485a5c6"
+  ],
+  "sheetSha256": "dc82ec67ad87cae406a7867830040a9e78e38ae91e6ae5ac0d8714fa1d9ed7a0",
+  "status": "animation-draft-user-review",
+  "unityPlayVerified": false
+}

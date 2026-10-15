@@ -1,0 +1,113 @@
+{
+  "id": "ladder_goblin",
+  "label": "사다리 고블린",
+  "facing": "front",
+  "source": "source.png",
+  "sourceSha256": "98ebd959e2785f3322344774b0de103fbbce3411684198060141cd4dafb9743e",
+  "image": "walk4_grid.png",
+  "columns": 4,
+  "rows": 1,
+  "size": [
+    1024,
+    384
+  ],
+  "cell": [
+    256,
+    384
+  ],
+  "frames": 4,
+  "footPivotTopLeft": [
+    128,
+    352
+  ],
+  "unityPivotBottomLeft": [
+    0.5,
+    0.08333333333333333
+  ],
+  "aspect": 0.6666666666666666,
+  "frameOrder": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "fps": 6,
+  "loop": "1-2-3-4",
+  "rightPreview": null,
+  "uniformScale": 0.4609053497942387,
+  "framesData": [
+    {
+      "frame": 0,
+      "sourceRect": [
+        31,
+        87,
+        438,
+        591
+      ],
+      "sourceBodyX": 273.0,
+      "packedRect": [
+        16,
+        80,
+        202,
+        272
+      ]
+    },
+    {
+      "frame": 1,
+      "sourceRect": [
+        547,
+        87,
+        441,
+        591
+      ],
+      "sourceBodyX": 789,
+      "packedRect": [
+        17,
+        80,
+        203,
+        272
+      ]
+    },
+    {
+      "frame": 2,
+      "sourceRect": [
+        1067,
+        87,
+        439,
+        588
+      ],
+      "sourceBodyX": 1310.0,
+      "packedRect": [
+        16,
+        81,
+        202,
+        271
+      ]
+    },
+    {
+      "frame": 3,
+      "sourceRect": [
+        1584,
+        87,
+        440,
+        591
+      ],
+      "sourceBodyX": 1823.0,
+      "packedRect": [
+        18,
+        80,
+        203,
+        272
+      ]
+    }
+  ],
+  "frameHashes": [
+    "6d5e081adcc2c58e801097cae0c4d4e4c052e9ff5d8d8dd8165cc8660fc84886",
+    "ae2d52318735165b9edb54f3560bd529887eaad73cc6de43b6ebf35de2310084",
+    "a168d12f0e2221f25a1305d3d2449df4188eac8975bb0f17cacd4c064ee0c94d",
+    "455011f25fb29bcc18ff173fa8c0196822364edd3108ba918446a5d8f2ef5922"
+  ],
+  "sheetSha256": "e620e115990f1cb7d72cd297a08645806688c654aaa39ffecca41f5ad86071bc",
+  "status": "animation-draft-user-review",
+  "unityPlayVerified": false
+}

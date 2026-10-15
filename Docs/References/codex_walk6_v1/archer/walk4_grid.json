@@ -1,0 +1,113 @@
+{
+  "id": "archer",
+  "label": "궁수",
+  "facing": "side",
+  "source": "source.png",
+  "sourceSha256": "e0db305091c3ed788c2e91c6ef38966a93c935b59c81e449fd4b1b989767bebf",
+  "image": "walk4_grid.png",
+  "columns": 4,
+  "rows": 1,
+  "size": [
+    1024,
+    384
+  ],
+  "cell": [
+    256,
+    384
+  ],
+  "frames": 4,
+  "footPivotTopLeft": [
+    128,
+    352
+  ],
+  "unityPivotBottomLeft": [
+    0.5,
+    0.08333333333333333
+  ],
+  "aspect": 0.6666666666666666,
+  "frameOrder": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "fps": 6,
+  "loop": "1-2-3-4",
+  "rightPreview": "mirror same ordered frames",
+  "uniformScale": 0.42796005706134094,
+  "framesData": [
+    {
+      "frame": 0,
+      "sourceRect": [
+        55,
+        69,
+        397,
+        701
+      ],
+      "sourceBodyX": 241,
+      "packedRect": [
+        48,
+        52,
+        170,
+        300
+      ]
+    },
+    {
+      "frame": 1,
+      "sourceRect": [
+        517,
+        69,
+        374,
+        701
+      ],
+      "sourceBodyX": 699,
+      "packedRect": [
+        50,
+        52,
+        160,
+        300
+      ]
+    },
+    {
+      "frame": 2,
+      "sourceRect": [
+        988,
+        69,
+        391,
+        700
+      ],
+      "sourceBodyX": 1170,
+      "packedRect": [
+        50,
+        52,
+        167,
+        300
+      ]
+    },
+    {
+      "frame": 3,
+      "sourceRect": [
+        1459,
+        69,
+        374,
+        701
+      ],
+      "sourceBodyX": 1639,
+      "packedRect": [
+        51,
+        52,
+        160,
+        300
+      ]
+    }
+  ],
+  "frameHashes": [
+    "995e6968faceee4a001eeabf79afcec3740b11eb7464d31551a8202ba895a035",
+    "fe2a83c4f456452dc6d2a1c88a21459b5ca4c3e37c98ca0ada3b8b2549d28c99",
+    "d4c9eb95cf74b84ead6967bb60843ebca653f1208ec2331f9563122df35f58e2",
+    "d2c0cdb85145b6f397d495d4c13a8732ecb3f978163e397a078156e1b30db8bd"
+  ],
+  "sheetSha256": "6ba249ceb41ca0a117a5da3833ba4d0ce38d7a66c1c64de29a6d310089a42f4c",
+  "status": "animation-draft-user-review",
+  "unityPlayVerified": false
+}

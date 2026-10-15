@@ -1,0 +1,113 @@
+{
+  "id": "wizard",
+  "label": "마법사",
+  "facing": "side",
+  "source": "source.png",
+  "sourceSha256": "5a05141613683c689e3f8f26da39c03db70848a710dba2a105eadc8d615ab597",
+  "image": "walk4_grid.png",
+  "columns": 4,
+  "rows": 1,
+  "size": [
+    1024,
+    384
+  ],
+  "cell": [
+    256,
+    384
+  ],
+  "frames": 4,
+  "footPivotTopLeft": [
+    128,
+    352
+  ],
+  "unityPivotBottomLeft": [
+    0.5,
+    0.08333333333333333
+  ],
+  "aspect": 0.6666666666666666,
+  "frameOrder": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "fps": 6,
+  "loop": "1-2-3-4",
+  "rightPreview": "mirror same ordered frames",
+  "uniformScale": 0.45941807044410415,
+  "framesData": [
+    {
+      "frame": 0,
+      "sourceRect": [
+        47,
+        80,
+        388,
+        653
+      ],
+      "sourceBodyX": 238,
+      "packedRect": [
+        40,
+        52,
+        178,
+        300
+      ]
+    },
+    {
+      "frame": 1,
+      "sourceRect": [
+        549,
+        80,
+        356,
+        653
+      ],
+      "sourceBodyX": 743.0,
+      "packedRect": [
+        39,
+        52,
+        164,
+        300
+      ]
+    },
+    {
+      "frame": 2,
+      "sourceRect": [
+        1039,
+        80,
+        385,
+        653
+      ],
+      "sourceBodyX": 1230,
+      "packedRect": [
+        40,
+        52,
+        177,
+        300
+      ]
+    },
+    {
+      "frame": 3,
+      "sourceRect": [
+        1540,
+        80,
+        365,
+        653
+      ],
+      "sourceBodyX": 1734.0,
+      "packedRect": [
+        39,
+        52,
+        168,
+        300
+      ]
+    }
+  ],
+  "frameHashes": [
+    "8d5c7c9afacd6c19b8068f2453a76aab9918dfea2dd697733e1e5d08a0a82b65",
+    "23c90ba69d580104ffdaae437fe23ca2b6b2adc1ba5b20166bb623057e67da36",
+    "9cf20921fa082f1b163738ff727f81a04c76c289d93b8bc8fba192a1d490524e",
+    "36b6fa22ca501c08dbc253ee018ccb2260b8ac51b04c25f749a96a8a7817f6ce"
+  ],
+  "sheetSha256": "092a40cb9c89e12b3943c28372649e554902af24ccc9798443b1bccddf72d90e",
+  "status": "animation-draft-user-review",
+  "unityPlayVerified": false
+}

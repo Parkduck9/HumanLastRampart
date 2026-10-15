@@ -1,0 +1,113 @@
+{
+  "id": "gunner",
+  "label": "총병",
+  "facing": "side",
+  "source": "source.png",
+  "sourceSha256": "183efd388a99edbed070f9be5748a67b34aa0410e8ed5b4d3045dd659d8ddd62",
+  "image": "walk4_grid.png",
+  "columns": 4,
+  "rows": 1,
+  "size": [
+    1024,
+    384
+  ],
+  "cell": [
+    256,
+    384
+  ],
+  "frames": 4,
+  "footPivotTopLeft": [
+    128,
+    352
+  ],
+  "unityPivotBottomLeft": [
+    0.5,
+    0.08333333333333333
+  ],
+  "aspect": 0.6666666666666666,
+  "frameOrder": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "fps": 6,
+  "loop": "1-2-3-4",
+  "rightPreview": "mirror same ordered frames",
+  "uniformScale": 0.41947565543071164,
+  "framesData": [
+    {
+      "frame": 0,
+      "sourceRect": [
+        80,
+        64,
+        432,
+        653
+      ],
+      "sourceBodyX": 271,
+      "packedRect": [
+        48,
+        78,
+        181,
+        274
+      ]
+    },
+    {
+      "frame": 1,
+      "sourceRect": [
+        512,
+        64,
+        500,
+        655
+      ],
+      "sourceBodyX": 779.0,
+      "packedRect": [
+        16,
+        77,
+        210,
+        275
+      ]
+    },
+    {
+      "frame": 2,
+      "sourceRect": [
+        1075,
+        65,
+        429,
+        652
+      ],
+      "sourceBodyX": 1253,
+      "packedRect": [
+        53,
+        79,
+        180,
+        273
+      ]
+    },
+    {
+      "frame": 3,
+      "sourceRect": [
+        1607,
+        65,
+        404,
+        652
+      ],
+      "sourceBodyX": 1782,
+      "packedRect": [
+        55,
+        79,
+        169,
+        273
+      ]
+    }
+  ],
+  "frameHashes": [
+    "ad64518222723b367d018a116b574b99fc1df10b466de3b90ef89d79319b1cb7",
+    "500ed5beb2b6e22cd235ed0f6b4b67c7588c48bdd9cae710698f9345d934c60e",
+    "b224ab4c16112e886ed1c17af415a81ba17ffa2a9953bdc64a1232314307e621",
+    "3a64298d0d6fde3465ddb15955af530e9a36f53095f636c12f94a941ea46951c"
+  ],
+  "sheetSha256": "6b9ba93f6b71ce5fc6a7750db56c76ef11e8edd9ab402c9a4ae3efef9196210e",
+  "status": "animation-draft-user-review",
+  "unityPlayVerified": false
+}

@@ -1,0 +1,34 @@
+{
+  "status": "PASS",
+  "sheets": 6,
+  "uniqueFramesPerSheet": 4,
+  "rgba": true,
+  "cell": [
+    256,
+    384
+  ],
+  "footPivot": [
+    128,
+    352
+  ],
+  "nearestOnly": true,
+  "noClipping": true,
+  "referencesUnchanged": true,
+  "unityPlayVerified": false,
+  "browser": {
+    "totalCards": 6,
+    "canvasCount": 6,
+    "frameImagesLoaded": 24,
+    "individualPages": 6,
+    "individualImagesLoaded": 4,
+    "playPauseStepResume": true,
+    "sideMirror": true,
+    "backgroundAndSmallSize": true,
+    "movementToggle": true,
+    "pivotToggle": true,
+    "consoleErrors": 0,
+    "defaultViewportOverflow": false,
+    "fileProtocolTested": false
+  },
+  "userMotionApproved": false
+}
