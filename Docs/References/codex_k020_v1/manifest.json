@@ -1,0 +1,110 @@
+{
+    "card":  "K-020",
+    "version":  1,
+    "status":  "사용자 확정 전 시안",
+    "author":  "Codex",
+    "method":  "정수 화소 도형 직접 제작, 이미지 생성 모델 미사용",
+    "coordinate":  "좌상단 원점, 오른쪽 +X, 아래 +Y",
+    "assets":  [
+                   {
+                       "file":  "flag_archer.png",
+                       "label":  "궁수 10명 깃발",
+                       "width":  32,
+                       "height":  32,
+                       "pivotTopLeft":  [
+                                            7,
+                                            29
+                                        ]
+                   },
+                   {
+                       "file":  "flag_gunner.png",
+                       "label":  "총병 10명 깃발",
+                       "width":  32,
+                       "height":  32,
+                       "pivotTopLeft":  [
+                                            7,
+                                            29
+                                        ]
+                   },
+                   {
+                       "file":  "move_east.png",
+                       "label":  "동쪽 이동",
+                       "width":  24,
+                       "height":  24,
+                       "pivotTopLeft":  [
+                                            12,
+                                            12
+                                        ]
+                   },
+                   {
+                       "file":  "move_south.png",
+                       "label":  "남쪽 이동",
+                       "width":  24,
+                       "height":  24,
+                       "pivotTopLeft":  [
+                                            12,
+                                            12
+                                        ]
+                   },
+                   {
+                       "file":  "move_west.png",
+                       "label":  "서쪽 이동",
+                       "width":  24,
+                       "height":  24,
+                       "pivotTopLeft":  [
+                                            12,
+                                            12
+                                        ]
+                   },
+                   {
+                       "file":  "move_north.png",
+                       "label":  "북쪽 이동",
+                       "width":  24,
+                       "height":  24,
+                       "pivotTopLeft":  [
+                                            12,
+                                            12
+                                        ]
+                   },
+                   {
+                       "file":  "compass_back.png",
+                       "label":  "방위 글자 받침",
+                       "width":  64,
+                       "height":  64,
+                       "pivotTopLeft":  [
+                                            32,
+                                            32
+                                        ]
+                   },
+                   {
+                       "file":  "cannon_target_normal.png",
+                       "label":  "대포 조준점",
+                       "width":  32,
+                       "height":  32,
+                       "pivotTopLeft":  [
+                                            16,
+                                            16
+                                        ]
+                   },
+                   {
+                       "file":  "cannon_target_active.png",
+                       "label":  "선택한 대포 조준점",
+                       "width":  32,
+                       "height":  32,
+                       "pivotTopLeft":  [
+                                            16,
+                                            16
+                                        ]
+                   },
+                   {
+                       "file":  "group_selected.png",
+                       "label":  "병력 선택 테두리",
+                       "width":  40,
+                       "height":  40,
+                       "pivotTopLeft":  [
+                                            20,
+                                            20
+                                        ]
+                   }
+               ]
+}

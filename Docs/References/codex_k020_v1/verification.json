@@ -1,0 +1,82 @@
+[
+    {
+        "file":  "flag_archer.png",
+        "pass":  true,
+        "visiblePixels":  514,
+        "partialAlpha":  0,
+        "edgePixels":  0,
+        "sha256":  "C7364F026FAFE7924AF9E6C9CCC2D02AF4364792479A5F23253DD22330E87447"
+    },
+    {
+        "file":  "flag_gunner.png",
+        "pass":  true,
+        "visiblePixels":  514,
+        "partialAlpha":  0,
+        "edgePixels":  0,
+        "sha256":  "63D1F8DAB8981470463885636BBC3F1A6AAB083F66BD95B0F5D5FF771CC19763"
+    },
+    {
+        "file":  "move_east.png",
+        "pass":  true,
+        "visiblePixels":  178,
+        "partialAlpha":  0,
+        "edgePixels":  0,
+        "sha256":  "DA398810BF8F657C38EC528476EC3B7BEA0740F0EEED76353E6A5E2590C2F6BB"
+    },
+    {
+        "file":  "move_south.png",
+        "pass":  true,
+        "visiblePixels":  178,
+        "partialAlpha":  0,
+        "edgePixels":  0,
+        "sha256":  "EB76A49C3948B0D07CB16F7F9EFEA316491F36914A6CEEE0F72E40C543FC1537"
+    },
+    {
+        "file":  "move_west.png",
+        "pass":  true,
+        "visiblePixels":  178,
+        "partialAlpha":  0,
+        "edgePixels":  0,
+        "sha256":  "AC1FE6B10015D4F7081561AAEAA4D970F4D145F93DEB60EA8712DDEBE28DFF00"
+    },
+    {
+        "file":  "move_north.png",
+        "pass":  true,
+        "visiblePixels":  178,
+        "partialAlpha":  0,
+        "edgePixels":  0,
+        "sha256":  "340C039D3B0285EA03354E44E4549BF9EF651FDE1CD31D7E8BCD807163CFF124"
+    },
+    {
+        "file":  "compass_back.png",
+        "pass":  true,
+        "visiblePixels":  1829,
+        "partialAlpha":  0,
+        "edgePixels":  0,
+        "sha256":  "7AF4276CBC1EA794BD69C89A975C40B0F498DC23A2404CBCE6B4FFC6E781C478"
+    },
+    {
+        "file":  "cannon_target_normal.png",
+        "pass":  true,
+        "visiblePixels":  317,
+        "partialAlpha":  0,
+        "edgePixels":  0,
+        "sha256":  "D2DF607F418F4E1CF4BFA4C07D4DEF92ADB55F01C0333E9DB61674F50018940C"
+    },
+    {
+        "file":  "cannon_target_active.png",
+        "pass":  true,
+        "visiblePixels":  349,
+        "partialAlpha":  0,
+        "edgePixels":  0,
+        "sha256":  "D70F6D394C410F1A7244AFAF6D558A9ECB75EEC850409640117EF4F7F532D7A1"
+    },
+    {
+        "file":  "group_selected.png",
+        "pass":  true,
+        "visiblePixels":  164,
+        "partialAlpha":  0,
+        "edgePixels":  0,
+        "sha256":  "927057267FBE9BF8F7E7D552F9BC84D6F91E11793DA0DA901D8489D2EE3EFBE6"
+    }
+]
