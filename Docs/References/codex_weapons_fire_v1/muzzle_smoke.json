@@ -1,0 +1,205 @@
+{
+  "id": "muzzle_smoke",
+  "title": "대포 포구 연기",
+  "kind": "effect",
+  "frames": 6,
+  "w": 256,
+  "h": 256,
+  "pivot": [
+    128,
+    240
+  ],
+  "fps": 10,
+  "ref": null,
+  "prompt": "Use case: stylized-concept. A strict hard-pixel 16bit game effect sheet. True transparent PNG panoramic3:1, EXACTLY SIX different frames ONE horizontal row with generousclear gaps. Cannon muzzle SMOKE puff only, no cannon,weapon,person,floor or shadow. Smoke originates same lowercenter and expands outward/up away fromcamera. Frame1 tinywhite-gold ignition speck;2 compact pale-gray puff;3 fuller chunky gray-white puff rising;4 broken irregular detached gray islands;5 few tiny lightergrayfragments;6 lastsinglegray speck. No diffuse glow, no radial gradient, no haze. Solid angular pixel clusters, limited opaque gray palette with charcoaloutline, hardsteppedges. Common scale, no enlargement oflatefragments. Eachframe fullyvisible noedgeclipping. No text,labels,grid.",
+  "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-70b77fff-47a6-4308-8515-240356c6d70b.png",
+  "tool": "built-in imagegen",
+  "source": "muzzle_smoke_source.png",
+  "sourceSize": [
+    2172,
+    724
+  ],
+  "sourceSha256": "8e692bbef4791532e3ed1834ff2bd5356f6573fc802e1d99cd9938eb2ffeea5f",
+  "sheet": "muzzle_smoke_sheet.png",
+  "sheetSize": [
+    1536,
+    256
+  ],
+  "sheetSha256": "82773ff6dfe13ac3d23b1c51d9584c967d2111aba2312b52d1408393f9131caa",
+  "sourceColumnBounds": [
+    0,
+    237,
+    610,
+    1089,
+    1547,
+    1947,
+    2172
+  ],
+  "commonScale": 0.491725768321513,
+  "framesMeta": [
+    {
+      "index": 0,
+      "rect": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "pivotPixels": [
+        128,
+        240
+      ],
+      "alphaBBox": [
+        73,
+        187,
+        150,
+        234
+      ],
+      "rgbaSha256": "3a2aa471cdef16a89417f67c9a0b8ab1f1d81e4740acd304ffe7726029a63a5e",
+      "sourceRect": [
+        0,
+        177,
+        237,
+        600
+      ],
+      "sourceAnchorX": 136.0
+    },
+    {
+      "index": 1,
+      "rect": [
+        256,
+        0,
+        256,
+        256
+      ],
+      "pivotPixels": [
+        128,
+        240
+      ],
+      "alphaBBox": [
+        60,
+        122,
+        193,
+        236
+      ],
+      "rgbaSha256": "9ffbd060ed45e3ad1d6811aba00a830e32b4dd1eec9c193c19595c8adc9452df",
+      "sourceRect": [
+        237,
+        177,
+        610,
+        600
+      ],
+      "sourceAnchorX": 427.5
+    },
+    {
+      "index": 2,
+      "rect": [
+        512,
+        0,
+        256,
+        256
+      ],
+      "pivotPixels": [
+        128,
+        240
+      ],
+      "alphaBBox": [
+        33,
+        32,
+        224,
+        240
+      ],
+      "rgbaSha256": "54c8bc01ab895b999298db8a3549b2f392a511662543e8667db54ab5456d1093",
+      "sourceRect": [
+        610,
+        177,
+        1089,
+        600
+      ],
+      "sourceAnchorX": 851.5
+    },
+    {
+      "index": 3,
+      "rect": [
+        768,
+        0,
+        256,
+        256
+      ],
+      "pivotPixels": [
+        128,
+        240
+      ],
+      "alphaBBox": [
+        35,
+        41,
+        221,
+        240
+      ],
+      "rgbaSha256": "1f178a57e0bae227146819402d1f97e8acd9933e8cf5fa1e9353994a27328f15",
+      "sourceRect": [
+        1089,
+        177,
+        1547,
+        600
+      ],
+      "sourceAnchorX": 1318.5
+    },
+    {
+      "index": 4,
+      "rect": [
+        1024,
+        0,
+        256,
+        256
+      ],
+      "pivotPixels": [
+        128,
+        240
+      ],
+      "alphaBBox": [
+        49,
+        51,
+        196,
+        238
+      ],
+      "rgbaSha256": "b0ddb316935db397c43089b1208a0389f80998e6b80bdba0c56a892008580962",
+      "sourceRect": [
+        1547,
+        177,
+        1947,
+        600
+      ],
+      "sourceAnchorX": 1730.5
+    },
+    {
+      "index": 5,
+      "rect": [
+        1280,
+        0,
+        256,
+        256
+      ],
+      "pivotPixels": [
+        128,
+        240
+      ],
+      "alphaBBox": [
+        116,
+        185,
+        141,
+        208
+      ],
+      "rgbaSha256": "3944afe65cc17cb8fe34a3280d6957d0398a873ad7d081bfaf5346588f900121",
+      "sourceRect": [
+        1947,
+        177,
+        2172,
+        600
+      ],
+      "sourceAnchorX": 2047.5
+    }
+  ],
+  "reviewStatus": "외형사용자검토대기·게임연결없음",
+  "processing": "원안분리·동일시트공통배율·최근접정렬만. 병사발/대포바퀴접지 기준. 내용덧칠/프레임복제없음."
+}

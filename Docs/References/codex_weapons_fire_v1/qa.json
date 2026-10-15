@@ -1,0 +1,437 @@
+{
+  "card": "K-016",
+  "checks": [
+    {
+      "name": "archer_fire 실제투명 알파",
+      "passed": true
+    },
+    {
+      "name": "archer_fire 프레임공백분리",
+      "passed": true
+    },
+    {
+      "name": "archer_fire 프레임0 존재",
+      "passed": true
+    },
+    {
+      "name": "archer_fire 프레임1 존재",
+      "passed": true
+    },
+    {
+      "name": "archer_fire 프레임2 존재",
+      "passed": true
+    },
+    {
+      "name": "archer_fire 프레임3 존재",
+      "passed": true
+    },
+    {
+      "name": "archer_fire 프레임4 존재",
+      "passed": true
+    },
+    {
+      "name": "archer_fire 프레임5 존재",
+      "passed": true
+    },
+    {
+      "name": "archer_fire 프레임0 상하좌우칸내",
+      "passed": true
+    },
+    {
+      "name": "archer_fire 프레임1 상하좌우칸내",
+      "passed": true
+    },
+    {
+      "name": "archer_fire 프레임2 상하좌우칸내",
+      "passed": true
+    },
+    {
+      "name": "archer_fire 프레임3 상하좌우칸내",
+      "passed": true
+    },
+    {
+      "name": "archer_fire 프레임4 상하좌우칸내",
+      "passed": true
+    },
+    {
+      "name": "archer_fire 프레임5 상하좌우칸내",
+      "passed": true
+    },
+    {
+      "name": "archer_fire 규격",
+      "passed": true
+    },
+    {
+      "name": "archer_fire 다른프레임",
+      "passed": true
+    },
+    {
+      "name": "gunner_fire 실제투명 알파",
+      "passed": true
+    },
+    {
+      "name": "gunner_fire 프레임공백분리",
+      "passed": true
+    },
+    {
+      "name": "gunner_fire 프레임0 존재",
+      "passed": true
+    },
+    {
+      "name": "gunner_fire 프레임1 존재",
+      "passed": true
+    },
+    {
+      "name": "gunner_fire 프레임2 존재",
+      "passed": true
+    },
+    {
+      "name": "gunner_fire 프레임3 존재",
+      "passed": true
+    },
+    {
+      "name": "gunner_fire 프레임4 존재",
+      "passed": true
+    },
+    {
+      "name": "gunner_fire 프레임5 존재",
+      "passed": true
+    },
+    {
+      "name": "gunner_fire 프레임0 상하좌우칸내",
+      "passed": true
+    },
+    {
+      "name": "gunner_fire 프레임1 상하좌우칸내",
+      "passed": true
+    },
+    {
+      "name": "gunner_fire 프레임2 상하좌우칸내",
+      "passed": true
+    },
+    {
+      "name": "gunner_fire 프레임3 상하좌우칸내",
+      "passed": true
+    },
+    {
+      "name": "gunner_fire 프레임4 상하좌우칸내",
+      "passed": true
+    },
+    {
+      "name": "gunner_fire 프레임5 상하좌우칸내",
+      "passed": true
+    },
+    {
+      "name": "gunner_fire 규격",
+      "passed": true
+    },
+    {
+      "name": "gunner_fire 다른프레임",
+      "passed": true
+    },
+    {
+      "name": "cannon_recoil 실제투명 알파",
+      "passed": true
+    },
+    {
+      "name": "cannon_recoil 프레임공백분리",
+      "passed": true
+    },
+    {
+      "name": "cannon_recoil 프레임0 존재",
+      "passed": true
+    },
+    {
+      "name": "cannon_recoil 프레임1 존재",
+      "passed": true
+    },
+    {
+      "name": "cannon_recoil 프레임2 존재",
+      "passed": true
+    },
+    {
+      "name": "cannon_recoil 프레임0 상하좌우칸내",
+      "passed": true
+    },
+    {
+      "name": "cannon_recoil 프레임1 상하좌우칸내",
+      "passed": true
+    },
+    {
+      "name": "cannon_recoil 프레임2 상하좌우칸내",
+      "passed": true
+    },
+    {
+      "name": "cannon_recoil 규격",
+      "passed": true
+    },
+    {
+      "name": "cannon_recoil 다른프레임",
+      "passed": true
+    },
+    {
+      "name": "muzzle_smoke 실제투명 알파",
+      "passed": true
+    },
+    {
+      "name": "muzzle_smoke 프레임공백분리",
+      "passed": true
+    },
+    {
+      "name": "muzzle_smoke 프레임0 존재",
+      "passed": true
+    },
+    {
+      "name": "muzzle_smoke 프레임1 존재",
+      "passed": true
+    },
+    {
+      "name": "muzzle_smoke 프레임2 존재",
+      "passed": true
+    },
+    {
+      "name": "muzzle_smoke 프레임3 존재",
+      "passed": true
+    },
+    {
+      "name": "muzzle_smoke 프레임4 존재",
+      "passed": true
+    },
+    {
+      "name": "muzzle_smoke 프레임5 존재",
+      "passed": true
+    },
+    {
+      "name": "muzzle_smoke 프레임0 상하좌우칸내",
+      "passed": true
+    },
+    {
+      "name": "muzzle_smoke 프레임1 상하좌우칸내",
+      "passed": true
+    },
+    {
+      "name": "muzzle_smoke 프레임2 상하좌우칸내",
+      "passed": true
+    },
+    {
+      "name": "muzzle_smoke 프레임3 상하좌우칸내",
+      "passed": true
+    },
+    {
+      "name": "muzzle_smoke 프레임4 상하좌우칸내",
+      "passed": true
+    },
+    {
+      "name": "muzzle_smoke 프레임5 상하좌우칸내",
+      "passed": true
+    },
+    {
+      "name": "muzzle_smoke 규격",
+      "passed": true
+    },
+    {
+      "name": "muzzle_smoke 다른프레임",
+      "passed": true
+    },
+    {
+      "name": "arrow 실제투명 알파",
+      "passed": true
+    },
+    {
+      "name": "arrow 프레임0 존재",
+      "passed": true
+    },
+    {
+      "name": "arrow 프레임0 상하좌우칸내",
+      "passed": true
+    },
+    {
+      "name": "arrow 규격",
+      "passed": true
+    },
+    {
+      "name": "arrow 다른프레임",
+      "passed": true
+    },
+    {
+      "name": "bullet_trace 실제투명 알파",
+      "passed": true
+    },
+    {
+      "name": "bullet_trace 프레임0 존재",
+      "passed": true
+    },
+    {
+      "name": "bullet_trace 프레임0 상하좌우칸내",
+      "passed": true
+    },
+    {
+      "name": "bullet_trace 규격",
+      "passed": true
+    },
+    {
+      "name": "bullet_trace 다른프레임",
+      "passed": true
+    },
+    {
+      "name": "cannonball 실제투명 알파",
+      "passed": true
+    },
+    {
+      "name": "cannonball 프레임0 존재",
+      "passed": true
+    },
+    {
+      "name": "cannonball 프레임0 상하좌우칸내",
+      "passed": true
+    },
+    {
+      "name": "cannonball 규격",
+      "passed": true
+    },
+    {
+      "name": "cannonball 다른프레임",
+      "passed": true
+    },
+    {
+      "name": "독립 HTML 사본동일",
+      "passed": true
+    },
+    {
+      "name": "README 내장",
+      "passed": true
+    },
+    {
+      "name": "이미지7종 내장",
+      "passed": true
+    },
+    {
+      "name": "외부 의존 없음",
+      "passed": true
+    },
+    {
+      "name": "JS 구문",
+      "passed": true
+    },
+    {
+      "name": "플레이어 동작모형",
+      "passed": true
+    },
+    {
+      "name": "사격 자동프레임진행",
+      "passed": true
+    },
+    {
+      "name": "정지유지",
+      "passed": true
+    },
+    {
+      "name": "수동다음",
+      "passed": true
+    },
+    {
+      "name": "수동이전",
+      "passed": true
+    },
+    {
+      "name": "재생재개",
+      "passed": true
+    },
+    {
+      "name": "에셋0 첫칸",
+      "passed": true
+    },
+    {
+      "name": "에셋1 첫칸",
+      "passed": true
+    },
+    {
+      "name": "에셋2 첫칸",
+      "passed": true
+    },
+    {
+      "name": "에셋3 첫칸",
+      "passed": true
+    },
+    {
+      "name": "에셋4 첫칸",
+      "passed": true
+    },
+    {
+      "name": "정적4 유지",
+      "passed": true
+    },
+    {
+      "name": "에셋5 첫칸",
+      "passed": true
+    },
+    {
+      "name": "정적5 유지",
+      "passed": true
+    },
+    {
+      "name": "에셋6 첫칸",
+      "passed": true
+    },
+    {
+      "name": "정적6 유지",
+      "passed": true
+    },
+    {
+      "name": "대포3칸원샷마지막정지",
+      "passed": true
+    },
+    {
+      "name": "총병6칸원샷마지막정지",
+      "passed": true
+    },
+    {
+      "name": "투사체회전패딩캔버스",
+      "passed": true
+    },
+    {
+      "name": "투사체회전대각선수용",
+      "passed": true
+    },
+    {
+      "name": "2배캔버스표시",
+      "passed": true
+    },
+    {
+      "name": "밝은배경전환",
+      "passed": true
+    },
+    {
+      "name": "속도12표시",
+      "passed": true
+    }
+  ],
+  "count": 101,
+  "result": "passed",
+  "browserQA": {
+    "card": "K-016",
+    "performedBy": "부모 Codex 에이전트 실제 브라우저 QA·자식에게 결과 전달",
+    "result": "passed",
+    "verified": [
+      "에셋7종 선택/칸수6·6·3·6·1·1·1",
+      "이전/다음수동칸",
+      "궁수자동재생1→2",
+      "총병원샷6끝정지",
+      "밝은배경",
+      "2배표시",
+      "PNG로드전부성공",
+      "콘솔warning/error0",
+      "페이지가로넘침없음",
+      "화살90도회전깃/촉잘림없음직접확인",
+      "투사체canvas320×320·2배640×640"
+    ],
+    "repairedBug": "초기256×128미리보기에서수직회전화살깃잘림→미리보기만320정사각패딩·중앙회전. 원본칸/피벗유지.",
+    "screenshots": [
+      "browser_review.png",
+      "browser_rotation_review.png"
+    ],
+    "unityRun": false,
+    "userArtApproval": false
+  },
+  "unityQA": "미수행"
+}

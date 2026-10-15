@@ -1,0 +1,121 @@
+{
+  "id": "cannon_recoil",
+  "title": "바깥향 대포 반동",
+  "kind": "cannon",
+  "frames": 3,
+  "w": 256,
+  "h": 256,
+  "pivot": [
+    128,
+    240
+  ],
+  "fps": 10,
+  "ref": "Docs/References/codex_cannon_wall_v2/cannon_center/static_grid.png",
+  "prompt": "Use case: stylized-concept. Pixel-art cannon RECOIL animation sheet. True transparent PNG, panoramic3:1. EXACTLY THREE evenly-spaced full cannons in ONE horizontal row, no otherobjects. Match reference rear-facing darkiron barrel, dark-brown wood carriage/two chunky wheels, ironbands, breechring facing viewer. Barrel points AWAY from viewer toward TOP of image (outside castle), straight same direction all3. Low rear3/4view as reference, NOT side view, NO angle rotation. Frame1 resting; Frame2 barrel slides BACK toward viewer about12percent of barrel length while carriage/wheels STAY sameposition; Frame3 barrel halfway returns to original. BREECH positions visibly differ between frames, wheels identical size andbaseline. Do not draw smoke/fire, crew,wall,floor,shadows,text,borders. Crisp chunky opaque pixels with dark steppedoutline, restrained graphite/brownpalette, no gradients/glow. Full object inside eachcolumn with generousgaps. Proposed smallcannon fits1.12m gunport, no giant fortress.",
+  "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-43055ea2-078f-4842-b859-a2b44adb3b6c.png",
+  "tool": "built-in imagegen",
+  "source": "cannon_recoil_source.png",
+  "sourceSize": [
+    2172,
+    724
+  ],
+  "sourceSha256": "3108d71a6cebfc8285c2b500792031d40ee98ff8dae55d3ca76d7c6009cb85f4",
+  "sheet": "cannon_recoil_sheet.png",
+  "sheetSize": [
+    768,
+    256
+  ],
+  "sheetSha256": "c0b5a4cacb8839d3856daa26390e6882f95e1375b8828c662d5c245daf25d44d",
+  "sourceColumnBounds": [
+    0,
+    752,
+    1419,
+    2172
+  ],
+  "commonScale": 0.36427320490367776,
+  "framesMeta": [
+    {
+      "index": 0,
+      "rect": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "pivotPixels": [
+        128,
+        240
+      ],
+      "alphaBBox": [
+        11,
+        32,
+        245,
+        240
+      ],
+      "rgbaSha256": "420bdbc07d1a2937f4ee59344ae1bb23a2bf33af6fdcb108c066e5848a59eec2",
+      "sourceRect": [
+        0,
+        77,
+        752,
+        648
+      ],
+      "sourceAnchorX": 418.0
+    },
+    {
+      "index": 1,
+      "rect": [
+        256,
+        0,
+        256,
+        256
+      ],
+      "pivotPixels": [
+        128,
+        240
+      ],
+      "alphaBBox": [
+        11,
+        37,
+        244,
+        240
+      ],
+      "rgbaSha256": "b8f179665949f49c98c466f3c17961c231a718fb11956cd007837b41f18a75a8",
+      "sourceRect": [
+        752,
+        77,
+        1419,
+        648
+      ],
+      "sourceAnchorX": 1086.0
+    },
+    {
+      "index": 2,
+      "rect": [
+        512,
+        0,
+        256,
+        256
+      ],
+      "pivotPixels": [
+        128,
+        240
+      ],
+      "alphaBBox": [
+        10,
+        37,
+        245,
+        240
+      ],
+      "rgbaSha256": "ae2222c1d0f060b8225a711b571624ea14d5ac9e6ce757bd6984979573033762",
+      "sourceRect": [
+        1419,
+        77,
+        2172,
+        648
+      ],
+      "sourceAnchorX": 1753.0
+    }
+  ],
+  "reviewStatus": "외형사용자검토대기·게임연결없음",
+  "processing": "원안분리·동일시트공통배율·최근접정렬만. 병사발/대포바퀴접지 기준. 내용덧칠/프레임복제없음."
+}

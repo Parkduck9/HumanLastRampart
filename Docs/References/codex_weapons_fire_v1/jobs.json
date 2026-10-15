@@ -1,0 +1,121 @@
+[
+  {
+    "id": "archer_fire",
+    "title": "궁수 후면 사격",
+    "kind": "character",
+    "frames": 6,
+    "w": 256,
+    "h": 384,
+    "pivot": [
+      128,
+      352
+    ],
+    "fps": 8,
+    "ref": "Docs/References/codex_soldier_back_v1/archer_back.png",
+    "prompt": "Use case: stylized-concept. Asset: game sprite animation reference, not a game screenshot. Strict crisp chunky 16-bit PIXEL ART with limited flat palette, opaque pixel clusters and dark stepped outline. No painting, no gradients, no diffuse halo, no shadow, floor, captions, grid or text. True transparent PNG. Panoramic3:1 canvas. Exactly SIX frames in ONE horizontal row, evenly spaced, clearly separate generous transparent gaps. No frames on another row. Same character, same scale, same rear camera, head/hair identity and body proportions in ALL six frames, feet planted on identical baseline. Preserve 2.2-head tall compact character proportions and original reference colors. All6poses visibly DIFFER, especially forearms and weapon: prepare,raise,aim,release,recover,reload. Draw full body with margins, never cut hair/weapon/toes. Soldier faces OUTWARD away from viewer, mostly rear view with only a subtle15degree angle so hands and weapon read, NEVER turns front or faces viewer. Match image1 identity EXACTLY: tousled medium brown hair, dark navy tunic with IVORY collar/cuffs/hem, brown belt/gloves/boots, brown diagonal quiver with ivory arrow feathers over right shoulder, simple brown wooden bow. Six poses: 1 bow held relaxed left; 2 left arm raises bow toward distant field upper-left; 3 right hand pulls string back next to cheek/back of head, bow visibly bent and arrow nocked; 4 string RELEASES, right arm moves back and arrow gone, left bow arm remains extended; 5 lowers bow; 6 right hand reaches to quiver for next arrow. Eyes/face should not show from rear. Bow always same side; head/hair never mirror or rotate. Do not change tunic to gold officer coat.",
+    "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-b6dc04c4-8895-4830-8809-8492933b4428.png",
+    "tool": "built-in imagegen"
+  },
+  {
+    "id": "gunner_fire",
+    "title": "총병 후면 사격",
+    "kind": "character",
+    "frames": 6,
+    "w": 256,
+    "h": 384,
+    "pivot": [
+      128,
+      352
+    ],
+    "fps": 8,
+    "ref": "Docs/References/codex_soldier_back_v1/gunner_back.png",
+    "prompt": "Use case: stylized-concept. Asset: game sprite animation reference, not a game screenshot. Strict crisp chunky 16-bit PIXEL ART with limited flat palette, opaque pixel clusters and dark stepped outline. No painting, no gradients, no diffuse halo, no shadow, floor, captions, grid or text. True transparent PNG. Panoramic3:1 canvas. Exactly SIX frames in ONE horizontal row, evenly spaced, clearly separate generous transparent gaps. No frames on another row. Same character, same scale, same rear camera, head/hair identity and body proportions in ALL six frames, feet planted on identical baseline. Preserve 2.2-head tall compact character proportions and original reference colors. All6poses visibly DIFFER, especially forearms and weapon: prepare,raise,aim,release,recover,reload. Draw full body with margins, never cut hair/weapon/toes. Soldier faces OUTWARD away from viewer, mostly rear view with only a subtle15degree angle so hands and weapon read, NEVER turns front or faces viewer. Match image1 identity EXACTLY: dark brown tousled hair, navy coat with IVORY trim and small gold fastening, silver RIGHT shoulder pad, brown diagonal strap, brown right hip pouch, brown boots, wooden-stock dark iron long musket. Six poses: 1 rifle low across body; 2 brings stock to right shoulder; 3 aims long barrel away upper-left toward field; 4 firing recoil clearly moves shoulder and barrel a LITTLE backward (NO giant muzzlefire, separate effect supplied); 5 lowers rifle and reaches pouch; 6 reloads with ramrod before resetting. Same right shoulder metal guard in everypose. Head fixed identity, no face view and no mirroring.\nCRITICAL layout correction: leave MUCH WIDER transparent gaps so NO TWO frames overlap in horizontal extent. Each soldier INCLUDING raised rifle fits inside 260px wide by430px tall area on a2172x724canvas. Six columncenters181,543,905,1267,1629,1991. Maximum width260px leaves100px transparent gap. Soldier bodyheight350px, feet y630. Rifle points mostly UP out ofscreen toward field, not long sideways across columns. Frame2/3/4 barrel held close toleftside ofhead with moderate upwarddiagonal, no horizontalbarrel crossingframeboundary. Keep all feet samey. Make ZERO stray pixels above figures, no ghost background marks. The whole canvas except six silhouettes is transparent alpha0.",
+    "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-0c7abbb5-3856-4815-86f9-6620088512c5.png",
+    "tool": "built-in imagegen"
+  },
+  {
+    "id": "cannon_recoil",
+    "title": "바깥향 대포 반동",
+    "kind": "cannon",
+    "frames": 3,
+    "w": 256,
+    "h": 256,
+    "pivot": [
+      128,
+      240
+    ],
+    "fps": 10,
+    "ref": "Docs/References/codex_cannon_wall_v2/cannon_center/static_grid.png",
+    "prompt": "Use case: stylized-concept. Pixel-art cannon RECOIL animation sheet. True transparent PNG, panoramic3:1. EXACTLY THREE evenly-spaced full cannons in ONE horizontal row, no otherobjects. Match reference rear-facing darkiron barrel, dark-brown wood carriage/two chunky wheels, ironbands, breechring facing viewer. Barrel points AWAY from viewer toward TOP of image (outside castle), straight same direction all3. Low rear3/4view as reference, NOT side view, NO angle rotation. Frame1 resting; Frame2 barrel slides BACK toward viewer about12percent of barrel length while carriage/wheels STAY sameposition; Frame3 barrel halfway returns to original. BREECH positions visibly differ between frames, wheels identical size andbaseline. Do not draw smoke/fire, crew,wall,floor,shadows,text,borders. Crisp chunky opaque pixels with dark steppedoutline, restrained graphite/brownpalette, no gradients/glow. Full object inside eachcolumn with generousgaps. Proposed smallcannon fits1.12m gunport, no giant fortress.",
+    "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-43055ea2-078f-4842-b859-a2b44adb3b6c.png",
+    "tool": "built-in imagegen"
+  },
+  {
+    "id": "muzzle_smoke",
+    "title": "대포 포구 연기",
+    "kind": "effect",
+    "frames": 6,
+    "w": 256,
+    "h": 256,
+    "pivot": [
+      128,
+      240
+    ],
+    "fps": 10,
+    "ref": null,
+    "prompt": "Use case: stylized-concept. A strict hard-pixel 16bit game effect sheet. True transparent PNG panoramic3:1, EXACTLY SIX different frames ONE horizontal row with generousclear gaps. Cannon muzzle SMOKE puff only, no cannon,weapon,person,floor or shadow. Smoke originates same lowercenter and expands outward/up away fromcamera. Frame1 tinywhite-gold ignition speck;2 compact pale-gray puff;3 fuller chunky gray-white puff rising;4 broken irregular detached gray islands;5 few tiny lightergrayfragments;6 lastsinglegray speck. No diffuse glow, no radial gradient, no haze. Solid angular pixel clusters, limited opaque gray palette with charcoaloutline, hardsteppedges. Common scale, no enlargement oflatefragments. Eachframe fullyvisible noedgeclipping. No text,labels,grid.",
+    "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-70b77fff-47a6-4308-8515-240356c6d70b.png",
+    "tool": "built-in imagegen"
+  },
+  {
+    "id": "arrow",
+    "title": "화살",
+    "kind": "projectile",
+    "frames": 1,
+    "w": 256,
+    "h": 128,
+    "pivot": [
+      128,
+      64
+    ],
+    "fps": 0,
+    "ref": null,
+    "prompt": "Use case: stylized-concept. ONE small projectile sprite concept for a16-bit pixel defensegame: a single small thin wooden arrow with pale ivory feather fletching at LEFT and a dark iron triangular point at RIGHT. Straight horizontal shaft. No bow. Center the single object in actual transparent PNG, generous empty margins. Crisp chunky square pixels, flat limited palette, dark steppedoutline. No realisticpainting, smooth glow, gradients,shadow,background,floor,text,grid,duplicates or extra items. Object only. Aim right +X as canonical rotation direction. Gameplay rotation/size set later, this is only art reference.",
+    "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-d44494ae-d34b-4634-a90b-329c78f19be9.png",
+    "tool": "built-in imagegen"
+  },
+  {
+    "id": "bullet_trace",
+    "title": "총알 흔적",
+    "kind": "projectile",
+    "frames": 1,
+    "w": 256,
+    "h": 128,
+    "pivot": [
+      128,
+      64
+    ],
+    "fps": 0,
+    "ref": null,
+    "prompt": "Use case: stylized-concept. ONE small projectile sprite concept for a16-bit pixel defensegame: a single very thin short pale ivory/gold musket bullet trail pointing RIGHT, a tiny ochre tip at right and2-3 short square-pixel streaks trailing left. No gun, no shell casing, no giant flame. Hardpixels only. Center the single object in actual transparent PNG, generous empty margins. Crisp chunky square pixels, flat limited palette, dark steppedoutline. No realisticpainting, smooth glow, gradients,shadow,background,floor,text,grid,duplicates or extra items. Object only. Aim right +X as canonical rotation direction. Gameplay rotation/size set later, this is only art reference.",
+    "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-76f33509-6ebc-4393-94de-9210ba88158f.png",
+    "tool": "built-in imagegen"
+  },
+  {
+    "id": "cannonball",
+    "title": "포탄",
+    "kind": "projectile",
+    "frames": 1,
+    "w": 256,
+    "h": 128,
+    "pivot": [
+      128,
+      64
+    ],
+    "fps": 0,
+    "ref": null,
+    "prompt": "Use case: stylized-concept. ONE small projectile sprite concept for a16-bit pixel defensegame: one small round darkiron cannonball, charcoal/gray limitedpalette with tiny upperleft grayhighlight, no fire, fuse, smoke or trail. A round sphere readable as a solid shot. Center the single object in actual transparent PNG, generous empty margins. Crisp chunky square pixels, flat limited palette, dark steppedoutline. No realisticpainting, smooth glow, gradients,shadow,background,floor,text,grid,duplicates or extra items. Object only. Aim right +X as canonical rotation direction. Gameplay rotation/size set later, this is only art reference.",
+    "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-2782a7ec-8744-4344-af93-32328d3448b0.png",
+    "tool": "built-in imagegen"
+  }
+]

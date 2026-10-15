@@ -1,0 +1,22 @@
+{
+  "correction": "M-CL-077 사용자: 석궁병 아니고 활이네, 실수",
+  "excluded": [
+    {
+      "id": "crossbow_concept",
+      "reason": "사용자 정정으로 최종 외형·HTML·배포·커밋에서 제외",
+      "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-01ccd828-e2ce-4533-bb87-2bfbc2e4becf.png",
+      "copiedToCard": false
+    },
+    {
+      "id": "bolt",
+      "reason": "사용자 정정으로 최종 외형·HTML·배포·커밋에서 제외",
+      "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-df7e54be-7616-450b-8597-b3f3e51c1c7d.png",
+      "copiedToCard": false
+    }
+  ],
+  "rejectedGunner": {
+    "path": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-7f3c31bc-c7c9-460c-bf9f-de2f2bd9ee73.png",
+    "reason": "앞2프레임 무기 가로영역 겹침, 간격 넓힌 새 원안으로 교체",
+    "copiedToCard": false
+  }
+}
