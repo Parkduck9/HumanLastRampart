@@ -1,0 +1,202 @@
+{
+  "id": "fire_field",
+  "title": "불바다",
+  "loop": true,
+  "prompt": "Create a STRICT hard-pixel 16-bit videogame sprite sheet, exactly SIX DIFFERENT sequential frames in ONE horizontal row. Actual transparent PNG, panoramic3:1 canvas, six cells equally spaced with generous completely empty transparent gaps between objects. A LOW WIDE carpet of fire in six different seamless-loop poses. Palette: opaque dark maroon outline, darkred, orange, yellow, ivory. Flame tongues shift left/right, same broad ground footprint, sixth flows back to first. Every shape consists of solid opaque square pixels with hard stair-step edges and deliberate dark outlines. NO gradients of any kind, NO atmospheric or diffuse light halo, NO translucent haze, NO bloom, NO light rays. Everything outside discrete pixel shapes is ALPHA ZERO. Same common scale and baseline across all6frames. Keep every particle well inside its cell. Do not draw black background, shadows, text, labels, grid, ground, objects, character. This is unlit flat-color sprite art, NOT an emissive render. Six poses must differ visibly. Entire effect fully visible in every frame with generous margins.",
+  "tool": "built-in imagegen",
+  "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-e8a385cb-84cc-454d-b851-af43650b0b69.png",
+  "targetMaxExtent": 232,
+  "styleReferenceNote": "기존 주인공 도트 굵기 직접 확인. 채택된 재생성에는 참조 이미지 없이 제한색/도트 외곽선 프롬프트 사용.",
+  "rejectedInitialSource": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-2bdb54fb-45a7-4bda-8230-769ac3d4da79.png",
+  "rejectedReason": "첫 원안은 부드러운 빛 번짐이 강해 제외. 원안 편집보다 새 제한색 원안을 채택.",
+  "source": "fire_field_source.png",
+  "sourceSize": [
+    2172,
+    724
+  ],
+  "sourceSha256": "2e254b93b09a02974eb96ee8adbded7c13620538a51ebe246b972372978e9b4e",
+  "sheet": "fire_field_sheet.png",
+  "sheetSize": [
+    1536,
+    256
+  ],
+  "sheetSha256": "d9f0293e91026d2574a262b989de2c9f15dc6ee6625f37aede66ae616361fdc7",
+  "cellSize": [
+    256,
+    256
+  ],
+  "columns": 6,
+  "rows": 1,
+  "fps": 10,
+  "pivotPixels": [
+    128,
+    256
+  ],
+  "pivotNormalized": [
+    0.5,
+    0
+  ],
+  "sourceCommonCropY": [
+    249,
+    482
+  ],
+  "sourceColumnBounds": [
+    0,
+    372,
+    734,
+    1086,
+    1437,
+    1801,
+    2172
+  ],
+  "sourceColumnWidth": 372,
+  "commonScale": 0.6236559139784946,
+  "processing": "이미지 원안의 가로6칸을 같은 배율·같은 세로 범위로 최근접 정렬. 내용 덧칠/복제 프레임 없음. 아래 경계는 의도한 접지 피벗.",
+  "frames": [
+    {
+      "index": 0,
+      "rect": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "pivotPixels": [
+        128,
+        256
+      ],
+      "pivotNormalized": [
+        0.5,
+        0.0
+      ],
+      "rgbaSha256": "0a3a7be0aca6a0a377bcc4cf409b34438751c58f3103453651a3ac13f70454fd",
+      "alphaBBox": [
+        22,
+        116,
+        234,
+        256
+      ]
+    },
+    {
+      "index": 1,
+      "rect": [
+        256,
+        0,
+        256,
+        256
+      ],
+      "pivotPixels": [
+        128,
+        256
+      ],
+      "pivotNormalized": [
+        0.5,
+        0.0
+      ],
+      "rgbaSha256": "6da8aa332684dcd139e25b22d6ba7cfd9b51561265817f402da27499ab13e17d",
+      "alphaBBox": [
+        24,
+        111,
+        241,
+        256
+      ]
+    },
+    {
+      "index": 2,
+      "rect": [
+        512,
+        0,
+        256,
+        256
+      ],
+      "pivotPixels": [
+        128,
+        256
+      ],
+      "pivotNormalized": [
+        0.5,
+        0.0
+      ],
+      "rgbaSha256": "5f2168fd6282b4a24df972211cef36400af816429d219e485a680c1c11a6c480",
+      "alphaBBox": [
+        21,
+        111,
+        232,
+        256
+      ]
+    },
+    {
+      "index": 3,
+      "rect": [
+        768,
+        0,
+        256,
+        256
+      ],
+      "pivotPixels": [
+        128,
+        256
+      ],
+      "pivotNormalized": [
+        0.5,
+        0.0
+      ],
+      "rgbaSha256": "15840e291878d48317c216ceff72b1391f7b9e04d56fc380819d6259b2a662dc",
+      "alphaBBox": [
+        25,
+        119,
+        227,
+        256
+      ]
+    },
+    {
+      "index": 4,
+      "rect": [
+        1024,
+        0,
+        256,
+        256
+      ],
+      "pivotPixels": [
+        128,
+        256
+      ],
+      "pivotNormalized": [
+        0.5,
+        0.0
+      ],
+      "rgbaSha256": "cbc58c82e993d11146b54a54606d5ab007899778a16cc0a2a5e3256f906b6e37",
+      "alphaBBox": [
+        22,
+        111,
+        233,
+        256
+      ]
+    },
+    {
+      "index": 5,
+      "rect": [
+        1280,
+        0,
+        256,
+        256
+      ],
+      "pivotPixels": [
+        128,
+        256
+      ],
+      "pivotNormalized": [
+        0.5,
+        0.0
+      ],
+      "rgbaSha256": "a07c2e1ed08c39fb549561c73f97c3f1efbe0beb33e73c38c83cc40ba7ea938f",
+      "alphaBBox": [
+        19,
+        117,
+        234,
+        256
+      ]
+    }
+  ],
+  "approval": "외형 사용자 검토 대기 / 게임 미연결"
+}
