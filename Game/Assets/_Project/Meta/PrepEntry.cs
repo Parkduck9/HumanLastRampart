@@ -26,7 +26,8 @@ namespace HumanLastRampart.Meta
             repair = view.AddButton("성벽 수리", () => PreparationPanel.Show(repair, context, session, false));
             recruit = view.AddButton("병력 모집·보충", () => PreparationPanel.Show(recruit, context, session, true));
             trapButton = view.AddButton("함정 구매·설치", () => TrapPreparationPanel.Show(trapButton, context, traps, session));
-            view.AddButton("전투 준비 완료", () => { session.Close(); traps.Close(); Complete(ScreenOutcome.Done); });
+            var ready = view.AddButton("전투 준비 완료", () => { session.Close(); traps.Close(); Complete(ScreenOutcome.Done); });
+            view.MarkPrimary(ready);   // 주된 다음 행동 (D-066)
             var lifetime = repair.GetComponentInParent<UnityEngine.Canvas>().gameObject.AddComponent<PreparationSessionLifetime>();
             lifetime.Session = session; lifetime.Traps = traps;
             return view;

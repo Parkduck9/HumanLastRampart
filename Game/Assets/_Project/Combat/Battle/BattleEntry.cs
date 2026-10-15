@@ -65,7 +65,7 @@ namespace HumanLastRampart.Combat.Battle
             if (setup != null && defs != null && spriteShader != null)
             {
                 sim = new BattleSim(setup, defs);
-                view = new BattleView(sim, spriteShader, transform, HeroSheet(setup, defs));
+                view = new BattleView(sim, spriteShader, transform, HeroSheet(setup, defs), HeroUnit(setup, defs)?.IdleSheet);
                 rig = new BattleCameraRig(battleCamera, sim.CastleHalf, BattleSim.WallHeight);
                 mapCamera = new BattleMapCamera(battleCamera, sim.CastleHalf, sim.FieldSize);
                 easy = setup.Difficulty == Difficulty.Easy;
@@ -100,6 +100,17 @@ namespace HumanLastRampart.Combat.Battle
         }
 
         // 주인공 그림 시트: 참가 영웅 중 주인공(UnitKind.Hero)의 UnitDef.Sheet (없으면 BattleView가 임시 그림)
+        static UnitDef HeroUnit(BattleSetup setup, IDefinitionLookup defs)
+        {
+            foreach (HeroState hero in setup.Heroes)
+            {
+                UnitDef unit = defs.Get<UnitDef>(hero.UnitDefId);
+                if (unit != null && unit.Kind == UnitKind.Hero) return unit;
+            }
+
+            return null;
+        }
+
         static Texture2D HeroSheet(BattleSetup setup, IDefinitionLookup defs)
         {
             foreach (HeroState hero in setup.Heroes)
@@ -118,14 +129,14 @@ namespace HumanLastRampart.Combat.Battle
         void DrawHero()
         {
             if (rig == null || view == null) return;
-            // D-061: 옆으로는 늘 달리기, 통로 안쪽·바깥쪽은 앞모습·뒷모습 걷기. 서 있기는 뒷모습 0번 칸(진짜 서 있는 그림은 Codex 요청 중)
+            // D-061: 옆으로는 늘 달리기, 통로 안쪽·바깥쪽은 앞모습·뒷모습 걷기. 서 있기는 서 있기 1칸 그림(D-066)
             int row = rig.Pose == BattleCameraRig.HeroPose.Run ? PerfLab.PerfLabArt.HeroRowSideRun
                 : rig.Pose == BattleCameraRig.HeroPose.Walk ? (rig.FacingFront ? PerfLab.PerfLabArt.HeroRowFront : PerfLab.PerfLabArt.HeroRowBack)
                 : PerfLab.PerfLabArt.HeroRowBack;
             float fps = rig.Pose == BattleCameraRig.HeroPose.Run ? HeroRunFps : HeroWalkFps;
             int column = rig.Pose == BattleCameraRig.HeroPose.Idle ? 0 : (int)(Time.unscaledTime * fps) % PerfLab.PerfLabArt.FramesPerAction;
             bool flip = rig.Pose == BattleCameraRig.HeroPose.Run && rig.FacingRight;   // 시트 옆모습은 왼쪽을 본다
-            view.SetHero(rig.HeroFeet, row * PerfLab.PerfLabArt.FramesPerAction + column, flip, !mapOpen);
+            view.SetHero(rig.HeroFeet, row * PerfLab.PerfLabArt.FramesPerAction + column, flip, !mapOpen, rig.Pose == BattleCameraRig.HeroPose.Idle);
         }
 
         TargetingSettings Targeting()
@@ -211,6 +222,7 @@ namespace HumanLastRampart.Combat.Battle
                 }
 
                 if (keyboard.pKey.wasPressedThisFrame) paused = !paused;
+                if (keyboard.gKey.wasPressedThisFrame) HumanLastRampart.Combat.Render.BattleLook.Enabled = !HumanLastRampart.Combat.Render.BattleLook.Enabled;   // 화면 효과 켜고 끔 (비교용)
             }
 
             if (mapOpen)

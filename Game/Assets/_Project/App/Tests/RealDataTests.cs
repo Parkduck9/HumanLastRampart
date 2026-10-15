@@ -75,10 +75,11 @@ namespace HumanLastRampart.App.Tests
         {
             DefinitionLookup lookup = LoadAll();
             BattleRulesDef rules = lookup.All<BattleRulesDef>()[0];
-            Assert.AreEqual(0.5f, rules.EasyEnemyMultiplierFor(1));
-            Assert.AreEqual(0.5f, rules.EasyEnemyMultiplierFor(3));
-            Assert.AreEqual(0.4f, rules.EasyEnemyMultiplierFor(4), 0.0001f);
-            Assert.AreEqual(0.5f, rules.EasyEnemyMultiplierFor(9), "칸이 없으면 기본값");
+            Assert.AreEqual(0.75f, rules.EasyEnemyMultiplierFor(1), 0.0001f, "D-065 적 1.5배");
+            Assert.AreEqual(0.75f, rules.EasyEnemyMultiplierFor(3), 0.0001f);
+            Assert.AreEqual(0.6f, rules.EasyEnemyMultiplierFor(4), 0.0001f);
+            Assert.AreEqual(1.5f, rules.RealisticEnemyMultiplierFor(3), 0.0001f, "D-065 현실 1.5배");
+            Assert.AreEqual(0.75f, rules.EasyEnemyMultiplierFor(9), 0.0001f, "칸이 없으면 기본값");
         }
     }
 }

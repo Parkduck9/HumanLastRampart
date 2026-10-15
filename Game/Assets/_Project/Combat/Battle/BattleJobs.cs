@@ -146,6 +146,8 @@ namespace HumanLastRampart.Combat.Battle
         public float CastleHalf;
         public float WallHeight;
         public float DeltaTime;
+        public float FunnelBase;    // 성벽에서 적이 퍼지는 반폭(m)
+        public float FunnelSlope;   // 성벽에서 1m 멀어질 때 늘어나는 반폭
 
         public void Execute(int i)
         {
@@ -185,8 +187,14 @@ namespace HumanLastRampart.Combat.Battle
                 }
 
                 float speed = Speeds[i] * slow;
-                float3 position = Positions[i] - n * speed * DeltaTime;
-                Velocities[i] = -n * speed;
+                // 깔때기 (D-065): 들판에 넓게 퍼져 있다가 성벽으로 모여든다. 깔때기 폭 안에서의 비율을 지키며 좌우로 좁혀 온다
+                float3 r = WallGeometry.Right(Sides[i]);
+                float fromWall = math.dot(Positions[i], n) - CastleHalf;
+                float width = FunnelBase + math.max(0f, fromWall) * FunnelSlope;
+                float lateralSpeed = -speed * FunnelSlope * math.dot(Positions[i], r) / math.max(width, 0.1f);
+                float3 velocity = -n * speed + r * lateralSpeed;
+                float3 position = Positions[i] + velocity * DeltaTime;
+                Velocities[i] = velocity;
                 float distance = math.dot(position, n);
                 if (distance <= StopDistance[i])
                 {

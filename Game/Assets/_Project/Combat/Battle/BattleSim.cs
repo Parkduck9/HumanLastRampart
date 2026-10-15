@@ -22,7 +22,11 @@ namespace HumanLastRampart.Combat.Battle
         public const float WallHeight = 4f;
         // 성벽 위 비율 (D-046): 병사·대포는 작게 무조건 1줄. 적은 들판에선 원래 크기, 성벽 앞 가려진 구역에서 이 비율로 줄어든다
         public const float WallFigureScale = 0.25f;
-        const float EnemyWallScale = 0.33f;               // 성벽 가까이에서 적 크기 비율 — 고블린 0.4m(병사 0.35m와 비슷), 오우거 0.66m
+        const float EnemyWallScale = 0.33f;
+        // D-065 깔때기: 성벽 앞 반폭(성벽 끝 조금 안쪽) → 들판 끝(반폭 FunnelFieldHalfWidth)까지 넓어진다
+        public static float FunnelFieldHalfWidth = 150f;   // 측정용으로 바꿀 수 있게 static
+        float FunnelBase => CastleHalf * 0.95f;
+        float FunnelSlope => Mathf.Max(0f, (FunnelFieldHalfWidth - FunnelBase) / Mathf.Max(1f, FieldSize - CastleHalf));               // 성벽 가까이에서 적 크기 비율 — 고블린 0.4m(병사 0.35m와 비슷), 오우거 0.66m
         public const float WallScaleBand = 30f;             // 성벽에서 이 거리(m) 안에서 점점 줄어든다 (8m는 가까운 고블린이 너무 커 보여 늘림, D-047)
         const float SoldierDrawSize = 1.4f * WallFigureScale;
         const float SoldierMaxSpacing = 0.45f;              // 인원이 적으면 이 간격, 많으면 자기 구간에 맞춰 촘촘히
@@ -333,7 +337,7 @@ namespace HumanLastRampart.Combat.Battle
             var random = new Unity.Mathematics.Random(seed);
             var entries = new List<SpawnEntry>(total);
             var cursor = (int[])kindStart.Clone();
-            float lateralLimit = CastleHalf * 0.95f;
+            float funnelBase = FunnelBase, funnelSlope = FunnelSlope;
             int groupIndex = -1;
             foreach (var (group, count) in groups)
             {
@@ -357,13 +361,15 @@ namespace HumanLastRampart.Combat.Battle
                     eAnim[slot] = phase;
                     eStop[slot] = CastleHalf + 1.5f + phase * 6f;   // 성벽 앞에 여러 줄로
                     eSide[slot] = (byte)plan.Side;
+                    float depth = random.NextFloat(FieldSize - FieldBand, FieldSize);
+                    float halfWidth = funnelBase + (depth - CastleHalf) * funnelSlope;   // D-065: 들판에서는 넓게
                     entries.Add(new SpawnEntry
                     {
                         Slot = slot,
                         Time = plan.SpawnAt + random.NextFloat(0f, spread),
                         Side = plan.Side,
-                        Lateral = random.NextFloat(-lateralLimit, lateralLimit),
-                        Depth = random.NextFloat(FieldSize - FieldBand, FieldSize),
+                        Lateral = random.NextFloat(-halfWidth, halfWidth),
+                        Depth = depth,
                     });
                 }
             }
@@ -741,6 +747,8 @@ namespace HumanLastRampart.Combat.Battle
                 CastleHalf = CastleHalf,
                 WallHeight = WallHeight,
                 DeltaTime = dt,
+                FunnelBase = FunnelBase,
+                FunnelSlope = FunnelSlope,
             }.Schedule(n, 256);
 
             JobHandle tallyJob = new SideTallyJob

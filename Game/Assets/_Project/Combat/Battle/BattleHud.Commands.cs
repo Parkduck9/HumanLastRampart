@@ -36,7 +36,8 @@ namespace HumanLastRampart.Combat.Battle
 
         void BuildCommandMenu()
         {
-            Image panel = NewImage(root.transform, "Command Menu", new Color(0.05f, 0.07f, 0.1f, 0.85f));
+            Image panel = NewImage(root.transform, "Command Menu", HudStyle.Panel);
+            HudStyle.Border(panel);
             menuPanel = panel.gameObject;
             Anchor(panel.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0f, -40f), new Vector2(560f, 520f), new Vector2(0.5f, 0.5f));
             menuTitle = NewText(panel.transform, "Title", 26, TextAnchor.MiddleCenter);

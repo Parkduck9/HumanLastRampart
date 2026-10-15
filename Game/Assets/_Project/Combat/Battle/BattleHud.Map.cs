@@ -37,7 +37,7 @@ namespace HumanLastRampart.Combat.Battle
         {
             if (mapBanner == null)
             {
-                Image band = NewImage(root.transform, "Map Banner", new Color(0f, 0f, 0f, 0.6f));
+                Image band = NewImage(root.transform, "Map Banner", HudStyle.Background);
                 Anchor(band.rectTransform, new Vector2(0.5f, 1f), new Vector2(0f, -20f), new Vector2(620f, 56f), new Vector2(0.5f, 1f));
                 mapBanner = NewText(band.transform, "Text", 26, TextAnchor.MiddleCenter);
                 Anchor(mapBanner.rectTransform, new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(600f, 50f), new Vector2(0.5f, 0.5f));
@@ -67,7 +67,8 @@ namespace HumanLastRampart.Combat.Battle
 
         void BuildGlobalPanel()
         {
-            Image panel = NewImage(root.transform, "Global Command", new Color(0.05f, 0.07f, 0.1f, 0.85f));
+            Image panel = NewImage(root.transform, "Global Command", HudStyle.Panel);
+            HudStyle.Border(panel);
             globalPanel = panel.gameObject;
             // 왼쪽 위 상태 창(높이 300) 바로 아래, 왼쪽 아래 알림과 겹치지 않게
             Anchor(panel.rectTransform, new Vector2(0f, 1f), new Vector2(20f, -330f), new Vector2(330f, 490f), new Vector2(0f, 1f));
@@ -88,7 +89,8 @@ namespace HumanLastRampart.Combat.Battle
 
         void BuildCannonPanel()
         {
-            Image panel = NewImage(root.transform, "Cannon Panel", new Color(0.05f, 0.07f, 0.1f, 0.85f));
+            Image panel = NewImage(root.transform, "Cannon Panel", HudStyle.Panel);
+            HudStyle.Border(panel);
             cannonPanel = panel.gameObject;
             Anchor(panel.rectTransform, new Vector2(1f, 0.5f), new Vector2(-20f, 40f), new Vector2(380f, 520f), new Vector2(1f, 0.5f));
             cannonTitle = NewText(panel.transform, "Title", 26, TextAnchor.MiddleCenter);
@@ -127,7 +129,7 @@ namespace HumanLastRampart.Combat.Battle
             cannonTitle.text = $"대포 — {names[side]}쪽";
             for (int i = 0; i < 4; i++)
             {
-                sideTabs[i].color = i == side ? new Color(0.45f, 0.5f, 0.25f, 0.95f) : new Color(0.25f, 0.3f, 0.4f, 0.95f);
+                sideTabs[i].color = i == side ? HudStyle.ButtonActive : HudStyle.Button;
                 cannonLabels[i].text = $"{i + 1}번: 없음";
             }
 
@@ -150,7 +152,8 @@ namespace HumanLastRampart.Combat.Battle
             if (!mapMode) return;
             if (spellPanel == null)
             {
-                Image panel = NewImage(root.transform, "Spell Panel", new Color(0.08f, 0.05f, 0.12f, 0.88f));
+                Image panel = NewImage(root.transform, "Spell Panel", HudStyle.Panel);
+                HudStyle.Border(panel);
                 spellPanel = panel.gameObject;
                 Anchor(panel.rectTransform, new Vector2(0.5f, 0f), new Vector2(0f, 70f), new Vector2(660f, 120f), new Vector2(0.5f, 0f));
                 spellTitle = NewText(panel.transform, "Title", 20, TextAnchor.MiddleCenter);
@@ -173,7 +176,7 @@ namespace HumanLastRampart.Combat.Battle
                 BattleSim.SpellInfo info = sim.GetSpell(i);
                 string state = info.Ready ? "준비" : $"{info.CooldownLeft:0}초";
                 spellLabels[i].text = (i == selected ? "▶ " : "") + $"{info.Name} — {state}";
-                spellButtons[i].color = i == selected ? new Color(0.5f, 0.3f, 0.6f, 0.95f) : info.Ready && sim.WizardPresent ? new Color(0.25f, 0.3f, 0.4f, 0.95f) : new Color(0.2f, 0.2f, 0.22f, 0.95f);
+                spellButtons[i].color = i == selected ? HudStyle.MagicActive : info.Ready && sim.WizardPresent ? HudStyle.Magic : HudStyle.ButtonDisabled;
             }
         }
 

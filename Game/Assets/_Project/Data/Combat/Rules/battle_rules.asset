@@ -15,9 +15,15 @@ MonoBehaviour:
   id: battle_rules
   displayName: 전투 규칙
   corpseHeightPerKill: 0.1
+  easyEnemyMultiplier: 0.75
   easyEnemyMultiplierByBattle:
   - 0
   - 0
   - 0
-  - 0.4
+  - 0.6
+  realisticEnemyMultiplierByBattle:
+  - 1.5
+  - 1.5
+  - 1.5
+  - 1.5
   spawnPerSecond: 15

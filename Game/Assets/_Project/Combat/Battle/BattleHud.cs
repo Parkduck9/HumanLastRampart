@@ -39,10 +39,12 @@ namespace HumanLastRampart.Combat.Battle
             scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
             scaler.referenceResolution = new Vector2(1920f, 1080f);
 
-            Image panel = NewImage(root.transform, "Status Panel", new Color(0f, 0f, 0f, 0.55f));
+            Image panel = NewImage(root.transform, "Status Panel", HudStyle.PanelSoft);
+            HudStyle.Border(panel, 0.6f);
             Anchor(panel.rectTransform, new Vector2(0f, 1f), new Vector2(20f, -20f), new Vector2(1120f, 300f));
 
             header = NewText(panel.transform, "Header", 24, TextAnchor.UpperLeft);
+            header.color = HudStyle.Brass;
             Anchor(header.rectTransform, new Vector2(0f, 1f), new Vector2(16f, -12f), new Vector2(1090f, 90f));
             header.text = battleLine;
 
@@ -50,6 +52,7 @@ namespace HumanLastRampart.Combat.Battle
             Anchor(walls.rectTransform, new Vector2(0f, 1f), new Vector2(16f, -110f), new Vector2(1090f, 180f));
 
             help = NewText(root.transform, "Help", 20, TextAnchor.LowerLeft);
+            help.color = HudStyle.TextDim;
             Anchor(help.rectTransform, new Vector2(0f, 0f), new Vector2(20f, 20f), new Vector2(1100f, 60f));
 
             // 속도 버튼 (시험 플레이용)
@@ -67,11 +70,12 @@ namespace HumanLastRampart.Combat.Battle
             {
                 Action action = devActions[i];
                 Button dev = NewButton(root.transform, devLabels[i], () => action());
-                dev.GetComponent<Image>().color = new Color(0.35f, 0.25f, 0.25f, 0.85f);
+                dev.GetComponent<Image>().color = HudStyle.ButtonDev;
                 Anchor((RectTransform)dev.transform, new Vector2(1f, 0f), new Vector2(-20f, 20f + i * 62f), new Vector2(380f, 54f), new Vector2(1f, 0f));
             }
 
-            endPanel = NewImage(root.transform, "End Panel", new Color(0f, 0f, 0f, 0.7f)).gameObject;
+            endPanel = NewImage(root.transform, "End Panel", HudStyle.Background).gameObject;
+            HudStyle.Border(endPanel.GetComponent<Image>());
             Anchor((RectTransform)endPanel.transform, new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(900f, 360f), new Vector2(0.5f, 0.5f));
             endText = NewText(endPanel.transform, "End Text", 48, TextAnchor.MiddleCenter);
             Anchor(endText.rectTransform, new Vector2(0.5f, 1f), new Vector2(0f, -30f), new Vector2(860f, 200f), new Vector2(0.5f, 1f));
@@ -117,7 +121,7 @@ namespace HumanLastRampart.Combat.Battle
             walls.text = text.ToString();
             RefreshNotices();
             RefreshGlobalStatus(sim);
-            help.text = mapMode ? "지도: 왼쪽 전체 명령 · 오른쪽 대포(벽→대포→들판 클릭) · 아래 마법(고르고 들판 클릭) · 함정 표시 클릭 = 점화 · 오른쪽 버튼 누르고 있기 = 망원경 · 휠 확대 · A/D/W/S 이동 · M/Esc 닫기" : "휠 버튼 명령 · A/D 달리기(모서리 돌기) · W/S 통로 앞뒤 · Q/E 옆 성벽 가운데 · Tab 전체 보기 · C 카메라 [" + (rig != null ? rig.PresetName : "") + "] · 1/2/3 속도 · P 멈춤   (임시 조작, 투사체 " + sim.ActiveShots + ")";
+            help.text = mapMode ? "지도: 왼쪽 전체 명령 · 오른쪽 대포(벽→대포→들판 클릭) · 아래 마법(고르고 들판 클릭) · 함정 표시 클릭 = 점화 · 오른쪽 버튼 누르고 있기 = 망원경 · 휠 확대 · A/D/W/S 이동 · M/Esc 닫기" : "휠 버튼 명령 · A/D 달리기(모서리 돌기) · W/S 통로 앞뒤 · Q/E 옆 성벽 가운데 · Tab 전체 보기 · C 카메라 [" + (rig != null ? rig.PresetName : "") + "] · 1/2/3 속도 · P 멈춤 · G 화면 효과   (임시 조작, 투사체 " + sim.ActiveShots + ")";
         }
 
         public void SetHeader(string line) => header.text = line;
@@ -136,7 +140,7 @@ namespace HumanLastRampart.Combat.Battle
             t.font = font;
             t.fontSize = size;
             t.alignment = alignment;
-            t.color = Color.white;
+            t.color = HudStyle.Text;
             t.raycastTarget = false;
             t.horizontalOverflow = HorizontalWrapMode.Overflow;
             return t;
@@ -153,7 +157,8 @@ namespace HumanLastRampart.Combat.Battle
 
         Button NewButton(Transform parent, string label, Action onClick)
         {
-            Image image = NewImage(parent, "Button " + label, new Color(0.25f, 0.3f, 0.4f, 0.95f));
+            Image image = NewImage(parent, "Button " + label, HudStyle.Button);
+            HudStyle.Border(image, 0.55f);
             var button = image.gameObject.AddComponent<Button>();
             button.onClick.AddListener(() => onClick());
             Text t = NewText(image.transform, "Label", 24, TextAnchor.MiddleCenter);

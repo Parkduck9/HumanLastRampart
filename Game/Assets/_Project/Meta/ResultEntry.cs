@@ -40,6 +40,7 @@ namespace HumanLastRampart.Meta
             }
             var next = view.AddButton("다음", () => Complete(ScreenOutcome.Done));
             next.interactable = valid;
+            view.MarkPrimary(next);   // 주된 다음 행동 (D-066)
             if (!valid) context.ReportDataError(error);
             return view;
         }

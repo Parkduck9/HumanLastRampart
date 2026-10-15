@@ -1263,3 +1263,6 @@ public interface IScreenContext
 - 날짜: 2026-10-15 · 작성 Claude · Core 소유 Claude
 - `UnitDef`에 선택 필드 `runSheet`(Texture2D, 없으면 null) — 성벽 위를 달릴 때(전령·우회 보고) 쓰는 옆모습 달리기 4칸(1024×384, 칸 256×384, 발 128·352, 왼쪽을 봄). 없으면 기존 `sheet` 그대로. Meta·UI는 읽지 않아도 된다(필드 추가만, 기존 값·의미 변화 없음)
 - 적 시트 칸 수 해석(Combat 내부): 1칸 = 정적, 4칸 = 걷기만(공격 중에도 걷기 칸), 8칸 = 걷기 4 + 공격 4. EnemyDef 필드 변화 없음
+
+## C-010 v1.7 — 서 있기 그림 (D-066)
+- `UnitDef`에 선택 필드 `idleSheet`(Texture2D, 1칸 256×384, 발 128·352). 전투에서 주인공이 서 있을 때 이 그림, 없으면 기존 시트 0번 칸. Meta·UI 영향 없음

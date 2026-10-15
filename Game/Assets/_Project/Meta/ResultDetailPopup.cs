@@ -1,3 +1,4 @@
+using HumanLastRampart.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -14,10 +15,11 @@ namespace HumanLastRampart.Meta
             var group = panel.GetComponent<CanvasGroup>();
             var shade = Make(panel.parent, "Result Details", typeof(Image));
             Stretch(shade);
-            shade.GetComponent<Image>().color = new Color(0, 0, 0, 0.94f);
+            shade.GetComponent<Image>().color = UiStyle.Shade;
             group.interactable = false;
             var font = source.GetComponentInChildren<Text>().font;
-            var heading = Label(shade, "Detail Title", title, font, 36);
+            var heading = Label(shade, "Detail Title", title, font, 40);
+            heading.GetComponent<Text>().color = UiStyle.Brass;
             heading.anchorMin = new Vector2(0.18f, 0.82f);
             heading.anchorMax = new Vector2(0.82f, 0.93f);
             heading.offsetMin = heading.offsetMax = Vector2.zero;
@@ -27,7 +29,8 @@ namespace HumanLastRampart.Meta
             area.offsetMin = area.offsetMax = Vector2.zero;
             var viewport = Make(area, "Viewport", typeof(Image), typeof(RectMask2D));
             Stretch(viewport);
-            viewport.GetComponent<Image>().color = new Color(0.1f, 0.13f, 0.17f);
+            viewport.GetComponent<Image>().color = UiStyle.PanelSolid;
+            UiStyle.Border(viewport.GetComponent<Image>());
             var text = Label(viewport, "Detail Content", content, font, 26);
             text.anchorMin = new Vector2(0, 1);
             text.anchorMax = new Vector2(1, 1);
@@ -46,9 +49,9 @@ namespace HumanLastRampart.Meta
             closeRect.anchorMin = new Vector2(0.35f, 0.1f);
             closeRect.anchorMax = new Vector2(0.65f, 0.18f);
             closeRect.offsetMin = closeRect.offsetMax = Vector2.zero;
-            closeRect.GetComponent<Image>().color = new Color(0.2f, 0.3f, 0.4f);
             var close = closeRect.GetComponent<Button>();
             close.targetGraphic = closeRect.GetComponent<Image>();
+            UiStyle.StyleButton(close);
             close.navigation = new Navigation { mode = Navigation.Mode.None };
             Stretch(Label(closeRect, "Close Label", "닫기 · 긴 목록은 휠로 이동", font, 24));
             close.onClick.AddListener(() =>
@@ -77,7 +80,7 @@ namespace HumanLastRampart.Meta
             label.text = value;
             label.font = font;
             label.fontSize = size;
-            label.color = Color.white;
+            label.color = UiStyle.Body;
             label.alignment = TextAnchor.MiddleCenter;
             label.horizontalOverflow = HorizontalWrapMode.Wrap;
             label.verticalOverflow = VerticalWrapMode.Truncate;

@@ -52,6 +52,7 @@ namespace HumanLastRampart.Combat.Battle
         readonly GraphicsBuffer runnerBuffer;   // 전체 (지도 점)
         readonly MaterialPropertyBlock mapRunnerBlock;
         readonly BattlePropView props;          // 성벽 난간·대포 그림
+        HumanLastRampart.Combat.Render.BattleLook look;   // 화면 효과 (빛번짐·색 보정·미니어처 흐림)
         readonly GraphicsBuffer shotBuffer;
         readonly MaterialPropertyBlock shotBlock;
         // 주인공 (성벽 위 한 명). 시트가 없으면 임시 그림 — 같은 4행 순서 (PerfLabArt.HeroLayout)
@@ -60,6 +61,8 @@ namespace HumanLastRampart.Combat.Battle
         readonly Texture2D heroPlaceholder;
         readonly PerfLabInstance[] heroInstance = new PerfLabInstance[1];
         bool heroVisible;
+        bool heroIdle;
+        readonly MaterialPropertyBlock heroIdleBlock;   // 서 있기 1칸 (D-066) — 없으면 시트 0번 칸
         readonly GraphicsBuffer wizardBuffer;          // 마법사 (D-058) — 그림이 있을 때만
         readonly MaterialPropertyBlock wizardBlock;
         readonly PerfLabInstance[] wizardInstance = new PerfLabInstance[1];
@@ -73,7 +76,7 @@ namespace HumanLastRampart.Combat.Battle
         readonly Bounds bounds;
         readonly GameObject root;
 
-        public BattleView(BattleSim sim, Shader shader, Transform parent, Texture2D heroSheet = null)
+        public BattleView(BattleSim sim, Shader shader, Transform parent, Texture2D heroSheet = null, Texture2D heroIdleSheet = null)
         {
             this.sim = sim;
             quad = PerfLabArt.CreateQuad();
@@ -169,6 +172,12 @@ namespace HumanLastRampart.Combat.Battle
 
             heroBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, 1, PerfLabInstance.Stride);
             heroBlock.SetBuffer(InstancesId, heroBuffer);
+            if (heroIdleSheet != null)
+            {
+                heroIdleBlock = new MaterialPropertyBlock();
+                Apply(heroIdleBlock, heroIdleSheet, PerfLabArt.FromSheet(heroIdleSheet));
+                heroIdleBlock.SetBuffer(InstancesId, heroBuffer);
+            }
 
             if (sim.WizardPresent && sim.WizardUnit != null && sim.WizardUnit.Sheet != null)
             {
@@ -255,9 +264,11 @@ namespace HumanLastRampart.Combat.Battle
         // 주인공 한 명 (성벽 위). frame = 시트 칸 번호(행×4+열), flip이면 좌우 뒤집기
         public const float HeroDrawSize = 1.5f * BattleSim.WallFigureScale;   // 병사(1.4×0.25)보다 조금 크게
 
-        public void SetHero(Vector3 feet, int frame, bool flip, bool visible)
+        public void SetHero(Vector3 feet, int frame, bool flip, bool visible, bool idle = false)
         {
             heroVisible = visible;
+            heroIdle = idle && heroIdleBlock != null;
+            if (heroIdle) frame = 0;
             float shade = sim.Brightness;
             heroInstance[0] = new PerfLabInstance
             {
@@ -269,6 +280,7 @@ namespace HumanLastRampart.Combat.Battle
         // 작업이 끝난 뒤(sim.Complete 후) 부른다. 지도 모드면 같은 데이터를 점으로 그린다(mapDotSize = 최소 점 크기 m)
         public void Draw(bool mapMode = false, float mapDotSize = 0f)
         {
+            if (look != null) { look.SetMapMode(mapMode); look.Refresh(); }
             foreach (var (buffer, block, start, count) in enemyDraws)
             {
                 if (count <= 0) continue;
@@ -322,7 +334,7 @@ namespace HumanLastRampart.Combat.Battle
                 if (heroVisible)
                 {
                     heroBuffer.SetData(heroInstance);
-                    Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, 1, heroBlock);
+                    Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, 1, heroIdle ? heroIdleBlock : heroBlock);
                 }
 
                 if (wizardBuffer != null)
@@ -360,6 +372,8 @@ namespace HumanLastRampart.Combat.Battle
         public void ApplyAtmosphere(Camera camera, BattleSim battle)
         {
             bool night = battle.TimeOfDay == HumanLastRampart.Core.CombatContracts.TimeOfDay.Night;
+            if (look == null) look = new HumanLastRampart.Combat.Render.BattleLook(camera, root.transform);   // 화면 효과 (D-062 1단계)
+            look.Apply(battle.CurrentWeather, night);
             Color sky;
             float sunIntensity;
             switch (battle.CurrentWeather)
@@ -631,6 +645,7 @@ namespace HumanLastRampart.Combat.Battle
 
         public void Dispose()
         {
+            look?.Dispose();
             if (mapMaterial != null) UnityEngine.Object.Destroy(mapMaterial);
             markerBuffer?.Release();
             if (markers.IsCreated) markers.Dispose();

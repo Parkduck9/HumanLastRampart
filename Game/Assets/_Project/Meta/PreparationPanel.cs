@@ -6,6 +6,7 @@ using HumanLastRampart.Core.Flow;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using HumanLastRampart.UI;
 
 namespace HumanLastRampart.Meta
 {
@@ -36,12 +37,12 @@ namespace HumanLastRampart.Meta
             behind = source.transform.parent.GetComponent<CanvasGroup>(); behind.interactable = false;
             font = source.GetComponentInChildren<Text>().font;
             shade = Make(source.transform.parent.parent, "Prep " + (recruit ? "Recruit" : "Repair"), typeof(Image));
-            Stretch(shade); shade.GetComponent<Image>().color = new Color(0, 0, 0, 0.96f);
+            Stretch(shade); shade.GetComponent<Image>().color = UiStyle.Shade;
             var area = Make(shade, "Prep Scroll", typeof(ScrollRect));
             area.anchorMin = new Vector2(0.12f, 0.15f); area.anchorMax = new Vector2(0.88f, 0.93f);
             area.offsetMin = area.offsetMax = Vector2.zero;
             var viewport = Make(area, "Viewport", typeof(Image), typeof(RectMask2D)); Stretch(viewport);
-            viewport.GetComponent<Image>().color = new Color(0.09f, 0.12f, 0.16f);
+            viewport.GetComponent<Image>().color = UiStyle.PanelSolid; UiStyle.Border(viewport.GetComponent<Image>());
             content = Make(viewport, "Controls", typeof(VerticalLayoutGroup), typeof(ContentSizeFitter));
             content.anchorMin = new Vector2(0, 1); content.anchorMax = new Vector2(1, 1); content.pivot = new Vector2(0.5f, 1);
             content.offsetMin = content.offsetMax = Vector2.zero;
@@ -144,15 +145,15 @@ namespace HumanLastRampart.Meta
         }
         RectTransform ButtonAt(Transform parent,string text,Action action)
         {
-            var rect=Make(parent,text,typeof(Image),typeof(Button));rect.GetComponent<Image>().color=new Color(0.19f,0.28f,0.38f);
-            var button=rect.GetComponent<Button>();button.targetGraphic=rect.GetComponent<Image>();
+            var rect=Make(parent,text,typeof(Image),typeof(Button));
+            var button=rect.GetComponent<Button>();button.targetGraphic=rect.GetComponent<Image>();UiStyle.StyleButton(button);   // 공통 스타일 (D-066)
             var label=Make(rect,"Button Label",typeof(Text));Stretch(label);SetupText(label,text,24);
             button.onClick.AddListener(()=>action());return rect;
         }
         void Label(string text,float height)
         { var rect=Make(content,"Info",typeof(Text),typeof(LayoutElement));SetupText(rect,text,24);rect.GetComponent<LayoutElement>().preferredHeight=height; }
         void SetupText(RectTransform rect,string value,int size)
-        { var t=rect.GetComponent<Text>();t.font=font;t.fontSize=size;t.text=value;t.color=Color.white;t.alignment=TextAnchor.MiddleCenter;t.supportRichText=false;t.raycastTarget=false; }
+        { var t=rect.GetComponent<Text>();t.font=font;t.fontSize=size;t.text=value;t.color=UiStyle.Body;t.alignment=TextAnchor.MiddleCenter;t.supportRichText=false;t.raycastTarget=false; }
         static RectTransform Make(Transform parent,string name,params Type[] components)
         { var obj=new GameObject(name,typeof(RectTransform));obj.transform.SetParent(parent,false);foreach(var type in components)obj.AddComponent(type);return obj.GetComponent<RectTransform>(); }
         static void Stretch(RectTransform r) { r.anchorMin=Vector2.zero;r.anchorMax=Vector2.one;r.offsetMin=r.offsetMax=Vector2.zero; }

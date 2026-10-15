@@ -38,12 +38,22 @@ namespace HumanLastRampart.App.Ui
             fade.raycastTarget = true;   // 전환 중 클릭 막기
             fade.gameObject.SetActive(false);
 
-            Image panelBack = NewImage(root, "Error", new Color(0f, 0f, 0f, 0.85f));
+            Image panelBack = NewImage(root, "Error", StyleShade);
             Stretch(panelBack.rectTransform);
             panelBack.raycastTarget = true;   // 아래 화면 클릭 막기
             errorPanel = panelBack.gameObject;
 
+            // 공통 스타일 창 (D-066): 어두운 올리브 + 황동 테두리
+            Image box = NewImage(panelBack.transform, "Box", StylePanel);
+            box.rectTransform.anchorMin = new Vector2(0.12f, 0.18f);
+            box.rectTransform.anchorMax = new Vector2(0.88f, 0.82f);
+            box.rectTransform.offsetMin = Vector2.zero;
+            box.rectTransform.offsetMax = Vector2.zero;
+            box.raycastTarget = false;
+            AddBorder(box);
+
             errorText = NewText(panelBack.transform, "Message", 34);
+            errorText.color = StyleText;
             errorText.rectTransform.anchorMin = new Vector2(0.15f, 0.45f);
             errorText.rectTransform.anchorMax = new Vector2(0.85f, 0.75f);
             errorText.rectTransform.offsetMin = Vector2.zero;
@@ -98,13 +108,38 @@ namespace HumanLastRampart.App.Ui
 
         public static Button NewButton(Transform parent, string label, Action onClick)
         {
-            Image back = NewImage(parent, "Button " + label, new Color(0.25f, 0.3f, 0.4f, 1f));
+            Image back = NewImage(parent, "Button " + label, StyleButton);
             var button = back.gameObject.AddComponent<Button>();
+            button.targetGraphic = back;
+            // 공통 스타일 버튼: 바탕에 색을 직접 넣고 상태는 밝기 배율로 (ColorBlock에만 넣으면 처음 색이 안 들어가 하얗게 보인다)
+            var colors = ColorBlock.defaultColorBlock;
+            colors.highlightedColor = new Color(1.3f, 1.3f, 1.3f, 1f);
+            colors.selectedColor = colors.highlightedColor;
+            colors.pressedColor = new Color(0.8f, 0.8f, 0.8f, 1f);
+            colors.disabledColor = new Color(0.55f, 0.55f, 0.55f, 0.8f);
+            button.colors = colors;
+            AddBorder(back);
             button.onClick.AddListener(() => onClick());
             Text text = NewText(back.transform, "Label", 28);
+            text.color = StyleText;
             text.text = label;
             Stretch(text.rectTransform);
             return button;
+        }
+
+        // 공통 화면 스타일 색 (D-066). App은 UI 어셈블리를 참조하지 않아 같은 값을 여기에 둔다
+        static readonly Color StyleShade = new Color(0x10 / 255f, 0x16 / 255f, 0x13 / 255f, 0.9f);
+        static readonly Color StylePanel = new Color(0x23 / 255f, 0x30 / 255f, 0x2a / 255f, 1f);
+        static readonly Color StyleBrass = new Color(0xd5 / 255f, 0xb1 / 255f, 0x6b / 255f, 1f);
+        static readonly Color StyleText = new Color(0xee / 255f, 0xe4 / 255f, 0xcf / 255f, 1f);
+        static readonly Color StyleButton = new Color(0x33 / 255f, 0x47 / 255f, 0x3b / 255f, 1f);
+
+        // 얇은 황동 테두리
+        static void AddBorder(Graphic graphic)
+        {
+            var outline = graphic.gameObject.AddComponent<Outline>();
+            outline.effectColor = new Color(StyleBrass.r, StyleBrass.g, StyleBrass.b, 0.85f);
+            outline.effectDistance = new Vector2(2f, -2f);
         }
 
         public static void Stretch(RectTransform rect)
