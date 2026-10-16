@@ -75,16 +75,22 @@ namespace HumanLastRampart.Combat.Tests
         }
 
         // 우회 무리가 있는 전투를 찾아 돌린다: 지휘관이 정면(북)에 있으면 병사 2명이 달려 보고하고, 한 바퀴 뒤 돌아온다
+        // 시야가 트인 판만 쓴다 (K-045 합친 뒤 실패): 안개(25m)·밤(30m)이면 발견 거리가 궁수 사거리(50m)보다 짧아,
+        // 우회 무리가 보이기 전에 성벽 병사에게 다 쓰러져 발견 자체가 안 일어날 수 있다 — 병사 자리·대포 조준이 조금만 바뀌어도 결과가 뒤집혔다
         [Test]
         public void Discovery_SendsRunners_WhoReportAndReturn()
         {
             DefinitionLookup lookup = LoadAll();
-            for (int run = 0; run < 20; run++)
+            for (int run = 0; run < 40; run++)
             {
                 BattleSetup setup = Setup(lookup, 2, $"run_runner_{run}");
                 using (var sim = new BattleSim(setup, lookup))
                 {
                     if (!sim.AttackPlan.Any(g => g.Flank)) continue;
+                    if (setup.Forecast.InitialWeather == Weather.Fog || setup.Forecast.TimeOfDay == TimeOfDay.Night ||
+                        (setup.Forecast.Changes && setup.Forecast.ChangedWeather == Weather.Fog)) continue;
+                    var notices = new List<string>();
+                    sim.Notice += notices.Add;
                     sim.SetCommander(BattleSim.FrontSide, 0f);
                     float time = 0f;
                     bool sawRunners = false;
@@ -99,7 +105,8 @@ namespace HumanLastRampart.Combat.Tests
                         if (sawRunners && sim.FlankReports > 0 && sim.RunnerPairsActive == 0) break;
                     }
 
-                    Assert.IsTrue(sawRunners, "우회 무리를 발견하면 전령이 출발");
+                    Assert.IsTrue(sawRunners, $"우회 무리를 발견하면 전령이 출발 (run_runner_{run}, 끝남 {sim.Ended} {sim.Outcome}, {time:0}초, " +
+                        $"알림: {string.Join(" / ", notices.Where(n => n.Contains("적") || n.Contains("병사")).Take(8))})");
                     Assert.Greater(sim.FlankReports, 0, "지휘관에게 보고");
                     Assert.AreEqual(0, sim.RunnerPairsActive, "한 바퀴 뒤 돌아온다");
                     return;
