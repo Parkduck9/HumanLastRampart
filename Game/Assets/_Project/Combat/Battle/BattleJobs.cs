@@ -43,6 +43,13 @@ namespace HumanLastRampart.Combat.Battle
             return new float3(n.z, 0f, -n.x);
         }
 
+        // 들판 면: 성 가운데에서 대각선으로 나눈 네 구역 중 어디인가 (0 북 · 1 동 · 2 남 · 3 서). 대포가 칠 수 있는 곳 가르기 (K-042)
+        public static int FieldSide(float3 p)
+        {
+            if (math.abs(p.z) >= math.abs(p.x)) return p.z >= 0f ? 0 : 2;
+            return p.x >= 0f ? 1 : 3;
+        }
+
         // 시체 더미 칸: 성벽을 따라 BinWidth 폭으로 나눈 칸 번호 (면 × Bins + 칸)
         public static int PileIndex(float3 position, int side, float castleHalf, float binWidth, int bins)
         {
@@ -368,7 +375,8 @@ namespace HumanLastRampart.Combat.Battle
         public NativeArray<float> SoldierCooldowns;
         [ReadOnly] public NativeArray<float3> SoldierAim;     // 대포 조준점 (MAP-3)
         [ReadOnly] public NativeArray<byte> SoldierHasAim;
-        public NativeArray<byte> SoldierIdle;                 // 조준점 근처에 적이 없어 쉼
+        [ReadOnly] public NativeArray<byte> SoldierCannonReach;   // 대포가 칠 수 있는 들판 면 (비트 0~3, K-042). 0 = 대포 아님
+        public NativeArray<byte> SoldierIdle;                // 조준점 근처에 적이 없어 쉼
         public NativeArray<float> SoldierFireTime;            // 마지막으로 쏜 시각 (사격 그림, K-032)
         public float Now;
         [ReadOnly] public NativeArray<byte> SidePriority;     // 성벽별 TargetPriority
@@ -444,6 +452,7 @@ namespace HumanLastRampart.Combat.Battle
             float3 wallOut = WallGeometry.Outward(side);
             float3 from = SoldierPositions[s];
             float rangeSq = weapon.Range * weapon.Range;
+            int reach = weapon.AreaRadius > 0f ? SoldierCannonReach[s] : 0;
             int2 minCell = Grid.CellOf(from - new float3(weapon.Range, 0f, weapon.Range));
             int2 maxCell = Grid.CellOf(from + new float3(weapon.Range, 0f, weapon.Range));
 
@@ -483,7 +492,12 @@ namespace HumanLastRampart.Combat.Battle
                         float flat = math.sqrt(math.max(distSq, 0.0001f));
                         float cosine = (d.x * wallOut.x + d.z * wallOut.z) / flat;
                         bool onWall = state == EnemyState.OnWall;
-                        if (FrontArc != 0 && cosine <= (onWall ? -0.2f : 0f))
+                        if (reach != 0)
+                        {
+                            // 대포 (K-042): 자기 들판 + 모서리 2문만 옆 들판. 각도 대신 들판 면으로 가른다
+                            if ((reach & (1 << WallGeometry.FieldSide(EnemyPositions[e]))) == 0) continue;
+                        }
+                        else if (FrontArc != 0 && cosine <= (onWall ? -0.2f : 0f))
                         {
                             continue;
                         }

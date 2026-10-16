@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Mathematics;
 using UnityEngine;
@@ -23,12 +23,14 @@ namespace HumanLastRampart.Combat.Battle
             public Vector3 Aim;
             public bool Idle;          // 조준점 근처에 적이 없어 쉬는 중
             public bool Alive;         // 운용병이 남아 있는가
+            public int Reach;          // 칠 수 있는 들판 면 (비트 0~3 = 북·동·남·서, K-042)
         }
 
         readonly List<(int soldier, int side, int number, string postId)> cannons = new List<(int, int, int, string)>();
         NativeArray<float3> sAim;
         NativeArray<byte> sHasAim;
         NativeArray<byte> sIdle;
+        NativeArray<byte> sCannonReach;   // 병사별 — 대포 쏘는 병사만 0이 아니다 (사격 작업이 읽음)
 
         public int CannonCount => cannons.Count;
 
@@ -38,6 +40,7 @@ namespace HumanLastRampart.Combat.Battle
             sAim = new NativeArray<float3>(n, p);
             sHasAim = new NativeArray<byte>(n, p);
             sIdle = new NativeArray<byte>(n, p);
+            sCannonReach = new NativeArray<byte>(n, p);
 
             // 쏘는 대포 병사(무기 있음·범위 무기)를 성벽별로 지점 이름 순서대로 번호를 매긴다
             var found = new List<(int soldier, int side, string postId)>();
@@ -54,6 +57,54 @@ namespace HumanLastRampart.Combat.Battle
             {
                 cannons.Add((soldier, side, ++numberBySide[side], postId));
             }
+
+            InitCannonReach();
+        }
+
+        // 대포가 칠 수 있는 들판 (K-042 사용자 요청): 자기 성벽 앞 들판 + 모서리에 가까운 2문만 그 모서리 옆 성벽의 들판.
+        // 맞은편 들판은 못 친다. 들판은 성 가운데에서 대각선으로 4면을 나눈다 (WallGeometry.FieldSide).
+        // 성벽 따라 오른쪽(바깥을 볼 때) 순서로 줄 세워 왼쪽 끝 2문 = 왼쪽 옆 성벽, 오른쪽 끝 2문 = 오른쪽 옆 성벽 (북쪽이면 1·2번 서쪽, 3·4번 동쪽)
+        void InitCannonReach()
+        {
+            for (int side = 0; side < 4; side++)
+            {
+                var row = new List<(float along, int soldier)>();
+                foreach (var (soldier, s, _, _) in cannons)
+                    if (s == side) row.Add((math.dot(CannonSpot(soldier), WallGeometry.Right(side)), soldier));
+                row.Sort((a, b) => a.along.CompareTo(b.along));
+                for (int i = 0; i < row.Count; i++)
+                {
+                    int reach = 1 << side;
+                    if (i < 2) reach |= 1 << ((side + 3) % 4);               // 왼쪽 옆 성벽 (바깥을 볼 때 왼쪽)
+                    if (i >= row.Count - 2) reach |= 1 << ((side + 1) % 4);  // 오른쪽 옆 성벽
+                    sCannonReach[row[i].soldier] = (byte)reach;
+                }
+            }
+        }
+
+        // 이 대포가 그 지점을 칠 수 있는가: 사거리 안 + 칠 수 있는 들판 면. reason = 안 될 때 알림 문구
+        public bool CannonCanReach(int index, Vector3 point, out string reason)
+        {
+            reason = null;
+            if (index < 0 || index >= cannons.Count) { reason = "대포 없음"; return false; }
+            var (soldier, side, number, _) = cannons[index];
+            float3 from = CannonSpot(soldier);   // 운용병 2명이 양옆에 서므로 대포 자리 기준 (K-039)
+            float range = weapons[sWeapon[soldier]].Range;
+            float dx = point.x - from.x, dz = point.z - from.z;
+            if (dx * dx + dz * dz > range * range)
+            {
+                reason = $"{SideNames[side]} 대포 {number}: 사거리({range:0}m) 밖입니다";
+                return false;
+            }
+
+            int field = WallGeometry.FieldSide(new float3(point.x, 0f, point.z));
+            if ((sCannonReach[soldier] & (1 << field)) == 0)
+            {
+                reason = $"{SideNames[side]} 대포 {number}: {SideNames[field]} 들판은 닿지 않습니다";
+                return false;
+            }
+
+            return true;
         }
 
         public CannonInfo GetCannon(int index)
@@ -70,20 +121,18 @@ namespace HumanLastRampart.Combat.Battle
                 Aim = sAim[soldier],
                 Idle = !scheduled && sIdle[soldier] != 0,   // 작업이 도는 중엔 읽지 않는다 (그리기·HUD는 작업이 끝난 뒤 부름)
                 Alive = sAlive[soldier] != 0,
+                Reach = sCannonReach[soldier],
             };
         }
 
-        // 지도에서 찍은 지점으로 조준. 사거리 밖이면 false (알림)
+        // 지도에서 찍은 지점으로 조준. 사거리 밖이거나 칠 수 없는 들판이면 false (알림)
         public bool SetCannonAim(int index, Vector3 point)
         {
             if (index < 0 || index >= cannons.Count) return false;
             var (soldier, side, number, _) = cannons[index];
-            float3 from = CannonSpot(soldier);
-            float range = weapons[sWeapon[soldier]].Range;
-            float dx = point.x - from.x, dz = point.z - from.z;
-            if (dx * dx + dz * dz > range * range)
+            if (!CannonCanReach(index, point, out string reason))
             {
-                Notice?.Invoke($"{SideNames[side]} 대포 {number}: 사거리({range:0}m) 밖입니다");
+                Notice?.Invoke(reason);
                 return false;
             }
 

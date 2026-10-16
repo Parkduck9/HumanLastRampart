@@ -102,6 +102,51 @@ namespace HumanLastRampart.Meta
             if (quote.FromStorage) campaign.TrapStock = stock; else campaign.TrapShop = stock;
             return true;
         }
+        // 여러 칸 한 번에 구매·설치 (K-042 사용자 요청: 1개씩 사지 않게). 먼저 전부 되는지(칸·재고·골드·ID) 확인한 뒤
+        // 칸마다 기존 견적(TryQuote)→확정(TryCommit)을 그대로 거친다. 사전 확인을 통과하면 중간에 실패하지 않는다
+        public int Price(string definitionId) => definitions.Get<TrapDef>(definitionId)?.Price ?? 0;
+
+        public bool CanBuyMany(string definitionId, IReadOnlyList<string> cellIds, bool fromStorage, out int cost, out string reason)
+        {
+            cost = 0; reason = null;
+            if (closed) { reason = "종료된 화면입니다"; return false; }
+            if (!HasNextBattle) { reason = "다음 전투가 없습니다"; return false; }
+            var def = definitions.Get<TrapDef>(definitionId);
+            if (def == null) { reason = "함정 정의가 없습니다"; return false; }
+            if (cellIds == null || cellIds.Count == 0) { reason = "설치할 칸을 지도에서 고르세요"; return false; }
+            var seen = new HashSet<string>(StringComparer.Ordinal);
+            foreach (string id in cellIds)
+            {
+                if (!seen.Add(id)) { reason = "같은 칸을 두 번 골랐습니다"; return false; }
+                if (!TrapGrid.IsPlaceable(terrain, id)) { reason = "설치할 수 없는 칸이 섞여 있습니다"; return false; }
+                if (Occupied(id)) { reason = "이미 함정이 설치된 칸이 섞여 있습니다"; return false; }
+            }
+            int have = fromStorage ? StoredCount(def.Id) : ShopCount(def.Id);
+            if (have < cellIds.Count) { reason = $"{(fromStorage ? "보관 중인 함정" : "상점 재고")}이 {have}개뿐입니다"; return false; }
+            cost = fromStorage ? 0 : def.Price * cellIds.Count;
+            if (campaign.Gold < cost) { reason = $"골드가 {cost - campaign.Gold:N0} 모자랍니다"; return false; }
+            if ((long)campaign.NextInstanceNumber + cellIds.Count >= int.MaxValue) { reason = "함정 ID를 안전하게 발급할 수 없습니다"; return false; }
+            return true;
+        }
+
+        public bool TryBuyMany(string definitionId, IReadOnlyList<string> cellIds, bool fromStorage, bool marked,
+            out int placed, out int spent, out string reason, out bool dataError)
+        {
+            placed = 0; spent = 0; dataError = false;
+            if (!Validate(out reason)) { dataError = true; return false; }
+            if (!CanBuyMany(definitionId, cellIds, fromStorage, out _, out reason)) return false;
+            foreach (string id in cellIds)
+            {
+                if (!TryQuote(definitionId, id, fromStorage, marked, out Quote quote, out reason, out dataError)
+                    || !TryCommit(quote, out reason, out dataError))
+                    return false;   // 사전 확인 뒤라 오지 않아야 한다 — 그때까지 설치한 칸은 남는다 (placed 개)
+                placed++;
+                spent += quote.Cost;
+            }
+
+            return true;
+        }
+
         bool Validate(out string reason)
         {
             reason = null;

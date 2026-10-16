@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using HumanLastRampart.Core.Campaign;
 using HumanLastRampart.Core.Definitions;
 using HumanLastRampart.Core.Flow;
@@ -10,138 +11,342 @@ using HumanLastRampart.UI;
 
 namespace HumanLastRampart.Meta
 {
+    // 정비 함정 공방 (K-042 사용자 요청): 성을 가운데 둔 지도 한 장에 4면 들판·언덕과 설치 칸을 바로 보이고,
+    // 여러 칸을 눌러 고른 뒤 [한 번에 구매·설치]. 지형 그림은 Codex K-029 (5m = 32화소 타일, 격자 겉칠).
+    // 거래는 TrapPreparationTransactions의 견적·확정을 칸마다 그대로 쓴다 (골드 차감·진행 데이터 기록)
     internal sealed class TrapPreparationPanel
     {
+        const float MapPx = 880f;          // 지도 한 변 (화면 1920×1080 기준)
+        const float TileMeters = 5f;       // K-029 타일 한 장 = 5m
+        const int TilePx = 32;
+        const string BuyLabel = "한 번에 구매·설치";   // 시험이 이 글자로 시작하는 단추를 누른다
+
         readonly Button source;
         readonly CanvasGroup behind;
         readonly IScreenContext context;
         readonly TrapPreparationTransactions session;
         readonly PreparationTransactions preparation;
-        readonly RectTransform shade, content;
-        readonly ScrollRect scroll;
+        readonly RectTransform shade, side;
         readonly Font font;
-        int side, kind;
-        string cell, message = "성벽과 빈 칸을 골라 견적을 확인하세요. 환불은 불가능합니다.";
+        readonly List<string> picked = new List<string>();
+        readonly Dictionary<string, Image> tiles = new Dictionary<string, Image>();
+        readonly List<UnityEngine.Object> owned = new List<UnityEngine.Object>();   // 닫을 때 지울 텍스처·스프라이트
+        int kind;
         bool storage, marked = true;
-        TrapPreparationTransactions.Quote quote;
+        string message = "지도에서 설치할 칸을 여러 개 눌러 고른 뒤 한 번에 구매하세요. 환불은 불가능합니다.";
+        Sprite gridAllowed, gridBlocked, gridSelected, gridPlaced, trapBuried;
+
         public static void Show(Button source, IScreenContext context, TrapPreparationTransactions session, PreparationTransactions preparation)
         { if (source != null && source.IsInteractable()) new TrapPreparationPanel(source, context, session, preparation); }
+
         TrapPreparationPanel(Button source, IScreenContext context, TrapPreparationTransactions session, PreparationTransactions preparation)
         {
-            this.source=source; this.context=context; this.session=session; this.preparation=preparation;
-            behind=source.transform.parent.GetComponent<CanvasGroup>(); behind.interactable=false;
-            font=source.GetComponentInChildren<Text>().font;
-            shade=Make(source.transform.parent.parent,"Trap preparation",typeof(Image)); Stretch(shade);
-            shade.GetComponent<Image>().color=UiStyle.Shade;
-            var area=Make(shade,"Scroll",typeof(ScrollRect)); area.anchorMin=new Vector2(.06f,.14f);area.anchorMax=new Vector2(.94f,.95f);area.offsetMin=area.offsetMax=Vector2.zero;
-            var viewport=Make(area,"Viewport",typeof(Image),typeof(RectMask2D));Stretch(viewport);viewport.GetComponent<Image>().color=UiStyle.PanelSolid;UiStyle.Border(viewport.GetComponent<Image>());
-            content=Make(viewport,"Content",typeof(VerticalLayoutGroup),typeof(ContentSizeFitter));content.anchorMin=new Vector2(0,1);content.anchorMax=new Vector2(1,1);content.pivot=new Vector2(.5f,1);content.offsetMin=content.offsetMax=Vector2.zero;
-            var layout=content.GetComponent<VerticalLayoutGroup>();layout.padding=new RectOffset(20,20,20,20);layout.spacing=8;layout.childControlWidth=layout.childControlHeight=true;layout.childForceExpandHeight=false;
-            content.GetComponent<ContentSizeFitter>().verticalFit=ContentSizeFitter.FitMode.PreferredSize;
-            scroll=area.GetComponent<ScrollRect>();scroll.viewport=viewport;scroll.content=content;scroll.horizontal=false;scroll.movementType=ScrollRect.MovementType.Clamped;scroll.scrollSensitivity=38;
-            var close=ButtonAt(shade,"닫기",Close);close.anchorMin=new Vector2(.35f,.03f);close.anchorMax=new Vector2(.65f,.11f);close.offsetMin=close.offsetMax=Vector2.zero;
+            this.source = source; this.context = context; this.session = session; this.preparation = preparation;
+            behind = source.transform.parent.GetComponent<CanvasGroup>(); behind.interactable = false;
+            font = source.GetComponentInChildren<Text>().font;
+            shade = Make(source.transform.parent.parent, "Trap preparation", typeof(Image)); Stretch(shade);
+            shade.GetComponent<Image>().color = UiStyle.Shade;
+
+            // 오른쪽: 함정 고르기·선택 합계·구매·닫기 (세로 목록)
+            side = Make(shade, "Trap side", typeof(Image), typeof(VerticalLayoutGroup));
+            side.anchorMin = side.anchorMax = side.pivot = new Vector2(1f, 0.5f);
+            side.anchoredPosition = new Vector2(-40f, 0f); side.sizeDelta = new Vector2(900f, 980f);
+            side.GetComponent<Image>().color = UiStyle.PanelSolid; UiStyle.Border(side.GetComponent<Image>());
+            var layout = side.GetComponent<VerticalLayoutGroup>(); layout.padding = new RectOffset(28, 28, 24, 24); layout.spacing = 10;
+            layout.childControlWidth = layout.childControlHeight = true; layout.childForceExpandHeight = false;
+
+            if (!session.HasNextBattle)
+            {
+                Label(side, "회차 종료: 다음 전투가 없어 함정을 설치할 수 없습니다.", 90, UiStyle.Body);
+                AddButton(side, "닫기", Close);
+                return;
+            }
+
+            LoadSprites();
+            BuildMap(session.Terrain);
             Render();
         }
+
+        // ── 지도 (왼쪽): 땅 그림 한 장 + 칸마다 누를 수 있는 겉칠 ──
+        void BuildMap(TerrainDef terrain)
+        {
+            float extent = Mathf.Ceil((terrain.CastleHalfSize + terrain.TrapFar + 5f) / TileMeters) * TileMeters;   // 성 가운데에서 지도 끝까지(m)
+            float scale = MapPx / (extent * 2f);
+
+            var frame = Make(shade, "Trap map", typeof(Image));
+            frame.anchorMin = frame.anchorMax = frame.pivot = new Vector2(0f, 0.5f);
+            frame.anchoredPosition = new Vector2(40f, -20f); frame.sizeDelta = new Vector2(MapPx + 16f, MapPx + 16f);
+            frame.GetComponent<Image>().color = UiStyle.PanelDeep; UiStyle.Border(frame.GetComponent<Image>());
+            var map = Make(frame, "Map", typeof(RawImage));
+            map.anchorMin = map.anchorMax = map.pivot = new Vector2(0.5f, 0.5f); map.sizeDelta = new Vector2(MapPx, MapPx);
+            var ground = map.GetComponent<RawImage>(); ground.raycastTarget = false;
+            Texture2D picture = ComposeGround(terrain, extent);
+            if (picture != null) ground.texture = picture;
+            else
+            {
+                // 그림이 없으면 예전처럼 색 도형: 들판 + 언덕 + 성
+                ground.color = new Color(.20f, .27f, .19f);
+                foreach (var h in terrain.Hills) Box(map, "Hill", new Vector2(h.x, h.z) * scale, Vector2.one * h.y * 2f * scale, new Color(.33f, .43f, .25f));
+                Box(map, "Castle", Vector2.zero, Vector2.one * terrain.CastleHalfSize * 2f * scale, new Color(.46f, .43f, .37f));
+            }
+
+            // 설치 칸: 이름 = 칸 ID (시험이 이름으로 찾는다)
+            float cellPx = terrain.TrapCellSize * scale;
+            int cols = TrapGrid.Columns(terrain), rows = TrapGrid.Rows(terrain);
+            for (int s = 0; s < 4; s++)
+                for (int row = 0; row < rows; row++)
+                    for (int col = 0; col < cols; col++)
+                    {
+                        string id = TrapGrid.CellId(s, col, row);
+                        var r = Make(map, id, typeof(Image), typeof(Button));
+                        r.anchorMin = r.anchorMax = new Vector2(0.5f, 0.5f);
+                        r.anchoredPosition = TrapGrid.Center(terrain, s, col, row) * scale;
+                        r.sizeDelta = new Vector2(cellPx, cellPx);
+                        var button = r.GetComponent<Button>(); button.targetGraphic = r.GetComponent<Image>();
+                        UiStyle.StyleTintButton(button);
+                        button.onClick.AddListener(() => Toggle(id));
+                        tiles[id] = r.GetComponent<Image>();
+                    }
+
+            // 동서남북 글자 + 주 공격 방향
+            string[] names = { "북", "동", "남", "서" };
+            Vector2[] dirs = { Vector2.up, Vector2.right, Vector2.down, Vector2.left };
+            for (int s = 0; s < 4; s++)
+            {
+                var letter = Make(map, "Side " + names[s], typeof(Text), typeof(Outline));
+                letter.anchorMin = letter.anchorMax = new Vector2(0.5f, 0.5f); letter.sizeDelta = new Vector2(48f, 40f);
+                letter.anchoredPosition = dirs[s] * (MapPx * 0.5f - 22f);
+                Text(letter, names[s], 30, UiStyle.Brass);
+                letter.GetComponent<Text>().fontStyle = FontStyle.Bold;
+                letter.GetComponent<Outline>().effectColor = new Color(0f, 0f, 0f, 0.9f);
+            }
+
+            var note = Make(shade, "Map note", typeof(Text));
+            note.anchorMin = note.anchorMax = note.pivot = new Vector2(0f, 1f);
+            note.anchoredPosition = new Vector2(40f, -14f); note.sizeDelta = new Vector2(MapPx + 16f, 36f);
+            Text(note, "▲ 북쪽이 정면 — 주 공격 방향 · 일부 적은 옆·뒤 성벽으로 돌아올 수 있습니다", 20, UiStyle.TextDim);
+        }
+
+        // K-029 타일로 땅 그림 한 장 만들기 (5m = 32화소): 풀 2종 섞기, 언덕 3단계, 빈 모서리에 나무·바위, 성 안 흙 + 성 둘레 그림
+        Texture2D ComposeGround(TerrainDef terrain, float extent)
+        {
+            Texture2D grassA = Tile("grass_a"), grassB = Tile("grass_b"), dirt = Tile("dirt"), castle = Tile("castle_perimeter");
+            Texture2D[] hills = { Tile("hill_1"), Tile("hill_2"), Tile("hill_3") };
+            Texture2D trees = Tile("trees"), rocks = Tile("rocks");
+            if (grassA == null || grassB == null) return null;
+            try
+            {
+                int n = Mathf.RoundToInt(extent * 2f / TileMeters);
+                int size = n * TilePx;
+                var pixels = new Color32[size * size];
+                var a = grassA.GetPixels32(); var b = grassB.GetPixels32();
+                Color32[] dirtPx = dirt != null ? dirt.GetPixels32() : null;
+                var hillPx = new Color32[3][];
+                for (int k = 0; k < 3; k++) hillPx[k] = hills[k] != null ? hills[k].GetPixels32() : null;
+                Color32[] treePx = trees != null ? trees.GetPixels32() : null, rockPx = rocks != null ? rocks.GetPixels32() : null;
+                float half = terrain.CastleHalfSize, zoneFar = half + terrain.TrapFar;
+                int seed = terrain.Id != null ? terrain.Id.GetHashCode() : 0;
+                for (int j = 0; j < n; j++)
+                    for (int i = 0; i < n; i++)
+                    {
+                        float x = -extent + (i + 0.5f) * TileMeters, z = -extent + (j + 0.5f) * TileMeters;
+                        uint h = Hash(i, j, seed);
+                        bool inCastle = Mathf.Abs(x) < half && Mathf.Abs(z) < half;
+                        Color32[] tile = inCastle && dirtPx != null ? dirtPx : (h & 1) == 0 ? a : b;
+                        foreach (var hill in terrain.Hills)
+                        {
+                            float d = new Vector2(x - hill.x, z - hill.z).magnitude / Mathf.Max(0.1f, hill.y);
+                            if (d > 1f) continue;
+                            int level = d < 0.35f ? 2 : d < 0.7f ? 1 : 0;
+                            if (hillPx[level] != null) tile = hillPx[level];
+                        }
+                        Paste(pixels, size, tile, i * TilePx, j * TilePx, TilePx, false);
+                        // 설치 구역이 아닌 대각선 모서리·바깥에만 가끔 나무·바위 (설치 칸을 가리지 않게)
+                        bool inZone = (Mathf.Abs(x) < half && Mathf.Abs(z) < zoneFar) || (Mathf.Abs(z) < half && Mathf.Abs(x) < zoneFar);
+                        if (!inZone && !inCastle && (h >> 8) % 100 < 9)
+                        {
+                            Color32[] decor = (h >> 16) % 2 == 0 ? treePx : rockPx;
+                            if (decor != null) Paste(pixels, size, decor, i * TilePx, j * TilePx, TilePx, true);
+                        }
+                    }
+
+                if (castle != null)
+                {
+                    int castlePx = Mathf.RoundToInt(half * 2f / TileMeters * TilePx);
+                    if (castle.width == castlePx && castle.height == castlePx)
+                        Paste(pixels, size, castle.GetPixels32(), size / 2 - castlePx / 2, size / 2 - castlePx / 2, castlePx, true);
+                }
+
+                var texture = new Texture2D(size, size, TextureFormat.RGBA32, false) { name = "Trap map ground", filterMode = FilterMode.Point, wrapMode = TextureWrapMode.Clamp };
+                texture.SetPixels32(pixels);
+                texture.Apply(false, true);
+                owned.Add(texture);
+                return texture;
+            }
+            catch (UnityException)
+            {
+                return null;   // 읽기 불가로 가져온 그림 — 색 도형으로
+            }
+        }
+
+        static void Paste(Color32[] target, int size, Color32[] tile, int x0, int y0, int tileSize, bool blend)
+        {
+            for (int y = 0; y < tileSize; y++)
+            {
+                int ty = y0 + y;
+                if (ty < 0 || ty >= size) continue;
+                for (int x = 0; x < tileSize; x++)
+                {
+                    int tx = x0 + x;
+                    if (tx < 0 || tx >= size) continue;
+                    Color32 src = tile[y * tileSize + x];
+                    int index = ty * size + tx;
+                    if (!blend || src.a == 255) { if (!blend || src.a > 0) target[index] = src; continue; }
+                    if (src.a == 0) continue;
+                    Color32 dst = target[index];
+                    float t = src.a / 255f;
+                    target[index] = new Color32((byte)(dst.r + (src.r - dst.r) * t), (byte)(dst.g + (src.g - dst.g) * t), (byte)(dst.b + (src.b - dst.b) * t), 255);
+                }
+            }
+        }
+
+        static uint Hash(int i, int j, int seed)
+        {
+            unchecked
+            {
+                uint h = (uint)(i * 73856093) ^ (uint)(j * 19349663) ^ (uint)seed;
+                h ^= h >> 13; h *= 0x5bd1e995; h ^= h >> 15;
+                return h;
+            }
+        }
+
+        static Texture2D Tile(string name) => Resources.Load<Texture2D>("TrapMap/" + name);
+
+        void LoadSprites()
+        {
+            gridAllowed = MakeSprite("grid_allowed"); gridBlocked = MakeSprite("grid_blocked");
+            gridSelected = MakeSprite("grid_selected"); gridPlaced = MakeSprite("grid_placed"); trapBuried = MakeSprite("trap_buried");
+        }
+
+        Sprite MakeSprite(string name)
+        {
+            Texture2D texture = Tile(name);
+            if (texture == null) return null;
+            texture.filterMode = FilterMode.Point;
+            var sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100f);
+            owned.Add(sprite);
+            return sprite;
+        }
+
+        // ── 칸 고르기 ──
+        void Toggle(string id)
+        {
+            if (picked.Contains(id)) picked.Remove(id); else picked.Add(id);
+            message = "지도에서 칸을 더 고르거나 한 번에 구매하세요.";
+            Render();
+        }
+
+        void PaintTiles()
+        {
+            TerrainDef terrain = session.Terrain;
+            foreach (var pair in tiles)
+            {
+                string id = pair.Key; Image image = pair.Value;
+                bool allowed = TrapGrid.IsPlaceable(terrain, id), occupied = session.Occupied(id), chosen = picked.Contains(id);
+                Sprite sprite = !allowed ? gridBlocked : occupied ? gridPlaced : chosen ? gridSelected : gridAllowed;
+                if (sprite != null) { image.sprite = sprite; image.color = Color.white; }
+                else image.color = !allowed ? new Color(.30f, .24f, .18f, .7f) : occupied ? new Color(.55f, .32f, .26f, .9f) : chosen ? new Color(.24f, .45f, .70f, .9f) : new Color(.2f, .28f, .22f, .45f);
+                image.GetComponent<Button>().interactable = allowed && !occupied;
+                // 설치된 칸에는 묻힌 함정 표시
+                Transform mark = image.transform.Find("Buried");
+                if (occupied && mark == null && trapBuried != null)
+                {
+                    var icon = Make(image.transform, "Buried", typeof(Image)); Stretch(icon);
+                    icon.GetComponent<Image>().sprite = trapBuried; icon.GetComponent<Image>().raycastTarget = false;
+                }
+            }
+        }
+
+        // ── 오른쪽 목록 (고를 때마다 다시 그린다 — 지도는 칸 색만 바꾼다) ──
         void Render()
         {
-            foreach(Transform child in content){child.gameObject.SetActive(false);UnityEngine.Object.Destroy(child.gameObject);}
-            if(EventSystem.current!=null)EventSystem.current.SetSelectedGameObject(null);
-            if(!session.HasNextBattle){Label("회차 종료: 다음 전투가 없어 함정을 설치할 수 없습니다.",90);return;}
-            var terrain=session.Terrain;var defs=context.Definitions.All<TrapDef>();kind%=defs.Count;var def=defs[kind];
-            Title($"함정 구매·설치 · 다음 지형 {terrain.DisplayName} · 골드 {context.Campaign.Gold:N0}",64);
-            // 지도 시안 2판 (D-066): 북쪽이 늘 위. 성·언덕·주 공격 방향·고른 성벽과 설치 영역·고른 칸
-            Overview(terrain);
-            SideButtons();
-            AddButton($"함정: {def.DisplayName} · 상점 {session.ShopCount(def.Id)}개 · 보관 {session.StoredCount(def.Id)}개",()=>{kind=(kind+1)%defs.Count;Changed();});
-            AddButton(storage?"보관품 재설치 · 골드 없음":"상점 구매·설치 · "+def.Price+"골드",()=>{storage=!storage;Changed();});
-            AddButton(marked?"지도 표시: 켜짐 (기본)":"지도 표시: 없음 — 지도에서 점화 불가",()=>{marked=!marked;Changed();});
-            Label($"{PreparationTransactions.WallName(WallIds.All[side])} 성벽에서 바깥을 본 격자 · 위 = 먼 쪽 · 아래 = 성벽 쪽 · {SideHint[side]}\n칸 {terrain.TrapCellSize}m · 성벽에서 {terrain.TrapNear}~{terrain.TrapFar}m · □ 빈 칸 · ■ 설치됨 · × 언덕/설치 불가 · ● 선택",76);
-            int cols=TrapGrid.Columns(terrain),rows=TrapGrid.Rows(terrain);
-            var grid=Make(content,"Placement grid",typeof(GridLayoutGroup),typeof(LayoutElement));
-            LayoutRebuilder.ForceRebuildLayoutImmediate(content);Canvas.ForceUpdateCanvases();
-            var gl=grid.GetComponent<GridLayoutGroup>();gl.constraint=GridLayoutGroup.Constraint.FixedColumnCount;gl.constraintCount=cols;gl.spacing=new Vector2(2,2);
-            float available=Mathf.Max(240,content.rect.width-40);gl.cellSize=new Vector2(Mathf.Max(8,(available-(cols-1)*2)/cols),34);
-            grid.GetComponent<LayoutElement>().preferredHeight=rows*36;
-            // 먼 줄을 위에, 성벽에 가까운 줄을 아래에 표시한다.
-            for(int row=rows-1;row>=0;row--)for(int col=0;col<cols;col++)
-            {
-                string id=TrapGrid.CellId(side,col,row);bool allowed=TrapGrid.IsPlaceable(terrain,id);bool occupied=session.Occupied(id);
-                var tile=ButtonAt(grid,!allowed?"×":occupied?"■":cell==id?"●":"□",()=>{cell=id;Changed(false);});
-                tile.name=id;tile.GetComponent<Button>().interactable=allowed&&!occupied;
-                tile.GetComponent<Image>().color=!allowed?new Color(.30f,.24f,.18f):occupied?new Color(.55f,.32f,.26f):cell==id?new Color(.24f,.45f,.70f):UiStyle.ButtonNormal;UiStyle.StyleTintButton(tile.GetComponent<Button>());
-                tile.GetComponentInChildren<Text>().fontSize=17;
-            }
-            Label("선택: "+CellText(terrain),48);
-            AddButton("설치 견적 확인",()=>{bool ok=session.TryQuote(def.Id,cell,storage,marked,out quote,out var reason,out bool error);if(error){DataError(reason);return;}message=ok?quote.Description:reason;Render();});
-            Label(message,Math.Max(100,(message.Split('\n').Length+1)*31));
-            var confirm=AddButton("확정 설치",()=>{var q=quote;quote=null;bool ok=session.TryCommit(q,out var reason,out bool error);if(error){DataError(reason);return;}message=ok?"설치 완료 · "+q.Cost+"골드 사용 · 환불 불가":reason;preparation.CancelQuote();PreparationPanel.RefreshSummary(source,context,preparation);Render();});confirm.interactable=quote!=null;
-            Label("회수 기능은 판정 약속 보완 후 연결합니다.",52);
-            LayoutRebuilder.ForceRebuildLayoutImmediate(content);scroll.verticalNormalizedPosition=quote!=null?0:1;
+            foreach (Transform child in side) { child.gameObject.SetActive(false); UnityEngine.Object.Destroy(child.gameObject); }
+            if (EventSystem.current != null) EventSystem.current.SetSelectedGameObject(null);
+            PaintTiles();
+            var terrain = session.Terrain; var defs = context.Definitions.All<TrapDef>(); kind %= defs.Count; var def = defs[kind];
+            Label(side, $"함정 공방 · 다음 지형 {terrain.DisplayName} · 골드 {context.Campaign.Gold:N0}", 56, UiStyle.Brass, 28);
+            AddButton(side, $"함정: {def.DisplayName} · 상점 {session.ShopCount(def.Id)}개 · 보관 {session.StoredCount(def.Id)}개", () => { kind = (kind + 1) % defs.Count; Render(); });
+            AddButton(side, storage ? "보관품 재설치 · 골드 없음" : "상점 구매·설치 · 1개 " + def.Price + "골드", () => { storage = !storage; Render(); });
+            AddButton(side, marked ? "지도 표시: 켜짐 (기본)" : "지도 표시: 없음 — 지도에서 점화 불가", () => { marked = !marked; Render(); });
+            Label(side, $"칸 {terrain.TrapCellSize:0.#}m · 성벽에서 {terrain.TrapNear:0}~{terrain.TrapFar:0}m\n밝은 칸 = 설치 가능 · 어두운 칸 = 언덕/불가 · 파란 칸 = 고름 · 함정 표시 = 설치됨", 70, UiStyle.TextDim, 20);
+
+            bool ok = session.CanBuyMany(def.Id, picked, storage, out int cost, out string why);
+            int each = storage ? 0 : def.Price;
+            string sum = picked.Count == 0 ? "고른 칸 없음"
+                : $"고른 칸 {picked.Count}개 · 합계 {each * picked.Count:N0}골드 · 보유 {context.Campaign.Gold:N0}골드";
+            Label(side, sum + (picked.Count > 0 && !ok ? "\n" + why : ""), 76, picked.Count > 0 && !ok ? UiStyle.Danger : UiStyle.Body, 24);
+
+            var buy = AddButton(side, picked.Count > 0 ? $"{BuyLabel} ({picked.Count}칸 · {cost:N0}골드)" : BuyLabel, Buy);
+            buy.interactable = ok;
+            if (ok) UiStyle.SetPrimary(buy);
+            var clear = AddButton(side, "선택 지우기", () => { picked.Clear(); message = "선택을 지웠습니다."; Render(); });
+            clear.interactable = picked.Count > 0;
+            Label(side, message, 96, UiStyle.Body, 22);
+            Label(side, "회수 기능은 판정 약속 보완 후 연결합니다.", 40, UiStyle.TextDim, 18);
+            AddButton(side, "닫기", Close);
         }
-        // ── 지도 시안 2판 (D-066, Docs/References/codex_trap_map_proposal_v2) ──
-        const float MapSize=340f;
-        // 성벽에서 바깥을 볼 때 격자의 왼쪽·오른쪽 (북 0 · 동 1 · 남 2 · 서 3)
-        static readonly string[] SideHint={"왼쪽 서 · 오른쪽 동","왼쪽 북 · 오른쪽 남","왼쪽 동 · 오른쪽 서","왼쪽 남 · 오른쪽 북"};
-        static Vector2 Out(int s)=>s==0?new Vector2(0,1):s==1?new Vector2(1,0):s==2?new Vector2(0,-1):new Vector2(-1,0);
-        void Title(string value,float height){var r=Make(content,"Title",typeof(Text),typeof(LayoutElement));Text(r,value,26);r.GetComponent<Text>().color=UiStyle.Brass;r.GetComponent<LayoutElement>().preferredHeight=height;}
-        void Overview(TerrainDef terrain)
+
+        void Buy()
         {
-            var holder=Make(content,"Overview map",typeof(LayoutElement));holder.GetComponent<LayoutElement>().preferredHeight=MapSize+76;
-            var north=Make(holder,"North",typeof(Text));north.anchorMin=north.anchorMax=new Vector2(.5f,1);north.pivot=new Vector2(.5f,1);north.sizeDelta=new Vector2(MapSize+260,32);north.anchoredPosition=Vector2.zero;
-            Text(north,"▼ 북 · 정면 — 주 공격 방향 (적 대부분)",22);north.GetComponent<Text>().color=UiStyle.Danger;
-            var map=Make(holder,"Map",typeof(Image));map.anchorMin=map.anchorMax=new Vector2(.5f,1);map.pivot=new Vector2(.5f,1);map.sizeDelta=new Vector2(MapSize,MapSize);map.anchoredPosition=new Vector2(0,-34);
-            map.GetComponent<Image>().color=UiStyle.PanelDeep;map.GetComponent<Image>().raycastTarget=false;UiStyle.Border(map.GetComponent<Image>(),.5f);
-            float half=terrain.CastleHalfSize,extent=half+terrain.TrapFar+30f,scale=MapSize*.5f/extent;
-            foreach(var h in terrain.Hills)Box(map,"Hill",new Vector2(h.x,h.z)*scale,Vector2.one*h.y*2*scale,new Color(.33f,.43f,.25f),"언덕");
-            Vector2 o=Out(side);float depth=terrain.TrapFar-terrain.TrapNear;
-            Vector2 area=Mathf.Abs(o.y)>0?new Vector2(half*2,depth):new Vector2(depth,half*2);
-            Box(map,"Placement area",o*(half+(terrain.TrapNear+terrain.TrapFar)*.5f)*scale,area*scale,new Color(UiStyle.Brass.r,UiStyle.Brass.g,UiStyle.Brass.b,.26f),"설치 영역");
-            Box(map,"Castle",Vector2.zero,Vector2.one*half*2*scale,new Color(.46f,.43f,.37f),"성");
-            for(int s=0;s<4;s++)
-            {
-                Vector2 os=Out(s);bool selected=s==side;float t=selected?6f:3f;
-                Vector2 size=Mathf.Abs(os.y)>0?new Vector2(half*2*scale+t,t):new Vector2(t,half*2*scale+t);
-                Box(map,"Wall",os*half*scale,size,selected?UiStyle.Danger:new Color(.78f,.74f,.66f),null);
-                var letter=Make(map,"Side",typeof(Text));letter.anchorMin=letter.anchorMax=new Vector2(.5f,.5f);letter.sizeDelta=new Vector2(40,28);letter.anchoredPosition=os*(MapSize*.5f-16f);
-                Text(letter,s==0?"북":s==1?"동":s==2?"남":"서",20);letter.GetComponent<Text>().color=selected?UiStyle.Danger:UiStyle.TextDim;
-            }
-            if(cell!=null&&TrapGrid.TryParse(cell,out int cs,out int cc,out int cr)&&cs==side)
-                Box(map,"Selected cell",TrapGrid.Center(terrain,cs,cc,cr)*scale,Vector2.one*Mathf.Max(5f,terrain.TrapCellSize*scale),new Color(.35f,.62f,1f),null);
-            var note=Make(holder,"Note",typeof(Text));note.anchorMin=note.anchorMax=new Vector2(.5f,1);note.pivot=new Vector2(.5f,1);note.sizeDelta=new Vector2(MapSize+260,30);note.anchoredPosition=new Vector2(0,-(MapSize+40));
-            Text(note,"지도 위쪽이 북 · 일부 적은 옆·뒤 성벽으로 돌아올 수 있습니다",18);note.GetComponent<Text>().color=UiStyle.TextDim;
+            var def = context.Definitions.All<TrapDef>()[kind];
+            var cells = new List<string>(picked);
+            bool ok = session.TryBuyMany(def.Id, cells, storage, marked, out int placed, out int spent, out string reason, out bool error);
+            if (error) { DataError(reason); return; }
+            message = ok ? $"설치 완료 · {placed}칸 · {spent:N0}골드 사용 · 환불 불가"
+                : placed > 0 ? $"{placed}칸만 설치됨 ({spent:N0}골드) · {reason}" : reason;
+            if (ok || placed > 0) picked.Clear();
+            preparation.CancelQuote();
+            PreparationPanel.RefreshSummary(source, context, preparation);
+            Render();
         }
-        void Box(RectTransform map,string name,Vector2 center,Vector2 size,Color color,string label)
+
+        void DataError(string reason) { session.Close(); context.ReportDataError(reason); foreach (var b in shade.GetComponentsInChildren<Button>()) b.interactable = false; }
+
+        void Close()
         {
-            var b=Make(map,name,typeof(Image));b.anchorMin=b.anchorMax=new Vector2(.5f,.5f);b.sizeDelta=size;b.anchoredPosition=center;
-            var image=b.GetComponent<Image>();image.color=color;image.raycastTarget=false;
-            if(label==null||size.x<24f)return;
-            var l=Make(b,"Label",typeof(Text));Stretch(l);Text(l,label,14);
+            session.CancelQuote(); behind.interactable = true; shade.gameObject.SetActive(false); UnityEngine.Object.Destroy(shade.gameObject);
+            foreach (var item in owned) if (item != null) UnityEngine.Object.Destroy(item);   // 지도 그림 텍스처·스프라이트 (불러온 원본 그림은 지우지 않는다)
+            owned.Clear();
+            if (EventSystem.current != null) EventSystem.current.SetSelectedGameObject(source.gameObject);
         }
-        void SideButtons()
+
+        void Box(RectTransform map, string name, Vector2 center, Vector2 size, Color color)
         {
-            var row=Make(content,"Wall sides",typeof(HorizontalLayoutGroup),typeof(LayoutElement));row.GetComponent<LayoutElement>().preferredHeight=56;
-            var h=row.GetComponent<HorizontalLayoutGroup>();h.spacing=8;h.childControlWidth=h.childControlHeight=true;h.childForceExpandWidth=true;h.childForceExpandHeight=true;
-            for(int s=0;s<4;s++)
-            {
-                int pick=s;
-                var b=ButtonAt(row,(s==side?"● ":"")+PreparationTransactions.WallName(WallIds.All[s])+" 성벽",()=>{if(side==pick)return;side=pick;cell=null;Changed();});
-                UiStyle.StyleButton(b.GetComponent<Button>(),s==side);
-            }
+            var b = Make(map, name, typeof(Image)); b.anchorMin = b.anchorMax = new Vector2(.5f, .5f); b.sizeDelta = size; b.anchoredPosition = center;
+            var image = b.GetComponent<Image>(); image.color = color; image.raycastTarget = false;
         }
-        string CellText(TerrainDef terrain)
+
+        Button AddButton(Transform parent, string text, Action action)
         {
-            if(cell==null||!TrapGrid.TryParse(cell,out int s,out int c,out int r))return "선택 안 함";
-            Vector2 p=TrapGrid.Center(terrain,s,c,r);float away=terrain.TrapNear+(r+.5f)*terrain.TrapCellSize;
-            return $"{PreparationTransactions.WallName(WallIds.All[s])} 성벽 {c+1}열 · 성벽에서 {away:0.#}m · 지도 X {p.x:0.#} / Z {p.y:0.#}";
+            var r = Make(parent, text, typeof(Image), typeof(Button)); var b = r.GetComponent<Button>(); b.targetGraphic = r.GetComponent<Image>(); UiStyle.StyleButton(b);
+            var l = Make(r, "Text", typeof(Text)); Stretch(l); Text(l, text, 22, UiStyle.Body); b.onClick.AddListener(() => action());
+            r.gameObject.AddComponent<LayoutElement>().preferredHeight = 56;
+            return b;
         }
-        void Changed(bool top=true){quote=null;session.CancelQuote();message="선택이 변경됐습니다. 견적을 확인하세요.";float saved=scroll.verticalNormalizedPosition;Render();if(!top)scroll.verticalNormalizedPosition=saved;}
-        void DataError(string reason){session.Close();context.ReportDataError(reason);foreach(var b in shade.GetComponentsInChildren<Button>())b.interactable=false;}
-        void Close(){session.CancelQuote();behind.interactable=true;shade.gameObject.SetActive(false);UnityEngine.Object.Destroy(shade.gameObject);if(EventSystem.current!=null)EventSystem.current.SetSelectedGameObject(source.gameObject);}
-        Button AddButton(string text,Action action){var r=ButtonAt(content,text,action);r.gameObject.AddComponent<LayoutElement>().preferredHeight=56;return r.GetComponent<Button>();}
-        RectTransform ButtonAt(Transform parent,string value,Action action){var r=Make(parent,value,typeof(Image),typeof(Button));var b=r.GetComponent<Button>();b.targetGraphic=r.GetComponent<Image>();UiStyle.StyleButton(b);var l=Make(r,"Text",typeof(Text));Stretch(l);Text(l,value,22);b.onClick.AddListener(()=>action());return r;}
-        void Label(string value,float height){var r=Make(content,"Info",typeof(Text),typeof(LayoutElement));Text(r,value,22);r.GetComponent<LayoutElement>().preferredHeight=height;}
-        void Text(RectTransform r,string value,int size){var t=r.GetComponent<Text>();t.font=font;t.fontSize=size;t.text=value;t.alignment=TextAnchor.MiddleCenter;t.color=UiStyle.Body;t.supportRichText=false;t.raycastTarget=false;}
-        static RectTransform Make(Transform parent,string name,params Type[] components){var o=new GameObject(name,typeof(RectTransform));o.transform.SetParent(parent,false);foreach(var type in components)o.AddComponent(type);return o.GetComponent<RectTransform>();}
-        static void Stretch(RectTransform r){r.anchorMin=Vector2.zero;r.anchorMax=Vector2.one;r.offsetMin=r.offsetMax=Vector2.zero;}
+
+        void Label(Transform parent, string value, float height, Color color, int size = 22)
+        {
+            var r = Make(parent, "Info", typeof(Text), typeof(LayoutElement)); Text(r, value, size, color);
+            r.GetComponent<LayoutElement>().preferredHeight = height;
+        }
+
+        void Text(RectTransform r, string value, int size, Color color)
+        {
+            var t = r.GetComponent<Text>(); t.font = font; t.fontSize = size; t.text = value; t.alignment = TextAnchor.MiddleCenter;
+            t.color = color; t.supportRichText = false; t.raycastTarget = false; t.horizontalOverflow = HorizontalWrapMode.Wrap;
+        }
+
+        static RectTransform Make(Transform parent, string name, params Type[] components) { var o = new GameObject(name, typeof(RectTransform)); o.transform.SetParent(parent, false); foreach (var type in components) o.AddComponent(type); return o.GetComponent<RectTransform>(); }
+        static void Stretch(RectTransform r) { r.anchorMin = Vector2.zero; r.anchorMax = Vector2.one; r.offsetMin = r.offsetMax = Vector2.zero; }
     }
 }
