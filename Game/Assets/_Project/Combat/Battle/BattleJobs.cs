@@ -161,10 +161,12 @@ namespace HumanLastRampart.Combat.Battle
         public float DeltaTime;
         public float FunnelBase;    // 성벽에서 적이 퍼지는 반폭(m)
         public float FunnelSlope;   // 성벽에서 1m 멀어질 때 늘어나는 반폭
+        public TerrainField Terrain;   // 무작위 지형·지형 손질 (K-049, BattleSim.Terrain.cs): 돌아감·넘음·허묾·엄폐
 
         public void Execute(int i)
         {
             byte state = States[i];
+            if (Terrain.Active != 0 && state != EnemyState.Walking) Terrain.Clear(i);
             if (state == EnemyState.AtWall)
             {
                 // 성벽 앞 적: 시체 더미 위에 서고, 더미가 충분히 높으면 밟고 오르기 시작한다
@@ -206,6 +208,7 @@ namespace HumanLastRampart.Combat.Battle
                 float width = FunnelBase + math.max(0f, fromWall) * FunnelSlope;
                 float lateralSpeed = -speed * FunnelSlope * math.dot(Positions[i], r) / math.max(width, 0.1f);
                 float3 velocity = -n * speed + r * lateralSpeed;
+                if (Terrain.Active != 0) velocity = Terrain.Steer(i, Positions[i], velocity, Sides[i], fromWall);
                 float3 position = Positions[i] + velocity * DeltaTime;
                 Velocities[i] = velocity;
                 float distance = math.dot(position, n);
@@ -396,6 +399,7 @@ namespace HumanLastRampart.Combat.Battle
         [ReadOnly] public NativeArray<int> CellStart;
         [ReadOnly] public NativeArray<int> CellCount;
         [ReadOnly] public NativeArray<int> SortedEnemies;
+        [ReadOnly] public NativeArray<byte> EnemyCovered;     // 토벽 뒤 적 — 총·화살은 노리지 않는다 (K-049, D-077 ⑦)
         public NativeQueue<Shot>.ParallelWriter Shots;
         public GridSpec Grid;
         public float CastleHalf;
@@ -524,6 +528,7 @@ namespace HumanLastRampart.Combat.Battle
                         }
 
                         byte state = EnemyStates[e];
+                        if (EnemyCovered[e] != 0 && weapon.AreaRadius <= 0f) continue;   // 토벽 엄폐 (대포는 넘어서 맞힌다)
 
                         // 자기 성벽 앞만 쏜다 (D-073): 성벽 바깥 방향에서 좌우 30도 안 = 1순위, 60도 = 2순위, 90도 = 3순위,
                         // 90도 넘게(옆·뒤 = 다른 성벽 쪽)는 쏘지 않는다. 성벽 위 적은 통로 옆이라 거의 90도 — 조금 넘어도 허용
@@ -763,6 +768,7 @@ namespace HumanLastRampart.Combat.Battle
         [ReadOnly] public NativeArray<int> CellStart;
         [ReadOnly] public NativeArray<int> CellCount;
         [ReadOnly] public NativeArray<int> SortedEnemies;
+        [ReadOnly] public NativeArray<byte> EnemyCovered;     // 토벽 뒤 적 — 화살·총알이 닿지 않는다 (K-049). 범위 피해는 맞는다
         public NativeQueue<HitEvent>.ParallelWriter Hits;
         public GridSpec Grid;
         public float DeltaTime;
@@ -819,7 +825,7 @@ namespace HumanLastRampart.Combat.Battle
             {
                 EnemyHandle target = ShotTargets[slot];
                 bool hit = false;
-                if (EnemyGeneration[target.Index] == target.Generation)
+                if (EnemyGeneration[target.Index] == target.Generation && EnemyCovered[target.Index] == 0)
                 {
                     float3 d = EnemyPositions[target.Index] - position;
                     if (d.x * d.x + d.z * d.z <= TargetHitRadius * TargetHitRadius)
@@ -844,6 +850,7 @@ namespace HumanLastRampart.Combat.Battle
                             for (int k = start; k < end; k++)
                             {
                                 int e = SortedEnemies[k];
+                                if (EnemyCovered[e] != 0) continue;
                                 float3 d = EnemyPositions[e] - position;
                                 float distSq = d.x * d.x + d.z * d.z;
                                 if (distSq <= nearestSq)

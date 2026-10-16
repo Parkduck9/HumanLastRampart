@@ -822,7 +822,9 @@ namespace HumanLastRampart.Combat.Battle
                 DeltaTime = dt,
                 FunnelBase = FunnelBase,
                 FunnelSlope = FunnelSlope,
+                Terrain = TerrainData,   // 무작위 지형·지형 손질 (K-049, BattleSim.Terrain.cs)
             }.Schedule(n, 256);
+            JobHandle terrainJob = ScheduleTerrain(h, dt);   // 토벽 허물기 (K-049)
 
             JobHandle tallyJob = new SideTallyJob
             {
@@ -875,6 +877,7 @@ namespace HumanLastRampart.Combat.Battle
                 CellStart = cellStart,
                 CellCount = cellCount,
                 SortedEnemies = sorted,
+                EnemyCovered = eCovered,   // 토벽 엄폐 (K-049)
                 Shots = shotQueue.AsParallelWriter(),
                 Grid = grid,
                 CastleHalf = CastleHalf,
@@ -924,6 +927,7 @@ namespace HumanLastRampart.Combat.Battle
                 CellStart = cellStart,
                 CellCount = cellCount,
                 SortedEnemies = sorted,
+                EnemyCovered = eCovered,   // 토벽 엄폐 (K-049)
                 Hits = hitQueue.AsParallelWriter(),
                 Grid = grid,
                 DeltaTime = dt,
@@ -992,7 +996,7 @@ namespace HumanLastRampart.Combat.Battle
                 Brightness = Brightness,
             }.Schedule(shotCapacity, 512, h);
 
-            frameJob = JobHandle.CombineDependencies(enemyDraw, shotDraw);
+            frameJob = JobHandle.CombineDependencies(enemyDraw, shotDraw, terrainJob);
             scheduled = true;
             JobHandle.ScheduleBatchedJobs();
         }
@@ -1104,6 +1108,7 @@ namespace HumanLastRampart.Combat.Battle
             Release(ref eGroup);
             Release(ref groupSpotted);
             Release(ref craters);
+            ReleaseTerrain();   // K-049
             Release(ref kinds);
             Release(ref enemyInstances);
             Release(ref sPos);

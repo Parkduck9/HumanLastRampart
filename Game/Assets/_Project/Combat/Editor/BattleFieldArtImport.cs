@@ -12,11 +12,12 @@ namespace HumanLastRampart.Combat.Editor
         const string PropsFolder = "/Resources/BattleArt/Props/";
         const string CannonFolder = "/Resources/BattleArt/Cannon/";
         const string SkyFolder = "/Resources/BattleArt/Sky/";
+        const string TerrainFolder = "/Resources/BattleArt/Terrain/";   // 토벽·언덕·나무·바위 더미 전투 판 (K-049, Codex K-030)
 
         void OnPreprocessTexture()
         {
             string path = assetPath.Replace('\\', '/');
-            bool sprite = path.Contains(PropsFolder) || path.Contains(CannonFolder);
+            bool sprite = path.Contains(PropsFolder) || path.Contains(CannonFolder) || path.Contains(TerrainFolder);
             bool sky = path.Contains(SkyFolder);
             if (!sprite && !sky) return;
 

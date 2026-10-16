@@ -23,6 +23,7 @@ namespace HumanLastRampart.Core.Campaign
         public List<TrapStockEntry> TrapStock = new List<TrapStockEntry>();  // v1.2: 회수해 보관 중인 함정
         public List<TrapStockEntry> TrapShop = new List<TrapStockEntry>();   // v1.3 (D-050): 상점에 남은 함정 재고. 시작값 App, 보충·구매 Meta.Prep
         public int TrapShopRestockedForBattle;      // v1.3: 상점 보충을 마지막으로 한 전투 번호 (정비 재진입 때 두 번 보충하지 않게)
+        public List<TerrainWork> TerrainWorks = new List<TerrainWork>();   // v1.4 초안 (D-077, K-049): 지형 손질. 무작위 지형 자체는 RngSeed로 다시 만든다
 
         public TargetingSettings Targeting = TargetingSettings.CreateDefault();
         public StoryRequest NextStory;
