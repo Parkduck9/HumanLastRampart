@@ -249,7 +249,7 @@ namespace HumanLastRampart.Combat.Battle
                     continue;
                 }
 
-                m.Travelled = math.min(m.Travelled + MessengerSpeed() * dt, m.Distance);
+                m.Travelled = math.min(m.Travelled + MessengerSpeed() * RunSpeedRatio(m.Soldier) * dt, m.Distance);   // 대포병은 느리게 (K-034)
                 float u = m.Returning ? m.EndU - m.Direction * m.Travelled : m.StartU + m.Direction * m.Travelled;
                 sPos[m.Soldier] = RingPosition(u);
                 SetRunning(m.Soldier, m.Returning ? -m.Direction : m.Direction);
