@@ -20,7 +20,7 @@ namespace HumanLastRampart.Core.Definitions
         [SerializeField] int globalCapacity = 2000;
         [SerializeField] int wallCapacity = 500;
         [SerializeField] int squadPostCapacity = 160;
-        [SerializeField] int cannonCrewPostCapacity = 5;
+        [SerializeField] int cannonCrewPostCapacity = 2;   // 대포마다 운용병 2명 (K-039 사용자 결정, 예전 5)
 
         [Header("수리")]
         [SerializeField] int repairHpPerGold = 10;

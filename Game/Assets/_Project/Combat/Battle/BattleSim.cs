@@ -32,6 +32,16 @@ namespace HumanLastRampart.Combat.Battle
         const float SoldierDrawSize = 1.4f * WallFigureScale;
         const float SoldierMaxSpacing = 0.45f;              // 인원이 적으면 이 간격, 많으면 자기 구간에 맞춰 촘촘히
         const float SoldierInset = 0.5f;                    // 성벽 바깥 모서리에서 안쪽으로
+        // 그림이 겹치지 않는 최소 간격 (K-039 사용자 3차 의견 1). 가장 넓은 그림 = 총병 서 있기 200px(총 포함),
+        // 인물 키 300px = 0.35m(K-034)이라 0.23m. 이보다 좁아지면 조금 안쪽에 줄을 하나 더 세운다
+        const float SoldierMinSpacing = 0.24f;
+        const float SoldierRowDepth = 0.3f;                 // 줄 사이 (안쪽으로)
+        const int SoldierMaxRows = 3;                       // 0.5·0.8·1.1m — 달리는 길(안쪽 1.4m)은 비워 둔다. 넘치면 예전처럼 간격을 좁힌다
+        const float CannonCrewOffset = 0.45f;               // 대포 운용병은 대포 양옆 (대포 그림 보이는 폭 약 0.55m)
+        const float WalkInDistance = 2f;                    // 달리는 길 ↔ 자기 자리를 이 거리 동안 비스듬히 오간다 (K-039 의견 6)
+
+        // 대포 자리 (쏘는 병사 → 성벽 위 대포 위치). 대포 분대는 대포 양옆에 서므로 쏘는 병사 자리와 다르다
+        readonly Dictionary<int, float3> cannonSpots = new Dictionary<int, float3>();
 
         // 병종별 병사 구간 (그리기용): 병종 정의, 병사 배열 시작, 수
         readonly List<(UnitDef unit, int start, int count)> soldierGroups = new List<(UnitDef, int, int)>();
@@ -494,10 +504,8 @@ namespace HumanLastRampart.Combat.Battle
             foreach (var (squad, post, w, hp) in placed)
             {
                 int side = (int)post.Wall;
-                float3 n3 = WallGeometry.Outward(side);
-                float3 right = WallGeometry.Right(side);
                 float along = (post.PositionAlongWall - 0.5f) * 2f * CastleHalf;
-                // 분대는 자기 구간 안에 무조건 한 줄 (D-046). 인원이 많으면 간격을 좁힌다
+                // 분대는 자기 구간 안에 선다 (D-046). 그림 폭보다 좁으면 안쪽 줄 (K-039), 그래도 넘치면 간격을 좁힌다
                 float lo = -CastleHalf + 1f, hi = CastleHalf - 1f;
                 foreach (float other in postsBySide[side])
                 {
@@ -505,11 +513,13 @@ namespace HumanLastRampart.Combat.Battle
                     else if (other > along + 0.01f) hi = Mathf.Min(hi, (other + along) * 0.5f - 0.5f);
                 }
 
-                float spacing = squad.Count > 1 ? Mathf.Min(SoldierMaxSpacing, (hi - lo) / (squad.Count - 1)) : 0f;
-                float halfSpan = (squad.Count - 1) * spacing * 0.5f;
+                // 그림 폭보다 좁아지면 안쪽 줄을 더한다 (K-039). 앞줄부터 채운다 — 병사는 뒤 번호부터 잃으므로 안쪽 줄이 먼저 빈다
+                LineLayout(squad.Count, hi - lo, out int perRow, out float spacing);
+                float halfSpan = (perRow - 1) * spacing * 0.5f;
                 float center = Mathf.Clamp(along, lo + halfSpan, Mathf.Max(lo + halfSpan, hi - halfSpan));
                 // 10명 묶음으로 나눈다 (D-072 지도에서 묶음 이동). 대포 분대는 한 묶음 그대로
                 bool cannonSquad = weapons[w].AreaRadius > 0f;
+                if (cannonSquad) cannonSpots[index] = WallSpot(side, along, 0);   // 대포는 지점 자리, 운용병은 그 양옆
                 int chunk = cannonSquad ? squad.Count : GroupSize;
                 UnitDef unitDef = defs.Get<UnitDef>(squad.UnitDefId);
                 string unitName = unitDef != null && !string.IsNullOrEmpty(unitDef.DisplayName) ? unitDef.DisplayName : "병사";
@@ -520,8 +530,22 @@ namespace HumanLastRampart.Combat.Battle
                 }
                 for (int i = 0; i < squad.Count; i++)
                 {
-                    float lateral = center - halfSpan + i * spacing;
-                    float3 position = n3 * (CastleHalf - SoldierInset) + right * lateral + new float3(0f, WallHeight, 0f);                    sPos[index] = position;
+                    float3 position;
+                    if (cannonSquad)
+                    {
+                        // 대포 왼쪽(쏘는 병사)·오른쪽, 더 있으면 그 바깥으로 번갈아 (K-039 의견 2: 대포마다 2명)
+                        float sign = i % 2 == 0 ? -1f : 1f;
+                        position = WallSpot(side, along + sign * CannonCrewOffset * (1 + i / 2), 0);
+                    }
+                    else
+                    {
+                        int row = i / perRow;
+                        int inRow = Mathf.Min(perRow, squad.Count - row * perRow);
+                        float lateral = center - (inRow - 1) * spacing * 0.5f + (i % perRow) * spacing;
+                        position = WallSpot(side, lateral, row);
+                    }
+
+                    sPos[index] = position;
                     sAlive[index] = 1;
                     sSide[index] = (byte)side;
                     // 대포는 분대에 한 문: 맨 앞 병사만 쏘고 나머지는 운용병 (병력 수에는 들어간다, D-031 K2).
@@ -537,6 +561,40 @@ namespace HumanLastRampart.Combat.Battle
             InitRunnerArt(p);
             RefreshSoldierInstances();
         }
+
+        // ── 성벽 위 자리 (K-039) ─────────────────────────────
+
+        // 성벽 위 한 자리: 성벽 따라 lateral(m), row = 0 바깥 줄(SoldierInset)부터 안쪽으로
+        float3 WallSpot(int side, float lateral, int row) =>
+            WallGeometry.Outward(side) * (CastleHalf - SoldierInset - row * SoldierRowDepth) + WallGeometry.Right(side) * lateral + new float3(0f, WallHeight, 0f);
+
+        // 병사가 선 줄 번호 (바깥 0)
+        int RowOf(int soldier, int side) =>
+            (int)math.round((CastleHalf - SoldierInset - math.dot(sPos[soldier], WallGeometry.Outward(side))) / SoldierRowDepth);
+
+        // count명을 폭 width 안에 줄 세우기: 한 줄 인원과 간격. 그림 폭(SoldierMinSpacing)보다 좁아지면 줄을 늘리고(최대 SoldierMaxRows),
+        // 그래도 넘치면 간격을 좁힌다(예전 방식)
+        static void LineLayout(int count, float width, out int perRow, out float spacing)
+        {
+            if (count <= 1)
+            {
+                perRow = 1;
+                spacing = 0f;
+                return;
+            }
+
+            int fit = Mathf.Max(1, Mathf.FloorToInt(Mathf.Max(0f, width) / SoldierMinSpacing) + 1);
+            int rows = Mathf.Clamp((count + fit - 1) / fit, 1, SoldierMaxRows);
+            perRow = (count + rows - 1) / rows;
+            spacing = perRow > 1 ? Mathf.Min(SoldierMaxSpacing, Mathf.Max(0f, width) / (perRow - 1)) : 0f;
+        }
+
+        // 대포 위치 (쏘는 병사 번호로). 표에 없으면 그 병사 자리
+        float3 CannonSpot(int shooter) => cannonSpots.TryGetValue(shooter, out float3 spot) ? spot : sPos[shooter];
+
+        // 달리는 길(통로 안쪽)과 자기 자리 사이: distance = 자리까지 남은(또는 자리에서 온) 거리. WalkInDistance 안이면 자리 쪽으로 비스듬히
+        static float3 WalkIn(float3 ring, float3 spot, float distance) =>
+            math.lerp(spot, ring, math.smoothstep(0f, WalkInDistance, distance));
 
         static WeaponKindData MakeWeapon(WeaponDef w) => new WeaponKindData
         {

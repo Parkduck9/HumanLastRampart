@@ -21,6 +21,6 @@ MonoBehaviour:
   globalCapacity: 2000
   wallCapacity: 500
   squadPostCapacity: 160
-  cannonCrewPostCapacity: 5
+  cannonCrewPostCapacity: 2
   repairHpPerGold: 10
   defaultRepairHp: 100
