@@ -1109,6 +1109,18 @@ public sealed class PlayProbe
         Note("대포 표시: " + string.Join(" | ", labels));
         Assert.IsTrue(labels.Any(t => t.Contains("4번: 조준 — 대기")), "적 없는 곳을 노린 대포는 대기");
         Assert.IsTrue(labels.Any(t => t.Contains("포격 중")), "적이 오는 길을 노린 대포는 포격");
+        // K-046 불붙이기: 쏘기 전 1.5초(막대 뻗기 0.5 + 도화선 1) 동안 '불붙이는 중' — 간격 6초라 몇 초 안에 한 번은 보인다
+        int igniting = -1;
+        for (int i = 0; i < 200 && igniting < 0; i++)
+        {
+            yield return null;
+            sim.Complete();
+            for (int c = 0; c < sim.CannonCount && igniting < 0; c++) if (sim.GetCannon(c).Igniting) igniting = c;
+        }
+
+        Assert.GreaterOrEqual(igniting, 0, "대포병이 불붙이는 중인 대포가 있다");
+        Note($"불붙이는 대포: {sim.GetCannon(igniting).Side}면 {sim.GetCannon(igniting).Number}번");
+        yield return Capture("cannon_ignite_map");
         entry.MapCamera.SetLevel(HumanLastRampart.Combat.Battle.BattleMapCamera.Level.Full);
         for (int i = 0; i < 3; i++) yield return null;
         yield return Capture("cannon_aim_full");
