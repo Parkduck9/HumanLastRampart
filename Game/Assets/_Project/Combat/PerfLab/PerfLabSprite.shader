@@ -123,18 +123,22 @@ Shader "HLR/PerfLabSprite"
             float localY = (input.positionOS.y - _Pivot.y) * size * stretch;
             if (_ShotMode > 1.5)
             {
-                // 투사체: 날아가는 방향(개체 색 칸)을 판 위 (오른쪽, 위)로 옮겨 그 각도만큼 기준점 둘레로 돌린다. 그림은 +X를 본다
-                float3 direction = data.tintSize.rgb;
-                float2 d = float2(dot(direction, right), direction.y);
-                float len = length(d);
-                d = len > 1e-4 ? d / len : float2(1.0, 0.0);
-                float rotatedX = localX * d.x - localY * d.y;
-                float rotatedY = localX * d.y + localY * d.x;
-                localX = rotatedX;
-                localY = rotatedY;
+                // 투사체 (K-040): 축 고정 빌보드 — 판의 긴 축 = 3D로 날아가는 방향(개체 색 칸, 그림 +X = 촉),
+                // 판은 그 축 둘레로만 돌아 넓은 면이 카메라 쪽. 옆에서 보면 길게, 뒤에서 보면 짧게(촉이 저쪽·깃이 이쪽) 보인다.
+                // 날아가며 내려가면 촉도 내려간다. 납작함 보정(stretch)은 쓰지 않는다
+                float3 axis = data.tintSize.rgb;
+                axis = dot(axis, axis) > 1e-6 ? normalize(axis) : right;
+                float3 side = cross(axis, _WorldSpaceCameraPos - data.posFrame.xyz);
+                if (dot(side, side) < 1e-8) side = cross(axis, abs(axis.y) < 0.9 ? float3(0.0, 1.0, 0.0) : right);   // 축이 카메라를 곧장 볼 때
+                side = normalize(side);
+                float alongX = (input.positionOS.x + 0.5 - _Pivot.x) * _Aspect * size;
+                float acrossY = (input.positionOS.y - _Pivot.y) * size;
+                world = data.posFrame.xyz + axis * alongX + side * acrossY;
             }
-
-            world = data.posFrame.xyz + right * localX + float3(0.0, localY, 0.0);
+            else
+            {
+                world = data.posFrame.xyz + right * localX + float3(0.0, localY, 0.0);
+            }
 
             float columns = max(_Grid.x, 1.0);
             float rows = max(_Grid.y, 1.0);
