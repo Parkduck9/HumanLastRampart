@@ -13,7 +13,9 @@ namespace HumanLastRampart.Combat.Battle
     public sealed class BattleLights
     {
         public const float TorchSpacing = 3f;          // 성벽 따라 간격 (m). 가까운 사진기에 보이는 성벽 폭이 몇 m뿐이라 8m 간격이면 한 개도 안 잡혔다
-        public const float TorchInset = 0.5f;          // 성벽 바깥 모서리에서 안쪽으로 — 바깥 난간 바로 안쪽 (예전 1.9m 안쪽 끝은 사진기 뒤라 안 보였다)
+        // 성벽 바깥 모서리에서 안쪽으로 — 난간(두께 0.3m) 바로 뒤. 자리는 간격마다 가장 가까운 돌출부 뒤(BattleSim.TorchSpots, K-045):
+        // 총안에 선 병사(0.5m)와 옆으로 비켜 있고, 횃불 돌 뒤에는 병사 자리를 두지 않는다
+        public const float TorchInset = 0.35f;
         public const float TorchHeight = 0.24f;        // 성벽 위 높이 (돌출부 끝쯤 — 병사 키 0.35m 기준)
         const float TorchRange = 2f;            // 통로와 난간을 비춘다 (이웃 횃불과 조금 겹치게)
         const float TorchIntensity = 0.8f;      // 바로 옆 병사가 하얗게 날아가지 않게
@@ -62,9 +64,6 @@ namespace HumanLastRampart.Combat.Battle
         {
             float half = sim.CastleHalf;
             float inner = half - TorchInset;
-            // 한 면을 간격으로 나눠 가운데 맞춤 (모서리 발판 근처는 비운다)
-            int count = Mathf.Max(1, Mathf.FloorToInt((inner * 2f) / TorchSpacing));
-            float start = -(count - 1) * TorchSpacing * 0.5f;
             // 보이는 불꽃은 Codex 도트 그림(torch_flame, BattleEffectsView)이 같은 자리에 그린다. 그림이 없을 때만 임시 공
             Shader unlit = Resources.Load<Texture2D>("BattleArt/Effects/torch_flame") == null ? Shader.Find("Universal Render Pipeline/Unlit") : null;
             if (unlit != null)
@@ -76,9 +75,9 @@ namespace HumanLastRampart.Combat.Battle
             {
                 float3 n = WallGeometry.Outward(side);
                 float3 r = WallGeometry.Right(side);
-                for (int k = 0; k < count; k++)
+                // 간격마다 가장 가까운 돌출부 뒤 (BattleWallLayout.Torches — 그림 불꽃·받침도 같은 목록, K-045)
+                foreach (float along in sim.TorchSpots(side))
                 {
-                    float along = start + k * TorchSpacing;
                     var position = new Vector3(n.x * inner + r.x * along, BattleSim.WallHeight + TorchHeight, n.z * inner + r.z * along);
                     Light light = NewLight("Torch", position);
                     light.color = TorchColor;

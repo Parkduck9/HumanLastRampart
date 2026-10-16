@@ -1007,6 +1007,59 @@ public sealed class PlayProbe
         Time.captureDeltaTime = 0f;
     }
 
+    // 총안 자리 (K-045): 정면 가까이 앞줄이 돌출부 사이 총안에 선 모습(낮), 밤 횃불이 돌 뒤에서 병사와 안 겹치는지
+    [UnityTest]
+    public IEnumerator WallSlots()
+    {
+        Directory.CreateDirectory(Out);
+        log = new StringBuilder();
+        Time.captureDeltaTime = 1f / 20f;
+        SceneManager.LoadScene("Boot");
+        yield return null;
+        yield return null;
+        yield return WaitScreen(ScreenId.MainMenu, 900);
+        yield return Click("게임 시작", 600);
+        yield return Click("현실", 300);
+        yield return WaitScreen(ScreenId.Story, 600);
+        yield return Click("다음", 600);
+        yield return WaitScreen(ScreenId.Battle, 900);
+        for (int i = 0; i < 60; i++) yield return null;
+        var flags = System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance;
+        var entry = UnityEngine.Object.FindObjectsByType<HumanLastRampart.Combat.Battle.BattleEntry>(FindObjectsSortMode.None)[0];
+        var sim = (HumanLastRampart.Combat.Battle.BattleSim)typeof(HumanLastRampart.Combat.Battle.BattleEntry).GetField("sim", flags).GetValue(entry);
+        var rig = (HumanLastRampart.Combat.Battle.BattleCameraRig)typeof(HumanLastRampart.Combat.Battle.BattleEntry).GetField("rig", flags).GetValue(entry);
+        var setup = GameFlow.Instance.Campaign.ActiveBattleSetup;
+        Time.captureDeltaTime = 0.0005f;
+
+        for (int side = 0; side < 4; side++)
+            Note($"{side}면: 총안 {sim.SlotCount(side, 0)}칸, 돌 뒤 {sim.SlotCount(side, 1)}칸, 횃불 {sim.TorchSpots(side).Count}개, 대포 사격구 {sim.CannonBays(side).Count}곳");
+        var rows = new int[6];
+        for (int i = 0; i < sim.SoldierCount; i++)
+        {
+            int row = sim.SoldierRow(i, out _, out _);
+            if (row >= 0) rows[row]++;
+        }
+        Note($"줄별 병사: 총안 {rows[0]} · 돌 뒤 {rows[1]} · 둘째 총안 줄 {rows[2]} · 그 뒤 {rows[3] + rows[4]}");
+
+        rig.ShowSide(0);
+        foreach (var (w, t, name) in new[] {
+            (HumanLastRampart.Core.CombatContracts.Weather.Clear, HumanLastRampart.Core.CombatContracts.TimeOfDay.Day, "day"),
+            (HumanLastRampart.Core.CombatContracts.Weather.Clear, HumanLastRampart.Core.CombatContracts.TimeOfDay.Night, "night") })
+        {
+            var f = setup.Forecast; f.InitialWeather = w; f.TimeOfDay = t; f.Changes = false; setup.Forecast = f;
+            sim.WeatherDirty = true;
+            for (int p = 0; p < 2; p++)
+            {
+                rig.SetPreset(p);
+                for (int i = 0; i < 5; i++) yield return null;
+                yield return Capture($"wall_slots_{name}_{"AB"[p]}");
+            }
+        }
+
+        File.WriteAllText(Path.Combine(Out, "wall_slots.txt"), log.ToString(), new UTF8Encoding(false));
+        Time.captureDeltaTime = 0f;
+    }
+
     // 2번 지도 (MAP-1): 3단계 사진, 쉬움 시간 정지, 현실 시간 흐름
     [UnityTest]
     public IEnumerator MapEasy() { yield return MapCheck(Difficulty.Easy, "map_easy"); }
@@ -1109,6 +1162,18 @@ public sealed class PlayProbe
         Note("대포 표시: " + string.Join(" | ", labels));
         Assert.IsTrue(labels.Any(t => t.Contains("4번: 조준 — 대기")), "적 없는 곳을 노린 대포는 대기");
         Assert.IsTrue(labels.Any(t => t.Contains("포격 중")), "적이 오는 길을 노린 대포는 포격");
+        // K-046 불붙이기: 쏘기 전 1.5초(막대 뻗기 0.5 + 도화선 1) 동안 '불붙이는 중' — 간격 6초라 몇 초 안에 한 번은 보인다
+        int igniting = -1;
+        for (int i = 0; i < 200 && igniting < 0; i++)
+        {
+            yield return null;
+            sim.Complete();
+            for (int c = 0; c < sim.CannonCount && igniting < 0; c++) if (sim.GetCannon(c).Igniting) igniting = c;
+        }
+
+        Assert.GreaterOrEqual(igniting, 0, "대포병이 불붙이는 중인 대포가 있다");
+        Note($"불붙이는 대포: {sim.GetCannon(igniting).Side}면 {sim.GetCannon(igniting).Number}번");
+        yield return Capture("cannon_ignite_map");
         entry.MapCamera.SetLevel(HumanLastRampart.Combat.Battle.BattleMapCamera.Level.Full);
         for (int i = 0; i < 3; i++) yield return null;
         yield return Capture("cannon_aim_full");

@@ -410,6 +410,25 @@ namespace HumanLastRampart.Combat.Battle
         public float MuzzleForward;
         public float CannonMuzzleHeight;
         public float CannonMuzzleForward;
+        // 대포 불붙이기 (K-046): 쏠 때가 되면 포탄을 정해 두고 IgniteSeconds 뒤에 낸다. 그동안 조준 고정, 쏘는 병사가 빠지면 취소
+        public NativeArray<float> SoldierFuse;
+        public NativeArray<Shot> SoldierPendingShot;
+        public float IgniteSeconds;
+
+        // 투사체를 낸다: 대포면 불붙이기 시작(나중에 발사), 아니면 바로. 재장전은 발사 시점부터 (불붙이기는 간격 안에 든다)
+        void Launch(int s, WeaponKindData weapon, Shot shot)
+        {
+            if (weapon.AreaRadius > 0f && IgniteSeconds > 0f)
+            {
+                SoldierPendingShot[s] = shot;
+                SoldierFuse[s] = IgniteSeconds;
+                return;
+            }
+
+            Shots.Enqueue(shot);
+            SoldierCooldowns[s] = weapon.Interval * IntervalMultiplier;
+            SoldierFireTime[s] = Now;
+        }
 
         float3 Muzzle(int s, WeaponKindData weapon)
         {
@@ -430,7 +449,26 @@ namespace HumanLastRampart.Combat.Battle
         {
             if (SoldierAlive[s] == 0 || SoldierWeapon[s] < 0 || SoldierAway[s] != 0)
             {
+                SoldierFuse[s] = 0f;   // 불붙이던 대포병이 쓰러지거나 빠지면 취소 (K-046)
                 return;   // 죽은 병사, 대포 운용병(쏘지 않음), 전령
+            }
+
+            // 불붙이는 중 (K-046): 도화선이 다 타면 정해 둔 포탄을 내고, 남은 간격만큼 재장전
+            float fuse = SoldierFuse[s];
+            if (fuse > 0f)
+            {
+                fuse -= DeltaTime;
+                if (fuse > 0f)
+                {
+                    SoldierFuse[s] = fuse;
+                    return;
+                }
+
+                SoldierFuse[s] = 0f;
+                Shots.Enqueue(SoldierPendingShot[s]);
+                SoldierCooldowns[s] = math.max(0f, Weapons[SoldierWeapon[s]].Interval * IntervalMultiplier - IgniteSeconds);
+                SoldierFireTime[s] = Now;
+                return;
             }
 
             float cooldown = SoldierCooldowns[s] - DeltaTime;
@@ -556,7 +594,9 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             float distance = math.sqrt(bestDistSq);
-            float3 aim = EnemyPositions[best] + EnemyVelocities[best] * (distance / math.max(weapon.ProjectileSpeed, 1f));
+            // 앞질러 겨눔: 날아가는 시간 (+ 대포는 불붙이는 시간 — 그동안 조준이 고정되므로, K-046)
+            float leadTime = distance / math.max(weapon.ProjectileSpeed, 1f) + (weapon.AreaRadius > 0f ? IgniteSeconds : 0f);
+            float3 aim = EnemyPositions[best] + EnemyVelocities[best] * leadTime;
 
             float accuracy;
             float spread;
@@ -590,15 +630,13 @@ namespace HumanLastRampart.Combat.Battle
                 aim += new float3(offset.x, 0f, offset.y);
             }
 
-            Shots.Enqueue(new Shot
+            Launch(s, weapon, new Shot
             {
                 From = Muzzle(s, weapon),
                 To = new float3(aim.x, aim.y + 1f, aim.z),
                 Target = new EnemyHandle { Index = best, Generation = EnemyGeneration[best] },
                 Weapon = SoldierWeapon[s],
             });
-            SoldierCooldowns[s] = weapon.Interval * IntervalMultiplier;
-            SoldierFireTime[s] = Now;
         }
 
         // 지도에서 정한 지점으로 포격 (MAP-3). 지점 근처(범위 + 6m)에 적이 없으면 쉰다 (D-044 M2)
@@ -652,15 +690,13 @@ namespace HumanLastRampart.Combat.Battle
                 point += new float3(offset.x, 0f, offset.y);
             }
 
-            Shots.Enqueue(new Shot
+            Launch(s, weapon, new Shot
             {
                 From = Muzzle(s, weapon),
                 To = new float3(point.x, 1f, point.z),
                 Target = new EnemyHandle { Index = nearest, Generation = EnemyGeneration[nearest] },
                 Weapon = SoldierWeapon[s],
             });
-            SoldierCooldowns[s] = weapon.Interval * IntervalMultiplier;
-            SoldierFireTime[s] = Now;
         }
     }
 

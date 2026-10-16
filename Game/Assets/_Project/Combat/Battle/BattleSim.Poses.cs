@@ -45,16 +45,19 @@ namespace HumanLastRampart.Combat.Battle
             sFallStart = new float[n];
             sFireFrames = new byte[n];
             sFallFrames = new byte[n];
+            InitIgnite(p);   // 대포 불붙이기 (K-046, BattleSim.Ignite.cs)
             foreach (var (unit, start, count) in soldierGroups)
             {
                 if (unit == null || unit.Sheet == null) continue;   // 임시 그림 병종은 동작 그림도 쓰지 않는다 (BattleView와 같게)
                 byte fire = (byte)(unit.FireSheet != null ? math.min(PerfLabArt.FrameCount(unit.FireSheet), PerfLabArt.PoseWindow) : 0);
                 byte fall = (byte)(unit.DeathSheet != null ? math.min(PerfLabArt.FrameCount(unit.DeathSheet), PerfLabArt.PoseWindow) : 0);
-                if (fire > 0 || fall > 0) HasSoldierPoseArt = true;
+                byte ignite = PoseFrames(unit.IgniteSheet);   // 대포병 불붙이기 (K-046)
+                if (fire > 0 || fall > 0 || ignite > 0) HasSoldierPoseArt = true;
                 for (int i = start; i < start + count; i++)
                 {
                     sFireFrames[i] = fire;
                     sFallFrames[i] = fall;
+                    sIgniteFrames[i] = ignite;
                 }
             }
 
@@ -87,6 +90,7 @@ namespace HumanLastRampart.Combat.Battle
                 return true;
             }
 
+            if (IgnitePose(i, out frame)) return true;   // 대포병 불붙이기 (K-046)
             int frames = sFireFrames[i];
             int w = sWeapon[i];
             if (frames == 0 || w < 0) return true;
@@ -118,6 +122,7 @@ namespace HumanLastRampart.Combat.Battle
             Release(ref sFireTime);
             Release(ref eFallStart);
             Release(ref ladderInstances);
+            ReleaseIgnite();
         }
     }
 }
