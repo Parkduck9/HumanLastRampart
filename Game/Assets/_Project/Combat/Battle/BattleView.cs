@@ -24,6 +24,8 @@ namespace HumanLastRampart.Combat.Battle
         static readonly int FrameWindowId = Shader.PropertyToID("_FrameWindow");
         static readonly int ShotModeId = Shader.PropertyToID("_ShotMode");
         static readonly int ShotColorId = Shader.PropertyToID("_ShotColor");
+        static readonly int SheetScaleId = Shader.PropertyToID("_SheetScale");
+        static readonly int ViewStretchId = Shader.PropertyToID("_ViewStretch");
 
         // 2번 지도 모드 점 색 (BattleMap.md 2장)
         static readonly Color MapEnemyColor = new Color(1f, 0.72f, 0.2f, 1f);
@@ -113,13 +115,15 @@ namespace HumanLastRampart.Combat.Battle
             foreach (var (def, start, count) in sim.EnemyGroups)
             {
                 var block = new MaterialPropertyBlock();
+                // 적은 각자 기본 시트 인물 키가 기준 (K-034) — 기본 시트는 배율 1(크기 그대로), 동작 시트만 그 키에 맞춘다
+                float enemyFigurePx = def.Sheet != null ? PerfLabArt.FigurePx(def.Sheet) : PerfLabArt.FigureReferencePx;
                 if (def.Sheet != null)
                 {
-                    Apply(block, def.Sheet, PerfLabArt.FromSheet(def.Sheet), def.NormalSheet);   // 칸 256×384 — 고블린 4×2, 정적 데모 1×1
+                    ApplyFigure(block, def.Sheet, def.NormalSheet, enemyFigurePx);   // 칸 256×384 — 고블린 4×2, 정적 데모 1×1
                 }
                 else
                 {
-                    Apply(block, placeholderSheet, PerfLabArt.PlaceholderLayout);
+                    Apply(block, placeholderSheet, PerfLabArt.PlaceholderLayout, null, 1f, true);
                 }
 
                 var buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, Mathf.Max(1, count), PerfLabInstance.Stride);
@@ -129,10 +133,10 @@ namespace HumanLastRampart.Combat.Battle
                 if (def.Sheet != null)
                 {
                     // 공격·세우기·오르기·쓰러짐 시트 (K-032). 칸 번호 구간은 WriteBattleEnemyInstancesJob
-                    AddPose(enemyPoseDraws, buffer, count, def.AttackSheet, PerfLabArt.AttackFrame0);
-                    AddPose(enemyPoseDraws, buffer, count, def.DeploySheet, PerfLabArt.DeployFrame0);
-                    AddPose(enemyPoseDraws, buffer, count, def.ClimbSheet, PerfLabArt.ClimbFrame0);
-                    AddPose(enemyPoseDraws, buffer, count, def.DeathSheet, PerfLabArt.FallFrame0);
+                    AddPose(enemyPoseDraws, buffer, count, def.AttackSheet, PerfLabArt.AttackFrame0, enemyFigurePx);
+                    AddPose(enemyPoseDraws, buffer, count, def.DeploySheet, PerfLabArt.DeployFrame0, enemyFigurePx);
+                    AddPose(enemyPoseDraws, buffer, count, def.ClimbSheet, PerfLabArt.ClimbFrame0, enemyFigurePx);
+                    AddPose(enemyPoseDraws, buffer, count, def.DeathSheet, PerfLabArt.FallFrame0, enemyFigurePx);
                 }
 
                 if (def.CarriesLadder && def.LadderSheet != null && count > 0)
@@ -153,7 +157,7 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             soldierBlock = new MaterialPropertyBlock();
-            Apply(soldierBlock, placeholderSheet, PerfLabArt.PlaceholderLayout);   // 그림 없는 병종용
+            Apply(soldierBlock, placeholderSheet, PerfLabArt.PlaceholderLayout, null, 1f, true);   // 그림 없는 병종용 (임시 그림은 칸 = 인물)
             soldierBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, Mathf.Max(1, sim.SoldierCount), PerfLabInstance.Stride);
             soldierBlock.SetBuffer(InstancesId, soldierBuffer);
             // 병종별 그림 (Codex 정적 뒷모습 데모, M-CX-049). 그림이 없으면 임시 그림
@@ -161,8 +165,9 @@ namespace HumanLastRampart.Combat.Battle
             {
                 if (count <= 0) continue;
                 var block = new MaterialPropertyBlock();
-                if (unit != null && unit.Sheet != null) Apply(block, unit.Sheet, PerfLabArt.FromSheet(unit.Sheet), unit.NormalSheet);
-                else Apply(block, placeholderSheet, PerfLabArt.PlaceholderLayout);
+                // 병사 시트는 모두 인물 키 = 병사 크기(0.35m)가 되게 (K-034: 서기·사격·쓰러짐·달리기 같은 크기)
+                if (unit != null && unit.Sheet != null) ApplyFigure(block, unit.Sheet, unit.NormalSheet);
+                else Apply(block, placeholderSheet, PerfLabArt.PlaceholderLayout, null, 1f, true);
                 var buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, PerfLabInstance.Stride);
                 block.SetBuffer(InstancesId, buffer);
                 block.SetVector(FrameWindowId, PerfLabArt.Window(0));
@@ -177,7 +182,7 @@ namespace HumanLastRampart.Combat.Battle
                 if (unit != null && unit.RunSheet != null)
                 {
                     var runBlock = new MaterialPropertyBlock();
-                    Apply(runBlock, unit.RunSheet, PerfLabArt.FromSheet(unit.RunSheet), unit.RunNormalSheet);
+                    ApplyFigure(runBlock, unit.RunSheet, unit.RunNormalSheet);   // 달리기 그림 인물이 작게 그려져 있어 배율로 키운다 (K-034)
                     var runBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, PerfLabInstance.Stride);
                     runBlock.SetBuffer(InstancesId, runBuffer);
                     runnerDraws.Add((runBuffer, runBlock, start, count));
@@ -220,12 +225,12 @@ namespace HumanLastRampart.Combat.Battle
             heroBlock = new MaterialPropertyBlock();
             if (heroSheet != null)
             {
-                Apply(heroBlock, heroSheet, PerfLabArt.HeroLayout, heroNormalSheet);
+                Apply(heroBlock, heroSheet, PerfLabArt.HeroLayout, heroNormalSheet, PerfLabArt.SheetScale(heroSheet), true);
             }
             else
             {
                 heroPlaceholder = PerfLabArt.CreateHeroPlaceholderSheet();
-                Apply(heroBlock, heroPlaceholder, PerfLabArt.HeroPlaceholderLayout);
+                Apply(heroBlock, heroPlaceholder, PerfLabArt.HeroPlaceholderLayout, null, 1f, true);
             }
 
             heroBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, 1, PerfLabInstance.Stride);
@@ -233,21 +238,21 @@ namespace HumanLastRampart.Combat.Battle
             if (heroIdleSheet != null)
             {
                 heroIdleBlock = new MaterialPropertyBlock();
-                Apply(heroIdleBlock, heroIdleSheet, PerfLabArt.FromSheet(heroIdleSheet), heroIdleNormalSheet);
+                ApplyFigure(heroIdleBlock, heroIdleSheet, heroIdleNormalSheet);
                 heroIdleBlock.SetBuffer(InstancesId, heroBuffer);
             }
 
             if (sim.WizardPresent && sim.WizardUnit != null && sim.WizardUnit.Sheet != null)
             {
                 wizardBlock = new MaterialPropertyBlock();
-                Apply(wizardBlock, sim.WizardUnit.Sheet, PerfLabArt.FromSheet(sim.WizardUnit.Sheet), sim.WizardUnit.NormalSheet);   // 정적 뒷모습 1×1
+                ApplyFigure(wizardBlock, sim.WizardUnit.Sheet, sim.WizardUnit.NormalSheet);   // 정적 뒷모습 1×1
                 wizardBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, 1, PerfLabInstance.Stride);
                 wizardBlock.SetBuffer(InstancesId, wizardBuffer);
                 if (sim.WizardUnit.CastSheet != null)
                 {
                     // 시전 뒷모습 4칸 (K-032). 노멀맵은 정적 그림 짝뿐이라 붙이지 않는다
                     wizardCastBlock = new MaterialPropertyBlock();
-                    Apply(wizardCastBlock, sim.WizardUnit.CastSheet, PerfLabArt.FromSheet(sim.WizardUnit.CastSheet));
+                    ApplyFigure(wizardCastBlock, sim.WizardUnit.CastSheet);
                     wizardCastBlock.SetBuffer(InstancesId, wizardBuffer);
                     wizardCastFrames = PerfLabArt.FrameCount(sim.WizardUnit.CastSheet);
                 }
@@ -264,7 +269,9 @@ namespace HumanLastRampart.Combat.Battle
         }
 
         // normal = 짝 노멀맵(같은 칸 배치). 없으면 _HasNormal 0 — 셰이더가 기본 감싸는 빛으로 그린다 (D-062 G4)
-        static void Apply(MaterialPropertyBlock block, Texture texture, PerfLabArt.SheetLayout layout, Texture normal = null)
+        // sheetScale = 시트별 인물 크기 배율, figure = 캐릭터(납작함 보정 켬) — K-034
+        static void Apply(MaterialPropertyBlock block, Texture texture, PerfLabArt.SheetLayout layout, Texture normal = null,
+            float sheetScale = 1f, bool figure = false)
         {
             block.SetTexture(MainTexId, texture);
             block.SetVector(GridId, layout.Grid);
@@ -272,14 +279,21 @@ namespace HumanLastRampart.Combat.Battle
             block.SetFloat(AspectId, layout.Aspect);
             if (normal != null) block.SetTexture(NormalTexId, normal);
             block.SetFloat(HasNormalId, normal != null ? 1f : 0f);
+            block.SetFloat(SheetScaleId, sheetScale);
+            block.SetFloat(ViewStretchId, figure ? 1f : 0f);
         }
 
+        // 캐릭터 시트 (칸 256×384): 시트별 인물 키를 기준 키에 맞춘다 (K-034). referencePx = 그 개체의 기준 인물 키
+        static void ApplyFigure(MaterialPropertyBlock block, Texture sheet, Texture normal = null, float referencePx = PerfLabArt.FigureReferencePx) =>
+            Apply(block, sheet, PerfLabArt.FromSheet(sheet), normal, PerfLabArt.SheetScale(sheet, referencePx), true);
+
         // 동작 시트 하나 (K-032): 같은 버퍼를 frame0부터 16칸 구간만 그 시트로 그린다. 시트가 없으면 아무것도 안 함
-        static void AddPose(List<(MaterialPropertyBlock block, int count)> draws, GraphicsBuffer buffer, int count, Texture2D sheet, int frame0)
+        static void AddPose(List<(MaterialPropertyBlock block, int count)> draws, GraphicsBuffer buffer, int count, Texture2D sheet, int frame0,
+            float referencePx = PerfLabArt.FigureReferencePx)
         {
             if (sheet == null || count <= 0) return;
             var block = new MaterialPropertyBlock();
-            Apply(block, sheet, PerfLabArt.FromSheet(sheet));
+            ApplyFigure(block, sheet, null, referencePx);
             block.SetVector(FrameWindowId, PerfLabArt.Window(frame0));
             block.SetBuffer(InstancesId, buffer);
             draws.Add((block, count));
@@ -290,7 +304,7 @@ namespace HumanLastRampart.Combat.Battle
         {
             if (sheet == null) return;
             heroCommandBlock = new MaterialPropertyBlock();
-            Apply(heroCommandBlock, sheet, PerfLabArt.FromSheet(sheet), normal);
+            ApplyFigure(heroCommandBlock, sheet, normal);
             heroCommandBlock.SetBuffer(InstancesId, heroBuffer);
         }
 
@@ -358,7 +372,8 @@ namespace HumanLastRampart.Combat.Battle
         static Vector3 ToVector(Unity.Mathematics.float3 v) => new Vector3(v.x, v.y, v.z);
 
         // 주인공 한 명 (성벽 위). frame = 시트 칸 번호(행×4+열), flip이면 좌우 뒤집기
-        public const float HeroDrawSize = 1.5f * BattleSim.WallFigureScale;   // 병사(1.4×0.25)보다 조금 크게
+        // 병사(1.4×0.25)보다 조금 크게. K-034부터 개체 크기 = 인물 실제 키 (시트 배율이 칸 안 여백을 뺀다)
+        public const float HeroDrawSize = 1.5f * BattleSim.WallFigureScale;
 
         // command = 명령 손짓 칸 (0 이상이면 손짓 시트로, 뒤집지 않음 — K-032)
         public void SetHero(Vector3 feet, int frame, bool flip, bool visible, bool idle = false, int command = -1)

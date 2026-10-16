@@ -190,7 +190,7 @@ namespace HumanLastRampart.Combat.Battle
             {
                 RunnerPair pair = runners[side];
                 if (pair == null) continue;
-                pair.Travelled = math.min(pair.Travelled + MessengerSpeed() * dt, perimeter);   // W5: 전령과 같은 속도
+                pair.Travelled = math.min(pair.Travelled + MessengerSpeed() * RunSpeedRatio(pair.Soldiers[0], pair.Soldiers[1]) * dt, perimeter);   // W5: 전령과 같은 속도 (대포병이 끼면 느리게, K-034)
                 for (int k = 0; k < 2; k++)
                 {
                     int soldier = pair.Soldiers[k];

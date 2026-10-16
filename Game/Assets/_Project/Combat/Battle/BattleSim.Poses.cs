@@ -7,7 +7,8 @@ using Unity.Mathematics;
 namespace HumanLastRampart.Combat.Battle
 {
     // 동작 그림 상태 (K-032 미리 연결, 사용자 검토 전) — 그리기용만, 전투 계산에는 쓰지 않는다
-    // - 병사 사격: 쏜 순간이 사격 시트 4번째 칸(놓기). 다음 발이 가까우면 앞 3칸(겨누기)을 미리 보여 준다
+    // - 병사 사격: 쏜 순간이 사격 시트 4번째 칸(놓기). 다음 발이 가까우면 앞 3칸(겨누기)을 미리 보여 준다.
+    //   그 사이(계속 쏘는 중)는 마지막 칸(재장전)을 유지 (K-034)
     // - 병사·적 쓰러짐: FallSeconds 동안 쓰러짐 칸, 그 뒤 사라짐. 적은 개체마다 시작 시각(작업 안에서 잰다)
     // - 사다리 적: 오르는 동안 사다리 소품 (ladderInstances, 사다리 무리 구간만 올린다)
     // 칸 번호는 PerfLabArt.*Frame0 구간 — BattleView가 같은 버퍼를 시트마다 한 번씩 그린다
@@ -101,6 +102,12 @@ namespace HumanLastRampart.Combat.Battle
             {
                 // 계속 쏘는 중이고 다음 발이 가깝다: 겨누기 칸 (0 → 놓기 바로 앞)
                 frame = PerfLabArt.FireFrame0 + math.clamp(FireReleaseFrame - 1 - (int)(sCooldown[i] * fps), 0, FireReleaseFrame - 1);
+            }
+            else if (since >= 0f && since < interval && sCooldown[i] >= lead)
+            {
+                // 재장전 (K-034 사용자 의견 5): 쏜 뒤 다음 겨누기 전까지 마지막 칸(재장전)을 유지한다.
+                // 총병은 간격 2.5초라 예전에는 쏜 순간 앞뒤 0.75초만 동작이고 나머지는 서 있기 그림 → 모션이 없어 보였다
+                frame = PerfLabArt.FireFrame0 + frames - 1;
             }
 
             return true;

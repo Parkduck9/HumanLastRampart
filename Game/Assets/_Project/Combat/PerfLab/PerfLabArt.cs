@@ -37,6 +37,20 @@ namespace HumanLastRampart.Combat.PerfLab
             0.5f, (CellHeight - 352f) / CellHeight, (float)CellWidth / CellHeight);
         public static int FrameCount(Texture sheet) => Mathf.Max(1, sheet.width / CellWidth) * Mathf.Max(1, sheet.height / CellHeight);
 
+        // 시트별 인물 크기 맞추기 (K-034): 같은 칸 384px 안이라도 시트마다 인물이 다른 크기로 그려져 있다
+        // (서 있기 300px, 사격 249~265, 달리기 약 230~260 환산 — Tools/SheetMeasure/sheet-heights.md).
+        // 셰이더 _SheetScale = 기준 키 ÷ 이 시트 인물 키 → 어느 시트로 그려도 인물이 같은 크기. 발 줄(352)은 모든 시트가 같다.
+        // 병사·주인공·마법사 기준 = FigureReferencePx(칸 높이 384) → 개체 크기(m) = 인물 실제 키 (병사 0.35m).
+        // 300으로 바꾸면 서 있는 병사가 예전(K-033까지) 화면 크기로 돌아간다 (그때는 인물 키 = 크기 × 300/384)
+        public const float FigureReferencePx = CellHeight;
+        public const float DefaultFigurePx = 300f;   // 표에 없는 시트: Codex 기준 서 있는 인물 키
+
+        public static float FigurePx(Texture sheet) =>
+            sheet != null && PerfLabSheetHeights.FigurePx.TryGetValue(sheet.name, out float px) && px > 1f ? px : DefaultFigurePx;
+
+        // 그 시트를 그릴 배율. referencePx = 이 개체의 기준 인물 키 (병사 FigureReferencePx, 적은 자기 기본 시트 키)
+        public static float SheetScale(Texture sheet, float referencePx = FigureReferencePx) => referencePx / FigurePx(sheet);
+
         // 주인공 시트 (Codex M-CX-048, Docs/References/codex_hero_grid_v2): 4열×4행, 칸 256×384, 모든 칸 발 (128, 352).
         // 행: 0 뒷모습 걷기(첫 칸 = 서 있기) / 1 옆모습 걷기(왼쪽 보기) / 2 옆모습 달리기(왼쪽) / 3 앞모습 걷기.
         // 오른쪽은 왼쪽 행 좌우 뒤집기. 걷기는 칸 순서 HeroWalkFlipPhase, 달리기는 그대로 (JSON)

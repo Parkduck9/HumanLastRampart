@@ -116,7 +116,7 @@ namespace HumanLastRampart.Combat.Battle
             {
                 GroupMove move = groupMoves[g];
                 SquadInfo squad = squads[move.Group];
-                move.Travelled += MessengerSpeed() * dt;
+                move.Travelled += MessengerSpeed() * RunSpeedRatio(squad.FirstSoldier) * dt;   // 대포병 묶음은 느리게 (K-034)
                 bool done = true;
                 for (int k = 0; k < move.StartU.Length && k < squad.Alive; k++)
                 {

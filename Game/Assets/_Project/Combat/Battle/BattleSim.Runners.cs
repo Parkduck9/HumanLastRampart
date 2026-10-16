@@ -1,4 +1,5 @@
 using HumanLastRampart.Combat.PerfLab;
+using HumanLastRampart.Core.Definitions;
 using Unity.Collections;
 using Unity.Mathematics;
 
@@ -10,9 +11,13 @@ namespace HumanLastRampart.Combat.Battle
     public sealed partial class BattleSim
     {
         const float RunFps = 8f;
+        // 대포 운용병은 대포 장비를 끌고 달려 다른 병사보다 느리다 (K-034 사용자 의견 9). 그림도 이 배율로 느리게 재생
+        // — 대포 끌기 그림은 아직 없음(Codex 사용 한도), 있는 달리기 그림을 느리게
+        public const float CannonCrewRunSpeedRatio = 0.6f;
 
         float[] sRunDir;                                // +1 오른쪽, -1 왼쪽, 0 서 있음
         byte[] sHasRunSheet;
+        float[] sRunSpeed;                              // 병사별 달리기 속도 배율 (1 = 전령 속도)
         NativeArray<PerfLabInstance> runnerInstances;   // 달리는 병사만 크기가 있다 (나머지 0 = 안 그림)
 
         public NativeArray<PerfLabInstance> RunnerInstances => runnerInstances;
@@ -50,13 +55,25 @@ namespace HumanLastRampart.Combat.Battle
             int n = math.max(1, soldierCount);
             sRunDir = new float[n];
             sHasRunSheet = new byte[n];
+            sRunSpeed = new float[n];
+            for (int i = 0; i < n; i++) sRunSpeed[i] = 1f;
             runnerInstances = new NativeArray<PerfLabInstance>(n, p);
             foreach (var (unit, start, count) in soldierGroups)
             {
-                if (unit == null || unit.RunSheet == null) continue;
+                if (unit == null) continue;
+                float speed = unit.Kind == UnitKind.CannonCrew ? CannonCrewRunSpeedRatio : 1f;
+                for (int i = start; i < start + count; i++) sRunSpeed[i] = speed;
+                if (unit.RunSheet == null) continue;
                 for (int i = start; i < start + count; i++) sHasRunSheet[i] = 1;
             }
         }
+
+        // 병사가 성벽 위를 달리는 속도 배율 (전령·우회 보고·묶음 이동이 MessengerSpeed에 곱한다). 없는 병사(-1)는 1
+        float RunSpeedRatio(int soldier) =>
+            sRunSpeed != null && soldier >= 0 && soldier < sRunSpeed.Length ? sRunSpeed[soldier] : 1f;
+
+        // 우회 보고 두 명은 같은 거리를 함께 재므로 느린 쪽에 맞춘다
+        float RunSpeedRatio(int a, int b) => math.min(RunSpeedRatio(a), RunSpeedRatio(b));
 
         void SetRunning(int soldier, float direction)
         {
@@ -73,7 +90,7 @@ namespace HumanLastRampart.Combat.Battle
                 return false;
             }
 
-            int frame = (int)math.floor(Elapsed * RunFps + i * 0.37f) % PerfLabArt.FramesPerAction;
+            int frame = (int)math.floor(Elapsed * RunFps * sRunSpeed[i] + i * 0.37f) % PerfLabArt.FramesPerAction;
             float w = sRunDir[i] > 0f ? -frame - 1 : frame;
             runnerInstances[i] = new PerfLabInstance
             {

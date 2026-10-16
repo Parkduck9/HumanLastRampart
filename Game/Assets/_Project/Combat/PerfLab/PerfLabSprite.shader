@@ -29,6 +29,13 @@ Shader "HLR/PerfLabSprite"
         // 투사체 (K-032): 0 보통, 1 색을 _ShotColor로, 2 색을 _ShotColor로 + 개체 색 칸(rgb)을 날아가는 방향으로 보고 판을 돌린다
         _ShotMode ("Shot mode", Float) = 0
         _ShotColor ("Shot color", Color) = (1, 1, 1, 1)
+        // 시트별 인물 크기 맞추기 (K-034): 개체 크기 × 이 값. 시트마다 칸 안 인물 키가 달라도 같은 크기로 (PerfLabArt.SheetScale)
+        _SheetScale ("Sheet figure scale", Float) = 1
+        // 위에서 내려볼 때 납작해 보이는 것 보정 (K-034): 1이면 판 높이를 1/cos(카메라에서 본 내려보는 각)만큼 늘린다.
+        // 발(기준점)은 그대로라 발 위치·그림자 자리는 안 바뀐다. 그림자 판은 늘리지 않는다(실제 키 그대로)
+        _ViewStretch ("Stretch against top-down squash (0/1)", Float) = 0
+        // 성벽 바로 아래 적처럼 거의 수직으로 볼 때 지나치게 길어지지 않게
+        _MaxViewStretch ("Max stretch", Float) = 1.4
     }
 
     SubShader
@@ -63,6 +70,9 @@ Shader "HLR/PerfLabSprite"
         float4 _FrameWindow;
         float _ShotMode;
         float4 _ShotColor;
+        float _SheetScale;
+        float _ViewStretch;
+        float _MaxViewStretch;
 
         struct Attributes
         {
@@ -84,16 +94,33 @@ Shader "HLR/PerfLabSprite"
             return frame > _FrameWindow.x - 0.5 && frame < _FrameWindow.y - 0.5;
         }
 
-        // 판 한 꼭짓점: 월드 위치, 시트 UV, 판의 오른쪽 방향(뒤집기 반영)
-        void Billboard(Attributes input, float3 right, out float3 world, out float2 uv, out float3 faceRight)
+        // 그리는 크기 = 개체 크기 × 시트 배율 (K-034)
+        float DrawSize(PerfLabInstance data)
+        {
+            return data.tintSize.a * _SheetScale;
+        }
+
+        // 납작함 보정 배율 (K-034): 카메라에서 이 개체(몸 가운데)를 내려보는 각 φ — 세로 판은 cos φ만큼 짧아 보이므로 1/cos φ.
+        // 개체마다 한 값(네 꼭짓점 같게). 보정을 끈 시트(_ViewStretch 0)는 1
+        float ViewStretch(PerfLabInstance data, float size)
+        {
+            if (_ViewStretch < 0.5) return 1.0;
+            float3 toCamera = _WorldSpaceCameraPos - (data.posFrame.xyz + float3(0.0, 0.5 * size, 0.0));
+            float horizontal = length(toCamera.xz);
+            float cosine = horizontal / max(length(toCamera), 1e-4);
+            return min(1.0 / max(cosine, 1e-3), max(_MaxViewStretch, 1.0));
+        }
+
+        // 판 한 꼭짓점: 월드 위치, 시트 UV, 판의 오른쪽 방향(뒤집기 반영). stretch = 높이만 늘리는 배율 (발 기준)
+        void Billboard(Attributes input, float3 right, float stretch, out float3 world, out float2 uv, out float3 faceRight)
         {
             PerfLabInstance data = _Instances[input.instanceID];
-            float size = data.tintSize.a;
+            float size = DrawSize(data);
             bool flip = data.posFrame.w < 0.0;
             float frame = max(RawFrame(data) - _FrameWindow.x, 0.0);
             float pivotX = flip ? 1.0 - _Pivot.x : _Pivot.x;
             float localX = (input.positionOS.x + 0.5 - pivotX) * _Aspect * size;
-            float localY = (input.positionOS.y - _Pivot.y) * size;
+            float localY = (input.positionOS.y - _Pivot.y) * size * stretch;
             if (_ShotMode > 1.5)
             {
                 // 투사체: 날아가는 방향(개체 색 칸)을 판 위 (오른쪽, 위)로 옮겨 그 각도만큼 기준점 둘레로 돌린다. 그림은 +X를 본다
@@ -195,7 +222,8 @@ Shader "HLR/PerfLabSprite"
 
                 float3 camRight = CameraRight();
                 float3 world; float2 uv; float3 faceRight;
-                Billboard(input, camRight, world, uv, faceRight);
+                size = DrawSize(data);
+                Billboard(input, camRight, ViewStretch(data, size), world, uv, faceRight);
                 output.positionCS = TransformWorldToHClip(world);
                 output.positionWS = world;
                 output.uv = uv;
@@ -293,7 +321,7 @@ Shader "HLR/PerfLabSprite"
                 float3 right = dot(flat, flat) > 1e-4 ? normalize(cross(float3(0.0, 1.0, 0.0), flat)) : CameraRight();
                 if (_FixedRight.w > 0.5) right = _FixedRight.xyz;
                 float3 world; float2 uv; float3 faceRight;
-                Billboard(input, right, world, uv, faceRight);
+                Billboard(input, right, 1.0, world, uv, faceRight);   // 그림자는 실제 키 그대로 (납작함 보정 없음)
                 float3 normal = normalize(cross(right, float3(0.0, 1.0, 0.0)));
                 output.positionCS = TransformWorldToHClip(ApplyShadowBias(world, normal, light));
                 #if UNITY_REVERSED_Z
