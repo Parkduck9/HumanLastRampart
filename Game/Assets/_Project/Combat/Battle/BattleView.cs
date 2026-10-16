@@ -810,11 +810,31 @@ namespace HumanLastRampart.Combat.Battle
                 bool selected = i == selectedCannon;
                 if (c.Side == selectedSide)
                 {
+                    // 사거리 원은 칠 수 있는 들판 쪽(K-042: 자기 들판 + 모서리 2문만 옆 들판)만 — 맞은편·닿지 않는 옆 들판 쪽 호는 그리지 않는다
                     const int ringDots = 72;
                     for (int k = 0; k < ringDots; k++)
                     {
                         float a = k * Mathf.PI * 2f / ringDots;
-                        Add(c.Position + new Vector3(Mathf.Cos(a), 0f, Mathf.Sin(a)) * c.Range, selected ? new Color(1f, 0.9f, 0.3f) : new Color(0.8f, 0.8f, 0.8f), dot * (selected ? 0.7f : 0.45f));
+                        Vector3 p = c.Position + new Vector3(Mathf.Cos(a), 0f, Mathf.Sin(a)) * c.Range;
+                        if (!CannonReaches(c, p)) continue;
+                        Add(p, selected ? new Color(1f, 0.9f, 0.3f) : new Color(0.8f, 0.8f, 0.8f), dot * (selected ? 0.7f : 0.45f));
+                    }
+
+                    // 고른 대포: 쏠 수 있는 구역을 옅은 점 격자로 채운다 (성 안은 빼고)
+                    if (selected)
+                    {
+                        const float step = 5f;
+                        int steps = Mathf.CeilToInt(c.Range / step);
+                        for (int gz = -steps; gz <= steps; gz++)
+                        {
+                            for (int gx = -steps; gx <= steps; gx++)
+                            {
+                                Vector3 p = c.Position + new Vector3(gx * step, 0f, gz * step);
+                                if (Mathf.Max(Mathf.Abs(p.x), Mathf.Abs(p.z)) < sim.CastleHalf + 1f) continue;
+                                if ((p - c.Position).sqrMagnitude > c.Range * c.Range || !CannonReaches(c, p)) continue;
+                                Add(p, new Color(1f, 0.85f, 0.35f), dot * 0.35f);
+                            }
+                        }
                     }
                 }
 
@@ -835,6 +855,10 @@ namespace HumanLastRampart.Combat.Battle
             markerBuffer.SetData(markers);
             if (n > 0) Graphics.DrawMeshInstancedProcedural(quad, 0, mapMaterial, bounds, n, markerBlock);
         }
+
+        // 대포가 그 지점의 들판 면을 칠 수 있는가 (BattleSim.CannonCanReach와 같은 규칙, 사거리는 부르는 쪽이 본다)
+        static bool CannonReaches(BattleSim.CannonInfo c, Vector3 p) =>
+            (c.Reach & (1 << WallGeometry.FieldSide(new Unity.Mathematics.float3(p.x, 0f, p.z)))) != 0;
 
         // 지도 점: 가장자리가 부드럽지 않은 둥근 점 (알파 잘라내기)
         static Texture2D CreateDotTexture()

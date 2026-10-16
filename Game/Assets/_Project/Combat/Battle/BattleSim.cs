@@ -821,6 +821,7 @@ namespace HumanLastRampart.Combat.Battle
                 SidePriority = sidePriority,
                 SoldierAim = sAim,
                 SoldierHasAim = sHasAim,
+                SoldierCannonReach = sCannonReach,
                 SoldierIdle = sIdle,
                 SoldierFireTime = sFireTime,
                 Now = Elapsed,
@@ -1077,6 +1078,7 @@ namespace HumanLastRampart.Combat.Battle
             Release(ref sidePriority);
             Release(ref sAim);
             Release(ref sHasAim);
+            Release(ref sCannonReach);
             Release(ref sIdle);
             Release(ref weapons);
             Release(ref soldierInstances);

@@ -237,6 +237,15 @@ namespace HumanLastRampart.Combat.Battle
 
         const float CannonPanelHeight = 370f;
 
+        // 칠 수 있는 들판 면 비트 → "북·동" (K-042)
+        static string ReachText(int reach)
+        {
+            string[] names = { "북", "동", "남", "서" };
+            var parts = new System.Collections.Generic.List<string>(3);
+            for (int side = 0; side < 4; side++) if ((reach & (1 << side)) != 0) parts.Add(names[side]);
+            return string.Join("·", parts);
+        }
+
         // 고른 벽의 대포 4문 상태 (BattleEntry가 그리기 뒤 부름)
         public void RefreshCannons(BattleSim sim, int side, int selected)
         {
@@ -249,7 +258,7 @@ namespace HumanLastRampart.Combat.Battle
                 cannonLabels[i].color = HudStyle.TextDim;
             }
 
-            string guide = "지도에서 대포 표시를 누른 뒤 들판을 왼쪽 클릭 (사거리 원 안)";
+            string guide = "지도에서 대포 표시를 누른 뒤 쏠 수 있는 구역(노란 점)을 왼쪽 클릭";
             for (int c = 0; c < sim.CannonCount; c++)
             {
                 BattleSim.CannonInfo info = sim.GetCannon(c);
@@ -257,7 +266,7 @@ namespace HumanLastRampart.Combat.Battle
                 string state = !info.Alive ? "운용병 없음" : !info.HasAim ? "자동(밀집한 곳)" : info.Idle ? "조준 — 대기(근처에 적 없음)" : "조준 — 포격 중";
                 cannonLabels[info.Number - 1].text = (c == selected ? "▶ " : "") + $"{info.Number}번: {state}";
                 cannonLabels[info.Number - 1].color = c == selected ? HudStyle.Brass : HudStyle.Text;
-                if (c == selected) guide = $"{info.Number}번 선택됨 — 들판을 왼쪽 클릭해 조준점 지정 (사거리 {info.Range:0}m)";
+                if (c == selected) guide = $"{info.Number}번 선택됨 — 노란 점 구역(사거리 {info.Range:0}m, {ReachText(info.Reach)} 들판)을 왼쪽 클릭";
             }
 
             cannonGuide.text = guide;

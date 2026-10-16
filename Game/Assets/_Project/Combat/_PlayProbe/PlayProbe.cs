@@ -289,8 +289,8 @@ public sealed class PlayProbe
         Assert.IsTrue(tile.interactable);
         tile.onClick.Invoke();
         yield return null;
-        yield return Click("설치 견적 확인", 60);
-        yield return Click("확정 설치", 60);
+        // K-042: 칸을 여러 개 고른 뒤 한 번에 구매 (견적·확정 두 단계 → 단추 하나, 글자 뒤에 칸 수·합계가 붙는다)
+        yield return ClickPrefix("한 번에 구매·설치", 60);
         for (int i = 0; i < 3; i++) yield return null;
         yield return Capture("preptrap_1_installed");
         TrapPlacement placed = c.Traps.FirstOrDefault(t => t.SlotId == cellId);
