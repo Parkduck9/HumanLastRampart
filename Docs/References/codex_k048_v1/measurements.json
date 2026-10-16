@@ -1,0 +1,143 @@
+{
+    "note":  "정면 설치 대포345×320 / 정지 대포병300. 0.7배 후 241.5×224를242×224로 반올림. 원본 픽셀의 비율이며 실게임 화면 실측이 아니다.",
+    "soldierRawHeight":  300,
+    "sources":  [
+                    {
+                        "frames":  [
+                                       {
+                                           "bounds":  [
+                                                          95,
+                                                          32,
+                                                          321,
+                                                          320
+                                                      ],
+                                           "index":  0
+                                       },
+                                       {
+                                           "bounds":  [
+                                                          83,
+                                                          32,
+                                                          345,
+                                                          320
+                                                      ],
+                                           "index":  1
+                                       },
+                                       {
+                                           "bounds":  [
+                                                          87,
+                                                          32,
+                                                          338,
+                                                          320
+                                                      ],
+                                           "index":  2
+                                       }
+                                   ],
+                        "cellWidth":  512,
+                        "file":  "Game/Assets/_Project/Art/Battle/Resources/BattleArt/cannon_aim3.png",
+                        "threshold":  "알파 128 초과, 우측·하단 경계 제외"
+                    },
+                    {
+                        "frames":  [
+                                       {
+                                           "bounds":  [
+                                                          13,
+                                                          32,
+                                                          230,
+                                                          208
+                                                      ],
+                                           "index":  0
+                                       },
+                                       {
+                                           "bounds":  [
+                                                          13,
+                                                          38,
+                                                          230,
+                                                          202
+                                                      ],
+                                           "index":  1
+                                       },
+                                       {
+                                           "bounds":  [
+                                                          13,
+                                                          38,
+                                                          230,
+                                                          202
+                                                      ],
+                                           "index":  2
+                                       }
+                                   ],
+                        "cellWidth":  256,
+                        "file":  "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/cannon_recoil.png",
+                        "threshold":  "알파 128 초과, 우측·하단 경계 제외"
+                    },
+                    {
+                        "frames":  [
+                                       {
+                                           "bounds":  [
+                                                          47,
+                                                          52,
+                                                          186,
+                                                          300
+                                                      ],
+                                           "index":  0
+                                       }
+                                   ],
+                        "cellWidth":  256,
+                        "file":  "Game/Assets/_Project/Art/Characters/Static/cannon_crew_static.png",
+                        "threshold":  "알파 128 초과, 우측·하단 경계 제외"
+                    },
+                    {
+                        "frames":  [
+                                       {
+                                           "bounds":  [
+                                                          56,
+                                                          130,
+                                                          184,
+                                                          222
+                                                      ],
+                                           "index":  0
+                                       },
+                                       {
+                                           "bounds":  [
+                                                          58,
+                                                          129,
+                                                          176,
+                                                          203
+                                                      ],
+                                           "index":  1
+                                       },
+                                       {
+                                           "bounds":  [
+                                                          55,
+                                                          129,
+                                                          183,
+                                                          223
+                                                      ],
+                                           "index":  2
+                                       },
+                                       {
+                                           "bounds":  [
+                                                          54,
+                                                          129,
+                                                          165,
+                                                          211
+                                                      ],
+                                           "index":  3
+                                       }
+                                   ],
+                        "cellWidth":  256,
+                        "file":  "Game/Assets/_Project/Art/Characters/Run/cannon_crew_run.png",
+                        "threshold":  "알파 128 초과, 우측·하단 경계 제외"
+                    }
+                ],
+    "referenceScale":  0.7,
+    "cannonTarget":  [
+                         242,
+                         224
+                     ],
+    "soldierTargetHeight":  210,
+    "ratio":  [
+                  1.15,
+                  1.0666666667
+              ]
+}
