@@ -215,6 +215,7 @@ namespace HumanLastRampart.Combat.Battle
             InitWeather();
             InitCannons(p);
             InitSpells(defs);
+            InitBurn(p);   // 불바다 화상 (K-035)
             InitTelescope(p);
             InitTraps(defs, p);
         }
@@ -848,6 +849,10 @@ namespace HumanLastRampart.Combat.Battle
                 IntervalMultiplier = IntervalMultiplier,
                 FarAccuracyMultiplier = FarAccuracyMultiplier,
                 FrontArc = (byte)(FrontArcOnly ? 1 : 0),
+                MuzzleHeight = SoldierDrawSize * MuzzleHeightRatio,   // 투사체 출발점 (K-035, BattleSim.Burn.cs)
+                MuzzleForward = MuzzleForwardDistance,
+                CannonMuzzleHeight = CannonMuzzleLift,
+                CannonMuzzleForward = CannonMuzzleDistance,
             }.Schedule(soldierCount, 64, JobHandle.CombineDependencies(h, tallyJob));
 
             h = new AllocateShotsJob
@@ -935,6 +940,7 @@ namespace HumanLastRampart.Combat.Battle
                 FallFps = FallFps,
                 DeployHeight = DeployHeight,
                 LadderSize = PerfLabArt.LadderDrawSize,
+                Burn = eBurn,   // 화상 붉은 깜빡임 (K-035)
             }.Schedule(n, 256, h);
 
             JobHandle shotDraw = new WriteShotInstancesJob
@@ -1094,6 +1100,7 @@ namespace HumanLastRampart.Combat.Battle
             Release(ref tally);
             Release(ref piles);
             ReleasePoseArt();
+            ReleaseBurn();
             if (shotQueue.IsCreated) shotQueue.Dispose();
             if (hitQueue.IsCreated) hitQueue.Dispose();
         }

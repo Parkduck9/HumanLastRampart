@@ -397,6 +397,19 @@ namespace HumanLastRampart.Combat.Battle
         public float IntervalMultiplier;      // 비: 공격 간격 길어짐 (공격 속도 −20%, D-028 C4)
         public float FarAccuracyMultiplier;   // 안개·밤: 먼 거리 명중 감소 (Battle.md 6.4)
         public byte FrontArc;                 // 1 = 자기 성벽 앞 90도·각도 순위(D-073). 0 = 예전처럼 둘레 전부 (측정 비교용)
+        // 투사체 출발점 (K-035): 병사는 그림 속 활·총 높이 + 바깥쪽으로 조금, 대포는 포구 자리 (BattleSim이 그림 크기에서 정한다)
+        public float MuzzleHeight;
+        public float MuzzleForward;
+        public float CannonMuzzleHeight;
+        public float CannonMuzzleForward;
+
+        float3 Muzzle(int s, WeaponKindData weapon)
+        {
+            bool cannon = weapon.AreaRadius > 0f;
+            float3 outward = WallGeometry.Outward(SoldierSide[s]);
+            return SoldierPositions[s] + outward * (cannon ? CannonMuzzleForward : MuzzleForward)
+                + new float3(0f, cannon ? CannonMuzzleHeight : MuzzleHeight, 0f);
+        }
 
         // TargetPriority 순서 (Core.Campaign.TargetPriority와 같게)
         const byte LowestHpRatio = 0, HighestHpRatio = 1, Nearest = 2, ClimbingFirst = 3, SpecialFirst = 4, DensestArea = 5;
@@ -565,7 +578,7 @@ namespace HumanLastRampart.Combat.Battle
 
             Shots.Enqueue(new Shot
             {
-                From = from + new float3(0f, 1f, 0f),
+                From = Muzzle(s, weapon),
                 To = new float3(aim.x, aim.y + 1f, aim.z),
                 Target = new EnemyHandle { Index = best, Generation = EnemyGeneration[best] },
                 Weapon = SoldierWeapon[s],
@@ -627,7 +640,7 @@ namespace HumanLastRampart.Combat.Battle
 
             Shots.Enqueue(new Shot
             {
-                From = from + new float3(0f, 1f, 0f),
+                From = Muzzle(s, weapon),
                 To = new float3(point.x, 1f, point.z),
                 Target = new EnemyHandle { Index = nearest, Generation = EnemyGeneration[nearest] },
                 Weapon = SoldierWeapon[s],
@@ -907,6 +920,7 @@ namespace HumanLastRampart.Combat.Battle
         public float FallFps;
         public float DeployHeight;      // 오르기 시작 뒤 이 높이(m)까지는 세우기 칸
         public float LadderSize;
+        [ReadOnly] public NativeArray<float> Burn;            // 화상 남은 시간 (K-035, BattleSim.Burn.cs)
         [ReadOnly] public NativeArray<float3> Positions;
         [ReadOnly] public NativeArray<byte> States;
         [ReadOnly] public NativeArray<float> AnimPhases;
@@ -1001,10 +1015,18 @@ namespace HumanLastRampart.Combat.Battle
                 shade *= math.lerp(0.45f, 0.15f, beyond / 20f);   // 시야 밖: 검은 그림자처럼 흐려지다 사라짐
             }
 
+            // 화상 (K-035): 살아 있는 동안 붉게 깜빡인다
+            float3 tint = kind.Tint * shade;
+            if (Burn[i] > 0f && EnemyState.IsAlive(state))
+            {
+                float flicker = 0.5f + 0.5f * math.sin(Time * 18f + i * 1.7f);
+                tint *= math.lerp(new float3(1f, 1f, 1f), new float3(1.25f, 0.45f, 0.3f), 0.45f + 0.55f * flicker);
+            }
+
             Instances[i] = new PerfLabInstance
             {
                 PosFrame = new float4(Positions[i], frame),
-                TintSize = new float4(kind.Tint * shade, size),
+                TintSize = new float4(tint, size),
             };
 
             // 사다리 소품: 오르는 동안 성벽 바로 앞 땅에 세운다 (인물보다 조금 성벽 쪽)
