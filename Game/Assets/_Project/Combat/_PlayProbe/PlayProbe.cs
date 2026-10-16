@@ -93,16 +93,10 @@ public sealed class PlayProbe
                 Assert.AreEqual(w.HpAfter, c.Wall.First(x => x.SegmentId == w.SegmentId).Hp, "성벽 피해 반영");
             Note($"결과 반영 확인: 골드 {gold0}→{c.Gold}, 병사 {soldiers0}→{c.Squads.Sum(s => s.Count)}, 성벽 {string.Join("/", c.Wall.Select(w => w.Hp))}, 다음 번호 {c.BattleNumber}");
             yield return Capture($"{tag}_result{number}");
-            // Codex 결과 상세 (G-CX-017): 버튼 3개 → 팝업 → 닫기
-            foreach (string detail in new[] { "성벽 피해", "병력 손실", "영웅 상태" })
-            {
-                yield return Click(detail, 120);
-                for (int i = 0; i < 3; i++) yield return null;
-                yield return Capture($"{tag}_result{number}_{detail.Replace(" ", "")}");
-                yield return ClickPrefix("닫기", 120);
-                for (int i = 0; i < 3; i++) yield return null;
-            }
-            Note($"결과 상세 3개 열고 닫기 확인 (전투 {number})");
+            // D-076 결과 그림판: 성벽·병력·영웅 세 칸이 한 화면에 있다 (예전 상세 버튼·팝업 없음)
+            foreach (string column in new[] { "Walls", "Squads", "Heroes" })
+                Assert.IsNotNull(GameObject.Find(column), $"결과 그림판 {column} 칸");
+            Note($"결과 그림판 세 칸 확인 (전투 {number})");
             yield return Click("다음", 300);
             yield return WaitScreen(ScreenId.Prep, 900);
             yield return Click("전투 준비 완료", 300);
@@ -246,10 +240,9 @@ public sealed class PlayProbe
                 Assert.IsTrue(t.Marked && t.SlotId.StartsWith("cell_0_"), "지도 표시·처음 칸은 그대로");
             }
 
-            // 결과 상세를 열고 닫아도(재진입 역할) 다시 반영되지 않는다
+            // 결과 화면에 몇 프레임 머물러도(재진입 역할) 다시 반영되지 않는다 (D-076 그림판 — 상세 팝업 없음)
             int gold = c.Gold, traps = c.Traps.Count;
-            yield return Click("성벽 피해", 120);
-            yield return ClickPrefix("닫기", 120);
+            for (int i = 0; i < 10; i++) yield return null;
             Assert.AreEqual(gold, c.Gold); Assert.AreEqual(traps, c.Traps.Count);
             Note($"결과 반영: 함정 {c.Traps.Count}개 남음(터진 {exploded} 제거), 재진입 무변경");
             yield return Capture("trap_3_result");

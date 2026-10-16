@@ -1,6 +1,8 @@
 using HumanLastRampart.Core.Flow;
 using HumanLastRampart.Core.Definitions;
+using HumanLastRampart.Core.CombatContracts;
 using HumanLastRampart.UI;
+using UnityEngine;
 
 namespace HumanLastRampart.Meta
 {
@@ -30,13 +32,17 @@ namespace HumanLastRampart.Meta
                     error = "결과 상세 데이터를 표시하지 못했습니다: " + exception.Message;
                 }
             }
-            string description = valid ? report.Summary : "전투 정보를 처리하지 못했습니다.";
-            var view = new ScreenView(transform, "전투 결과", description);
+            // D-076: 글자 덩어리 대신 그림판 한 장 — 성벽 도식·병종별 손실 막대·영웅 초상을 한 번에 보고 확인
+            string headline = valid
+                ? $"{(result.Outcome == BattleOutcome.Victory ? "승리" : "패배")} · 처치 {result.DefeatedEnemyCount:N0} · 골드 +{result.EarnedGold:N0}"
+                : "전투 정보를 처리하지 못했습니다.";
+            var view = new ScreenView(transform, $"전투 {result?.BattleNumber} 결과", headline);
             if (valid)
             {
-                AddDetails(view, "성벽 피해", report.Walls);
-                AddDetails(view, "병력 손실", report.Squads);
-                AddDetails(view, "영웅 상태", report.Heroes);
+                view.SetPanelSize(1600f, 900f);
+                RectTransform board = view.AddArea("Result Board", 440f);
+                board.sizeDelta = new Vector2(1488f, 440f);
+                ResultBoard.Build(board, campaign.ActiveBattleSetup, result, id => context.Definitions.Get<UnitDef>(id));
             }
             var next = view.AddButton("다음", () => Complete(ScreenOutcome.Done));
             next.interactable = valid;
@@ -45,10 +51,5 @@ namespace HumanLastRampart.Meta
             return view;
         }
 
-        static void AddDetails(ScreenView view, string title, string content)
-        {
-            UnityEngine.UI.Button button = null;
-            button = view.AddButton(title, () => ResultDetailPopup.Show(button, title, content));
-        }
     }
 }

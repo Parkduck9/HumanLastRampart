@@ -141,6 +141,50 @@ namespace HumanLastRampart.UI
         // 화면의 주된 다음 행동 하나를 황동색으로 표시
         public void MarkPrimary(Button button) { UiStyle.SetPrimary(button); }
 
+        // 그림 위주 화면(결과 그림판 D-076 등)용: 창 크기를 바꾸고, 세로 목록 안에 빈 구역을 하나 받아 직접 채운다
+        public void SetPanelSize(float width, float height) { panel.sizeDelta = new Vector2(width, height); }
+
+        public RectTransform AddArea(string name, float height)
+        {
+            var obj = new GameObject(name, typeof(RectTransform), typeof(LayoutElement));
+            obj.transform.SetParent(panel, false);
+            obj.GetComponent<LayoutElement>().preferredHeight = height;
+            return (RectTransform)obj.transform;
+        }
+
+        public static Font UiFont => GetFont();
+
+        // 정비 마당(D-076)용: 창을 화면 위쪽 띠로 올리고(요약만), 창 아래 화면 전체에 마당을 그릴 수 있게 바탕 바로 위 층을 준다
+        public void DockTop(float width, float height)
+        {
+            panel.anchorMin = panel.anchorMax = panel.pivot = new Vector2(0.5f, 1f);
+            panel.anchoredPosition = new Vector2(0f, -16f);
+            panel.sizeDelta = new Vector2(width, height);
+        }
+
+        public RectTransform AddBackdropLayer(string name)
+        {
+            var obj = new GameObject(name, typeof(RectTransform));
+            obj.transform.SetParent(root.transform, false);
+            obj.transform.SetSiblingIndex(1);   // 바탕(0) 바로 위, 창 아래
+            var rect = (RectTransform)obj.transform;
+            Stretch(rect);
+            return rect;
+        }
+
+        public CanvasGroup PanelGroup => panel.GetComponent<CanvasGroup>();
+
+        // 버튼을 보이지 않게 숨기되 누를 수 있는 상태로 둔다 — 마당 상호작용(E)과 시험이 같은 길로 부른다
+        public static void HideButton(Button button)
+        {
+            var group = button.gameObject.AddComponent<CanvasGroup>();
+            group.alpha = 0f;
+            group.blocksRaycasts = false;
+            var element = button.GetComponent<LayoutElement>();
+            if (element != null) element.ignoreLayout = true;
+            ((RectTransform)button.transform).sizeDelta = Vector2.zero;
+        }
+
         public Button AddButton(string text, UnityAction action)
         {
             var button = MakeButton(panel, text, action);
