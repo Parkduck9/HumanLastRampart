@@ -24,6 +24,7 @@ namespace HumanLastRampart.Combat.Battle
         static readonly int FrameWindowId = Shader.PropertyToID("_FrameWindow");
         static readonly int ShotModeId = Shader.PropertyToID("_ShotMode");
         static readonly int ShotColorId = Shader.PropertyToID("_ShotColor");
+        static readonly int ScreenUprightId = Shader.PropertyToID("_ScreenUpright");
         static readonly int SheetScaleId = Shader.PropertyToID("_SheetScale");
         static readonly int ViewStretchId = Shader.PropertyToID("_ViewStretch");
 
@@ -160,6 +161,7 @@ namespace HumanLastRampart.Combat.Battle
                 {
                     var ladderBlock = new MaterialPropertyBlock();
                     Apply(ladderBlock, def.LadderSheet, PerfLabArt.LadderLayout);
+                    ladderBlock.SetFloat(ScreenUprightId, 0f);   // 사다리는 성벽에 기대 선 물건 — 화면 기준으로 눕히지 않고 세로 판 그대로 (K-040)
                     var ladderBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, PerfLabInstance.Stride);
                     ladderBlock.SetBuffer(InstancesId, ladderBuffer);
                     ladderDraws.Add((ladderBuffer, ladderBlock, start, count));

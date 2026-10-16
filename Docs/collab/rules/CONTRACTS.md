@@ -1282,3 +1282,8 @@ public interface IScreenContext
 - `EnemyDef` 추가: `attackSheet`(성벽 공격·성벽 위 싸움 4칸, sheet에 공격 행이 없을 때) · `deathSheet`(쓰러짐 4칸) · `deploySheet`(사다리 세우기 4칸) · `climbSheet`(사다리 오르기 4칸) · `ladderSheet`(사다리 소품 1칸 256×1536, 아래 128·1472, 실체 1152px = 4.3m)
 - 인물 시트 공통: 칸 256×384, 발 128·352 (기존 규칙과 같음). 그림 크기로 칸 수를 센다
 - 그리기 규칙(Combat 내부, 계약 밖): 쓰러짐은 0.7초(4칸 0.5초 + 마지막 칸) 뒤 사라짐. 사격은 쏜 순간 = 놓기 칸. 세우기는 오르기 첫 0.5m. 칸 번호 구간은 `PerfLabArt.*Frame0`, 셰이더 `_FrameWindow`
+
+## C-010 v1.9 초안 — 불바다 화상 (K-040)
+- 상태: **초안** (2026-10-16, 작업 카드 K-040, 작성 Claude · Core 소유 Claude). 선택 필드, 기본 0 = 화상 없음. 기존 필드 의미 변경 없음(불바다 `damage`는 여전히 초당 직접 피해)
+- `SpellDef` 추가: `burnChance`(0~1, 한 불바다 안에서 적마다 처음 맞을 때 한 번 굴림) · `burnDamage`(초당) · `burnSeconds`. 불바다를 벗어나도 계속 탄다. 비·소나기는 기존 불 피해 배율을 확률·직접 피해·화상 피해에 곱한다
+- 데이터 변경: spell_firefield `damage` 20→3, `duration` 8→15, 화상 0.6 · 2.5/초 · 10초
