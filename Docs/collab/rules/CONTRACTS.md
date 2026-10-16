@@ -1287,3 +1287,6 @@ public interface IScreenContext
 - 상태: **초안** (2026-10-16, 작업 카드 K-040, 작성 Claude · Core 소유 Claude). 선택 필드, 기본 0 = 화상 없음. 기존 필드 의미 변경 없음(불바다 `damage`는 여전히 초당 직접 피해)
 - `SpellDef` 추가: `burnChance`(0~1, 한 불바다 안에서 적마다 처음 맞을 때 한 번 굴림) · `burnDamage`(초당) · `burnSeconds`. 불바다를 벗어나도 계속 탄다. 비·소나기는 기존 불 피해 배율을 확률·직접 피해·화상 피해에 곱한다
 - 데이터 변경: spell_firefield `damage` 20→3, `duration` 8→15, 화상 0.6 · 2.5/초 · 10초
+
+## C-010 v1.10 초안 — 대포병 불붙이기 그림 (K-046)
+- 상태: **초안** (2026-10-16, 작업 카드 K-046, 작성 Claude). `UnitDef`에 선택 필드 `igniteSheet`(불붙이기 6칸, 칸 256×384·발 128·352). 없으면 예전 그림. 불붙이기 시간(막대 0.5초 + 도화선 1초)은 Combat 내부 상수(`BattleSim.Ignite.cs`), 계약 밖

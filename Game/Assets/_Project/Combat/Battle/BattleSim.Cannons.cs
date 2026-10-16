@@ -24,6 +24,7 @@ namespace HumanLastRampart.Combat.Battle
             public bool Idle;          // 조준점 근처에 적이 없어 쉬는 중
             public bool Alive;         // 운용병이 남아 있는가
             public int Reach;          // 칠 수 있는 들판 면 (비트 0~3 = 북·동·남·서, K-042)
+            public bool Igniting;      // 대포병이 불붙이는 중 — 곧 발사 (K-046)
         }
 
         readonly List<(int soldier, int side, int number, string postId)> cannons = new List<(int, int, int, string)>();
@@ -122,6 +123,7 @@ namespace HumanLastRampart.Combat.Battle
                 Idle = !scheduled && sIdle[soldier] != 0,   // 작업이 도는 중엔 읽지 않는다 (그리기·HUD는 작업이 끝난 뒤 부름)
                 Alive = sAlive[soldier] != 0,
                 Reach = sCannonReach[soldier],
+                Igniting = IsIgniting(soldier),
             };
         }
 

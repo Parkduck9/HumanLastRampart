@@ -912,6 +912,9 @@ namespace HumanLastRampart.Combat.Battle
                 MuzzleForward = MuzzleForwardDistance,
                 CannonMuzzleHeight = CannonMuzzleLift,
                 CannonMuzzleForward = CannonMuzzleDistance,
+                SoldierFuse = sFuse,                 // 대포 불붙이기 (K-046, BattleSim.Ignite.cs)
+                SoldierPendingShot = sPendingShot,
+                IgniteSeconds = CannonIgniteTotal,
             }.Schedule(soldierCount, 64, JobHandle.CombineDependencies(h, tallyJob));
 
             h = new AllocateShotsJob

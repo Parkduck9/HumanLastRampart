@@ -34,6 +34,7 @@ namespace HumanLastRampart.Core.Definitions
         [SerializeField] Texture2D castSheet;        // 마법사 시전 뒷모습 4칸
         [SerializeField] Texture2D commandSheet;     // 주인공 명령 손짓 3칸 (휠 메뉴를 열 때)
         [SerializeField] Texture2D projectileSheet;  // 이 병종이 쏘는 투사체 1칸 256×128, 오른쪽(+X)을 본다. 날아가는 방향으로 돌린다
+        [SerializeField] Texture2D igniteSheet;      // 대포병 불붙이기 6칸 (K-046, 쏘는 대포병만). 불붙이는 동안 이 그림, 마지막 칸 유지
 
         public UnitKind Kind => kind;
         public int MaxHp => maxHp;
@@ -50,6 +51,7 @@ namespace HumanLastRampart.Core.Definitions
         public Texture2D CastSheet => castSheet;
         public Texture2D CommandSheet => commandSheet;
         public Texture2D ProjectileSheet => projectileSheet;
+        public Texture2D IgniteSheet => igniteSheet;
 
         // 한 명씩 관리하는 종류 (HeroState) / 분대로 관리하는 종류 (SquadState) — D-015 D1
         public bool IsIndividual => kind == UnitKind.Hero || kind == UnitKind.Officer || kind == UnitKind.Elite || kind == UnitKind.Wizard;

@@ -68,6 +68,7 @@ namespace HumanLastRampart.Combat.PerfLab
         public const int DeployFrame0 = 32;   // 사다리 세우기
         public const int ClimbFrame0 = 48;    // 사다리 오르기
         public const int FireFrame0 = 64;     // 병사 사격
+        public const int IgniteFrame0 = 80;   // 대포병 불붙이기 (K-046)
         public const int FallFrame0 = 96;     // 쓰러짐 — 지도 점은 이 앞까지만 (죽어 가는 개체는 점으로 안 그림)
         public static Vector4 Window(int start, int count = PoseWindow) => new Vector4(start, start + count, 0f, 0f);
 

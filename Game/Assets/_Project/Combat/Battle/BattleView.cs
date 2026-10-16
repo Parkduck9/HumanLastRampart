@@ -196,6 +196,7 @@ namespace HumanLastRampart.Combat.Battle
                     // 사격·쓰러짐 시트 (K-032). 칸 번호 구간은 BattleSim.SoldierPose
                     AddPose(soldierPoseDraws, buffer, count, unit.FireSheet, PerfLabArt.FireFrame0);
                     AddPose(soldierPoseDraws, buffer, count, unit.DeathSheet, PerfLabArt.FallFrame0);
+                    AddPose(soldierPoseDraws, buffer, count, unit.IgniteSheet, PerfLabArt.IgniteFrame0);   // 대포병 불붙이기 (K-046)
                 }
 
                 if (unit != null && unit.RunSheet != null)
@@ -849,6 +850,9 @@ namespace HumanLastRampart.Combat.Battle
                 }
 
                 Add(c.Position, selected ? new Color(1f, 0.9f, 0.2f) : Color.white, dot * (selected ? 2.4f : 1.7f));
+                // 불붙이는 중 (K-046): 대포 점 위에 깜빡이는 주황 불씨 — 곧 발사
+                if (c.Igniting && Mathf.Repeat(Time.unscaledTime, 0.3f) < 0.18f)
+                    Add(c.Position, new Color(1f, 0.5f, 0.05f), dot * 1.1f);
                 if (c.HasAim)
                 {
                     Color aimColor = c.Idle ? new Color(0.6f, 0.6f, 0.6f) : new Color(1f, 0.2f, 0.2f);
