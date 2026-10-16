@@ -51,6 +51,12 @@ namespace HumanLastRampart.Combat.Battle
         readonly GameObject root;
         readonly BattleWorldMaterials materials;
         readonly List<Renderer>[] sideSkins = new List<Renderer>[4];
+        // 성벽 손상 3단계 (K-024): 면마다 바깥면·난간·돌출부 조각. 체력 비율로 손상 그림 재질을 바꿔 끼운다
+        readonly List<(Renderer renderer, BattleWorldMaterials.Surface surface)>[] damageParts = new List<(Renderer, BattleWorldMaterials.Surface)>[4];
+        readonly int[] damageStage = new int[4];
+        List<(Renderer renderer, BattleWorldMaterials.Surface surface)> collecting;   // 지금 짓는 면의 손상 조각 목록 (Box가 채운다)
+        const float CrackedBelow = 0.66f;   // 체력 비율이 이보다 낮으면 금감(1단계)
+        const float BrokenBelow = 0.33f;    // 이보다 낮으면 부서짐(2단계)
 
         public int PieceCount { get; private set; }
 
@@ -86,6 +92,9 @@ namespace HumanLastRampart.Combat.Battle
                 Quaternion face = Quaternion.LookRotation(n);
                 // 모서리 발판이 차지하는 끝은 비워 둔다
                 float from = -half + platformHalf, to = half - platformHalf;
+
+                damageParts[side] = new List<(Renderer, BattleWorldMaterials.Surface)>();
+                collecting = damageParts[side];
 
                 // 통로 바닥·성벽 바깥면: 성벽 몸통(BattleView의 상자 하나)은 면마다 질감을 못 나누므로 얇은 판을 덮는다 (그림 있을 때만)
                 var tinted = new List<Renderer>();
@@ -128,6 +137,8 @@ namespace HumanLastRampart.Combat.Battle
                         face, new Vector3(p.MerlonWidth, p.MerlonHeight, p.ParapetDepth), BattleWorldMaterials.Surface.ParapetSide,
                         new Vector2(p.MerlonWidth, p.MerlonHeight), new Vector2(m - p.MerlonWidth * 0.5f, BrickRowStart + p.ParapetHeight));
                 }
+
+                collecting = null;   // 모서리 포탑은 손상 그림을 바꾸지 않는다
             }
 
             // 모서리 포탑: 통로 높이 발판(주인공이 지나감) + 바깥쪽 솟은 탑
@@ -192,17 +203,32 @@ namespace HumanLastRampart.Combat.Battle
             var renderer = go.GetComponent<Renderer>();
             renderer.sharedMaterial = materials.Get(surface);
             materials.Apply(renderer, surface, uvSize, uvOffset);   // 1m당 32화소로 반복 (그림이 있을 때만)
+            if (collecting != null && (surface == BattleWorldMaterials.Surface.WallStone || surface == BattleWorldMaterials.Surface.ParapetSide || surface == BattleWorldMaterials.Surface.ParapetTop))
+                collecting.Add((renderer, surface));
             PieceCount++;
             return renderer;
         }
 
         // 성벽 체력 색(BattleView): 덮은 판에도 같은 붉은 기를 곱한다. ratio 1 = 멀쩡
+        // 손상 그림(K-024)이 있으면 체력 비율에 따라 멀쩡 → 금감 → 부서짐 재질로 바꿔 끼운다 (반복 값은 조각마다 그대로)
         public void SetWallHealth(int side, float ratio)
         {
             if (sideSkins == null || side < 0 || side >= sideSkins.Length || sideSkins[side] == null) return;
             Color tint = Color.Lerp(new Color(1f, 0.3f, 0.25f), Color.white, ratio);
             foreach (Renderer skin in sideSkins[side]) materials.Tint(skin, tint);
+
+            int stage = ratio < BrokenBelow ? 2 : ratio < CrackedBelow ? 1 : 0;
+            if (stage == damageStage[side] || damageParts[side] == null) return;
+            damageStage[side] = stage;
+            foreach (var (renderer, surface) in damageParts[side])
+            {
+                if (renderer == null) continue;
+                renderer.sharedMaterial = materials.GetDamaged(surface, stage) ?? materials.Get(surface);
+            }
         }
+
+        // 확인용: 면 side의 지금 손상 단계 (0 멀쩡, 1 금감, 2 부서짐)
+        public int DamageStage(int side) => side >= 0 && side < damageStage.Length ? damageStage[side] : 0;
 
         public void Dispose()
         {

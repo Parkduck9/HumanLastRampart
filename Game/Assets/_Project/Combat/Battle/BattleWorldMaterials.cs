@@ -45,6 +45,7 @@ namespace HumanLastRampart.Combat.Battle
         };
 
         readonly Dictionary<Surface, Entry> entries = new Dictionary<Surface, Entry>();
+        readonly Dictionary<(Surface surface, int stage), Material> damaged = new Dictionary<(Surface, int), Material>();
         readonly MaterialPropertyBlock block = new MaterialPropertyBlock();
 
         sealed class Entry
@@ -75,6 +76,29 @@ namespace HumanLastRampart.Combat.Battle
         }
 
         public bool HasArt(Surface surface) => GetEntry(surface).TileMeters.x > 0f;
+
+        // 성벽 손상 단계 재질 (K-024 Codex 시안): stage 1 = 금감, 2 = 부서짐. 그림 <표면>_damage1_albedo / _damage2_albedo
+        // - 멀쩡한 재질을 복사해 색 그림만 바꾼다(노멀맵은 멀쩡한 것 그대로 — 손상별 노멀은 아직 없음)
+        // - 그림이 없거나 멀쩡한 그림과 크기가 다르면(반복 값이 어긋남) null — 부르는 쪽은 멀쩡한 재질을 그대로 쓴다
+        public Material GetDamaged(Surface surface, int stage)
+        {
+            if (stage <= 0) return Get(surface);
+            if (damaged.TryGetValue((surface, stage), out Material cached)) return cached;
+
+            Material result = null;
+            Entry e = GetEntry(surface);
+            var albedo = e.TileMeters.x > 0f ? Resources.Load<Texture2D>(ResourceFolder + NameOf(surface) + "_damage" + stage + "_albedo") : null;
+            if (albedo != null && Mathf.Approximately(albedo.width / PixelsPerMeter, e.TileMeters.x) && Mathf.Approximately(albedo.height / PixelsPerMeter, e.TileMeters.y))
+            {
+                PixelSampling(albedo);
+                result = new Material(e.Material) { name = e.Material.name + "_damage" + stage };
+                if (result.HasProperty(BaseMapId)) result.SetTexture(BaseMapId, albedo);
+                result.mainTexture = albedo;
+            }
+
+            damaged.Add((surface, stage), result);
+            return result;
+        }
 
         // 이 조각만 색을 곱한다 (성벽 체력 붉은 기 등). 반복 값(_BaseMap_ST)은 그대로 둔다
         public void Tint(Renderer renderer, Color color)
@@ -189,6 +213,8 @@ namespace HumanLastRampart.Combat.Battle
         {
             foreach (Entry e in entries.Values) DestroyObject(e.Material);
             entries.Clear();
+            foreach (Material m in damaged.Values) DestroyObject(m);
+            damaged.Clear();
         }
     }
 }
