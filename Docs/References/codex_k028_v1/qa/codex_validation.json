@@ -1,0 +1,91 @@
+{
+  "검사수": 20,
+  "검사": [
+    {
+      "항목": "codex_yard_day_3840x1080.png 규격",
+      "통과": true
+    },
+    {
+      "항목": "codex_yard_evening_3840x1080.png 규격",
+      "통과": true
+    },
+    {
+      "항목": "codex_barracks.png 규격·알파",
+      "통과": true
+    },
+    {
+      "항목": "codex_repair.png 규격·알파",
+      "통과": true
+    },
+    {
+      "항목": "codex_stairs.png 규격·알파",
+      "통과": true
+    },
+    {
+      "항목": "codex_workshop.png 규격·알파",
+      "통과": true
+    },
+    {
+      "항목": "codex_portrait_archer.png 규격·알파",
+      "통과": true
+    },
+    {
+      "항목": "codex_portrait_cannon.png 규격·알파",
+      "통과": true
+    },
+    {
+      "항목": "codex_portrait_gunner.png 규격·알파",
+      "통과": true
+    },
+    {
+      "항목": "codex_portrait_hero.png 규격·알파",
+      "통과": true
+    },
+    {
+      "항목": "codex_portrait_wizard.png 규격·알파",
+      "통과": true
+    },
+    {
+      "항목": "성벽 4면 × 3단계",
+      "통과": true
+    },
+    {
+      "항목": "상호작용·장소 이름·승패 SVG 7종",
+      "통과": true
+    },
+    {
+      "항목": "미치환 항목 없음",
+      "통과": true
+    },
+    {
+      "항목": "외부 이미지·스크립트 참조 없음",
+      "통과": true
+    },
+    {
+      "항목": "내장 그림 데이터 해독",
+      "통과": true
+    },
+    {
+      "항목": "생성 원본 11장",
+      "통과": true
+    },
+    {
+      "항목": "codex_result_defeat_1920x1080.png 규격",
+      "통과": true
+    },
+    {
+      "항목": "codex_result_victory_1920x1080.png 규격",
+      "통과": true
+    },
+    {
+      "항목": "보관된 작업 전 목록과 Game 해시·파일 목록 동일",
+      "통과": true
+    }
+  ],
+  "Game파일수": 594,
+  "미수행": [
+    "실제 브라우저 렌더·입력",
+    "Unity 실행·Play",
+    "사용자 아트 확정"
+  ]
+}
