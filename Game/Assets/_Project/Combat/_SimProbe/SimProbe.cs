@@ -217,6 +217,52 @@ public sealed class SimProbe
         File.WriteAllText(Environment.GetEnvironmentVariable("HLR_PROBE_OUT") ?? "probe.txt", log.ToString(), new UTF8Encoding(false));
     }
 
+    // 사용자 결정(2026-10-16): 현실 4번은 적 수 대신 오우거 비중으로. 전투 4 오우거 그룹(북·동·서)마다 마릿수를 바꿔
+    // 쉬움 1~4 승리, 현실 1~3 승리·4 패배가 되는 값을 찾는다 (정면 1/3 플레이)
+    [Test]
+    public void OgreSweep()
+    {
+        var catalogs = new List<DefinitionCatalog>();
+        foreach (string guid in AssetDatabase.FindAssets("t:DefinitionCatalog"))
+            catalogs.Add(AssetDatabase.LoadAssetAtPath<DefinitionCatalog>(AssetDatabase.GUIDToAssetPath(guid)));
+        DefinitionLookup lookup = DefinitionLookup.Build(catalogs);
+        var rules = lookup.All<BattleRulesDef>()[0];
+        var perKillField = typeof(BattleRulesDef).GetField("corpseHeightPerKill", F);
+        var atkField = typeof(EnemyDef).GetField("onWallAttack", F);
+        var enemies = lookup.All<EnemyDef>();
+        WaveDef wave4 = lookup.All<WaveDef>().First(w => w.Id == "wave_4");
+        var ogres = wave4.Groups.Where(g => g.EnemyDefId == "enemy_ogre").ToList();
+        int[] ogre0 = ogres.Select(g => g.Count).ToArray();
+        object perKill0 = perKillField.GetValue(rules);
+        int[] atk0 = enemies.Select(e => (int)atkField.GetValue(e)).ToArray();
+        var log = new StringBuilder();
+        const string economy = "4차 10HP=1골드 수리+남은 골드 전부 궁수";
+        try
+        {
+            perKillField.SetValue(rules, 0.1f);
+            for (int i = 0; i < enemies.Count; i++) atkField.SetValue(enemies[i], atk0[i] * 5);
+            ReinforceShare = 0.34f;
+            foreach (int perGroup in new[] { 200 })   // 확정값 확인 (20·50·100은 둘 다 승리, 200에서 현실 4 패배 — 2026-10-16)
+            {
+                foreach (var g in ogres) g.Count = perGroup;
+                foreach (Difficulty difficulty in new[] { Difficulty.Easy, Difficulty.Realistic })
+                {
+                    log.AppendLine($"== 전투4 오우거 그룹당 {perGroup}마리(×{ogres.Count}) · {difficulty} · 정면 1/3");
+                    RunCampaign(lookup, difficulty, economy, log);
+                }
+            }
+        }
+        finally
+        {
+            for (int i = 0; i < ogres.Count; i++) ogres[i].Count = ogre0[i];
+            ReinforceShare = 0f;
+            perKillField.SetValue(rules, perKill0);
+            for (int i = 0; i < enemies.Count; i++) atkField.SetValue(enemies[i], atk0[i]);
+        }
+
+        File.WriteAllText(Environment.GetEnvironmentVariable("HLR_PROBE_OUT") ?? "probe.txt", log.ToString(), new UTF8Encoding(false));
+    }
+
     // D-073 각도 규칙 + 플레이어가 병력을 정면으로 옮길 때 (옮기는 비율 × 배율)
     [Test]
     public void ReinforceSweep()

@@ -37,17 +37,17 @@ MonoBehaviour:
     SpawnAtSeconds: 20
   - Side: 3
     EnemyDefId: enemy_goblin
-    Count: 5994
+    Count: 5400
     SpawnAtSeconds: 30
   - Side: 0
     EnemyDefId: enemy_ogre
-    Count: 2
+    Count: 200
     SpawnAtSeconds: 90
   - Side: 1
     EnemyDefId: enemy_ogre
-    Count: 2
+    Count: 200
     SpawnAtSeconds: 120
   - Side: 3
     EnemyDefId: enemy_ogre
-    Count: 2
+    Count: 200
     SpawnAtSeconds: 150
