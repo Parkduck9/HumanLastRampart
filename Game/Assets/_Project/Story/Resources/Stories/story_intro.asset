@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0268e8913dd84207865c3fdbe8b9fdeb, type: 3}
+  m_Name: story_intro
+  m_EditorClassIdentifier: 
+  id: story_intro
+  title: "첫 이야기 (임시)"
+  kind: 0
+  note: "임시 이야기 — K-050 자리 표시. 사용자가 제작 도구로 다시 쓴다."
+  scenes:
+  - name: "고향 성벽"
+    background: {fileID: 2800000, guid: 8f310959e7db469794f7ecda50d16bf3, type: 3}
+    lines:
+    - speaker: ""
+      side: 0
+      portrait: {fileID: 0}
+      cell: 0
+      text: "장교 훈련을 마치고 삼 년. 나는 장교 옷을 입은 채 고향 성벽으로 돌아왔다."
+      background: {fileID: 0}
+      effect: 2
+    - speaker: "궁수"
+      side: 2
+      portrait: {fileID: 2800000, guid: 9bbb432c5b1d445cb092d3e80eb1aa65, type: 3}
+      cell: 0
+      text: "장교님! 정말 돌아오셨군요. 북쪽 들판에 놈들이 보입니다!"
+      background: {fileID: 0}
+      effect: 0
+    - speaker: "장교"
+      side: 1
+      portrait: {fileID: 2800000, guid: c4e761f2657a4ac284f9c21bbf2ab6fa, type: 3}
+      cell: 12
+      text: "옷깃을 여밀 틈도 없겠군. 모두 성벽 위로 올라라."
+      background: {fileID: 0}
+      effect: 0
+    - speaker: "마법사"
+      side: 2
+      portrait: {fileID: 2800000, guid: 9073a327a7964d64b8a8d956175940c8, type: 3}
+      cell: 0
+      text: "제 불꽃도 준비됐어요. 지시만 내려 주세요."
+      background: {fileID: 0}
+      effect: 0
+    - speaker: "장교"
+      side: 1
+      portrait: {fileID: 2800000, guid: c4e761f2657a4ac284f9c21bbf2ab6fa, type: 3}
+      cell: 12
+      text: "이곳이 우리의 마지막 성벽이다. 한 걸음도 물러서지 마라!"
+      background: {fileID: 0}
+      effect: 1
