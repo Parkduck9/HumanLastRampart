@@ -1,0 +1,266 @@
+﻿[
+    {
+        "id":  "wall_straight_build_map",
+        "transparentPixels":  855,
+        "pass":  true,
+        "partialAlphaPixels":  1192,
+        "edgePixels":  0,
+        "visiblePixels":  1026,
+        "size":  [
+                     64,
+                     32
+                 ]
+    },
+    {
+        "id":  "wall_straight_build_side",
+        "transparentPixels":  23675,
+        "pass":  true,
+        "partialAlphaPixels":  7045,
+        "edgePixels":  0,
+        "visiblePixels":  5605,
+        "size":  [
+                     320,
+                     96
+                 ]
+    },
+    {
+        "id":  "wall_straight_done_map",
+        "transparentPixels":  897,
+        "pass":  true,
+        "partialAlphaPixels":  1150,
+        "edgePixels":  0,
+        "visiblePixels":  1037,
+        "size":  [
+                     64,
+                     32
+                 ]
+    },
+    {
+        "id":  "wall_straight_done_side",
+        "transparentPixels":  23623,
+        "pass":  true,
+        "partialAlphaPixels":  7096,
+        "edgePixels":  0,
+        "visiblePixels":  6000,
+        "size":  [
+                     320,
+                     96
+                 ]
+    },
+    {
+        "id":  "wall_corner_build_map",
+        "transparentPixels":  2279,
+        "pass":  true,
+        "partialAlphaPixels":  1815,
+        "edgePixels":  0,
+        "visiblePixels":  1544,
+        "size":  [
+                     64,
+                     64
+                 ]
+    },
+    {
+        "id":  "wall_corner_build_side",
+        "transparentPixels":  29219,
+        "pass":  true,
+        "partialAlphaPixels":  21978,
+        "edgePixels":  0,
+        "visiblePixels":  17448,
+        "size":  [
+                     320,
+                     160
+                 ]
+    },
+    {
+        "id":  "wall_corner_done_map",
+        "transparentPixels":  1860,
+        "pass":  true,
+        "partialAlphaPixels":  2236,
+        "edgePixels":  0,
+        "visiblePixels":  1993,
+        "size":  [
+                     64,
+                     64
+                 ]
+    },
+    {
+        "id":  "wall_corner_done_side",
+        "transparentPixels":  24776,
+        "pass":  true,
+        "partialAlphaPixels":  26420,
+        "edgePixels":  0,
+        "visiblePixels":  22966,
+        "size":  [
+                     320,
+                     160
+                 ]
+    },
+    {
+        "id":  "hill_small_map",
+        "transparentPixels":  487,
+        "pass":  true,
+        "partialAlphaPixels":  536,
+        "edgePixels":  0,
+        "visiblePixels":  474,
+        "size":  [
+                     32,
+                     32
+                 ]
+    },
+    {
+        "id":  "hill_small_side",
+        "transparentPixels":  9156,
+        "pass":  true,
+        "partialAlphaPixels":  6202,
+        "edgePixels":  0,
+        "visiblePixels":  5226,
+        "size":  [
+                     160,
+                     96
+                 ]
+    },
+    {
+        "id":  "hill_large_map",
+        "transparentPixels":  1438,
+        "pass":  true,
+        "partialAlphaPixels":  2658,
+        "edgePixels":  0,
+        "visiblePixels":  2412,
+        "size":  [
+                     64,
+                     64
+                 ]
+    },
+    {
+        "id":  "hill_large_side",
+        "transparentPixels":  28067,
+        "pass":  true,
+        "partialAlphaPixels":  23125,
+        "edgePixels":  0,
+        "visiblePixels":  20390,
+        "size":  [
+                     320,
+                     160
+                 ]
+    },
+    {
+        "id":  "logs_map",
+        "transparentPixels":  566,
+        "pass":  true,
+        "partialAlphaPixels":  458,
+        "edgePixels":  0,
+        "visiblePixels":  398,
+        "size":  [
+                     32,
+                     32
+                 ]
+    },
+    {
+        "id":  "logs_side",
+        "transparentPixels":  8102,
+        "pass":  true,
+        "partialAlphaPixels":  4693,
+        "edgePixels":  0,
+        "visiblePixels":  4201,
+        "size":  [
+                     160,
+                     80
+                 ]
+    },
+    {
+        "id":  "rocks_map",
+        "transparentPixels":  368,
+        "pass":  true,
+        "partialAlphaPixels":  656,
+        "edgePixels":  0,
+        "visiblePixels":  592,
+        "size":  [
+                     32,
+                     32
+                 ]
+    },
+    {
+        "id":  "rocks_side",
+        "transparentPixels":  8123,
+        "pass":  true,
+        "partialAlphaPixels":  9790,
+        "edgePixels":  0,
+        "visiblePixels":  8835,
+        "size":  [
+                     160,
+                     112
+                 ]
+    },
+    {
+        "id":  "archer_dig",
+        "transparentPixels":  269169,
+        "pass":  true,
+        "partialAlphaPixels":  123752,
+        "edgePixels":  0,
+        "visiblePixels":  108504,
+        "size":  [
+                     1024,
+                     384
+                 ]
+    },
+    {
+        "id":  "archer_earth",
+        "transparentPixels":  259939,
+        "pass":  true,
+        "partialAlphaPixels":  133277,
+        "edgePixels":  0,
+        "visiblePixels":  109257,
+        "size":  [
+                     1024,
+                     384
+                 ]
+    },
+    {
+        "id":  "archer_log",
+        "transparentPixels":  255541,
+        "pass":  true,
+        "partialAlphaPixels":  137675,
+        "edgePixels":  0,
+        "visiblePixels":  114944,
+        "size":  [
+                     1024,
+                     384
+                 ]
+    },
+    {
+        "id":  "gunner_dig",
+        "transparentPixels":  255403,
+        "pass":  true,
+        "partialAlphaPixels":  137449,
+        "edgePixels":  0,
+        "visiblePixels":  123329,
+        "size":  [
+                     1024,
+                     384
+                 ]
+    },
+    {
+        "id":  "gunner_earth",
+        "transparentPixels":  258697,
+        "pass":  true,
+        "partialAlphaPixels":  134519,
+        "edgePixels":  0,
+        "visiblePixels":  112214,
+        "size":  [
+                     1024,
+                     384
+                 ]
+    },
+    {
+        "id":  "gunner_log",
+        "transparentPixels":  249470,
+        "pass":  true,
+        "partialAlphaPixels":  143746,
+        "edgePixels":  0,
+        "visiblePixels":  120760,
+        "size":  [
+                     1024,
+                     384
+                 ]
+    }
+]

@@ -1,0 +1,123 @@
+﻿{
+    "browserVerified":  false,
+    "assetChecks":  [
+                        {
+                            "sizeMatch":  true,
+                            "id":  "wall_straight_build_map",
+                            "embeddedBytesMatch":  true
+                        },
+                        {
+                            "sizeMatch":  true,
+                            "id":  "wall_straight_build_side",
+                            "embeddedBytesMatch":  true
+                        },
+                        {
+                            "sizeMatch":  true,
+                            "id":  "wall_straight_done_map",
+                            "embeddedBytesMatch":  true
+                        },
+                        {
+                            "sizeMatch":  true,
+                            "id":  "wall_straight_done_side",
+                            "embeddedBytesMatch":  true
+                        },
+                        {
+                            "sizeMatch":  true,
+                            "id":  "wall_corner_build_map",
+                            "embeddedBytesMatch":  true
+                        },
+                        {
+                            "sizeMatch":  true,
+                            "id":  "wall_corner_build_side",
+                            "embeddedBytesMatch":  true
+                        },
+                        {
+                            "sizeMatch":  true,
+                            "id":  "wall_corner_done_map",
+                            "embeddedBytesMatch":  true
+                        },
+                        {
+                            "sizeMatch":  true,
+                            "id":  "wall_corner_done_side",
+                            "embeddedBytesMatch":  true
+                        },
+                        {
+                            "sizeMatch":  true,
+                            "id":  "hill_small_map",
+                            "embeddedBytesMatch":  true
+                        },
+                        {
+                            "sizeMatch":  true,
+                            "id":  "hill_small_side",
+                            "embeddedBytesMatch":  true
+                        },
+                        {
+                            "sizeMatch":  true,
+                            "id":  "hill_large_map",
+                            "embeddedBytesMatch":  true
+                        },
+                        {
+                            "sizeMatch":  true,
+                            "id":  "hill_large_side",
+                            "embeddedBytesMatch":  true
+                        },
+                        {
+                            "sizeMatch":  true,
+                            "id":  "logs_map",
+                            "embeddedBytesMatch":  true
+                        },
+                        {
+                            "sizeMatch":  true,
+                            "id":  "logs_side",
+                            "embeddedBytesMatch":  true
+                        },
+                        {
+                            "sizeMatch":  true,
+                            "id":  "rocks_map",
+                            "embeddedBytesMatch":  true
+                        },
+                        {
+                            "sizeMatch":  true,
+                            "id":  "rocks_side",
+                            "embeddedBytesMatch":  true
+                        },
+                        {
+                            "sizeMatch":  true,
+                            "id":  "archer_dig",
+                            "embeddedBytesMatch":  true
+                        },
+                        {
+                            "sizeMatch":  true,
+                            "id":  "archer_earth",
+                            "embeddedBytesMatch":  true
+                        },
+                        {
+                            "sizeMatch":  true,
+                            "id":  "archer_log",
+                            "embeddedBytesMatch":  true
+                        },
+                        {
+                            "sizeMatch":  true,
+                            "id":  "gunner_dig",
+                            "embeddedBytesMatch":  true
+                        },
+                        {
+                            "sizeMatch":  true,
+                            "id":  "gunner_earth",
+                            "embeddedBytesMatch":  true
+                        },
+                        {
+                            "sizeMatch":  true,
+                            "id":  "gunner_log",
+                            "embeddedBytesMatch":  true
+                        }
+                    ],
+    "unfilledPlaceholders":  false,
+    "externalResources":  0,
+    "gameUnchanged":  true,
+    "unityVerified":  false,
+    "gameDifferences":  [
+
+                        ],
+    "gameFiles":  594
+}

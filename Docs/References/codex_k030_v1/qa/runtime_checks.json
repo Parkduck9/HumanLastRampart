@@ -1,0 +1,74 @@
+{
+  "environment": "V8 내 최소 DOM/Canvas 모형. 실제 브라우저 렌더링 아님.",
+  "drawCount": 20,
+  "checks": [
+    {
+      "name": "그림 25종 로드",
+      "pass": true
+    },
+    {
+      "name": "갤러리 8종",
+      "pass": true
+    },
+    {
+      "name": "규격표 22행",
+      "pass": true
+    },
+    {
+      "name": "최초 프레임",
+      "pass": true
+    },
+    {
+      "name": "다음 프레임과 정지",
+      "pass": true
+    },
+    {
+      "name": "수동 마지막 프레임",
+      "pass": true
+    },
+    {
+      "name": "마지막 다음은 첫칸",
+      "pass": true
+    },
+    {
+      "name": "archer_dig 선택",
+      "pass": true
+    },
+    {
+      "name": "archer_earth 선택",
+      "pass": true
+    },
+    {
+      "name": "archer_log 선택",
+      "pass": true
+    },
+    {
+      "name": "gunner_dig 선택",
+      "pass": true
+    },
+    {
+      "name": "gunner_earth 선택",
+      "pass": true
+    },
+    {
+      "name": "gunner_log 선택",
+      "pass": true
+    },
+    {
+      "name": "4배 확대",
+      "pass": true
+    },
+    {
+      "name": "밝은 배경 선택",
+      "pass": true
+    },
+    {
+      "name": "재생 프레임 진행",
+      "pass": true
+    },
+    {
+      "name": "지도 9회와 프레임 11회 그리기",
+      "pass": true
+    }
+  ]
+}
