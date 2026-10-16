@@ -1,0 +1,26 @@
+{
+  "tool": "내장 imagegen",
+  "date": "2026-10-16",
+  "selected": {
+    "crew": "crew_source.png",
+    "cannon": "cannon_source.png",
+    "ignite": "ignite_source.png"
+  },
+  "candidates": {
+    "walk": "crew_candidate_initial.png",
+    "walkCorrection": "crew_candidate_middle.png",
+    "walkFinal": "crew_source.png",
+    "cannon": "cannon_candidate_long.png",
+    "cannonCorrection": "cannon_source.png",
+    "ignite": "ignite_candidate_short.png",
+    "igniteLongCorrection": "ignite_candidate_long.png",
+    "igniteMedium": "ignite_source.png"
+  },
+  "notes": [
+    "미채택 보행 원안은 좌우 다리 구분 부족",
+    "긴 대포 원안은 설치 대포 실체 비율과 불일치",
+    "짧거나 지나치게 긴 점화 막대 원안은 접점 높이 불일치",
+    "최종 보행 원안 열 순서1,2,6,4,5,3으로 디딤과 유각기를 정리",
+    "대포 외곽242×224에 맞춘 가로0.2056075/세로0.2191781 배율 정리. 원안 비율 약6.6% 보정"
+  ]
+}
