@@ -40,7 +40,7 @@ namespace HumanLastRampart.Combat.Battle
             public float Travelled;
             public bool Returning;
             public float3 Home;
-            public int MoveGroup = -1;     // D-072: 명령 대신 '이 묶음을 MoveTarget 성벽으로' 전하러 간다
+            public int MoveGroup = -1;     // D-072: 명령 대신 '이 묶음을 MoveTarget 성벽으로' 전하러 간다. -2 = 그 성벽 묶음 한 번에(MoveWallGroups)
             public int MoveTarget;
         }
 
@@ -209,6 +209,23 @@ namespace HumanLastRampart.Combat.Battle
             });
         }
 
+        // 한 번에 옮기기를 전령으로 (주인공이 없는 성벽) — 전령이 그 성벽에 닿으면 MoveWallGroups
+        public void IssueWallMoveByMessenger(int fromSide, float fromAlong, int wallSide, int targetSide)
+        {
+            float issuedAt = Elapsed;
+            RunOrQueue(() =>
+            {
+                if (StartMessenger(fromSide, fromAlong, wallSide, PriorityOf(wallSide), issuedAt))
+                {
+                    Messenger m = messengers[messengers.Count - 1];
+                    m.MoveGroup = -2;
+                    m.MoveTarget = targetSide;
+                }
+            });
+        }
+
+        public void IssueWallMove(int wallSide, int targetSide, bool instant) => RunOrQueue(() => MoveWallGroups(wallSide, targetSide, instant));
+
         // 바로 옮기기 (전투 준비 중이면 순간, 아니면 달려서) — BattleEntry가 주인공 성벽 묶음에 쓴다
         public void IssueGroupMove(int group, int targetSide, bool instant)
         {
@@ -242,6 +259,7 @@ namespace HumanLastRampart.Combat.Battle
                 if (!m.Returning)
                 {
                     if (m.MoveGroup >= 0) MoveGroup(m.MoveGroup, m.MoveTarget, false);   // 전령이 닿으면 묶음이 출발
+                    else if (m.MoveGroup == -2) MoveWallGroups(m.TargetSide, m.MoveTarget, false);   // 한 번에 옮기기
                     else Apply(m.TargetSide, m.Priority, m.IssuedAt, CommandVia.Messenger);
                     m.Returning = true;
                     m.Travelled = 0f;

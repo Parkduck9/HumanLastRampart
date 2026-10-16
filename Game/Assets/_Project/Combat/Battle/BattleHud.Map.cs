@@ -344,6 +344,8 @@ namespace HumanLastRampart.Combat.Battle
         // ── 병력 묶음 (D-072): 지도 위 10명 묶음 표시. 누르면 갈 성벽이 바로 뜨고, 끌어다 다른 성벽에 놓아도 된다 ──
         // K-020 그림: 궁수(청록)·총병(자주) 깃발 + 숫자, 고르면 모서리 테두리, 옮기는 중이면 옆에 화살표. 그림이 없으면 예전 글자(궁10)
         public event Action<int> GroupDestinationChosen;   // 고른 성벽 0~3
+        public event Action<int> WallGroupsDestinationChosen;   // 한 번에 옮기기 — 고른 묶음이 있는 성벽의 묶음 전부(20명 남김)
+        readonly Button[] wallMoveButtons = new Button[4];
 
         sealed class GroupMarker
         {
@@ -590,7 +592,7 @@ namespace HumanLastRampart.Combat.Battle
                 Image panel = NewImage(root.transform, "Group Popup", HudStyle.MapPanel);
                 HudStyle.MapFrame(panel);
                 groupPopup = panel.gameObject;
-                Anchor(panel.rectTransform, new Vector2(0.5f, 0f), new Vector2(0f, 200f), new Vector2(560f, 110f), new Vector2(0.5f, 0f));
+                Anchor(panel.rectTransform, new Vector2(0.5f, 0f), new Vector2(0f, 200f), new Vector2(560f, 176f), new Vector2(0.5f, 0f));
                 groupPopupTitle = NewText(panel.transform, "Title", 20, TextAnchor.MiddleCenter);
                 Anchor(groupPopupTitle.rectTransform, new Vector2(0.5f, 1f), new Vector2(0f, -6f), new Vector2(540f, 30f), new Vector2(0.5f, 1f));
                 for (int i = 0; i < 4; i++)
@@ -599,6 +601,10 @@ namespace HumanLastRampart.Combat.Battle
                     Button button = NewButton(panel.transform, $"{SideShort[i]}쪽으로", () => GroupDestinationChosen?.Invoke(side), true);
                     Anchor((RectTransform)button.transform, new Vector2(0f, 0f), new Vector2(14f + i * 134f, 12f), new Vector2(126f, 52f), new Vector2(0f, 0f));
                     groupPopupButtons[i] = button;
+                    // 아랫줄: 이 성벽 묶음 한 번에 (사용자 2차 피드백 11, 성벽마다 20명 남김)
+                    Button all = NewButton(panel.transform, $"전부 {SideShort[i]}쪽으로", () => WallGroupsDestinationChosen?.Invoke(side), true);
+                    Anchor((RectTransform)all.transform, new Vector2(0f, 0f), new Vector2(14f + i * 134f, 70f), new Vector2(126f, 52f), new Vector2(0f, 0f));
+                    wallMoveButtons[i] = all;
                 }
             }
 
@@ -608,7 +614,11 @@ namespace HumanLastRampart.Combat.Battle
             BattleSim.GroupInfo info = sim.GetGroup(selected);
             groupPopupTitle.text = dragging ? $"{info.UnitName} {info.Alive}명 — 갈 성벽 위에 놓으세요"
                 : $"{info.UnitName} {info.Alive}명 ({(info.Side >= 0 ? SideShort[info.Side] + "쪽" : "이동 중")}) — 어디로 보낼까요";
-            for (int i = 0; i < 4; i++) groupPopupButtons[i].gameObject.SetActive(info.Side >= 0 && i != info.Side);
+            for (int i = 0; i < 4; i++)
+            {
+                groupPopupButtons[i].gameObject.SetActive(info.Side >= 0 && i != info.Side);
+                wallMoveButtons[i].gameObject.SetActive(info.Side >= 0 && i != info.Side);
+            }
         }
 
         // 지금 성벽별 명령 (패널 아래)

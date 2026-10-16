@@ -30,6 +30,7 @@ namespace HumanLastRampart.Combat.Battle
             public int Group;
             public int FromSide;
             public int TargetSide;
+            public float TargetCenter;   // 도착해서 설 자리(묶음 가운데, 성벽 따라 m)
             public float[] StartU;
             public float[] Direction;
             public float[] Distance;
@@ -80,21 +81,24 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             int from = squad.Side;
+            // 설 자리를 떠나기 전에 정한다 — 병사마다 자기 자리로 곧장 달려간다 (사용자 2차 피드백 10: 한곳에 모였다가 한 번에 뿅 옮겨지던 것)
+            float center = ChooseCenter(index, targetSide);
             LeaveSide(index, from);
             if (instant)
             {
-                ArriveSide(index, targetSide);
+                ArriveSide(index, targetSide, center);
                 Notice?.Invoke($"{squad.UnitName} {squad.Alive}명: {SideNames[from]} → {SideNames[targetSide]}");
                 return true;
             }
 
-            var move = new GroupMove { Group = index, FromSide = from, TargetSide = targetSide, StartU = new float[squad.Alive], Direction = new float[squad.Alive], Distance = new float[squad.Alive] };
+            var move = new GroupMove { Group = index, FromSide = from, TargetSide = targetSide, TargetCenter = center, StartU = new float[squad.Alive], Direction = new float[squad.Alive], Distance = new float[squad.Alive] };
             float perimeter = CastleHalf * 8f;
-            float endU = RingU(targetSide, 0f);
+            float span = (squad.Alive - 1) * SoldierMaxSpacing;
             float longest = 0f;
             for (int k = 0; k < squad.Alive; k++)
             {
                 int soldier = squad.FirstSoldier + k;
+                float endU = RingU(targetSide, center - span * 0.5f + k * SoldierMaxSpacing);   // 자기 자리
                 float startU = RingU(from, LateralOf(soldier, from));
                 float forward = Mod(endU - startU, perimeter);
                 float backward = perimeter - forward;
@@ -110,6 +114,50 @@ namespace HumanLastRampart.Combat.Battle
             return true;
         }
 
+        // 한 번에 옮기기 (사용자 2차 피드백 11): 한 성벽의 옮길 수 있는 묶음을 다른 성벽으로 보내되,
+        // 그 성벽에 옮길 수 있는 병사를 최소 KeepPerWall명(방어 10 + 전령용 10) 남긴다. 대포 분대는 원래 안 옮긴다
+        public const int KeepPerWall = 20;
+
+        public int MoveWallGroups(int fromSide, int toSide, bool instant)
+        {
+            if (Ended || fromSide == toSide || fromSide < 0 || fromSide > 3 || toSide < 0 || toSide > 3) return 0;
+            var candidates = new List<int>();
+            int movable = 0;
+            for (int g = 0; g < squads.Count; g++)
+            {
+                SquadInfo s = squads[g];
+                if (!s.Movable || s.Side != fromSide || s.Alive <= 0) continue;
+                movable += s.Alive;
+                candidates.Add(g);
+            }
+
+            // 가는 쪽 끝에 가까운 묶음부터 (달리는 거리가 짧게)
+            float3 right = WallGeometry.Right(fromSide), toward = WallGeometry.Outward(toSide);
+            float sign = math.sign(math.dot(right, toward));
+            candidates.Sort((a, b) => (sign * GroupLateral(b, fromSide)).CompareTo(sign * GroupLateral(a, fromSide)));
+            int moved = 0;
+            foreach (int g in candidates)
+            {
+                int alive = squads[g].Alive;
+                if (movable - alive < KeepPerWall) continue;   // 이 묶음까지 보내면 최소 병력보다 적어짐
+                if (!MoveGroup(g, toSide, instant)) continue;
+                movable -= alive;
+                moved += alive;
+            }
+
+            if (moved == 0) Notice?.Invoke($"{SideNames[fromSide]}: 최소 {KeepPerWall}명을 남기면 더 보낼 병력이 없습니다");
+            else Notice?.Invoke($"{SideNames[fromSide]} → {SideNames[toSide]}: {moved}명 보냄 ({movable}명 남김)");
+            return moved;
+        }
+
+        float GroupLateral(int g, int side)
+        {
+            SquadInfo s = squads[g];
+            float sum = 0f;
+            for (int i = s.FirstSoldier; i < s.FirstSoldier + s.Alive; i++) sum += LateralOf(i, side);
+            return s.Alive > 0 ? sum / s.Alive : 0f;
+        }
+
         void UpdateGroupMoves(float dt)
         {
             for (int g = groupMoves.Count - 1; g >= 0; g--)
@@ -122,15 +170,26 @@ namespace HumanLastRampart.Combat.Battle
                 {
                     int soldier = squad.FirstSoldier + k;
                     float t = math.min(move.Travelled, move.Distance[k]);
-                    if (t < move.Distance[k]) done = false;
-                    sPos[soldier] = RingPosition(move.StartU[k] + move.Direction[k] * t);
-                    SetRunning(soldier, move.Direction[k]);
+                    if (t < move.Distance[k])
+                    {
+                        done = false;
+                        sPos[soldier] = RingPosition(move.StartU[k] + move.Direction[k] * t);
+                        SetRunning(soldier, move.Direction[k]);
+                    }
+                    else
+                    {
+                        // 먼저 닿은 병사는 자기 자리에 서서 기다린다 (모두 닿을 때까지 한곳에 겹쳐 있지 않게)
+                        float span = (squad.Alive - 1) * SoldierMaxSpacing;
+                        float lateral = move.TargetCenter - span * 0.5f + k * SoldierMaxSpacing;
+                        sPos[soldier] = WallGeometry.Outward(move.TargetSide) * (CastleHalf - SoldierInset) + WallGeometry.Right(move.TargetSide) * lateral + new float3(0f, WallHeight, 0f);
+                        SetRunning(soldier, 0f);
+                    }
                 }
 
                 SoldiersDirty = true;
                 if (!done) continue;
                 groupMoves.RemoveAt(g);
-                ArriveSide(move.Group, move.TargetSide);
+                ArriveSide(move.Group, move.TargetSide, move.TargetCenter);
                 Notice?.Invoke($"{squad.UnitName} {squad.Alive}명이 {SideNames[move.TargetSide]}에 도착");
             }
         }
@@ -146,8 +205,8 @@ namespace HumanLastRampart.Combat.Battle
             squads[index] = squad;
         }
 
-        // 새 성벽에서 병사가 가장 드문 자리를 골라 한 줄로 세운다
-        void ArriveSide(int index, int side)
+        // 새 성벽에서 병사가 가장 드문 자리(묶음 가운데). 이미 그 성벽으로 가는 중인 묶음의 자리도 피한다
+        float ChooseCenter(int index, int side)
         {
             SquadInfo squad = squads[index];
             float span = (squad.Alive - 1) * SoldierMaxSpacing;
@@ -163,14 +222,29 @@ namespace HumanLastRampart.Combat.Battle
                         gap = math.min(gap, math.abs(LateralOf(i, side) - c));
                 }
 
+                foreach (GroupMove other in groupMoves)
+                {
+                    if (other.TargetSide != side || other.Group == index) continue;
+                    float otherHalf = (squads[other.Group].Alive - 1) * SoldierMaxSpacing * 0.5f;
+                    gap = math.min(gap, math.max(0f, math.abs(other.TargetCenter - c) - otherHalf));
+                }
+
                 if (gap > bestGap) { bestGap = gap; bestCenter = c; }
             }
 
+            return bestCenter;
+        }
+
+        // 정해 둔 자리(center)에 한 줄로 세운다
+        void ArriveSide(int index, int side, float center)
+        {
+            SquadInfo squad = squads[index];
+            float span = (squad.Alive - 1) * SoldierMaxSpacing;
             float3 n3 = WallGeometry.Outward(side), right = WallGeometry.Right(side);
             for (int k = 0; k < squad.Alive; k++)
             {
                 int soldier = squad.FirstSoldier + k;
-                float lateral = bestCenter - span * 0.5f + k * SoldierMaxSpacing;
+                float lateral = center - span * 0.5f + k * SoldierMaxSpacing;
                 sPos[soldier] = n3 * (CastleHalf - SoldierInset) + right * lateral + new float3(0f, WallHeight, 0f);
                 sSide[soldier] = (byte)side;
                 sAway[soldier] = 0;

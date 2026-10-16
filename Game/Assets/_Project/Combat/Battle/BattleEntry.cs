@@ -111,6 +111,7 @@ namespace HumanLastRampart.Combat.Battle
                 hud.WallCommandChosen += OnMapWallCommand;
                 hud.BattleStartChosen += StartBattle;
                 hud.GroupDestinationChosen += side => OrderGroupMove(selectedGroup, side);
+                hud.WallGroupsDestinationChosen += side => OrderWallMove(selectedGroup, side);
 
                 // 전투 준비 (D-071): 지도가 열린 채 시간이 멈춘다. 명령·대포 조준을 정하고 [전투 시작] (지도 닫기도 시작)
                 preparing = true;
@@ -129,6 +130,18 @@ namespace HumanLastRampart.Combat.Battle
             if (preparing) sim.IssueGroupMove(group, targetSide, true);
             else if (rig == null || rig.Side == info.Side) sim.IssueGroupMove(group, targetSide, false);
             else sim.IssueGroupMoveByMessenger(rig.Side, rig.Along, group, targetSide);
+            selectedGroup = -1;
+        }
+
+        // 한 번에 옮기기 (사용자 2차 피드백 11): 고른 묶음이 있는 성벽의 묶음 전부를, 20명 남기고. 전령 규칙은 묶음 이동과 같다
+        public void OrderWallMove(int group, int targetSide)
+        {
+            if (sim == null || group < 0 || group >= sim.GroupCount) return;
+            int wall = sim.GetGroup(group).Side;
+            if (wall < 0 || wall == targetSide) return;
+            if (preparing) sim.IssueWallMove(wall, targetSide, true);
+            else if (rig == null || rig.Side == wall) sim.IssueWallMove(wall, targetSide, false);
+            else sim.IssueWallMoveByMessenger(rig.Side, rig.Along, wall, targetSide);
             selectedGroup = -1;
         }
 

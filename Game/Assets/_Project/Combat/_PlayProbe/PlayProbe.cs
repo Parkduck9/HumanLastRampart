@@ -1279,6 +1279,23 @@ public sealed class PlayProbe
         Assert.AreEqual(northStart - movedCount, sim.Sides[0].GarrisonStart, "북쪽 처음 병력에서 빠짐 (떠났다고 패배 아님)");
         Assert.AreEqual(eastStart + movedCount, sim.Sides[1].GarrisonStart, "동쪽에 더해짐");
         Note($"준비 중 묶음 이동: {movedCount}명 북→동, 북 {northStart}→{sim.Sides[0].GarrisonStart}, 동 {eastStart}→{sim.Sides[1].GarrisonStart}");
+
+        // 2차 피드백 11: 남쪽 묶음을 한 번에 서쪽으로 — 남쪽에 옮길 수 있는 병사가 20명 이상 남는다
+        int southGroup = -1;
+        for (int g = 0; g < sim.GroupCount && southGroup < 0; g++)
+        {
+            var info = sim.GetGroup(g);
+            if (info.Movable && info.Side == 2 && info.Alive > 0) southGroup = g;
+        }
+        if (southGroup >= 0)
+        {
+            entry.OrderWallMove(southGroup, 3);
+            yield return null;
+            int southLeft = 0;
+            for (int g = 0; g < sim.GroupCount; g++) { var info = sim.GetGroup(g); if (info.Movable && info.Side == 2) southLeft += info.Alive; }
+            Assert.GreaterOrEqual(southLeft, HumanLastRampart.Combat.Battle.BattleSim.KeepPerWall, "한 번에 옮겨도 20명은 남는다");
+            Note($"한 번에 옮기기 남→서: 남쪽 옮길 수 있는 병사 {southLeft}명 남음, 서쪽 처음 병력 {sim.Sides[3].GarrisonStart}");
+        }
         yield return Capture("prep_map");
         yield return Click("전투 시작", 60);
         Assert.IsFalse(entry.Preparing, "전투 시작 버튼");
