@@ -1090,11 +1090,15 @@ public sealed class PlayProbe
         entry.SelectCannonSide(0);
         yield return null;
         Assert.AreEqual(16, sim.CannonCount, "대포 4면 × 4문");
-        float[] xs = { -12f, -3f, 8f };   // D-061 성벽 40m
+        // K-037 사거리를 절반으로 줄임 — 고정 좌표(성벽 앞 60m) 대신 대포마다 사거리의 60% 앞을 노린다
         for (int n = 1; n <= 3; n++)
         {
             entry.SelectCannon(n);
-            Assert.IsTrue(entry.AimSelectedCannonAt(new Vector3(xs[n - 1], 0f, 80f)), $"대포 {n} 조준 (사거리 안)");
+            HumanLastRampart.Combat.Battle.BattleSim.CannonInfo info = default;
+            for (int c = 0; c < sim.CannonCount; c++) { var ci = sim.GetCannon(c); if (ci.Side == 0 && ci.Number == n) info = ci; }
+            var aim = new Vector3(info.Position.x * 0.5f, 0f, info.Position.z + info.Range * 0.6f);   // 적이 오는 가운데 쪽으로 조금
+            Assert.IsTrue(entry.AimSelectedCannonAt(aim), $"대포 {n} 조준 (사거리 안, 사거리 {info.Range:0}m)");
+            Note($"대포 {n}: 사거리 {info.Range:0}m, 조준 {aim}");
         }
         entry.SelectCannon(4);
         Assert.IsFalse(entry.AimSelectedCannonAt(new Vector3(0f, 0f, 250f)), "사거리 밖은 거부");

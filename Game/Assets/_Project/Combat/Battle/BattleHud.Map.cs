@@ -278,12 +278,12 @@ namespace HumanLastRampart.Combat.Battle
                     rect.sizeDelta = new Vector2(40f, 40f);
                     Image icon = HudStyle.ArtImage(button.transform, "Icon", "Icons/unit_cannon", new Vector2(32f, 32f));
                     if (icon != null) icon.transform.SetAsFirstSibling();   // 번호 글자보다 뒤
-                    Text number = button.GetComponentInChildren<Text>();
-                    number.fontSize = 16;
-                    number.fontStyle = FontStyle.Bold;
-                    number.alignment = icon != null ? TextAnchor.LowerRight : TextAnchor.MiddleCenter;   // 아이콘이 없으면 번호만 가운데
-                    number.rectTransform.offsetMax = new Vector2(-2f, 0f);
-                    var outline = number.gameObject.AddComponent<Outline>();
+                    Text markerNumber = button.GetComponentInChildren<Text>();
+                    markerNumber.fontSize = 16;
+                    markerNumber.fontStyle = FontStyle.Bold;
+                    markerNumber.alignment = icon != null ? TextAnchor.LowerRight : TextAnchor.MiddleCenter;   // 아이콘이 없으면 번호만 가운데
+                    markerNumber.rectTransform.offsetMax = new Vector2(-2f, 0f);
+                    var outline = markerNumber.gameObject.AddComponent<Outline>();
                     outline.effectColor = new Color(0f, 0f, 0f, 0.9f);
                     button.transform.SetAsFirstSibling();
                     cannonMarkers.Add(button);
