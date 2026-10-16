@@ -96,6 +96,10 @@ namespace HumanLastRampart.Combat.Battle
         const float RockPileSize = 2.5f;           // 바위 덩이 (rocks_side)
         readonly Kind earthWallNS, earthWallEW, rubble, rockPiles;   // 토벽은 성벽과 나란히 선 판 (남북 면 / 동서 면)
         int terrainVersion = -1;
+        // 쓰러진 나무 (K-051): 나무 덩이 칸마다 그린 나무 판 (소품 종류, 판 번호, 칸) — 쓰러지면 숨기고 통나무 더미(logs_side)를 그린다
+        readonly List<(int kind, int index, int cell)> terrainTrees = new List<(int, int, int)>();
+        const float FallenLogsSize = 1.6f;
+        readonly Kind fallenLogs;
         readonly Vector2[] pileJitter;             // 칸마다 조금 어긋나게 (성벽 따라, 바깥쪽)
         float nextRefresh;
         float lastShade = -1f;
@@ -152,6 +156,7 @@ namespace HumanLastRampart.Combat.Battle
                 earthWallEW = MakeTerrainKind("earthwall_side", 320, 96, walls, Vector3.forward);
                 rubble = MakeTerrainKind("hill_small_side", 160, 96, walls, null);
                 rockPiles = MakeTerrainKind("rocks_side", 160, 112, shape.RockCells.Count, null);
+                fallenLogs = MakeTerrainKind("logs_side", 160, 80, shape.TreeCells.Count, null);   // 쓰러진 나무 잔해 (K-051)
             }
 
             BuildBackdrop();
@@ -243,7 +248,9 @@ namespace HumanLastRampart.Combat.Battle
                     for (int k = 0; k < TreesPerCell; k++)
                     {
                         var p = center + new Vector2(Range(random, -0.35f, 0.35f), Range(random, -0.35f, 0.35f)) * shape.CellSize;
-                        Add(random.NextDouble() < 0.5 ? PropKind.Pine : PropKind.Oak, p, 0.9f);
+                        PropKind tree = random.NextDouble() < 0.5 ? PropKind.Pine : PropKind.Oak;
+                        terrainTrees.Add(((int)tree, lists[(int)tree].Count, c));
+                        Add(tree, p, 0.9f);
                     }
                 }
             }
@@ -329,6 +336,36 @@ namespace HumanLastRampart.Combat.Battle
             if (earthWallEW != null) Submit(earthWallEW);
             if (rubble != null) Submit(rubble);
             if (rockPiles != null) Submit(rockPiles);
+            if (fallenLogs != null) Submit(fallenLogs);
+        }
+
+        // 쓰러진 나무 칸: 그 칸 나무 판을 숨기고(크기 0) 통나무 더미를 놓는다
+        void RefreshFallenTrees(TerrainLayout shape, float shade)
+        {
+            var touched = new HashSet<int>();
+            foreach (var (kind, index, cell) in terrainTrees)
+            {
+                Kind k = props[kind];
+                if (k == null || index >= k.Count) continue;
+                bool fallen = sim.TerrainKindAt(cell) == TerrainCell.FallenTrees;
+                float4 tint = k.Instances[index].TintSize;
+                if (fallen == (tint.w <= 0f)) continue;
+                if (fallen) k.Instances[index].TintSize = new float4(tint.x, tint.y, tint.z, 0f);
+                touched.Add(kind);
+            }
+
+            foreach (int kind in touched) props[kind].Buffer.SetData(props[kind].Instances, 0, 0, props[kind].Count);
+
+            if (fallenLogs == null) return;
+            fallenLogs.Count = 0;
+            foreach (int c in shape.TreeCells)
+            {
+                if (sim.TerrainKindAt(c) != TerrainCell.FallenTrees || fallenLogs.Count >= fallenLogs.Instances.Length) continue;
+                Vector2 p = shape.Center(c);
+                fallenLogs.Instances[fallenLogs.Count++] = new PerfLabInstance { PosFrame = new float4(p.x, 0f, p.y, (c & 1) == 0 ? 0f : -1f), TintSize = new float4(shade, shade, shade, FallenLogsSize) };
+            }
+
+            if (fallenLogs.Count > 0) fallenLogs.Buffer.SetData(fallenLogs.Instances, 0, 0, fallenLogs.Count);
         }
 
         // 토벽(온전 / 무너진 틈)·바위 덩이 판을 지금 지형에 맞게 (토벽이 무너지면 sim.TerrainVersion이 바뀐다)
@@ -367,6 +404,7 @@ namespace HumanLastRampart.Combat.Battle
 
             foreach (Kind kind in new[] { earthWallNS, earthWallEW, rubble, rockPiles })
                 if (kind != null && kind.Count > 0) kind.Buffer.SetData(kind.Instances, 0, 0, kind.Count);
+            RefreshFallenTrees(shape, shade);
         }
 
         Kind MakeTerrainKind(string file, int width, int height, int capacity, Vector3? fixedRight)
@@ -698,6 +736,7 @@ namespace HumanLastRampart.Combat.Battle
             earthWallEW?.Buffer.Release();
             rubble?.Buffer.Release();
             rockPiles?.Buffer.Release();
+            fallenLogs?.Buffer.Release();
             if (root != null) UnityEngine.Object.Destroy(root);
             if (horizonMaterial != null) UnityEngine.Object.Destroy(horizonMaterial);
             if (skyMaterial != null) UnityEngine.Object.Destroy(skyMaterial);

@@ -16,8 +16,12 @@ namespace HumanLastRampart.Core.Traps
         public const byte Trees = 3;       // 나무 덩이 — 돌아감 (모든 길이 막히면 넘음)
         public const byte Rocks = 4;       // 바위 덩이 — 돌아감 (모든 길이 막히면 넘음)
         public const byte Breach = 5;      // 허물어진 토벽 — 지나갈 수 있는 틈
+        public const byte FallenTrees = 6; // 쓰러진 나무 잔해 (K-051, D-077 ⑤) — 지나갈 수 있지만 느리다
+        public const byte Path = 7;        // 길 내기 (K-051) — 적이 이 길을 더 좋아한다(흐름 지도 비용 낮음), 함정을 놓을 수 있다
 
         public static bool Blocks(byte kind) => kind >= Hill && kind <= Rocks;
+        // 함정을 놓을 수 있는 땅 (빈 땅·낸 길)
+        public static bool TrapGround(byte kind) => kind == Free || kind == Path;
     }
 
     // 지형 규칙 수치 (D-077 확정값 + 제안값). 제안값은 사용자 확인 뒤 정의 데이터로 옮긴다
@@ -27,6 +31,14 @@ namespace HumanLastRampart.Core.Traps
         public const float DetourChance = 0.5f;
         public const float CrossChance = 0.3f;
         public const float CrossSpeed = 0.7f;
+        // 사용자 2026-10-16 Q1: 언덕을 만나면 돌아감 70%, 넘음 30% (언덕은 허물 수 없다)
+        public const float HillDetourChance = 0.7f;
+        // 쓰러진 나무 (Q2, D-077 ⑤): 나무 덩이 칸에 부딪혀 지나간 적의 '누적 초'가 이만큼 쌓이면 쓰러진다 (제안 — 적 25마리가 1초씩)
+        public const float TreeFallPressure = 25f;
+        public const float DebrisSpeed = 0.7f;      // 쓰러진 나무 잔해 위 속도 (제안: 넘음과 같게)
+        // 흐름 지도 칸 비용 (빈 땅 1): 낸 길은 더 좋아하고, 잔해는 피하고 싶어한다
+        public const float PathCost = 0.8f;
+        public const float DebrisCost = 1.4f;
         // D-077 ⑥: 모든 길이 막히면 100% 넘거나 허문다 — 둘의 비율은 ①의 30:20을 따른다 (제안)
         public const float BlockedCrossShare = 0.6f;
         // 허물기 (사용자 2026-10-16: 닿는 순간이 아니라 몇 초 때린 뒤 무너짐) — 제안: 한 마리 8초, 여럿이면 빨리
@@ -34,8 +46,11 @@ namespace HumanLastRampart.Core.Traps
         public const float BreakDamagePerSecond = 10f;
         public const float FreeZone = 10f;          // 성벽에서 이 거리 안은 지금처럼 곧장 (설계 4장)
         // 지형 손질 비용 (D-077 ③ 골드만 — 설계 3장 제안값)
-        public const int EarthWallGold = 20;
-        public const int HillGold = 10;
+        public const int EarthWallGold = 20;        // 사용자 Q3 확정
+        public const int HillGold = 10;             // 사용자 Q3 확정
+        public const int PathGold = 5;              // 길 내기 칸당 (설계 3장 제안)
+        public const int MoveGold = 5;              // 나무·바위 칸 하나 옮기기 (설계 제안은 0골드 — D-077 '골드만'에 맞춰 5로 제안, 질문)
+        public const float RefundRatio = 0.5f;      // 철거 환불 비율 (제안: 지은 값의 절반, 내림)
         // 무작위 지형 (설계 2장 제안값)
         public const int HillsMin = 4, HillsMax = 7;
         public const float HillRadiusMin = 6f, HillRadiusMax = 14f;
@@ -58,6 +73,7 @@ namespace HumanLastRampart.Core.Traps
         public readonly List<int> RockCells = new List<int>();
         public readonly List<int> EarthWallCells = new List<int>();
         public readonly List<int> RaisedHillCells = new List<int>();
+        public readonly List<int> PathCells = new List<int>();
 
         public TerrainLayout(float cellSize, float fieldSize)
         {
@@ -84,7 +100,7 @@ namespace HumanLastRampart.Core.Traps
         {
             if (!TrapGrid.TryParse(cellId, out int side, out int column, out int row)) return true;
             Vector2 c = TrapGrid.Center(terrain, side, column, row);
-            return KindAt(c.x, c.y) != TerrainCell.Free;
+            return !TerrainCell.TrapGround(KindAt(c.x, c.y));
         }
 
         public int CellOfTrapCell(TerrainDef terrain, string cellId)
@@ -121,11 +137,11 @@ namespace HumanLastRampart.Core.Traps
             foreach (Vector3 hill in terrain.Hills) AddHill(layout, hill);
 
             // 1. 언덕
-            int hills = HillsCount(random);
+            int hills = HillsCount(ref random);
             for (int k = 0, tries = 0; k < hills && tries < hills * 40; tries++)
             {
                 float radius = random.Range(TerrainRules.HillRadiusMin, TerrainRules.HillRadiusMax);
-                Vector2 p = RandomPoint(random, half + far);
+                Vector2 p = RandomPoint(ref random, half + far);
                 float wall = TerrainLayout.WallDistance(half, p);
                 if (wall - radius < TerrainRules.WallClearance || wall + radius > far + 10f) continue;
                 if (TerrainLayout.InFrontCorridor(half, p, radius)) continue;
@@ -135,8 +151,8 @@ namespace HumanLastRampart.Core.Traps
             }
 
             // 2. 나무 덩이·바위 덩이 (칸 1~3개 / 1~2개, 이웃 칸으로 자란다)
-            AddClusters(layout, random, half, far, TerrainCell.Trees, random.NextInt(TerrainRules.TreeClustersMax - TerrainRules.TreeClustersMin + 1) + TerrainRules.TreeClustersMin, TerrainRules.TreeClusterCellsMax, layout.TreeCells);
-            AddClusters(layout, random, half, far, TerrainCell.Rocks, random.NextInt(TerrainRules.RockClustersMax - TerrainRules.RockClustersMin + 1) + TerrainRules.RockClustersMin, TerrainRules.RockClusterCellsMax, layout.RockCells);
+            AddClusters(layout, ref random, half, far, TerrainCell.Trees, random.NextInt(TerrainRules.TreeClustersMax - TerrainRules.TreeClustersMin + 1) + TerrainRules.TreeClustersMin, TerrainRules.TreeClusterCellsMax, layout.TreeCells);
+            AddClusters(layout, ref random, half, far, TerrainCell.Rocks, random.NextInt(TerrainRules.RockClustersMax - TerrainRules.RockClustersMin + 1) + TerrainRules.RockClustersMin, TerrainRules.RockClusterCellsMax, layout.RockCells);
 
             // 3. 지형 손질 (플레이어가 지은 것) — 무작위 지형 위에 덮는다
             if (works != null)
@@ -146,17 +162,37 @@ namespace HumanLastRampart.Core.Traps
                     if (work == null || work.TerrainId != terrain.Id) continue;
                     int c = layout.CellOfTrapCell(terrain, work.CellId);
                     if (c < 0) continue;
-                    if (work.Kind == TerrainWorkKind.EarthWall)
+                    switch (work.Kind)
                     {
-                        layout.Cells[c] = TerrainCell.EarthWall;
-                        layout.EarthWallCells.Add(c);
-                    }
-                    else
-                    {
-                        layout.Cells[c] = TerrainCell.Hill;
-                        layout.RaisedHillCells.Add(c);
-                        Vector2 center = layout.Center(c);
-                        layout.Hills.Add(new Vector3(center.x, cell * 0.6f, center.y));   // 그리기용 작은 언덕 (칸 하나)
+                        case TerrainWorkKind.EarthWall:
+                            layout.Cells[c] = TerrainCell.EarthWall;
+                            layout.EarthWallCells.Add(c);
+                            break;
+                        case TerrainWorkKind.Hill:
+                        {
+                            layout.Cells[c] = TerrainCell.Hill;
+                            layout.RaisedHillCells.Add(c);
+                            Vector2 center = layout.Center(c);
+                            layout.Hills.Add(new Vector3(center.x, cell * 0.6f, center.y));   // 그리기용 작은 언덕 (칸 하나)
+                            break;
+                        }
+                        case TerrainWorkKind.Path:   // 길 내기 (K-051): 언덕 칸도 깎아 길로
+                            layout.Cells[c] = TerrainCell.Path;
+                            layout.PathCells.Add(c);
+                            break;
+                        case TerrainWorkKind.Cleared:   // 나무·바위를 옮겨 간 자리 (K-051) — 빈 땅
+                            layout.Cells[c] = TerrainCell.Free;
+                            layout.TreeCells.Remove(c);
+                            layout.RockCells.Remove(c);
+                            break;
+                        case TerrainWorkKind.PlacedTrees:   // 옮겨 온 나무 덩이
+                            layout.Cells[c] = TerrainCell.Trees;
+                            if (!layout.TreeCells.Contains(c)) layout.TreeCells.Add(c);
+                            break;
+                        case TerrainWorkKind.PlacedRocks:   // 옮겨 온 바위 덩이
+                            layout.Cells[c] = TerrainCell.Rocks;
+                            if (!layout.RockCells.Contains(c)) layout.RockCells.Add(c);
+                            break;
                     }
                 }
             }
@@ -172,9 +208,9 @@ namespace HumanLastRampart.Core.Traps
             return layout;
         }
 
-        static int HillsCount(DeterministicRandom random) => random.NextInt(TerrainRules.HillsMax - TerrainRules.HillsMin + 1) + TerrainRules.HillsMin;
+        static int HillsCount(ref DeterministicRandom random) => random.NextInt(TerrainRules.HillsMax - TerrainRules.HillsMin + 1) + TerrainRules.HillsMin;
 
-        static Vector2 RandomPoint(DeterministicRandom random, float extent) => new Vector2(random.Range(-extent, extent), random.Range(-extent, extent));
+        static Vector2 RandomPoint(ref DeterministicRandom random, float extent) => new Vector2(random.Range(-extent, extent), random.Range(-extent, extent));
 
         static bool Overlaps(TerrainLayout layout, Vector2 p, float radius)
         {
@@ -201,12 +237,12 @@ namespace HumanLastRampart.Core.Traps
                 }
         }
 
-        static void AddClusters(TerrainLayout layout, DeterministicRandom random, float half, float far, byte kind, int count, int maxCells, List<int> list)
+        static void AddClusters(TerrainLayout layout, ref DeterministicRandom random, float half, float far, byte kind, int count, int maxCells, List<int> list)
         {
             float cell = layout.CellSize;
             for (int k = 0, tries = 0; k < count && tries < count * 40; tries++)
             {
-                Vector2 p = RandomPoint(random, half + far);
+                Vector2 p = RandomPoint(ref random, half + far);
                 int c = layout.CellOf(p.x, p.y);
                 if (!CanUse(layout, c, half, far)) continue;
                 int size = random.NextInt(maxCells) + 1;

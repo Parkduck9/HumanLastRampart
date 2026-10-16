@@ -17,7 +17,10 @@ namespace HumanLastRampart.Combat.Editor
         void OnPreprocessTexture()
         {
             string path = assetPath.Replace('\\', '/');
-            bool sprite = path.Contains(PropsFolder) || path.Contains(CannonFolder) || path.Contains(TerrainFolder);
+            // K-051: 함정 지도에 새로 넣은 길(K-029 path_*)·병사 작업 시트(K-030 worker_*)·지형 손질 칸 그림 — 기존 TrapMap 그림은 건드리지 않는다
+            string file = System.IO.Path.GetFileName(path);
+            bool mapArt = path.Contains("/Resources/TrapMap/") && (file.StartsWith("path_") || file.StartsWith("worker_") || file == "earthwall_map.png" || file == "raised_hill_map.png");
+            bool sprite = mapArt || path.Contains(PropsFolder) || path.Contains(CannonFolder) || path.Contains(TerrainFolder);
             bool sky = path.Contains(SkyFolder);
             if (!sprite && !sky) return;
 
