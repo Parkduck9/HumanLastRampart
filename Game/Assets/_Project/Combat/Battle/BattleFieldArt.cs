@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using HumanLastRampart.Combat.PerfLab;
 using HumanLastRampart.Core.CombatContracts;
+using HumanLastRampart.Core.Traps;
 using Unity.Collections;
 using Unity.Mathematics;
 using UnityEngine;
@@ -30,6 +31,7 @@ namespace HumanLastRampart.Combat.Battle
         static readonly int CullId = Shader.PropertyToID("_Cull");
         static readonly int AlphaClipId = Shader.PropertyToID("_AlphaClip");
         static readonly int CutoffId = Shader.PropertyToID("_Cutoff");
+        static readonly int FixedRightId = Shader.PropertyToID("_FixedRight");
 
         const string Folder = "BattleArt/Props/";
         const float PixelsPerMeter = 32f;
@@ -85,6 +87,15 @@ namespace HumanLastRampart.Combat.Battle
         readonly Kind[] props = new Kind[PropSpecs.Length];
         readonly Kind[] piles = new Kind[3];
         readonly Kind trapBuried, trapCrater;
+
+        // 지형 손질·무작위 지형 판 (K-049, Codex K-030 전투 판 — 32화소/m, 바닥 기준 (폭/2, 높이−8))
+        const int TreesPerCell = 3;
+        const string TerrainFolder = "BattleArt/Terrain/";
+        const float EarthWallBoardHeight = 1.5f;   // 320×96 판(10m 폭 그림)을 칸 폭 5m에 맞춘 높이
+        const float RubbleSize = 1.2f;             // 허물어진 토벽 = 낮은 흙더미 (hill_small_side 작게)
+        const float RockPileSize = 2.5f;           // 바위 덩이 (rocks_side)
+        readonly Kind earthWallNS, earthWallEW, rubble, rockPiles;   // 토벽은 성벽과 나란히 선 판 (남북 면 / 동서 면)
+        int terrainVersion = -1;
         readonly Vector2[] pileJitter;             // 칸마다 조금 어긋나게 (성벽 따라, 바깥쪽)
         float nextRefresh;
         float lastShade = -1f;
@@ -131,6 +142,17 @@ namespace HumanLastRampart.Combat.Battle
             var trapLayout = PerfLabArt.SheetLayout.Make(1, 1, 0.5f, PilePivotY, 1f);
             trapBuried = MakeKind(Folder + "trap_1", traps, trapLayout, false);
             trapCrater = MakeKind(Folder + "trap_2", traps, trapLayout, false);
+
+            // 토벽·바위 덩이 판 (K-049). 토벽 판은 성벽과 나란히 고정 (남북 면 = 동서로 긴 판, 동서 면 = 남북으로 긴 판)
+            TerrainLayout shape = sim.TerrainLayout;
+            if (shape != null)
+            {
+                int walls = shape.EarthWallCells.Count;
+                earthWallNS = MakeTerrainKind("earthwall_side", 320, 96, walls, Vector3.right);
+                earthWallEW = MakeTerrainKind("earthwall_side", 320, 96, walls, Vector3.forward);
+                rubble = MakeTerrainKind("hill_small_side", 160, 96, walls, null);
+                rockPiles = MakeTerrainKind("rocks_side", 160, 112, shape.RockCells.Count, null);
+            }
 
             BuildBackdrop();
             BuildGroundFog();
@@ -211,6 +233,21 @@ namespace HumanLastRampart.Combat.Battle
                 lanes++;
             }
 
+            // 4. 무작위 지형의 나무 덩이 (K-049): 막힌 칸마다 나무 세 그루 — 적이 실제로 돌아가는 곳
+            TerrainLayout shape = sim.TerrainLayout;
+            if (shape != null)
+            {
+                foreach (int c in shape.TreeCells)
+                {
+                    Vector2 center = shape.Center(c);
+                    for (int k = 0; k < TreesPerCell; k++)
+                    {
+                        var p = center + new Vector2(Range(random, -0.35f, 0.35f), Range(random, -0.35f, 0.35f)) * shape.CellSize;
+                        Add(random.NextDouble() < 0.5 ? PropKind.Pine : PropKind.Oak, p, 0.9f);
+                    }
+                }
+            }
+
             for (int i = 0; i < PropSpecs.Length; i++)
             {
                 var spec = PropSpecs[i];
@@ -286,6 +323,58 @@ namespace HumanLastRampart.Combat.Battle
             if (HasPileArt) foreach (Kind kind in piles) Submit(kind);
             if (trapBuried != null) Submit(trapBuried);
             if (trapCrater != null) Submit(trapCrater);
+
+            if (shadeChanged || terrainVersion != sim.TerrainVersion) RefreshTerrainBoards(shade);
+            if (earthWallNS != null) Submit(earthWallNS);
+            if (earthWallEW != null) Submit(earthWallEW);
+            if (rubble != null) Submit(rubble);
+            if (rockPiles != null) Submit(rockPiles);
+        }
+
+        // 토벽(온전 / 무너진 틈)·바위 덩이 판을 지금 지형에 맞게 (토벽이 무너지면 sim.TerrainVersion이 바뀐다)
+        void RefreshTerrainBoards(float shade)
+        {
+            terrainVersion = sim.TerrainVersion;
+            TerrainLayout shape = sim.TerrainLayout;
+            if (shape == null) return;
+            if (earthWallNS != null) earthWallNS.Count = 0;
+            if (earthWallEW != null) earthWallEW.Count = 0;
+            if (rubble != null) rubble.Count = 0;
+            foreach (int c in shape.EarthWallCells)
+            {
+                Vector2 p = shape.Center(c);
+                bool broken = sim.TerrainKindAt(c) == TerrainCell.Breach;
+                int side = WallGeometry.FieldSide(new float3(p.x, 0f, p.y));
+                Kind kind = broken ? rubble : side == 0 || side == 2 ? earthWallNS : earthWallEW;
+                if (kind == null || kind.Count >= kind.Instances.Length) continue;
+                kind.Instances[kind.Count++] = new PerfLabInstance
+                {
+                    PosFrame = new float4(p.x, 0f, p.y, 0f),
+                    TintSize = new float4(shade, shade, shade, broken ? RubbleSize : EarthWallBoardHeight),
+                };
+            }
+
+            if (rockPiles != null)
+            {
+                rockPiles.Count = 0;
+                foreach (int c in shape.RockCells)
+                {
+                    Vector2 p = shape.Center(c);
+                    if (rockPiles.Count < rockPiles.Instances.Length)
+                        rockPiles.Instances[rockPiles.Count++] = new PerfLabInstance { PosFrame = new float4(p.x, 0f, p.y, (c & 1) == 0 ? 0f : -1f), TintSize = new float4(shade, shade, shade, RockPileSize) };
+                }
+            }
+
+            foreach (Kind kind in new[] { earthWallNS, earthWallEW, rubble, rockPiles })
+                if (kind != null && kind.Count > 0) kind.Buffer.SetData(kind.Instances, 0, 0, kind.Count);
+        }
+
+        Kind MakeTerrainKind(string file, int width, int height, int capacity, Vector3? fixedRight)
+        {
+            if (capacity <= 0) return null;
+            Kind kind = MakeKind(TerrainFolder + file, capacity, PerfLabArt.SheetLayout.Make(1, 1, 0.5f, 8f / height, width / (float)height), true);
+            if (kind != null && fixedRight.HasValue) kind.Block.SetVector(FixedRightId, new Vector4(fixedRight.Value.x, 0f, fixedRight.Value.z, 1f));
+            return kind;
         }
 
         void Submit(Kind kind)
@@ -605,6 +694,10 @@ namespace HumanLastRampart.Combat.Battle
             foreach (Kind kind in piles) kind?.Buffer.Release();
             trapBuried?.Buffer.Release();
             trapCrater?.Buffer.Release();
+            earthWallNS?.Buffer.Release();
+            earthWallEW?.Buffer.Release();
+            rubble?.Buffer.Release();
+            rockPiles?.Buffer.Release();
             if (root != null) UnityEngine.Object.Destroy(root);
             if (horizonMaterial != null) UnityEngine.Object.Destroy(horizonMaterial);
             if (skyMaterial != null) UnityEngine.Object.Destroy(skyMaterial);

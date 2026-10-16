@@ -14,6 +14,8 @@ namespace HumanLastRampart.Meta
     // 정비 함정 공방 (K-042 사용자 요청): 성을 가운데 둔 지도 한 장에 4면 들판·언덕과 설치 칸을 바로 보이고,
     // 여러 칸을 눌러 고른 뒤 [한 번에 구매·설치]. 지형 그림은 Codex K-029 (5m = 32화소 타일, 격자 겉칠).
     // 거래는 TrapPreparationTransactions의 견적·확정을 칸마다 그대로 쓴다 (골드 차감·진행 데이터 기록)
+    // K-049 '지형' 탭 (D-077 ④): 같은 지도·칸에서 토벽·언덕을 골드로 짓는다 (TerrainWorkTransactions). 무작위 지형(언덕·나무·바위)도 지도에 보인다.
+    //   기능만 넣었고 화면 모양은 K-047(모든 화면 UI 다시 만들기)이 다듬는다
     internal sealed class TrapPreparationPanel
     {
         const float MapPx = 880f;          // 지도 한 변 (화면 1920×1080 기준)
@@ -35,6 +37,11 @@ namespace HumanLastRampart.Meta
         bool storage, marked = true;
         string message = "지도에서 설치할 칸을 여러 개 눌러 고른 뒤 한 번에 구매하세요. 환불은 불가능합니다.";
         Sprite gridAllowed, gridBlocked, gridSelected, gridPlaced, trapBuried;
+        // 지형 탭 (K-049)
+        readonly TerrainWorkTransactions works;
+        bool terrainTab;
+        TerrainWorkKind workKind = TerrainWorkKind.EarthWall;
+        Sprite earthwallIcon, raisedHillIcon;
 
         public static void Show(Button source, IScreenContext context, TrapPreparationTransactions session, PreparationTransactions preparation)
         { if (source != null && source.IsInteractable()) new TrapPreparationPanel(source, context, session, preparation); }
@@ -42,6 +49,7 @@ namespace HumanLastRampart.Meta
         TrapPreparationPanel(Button source, IScreenContext context, TrapPreparationTransactions session, PreparationTransactions preparation)
         {
             this.source = source; this.context = context; this.session = session; this.preparation = preparation;
+            works = new TerrainWorkTransactions(session);
             behind = source.transform.parent.GetComponent<CanvasGroup>(); behind.interactable = false;
             font = source.GetComponentInChildren<Text>().font;
             shade = Make(source.transform.parent.parent, "Trap preparation", typeof(Image)); Stretch(shade);
@@ -86,7 +94,10 @@ namespace HumanLastRampart.Meta
             {
                 // 그림이 없으면 예전처럼 색 도형: 들판 + 언덕 + 성
                 ground.color = new Color(.20f, .27f, .19f);
-                foreach (var h in terrain.Hills) Box(map, "Hill", new Vector2(h.x, h.z) * scale, Vector2.one * h.y * 2f * scale, new Color(.33f, .43f, .25f));
+                TerrainLayout shape = session.Layout;
+                foreach (var h in shape.Hills) Box(map, "Hill", new Vector2(h.x, h.z) * scale, Vector2.one * h.y * 2f * scale, new Color(.33f, .43f, .25f));
+                foreach (int c in shape.TreeCells) Box(map, "Trees", shape.Center(c) * scale, Vector2.one * shape.CellSize * scale, new Color(.14f, .30f, .14f));
+                foreach (int c in shape.RockCells) Box(map, "Rocks", shape.Center(c) * scale, Vector2.one * shape.CellSize * scale, new Color(.45f, .45f, .42f));
                 Box(map, "Castle", Vector2.zero, Vector2.one * terrain.CastleHalfSize * 2f * scale, new Color(.46f, .43f, .37f));
             }
 
@@ -144,8 +155,9 @@ namespace HumanLastRampart.Meta
                 var hillPx = new Color32[3][];
                 for (int k = 0; k < 3; k++) hillPx[k] = hills[k] != null ? hills[k].GetPixels32() : null;
                 Color32[] treePx = trees != null ? trees.GetPixels32() : null, rockPx = rocks != null ? rocks.GetPixels32() : null;
-                float half = terrain.CastleHalfSize, zoneFar = half + terrain.TrapFar;
+                float half = terrain.CastleHalfSize;
                 int seed = terrain.Id != null ? terrain.Id.GetHashCode() : 0;
+                TerrainLayout shape = session.Layout;   // 무작위 지형 (K-049): 언덕·나무 덩이·바위 덩이가 진짜 위치에
                 for (int j = 0; j < n; j++)
                     for (int i = 0; i < n; i++)
                     {
@@ -153,7 +165,7 @@ namespace HumanLastRampart.Meta
                         uint h = Hash(i, j, seed);
                         bool inCastle = Mathf.Abs(x) < half && Mathf.Abs(z) < half;
                         Color32[] tile = inCastle && dirtPx != null ? dirtPx : (h & 1) == 0 ? a : b;
-                        foreach (var hill in terrain.Hills)
+                        foreach (var hill in shape.Hills)
                         {
                             float d = new Vector2(x - hill.x, z - hill.z).magnitude / Mathf.Max(0.1f, hill.y);
                             if (d > 1f) continue;
@@ -161,13 +173,9 @@ namespace HumanLastRampart.Meta
                             if (hillPx[level] != null) tile = hillPx[level];
                         }
                         Paste(pixels, size, tile, i * TilePx, j * TilePx, TilePx, false);
-                        // 설치 구역이 아닌 대각선 모서리·바깥에만 가끔 나무·바위 (설치 칸을 가리지 않게)
-                        bool inZone = (Mathf.Abs(x) < half && Mathf.Abs(z) < zoneFar) || (Mathf.Abs(z) < half && Mathf.Abs(x) < zoneFar);
-                        if (!inZone && !inCastle && (h >> 8) % 100 < 9)
-                        {
-                            Color32[] decor = (h >> 16) % 2 == 0 ? treePx : rockPx;
-                            if (decor != null) Paste(pixels, size, decor, i * TilePx, j * TilePx, TilePx, true);
-                        }
+                        byte kind = shape.KindAt(x, z);
+                        Color32[] decor = kind == TerrainCell.Trees ? treePx : kind == TerrainCell.Rocks ? rockPx : null;
+                        if (decor != null) Paste(pixels, size, decor, i * TilePx, j * TilePx, TilePx, true);
                     }
 
                 if (castle != null)
@@ -226,14 +234,17 @@ namespace HumanLastRampart.Meta
         {
             gridAllowed = MakeSprite("grid_allowed"); gridBlocked = MakeSprite("grid_blocked");
             gridSelected = MakeSprite("grid_selected"); gridPlaced = MakeSprite("grid_placed"); trapBuried = MakeSprite("trap_buried");
+            // K-030 지도 그림: 직선 토벽은 10×5m(64×32) 한 장 — 칸 하나(5m)에는 왼쪽 절반만
+            earthwallIcon = MakeSprite("earthwall_map", 32); raisedHillIcon = MakeSprite("raised_hill_map");
         }
 
-        Sprite MakeSprite(string name)
+        Sprite MakeSprite(string name, int width = 0)
         {
             Texture2D texture = Tile(name);
             if (texture == null) return null;
             texture.filterMode = FilterMode.Point;
-            var sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100f);
+            int w = width > 0 ? Mathf.Min(width, texture.width) : texture.width;
+            var sprite = Sprite.Create(texture, new Rect(0, 0, w, texture.height), new Vector2(0.5f, 0.5f), 100f);
             owned.Add(sprite);
             return sprite;
         }
@@ -248,15 +259,18 @@ namespace HumanLastRampart.Meta
 
         void PaintTiles()
         {
-            TerrainDef terrain = session.Terrain;
             foreach (var pair in tiles)
             {
                 string id = pair.Key; Image image = pair.Value;
-                bool allowed = TrapGrid.IsPlaceable(terrain, id), occupied = session.Occupied(id), chosen = picked.Contains(id);
+                // 함정 탭: 함정을 놓을 수 있는 칸 / 지형 탭(K-049): 토벽·언덕을 지을 수 있는 칸
+                bool allowed = terrainTab ? works.CanBuildOn(id) : session.IsPlaceable(id);
+                bool occupied = !terrainTab && session.Occupied(id), chosen = picked.Contains(id);
                 Sprite sprite = !allowed ? gridBlocked : occupied ? gridPlaced : chosen ? gridSelected : gridAllowed;
                 if (sprite != null) { image.sprite = sprite; image.color = Color.white; }
                 else image.color = !allowed ? new Color(.30f, .24f, .18f, .7f) : occupied ? new Color(.55f, .32f, .26f, .9f) : chosen ? new Color(.24f, .45f, .70f, .9f) : new Color(.2f, .28f, .22f, .45f);
                 image.GetComponent<Button>().interactable = allowed && !occupied;
+                PaintWork(image, id);
+                occupied = session.Occupied(id);
                 // 설치된 칸에는 묻힌 함정 표시
                 Transform mark = image.transform.Find("Buried");
                 if (occupied && mark == null && trapBuried != null)
@@ -267,12 +281,39 @@ namespace HumanLastRampart.Meta
             }
         }
 
+        // 지어 둔 토벽·언덕 그림 (K-030 지도 칸). 동·서 성벽 칸의 토벽은 성벽과 나란하게 90도 돌린다
+        void PaintWork(Image image, string id)
+        {
+            TerrainWork work = works.WorkAt(id);
+            Transform mark = image.transform.Find("Work");
+            Sprite icon = work == null ? null : work.Kind == TerrainWorkKind.EarthWall ? earthwallIcon : raisedHillIcon;
+            if (icon == null) { if (mark != null) mark.gameObject.SetActive(false); return; }
+            if (mark == null)
+            {
+                var r = Make(image.transform, "Work", typeof(Image)); Stretch(r);
+                r.GetComponent<Image>().raycastTarget = false;
+                mark = r;
+            }
+
+            mark.gameObject.SetActive(true);
+            mark.GetComponent<Image>().sprite = icon;
+            bool sideways = work.Kind == TerrainWorkKind.EarthWall && TrapGrid.TryParse(id, out int s, out _, out _) && (s == 1 || s == 3);
+            mark.localRotation = Quaternion.Euler(0f, 0f, sideways ? 90f : 0f);
+        }
+
         // ── 오른쪽 목록 (고를 때마다 다시 그린다 — 지도는 칸 색만 바꾼다) ──
         void Render()
         {
             foreach (Transform child in side) { child.gameObject.SetActive(false); UnityEngine.Object.Destroy(child.gameObject); }
             if (EventSystem.current != null) EventSystem.current.SetSelectedGameObject(null);
             PaintTiles();
+            AddButton(side, terrainTab ? "탭: 함정 ▷ [지형 손질]" : "탭: [함정] ◁ 지형 손질", () =>
+            {
+                terrainTab = !terrainTab; picked.Clear();
+                message = terrainTab ? "지도에서 토벽·언덕을 지을 칸을 고르세요. 골드만 듭니다 (환불 불가)." : "지도에서 설치할 칸을 여러 개 눌러 고른 뒤 한 번에 구매하세요. 환불은 불가능합니다.";
+                Render();
+            });
+            if (terrainTab) { RenderTerrainTab(); return; }
             var terrain = session.Terrain; var defs = context.Definitions.All<TrapDef>(); kind %= defs.Count; var def = defs[kind];
             Label(side, $"함정 공방 · 다음 지형 {terrain.DisplayName} · 골드 {context.Campaign.Gold:N0}", 56, UiStyle.Brass, 28);
             AddButton(side, $"함정: {def.DisplayName} · 상점 {session.ShopCount(def.Id)}개 · 보관 {session.StoredCount(def.Id)}개", () => { kind = (kind + 1) % defs.Count; Render(); });
@@ -294,6 +335,44 @@ namespace HumanLastRampart.Meta
             Label(side, message, 96, UiStyle.Body, 22);
             Label(side, "회수 기능은 판정 약속 보완 후 연결합니다.", 40, UiStyle.TextDim, 18);
             AddButton(side, "닫기", Close);
+        }
+
+        // 지형 손질 탭 (D-077, K-049): 토벽(길을 막음·뒤는 총·화살 엄폐) / 언덕(막음·넘으면 느려짐). 함정 칸 격자 위에 골드로
+        void RenderTerrainTab()
+        {
+            var terrain = session.Terrain;
+            Label(side, $"지형 손질 · 다음 지형 {terrain.DisplayName} · 골드 {context.Campaign.Gold:N0}", 56, UiStyle.Brass, 28);
+            int price = TerrainWorkTransactions.Price(workKind);
+            AddButton(side, $"지을 것: {TerrainWorkTransactions.NameOf(workKind)} · 칸당 {price}골드 (눌러 바꾸기)", () =>
+            {
+                workKind = workKind == TerrainWorkKind.EarthWall ? TerrainWorkKind.Hill : TerrainWorkKind.EarthWall; Render();
+            });
+            string help = workKind == TerrainWorkKind.EarthWall
+                ? "토벽: 적이 돌아가거나(50%) 넘거나(30%, 느려짐) 몇 초 때려 허문다(20%).\n토벽 뒤에 숨은 적은 총·화살을 맞지 않는다 — 대포·마법은 맞는다."
+                : "언덕: 적이 돌아가거나 넘는다(넘으면 느려짐). 함정을 놓을 수 없다.";
+            Label(side, help + "\n성 둘레 언덕·나무·바위는 새 게임마다 무작위입니다.", 110, UiStyle.TextDim, 20);
+
+            bool ok = works.CanBuild(workKind, picked, out int cost, out string why);
+            string sum = picked.Count == 0 ? "고른 칸 없음" : $"고른 칸 {picked.Count}개 · 합계 {price * picked.Count:N0}골드 · 보유 {context.Campaign.Gold:N0}골드";
+            Label(side, sum + (picked.Count > 0 && !ok ? "\n" + why : ""), 76, picked.Count > 0 && !ok ? UiStyle.Danger : UiStyle.Body, 24);
+            var build = AddButton(side, picked.Count > 0 ? $"한 번에 짓기 ({picked.Count}칸 · {cost:N0}골드)" : "한 번에 짓기", Build);
+            build.interactable = ok;
+            if (ok) UiStyle.SetPrimary(build);
+            var clear = AddButton(side, "선택 지우기", () => { picked.Clear(); message = "선택을 지웠습니다."; Render(); });
+            clear.interactable = picked.Count > 0;
+            Label(side, message, 96, UiStyle.Body, 22);
+            AddButton(side, "닫기", Close);
+        }
+
+        void Build()
+        {
+            var cells = new List<string>(picked);
+            bool ok = works.TryBuild(workKind, cells, out int built, out int spent, out string reason);
+            message = ok ? $"{TerrainWorkTransactions.NameOf(workKind)} {built}칸 완성 · {spent:N0}골드 사용 · 환불 불가" : reason;
+            if (ok) picked.Clear();
+            preparation.CancelQuote();
+            PreparationPanel.RefreshSummary(source, context, preparation);
+            Render();
         }
 
         void Buy()

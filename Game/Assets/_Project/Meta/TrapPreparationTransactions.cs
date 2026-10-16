@@ -54,6 +54,32 @@ namespace HumanLastRampart.Meta
                 campaign.TrapShopRestockedForBattle = campaign.BattleNumber;
             }
         }
+        // 무작위 지형 + 지형 손질 (D-077, K-049). 손질 목록이 바뀌면(새 목록으로 갈아 끼운다) 다시 만든다
+        TerrainLayout layout;
+        List<TerrainWork> layoutSource;
+        int layoutCount = -1;
+        public TerrainLayout Layout
+        {
+            get
+            {
+                if (terrain == null) return null;
+                if (campaign.TerrainWorks == null) campaign.TerrainWorks = new List<TerrainWork>();
+                if (layout == null || !ReferenceEquals(layoutSource, campaign.TerrainWorks) || layoutCount != campaign.TerrainWorks.Count)
+                {
+                    layout = TerrainGenerator.Generate(terrain, campaign.RngSeed, campaign.TerrainWorks);
+                    layoutSource = campaign.TerrainWorks;
+                    layoutCount = campaign.TerrainWorks.Count;
+                }
+
+                return layout;
+            }
+        }
+
+        // 함정을 놓을 수 있는 칸 (격자 범위·정의 언덕 + 무작위 지형·지형 손질)
+        public bool IsPlaceable(string cellId) => terrain != null && TrapGrid.IsPlaceable(terrain, Layout, cellId);
+        public CampaignState Campaign => campaign;
+        public bool IsClosed => closed;
+
         public void Close() { closed = true; active = null; }
         public void CancelQuote() { active = null; }
         public int ShopCount(string id) => campaign.TrapShop.Find(e => e.TrapDefId == id)?.Count ?? 0;
@@ -69,7 +95,7 @@ namespace HumanLastRampart.Meta
             if (!HasNextBattle) { reason = "다음 전투가 없습니다"; return false; }
             var def = definitions.Get<TrapDef>(definitionId);
             if (def == null) { reason = "함정 정의가 없습니다"; dataError = true; return false; }
-            if (!TrapGrid.IsPlaceable(terrain, cellId)) { reason = "설치할 수 없는 칸입니다"; return false; }
+            if (!IsPlaceable(cellId)) { reason = "설치할 수 없는 칸입니다"; return false; }
             if (Occupied(cellId)) { reason = "이미 함정이 설치된 칸입니다"; return false; }
             if ((fromStorage ? StoredCount(def.Id) : ShopCount(def.Id)) < 1)
             { reason = fromStorage ? "보관 중인 함정이 없습니다" : "상점 재고가 없습니다"; return false; }
@@ -118,7 +144,7 @@ namespace HumanLastRampart.Meta
             foreach (string id in cellIds)
             {
                 if (!seen.Add(id)) { reason = "같은 칸을 두 번 골랐습니다"; return false; }
-                if (!TrapGrid.IsPlaceable(terrain, id)) { reason = "설치할 수 없는 칸이 섞여 있습니다"; return false; }
+                if (!IsPlaceable(id)) { reason = "설치할 수 없는 칸이 섞여 있습니다"; return false; }
                 if (Occupied(id)) { reason = "이미 함정이 설치된 칸이 섞여 있습니다"; return false; }
             }
             int have = fromStorage ? StoredCount(def.Id) : ShopCount(def.Id);
@@ -204,6 +230,7 @@ namespace HumanLastRampart.Meta
             foreach (var list in new[] { campaign.TrapShop, campaign.TrapStock }) { add(list.Count); foreach (var e in list) { add(e.TrapDefId); add(e.Count); } }
             add(campaign.Traps.Count);
             foreach (var e in campaign.Traps) { add(e.TrapId); add(e.TrapDefId); add(e.TerrainId); add(e.SlotId); add(e.ActualX); add(e.ActualZ); add(e.Marked); add(e.MarkX); add(e.MarkZ); }
+            if (campaign.TerrainWorks != null) { add(campaign.TerrainWorks.Count); foreach (var w in campaign.TerrainWorks) if (w != null) { add(w.TerrainId); add(w.CellId); add((int)w.Kind); } }   // 지형 손질 (K-049)
             foreach (var def in definitions.All<TrapDef>()) { add(def.Id); add(def.Price); add(def.ShopStockStart); add(def.ShopStockPerPrep); add(def.ShopStockMax); }
             if (terrain != null) { add(terrain.Id); add(terrain.CastleHalfSize); add(terrain.TrapCellSize); add(terrain.TrapNear); add(terrain.TrapFar); add(terrain.FieldSize); foreach (var h in terrain.Hills) { add(h.x); add(h.y); add(h.z); } }
             return b.ToString();

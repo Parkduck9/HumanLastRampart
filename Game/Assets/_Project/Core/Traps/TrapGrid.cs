@@ -57,6 +57,10 @@ namespace HumanLastRampart.Core.Traps
         public static bool IsPlaceable(TerrainDef terrain, string cellId) =>
             TryParse(cellId, out int side, out int column, out int row) && IsPlaceable(terrain, side, column, row);
 
+        // 무작위 지형·지형 손질까지 보고 (D-077, K-049): 언덕·토벽·나무·바위 칸에는 함정을 놓을 수 없다
+        public static bool IsPlaceable(TerrainDef terrain, TerrainLayout layout, string cellId) =>
+            IsPlaceable(terrain, cellId) && (layout == null || !layout.BlocksTrap(terrain, cellId));
+
         static Vector2 Outward(int side)
         {
             switch (side)

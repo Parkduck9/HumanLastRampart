@@ -81,6 +81,16 @@ namespace HumanLastRampart.App.Data
                 }
             }
 
+            // 무작위 지형·지형 손질 (D-077, K-049): 씨앗과 이 지형의 손질만 넘긴다 — 전투가 같은 규칙으로 지형을 다시 만든다
+            setup.TerrainSeed = campaign.RngSeed;
+            if (campaign.TerrainWorks != null)
+            {
+                foreach (TerrainWork work in campaign.TerrainWorks)
+                {
+                    if (work != null && work.TerrainId == setup.TerrainId) setup.TerrainWorks.Add(work.Clone());
+                }
+            }
+
             return setup;
         }
 
