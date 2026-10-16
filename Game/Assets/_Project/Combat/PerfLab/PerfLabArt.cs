@@ -47,6 +47,23 @@ namespace HumanLastRampart.Combat.PerfLab
         public static readonly SheetLayout HeroPlaceholderLayout = SheetLayout.Make(4, HeroRows, 0.5f, 0f, 1f);
         public static readonly SheetLayout ArrowLayout = SheetLayout.Make(1, 1, 0.5f, 0.5f, 0.35f);
 
+        // 동작 그림 칸 구간 (K-032): 한 개체 버퍼를 시트마다 한 번씩 그리고, 셰이더 _FrameWindow가 자기 구간 칸만 남긴다.
+        // 프레임 번호 = 구간 시작 + 그 시트 안 칸 번호. 0~15는 원래 시트(걷기·공격·주인공 4×4)
+        public const int PoseWindow = 16;
+        public const int AttackFrame0 = 16;   // 적 공격 시트 (원래 시트에 공격 행이 없을 때)
+        public const int DeployFrame0 = 32;   // 사다리 세우기
+        public const int ClimbFrame0 = 48;    // 사다리 오르기
+        public const int FireFrame0 = 64;     // 병사 사격
+        public const int FallFrame0 = 96;     // 쓰러짐 — 지도 점은 이 앞까지만 (죽어 가는 개체는 점으로 안 그림)
+        public static Vector4 Window(int start, int count = PoseWindow) => new Vector4(start, start + count, 0f, 0f);
+
+        // 투사체 1칸 256×128, 가운데 (128, 64) 기준, 오른쪽(+X)을 본다 (Codex K-016)
+        public static SheetLayout ProjectileLayout(Texture sheet) => SheetLayout.Make(1, 1, 0.5f, 0.5f, (float)sheet.width / Mathf.Max(1, sheet.height));
+
+        // 사다리 소품 1칸 256×1536, 아래 (128, 1472). 실체 1152px = 4.3m → 칸 전체 높이(m)
+        public static readonly SheetLayout LadderLayout = SheetLayout.Make(1, 1, 0.5f, (1536f - 1472f) / 1536f, 256f / 1536f);
+        public const float LadderDrawSize = 1536f / 1152f * 4.3f;
+
         // 발이 원점, 높이 1인 사각형. 가로·발 위치·크기는 셰이더가 정한다.
         public static Mesh CreateQuad()
         {

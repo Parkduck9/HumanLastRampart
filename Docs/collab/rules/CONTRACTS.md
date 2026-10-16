@@ -1275,3 +1275,10 @@ public interface IScreenContext
 - **연습 시작 방법 제안(Codex 튜토리얼 화면 → App):** 지금은 IsPractice=true를 만드는 길이 없다. 제안: 스토리(인수인계) 화면이 끝날 때 '연습으로'를 알리면 App이 `BattleSetupFactory.Create` 뒤 `IsPractice = true`로 전투를 연다. 신호 방법 후보 ① `ScreenOutcome`에 연습 시작 값 추가(C-003 개정) ② `StoryRequest`/스토리 정의에 '끝나면 연습' 표시. 연습 건너뛰기는 그냥 실전 준비로. CampaignState에 새 저장 필드는 만들지 않는다(PROPOSAL 원칙)
 - **전투 화면 안내(Combat·UI):** 연습 표시 문구·성벽 피격 연출 유지 여부는 별도 제안
 - 확인: 편집 시험 `Combat/Tests/BattlePracticeTests`(실전은 깎임·연습은 그대로·순서표). 합칠 때 실행 예정
+
+## C-010 v1.8 초안 — 동작 그림·투사체 그림 (K-032 미리 연결, 사용자 검토 전)
+- 상태: **초안** (2026-10-16, 작업 카드 K-032, 작성 Claude · Core 소유 Claude). 모두 선택 필드(없으면 null = 예전 그림 그대로). 기존 필드·값·의미 변경 없음. Meta·UI는 읽지 않아도 된다
+- `UnitDef` 추가: `fireSheet`(쏠 때 뒷모습 6칸, 4번째 칸 = 놓기) · `deathSheet`(쓰러짐 4칸) · `castSheet`(마법사 시전 4칸) · `commandSheet`(주인공 명령 손짓 3칸, 휠 메뉴를 여는 동안) · `projectileSheet`(투사체 1칸 256×128, 가운데 기준, 오른쪽 +X를 봄 — 그 병종 무기의 투사체를 날아가는 방향으로 돌려 그린다)
+- `EnemyDef` 추가: `attackSheet`(성벽 공격·성벽 위 싸움 4칸, sheet에 공격 행이 없을 때) · `deathSheet`(쓰러짐 4칸) · `deploySheet`(사다리 세우기 4칸) · `climbSheet`(사다리 오르기 4칸) · `ladderSheet`(사다리 소품 1칸 256×1536, 아래 128·1472, 실체 1152px = 4.3m)
+- 인물 시트 공통: 칸 256×384, 발 128·352 (기존 규칙과 같음). 그림 크기로 칸 수를 센다
+- 그리기 규칙(Combat 내부, 계약 밖): 쓰러짐은 0.7초(4칸 0.5초 + 마지막 칸) 뒤 사라짐. 사격은 쏜 순간 = 놓기 칸. 세우기는 오르기 첫 0.5m. 칸 번호 구간은 `PerfLabArt.*Frame0`, 셰이더 `_FrameWindow`

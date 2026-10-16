@@ -24,6 +24,11 @@ Shader "HLR/PerfLabSprite"
         _MinWorldSize ("Map dot minimum size (world)", Float) = 0
         // 성벽 그림처럼 카메라를 따라 돌지 않고 정해진 방향으로 선 판 (w=1이면 xyz = 판의 오른쪽 방향)
         _FixedRight ("Fixed right axis (w=1 on)", Vector) = (1, 0, 0, 0)
+        // 동작 그림 칸 구간 (K-032): 프레임 번호가 [x, y) 안인 개체만 그리고, 시트 칸 = 번호 − x. 기본은 전부
+        _FrameWindow ("Frame window (start, end)", Vector) = (0, 100000, 0, 0)
+        // 투사체 (K-032): 0 보통, 1 색을 _ShotColor로, 2 색을 _ShotColor로 + 개체 색 칸(rgb)을 날아가는 방향으로 보고 판을 돌린다
+        _ShotMode ("Shot mode", Float) = 0
+        _ShotColor ("Shot color", Color) = (1, 1, 1, 1)
     }
 
     SubShader
@@ -55,6 +60,9 @@ Shader "HLR/PerfLabSprite"
         float _MinWorldSize;
         float4 _FixedRight;
         float _SpriteLit;   // 전역: 1이면 빛을 받는다 (BattleLook)
+        float4 _FrameWindow;
+        float _ShotMode;
+        float4 _ShotColor;
 
         struct Attributes
         {
@@ -63,17 +71,42 @@ Shader "HLR/PerfLabSprite"
             uint instanceID : SV_InstanceID;
         };
 
+        // 프레임 번호가 음수면 좌우 뒤집기: 실제 번호 = -w - 1 (주인공 오른쪽 보기 등)
+        float RawFrame(PerfLabInstance data)
+        {
+            return data.posFrame.w < 0.0 ? -data.posFrame.w - 1.0 : data.posFrame.w;
+        }
+
+        // 이 그리기(시트)의 칸 구간 안인가 (K-032)
+        bool InWindow(PerfLabInstance data)
+        {
+            float frame = RawFrame(data);
+            return frame > _FrameWindow.x - 0.5 && frame < _FrameWindow.y - 0.5;
+        }
+
         // 판 한 꼭짓점: 월드 위치, 시트 UV, 판의 오른쪽 방향(뒤집기 반영)
         void Billboard(Attributes input, float3 right, out float3 world, out float2 uv, out float3 faceRight)
         {
             PerfLabInstance data = _Instances[input.instanceID];
             float size = data.tintSize.a;
-            // 프레임 번호가 음수면 좌우 뒤집기: 실제 번호 = -w - 1 (주인공 오른쪽 보기 등)
             bool flip = data.posFrame.w < 0.0;
-            float frame = flip ? -data.posFrame.w - 1.0 : data.posFrame.w;
+            float frame = max(RawFrame(data) - _FrameWindow.x, 0.0);
             float pivotX = flip ? 1.0 - _Pivot.x : _Pivot.x;
             float localX = (input.positionOS.x + 0.5 - pivotX) * _Aspect * size;
             float localY = (input.positionOS.y - _Pivot.y) * size;
+            if (_ShotMode > 1.5)
+            {
+                // 투사체: 날아가는 방향(개체 색 칸)을 판 위 (오른쪽, 위)로 옮겨 그 각도만큼 기준점 둘레로 돌린다. 그림은 +X를 본다
+                float3 direction = data.tintSize.rgb;
+                float2 d = float2(dot(direction, right), direction.y);
+                float len = length(d);
+                d = len > 1e-4 ? d / len : float2(1.0, 0.0);
+                float rotatedX = localX * d.x - localY * d.y;
+                float rotatedY = localX * d.y + localY * d.x;
+                localX = rotatedX;
+                localY = rotatedY;
+            }
+
             world = data.posFrame.xyz + right * localX + float3(0.0, localY, 0.0);
 
             float columns = max(_Grid.x, 1.0);
@@ -140,6 +173,11 @@ Shader "HLR/PerfLabSprite"
                 PerfLabInstance data = _Instances[input.instanceID];
                 float size = data.tintSize.a;
                 Varyings output = (Varyings)0;
+                if (!InWindow(data))
+                {
+                    output.positionCS = float4(0.0, 0.0, -2.0, 1.0);   // 다른 시트 구간 칸 (잘려 나감)
+                    return output;
+                }
 
                 if (_MapMode > 0.5)
                 {
@@ -161,7 +199,7 @@ Shader "HLR/PerfLabSprite"
                 output.positionCS = TransformWorldToHClip(world);
                 output.positionWS = world;
                 output.uv = uv;
-                output.tint = (half3)data.tintSize.rgb;
+                output.tint = _ShotMode > 0.5 ? (half3)_ShotColor.rgb : (half3)data.tintSize.rgb;
                 output.faceRight = faceRight;
                 output.faceNormal = normalize(cross(camRight, float3(0.0, 1.0, 0.0)));   // 오른쪽 × 위 = 카메라 쪽
                 output.shadowCoord = TransformWorldToShadowCoord(data.posFrame.xyz + float3(0.0, 0.25 * size, 0.0));
@@ -243,7 +281,7 @@ Shader "HLR/PerfLabSprite"
             {
                 ShadowVaryings output = (ShadowVaryings)0;
                 PerfLabInstance data = _Instances[input.instanceID];
-                if (_MapMode > 0.5 || data.tintSize.a <= 0.0 || _SpriteLit < 0.5)
+                if (_MapMode > 0.5 || data.tintSize.a <= 0.0 || _SpriteLit < 0.5 || !InWindow(data))
                 {
                     output.positionCS = float4(0.0, 0.0, -2.0, 1.0);   // 그림자 없음 (잘려 나감)
                     return output;

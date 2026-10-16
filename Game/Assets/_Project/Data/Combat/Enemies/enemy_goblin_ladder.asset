@@ -21,3 +21,6 @@ MonoBehaviour:
   onWallAttack: 5
   carriesLadder: 1
   sheet: {fileID: 2800000, guid: 27d178a3bbd3436a8694084ceb39abef, type: 3}
+  deploySheet: {fileID: 2800000, guid: 8f2fc603cafa4878892af63745ccd017, type: 3}
+  climbSheet: {fileID: 2800000, guid: 41d0da7f932044bc9f35a3afb4835b28, type: 3}
+  ladderSheet: {fileID: 2800000, guid: 601d893506ea42f8a2d813e68e5c4a36, type: 3}

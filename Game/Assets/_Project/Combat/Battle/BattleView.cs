@@ -21,6 +21,9 @@ namespace HumanLastRampart.Combat.Battle
         static readonly int MinWorldSizeId = Shader.PropertyToID("_MinWorldSize");
         static readonly int NormalTexId = Shader.PropertyToID("_NormalTex");
         static readonly int HasNormalId = Shader.PropertyToID("_HasNormal");
+        static readonly int FrameWindowId = Shader.PropertyToID("_FrameWindow");
+        static readonly int ShotModeId = Shader.PropertyToID("_ShotMode");
+        static readonly int ShotColorId = Shader.PropertyToID("_ShotColor");
 
         // 2번 지도 모드 점 색 (BattleMap.md 2장)
         static readonly Color MapEnemyColor = new Color(1f, 0.72f, 0.2f, 1f);
@@ -59,7 +62,6 @@ namespace HumanLastRampart.Combat.Battle
         readonly BattleEffectsView effectArt;   // 마법·함정 폭발, 불바다, 맞음 불꽃, 횃불 불꽃 그림 (K-015)
         HumanLastRampart.Combat.Render.BattleLook look;   // 화면 효과 (빛번짐·색 보정·미니어처 흐림)
         readonly GraphicsBuffer shotBuffer;
-        readonly MaterialPropertyBlock shotBlock;
         // 주인공 (성벽 위 한 명). 시트가 없으면 임시 그림 — 같은 4행 순서 (PerfLabArt.HeroLayout)
         readonly GraphicsBuffer heroBuffer;
         readonly MaterialPropertyBlock heroBlock;
@@ -71,6 +73,19 @@ namespace HumanLastRampart.Combat.Battle
         readonly GraphicsBuffer wizardBuffer;          // 마법사 (D-058) — 그림이 있을 때만
         readonly MaterialPropertyBlock wizardBlock;
         readonly PerfLabInstance[] wizardInstance = new PerfLabInstance[1];
+        // 동작 그림 (K-032 미리 연결, 사용자 검토 전): 같은 개체 버퍼를 시트마다 한 번 더 그린다 (_FrameWindow 구간)
+        readonly List<(MaterialPropertyBlock block, int count)> enemyPoseDraws = new List<(MaterialPropertyBlock, int)>();
+        readonly List<(MaterialPropertyBlock block, int count)> soldierPoseDraws = new List<(MaterialPropertyBlock, int)>();
+        readonly List<(GraphicsBuffer buffer, MaterialPropertyBlock block, int start, int count)> ladderDraws =
+            new List<(GraphicsBuffer, MaterialPropertyBlock, int, int)>();
+        // 투사체: 무기마다 한 번 (프레임 번호 = 무기 번호). art = 투사체 그림을 날아가는 방향으로 돌림, 아니면 예전 막대
+        readonly List<(MaterialPropertyBlock block, bool art, bool area)> shotDraws = new List<(MaterialPropertyBlock, bool, bool)>();
+        MaterialPropertyBlock wizardCastBlock;          // 시전 4칸 (마법이 나간 뒤 CastSeconds 동안)
+        int wizardCastFrames;
+        const float WizardCastFps = 6f;
+        const float WizardCastSeconds = 1f;
+        MaterialPropertyBlock heroCommandBlock;          // 명령 손짓 3칸 (휠 메뉴, SetHeroCommandArt)
+        int heroCommandFrame = -1;
         readonly Renderer[] walls = new Renderer[4];
         Light sunLight;
         Transform[] pileBlocks;          // 시체 더미 칸마다 상자 (높이가 생기면 만든다)
@@ -109,12 +124,31 @@ namespace HumanLastRampart.Combat.Battle
 
                 var buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, Mathf.Max(1, count), PerfLabInstance.Stride);
                 block.SetBuffer(InstancesId, buffer);
+                block.SetVector(FrameWindowId, PerfLabArt.Window(0));
                 enemyDraws.Add((buffer, block, start, count));
+                if (def.Sheet != null)
+                {
+                    // 공격·세우기·오르기·쓰러짐 시트 (K-032). 칸 번호 구간은 WriteBattleEnemyInstancesJob
+                    AddPose(enemyPoseDraws, buffer, count, def.AttackSheet, PerfLabArt.AttackFrame0);
+                    AddPose(enemyPoseDraws, buffer, count, def.DeploySheet, PerfLabArt.DeployFrame0);
+                    AddPose(enemyPoseDraws, buffer, count, def.ClimbSheet, PerfLabArt.ClimbFrame0);
+                    AddPose(enemyPoseDraws, buffer, count, def.DeathSheet, PerfLabArt.FallFrame0);
+                }
+
+                if (def.CarriesLadder && def.LadderSheet != null && count > 0)
+                {
+                    var ladderBlock = new MaterialPropertyBlock();
+                    Apply(ladderBlock, def.LadderSheet, PerfLabArt.LadderLayout);
+                    var ladderBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, PerfLabInstance.Stride);
+                    ladderBlock.SetBuffer(InstancesId, ladderBuffer);
+                    ladderDraws.Add((ladderBuffer, ladderBlock, start, count));
+                }
 
                 var mapBlock = new MaterialPropertyBlock();
                 mapBlock.SetTexture(MainTexId, dotTexture);
                 mapBlock.SetColor(MapColorId, def.IsSpecial ? MapSpecialColor : MapEnemyColor);
                 mapBlock.SetBuffer(InstancesId, buffer);
+                mapBlock.SetVector(FrameWindowId, PerfLabArt.Window(0, PerfLabArt.FallFrame0));   // 쓰러지는 적은 점으로 안 그림
                 mapEnemyDraws.Add((mapBlock, start, count, def.IsSpecial));
             }
 
@@ -131,7 +165,14 @@ namespace HumanLastRampart.Combat.Battle
                 else Apply(block, placeholderSheet, PerfLabArt.PlaceholderLayout);
                 var buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, PerfLabInstance.Stride);
                 block.SetBuffer(InstancesId, buffer);
+                block.SetVector(FrameWindowId, PerfLabArt.Window(0));
                 soldierDraws.Add((buffer, block, start, count));
+                if (unit != null && unit.Sheet != null)
+                {
+                    // 사격·쓰러짐 시트 (K-032). 칸 번호 구간은 BattleSim.SoldierPose
+                    AddPose(soldierPoseDraws, buffer, count, unit.FireSheet, PerfLabArt.FireFrame0);
+                    AddPose(soldierPoseDraws, buffer, count, unit.DeathSheet, PerfLabArt.FallFrame0);
+                }
 
                 if (unit != null && unit.RunSheet != null)
                 {
@@ -152,6 +193,7 @@ namespace HumanLastRampart.Combat.Battle
             mapSoldierBlock.SetTexture(MainTexId, dotTexture);
             mapSoldierBlock.SetColor(MapColorId, MapSoldierColor);
             mapSoldierBlock.SetBuffer(InstancesId, soldierBuffer);
+            mapSoldierBlock.SetVector(FrameWindowId, PerfLabArt.Window(0, PerfLabArt.FallFrame0));   // 쓰러지는 병사는 점으로 안 그림
             markerBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, MarkerCapacity, PerfLabInstance.Stride);
             markers = new NativeArray<PerfLabInstance>(MarkerCapacity, Allocator.Persistent);
             markerBlock = new MaterialPropertyBlock();
@@ -160,10 +202,20 @@ namespace HumanLastRampart.Combat.Battle
             markerBlock.SetFloat(MinWorldSizeId, 0f);
             markerBlock.SetBuffer(InstancesId, markerBuffer);
 
-            shotBlock = new MaterialPropertyBlock();
-            Apply(shotBlock, shotTexture, PerfLabArt.ArrowLayout);
             shotBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, sim.ShotCapacity, PerfLabInstance.Stride);
-            shotBlock.SetBuffer(InstancesId, shotBuffer);
+            // 무기마다 한 번: 그 무기를 든 병종의 투사체 그림(K-032)을 날아가는 방향으로, 없으면 예전 막대
+            for (int w = 0; w < sim.WeaponUnits.Count; w++)
+            {
+                UnitDef unit = sim.WeaponUnits[w];
+                var block = new MaterialPropertyBlock();
+                bool art = unit != null && unit.ProjectileSheet != null;
+                if (art) Apply(block, unit.ProjectileSheet, PerfLabArt.ProjectileLayout(unit.ProjectileSheet));
+                else Apply(block, shotTexture, PerfLabArt.ArrowLayout);
+                block.SetFloat(ShotModeId, art ? 2f : 1f);
+                block.SetVector(FrameWindowId, PerfLabArt.Window(w, 1));
+                block.SetBuffer(InstancesId, shotBuffer);
+                shotDraws.Add((block, art, sim.WeaponIsArea(w)));
+            }
 
             heroBlock = new MaterialPropertyBlock();
             if (heroSheet != null)
@@ -191,6 +243,14 @@ namespace HumanLastRampart.Combat.Battle
                 Apply(wizardBlock, sim.WizardUnit.Sheet, PerfLabArt.FromSheet(sim.WizardUnit.Sheet), sim.WizardUnit.NormalSheet);   // 정적 뒷모습 1×1
                 wizardBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, 1, PerfLabInstance.Stride);
                 wizardBlock.SetBuffer(InstancesId, wizardBuffer);
+                if (sim.WizardUnit.CastSheet != null)
+                {
+                    // 시전 뒷모습 4칸 (K-032). 노멀맵은 정적 그림 짝뿐이라 붙이지 않는다
+                    wizardCastBlock = new MaterialPropertyBlock();
+                    Apply(wizardCastBlock, sim.WizardUnit.CastSheet, PerfLabArt.FromSheet(sim.WizardUnit.CastSheet));
+                    wizardCastBlock.SetBuffer(InstancesId, wizardBuffer);
+                    wizardCastFrames = PerfLabArt.FrameCount(sim.WizardUnit.CastSheet);
+                }
             }
 
             root = new GameObject("Battlefield");
@@ -212,6 +272,28 @@ namespace HumanLastRampart.Combat.Battle
             if (normal != null) block.SetTexture(NormalTexId, normal);
             block.SetFloat(HasNormalId, normal != null ? 1f : 0f);
         }
+
+        // 동작 시트 하나 (K-032): 같은 버퍼를 frame0부터 16칸 구간만 그 시트로 그린다. 시트가 없으면 아무것도 안 함
+        static void AddPose(List<(MaterialPropertyBlock block, int count)> draws, GraphicsBuffer buffer, int count, Texture2D sheet, int frame0)
+        {
+            if (sheet == null || count <= 0) return;
+            var block = new MaterialPropertyBlock();
+            Apply(block, sheet, PerfLabArt.FromSheet(sheet));
+            block.SetVector(FrameWindowId, PerfLabArt.Window(frame0));
+            block.SetBuffer(InstancesId, buffer);
+            draws.Add((block, count));
+        }
+
+        // 주인공 명령 손짓 (K-032): 휠 메뉴를 열 때 SetHero의 command 칸으로 그린다. 시트가 없으면 예전 그대로
+        public void SetHeroCommandArt(Texture2D sheet, Texture2D normal = null)
+        {
+            if (sheet == null) return;
+            heroCommandBlock = new MaterialPropertyBlock();
+            Apply(heroCommandBlock, sheet, PerfLabArt.FromSheet(sheet), normal);
+            heroCommandBlock.SetBuffer(InstancesId, heroBuffer);
+        }
+
+        public bool HasHeroCommandArt => heroCommandBlock != null;
 
         void BuildEnvironment()
         {
@@ -277,11 +359,19 @@ namespace HumanLastRampart.Combat.Battle
         // 주인공 한 명 (성벽 위). frame = 시트 칸 번호(행×4+열), flip이면 좌우 뒤집기
         public const float HeroDrawSize = 1.5f * BattleSim.WallFigureScale;   // 병사(1.4×0.25)보다 조금 크게
 
-        public void SetHero(Vector3 feet, int frame, bool flip, bool visible, bool idle = false)
+        // command = 명령 손짓 칸 (0 이상이면 손짓 시트로, 뒤집지 않음 — K-032)
+        public void SetHero(Vector3 feet, int frame, bool flip, bool visible, bool idle = false, int command = -1)
         {
             heroVisible = visible;
-            heroIdle = idle && heroIdleBlock != null;
+            heroCommandFrame = heroCommandBlock != null ? command : -1;
+            heroIdle = idle && heroIdleBlock != null && heroCommandFrame < 0;
             if (heroIdle) frame = 0;
+            if (heroCommandFrame >= 0)
+            {
+                frame = heroCommandFrame;
+                flip = false;
+            }
+
             float shade = sim.Brightness;
             heroInstance[0] = new PerfLabInstance
             {
@@ -308,6 +398,18 @@ namespace HumanLastRampart.Combat.Battle
                 if (!mapMode) Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, count, block);
             }
 
+            if (!mapMode)
+            {
+                // 공격·세우기·오르기·쓰러짐 (K-032) — 위에서 올린 같은 버퍼
+                foreach (var (block, count) in enemyPoseDraws)
+                    Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, count, block);
+                foreach (var (buffer, block, start, count) in ladderDraws)
+                {
+                    buffer.SetData(sim.LadderInstances, start, 0, count);
+                    Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, count, block);
+                }
+            }
+
             if (mapMode)
             {
                 foreach (var (block, _, count, special) in mapEnemyDraws)
@@ -318,6 +420,7 @@ namespace HumanLastRampart.Combat.Battle
                 }
             }
 
+            if (sim.HasSoldierPoseArt) sim.SoldiersDirty = true;   // 사격·쓰러짐 칸은 매 프레임 바뀐다 (K-032)
             if (sim.SoldiersDirty)
             {
                 sim.RefreshSoldierInstances();
@@ -341,6 +444,8 @@ namespace HumanLastRampart.Combat.Battle
                 {
                     foreach (var (_, block, _, count) in soldierDraws)
                         Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, count, block);
+                    foreach (var (block, count) in soldierPoseDraws)
+                        Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, count, block);
                     foreach (var (_, block, _, count) in runnerDraws)
                         Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, count, block);
                 }
@@ -350,24 +455,38 @@ namespace HumanLastRampart.Combat.Battle
             {
                 props.Draw();
                 shotBuffer.SetData(sim.ShotInstances);
-                Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, sim.ShotCapacity, shotBlock);
+                float shotShade = sim.Brightness;
+                foreach (var (block, art, area) in shotDraws)
+                {
+                    // 그림은 흰색 × 밝기, 예전 막대는 화살·총알 연노랑 × 밝기, 대포알 어두운 회색
+                    Color color = art ? new Color(shotShade, shotShade, shotShade, 1f)
+                        : area ? new Color(0.15f, 0.15f, 0.15f, 1f) : new Color(0.95f * shotShade, 0.9f * shotShade, 0.75f * shotShade, 1f);
+                    block.SetColor(ShotColorId, color);
+                    Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, sim.ShotCapacity, block);
+                }
+
                 if (heroVisible)
                 {
                     heroBuffer.SetData(heroInstance);
-                    Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, 1, heroIdle ? heroIdleBlock : heroBlock);
+                    MaterialPropertyBlock heroDraw = heroCommandFrame >= 0 ? heroCommandBlock : heroIdle ? heroIdleBlock : heroBlock;
+                    Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, 1, heroDraw);
                 }
 
                 if (wizardBuffer != null)
                 {
                     Vector3 feet = sim.WizardFeet;
                     float shade = sim.Brightness;
+                    // 마법이 나간 직후 시전 4칸, 마지막 칸 유지 (K-032)
+                    float castAge = sim.WizardCastAge;
+                    bool casting = wizardCastBlock != null && castAge >= 0f && castAge < WizardCastSeconds;
+                    float wizardFrame = casting ? Mathf.Min(Mathf.FloorToInt(castAge * WizardCastFps), wizardCastFrames - 1) : 0f;
                     wizardInstance[0] = new PerfLabInstance
                     {
-                        PosFrame = new float4(feet.x, feet.y, feet.z, 0f),
+                        PosFrame = new float4(feet.x, feet.y, feet.z, wizardFrame),
                         TintSize = new float4(shade, shade, shade, HeroDrawSize),   // 주인공과 같은 크기
                     };
                     wizardBuffer.SetData(wizardInstance);
-                    Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, 1, wizardBlock);
+                    Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, 1, casting ? wizardCastBlock : wizardBlock);
                 }
             }
 
@@ -684,6 +803,8 @@ namespace HumanLastRampart.Combat.Battle
             soldierDraws.Clear();
             foreach (var draw in runnerDraws) draw.buffer.Release();
             runnerDraws.Clear();
+            foreach (var draw in ladderDraws) draw.buffer.Release();
+            ladderDraws.Clear();
             runnerBuffer?.Release();
             props?.Dispose();
             world?.Dispose();
