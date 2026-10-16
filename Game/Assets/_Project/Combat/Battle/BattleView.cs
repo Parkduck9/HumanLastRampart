@@ -88,6 +88,13 @@ namespace HumanLastRampart.Combat.Battle
         const float WizardCastSeconds = 1f;
         MaterialPropertyBlock heroCommandBlock;          // 명령 손짓 3칸 (휠 메뉴, SetHeroCommandArt)
         int heroCommandFrame = -1;
+        // 화상 불꽃 (K-035): 불타는 적 몸 위에 작은 횃불 불꽃 (Resources BattleArt/Effects/torch_flame, 6칸 10fps). 없으면 붉은 깜빡임만
+        const int FlameCapacity = 512;
+        const int FlameFrames = 6;
+        const float FlameFps = 10f;
+        readonly GraphicsBuffer flameBuffer;
+        readonly MaterialPropertyBlock flameBlock;
+        readonly PerfLabInstance[] flameInstances;
         readonly Renderer[] walls = new Renderer[4];
         Light sunLight;
         Transform[] pileBlocks;          // 시체 더미 칸마다 상자 (높이가 생기면 만든다)
@@ -105,6 +112,16 @@ namespace HumanLastRampart.Combat.Battle
             quad = PerfLabArt.CreateQuad();
             placeholderSheet = PerfLabArt.CreatePlaceholderSheet();
             shotTexture = PerfLabArt.CreateArrowTexture();
+            var flame = Resources.Load<Texture2D>("BattleArt/Effects/torch_flame");
+            if (flame != null)
+            {
+                flameBlock = new MaterialPropertyBlock();
+                Apply(flameBlock, flame, PerfLabArt.SheetLayout.Make(FlameFrames, 1, 0.5f, 0f, 1f));
+                flameInstances = new PerfLabInstance[FlameCapacity];
+                flameBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, FlameCapacity, PerfLabInstance.Stride);
+                flameBlock.SetBuffer(InstancesId, flameBuffer);
+            }
+
             material = new Material(shader) { name = "BattleSprite (runtime)" };
             mapMaterial = new Material(shader) { name = "BattleMapDots (runtime)" };
             mapMaterial.SetFloat(MapModeId, 1f);
@@ -423,6 +440,17 @@ namespace HumanLastRampart.Combat.Battle
                 {
                     buffer.SetData(sim.LadderInstances, start, 0, count);
                     Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, count, block);
+                }
+
+                // 화상 불꽃 (K-035)
+                if (flameBuffer != null && sim.BurningCount > 0)
+                {
+                    int flames = sim.WriteBurnFlames(flameInstances, Time.time, FlameFrames, FlameFps);
+                    if (flames > 0)
+                    {
+                        flameBuffer.SetData(flameInstances, 0, 0, flames);
+                        Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, flames, flameBlock);
+                    }
                 }
             }
 
@@ -822,6 +850,7 @@ namespace HumanLastRampart.Combat.Battle
             runnerDraws.Clear();
             foreach (var draw in ladderDraws) draw.buffer.Release();
             ladderDraws.Clear();
+            flameBuffer?.Release();
             runnerBuffer?.Release();
             props?.Dispose();
             world?.Dispose();
