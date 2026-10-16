@@ -36,6 +36,10 @@ Shader "HLR/PerfLabSprite"
         _ViewStretch ("Stretch against top-down squash (0/1)", Float) = 0
         // 성벽 바로 아래 적처럼 거의 수직으로 볼 때 지나치게 길어지지 않게
         _MaxViewStretch ("Max stretch", Float) = 1.4
+        // 화면 기준으로 똑바로 선 판 (K-040, 옥토패스식): 1이면 판이 카메라 평면과 평행(오른쪽 = 카메라 오른쪽, 위 = 카메라 위).
+        // 원근 카메라에서도 인물 세로선이 화면에 똑바로 선다. 이때 납작함 보정(_ViewStretch)은 쓰지 않는다(1).
+        // 0이면 예전처럼 월드 위로 선 세로 판. _FixedRight 판·투사체·지도 점은 이 값과 상관없이 예전 방식. 그림자 판은 늘 세로 판
+        _ScreenUpright ("Screen-aligned upright (0/1)", Float) = 1
     }
 
     SubShader
@@ -73,6 +77,7 @@ Shader "HLR/PerfLabSprite"
         float _SheetScale;
         float _ViewStretch;
         float _MaxViewStretch;
+        float _ScreenUpright;
 
         struct Attributes
         {
@@ -111,8 +116,9 @@ Shader "HLR/PerfLabSprite"
             return min(1.0 / max(cosine, 1e-3), max(_MaxViewStretch, 1.0));
         }
 
-        // 판 한 꼭짓점: 월드 위치, 시트 UV, 판의 오른쪽 방향(뒤집기 반영). stretch = 높이만 늘리는 배율 (발 기준)
-        void Billboard(Attributes input, float3 right, float stretch, out float3 world, out float2 uv, out float3 faceRight)
+        // 판 한 꼭짓점: 월드 위치, 시트 UV, 판의 오른쪽 방향(뒤집기 반영). stretch = 높이만 늘리는 배율 (발 기준).
+        // upAxis = 판의 위 방향 (세로 판은 월드 위, 화면 기준 판은 카메라 위 — K-040)
+        void Billboard(Attributes input, float3 right, float3 upAxis, float stretch, out float3 world, out float2 uv, out float3 faceRight)
         {
             PerfLabInstance data = _Instances[input.instanceID];
             float size = DrawSize(data);
@@ -137,7 +143,7 @@ Shader "HLR/PerfLabSprite"
             }
             else
             {
-                world = data.posFrame.xyz + right * localX + float3(0.0, localY, 0.0);
+                world = data.posFrame.xyz + right * localX + upAxis * localY;
             }
 
             float columns = max(_Grid.x, 1.0);
@@ -227,13 +233,27 @@ Shader "HLR/PerfLabSprite"
                 float3 camRight = CameraRight();
                 float3 world; float2 uv; float3 faceRight;
                 size = DrawSize(data);
-                Billboard(input, camRight, ViewStretch(data, size), world, uv, faceRight);
+                // 화면 기준으로 똑바로 (K-040): 카메라 평면과 평행한 판, 발 기준점은 그대로. 납작함 보정은 필요 없다
+                bool upright = _ScreenUpright > 0.5 && _FixedRight.w < 0.5 && _ShotMode < 0.5;
+                float3 upAxis = float3(0.0, 1.0, 0.0);
+                float stretch = ViewStretch(data, size);
+                // 빛 계산 표면 방향: 예전 세로 판의 cross(오른쪽, 위)와 같은 부호(= -V[2])를 지켜 밝기 느낌이 뒤집히지 않게
+                float3 faceNormal = normalize(cross(camRight, float3(0.0, 1.0, 0.0)));
+                if (upright)
+                {
+                    camRight = normalize(UNITY_MATRIX_V[0].xyz);
+                    upAxis = normalize(UNITY_MATRIX_V[1].xyz);
+                    stretch = 1.0;
+                    faceNormal = -normalize(UNITY_MATRIX_V[2].xyz);
+                }
+
+                Billboard(input, camRight, upAxis, stretch, world, uv, faceRight);
                 output.positionCS = TransformWorldToHClip(world);
                 output.positionWS = world;
                 output.uv = uv;
                 output.tint = _ShotMode > 0.5 ? (half3)_ShotColor.rgb : (half3)data.tintSize.rgb;
                 output.faceRight = faceRight;
-                output.faceNormal = normalize(cross(camRight, float3(0.0, 1.0, 0.0)));   // 오른쪽 × 위 = 카메라 쪽
+                output.faceNormal = faceNormal;
                 output.shadowCoord = TransformWorldToShadowCoord(data.posFrame.xyz + float3(0.0, 0.25 * size, 0.0));
                 output.lit = _SpriteLit;
                 return output;
@@ -325,7 +345,7 @@ Shader "HLR/PerfLabSprite"
                 float3 right = dot(flat, flat) > 1e-4 ? normalize(cross(float3(0.0, 1.0, 0.0), flat)) : CameraRight();
                 if (_FixedRight.w > 0.5) right = _FixedRight.xyz;
                 float3 world; float2 uv; float3 faceRight;
-                Billboard(input, right, 1.0, world, uv, faceRight);   // 그림자는 실제 키 그대로 (납작함 보정 없음)
+                Billboard(input, right, float3(0.0, 1.0, 0.0), 1.0, world, uv, faceRight);   // 그림자는 늘 세로 판·실제 키 그대로 (납작함 보정 없음)
                 float3 normal = normalize(cross(right, float3(0.0, 1.0, 0.0)));
                 output.positionCS = TransformWorldToHClip(ApplyShadowBias(world, normal, light));
                 #if UNITY_REVERSED_Z
