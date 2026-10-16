@@ -95,6 +95,7 @@ namespace HumanLastRampart.UI
         readonly GameObject root;
         readonly CanvasGroup input;
         readonly RectTransform panel;
+        readonly Image background;
         GameObject popup;
         Button firstButton;
         bool disposed;
@@ -124,7 +125,7 @@ namespace HumanLastRampart.UI
             input = root.GetComponent<CanvasGroup>();
             SetInput(false);
 
-            var background = Image(root.transform, "Background", UiStyle.Background);
+            background = Image(root.transform, "Background", UiStyle.Background);
             Stretch(background.rectTransform);
             if (storyPresentation)
                 panel = MakeStory(root.transform, title, description, character, speaker);
@@ -173,6 +174,41 @@ namespace HumanLastRampart.UI
         }
 
         public CanvasGroup PanelGroup => panel.GetComponent<CanvasGroup>();
+
+        // K-027 화면 배경 그림 (Art/UI/Resources/ScreenArt/이름). 바탕색 위에 화면을 덮도록(비율 유지, 넘치는 쪽은 잘림) 깐다.
+        // 그림이 없으면 false — 예전 단색 바탕 그대로
+        public bool SetBackdrop(string artName)
+        {
+            var texture = Resources.Load<Texture2D>("ScreenArt/" + artName);
+            if (texture == null) return false;
+            var obj = new GameObject("Backdrop Art", typeof(RectTransform), typeof(CanvasRenderer), typeof(RawImage), typeof(AspectRatioFitter));
+            obj.transform.SetParent(background.transform, false);   // 바탕(0)의 자식 — 마당 층(1)·창보다 뒤
+            var image = obj.GetComponent<RawImage>();
+            image.texture = texture;
+            image.color = Color.white;
+            image.raycastTarget = false;
+            var fit = obj.GetComponent<AspectRatioFitter>();
+            fit.aspectMode = AspectRatioFitter.AspectMode.EnvelopeParent;
+            fit.aspectRatio = (float)texture.width / Mathf.Max(1, texture.height);
+            return true;
+        }
+
+        // 창을 반투명하게 (배경 그림이 비치게). 창 테두리는 선 4개라 반투명이어도 비치지 않는다
+        public void SetPanelAlpha(float alpha)
+        {
+            var image = panel.GetComponent<Image>();
+            if (image == null) return;
+            var color = image.color;
+            image.color = new Color(color.r, color.g, color.b, alpha);
+        }
+
+        // 메인 화면(K-027 배경)용: 창을 왼쪽 제목 여백으로 옮긴다 — 배경 오른쪽의 장교·빛을 가리지 않게
+        public void DockLeft(float width, float height)
+        {
+            panel.anchorMin = panel.anchorMax = panel.pivot = new Vector2(0f, 0.5f);
+            panel.anchoredPosition = new Vector2(110f, 0f);
+            panel.sizeDelta = new Vector2(width, height);
+        }
 
         // 버튼을 보이지 않게 숨기되 누를 수 있는 상태로 둔다 — 마당 상호작용(E)과 시험이 같은 길로 부른다
         public static void HideButton(Button button)

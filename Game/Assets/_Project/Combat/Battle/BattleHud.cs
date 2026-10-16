@@ -66,6 +66,13 @@ namespace HumanLastRampart.Combat.Battle
             walls = NewText(panel.transform, "Walls", 18, TextAnchor.UpperLeft);
             Anchor(walls.rectTransform, new Vector2(0f, 1f), new Vector2(14f, -36f), new Vector2(StatusCompactWidth - 28f, StatusCompactHeight - 42f));
 
+            // K-026 아이콘: 머리 줄 오른쪽(H 안내 앞)에 날씨·밤낮, 간단히 줄은 그림 + 숫자 칸으로 (그림이 없으면 예전 글자 줄)
+            timeIcon = HudStyle.ArtImage(panel.transform, "Time Icon", "Icons/time_day", new Vector2(24f, 24f));
+            weatherIcon = HudStyle.ArtImage(panel.transform, "Weather Icon", "Icons/weather_clear", new Vector2(24f, 24f));
+            if (timeIcon != null) Anchor(timeIcon.rectTransform, new Vector2(1f, 1f), new Vector2(-146f, -9f), new Vector2(24f, 24f), new Vector2(1f, 1f));
+            if (weatherIcon != null) Anchor(weatherIcon.rectTransform, new Vector2(1f, 1f), new Vector2(-176f, -9f), new Vector2(24f, 24f), new Vector2(1f, 1f));
+            BuildCompactRow(panel.transform);
+
             // 조작 안내: 오른쪽 아래 [시험] 버튼(가로 1520부터) 앞에서 줄을 바꾼다
             help = NewText(root.transform, "Help", 18, TextAnchor.LowerLeft);
             help.color = HudStyle.TextDim;
@@ -115,10 +122,12 @@ namespace HumanLastRampart.Combat.Battle
             text.Clear();
             int minutes = (int)(sim.Elapsed / 60f);
             int seconds = (int)(sim.Elapsed % 60f);
+            RefreshStatusIcons(sim);
             if (!statusDetail)
             {
                 // 간단히: 지금 보는 성벽 한 줄 + 처치 수·경과·속도
                 int watched = rig != null && !rig.Overview ? rig.Side : -1;
+                RefreshCompactRow(sim, watched, minutes, seconds, speed, paused);
                 if (watched >= 0)
                 {
                     BattleSim.SideStatus w = sim.Sides[watched];
@@ -179,9 +188,12 @@ namespace HumanLastRampart.Combat.Battle
             float width = statusDetail ? StatusDetailWidth : StatusCompactWidth;
             float height = StatusHeight;
             statusPanel.sizeDelta = new Vector2(width, height);
-            header.rectTransform.sizeDelta = new Vector2(width - 150f, 26f);
+            header.rectTransform.sizeDelta = new Vector2(width - (weatherIcon != null ? 216f : 150f), 26f);
             walls.fontSize = statusDetail ? 17 : 18;
             walls.rectTransform.sizeDelta = new Vector2(width - 28f, height - 42f);
+            // 간단히 + 그림 칸이 있으면 글자 줄은 숨긴다 (글은 계속 만들어 둔다 — 시험 기록이 읽는다)
+            if (compactRow != null) compactRow.SetActive(!statusDetail);
+            walls.enabled = statusDetail || compactRow == null;
             toggleHint.text = statusDetail ? "H 간단히" : "H 자세히";
 
             // 지도의 전체 명령 창은 상태판 바로 아래에 붙인다
@@ -191,6 +203,96 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             nextRefresh = 0f;   // 글자를 바로 새 모양으로
+        }
+
+        // ── K-026 상태판 아이콘 ──
+        static readonly string[] WeatherIconNames = { "weather_clear", "weather_cloudy", "weather_rain", "weather_fog" };   // Weather 순서
+        Image weatherIcon, timeIcon;
+        GameObject compactRow;
+        Text compactSide, compactWall, compactTroops, compactKills, compactGold, compactTime;
+        GameObject compactWallIcon, compactTroopsIcon;
+
+        // 간단히 줄: ▶ 북 | 성벽 그림 1200/1500 | 병력 그림 30/40 | 처치 그림 123/1,000 | 골드 그림 50 | 1:23 ×1
+        void BuildCompactRow(Transform panel)
+        {
+            if (HudStyle.Art("Icons/stat_wall_hp") == null || HudStyle.Art("Icons/stat_troops") == null
+                || HudStyle.Art("Icons/stat_kills") == null || HudStyle.Art("Icons/stat_gold") == null) return;
+
+            compactRow = new GameObject("Compact Row", typeof(RectTransform), typeof(HorizontalLayoutGroup));
+            compactRow.transform.SetParent(panel, false);
+            Anchor((RectTransform)compactRow.transform, new Vector2(0f, 1f), new Vector2(14f, -38f), new Vector2(StatusCompactWidth - 28f, 28f));
+            var layout = compactRow.GetComponent<HorizontalLayoutGroup>();
+            layout.spacing = 6f;
+            layout.childAlignment = TextAnchor.MiddleLeft;
+            layout.childControlWidth = true;
+            layout.childControlHeight = true;
+            layout.childForceExpandWidth = false;
+            layout.childForceExpandHeight = false;
+
+            compactSide = CompactText("Side");
+            compactWallIcon = CompactIcon("Wall Icon", "Icons/stat_wall_hp");
+            compactWall = CompactText("Wall");
+            compactTroopsIcon = CompactIcon("Troops Icon", "Icons/stat_troops");
+            compactTroops = CompactText("Troops");
+            CompactIcon("Kills Icon", "Icons/stat_kills");
+            compactKills = CompactText("Kills");
+            CompactIcon("Gold Icon", "Icons/stat_gold");
+            compactGold = CompactText("Gold");
+            compactTime = CompactText("Time");
+            compactTime.color = HudStyle.TextDim;
+        }
+
+        Text CompactText(string name)
+        {
+            Text t = NewText(compactRow.transform, name, 18, TextAnchor.MiddleLeft);
+            return t;
+        }
+
+        GameObject CompactIcon(string name, string path)
+        {
+            Image icon = HudStyle.ArtImage(compactRow.transform, name, path, new Vector2(24f, 24f));
+            var element = icon.gameObject.AddComponent<LayoutElement>();
+            element.minWidth = element.preferredWidth = 24f;
+            element.minHeight = element.preferredHeight = 24f;
+            return icon.gameObject;
+        }
+
+        void RefreshCompactRow(BattleSim sim, int watched, int minutes, int seconds, int speed, bool paused)
+        {
+            if (compactRow == null) return;
+            bool side = watched >= 0;
+            compactSide.text = side ? "▶ " + SideNames[watched] : "전체 보기";
+            compactWallIcon.SetActive(side);
+            compactWall.gameObject.SetActive(side);
+            compactTroopsIcon.SetActive(side);
+            compactTroops.gameObject.SetActive(side);
+            if (side)
+            {
+                BattleSim.SideStatus w = sim.Sides[watched];
+                compactWall.text = $"{w.WallHp}/{w.WallMaxHp}";
+                compactTroops.text = $"{w.GarrisonAlive}/{w.GarrisonStart}";
+            }
+
+            compactKills.text = sim.Kills.ToString("N0") + "/" + sim.TotalEnemies.ToString("N0");
+            compactGold.text = sim.Gold.ToString("N0");
+            compactTime.text = $"{minutes}:{seconds:00} ×{speed}{(paused ? " (멈춤)" : "")}";
+        }
+
+        void RefreshStatusIcons(BattleSim sim)
+        {
+            if (weatherIcon != null)
+            {
+                int w = (int)sim.CurrentWeather;
+                Sprite sprite = w >= 0 && w < WeatherIconNames.Length ? HudStyle.Art("Icons/" + WeatherIconNames[w]) : null;
+                if (sprite != null) weatherIcon.sprite = sprite;
+            }
+
+            if (timeIcon != null)
+            {
+                bool night = sim.TimeOfDay == HumanLastRampart.Core.CombatContracts.TimeOfDay.Night;
+                Sprite sprite = HudStyle.Art(night ? "Icons/time_night" : "Icons/time_day");
+                if (sprite != null) timeIcon.sprite = sprite;
+            }
         }
 
         public void SetHeader(string line) => header.text = line;
@@ -224,10 +326,12 @@ namespace HumanLastRampart.Combat.Battle
             return image;
         }
 
-        Button NewButton(Transform parent, string label, Action onClick)
+        // map = 지도·전투 준비 창 단추 (K-021 시안: 녹회색 바탕 + 올리브 1px 테두리, 고르면 SetMapButton)
+        Button NewButton(Transform parent, string label, Action onClick, bool map = false)
         {
-            Image image = NewImage(parent, "Button " + label, HudStyle.Button);
-            HudStyle.Border(image, 0.55f);
+            Image image = NewImage(parent, "Button " + label, map ? HudStyle.MapButton : HudStyle.Button);
+            if (map) HudStyle.Border(image, HudStyle.MapButtonEdge, 1f);
+            else HudStyle.Border(image, 0.55f);
             var button = image.gameObject.AddComponent<Button>();
             button.onClick.AddListener(() => onClick());
             Text t = NewText(image.transform, "Label", 24, TextAnchor.MiddleCenter);

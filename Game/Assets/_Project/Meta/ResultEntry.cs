@@ -37,6 +37,9 @@ namespace HumanLastRampart.Meta
                 ? $"{(result.Outcome == BattleOutcome.Victory ? "승리" : "패배")} · 처치 {result.DefeatedEnemyCount:N0} · 골드 +{result.EarnedGold:N0}"
                 : "전투 정보를 처리하지 못했습니다.";
             var view = new ScreenView(transform, $"전투 {result?.BattleNumber} 결과", headline);
+            // K-027: 승리면 버틴 성벽, 패배면 무너진 성벽 배경. 큰 창이 거의 다 덮으므로 창을 조금 비치게
+            if (valid && view.SetBackdrop(result.Outcome == BattleOutcome.Victory ? "victory" : "defeat"))
+                view.SetPanelAlpha(0.88f);
             if (valid)
             {
                 view.SetPanelSize(1600f, 900f);

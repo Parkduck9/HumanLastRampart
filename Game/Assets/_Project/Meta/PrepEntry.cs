@@ -33,7 +33,8 @@ namespace HumanLastRampart.Meta
             // D-076 정비 마당: 창은 위쪽 요약 띠로 올리고, 버튼은 숨겨 둔 채(같은 길로 열림) 마당 장소에서 E로 연다
             view.DockTop(1100f, 330f);
             foreach (Button b in new[] { repair, recruit, trapButton, ready }) ScreenView.HideButton(b);
-            PrepYard yard = PrepYard.Build(view, HeroUnit(context));
+            bool backdrop = view.SetBackdrop("prep");   // K-027 성 안 마당 배경 (있으면 마당의 하늘·성벽 띠 대신)
+            PrepYard yard = PrepYard.Build(view, HeroUnit(context), backdrop);
             yard.AddStation("성벽 수리", 500f, new Color(0.45f, 0.42f, 0.38f), () => repair.onClick.Invoke());
             yard.AddStation("병영 (모집·보충)", 1300f, new Color(0.42f, 0.30f, 0.24f), () => recruit.onClick.Invoke());
             yard.AddStation("함정 공방", 2100f, new Color(0.30f, 0.30f, 0.36f), () => trapButton.onClick.Invoke());
