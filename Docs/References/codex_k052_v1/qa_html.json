@@ -1,0 +1,192 @@
+{
+  "kind": "Node VM 캔버스·DOM 모형 검사. 실제 브라우저 렌더·실재생 검사가 아님.",
+  "passed": 46,
+  "failed": 0,
+  "drawCalls": 228,
+  "checks": [
+    {
+      "name": "스크립트 문법과 초기 내장 그림 로드",
+      "pass": true
+    },
+    {
+      "name": "서버 없는 내장 PNG 13개",
+      "pass": true
+    },
+    {
+      "name": "팔레트 견본 생성",
+      "pass": true
+    },
+    {
+      "name": "외곽선 비교표 생성",
+      "pass": true
+    },
+    {
+      "name": "비교·걷기·점화·전후 초기 그리기",
+      "pass": true
+    },
+    {
+      "name": "이전 칸 1→6 순환",
+      "pass": true
+    },
+    {
+      "name": "다음 칸 6→1 순환",
+      "pass": true
+    },
+    {
+      "name": "칸 이동 시 재생 정지",
+      "pass": true
+    },
+    {
+      "name": "보행 1칸 이동",
+      "pass": true
+    },
+    {
+      "name": "보행 2칸 이동",
+      "pass": true
+    },
+    {
+      "name": "보행 3칸 이동",
+      "pass": true
+    },
+    {
+      "name": "보행 4칸 이동",
+      "pass": true
+    },
+    {
+      "name": "보행 5칸 이동",
+      "pass": true
+    },
+    {
+      "name": "보행 6칸 이동",
+      "pass": true
+    },
+    {
+      "name": "보행 재생 전환",
+      "pass": true
+    },
+    {
+      "name": "자동 보행 다음 칸",
+      "pass": true
+    },
+    {
+      "name": "보행 정지 전환",
+      "pass": true
+    },
+    {
+      "name": "점화 0초의 칸",
+      "pass": true
+    },
+    {
+      "name": "점화 0.166초의 칸",
+      "pass": true
+    },
+    {
+      "name": "점화 0.16666666666666666초의 칸",
+      "pass": true
+    },
+    {
+      "name": "점화 0.3333333333333333초의 칸",
+      "pass": true
+    },
+    {
+      "name": "점화 0.499초의 칸",
+      "pass": true
+    },
+    {
+      "name": "점화 0.5초의 칸",
+      "pass": true
+    },
+    {
+      "name": "점화 0.749초의 칸",
+      "pass": true
+    },
+    {
+      "name": "점화 0.75초의 칸",
+      "pass": true
+    },
+    {
+      "name": "점화 1초의 칸",
+      "pass": true
+    },
+    {
+      "name": "점화 1.5초의 칸",
+      "pass": true
+    },
+    {
+      "name": "점화 0.49초의 상태",
+      "pass": true
+    },
+    {
+      "name": "점화 0.5초의 상태",
+      "pass": true
+    },
+    {
+      "name": "점화 1.49초의 상태",
+      "pass": true
+    },
+    {
+      "name": "점화 1.5초의 상태",
+      "pass": true
+    },
+    {
+      "name": "점화 다음 칸",
+      "pass": true
+    },
+    {
+      "name": "점화 이전 칸",
+      "pass": true
+    },
+    {
+      "name": "점화 재생",
+      "pass": true
+    },
+    {
+      "name": "점화 자동 진행",
+      "pass": true
+    },
+    {
+      "name": "점화 정지",
+      "pass": true
+    },
+    {
+      "name": "비교 배율 1",
+      "pass": true
+    },
+    {
+      "name": "비교 배율 0.7",
+      "pass": true
+    },
+    {
+      "name": "배경 #888478",
+      "pass": true
+    },
+    {
+      "name": "배경 #11151b",
+      "pass": true
+    },
+    {
+      "name": "배경 #23332c",
+      "pass": true
+    },
+    {
+      "name": "고정 시점 그리기",
+      "pass": true
+    },
+    {
+      "name": "접지 표시 끄기",
+      "pass": true
+    },
+    {
+      "name": "불씨 접점 좌표 일치",
+      "pass": true
+    },
+    {
+      "name": "접촉→발사 간격 1초",
+      "pass": true
+    },
+    {
+      "name": "6칸 바퀴 회전은 192/50.5 라디안",
+      "pass": true
+    }
+  ]
+}
