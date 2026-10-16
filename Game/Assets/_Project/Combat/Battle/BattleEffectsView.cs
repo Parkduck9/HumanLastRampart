@@ -30,7 +30,9 @@ namespace HumanLastRampart.Combat.Battle
         const float Fps = 10f;
         const float OneShotSeconds = Frames / Fps;   // 0.6초
 
-        const int BurstCapacity = 16;
+        const int BurstCapacity = 32;                // 함정 폭발 + 대포알 떨어진 자리 (K-036: 16에서 늘림)
+        const float CannonBurstPerRadius = 1.2f;     // 대포알 폭발 판 크기 = 범위 반경 × 1.2 (함정·마법 2배보다 작게)
+        const float CannonBurstMinSize = 1.5f;
         const int FireCapacity = 96;                 // 불바다 조각 전체
         const int HitCapacity = 48;
         const float BurstSizePerRadius = 2f;         // 판 높이 = 반경 × 2 (그림 폭이 칸의 약 90%)
@@ -68,6 +70,7 @@ namespace HumanLastRampart.Combat.Battle
         readonly List<Vector3> pendingNow = new List<Vector3>();
         readonly BattleSim.TrapState[] trapStates;
         readonly float[] shotSizes;                   // 지난 프레임 투사체 그림 크기 (0으로 바뀌면 착지)
+        readonly int[] shotWeapons;                   // 칸마다 날아가던 무기 번호 (대포알 폭발 크기)
         readonly List<Vector3> torchFeet = new List<Vector3>();
         readonly List<Vector3> mountFeet = new List<Vector3>();   // 횃불대 받침 발 (통로 위)
         float torchSize = TorchSize;
@@ -98,7 +101,11 @@ namespace HumanLastRampart.Combat.Battle
 
             trapStates = new BattleSim.TrapState[sim.TrapCount];
             for (int i = 0; i < trapStates.Length; i++) trapStates[i] = sim.GetTrap(i).State;
-            if (hit != null) shotSizes = new float[sim.ShotCapacity];
+            if (hit != null || trap != null)
+            {
+                shotSizes = new float[sim.ShotCapacity];
+                shotWeapons = new int[sim.ShotCapacity];
+            }
 
             bool hasMount = Resources.Load<Texture2D>("BattleArt/Props/torch_mount_off") != null;
             BuildTorchFeet(hasMount);
@@ -266,8 +273,19 @@ namespace HumanLastRampart.Combat.Battle
                 float size = shot.TintSize.w;
                 float before = shotSizes[i];
                 shotSizes[i] = size;
-                if (before <= 0f || size > 0f || before > CannonShotSize) continue;
-                if (hitPlays.Count >= HitCapacity) continue;
+                if (size > 0f) shotWeapons[i] = (int)shot.PosFrame.w;   // 날아가는 동안 칸 번호 = 무기 번호 (K-032)
+                if (before <= 0f || size > 0f) continue;
+
+                // 대포알이 떨어진 자리: 함정 폭발 그림을 범위보다 작게 한 번 (K-036). 땅 높이에서
+                if (before > CannonShotSize)
+                {
+                    if (trap == null || trapPlays.Count >= BurstCapacity) continue;
+                    float radius = sim.WeaponAreaRadius(shotWeapons[i]);
+                    trapPlays.Add((new Vector3(shot.PosFrame.x, 0f, shot.PosFrame.z), Mathf.Max(CannonBurstMinSize, radius * CannonBurstPerRadius), 0f));
+                    continue;
+                }
+
+                if (hit == null || hitPlays.Count >= HitCapacity) continue;
                 hitPlays.Add((new Vector3(shot.PosFrame.x, shot.PosFrame.y, shot.PosFrame.z), 0f));
             }
         }
