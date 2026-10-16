@@ -36,6 +36,8 @@ Shader "HLR/PerfLabSprite"
         _ViewStretch ("Stretch against top-down squash (0/1)", Float) = 0
         // 성벽 바로 아래 적처럼 거의 수직으로 볼 때 지나치게 길어지지 않게
         _MaxViewStretch ("Max stretch", Float) = 1.4
+        // 스스로 빛나는 그림 (K-041 불·폭발): 1이면 해·달 빛을 받지 않고 개체 색(1 넘는 밝은 색)을 그대로 — 빛번짐(Bloom)이 걸린다
+        _Emissive ("Self-lit (0/1)", Float) = 0
     }
 
     SubShader
@@ -73,6 +75,7 @@ Shader "HLR/PerfLabSprite"
         float _SheetScale;
         float _ViewStretch;
         float _MaxViewStretch;
+        float _Emissive;
 
         struct Attributes
         {
@@ -173,6 +176,8 @@ Shader "HLR/PerfLabSprite"
             // 추가 조명 (횃불·폭발 빛, D-062 4단계). 포워드 플러스는 6.1부터 _CLUSTER_LIGHT_LOOP (예전 _FORWARD_PLUS)
             #pragma multi_compile _ _ADDITIONAL_LIGHTS
             #pragma multi_compile _ _CLUSTER_LIGHT_LOOP
+            // 안개 (K-041): 예전에는 그림이 안개를 받지 않아 안개 날에도 적이 또렷했다
+            #pragma multi_compile_fog
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 
@@ -186,6 +191,8 @@ Shader "HLR/PerfLabSprite"
                 float3 faceNormal : TEXCOORD4;    // 카메라 쪽 (수평)
                 float lit : TEXCOORD5;            // 0 = 빛 계산 안 함 (지도 점)
                 float3 positionWS : TEXCOORD6;    // 추가 조명 거리 감쇠용 (픽셀마다)
+                float fogFactor : TEXCOORD7;      // 안개 (지도 점은 안 받는다 — fogOn 0)
+                float fogOn : TEXCOORD8;
             };
 
             // 추가 조명 하나: 해·달과 같은 감싸는 빛 × 거리 감쇠. 그림자는 받지 않는다 (주 조명만)
@@ -231,7 +238,9 @@ Shader "HLR/PerfLabSprite"
                 output.faceRight = faceRight;
                 output.faceNormal = normalize(cross(camRight, float3(0.0, 1.0, 0.0)));   // 오른쪽 × 위 = 카메라 쪽
                 output.shadowCoord = TransformWorldToShadowCoord(data.posFrame.xyz + float3(0.0, 0.25 * size, 0.0));
-                output.lit = _SpriteLit;
+                output.lit = _Emissive > 0.5 ? 0.0 : _SpriteLit;   // 스스로 빛나는 그림은 빛 계산 없이 색 그대로 (K-041)
+                output.fogFactor = ComputeFogFactor(output.positionCS.z);
+                output.fogOn = 1.0;
                 return output;
             }
 
@@ -240,7 +249,7 @@ Shader "HLR/PerfLabSprite"
                 half4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv);
                 clip(color.a - _Cutoff);
                 half3 albedo = color.rgb * input.tint;
-                if (input.lit < 0.5) return half4(albedo, 1.0h);
+                if (input.lit < 0.5) return half4(input.fogOn > 0.5 ? MixFog(albedo, input.fogFactor) : albedo, 1.0h);
 
                 // 표면 방향: 노멀맵이 있으면 그 방향, 없으면 카메라 쪽에서 조금 위로 (감싸는 빛)
                 float3 up = float3(0.0, 1.0, 0.0);
@@ -276,7 +285,7 @@ Shader "HLR/PerfLabSprite"
                     LIGHT_LOOP_END
                 #endif
 
-                return half4(albedo * (sun + ambient + extra), 1.0h);
+                return half4(MixFog(albedo * (sun + ambient + extra), input.fogFactor), 1.0h);
             }
             ENDHLSL
         }

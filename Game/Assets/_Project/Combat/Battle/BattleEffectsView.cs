@@ -17,6 +17,8 @@ namespace HumanLastRampart.Combat.Battle
     // - 횃불 불꽃: 밤에 BattleLights와 같은 규칙으로 계산한 횃불 자리에 반복
     // - 지도 모드면 그리지 않는다(상태 추적만). 그림이 없는 종류는 그리지 않는다
     // 같은 PerfLabSprite 셰이더(카메라를 보는 판)로 그리고, 그림자는 내지 않는다
+    // K-041: 불·폭발·불티·횃불은 스스로 빛나는 그림(_Emissive, 1 넘는 밝은 색 → 빛번짐). 마법 폭발은 큰 폭발 + 곁불덩이 + 충격파 고리 + 잔불 + 연기 + 화면 흔들림.
+    //        연기는 폭발·함정·대포알 떨어진 자리·불바다·대포 쏠 때 위로 피어오른다 (포구 연기 그림 재활용 — 전용 연기 그림 필요)
     public sealed class BattleEffectsView : IDisposable
     {
         static readonly int InstancesId = Shader.PropertyToID("_Instances");
@@ -30,11 +32,28 @@ namespace HumanLastRampart.Combat.Battle
         const float Fps = 10f;
         const float OneShotSeconds = Frames / Fps;   // 0.6초
 
-        const int BurstCapacity = 32;                // 함정 폭발 + 대포알 떨어진 자리 (K-036: 16에서 늘림)
+        const int BurstCapacity = 48;                // 함정 폭발 + 대포알 떨어진 자리 + 마법 폭발 곁불덩이 (K-041: 32에서 늘림)
         const float CannonBurstPerRadius = 1.2f;     // 대포알 폭발 판 크기 = 범위 반경 × 1.2 (함정·마법 2배보다 작게)
         const float CannonBurstMinSize = 1.5f;
-        const int FireCapacity = 96;                 // 불바다 조각 전체
-        const int HitCapacity = 48;
+        const int FireCapacity = 160;                // 불바다 조각 + 마법 폭발 잔불 (K-041: 96에서 늘림)
+        const int HitCapacity = 160;                 // 맞음 불꽃 + 마법 폭발 충격파 고리 불티 (K-041: 48에서 늘림)
+
+        // 마법 폭발 (K-041 사용자 피드백 '폭탄도 일반 대포랑 똑같은 이펙트'): 대포 착탄과 확실히 다르게
+        const float MagicBurstPerRadius = 2.6f;      // 가운데 큰 폭발 (예전 2배)
+        const int MagicFireballs = 4;                // 둘레에 조금 늦게 터지는 불덩이
+        const float FireballDelayMax = 0.3f;
+        const int RingSparks = 28;                   // 충격파 고리: 불티를 원으로 늘어놓고 반경을 키운다
+        const float RingSeconds = 0.55f;
+        const float RingReach = 1.7f;                // 반경 × 이만큼까지 퍼진다
+        const int MagicEmbers = 8;                   // 잔불: 범위 안에 작은 불이 잠깐 남는다
+        const float EmberSeconds = 1.8f;
+        const float MagicShake = 0.35f, TrapShake = 0.15f;   // 화면 흔들림 세기 (BattleCameraRig.Shake)
+
+        // 연기 (K-041): 도트 연기 그림이 따로 없어 대포 포구 연기(Cannon/muzzle_smoke 6칸)를 어둡게 크게 재활용 — 위로 피어오른다
+        const int SmokeCapacity = 160;
+        const float FireSmokeEvery = 0.35f;          // 불바다 하나에서 연기 한 덩이씩
+        // 스스로 빛나는 그림 밝기 (1 넘으면 빛번짐) — 해·달 빛을 받지 않는다(_Emissive)
+        const float FireGlow = 2.2f, BurstGlow = 2.6f, HitGlow = 1.6f, TorchGlow = 2.0f;
         const float BurstSizePerRadius = 2f;         // 판 높이 = 반경 × 2 (그림 폭이 칸의 약 90%)
         const float FirePieceArea = 30f;             // 조각 하나가 맡는 넓이(m²) — 반경 5m면 약 3조각
         const int FireMinPieces = 3, FireMaxPieces = 12;
@@ -53,15 +72,20 @@ namespace HumanLastRampart.Combat.Battle
         const float MountFlameFoot = (224f - 72f) / 256f * MountSize;   // 받침 발에서 불꽃 칸 바닥까지 0.2375m (= 빛 높이 0.24m와 거의 같다)
         const float MountFlameSize = 36f / 256f * MountSize;            // 불꽃 칸 0.056m (시안 비율 — 화면에서 너무 작으면 이 값을 키운다)
 
-        // 빛을 받는 그림(D-062)이라 밤에는 어두워진다 — 스스로 빛나는 불·마법은 색을 올려 덜 어둡게 (화면 확인 뒤 조정)
-        const float DayGlow = 1.15f, NightGlow = 2.6f;
 
         readonly BattleSim sim;
         readonly Material material;
         readonly Mesh quad;
         readonly Bounds bounds;
 
-        readonly Kind magic, fire, trap, hit, torch, mount;
+        readonly Kind magic, fire, trap, hit, torch, mount, smoke;
+        readonly List<(Vector3 center, float radius, float age)> ringPlays = new List<(Vector3, float, float)>();
+        readonly List<(Vector3 position, float size, float age)> emberPlays = new List<(Vector3, float, float)>();
+        // 연기: 자리, 크기, 지난 시간(음수 = 늦게 시작), 길이, 오르는 높이, 밝기
+        readonly List<(Vector3 position, float size, float age, float life, float rise, float shade)> smokePlays = new List<(Vector3, float, float, float, float, float)>();
+        readonly List<float> fireSmokeClock = new List<float>();   // 불바다마다 다음 연기까지
+        float[] cannonAges;                                         // 대포마다 지난 프레임 '쏜 뒤 지난 시간' (줄면 새로 쏨)
+        readonly System.Random random = new System.Random(41);
         BattleFieldArt fieldArt;                      // 들판 소품·시체 더미·함정·먼 산·하늘 (K-031) — BattleView가 Attach로 붙인다
         readonly List<(Vector3 position, float size, float age)> magicPlays = new List<(Vector3, float, float)>();
         readonly List<(Vector3 position, float size, float age)> trapPlays = new List<(Vector3, float, float)>();
@@ -110,7 +134,10 @@ namespace HumanLastRampart.Combat.Battle
             bool hasMount = Resources.Load<Texture2D>("BattleArt/Props/torch_mount_off") != null;
             BuildTorchFeet(hasMount);
             torch = MakeKind("torch_flame", Mathf.Max(1, torchFeet.Count));
-            if (hasMount) mount = MakeKind("Props/torch_mount_off", Mathf.Max(1, mountFeet.Count), PerfLabArt.SheetLayout.Make(1, 1, 0.5f, (256f - 224f) / 256f, 128f / 256f), "BattleArt/");
+            if (hasMount) mount = MakeKind("Props/torch_mount_off", Mathf.Max(1, mountFeet.Count), PerfLabArt.SheetLayout.Make(1, 1, 0.5f, (256f - 224f) / 256f, 128f / 256f), "BattleArt/", false);
+            smoke = MakeKind("muzzle_smoke", SmokeCapacity, PerfLabArt.SheetLayout.Make(Frames, 1, 0.5f, (256f - 240f) / 256f, 1f), "BattleArt/Cannon/", false);
+            cannonAges = new float[sim.CannonCount];
+            for (int i = 0; i < cannonAges.Length; i++) cannonAges[i] = 1000f;
         }
 
         // 들판 그림 묶음을 붙인다 (BattleView 생성자에서 한 줄). 그리기·정리는 이 효과 그림과 같이 한다
@@ -119,9 +146,12 @@ namespace HumanLastRampart.Combat.Battle
         // 시체 더미 그림(K-024)이 있으면 BattleView의 상자 더미 대신 그림으로 그린다
         public bool DrawsPiles => fieldArt != null && fieldArt.HasPileArt;
 
-        Kind MakeKind(string name, int capacity) => MakeKind(name, capacity, PerfLabArt.SheetLayout.Make(Frames, 1, 0.5f, 0f, 1f), "BattleArt/Effects/");
+        static readonly int EmissiveId = Shader.PropertyToID("_Emissive");
 
-        Kind MakeKind(string name, int capacity, PerfLabArt.SheetLayout layout, string folder)
+        // 효과 그림(불·폭발·불티·횃불)은 스스로 빛난다 (K-041)
+        Kind MakeKind(string name, int capacity) => MakeKind(name, capacity, PerfLabArt.SheetLayout.Make(Frames, 1, 0.5f, 0f, 1f), "BattleArt/Effects/", true);
+
+        Kind MakeKind(string name, int capacity, PerfLabArt.SheetLayout layout, string folder, bool emissive)
         {
             var texture = Resources.Load<Texture2D>(folder + name);
             if (texture == null) return null;
@@ -131,6 +161,7 @@ namespace HumanLastRampart.Combat.Battle
             kind.Block.SetVector(PivotId, layout.Pivot);
             kind.Block.SetFloat(AspectId, layout.Aspect);
             kind.Block.SetFloat(HasNormalId, 0f);
+            kind.Block.SetFloat(EmissiveId, emissive ? 1f : 0f);
             kind.Buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, capacity, PerfLabInstance.Stride);
             kind.Block.SetBuffer(InstancesId, kind.Buffer);
             return kind;
@@ -168,16 +199,16 @@ namespace HumanLastRampart.Combat.Battle
             if (mapMode) return;
 
             bool night = sim.TimeOfDay == TimeOfDay.Night;
-            float glow = HumanLastRampart.Combat.Render.BattleLook.LitActive ? (night ? NightGlow : DayGlow) : 1f;
 
-            if (magic != null) DrawOneShots(magic, magicPlays, glow);
-            if (trap != null) DrawOneShots(trap, trapPlays, glow);
+            if (magic != null) DrawOneShots(magic, magicPlays, BurstGlow);
+            if (trap != null) DrawOneShots(trap, trapPlays, BurstGlow);
 
             if (hit != null)
             {
                 hit.Count = 0;
                 foreach (var (position, age) in hitPlays)
-                    hit.Instances[hit.Count++] = Instance(position, OneShotFrame(age), HitSize, glow);
+                    hit.Instances[hit.Count++] = Instance(position, OneShotFrame(age), HitSize, HitGlow);
+                AddRingSparks();
                 Submit(hit);
             }
 
@@ -189,17 +220,25 @@ namespace HumanLastRampart.Combat.Battle
                 {
                     BattleSim.SpellEffect e = effects[i];
                     if (!e.Fire) continue;
-                    AddFirePieces(e, glow);
+                    AddFirePieces(e, FireGlow);
                 }
 
+                AddEmbers();
                 Submit(fire);
+            }
+
+            if (smoke != null)
+            {
+                smoke.Count = 0;
+                AddSmoke();
+                Submit(smoke);
             }
 
             if (torch != null && night)
             {
                 torch.Count = 0;
                 for (int i = 0; i < torchFeet.Count; i++)
-                    torch.Instances[torch.Count++] = Instance(torchFeet[i], LoopFrame(i * 2.3f), torchSize, glow);
+                    torch.Instances[torch.Count++] = Instance(torchFeet[i], LoopFrame(i * 2.3f), torchSize, TorchGlow);
                 Submit(torch);
             }
 
@@ -223,6 +262,11 @@ namespace HumanLastRampart.Combat.Battle
         {
             Age(magicPlays, dt);
             Age(trapPlays, dt);
+            Age(ringPlays, dt, RingSeconds);
+            Age(emberPlays, dt, EmberSeconds);
+            AgeSmoke(smokePlays, dt);
+            TrackFireSmoke(dt);
+            TrackCannonSmoke();
             for (int i = hitPlays.Count - 1; i >= 0; i--)
             {
                 var play = hitPlays[i];
@@ -247,7 +291,7 @@ namespace HumanLastRampart.Combat.Battle
                 int was = pendingBefore.FindIndex(p => (p - e.Position).sqrMagnitude < 0.0001f);
                 if (was < 0) continue;
                 pendingBefore.RemoveAt(was);
-                if (magicPlays.Count < BurstCapacity) magicPlays.Add((e.Position, e.Radius * BurstSizePerRadius, 0f));
+                StartMagicBurst(e.Position, e.Radius);
             }
 
             pendingBefore.Clear();
@@ -258,8 +302,13 @@ namespace HumanLastRampart.Combat.Battle
             for (int i = 0; i < traps; i++)
             {
                 BattleSim.TrapInfo info = sim.GetTrap(i);
-                if (info.State == BattleSim.TrapState.Exploded && trapStates[i] != BattleSim.TrapState.Exploded && trap != null && trapPlays.Count < BurstCapacity)
-                    trapPlays.Add((info.Position, info.DamageRadius * BurstSizePerRadius, 0f));
+                if (info.State == BattleSim.TrapState.Exploded && trapStates[i] != BattleSim.TrapState.Exploded)
+                {
+                    if (trap != null && trapPlays.Count < BurstCapacity) trapPlays.Add((info.Position, info.DamageRadius * BurstSizePerRadius, 0f));
+                    AddSmokePlay(info.Position, info.DamageRadius * 1.2f, -0.3f, 2f, info.DamageRadius * 0.6f, 0.4f);   // 흙먼지 섞인 검은 연기 (K-041)
+                    BattleCameraRig.Shake(TrapShake, info.Position);
+                }
+
                 trapStates[i] = info.State;
             }
 
@@ -281,7 +330,9 @@ namespace HumanLastRampart.Combat.Battle
                 {
                     if (trap == null || trapPlays.Count >= BurstCapacity) continue;
                     float radius = sim.WeaponAreaRadius(shotWeapons[i]);
-                    trapPlays.Add((new Vector3(shot.PosFrame.x, 0f, shot.PosFrame.z), Mathf.Max(CannonBurstMinSize, radius * CannonBurstPerRadius), 0f));
+                    var landed = new Vector3(shot.PosFrame.x, 0f, shot.PosFrame.z);
+                    trapPlays.Add((landed, Mathf.Max(CannonBurstMinSize, radius * CannonBurstPerRadius), 0f));
+                    AddSmokePlay(landed, Mathf.Max(1.2f, radius * 0.8f), -0.2f, 1.4f, 1.5f, 0.55f);   // 작은 흙연기 (K-041)
                     continue;
                 }
 
@@ -290,23 +341,152 @@ namespace HumanLastRampart.Combat.Battle
             }
         }
 
-        static void Age(List<(Vector3 position, float size, float age)> plays, float dt)
+        static void Age(List<(Vector3 position, float size, float age)> plays, float dt, float life = OneShotSeconds)
         {
             for (int i = plays.Count - 1; i >= 0; i--)
             {
                 var play = plays[i];
                 play.age += dt;
-                if (play.age >= OneShotSeconds) plays.RemoveAt(i);
+                if (play.age >= life) plays.RemoveAt(i);
                 else plays[i] = play;
             }
         }
 
+        // 불바다: 범위 안 아무 데서나 연기가 피어오른다 (불바다 순서가 바뀌어도 간격만 조금 어긋날 뿐)
+        void TrackFireSmoke(float dt)
+        {
+            IReadOnlyList<BattleSim.SpellEffect> effects = sim.Effects;
+            while (fireSmokeClock.Count < effects.Count) fireSmokeClock.Add(Range(0f, FireSmokeEvery));
+            for (int i = 0; i < effects.Count; i++)
+            {
+                BattleSim.SpellEffect e = effects[i];
+                if (!e.Fire || e.Pending) continue;
+                fireSmokeClock[i] -= dt;
+                if (fireSmokeClock[i] > 0f) continue;
+                fireSmokeClock[i] += FireSmokeEvery;
+                AddSmokePlay(e.Position + RandomFlat(e.Radius * 0.7f), Mathf.Max(1.5f, e.Radius * 0.6f), 0f, 2.4f, 4f, 0.35f);
+            }
+        }
+
+        // 대포를 쏘면 포구 연기(BattlePropView) 뒤로 옅은 연기가 위로 피어오른다
+        void TrackCannonSmoke()
+        {
+            if (smoke == null) return;
+            int count = Mathf.Min(cannonAges.Length, sim.CannonCount);
+            for (int i = 0; i < count; i++)
+            {
+                float age = sim.CannonFireAge(i);
+                bool fired = age < cannonAges[i] - 0.01f;
+                cannonAges[i] = age;
+                if (!fired) continue;
+                BattleSim.CannonInfo c = sim.GetCannon(i);
+                float3 n = WallGeometry.Outward(c.Side);
+                AddSmokePlay(c.Position + new Vector3(n.x, 0f, n.z) * 0.6f + Vector3.up * 0.15f, 0.9f, 0.25f, 1.8f, 1.2f, 0.8f);
+            }
+        }
+
+        // 지난 시간이 음수인 것(늦게 터질 불덩이)은 아직 그리지 않는다
         void DrawOneShots(Kind kind, List<(Vector3 position, float size, float age)> plays, float glow)
         {
             kind.Count = 0;
             foreach (var (position, size, age) in plays)
-                kind.Instances[kind.Count++] = Instance(position, OneShotFrame(age), size, glow);
+                if (age >= 0f && kind.Count < kind.Instances.Length) kind.Instances[kind.Count++] = Instance(position, OneShotFrame(age), size, glow);
             Submit(kind);
+        }
+
+        // ── 마법 폭발 꾸밈 (K-041) ──
+
+        // 터지는 순간 한 번: 큰 폭발 + 늦게 터지는 불덩이 + 충격파 고리 + 잔불 + 연기 + 화면 흔들림
+        void StartMagicBurst(Vector3 at, float radius)
+        {
+            if (magicPlays.Count < BurstCapacity) magicPlays.Add((at, radius * MagicBurstPerRadius, 0f));
+            for (int k = 0; k < MagicFireballs && magicPlays.Count < BurstCapacity; k++)
+            {
+                Vector3 p = at + RandomFlat(radius * 0.75f);
+                magicPlays.Add((p, radius * Range(0.8f, 1.2f), -Range(0.08f, FireballDelayMax)));
+            }
+
+            ringPlays.Add((at, radius, 0f));
+            for (int k = 0; k < MagicEmbers; k++) emberPlays.Add((at + RandomFlat(radius * 0.85f), Range(0.8f, 1.4f), -Range(0.1f, 0.4f)));
+            for (int k = 0; k < 3; k++) AddSmokePlay(at + RandomFlat(radius * 0.5f), radius * Range(0.9f, 1.3f), -Range(0.25f, 0.6f), 2.2f, radius * 0.8f, 0.45f);
+            BattleCameraRig.Shake(MagicShake, at);
+        }
+
+        // 충격파 고리: 불티를 원으로 놓고 반경을 키운다. 처음엔 크고 퍼지며 작아진다
+        void AddRingSparks()
+        {
+            foreach (var (center, radius, age) in ringPlays)
+            {
+                float t = Mathf.Clamp01(age / RingSeconds);
+                float reach = radius * Mathf.Lerp(0.3f, RingReach, 1f - (1f - t) * (1f - t));   // 처음에 빠르게
+                float size = Mathf.Lerp(2.2f, 1.0f, t);
+                int frame = Mathf.Clamp((int)(t * Frames), 0, Frames - 1);
+                for (int k = 0; k < RingSparks && hit.Count < hit.Instances.Length; k++)
+                {
+                    float a = k * Mathf.PI * 2f / RingSparks;
+                    var p = new Vector3(center.x + Mathf.Cos(a) * reach, center.y, center.z + Mathf.Sin(a) * reach);
+                    hit.Instances[hit.Count++] = Instance(p, frame, size, HitGlow * 1.3f);
+                }
+            }
+        }
+
+        // 잔불: 불바다 그림을 작게, 시간이 지나며 더 작아진다
+        void AddEmbers()
+        {
+            foreach (var (position, size, age) in emberPlays)
+            {
+                if (age < 0f || fire.Count >= fire.Instances.Length) continue;
+                float fade = 1f - Mathf.Clamp01(age / EmberSeconds);
+                fire.Instances[fire.Count++] = Instance(position, LoopFrame(position.x * 1.3f), size * Mathf.Lerp(0.4f, 1f, fade), FireGlow);
+            }
+        }
+
+        // ── 연기 (K-041) ──
+
+        // life초 동안 rise만큼 오르고 커진다. shade = 밝기(검을수록 진한 연기)
+        void AddSmokePlay(Vector3 at, float size, float age, float life, float rise, float shade)
+        {
+            if (smoke == null || smokePlays.Count >= SmokeCapacity) return;
+            smokePlays.Add((at, size, age, life, rise, shade));
+        }
+
+        void AddSmoke()
+        {
+            float light = sim.Brightness;
+            foreach (var (position, size, age, life, rise, shade) in smokePlays)
+            {
+                if (age < 0f || smoke.Count >= smoke.Instances.Length) continue;
+                float t = Mathf.Clamp01(age / life);
+                Vector3 p = position + Vector3.up * (rise * t);
+                // 연기 시트 6칸: 점화 → 덩이 → 흩어짐. 처음 칸(불티)은 건너뛰고 1~5칸만
+                int frame = 1 + Mathf.Min(Frames - 2, (int)(t * (Frames - 1)));
+                float s = shade * light;
+                smoke.Instances[smoke.Count++] = new PerfLabInstance
+                {
+                    PosFrame = new float4(p.x, p.y, p.z, frame),
+                    TintSize = new float4(s, s, s * 1.02f, size * Mathf.Lerp(0.7f, 1.4f, t)),
+                };
+            }
+        }
+
+        static void AgeSmoke(List<(Vector3 position, float size, float age, float life, float rise, float shade)> plays, float dt)
+        {
+            for (int i = plays.Count - 1; i >= 0; i--)
+            {
+                var play = plays[i];
+                play.age += dt;
+                if (play.age >= play.life) plays.RemoveAt(i);
+                else plays[i] = play;
+            }
+        }
+
+        float Range(float min, float max) => min + (float)random.NextDouble() * (max - min);
+
+        Vector3 RandomFlat(float radius)
+        {
+            float a = Range(0f, Mathf.PI * 2f);
+            float r = radius * Mathf.Sqrt((float)random.NextDouble());
+            return new Vector3(Mathf.Cos(a) * r, 0f, Mathf.Sin(a) * r);
         }
 
         // 불바다 한 판: 해바라기 배치(황금각)로 범위 안에 고르게 나눈다. 조각마다 칸을 어긋나게 해 같은 모양이 겹쳐 보이지 않게
@@ -350,6 +530,10 @@ namespace HumanLastRampart.Combat.Battle
             hit?.Buffer.Release();
             torch?.Buffer.Release();
             mount?.Buffer.Release();
+            smoke?.Buffer.Release();
+            ringPlays.Clear();
+            emberPlays.Clear();
+            smokePlays.Clear();
             fieldArt?.Dispose();
             fieldArt = null;
             magicPlays.Clear();

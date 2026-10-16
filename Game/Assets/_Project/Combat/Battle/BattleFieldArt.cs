@@ -133,6 +133,7 @@ namespace HumanLastRampart.Combat.Battle
             trapCrater = MakeKind(Folder + "trap_2", traps, trapLayout, false);
 
             BuildBackdrop();
+            BuildGroundFog();
         }
 
         static float Range(System.Random random, float min, float max) => min + (float)random.NextDouble() * (max - min);
@@ -255,6 +256,7 @@ namespace HumanLastRampart.Combat.Battle
         public void Draw(bool mapMode)
         {
             SetBackdropVisible(!mapMode);
+            UpdateGroundFog(!mapMode && sim.CurrentWeather == Weather.Fog);
             if (mapMode) return;
             TintBackdrop();
 
@@ -448,6 +450,128 @@ namespace HumanLastRampart.Combat.Battle
             return go;
         }
 
+        // ── 땅에 깔리는 안개 (K-041 사용자 '안개도 좀 애매') ──
+        // 안개 날씨면 들판 위 낮은 높이에 반투명 안개 판 3장을 겹쳐 깔고 서로 다른 방향으로 천천히 흘린다.
+        // 판 색은 장면 안개색(RenderSettings.fogColor, BattleView.ApplyAtmosphere)을 따른다. 무늬는 실행 중 만든 반복 구름 무늬
+        static readonly (float height, float tile, Vector2 drift, float alpha)[] FogLayers =
+        {
+            (0.35f, 28f, new Vector2(0.5f, 0.15f), 0.55f),
+            (1.0f, 42f, new Vector2(-0.3f, 0.35f), 0.45f),
+            (1.9f, 60f, new Vector2(0.2f, -0.25f), 0.35f),
+        };
+
+        Texture2D fogNoise;
+        readonly List<(GameObject go, Material material)> fogSheets = new List<(GameObject, Material)>();
+        bool fogVisible;
+
+        void BuildGroundFog()
+        {
+            Shader unlit = Shader.Find("Universal Render Pipeline/Unlit");
+            if (unlit == null) return;
+            fogNoise = MakeFogNoise(128, Seed + 7);
+            float size = (sim.FieldSize + 40f) * 2f;
+            foreach (var layer in FogLayers)
+            {
+                var m = new Material(unlit) { name = "Battle Ground Fog (runtime)" };
+                m.SetTexture(BaseMapId, fogNoise);
+                m.mainTexture = fogNoise;
+                m.SetTextureScale(BaseMapId, Vector2.one * (size / layer.tile));
+                // 반투명 (URP Unlit: 겉면 종류 Transparent, 알파 섞기, 깊이 안 씀)
+                m.SetFloat("_Surface", 1f);
+                m.SetFloat("_Blend", 0f);
+                m.SetOverrideTag("RenderType", "Transparent");
+                m.SetFloat("_SrcBlend", (float)BlendMode.SrcAlpha);
+                m.SetFloat("_DstBlend", (float)BlendMode.OneMinusSrcAlpha);
+                if (m.HasProperty("_SrcBlendAlpha")) m.SetFloat("_SrcBlendAlpha", (float)BlendMode.One);
+                if (m.HasProperty("_DstBlendAlpha")) m.SetFloat("_DstBlendAlpha", (float)BlendMode.OneMinusSrcAlpha);
+                m.SetFloat("_ZWrite", 0f);
+                if (m.HasProperty(CullId)) m.SetFloat(CullId, (float)CullMode.Off);
+                m.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
+                m.renderQueue = (int)RenderQueue.Transparent;
+
+                var go = GameObject.CreatePrimitive(PrimitiveType.Quad);
+                go.name = "Ground Fog";
+                UnityEngine.Object.Destroy(go.GetComponent<Collider>());
+                go.transform.SetParent(root.transform, false);
+                go.transform.localPosition = new Vector3(0f, layer.height, 0f);
+                go.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
+                go.transform.localScale = new Vector3(size, size, 1f);
+                var renderer = go.GetComponent<MeshRenderer>();
+                renderer.sharedMaterial = m;
+                renderer.shadowCastingMode = ShadowCastingMode.Off;
+                renderer.receiveShadows = false;
+                go.SetActive(false);
+                fogSheets.Add((go, m));
+            }
+        }
+
+        void UpdateGroundFog(bool on)
+        {
+            if (on != fogVisible)
+            {
+                fogVisible = on;
+                foreach (var (go, _) in fogSheets) go.SetActive(on);
+            }
+
+            if (!on) return;
+            Color fogColor = RenderSettings.fogColor;
+            float t = Time.time;
+            for (int i = 0; i < fogSheets.Count; i++)
+            {
+                var layer = FogLayers[i];
+                Material m = fogSheets[i].material;
+                m.SetColor(BaseColorId, new Color(fogColor.r, fogColor.g, fogColor.b, layer.alpha));
+                m.SetTextureOffset(BaseMapId, layer.drift * (t / layer.tile));
+            }
+        }
+
+        // 가장자리가 이어지는 구름 무늬 (값 잡음 두 겹). 흰색, 알파만 무늬
+        static Texture2D MakeFogNoise(int size, int seed)
+        {
+            var random = new System.Random(seed);
+            float[,] coarse = Lattice(random, 6), fine = Lattice(random, 14);
+            var pixels = new Color32[size * size];
+            for (int y = 0; y < size; y++)
+            {
+                for (int x = 0; x < size; x++)
+                {
+                    float u = (float)x / size, v = (float)y / size;
+                    float n = Sample(coarse, u, v) * 0.7f + Sample(fine, u, v) * 0.3f;
+                    float a = Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(0.3f, 0.75f, n));
+                    pixels[y * size + x] = new Color32(255, 255, 255, (byte)(a * 255f));
+                }
+            }
+
+            var texture = new Texture2D(size, size, TextureFormat.RGBA32, true) { name = "Ground Fog Noise", wrapMode = TextureWrapMode.Repeat, filterMode = FilterMode.Bilinear };
+            texture.SetPixels32(pixels);
+            texture.Apply(true, true);
+            return texture;
+        }
+
+        static float[,] Lattice(System.Random random, int cells)
+        {
+            var values = new float[cells, cells];
+            for (int y = 0; y < cells; y++)
+                for (int x = 0; x < cells; x++)
+                    values[x, y] = (float)random.NextDouble();
+            return values;
+        }
+
+        // 격자 값을 부드럽게 잇는다 (끝은 처음과 이어져 반복된다)
+        static float Sample(float[,] values, float u, float v)
+        {
+            int cells = values.GetLength(0);
+            float fx = u * cells, fy = v * cells;
+            int x0 = Mathf.FloorToInt(fx), y0 = Mathf.FloorToInt(fy);
+            float tx = Mathf.SmoothStep(0f, 1f, fx - x0), ty = Mathf.SmoothStep(0f, 1f, fy - y0);
+            int x1 = (x0 + 1) % cells, y1 = (y0 + 1) % cells;
+            x0 %= cells;
+            y0 %= cells;
+            float a = Mathf.Lerp(values[x0, y0], values[x1, y0], tx);
+            float b = Mathf.Lerp(values[x0, y1], values[x1, y1], tx);
+            return Mathf.Lerp(a, b, ty);
+        }
+
         void SetBackdropVisible(bool visible)
         {
             if (visible == backdropVisible) return;
@@ -486,6 +610,9 @@ namespace HumanLastRampart.Combat.Battle
             if (skyMaterial != null) UnityEngine.Object.Destroy(skyMaterial);
             if (horizonMesh != null) UnityEngine.Object.Destroy(horizonMesh);
             if (skyMesh != null) UnityEngine.Object.Destroy(skyMesh);
+            foreach (var (_, material) in fogSheets) if (material != null) UnityEngine.Object.Destroy(material);
+            fogSheets.Clear();
+            if (fogNoise != null) UnityEngine.Object.Destroy(fogNoise);
         }
     }
 }

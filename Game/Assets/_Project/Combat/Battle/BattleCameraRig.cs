@@ -261,6 +261,38 @@ namespace HumanLastRampart.Combat.Battle
             ViewPreset p = PresetIndex >= 0 ? Presets[PresetIndex] : Blend(Presets[0], Presets[1], Mathf.SmoothStep(0f, 1f, moveBlend));
             Vector3 position = smoothedFeet - forward * p.Back + Vector3.up * p.Up;
             camera.transform.SetPositionAndRotation(position, heading * Quaternion.Euler(p.Pitch, 0f, 0f));
+            ApplyShake(dt);
+        }
+
+        // ── 화면 흔들림 (K-041 마법·함정 폭발) ── 효과 쪽(BattleEffectsView)이 부르고, 카메라 자리를 정한 뒤 위에 얹기만 한다
+        const float ShakeFalloff = 90f;          // 이 거리(m) 밖 폭발은 흔들지 않는다
+        const float ShakeDecay = 3.5f;           // 1초에 세기가 줄어드는 양
+        const float ShakeMeters = 0.1f;          // 세기 1일 때 최대 흔들림 (카메라가 주인공 1m 뒤라 몇 cm만 흔들려도 보인다)
+        static float shakePending;
+        static Vector3 shakeAt;
+        float shake;
+
+        public static void Shake(float strength, Vector3 at)
+        {
+            if (strength <= shakePending) return;
+            shakePending = strength;
+            shakeAt = at;
+        }
+
+        void ApplyShake(float dt)
+        {
+            if (shakePending > 0f)
+            {
+                float distance = Vector3.Distance(camera.transform.position, shakeAt);
+                shake = Mathf.Max(shake, shakePending * Mathf.Clamp01(1f - distance / ShakeFalloff));
+                shakePending = 0f;
+            }
+
+            if (shake <= 0.001f || overview) return;
+            shake = Mathf.Max(0f, shake - ShakeDecay * dt);
+            float t = Time.unscaledTime * 38f;
+            var offset = new Vector3(Mathf.PerlinNoise(t, 0.3f) - 0.5f, Mathf.PerlinNoise(0.7f, t) - 0.5f, 0f) * (2f * ShakeMeters * shake);
+            camera.transform.position += camera.transform.rotation * offset;
         }
 
         static ViewPreset Blend(ViewPreset a, ViewPreset b, float t) => new ViewPreset
