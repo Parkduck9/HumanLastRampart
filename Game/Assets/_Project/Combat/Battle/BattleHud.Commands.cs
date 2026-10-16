@@ -76,6 +76,12 @@ namespace HumanLastRampart.Combat.Battle
             rect.sizeDelta = new Vector2(MenuWidth, 400f);
             menuLine = NewImage(container.transform, "Line", new Color(HudStyle.Text.r, HudStyle.Text.g, HudStyle.Text.b, 0.55f));
             menuLine.raycastTarget = false;
+            Sprite line = HudStyle.Art("Command/command_line");   // K-019: 위아래로 흐려지는 세로선 그림
+            if (line != null)
+            {
+                menuLine.sprite = line;
+                menuLine.color = Color.white;
+            }
             menuTitle = NewText(container.transform, "Title", 18, TextAnchor.LowerLeft);
             menuTitle.color = HudStyle.TextDim;
             AddMenuOutline(menuTitle);
@@ -199,6 +205,7 @@ namespace HumanLastRampart.Combat.Battle
             menuChoices.Clear();
             menuItems.Clear();
             menuBands.Clear();
+            menuBandHovers.Clear();
             menuTitle.text = title;
 
             float height = labels.Length * MenuSpacing;
@@ -225,8 +232,11 @@ namespace HumanLastRampart.Combat.Battle
         static readonly Color MenuBand = new Color(0.06f, 0.07f, 0.07f, 0.72f);
         static readonly Color MenuBandHover = new Color(0.12f, 0.16f, 0.2f, 0.88f);
         readonly List<Image> menuBands = new List<Image>();
+        readonly List<Image> menuBandHovers = new List<Image>();   // 그림 띠일 때 마우스 올림 띠 (커질수록 진해진다), 없으면 null
+        static readonly Vector4 MenuBandBorder = new Vector4(64f, 8f, 64f, 8f);   // K-019 README의 9칸 경계 (왼쪽·아래·오른쪽·위)
 
         // 참고 그림처럼: 비스듬한 어두운 띠 + 동그라미 번호 + 글자 + 금색 밑줄. 띠는 누르는 자리, 크기·밝기는 UpdateMenuHover가 바꾼다
+        // K-019 그림(붓 띠·번호 표식·붓 밑줄)이 있으면 그것으로, 없으면 예전 단색 모양
         GameObject NewMenuItem(int index, string label, Action onClick, float y, float bulge)
         {
             var go = new GameObject("Item", typeof(RectTransform), typeof(Image), typeof(Button));
@@ -234,32 +244,73 @@ namespace HumanLastRampart.Combat.Battle
             var rect = (RectTransform)go.transform;
             float width = MenuWidth - MenuLineGap - MenuArc;
             Anchor(rect, new Vector2(0f, 0.5f), new Vector2(MenuLineGap + bulge, y), new Vector2(width, MenuSpacing - 10f), new Vector2(0f, 0.5f));
-            rect.localRotation = Quaternion.Euler(0f, 0f, MenuSlant);   // 오른쪽이 조금 올라간 비스듬한 띠
+            rect.localRotation = Quaternion.Euler(0f, 0f, MenuSlant);   // 오른쪽이 조금 올라간 비스듬한 띠 (그림은 수평 원본이라 여기서만 기울인다)
             var band = go.GetComponent<Image>();
             band.color = MenuBand;
+            Image bandHover = null;
+            Sprite bandArt = HudStyle.Art("Command/command_band_normal", MenuBandBorder);
+            Sprite hoverArt = HudStyle.Art("Command/command_band_hover", MenuBandBorder);
+            if (bandArt != null)
+            {
+                band.sprite = bandArt;
+                band.type = Image.Type.Sliced;
+                band.color = Color.white;   // 그림 색 그대로 (어두운 색을 다시 곱하면 두 번 어두워진다)
+                if (hoverArt != null)
+                {
+                    bandHover = NewImage(go.transform, "Band Hover", new Color(1f, 1f, 1f, 0f));
+                    bandHover.sprite = hoverArt;
+                    bandHover.type = Image.Type.Sliced;
+                    bandHover.raycastTarget = false;
+                    var hoverRect = bandHover.rectTransform;
+                    hoverRect.anchorMin = Vector2.zero;
+                    hoverRect.anchorMax = Vector2.one;
+                    hoverRect.offsetMin = hoverRect.offsetMax = Vector2.zero;
+                }
+            }
+
             var button = go.GetComponent<Button>();
             button.transition = Selectable.Transition.None;
             button.onClick.AddListener(() => onClick());
 
-            Text number = NewText(go.transform, "Number", 26, TextAnchor.MiddleCenter);
-            Anchor(number.rectTransform, new Vector2(0f, 0.5f), new Vector2(8f, 0f), new Vector2(34f, 34f), new Vector2(0f, 0.5f));
-            number.text = index < CircledNumbers.Length ? CircledNumbers[index] : (index + 1).ToString();
-            number.color = HudStyle.Brass;
+            // 번호 표식: 그림(① ~ ⑥)이 있으면 그림, 없으면 동그라미 숫자 글자
+            Image numberArt = index < 6 ? HudStyle.ArtImage(go.transform, "Number", $"Command/command_number_{index + 1}", new Vector2(34f, 34f)) : null;
+            if (numberArt != null)
+            {
+                Anchor(numberArt.rectTransform, new Vector2(0f, 0.5f), new Vector2(8f, 0f), new Vector2(34f, 34f), new Vector2(0f, 0.5f));
+            }
+            else
+            {
+                Text number = NewText(go.transform, "Number", 26, TextAnchor.MiddleCenter);
+                Anchor(number.rectTransform, new Vector2(0f, 0.5f), new Vector2(8f, 0f), new Vector2(34f, 34f), new Vector2(0f, 0.5f));
+                number.text = index < CircledNumbers.Length ? CircledNumbers[index] : (index + 1).ToString();
+                number.color = HudStyle.Brass;
+            }
 
             Text text = NewText(go.transform, "Text", 24, TextAnchor.MiddleLeft);
-            Anchor(text.rectTransform, new Vector2(0f, 0.5f), new Vector2(50f, 2f), new Vector2(width - 60f, 34f), new Vector2(0f, 0.5f));
+            Anchor(text.rectTransform, new Vector2(0f, 0.5f), new Vector2(numberArt != null ? 52f : 50f, 2f), new Vector2(width - 60f, 34f), new Vector2(0f, 0.5f));
             text.text = label;
             AddMenuOutline(text);
 
-            // 금색 붓 자국 밑줄: 띠 아래쪽을 따라 끝으로 갈수록 가늘게(두 겹)
-            Image underline = NewImage(go.transform, "Underline", HudStyle.Brass);
-            underline.raycastTarget = false;
-            Anchor(underline.rectTransform, new Vector2(0f, 0f), new Vector2(44f, 3f), new Vector2(Mathf.Min(width - 50f, text.preferredWidth + 40f), 2f), new Vector2(0f, 0f));
-            Image tail = NewImage(go.transform, "Underline Tail", new Color(HudStyle.Brass.r, HudStyle.Brass.g, HudStyle.Brass.b, 0.45f));
-            tail.raycastTarget = false;
-            Anchor(tail.rectTransform, new Vector2(0f, 0f), new Vector2(44f, 0f), new Vector2(width - 50f, 1f), new Vector2(0f, 0f));
+            // 금색 붓 자국 밑줄: 그림이면 끝이 가늘어지는 붓 한 장, 없으면 띠 아래쪽을 따라 두 겹 선
+            float underlineWidth = Mathf.Min(width - 50f, text.preferredWidth + 40f);
+            Image brush = HudStyle.ArtImage(go.transform, "Underline", "Command/command_underline", new Vector2(underlineWidth, 8f));
+            if (brush != null)
+            {
+                Anchor(brush.rectTransform, new Vector2(0f, 0f), new Vector2(44f, 0f), new Vector2(underlineWidth, 8f), new Vector2(0f, 0f));
+            }
+            else
+            {
+                Image underline = NewImage(go.transform, "Underline", HudStyle.Brass);
+                underline.raycastTarget = false;
+                Anchor(underline.rectTransform, new Vector2(0f, 0f), new Vector2(44f, 3f), new Vector2(underlineWidth, 2f), new Vector2(0f, 0f));
+                Image tail = NewImage(go.transform, "Underline Tail", new Color(HudStyle.Brass.r, HudStyle.Brass.g, HudStyle.Brass.b, 0.45f));
+                tail.raycastTarget = false;
+                Anchor(tail.rectTransform, new Vector2(0f, 0f), new Vector2(44f, 0f), new Vector2(width - 50f, 1f), new Vector2(0f, 0f));
+            }
+
             menuItems.Add(rect);
             menuBands.Add(band);
+            menuBandHovers.Add(bandHover);
             return go;
         }
 
@@ -299,7 +350,10 @@ namespace HumanLastRampart.Combat.Battle
                 float current = item.localScale.x;
                 float next = Mathf.MoveTowards(current, target, Time.unscaledDeltaTime * 4f);   // 부드럽게
                 item.localScale = new Vector3(next, next, 1f);
-                if (i < menuBands.Count) menuBands[i].color = Color.Lerp(MenuBand, MenuBandHover, (next - 1f) / MenuGrow);   // 커질수록 밝은 띠
+                float glow = (next - 1f) / MenuGrow;
+                Image hover = i < menuBandHovers.Count ? menuBandHovers[i] : null;
+                if (hover != null) hover.color = new Color(1f, 1f, 1f, glow);   // 그림 띠: 마우스 올림 띠가 위에 겹쳐 밝아진다
+                else if (i < menuBands.Count && menuBands[i].sprite == null) menuBands[i].color = Color.Lerp(MenuBand, MenuBandHover, glow);   // 커질수록 밝은 띠
             }
         }
 

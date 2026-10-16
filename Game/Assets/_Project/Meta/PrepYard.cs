@@ -44,15 +44,19 @@ namespace HumanLastRampart.Meta
         public int StationCount => stations.Count;
         public float HeroX => heroX;
 
-        public static PrepYard Build(ScreenView view, UnitDef heroUnit)
+        // backdrop = 화면에 K-027 정비 배경 그림이 깔려 있음 → 하늘·성벽 면·바닥 색 띠를 그리지 않고 걷는 길만 옅게
+        public static PrepYard Build(ScreenView view, UnitDef heroUnit, bool backdrop = false)
         {
             RectTransform layer = view.AddBackdropLayer("Prep Yard");
             var yard = layer.gameObject.AddComponent<PrepYard>();
             yard.blocker = view.PanelGroup;
             yard.heroSheet = heroUnit != null ? heroUnit.Sheet : null;
+            yard.hasBackdrop = backdrop;
             yard.BuildScene(layer);
             return yard;
         }
+
+        bool hasBackdrop;
 
         public void AddStation(string name, float x, Color color, Action use)
         {
@@ -72,13 +76,17 @@ namespace HumanLastRampart.Meta
             strip.SetParent(layer, false);
             strip.anchorMin = strip.anchorMax = strip.pivot = Vector2.zero;
             strip.sizeDelta = new Vector2(YardWidth, 1080f);
-            // 하늘 → 안쪽 성벽 면 → 바닥 (임시 색)
-            Block(strip, "Sky", new Vector2(YardWidth / 2f, 820f), new Vector2(YardWidth, 520f), new Color(0.32f, 0.40f, 0.48f));
-            Block(strip, "Inner Wall", new Vector2(YardWidth / 2f, GroundY + 230f), new Vector2(YardWidth, 460f), new Color(0.36f, 0.35f, 0.33f));
-            for (float x = 60f; x < YardWidth; x += 180f)   // 성벽 돌 줄눈 느낌
-                Block(strip, "Joint", new Vector2(x, GroundY + 230f), new Vector2(4f, 460f), new Color(0f, 0f, 0f, 0.18f));
-            Block(strip, "Ground", new Vector2(YardWidth / 2f, GroundY / 2f), new Vector2(YardWidth, GroundY), new Color(0.38f, 0.31f, 0.22f));
-            Block(strip, "Path", new Vector2(YardWidth / 2f, GroundY - 20f), new Vector2(YardWidth, 40f), new Color(0.50f, 0.45f, 0.38f));
+            // 하늘 → 안쪽 성벽 면 → 바닥 (임시 색). 배경 그림이 있으면 그림이 대신하고 걷는 길만 옅게 남긴다
+            if (!hasBackdrop)
+            {
+                Block(strip, "Sky", new Vector2(YardWidth / 2f, 820f), new Vector2(YardWidth, 520f), new Color(0.32f, 0.40f, 0.48f));
+                Block(strip, "Inner Wall", new Vector2(YardWidth / 2f, GroundY + 230f), new Vector2(YardWidth, 460f), new Color(0.36f, 0.35f, 0.33f));
+                for (float x = 60f; x < YardWidth; x += 180f)   // 성벽 돌 줄눈 느낌
+                    Block(strip, "Joint", new Vector2(x, GroundY + 230f), new Vector2(4f, 460f), new Color(0f, 0f, 0f, 0.18f));
+                Block(strip, "Ground", new Vector2(YardWidth / 2f, GroundY / 2f), new Vector2(YardWidth, GroundY), new Color(0.38f, 0.31f, 0.22f));
+            }
+
+            Block(strip, "Path", new Vector2(YardWidth / 2f, GroundY - 20f), new Vector2(YardWidth, 40f), new Color(0.50f, 0.45f, 0.38f, hasBackdrop ? 0.55f : 1f));
 
             var heroObj = new GameObject("Hero", typeof(RectTransform), typeof(RawImage));
             heroObj.transform.SetParent(strip, false);
