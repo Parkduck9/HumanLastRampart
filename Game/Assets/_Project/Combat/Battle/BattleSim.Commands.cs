@@ -251,7 +251,8 @@ namespace HumanLastRampart.Combat.Battle
 
                 m.Travelled = math.min(m.Travelled + MessengerSpeed() * RunSpeedRatio(m.Soldier) * dt, m.Distance);   // 대포병은 느리게 (K-034)
                 float u = m.Returning ? m.EndU - m.Direction * m.Travelled : m.StartU + m.Direction * m.Travelled;
-                sPos[m.Soldier] = RingPosition(u);
+                // 떠날 때는 자기 자리에서 달리는 길로, 돌아올 때는 마지막 몇 m를 자기 자리로 비스듬히 (K-039 의견 6: 순간 이동 없앰)
+                sPos[m.Soldier] = WalkIn(RingPosition(u), m.Home, m.Returning ? m.Distance - m.Travelled : m.Travelled);
                 SetRunning(m.Soldier, m.Returning ? -m.Direction : m.Direction);
                 SoldiersDirty = true;
 
@@ -310,10 +311,12 @@ namespace HumanLastRampart.Combat.Battle
             float bestDist = float.MaxValue;
             foreach (SquadInfo squad in squads)
             {
-                if (squad.Side != side) continue;
+                // 대포 분대(옮길 수 없는 분대)는 통째로 뺀다 — 쏘는 대포병이 뽑혀 그동안 대포가 멈추던 버그 (K-039 의견 8).
+                // 우회 보고(BattleSim.Flank)도 이 함수로 고른다
+                if (squad.Side != side || !squad.Movable) continue;
                 for (int i = squad.FirstSoldier; i < squad.FirstSoldier + squad.Alive; i++)
                 {
-                    if (sAlive[i] == 0 || sAway[i] != 0 || sWeapon[i] < 0) continue;   // 대포 운용병은 보내지 않는다
+                    if (sAlive[i] == 0 || sAway[i] != 0 || sWeapon[i] < 0) continue;
                     float d = math.abs(LateralOf(i, side) - along);
                     if (d < bestDist)
                     {

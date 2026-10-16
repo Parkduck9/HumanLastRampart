@@ -32,16 +32,16 @@ MonoBehaviour:
     PostId:
   squads:
   - UnitDefId: unit_cannon_crew
-    Count: 5
+    Count: 2
     PostId: post_north_cannon_1
   - UnitDefId: unit_cannon_crew
-    Count: 5
+    Count: 2
     PostId: post_north_cannon_2
   - UnitDefId: unit_cannon_crew
-    Count: 5
+    Count: 2
     PostId: post_north_cannon_3
   - UnitDefId: unit_cannon_crew
-    Count: 5
+    Count: 2
     PostId: post_north_cannon_4
   - UnitDefId: unit_archer
     Count: 20
@@ -53,16 +53,16 @@ MonoBehaviour:
     Count: 20
     PostId: post_north_squad_3
   - UnitDefId: unit_cannon_crew
-    Count: 5
+    Count: 2
     PostId: post_east_cannon_1
   - UnitDefId: unit_cannon_crew
-    Count: 5
+    Count: 2
     PostId: post_east_cannon_2
   - UnitDefId: unit_cannon_crew
-    Count: 5
+    Count: 2
     PostId: post_east_cannon_3
   - UnitDefId: unit_cannon_crew
-    Count: 5
+    Count: 2
     PostId: post_east_cannon_4
   - UnitDefId: unit_archer
     Count: 20
@@ -74,16 +74,16 @@ MonoBehaviour:
     Count: 20
     PostId: post_east_squad_3
   - UnitDefId: unit_cannon_crew
-    Count: 5
+    Count: 2
     PostId: post_south_cannon_1
   - UnitDefId: unit_cannon_crew
-    Count: 5
+    Count: 2
     PostId: post_south_cannon_2
   - UnitDefId: unit_cannon_crew
-    Count: 5
+    Count: 2
     PostId: post_south_cannon_3
   - UnitDefId: unit_cannon_crew
-    Count: 5
+    Count: 2
     PostId: post_south_cannon_4
   - UnitDefId: unit_archer
     Count: 20
@@ -95,16 +95,16 @@ MonoBehaviour:
     Count: 20
     PostId: post_south_squad_3
   - UnitDefId: unit_cannon_crew
-    Count: 5
+    Count: 2
     PostId: post_west_cannon_1
   - UnitDefId: unit_cannon_crew
-    Count: 5
+    Count: 2
     PostId: post_west_cannon_2
   - UnitDefId: unit_cannon_crew
-    Count: 5
+    Count: 2
     PostId: post_west_cannon_3
   - UnitDefId: unit_cannon_crew
-    Count: 5
+    Count: 2
     PostId: post_west_cannon_4
   - UnitDefId: unit_archer
     Count: 20

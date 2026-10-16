@@ -64,7 +64,7 @@ namespace HumanLastRampart.Combat.Battle
                 Side = side,
                 Number = number,
                 PostId = postId,
-                Position = sPos[soldier],
+                Position = CannonSpot(soldier),   // 운용병 2명이 양옆에 서므로 대포 자리는 따로 (K-039)
                 Range = weapons[sWeapon[soldier]].Range,
                 HasAim = sHasAim[soldier] != 0,
                 Aim = sAim[soldier],
@@ -78,7 +78,7 @@ namespace HumanLastRampart.Combat.Battle
         {
             if (index < 0 || index >= cannons.Count) return false;
             var (soldier, side, number, _) = cannons[index];
-            float3 from = sPos[soldier];
+            float3 from = CannonSpot(soldier);
             float range = weapons[sWeapon[soldier]].Range;
             float dx = point.x - from.x, dz = point.z - from.z;
             if (dx * dx + dz * dz > range * range)

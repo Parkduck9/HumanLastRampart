@@ -205,7 +205,8 @@ namespace HumanLastRampart.Combat.Battle
 
                     float direction = k == 0 ? 1f : -1f;   // 한 명은 시계, 한 명은 반시계
                     float u = pair.StartU[k] + direction * pair.Travelled;
-                    sPos[soldier] = RingPosition(u);
+                    // 자기 자리에서 나와 한 바퀴 돌고 자기 자리로 비스듬히 들어간다 (K-039 의견 6)
+                    sPos[soldier] = WalkIn(RingPosition(u), pair.Home[k], math.min(pair.Travelled, perimeter - pair.Travelled));
                     SetRunning(soldier, direction);
                     if (!pair.Reported && math.abs(Wrap(u - commanderU, perimeter)) <= RunnerMeetDistance)
                     {

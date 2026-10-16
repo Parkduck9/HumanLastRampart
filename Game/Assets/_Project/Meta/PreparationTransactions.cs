@@ -20,6 +20,10 @@ namespace HumanLastRampart.Meta
             internal int Requested;
         }
 
+        // 대포 지점 정원이 5 → 2명이 되기 전(K-039) 저장의 대포 분대는 5명일 수 있다. 검사에서는 받아 주고(새 모집만 정원 2)
+        // 정비 화면이 '데이터 오류'로 막히지 않게 한다
+        const int LegacyCannonCrewCount = 5;
+
         readonly CampaignState campaign;
         readonly IDefinitionLookup definitions;
         readonly PreparationEconomyDef rules;
@@ -189,7 +193,7 @@ namespace HumanLastRampart.Meta
                 bool cannon = p.Kind == PostKind.Cannon;
                 if ((p.Kind != PostKind.Squad && !cannon) ||
                     (cannon ? unit.Kind != UnitKind.CannonCrew : unit.Kind != UnitKind.Archer && unit.Kind != UnitKind.Gunner) ||
-                    s.Count > (cannon ? rules.CannonCrewPostCapacity : rules.SquadPostCapacity))
+                    s.Count > (cannon ? Math.Max(rules.CannonCrewPostCapacity, LegacyCannonCrewCount) : rules.SquadPostCapacity))
                 { reason = "분대 병종·지점 정원이 맞지 않습니다"; return false; }
                 wallCounts.TryGetValue(p.WallId, out long count); wallCounts[p.WallId] = count + s.Count;
             }
