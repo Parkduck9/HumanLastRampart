@@ -61,9 +61,19 @@ namespace HumanLastRampart.Meta
         public void AddStation(string name, float x, Color color, Action use)
         {
             var station = new Station { Name = name, X = x, Color = color, Use = use };
-            // 건물 자리 (임시 도형): 몸체 + 지붕 띠 + 이름 간판
-            RectTransform body = Block(strip, name, new Vector2(x, GroundY + 140f), new Vector2(260f, 280f), color);
-            Block(body, "Roof", new Vector2(0f, 150f), new Vector2(300f, 30f), Color.Lerp(color, Color.black, 0.35f), true);
+            if (hasBackdrop)
+            {
+                // 배경 그림(K-027)이 마당을 그리므로 건물 도형 대신 간판 판과 바닥 표시만 — 큰 상자가 그림을 덮던 것 (2026-10-16 사진)
+                Block(strip, name + " Spot", new Vector2(x, GroundY - 20f), new Vector2(200f, 14f), new Color(0.84f, 0.69f, 0.42f, 0.55f));
+                Block(strip, name + " Plate", new Vector2(x, GroundY + 330f), new Vector2(320f, 52f), new Color(0.06f, 0.08f, 0.07f, 0.78f));
+            }
+            else
+            {
+                // 건물 자리 (임시 도형): 몸체 + 지붕 띠 + 이름 간판
+                RectTransform body = Block(strip, name, new Vector2(x, GroundY + 140f), new Vector2(260f, 280f), color);
+                Block(body, "Roof", new Vector2(0f, 150f), new Vector2(300f, 30f), Color.Lerp(color, Color.black, 0.35f), true);
+            }
+
             station.Sign = Label(strip, name, new Vector2(x, GroundY + 330f), 30, UiStyle.Brass, new Vector2(300f, 44f));
             stations.Add(station);
             hero.SetAsLastSibling();   // 주인공은 건물 앞에
@@ -86,7 +96,7 @@ namespace HumanLastRampart.Meta
                 Block(strip, "Ground", new Vector2(YardWidth / 2f, GroundY / 2f), new Vector2(YardWidth, GroundY), new Color(0.38f, 0.31f, 0.22f));
             }
 
-            Block(strip, "Path", new Vector2(YardWidth / 2f, GroundY - 20f), new Vector2(YardWidth, 40f), new Color(0.50f, 0.45f, 0.38f, hasBackdrop ? 0.55f : 1f));
+            if (!hasBackdrop) Block(strip, "Path", new Vector2(YardWidth / 2f, GroundY - 20f), new Vector2(YardWidth, 40f), new Color(0.50f, 0.45f, 0.38f));   // 배경 그림이 있으면 그림 속 길을 쓴다
 
             var heroObj = new GameObject("Hero", typeof(RectTransform), typeof(RawImage));
             heroObj.transform.SetParent(strip, false);
