@@ -1,0 +1,852 @@
+﻿{
+    "status":  "사용자 확정 전 그림 시안 · 규칙 미확정 · 게임 미연결",
+    "card":  "K-030",
+    "mapScale":  "32px/5m",
+    "assets":  [
+                   {
+                       "width":  64,
+                       "height":  32,
+                       "id":  "wall_straight_build_map",
+                       "cropAndPlacement":  [
+                                                43,
+                                                213,
+                                                420,
+                                                188,
+                                                2,
+                                                2,
+                                                60,
+                                                27
+                                            ],
+                       "source":  "originals/map.png",
+                       "label":  "직선 토벽 · 짓는 중",
+                       "pixelsPerMeterProposal":  6.4,
+                       "pivotTopLeft":  [
+                                            32,
+                                            16
+                                        ],
+                       "footprintMetersProposal":  [
+                                                       10,
+                                                       5
+                                                   ],
+                       "view":  "map",
+                       "file":  "sprites/wall_straight_build_map.png"
+                   },
+                   {
+                       "width":  320,
+                       "height":  96,
+                       "id":  "wall_straight_build_side",
+                       "cropAndPlacement":  [
+                                                16,
+                                                174,
+                                                401,
+                                                213,
+                                                84,
+                                                8,
+                                                151,
+                                                80
+                                            ],
+                       "source":  "originals/side.png",
+                       "label":  "직선 토벽 · 짓는 중",
+                       "pixelsPerMeterProposal":  32,
+                       "pivotTopLeft":  [
+                                            160,
+                                            88
+                                        ],
+                       "footprintMetersProposal":  [
+                                                       10,
+                                                       5
+                                                   ],
+                       "view":  "side",
+                       "file":  "sprites/wall_straight_build_side.png"
+                   },
+                   {
+                       "width":  64,
+                       "height":  32,
+                       "id":  "wall_straight_done_map",
+                       "cropAndPlacement":  [
+                                                519,
+                                                219,
+                                                424,
+                                                141,
+                                                2,
+                                                6,
+                                                60,
+                                                20
+                                            ],
+                       "source":  "originals/map.png",
+                       "label":  "직선 토벽 · 완성",
+                       "pixelsPerMeterProposal":  6.4,
+                       "pivotTopLeft":  [
+                                            32,
+                                            16
+                                        ],
+                       "footprintMetersProposal":  [
+                                                       10,
+                                                       5
+                                                   ],
+                       "view":  "map",
+                       "file":  "sprites/wall_straight_done_map.png"
+                   },
+                   {
+                       "width":  320,
+                       "height":  96,
+                       "id":  "wall_straight_done_side",
+                       "cropAndPlacement":  [
+                                                461,
+                                                175,
+                                                409,
+                                                219,
+                                                85,
+                                                8,
+                                                149,
+                                                80
+                                            ],
+                       "source":  "originals/side.png",
+                       "label":  "직선 토벽 · 완성",
+                       "pixelsPerMeterProposal":  32,
+                       "pivotTopLeft":  [
+                                            160,
+                                            88
+                                        ],
+                       "footprintMetersProposal":  [
+                                                       10,
+                                                       5
+                                                   ],
+                       "view":  "side",
+                       "file":  "sprites/wall_straight_done_side.png"
+                   },
+                   {
+                       "width":  64,
+                       "height":  64,
+                       "id":  "wall_corner_build_map",
+                       "cropAndPlacement":  [
+                                                1013,
+                                                86,
+                                                263,
+                                                337,
+                                                8,
+                                                2,
+                                                47,
+                                                60
+                                            ],
+                       "source":  "originals/map.png",
+                       "label":  "모서리 토벽 · 짓는 중",
+                       "pixelsPerMeterProposal":  6.4,
+                       "pivotTopLeft":  [
+                                            32,
+                                            32
+                                        ],
+                       "footprintMetersProposal":  [
+                                                       10,
+                                                       10
+                                                   ],
+                       "view":  "map",
+                       "file":  "sprites/wall_corner_build_map.png"
+                   },
+                   {
+                       "width":  320,
+                       "height":  160,
+                       "id":  "wall_corner_build_side",
+                       "cropAndPlacement":  [
+                                                917,
+                                                151,
+                                                395,
+                                                239,
+                                                41,
+                                                8,
+                                                238,
+                                                144
+                                            ],
+                       "source":  "originals/side.png",
+                       "label":  "모서리 토벽 · 짓는 중",
+                       "pixelsPerMeterProposal":  32,
+                       "pivotTopLeft":  [
+                                            160,
+                                            152
+                                        ],
+                       "footprintMetersProposal":  [
+                                                       10,
+                                                       10
+                                                   ],
+                       "view":  "side",
+                       "file":  "sprites/wall_corner_build_side.png"
+                   },
+                   {
+                       "width":  64,
+                       "height":  64,
+                       "id":  "wall_corner_done_map",
+                       "cropAndPlacement":  [
+                                                1419,
+                                                104,
+                                                313,
+                                                281,
+                                                2,
+                                                5,
+                                                60,
+                                                54
+                                            ],
+                       "source":  "originals/map.png",
+                       "label":  "모서리 토벽 · 완성",
+                       "pixelsPerMeterProposal":  6.4,
+                       "pivotTopLeft":  [
+                                            32,
+                                            32
+                                        ],
+                       "footprintMetersProposal":  [
+                                                       10,
+                                                       10
+                                                   ],
+                       "view":  "map",
+                       "file":  "sprites/wall_corner_done_map.png"
+                   },
+                   {
+                       "width":  320,
+                       "height":  160,
+                       "id":  "wall_corner_done_side",
+                       "cropAndPlacement":  [
+                                                1352,
+                                                164,
+                                                417,
+                                                207,
+                                                15,
+                                                8,
+                                                290,
+                                                144
+                                            ],
+                       "source":  "originals/side.png",
+                       "label":  "모서리 토벽 · 완성",
+                       "pixelsPerMeterProposal":  32,
+                       "pivotTopLeft":  [
+                                            160,
+                                            152
+                                        ],
+                       "footprintMetersProposal":  [
+                                                       10,
+                                                       10
+                                                   ],
+                       "view":  "side",
+                       "file":  "sprites/wall_corner_done_side.png"
+                   },
+                   {
+                       "width":  32,
+                       "height":  32,
+                       "id":  "hill_small_map",
+                       "cropAndPlacement":  [
+                                                99,
+                                                531,
+                                                266,
+                                                282,
+                                                3,
+                                                2,
+                                                26,
+                                                28
+                                            ],
+                       "source":  "originals/map.png",
+                       "label":  "작게 쌓은 언덕",
+                       "pixelsPerMeterProposal":  6.4,
+                       "pivotTopLeft":  [
+                                            16,
+                                            16
+                                        ],
+                       "footprintMetersProposal":  [
+                                                       5,
+                                                       5
+                                                   ],
+                       "view":  "map",
+                       "file":  "sprites/hill_small_map.png"
+                   },
+                   {
+                       "width":  160,
+                       "height":  96,
+                       "id":  "hill_small_side",
+                       "cropAndPlacement":  [
+                                                25,
+                                                637,
+                                                384,
+                                                178,
+                                                8,
+                                                21,
+                                                144,
+                                                67
+                                            ],
+                       "source":  "originals/side.png",
+                       "label":  "작게 쌓은 언덕",
+                       "pixelsPerMeterProposal":  32,
+                       "pivotTopLeft":  [
+                                            80,
+                                            88
+                                        ],
+                       "footprintMetersProposal":  [
+                                                       5,
+                                                       5
+                                                   ],
+                       "view":  "side",
+                       "file":  "sprites/hill_small_side.png"
+                   },
+                   {
+                       "width":  64,
+                       "height":  64,
+                       "id":  "hill_large_map",
+                       "cropAndPlacement":  [
+                                                529,
+                                                492,
+                                                360,
+                                                341,
+                                                2,
+                                                3,
+                                                60,
+                                                57
+                                            ],
+                       "source":  "originals/map.png",
+                       "label":  "크게 쌓은 언덕",
+                       "pixelsPerMeterProposal":  6.4,
+                       "pivotTopLeft":  [
+                                            32,
+                                            32
+                                        ],
+                       "footprintMetersProposal":  [
+                                                       10,
+                                                       10
+                                                   ],
+                       "view":  "map",
+                       "file":  "sprites/hill_large_map.png"
+                   },
+                   {
+                       "width":  320,
+                       "height":  160,
+                       "id":  "hill_large_side",
+                       "cropAndPlacement":  [
+                                                435,
+                                                563,
+                                                454,
+                                                267,
+                                                37,
+                                                8,
+                                                245,
+                                                144
+                                            ],
+                       "source":  "originals/side.png",
+                       "label":  "크게 쌓은 언덕",
+                       "pixelsPerMeterProposal":  32,
+                       "pivotTopLeft":  [
+                                            160,
+                                            152
+                                        ],
+                       "footprintMetersProposal":  [
+                                                       10,
+                                                       10
+                                                   ],
+                       "view":  "side",
+                       "file":  "sprites/hill_large_side.png"
+                   },
+                   {
+                       "width":  32,
+                       "height":  32,
+                       "id":  "logs_map",
+                       "cropAndPlacement":  [
+                                                991,
+                                                564,
+                                                322,
+                                                232,
+                                                2,
+                                                6,
+                                                28,
+                                                20
+                                            ],
+                       "source":  "originals/map.png",
+                       "label":  "쓰러진 나무 더미",
+                       "pixelsPerMeterProposal":  6.4,
+                       "pivotTopLeft":  [
+                                            16,
+                                            16
+                                        ],
+                       "footprintMetersProposal":  [
+                                                       5,
+                                                       5
+                                                   ],
+                       "view":  "map",
+                       "file":  "sprites/logs_map.png"
+                   },
+                   {
+                       "width":  160,
+                       "height":  80,
+                       "id":  "logs_side",
+                       "cropAndPlacement":  [
+                                                923,
+                                                583,
+                                                377,
+                                                251,
+                                                32,
+                                                8,
+                                                96,
+                                                64
+                                            ],
+                       "source":  "originals/side.png",
+                       "label":  "쓰러진 나무 더미",
+                       "pixelsPerMeterProposal":  32,
+                       "pivotTopLeft":  [
+                                            80,
+                                            72
+                                        ],
+                       "footprintMetersProposal":  [
+                                                       5,
+                                                       5
+                                                   ],
+                       "view":  "side",
+                       "file":  "sprites/logs_side.png"
+                   },
+                   {
+                       "width":  32,
+                       "height":  32,
+                       "id":  "rocks_map",
+                       "cropAndPlacement":  [
+                                                1441,
+                                                531,
+                                                273,
+                                                269,
+                                                2,
+                                                2,
+                                                28,
+                                                28
+                                            ],
+                       "source":  "originals/map.png",
+                       "label":  "바위 더미",
+                       "pixelsPerMeterProposal":  6.4,
+                       "pivotTopLeft":  [
+                                            16,
+                                            16
+                                        ],
+                       "footprintMetersProposal":  [
+                                                       5,
+                                                       5
+                                                   ],
+                       "view":  "map",
+                       "file":  "sprites/rocks_map.png"
+                   },
+                   {
+                       "width":  160,
+                       "height":  112,
+                       "id":  "rocks_side",
+                       "cropAndPlacement":  [
+                                                1362,
+                                                565,
+                                                380,
+                                                257,
+                                                9,
+                                                8,
+                                                142,
+                                                96
+                                            ],
+                       "source":  "originals/side.png",
+                       "label":  "바위 더미",
+                       "pixelsPerMeterProposal":  32,
+                       "pivotTopLeft":  [
+                                            80,
+                                            104
+                                        ],
+                       "footprintMetersProposal":  [
+                                                       5,
+                                                       5
+                                                   ],
+                       "view":  "side",
+                       "file":  "sprites/rocks_side.png"
+                   },
+                   {
+                       "id":  "archer_dig",
+                       "count":  4,
+                       "width":  1024,
+                       "view":  "action",
+                       "pivotTopLeft":  [
+                                            128,
+                                            352
+                                        ],
+                       "cropAndPlacement":  [
+                                                [
+                                                    58,
+                                                    84,
+                                                    392,
+                                                    598,
+                                                    36,
+                                                    71,
+                                                    184,
+                                                    281
+                                                ],
+                                                [
+                                                    626,
+                                                    138,
+                                                    375,
+                                                    542,
+                                                    40,
+                                                    97,
+                                                    176,
+                                                    255
+                                                ],
+                                                [
+                                                    1151,
+                                                    81,
+                                                    447,
+                                                    597,
+                                                    23,
+                                                    71,
+                                                    210,
+                                                    281
+                                                ],
+                                                [
+                                                    1651,
+                                                    81,
+                                                    493,
+                                                    598,
+                                                    12,
+                                                    71,
+                                                    232,
+                                                    281
+                                                ]
+                                            ],
+                       "height":  384,
+                       "fpsProposal":  5,
+                       "label":  "궁수 · 삽질",
+                       "file":  "sheets/archer_dig4.png",
+                       "uniformScale":  0.47058823529411764,
+                       "cell":  [
+                                    256,
+                                    384
+                                ],
+                       "pivotUnity":  [
+                                          0.5,
+                                          0.083333333333333329
+                                      ],
+                       "source":  "originals/archer_dig.png"
+                   },
+                   {
+                       "id":  "archer_earth",
+                       "count":  4,
+                       "width":  1024,
+                       "view":  "action",
+                       "pivotTopLeft":  [
+                                            128,
+                                            352
+                                        ],
+                       "cropAndPlacement":  [
+                                                [
+                                                    42,
+                                                    603,
+                                                    203,
+                                                    386,
+                                                    50,
+                                                    56,
+                                                    156,
+                                                    296
+                                                ],
+                                                [
+                                                    291,
+                                                    602,
+                                                    205,
+                                                    391,
+                                                    49,
+                                                    52,
+                                                    157,
+                                                    300
+                                                ],
+                                                [
+                                                    545,
+                                                    602,
+                                                    209,
+                                                    391,
+                                                    48,
+                                                    52,
+                                                    160,
+                                                    300
+                                                ],
+                                                [
+                                                    795,
+                                                    605,
+                                                    203,
+                                                    390,
+                                                    50,
+                                                    53,
+                                                    156,
+                                                    299
+                                                ]
+                                            ],
+                       "height":  384,
+                       "fpsProposal":  5,
+                       "label":  "궁수 · 흙 나르기",
+                       "file":  "sheets/archer_earth4.png",
+                       "uniformScale":  0.76726342710997442,
+                       "cell":  [
+                                    256,
+                                    384
+                                ],
+                       "pivotUnity":  [
+                                          0.5,
+                                          0.083333333333333329
+                                      ],
+                       "source":  "originals/archer.png"
+                   },
+                   {
+                       "id":  "archer_log",
+                       "count":  4,
+                       "width":  1024,
+                       "view":  "action",
+                       "pivotTopLeft":  [
+                                            128,
+                                            352
+                                        ],
+                       "cropAndPlacement":  [
+                                                [
+                                                    11,
+                                                    1062,
+                                                    242,
+                                                    372,
+                                                    35,
+                                                    67,
+                                                    186,
+                                                    285
+                                                ],
+                                                [
+                                                    261,
+                                                    1063,
+                                                    240,
+                                                    377,
+                                                    36,
+                                                    63,
+                                                    184,
+                                                    289
+                                                ],
+                                                [
+                                                    514,
+                                                    1063,
+                                                    243,
+                                                    374,
+                                                    35,
+                                                    65,
+                                                    186,
+                                                    287
+                                                ],
+                                                [
+                                                    768,
+                                                    1063,
+                                                    247,
+                                                    381,
+                                                    33,
+                                                    60,
+                                                    190,
+                                                    292
+                                                ]
+                                            ],
+                       "height":  384,
+                       "fpsProposal":  5,
+                       "label":  "궁수 · 통나무 나르기",
+                       "file":  "sheets/archer_log4.png",
+                       "uniformScale":  0.76726342710997442,
+                       "cell":  [
+                                    256,
+                                    384
+                                ],
+                       "pivotUnity":  [
+                                          0.5,
+                                          0.083333333333333329
+                                      ],
+                       "source":  "originals/archer.png"
+                   },
+                   {
+                       "id":  "gunner_dig",
+                       "count":  4,
+                       "width":  1024,
+                       "view":  "action",
+                       "pivotTopLeft":  [
+                                            128,
+                                            352
+                                        ],
+                       "cropAndPlacement":  [
+                                                [
+                                                    129,
+                                                    98,
+                                                    406,
+                                                    534,
+                                                    15,
+                                                    55,
+                                                    226,
+                                                    297
+                                                ],
+                                                [
+                                                    688,
+                                                    108,
+                                                    340,
+                                                    524,
+                                                    33,
+                                                    60,
+                                                    189,
+                                                    292
+                                                ],
+                                                [
+                                                    1165,
+                                                    100,
+                                                    378,
+                                                    531,
+                                                    23,
+                                                    57,
+                                                    210,
+                                                    295
+                                                ],
+                                                [
+                                                    1696,
+                                                    96,
+                                                    417,
+                                                    535,
+                                                    12,
+                                                    54,
+                                                    232,
+                                                    298
+                                                ]
+                                            ],
+                       "height":  384,
+                       "fpsProposal":  5,
+                       "label":  "총병 · 삽질",
+                       "file":  "sheets/gunner_dig4.png",
+                       "uniformScale":  0.55635491606714627,
+                       "cell":  [
+                                    256,
+                                    384
+                                ],
+                       "pivotUnity":  [
+                                          0.5,
+                                          0.083333333333333329
+                                      ],
+                       "source":  "originals/gunner_dig.png"
+                   },
+                   {
+                       "id":  "gunner_earth",
+                       "count":  4,
+                       "width":  1024,
+                       "view":  "action",
+                       "pivotTopLeft":  [
+                                            128,
+                                            352
+                                        ],
+                       "cropAndPlacement":  [
+                                                [
+                                                    36,
+                                                    592,
+                                                    220,
+                                                    384,
+                                                    43,
+                                                    57,
+                                                    169,
+                                                    295
+                                                ],
+                                                [
+                                                    256,
+                                                    590,
+                                                    255,
+                                                    386,
+                                                    30,
+                                                    55,
+                                                    196,
+                                                    297
+                                                ],
+                                                [
+                                                    551,
+                                                    588,
+                                                    208,
+                                                    390,
+                                                    48,
+                                                    52,
+                                                    160,
+                                                    300
+                                                ],
+                                                [
+                                                    811,
+                                                    591,
+                                                    204,
+                                                    387,
+                                                    49,
+                                                    54,
+                                                    157,
+                                                    298
+                                                ]
+                                            ],
+                       "height":  384,
+                       "fpsProposal":  5,
+                       "label":  "총병 · 흙 나르기",
+                       "file":  "sheets/gunner_earth4.png",
+                       "uniformScale":  0.76923076923076927,
+                       "cell":  [
+                                    256,
+                                    384
+                                ],
+                       "pivotUnity":  [
+                                          0.5,
+                                          0.083333333333333329
+                                      ],
+                       "source":  "originals/gunner.png"
+                   },
+                   {
+                       "id":  "gunner_log",
+                       "count":  4,
+                       "width":  1024,
+                       "view":  "action",
+                       "pivotTopLeft":  [
+                                            128,
+                                            352
+                                        ],
+                       "cropAndPlacement":  [
+                                                [
+                                                    5,
+                                                    1056,
+                                                    251,
+                                                    379,
+                                                    31,
+                                                    60,
+                                                    193,
+                                                    292
+                                                ],
+                                                [
+                                                    256,
+                                                    1058,
+                                                    254,
+                                                    377,
+                                                    30,
+                                                    62,
+                                                    195,
+                                                    290
+                                                ],
+                                                [
+                                                    512,
+                                                    1053,
+                                                    256,
+                                                    384,
+                                                    29,
+                                                    57,
+                                                    197,
+                                                    295
+                                                ],
+                                                [
+                                                    768,
+                                                    1058,
+                                                    252,
+                                                    380,
+                                                    31,
+                                                    60,
+                                                    194,
+                                                    292
+                                                ]
+                                            ],
+                       "height":  384,
+                       "fpsProposal":  5,
+                       "label":  "총병 · 통나무 나르기",
+                       "file":  "sheets/gunner_log4.png",
+                       "uniformScale":  0.76923076923076927,
+                       "cell":  [
+                                    256,
+                                    384
+                                ],
+                       "pivotUnity":  [
+                                          0.5,
+                                          0.083333333333333329
+                                      ],
+                       "source":  "originals/gunner.png"
+                   }
+               ],
+    "battleScaleProposal":  "32px/m · K-025 참조"
+}
