@@ -600,6 +600,7 @@ namespace HumanLastRampart.Combat.Battle
             foreach (BattleSim.SpellEffect e in list)
             {
                 if (!e.Fire && !e.Pending && effectArt != null && effectArt.HasBurstArt) continue;   // 터짐은 도트 그림으로 (K-015). 원판은 그대로
+                if (e.Fire && effectArt != null && effectArt.HasFireArt) continue;   // 불바다는 불 그림만 — 바닥 빨간 원판 빼기 (K-036, 사용자 피드백 12-b). 지도에는 주황 원이 남는다
                 if (e.Fire || e.Pending)
                 {
                     Renderer disc = Pooled(effectDiscs, discs++, PrimitiveType.Cylinder, "Spell Disc");
@@ -685,6 +686,16 @@ namespace HumanLastRampart.Combat.Battle
             }
         }
 
+        // 마법을 고른 동안 마우스가 가리키는 땅 위치 (K-036). DrawMapMarkers 앞에 부른다. 고른 마법이 없으면 spell = -1
+        int previewSpell = -1;
+        Vector3? spellPreview;
+
+        public void SetSpellPreview(int spell, Vector3? point)
+        {
+            previewSpell = spell;
+            spellPreview = point;
+        }
+
         // 지도 대포 표시: 모든 대포 위치(흰), 고른 벽 대포의 사거리 원(회색 점선), 조준점(빨강, 쉬는 중이면 회색), 고른 대포(노랑)
         public void DrawMapMarkers(int selectedSide, int selectedCannon, float dot, bool showSpellRange = false, Vector3? lens = null)
         {
@@ -734,6 +745,21 @@ namespace HumanLastRampart.Combat.Battle
                     Add(new Vector3(edge, 0f, t), c, dot * 0.6f);
                     Add(new Vector3(-edge, 0f, t), c, dot * 0.6f);
                 }
+            }
+
+            // 마법 범위 미리 보기 (K-036, 사용자 피드백 8): 고른 마법의 반경 원이 마우스를 따라다닌다.
+            // 폭발 노랑·불바다 주황(찍은 뒤 원과 같은 색), 성벽에서 150m 밖이거나 재사용 대기 중이면 회색 + 가운데 점 없음
+            if (showSpellRange && spellPreview.HasValue && previewSpell >= 0 && previewSpell < sim.SpellCount)
+            {
+                BattleSim.SpellInfo spell = sim.GetSpell(previewSpell);
+                Vector3 at = spellPreview.Value;
+                float fromWalls = Mathf.Max(Mathf.Abs(at.x), Mathf.Abs(at.z)) - sim.CastleHalf;
+                bool usable = fromWalls <= BattleSim.SpellCastRange && spell.Ready;
+                Color c = !usable ? new Color(0.55f, 0.55f, 0.58f) : spell.IsFire ? new Color(1f, 0.45f, 0.1f) : new Color(1f, 0.95f, 0.2f);
+                int dots = Mathf.Clamp(Mathf.RoundToInt(spell.Radius * 2.5f), 24, 64);
+                Ring(at, spell.Radius, c, dot * 1.1f, dots);
+                Ring(at, spell.Radius * 0.96f, c, dot * 0.6f, dots);
+                if (usable) Add(at, c, dot * 1.4f);
             }
 
             // 우회 적 보고를 받은 면 (D-053): 성벽 앞에 빨간 줄이 깜빡인다

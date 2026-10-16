@@ -13,7 +13,7 @@ namespace HumanLastRampart.Combat.Battle
     // - 대포 자리: 가운데가 낮은 사격구 판, 그 앞에 대포. 조준점이 왼쪽/오른쪽이면 그쪽 그림, 없으면 가운데
     // - 그림이 없으면(Resources/BattleArt) 그리지 않는다 — 예전 회색 상자만
     // - 대포 반동·포구 연기 (K-031, Codex K-016 시안): Cannon/cannon_recoil(평상→반동→복귀 3칸)이 있으면 3방향 그림 대신 쓴다.
-    //   쏜 순간(대포알 투사체가 새로 생긴 칸)을 찾아 반동 2칸을 0.1초씩 보이고, 포구 앞에 Cannon/muzzle_smoke 6칸을 한 번 재생한다
+    //   쏜 순간(대포 병사의 마지막 사격 시각, BattleSim.CannonFireAge — K-036)부터 반동 2칸을 보이고, 포구 앞에 Cannon/muzzle_smoke 6칸을 한 번 재생한다
     //   반동 그림은 바깥을 향한 한 방향뿐이라 좌우 조준 그림은 없다
     public sealed class BattlePropView : IDisposable
     {
@@ -33,13 +33,11 @@ namespace HumanLastRampart.Combat.Battle
 
         // 반동 대포 (K-016 cannon_recoil: 칸 256×256, 바퀴 접지 (128,240), 10fps)
         const float RecoilCannonSize = 0.6f;                  // 칸 높이(m) — 보이는 폭 약 0.55m, 사격구 폭 1.12m 안
-        const float RecoilFrameSeconds = 0.1f;                // 반동 1칸·복귀 1칸을 이만큼씩
-        const float CannonShotSize = 1f;                      // 투사체 그림 크기가 이보다 크면 대포알 (WriteShotInstancesJob 1.6, BattleEffectsView와 같은 규칙)
-        const float FireMatchDistance = 3f;                   // 새 대포알이 이 거리 안 대포에서 나왔다고 본다
-        // 포구 연기 (K-016 muzzle_smoke: 칸 256×256 6칸, 원점 (128,240), 10fps 한 번)
+        const float RecoilFrameSeconds = 0.15f;               // 반동 1칸·복귀 1칸을 이만큼씩 (K-036: 0.1초는 눈에 안 띄어 늘림)
+        // 포구 연기 (K-016 muzzle_smoke: 칸 256×256 6칸, 원점 (128,240) — 시안 10fps를 조금 느리게 한 번)
         const int SmokeFrames = 6;
-        const float SmokeFps = 10f;
-        const float SmokeSize = 0.7f;
+        const float SmokeFps = 8f;
+        const float SmokeSize = 1.2f;                         // K-036: 0.7m는 사진기 거리에서 안 보였다
         const float SmokeForward = 0.45f;                     // 대포 자리에서 바깥쪽으로 (포구)
         const float SmokeLift = 0.12f;                        // 통로 위 (포구 높이쯤)
 
@@ -53,8 +51,6 @@ namespace HumanLastRampart.Combat.Battle
         readonly PerfLabInstance[] cannonInstances;
         float lastBrightness = -1f;
         readonly bool recoilArt;                              // cannon_recoil이 있으면 true
-        readonly float[] lastFired;                           // 대포마다 마지막으로 쏜 시각 (반동·연기)
-        float[] shotSizes;                                    // 지난 프레임 투사체 그림 크기 (0에서 커지면 새로 쏨)
         readonly GraphicsBuffer smokeBuffer;
         readonly MaterialPropertyBlock smokeBlock;
         readonly PerfLabInstance[] smokeInstances;
@@ -134,10 +130,6 @@ namespace HumanLastRampart.Combat.Battle
 
                 if (recoilArt)
                 {
-                    lastFired = new float[sim.CannonCount];
-                    for (int i = 0; i < lastFired.Length; i++) lastFired[i] = -100f;
-                    shotSizes = new float[sim.ShotCapacity];
-
                     var smoke = Resources.Load<Texture2D>("BattleArt/Cannon/muzzle_smoke");
                     if (smoke != null)
                     {
@@ -148,39 +140,6 @@ namespace HumanLastRampart.Combat.Battle
                         smokeBlock.SetBuffer(InstancesId, smokeBuffer);
                     }
                 }
-            }
-        }
-
-        // 새 대포알 찾기: 투사체 칸의 그림 크기가 0(빈 칸)·작은 것에서 대포알 크기로 바뀌면 그 자리에서 가장 가까운 대포가 쐈다
-        void TrackCannonShots()
-        {
-            if (shotSizes == null) return;
-            NativeArray<PerfLabInstance> shots = sim.ShotInstances;
-            int slots = Mathf.Min(shotSizes.Length, shots.Length);
-            float now = Time.time;
-            for (int i = 0; i < slots; i++)
-            {
-                PerfLabInstance shot = shots[i];
-                float size = shot.TintSize.w;
-                float before = shotSizes[i];
-                shotSizes[i] = size;
-                if (size <= CannonShotSize || before > CannonShotSize) continue;
-
-                int best = -1;
-                float bestDistance = FireMatchDistance * FireMatchDistance;
-                for (int c = 0; c < lastFired.Length; c++)
-                {
-                    Vector3 p = sim.GetCannon(c).Position;
-                    float dx = p.x - shot.PosFrame.x, dz = p.z - shot.PosFrame.z;
-                    float d = dx * dx + dz * dz;
-                    if (d < bestDistance)
-                    {
-                        bestDistance = d;
-                        best = c;
-                    }
-                }
-
-                if (best >= 0) lastFired[best] = now;
             }
         }
 
@@ -227,8 +186,6 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             if (cannonBuffer == null) return;
-            if (recoilArt) TrackCannonShots();
-            float now = Time.time;
             int smokes = 0;
             for (int i = 0; i < cannonInstances.Length; i++)
             {
@@ -237,10 +194,10 @@ namespace HumanLastRampart.Combat.Battle
                 float3 r = WallGeometry.Right(c.Side);
                 int frame = 1;
                 float size = CannonSize;
+                float since = sim.CannonFireAge(i);   // 전투 시간 기준 (K-036: 병사 사격 시각으로 직접)
                 if (recoilArt)
                 {
-                    // 0 평상, 1 반동(뒤로 밀림), 2 반쯤 복귀 — 쏜 뒤 0.1초씩
-                    float since = now - lastFired[i];
+                    // 0 평상, 1 반동(뒤로 밀림), 2 반쯤 복귀 — 쏜 뒤 RecoilFrameSeconds씩
                     frame = since < RecoilFrameSeconds ? 1 : since < RecoilFrameSeconds * 2f ? 2 : 0;
                     size = RecoilCannonSize;
                 }
@@ -258,9 +215,9 @@ namespace HumanLastRampart.Combat.Battle
                     TintSize = c.Alive ? new float4(shade, shade, shade, size) : float4.zero,
                 };
 
-                // 포구 연기: 쏜 뒤 0.6초 한 번 (스스로 빛나는 불이 아니라 밝기는 대포와 같게)
-                if (smokeInstances == null) continue;
-                float age = now - lastFired[i];
+                // 포구 연기: 쏜 뒤 0.75초 한 번 (스스로 빛나는 불이 아니라 밝기는 대포와 같게)
+                if (smokeInstances == null || !c.Alive) continue;
+                float age = since;
                 if (age < 0f || age >= SmokeFrames / SmokeFps) continue;
                 Vector3 m = p + new Vector3(n.x, 0f, n.z) * SmokeForward + Vector3.up * SmokeLift;
                 smokeInstances[smokes++] = new PerfLabInstance
