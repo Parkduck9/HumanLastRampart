@@ -61,8 +61,7 @@ namespace HumanLastRampart.Combat.Battle
         const float CannonShotSize = 1f;             // 투사체 그림 크기가 이보다 크면 대포알 (WriteShotInstancesJob 1.6)
 
         // 횃불 자리 — BattleLights와 같은 규칙 (그쪽 값이 바뀌면 함께 맞춘다)
-        const float TorchSpacing = BattleLights.TorchSpacing;   // 빛과 같은 자리 (D-071 피드백: 그림과 빛이 따로 놀던 것)
-        const float TorchInset = BattleLights.TorchInset;
+        const float TorchInset = BattleLights.TorchInset;      // 빛과 같은 자리 (D-071 피드백: 그림과 빛이 따로 놀던 것). 성벽 따라 자리는 sim.TorchSpots
         const float TorchFootHeight = BattleLights.TorchHeight - 0.1f;   // 빛보다 조금 아래에서 불꽃이 솟는다
         const float TorchSize = 0.35f;   // 병사 키(0.35m)와 같은 칸 크기 — 0.9는 병사보다 훨씬 컸다
 
@@ -167,22 +166,19 @@ namespace HumanLastRampart.Combat.Battle
             return kind;
         }
 
-        // BattleLights.BuildTorches와 같은 계산: 네 성벽 안쪽 가장자리를 따라 간격마다, 가운데 맞춤
+        // BattleLights.BuildTorches와 같은 자리: 네 성벽 난간 바로 뒤, 간격마다 가장 가까운 돌출부 뒤 (sim.TorchSpots, K-045)
         // 받침 그림이 있으면 받침은 통로 위에 서고, 불꽃은 받침 머리(시안 접점)에서 시안 비율 크기로 솟는다
         void BuildTorchFeet(bool hasMount)
         {
             float flameFoot = hasMount ? MountFlameFoot : TorchFootHeight;
             torchSize = hasMount ? MountFlameSize : TorchSize;
             float inner = sim.CastleHalf - TorchInset;
-            int count = Mathf.Max(1, Mathf.FloorToInt((inner * 2f) / TorchSpacing));
-            float start = -(count - 1) * TorchSpacing * 0.5f;
             for (int side = 0; side < 4; side++)
             {
                 float3 n = WallGeometry.Outward(side);
                 float3 r = WallGeometry.Right(side);
-                for (int k = 0; k < count; k++)
+                foreach (float along in sim.TorchSpots(side))   // 빛과 같은 목록 — 돌출부 뒤 (K-045)
                 {
-                    float along = start + k * TorchSpacing;
                     torchFeet.Add(new Vector3(n.x * inner + r.x * along, BattleSim.WallHeight + flameFoot, n.z * inner + r.z * along));
                     if (hasMount) mountFeet.Add(new Vector3(n.x * inner + r.x * along, BattleSim.WallHeight, n.z * inner + r.z * along));
                 }

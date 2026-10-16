@@ -30,13 +30,8 @@ namespace HumanLastRampart.Combat.Battle
         float FunnelSlope => Mathf.Max(0f, (FunnelFieldHalfWidth - FunnelBase) / Mathf.Max(1f, FieldSize - CastleHalf));               // 성벽 가까이에서 적 크기 비율 — 고블린 0.4m(병사 0.35m와 비슷), 오우거 0.66m
         public const float WallScaleBand = 30f;             // 성벽에서 이 거리(m) 안에서 점점 줄어든다 (8m는 가까운 고블린이 너무 커 보여 늘림, D-047)
         const float SoldierDrawSize = 1.4f * WallFigureScale;
-        const float SoldierMaxSpacing = 0.45f;              // 인원이 적으면 이 간격, 많으면 자기 구간에 맞춰 촘촘히
-        const float SoldierInset = 0.5f;                    // 성벽 바깥 모서리에서 안쪽으로
-        // 그림이 겹치지 않는 최소 간격 (K-039 사용자 3차 의견 1). 가장 넓은 그림 = 총병 서 있기 200px(총 포함),
-        // 인물 키 300px = 0.35m(K-034)이라 0.23m. 이보다 좁아지면 조금 안쪽에 줄을 하나 더 세운다
-        const float SoldierMinSpacing = 0.24f;
+        const float SoldierInset = 0.5f;                    // 성벽 바깥 모서리에서 안쪽으로 (대포·운용병. 병사 줄은 BattleSim.Slots SlotRowInset)
         const float SoldierRowDepth = 0.3f;                 // 줄 사이 (안쪽으로)
-        const int SoldierMaxRows = 3;                       // 0.5·0.8·1.1m — 달리는 길(안쪽 1.4m)은 비워 둔다. 넘치면 예전처럼 간격을 좁힌다
         const float CannonCrewOffset = 0.45f;               // 대포 운용병은 대포 양옆 (대포 그림 보이는 폭 약 0.55m)
         const float WalkInDistance = 2f;                    // 달리는 길 ↔ 자기 자리를 이 거리 동안 비스듬히 오간다 (K-039 의견 6)
 
@@ -499,24 +494,27 @@ namespace HumanLastRampart.Combat.Battle
                 postsBySide[(int)def.Wall].Add((def.PositionAlongWall - 0.5f) * 2f * CastleHalf);
             }
 
+            // 대포 사격구 자리(대포 지점, 운용병이 있을 때)를 먼저 모은다 — 사격구 안에는 돌출부·총안이 없다 (K-045)
+            foreach (var (squad, post, w, _) in placed)
+                if (weapons[w].AreaRadius > 0f && squad.Count > 0)
+                    cannonBays[(int)post.Wall].Add((post.PositionAlongWall - 0.5f) * 2f * CastleHalf);
+            BuildWallSlots(n);
+
             var random = new Unity.Mathematics.Random(seed ^ 0x9E3779B9u);
             int index = 0;
             foreach (var (squad, post, w, hp) in placed)
             {
                 int side = (int)post.Wall;
                 float along = (post.PositionAlongWall - 0.5f) * 2f * CastleHalf;
-                // 분대는 자기 구간 안에 선다 (D-046). 그림 폭보다 좁으면 안쪽 줄 (K-039), 그래도 넘치면 간격을 좁힌다
+                // 분대는 자기 구간(양옆 지점과의 가운데까지) 안의 총안부터 선다 (D-046, K-045). 앞 번호가 가까운 앞줄 —
+                // 병사는 뒤 번호부터 잃으므로 뒷줄·먼 자리가 먼저 빈다
                 float lo = -CastleHalf + 1f, hi = CastleHalf - 1f;
                 foreach (float other in postsBySide[side])
                 {
-                    if (other < along - 0.01f) lo = Mathf.Max(lo, (other + along) * 0.5f + 0.5f);
-                    else if (other > along + 0.01f) hi = Mathf.Min(hi, (other + along) * 0.5f - 0.5f);
+                    if (other < along - 0.01f) lo = Mathf.Max(lo, (other + along) * 0.5f);
+                    else if (other > along + 0.01f) hi = Mathf.Min(hi, (other + along) * 0.5f);
                 }
 
-                // 그림 폭보다 좁아지면 안쪽 줄을 더한다 (K-039). 앞줄부터 채운다 — 병사는 뒤 번호부터 잃으므로 안쪽 줄이 먼저 빈다
-                LineLayout(squad.Count, hi - lo, out int perRow, out float spacing);
-                float halfSpan = (perRow - 1) * spacing * 0.5f;
-                float center = Mathf.Clamp(along, lo + halfSpan, Mathf.Max(lo + halfSpan, hi - halfSpan));
                 // 10명 묶음으로 나눈다 (D-072 지도에서 묶음 이동). 대포 분대는 한 묶음 그대로
                 bool cannonSquad = weapons[w].AreaRadius > 0f;
                 if (cannonSquad) cannonSpots[index] = WallSpot(side, along, 0);   // 대포는 지점 자리, 운용병은 그 양옆
@@ -539,10 +537,7 @@ namespace HumanLastRampart.Combat.Battle
                     }
                     else
                     {
-                        int row = i / perRow;
-                        int inRow = Mathf.Min(perRow, squad.Count - row * perRow);
-                        float lateral = center - (inRow - 1) * spacing * 0.5f + (i % perRow) * spacing;
-                        position = WallSpot(side, lateral, row);
+                        position = ClaimSlot(index, side, lo, hi, along);   // 총안 자리 (K-045)
                     }
 
                     sPos[index] = position;
@@ -562,32 +557,11 @@ namespace HumanLastRampart.Combat.Battle
             RefreshSoldierInstances();
         }
 
-        // ── 성벽 위 자리 (K-039) ─────────────────────────────
+        // ── 성벽 위 자리 (K-039, 병사 자리는 K-045부터 BattleSim.Slots) ──────────
 
-        // 성벽 위 한 자리: 성벽 따라 lateral(m), row = 0 바깥 줄(SoldierInset)부터 안쪽으로
+        // 성벽 위 한 자리: 성벽 따라 lateral(m), row = 0 바깥 줄(SoldierInset)부터 안쪽으로 — 대포·운용병 자리
         float3 WallSpot(int side, float lateral, int row) =>
             WallGeometry.Outward(side) * (CastleHalf - SoldierInset - row * SoldierRowDepth) + WallGeometry.Right(side) * lateral + new float3(0f, WallHeight, 0f);
-
-        // 병사가 선 줄 번호 (바깥 0)
-        int RowOf(int soldier, int side) =>
-            (int)math.round((CastleHalf - SoldierInset - math.dot(sPos[soldier], WallGeometry.Outward(side))) / SoldierRowDepth);
-
-        // count명을 폭 width 안에 줄 세우기: 한 줄 인원과 간격. 그림 폭(SoldierMinSpacing)보다 좁아지면 줄을 늘리고(최대 SoldierMaxRows),
-        // 그래도 넘치면 간격을 좁힌다(예전 방식)
-        static void LineLayout(int count, float width, out int perRow, out float spacing)
-        {
-            if (count <= 1)
-            {
-                perRow = 1;
-                spacing = 0f;
-                return;
-            }
-
-            int fit = Mathf.Max(1, Mathf.FloorToInt(Mathf.Max(0f, width) / SoldierMinSpacing) + 1);
-            int rows = Mathf.Clamp((count + fit - 1) / fit, 1, SoldierMaxRows);
-            perRow = (count + rows - 1) / rows;
-            spacing = perRow > 1 ? Mathf.Min(SoldierMaxSpacing, Mathf.Max(0f, width) / (perRow - 1)) : 0f;
-        }
 
         // 대포 위치 (쏘는 병사 번호로). 표에 없으면 그 병사 자리
         float3 CannonSpot(int shooter) => cannonSpots.TryGetValue(shooter, out float3 spot) ? spot : sPos[shooter];
@@ -717,6 +691,7 @@ namespace HumanLastRampart.Combat.Battle
             Spawn();
             UpdateMessengers(dt);
             UpdateGroupMoves(dt);
+            UpdateSlotWalks(dt);   // 빈 총안 메우러 걷기 (K-045)
             UpdateFlank(dt);
             UpdateWizard(dt);
             UpdateSpells(dt);
@@ -769,6 +744,7 @@ namespace HumanLastRampart.Combat.Battle
                 squad.Alive--;
                 sAlive[squad.FirstSoldier + squad.Alive] = 0;   // 뒤쪽 병사부터
                 MarkSoldierFallen(squad.FirstSoldier + squad.Alive);   // 쓰러짐 그림 (K-032)
+                RefillAfterFall(squad.FirstSoldier + squad.Alive);     // 빈 총안을 가까운 뒷줄 병사가 메운다 (K-045)
                 squads[target] = squad;
                 SideStatus status = Sides[side];
                 status.GarrisonAlive--;

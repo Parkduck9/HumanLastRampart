@@ -72,17 +72,11 @@ namespace HumanLastRampart.Combat.Battle
             float half = sim.CastleHalf;
             float top = BattleSim.WallHeight;
 
-            // 성벽마다 대포 자리(성벽 따라 m)
-            var bays = new List<float>[4];
-            for (int s = 0; s < 4; s++) bays[s] = new List<float>();
-            for (int i = 0; i < sim.CannonCount; i++)
-            {
-                BattleSim.CannonInfo c = sim.GetCannon(i);
-                float3 r = WallGeometry.Right(c.Side);
-                bays[c.Side].Add(c.Position.x * r.x + c.Position.z * r.z);
-            }
+            // 성벽마다 대포 자리(성벽 따라 m) — 병사 자리(BattleSim.Slots)와 같은 목록 (K-045)
+            var bays = new IReadOnlyList<float>[4];
+            for (int s = 0; s < 4; s++) bays[s] = sim.CannonBays(s);
 
-            float platformHalf = p.TowerPlatform * 0.5f;
+            var merlons = new List<float>();
             for (int side = 0; side < 4; side++)
             {
                 float3 n3 = WallGeometry.Outward(side);
@@ -91,7 +85,7 @@ namespace HumanLastRampart.Combat.Battle
                 var r = new Vector3(r3.x, 0f, r3.z);
                 Quaternion face = Quaternion.LookRotation(n);
                 // 모서리 발판이 차지하는 끝은 비워 둔다
-                float from = -half + platformHalf, to = half - platformHalf;
+                float from = BattleWallLayout.From(half), to = BattleWallLayout.To(half);
 
                 damageParts[side] = new List<(Renderer, BattleWorldMaterials.Surface)>();
                 collecting = damageParts[side];
@@ -125,13 +119,10 @@ namespace HumanLastRampart.Combat.Battle
 
                 Parapet(n, r, face, half, top, along, to, p.ParapetHeight, p);
 
-                // 돌출부 (사격구 안에는 없음)
-                float period = p.MerlonWidth + p.MerlonGap;
-                for (float m = from + p.MerlonGap + p.MerlonWidth * 0.5f; m < to - p.MerlonWidth * 0.5f; m += period)
+                // 돌출부 (사격구 안에는 없음). 자리 계산은 병사 총안 자리·횃불과 공용 (BattleWallLayout, K-045)
+                BattleWallLayout.Merlons(half, bays[side], merlons);
+                foreach (float m in merlons)
                 {
-                    bool inBay = false;
-                    foreach (float bay in bays[side]) if (Mathf.Abs(m - bay) < p.BayWidth * 0.5f + p.MerlonWidth * 0.5f) inBay = true;
-                    if (inBay) continue;
                     // 돌출부도 난간과 같은 벽돌 줄에서 이어진다 (위치 = 성벽 따라 m, 높이 = 난간 위)
                     Box("Merlon", n * (half - p.ParapetDepth * 0.5f) + r * m + Vector3.up * (top + p.ParapetHeight + p.MerlonHeight * 0.5f),
                         face, new Vector3(p.MerlonWidth, p.MerlonHeight, p.ParapetDepth), BattleWorldMaterials.Surface.ParapetSide,
@@ -169,7 +160,7 @@ namespace HumanLastRampart.Combat.Battle
             }
         }
 
-        static List<float> Sorted(List<float> list)
+        static List<float> Sorted(IReadOnlyList<float> list)
         {
             var copy = new List<float>(list);
             copy.Sort();
