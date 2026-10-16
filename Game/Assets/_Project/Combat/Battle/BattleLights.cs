@@ -24,9 +24,12 @@ namespace HumanLastRampart.Combat.Battle
 
         const int FlashCapacity = 16;
         const float BlastSeconds = 0.4f;        // 폭발 번쩍 (BattleSim 폭발 표시 시간과 같다)
-        const float BlastIntensity = 9f;
-        const float FireIntensity = 4f;
+        const float BlastIntensity = 9f;        // 함정 폭발
+        const float MagicBlastIntensity = 24f;  // 마법 폭발은 크게 번쩍 (K-041: 대포·함정과 확실히 다르게)
+        const float FireIntensity = 10f;        // 불바다 (K-041: 4는 낮에 안 보였다 — 사용자 '불에서 빛도 안 나옴')
+        const float DayFireMultiplier = 1.6f;   // 낮에는 햇빛에 묻히지 않게 더
         const float FlashHeight = 1.5f;         // 땅 위
+        const float FireHeight = 0.9f;          // 불바다 빛은 낮게 — 땅에 주황빛 웅덩이가 지게
         static readonly Color BlastColor = new Color(1f, 0.82f, 0.55f);
         static readonly Color FireColor = new Color(1f, 0.5f, 0.18f);
 
@@ -192,11 +195,14 @@ namespace HumanLastRampart.Combat.Battle
                     // 불바다: 흔들리는 주황빛, 끝날 때 1초 동안 사그라든다
                     float fade = Mathf.Clamp01(e.TimeLeft);
                     float flicker = 0.75f + 0.25f * Mathf.PerlinNoise(t * 7f, i * 3.1f);
-                    Use(used++, e.Position, e.Radius, FireColor, FireIntensity * flicker * fade);
+                    float day = sim.TimeOfDay == TimeOfDay.Night ? 1f : DayFireMultiplier;
+                    Use(used++, e.Position, e.Radius, FireColor, FireIntensity * day * flicker * fade, FireHeight, e.Radius * 1.6f + 3f);
                 }
                 else
                 {
-                    Use(used++, e.Position, e.Radius, BlastColor, BlastIntensity * Mathf.Clamp01(e.TimeLeft / BlastSeconds));
+                    // 마법 폭발: 크고 넓게 번쩍 (함정 폭발은 아래 trapBlasts로 예전 세기)
+                    float k = Mathf.Clamp01(e.TimeLeft / BlastSeconds);
+                    Use(used++, e.Position, e.Radius, BlastColor, MagicBlastIntensity * k * k, FlashHeight, e.Radius * 3f + 8f);
                 }
             }
 
@@ -210,7 +216,10 @@ namespace HumanLastRampart.Combat.Battle
         }
 
         // 풀의 index번 빛을 켠다 (없으면 만든다). 범위는 효과 반경보다 넓게
-        void Use(int index, Vector3 ground, float radius, Color color, float intensity)
+        void Use(int index, Vector3 ground, float radius, Color color, float intensity) =>
+            Use(index, ground, radius, color, intensity, FlashHeight, Mathf.Max(4f, radius * 2f + 3f));
+
+        void Use(int index, Vector3 ground, float radius, Color color, float intensity, float height, float range)
         {
             while (flashes.Count <= index)
             {
@@ -220,9 +229,9 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             Light light = flashes[index];
-            light.transform.localPosition = new Vector3(ground.x, ground.y + FlashHeight, ground.z);
+            light.transform.localPosition = new Vector3(ground.x, ground.y + height, ground.z);
             light.color = color;
-            light.range = Mathf.Max(4f, radius * 2f + 3f);
+            light.range = range;
             light.intensity = intensity;
             light.enabled = intensity > 0.01f;
         }

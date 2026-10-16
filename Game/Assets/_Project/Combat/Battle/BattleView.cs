@@ -592,6 +592,14 @@ namespace HumanLastRampart.Combat.Battle
             float visible = Mathf.Min(battle.VisibleDistance, battle.IsRaining ? 140f : 10000f);
             RenderSettings.fogStartDistance = 8f;
             RenderSettings.fogEndDistance = visible + 40f;
+            // K-041 안개 날씨: 가까이부터 짙게 — 시야(25m) 언저리에서 거의 묻히고, 적 그림(PerfLabSprite)도 이제 안개를 받는다.
+            // 땅에 깔리는 안개 판은 BattleFieldArt가 같은 안개색으로 그린다
+            if (battle.CurrentWeather == HumanLastRampart.Core.CombatContracts.Weather.Fog)
+            {
+                RenderSettings.fogColor = Color.Lerp(sky, Color.white, night ? 0.05f : 0.15f);
+                RenderSettings.fogStartDistance = 2f;
+                RenderSettings.fogEndDistance = visible + 15f;
+            }
         }
 
         // 마법 효과 (임시 모양): 불바다 = 주황 원판, 폭발 대기 = 어두운 노랑 원판, 터짐 = 밝은 공
