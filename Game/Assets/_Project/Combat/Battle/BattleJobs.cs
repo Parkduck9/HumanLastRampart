@@ -75,6 +75,12 @@ namespace HumanLastRampart.Combat.Battle
         public float DrawSize;
         public float3 Tint;
         public byte SheetFrames;     // 시트 칸 수: 1 = 정적(0번만), 4 = 걷기만(공격도 걷기 칸), 8 = 걷기 4 + 공격 4
+        // 따로 붙인 동작 시트 칸 수 (K-032, 0 = 없음). 그리기 구간은 PerfLabArt.AttackFrame0 등
+        public byte AttackFrames;
+        public byte DeployFrames;
+        public byte ClimbFrames;
+        public byte FallFrames;
+        public byte HasLadder;       // 오르는 동안 사다리 소품을 그린다
     }
 
     // 무기 종류별 값 (WeaponDef에서 복사)
@@ -363,6 +369,8 @@ namespace HumanLastRampart.Combat.Battle
         [ReadOnly] public NativeArray<float3> SoldierAim;     // 대포 조준점 (MAP-3)
         [ReadOnly] public NativeArray<byte> SoldierHasAim;
         public NativeArray<byte> SoldierIdle;                 // 조준점 근처에 적이 없어 쉼
+        public NativeArray<float> SoldierFireTime;            // 마지막으로 쏜 시각 (사격 그림, K-032)
+        public float Now;
         [ReadOnly] public NativeArray<byte> SidePriority;     // 성벽별 TargetPriority
         [ReadOnly] public NativeArray<WeaponKindData> Weapons;
         [ReadOnly] public NativeArray<float3> EnemyPositions;
@@ -563,6 +571,7 @@ namespace HumanLastRampart.Combat.Battle
                 Weapon = SoldierWeapon[s],
             });
             SoldierCooldowns[s] = weapon.Interval * IntervalMultiplier;
+            SoldierFireTime[s] = Now;
         }
 
         // 지도에서 정한 지점으로 포격 (MAP-3). 지점 근처(범위 + 6m)에 적이 없으면 쉰다 (D-044 M2)
@@ -624,6 +633,7 @@ namespace HumanLastRampart.Combat.Battle
                 Weapon = SoldierWeapon[s],
             });
             SoldierCooldowns[s] = weapon.Interval * IntervalMultiplier;
+            SoldierFireTime[s] = Now;
         }
     }
 
@@ -886,9 +896,17 @@ namespace HumanLastRampart.Combat.Battle
     }
 
     // ⑧ 적 그리기 데이터: 걷기·오르기 0~3번 칸, 성벽 공격·성벽 위 싸움 4~7번 칸. 등장 전·죽은 적은 크기 0
+    // K-032: 따로 붙인 동작 시트가 있으면 그 구간 칸(공격·세우기·오르기·쓰러짐, PerfLabArt.*Frame0).
+    // 죽은 적은 쓰러짐 그림이 있으면 FallSeconds 동안 쓰러짐 칸, 그 뒤 크기 0. 오르는 사다리 적은 Ladders에 사다리 소품
     [BurstCompile(CompileSynchronously = true)]
     public struct WriteBattleEnemyInstancesJob : IJobParallelFor
     {
+        public NativeArray<float> FallStart;                    // 쓰러지기 시작한 시각 (0 = 아직)
+        [WriteOnly] public NativeArray<PerfLabInstance> Ladders;
+        public float FallSeconds;
+        public float FallFps;
+        public float DeployHeight;      // 오르기 시작 뒤 이 높이(m)까지는 세우기 칸
+        public float LadderSize;
         [ReadOnly] public NativeArray<float3> Positions;
         [ReadOnly] public NativeArray<byte> States;
         [ReadOnly] public NativeArray<float> AnimPhases;
@@ -911,22 +929,63 @@ namespace HumanLastRampart.Combat.Battle
         public void Execute(int i)
         {
             byte state = States[i];
+            EnemyKind kind = Kinds[KindOf[i]];
+            Ladders[i] = new PerfLabInstance { PosFrame = new float4(Positions[i], 0f), TintSize = float4.zero };
+            float frame;
             if (!EnemyState.IsAlive(state))
             {
-                Instances[i] = new PerfLabInstance { PosFrame = new float4(Positions[i], 0f), TintSize = float4.zero };
-                return;
-            }
+                if (state != EnemyState.Dead || kind.FallFrames == 0)
+                {
+                    Instances[i] = new PerfLabInstance { PosFrame = new float4(Positions[i], 0f), TintSize = float4.zero };
+                    return;
+                }
 
-            bool attacking = state == EnemyState.AtWall || state == EnemyState.OnWall;
-            float fps = attacking ? AttackFps : WalkFps;
-            float frame = math.floor(math.frac(Time * fps / FramesPerAction + AnimPhases[i]) * FramesPerAction);
-            EnemyKind kind = Kinds[KindOf[i]];
-            if (attacking && kind.SheetFrames >= FramesPerAction * 2)
+                float start = FallStart[i];
+                if (start <= 0f)
+                {
+                    start = math.max(Time, 1e-4f);
+                    FallStart[i] = start;
+                }
+
+                float age = Time - start;
+                if (age >= FallSeconds)
+                {
+                    Instances[i] = new PerfLabInstance { PosFrame = new float4(Positions[i], 0f), TintSize = float4.zero };
+                    return;
+                }
+
+                frame = PerfLabArt.FallFrame0 + math.min(math.floor(age * FallFps), kind.FallFrames - 1);
+            }
+            else
             {
-                frame += FramesPerAction;
+                bool attacking = state == EnemyState.AtWall || state == EnemyState.OnWall;
+                float fps = attacking ? AttackFps : WalkFps;
+                float cycle = math.floor(math.frac(Time * fps / FramesPerAction + AnimPhases[i]) * FramesPerAction);
+                frame = cycle;
+                if (attacking && kind.AttackFrames > 0)
+                {
+                    frame = PerfLabArt.AttackFrame0 + cycle % kind.AttackFrames;
+                }
+                else
+                {
+                    if (attacking && kind.SheetFrames >= FramesPerAction * 2)
+                    {
+                        frame += FramesPerAction;
+                    }
+
+                    if (kind.SheetFrames < FramesPerAction) frame = 0;
+                }
+
+                if (state == EnemyState.Climbing)
+                {
+                    float climbed = Positions[i].y;
+                    if (kind.DeployFrames > 0 && climbed < DeployHeight)
+                        frame = PerfLabArt.DeployFrame0 + math.min(math.floor(climbed / DeployHeight * kind.DeployFrames), kind.DeployFrames - 1);
+                    else if (kind.ClimbFrames > 0)
+                        frame = PerfLabArt.ClimbFrame0 + cycle % kind.ClimbFrames;
+                }
             }
 
-            if (kind.SheetFrames < FramesPerAction) frame = 0;
             float shade = Brightness;
             float fromWall = math.dot(Positions[i], WallGeometry.Outward(Sides[i])) - CastleHalf;
             float size = kind.DrawSize * math.lerp(WallScale, 1f, math.saturate((fromWall - 1f) / math.max(0.1f, WallScaleBand - 1f)));
@@ -947,6 +1006,18 @@ namespace HumanLastRampart.Combat.Battle
                 PosFrame = new float4(Positions[i], frame),
                 TintSize = new float4(kind.Tint * shade, size),
             };
+
+            // 사다리 소품: 오르는 동안 성벽 바로 앞 땅에 세운다 (인물보다 조금 성벽 쪽)
+            if (state == EnemyState.Climbing && kind.HasLadder != 0)
+            {
+                float3 foot = Positions[i] - WallGeometry.Outward(Sides[i]) * 0.15f;
+                foot.y = 0f;
+                Ladders[i] = new PerfLabInstance
+                {
+                    PosFrame = new float4(foot, 0f),
+                    TintSize = new float4(shade, shade, shade, LadderSize),
+                };
+            }
         }
     }
 
@@ -955,11 +1026,13 @@ namespace HumanLastRampart.Combat.Battle
     {
         [ReadOnly] public NativeArray<byte> ShotActive;
         [ReadOnly] public NativeArray<float3> ShotPositions;
+        [ReadOnly] public NativeArray<float3> ShotVelocities;
         [ReadOnly] public NativeArray<int> ShotWeapon;
         [ReadOnly] public NativeArray<WeaponKindData> Weapons;
         [WriteOnly] public NativeArray<PerfLabInstance> Instances;
         public float Brightness;
 
+        // K-032: 프레임 번호 = 무기 번호(무기마다 따로 그리는 구간), 색 칸(rgb) = 날아가는 방향. 색은 그리기 쪽 _ShotColor
         public void Execute(int slot)
         {
             if (ShotActive[slot] == 0)
@@ -968,12 +1041,13 @@ namespace HumanLastRampart.Combat.Battle
                 return;
             }
 
-            // 대포알은 크고 어둡게, 화살·총알은 가늘게
-            bool cannon = Weapons[ShotWeapon[slot]].AreaRadius > 0f;
+            // 대포알은 크게, 화살·총알은 가늘게 (크기 1 넘음 = 대포알 — BattleEffectsView가 맞음 불꽃에서 뺀다)
+            int weapon = ShotWeapon[slot];
+            bool cannon = Weapons[weapon].AreaRadius > 0f;
             Instances[slot] = new PerfLabInstance
             {
-                PosFrame = new float4(ShotPositions[slot], 0f),
-                TintSize = cannon ? new float4(0.15f, 0.15f, 0.15f, 1.6f) : new float4(new float3(0.95f, 0.9f, 0.75f) * Brightness, 0.45f),
+                PosFrame = new float4(ShotPositions[slot], weapon),
+                TintSize = new float4(math.normalizesafe(ShotVelocities[slot], new float3(1f, 0f, 0f)), cannon ? 1.6f : 0.45f),
             };
         }
     }

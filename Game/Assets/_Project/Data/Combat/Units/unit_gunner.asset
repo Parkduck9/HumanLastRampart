@@ -20,3 +20,7 @@ MonoBehaviour:
   recruitCost: 8
   sheet: {fileID: 2800000, guid: 41cc8dcf5f7a4fd5980191d361dc65f3, type: 3}
   runSheet: {fileID: 2800000, guid: c41bc62645c84bc4bf83291a3dda7ec8, type: 3}
+  normalSheet: {fileID: 2800000, guid: f0e818b3ce2345b8af31485e55a68f21, type: 3}
+  fireSheet: {fileID: 2800000, guid: e16c30e8cb684c009a3aac23aea8e5a3, type: 3}
+  deathSheet: {fileID: 2800000, guid: abae2fe5ccea45a191cf76e820748bd7, type: 3}
+  projectileSheet: {fileID: 2800000, guid: 0616cbbda33348218470a477b8dca8b7, type: 3}

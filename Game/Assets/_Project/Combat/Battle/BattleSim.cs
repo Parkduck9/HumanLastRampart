@@ -401,6 +401,12 @@ namespace HumanLastRampart.Combat.Battle
                     : (def.IsSpecial ? new float3(0.55f, 0.3f, 0.75f) : new float3(0.85f, 0.25f, 0.2f)),
                 // 오우거·사다리 고블린은 걷기 4칸 미리 연결(사용자 검토 전) — 공격 중에도 걷기 칸
                 SheetFrames = (byte)(hasSheet ? Mathf.Min(PerfLabArt.FrameCount(def.Sheet), 255) : PerfLabArt.FramesPerAction * 2),
+                // 따로 붙인 동작 시트 (K-032, BattleSim.Poses.cs). 원래 시트가 없으면 쓰지 않는다 (임시 그림 그대로)
+                AttackFrames = hasSheet ? PoseFrames(def.AttackSheet) : (byte)0,
+                DeployFrames = hasSheet ? PoseFrames(def.DeploySheet) : (byte)0,
+                ClimbFrames = hasSheet ? PoseFrames(def.ClimbSheet) : (byte)0,
+                FallFrames = hasSheet ? PoseFrames(def.DeathSheet) : (byte)0,
+                HasLadder = (byte)(def.CarriesLadder && def.LadderSheet != null ? 1 : 0),
             };
         }
 
@@ -425,6 +431,7 @@ namespace HumanLastRampart.Combat.Battle
                     w = weaponList.Count;
                     weaponIndex[weapon.Id] = w;
                     weaponList.Add(MakeWeapon(weapon));
+                    weaponUnits.Add(unit);   // 투사체 그림 (K-032)
                 }
 
                 placed.Add((squad, post, w, unit.MaxHp > 0 ? unit.MaxHp : SoldierHpFallback));
@@ -525,6 +532,7 @@ namespace HumanLastRampart.Combat.Battle
                 }
             }
 
+            InitPoseArt(p);
             InitRunnerArt(p);
             RefreshSoldierInstances();
         }
@@ -701,6 +709,7 @@ namespace HumanLastRampart.Combat.Battle
                 garrisonDamage[side] -= squad.SoldierHp;
                 squad.Alive--;
                 sAlive[squad.FirstSoldier + squad.Alive] = 0;   // 뒤쪽 병사부터
+                MarkSoldierFallen(squad.FirstSoldier + squad.Alive);   // 쓰러짐 그림 (K-032)
                 squads[target] = squad;
                 SideStatus status = Sides[side];
                 status.GarrisonAlive--;
@@ -812,6 +821,8 @@ namespace HumanLastRampart.Combat.Battle
                 SoldierAim = sAim,
                 SoldierHasAim = sHasAim,
                 SoldierIdle = sIdle,
+                SoldierFireTime = sFireTime,
+                Now = Elapsed,
                 Weapons = weapons,
                 EnemyPositions = ePos,
                 EnemyVelocities = eVel,
@@ -918,12 +929,19 @@ namespace HumanLastRampart.Combat.Battle
                 WalkFps = 6f,
                 AttackFps = 7f,
                 FramesPerAction = PerfLabArt.FramesPerAction,
+                FallStart = eFallStart,
+                Ladders = ladderInstances,
+                FallSeconds = FallSeconds,
+                FallFps = FallFps,
+                DeployHeight = DeployHeight,
+                LadderSize = PerfLabArt.LadderDrawSize,
             }.Schedule(n, 256, h);
 
             JobHandle shotDraw = new WriteShotInstancesJob
             {
                 ShotActive = shotActive,
                 ShotPositions = shotPos,
+                ShotVelocities = shotVel,
                 ShotWeapon = shotWeapon,
                 Weapons = weapons,
                 Instances = shotInstances,
@@ -949,10 +967,11 @@ namespace HumanLastRampart.Combat.Battle
             for (int i = 0; i < soldierCount; i++)
             {
                 bool runner = WriteRunner(i);   // 달리기 그림으로 그리면 원래 그림은 숨김
+                bool shown = SoldierPose(i, out float frame) && !runner;   // 사격·쓰러짐 칸 (K-032, BattleSim.Poses.cs)
                 soldierInstances[i] = new PerfLabInstance
                 {
-                    PosFrame = new float4(sPos[i], 0f),
-                    TintSize = sAlive[i] != 0 && !runner ? new float4(new float3(1f, 1f, 1f) * Brightness, SoldierDrawSize) : float4.zero,
+                    PosFrame = new float4(sPos[i], frame),
+                    TintSize = shown ? new float4(new float3(1f, 1f, 1f) * Brightness, SoldierDrawSize) : float4.zero,
                 };
             }
         }
@@ -1074,6 +1093,7 @@ namespace HumanLastRampart.Combat.Battle
             Release(ref stats);
             Release(ref tally);
             Release(ref piles);
+            ReleasePoseArt();
             if (shotQueue.IsCreated) shotQueue.Dispose();
             if (hitQueue.IsCreated) hitQueue.Dispose();
         }

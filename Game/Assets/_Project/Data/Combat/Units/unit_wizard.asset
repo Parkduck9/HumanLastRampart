@@ -17,3 +17,5 @@ MonoBehaviour:
   kind: 3
   maxHp: 60
   sheet: {fileID: 2800000, guid: 04a5da04782849b793241d496223d40b, type: 3}
+  normalSheet: {fileID: 2800000, guid: eff6c8f52b9b4c94bd730ada77fb899a, type: 3}
+  castSheet: {fileID: 2800000, guid: 3ea33aa64d5f4fb5a070b5d76aa53dc3, type: 3}

@@ -129,6 +129,7 @@ namespace HumanLastRampart.Combat.Battle
         void StartSpellEffect(int index, Vector3 at)
         {
             SpellDef spell = spells[index];
+            MarkWizardCast();   // 마법사 시전 그림 (K-032)
             RunOrQueue(() =>
             {
                 bool fire = spell.Duration > 0f;

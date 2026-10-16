@@ -77,6 +77,7 @@ namespace HumanLastRampart.Combat.Battle
                 UnitDef heroUnit = HeroUnit(setup, defs);
                 view = new BattleView(sim, spriteShader, transform, HeroSheet(setup, defs), heroUnit?.IdleSheet,
                     heroUnit?.NormalSheet, heroUnit?.IdleNormalSheet);   // 노멀맵 짝 (D-062 G4) — 없으면 null
+                view.SetHeroCommandArt(heroUnit?.CommandSheet);   // 휠 메뉴 명령 손짓 (K-032)
                 rig = new BattleCameraRig(battleCamera, sim.CastleHalf, BattleSim.WallHeight);
                 mapCamera = new BattleMapCamera(battleCamera, sim.CastleHalf, sim.FieldSize);
                 easy = setup.Difficulty == Difficulty.Easy;
@@ -182,10 +183,18 @@ namespace HumanLastRampart.Combat.Battle
         // 주인공 그리기 (P3-C02 준비): 카메라가 따라가는 자리에 서고, 서 있으면 뒷모습·A/D 옆모습 달리기
         const float HeroWalkFps = 6f;    // 시트 기본 (M-CX-045)
         const float HeroRunFps = 8f;     // 달리기 행 (M-CX-048 시트 JSON runFps)
+        const float HeroCommandFps = 6f; // 명령 손짓 3칸 (Codex K-023 검토 속도), 마지막 칸 유지
+        const int HeroCommandFrames = 3;
+        float heroCommandSince = -1f;    // 휠 메뉴를 연 시각 (닫혀 있으면 -1)
 
         void DrawHero()
         {
             if (rig == null || view == null) return;
+            // 휠 메뉴를 여는 동안 명령 손짓 (K-032). 시트가 없으면 BattleView가 무시한다
+            bool menuOpen = hud != null && hud.MenuOpen && view.HasHeroCommandArt;
+            if (!menuOpen) heroCommandSince = -1f;
+            else if (heroCommandSince < 0f) heroCommandSince = Time.unscaledTime;
+            int command = menuOpen ? Mathf.Min((int)((Time.unscaledTime - heroCommandSince) * HeroCommandFps), HeroCommandFrames - 1) : -1;
             // D-061: 옆으로는 늘 달리기, 통로 안쪽·바깥쪽은 앞모습·뒷모습 걷기. 서 있기는 서 있기 1칸 그림(D-066)
             int row = rig.Pose == BattleCameraRig.HeroPose.Run ? PerfLab.PerfLabArt.HeroRowSideRun
                 : rig.Pose == BattleCameraRig.HeroPose.Walk ? (rig.FacingFront ? PerfLab.PerfLabArt.HeroRowFront : PerfLab.PerfLabArt.HeroRowBack)
@@ -193,7 +202,7 @@ namespace HumanLastRampart.Combat.Battle
             float fps = rig.Pose == BattleCameraRig.HeroPose.Run ? HeroRunFps : HeroWalkFps;
             int column = rig.Pose == BattleCameraRig.HeroPose.Idle ? 0 : (int)(Time.unscaledTime * fps) % PerfLab.PerfLabArt.FramesPerAction;
             bool flip = rig.Pose == BattleCameraRig.HeroPose.Run && rig.FacingRight;   // 시트 옆모습은 왼쪽을 본다
-            view.SetHero(rig.HeroFeet, row * PerfLab.PerfLabArt.FramesPerAction + column, flip, !mapOpen, rig.Pose == BattleCameraRig.HeroPose.Idle);
+            view.SetHero(rig.HeroFeet, row * PerfLab.PerfLabArt.FramesPerAction + column, flip, !mapOpen, rig.Pose == BattleCameraRig.HeroPose.Idle, command);
         }
 
         TargetingSettings Targeting()

@@ -28,6 +28,12 @@ namespace HumanLastRampart.Core.Definitions
         [SerializeField] Texture2D normalSheet;
         [SerializeField] Texture2D idleNormalSheet;
         [SerializeField] Texture2D runNormalSheet;
+        // 동작 그림 (K-032 미리 연결, 사용자 검토 전). 모두 칸 256×384·발 (128, 352), 없으면 예전 그림 그대로
+        [SerializeField] Texture2D fireSheet;        // 쏠 때 뒷모습 6칸 (겨누기→쏘기→재장전). 4번째 칸(놓기)에 투사체가 나간다
+        [SerializeField] Texture2D deathSheet;       // 쓰러짐 4칸, 마지막 칸 유지 후 사라짐
+        [SerializeField] Texture2D castSheet;        // 마법사 시전 뒷모습 4칸
+        [SerializeField] Texture2D commandSheet;     // 주인공 명령 손짓 3칸 (휠 메뉴를 열 때)
+        [SerializeField] Texture2D projectileSheet;  // 이 병종이 쏘는 투사체 1칸 256×128, 오른쪽(+X)을 본다. 날아가는 방향으로 돌린다
 
         public UnitKind Kind => kind;
         public int MaxHp => maxHp;
@@ -39,6 +45,11 @@ namespace HumanLastRampart.Core.Definitions
         public Texture2D NormalSheet => normalSheet;
         public Texture2D IdleNormalSheet => idleNormalSheet;
         public Texture2D RunNormalSheet => runNormalSheet;
+        public Texture2D FireSheet => fireSheet;
+        public Texture2D DeathSheet => deathSheet;
+        public Texture2D CastSheet => castSheet;
+        public Texture2D CommandSheet => commandSheet;
+        public Texture2D ProjectileSheet => projectileSheet;
 
         // 한 명씩 관리하는 종류 (HeroState) / 분대로 관리하는 종류 (SquadState) — D-015 D1
         public bool IsIndividual => kind == UnitKind.Hero || kind == UnitKind.Officer || kind == UnitKind.Elite || kind == UnitKind.Wizard;

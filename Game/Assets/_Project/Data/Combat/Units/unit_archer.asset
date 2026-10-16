@@ -21,3 +21,6 @@ MonoBehaviour:
   sheet: {fileID: 2800000, guid: 9bbb432c5b1d445cb092d3e80eb1aa65, type: 3}
   normalSheet: {fileID: 2800000, guid: 01f399281c8b4d828bee32c603d44974, type: 3}
   runSheet: {fileID: 2800000, guid: ca45a3950036483ea0c9dc299d2ce017, type: 3}
+  fireSheet: {fileID: 2800000, guid: 77712fd5d7784cb3858f6cee7662a38f, type: 3}
+  deathSheet: {fileID: 2800000, guid: 1ce4ecdac9504d06b34d300d20d5e839, type: 3}
+  projectileSheet: {fileID: 2800000, guid: f1542e5fe7ee4a25a258ae5cc2fce20b, type: 3}
