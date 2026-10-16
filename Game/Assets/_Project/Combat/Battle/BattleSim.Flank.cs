@@ -172,7 +172,7 @@ namespace HumanLastRampart.Combat.Battle
                 }
 
                 pair.Soldiers[k] = soldier;
-                pair.Home[k] = sPos[soldier];
+                pair.Home[k] = HomeSpot(soldier);   // 맡아 둔 총안 자리로 돌아온다 (K-045)
                 pair.StartU[k] = RingU(side, LateralOf(soldier, side));
                 sAway[soldier] = 1;   // 달리는 동안 쏘지 않는다
             }

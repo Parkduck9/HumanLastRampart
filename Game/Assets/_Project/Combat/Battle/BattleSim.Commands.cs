@@ -184,7 +184,7 @@ namespace HumanLastRampart.Combat.Battle
                 EndU = endU,
                 Direction = forward <= backward ? 1f : -1f,
                 Distance = math.min(forward, backward),
-                Home = sPos[soldier],
+                Home = HomeSpot(soldier),   // 맡아 둔 총안 자리로 돌아온다 (K-045)
             };
             sAway[soldier] = 1;
             messengers.Add(m);
