@@ -45,6 +45,12 @@ namespace HumanLastRampart.Combat.Battle
         const float TorchFootHeight = BattleLights.TorchHeight - 0.1f;   // 빛보다 조금 아래에서 불꽃이 솟는다
         const float TorchSize = 0.35f;   // 병사 키(0.35m)와 같은 칸 크기 — 0.9는 병사보다 훨씬 컸다
 
+        // 횃불대 (K-031, Codex K-018 시안 torch_mount_off): 칸 128×256, 부착 기준점 (64,224), 보이는 높이 약 0.3m(192화소).
+        // 낮·밤 모두 같은 받침을 통로 위에 세우고, 밤 불꽃은 시안 겹침(manifest flameBaseTopLeft (52,36), 불꽃 칸 36화소)대로 받침 머리에 얹는다
+        const float MountSize = 0.3f * 256f / 192f;                    // 칸 높이(m) 0.4 — 보이는 그림 0.3m
+        const float MountFlameFoot = (224f - 72f) / 256f * MountSize;   // 받침 발에서 불꽃 칸 바닥까지 0.2375m (= 빛 높이 0.24m와 거의 같다)
+        const float MountFlameSize = 36f / 256f * MountSize;            // 불꽃 칸 0.056m (시안 비율 — 화면에서 너무 작으면 이 값을 키운다)
+
         // 빛을 받는 그림(D-062)이라 밤에는 어두워진다 — 스스로 빛나는 불·마법은 색을 올려 덜 어둡게 (화면 확인 뒤 조정)
         const float DayGlow = 1.15f, NightGlow = 2.6f;
 
@@ -53,7 +59,8 @@ namespace HumanLastRampart.Combat.Battle
         readonly Mesh quad;
         readonly Bounds bounds;
 
-        readonly Kind magic, fire, trap, hit, torch;
+        readonly Kind magic, fire, trap, hit, torch, mount;
+        BattleFieldArt fieldArt;                      // 들판 소품·시체 더미·함정·먼 산·하늘 (K-031) — BattleView가 Attach로 붙인다
         readonly List<(Vector3 position, float size, float age)> magicPlays = new List<(Vector3, float, float)>();
         readonly List<(Vector3 position, float size, float age)> trapPlays = new List<(Vector3, float, float)>();
         readonly List<(Vector3 position, float age)> hitPlays = new List<(Vector3, float)>();
@@ -62,6 +69,8 @@ namespace HumanLastRampart.Combat.Battle
         readonly BattleSim.TrapState[] trapStates;
         readonly float[] shotSizes;                   // 지난 프레임 투사체 그림 크기 (0으로 바뀌면 착지)
         readonly List<Vector3> torchFeet = new List<Vector3>();
+        readonly List<Vector3> mountFeet = new List<Vector3>();   // 횃불대 받침 발 (통로 위)
+        float torchSize = TorchSize;
         float clock;
 
         sealed class Kind
@@ -91,16 +100,25 @@ namespace HumanLastRampart.Combat.Battle
             for (int i = 0; i < trapStates.Length; i++) trapStates[i] = sim.GetTrap(i).State;
             if (hit != null) shotSizes = new float[sim.ShotCapacity];
 
-            BuildTorchFeet();
+            bool hasMount = Resources.Load<Texture2D>("BattleArt/Props/torch_mount_off") != null;
+            BuildTorchFeet(hasMount);
             torch = MakeKind("torch_flame", Mathf.Max(1, torchFeet.Count));
+            if (hasMount) mount = MakeKind("Props/torch_mount_off", Mathf.Max(1, mountFeet.Count), PerfLabArt.SheetLayout.Make(1, 1, 0.5f, (256f - 224f) / 256f, 128f / 256f), "BattleArt/");
         }
 
-        Kind MakeKind(string name, int capacity)
+        // 들판 그림 묶음을 붙인다 (BattleView 생성자에서 한 줄). 그리기·정리는 이 효과 그림과 같이 한다
+        public void Attach(BattleFieldArt art) => fieldArt = art;
+
+        // 시체 더미 그림(K-024)이 있으면 BattleView의 상자 더미 대신 그림으로 그린다
+        public bool DrawsPiles => fieldArt != null && fieldArt.HasPileArt;
+
+        Kind MakeKind(string name, int capacity) => MakeKind(name, capacity, PerfLabArt.SheetLayout.Make(Frames, 1, 0.5f, 0f, 1f), "BattleArt/Effects/");
+
+        Kind MakeKind(string name, int capacity, PerfLabArt.SheetLayout layout, string folder)
         {
-            var texture = Resources.Load<Texture2D>("BattleArt/Effects/" + name);
+            var texture = Resources.Load<Texture2D>(folder + name);
             if (texture == null) return null;
             var kind = new Kind { Block = new MaterialPropertyBlock(), Instances = new PerfLabInstance[capacity] };
-            PerfLabArt.SheetLayout layout = PerfLabArt.SheetLayout.Make(Frames, 1, 0.5f, 0f, 1f);
             kind.Block.SetTexture(MainTexId, texture);
             kind.Block.SetVector(GridId, layout.Grid);
             kind.Block.SetVector(PivotId, layout.Pivot);
@@ -112,8 +130,11 @@ namespace HumanLastRampart.Combat.Battle
         }
 
         // BattleLights.BuildTorches와 같은 계산: 네 성벽 안쪽 가장자리를 따라 간격마다, 가운데 맞춤
-        void BuildTorchFeet()
+        // 받침 그림이 있으면 받침은 통로 위에 서고, 불꽃은 받침 머리(시안 접점)에서 시안 비율 크기로 솟는다
+        void BuildTorchFeet(bool hasMount)
         {
+            float flameFoot = hasMount ? MountFlameFoot : TorchFootHeight;
+            torchSize = hasMount ? MountFlameSize : TorchSize;
             float inner = sim.CastleHalf - TorchInset;
             int count = Mathf.Max(1, Mathf.FloorToInt((inner * 2f) / TorchSpacing));
             float start = -(count - 1) * TorchSpacing * 0.5f;
@@ -124,7 +145,8 @@ namespace HumanLastRampart.Combat.Battle
                 for (int k = 0; k < count; k++)
                 {
                     float along = start + k * TorchSpacing;
-                    torchFeet.Add(new Vector3(n.x * inner + r.x * along, BattleSim.WallHeight + TorchFootHeight, n.z * inner + r.z * along));
+                    torchFeet.Add(new Vector3(n.x * inner + r.x * along, BattleSim.WallHeight + flameFoot, n.z * inner + r.z * along));
+                    if (hasMount) mountFeet.Add(new Vector3(n.x * inner + r.x * along, BattleSim.WallHeight, n.z * inner + r.z * along));
                 }
             }
         }
@@ -135,6 +157,7 @@ namespace HumanLastRampart.Combat.Battle
             float dt = Time.deltaTime;
             clock += dt;
             Track(dt);
+            fieldArt?.Draw(mapMode);
             if (mapMode) return;
 
             bool night = sim.TimeOfDay == TimeOfDay.Night;
@@ -169,8 +192,22 @@ namespace HumanLastRampart.Combat.Battle
             {
                 torch.Count = 0;
                 for (int i = 0; i < torchFeet.Count; i++)
-                    torch.Instances[torch.Count++] = Instance(torchFeet[i], LoopFrame(i * 2.3f), TorchSize, glow);
+                    torch.Instances[torch.Count++] = Instance(torchFeet[i], LoopFrame(i * 2.3f), torchSize, glow);
                 Submit(torch);
+            }
+
+            // 횃불대 받침: 낮에도 보인다. 빛을 받는 그림이라 밝기만 맞추고 그림자는 낸다
+            if (mount != null)
+            {
+                float shade = sim.Brightness;
+                if (mount.Count != mountFeet.Count || !Mathf.Approximately(mount.Instances[0].TintSize.x, shade))
+                {
+                    mount.Count = mountFeet.Count;
+                    for (int i = 0; i < mountFeet.Count; i++) mount.Instances[i] = Instance(mountFeet[i], 0, MountSize, shade);
+                    mount.Buffer.SetData(mount.Instances, 0, 0, mount.Count);
+                }
+
+                if (mount.Count > 0) Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, mount.Count, mount.Block);
             }
         }
 
@@ -294,6 +331,9 @@ namespace HumanLastRampart.Combat.Battle
             trap?.Buffer.Release();
             hit?.Buffer.Release();
             torch?.Buffer.Release();
+            mount?.Buffer.Release();
+            fieldArt?.Dispose();
+            fieldArt = null;
             magicPlays.Clear();
             trapPlays.Clear();
             hitPlays.Clear();

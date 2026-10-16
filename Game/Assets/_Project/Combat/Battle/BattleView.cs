@@ -199,6 +199,7 @@ namespace HumanLastRampart.Combat.Battle
             world = new BattleWorldView(sim, root.transform);
             lights = new BattleLights(sim, root.transform);   // 밤 횃불·폭발 빛 (K-010, D-062 4단계)
             effectArt = new BattleEffectsView(sim, material, quad, bounds);   // 효과 도트 그림 (K-015)
+            effectArt.Attach(new BattleFieldArt(sim, material, quad, root.transform));   // 들판 소품·시체 더미·함정·먼 산·하늘 (K-031) — 그리기·정리는 effectArt가 함께
             BuildEnvironment();
         }
 
@@ -488,6 +489,7 @@ namespace HumanLastRampart.Combat.Battle
         // 시체 더미: 성벽 앞 칸마다 높이만큼 어두운 상자 (그림은 이후 Codex 아트)
         void RefreshPiles()
         {
+            if (effectArt.DrawsPiles) return;   // 시체 더미 그림(K-024)이 있으면 BattleFieldArt가 그림으로 그린다 (K-031)
             PileSpec spec = sim.Pile;
             NativeArray<float> heights = sim.PileHeights;
             for (int k = 0; k < pileBlocks.Length; k++)
