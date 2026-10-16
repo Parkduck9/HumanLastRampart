@@ -34,6 +34,8 @@ namespace HumanLastRampart.Combat.Battle
             public Vector3 Position;
             public float Radius;
             public float TimeLeft;
+            public int Serial;         // 마법 효과 번호 (1부터, 함정 폭발 등은 0) — 화상은 효과마다 적 한 번만 굴린다 (K-040)
+            public int SpellIndex;     // 이 효과를 낸 마법 번호 (Serial이 0이면 쓰지 않음)
         }
 
         readonly List<SpellDef> spells = new List<SpellDef>();
@@ -133,8 +135,8 @@ namespace HumanLastRampart.Combat.Battle
             RunOrQueue(() =>
             {
                 bool fire = spell.Duration > 0f;
-                effects.Add(new SpellEffect { Fire = fire, Pending = !fire, Position = at, Radius = spell.Radius, TimeLeft = fire ? spell.Duration : ExplosionDelay });
                 EffectsStarted++;
+                effects.Add(new SpellEffect { Fire = fire, Pending = !fire, Position = at, Radius = spell.Radius, TimeLeft = fire ? spell.Duration : ExplosionDelay, Serial = EffectsStarted, SpellIndex = index });
                 fireTick.Add(0f);
                 effectDamage.Add(spell.Damage);
             });
@@ -169,8 +171,8 @@ namespace HumanLastRampart.Combat.Battle
                     while (tick >= FireTickSeconds && e.TimeLeft > -FireTickSeconds)
                     {
                         tick -= FireTickSeconds;
-                        int damage = math.max(1, (int)math.round(effectDamage[i] * FireTickSeconds * FireDamageMultiplier));
-                        DamageArea(e.Position, e.Radius, damage, effectDamage[i]);   // 맞은 적은 화상 확률 (K-035)
+                        // 직접 피해는 약하게, 대부분은 화상으로 (K-040, BattleSim.Burn.cs)
+                        FireTick(e, effectDamage[i] * FireTickSeconds * FireDamageMultiplier);
                     }
 
                     fireTick[i] = tick;
@@ -192,8 +194,7 @@ namespace HumanLastRampart.Combat.Battle
         }
 
         // 반경 안 살아 있는 적마다 사건 하나 (지난 프레임 격자 사용 — 작업이 끝난 뒤라 읽어도 안전)
-        // burnFieldDps > 0이면 불바다 틱: 맞은 적마다 화상 확률 (K-035)
-        int DamageArea(Vector3 center, float radius, int damage, float burnFieldDps = 0f)
+        int DamageArea(Vector3 center, float radius, int damage)
         {
             var c = new float3(center.x, 0f, center.z);
             int2 minCell = grid.CellOf(c - new float3(radius, 0f, radius));
@@ -214,7 +215,6 @@ namespace HumanLastRampart.Combat.Battle
                         float3 d = ePos[e] - c;
                         if (d.x * d.x + d.z * d.z > radiusSq) continue;
                         hitQueue.Enqueue(new HitEvent { Enemy = new EnemyHandle { Index = e, Generation = eGen[e] }, Damage = damage });
-                        if (burnFieldDps > 0f) TryIgnite(e, burnFieldDps);
                         count++;
                     }
                 }

@@ -841,4 +841,52 @@ public sealed class SimProbe
         }
         log.AppendLine("  ★ 4번까지 모두 승리");
     }
+
+    // K-040 불바다 통과 생존율 (근사 모형 — 전투 계산을 돌리지 않고 같은 규칙을 다시 셈):
+    // 고블린이 원을 곧게 지나간다(지나는 줄 위치 고르게), 0.5초 틱마다 직접 피해(소수는 확률 반올림),
+    // 불바다마다 처음 맞을 때 한 번 화상 확률, 붙으면 화상 전체 피해(벗어나도 탐). 화살·다른 피해는 없음
+    [Test]
+    public void FireFieldCrossing()
+    {
+        var catalogs = new List<DefinitionCatalog>();
+        foreach (string guid in AssetDatabase.FindAssets("t:DefinitionCatalog"))
+            catalogs.Add(AssetDatabase.LoadAssetAtPath<DefinitionCatalog>(AssetDatabase.GUIDToAssetPath(guid)));
+        DefinitionLookup lookup = DefinitionLookup.Build(catalogs);
+        SpellDef fire = lookup.All<SpellDef>().First(s => s.Duration > 0f);
+        var log = new StringBuilder();
+        log.AppendLine($"불바다 반경 {fire.Radius}m · 직접 {fire.Damage}/초 · {fire.Duration}초 · 화상 {fire.BurnChance:P0} {fire.BurnDamage}/초 × {fire.BurnSeconds}초");
+        foreach (EnemyDef enemy in lookup.All<EnemyDef>())
+        {
+            foreach (var (weather, multiplier) in new[] { ("맑음", 1f), ("소나기", 0.5f), ("비", 0.1f) })
+            {
+                var rng = new System.Random(1234);
+                const int n = 20000;
+                int throughAlive = 0, insideAlive = 0;
+                for (int k = 0; k < n; k++)
+                {
+                    float offset = (float)(rng.NextDouble() * 2 - 1) * fire.Radius;
+                    float chord = 2f * Mathf.Sqrt(fire.Radius * fire.Radius - offset * offset);
+                    float time = chord / Mathf.Max(0.1f, enemy.MoveSpeed);
+                    float startedInside = time * (float)rng.NextDouble();   // 불바다가 생길 때 이미 안에 있던 적
+                    if (Survives(time)) throughAlive++;
+                    if (Survives(startedInside)) insideAlive++;
+                }
+
+                log.AppendLine($"{enemy.Id} ({weather}): 밖에서 들어와 지나감 {throughAlive * 100f / n:0}% 생존 · 생길 때 안에 있었음 {insideAlive * 100f / n:0}% 생존");
+
+                bool Survives(float secondsInside)
+                {
+                    float tick = 0.5f, damage = 0f, x = fire.Damage * tick * multiplier;
+                    int ticks = 0;
+                    for (float t = (float)rng.NextDouble() * tick; t < secondsInside && t < fire.Duration; t += tick) ticks++;
+                    for (int i = 0; i < ticks; i++) damage += Mathf.Floor(x) + (rng.NextDouble() < x - Mathf.Floor(x) ? 1 : 0);
+                    if (ticks > 0 && rng.NextDouble() < fire.BurnChance * multiplier) damage += fire.BurnDamage * multiplier * fire.BurnSeconds;
+                    return damage < enemy.MaxHp;
+                }
+            }
+        }
+
+        Debug.Log(log.ToString());
+        File.WriteAllText(Environment.GetEnvironmentVariable("HLR_PROBE_OUT") ?? "probe_firefield.txt", log.ToString(), new UTF8Encoding(false));
+    }
 }

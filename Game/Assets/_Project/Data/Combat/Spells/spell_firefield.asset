@@ -15,7 +15,10 @@ MonoBehaviour:
   id: spell_firefield
   displayName: 불바다
   radius: 10
-  damage: 20
-  duration: 8
+  damage: 3
+  duration: 15
   cooldown: 50
   isFire: 1
+  burnChance: 0.6
+  burnDamage: 2.5
+  burnSeconds: 10
