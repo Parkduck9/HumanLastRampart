@@ -104,8 +104,7 @@ namespace HumanLastRampart.Combat.Battle
                 sim.GlobalCommandApplied += priority => Targeting()?.SetGlobal(priority);
                 hud.CommandChosen += OnCommandChosen;
                 hud.GlobalCommandChosen += priority => sim?.IssueGlobal(priority);   // MAP-2 지도 전체 명령
-                hud.CannonSideChosen += side => { cannonSide = side; selectedCannon = -1; };   // MAP-3 대포 조준
-                hud.CannonNumberChosen += SelectCannon;
+                hud.CannonPicked += PickCannon;   // MAP-3 대포 조준 (K-037: 지도 위 대포 표시를 바로 누른다)
                 hud.SpellChosen += SelectSpell;   // MAP-4 마법
                 hud.CannonClearChosen += () => { if (selectedCannon >= 0) sim.ClearCannonAim(selectedCannon); };
                 hud.WallCommandChosen += OnMapWallCommand;
@@ -435,6 +434,7 @@ namespace HumanLastRampart.Combat.Battle
                 Mouse dragMouse = Mouse.current;
                 hud?.RefreshGroupMarkers(sim, battleCamera, selectedGroup, dragging && dragMouse != null ? dragMouse.position.ReadValue() : (Vector2?)null);
                 hud?.RefreshCannons(sim, cannonSide, selectedCannon);
+                hud?.RefreshCannonMarkers(sim, battleCamera, selectedCannon);
                 hud?.RefreshSpells(sim, selectedSpell);
             }
             hud?.SetMapMode(mapOpen, MapFreezesTime);
@@ -500,6 +500,15 @@ namespace HumanLastRampart.Combat.Battle
                 BattleSim.CannonInfo info = sim.GetCannon(c);
                 if (info.Side == cannonSide && info.Number == number) selectedCannon = c;
             }
+        }
+
+        // 지도 위 대포 표시를 눌러 고르기 (K-037). 그 대포의 성벽으로 바뀌고, 같은 대포를 다시 누르면 선택 해제
+        public void PickCannon(int index)
+        {
+            if (sim == null || index < 0 || index >= sim.CannonCount) return;
+            selectedSpell = -1;
+            cannonSide = sim.GetCannon(index).Side;
+            selectedCannon = selectedCannon == index ? -1 : index;
         }
 
         public void SelectCannonSide(int side)

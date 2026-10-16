@@ -17,15 +17,14 @@ namespace HumanLastRampart.Combat.Battle
         // 지도 전체 명령 (MAP-2, Battle.md 5.1-1): 4면에 한 번에. 성벽 명령은 지워진다 (D-031 K3, D-039)
         public event Action<TargetPriority> GlobalCommandChosen;
 
-        // 대포 조준 (MAP-3, Battle.md 5.2): 벽 고르기 → 대포 고르기 → 들판 찍기
-        public event Action<int> CannonSideChosen;     // 0~3
-        public event Action<int> CannonNumberChosen;   // 1~4
+        // 대포 조준 (MAP-3, Battle.md 5.2): 지도 위 대포 표시 누르기 → 들판 찍기 (K-037: 벽 탭·번호 단추 대신)
+        public event Action<int> CannonPicked;         // 대포 번호 (sim 안 순서 0~)
         public event Action CannonClearChosen;
         GameObject cannonPanel;
         Text cannonTitle;
         Text cannonGuide;
         readonly Text[] cannonLabels = new Text[4];
-        readonly Image[] sideTabs = new Image[4];
+        readonly System.Collections.Generic.List<Button> cannonMarkers = new System.Collections.Generic.List<Button>();
 
         // 마법 (MAP-4, Battle.md 5.3): 고르고 들판 클릭
         public event Action<int> SpellChosen;
@@ -40,12 +39,13 @@ namespace HumanLastRampart.Combat.Battle
             {
                 // K-021 위쪽 상태 띠: 짙은 바탕 + 왼쪽 황동 막대
                 Image band = NewImage(root.transform, "Map Banner", HudStyle.PhaseBand);
-                Anchor(band.rectTransform, new Vector2(0.5f, 1f), new Vector2(0f, -20f), new Vector2(620f, 56f), new Vector2(0.5f, 1f));
+                // 준비 문구에 시작 방법까지 들어가 넓힌다 (K-037). 양옆 창(왼쪽 330·오른쪽 380) 사이 1920 기준 안쪽
+                Anchor(band.rectTransform, new Vector2(0.5f, 1f), new Vector2(0f, -20f), new Vector2(780f, 56f), new Vector2(0.5f, 1f));
                 Image bar = NewImage(band.transform, "Bar", HudStyle.Brass);
                 bar.raycastTarget = false;
                 Anchor(bar.rectTransform, new Vector2(0f, 0.5f), Vector2.zero, new Vector2(3f, 56f), new Vector2(0f, 0.5f));
-                mapBanner = NewText(band.transform, "Text", 26, TextAnchor.MiddleCenter);
-                Anchor(mapBanner.rectTransform, new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(600f, 50f), new Vector2(0.5f, 0.5f));
+                mapBanner = NewText(band.transform, "Text", 24, TextAnchor.MiddleCenter);
+                Anchor(mapBanner.rectTransform, new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(760f, 50f), new Vector2(0.5f, 0.5f));
             }
 
             if (open != mapMode)
@@ -64,6 +64,7 @@ namespace HumanLastRampart.Combat.Battle
             {
                 foreach (Text label in groupLabels) label.gameObject.SetActive(false);
                 foreach (GroupMarker marker in groupMarkers) marker.Root.gameObject.SetActive(false);
+                foreach (Button marker in cannonMarkers) marker.gameObject.SetActive(false);
                 foreach (Text c in compass) if (c != null) c.gameObject.SetActive(false);
                 foreach (Image back in compassBacks) if (back != null) back.gameObject.SetActive(false);
                 if (heroMarker != null) heroMarker.gameObject.SetActive(false);
@@ -71,7 +72,7 @@ namespace HumanLastRampart.Combat.Battle
             }
             if (open)
             {
-                mapBanner.text = preparing ? "전투 준비 — 명령·대포 조준을 정하세요"
+                mapBanner.text = preparing ? "전투 준비 — 명령·대포 조준을 정하고 [전투 시작] 또는 Tab"
                     : frozen ? "지도 — 시간 멈춤 (쉬움)" : "지도 — 시간이 흐릅니다 (현실)";
             }
         }
@@ -205,33 +206,20 @@ namespace HumanLastRampart.Combat.Battle
             HudStyle.MapFrame(panel);
             cannonPanel = panel.gameObject;
             // 위 끝 기준(접으면 위로 접힌다). 위치는 예전(가운데 기준 +40)과 같다: 위 끝 = 가운데 + 300
-            Anchor(panel.rectTransform, new Vector2(1f, 0.5f), new Vector2(-20f, 300f), new Vector2(380f, 520f), new Vector2(1f, 1f));
+            Anchor(panel.rectTransform, new Vector2(1f, 0.5f), new Vector2(-20f, 300f), new Vector2(380f, CannonPanelHeight), new Vector2(1f, 1f));
             cannonTitle = NewText(panel.transform, "Title", 26, TextAnchor.MiddleLeft);
             Anchor(cannonTitle.rectTransform, new Vector2(0f, 1f), new Vector2(16f, -10f), new Vector2(300f, 40f), new Vector2(0f, 1f));
             MapDivider(panel.transform, -54f);
 
-            string[] sides = { "북", "동", "남", "서" };
+            // K-037: 북·동·남·서 탭과 1~4번 단추 대신 지도 위 대포 표시를 누른다. 창은 고른 대포가 있는 성벽의 4문 상태(글)만
             for (int i = 0; i < 4; i++)
             {
-                int side = i;
-                Button tab = NewButton(panel.transform, sides[i], () => CannonSideChosen?.Invoke(side), true);
-                Anchor((RectTransform)tab.transform, new Vector2(0f, 1f), new Vector2(14f + i * 89f, -62f), new Vector2(82f, 48f), new Vector2(0f, 1f));
-                sideTabs[i] = tab.GetComponent<Image>();
-            }
-
-            for (int i = 0; i < 4; i++)
-            {
-                int number = i + 1;
-                Button button = NewButton(panel.transform, "", () => CannonNumberChosen?.Invoke(number), true);
-                Anchor((RectTransform)button.transform, new Vector2(0.5f, 1f), new Vector2(0f, -122f - i * 62f), new Vector2(350f, 54f), new Vector2(0.5f, 1f));
-                cannonLabels[i] = button.GetComponentInChildren<Text>();
-                cannonLabels[i].alignment = TextAnchor.MiddleLeft;
-                cannonLabels[i].rectTransform.offsetMin = new Vector2(14f, 0f);
-                cannonLabels[i].fontSize = 22;
+                cannonLabels[i] = NewText(panel.transform, "Cannon " + (i + 1), 20, TextAnchor.MiddleLeft);
+                Anchor(cannonLabels[i].rectTransform, new Vector2(0f, 1f), new Vector2(18f, -64f - i * 36f), new Vector2(344f, 32f), new Vector2(0f, 1f));
             }
 
             Button clear = NewButton(panel.transform, "조준 해제", () => CannonClearChosen?.Invoke(), true);
-            Anchor((RectTransform)clear.transform, new Vector2(0.5f, 1f), new Vector2(0f, -378f), new Vector2(350f, 50f), new Vector2(0.5f, 1f));
+            Anchor((RectTransform)clear.transform, new Vector2(0.5f, 1f), new Vector2(0f, -212f), new Vector2(350f, 50f), new Vector2(0.5f, 1f));
             clear.GetComponent<Image>().color = new Color(HudStyle.MapButton.r, HudStyle.MapButton.g, HudStyle.MapButton.b, 0.25f);   // 시안: 옅은 바탕
             // 안내 글: 어두운 받침 + 왼쪽 황동 막대 (K-021 cannon-guide)
             Image note = NewImage(panel.transform, "Guide Backing", HudStyle.MapNote);
@@ -243,9 +231,11 @@ namespace HumanLastRampart.Combat.Battle
             cannonGuide = NewText(panel.transform, "Guide", 18, TextAnchor.UpperLeft);
             Anchor(cannonGuide.rectTransform, new Vector2(0.5f, 0f), new Vector2(4f, 12f), new Vector2(330f, 78f), new Vector2(0.5f, 0f));
             cannonGuide.horizontalOverflow = HorizontalWrapMode.Wrap;
-            MakeCollapsible(panel, cannonTitle.gameObject, 520f);
+            MakeCollapsible(panel, cannonTitle.gameObject, CannonPanelHeight);
             cannonPanel.SetActive(false);
         }
+
+        const float CannonPanelHeight = 370f;
 
         // 고른 벽의 대포 4문 상태 (BattleEntry가 그리기 뒤 부름)
         public void RefreshCannons(BattleSim sim, int side, int selected)
@@ -255,21 +245,68 @@ namespace HumanLastRampart.Combat.Battle
             cannonTitle.text = $"대포 — {names[side]}쪽";
             for (int i = 0; i < 4; i++)
             {
-                HudStyle.SetMapButton(sideTabs[i], i == side);
                 cannonLabels[i].text = $"{i + 1}번: 없음";
+                cannonLabels[i].color = HudStyle.TextDim;
             }
 
-            string guide = "대포를 고른 뒤 들판을 왼쪽 클릭 (사거리 원 안)";
+            string guide = "지도에서 대포 표시를 누른 뒤 들판을 왼쪽 클릭 (사거리 원 안)";
             for (int c = 0; c < sim.CannonCount; c++)
             {
                 BattleSim.CannonInfo info = sim.GetCannon(c);
                 if (info.Side != side || info.Number < 1 || info.Number > 4) continue;
                 string state = !info.Alive ? "운용병 없음" : !info.HasAim ? "자동(밀집한 곳)" : info.Idle ? "조준 — 대기(근처에 적 없음)" : "조준 — 포격 중";
                 cannonLabels[info.Number - 1].text = (c == selected ? "▶ " : "") + $"{info.Number}번: {state}";
+                cannonLabels[info.Number - 1].color = c == selected ? HudStyle.Brass : HudStyle.Text;
                 if (c == selected) guide = $"{info.Number}번 선택됨 — 들판을 왼쪽 클릭해 조준점 지정 (사거리 {info.Range:0}m)";
             }
 
             cannonGuide.text = guide;
+        }
+
+        // 지도 위 대포 표시 (K-037): 대포마다 누를 수 있는 작은 단추(대포 아이콘 + 번호). 누르면 그 대포를 고른다(CannonPicked)
+        // 창들보다 뒤(맨 앞 형제)에 둬서 창 위를 누를 때는 창이 먼저 받는다
+        public void RefreshCannonMarkers(BattleSim sim, Camera camera, int selected)
+        {
+            for (int c = 0; c < sim.CannonCount; c++)
+            {
+                if (cannonMarkers.Count <= c)
+                {
+                    int index = c;
+                    Button button = NewButton(root.transform, "", () => CannonPicked?.Invoke(index), true);
+                    button.gameObject.name = "Cannon Marker";
+                    var rect = (RectTransform)button.transform;
+                    rect.sizeDelta = new Vector2(40f, 40f);
+                    Image icon = HudStyle.ArtImage(button.transform, "Icon", "Icons/unit_cannon", new Vector2(32f, 32f));
+                    if (icon != null) icon.transform.SetAsFirstSibling();   // 번호 글자보다 뒤
+                    Text number = button.GetComponentInChildren<Text>();
+                    number.fontSize = 16;
+                    number.fontStyle = FontStyle.Bold;
+                    number.alignment = icon != null ? TextAnchor.LowerRight : TextAnchor.MiddleCenter;   // 아이콘이 없으면 번호만 가운데
+                    number.rectTransform.offsetMax = new Vector2(-2f, 0f);
+                    var outline = number.gameObject.AddComponent<Outline>();
+                    outline.effectColor = new Color(0f, 0f, 0f, 0.9f);
+                    button.transform.SetAsFirstSibling();
+                    cannonMarkers.Add(button);
+                }
+
+                BattleSim.CannonInfo info = sim.GetCannon(c);
+                Button marker = cannonMarkers[c];
+                Vector3 screen = camera.WorldToScreenPoint(info.Position);
+                bool show = mapMode && screen.z > 0f;
+                marker.gameObject.SetActive(show);
+                if (!show) continue;
+                var markerRect = (RectTransform)marker.transform;
+                markerRect.anchorMin = markerRect.anchorMax = new Vector2(screen.x / Mathf.Max(1, Screen.width), screen.y / Mathf.Max(1, Screen.height));
+                markerRect.anchoredPosition = Vector2.zero;
+                Image face = marker.GetComponent<Image>();
+                HudStyle.SetMapButton(face, c == selected);
+                face.color = new Color(face.color.r, face.color.g, face.color.b, info.Alive ? face.color.a : 0.45f);   // 운용병이 없으면 흐리게
+                Text number = marker.GetComponentInChildren<Text>();
+                number.text = info.Number.ToString();
+                number.color = c == selected ? HudStyle.Brass : HudStyle.Text;
+            }
+
+            for (int c = sim.CannonCount; c < cannonMarkers.Count; c++) cannonMarkers[c].gameObject.SetActive(false);
         }
 
         // 마법 패널 (지도 아래 가운데). 정의 수만큼 버튼
