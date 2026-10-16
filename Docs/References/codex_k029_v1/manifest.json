@@ -1,0 +1,1299 @@
+{
+  "card": "K-029",
+  "status": "사용자 확정 전",
+  "cellMeters": 5,
+  "cellPixels": 32,
+  "pixelsPerMeter": 6.4,
+  "pivotTopLeft": [
+    16,
+    16
+  ],
+  "filter": "Point",
+  "assets": [
+    {
+      "id": "grass_a",
+      "label": "풀밭 가",
+      "group": "지형",
+      "file": "tiles/grass_a.png",
+      "width": 32,
+      "height": 32,
+      "source": "source/terrain_source.png",
+      "sha256": "512303ba7893a2b498cfdfb9947b09f8d8836f64f67fbe501135869071c91dc9",
+      "crop": [
+        4,
+        4,
+        508,
+        508
+      ]
+    },
+    {
+      "id": "grass_b",
+      "label": "풀밭 나",
+      "group": "지형",
+      "file": "tiles/grass_b.png",
+      "width": 32,
+      "height": 32,
+      "source": "source/terrain_source.png",
+      "sha256": "7e993b5e2657e84a019111e84f4bc2d8df76b7b2fbd1133d8c90ca6613d28b67",
+      "crop": [
+        516,
+        4,
+        1020,
+        508
+      ]
+    },
+    {
+      "id": "dirt",
+      "label": "흙 바닥",
+      "group": "지형",
+      "file": "tiles/dirt.png",
+      "width": 32,
+      "height": 32,
+      "source": "source/terrain_source.png",
+      "sha256": "0a55c15a5622d5224016c7bcf2de67f36fe3eb6e60fcf490d4f48d568558f5c6",
+      "crop": [
+        1028,
+        4,
+        1532,
+        508
+      ]
+    },
+    {
+      "id": "hill_1",
+      "label": "낮은 언덕",
+      "group": "지형",
+      "file": "tiles/hill_1.png",
+      "width": 32,
+      "height": 32,
+      "source": "source/terrain_source.png",
+      "sha256": "bb4bdf4a5cdaebf8a42de63b64352cafcc97ec3123de19e470f130cd324fd7d0",
+      "crop": [
+        4,
+        516,
+        508,
+        1020
+      ]
+    },
+    {
+      "id": "hill_2",
+      "label": "중간 언덕",
+      "group": "지형",
+      "file": "tiles/hill_2.png",
+      "width": 32,
+      "height": 32,
+      "source": "source/terrain_source.png",
+      "sha256": "1a06f9e25911890cfacc0539755a0bdc4283a02c6394a214b681c27c0a24f9f4",
+      "crop": [
+        516,
+        516,
+        1020,
+        1020
+      ]
+    },
+    {
+      "id": "hill_3",
+      "label": "높은 언덕",
+      "group": "지형",
+      "file": "tiles/hill_3.png",
+      "width": 32,
+      "height": 32,
+      "source": "source/terrain_source.png",
+      "sha256": "27813556241deb0198cad0a63835a5284eeb9c903b4fb630c224cdd9ddecd53b",
+      "crop": [
+        1028,
+        516,
+        1532,
+        1020
+      ]
+    },
+    {
+      "id": "path_0",
+      "label": "흙길 연결 0",
+      "group": "길",
+      "file": "tiles/path_0.png",
+      "width": 32,
+      "height": 32,
+      "source": "지형 타일과 기하 마스크",
+      "sha256": "9374e1337fd4483dc683b1d28a983e8ccde63e5365b4bc4f52e68afdeefa023c",
+      "connectionMask": 0
+    },
+    {
+      "id": "path_1",
+      "label": "흙길 연결 1",
+      "group": "길",
+      "file": "tiles/path_1.png",
+      "width": 32,
+      "height": 32,
+      "source": "지형 타일과 기하 마스크",
+      "sha256": "c867d03cf389a61165ccd36989188bc3d04ef165ae16dc7f1af75aeca15fa3f8",
+      "connectionMask": 1
+    },
+    {
+      "id": "path_2",
+      "label": "흙길 연결 2",
+      "group": "길",
+      "file": "tiles/path_2.png",
+      "width": 32,
+      "height": 32,
+      "source": "지형 타일과 기하 마스크",
+      "sha256": "da523bcf48921fcf5742a7898614db87ce9d34f2916047de78c62ccd8de20048",
+      "connectionMask": 2
+    },
+    {
+      "id": "path_3",
+      "label": "흙길 연결 3",
+      "group": "길",
+      "file": "tiles/path_3.png",
+      "width": 32,
+      "height": 32,
+      "source": "지형 타일과 기하 마스크",
+      "sha256": "2920e6e37d0a0307d44f5d4ae97eeb19645d0a4dd8771c55db53dfb7683cbfba",
+      "connectionMask": 3
+    },
+    {
+      "id": "path_4",
+      "label": "흙길 연결 4",
+      "group": "길",
+      "file": "tiles/path_4.png",
+      "width": 32,
+      "height": 32,
+      "source": "지형 타일과 기하 마스크",
+      "sha256": "1f1c2ba91305c1ce12444307caa36106b1cd1179d98f398360ad9e4b7048da33",
+      "connectionMask": 4
+    },
+    {
+      "id": "path_5",
+      "label": "흙길 연결 5",
+      "group": "길",
+      "file": "tiles/path_5.png",
+      "width": 32,
+      "height": 32,
+      "source": "지형 타일과 기하 마스크",
+      "sha256": "d082500a408b81ededf3915f983dd2884b649b2cb1f9e0bf214953771ea972cb",
+      "connectionMask": 5
+    },
+    {
+      "id": "path_6",
+      "label": "흙길 연결 6",
+      "group": "길",
+      "file": "tiles/path_6.png",
+      "width": 32,
+      "height": 32,
+      "source": "지형 타일과 기하 마스크",
+      "sha256": "95baa431b3e10f54897063659a4dee9ab8134d48e9bf3ed9f6f2ed66037352e7",
+      "connectionMask": 6
+    },
+    {
+      "id": "path_7",
+      "label": "흙길 연결 7",
+      "group": "길",
+      "file": "tiles/path_7.png",
+      "width": 32,
+      "height": 32,
+      "source": "지형 타일과 기하 마스크",
+      "sha256": "ebdf1d4c8c35295ad860b972892c9cbf5e310e0721fdac0cc92833b48fdf69c3",
+      "connectionMask": 7
+    },
+    {
+      "id": "path_8",
+      "label": "흙길 연결 8",
+      "group": "길",
+      "file": "tiles/path_8.png",
+      "width": 32,
+      "height": 32,
+      "source": "지형 타일과 기하 마스크",
+      "sha256": "b26ddd6437875a46910d67e5811c364251ee1df1e1d8961e11e20367873d3a8d",
+      "connectionMask": 8
+    },
+    {
+      "id": "path_9",
+      "label": "흙길 연결 9",
+      "group": "길",
+      "file": "tiles/path_9.png",
+      "width": 32,
+      "height": 32,
+      "source": "지형 타일과 기하 마스크",
+      "sha256": "dceb6984ed7344e1b4fef4e3315b7e4ca1dea0c47b26e646b937dbf551cac4f1",
+      "connectionMask": 9
+    },
+    {
+      "id": "path_10",
+      "label": "흙길 연결 10",
+      "group": "길",
+      "file": "tiles/path_10.png",
+      "width": 32,
+      "height": 32,
+      "source": "지형 타일과 기하 마스크",
+      "sha256": "640938986fe57190703b6020a1e387c10a267519b9e99baf22b13a49f9f6ff9e",
+      "connectionMask": 10
+    },
+    {
+      "id": "path_11",
+      "label": "흙길 연결 11",
+      "group": "길",
+      "file": "tiles/path_11.png",
+      "width": 32,
+      "height": 32,
+      "source": "지형 타일과 기하 마스크",
+      "sha256": "858f326a9fb138720369f4187f485245522e5a4f1181ca79ec1322631697f186",
+      "connectionMask": 11
+    },
+    {
+      "id": "path_12",
+      "label": "흙길 연결 12",
+      "group": "길",
+      "file": "tiles/path_12.png",
+      "width": 32,
+      "height": 32,
+      "source": "지형 타일과 기하 마스크",
+      "sha256": "099f92edbef84a184783c84bd9e3d1fa9fa929eecfd6071db0ff43771d8b3005",
+      "connectionMask": 12
+    },
+    {
+      "id": "path_13",
+      "label": "흙길 연결 13",
+      "group": "길",
+      "file": "tiles/path_13.png",
+      "width": 32,
+      "height": 32,
+      "source": "지형 타일과 기하 마스크",
+      "sha256": "673472311f17eccbb15b62f0355aa157e4eb346d5b30c4d2ea7d3ce0517dc5a6",
+      "connectionMask": 13
+    },
+    {
+      "id": "path_14",
+      "label": "흙길 연결 14",
+      "group": "길",
+      "file": "tiles/path_14.png",
+      "width": 32,
+      "height": 32,
+      "source": "지형 타일과 기하 마스크",
+      "sha256": "5d85a0880926a94773a066db1daad73390a45dcdea3599315e34976481a7256d",
+      "connectionMask": 14
+    },
+    {
+      "id": "path_15",
+      "label": "흙길 연결 15",
+      "group": "길",
+      "file": "tiles/path_15.png",
+      "width": 32,
+      "height": 32,
+      "source": "지형 타일과 기하 마스크",
+      "sha256": "e921128790e5ada642661f32b6e8b2f89da7af61d1f0a6cfbc24d919c7735e5b",
+      "connectionMask": 15
+    },
+    {
+      "id": "trees",
+      "label": "나무 덩이",
+      "group": "소품",
+      "file": "tiles/trees.png",
+      "width": 32,
+      "height": 32,
+      "source": "K-025 윗면 사본 조합",
+      "sha256": "fc93d29ad3d26c4299a1633c2987c5188a81aa4455850d89ce2b568f39971139",
+      "parts": [
+        [
+          "oak_top",
+          1,
+          4,
+          20
+        ],
+        [
+          "pine_top",
+          14,
+          1,
+          17
+        ],
+        [
+          "oak_top",
+          12,
+          14,
+          18
+        ]
+      ]
+    },
+    {
+      "id": "rocks",
+      "label": "바위 덩이",
+      "group": "소품",
+      "file": "tiles/rocks.png",
+      "width": 32,
+      "height": 32,
+      "source": "K-025 윗면 사본 조합",
+      "sha256": "dc43b3427bfdbf085a16d7d9b964ef8b6b9f67f1cfff24ba52bb7e1a912d50f9",
+      "parts": [
+        [
+          "rock_a_top",
+          2,
+          7,
+          22
+        ],
+        [
+          "rock_b_top",
+          19,
+          3,
+          11
+        ],
+        [
+          "rock_a_top",
+          18,
+          20,
+          12
+        ]
+      ]
+    },
+    {
+      "id": "castle_perimeter",
+      "label": "성 둘레 완성 견본 · 40m",
+      "group": "성 둘레",
+      "file": "tiles/castle_perimeter.png",
+      "width": 256,
+      "height": 256,
+      "source": "source/castle_source.png",
+      "sha256": "7b1cdd1280e6d330c85517d72f0e92cd1e3dcfdc8a4b74df866e08a7344fd887"
+    },
+    {
+      "id": "castle_0_0",
+      "label": "성 조립 0,0",
+      "group": "성 조각",
+      "file": "tiles/castle_0_0.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "6a657fc716f9761f810bd987586b6c5c64eb10c8e33e875c860741d6ee90ef05",
+      "cell": [
+        0,
+        0
+      ]
+    },
+    {
+      "id": "castle_1_0",
+      "label": "성 조립 1,0",
+      "group": "성 조각",
+      "file": "tiles/castle_1_0.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "0f965066e72f1873f7a1fd5337bd320ea0d56cd820ec8d7ff02ebe429cef78d4",
+      "cell": [
+        1,
+        0
+      ]
+    },
+    {
+      "id": "castle_2_0",
+      "label": "성 조립 2,0",
+      "group": "성 조각",
+      "file": "tiles/castle_2_0.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "909372c2d19982d1f8ca5b73a0c06427ec53c859042598c236c67414301e0b9c",
+      "cell": [
+        2,
+        0
+      ]
+    },
+    {
+      "id": "castle_3_0",
+      "label": "성 조립 3,0",
+      "group": "성 조각",
+      "file": "tiles/castle_3_0.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "98f6858b6daf16c763214bc2a58214010c142dc46bdd3f2141b87613273693e0",
+      "cell": [
+        3,
+        0
+      ]
+    },
+    {
+      "id": "castle_4_0",
+      "label": "성 조립 4,0",
+      "group": "성 조각",
+      "file": "tiles/castle_4_0.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "d1238ccad6ceeb18a29a38cb7916b697c6c970582933bcd931be5ac2226d063e",
+      "cell": [
+        4,
+        0
+      ]
+    },
+    {
+      "id": "castle_5_0",
+      "label": "성 조립 5,0",
+      "group": "성 조각",
+      "file": "tiles/castle_5_0.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "26d50d23c7f78c33e68b8615f16590107714ff27c6d08525c80bc5b84f345300",
+      "cell": [
+        5,
+        0
+      ]
+    },
+    {
+      "id": "castle_6_0",
+      "label": "성 조립 6,0",
+      "group": "성 조각",
+      "file": "tiles/castle_6_0.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "60d3f6a9fa6661333e571afcca5f758eac9518590d70cd5a5e851b82c04ca622",
+      "cell": [
+        6,
+        0
+      ]
+    },
+    {
+      "id": "castle_7_0",
+      "label": "성 조립 7,0",
+      "group": "성 조각",
+      "file": "tiles/castle_7_0.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "6126df88e25961a1886767c825130bf62207687f191d705b87c60441f4103e5a",
+      "cell": [
+        7,
+        0
+      ]
+    },
+    {
+      "id": "castle_0_1",
+      "label": "성 조립 0,1",
+      "group": "성 조각",
+      "file": "tiles/castle_0_1.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "6679ceb6ada441f11f3d56ace898f6051d16d9909957547ed5d28727e3eb7b7f",
+      "cell": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "castle_1_1",
+      "label": "성 조립 1,1",
+      "group": "성 조각",
+      "file": "tiles/castle_1_1.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "34775adcb05ec4f36c47e2b3120eac38e42ec1db10721d30e2aa5908097a6f03",
+      "cell": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "castle_2_1",
+      "label": "성 조립 2,1",
+      "group": "성 조각",
+      "file": "tiles/castle_2_1.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "e80ccf312a12a669890960a52eb3f999df738053bc3ba38e73680bfe4f875b22",
+      "cell": [
+        2,
+        1
+      ]
+    },
+    {
+      "id": "castle_3_1",
+      "label": "성 조립 3,1",
+      "group": "성 조각",
+      "file": "tiles/castle_3_1.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "0f44419e4779a0c2805e63c0a3fbc28df03a2d68960115fbefaaf29019562e64",
+      "cell": [
+        3,
+        1
+      ]
+    },
+    {
+      "id": "castle_4_1",
+      "label": "성 조립 4,1",
+      "group": "성 조각",
+      "file": "tiles/castle_4_1.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "0db413c22e6fd9c08894593a5796f7ace6fceaf171285049696a88e8119eb712",
+      "cell": [
+        4,
+        1
+      ]
+    },
+    {
+      "id": "castle_5_1",
+      "label": "성 조립 5,1",
+      "group": "성 조각",
+      "file": "tiles/castle_5_1.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "4eef87844a186c63e872f591f304fea734e4c00078ddcc5551f2e2dbc7302186",
+      "cell": [
+        5,
+        1
+      ]
+    },
+    {
+      "id": "castle_6_1",
+      "label": "성 조립 6,1",
+      "group": "성 조각",
+      "file": "tiles/castle_6_1.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "8a073c9247e01472eab9da703ac292ebec3858981842da4ab394f233f6669100",
+      "cell": [
+        6,
+        1
+      ]
+    },
+    {
+      "id": "castle_7_1",
+      "label": "성 조립 7,1",
+      "group": "성 조각",
+      "file": "tiles/castle_7_1.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "e901f6f6e585055e1cc785e813b56cb057e943230eb5d01299af429ec8675403",
+      "cell": [
+        7,
+        1
+      ]
+    },
+    {
+      "id": "castle_0_2",
+      "label": "성 조립 0,2",
+      "group": "성 조각",
+      "file": "tiles/castle_0_2.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "caa3103c66cd1efc1a17ebb42c8fe04fd7c66c9e8d603418ed45864aa29b9ec9",
+      "cell": [
+        0,
+        2
+      ]
+    },
+    {
+      "id": "castle_1_2",
+      "label": "성 조립 1,2",
+      "group": "성 조각",
+      "file": "tiles/castle_1_2.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "a344c35eb5a698e3336a25172ba9464a2dfcc157b2bfb1910d580eff61cd4bcc",
+      "cell": [
+        1,
+        2
+      ]
+    },
+    {
+      "id": "castle_2_2",
+      "label": "성 조립 2,2",
+      "group": "성 조각",
+      "file": "tiles/castle_2_2.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "dc15fab6e566f4f13e341b5eda6d7696533a3d0822fb1d8b83bd1aa3b198b7cd",
+      "cell": [
+        2,
+        2
+      ]
+    },
+    {
+      "id": "castle_3_2",
+      "label": "성 조립 3,2",
+      "group": "성 조각",
+      "file": "tiles/castle_3_2.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "c7ab34be665ea7ad2fe2949c3066b3110acd8a5e87215e34b62eccdff861509a",
+      "cell": [
+        3,
+        2
+      ]
+    },
+    {
+      "id": "castle_4_2",
+      "label": "성 조립 4,2",
+      "group": "성 조각",
+      "file": "tiles/castle_4_2.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "8c22cc50750e47a54e951952947537a608ec1e36484725f0e857e96e3546e49d",
+      "cell": [
+        4,
+        2
+      ]
+    },
+    {
+      "id": "castle_5_2",
+      "label": "성 조립 5,2",
+      "group": "성 조각",
+      "file": "tiles/castle_5_2.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "2a3e732e32387154f792b961b1294f67d21491cc03711daed28042064b12dd6a",
+      "cell": [
+        5,
+        2
+      ]
+    },
+    {
+      "id": "castle_6_2",
+      "label": "성 조립 6,2",
+      "group": "성 조각",
+      "file": "tiles/castle_6_2.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "c65d2935c80255512cd67c5ef3171ca61567d88bac55a9d2e5732f2274a50fc6",
+      "cell": [
+        6,
+        2
+      ]
+    },
+    {
+      "id": "castle_7_2",
+      "label": "성 조립 7,2",
+      "group": "성 조각",
+      "file": "tiles/castle_7_2.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "db36802abd92c432b86ac4e90e468a25da5073905717bef7ce211f866d70cc5a",
+      "cell": [
+        7,
+        2
+      ]
+    },
+    {
+      "id": "castle_0_3",
+      "label": "성 조립 0,3",
+      "group": "성 조각",
+      "file": "tiles/castle_0_3.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "03899275dabf2831e2b5a99d97e664918fe4823b2a03193c325cf312ce634cca",
+      "cell": [
+        0,
+        3
+      ]
+    },
+    {
+      "id": "castle_1_3",
+      "label": "성 조립 1,3",
+      "group": "성 조각",
+      "file": "tiles/castle_1_3.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "ffb6cc118f6e7e5bf0d6edc925abcdd93e9d758029642d176b188fe760d3e6d6",
+      "cell": [
+        1,
+        3
+      ]
+    },
+    {
+      "id": "castle_2_3",
+      "label": "성 조립 2,3",
+      "group": "성 조각",
+      "file": "tiles/castle_2_3.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "2fea31630a12a292eca534ca8cc2a36411a790b761dd9b7269052e7da6f55f6a",
+      "cell": [
+        2,
+        3
+      ]
+    },
+    {
+      "id": "castle_3_3",
+      "label": "성 조립 3,3",
+      "group": "성 조각",
+      "file": "tiles/castle_3_3.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "e66f56e3ff4b67d9ae9b6f2b2e64ef602caacd807ead5b4627de5ca9859d9b92",
+      "cell": [
+        3,
+        3
+      ]
+    },
+    {
+      "id": "castle_4_3",
+      "label": "성 조립 4,3",
+      "group": "성 조각",
+      "file": "tiles/castle_4_3.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "68f1408c1387b3a1176b3b3997f9bdb298eb0333b40c9f431fd3fcf8b81d233c",
+      "cell": [
+        4,
+        3
+      ]
+    },
+    {
+      "id": "castle_5_3",
+      "label": "성 조립 5,3",
+      "group": "성 조각",
+      "file": "tiles/castle_5_3.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "a3cbffd401eb503380b18a6d5d2ffa26faf6951a1b8cee3ecf42d1dece131a95",
+      "cell": [
+        5,
+        3
+      ]
+    },
+    {
+      "id": "castle_6_3",
+      "label": "성 조립 6,3",
+      "group": "성 조각",
+      "file": "tiles/castle_6_3.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "776f329d6a6bcb4eb0dbdd6f273cce4254c610f19a4d609b376b47fe894c5936",
+      "cell": [
+        6,
+        3
+      ]
+    },
+    {
+      "id": "castle_7_3",
+      "label": "성 조립 7,3",
+      "group": "성 조각",
+      "file": "tiles/castle_7_3.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "404b0412c8a2cc33a56e6a328aa3c626c54f2fbaaa2cb5cc8967978d18013c08",
+      "cell": [
+        7,
+        3
+      ]
+    },
+    {
+      "id": "castle_0_4",
+      "label": "성 조립 0,4",
+      "group": "성 조각",
+      "file": "tiles/castle_0_4.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "e56d62aac004f5c1c6bcb5853e6e068c5466b2f7084dc6487aaabfdcb6d39217",
+      "cell": [
+        0,
+        4
+      ]
+    },
+    {
+      "id": "castle_1_4",
+      "label": "성 조립 1,4",
+      "group": "성 조각",
+      "file": "tiles/castle_1_4.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "bace5e4c23f74563063a784038c7c46860b7a22d7cb706fffcac8268f26aa6e0",
+      "cell": [
+        1,
+        4
+      ]
+    },
+    {
+      "id": "castle_2_4",
+      "label": "성 조립 2,4",
+      "group": "성 조각",
+      "file": "tiles/castle_2_4.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "312fa33b0148f46bec6d8625243e17b88fb2a99f9d76eceb49961de9147663e6",
+      "cell": [
+        2,
+        4
+      ]
+    },
+    {
+      "id": "castle_3_4",
+      "label": "성 조립 3,4",
+      "group": "성 조각",
+      "file": "tiles/castle_3_4.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "84715008edde0b2a23c1ca50edfa2af0924d5a7b9eebf3717084a6b935d82e4f",
+      "cell": [
+        3,
+        4
+      ]
+    },
+    {
+      "id": "castle_4_4",
+      "label": "성 조립 4,4",
+      "group": "성 조각",
+      "file": "tiles/castle_4_4.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "e228ab898d63e98756a2947846ea6e1aa34acc888c549689f31f1f8be590d77f",
+      "cell": [
+        4,
+        4
+      ]
+    },
+    {
+      "id": "castle_6_4",
+      "label": "성 조립 6,4",
+      "group": "성 조각",
+      "file": "tiles/castle_6_4.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "bacc61c8c30124f3970aa94d4872e97374a7b0eed2e248f8d4599fc5448db4fc",
+      "cell": [
+        6,
+        4
+      ]
+    },
+    {
+      "id": "castle_7_4",
+      "label": "성 조립 7,4",
+      "group": "성 조각",
+      "file": "tiles/castle_7_4.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "c724b9df89a28c70c7dee05bede71f7bc995aaf733bff0156b73a86a6884d031",
+      "cell": [
+        7,
+        4
+      ]
+    },
+    {
+      "id": "castle_0_5",
+      "label": "성 조립 0,5",
+      "group": "성 조각",
+      "file": "tiles/castle_0_5.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "e5fb58fd5b2db79bd42ea8cf7d0048bef79d99308fc219176af6f73637421d8d",
+      "cell": [
+        0,
+        5
+      ]
+    },
+    {
+      "id": "castle_1_5",
+      "label": "성 조립 1,5",
+      "group": "성 조각",
+      "file": "tiles/castle_1_5.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "70c658aec9e9461e2e48c17d4a2af308851b5aa83e07206e1f1d1a5bf66364af",
+      "cell": [
+        1,
+        5
+      ]
+    },
+    {
+      "id": "castle_2_5",
+      "label": "성 조립 2,5",
+      "group": "성 조각",
+      "file": "tiles/castle_2_5.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "1a0e9f3049e6cc7eb6fde037066e295996acf22400cff4a2c6bf9af99bc4d910",
+      "cell": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "castle_3_5",
+      "label": "성 조립 3,5",
+      "group": "성 조각",
+      "file": "tiles/castle_3_5.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "0981e682a7d502a071e9a868080f386ce26a28666b1332a1845c3b217e10b318",
+      "cell": [
+        3,
+        5
+      ]
+    },
+    {
+      "id": "castle_4_5",
+      "label": "성 조립 4,5",
+      "group": "성 조각",
+      "file": "tiles/castle_4_5.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "269ed7216a22267c96b7270915a0b604525a6204c816ecc48be03714b048ea57",
+      "cell": [
+        4,
+        5
+      ]
+    },
+    {
+      "id": "castle_6_5",
+      "label": "성 조립 6,5",
+      "group": "성 조각",
+      "file": "tiles/castle_6_5.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "64de5f293242f1a73df32127302edc21eda871d78dea7a809c75487605e48635",
+      "cell": [
+        6,
+        5
+      ]
+    },
+    {
+      "id": "castle_7_5",
+      "label": "성 조립 7,5",
+      "group": "성 조각",
+      "file": "tiles/castle_7_5.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "244be143ddff9027c1c9ea30a354bd5dfde4b20136129b2df9b9eb4f93f5d8bd",
+      "cell": [
+        7,
+        5
+      ]
+    },
+    {
+      "id": "castle_0_6",
+      "label": "성 조립 0,6",
+      "group": "성 조각",
+      "file": "tiles/castle_0_6.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "d1cf9ad0e759edddc20f5f4ffdacb578cbc712e34276abea705d267c2384fa57",
+      "cell": [
+        0,
+        6
+      ]
+    },
+    {
+      "id": "castle_1_6",
+      "label": "성 조립 1,6",
+      "group": "성 조각",
+      "file": "tiles/castle_1_6.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "78ca4fc37c4e5154645e9e0675d052e99cceb2e3e40ab6ff15e30e61869bce4b",
+      "cell": [
+        1,
+        6
+      ]
+    },
+    {
+      "id": "castle_2_6",
+      "label": "성 조립 2,6",
+      "group": "성 조각",
+      "file": "tiles/castle_2_6.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "95a06cd9a9f94d5772a09adc682ee2f7741437ca1276d7a72e4623b90dfd335b",
+      "cell": [
+        2,
+        6
+      ]
+    },
+    {
+      "id": "castle_3_6",
+      "label": "성 조립 3,6",
+      "group": "성 조각",
+      "file": "tiles/castle_3_6.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "9c432d44f8ce2ef6b8b7fb7f9e9ac93c87d0f6d4b086e8e14c4f7d1b4e0f44ca",
+      "cell": [
+        3,
+        6
+      ]
+    },
+    {
+      "id": "castle_4_6",
+      "label": "성 조립 4,6",
+      "group": "성 조각",
+      "file": "tiles/castle_4_6.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "66979028ef01c72dc819562faa98de9786b34267f9ba1c33c7ddd1cc60830a3d",
+      "cell": [
+        4,
+        6
+      ]
+    },
+    {
+      "id": "castle_5_6",
+      "label": "성 조립 5,6",
+      "group": "성 조각",
+      "file": "tiles/castle_5_6.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "baf2395ea6c4e90b1281671a94acaccf9a4d8acd53da019c1bcf58424f880c18",
+      "cell": [
+        5,
+        6
+      ]
+    },
+    {
+      "id": "castle_6_6",
+      "label": "성 조립 6,6",
+      "group": "성 조각",
+      "file": "tiles/castle_6_6.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "170fa917930805f5d82ac6f0604fb9b167888a275e3b06f50e74771d43db02e6",
+      "cell": [
+        6,
+        6
+      ]
+    },
+    {
+      "id": "castle_7_6",
+      "label": "성 조립 7,6",
+      "group": "성 조각",
+      "file": "tiles/castle_7_6.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "80a76ff90dc7cdf9ea07726f18235c8ff88a2539b05f6d4901f8f608526b986f",
+      "cell": [
+        7,
+        6
+      ]
+    },
+    {
+      "id": "castle_0_7",
+      "label": "성 조립 0,7",
+      "group": "성 조각",
+      "file": "tiles/castle_0_7.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "ca1d5fb4f6c1ed8db4bc88cc649fb3fc25c1703e82b474da15033061c479bf44",
+      "cell": [
+        0,
+        7
+      ]
+    },
+    {
+      "id": "castle_1_7",
+      "label": "성 조립 1,7",
+      "group": "성 조각",
+      "file": "tiles/castle_1_7.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "afcd0d955309a4077794fc82beb63d68390ce5dee60d43bb124bd6e5e2a4703d",
+      "cell": [
+        1,
+        7
+      ]
+    },
+    {
+      "id": "castle_2_7",
+      "label": "성 조립 2,7",
+      "group": "성 조각",
+      "file": "tiles/castle_2_7.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "a196859d952e9ce66dd3747ad6f9ddca8580c0a072a529be317edc19e3a9e7ba",
+      "cell": [
+        2,
+        7
+      ]
+    },
+    {
+      "id": "castle_3_7",
+      "label": "성 조립 3,7",
+      "group": "성 조각",
+      "file": "tiles/castle_3_7.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "e52f907ab623c90c1bade9e72bc8619d5410991875d3d0c6c49123078027c333",
+      "cell": [
+        3,
+        7
+      ]
+    },
+    {
+      "id": "castle_4_7",
+      "label": "성 조립 4,7",
+      "group": "성 조각",
+      "file": "tiles/castle_4_7.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "2a016d5bbf87f5ecaa1d2127abf7343037f13775c4ac382caa10b02992675abc",
+      "cell": [
+        4,
+        7
+      ]
+    },
+    {
+      "id": "castle_5_7",
+      "label": "성 조립 5,7",
+      "group": "성 조각",
+      "file": "tiles/castle_5_7.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "2fbf44ab69b12982af3579f28617e21bc8e9cc4ccb6ef617de7e674e4bb7d9ef",
+      "cell": [
+        5,
+        7
+      ]
+    },
+    {
+      "id": "castle_6_7",
+      "label": "성 조립 6,7",
+      "group": "성 조각",
+      "file": "tiles/castle_6_7.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "840701ad5535be1c98513cb27dfe79cc661ec3beb94450fdf3b7d16ebca3f380",
+      "cell": [
+        6,
+        7
+      ]
+    },
+    {
+      "id": "castle_7_7",
+      "label": "성 조립 7,7",
+      "group": "성 조각",
+      "file": "tiles/castle_7_7.png",
+      "width": 32,
+      "height": 32,
+      "source": "castle_perimeter",
+      "sha256": "d096a60de30e5d08b0820fde0ad6c7ba90a4f998f8c099f8bdd1600f9ade00fd",
+      "cell": [
+        7,
+        7
+      ]
+    },
+    {
+      "id": "grid_empty",
+      "label": "빈 칸",
+      "group": "격자",
+      "file": "tiles/grid_empty.png",
+      "width": 32,
+      "height": 32,
+      "source": "기하학적 반투명 겉칠",
+      "sha256": "6c8336d9eda5a1e78d6b835636108e1a53ed6519063ab78ff8e75060fc255660"
+    },
+    {
+      "id": "grid_allowed",
+      "label": "설치 가능",
+      "group": "격자",
+      "file": "tiles/grid_allowed.png",
+      "width": 32,
+      "height": 32,
+      "source": "기하학적 반투명 겉칠",
+      "sha256": "16dc9a4ca33a86f259851e2e765ce6eaa63b206941a3c19b2921d7d8f1096943"
+    },
+    {
+      "id": "grid_blocked",
+      "label": "설치 불가",
+      "group": "격자",
+      "file": "tiles/grid_blocked.png",
+      "width": 32,
+      "height": 32,
+      "source": "기하학적 반투명 겉칠",
+      "sha256": "3780174e98ea6b451c8270f606f5b881aaf4a978abe16f7dc29dd37b81938759"
+    },
+    {
+      "id": "grid_selected",
+      "label": "선택",
+      "group": "격자",
+      "file": "tiles/grid_selected.png",
+      "width": 32,
+      "height": 32,
+      "source": "기하학적 반투명 겉칠",
+      "sha256": "d79afeceb32dcccff33c823029fcb8c8e52d7e6925b92c800ef2727899ae8da7"
+    },
+    {
+      "id": "grid_placed",
+      "label": "설치됨",
+      "group": "격자",
+      "file": "tiles/grid_placed.png",
+      "width": 32,
+      "height": 32,
+      "source": "기하학적 반투명 겉칠",
+      "sha256": "bb6f5a5079ef8e99e17dca139a024a00cc471ec5831e3f0cb373187430bf9d49"
+    },
+    {
+      "id": "trap_buried",
+      "label": "묻힌 함정 표시",
+      "group": "표시",
+      "file": "tiles/trap_buried.png",
+      "width": 32,
+      "height": 32,
+      "source": "기하학적 지도 기호",
+      "sha256": "a39305825cbc09b23f1619a916cac1cc824b9308015338f777509d02a030e57c"
+    },
+    {
+      "id": "trap_spent",
+      "label": "터진 자리 표시",
+      "group": "표시",
+      "file": "tiles/trap_spent.png",
+      "width": 32,
+      "height": 32,
+      "source": "기하학적 지도 기호",
+      "sha256": "3c67f6e0adf4e1546e3af17e5d8c4057183aac6d705cf2256594467bc59fb049"
+    }
+  ],
+  "notes": [
+    "게임 API가 아닌 그림 배치 설명이다.",
+    "길 연결 비트 북1 동2 남4 서8.",
+    "성은 8×8칸 원안 분할 조립이다. 성벽 길이 임의 증감은 미검증."
+  ]
+}

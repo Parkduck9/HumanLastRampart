@@ -1,0 +1,5 @@
+{
+  "passed": 10,
+  "syntax": true,
+  "scope": "최소 DOM 모형 확인이며 실제 브라우저 렌더링 아님"
+}
