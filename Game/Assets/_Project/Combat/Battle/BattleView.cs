@@ -96,6 +96,12 @@ namespace HumanLastRampart.Combat.Battle
         readonly GraphicsBuffer flameBuffer;
         readonly MaterialPropertyBlock flameBlock;
         readonly PerfLabInstance[] flameInstances;
+        // 3등신 시험 그림 (K-057, ProportionTrial): 켜고 끌 때 궁수·주인공 블록의 그림만 바꿔 끼운다. 꺼져 있으면 아무것도 안 함
+        UnitDef trialArcher;
+        MaterialPropertyBlock trialArcherBlock, trialArcherFireBlock;
+        readonly Texture2D heroSheetOriginal, heroIdleOriginal;
+        readonly Texture heroNormalOriginal, heroIdleNormalOriginal;
+        bool trialShown;
         readonly Renderer[] walls = new Renderer[4];
         Light sunLight;
         Transform[] pileBlocks;          // 시체 더미 칸마다 상자 (높이가 생기면 만든다)
@@ -195,6 +201,14 @@ namespace HumanLastRampart.Combat.Battle
                 {
                     // 사격·쓰러짐 시트 (K-032). 칸 번호 구간은 BattleSim.SoldierPose
                     AddPose(soldierPoseDraws, buffer, count, unit.FireSheet, PerfLabArt.FireFrame0);
+                    if (ProportionTrial.IsArcher(unit))
+                    {
+                        // 3등신 시험 그림으로 바꿔 끼울 블록 (K-057)
+                        trialArcher = unit;
+                        trialArcherBlock = block;
+                        trialArcherFireBlock = unit.FireSheet != null ? soldierPoseDraws[soldierPoseDraws.Count - 1].block : null;
+                    }
+
                     AddPose(soldierPoseDraws, buffer, count, unit.DeathSheet, PerfLabArt.FallFrame0);
                     AddPose(soldierPoseDraws, buffer, count, unit.IgniteSheet, PerfLabArt.IgniteFrame0);   // 대포병 불붙이기 (K-046)
                 }
@@ -255,6 +269,10 @@ namespace HumanLastRampart.Combat.Battle
 
             heroBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, 1, PerfLabInstance.Stride);
             heroBlock.SetBuffer(InstancesId, heroBuffer);
+            heroSheetOriginal = heroSheet;            // 3등신 시험 그림에서 되돌릴 원래 그림 (K-057)
+            heroIdleOriginal = heroIdleSheet;
+            heroNormalOriginal = heroNormalSheet;
+            heroIdleNormalOriginal = heroIdleNormalSheet;
             if (heroIdleSheet != null)
             {
                 heroIdleBlock = new MaterialPropertyBlock();
@@ -329,6 +347,35 @@ namespace HumanLastRampart.Combat.Battle
         }
 
         public bool HasHeroCommandArt => heroCommandBlock != null;
+
+        // 3등신 시험 그림 켜기·끄기 (K-057): 궁수 서기·사격, 주인공 시트·서기 블록의 그림을 바꾼다. 버퍼·칸 구간은 그대로.
+        // 시험 그림은 인물 키 192px라 SheetScale이 기존 그림과 같은 월드 키로 맞춘다. 원래 노멀맵은 칸이 안 맞아 시험 그림에는 뺀다
+        void ApplyProportionTrial()
+        {
+            trialShown = ProportionTrial.Enabled;
+            if (trialArcher != null && trialArcherBlock != null)
+            {
+                Texture2D sheet = ProportionTrial.ArcherStatic(trialArcher.Sheet);
+                ApplyFigure(trialArcherBlock, sheet, ProportionTrial.Normal(sheet, trialArcher.Sheet, trialArcher.NormalSheet));
+                Texture2D fire = ProportionTrial.ArcherFire(trialArcher.FireSheet);
+                if (trialArcherFireBlock != null && fire != null) ApplyFigure(trialArcherFireBlock, fire);
+                sim.SetFireSheetFrames(trialArcher, fire);   // 시험 사격은 4칸 (놓기 = 4번째 칸, 기존과 같은 자리)
+            }
+
+            if (heroSheetOriginal != null)
+            {
+                Texture2D hero = ProportionTrial.HeroGrid(heroSheetOriginal);
+                Apply(heroBlock, hero, PerfLabArt.HeroLayout, ProportionTrial.Normal(hero, heroSheetOriginal, heroNormalOriginal), PerfLabArt.SheetScale(hero), true);
+            }
+
+            if (heroIdleBlock != null && heroIdleOriginal != null)
+            {
+                Texture2D idle = ProportionTrial.HeroIdle(heroIdleOriginal);
+                ApplyFigure(heroIdleBlock, idle, ProportionTrial.Normal(idle, heroIdleOriginal, heroIdleNormalOriginal));
+            }
+
+            sim.SoldiersDirty = true;
+        }
 
         void BuildEnvironment()
         {
@@ -419,6 +466,7 @@ namespace HumanLastRampart.Combat.Battle
         // 작업이 끝난 뒤(sim.Complete 후) 부른다. 지도 모드면 같은 데이터를 점으로 그린다(mapDotSize = 최소 점 크기 m)
         public void Draw(bool mapMode = false, float mapDotSize = 0f)
         {
+            if (ProportionTrial.Enabled != trialShown) ApplyProportionTrial();   // 3등신 시험 그림 (K-057) — 꺼져 있으면 건너뜀
             if (look != null)
             {
                 bool litBefore = HumanLastRampart.Combat.Render.BattleLook.LitActive;

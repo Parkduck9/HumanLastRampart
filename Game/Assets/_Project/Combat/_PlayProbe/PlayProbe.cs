@@ -1120,6 +1120,76 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
         Time.captureDeltaTime = 0f;
     }
 
+    // 3등신 시험 그림 비교 (K-057, Codex K-056): 같은 장면·같은 카메라(A, 정면 성벽)에서 스위치 끔(old)/켬(new) 사진 쌍.
+    // 낮·밤, 그리고 주인공 달리기 순간. 궁수·주인공만 바뀌고 다른 병종·적은 그대로인 게 정상
+    [UnityTest]
+    public IEnumerator ProportionTrial()
+    {
+        Directory.CreateDirectory(Out);
+        log = new StringBuilder();
+        HumanLastRampart.Combat.Battle.ProportionTrial.Enabled = false;
+        Time.captureDeltaTime = 1f / 20f;
+        SceneManager.LoadScene("Boot");
+        yield return null;
+        yield return null;
+        yield return WaitScreen(ScreenId.MainMenu, 900);
+        yield return Click("게임 시작", 600);
+        yield return Click("현실", 300);
+        yield return WaitScreen(ScreenId.Story, 600);
+        yield return Click("넘기기", 600);
+        yield return WaitScreen(ScreenId.Battle, 900);
+        for (int i = 0; i < 80; i++) yield return null;   // 적이 다가오고 궁수가 쏘기 시작하게
+        var flags = System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance;
+        var entry = UnityEngine.Object.FindObjectsByType<HumanLastRampart.Combat.Battle.BattleEntry>(FindObjectsSortMode.None)[0];
+        var sim = (HumanLastRampart.Combat.Battle.BattleSim)typeof(HumanLastRampart.Combat.Battle.BattleEntry).GetField("sim", flags).GetValue(entry);
+        var rig = (HumanLastRampart.Combat.Battle.BattleCameraRig)typeof(HumanLastRampart.Combat.Battle.BattleEntry).GetField("rig", flags).GetValue(entry);
+        var setup = GameFlow.Instance.Campaign.ActiveBattleSetup;
+        Time.captureDeltaTime = 0.0005f;   // 전투는 거의 멈춤 — old/new가 같은 순간
+        try
+        {
+            rig.ShowSide(0);
+            rig.SetPreset(0);
+            foreach (var (w, t, name) in new[] {
+                (HumanLastRampart.Core.CombatContracts.Weather.Clear, HumanLastRampart.Core.CombatContracts.TimeOfDay.Day, "day"),
+                (HumanLastRampart.Core.CombatContracts.Weather.Clear, HumanLastRampart.Core.CombatContracts.TimeOfDay.Night, "night") })
+            {
+                var f = setup.Forecast; f.InitialWeather = w; f.TimeOfDay = t; f.Changes = false; setup.Forecast = f;
+                sim.WeatherDirty = true;
+                foreach (bool trial in new[] { false, true })
+                {
+                    HumanLastRampart.Combat.Battle.ProportionTrial.Enabled = trial;
+                    for (int i = 0; i < 5; i++) yield return null;
+                    yield return Capture($"proportion_{name}_A_{(trial ? "new" : "old")}");
+                }
+            }
+
+            // 주인공 달리기 (오른쪽, 옆 달리기 칸) — 낮
+            var g = setup.Forecast; g.InitialWeather = HumanLastRampart.Core.CombatContracts.Weather.Clear; g.TimeOfDay = HumanLastRampart.Core.CombatContracts.TimeOfDay.Day; g.Changes = false; setup.Forecast = g;
+            sim.WeatherDirty = true;
+            HumanLastRampart.Combat.Battle.ProportionTrial.Enabled = false;
+            rig.WalkInput = 1f;
+            for (int i = 0; i < 8; i++) yield return null;
+            Assert.AreEqual(HumanLastRampart.Combat.Battle.BattleCameraRig.HeroPose.Run, rig.Pose, "오른쪽으로 달리는 중");
+            yield return Capture("proportion_hero_run_A_old");
+            HumanLastRampart.Combat.Battle.ProportionTrial.Enabled = true;
+            for (int i = 0; i < 3; i++) yield return null;
+            yield return Capture("proportion_hero_run_A_new");
+            rig.WalkInput = 0f;
+            for (int i = 0; i < 8; i++) yield return null;
+            yield return Capture("proportion_hero_idle_A_new");
+            HumanLastRampart.Combat.Battle.ProportionTrial.Enabled = false;
+            for (int i = 0; i < 3; i++) yield return null;
+            yield return Capture("proportion_hero_idle_A_old");
+            Note("3등신 시험: 궁수(서기·사격)와 주인공만 바뀜. 시험 그림 인물 키 192px → 기존(서기 300px)과 같은 월드 키로 맞춤");
+        }
+        finally
+        {
+            HumanLastRampart.Combat.Battle.ProportionTrial.Enabled = false;   // 다른 시험에 남지 않게
+            File.WriteAllText(Path.Combine(Out, "proportion_trial.txt"), log.ToString(), new UTF8Encoding(false));
+            Time.captureDeltaTime = 0f;
+        }
+    }
+
     // 2번 지도 (MAP-1): 3단계 사진, 쉬움 시간 정지, 현실 시간 흐름
     [UnityTest]
     public IEnumerator MapEasy() { yield return MapCheck(Difficulty.Easy, "map_easy"); }
