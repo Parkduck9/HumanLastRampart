@@ -498,6 +498,7 @@ namespace HumanLastRampart.Combat.Battle
             foreach (var (squad, post, w, _) in placed)
                 if (weapons[w].AreaRadius > 0f && squad.Count > 0)
                     cannonBays[(int)post.Wall].Add((post.PositionAlongWall - 0.5f) * 2f * CastleHalf);
+            AddSpareCannonBays();   // 대포를 옮겨 받을 빈 사격구 (K-060, BattleSim.Haul.cs)
             BuildWallSlots(n);
 
             var random = new Unity.Mathematics.Random(seed ^ 0x9E3779B9u);
@@ -1016,7 +1017,7 @@ namespace HumanLastRampart.Combat.Battle
             for (int i = 0; i < soldierCount; i++)
             {
                 bool runner = WriteRunner(i);   // 달리기 그림으로 그리면 원래 그림은 숨김
-                bool shown = SoldierPose(i, out float frame) && !runner;   // 사격·쓰러짐 칸 (K-032, BattleSim.Poses.cs)
+                bool shown = SoldierPose(i, out float frame) && !runner && (cannonMoves.Count == 0 || !Hauling(i));   // 사격·쓰러짐 칸 (K-032). 대포를 끄는 병사는 끌기 그림으로 (K-060)
                 soldierInstances[i] = new PerfLabInstance
                 {
                     PosFrame = new float4(sPos[i], frame),

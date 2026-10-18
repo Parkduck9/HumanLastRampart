@@ -816,6 +816,90 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
         Time.captureDeltaTime = 0f;
     }
 
+    // K-060: 설치 대포 크기 (보이는 폭 = 병사 키 × 1.15, 납작함 보정) — 뒤(A·B)와 들판 쪽 정면 사진, 대포 묶음 이동 중 사진
+    [UnityTest]
+    public IEnumerator CannonArt()
+    {
+        Directory.CreateDirectory(Out);
+        log = new StringBuilder();
+        Time.captureDeltaTime = 1f / 20f;
+        SceneManager.LoadScene("Boot");
+        yield return null;
+        yield return null;
+        yield return WaitScreen(ScreenId.MainMenu, 900);
+        yield return Click("게임 시작", 600);
+        yield return Click("쉬움", 300);
+        yield return WaitScreen(ScreenId.Story, 600);
+        yield return Click("넘기기", 600);
+        yield return WaitScreen(ScreenId.Battle, 900);
+        for (int i = 0; i < 60; i++) yield return null;
+        Time.captureDeltaTime = 0.0001f;
+        var flags = System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance;
+        var entry = UnityEngine.Object.FindObjectsByType<HumanLastRampart.Combat.Battle.BattleEntry>(FindObjectsSortMode.None)[0];
+        var rig = (HumanLastRampart.Combat.Battle.BattleCameraRig)typeof(HumanLastRampart.Combat.Battle.BattleEntry).GetField("rig", flags).GetValue(entry);
+        var sim = (HumanLastRampart.Combat.Battle.BattleSim)typeof(HumanLastRampart.Combat.Battle.BattleEntry).GetField("sim", flags).GetValue(entry);
+        var alongField = typeof(HumanLastRampart.Combat.Battle.BattleCameraRig).GetField("along", flags);
+        Note($"설치 대포 칸 높이 {HumanLastRampart.Combat.Battle.BattlePropView.InstalledCannonSize:0.000}m · 보이는 폭 {HumanLastRampart.Combat.Battle.BattlePropView.InstalledCannonVisibleWidth:0.000}m (병사 키 0.35m × 1.15 = 0.403m)");
+
+        sim.Complete();
+        int cannon = -1;
+        for (int i = 0; i < sim.CannonCount; i++) if (sim.GetCannon(i).Side == 0) { cannon = i; break; }
+        Assert.GreaterOrEqual(cannon, 0, "북쪽 대포");
+        var info = sim.GetCannon(cannon);
+        rig.ShowSide(0);
+        alongField.SetValue(rig, info.Position.x);   // 북쪽: 오른쪽 = +x
+        for (int p = 0; p < 2; p++)
+        {
+            rig.SetPreset(p);
+            for (int i = 0; i < 5; i++) yield return null;
+            yield return Capture($"cannon_installed_back_{"AB"[p]}");
+        }
+
+        // 정면: 들판 쪽에서 성벽을 바라보는 임시 사진기 (전투 사진기 위에 그린다)
+        var main = (Camera)typeof(HumanLastRampart.Combat.Battle.BattleEntry).GetField("battleCamera", flags).GetValue(entry);
+        var front = new GameObject("PlayProbe Front Camera").AddComponent<Camera>();
+        front.CopyFrom(main);
+        front.depth = main.depth + 10f;
+        Vector3 at = info.Position + new Vector3(0f, 0.2f, 0f);
+        front.transform.position = at + new Vector3(0f, 0.35f, 2.2f);   // 북쪽 바깥 2.2m, 조금 위
+        front.transform.LookAt(at);
+        for (int i = 0; i < 3; i++) yield return null;
+        yield return Capture("cannon_installed_front");
+        front.enabled = false;
+
+        // 대포 옮기기: 북쪽 대포를 동쪽 빈 사격구로 끌고 간다 (K-060)
+        sim.Complete();
+        Note($"동쪽 빈 사격구 {sim.FreeCannonBays(1)}곳");
+        Assert.IsTrue(sim.MoveCannon(cannon, 1, false), "대포 옮기기 출발");
+        Time.captureDeltaTime = 1f / 20f;
+        for (int i = 0; i < 40; i++) yield return null;
+        Time.captureDeltaTime = 0.0001f;
+        sim.Complete();
+        Assert.Greater(sim.CannonHauls.Count, 0, "끄는 대포");
+        Vector3 haul = sim.CannonHauls[0].Position;
+        Note($"끄는 대포 위치 ({haul.x:0.0},{haul.z:0.0}) · 끈 거리 {sim.CannonHauls[0].Travelled:0.0}m · 속도 {HumanLastRampart.Combat.Battle.BattleSim.HaulSpeed:0.00}m/초");
+        rig.ShowSide(0);
+        alongField.SetValue(rig, haul.x);
+        for (int p = 0; p < 2; p++)
+        {
+            rig.SetPreset(p);
+            for (int i = 0; i < 3; i++) yield return null;
+            yield return Capture($"cannon_haul_back_{"AB"[p]}");
+        }
+
+        // 끄는 모습 옆에서 (통로 안쪽에서 바깥을 보며 대포 옆쪽으로)
+        haul = sim.CannonHauls.Count > 0 ? sim.CannonHauls[0].Position : haul;
+        front.transform.position = haul + new Vector3(0f, 0.45f, -1.8f);
+        front.transform.LookAt(haul + new Vector3(0f, 0.2f, 0f));
+        front.enabled = true;
+        for (int i = 0; i < 3; i++) yield return null;
+        yield return Capture("cannon_haul_side");
+        UnityEngine.Object.Destroy(front.gameObject);
+
+        File.WriteAllText(Path.Combine(Out, "cannon_art.txt"), log.ToString(), new UTF8Encoding(false));
+        Time.captureDeltaTime = 0f;
+    }
+
     // D-046: 병사 1줄·작게, 적은 성벽 가까이서 줄어듦, 카메라 A/B/C, Q/E 자동 달리기(옆 성벽 가운데까지 약 12초)
     [UnityTest]
     public IEnumerator WallScale()

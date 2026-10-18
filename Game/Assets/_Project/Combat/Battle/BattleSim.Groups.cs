@@ -205,6 +205,8 @@ namespace HumanLastRampart.Combat.Battle
                 ArriveSide(move.Group, move.TargetSide, move.EndSpot);
                 Notice?.Invoke($"{squad.UnitName} {squad.Alive}명이 {SideNames[move.TargetSide]}에 도착");
             }
+
+            UpdateCannonMoves(dt);   // 대포 옮기기 (K-060, BattleSim.Haul.cs)
         }
 
         void LeaveSide(int index, int side)
