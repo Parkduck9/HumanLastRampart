@@ -42,6 +42,7 @@ namespace HumanLastRampart.Combat.Battle
             public float3 Home;
             public int MoveGroup = -1;     // D-072: 명령 대신 '이 묶음을 MoveTarget 성벽으로' 전하러 간다. -2 = 그 성벽 묶음 한 번에(MoveWallGroups)
             public int MoveTarget;
+            public int MoveCannon = -1;    // K-060: '이 대포를 MoveTarget 성벽으로' 전하러 간다
         }
 
         readonly TargetPriority[] wallPriority = new TargetPriority[4];
@@ -259,7 +260,8 @@ namespace HumanLastRampart.Combat.Battle
                 if (m.Travelled < m.Distance) continue;
                 if (!m.Returning)
                 {
-                    if (m.MoveGroup >= 0) MoveGroup(m.MoveGroup, m.MoveTarget, false);   // 전령이 닿으면 묶음이 출발
+                    if (m.MoveCannon >= 0) MoveCannon(m.MoveCannon, m.MoveTarget, false);   // 전령이 닿으면 대포가 출발 (K-060)
+                    else if (m.MoveGroup >= 0) MoveGroup(m.MoveGroup, m.MoveTarget, false);   // 전령이 닿으면 묶음이 출발
                     else if (m.MoveGroup == -2) MoveWallGroups(m.TargetSide, m.MoveTarget, false);   // 한 번에 옮기기
                     else Apply(m.TargetSide, m.Priority, m.IssuedAt, CommandVia.Messenger);
                     m.Returning = true;

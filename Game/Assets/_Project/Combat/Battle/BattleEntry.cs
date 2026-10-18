@@ -133,6 +133,20 @@ namespace HumanLastRampart.Combat.Battle
             selectedGroup = -1;
         }
 
+        // K-060 대포 옮기기: 다른 성벽의 빈 사격구로. 준비 중이면 바로, 전투 중 주인공 성벽 대포는 바로 출발, 다른 성벽 대포는 전령이 닿아야 출발
+        bool cannonMoveArmed;
+
+        public void OrderCannonMove(int cannon, int targetSide)
+        {
+            if (sim == null || cannon < 0 || cannon >= sim.CannonCount) return;
+            int side = sim.GetCannon(cannon).Side;
+            if (side == targetSide) return;
+            if (preparing) sim.IssueCannonMove(cannon, targetSide, true);
+            else if (rig == null || rig.Side == side) sim.IssueCannonMove(cannon, targetSide, false);
+            else sim.IssueCannonMoveByMessenger(rig.Side, rig.Along, cannon, targetSide);
+            selectedCannon = -1;
+        }
+
         // 한 번에 옮기기 (사용자 2차 피드백 11): 고른 묶음이 있는 성벽의 묶음 전부를, 20명 남기고. 전령 규칙은 묶음 이동과 같다
         public void OrderWallMove(int group, int targetSide)
         {
@@ -311,6 +325,12 @@ namespace HumanLastRampart.Combat.Battle
                 {
                     if (keyboard.qKey.wasPressedThisFrame && sim.SpellCount > 0) SelectSpell(0);
                     if (keyboard.wKey.wasPressedThisFrame && sim.SpellCount > 1) SelectSpell(1);
+                    // 대포 옮기기 (K-060): 대포를 고른 상태에서 R → 보낼 성벽 쪽 들판을 누른다. 다시 R = 취소 (M은 지도 닫기. 화면 단추는 K-047에서)
+                    if (keyboard.rKey.wasPressedThisFrame && selectedCannon >= 0)
+                    {
+                        cannonMoveArmed = !cannonMoveArmed;
+                        if (cannonMoveArmed) sim.NoticeCannonMoveArmed(selectedCannon);
+                    }
                 }
 
                 if (keyboard.pKey.wasPressedThisFrame) paused = !paused;
@@ -341,6 +361,7 @@ namespace HumanLastRampart.Combat.Battle
                         dragging = true;
                     }
                     else if (selectedSpell >= 0) CastSelectedSpellAt(world);
+                    else if (selectedCannon >= 0 && cannonMoveArmed) { OrderCannonMove(selectedCannon, SideOfPoint(world)); cannonMoveArmed = false; }
                     else if (selectedCannon >= 0) AimSelectedCannonAt(world);
                     else
                     {
@@ -526,6 +547,7 @@ namespace HumanLastRampart.Combat.Battle
             selectedSpell = -1;
             cannonSide = sim.GetCannon(index).Side;
             selectedCannon = selectedCannon == index ? -1 : index;
+            cannonMoveArmed = false;
         }
 
         public void SelectCannonSide(int side)
@@ -546,6 +568,7 @@ namespace HumanLastRampart.Combat.Battle
                 mapCamera.Open(rig != null ? rig.Side : 0);
                 cannonSide = rig != null ? rig.Side : 0;
                 selectedCannon = -1;
+                cannonMoveArmed = false;
                 selectedSpell = -1;
                 selectedGroup = -1;
                 dragging = false;

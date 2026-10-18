@@ -6,7 +6,7 @@ using UnityEngine;
 namespace HumanLastRampart.Combat.Battle
 {
     // 대포 조준 (MAP-3, Battle.md 5.2, D-044 M2·M6)
-    // - 성벽마다 대포 4문(대포 지점의 운용병 분대 하나 = 1문, 맨 앞 병사가 쏜다)
+    // - 성벽마다 대포 4문(대포 지점의 운용병 분대 하나 = 1문, 맨 앞 병사가 쏜다). K-060부터 다른 성벽 빈 사격구로 옮길 수 있다 (BattleSim.Haul.cs)
     // - 지도에서 찍은 지점으로 바꿀 때까지 계속 포격. 사거리(무기 정의) 밖은 찍을 수 없다
     // - 조준점 근처에 적이 없으면 쉰다("대기"). 조준점이 없으면 그 벽 앞 밀집한 곳 (C16-3)
     // - 조준은 전투마다 처음으로 (M6) — 저장하지 않는다
@@ -25,6 +25,7 @@ namespace HumanLastRampart.Combat.Battle
             public bool Alive;         // 운용병이 남아 있는가
             public int Reach;          // 칠 수 있는 들판 면 (비트 0~3 = 북·동·남·서, K-042)
             public bool Igniting;      // 대포병이 불붙이는 중 — 곧 발사 (K-046)
+            public bool Moving;        // 다른 성벽으로 끌고 가는 중 (K-060) — 쏘지 않고, Position은 지금 끄는 자리
         }
 
         readonly List<(int soldier, int side, int number, string postId)> cannons = new List<(int, int, int, string)>();
@@ -124,6 +125,7 @@ namespace HumanLastRampart.Combat.Battle
                 Alive = sAlive[soldier] != 0,
                 Reach = sCannonReach[soldier],
                 Igniting = IsIgniting(soldier),
+                Moving = CannonMoving(index),
             };
         }
 
