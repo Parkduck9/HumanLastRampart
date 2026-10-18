@@ -1,0 +1,156 @@
+﻿[
+    {
+        "kind":  "pull",
+        "frames":  [
+                       {
+                           "handX":  249,
+                           "outline":  "표본 342, 중앙값 3px, 25~75% 3~3px",
+                           "sole":  128,
+                           "handY":  248,
+                           "frame":  0,
+                           "sourceColumn":  0,
+                           "bounds":  "{X=73,Y=142,Width=189,Height=210}",
+                           "footY":  352,
+                           "worldX":  128,
+                           "offset":  73
+                       },
+                       {
+                           "handX":  265,
+                           "outline":  "표본 337, 중앙값 3px, 25~75% 3~3px",
+                           "sole":  160,
+                           "handY":  248,
+                           "frame":  1,
+                           "sourceColumn":  1,
+                           "bounds":  "{X=91,Y=142,Width=183,Height=210}",
+                           "footY":  352,
+                           "worldX":  128,
+                           "offset":  91
+                       },
+                       {
+                           "handX":  231,
+                           "outline":  "표본 333, 중앙값 3px, 25~75% 3~3px",
+                           "sole":  192,
+                           "handY":  248,
+                           "frame":  2,
+                           "sourceColumn":  5,
+                           "bounds":  "{X=54,Y=142,Width=184,Height=210}",
+                           "footY":  352,
+                           "worldX":  128,
+                           "offset":  54
+                       },
+                       {
+                           "handX":  251,
+                           "outline":  "표본 339, 중앙값 3px, 25~75% 3~3px",
+                           "sole":  128,
+                           "handY":  248,
+                           "frame":  3,
+                           "sourceColumn":  3,
+                           "bounds":  "{X=74,Y=142,Width=185,Height=210}",
+                           "footY":  352,
+                           "worldX":  32,
+                           "offset":  74
+                       },
+                       {
+                           "handX":  206,
+                           "outline":  "표본 330, 중앙값 3px, 25~75% 3~3px",
+                           "sole":  160,
+                           "handY":  249,
+                           "frame":  4,
+                           "sourceColumn":  4,
+                           "bounds":  "{X=29,Y=142,Width=185,Height=210}",
+                           "footY":  352,
+                           "worldX":  32,
+                           "offset":  29
+                       },
+                       {
+                           "handX":  232,
+                           "outline":  "표본 325, 중앙값 3px, 25~75% 3~3px",
+                           "sole":  192,
+                           "handY":  250,
+                           "frame":  5,
+                           "sourceColumn":  2,
+                           "bounds":  "{X=54,Y=142,Width=185,Height=210}",
+                           "footY":  352,
+                           "worldX":  32,
+                           "offset":  54
+                       }
+                   ]
+    },
+    {
+        "kind":  "push",
+        "frames":  [
+                       {
+                           "handX":  64,
+                           "outline":  "표본 298, 중앙값 3px, 25~75% 3~3px",
+                           "sole":  128,
+                           "handY":  245,
+                           "frame":  0,
+                           "sourceColumn":  0,
+                           "bounds":  "{X=59,Y=142,Width=206,Height=210}",
+                           "footY":  352,
+                           "worldX":  128,
+                           "offset":  59
+                       },
+                       {
+                           "handX":  68,
+                           "outline":  "표본 299, 중앙값 3px, 25~75% 3~3px",
+                           "sole":  160,
+                           "handY":  245,
+                           "frame":  1,
+                           "sourceColumn":  1,
+                           "bounds":  "{X=62,Y=142,Width=195,Height=210}",
+                           "footY":  352,
+                           "worldX":  128,
+                           "offset":  62
+                       },
+                       {
+                           "handX":  38,
+                           "outline":  "표본 281, 중앙값 3px, 25~75% 3~3px",
+                           "sole":  192,
+                           "handY":  244,
+                           "frame":  2,
+                           "sourceColumn":  5,
+                           "bounds":  "{X=31,Y=142,Width=205,Height=210}",
+                           "footY":  352,
+                           "worldX":  128,
+                           "offset":  31
+                       },
+                       {
+                           "handX":  56,
+                           "outline":  "표본 305, 중앙값 3px, 25~75% 3~3px",
+                           "sole":  128,
+                           "handY":  245,
+                           "frame":  3,
+                           "sourceColumn":  3,
+                           "bounds":  "{X=51,Y=142,Width=204,Height=210}",
+                           "footY":  352,
+                           "worldX":  32,
+                           "offset":  51
+                       },
+                       {
+                           "handX":  18,
+                           "outline":  "표본 289, 중앙값 3px, 25~75% 3~3px",
+                           "sole":  160,
+                           "handY":  245,
+                           "frame":  4,
+                           "sourceColumn":  4,
+                           "bounds":  "{X=11,Y=142,Width=189,Height=210}",
+                           "footY":  352,
+                           "worldX":  32,
+                           "offset":  11
+                       },
+                       {
+                           "handX":  37,
+                           "outline":  "표본 289, 중앙값 3px, 25~75% 3~3px",
+                           "sole":  192,
+                           "handY":  245,
+                           "frame":  5,
+                           "sourceColumn":  2,
+                           "bounds":  "{X=32,Y=142,Width=203,Height=210}",
+                           "footY":  352,
+                           "worldX":  32,
+                           "offset":  32
+                       }
+                   ]
+    }
+]
