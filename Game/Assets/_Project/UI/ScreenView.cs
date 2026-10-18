@@ -104,6 +104,13 @@ namespace HumanLastRampart.UI
 
         public CanvasGroup PanelGroup => panel.GetComponent<CanvasGroup>();
 
+        // 화면을 직접 그리는 곳(스토리 재생기 등)용: 빈 기본 판을 그리지 않는다 (입력 막기 묶음은 그대로)
+        public void HidePanel()
+        {
+            var image = panel.GetComponent<Image>();
+            if (image != null) image.enabled = false;
+        }
+
         // K-027 화면 배경 그림 (Art/UI/Resources/ScreenArt/이름). 화면을 덮도록(비율 유지, 넘치는 쪽은 잘림) 깐다. 없으면 false
         public bool SetBackdrop(string artName, float dim = 0f)
         {

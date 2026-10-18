@@ -54,8 +54,9 @@ namespace HumanLastRampart.Combat.Battle
         TerrainDef terrainDef;
 
         public int TrapCount => traps.Count;
-        // 이 지형의 언덕 (함정을 놓을 수 없는 곳, x·z 중심, y 반경) — 그리기용
-        public IReadOnlyList<Vector3> Hills => terrainDef != null ? terrainDef.Hills : (IReadOnlyList<Vector3>)System.Array.Empty<Vector3>();
+        // 이 지형의 언덕 (함정을 놓을 수 없는 곳, x·z 중심, y 반경) — 그리기용. K-049: 정의 언덕 + 무작위 언덕 + 쌓은 언덕
+        public IReadOnlyList<Vector3> Hills => terrainLayout != null ? terrainLayout.Hills
+            : terrainDef != null ? terrainDef.Hills : (IReadOnlyList<Vector3>)System.Array.Empty<Vector3>();
 
         void InitTraps(IDefinitionLookup defs, Allocator p)
         {
@@ -74,6 +75,7 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             craters = new NativeArray<float4>(math.max(1, traps.Count), p);
+            InitTerrain(p);   // 무작위 지형·지형 손질 (K-049, BattleSim.Terrain.cs)
         }
 
         public TrapInfo GetTrap(int index)
@@ -128,6 +130,7 @@ namespace HumanLastRampart.Combat.Battle
         // BeginFrame에서 (작업이 끝난 뒤) — 점화 대기, 저절로 터짐, 몰림 기록
         void UpdateTraps(float dt)
         {
+            UpdateTerrain();   // 토벽이 무너졌으면 흐름 지도 다시 (K-049)
             foreach (TrapRun t in traps)
             {
                 if (t.State == TrapState.Fusing)
@@ -223,15 +226,13 @@ namespace HumanLastRampart.Combat.Battle
         {
             float fromWall = Mathf.Max(Mathf.Abs(p.x), Mathf.Abs(p.y)) - CastleHalf;
             if (fromWall < (terrainDef != null ? terrainDef.TrapNear : 10f) * 0.5f || fromWall > FieldSize) return false;
-            if (terrainDef != null)
+            foreach (Vector3 hill in Hills)
             {
-                foreach (Vector3 hill in terrainDef.Hills)
-                {
-                    if ((p - new Vector2(hill.x, hill.z)).sqrMagnitude <= hill.y * hill.y) return false;
-                }
+                if ((p - new Vector2(hill.x, hill.z)).sqrMagnitude <= hill.y * hill.y) return false;
             }
 
-            return true;
+            // 무작위 지형·지형 손질 칸(토벽·나무·바위)으로도 밀려나지 않는다 (K-049)
+            return terrainLayout == null || !TerrainCell.Blocks(terrainLayout.KindAt(p.x, p.y));
         }
     }
 }

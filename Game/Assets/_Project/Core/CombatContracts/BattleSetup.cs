@@ -25,6 +25,8 @@ namespace HumanLastRampart.Core.CombatContracts
         public List<SquadState> Squads = new List<SquadState>();
         public List<WallSegmentState> Wall = new List<WallSegmentState>();
         public List<TrapPlacement> Traps = new List<TrapPlacement>();          // v1.1: 이 지형의 함정만
+        public int TerrainSeed;                                                // v1.6 초안 (D-077, K-049): 무작위 지형 씨앗 = 진행 데이터 RngSeed
+        public List<TerrainWork> TerrainWorks = new List<TerrainWork>();       // v1.6 초안: 이 지형의 지형 손질만
         public List<string> ParticipatingHeroIds = new List<string>();
         public TargetingSettings InitialTargeting = TargetingSettings.CreateDefault();
     }

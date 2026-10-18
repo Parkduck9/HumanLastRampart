@@ -15,7 +15,7 @@ using UnityEngine.TestTools;
 using UnityEngine.UI;
 
 // 임시 자동 Play 확인 도구 (커밋하지 않음): Boot부터 버튼을 눌러 1회차를 끝까지 진행한다
-public sealed class PlayProbe
+public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe.FullLoop.cs (K-053)
 {
     static readonly string Out = Environment.GetEnvironmentVariable("HLR_PLAY_OUT") ?? "playprobe";
     StringBuilder log;
@@ -26,6 +26,66 @@ public sealed class PlayProbe
 
     [UnityTest]
     public IEnumerator RealisticRun() { yield return Run(Difficulty.Realistic, "realistic"); }
+
+    // K-050 스토리 화면: 대사 상자·이름표·인물 사진, 누르면 나오던 글이 끝까지 → 한 번 더 누르면 다음 줄, 마지막 줄 다음 전투
+    [UnityTest]
+    public IEnumerator StoryFlow()
+    {
+        Directory.CreateDirectory(Out);
+        log = new StringBuilder();
+        Time.captureDeltaTime = 1f / 20f;
+        SceneManager.LoadScene("Boot");
+        yield return null;
+        yield return null;
+        yield return WaitScreen(ScreenId.MainMenu, 900);
+        yield return Click("게임 시작", 600);
+        yield return Click("쉬움", 300);
+        yield return WaitScreen(ScreenId.Story, 600);
+        Button advance = null;
+        for (int i = 0; i < 300 && advance == null; i++)
+        {
+            advance = UnityEngine.Object.FindObjectsByType<Button>(FindObjectsSortMode.None).FirstOrDefault(b => b.name == "Story Advance" && b.isActiveAndEnabled);
+            if (advance == null) yield return null;
+        }
+
+        Assert.IsNotNull(advance, "스토리 누르기 판");
+        Assert.IsNotNull(FindReady("넘기기"), "[넘기기] 단추");
+        Assert.IsNotNull(FindReady("자동"), "[자동] 단추");
+
+        int lines = 0, presses = 0;
+        bool sawSpeaker = false;
+        string last = null;
+        while (GameFlow.Instance.CurrentScreen == ScreenId.Story && presses < 60)
+        {
+            // 암전이 열리고 글이 나오기 시작할 때까지
+            for (int i = 0; i < 400 && StoryText().Length < 2 && GameFlow.Instance.CurrentScreen == ScreenId.Story; i++) yield return null;
+            if (GameFlow.Instance.CurrentScreen != ScreenId.Story) break;
+            if (lines == 0) yield return Capture("story_0_typing");
+            string partial = StoryText();
+            advance.onClick.Invoke();   // 나오는 중이면 끝까지
+            presses++;
+            yield return null;
+            string full = StoryText();
+            for (int i = 0; i < 4; i++) yield return null;
+            Assert.AreEqual(full, StoryText(), "누른 뒤에는 글이 더 늘지 않는다 (끝까지 보임)");
+            Assert.IsTrue(full.StartsWith(partial), "한 자씩 나오던 글의 앞부분");
+            if (full != last) { lines++; last = full; Note($"스토리 {lines}줄: {SpeakerText()} — {full}"); }
+            if (!sawSpeaker && SpeakerText().Length > 0) { sawSpeaker = true; yield return Capture("story_1_speaker"); }
+            advance.onClick.Invoke();   // 다음 줄 (마지막 줄이면 끝 → 전투)
+            presses++;
+            yield return null;
+        }
+
+        Note($"스토리: {lines}줄, 누른 횟수 {presses}");
+        Assert.GreaterOrEqual(lines, 3, "임시 첫 이야기는 3줄 이상");
+        Assert.IsTrue(sawSpeaker, "이름표가 보인 줄이 있다");
+        yield return WaitScreen(ScreenId.Battle, 900);
+        File.WriteAllText(Path.Combine(Out, "story_flow.txt"), log.ToString(), new UTF8Encoding(false));
+        Time.captureDeltaTime = 0f;
+    }
+
+    static string StoryText() => UnityEngine.Object.FindObjectsByType<Text>(FindObjectsSortMode.None).FirstOrDefault(t => t.name == "Story Text")?.text ?? "";
+    static string SpeakerText() => UnityEngine.Object.FindObjectsByType<Text>(FindObjectsSortMode.None).FirstOrDefault(t => t.name == "Story Speaker" && t.gameObject.activeInHierarchy)?.text ?? "";
 
     IEnumerator Run(Difficulty difficulty, string tag)
     {
@@ -41,7 +101,7 @@ public sealed class PlayProbe
         Note($"[{tag}] 새 게임 시작");
         yield return WaitScreen(ScreenId.Story, 600);
         Note($"스토리: {GameFlow.Instance.Campaign?.NextStory?.StoryId}");
-        yield return Click("다음", 600);
+        yield return Click("넘기기", 600);
 
         for (int round = 0; round < 6; round++)
         {
@@ -76,7 +136,7 @@ public sealed class PlayProbe
                 yield return WaitScreen(ScreenId.Story, 900);
                 Assert.AreEqual(StoryKind.DefeatEnding, GameFlow.Instance.Campaign.NextStory.Kind, "패배 뒤 패배 엔딩");
                 Note("패배 엔딩 화면 (결과 화면 건너뜀)");
-                yield return Click("메인으로", 600);
+                yield return Click("넘기기", 600);   // K-050 스토리 화면: 패배 엔딩도 [넘기기]
                 yield return WaitScreen(ScreenId.MainMenu, 900);
                 Assert.IsNull(GameFlow.Instance.Campaign, "메인 복귀 시 진행 데이터 폐기");
                 Note("메인 복귀, 진행 데이터 폐기 확인");
@@ -127,7 +187,7 @@ public sealed class PlayProbe
         yield return Click("게임 시작", 600);
         yield return Click("쉬움", 300);
         yield return WaitScreen(ScreenId.Story, 600);
-        yield return Click("다음", 600);
+        yield return Click("넘기기", 600);
         yield return WaitScreen(ScreenId.Battle, 900);
         yield return Click("×4", 300);
         for (int i = 0; i < 300; i++) yield return null;   // 북쪽 고블린이 사거리 안으로 들어올 때
@@ -178,7 +238,7 @@ public sealed class PlayProbe
             });
         }
 
-        yield return Click("다음", 600);
+        yield return Click("넘기기", 600);
         yield return WaitScreen(ScreenId.Battle, 900);
         var entry = UnityEngine.Object.FindObjectsByType<HumanLastRampart.Combat.Battle.BattleEntry>(FindObjectsSortMode.None)[0];
         var flags = System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance;
@@ -268,7 +328,7 @@ public sealed class PlayProbe
         yield return Click("게임 시작", 600);
         yield return Click("쉬움", 300);
         yield return WaitScreen(ScreenId.Story, 600);
-        yield return Click("다음", 600);
+        yield return Click("넘기기", 600);
         yield return WaitScreen(ScreenId.Battle, 900);
         yield return Click("[시험] 승리", 300);
         yield return WaitScreen(ScreenId.Result, 900);
@@ -359,7 +419,7 @@ public sealed class PlayProbe
         yield return Click("게임 시작", 600);
         yield return Click("쉬움", 300);
         yield return WaitScreen(ScreenId.Story, 600);
-        yield return Click("다음", 600);
+        yield return Click("넘기기", 600);
         yield return WaitScreen(ScreenId.Battle, 900);
         yield return Click("[시험] 승리", 300);
         yield return WaitScreen(ScreenId.Result, 900);
@@ -427,7 +487,7 @@ public sealed class PlayProbe
         yield return Click("게임 시작", 600);
         yield return Click("쉬움", 300);
         yield return WaitScreen(ScreenId.Story, 600);
-        yield return Click("다음", 600);
+        yield return Click("넘기기", 600);
         yield return WaitScreen(ScreenId.Battle, 900);
         for (int i = 0; i < 200; i++) yield return null;   // 적이 조금 다가오게
         Time.captureDeltaTime = 0.0001f;                    // 전투는 거의 멈춤 (카메라·주인공은 실제 시간)
@@ -505,7 +565,7 @@ public sealed class PlayProbe
         yield return Click("게임 시작", 600);
         yield return Click("쉬움", 300);
         yield return WaitScreen(ScreenId.Story, 600);
-        yield return Click("다음", 600);
+        yield return Click("넘기기", 600);
         yield return WaitScreen(ScreenId.Battle, 900);
         for (int i = 0; i < 100; i++) yield return null;
         Time.captureDeltaTime = 0.0001f;
@@ -575,7 +635,7 @@ public sealed class PlayProbe
         yield return Click("게임 시작", 600);
         yield return Click("쉬움", 300);
         yield return WaitScreen(ScreenId.Story, 600);
-        yield return Click("다음", 600);
+        yield return Click("넘기기", 600);
         yield return WaitScreen(ScreenId.Battle, 900);
         for (int i = 0; i < 300; i++) yield return null;
         Time.captureDeltaTime = 0.0001f;
@@ -645,7 +705,7 @@ public sealed class PlayProbe
         yield return Click("게임 시작", 600);
         yield return Click("쉬움", 300);
         yield return WaitScreen(ScreenId.Story, 600);
-        yield return Click("다음", 600);
+        yield return Click("넘기기", 600);
         yield return WaitScreen(ScreenId.Battle, 900);
         for (int i = 0; i < 400; i++) yield return null;   // 적이 다가오게
         Time.captureDeltaTime = 0.0001f;
@@ -685,7 +745,7 @@ public sealed class PlayProbe
         yield return Click("게임 시작", 600);
         yield return Click("쉬움", 300);
         yield return WaitScreen(ScreenId.Story, 600);
-        yield return Click("다음", 600);
+        yield return Click("넘기기", 600);
         yield return WaitScreen(ScreenId.Battle, 900);
         for (int i = 0; i < 200; i++) yield return null;
         Time.captureDeltaTime = 0.0001f;
@@ -770,7 +830,7 @@ public sealed class PlayProbe
         yield return Click("게임 시작", 600);
         yield return Click("쉬움", 300);
         yield return WaitScreen(ScreenId.Story, 600);
-        yield return Click("다음", 600);
+        yield return Click("넘기기", 600);
         yield return WaitScreen(ScreenId.Battle, 900);
         var entry = UnityEngine.Object.FindObjectsByType<HumanLastRampart.Combat.Battle.BattleEntry>(FindObjectsSortMode.None)[0];
         var flags = System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance;
@@ -894,7 +954,7 @@ public sealed class PlayProbe
         yield return Click("게임 시작", 600);
         yield return Click("현실", 300);
         yield return WaitScreen(ScreenId.Story, 600);
-        yield return Click("다음", 600);
+        yield return Click("넘기기", 600);
         yield return WaitScreen(ScreenId.Battle, 900);
         yield return Click("×4", 300);
         for (int i = 0; i < 150; i++) yield return null;
@@ -957,7 +1017,7 @@ public sealed class PlayProbe
         yield return Click("게임 시작", 600);
         yield return Click("현실", 300);
         yield return WaitScreen(ScreenId.Story, 600);
-        yield return Click("다음", 600);
+        yield return Click("넘기기", 600);
         yield return WaitScreen(ScreenId.Battle, 900);
         yield return Click("×4", 300);
         for (int i = 0; i < 260; i++) yield return null;
@@ -1024,7 +1084,7 @@ public sealed class PlayProbe
         yield return Click("게임 시작", 600);
         yield return Click("현실", 300);
         yield return WaitScreen(ScreenId.Story, 600);
-        yield return Click("다음", 600);
+        yield return Click("넘기기", 600);
         yield return WaitScreen(ScreenId.Battle, 900);
         for (int i = 0; i < 60; i++) yield return null;
         var flags = System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance;
@@ -1082,7 +1142,7 @@ public sealed class PlayProbe
         yield return Click("게임 시작", 600);
         yield return Click(difficulty == Difficulty.Easy ? "쉬움" : "현실", 300);
         yield return WaitScreen(ScreenId.Story, 600);
-        yield return Click("다음", 600);
+        yield return Click("넘기기", 600);
         yield return WaitScreen(ScreenId.Battle, 900);
         yield return Click("×4", 300);
         for (int i = 0; i < 260; i++) yield return null;
@@ -1136,7 +1196,7 @@ public sealed class PlayProbe
         yield return Click("게임 시작", 600);
         yield return Click("현실", 300);
         yield return WaitScreen(ScreenId.Story, 600);
-        yield return Click("다음", 600);
+        yield return Click("넘기기", 600);
         yield return WaitScreen(ScreenId.Battle, 900);
         yield return Click("×4", 300);
         for (int i = 0; i < 240; i++) yield return null;
@@ -1199,7 +1259,7 @@ public sealed class PlayProbe
         yield return Click("게임 시작", 600);
         yield return Click("현실", 300);
         yield return WaitScreen(ScreenId.Story, 600);
-        yield return Click("다음", 600);
+        yield return Click("넘기기", 600);
         yield return WaitScreen(ScreenId.Battle, 900);
         // M7 참가 목록 변경은 Codex 결과 반영기 갱신 뒤 (C-005 v1.3 적용 대기)
         yield return Click("×4", 300);
@@ -1249,7 +1309,7 @@ public sealed class PlayProbe
         yield return Click("게임 시작", 600);
         yield return Click("현실", 300);
         yield return WaitScreen(ScreenId.Story, 600);
-        yield return Click("다음", 600);
+        yield return Click("넘기기", 600);
         yield return WaitScreen(ScreenId.Battle, 900);
         var setup = GameFlow.Instance.Campaign.ActiveBattleSetup;
         var f = setup.Forecast; f.InitialWeather = HumanLastRampart.Core.CombatContracts.Weather.Fog; f.TimeOfDay = HumanLastRampart.Core.CombatContracts.TimeOfDay.Night; f.Changes = false; setup.Forecast = f;
@@ -1317,7 +1377,7 @@ public sealed class PlayProbe
         yield return Click("게임 시작", 600);
         yield return Click("현실", 300);
         yield return WaitScreen(ScreenId.Story, 600);
-        yield return Click("다음", 600);
+        yield return Click("넘기기", 600);
         KeepPreparation = true;
         try
         {

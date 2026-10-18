@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0268e8913dd84207865c3fdbe8b9fdeb, type: 3}
+  m_Name: story_defeat
+  m_EditorClassIdentifier: 
+  id: story_defeat
+  title: "패배 엔딩 (임시)"
+  kind: 1
+  note: "임시 이야기 — K-050 자리 표시. 사용자가 제작 도구로 다시 쓴다."
+  scenes:
+  - name: "무너진 성벽"
+    background: {fileID: 2800000, guid: d9ffdbbaf4844a98bbf84fb36b4e0bab, type: 3}
+    lines:
+    - speaker: ""
+      side: 0
+      portrait: {fileID: 0}
+      cell: 0
+      text: "성벽이 무너지고, 횃불이 하나둘 꺼져 갔다."
+      background: {fileID: 0}
+      effect: 2
+    - speaker: "장교"
+      side: 1
+      portrait: {fileID: 2800000, guid: c4e761f2657a4ac284f9c21bbf2ab6fa, type: 3}
+      cell: 12
+      text: "……다음에는, 반드시 지켜 내겠다."
+      background: {fileID: 0}
+      effect: 0

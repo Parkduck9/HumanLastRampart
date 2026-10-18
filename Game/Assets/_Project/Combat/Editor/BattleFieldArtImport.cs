@@ -12,11 +12,15 @@ namespace HumanLastRampart.Combat.Editor
         const string PropsFolder = "/Resources/BattleArt/Props/";
         const string CannonFolder = "/Resources/BattleArt/Cannon/";
         const string SkyFolder = "/Resources/BattleArt/Sky/";
+        const string TerrainFolder = "/Resources/BattleArt/Terrain/";   // 토벽·언덕·나무·바위 더미 전투 판 (K-049, Codex K-030)
 
         void OnPreprocessTexture()
         {
             string path = assetPath.Replace('\\', '/');
-            bool sprite = path.Contains(PropsFolder) || path.Contains(CannonFolder);
+            // K-051: 함정 지도에 새로 넣은 길(K-029 path_*)·병사 작업 시트(K-030 worker_*)·지형 손질 칸 그림 — 기존 TrapMap 그림은 건드리지 않는다
+            string file = System.IO.Path.GetFileName(path);
+            bool mapArt = path.Contains("/Resources/TrapMap/") && (file.StartsWith("path_") || file.StartsWith("worker_") || file == "earthwall_map.png" || file == "raised_hill_map.png");
+            bool sprite = mapArt || path.Contains(PropsFolder) || path.Contains(CannonFolder) || path.Contains(TerrainFolder);
             bool sky = path.Contains(SkyFolder);
             if (!sprite && !sky) return;
 

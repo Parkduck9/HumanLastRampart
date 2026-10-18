@@ -1,0 +1,142 @@
+{
+  "card": "K-052",
+  "status": "사용자 확정 전 시안",
+  "cannon": {
+    "cell": [
+      768,
+      384
+    ],
+    "pivot": [
+      336,
+      352
+    ],
+    "wheelDiameter": 101,
+    "wheelCenter": [
+      336.5,
+      301.5
+    ],
+    "fuse": [
+      269,
+      132
+    ],
+    "oldBarrelAxis": [
+      [
+        151,
+        170
+      ],
+      [
+        333,
+        205
+      ]
+    ],
+    "newBarrelAxis": [
+      [
+        254,
+        215
+      ],
+      [
+        713,
+        158
+      ]
+    ],
+    "axisRatio": 2.4956219489437577
+  },
+  "crew": {
+    "cell": [
+      384,
+      384
+    ],
+    "sheet": [
+      2304,
+      384
+    ],
+    "pivot": [
+      192,
+      352
+    ],
+    "bodyHeight": 210,
+    "soleX": [
+      128,
+      160,
+      192,
+      128,
+      160,
+      192
+    ],
+    "step": 32,
+    "frames": 6
+  },
+  "timing": {
+    "contact": 0.5,
+    "fire": 1.5
+  },
+  "files": [
+    "PixelTools.cs",
+    "README.md",
+    "analyze.ps1",
+    "build.ps1",
+    "build_crew.ps1",
+    "build_ignite.ps1",
+    "build_review.mjs",
+    "cannon_body.png",
+    "cannon_chassis.png",
+    "cannon_source.png",
+    "cannon_wheel.png",
+    "compose_verify.ps1",
+    "contact_review.png",
+    "crew_ignite6.png",
+    "crew_ignite_1.png",
+    "crew_ignite_2.png",
+    "crew_ignite_3.png",
+    "crew_ignite_4.png",
+    "crew_ignite_5.png",
+    "crew_ignite_6.png",
+    "crew_ignite_source.png",
+    "crew_pull6.png",
+    "crew_pull_1.png",
+    "crew_pull_2.png",
+    "crew_pull_3.png",
+    "crew_pull_4.png",
+    "crew_pull_5.png",
+    "crew_pull_6.png",
+    "crew_pull_source.png",
+    "crew_push6.png",
+    "crew_push_1.png",
+    "crew_push_2.png",
+    "crew_push_3.png",
+    "crew_push_4.png",
+    "crew_push_5.png",
+    "crew_push_6.png",
+    "crew_push_source.png",
+    "crew_source.png",
+    "haul_1.png",
+    "haul_2.png",
+    "haul_3.png",
+    "haul_4.png",
+    "haul_5.png",
+    "haul_6.png",
+    "ignite_contact_review.png",
+    "ignite_measurements.json",
+    "outline_measurements.json",
+    "palette.json",
+    "prepare.ps1",
+    "prompts.json",
+    "qa_assets.json",
+    "qa_html.json",
+    "reference_hashes.json",
+    "reference_wheel_roi.png",
+    "review_template.html",
+    "selected_palette.json",
+    "used_palette.json",
+    "verify_review.mjs",
+    "walk_measurements.json",
+    "manifest.json"
+  ],
+  "review": "_HTML/4_그림_캐릭터/codex_K-052_대포끌기_3차_v1.html",
+  "qa": {
+    "pixels": 62,
+    "htmlModel": 46,
+    "realBrowser": false,
+    "unity": false
+  }
+}

@@ -787,6 +787,9 @@ namespace HumanLastRampart.Combat.Battle
                 }
             }
 
+            // 지형 (K-049, D-077): 토벽 갈색·무너진 틈 옅은 갈색·나무 덩이 초록·바위 덩이 회색 (언덕은 3D 둔덕이 보인다)
+            sim.ForEachTerrainMark((p, c) => Add(p, c, dot * 2.6f));
+
             // 함정 (D-050): 설치 때 남긴 표시 위치에만. 묻힘(주황) · 점화 중(노랑, 피해 거리 원) · 터짐(구덩이 모양) · 불발(회색)
             for (int i = 0; i < sim.TrapCount; i++)
             {

@@ -1,0 +1,66 @@
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>K-048 대포 끌기 다시 v1</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#141c1b;color:#eae6db;font:16px/1.7 'Malgun Gothic',sans-serif}main{max-width:1480px;margin:auto;padding:28px}h1{font-size:32px;margin:8px 0}h2{font-size:23px;color:#e9be75}section{margin:24px 0;padding:22px;border:1px solid #536b60;background:#23332d;border-radius:12px}button,select{font:inherit;color:#fff0d1;background:#344e40;border:1px solid #bfa573;border-radius:5px;padding:8px 14px;min-height:44px;cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #88e0ce}label{display:inline-block;margin:6px 14px 6px 0}.controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.scroll{overflow:auto}canvas{display:block;max-width:none;image-rendering:pixelated;background:#19251f;background-image:linear-gradient(45deg,#293a30 25%,transparent 25%,transparent 75%,#293a30 75%),linear-gradient(45deg,#293a30 25%,transparent 25%,transparent 75%,#293a30 75%);background-size:24px 24px;background-position:0 0,12px 12px;border:1px solid #648774}table{border-collapse:collapse;width:100%;min-width:650px}th,td{text-align:left;border:1px solid #647b6a;padding:9px}.tag{color:#edc277}.warn{color:#ffd2a5}.muted{color:#bbcabb}output{font-variant-numeric:tabular-nums}input[type=range]{width:min(620px,100%)}details img{max-width:100%;image-rendering:pixelated}summary{cursor:pointer;padding:12px}.state{color:#8ce5c5;font-size:19px;min-height:34px}a{color:#a9e8d2}
+</style>
+<main><span class="tag">K-048 · D-064 · 사용자 확정 전 시안 · 게임 미연결</span><h1>앞에서는 당기고, 뒤에서는 민다</h1>
+<p>설치 대포와 정지 대포병을 직접 실측했습니다. 병사 키 210px를 기준으로 설치 대포 비율을 옮긴 새 대포는 <b>242×224px</b>입니다. K-043의 241×116px보다 높이가 약 1.93배입니다.</p>
+<div class="controls"><label>표시 배율 <select id="zoom"><option value="0.75">75%</option><option value="1" selected>100% · 원본 픽셀</option><option value="2">200%</option></select></label><label>배경 <select id="bg"><option value="grid">투명 격자</option><option value="#b7b4a2">낮</option><option value="#0c1514">밤</option></select></label><label><input type="checkbox" id="guides" checked> 접지선·기준점</label><span id="load" role="status">그림 준비 중</span></div>
+<section><h2>① 설치 대포와 운반 대포 — 같은 배율 비교</h2>
+<div class="scroll"><canvas id="compare" width="1400" height="420" aria-label="왼쪽 설치 대포와 성벽 대포병, 오른쪽 운반 대포와 두 병사를 같은 배율로 비교"></canvas></div>
+<p>왼쪽: 정지 대포병과 설치 대포 원본을 함께 <b>0.7배</b>로 표시. 오른쪽: 새 병사 210px와 대포 242×224px를 <b>1배</b>로 표시. 두 묶음에서 병사 키와 대포 외곽 크기가 같습니다. 화면을 좁히면 가로로 스크롤할 수 있습니다.</p>
+<label>설치 대포 방향 <select id="aim"><option value="1">정면 · 345×320px</option><option value="0">왼쪽 · 321×320px</option><option value="2">오른쪽 · 338×320px</option></select></label>
+<div class="scroll"><table><tr><th>원본 / 기준</th><th>직접 잰 실체 크기</th><th>정지 대포병 300px 대비</th><th>병사 210px로 환산</th></tr><tr><td>설치 3방향 · 왼쪽</td><td>321×320px</td><td>폭 1.070 / 높이 1.067</td><td>224.7×224px</td></tr><tr><td>설치 3방향 · 정면, 채택 기준</td><td>345×320px</td><td>폭 1.150 / 높이 1.067</td><td>241.5×224 → 242×224px</td></tr><tr><td>설치 3방향 · 오른쪽</td><td>338×320px</td><td>폭 1.127 / 높이 1.067</td><td>236.6×224px</td></tr><tr><td>K-016 반동 · 첫 칸</td><td>230×208px</td><td>폭 0.767 / 높이 0.693</td><td>161×145.6px</td></tr><tr><td>정지 대포병 · 머리~발</td><td>300px (칸 256×384)</td><td>기준 1.000</td><td>210px</td></tr><tr><td>달리기 대포병 · 전체 알파</td><td>222 / 203 / 223 / 211px</td><td colspan="2">장비 포함 전체 경계. 정지 그림 300px와 같지 않아 기준을 섞지 않았습니다.</td></tr></table></div>
+<p class="warn">알파 128 초과 픽셀의 경계를 측정했습니다. 그림 원본의 픽셀 비율이며 실제 게임 캡처의 화면 크기 측정은 아닙니다. 지시문 속 Combat/Battle 경로는 없었으며 실제 원본은 Art/Battle/Resources/BattleArt입니다. 정면 설치 그림과 새 옆모습은 투영 방향이 다릅니다. 새 원안은 실측 외곽에 맞추면서 가로·세로 배율을 약 6.6% 다르게 정리했습니다. 같은 무기로 읽히는지와 바퀴 형태는 최종 외형 검토 대상입니다.</p>
+</section>
+<section><h2>② 여섯 칸 걷기 — 디딘 발과 바퀴를 함께 확인</h2>
+<div class="controls"><button id="play">재생</button><button id="prev">이전 칸</button><button id="next">다음 칸</button><button id="restart">처음으로</button><label>속도 <select id="fps"><option value="3">느리게 · 3칸/초</option><option value="6" selected>기본 · 6칸/초</option></select></label><label><input type="checkbox" id="follow" checked> 따라가는 시점</label></div>
+<div class="scroll"><canvas id="haul" width="1400" height="420" aria-label="앞 당김 뒤 밀기 여섯 칸과 지면 눈금, 디딘 발 위치"></canvas></div><p class="state" id="walkState" role="status"></p>
+<p>어두운 다리 = 왼발, 밝은 다리 = 오른발. <b>1~3칸 왼발 디딤 → 4~6칸 오른발 디딤</b>입니다. 칸마다 40px, 한 주기 240px 이동합니다. 디딘 발의 칸 안 x는 84→124→164px이므로 지면 기준 위치는 디딤 동안 고정됩니다. 부츠 아래 노란 표식과 바닥 눈금이 함께 움직이는지 확인해 주세요.</p>
+<p>따라가는 시점에서는 배경 눈금이 오른쪽으로 갑니다. 고정 시점에서는 분대가 왼쪽으로 이동하고 세 주기 뒤 보기 위치를 초기화합니다. <b>이동·바퀴 회전 모두 칸 전환 때 갱신</b>하며, 바퀴 각도는 이동거리÷실측 반지름입니다. 한 칸을 유지하는 동안 보간 이동을 넣지 않았습니다.</p>
+<p class="warn">발 고정은 이 검토 페이지의 칸 단위 이동 규칙으로 검증합니다. 실제 게임에서 연속 이동할 때의 발 보정과 카메라 배율은 Claude 연결 뒤 확인해야 합니다. 뒤 병사는 짧은 밀대, 앞 병사는 팽팽한 끈으로 연결한 배치 시안입니다.</p>
+</section>
+<section><h2>③ 높아진 도화선에 점화 → 정확히 1초 뒤 발사</h2>
+<div class="controls"><button id="firePlay">점화 재생</button><button id="fireStart">처음으로</button><label>시간 <input type="range" id="timeline" min="0" max="3199" step="1" value="0"></label><output id="clock"></output></div>
+<div class="scroll"><canvas id="ignite" width="1400" height="420" aria-label="새 대포 도화선과 점화 병사의 접점, 점화 일초 뒤 발사"></canvas></div><p class="state" id="fireState" role="status"></p>
+<p>0.50초에 4번째 칸에서 점화, 1.50초 발사. K-043의 <b>점화 후 1초 대기</b>를 유지했습니다. 병사 발은 지면에 고정하고 막대 끝을 새 도화선 끝에 맞췄습니다. 포구 연기는 K-043에 보관된 기존 K-016 그림을 재사용합니다.</p>
+</section>
+<section><h2>④ 칸·기준점·원안</h2><div class="scroll"><table><tr><th>그림</th><th>시트 / 한 칸</th><th>기준점</th></tr><tr><td>앞 당김 / 뒤 밀기 / 점화</td><td>각 1536×384 / 256×384, 6칸</td><td>발 기준 (128,352), 인물 약210px</td></tr><tr><td>대포 본체</td><td>512×384 / 1칸</td><td>접지 (256,352), 실체 242×224px</td></tr></table></div>
+<p id="anchorText"></p><details><summary>여섯 칸 시트 펼치기</summary><p>앞 당김</p><img data-asset="crew_pull6" alt="왼발 세 칸 오른발 세 칸 앞 당김"><p>뒤 밀기</p><img data-asset="crew_push6" alt="왼발 세 칸 오른발 세 칸 뒤 밀기"><p>높은 도화선 점화</p><img data-asset="crew_ignite6" alt="높은 도화선에 막대를 대는 점화 여섯 칸"></details>
+<p class="muted">원안·프롬프트·실측·좌표·검사 자료: Docs/References/codex_k048_v1/. 이미지·스타일·스크립트 모두 이 페이지에 내장했습니다. 서버 없이 직접 열 수 있습니다. Game/ 수정, Unity 실행, Git 쓰기 없음. 최종 채택은 사용자 검토 후 결정합니다.</p></section></main>
+<script>
+const data=__DATA__,meta=__META__,imgs={};
+const $=id=>document.getElementById(id);
+let ready=false,playing=false,stepNo=0,walkAccum=0,firePlaying=false,fireTime=0,last=null;
+function seq(t){t=t%3.2;if(t<0)t+=3.2;return{t,frame:t<.5?Math.min(2,Math.floor(t*6)):t<.75?3:t<1?4:5,lit:t>=.5&&t<1.5,smoke:t>=1.5&&t<2.1?Math.min(5,Math.floor((t-1.5)*10)):-1};}
+function context(id){let g=$(id).getContext('2d');g.clearRect(0,0,1400,420);g.imageSmoothingEnabled=false;return g;}
+function line(g,x,y,a,b,c,w=2){g.strokeStyle=c;g.lineWidth=w;g.beginPath();g.moveTo(x,y);g.lineTo(a,b);g.stroke();}
+function mark(g,x,y,text,color='#efc66e'){if(!$('guides').checked)return;line(g,x-6,y,x+6,y,color);line(g,x,y-6,x,y+6,color);g.fillStyle=color;g.font='14px Malgun Gothic';if(text)g.fillText(text,x+9,y-9);}
+function ground(g,offset=0){if(!$('guides').checked)return;line(g,0,352,1400,352,'#8cb29c',1);for(let x=(offset%80)-80;x<1400;x+=80){line(g,x,352,x,371,'#6d9f88',1);}}
+function sprite(g,key,f,x,y,w=256,h=384){g.drawImage(imgs[key],f*w,0,w,h,x,y,w,h);}
+function cannon(g,x,y,d=0){let a=meta.cannon;g.save();g.translate(x,y);sprite(g,'cannon_body',0,0,0,512,384);if(d){let [wx,wy]=a.wheelCenter,r=a.wheelRadius;g.save();g.translate(wx,wy);g.beginPath();g.arc(0,0,r,0,Math.PI*2);g.clip();g.rotate(-d/r);g.drawImage(imgs.cannon_body,wx-r,wy-r,2*r,2*r,-r,-r,2*r,2*r);g.restore();}g.restore();}
+function group(g,front,cx,rear,f,d=0){let a=meta.cannon,p=meta.crew.crew_pull6.frames[f],q=meta.crew.crew_push6.frames[f];let px=front-128,rx=rear-128,bx=cx-256;
+line(g,px+p.hand[0],p.hand[1],bx+a.frontHandle[0],a.frontHandle[1],'#b98a50',3);
+line(g,rx+q.hand[0],q.hand[1],bx+a.rearHandle[0],a.rearHandle[1],'#92633c',7);
+sprite(g,'crew_push6',f,rx,0);cannon(g,bx,0,d);sprite(g,'crew_pull6',f,px,0);
+mark(g,px+p.stanceFoot[0],352,p.stanceLeg+' 디딤');mark(g,rx+q.stanceFoot[0],352,q.stanceLeg+' 디딤');mark(g,cx,352,'대포');}
+function drawCompare(){let g=context('compare');ground(g);let aim=+$('aim').value,bounds=[[95,32,321,320],[83,32,345,320],[87,32,338,320]][aim];
+g.drawImage(imgs.installed_crew,47,52,186,300,80,142,186*.7,210);
+g.drawImage(imgs.installed_aim3,aim*512+bounds[0],bounds[1],bounds[2],bounds[3],240,128,bounds[2]*.7,224);
+group(g,670,920,1120,0);g.fillStyle='#e9c681';g.font='19px Malgun Gothic';g.fillText('설치 원본 · 함께 0.7배',75,36);g.fillText('새 운반 · 병사210px / 대포242×224px',620,36);line(g,550,55,550,385,'#637e6c',1);}
+function drawWalk(){let g=context('haul'),f=((stepNo%6)+6)%6,d=stepNo*40,follow=$('follow').checked,offset=follow?0:-((stepNo%18)*40);ground(g,follow?d:0);group(g,420+offset,720+offset,920+offset,f,d);let p=meta.crew.crew_pull6.frames[f],world=p.stanceFoot[0]-d; $('walkState').textContent=`${f+1}/6칸 · ${p.stanceLeg} 디딤 · 이동 ${d}px · 디딘 발의 세계 x ${world}px · 바퀴 ${(-d/meta.cannon.wheelRadius).toFixed(3)}라디안`;}
+function drawFire(){let g=context('ignite'),a=meta.cannon,s=seq(fireTime),bx=380,tip=meta.ignite.contacts[s.frame],contact=a.fuse;
+ground(g);cannon(g,bx,0);let ix=bx+contact[0]-meta.ignite.contacts[3][0];sprite(g,'crew_ignite6',s.frame,ix,0);
+if(s.lit){g.fillStyle='#ffd47a';g.fillRect(bx+contact[0]-2,contact[1]-2,4,4);}
+if(s.smoke>=0){g.save();g.translate(bx+a.muzzle[0],a.muzzle[1]);g.rotate(-Math.PI/2);g.drawImage(imgs.muzzle_smoke,s.smoke*256,0,256,256,-64,-120,128,128);g.restore();}
+mark(g,bx+contact[0],contact[1],'도화선 접점');mark(g,ix+128,352,'점화 병사 발');
+$('fireState').textContent=s.t<.5?'막대 들기 → 높은 도화선으로 접근':s.t<1.5?`점화 완료 · 발사까지 ${(1.5-s.t).toFixed(3)}초`:'발사 · 기존 포구 연기';$('clock').textContent=s.t.toFixed(3)+'초';$('timeline').value=Math.floor(s.t*1000);}
+function draw(){if(!ready)return;drawCompare();drawWalk();drawFire();}
+function tick(t){if(last!==null){let dt=Math.min((t-last)/1000,.1);if(playing){walkAccum+=dt*(+$('fps').value);while(walkAccum>=1){stepNo++;walkAccum--;}}if(firePlaying)fireTime=(fireTime+dt)%3.2;}last=t;draw();requestAnimationFrame(tick);}
+function setPlay(v){playing=v;$('play').textContent=v?'정지':'재생';}function setFire(v){firePlaying=v;$('firePlay').textContent=v?'점화 정지':'점화 재생';}
+$('play').onclick=()=>setPlay(!playing);$('prev').onclick=()=>{setPlay(false);stepNo=Math.max(0,stepNo-1);walkAccum=0;draw();};$('next').onclick=()=>{setPlay(false);stepNo++;walkAccum=0;draw();};$('restart').onclick=()=>{stepNo=walkAccum=0;setPlay(false);draw();};
+$('firePlay').onclick=()=>setFire(!firePlaying);$('fireStart').onclick=()=>{fireTime=0;setFire(false);draw();};$('timeline').oninput=()=>{setFire(false);fireTime=+$('timeline').value/1000;draw();};
+for(let id of ['aim','guides','follow','fps'])$(id).onchange=draw;
+$('zoom').onchange=()=>document.querySelectorAll('canvas').forEach(c=>{c.style.width=(c.width*+$('zoom').value)+'px';c.style.height=(c.height*+$('zoom').value)+'px';});
+$('bg').onchange=()=>document.querySelectorAll('canvas').forEach(c=>{c.style.backgroundImage=$('bg').value==='grid'?'':'none';c.style.backgroundColor=$('bg').value==='grid'?'#19251f':$('bg').value;});
+Promise.all(Object.entries(data).map(([k,v])=>new Promise((resolve,reject)=>{let im=new Image;im.onload=()=>{imgs[k]=im;resolve();};im.onerror=reject;im.src=v;}))).then(()=>{ready=true;$('load').textContent='그림 준비 완료';document.querySelectorAll('[data-asset]').forEach(e=>e.src=data[e.dataset.asset]);let a=meta.cannon;$('anchorText').textContent=`대포 바퀴 중심 (${a.wheelCenter}), 반지름 ${a.wheelRadius}px, 도화선 (${a.fuse}), 포구 (${a.muzzle}). 점화 4번째 칸 막대 끝 (${meta.ignite.contacts[3]}). 좌표는 각 칸의 왼쪽 위 원점입니다.`;draw();requestAnimationFrame(tick);}).catch(()=>{$('load').textContent='그림 읽기 실패';});
+</script></html>

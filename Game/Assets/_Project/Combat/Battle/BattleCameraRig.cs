@@ -27,8 +27,9 @@ namespace HumanLastRampart.Combat.Battle
 
         public static readonly ViewPreset[] Presets =
         {
-            new ViewPreset { Name = "A 가깝게", Back = 1.05f, Up = 0.75f, Pitch = 17f },
-            new ViewPreset { Name = "B 조금 넓게", Back = 1.6f, Up = 1.05f, Pitch = 19f },
+            // 사용자 지시 (2026-10-16): 멈춤·걷기·달리기 모두 옥토패스 참고 사진 정도로 뒤로 — 인물 키가 화면 높이의 약 13% (예전 A는 약 37%)
+            new ViewPreset { Name = "A 기본", Back = 3.0f, Up = 2.1f, Pitch = 24f },
+            new ViewPreset { Name = "B 움직일 때", Back = 3.2f, Up = 2.25f, Pitch = 25f },
             new ViewPreset { Name = "C 높게", Back = 3.2f, Up = 2.75f, Pitch = 28f },
         };
 
