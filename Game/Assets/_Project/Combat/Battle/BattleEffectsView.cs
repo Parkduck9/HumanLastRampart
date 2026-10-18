@@ -284,7 +284,10 @@ namespace HumanLastRampart.Combat.Battle
                 }
 
                 if (e.Fire || magic == null) continue;
-                int was = pendingBefore.FindIndex(p => (p - e.Position).sqrMagnitude < 0.0001f);
+                // 반복문으로 찾는다 (K-061: 람다가 e를 잡아 효과마다 매 프레임 할당되던 것)
+                int was = -1;
+                for (int k = 0; k < pendingBefore.Count && was < 0; k++)
+                    if ((pendingBefore[k] - e.Position).sqrMagnitude < 0.0001f) was = k;
                 if (was < 0) continue;
                 pendingBefore.RemoveAt(was);
                 StartMagicBurst(e.Position, e.Radius);
