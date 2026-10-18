@@ -23,9 +23,9 @@ namespace HumanLastRampart.Meta
             Ui.Stretch((RectTransform)row.transform);
             Color mark = victory ? UiTokens.Good : UiTokens.Danger;
             Image seal = Ui.Icon(row.transform, "Seal", UiArt.Seal, 1f, mark);
-            Text sealText = Ui.Label(seal.transform, "Mark", victory ? "승" : "패", UiTokens.H2, mark, TextAnchor.MiddleCenter, true);
+            Text sealText = Ui.Label(seal.transform, "Mark", victory ? "승" : "패", UiTokens.H2, victory ? UiTokens.GoodInk : UiTokens.DangerInk, TextAnchor.MiddleCenter, true);
             Ui.Stretch(sealText.rectTransform);
-            Text outcome = Ui.Label(row.transform, "Outcome", victory ? "승리" : "패배", UiTokens.H1, mark, TextAnchor.MiddleLeft, true);
+            Text outcome = Ui.Label(row.transform, "Outcome", victory ? "승리" : "패배", UiTokens.H1, victory ? UiTokens.GoodInk : UiTokens.DangerInk, TextAnchor.MiddleLeft, true);
             Ui.Size(outcome, outcome.preferredWidth + 8f, 96f);
             Stat(row.transform, "Icons/stat_kills", "처치", result.DefeatedEnemyCount.ToString("N0"));
             Stat(row.transform, "Icons/stat_gold", "골드", "+" + result.EarnedGold.ToString("N0"));
@@ -92,8 +92,8 @@ namespace HumanLastRampart.Meta
                 Rect(box, "Wall Edge " + names[i], center + offsets[i], sizes[i] + new Vector2(UiTokens.Dot * 2f, UiTokens.Dot * 2f), UiTokens.Ink).SetAsFirstSibling();
                 int damage = start.Hp - hpAfter;
                 Text label = Text(box, damage > 0 ? $"{names[i]} −{damage:N0}" : names[i], center + labelOffsets[i], UiTokens.Text,
-                    damage > 0 ? UiTokens.Ink : UiTokens.InkSoft, new Vector2(136f, 32f), TextAnchor.MiddleCenter, true);
-                if (damage > 0 && ratio < 0.35f) label.color = UiTokens.Danger;
+                    UiTokens.Ink, new Vector2(136f, 32f), TextAnchor.MiddleCenter, true);
+                if (damage > 0 && ratio < 0.35f) label.color = UiTokens.DangerInk;
             }
         }
 
@@ -131,7 +131,7 @@ namespace HumanLastRampart.Meta
                 if (gone > 0) Rect(box, "Lost", new Vector2(left - inner / 2f + inner * keep + inner * (1f - keep) / 2f, y - 12f), new Vector2(inner * (1f - keep), 12f), UiTokens.Danger);
                 string name = def != null && !string.IsNullOrEmpty(def.DisplayName) ? def.DisplayName : order[i];
                 Text(box, gone > 0 ? $"{name}  {total - gone:N0}/{total:N0}  −{gone:N0}" : $"{name}  {total:N0}",
-                    new Vector2(left, y + 14f), UiTokens.Small, gone > 0 ? UiTokens.Ink : UiTokens.InkSoft, new Vector2(barWidth, 28f), TextAnchor.MiddleLeft);
+                    new Vector2(left, y + 16f), UiTokens.Text, UiTokens.Ink, new Vector2(barWidth, 32f), TextAnchor.MiddleLeft);
             }
         }
 
@@ -160,8 +160,8 @@ namespace HumanLastRampart.Meta
                 Rect(box, "Track", new Vector2(left, y - 12f), new Vector2(barWidth, 18f), UiTokens.Ink);
                 Rect(box, "Hp", new Vector2(left - inner / 2f + inner * ratio / 2f, y - 12f), new Vector2(inner * ratio, 12f), alive ? RatioColor(ratio) : UiTokens.Danger);
                 string name = def != null && !string.IsNullOrEmpty(def.DisplayName) ? def.DisplayName : start.UnitDefId;
-                Text(box, alive ? $"{name}  {hp:N0}/{max:N0}" : $"{name}  쓰러짐", new Vector2(left, y + 14f), UiTokens.Small,
-                    alive ? (took ? UiTokens.Ink : UiTokens.InkSoft) : UiTokens.Danger, new Vector2(barWidth, 28f), TextAnchor.MiddleLeft);
+                Text(box, alive ? $"{name}  {hp:N0}/{max:N0}" : $"{name}  쓰러짐", new Vector2(left, y + 16f), UiTokens.Text,
+                    alive ? UiTokens.Ink : UiTokens.DangerInk, new Vector2(barWidth, 32f), TextAnchor.MiddleLeft);
             }
         }
 

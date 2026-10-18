@@ -19,21 +19,29 @@ namespace HumanLastRampart.Frontend
             // K-062: 이어하기(저장이 있을 때만, 그때는 이어하기가 주인공)·설정 — 시작/설정/종료 (FirstRead 0번 화면)
             bool canContinue = CampaignSave.TryPeek(out CampaignSave.Summary save);
             var view = new ScreenView(transform, "인류의 마지막 성벽", "");
-            float height = canContinue ? 520f : 460f;
+            // K-047 고침: 단추를 판 폭 안에 세로로 — 주인공 단추(이어하기 또는 출정)를 맨 위에 판 폭 가득, 아래 줄에 설정·종료
+            float height = canContinue ? 512f : 432f;
             if (view.SetBackdrop("main")) view.DockLeft(624f, height);
             else view.SetPanelSize(624f, height);
             RectTransform sub = view.AddArea("Subtitle", 32f);
-            Text english = Ui.Label(sub, "English", "HUMAN LAST RAMPART", UiTokens.Small, UiTokens.InkSoft, TextAnchor.MiddleLeft, true);
+            Text english = Ui.Label(sub, "English", "HUMAN LAST RAMPART", UiTokens.Text, UiTokens.InkSoft, TextAnchor.MiddleLeft);
             Ui.Stretch(english.rectTransform);
-            view.AddArea("Gap", UiTokens.S32);
-            view.AddButton("종료", "종료", () => Complete(ScreenOutcome.QuitGame), false);
-            view.AddButton("설정", "설정", ShowSettings, false);
-            view.AddButton("게임 시작", "출정", ShowDifficulty, !canContinue);
             if (canContinue)
             {
                 string difficulty = save.Difficulty == Difficulty.Easy ? "쉬움" : "현실";
-                view.AddButton("이어하기", $"이어하기 — {save.BattleNumber}번째 전투 앞 정비 ({difficulty})", () => Complete(ScreenOutcome.ContinueGame), true);
+                Button cont = Ui.Button(view.AddArea("Continue", 64f), "이어하기", $"이어하기 · 전투 {save.BattleNumber} 앞 · {difficulty}", () => Complete(ScreenOutcome.ContinueGame), UiButtonKind.Primary);
+                Ui.Stretch((RectTransform)cont.transform);
+                view.SetFirst(cont);
             }
+
+            Button start = Ui.Button(view.AddArea("Start", 64f), "게임 시작", canContinue ? "새로 출정" : "출정", ShowDifficulty, canContinue ? UiButtonKind.Normal : UiButtonKind.Primary);
+            Ui.Stretch((RectTransform)start.transform);
+            if (!canContinue) view.SetFirst(start);
+            HorizontalLayoutGroup row = Ui.Row(view.AddArea("More", 64f), "Row", UiTokens.S16);
+            row.childForceExpandWidth = row.childForceExpandHeight = true;
+            Ui.Stretch((RectTransform)row.transform);
+            Ui.Button(row.transform, "설정", "설정", ShowSettings);
+            Ui.Button(row.transform, "종료", "종료", () => Complete(ScreenOutcome.QuitGame), UiButtonKind.Quiet);
             return view;
         }
 

@@ -205,6 +205,9 @@ namespace HumanLastRampart.UI
 
         public void FocusFirst() { Focus(firstButton); }
 
+        // 직접 만든 단추(AddArea 안)를 화면의 첫 초점으로
+        public void SetFirst(Button button) { if (button != null) firstButton = button; }
+
         // 난이도: 카드 두 장 (이름 + 한 줄). 돌아가기는 판 모서리의 닫기 표시
         public void ShowDifficulty(UnityAction easy, UnityAction realistic)
         {

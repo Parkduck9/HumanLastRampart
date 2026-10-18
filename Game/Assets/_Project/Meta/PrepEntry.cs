@@ -34,6 +34,7 @@ namespace HumanLastRampart.Meta
             shop = view.AddButton("상점", () => UpgradePanel.Show(shop, context, session, UpgradePanel.Mode.Shop));
             training = view.AddButton("병종 훈련", () => UpgradePanel.Show(training, context, session, UpgradePanel.Mode.Training));
             mercenary = view.AddButton("용병 고용", () => UpgradePanel.Show(mercenary, context, session, UpgradePanel.Mode.Mercenary));
+            PreparationPanel.OpenRecruit = () => recruit.onClick.Invoke();
             PreparationPanel.OpenTraining = () => training.onClick.Invoke();
             PreparationPanel.OpenMercenary = () => mercenary.onClick.Invoke();
             var ready = view.AddButton("전투 준비 완료", () => { session.Close(); traps.Close(); Complete(ScreenOutcome.Done); });

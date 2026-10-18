@@ -431,7 +431,7 @@ namespace HumanLastRampart.Meta
             buy.interactable = ok;
             ClearButton(act.transform);
             Ui.Icon(act.transform, "Warn", UiArt.IconWarn, 1f, UiTokens.Danger);
-            Text final = Ui.Label(act.transform, "Final", "되돌릴 수 없음", UiTokens.Small, UiTokens.Danger);
+            Text final = Ui.Label(act.transform, "Final", "되돌릴 수 없음", UiTokens.Small, UiTokens.DangerInk);
             Ui.Size(final, final.preferredWidth + 4f, 64f);
         }
 
@@ -517,7 +517,7 @@ namespace HumanLastRampart.Meta
             if (message != null)
             {
                 Ui.Icon(price.transform, "Result", messageBad ? UiArt.IconWarn : UiArt.IconCheck, 1f, messageBad ? UiTokens.Danger : UiTokens.Good);
-                Text done = Ui.Label(price.transform, "Text", message, UiTokens.Text, messageBad ? UiTokens.Danger : UiTokens.Ink);
+                Text done = Ui.Label(price.transform, "Text", message, UiTokens.Text, messageBad ? UiTokens.DangerInk : UiTokens.Ink);
                 Ui.Size(done, 680f, 48f);
             }
             else if (picked.Count == 0 || (action == TerrainAction.Move && terrainTab && picked.Count % 2 == 1))
@@ -527,13 +527,13 @@ namespace HumanLastRampart.Meta
             }
             else if (!ok)
             {
-                Text bad = Ui.Label(price.transform, "Reason", why, UiTokens.Text, UiTokens.Danger);
+                Text bad = Ui.Label(price.transform, "Reason", why, UiTokens.Text, UiTokens.DangerInk);
                 Ui.Size(bad, 680f, 48f);
             }
             else
             {
                 if (Ui.HudIcon(price.transform, "Gold Icon", "Icons/stat_gold", 32f) == null) Ui.Size(Ui.Label(price.transform, "Gold Word", "골드", UiTokens.Small, UiTokens.InkSoft), 44f, 48f);
-                Text total = Ui.Label(price.transform, "Cost", cost < 0 ? "+" + (-cost).ToString("N0") : cost.ToString("N0"), UiTokens.H2, cost < 0 ? UiTokens.Good : UiTokens.Ink, TextAnchor.MiddleLeft, true);
+                Text total = Ui.Label(price.transform, "Cost", cost < 0 ? "+" + (-cost).ToString("N0") : cost.ToString("N0"), UiTokens.H2, cost < 0 ? UiTokens.GoodInk : UiTokens.Ink, TextAnchor.MiddleLeft, true);
                 Ui.Size(total, total.preferredWidth + 8f, 48f);
                 Text left = Ui.Label(price.transform, "Left", $"남는 골드 {context.Campaign.Gold - cost:N0}", UiTokens.Text, UiTokens.InkSoft);
                 Ui.Size(left, 320f, 48f);
