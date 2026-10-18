@@ -1290,3 +1290,59 @@ public interface IScreenContext
 
 ## C-010 v1.10 초안 — 대포병 불붙이기 그림 (K-046)
 - 상태: **초안** (2026-10-16, 작업 카드 K-046, 작성 Claude). `UnitDef`에 선택 필드 `igniteSheet`(불붙이기 6칸, 칸 256×384·발 128·352). 없으면 예전 그림. 불붙이기 시간(막대 0.5초 + 도화선 1초)은 Combat 내부 상수(`BattleSim.Ignite.cs`), 계약 밖
+
+## C-004 v1.4 초안 — 지형 손질 목록 (K-049, D-077·D-078)
+- 상태: **초안** (2026-10-16, 작업 카드 K-054가 코드에서 옮겨 적음 — 구현 K-049, 작성 Claude · Core 소유 Claude). 코드 주석은 이미 'v1.4 초안'. **사용자 승인 필요**
+- `CampaignState` 추가: `public List<TerrainWork> TerrainWorks = new List<TerrainWork>();` — 정비에서 지은 토벽·언덕. 기본 빈 목록(새 게임은 손질 없음)
+- **무작위 지형 씨앗은 새 필드가 아니다**: 기존 `RngSeed`(v1.2)로 `TerrainGenerator.Generate(terrain, RngSeed, TerrainWorks)`가 같은 지형을 다시 만든다. 지형 배치 자체(언덕·나무·바위 칸)는 저장하지 않는다
+- 새 형식 (`Core/Campaign/TerrainWork.cs`, namespace `HumanLastRampart.Core.Campaign`):
+  ```csharp
+  public enum TerrainWorkKind { EarthWall /*토벽*/, Hill /*쌓은 언덕*/ }
+  [Serializable] public sealed class TerrainWork
+  {
+      public string TerrainId;   // 이 지형의 전투에만 쓰인다
+      public string CellId;      // "cell_{성벽}_{열}_{행}" (TrapGrid 칸 ID)
+      public TerrainWorkKind Kind;
+      public TerrainWork Clone();
+  }
+  ```
+- 쓰는 곳: Meta 정비 `TerrainWorkTransactions.TryBuild(kind, cellIds, out built, out spent, out reason)` — 함정 칸 격자 안, 빈 칸(Free)·함정 없는 칸만. 목록을 복사해 붙이고 골드를 빼고 목록 전체를 바꾼다(실패하면 아무것도 안 바뀜). 값은 `TerrainRules.EarthWallGold` 20 · `HillGold` 10. 1회차는 되돌리기·철거 없음
+- 읽는 곳: App `BattleSetupFactory`(아래 C-005 v1.6으로 복사), Meta 함정 정비 배치 계산(`TrapPreparationTransactions.Layout`, 견적 해시 포함)
+- Combat은 이 목록을 다시 쓰지 않는다 — 전투에서 부서진 토벽은 저장되지 않는다(다음 전투에 다시 선다). **결정 필요:** 부서진 토벽을 결과(C-006)로 돌려줄지
+
+## C-005 v1.6 초안 — 전투 지형 씨앗·지형 손질 (K-049)
+- 상태: **초안** (2026-10-16, K-054가 코드에서 옮겨 적음 — 구현 K-049, 작성 Claude). 코드 주석은 이미 'v1.6 초안'. **사용자 승인 필요**
+- `BattleSetup` 추가:
+  - `public int TerrainSeed;` — 무작위 지형 씨앗. App이 `campaign.RngSeed`를 그대로 넣는다
+  - `public List<TerrainWork> TerrainWorks = new List<TerrainWork>();` — 진행 데이터 `TerrainWorks` 중 `TerrainId == setup.TerrainId`인 것만 `Clone()`으로 (null은 건너뜀)
+- 작성: App `BattleSetupFactory` (`App/Data/BattleSetupFactory.cs`). 읽기: Combat `BattleSim.Terrain` — `TerrainGenerator.Generate(terrainDef, TerrainSeed, TerrainWorks)`, `BattleSim.TerrainEnabled == false`(측정용)면 정의 언덕만(`FixedOnly`)
+- 같은 씨앗·같은 손질이면 정비 화면과 전투가 같은 지형을 본다(`DeterministicRandom.From(seed, terrain.Id, "terrain")`)
+- 관련 Core 형식(계약 본문 밖, 참고): `Core/Terrain/TerrainLayout.cs`(namespace는 `HumanLastRampart.Core.Traps`) — `TerrainCell` 값 Free 0·Hill 1·EarthWall 2·Trees 3·Rocks 4·Breach 5(Combat `TerrainField`가 같은 값을 읽음), `TerrainRules`(반응 확률·토벽 체력 80·생성 개수), `TerrainLayout`, `TerrainGenerator`, `TrapGrid.IsPlaceable(TerrainDef, TerrainLayout, cellId)` 겹침 판정. `TerrainDef` 필드는 바뀌지 않음(C-010 v1.5 그대로)
+
+## C-009 r0 초안 — 스토리 데이터 형식 (K-050 구현에서 옮겨 적음)
+- 상태: **초안 — 사용자 승인 필요** (2026-10-16, K-054, 작성 Claude). C-009는 'Codex 제안'으로 비어 있었고 D-074(코드는 Claude)에 따라 K-050에서 Claude가 구현했다. 아래는 구현된 그대로다
+- 요청(이미 C-004에 있는 것, 변경 없음): `CampaignState.NextStory : StoryRequest { StoryKind Kind (Normal / DefeatEnding); string StoryId }`, 시작 이야기 ID는 `CampaignStartDef.FirstStoryId`
+- 흐름(App, 변경 없음 확인):
+  - 새 게임: `NextStory = { Normal, start.FirstStoryId }` (지금 데이터 `story_intro`)
+  - 패배: 결과 화면을 건너뛰고 `NextStory = { DefeatEnding, "story_defeat" }` → 스토리 화면. **`story_defeat`는 `GameFlow.DefeatStoryId` 상수(임시 ID)** — 정의 데이터로 옮길지 결정 필요
+  - 스토리 끝(`ScreenOutcome.Done`): 패배 결말이면 메인 메뉴(진행 버림), 아니면 전투 준비. 스토리 화면은 진행 데이터를 쓰지 않는다
+- 데이터(`Story/StoryScript.cs`, namespace `HumanLastRampart.Story`, 메뉴 'HLR/스토리/이야기'):
+  - `StoryScript : ScriptableObject` — `id`(= StoryId), `title`, `StoryKind kind`, `note`, `List<StoryScene> scenes`. `Validate()`로 빈 대사·잘못된 칸 등을 점검
+  - `StoryScene` — `name`, `Texture2D background`(없으면 어두운 화면), `List<StoryLine> lines`
+  - `StoryLine` — `speaker`, `StorySide side`(None = 해설, Left, Right), `Texture2D portrait`, `int cell`(표정 칸, 256×384 격자 0부터 — `StoryCells`), `text`, `Texture2D background`(없으면 장면 배경), `StoryEffect effect`(None, Shake, FadeBlack)
+- 불러오기: `Resources.Load<StoryScript>("Stories/" + StoryId)` (`Story/Resources/Stories/`). 없거나 대사가 0줄이면 임시 이야기(`StoryPlaceholder`). `Kind`가 요청과 다르면 경고만
+- 제작 도구: 'HLR/스토리 제작 도구'(`Story/Editor/StoryEditorWindow.cs`, 편집기 전용)
+- 아직 없는 것: 스토리 끝에 연습 전투로 이어지는 표시(C-005 v1.5 제안, 미결)
+
+## 계약 영향 없음 확인 (K-054)
+- **K-045 총안 자리** (`BattleWallLayout`, `BattleSim.Slots`): Combat 안의 계산뿐. Core 정의(PostDef 등)·진행 데이터·BattleSetup·BattleResult를 바꾸지 않는다 → 계약 변경 없음
+- **K-046 불붙이기** (`BattleSim.Ignite`): 그림 필드는 이미 C-010 v1.10 초안. 시간 상수(`CannonIgniteLead` 0.5·`CannonFuseSeconds` 1, 합 1.5초)와 `CannonInfo.Igniting`은 Combat 내부 → 추가 계약 없음
+
+## K-054 사용자 승인·결정이 필요한 것 (모아 보기)
+1. C-004 v1.4 · C-005 v1.6 · C-009 r0 초안 승인
+2. 전투에서 부서진 토벽을 저장할지(지금은 다음 전투에 다시 섬)
+3. 패배 결말 이야기 ID `story_defeat`를 코드 상수에서 정의 데이터로 옮길지
+4. **코드와 결정이 다른 곳** (D-078):
+   - 언덕 반응: D-078은 '돌아감 70%·넘음 30%', 코드(`BattleSim.Terrain`)는 공통 50/30/20 굴림에서 '부숨'을 '넘음'으로 바꿔 **돌아감 50%·넘음 50%**
+   - 나무 쓰러뜨리기: D-078 '지금 넣음' — 코드에서 찾지 못함 (K-051 진행 중인지 확인 필요)
+5. 문서 손질: `CampaignState` 머리 주석은 아직 'C-004 v1~v1.3', `BattleSetup` 머리 주석에는 v1.6 표기가 없다(코드 파일이라 이 카드에서 고치지 않음)
