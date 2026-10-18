@@ -70,6 +70,11 @@ public sealed partial class PlayProbe
         public void Dispose() { foreach (var (_, recorder, _) in list) recorder.Dispose(); }
     }
 
+    // 배치 실행(-batchmode)에서는 유니티가 화면을 그리지 않는다(사진 찍을 때만 카메라를 직접 그림) — 프레임 시간에 그리기가 빠진다.
+    // 그래서 배치 실행이면 측정 구간 동안 매 프레임 이 도우미가 모든 카메라를 렌더 텍스처(기본 1920×1080)에 직접 그리고,
+    // 1화소를 읽어 GPU가 다 그릴 때까지 기다린 시간(= CPU 그리기 제출 + GPU 완료)을 잰다. 화면 위 표시판(오버레이 UI)은 빠진다
+    ProbeRenderTimer renderTimer;
+
     [UnityTest]
     public IEnumerator FrameTiming()
     {
@@ -79,6 +84,9 @@ public sealed partial class PlayProbe
         KeepPreparation = true;
         bool look0 = HumanLastRampart.Combat.Render.BattleLook.Enabled;
         var recorders = new TimingRecorders();
+        bool batch = Application.isBatchMode;
+        if (batch) renderTimer = new GameObject("PlayProbe Render Timer").AddComponent<ProbeRenderTimer>();
+        else Screen.SetResolution(1920, 1080, FullScreenMode.Windowed);   // 창 실행: 실제 화면을 1920×1080으로
         try
         {
             SceneManager.LoadScene("Boot");
@@ -109,7 +117,8 @@ public sealed partial class PlayProbe
                 .GetField("sim", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(entry);
             sim.WeatherDirty = true;
             Note($"설정: 현실 {setup.BattleNumber}번, 적 배율 {setup.EnemyCountMultiplier}, 병사 {sim.SoldierCount}명, 적 최대 동시 {setup.MaxConcurrentEnemies}, 화면 {Screen.width}×{Screen.height}, " +
-                 $"그래픽 {SystemInfo.graphicsDeviceType} {SystemInfo.graphicsDeviceName}, 프레임 통계 기능 {FrameTimingManager.IsFeatureEnabled()}");
+                 $"그래픽 {SystemInfo.graphicsDeviceType} {SystemInfo.graphicsDeviceName}, 프레임 통계 기능 {FrameTimingManager.IsFeatureEnabled()}, " +
+                 (batch ? $"배치 실행 — 카메라 직접 그리기 {renderTimer.Width}×{renderTimer.Height}로 그리기 시간 측정" : "창 실행 — 실제 화면 그리기 포함"));
             entry.StartBattle();
             for (int i = 0; i < 30; i++) yield return null;
 
@@ -123,6 +132,13 @@ public sealed partial class PlayProbe
             yield return Press("×1", 120);
             yield return MeasureWindow("② 중반 (성벽에 몰림, 효과 켬)", sim, recorders);
             yield return Capture("timing_2_mid");
+
+            // 같은 장면을 640×480으로 (지난 측정 해상도와 비교)
+            if (batch) { renderTimer.Width = 640; renderTimer.Height = 480; }
+            else Screen.SetResolution(640, 480, FullScreenMode.Windowed);
+            yield return MeasureWindow("② 중반 · 640×480", sim, recorders);
+            if (batch) { renderTimer.Width = 1920; renderTimer.Height = 1080; }
+            else Screen.SetResolution(1920, 1080, FullScreenMode.Windowed);
 
             HumanLastRampart.Combat.Render.BattleLook.Enabled = false;
             for (int i = 0; i < 5; i++) yield return null;
@@ -163,6 +179,8 @@ public sealed partial class PlayProbe
             KeepPreparation = false;
             HumanLastRampart.Combat.Render.BattleLook.Enabled = look0;
             recorders.Dispose();
+            if (renderTimer != null) Object.Destroy(renderTimer.gameObject);
+            renderTimer = null;
             File.WriteAllText(Path.Combine(Out, "frame_timing.txt"), log.ToString(), new UTF8Encoding(false));
             Time.captureDeltaTime = 0f;
         }
@@ -172,6 +190,7 @@ public sealed partial class PlayProbe
     IEnumerator MeasureWindow(string title, HumanLastRampart.Combat.Battle.BattleSim sim, TimingRecorders recorders, int frames = TimingWindowFrames)
     {
         for (int i = 0; i < 5; i++) yield return null;   // 바꾼 설정이 자리 잡게
+        if (renderTimer != null) { renderTimer.Samples.Clear(); renderTimer.Recording = true; }
         var times = new List<double>(frames);
         var watch = Stopwatch.StartNew();
         var timings = new UnityEngine.FrameTiming[1];   // 이 클래스의 FrameTiming 시험 함수와 이름이 겹쳐 전체 이름으로
@@ -191,12 +210,68 @@ public sealed partial class PlayProbe
             }
         }
 
+        if (renderTimer != null) renderTimer.Recording = false;
         times.Sort();
         double avg = times.Average();
         double top1 = times.Skip(Mathf.Max(0, times.Count - Mathf.Max(1, times.Count / 100))).Average();
         sim.Complete();
         Note($"{title}: 프레임 평균 {avg:0.00}ms (약 {1000.0 / avg:0}fps) · 상위 1% {top1:0.0}ms · 최대 {times[times.Count - 1]:0.0}ms · 게임 {sim.Elapsed:0}초 · 처치 {sim.Kills}");
         Note($"    계수기: {recorders.Summary(frames)}");
-        Note(timingCount > 0 ? $"    FrameTimingManager: 메인 {cpuSum / timingCount:0.00}ms · GPU {gpuSum / timingCount:0.00}ms" : "    FrameTimingManager: 값 없음 (프로젝트 설정 Frame Timing Stats 꺼짐)");
+        Note(timingCount > 0 ? $"    FrameTimingManager: 메인 {cpuSum / timingCount:0.00}ms · GPU {gpuSum / timingCount:0.00}ms" : "    FrameTimingManager: 값 없음 (프로젝트 설정 Frame Timing Stats 꺼짐 또는 배치 실행)");
+        if (renderTimer != null && renderTimer.Samples.Count > 0)
+        {
+            var draw = new List<double>(renderTimer.Samples);
+            draw.Sort();
+            double drawTop1 = draw.Skip(Mathf.Max(0, draw.Count - Mathf.Max(1, draw.Count / 100))).Average();
+            Note($"    카메라 직접 그리기 {renderTimer.Width}×{renderTimer.Height} (GPU 완료까지): 평균 {draw.Average():0.00}ms · 상위 1% {drawTop1:0.0}ms · 최대 {draw[draw.Count - 1]:0.0}ms — 위 프레임 시간에 이미 들어 있다");
+        }
+    }
+}
+
+// 배치 실행용 그리기 시간 재기 (K-061): 기록 중이면 매 프레임 끝에 모든 카메라를 렌더 텍스처에 그리고 1화소를 읽어 GPU 완료를 기다린다.
+// 게임의 그리기 예약(DrawMeshInstancedProcedural 등)이 끝난 뒤에 돌도록 실행 순서를 맨 뒤 바로 앞으로 둔다 (사진 찍개 ProbeShooter보다 앞)
+[DefaultExecutionOrder(int.MaxValue - 1)]
+public sealed class ProbeRenderTimer : MonoBehaviour
+{
+    public int Width = 1920, Height = 1080;
+    public bool Recording;
+    public readonly List<double> Samples = new List<double>(256);
+    RenderTexture target;
+    Texture2D pixel;
+    Camera[] cameras = new Camera[8];
+    readonly Stopwatch watch = new Stopwatch();
+
+    void LateUpdate()
+    {
+        if (!Recording) return;
+        if (target == null || target.width != Width || target.height != Height)
+        {
+            if (target != null) Destroy(target);
+            target = new RenderTexture(Width, Height, 24);
+        }
+
+        if (pixel == null) pixel = new Texture2D(1, 1, TextureFormat.RGBA32, false);
+        if (cameras.Length < Camera.allCamerasCount) cameras = new Camera[Camera.allCamerasCount];
+        int count = Camera.GetAllCameras(cameras);
+        watch.Restart();
+        for (int i = 0; i < count; i++)
+        {
+            Camera cam = cameras[i];
+            RenderTexture old = cam.targetTexture;
+            cam.targetTexture = target;
+            cam.Render();
+            cam.targetTexture = old;
+        }
+
+        RenderTexture.active = target;
+        pixel.ReadPixels(new Rect(0, 0, 1, 1), 0, 0);   // GPU가 다 그릴 때까지 기다린다
+        RenderTexture.active = null;
+        Samples.Add(watch.Elapsed.TotalMilliseconds);
+    }
+
+    void OnDestroy()
+    {
+        if (target != null) Destroy(target);
+        if (pixel != null) Destroy(pixel);
     }
 }
