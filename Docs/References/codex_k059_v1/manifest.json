@@ -1,0 +1,607 @@
+[
+    {
+        "name":  "panel_parchment",
+        "title":  "양피지 판",
+        "w":  32,
+        "h":  32,
+        "border":  [
+                       6,
+                       6,
+                       6,
+                       6
+                   ],
+        "mode":  "반복",
+        "kind":  "UI",
+        "sha256":  "1d40a0a0b56b505334c902a8e59363a43e4d17370c82cb41ba5dcddf1238edb8"
+    },
+    {
+        "name":  "panel_wood",
+        "title":  "나무 명령판",
+        "w":  32,
+        "h":  32,
+        "border":  [
+                       6,
+                       6,
+                       6,
+                       6
+                   ],
+        "mode":  "반복",
+        "kind":  "UI",
+        "sha256":  "9d9e052d8dceb207633b3f172aa84be8f78e677c8331af2dd05f0ede29bea60e"
+    },
+    {
+        "name":  "panel_band",
+        "title":  "황동 계기 띠",
+        "w":  32,
+        "h":  32,
+        "border":  [
+                       6,
+                       6,
+                       6,
+                       6
+                   ],
+        "mode":  "반복",
+        "kind":  "UI",
+        "sha256":  "fd3d58c002a13030153b78b36c38f8607c7adb153b5a1d51b872efe9994f2486"
+    },
+    {
+        "name":  "plate",
+        "title":  "나무 간판",
+        "w":  16,
+        "h":  16,
+        "border":  [
+                       5,
+                       5,
+                       5,
+                       5
+                   ],
+        "mode":  "늘이기",
+        "kind":  "UI",
+        "sha256":  "202db6881c12c7e601c1e2eb1110b4040013a22f8e46dadbd0ac8489e59e652b"
+    },
+    {
+        "name":  "slip",
+        "title":  "전령 쪽지",
+        "w":  20,
+        "h":  14,
+        "border":  [
+                       4,
+                       4,
+                       6,
+                       6
+                   ],
+        "mode":  "늘이기",
+        "kind":  "UI",
+        "sha256":  "a30152d8295618eae08826ace321c9b8bd0840a7d156c7accc5417cc93d01c3e"
+    },
+    {
+        "name":  "slip_danger",
+        "title":  "위급 쪽지",
+        "w":  20,
+        "h":  14,
+        "border":  [
+                       6,
+                       4,
+                       6,
+                       6
+                   ],
+        "mode":  "늘이기",
+        "kind":  "UI",
+        "sha256":  "876ca5379edbf76b4b2200ad9015f99b517aa4485de1806a2c9d9a0ad985579b"
+    },
+    {
+        "name":  "bubble",
+        "title":  "잉크 말풍선",
+        "w":  32,
+        "h":  32,
+        "border":  [
+                       8,
+                       8,
+                       8,
+                       8
+                   ],
+        "mode":  "늘이기",
+        "kind":  "UI",
+        "sha256":  "181e44d423e7c8c6abbefe3a74718dad9f43d02e53483fe37cefb54a5fb84047"
+    },
+    {
+        "name":  "bubble_tail",
+        "title":  "말풍선 꼬리",
+        "w":  12,
+        "h":  9,
+        "border":  null,
+        "mode":  "",
+        "kind":  "UI",
+        "sha256":  "940763ce25b887e68f72291e32cec34c2cec394e34c606d41cc126b04fa8ae17"
+    },
+    {
+        "name":  "button_wood",
+        "title":  "나무 단추",
+        "w":  12,
+        "h":  12,
+        "border":  [
+                       4,
+                       4,
+                       4,
+                       4
+                   ],
+        "mode":  "늘이기",
+        "kind":  "UI",
+        "sha256":  "ae21285beb59278b1ca0234db0ac5f5d78eb68cfce556e92675e7ba75566ab49"
+    },
+    {
+        "name":  "button_wood_down",
+        "title":  "눌린 나무 단추",
+        "w":  12,
+        "h":  12,
+        "border":  [
+                       4,
+                       4,
+                       4,
+                       4
+                   ],
+        "mode":  "늘이기",
+        "kind":  "UI",
+        "sha256":  "bfc62c73827a4142cbdb5187a82e1e12b7809e68fcc8ac1ba0d63a1bac36e3ad"
+    },
+    {
+        "name":  "button_brass",
+        "title":  "황동 단추",
+        "w":  12,
+        "h":  12,
+        "border":  [
+                       4,
+                       4,
+                       4,
+                       4
+                   ],
+        "mode":  "늘이기",
+        "kind":  "UI",
+        "sha256":  "1cfce661aa54b9c3ab733b3a622cec5da76faaf5cd69a899ecb8a0561ec3c281"
+    },
+    {
+        "name":  "button_brass_down",
+        "title":  "눌린 황동 단추",
+        "w":  12,
+        "h":  12,
+        "border":  [
+                       4,
+                       4,
+                       4,
+                       4
+                   ],
+        "mode":  "늘이기",
+        "kind":  "UI",
+        "sha256":  "440ebb6b2ca239d1ed59b10c0d200165cb19047f99b87fa6e72bca99d7c63bce"
+    },
+    {
+        "name":  "frame_glow",
+        "title":  "고름 빛 테두리",
+        "w":  12,
+        "h":  12,
+        "border":  [
+                       4,
+                       4,
+                       4,
+                       4
+                   ],
+        "mode":  "늘이기",
+        "kind":  "UI",
+        "sha256":  "b6cb8e11af5ea6237736ee7fd4230fa82cf8dc5ef4b52dc75d095a808b467dc9"
+    },
+    {
+        "name":  "keycap",
+        "title":  "키 표시",
+        "w":  10,
+        "h":  11,
+        "border":  [
+                       3,
+                       4,
+                       3,
+                       3
+                   ],
+        "mode":  "늘이기",
+        "kind":  "UI",
+        "sha256":  "679f58e93ff22a7efa6c99f2ba62d2bc0ddf6a3cbec4495480405d9c9385c280"
+    },
+    {
+        "name":  "bar_track",
+        "title":  "체력 막대 홈",
+        "w":  8,
+        "h":  8,
+        "border":  [
+                       3,
+                       3,
+                       3,
+                       3
+                   ],
+        "mode":  "늘이기",
+        "kind":  "UI",
+        "sha256":  "c9694b3f3ffc9c31e51cef476fb91b0e77f684f4b3f4985404887c7a6fe035c3"
+    },
+    {
+        "name":  "icon_close",
+        "title":  "닫기",
+        "w":  11,
+        "h":  11,
+        "border":  null,
+        "mode":  "",
+        "kind":  "UI",
+        "sha256":  "9123c77095f5764b877608ed30d7c98347fe3f6d98ca41b7c799a2cb0cdd1663"
+    },
+    {
+        "name":  "icon_up",
+        "title":  "접기",
+        "w":  11,
+        "h":  11,
+        "border":  null,
+        "mode":  "",
+        "kind":  "UI",
+        "sha256":  "aa89232d99d2602e47b0ba57753fadf61a35e6c5430bb18a53ec7ac1b0426f93"
+    },
+    {
+        "name":  "icon_down",
+        "title":  "펴기",
+        "w":  11,
+        "h":  11,
+        "border":  null,
+        "mode":  "",
+        "kind":  "UI",
+        "sha256":  "6873a09c6f22a8db28a6a905e188b69b72f8c4f0695bed8694fbb3518484a927"
+    },
+    {
+        "name":  "icon_play",
+        "title":  "다음",
+        "w":  11,
+        "h":  11,
+        "border":  null,
+        "mode":  "",
+        "kind":  "UI",
+        "sha256":  "8a2bbcf0646f24bccd5c90704dc742fb7b7c84b4104dd4afc33b2c815acff2a4"
+    },
+    {
+        "name":  "icon_pause",
+        "title":  "멈춤",
+        "w":  11,
+        "h":  11,
+        "border":  null,
+        "mode":  "",
+        "kind":  "UI",
+        "sha256":  "a6b58000a1aa37201820b9d17b83bae9f9b5ace3298da01fbc74a0f975253028"
+    },
+    {
+        "name":  "icon_speed1",
+        "title":  "보통 빠르기",
+        "w":  6,
+        "h":  11,
+        "border":  null,
+        "mode":  "",
+        "kind":  "UI",
+        "sha256":  "2c4b1757e22476e3d8be9c25ad1c75b2e6a325999e96767d6f653bd411ed7bec"
+    },
+    {
+        "name":  "icon_speed2",
+        "title":  "두 배 빠르기",
+        "w":  12,
+        "h":  11,
+        "border":  null,
+        "mode":  "",
+        "kind":  "UI",
+        "sha256":  "6da113abe83712caf924d1a640f24ac8ef9f382772bd9f0e49e67110fc8f993a"
+    },
+    {
+        "name":  "icon_speed4",
+        "title":  "네 배 빠르기",
+        "w":  15,
+        "h":  11,
+        "border":  null,
+        "mode":  "",
+        "kind":  "UI",
+        "sha256":  "1891871961e4eaf47384aaab654dbe6b96dd692cd1be499bf8c33311db6f681a"
+    },
+    {
+        "name":  "icon_hero",
+        "title":  "주인공 장교",
+        "w":  11,
+        "h":  11,
+        "border":  null,
+        "mode":  "",
+        "kind":  "UI",
+        "sha256":  "84a8fe5a7b9df995801ad03a7860ff0fcee8b47536a2334deaa675c883fea95e"
+    },
+    {
+        "name":  "icon_north",
+        "title":  "북쪽",
+        "w":  11,
+        "h":  11,
+        "border":  null,
+        "mode":  "",
+        "kind":  "UI",
+        "sha256":  "e94f7818c717d80a439c1e0253d9f4348b1edd0f03b1f11e10bceced6ff18e42"
+    },
+    {
+        "name":  "icon_check",
+        "title":  "확정",
+        "w":  11,
+        "h":  11,
+        "border":  null,
+        "mode":  "",
+        "kind":  "UI",
+        "sha256":  "bb88bd7fd001a2ebed00bae6dfd8ff845a5a2bbc2493a40f4eb9dde4c8d1a020"
+    },
+    {
+        "name":  "icon_flag",
+        "title":  "조준 깃발",
+        "w":  11,
+        "h":  11,
+        "border":  null,
+        "mode":  "",
+        "kind":  "UI",
+        "sha256":  "3122c3fc2860ca14819112a48a58eb6f64c6b20bda05d519b0c60a4ab2025c77"
+    },
+    {
+        "name":  "icon_auto",
+        "title":  "자동 조준",
+        "w":  11,
+        "h":  11,
+        "border":  null,
+        "mode":  "",
+        "kind":  "UI",
+        "sha256":  "3dffdd092c9216b41fcdaae47aac9ca4fcbefc87e662623fd2f1d8b6e3cc0f6d"
+    },
+    {
+        "name":  "icon_idle",
+        "title":  "대기",
+        "w":  11,
+        "h":  11,
+        "border":  null,
+        "mode":  "",
+        "kind":  "UI",
+        "sha256":  "938e136e3d851c88f9213c7bc64808fa7ffb0497f9a9f07a094b43d4ef988ef0"
+    },
+    {
+        "name":  "icon_special",
+        "title":  "특수 적",
+        "w":  11,
+        "h":  11,
+        "border":  null,
+        "mode":  "",
+        "kind":  "UI",
+        "sha256":  "0ee2abfd34389e3034521b39e82e9ea9a1e12f341aa08e1ec5eb679e47ab95a4"
+    },
+    {
+        "name":  "icon_minus",
+        "title":  "인원 줄이기",
+        "w":  11,
+        "h":  11,
+        "border":  null,
+        "mode":  "",
+        "kind":  "UI",
+        "sha256":  "938e136e3d851c88f9213c7bc64808fa7ffb0497f9a9f07a094b43d4ef988ef0"
+    },
+    {
+        "name":  "icon_plus",
+        "title":  "인원 늘리기",
+        "w":  11,
+        "h":  11,
+        "border":  null,
+        "mode":  "",
+        "kind":  "UI",
+        "sha256":  "1292b58e3988a6e46f4f379e7ea0f3ee38d21e40594ace8eab448fcf212e267e"
+    },
+    {
+        "name":  "icon_right",
+        "title":  "보내기",
+        "w":  11,
+        "h":  11,
+        "border":  null,
+        "mode":  "",
+        "kind":  "UI",
+        "sha256":  "8a2bbcf0646f24bccd5c90704dc742fb7b7c84b4104dd4afc33b2c815acff2a4"
+    },
+    {
+        "name":  "icon_warn",
+        "title":  "위험",
+        "w":  11,
+        "h":  11,
+        "border":  null,
+        "mode":  "",
+        "kind":  "UI",
+        "sha256":  "7660824c839962ad3134a32089bd61de1eef65e7c4810f24954145b34c260526"
+    },
+    {
+        "name":  "seal",
+        "title":  "보고서 도장",
+        "w":  32,
+        "h":  32,
+        "border":  null,
+        "mode":  "",
+        "kind":  "UI",
+        "sha256":  "14e09abb9e5a1e88d77c43fd98f9c4fd00da47e8170004d84739841f9d90e4de"
+    },
+    {
+        "name":  "vignette",
+        "title":  "가장자리 빛",
+        "w":  64,
+        "h":  36,
+        "border":  null,
+        "mode":  "",
+        "kind":  "UI",
+        "sha256":  "366e9954bb46711ce656bea7a13959a8480d7e1186525de7b5d70835020a9cb4"
+    },
+    {
+        "name":  "story_box",
+        "title":  "대사 상자",
+        "w":  96,
+        "h":  40,
+        "border":  [
+                       8,
+                       8,
+                       8,
+                       8
+                   ],
+        "mode":  "늘이기",
+        "kind":  "스토리 부품",
+        "sha256":  "aedf10258eeb8acb3e1e57b63be9466e10a47a0da4e04285c11e9afa07b376ae"
+    },
+    {
+        "name":  "story_nameplate",
+        "title":  "말하는 사람 이름표",
+        "w":  48,
+        "h":  18,
+        "border":  [
+                       6,
+                       6,
+                       6,
+                       6
+                   ],
+        "mode":  "늘이기",
+        "kind":  "스토리 부품",
+        "sha256":  "d9c2f6f420d0faecf20aab4622ba1c0abd212bcbcb5510b6712d8bdee076a12e"
+    },
+    {
+        "name":  "story_next_0",
+        "title":  "넘김 첫 칸",
+        "w":  7,
+        "h":  5,
+        "border":  null,
+        "mode":  "",
+        "kind":  "스토리 부품",
+        "sha256":  "eb79b53a74a933453377db6c62337468473e68640348cf4d0545591f6ebc668e"
+    },
+    {
+        "name":  "story_next_1",
+        "title":  "넘김 둘째 칸",
+        "w":  7,
+        "h":  5,
+        "border":  null,
+        "mode":  "",
+        "kind":  "스토리 부품",
+        "sha256":  "0940fbaf25f2feea7fe526c0700a5bc2e06efa0d30d916e15398d2503adb5031"
+    },
+    {
+        "name":  "story_next_2",
+        "title":  "넘김 셋째 칸",
+        "w":  7,
+        "h":  5,
+        "border":  null,
+        "mode":  "",
+        "kind":  "스토리 부품",
+        "sha256":  "0940fbaf25f2feea7fe526c0700a5bc2e06efa0d30d916e15398d2503adb5031"
+    },
+    {
+        "name":  "story_next_3",
+        "title":  "넘김 넷째 칸",
+        "w":  7,
+        "h":  5,
+        "border":  null,
+        "mode":  "",
+        "kind":  "스토리 부품",
+        "sha256":  "eb79b53a74a933453377db6c62337468473e68640348cf4d0545591f6ebc668e"
+    },
+    {
+        "name":  "story_button",
+        "title":  "스토리 단추",
+        "w":  40,
+        "h":  16,
+        "border":  [
+                       4,
+                       4,
+                       4,
+                       4
+                   ],
+        "mode":  "늘이기",
+        "kind":  "스토리 부품",
+        "sha256":  "23bec731d677c1ef097a630f6d68d44fc6b0eae22091c0ad9965441f4837a36b"
+    },
+    {
+        "name":  "story_button_hover",
+        "title":  "올린 스토리 단추",
+        "w":  40,
+        "h":  16,
+        "border":  [
+                       4,
+                       4,
+                       4,
+                       4
+                   ],
+        "mode":  "늘이기",
+        "kind":  "스토리 부품",
+        "sha256":  "6761da39a3fb0ccfafa9695b775edd86df4017f58a507fbf95e4162060161fc8"
+    },
+    {
+        "name":  "story_button_on",
+        "title":  "켜진 스토리 단추",
+        "w":  40,
+        "h":  16,
+        "border":  [
+                       4,
+                       4,
+                       4,
+                       4
+                   ],
+        "mode":  "늘이기",
+        "kind":  "스토리 부품",
+        "sha256":  "9ace76aa004d53539d76819a011660c57c7ba8b10f0178e4b394e8c34dedc5f7"
+    },
+    {
+        "name":  "story_fade_edge",
+        "title":  "잉크 암전 가장자리",
+        "w":  64,
+        "h":  64,
+        "border":  null,
+        "mode":  "",
+        "kind":  "스토리 부품",
+        "sha256":  "ab1eef7530b312ab9660327fbdb7a3914be47e56476026d18a3cc23702d8cef5"
+    },
+    {
+        "name":  "story_portrait_hero",
+        "title":  "주인공 네 표정",
+        "w":  1024,
+        "h":  384,
+        "border":  null,
+        "mode":  "",
+        "kind":  "초상",
+        "sha256":  "ae674268bddf33903b7a237c4b79c434483e73be59fafdd39c3ac109eaf5ccf1"
+    },
+    {
+        "name":  "story_portrait_wizard",
+        "title":  "마법사 네 표정",
+        "w":  1024,
+        "h":  384,
+        "border":  null,
+        "mode":  "",
+        "kind":  "초상",
+        "sha256":  "1e333b71b04a8d777241868d52fe4f9b08ddd6b0eebe81bf02a785b386894680"
+    },
+    {
+        "name":  "story_portrait_archer",
+        "title":  "궁수 네 표정",
+        "w":  1024,
+        "h":  384,
+        "border":  null,
+        "mode":  "",
+        "kind":  "초상",
+        "sha256":  "a8310146db0b7aa11320dc70c232f95c4d35dc5248298926d97a081805fd0caf"
+    },
+    {
+        "name":  "story_bg_rampart_dusk",
+        "title":  "해 질 녘 성벽",
+        "w":  640,
+        "h":  360,
+        "border":  null,
+        "mode":  "",
+        "kind":  "배경",
+        "sha256":  "e5684e19351eabbe8547284d0ac1d377a651e40f43d0232a8ffc0381c1d44e48"
+    },
+    {
+        "name":  "story_bg_rampart_night",
+        "title":  "밤 성벽",
+        "w":  640,
+        "h":  360,
+        "border":  null,
+        "mode":  "",
+        "kind":  "배경",
+        "sha256":  "acf961712a24094d10eb6853d57aeed7191a1b1eab3d8c8b6f52ad3f8678da2f"
+    }
+]
