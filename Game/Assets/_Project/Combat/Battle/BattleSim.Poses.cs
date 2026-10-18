@@ -49,7 +49,7 @@ namespace HumanLastRampart.Combat.Battle
             foreach (var (unit, start, count) in soldierGroups)
             {
                 if (unit == null || unit.Sheet == null) continue;   // 임시 그림 병종은 동작 그림도 쓰지 않는다 (BattleView와 같게)
-                byte fire = (byte)(unit.FireSheet != null ? math.min(PerfLabArt.FrameCount(unit.FireSheet), PerfLabArt.PoseWindow) : 0);
+                byte fire = PoseFrames(ProportionTrial.IsArcher(unit) ? ProportionTrial.ArcherFire(unit.FireSheet) : unit.FireSheet);   // 3등신 시험 그림은 4칸 (K-057)
                 byte fall = (byte)(unit.DeathSheet != null ? math.min(PerfLabArt.FrameCount(unit.DeathSheet), PerfLabArt.PoseWindow) : 0);
                 byte ignite = PoseFrames(unit.IgniteSheet);   // 대포병 불붙이기 (K-046)
                 if (fire > 0 || fall > 0 || ignite > 0) HasSoldierPoseArt = true;
@@ -76,6 +76,18 @@ namespace HumanLastRampart.Combat.Battle
         }
 
         void MarkWizardCast() => wizardCastAt = Elapsed;
+
+        // 3등신 시험 그림 바꿔 끼우기 (K-057): 그 병종 병사들의 사격 시트 칸 수만 바꾼다 (BattleView가 켜고 끌 때)
+        public void SetFireSheetFrames(UnitDef unit, UnityEngine.Texture2D fireSheet)
+        {
+            byte frames = PoseFrames(fireSheet);
+            foreach (var (u, start, count) in soldierGroups)
+            {
+                if (u != unit || u == null || u.Sheet == null) continue;
+                for (int i = start; i < start + count; i++) sFireFrames[i] = frames;
+                if (frames > 0) HasSoldierPoseArt = true;
+            }
+        }
 
         // RefreshSoldierInstances에서 병사마다: 그릴 칸 번호와 보이는지. 쓰러짐 그림이 끝났거나 없으면 false
         bool SoldierPose(int i, out float frame)

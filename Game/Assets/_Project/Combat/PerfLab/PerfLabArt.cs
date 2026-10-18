@@ -46,7 +46,13 @@ namespace HumanLastRampart.Combat.PerfLab
         public const float DefaultFigurePx = 300f;   // 표에 없는 시트: Codex 기준 서 있는 인물 키
 
         public static float FigurePx(Texture sheet) =>
-            sheet != null && PerfLabSheetHeights.FigurePx.TryGetValue(sheet.name, out float px) && px > 1f ? px : DefaultFigurePx;
+            sheet != null && sheet.name.StartsWith(TrialSheetPrefix) ? TrialFigurePx
+            : sheet != null && PerfLabSheetHeights.FigurePx.TryGetValue(sheet.name, out float px) && px > 1f ? px : DefaultFigurePx;
+
+        // 3등신 시험 그림 (K-057, Codex K-056): 모든 칸 인물 키 192px(원본 48점 × 4). 이름이 이 앞글자로 시작하면 이 키로 맞춘다
+        // → 기존 그림(서기 300px)과 같은 월드 키로 선다. 자동 표(PerfLabSheetHeights)는 손대지 않는다
+        public const string TrialSheetPrefix = "trial3_";
+        public const float TrialFigurePx = 192f;
 
         // 그 시트를 그릴 배율. referencePx = 이 개체의 기준 인물 키 (병사 FigureReferencePx, 적은 자기 기본 시트 키)
         public static float SheetScale(Texture sheet, float referencePx = FigureReferencePx) => referencePx / FigurePx(sheet);
