@@ -12,7 +12,12 @@ namespace HumanLastRampart.UI
         CanvasGroup group;
         RectTransform rect;
         Vector2 home, from;
-        float t = 1f, last = -1f;
+        float t = 1f;
+        UiClock clock;
+        static readonly System.Collections.Generic.HashSet<UiAppear> moving = new System.Collections.Generic.HashSet<UiAppear>();
+
+        // 지금 열리거나 닫히는 판이 있는가 (시험이 사진을 찍기 전에 기다린다)
+        public static bool AnyAnimating { get { moving.RemoveWhere(a => a == null); return moving.Count > 0; } }
         bool closing, destroyWhenClosed, moves;
         Action done;
 
@@ -76,7 +81,8 @@ namespace HumanLastRampart.UI
             moves = offset != Vector2.zero;
             group.blocksRaycasts = true;
             t = 0f;
-            last = -1f;
+            clock = default;
+            moving.Add(this);
             Apply();
         }
 
@@ -91,14 +97,13 @@ namespace HumanLastRampart.UI
             if (destroy)
                 foreach (Button b in GetComponentsInChildren<Button>(true)) b.interactable = false;
             t = 1f;
-            last = -1f;
+            clock = default;
+            moving.Add(this);
         }
 
         void Update()
         {
-            float now = Time.realtimeSinceStartup;
-            float dt = last < 0f ? 0f : Mathf.Min(now - last, 0.05f);
-            last = now;
+            float dt = clock.Tick(0.05f);
             if (closing)
             {
                 t -= dt / UiTokens.Close;
@@ -118,15 +123,25 @@ namespace HumanLastRampart.UI
                         gameObject.SetActive(false);
                     }
 
+                    moving.Remove(this);
                     finished?.Invoke();
                     return;
                 }
             }
             else if (t < 1f) t = Mathf.Min(1f, t + dt / UiTokens.Open);
-            else return;
+            else { moving.Remove(this); return; }
 
             Apply();
         }
+
+        // 열리는 중에 꺼지면 다 열린 모양으로 (다음에 켜질 때 반투명으로 남지 않게)
+        void OnDisable()
+        {
+            moving.Remove(this);
+            if (!closing && group != null && t < 1f) { t = 1f; Apply(); }
+        }
+
+        void OnDestroy() => moving.Remove(this);
 
         void Apply()
         {

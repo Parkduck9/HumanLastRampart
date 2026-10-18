@@ -13,7 +13,8 @@ namespace HumanLastRampart.UI
         public bool ColorByRatio = true;
         public Color FixedColor = Color.white;
 
-        float value = 1f, lag = 1f, hold, last = -1f;
+        float value = 1f, lag = 1f, hold;
+        UiClock clock;
         bool started;
 
         public float Value => value;
@@ -30,9 +31,7 @@ namespace HumanLastRampart.UI
 
         void Update()
         {
-            float now = Time.realtimeSinceStartup;
-            float dt = last < 0f ? 0f : Mathf.Min(now - last, 0.1f);
-            last = now;
+            float dt = clock.Tick();   // 게임 배속·멈춤과 상관없는 UI 시계
             if (hold > 0f) hold -= dt;
             else if (lag > value) lag = Mathf.MoveTowards(lag, value, dt * 0.6f);
             Apply();

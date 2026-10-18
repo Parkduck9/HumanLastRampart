@@ -1741,6 +1741,8 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
     IEnumerator Capture(string name)
     {
         if (SystemInfo.graphicsDeviceType == UnityEngine.Rendering.GraphicsDeviceType.Null) yield break;
+        // K-047: 판이 열리고 닫히는 연출(UiAppear)이 끝난 뒤에 찍는다 — 덜 열린 반투명 판이 찍히지 않게
+        for (int i = 0; i < 120 && HumanLastRampart.UI.UiAppear.AnyAnimating; i++) yield return null;
         var go = new GameObject("PlayProbe Shooter");
         var shooter = go.AddComponent<ProbeShooter>();
         shooter.Path = Path.Combine(Out, $"{++shot:00}_{name}.png");

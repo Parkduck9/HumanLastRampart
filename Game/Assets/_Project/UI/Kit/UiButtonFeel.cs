@@ -19,7 +19,8 @@ namespace HumanLastRampart.UI
         public bool On;
 
         bool hover, pressed, selected;
-        float glow, last = -1f;
+        float glow;
+        UiClock clock;
 
         public void OnPointerEnter(PointerEventData eventData) => hover = true;
         public void OnPointerExit(PointerEventData eventData) { hover = false; pressed = false; }
@@ -32,9 +33,7 @@ namespace HumanLastRampart.UI
 
         void Update()
         {
-            float now = Time.realtimeSinceStartup;   // 시험의 고정 시간 간격(captureDeltaTime)과 상관없이 실제 시간으로
-            float dt = last < 0f ? 0f : Mathf.Min(now - last, 0.1f);
-            last = now;
+            float dt = clock.Tick();   // 게임 배속·멈춤과 상관없는 UI 시계
             bool live = Button == null || Button.IsInteractable();
             float target = !live ? (On ? 0.35f : 0f) : On ? 1f : hover || selected ? 0.8f : 0f;
             glow = Mathf.MoveTowards(glow, target, dt * 9f);
