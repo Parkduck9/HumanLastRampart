@@ -18,6 +18,7 @@ namespace HumanLastRampart.Story
             StoryKind kind = request != null ? request.Kind : StoryKind.Normal;
             StoryScript script = Load(request?.StoryId, kind);
             var view = new ScreenView(transform, "", "");
+            view.HidePanel();   // K-047: 빈 양피지 판이 재생기 뒤에 비치지 않게
             var root = (RectTransform)view.PanelGroup.transform.parent;   // 화면 캔버스 (입력 막기 CanvasGroup이 있는 곳)
             StoryPlayer player = StoryPlayer.Create(root, script, ScreenView.UiFont);
             player.Finished += () => Complete(ScreenOutcome.Done);

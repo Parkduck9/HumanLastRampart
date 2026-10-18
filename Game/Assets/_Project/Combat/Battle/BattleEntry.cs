@@ -95,6 +95,7 @@ namespace HumanLastRampart.Combat.Battle
                     () => FinishTest(BattleOutcome.Defeat, DefeatReason.GarrisonLost),
                 },
                 new[] { "[시험] 승리", "[시험] 패배 — 성벽 붕괴", "[시험] 패배 — 병력 70%" });
+            if (sim == null) hud.ToggleDev();   // 실제 전투를 못 만든 경우: 시험 단추만 쓸 수 있으니 처음부터 보인다
 
             if (sim != null)
             {
@@ -313,7 +314,9 @@ namespace HumanLastRampart.Combat.Battle
                 }
 
                 if (keyboard.pKey.wasPressedThisFrame) paused = !paused;
-                if (keyboard.hKey.wasPressedThisFrame) hud.ToggleStatusDetail();   // 상태판 자세히/간단히 (K-002)
+                if (keyboard.hKey.wasPressedThisFrame) hud.ToggleStatusDetail();   // 4면 자세히 (K-002)
+                if (keyboard.f1Key.wasPressedThisFrame) hud.ToggleHelp();          // 조작 판 (K-047 S-15: 키 목록은 여기에만)
+                if (keyboard.f12Key.wasPressedThisFrame) hud.ToggleDev();          // 개발 표시 (K-047 S-16: [시험] 단추·내부 정보)
                 if (keyboard.gKey.wasPressedThisFrame) HumanLastRampart.Combat.Render.BattleLook.Enabled = !HumanLastRampart.Combat.Render.BattleLook.Enabled;   // 화면 효과 켜고 끔 (비교용)
             }
 
@@ -567,23 +570,23 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             endShown = true;
-            string message;
-            if (sim.Outcome == BattleOutcome.Victory)
+            bool victory = sim.Outcome == BattleOutcome.Victory;
+            string line;
+            if (victory)
             {
-                message = $"승리!\n<size=28>처치 {sim.Kills:N0} · 얻은 골드 {sim.Gold:N0}</size>";
+                line = $"적 {sim.Kills:N0}을 막아 냈습니다\n얻은 골드 {sim.Gold:N0}";
             }
             else
             {
                 string wall = sim.DefeatSide >= 0 ? new[] { "북쪽", "동쪽", "남쪽", "서쪽" }[sim.DefeatSide] : "";
-                string reason = sim.DefeatReason == DefeatReason.WallDestroyed ? $"{wall} 성벽이 무너졌습니다" : $"{wall} 성벽 병력을 70% 넘게 잃었습니다";
-                message = $"패배\n<size=28>{reason}</size>";
+                line = sim.DefeatReason == DefeatReason.WallDestroyed ? $"{wall} 성벽이 무너졌습니다" : $"{wall} 성벽을 지키던 병사 대부분을 잃었습니다";
                 if (sim.DefeatSide >= 0)
                 {
                     rig?.ShowSide(sim.DefeatSide);
                 }
             }
 
-            hud.ShowEnd(message);
+            hud.ShowEnd(victory, line);
         }
 
         // 실제 전투 결과로 끝내기 (C-006: Combat이 LastBattle을 쓴다)

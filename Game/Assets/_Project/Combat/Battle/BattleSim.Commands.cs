@@ -112,7 +112,7 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             GlobalCommandApplied?.Invoke(priority);
-            Notice?.Invoke($"전체: {PriorityNames[(int)priority]}");
+            Notice?.Invoke($"모든 성벽: {PriorityNames[(int)priority]}");
         }
 
         // ③ 소리 지르기 — 즉시, 못 들음·잘못 들음 (D-030). 비·밤이면 확률 증가
@@ -188,7 +188,7 @@ namespace HumanLastRampart.Combat.Battle
             };
             sAway[soldier] = 1;
             messengers.Add(m);
-            Notice?.Invoke($"전령이 {SideNames[targetSide]}으로 출발 (약 {m.Distance / MessengerSpeed():0}초)");
+            Notice?.Invoke($"전령이 {SideNames[targetSide]}으로 달려갑니다 · 약 {m.Distance / MessengerSpeed():0}초");
             return true;
         }
 
@@ -281,7 +281,7 @@ namespace HumanLastRampart.Combat.Battle
             if (Ended) return;
             if (issuedAt < wallIssuedAt[side])
             {
-                Notice?.Invoke($"{SideNames[side]}: {ViaName(via)} 명령이 더 새 명령에 밀려 무시됨");
+                Notice?.Invoke($"{SideNames[side]}: 늦게 닿은 {ViaName(via)} 명령은 버렸습니다");
                 return;
             }
 
@@ -289,7 +289,7 @@ namespace HumanLastRampart.Combat.Battle
             wallIssuedAt[side] = issuedAt;
             sidePriority[side] = (byte)priority;
             WallCommandApplied?.Invoke(side, priority);
-            Notice?.Invoke($"{SideNames[side]}: {PriorityNames[(int)priority]} ({ViaName(via)})");
+            Notice?.Invoke($"{SideNames[side]} {ViaName(via)}: {PriorityNames[(int)priority]}");
         }
 
         static string ViaName(CommandVia via)

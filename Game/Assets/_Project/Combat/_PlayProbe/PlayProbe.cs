@@ -432,11 +432,11 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
         Note($"정비 시작: 골드 {gold0}, 병력 {total0}, {wall.SegmentId} {wall.Hp}/{wall.MaxHp}");
         yield return Capture("prep_0_screen");
 
-        // 모집: 북쪽 성벽 지점을 4번 넘기면 분대 1 (대포 1~4 다음), 기존 궁수 분대에 11명 보충 → 300명 기준 5골드 × 11
+        // 모집: 북쪽 성벽 분대 1 지점, 기존 궁수 분대에 11명 보충 → 300명 기준 5골드 × 11
+        // K-047: 지점은 칸을 바로 누르고, 값은 고를 때마다 바로 보인다 (견적 단추 없음)
         yield return Click("병력 모집·보충", 300);
-        for (int i = 0; i < 4; i++) yield return ClickPrefix("지점:", 60);
+        yield return Click("지점:post_north_squad_1", 60);
         yield return Click("인원 +10", 60);
-        yield return Click("모집 견적 확인", 60);
         yield return Capture("prep_1_recruit_quote");
         int squad0 = c.Squads.First(s => s.PostId == "post_north_squad_1").Count;
         yield return Click("확정 모집", 60);
@@ -452,7 +452,7 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
         // 수리: 55HP 손상, 100HP 요청 → 실제 55HP, 6골드(올림)
         int gold1 = c.Gold;
         yield return Click("성벽 수리", 300);
-        yield return Click("선택 성벽 100HP 수리 견적", 60);
+        yield return Click("수리:100", 60);
         yield return Click("확정 수리", 60);
         wall = c.Wall.First(w => w.SegmentId == wall.SegmentId);
         Assert.AreEqual(wall.MaxHp, wall.Hp, "55HP 수리");
@@ -891,6 +891,8 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
         return t != null ? t.text.Replace("\n", " | ") : "(HUD 없음)";
     }
 
+    const string KeyPrefix = "btn:";   // HumanLastRampart.UI.Ui.KeyPrefix (이 시험 어셈블리는 UI를 참조하지 않는다)
+
     static bool InputOpen() => UnityEngine.Object.FindObjectsByType<EventSystem>(FindObjectsSortMode.None).Any(e => e.isActiveAndEnabled);
 
     static Button FindReady(string label)
@@ -899,6 +901,7 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
         foreach (Button b in UnityEngine.Object.FindObjectsByType<Button>(FindObjectsSortMode.None))
         {
             if (!b.isActiveAndEnabled || !b.IsInteractable()) continue;
+            if (b.name == KeyPrefix + label) return b;   // K-047: 단추 열쇠 (보이는 글자와 따로)
             Text t = b.GetComponentInChildren<Text>();
             if (t != null && t.text == label) return b;
         }
@@ -930,7 +933,7 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
             {
                 if (!b.isActiveAndEnabled || !b.IsInteractable()) continue;
                 Text t = b.GetComponentInChildren<Text>();
-                if (t != null && t.text.StartsWith(prefix)) { b.onClick.Invoke(); yield return null; yield break; }
+                if (b.name.StartsWith(KeyPrefix + prefix) || (t != null && t.text.StartsWith(prefix))) { b.onClick.Invoke(); yield return null; yield break; }
             }
             yield return null;
         }
@@ -1339,10 +1342,11 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
         Assert.IsTrue(entry.AimSelectedCannonAt(new Vector3(30f, 0f, 20f)), "성 안마당 조준");
         for (int i = 0; i < 60; i++) yield return null;
         yield return Capture("cannon_aim_side");
-        var labels = UnityEngine.Object.FindObjectsByType<Text>(FindObjectsSortMode.None).Select(t => t.text).Where(t => t.Contains("번:")).ToList();
-        Note("대포 표시: " + string.Join(" | ", labels));
-        Assert.IsTrue(labels.Any(t => t.Contains("4번: 조준 — 대기")), "적 없는 곳을 노린 대포는 대기");
-        Assert.IsTrue(labels.Any(t => t.Contains("포격 중")), "적이 오는 길을 노린 대포는 포격");
+        // K-047 포병판: 줄마다 상태 낱말 칸 "Cannon N State" (포격·대기·자동·병사 없음)
+        var states = UnityEngine.Object.FindObjectsByType<Text>(FindObjectsSortMode.None).Where(t => t.name.StartsWith("Cannon ") && t.name.EndsWith(" State") && t.gameObject.activeInHierarchy).ToList();
+        Note("대포 표시: " + string.Join(" | ", states.OrderBy(t => t.name).Select(t => t.name.Substring(7, 1) + "번 " + t.text)));
+        Assert.IsTrue(states.Any(t => t.name == "Cannon 4 State" && t.text == "대기"), "적 없는 곳을 노린 대포는 대기");
+        Assert.IsTrue(states.Any(t => t.text == "포격"), "적이 오는 길을 노린 대포는 포격");
         // K-046 불붙이기: 쏘기 전 1.5초(막대 뻗기 0.5 + 도화선 1) 동안 '불붙이는 중' — 간격 6초라 몇 초 안에 한 번은 보인다
         int igniting = -1;
         for (int i = 0; i < 200 && igniting < 0; i++)
@@ -1454,7 +1458,7 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
             yield return null;
         }
         Note("무리 표시: " + string.Join(" | ", labels));
-        Assert.IsTrue(labels.Any(t => t.StartsWith("북쪽 약")), "지도에 무리 표시");
+        Assert.IsTrue(labels.Any(t => t.StartsWith("약 ")), "지도에 무리 표시");   // K-047: 방향은 지도 자리로 보이므로 "약 320"만
         yield return Capture("telescope_after");
         entry.ToggleMap();
         for (int i = 0; i < 4; i++) yield return null;

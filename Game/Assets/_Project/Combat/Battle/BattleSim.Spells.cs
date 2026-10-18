@@ -117,7 +117,7 @@ namespace HumanLastRampart.Combat.Battle
             // D-058: 다른 성벽 쪽이면 마법사가 그 성벽 가운데로 가서 도착하면 쏜다
             if (!WizardReadyAt(SideOfPoint(at), index, at))
             {
-                Notice?.Invoke($"마법사가 {SideNames[WizardSide]} 성벽으로 이동 (약 {wizardDistanceLeft / WizardSpeed:0}초) — 도착하면 {spell.DisplayName}");
+                Notice?.Invoke($"마법사가 {SideNames[WizardSide]} 성벽으로 갑니다 · 닿으면 {spell.DisplayName}");
                 return true;
             }
 
@@ -140,7 +140,7 @@ namespace HumanLastRampart.Combat.Battle
                 fireTick.Add(0f);
                 effectDamage.Add(spell.Damage);
             });
-            Notice?.Invoke(spell.Duration > 0f ? $"불바다! ({spell.Duration:0}초)" : "폭발 준비 — 1초 뒤 터집니다");
+            Notice?.Invoke(spell.Duration > 0f ? $"불바다! {spell.Duration:0}초 동안 탑니다" : "폭발 준비 · 1초 뒤 터집니다");
         }
 
         // BeginFrame에서 (작업이 끝난 뒤) — 재사용 대기, 폭발 대기, 불바다 피해

@@ -140,7 +140,7 @@ namespace HumanLastRampart.Combat.Battle
             if (commanderSide == side)
             {
                 // 같은 성벽: 지휘관도 보고 있다 — 알림만 (W7 가)
-                Notice?.Invoke($"{SideNames[side]}: 적이 돌아오고 있습니다! (약 {enemies})");
+                Notice?.Invoke($"{SideNames[side]} 성벽으로 적 약 {enemies}이 돌아옵니다!");
                 sideAlertUntil[side] = Elapsed + 6f;
                 FlankReports++;
                 return;
@@ -213,7 +213,7 @@ namespace HumanLastRampart.Combat.Battle
                         pair.Reported = true;
                         FlankReports++;
                         sideAlertUntil[side] = Elapsed + 6f;
-                        Notice?.Invoke($"전령: {SideNames[side]}에 적이 돌아오고 있습니다! (무리 {pair.Groups} · 약 {pair.Enemies})");
+                        Notice?.Invoke($"전령 보고: {SideNames[side]} 성벽으로 적 약 {pair.Enemies}이 돌아옵니다!");
                     }
                 }
 
