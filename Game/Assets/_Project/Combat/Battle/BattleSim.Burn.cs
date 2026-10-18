@@ -47,7 +47,7 @@ namespace HumanLastRampart.Combat.Battle
         {
             SpellDef spell = effect.Serial > 0 && effect.SpellIndex >= 0 && effect.SpellIndex < spells.Count ? spells[effect.SpellIndex] : null;
             float multiplier = FireDamageMultiplier;
-            float chance = spell != null ? spell.BurnChance * multiplier : 0f;
+            float chance = spell != null ? BurnChanceOf(spell) * multiplier : 0f;   // 불씨 부적 (K-058)
             var c = new float3(effect.Position.x, 0f, effect.Position.z);
             float radius = effect.Radius;
             int2 minCell = grid.CellOf(c - new float3(radius, 0f, radius));

@@ -28,6 +28,10 @@ namespace HumanLastRampart.Core.CombatContracts
         public int TerrainSeed;                                                // v1.6 초안 (D-077, K-049): 무작위 지형 씨앗 = 진행 데이터 RngSeed
         public List<TerrainWork> TerrainWorks = new List<TerrainWork>();       // v1.6 초안: 이 지형의 지형 손질만
         public List<string> ParticipatingHeroIds = new List<string>();
+        // v1.7 초안 (K-058, D-079): 강화 수치, 용병 무리(분대 모양 — SquadId = 계약 ID, 정원·70% 패배 계산 밖), 이번 전투에 쓰는 소모품
+        public BattleBoosts Boosts = new BattleBoosts();
+        public List<SquadState> Mercenaries = new List<SquadState>();
+        public List<string> ConsumedItemIds = new List<string>();
         public TargetingSettings InitialTargeting = TargetingSettings.CreateDefault();
     }
 }
