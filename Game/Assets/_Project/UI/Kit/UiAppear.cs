@@ -143,6 +143,19 @@ namespace HumanLastRampart.UI
 
         void OnDestroy() => moving.Remove(this);
 
+        // 열리는 중인 판을 그 자리에서 다 열린 모양으로 (시험이 사진 찍기 직전에 부른다 — 프레임을 흘려보내면 전투 시점이 어긋난다)
+        public static void FinishOpening()
+        {
+            moving.RemoveWhere(a => a == null);
+            foreach (UiAppear a in new System.Collections.Generic.List<UiAppear>(moving))
+            {
+                if (a.closing || a.group == null || a.t >= 1f) continue;
+                a.t = 1f;
+                a.Apply();
+                moving.Remove(a);
+            }
+        }
+
         void Apply()
         {
             float e = 1f - (1f - t) * (1f - t);   // 빨리 나와서 부드럽게 멈춤
