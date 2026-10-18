@@ -15,7 +15,7 @@ using UnityEngine.TestTools;
 using UnityEngine.UI;
 
 // 임시 자동 Play 확인 도구 (커밋하지 않음): Boot부터 버튼을 눌러 1회차를 끝까지 진행한다
-public sealed class PlayProbe
+public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe.FullLoop.cs (K-053)
 {
     static readonly string Out = Environment.GetEnvironmentVariable("HLR_PLAY_OUT") ?? "playprobe";
     StringBuilder log;
