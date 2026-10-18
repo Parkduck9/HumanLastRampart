@@ -58,6 +58,8 @@ namespace HumanLastRampart.Combat.Battle
         readonly List<(GraphicsBuffer buffer, MaterialPropertyBlock block, int start, int count)> runnerDraws =
             new List<(GraphicsBuffer, MaterialPropertyBlock, int, int)>();
         readonly GraphicsBuffer runnerBuffer;   // 전체 (지도 점)
+        bool soldierMapStale = true;            // 지도 점 버퍼(soldierBuffer·runnerBuffer)를 다시 올려야 함 (K-061)
+        readonly float[] wallRatioShown = { -1f, -1f, -1f, -1f };   // 마지막으로 칠한 성벽 체력 비율 (K-061)
         readonly MaterialPropertyBlock mapRunnerBlock;
         readonly BattlePropView props;          // 성벽 난간·대포 그림
         readonly BattleWorldView world;         // 성벽·포탑 3D 목업 (K-001)
@@ -471,11 +473,18 @@ namespace HumanLastRampart.Combat.Battle
             if (sim.SoldiersDirty)
             {
                 sim.RefreshSoldierInstances();
-                soldierBuffer.SetData(sim.SoldierInstances);
                 foreach (var (buffer, _, start, count) in soldierDraws) buffer.SetData(sim.SoldierInstances, start, 0, count);
-                runnerBuffer.SetData(sim.RunnerInstances);
                 foreach (var (buffer, _, start, count) in runnerDraws) buffer.SetData(sim.RunnerInstances, start, 0, count);
+                soldierMapStale = true;
                 sim.SoldiersDirty = false;
+            }
+
+            // 지도 점용 전체 병사·달리는 병사 버퍼는 지도를 볼 때만 올린다 (K-061: 전투 화면에서 매 프레임 병사 수 × 2만큼 헛올림)
+            if (mapMode && soldierMapStale)
+            {
+                soldierBuffer.SetData(sim.SoldierInstances);
+                runnerBuffer.SetData(sim.RunnerInstances);
+                soldierMapStale = false;
             }
 
             if (sim.SoldierCount > 0)
@@ -551,6 +560,8 @@ namespace HumanLastRampart.Combat.Battle
             {
                 BattleSim.SideStatus status = sim.Sides[side];
                 float ratio = status.WallMaxHp > 0 ? Mathf.Clamp01((float)status.WallHp / status.WallMaxHp) : 1f;
+                if (ratio == wallRatioShown[side]) continue;   // 바뀔 때만 (K-061: 재질 값을 매 프레임 넣지 않게)
+                wallRatioShown[side] = ratio;
                 walls[side].material.color = Color.Lerp(new Color(0.75f, 0.2f, 0.15f), new Color(0.72f, 0.7f, 0.66f), ratio);
                 world?.SetWallHealth(side, ratio);   // 질감 판(통로·바깥면)에도 같은 붉은 기
             }
@@ -608,8 +619,9 @@ namespace HumanLastRampart.Combat.Battle
         {
             IReadOnlyList<BattleSim.SpellEffect> list = sim.Effects;
             int discs = 0, flashes = 0;
-            foreach (BattleSim.SpellEffect e in list)
+            for (int i = 0; i < list.Count; i++)   // 인덱스로 (K-061: 인터페이스 foreach는 매 프레임 열거자 할당)
             {
+                BattleSim.SpellEffect e = list[i];
                 if (!e.Fire && !e.Pending && effectArt != null && effectArt.HasBurstArt) continue;   // 터짐은 도트 그림으로 (K-015). 원판은 그대로
                 if (e.Fire && effectArt != null && effectArt.HasFireArt) continue;   // 불바다는 불 그림만 — 바닥 빨간 원판 빼기 (K-036, 사용자 피드백 12-b). 지도에는 주황 원이 남는다
                 if (e.Fire || e.Pending)
@@ -737,8 +749,10 @@ namespace HumanLastRampart.Combat.Battle
             if (sim.WizardPresent) Add(sim.WizardFeet, new Color(0.75f, 0.45f, 1f), dot * 1.8f);
 
             // 마법 효과: 불바다(주황 원), 터질 폭발(노랑 원)
-            foreach (BattleSim.SpellEffect e in sim.Effects)
+            IReadOnlyList<BattleSim.SpellEffect> effects = sim.Effects;
+            for (int i = 0; i < effects.Count; i++)
             {
+                BattleSim.SpellEffect e = effects[i];
                 if (e.Fire) Ring(e.Position, e.Radius, new Color(1f, 0.45f, 0.1f), dot * 1.1f, 28);
                 else if (e.Pending) Ring(e.Position, e.Radius, new Color(1f, 0.95f, 0.2f), dot * 1.1f, 28);
             }
@@ -868,8 +882,8 @@ namespace HumanLastRampart.Combat.Battle
                 }
             }
 
-            for (int k = n; k < MarkerCapacity; k++) markers[k] = default;
-            markerBuffer.SetData(markers);
+            // 그리는 수(n)만큼만 올린다 (K-061: 예전엔 2048칸을 지우고 전부 올렸다 — 그리기는 어차피 n개)
+            if (n > 0) markerBuffer.SetData(markers, 0, 0, n);
             if (n > 0) Graphics.DrawMeshInstancedProcedural(quad, 0, mapMaterial, bounds, n, markerBlock);
         }
 
