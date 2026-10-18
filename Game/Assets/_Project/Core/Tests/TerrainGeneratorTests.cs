@@ -59,5 +59,29 @@ namespace HumanLastRampart.Core.Tests
             TerrainLayout other = TerrainGenerator.Generate(terrain, 7, works);
             Assert.AreNotEqual(TerrainCell.EarthWall, other.Cells[other.CellOfTrapCell(terrain, cell)]);
         }
+
+        // K-051: 길은 함정을 놓을 수 있고, 옮기기(옮긴 자리 + 놓은 자리)는 나무를 다른 칸으로 옮긴다
+        [Test]
+        public void PathAndMove_Works()
+        {
+            TerrainDef terrain = Terrain();
+            string from = TrapGrid.CellId(0, 3, 6), to = TrapGrid.CellId(0, 4, 6), path = TrapGrid.CellId(0, 3, 2);
+            var works = new List<TerrainWork>
+            {
+                new TerrainWork { TerrainId = "terrain_1", CellId = from, Kind = TerrainWorkKind.PlacedTrees },   // 먼저 나무를 놓고
+                new TerrainWork { TerrainId = "terrain_1", CellId = from, Kind = TerrainWorkKind.Cleared },       // 옮겨 간 자리
+                new TerrainWork { TerrainId = "terrain_1", CellId = to, Kind = TerrainWorkKind.PlacedTrees },     // 놓은 자리
+                new TerrainWork { TerrainId = "terrain_1", CellId = path, Kind = TerrainWorkKind.Path },
+            };
+            TerrainLayout layout = TerrainGenerator.Generate(terrain, 7, works);
+            int fromCell = layout.CellOfTrapCell(terrain, from), toCell = layout.CellOfTrapCell(terrain, to);
+            Assert.AreEqual(TerrainCell.Free, layout.Cells[fromCell]);
+            Assert.AreEqual(TerrainCell.Trees, layout.Cells[toCell]);
+            Assert.IsFalse(layout.TreeCells.Contains(fromCell));
+            Assert.IsTrue(layout.TreeCells.Contains(toCell));
+            Assert.AreEqual(TerrainCell.Path, layout.Cells[layout.CellOfTrapCell(terrain, path)]);
+            Assert.IsTrue(TrapGrid.IsPlaceable(terrain, layout, path), "길 위에는 함정을 놓을 수 있다");
+            Assert.That(layout.RockCells.Count, Is.GreaterThanOrEqualTo(TerrainRules.RockClustersMin));
+        }
     }
 }

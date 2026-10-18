@@ -983,6 +983,7 @@ namespace HumanLastRampart.Combat.Battle
                 DeployHeight = DeployHeight,
                 LadderSize = PerfLabArt.LadderDrawSize,
                 Burn = eBurn,   // 화상 붉은 깜빡임 (K-035)
+                TerrainHit = eTerrainHit,   // 토벽 때리는 적은 공격 칸 (K-051)
             }.Schedule(n, 256, h);
 
             JobHandle shotDraw = new WriteShotInstancesJob

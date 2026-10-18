@@ -57,8 +57,9 @@ namespace HumanLastRampart.Combat.Battle
             terrainActive = false;
             for (int c = 0; c < cells; c++)
             {
-                if (TerrainCell.Blocks(tCells[c])) terrainActive = true;
+                if (TerrainCell.Blocks(tCells[c]) || tCells[c] == TerrainCell.Path) terrainActive = true;
                 if (tCells[c] == TerrainCell.EarthWall) tWallHp[c] = TerrainRules.EarthWallHp;
+                if (tCells[c] == TerrainCell.Trees) tWallHp[c] = TerrainRules.TreeFallPressure;   // 나무 덩이: 쓰러질 때까지 남은 '적 누적 초' (K-051)
             }
 
             if (!TerrainEnabled) terrainActive = false;
@@ -102,6 +103,7 @@ namespace HumanLastRampart.Combat.Battle
                 WallHp = tWallHp,
                 Dirty = tDirty,
                 Damage = TerrainRules.BreakDamagePerSecond * dt,
+                Push = dt,
             }.Schedule(afterStep);
         }
 
@@ -141,7 +143,7 @@ namespace HumanLastRampart.Combat.Battle
                         int nc = nj * size + ni;
                         if (!Passable(tCells[nc])) continue;
                         if (k >= 4 && (!Passable(tCells[cj * size + ni]) || !Passable(tCells[nj * size + ci]))) continue;
-                        float nd = d + (k >= 4 ? 1.4142f : 1f);
+                        float nd = d + (k >= 4 ? 1.4142f : 1f) * StepCost(tCells[nc]);   // 낸 길은 싸고 잔해는 비싸다 (K-051)
                         if (nd >= cost[nc]) continue;
                         cost[nc] = nd;
                         heap.Push(nc, nd);
@@ -171,6 +173,7 @@ namespace HumanLastRampart.Combat.Battle
         }
 
         static bool Passable(byte kind) => !TerrainCell.Blocks(kind);
+        static float StepCost(byte kind) => kind == TerrainCell.Path ? TerrainRules.PathCost : kind == TerrainCell.FallenTrees ? TerrainRules.DebrisCost : 1f;
         static readonly int[] Dx = { 1, -1, 0, 0, 1, 1, -1, -1 };
         static readonly int[] Dz = { 0, 0, 1, -1, 1, -1, 1, -1 };
 
@@ -189,8 +192,15 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             Mark(terrainLayout.EarthWallCells, new Color(0.55f, 0.36f, 0.18f));
-            Mark(terrainLayout.TreeCells, new Color(0.16f, 0.45f, 0.18f));
+            foreach (int c in terrainLayout.TreeCells)
+            {
+                // 쓰러진 나무 잔해는 누런 갈색 (K-051)
+                Vector2 p = terrainLayout.Center(c);
+                add(new Vector3(p.x, 0f, p.y), tCells[c] == TerrainCell.FallenTrees ? new Color(0.5f, 0.42f, 0.22f) : new Color(0.16f, 0.45f, 0.18f));
+            }
+
             Mark(terrainLayout.RockCells, new Color(0.62f, 0.62f, 0.6f));
+            Mark(terrainLayout.PathCells, new Color(0.72f, 0.6f, 0.42f));
         }
 
         void ReleaseTerrain()
@@ -315,6 +325,11 @@ namespace HumanLastRampart.Combat.Battle
             int ahead = CellOf(position + dir * LookAhead);
             byte hereKind = KindOf(here), aheadKind = KindOf(ahead);
             bool inside = TerrainCell.Blocks(hereKind), blockedAhead = TerrainCell.Blocks(aheadKind);
+            // 나무 덩이에 부딪혀 지나가는 적은 나무를 밀어 쓰러뜨린다 (K-051, D-077 ⑤) — 토벽 때리기와 구별해 음수로 적는다
+            if (aheadKind == TerrainCell.Trees) HitCell[i] = -(ahead + 2);
+            else if (hereKind == TerrainCell.Trees) HitCell[i] = -(here + 2);
+            // 쓰러진 나무 잔해 위는 느리다
+            if (hereKind == TerrainCell.FallenTrees) { straight *= TerrainRules.DebrisSpeed; speed *= TerrainRules.DebrisSpeed; }
 
             byte mode = Mode[i];
             if (mode == Undecided)
@@ -353,8 +368,8 @@ namespace HumanLastRampart.Combat.Battle
         {
             float roll = Roll(i, 0x51u);
             byte mode = roll < TerrainRules.DetourChance ? Detour : roll < TerrainRules.DetourChance + TerrainRules.CrossChance ? Cross : Break;
-            if (kind == TerrainCell.Trees || kind == TerrainCell.Rocks) mode = Detour;   // 나무·바위는 돌아간다 (Q2)
-            if (kind == TerrainCell.Hill && mode == Break) mode = Cross;                 // 언덕은 허물 수 없다 (Q1)
+            if (kind == TerrainCell.Trees || kind == TerrainCell.Rocks) mode = Detour;   // 나무·바위는 돌아간다 (쓰러진 나무 잔해가 되면 지나간다)
+            if (kind == TerrainCell.Hill) mode = roll < TerrainRules.HillDetourChance ? Detour : Cross;   // 사용자 Q1: 언덕은 돌아감 70%·넘음 30%
             if (inside && mode == Detour) mode = Cross;                                  // 이미 막힘 안 — 그대로 넘는다
             if (mode == Detour && (here < 0 || Reach[side * Cells.Length + here] == 0)) mode = Fallback(i, kind);   // 모든 길이 막힘 (D-077 ⑥)
             return mode;
@@ -379,12 +394,29 @@ namespace HumanLastRampart.Combat.Battle
         public NativeArray<float> WallHp;
         public NativeArray<int> Dirty;
         public float Damage;   // 한 마리가 이번 프레임에 주는 피해
+        public float Push;     // 나무 덩이에 부딪힌 한 마리가 이번 프레임에 쌓는 '누적 초' (K-051)
 
         public void Execute()
         {
             for (int i = 0; i < HitCell.Length; i++)
             {
                 int c = HitCell[i];
+                if (c <= -2)
+                {
+                    // 나무 덩이: 많이 부딪히면 쓰러진 나무 잔해가 된다 (길이 열린다)
+                    int tree = -c - 2;
+                    if (Cells[tree] != TerrainCell.Trees) continue;
+                    float left = WallHp[tree] - Push;
+                    WallHp[tree] = left;
+                    if (left <= 0f)
+                    {
+                        Cells[tree] = TerrainCell.FallenTrees;
+                        Dirty[0] = 1;
+                    }
+
+                    continue;
+                }
+
                 if (c < 0 || Cells[c] != TerrainCell.EarthWall) continue;
                 float hp = WallHp[c] - Damage;
                 WallHp[c] = hp;

@@ -978,6 +978,7 @@ namespace HumanLastRampart.Combat.Battle
         public float DeployHeight;      // 오르기 시작 뒤 이 높이(m)까지는 세우기 칸
         public float LadderSize;
         [ReadOnly] public NativeArray<float> Burn;            // 화상 남은 시간 (K-035, BattleSim.Burn.cs)
+        [ReadOnly] public NativeArray<int> TerrainHit;        // 토벽을 때리는 칸 (0 이상이면 때리는 중 — 공격 칸으로, K-051)
         [ReadOnly] public NativeArray<float3> Positions;
         [ReadOnly] public NativeArray<byte> States;
         [ReadOnly] public NativeArray<float> AnimPhases;
@@ -1029,7 +1030,7 @@ namespace HumanLastRampart.Combat.Battle
             }
             else
             {
-                bool attacking = state == EnemyState.AtWall || state == EnemyState.OnWall;
+                bool attacking = state == EnemyState.AtWall || state == EnemyState.OnWall || (state == EnemyState.Walking && TerrainHit[i] >= 0);
                 float fps = attacking ? AttackFps : WalkFps;
                 float cycle = math.floor(math.frac(Time * fps / FramesPerAction + AnimPhases[i]) * FramesPerAction);
                 frame = cycle;
