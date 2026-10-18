@@ -46,6 +46,7 @@ namespace HumanLastRampart.Meta
             Transform layer = source.GetComponentInParent<Canvas>().transform;
             Image dim = Ui.Shade(layer, "Upgrade " + mode);
             shade = dim.gameObject;
+            PrepLedger.Opened(shade);   // 장부는 한 번에 하나
 
             Image sheet = Ui.Panel(dim.transform, "Ledger", UiPanel.Parchment);
             Ui.Place(sheet.rectTransform, new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(1120f, 0f));

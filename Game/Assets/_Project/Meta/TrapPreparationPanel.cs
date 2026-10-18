@@ -55,6 +55,7 @@ namespace HumanLastRampart.Meta
             behind = source.transform.parent.GetComponentInParent<CanvasGroup>();   // 정비 띠 판 (숨긴 단추는 "Actions" 줄 안에 있다)
             if (behind != null) behind.interactable = false;
             shade = Ui.Shade(source.GetComponentInParent<Canvas>().transform, "Trap preparation").gameObject;
+            PrepLedger.Opened(shade);   // 장부는 한 번에 하나
 
             // 오른쪽: 공방 장부
             Image sheet = Ui.Panel(shade.transform, "Trap side", UiPanel.Parchment);

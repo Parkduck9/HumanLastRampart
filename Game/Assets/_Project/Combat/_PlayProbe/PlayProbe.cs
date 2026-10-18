@@ -1742,7 +1742,7 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
     {
         if (SystemInfo.graphicsDeviceType == UnityEngine.Rendering.GraphicsDeviceType.Null) yield break;
         // K-047: 덜 열린 반투명 판이 찍히지 않게 열리는 연출을 바로 끝낸다 (프레임을 기다리면 전투가 흘러 시점 시험이 어긋난다)
-        HumanLastRampart.UI.UiAppear.FinishOpening();
+        HumanLastRampart.UI.UiAppear.FinishAll();   // 닫히던 판도 끝낸다 (K-047: 앞 창이 뒤에 비쳐 찍히던 것)
         var go = new GameObject("PlayProbe Shooter");
         var shooter = go.AddComponent<ProbeShooter>();
         shooter.Path = Path.Combine(Out, $"{++shot:00}_{name}.png");

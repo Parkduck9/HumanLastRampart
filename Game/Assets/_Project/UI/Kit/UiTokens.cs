@@ -9,7 +9,7 @@ namespace HumanLastRampart.UI
         public static readonly Color Paper = Hex(0xe8d9b5);       // 종이 바탕: 지도·보고서·쪽지·대사창
         public static readonly Color PaperShade = Hex(0xc9b48a);  // 종이 안쪽 띠·접힌 그림자
         public static readonly Color Ink = Hex(0x3a2a1e);         // 종이 위 글·선
-        public static readonly Color InkSoft = Hex(0x54402f);     // 종이 위 보조 글 (종이 대비 7:1 — 예전 #6e5842는 4.8:1이라 작은 글이 흐렸다)
+        public static readonly Color InkSoft = Hex(0x463324);     // 종이 위 보조 글 (종이 대비 8.6:1 — Ink에 가깝게. 예전 #6e5842는 4.8:1이라 작은 글이 흐렸다)
         public static readonly Color Wood = Hex(0x3b2a1f);        // 나무 바탕: 명령판·장부·단추
         public static readonly Color WoodLight = Hex(0x5e4430);   // 나무 볼록한 위쪽
         public static readonly Color WoodDark = Hex(0x23170f);    // 나무 아래쪽 그림자

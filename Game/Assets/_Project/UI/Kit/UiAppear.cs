@@ -109,22 +109,7 @@ namespace HumanLastRampart.UI
                 t -= dt / UiTokens.Close;
                 if (t <= 0f)
                 {
-                    t = 0f;
-                    Apply();
-                    closing = false;
-                    rect.anchoredPosition = home;
-                    Action finished = done;
-                    done = null;
-                    if (destroyWhenClosed) Destroy(gameObject);
-                    else
-                    {
-                        group.alpha = 1f;
-                        group.blocksRaycasts = true;
-                        gameObject.SetActive(false);
-                    }
-
-                    moving.Remove(this);
-                    finished?.Invoke();
+                    CompleteClose();
                     return;
                 }
             }
@@ -154,6 +139,42 @@ namespace HumanLastRampart.UI
                 a.Apply();
                 moving.Remove(a);
             }
+        }
+
+        // 닫히던 판을 바로 끝낸다 (지우기·끄기 + 끝 콜백)
+        void CompleteClose()
+        {
+            t = 0f;
+            Apply();
+            closing = false;
+            rect.anchoredPosition = home;
+            Action finished = done;
+            done = null;
+            moving.Remove(this);
+            if (destroyWhenClosed) Destroy(gameObject);
+            else
+            {
+                group.alpha = 1f;
+                group.blocksRaycasts = true;
+                gameObject.SetActive(false);
+            }
+
+            finished?.Invoke();
+        }
+
+        // 이 판이 닫히는 중이면 바로 끝낸다 (새 창이 열릴 때 앞 창이 뒤에 비쳐 겹쳐 보이지 않게)
+        public static void FinishClosing(GameObject go)
+        {
+            if (go != null && go.TryGetComponent(out UiAppear a) && a.closing) a.CompleteClose();
+        }
+
+        // 열리는 판·닫히는 판을 모두 그 자리에서 끝낸 모양으로 (시험이 사진 찍기 직전에 — 프레임을 흘려보내지 않는다)
+        public static void FinishAll()
+        {
+            FinishOpening();
+            moving.RemoveWhere(a => a == null);
+            foreach (UiAppear a in new System.Collections.Generic.List<UiAppear>(moving))
+                if (a.closing) a.CompleteClose();
         }
 
         void Apply()
