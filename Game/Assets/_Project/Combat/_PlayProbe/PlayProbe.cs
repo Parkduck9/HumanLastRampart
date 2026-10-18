@@ -1324,6 +1324,10 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
         {
             HumanLastRampart.Combat.Battle.ProportionTrial.Enabled = false;   // 다른 시험에 남지 않게
             File.WriteAllText(Path.Combine(Out, "proportion_trial.txt"), log.ToString(), new UTF8Encoding(false));
+            Time.captureDeltaTime = 0f;
+        }
+    }
+
     // 메인 설정 창·이어하기 (K-062): 저장은 임시 폴더에서만(사용자 저장을 건드리지 않게), 설정은 끝나면 원래 값으로
     [UnityTest]
     public IEnumerator SettingsAndContinue()

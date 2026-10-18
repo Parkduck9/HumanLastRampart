@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using HumanLastRampart.Core.Settings;
 using HumanLastRampart.UI;
@@ -9,8 +9,8 @@ using UnityEngine.UI;
 namespace HumanLastRampart.Frontend
 {
     // 메인 설정 창 (K-062, P3-X02): 줄마다 버튼 하나 — 누를 때마다 다음 값으로 돌아간다(마우스·키보드 모두).
-    // 값은 GameSettings(PlayerPrefs)에 바로 저장되고 바로 적용된다. 모양은 지금 공용 색(UiStyle)만 쓴 임시 —
-    // K-047 UI 부품(UI/Kit)이 들어오면 그 창·버튼으로 바꾼다 (기능은 이 파일의 줄 목록 그대로)
+    // 값은 GameSettings(PlayerPrefs)에 바로 저장되고 바로 적용된다. 모양은 K-047 UI 부품(양피지 판·나무 단추) —
+    // (기능은 이 파일의 줄 목록 그대로)
     public sealed class SettingsPopup
     {
         readonly GameObject root;
@@ -34,14 +34,13 @@ namespace HumanLastRampart.Frontend
             scaler.referenceResolution = new Vector2(1920, 1080);
             scaler.matchWidthOrHeight = 0.5f;
 
-            var shade = Box(root.transform, "Shade", UiStyle.Shade);
+            var shade = Box(root.transform, "Shade", UiTokens.Night);
             Stretch(shade.rectTransform);
 
-            var panel = Box(root.transform, "Settings", UiStyle.PanelSolid);
+            var panel = Ui.Panel(root.transform, "Settings", UiPanel.Parchment);   // K-047 양피지 판
             var rect = panel.rectTransform;
             rect.anchorMin = rect.anchorMax = new Vector2(0.5f, 0.5f);
             rect.sizeDelta = new Vector2(820, 860);
-            UiStyle.Border(panel);
             var layout = panel.gameObject.AddComponent<VerticalLayoutGroup>();
             layout.padding = new RectOffset(56, 56, 36, 36);
             layout.spacing = 14;
@@ -50,8 +49,8 @@ namespace HumanLastRampart.Frontend
             layout.childForceExpandWidth = true;
             layout.childForceExpandHeight = false;
 
-            Label(panel.transform, "설정", 44, 72, UiStyle.Brass);
-            Label(panel.transform, "누를 때마다 값이 바뀝니다 · 바로 저장", 24, 36, UiStyle.TextDim);
+            Label(panel.transform, "설정", UiTokens.H1, 72, UiTokens.Ink);
+            Label(panel.transform, "누를 때마다 값이 바뀝니다 · 바로 저장", UiTokens.Small, 36, UiTokens.InkSoft);
 
             Row(panel.transform, () => $"소리 크기: {Mathf.RoundToInt(GameSettings.MasterVolume * 100f)}%  (소리는 아직 없음)",
                 () => GameSettings.SetMasterVolume(GameSettings.NextStep(GameSettings.VolumeSteps, GameSettings.MasterVolume)));
@@ -66,8 +65,7 @@ namespace HumanLastRampart.Frontend
             Row(panel.transform, () => "글자 크기: " + FontName(GameSettings.FontScale),
                 () => GameSettings.SetFontScale(GameSettings.NextStep(GameSettings.FontSteps, GameSettings.FontScale)));
             Row(panel.transform, () => "기본값으로", GameSettings.ResetToDefaults);
-            var close = MakeButton(panel.transform, "닫기", Close);
-            UiStyle.SetPrimary(close);
+            MakeButton(panel.transform, "닫기", Close, UiButtonKind.Primary);
 
             GameSettings.Changed += Refresh;
             Refresh();
@@ -81,7 +79,7 @@ namespace HumanLastRampart.Frontend
 
         void Row(Transform parent, Func<string> text, Action click)
         {
-            Button button = MakeButton(parent, text(), () => click());
+            Button button = MakeButton(parent, text(), click);
             if (first == null) first = button;
             rows.Add((button.GetComponentInChildren<Text>(), text));
         }
@@ -132,17 +130,12 @@ namespace HumanLastRampart.Frontend
             return label;
         }
 
-        static Button MakeButton(Transform parent, string text, UnityEngine.Events.UnityAction action)
+        // K-047 UI 부품 단추 (나무, 주 행동만 황동). 열쇠 = 'settings:' + 첫 글자 묶음 — 시험은 열쇠로 찾는다
+        static Button MakeButton(Transform parent, string text, Action action, UiButtonKind kind = UiButtonKind.Normal)
         {
-            var obj = new GameObject("Button " + text, typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(Button), typeof(LayoutElement));
-            obj.transform.SetParent(parent, false);
-            obj.GetComponent<LayoutElement>().preferredHeight = 62;
-            var button = obj.GetComponent<Button>();
-            button.targetGraphic = obj.GetComponent<Image>();
-            UiStyle.StyleButton(button);
-            button.onClick.AddListener(action);
-            var label = Label(obj.transform, text, 27, 62, UiStyle.Body);
-            Stretch(label.rectTransform);
+            Button button = Ui.Button(parent, "settings:" + text, text, action, kind);
+            var layout = button.GetComponent<LayoutElement>() ?? button.gameObject.AddComponent<LayoutElement>();
+            layout.preferredHeight = UiTokens.ButtonHeight;
             return button;
         }
     }

@@ -1,6 +1,6 @@
 {
     "name": "HLR.PlayProbe",
-    "references": ["UnityEngine.TestRunner","UnityEditor.TestRunner","HLR.Core","HLR.App","HLR.Combat","HLR.Meta","HLR.Story","UnityEngine.UI"],
+    "references": ["UnityEngine.TestRunner","UnityEditor.TestRunner","HLR.Core","HLR.App","HLR.Combat","HLR.Meta","HLR.Story","UnityEngine.UI","Unity.Mathematics"],
     "includePlatforms": [],
     "overrideReferences": true,
     "precompiledReferences": ["nunit.framework.dll"],
