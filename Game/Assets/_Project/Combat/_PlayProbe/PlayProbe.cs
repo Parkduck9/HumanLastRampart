@@ -1493,7 +1493,8 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
         }
         entry.SelectCannon(4);
         Assert.IsFalse(entry.AimSelectedCannonAt(new Vector3(0f, 0f, 250f)), "사거리 밖은 거부");
-        Assert.IsTrue(entry.AimSelectedCannonAt(new Vector3(30f, 0f, 20f)), "성 안마당 조준");
+        // 진짜 성 안마당(북쪽 면 안, 성벽 반폭 20m 안). 예전 (30,20)은 동쪽 성벽 밖이라 우회 적이 오면 포격해 시험이 들쑥날쑥했다
+        Assert.IsTrue(entry.AimSelectedCannonAt(new Vector3(2f, 0f, 10f)), "성 안마당 조준");
         for (int i = 0; i < 60; i++) yield return null;
         yield return Capture("cannon_aim_side");
         // K-047 포병판: 줄마다 상태 낱말 칸 "Cannon N State" (포격·대기·자동·병사 없음)
