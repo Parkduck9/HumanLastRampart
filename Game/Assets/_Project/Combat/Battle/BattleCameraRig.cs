@@ -275,6 +275,7 @@ namespace HumanLastRampart.Combat.Battle
 
         public static void Shake(float strength, Vector3 at)
         {
+            if (!HumanLastRampart.Core.Settings.GameSettings.CameraShake) return;   // 설정 창에서 끔 (K-062)
             if (strength <= shakePending) return;
             shakePending = strength;
             shakeAt = at;

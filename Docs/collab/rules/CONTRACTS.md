@@ -1346,3 +1346,30 @@ public interface IScreenContext
    - 언덕 반응: D-078은 '돌아감 70%·넘음 30%', 코드(`BattleSim.Terrain`)는 공통 50/30/20 굴림에서 '부숨'을 '넘음'으로 바꿔 **돌아감 50%·넘음 50%**
    - 나무 쓰러뜨리기: D-078 '지금 넣음' — 코드에서 찾지 못함 (K-051 진행 중인지 확인 필요)
 5. 문서 손질: `CampaignState` 머리 주석은 아직 'C-004 v1~v1.3', `BattleSetup` 머리 주석에는 v1.6 표기가 없다(코드 파일이라 이 카드에서 고치지 않음)
+
+## C-003 v1.4 초안 — 메인 '이어하기' 신호 (K-062)
+- 상태: **초안 — 사용자 승인 필요** (2026-10-19, 작업 카드 K-062, 작성 Claude)
+- `ScreenOutcome`에 `ContinueGame`을 **맨 뒤에** 붙인다. 기존 값·이름은 그대로(C-003 변경 규칙).
+- 메인 화면이 `IScreenContext.Complete(ContinueGame)`으로 보낸다(새 게임과 달리 난이도 없음). 받을 수 있는 화면은 메인뿐이다(`FlowRouter.IsAllowed`).
+- App 순서표: 메인 + ContinueGame → 저장 불러오기(`FlowStep.LoadSave`) → **정비(Prep)**.
+  - 저장을 못 읽으면 오류 안내(D-017 E2)를 띄우고 메인으로 간다.
+- 저장 지우기(`FlowStep.DeleteSave`):
+  - 패배 엔딩 스토리가 끝나 메인으로 갈 때, 마지막 전투 뒤 정비를 마쳐 메인으로 갈 때 지운다.
+  - 도중에 '메인으로'(BackToMainMenu)를 고르면 저장을 남긴다(이어하기 가능).
+
+## C-004 v1.5 초안 — 진행 저장 파일 (K-062)
+- 상태: **초안 — 사용자 승인 필요** (2026-10-19, K-062, 작성 Claude · Core 소유 Claude). CampaignState 필드는 바꾸지 않는다.
+- **언제·어디:**
+  - App이 **정비 화면에 들어올 때마다 자동 저장**한다. 슬롯은 1개다.
+  - 파일은 `Application.persistentDataPath/save/slot1.json`이다. 임시 파일에 쓴 뒤 바꿔 끼운다.
+  - 저장에 실패해도 게임은 계속 간다(경고만).
+- **형식** (`Core/Save/CampaignSave.cs`):
+  - `{ FormatVersion, Contract, SavedAtUtc, BattleNumber, Difficulty, ResumeScreen, NullFields[], Campaign }`
+  - `Campaign`은 CampaignState 전체의 JsonUtility JSON 문자열이다. **필드 목록을 손으로 적지 않고 통째로** 저장하므로, 필드가 늘어도(K-058 등) 따라간다.
+  - `FormatVersion` 1. 이 코드보다 큰 판 번호의 파일은 읽지 않는다.
+  - 불러올 때는 새 `CampaignState`(필드 기본값) 위에 덮어쓴다. 예전 파일에 없는 새 필드는 기본값이 된다.
+  - JsonUtility는 null 객체를 빈 객체로 바꾼다. 그래서 저장 때 null이던 맨 위 객체 필드(예: `ActiveBattleSetup`·`LastBattle`·`NextStory`) 이름을 `NullFields`에 적어 두고, 불러온 뒤 다시 null로 둔다.
+- **진행 데이터에 필드를 더하는 쪽이 지킬 것:** `[Serializable]` 클래스의 공개 필드만 저장된다.
+  - 사전(Dictionary), 속성, null 허용 값 형식(`int?` 등), 다형 참조는 **저장되지 않는다**.
+  - 목록 안이나 깊은 곳의 null 객체는 빈 객체로 돌아온다.
+- 설정(소리·화면 효과·흔들림·전체 화면·글자 크기)은 진행 데이터가 아니다. `Core/Settings/GameSettings`(PlayerPrefs, 이 컴퓨터에 한 벌)이고 계약 밖이다.

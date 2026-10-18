@@ -1240,8 +1240,74 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
         {
             HumanLastRampart.Combat.Battle.ProportionTrial.Enabled = false;   // 다른 시험에 남지 않게
             File.WriteAllText(Path.Combine(Out, "proportion_trial.txt"), log.ToString(), new UTF8Encoding(false));
+    // 메인 설정 창·이어하기 (K-062): 저장은 임시 폴더에서만(사용자 저장을 건드리지 않게), 설정은 끝나면 원래 값으로
+    [UnityTest]
+    public IEnumerator SettingsAndContinue()
+    {
+        Directory.CreateDirectory(Out);
+        log = new StringBuilder();
+        Time.captureDeltaTime = 1f / 20f;
+        string previousFolder = HumanLastRampart.Core.Save.CampaignSave.Folder;
+        string folder = Path.Combine(Path.GetTempPath(), "hlr_probe_save_" + Guid.NewGuid().ToString("N"));
+        HumanLastRampart.Core.Save.CampaignSave.Folder = folder;
+        HumanLastRampart.Core.Settings.GameSettings.Load();
+        bool effects = HumanLastRampart.Core.Settings.GameSettings.ScreenEffects;
+        try
+        {
+            SceneManager.LoadScene("Boot");
+            yield return null;
+            yield return null;
+            yield return WaitScreen(ScreenId.MainMenu, 900);
+            Assert.IsNull(FindReadyPrefix("이어하기"), "저장이 없으면 이어하기 버튼 없음");
+            yield return Capture("main_menu_no_save");
+
+            yield return Click("설정", 300);
+            for (int i = 0; i < 3; i++) yield return null;
+            yield return Capture("settings_popup");
+            yield return ClickPrefix("화면 효과", 60);
+            Assert.AreEqual(!effects, HumanLastRampart.Core.Settings.GameSettings.ScreenEffects, "누르면 바로 바뀐다");
+            yield return Capture("settings_popup_toggled");
+            HumanLastRampart.Core.Settings.GameSettings.SetScreenEffects(effects);
+            yield return Click("닫기", 60);
+            for (int i = 0; i < 3; i++) yield return null;
+            Assert.IsNotNull(FindReady("게임 시작"), "설정을 닫으면 메인 메뉴 입력이 돌아온다");
+
+            // 저장 하나를 만들고 메인을 다시 열면 이어하기 → 정비 화면
+            var campaign = HumanLastRampart.App.Data.CampaignFactory.Create(GameFlow.Instance.Definitions, new NewGameOptions(Difficulty.Realistic), 4321);
+            campaign.BattleNumber = 2;
+            Assert.IsTrue(HumanLastRampart.Core.Save.CampaignSave.Save(campaign, ScreenId.Prep, out string error), error);
+            SceneManager.LoadScene("Boot");
+            yield return null;
+            yield return null;
+            yield return WaitScreen(ScreenId.MainMenu, 900);
+            Assert.IsNotNull(FindReadyPrefix("이어하기"), "저장이 있으면 이어하기 버튼");
+            yield return Capture("main_menu_continue");
+            yield return ClickPrefix("이어하기", 120);
+            yield return WaitScreen(ScreenId.Prep, 900);
+            Assert.AreEqual(2, GameFlow.Instance.Campaign.BattleNumber, "저장한 진행을 불러옴");
+            yield return Capture("prep_after_continue");
+            Note($"이어하기: {GameFlow.Instance.Campaign.BattleNumber}번째 전투 앞 정비, 골드 {GameFlow.Instance.Campaign.Gold}");
+        }
+        finally
+        {
+            HumanLastRampart.Core.Settings.GameSettings.SetScreenEffects(effects);
+            HumanLastRampart.Core.Save.CampaignSave.Folder = previousFolder;
+            if (Directory.Exists(folder)) Directory.Delete(folder, true);
+            File.WriteAllText(Path.Combine(Out, "settings_continue.txt"), log.ToString(), new UTF8Encoding(false));
             Time.captureDeltaTime = 0f;
         }
+    }
+
+    static Button FindReadyPrefix(string prefix)
+    {
+        if (!InputOpen()) return null;
+        foreach (Button b in UnityEngine.Object.FindObjectsByType<Button>(FindObjectsSortMode.None))
+        {
+            if (!b.isActiveAndEnabled || !b.IsInteractable()) continue;
+            Text t = b.GetComponentInChildren<Text>();
+            if (t != null && t.text.StartsWith(prefix)) return b;
+        }
+        return null;
     }
 
     // 2번 지도 (MAP-1): 3단계 사진, 쉬움 시간 정지, 현실 시간 흐름
