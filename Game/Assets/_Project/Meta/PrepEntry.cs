@@ -27,17 +27,25 @@ namespace HumanLastRampart.Meta
             repair = view.AddButton("성벽 수리", () => PreparationPanel.Show(repair, context, session, false));
             recruit = view.AddButton("병력 모집·보충", () => PreparationPanel.Show(recruit, context, session, true));
             trapButton = view.AddButton("함정 구매·설치", () => TrapPreparationPanel.Show(trapButton, context, traps, session));
+            // K-058 (D-079): 상점(영웅 장비 칸·단체 아이템), 병영 안 [병종 훈련]·[용병 고용]
+            Button shop = null, training = null, mercenary = null;
+            shop = view.AddButton("상점", () => UpgradePanel.Show(shop, context, session, UpgradePanel.Mode.Shop));
+            training = view.AddButton("병종 훈련", () => UpgradePanel.Show(training, context, session, UpgradePanel.Mode.Training));
+            mercenary = view.AddButton("용병 고용", () => UpgradePanel.Show(mercenary, context, session, UpgradePanel.Mode.Mercenary));
+            PreparationPanel.OpenTraining = () => training.onClick.Invoke();
+            PreparationPanel.OpenMercenary = () => mercenary.onClick.Invoke();
             var ready = view.AddButton("전투 준비 완료", () => { session.Close(); traps.Close(); Complete(ScreenOutcome.Done); });
             view.MarkPrimary(ready);   // 주된 다음 행동 (D-066)
 
             // D-076 정비 마당: 창은 위쪽 요약 띠로 올리고, 버튼은 숨겨 둔 채(같은 길로 열림) 마당 장소에서 E로 연다
             view.DockTop(1100f, 330f);
-            foreach (Button b in new[] { repair, recruit, trapButton, ready }) ScreenView.HideButton(b);
+            foreach (Button b in new[] { repair, recruit, trapButton, shop, training, mercenary, ready }) ScreenView.HideButton(b);
             bool backdrop = view.SetBackdrop("prep");   // K-027 성 안 마당 배경 (있으면 마당의 하늘·성벽 띠 대신)
             PrepYard yard = PrepYard.Build(view, HeroUnit(context), backdrop);
             yard.AddStation("성벽 수리", 500f, new Color(0.45f, 0.42f, 0.38f), () => repair.onClick.Invoke());
             yard.AddStation("병영 (모집·보충)", 1300f, new Color(0.42f, 0.30f, 0.24f), () => recruit.onClick.Invoke());
             yard.AddStation("함정 공방", 2100f, new Color(0.30f, 0.30f, 0.36f), () => trapButton.onClick.Invoke());
+            yard.AddStation("상점", 2550f, new Color(0.46f, 0.36f, 0.22f), () => shop.onClick.Invoke());   // K-058 보급 상인 (그림은 Codex 요청)
             yard.AddStation("성벽 계단 (다음 전투)", 3000f, new Color(0.40f, 0.38f, 0.30f), () => yard.AskNextBattle(() => ready.onClick.Invoke()));
             var lifetime = repair.GetComponentInParent<UnityEngine.Canvas>().gameObject.AddComponent<PreparationSessionLifetime>();
             lifetime.Session = session; lifetime.Traps = traps;

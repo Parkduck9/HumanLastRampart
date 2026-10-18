@@ -144,6 +144,26 @@ namespace HumanLastRampart.App.Data
                 if (trap.ShopStockStart < 0 || trap.ShopStockPerPrep < 0 || trap.ShopStockMax < trap.ShopStockStart) errors.Add($"{trap.Id}: 상점 재고 값이 잘못됨 (시작·보충 0 이상, 최대 ≥ 시작)");
             }
 
+            // 강화·상점·용병 (K-058, D-079)
+            foreach (ItemDef item in All<ItemDef>())
+            {
+                if (item.Price < 0) errors.Add($"{item.Id}: 값이 음수");
+                foreach (UpgradeEffect effect in item.Effects)
+                    if (UpgradeEffect.IsUnitStat(effect.Stat)) Require<UnitDef>(item.Id, "효과 병종", effect.UnitDefId);
+            }
+
+            foreach (TrainingDef training in All<TrainingDef>())
+            {
+                Require<UnitDef>(training.Id, "병종", training.UnitDefId);
+                if (training.Level < 1 || training.Price < 0) errors.Add($"{training.Id}: 단계는 1 이상, 값은 0 이상");
+            }
+
+            foreach (MercenaryDef merc in All<MercenaryDef>())
+            {
+                Require<UnitDef>(merc.Id, "병종", merc.UnitDefId);
+                if (merc.ContractCost < 0 || merc.Wage < 0 || merc.PerWallCap <= 0) errors.Add($"{merc.Id}: 계약금·급료는 0 이상, 성벽 정원은 1 이상");
+            }
+
             foreach (TerrainDef terrain in All<TerrainDef>())
             {
                 if (terrain.TrapCellSize <= 0f || terrain.TrapNear < 0f || terrain.TrapFar <= terrain.TrapNear || terrain.TrapFar > terrain.FieldSize - terrain.CastleHalfSize)

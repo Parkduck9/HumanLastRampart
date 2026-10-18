@@ -1346,3 +1346,16 @@ public interface IScreenContext
    - 언덕 반응: D-078은 '돌아감 70%·넘음 30%', 코드(`BattleSim.Terrain`)는 공통 50/30/20 굴림에서 '부숨'을 '넘음'으로 바꿔 **돌아감 50%·넘음 50%**
    - 나무 쓰러뜨리기: D-078 '지금 넣음' — 코드에서 찾지 못함 (K-051 진행 중인지 확인 필요)
 5. 문서 손질: `CampaignState` 머리 주석은 아직 'C-004 v1~v1.3', `BattleSetup` 머리 주석에는 v1.6 표기가 없다(코드 파일이라 이 카드에서 고치지 않음)
+
+## C-004 v1.5 · C-005 v1.7 · C-006 v1.3 · C-010 v1.11 초안 — 강화·상점·용병 (K-058, D-079)
+- 정의 (C-010 v1.11, `Data/Meta/` → MetaCatalog):
+  - `ItemDef` 확장 — `slot`(Group·HeroTool·HeroBadge·WizardStaff·WizardCharm), `consumable`(한 전투), `perWall`(성벽 하나에 붙음), `maxOwned`, `shopOrder`, `List<UpgradeEffect> effects`. 품목 11개 (`Items/`)
+  - `TrainingDef` — `unitDefId`, `level`(1부터 차례로), `price`, `effects` (`Training/`, 3병종 × 3단계). 효과는 쌓인다
+  - `MercenaryDef` — `unitDefId`, `contractCost`(1명), `wage`(1명·전투마다), `perWallCap`, `eliteLevel`(훈련 단계 상당) (`Mercenaries/`)
+  - `UpgradeEffect { UpgradeStat Stat; float Value; string UnitDefId }` — 배율 종류는 ×(1+값), 더하기 종류(반경·초·확률·명중·사거리·회복)는 +값
+- 진행 데이터 (C-004 v1.5): `Items: List<OwnedItem{ItemId, Count, EquippedBy, WallId}>`, `Training: List<TrainingState{UnitDefId, Level}>`, `Mercenaries: List<MercenaryContract{ContractId "merc_", MercenaryDefId, WallId, Count}>`
+  - 바꾸는 쪽: Meta.Prep(구매·장착·훈련·고용·해고, 규칙은 `Core.Upgrades.UpgradeRules`), App(전투 준비 직전 `PayWages` — 못 주는 계약은 떠남), Meta.Result(승리 반영 때 용병 손실·소모품 1개씩·군의관 회복)
+- 전투 준비 (C-005 v1.7): `Boosts: BattleBoosts`(App이 `UpgradeRules.ComputeBoosts`로 계산 — 끼운 영웅 아이템(살아 있는 영웅만)·단체 아이템·훈련·성벽 아이템), `Mercenaries: List<SquadState>`(SquadId = 계약 ID, 그 성벽 가운데 분대 지점), `ConsumedItemIds`
+  - Combat은 정의를 다시 찾지 않고 수치만 쓴다. 용병은 성벽 병력(70% 손실 패배)·묶음 이동에서 빠진다
+- 전투 결과 (C-006 v1.3): `MercenaryLosses: List<SquadLoss>` — 분대 손실(`SquadLosses`)과 섞지 않는다
+- 승인 필요: 위 필드 이름·소유, 군의관 회복 반올림(분대마다 반올림), 급료를 '전투 준비 직전 App'에서 빼는 시점

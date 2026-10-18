@@ -25,6 +25,9 @@ namespace HumanLastRampart.Meta
         string message;
         PreparationTransactions.Quote quote;
 
+        // 병영 안 탭 (K-058): PrepEntry가 [병종 훈련]·[용병 고용] 여는 길을 넣어 둔다
+        internal static Action OpenTraining, OpenMercenary;
+
         public static void Show(Button source, IScreenContext context, PreparationTransactions session, bool recruit)
         {
             if (source == null || !source.IsInteractable()) return;
@@ -69,6 +72,8 @@ namespace HumanLastRampart.Meta
             { wallIndex = (wallIndex+1)%4; postIndex = unitIndex = 0; Changed(); });
             if (recruit)
             {
+                if (OpenTraining != null) AddButton("병종 훈련", () => { Close(); OpenTraining(); });
+                if (OpenMercenary != null) AddButton("용병 고용", () => { Close(); OpenMercenary(); });
                 var posts = new List<PostDef>();
                 foreach (var p in context.Definitions.All<PostDef>()) if (p.WallId == wallId) posts.Add(p);
                 posts.Sort((a,b) => string.CompareOrdinal(a.Id,b.Id));
