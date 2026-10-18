@@ -1,4 +1,5 @@
 using HumanLastRampart.Core.CombatContracts;
+using HumanLastRampart.Core.Settings;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -165,9 +166,11 @@ namespace HumanLastRampart.Combat.Render
         // 켜고 끔이 바뀌었을 수 있으니 매 프레임 불러도 된다
         public void Refresh()
         {
-            bool on = Enabled && !mapMode;
+            // 설정 창(K-062): 화면 효과 끔이면 G 키 끔과 같다. 미니어처 흐림 세기는 흐림 반경에만 곱한다(빛줄기는 그대로)
+            bool on = Enabled && GameSettings.ScreenEffects && !mapMode;
             volume.weight = on ? 1f : 0f;
             TiltShiftFeature.Strength = on ? 1f : 0f;   // 지도에서는 흐림·빛줄기 끔
+            TiltShiftFeature.MaxRadiusPixels = TiltRadius * tiltScale * GameSettings.TiltStrength;
             // 2단계: 빛 받는 캐릭터·그림자. 지도에서도 꺼 둔다(지도는 점만)
             LitActive = Enabled;
             Shader.SetGlobalFloat(SpriteLitId, LitActive ? 1f : 0f);

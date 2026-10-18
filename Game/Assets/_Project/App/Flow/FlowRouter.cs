@@ -20,6 +20,8 @@ namespace HumanLastRampart.App.Flow
         public bool PrepareBattle;      // 전투 준비 정보 만들기
         public bool AdvanceBattle;      // 승리: 전투 번호 +1 (C-006)
         public bool QueueDefeatEnding;  // 패배: 패배 엔딩 스토리 요청 (D-014)
+        public bool LoadSave;           // 이어하기: 저장한 진행을 불러온 뒤 연다 (K-062)
+        public bool DeleteSave;         // 판이 끝남(패배 엔딩·마지막 전투 뒤): 저장 지움 (K-062)
 
         public static FlowStep Open(ScreenId screen) => new FlowStep { Action = FlowAction.OpenScreen, Screen = screen };
         public static FlowStep ToMainMenu() => new FlowStep { Action = FlowAction.OpenScreen, Screen = ScreenId.MainMenu, DiscardCampaign = true };
@@ -56,11 +58,19 @@ namespace HumanLastRampart.App.Flow
                         return step;
                     }
 
+                    if (outcome == ScreenOutcome.ContinueGame)
+                    {
+                        // 이어하기 (K-062): 저장은 정비 화면에 들어올 때만 하므로 정비부터
+                        FlowStep resume = FlowStep.Open(ScreenId.Prep);
+                        resume.LoadSave = true;
+                        return resume;
+                    }
+
                     return outcome == ScreenOutcome.QuitGame ? new FlowStep { Action = FlowAction.Quit } : FlowStep.Stay();
 
                 case ScreenId.Story:
                     if (outcome != ScreenOutcome.Done) return FlowStep.Stay();
-                    if (state.StoryIsDefeatEnding) return FlowStep.ToMainMenu();   // 패배 엔딩 → 처음부터
+                    if (state.StoryIsDefeatEnding) return EndOfRun();   // 패배 엔딩 → 처음부터 (저장 지움)
                     return PrepareBattle();
 
                 case ScreenId.Battle:
@@ -84,7 +94,7 @@ namespace HumanLastRampart.App.Flow
 
                 case ScreenId.Prep:
                     if (outcome != ScreenOutcome.Done) return FlowStep.Stay();
-                    return state.HasNextBattle ? PrepareBattle() : FlowStep.ToMainMenu();   // 4번째 뒤 메인
+                    return state.HasNextBattle ? PrepareBattle() : EndOfRun();   // 4번째 뒤 메인 (저장 지움)
 
                 default:
                     return FlowStep.Stay();
@@ -96,10 +106,18 @@ namespace HumanLastRampart.App.Flow
         {
             if (screen == ScreenId.MainMenu)
             {
-                return viaNewGame ? outcome == ScreenOutcome.StartNewGame : outcome == ScreenOutcome.QuitGame;
+                return viaNewGame ? outcome == ScreenOutcome.StartNewGame : outcome == ScreenOutcome.QuitGame || outcome == ScreenOutcome.ContinueGame;
             }
 
             return !viaNewGame && (outcome == ScreenOutcome.Done || outcome == ScreenOutcome.BackToMainMenu);
+        }
+
+        // 한 판이 끝남: 메인으로, 진행 버리고 저장도 지운다 (K-062)
+        static FlowStep EndOfRun()
+        {
+            FlowStep step = FlowStep.ToMainMenu();
+            step.DeleteSave = true;
+            return step;
         }
 
         static FlowStep PrepareBattle()
