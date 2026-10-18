@@ -92,7 +92,7 @@ namespace HumanLastRampart.Combat.Battle
             if (instant)
             {
                 ArriveSide(index, targetSide, spots);
-                Notice?.Invoke($"{squad.UnitName} {squad.Alive}명: {SideNames[from]} → {SideNames[targetSide]}");
+                Notice?.Invoke($"{squad.UnitName} {squad.Alive}명이 {SideNames[from]}에서 {SideNames[targetSide]}으로");
                 return true;
             }
 
@@ -122,7 +122,7 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             groupMoves.Add(move);
-            Notice?.Invoke($"{squad.UnitName} {squad.Alive}명이 {SideNames[targetSide]}으로 출발 (약 {longest / MessengerSpeed():0}초)");
+            Notice?.Invoke($"{squad.UnitName} {squad.Alive}명이 {SideNames[targetSide]}으로 달려갑니다 · 약 {longest / MessengerSpeed():0}초");
             return true;
         }
 
@@ -158,7 +158,7 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             if (moved == 0) Notice?.Invoke($"{SideNames[fromSide]}: 최소 {KeepPerWall}명을 남기면 더 보낼 병력이 없습니다");
-            else Notice?.Invoke($"{SideNames[fromSide]} → {SideNames[toSide]}: {moved}명 보냄 ({movable}명 남김)");
+            else Notice?.Invoke($"{SideNames[fromSide]}에서 {SideNames[toSide]}으로 {moved}명 보냄 · {movable}명 지킴");
             return moved;
         }
 

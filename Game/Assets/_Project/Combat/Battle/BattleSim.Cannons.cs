@@ -94,7 +94,7 @@ namespace HumanLastRampart.Combat.Battle
             float dx = point.x - from.x, dz = point.z - from.z;
             if (dx * dx + dz * dz > range * range)
             {
-                reason = $"{SideNames[side]} 대포 {number}: 사거리({range:0}m) 밖입니다";
+                reason = $"{SideNames[side]} {number}번 대포가 닿지 않습니다 · 사거리 {range:0}m";
                 return false;
             }
 
@@ -145,7 +145,7 @@ namespace HumanLastRampart.Combat.Battle
                 sHasAim[soldier] = 1;
                 sIdle[soldier] = 0;
             });
-            Notice?.Invoke($"{SideNames[side]} 대포 {number}: 조준점 지정");
+            // K-047 S-23: 조준 결과는 지도 위 조준 표시와 포병판 줄이 보여 준다 (알림 글 없음)
             return true;
         }
 
@@ -187,7 +187,7 @@ namespace HumanLastRampart.Combat.Battle
                 sHasAim[soldier] = 0;
                 sIdle[soldier] = 0;
             });
-            Notice?.Invoke($"{SideNames[side]} 대포 {number}: 조준 해제 (밀집한 곳 자동)");
+            // K-047 S-23: 조준 해제도 포병판 줄(자동)로 보인다
         }
     }
 }

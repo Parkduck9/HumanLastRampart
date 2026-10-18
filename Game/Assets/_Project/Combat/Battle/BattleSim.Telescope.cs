@@ -66,7 +66,7 @@ namespace HumanLastRampart.Combat.Battle
                         groupSpotted[g] = 1;
                         SpottedGroupCount++;
                         GroupSummary summary = Summarize(g);
-                        Notice?.Invoke($"망원경: {SideNames[summary.Side]} 무리 확인 — 약 {summary.Alive}{(summary.Special > 0 ? $" · 특수 적 {summary.Special}" : "")}");
+                        Notice?.Invoke($"망원경: {SideNames[summary.Side]} 무리 약 {summary.Alive}{(summary.Special > 0 ? $" · 특수 적 {summary.Special}" : "")}");
                     }
                 }
             }

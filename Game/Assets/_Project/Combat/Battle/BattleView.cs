@@ -729,32 +729,32 @@ namespace HumanLastRampart.Combat.Battle
             // 망원경 렌즈 (하늘색 원, MAP-5)
             if (lens.HasValue)
             {
-                Ring(lens.Value, BattleSim.TelescopeRadius, new Color(0.4f, 0.9f, 1f), dot * 1.2f, 48);
-                Ring(lens.Value, BattleSim.TelescopeRadius * 0.96f, new Color(0.4f, 0.9f, 1f), dot * 0.8f, 48);
+                Ring(lens.Value, BattleSim.TelescopeRadius, MapBrassLight, dot * 1.2f, 64);   // K-047 색 역할: 망원경 = 황동 빛
             }
 
             // 마법사 위치 (보라 점, D-058)
-            if (sim.WizardPresent) Add(sim.WizardFeet, new Color(0.75f, 0.45f, 1f), dot * 1.8f);
+            if (sim.WizardPresent) Add(sim.WizardFeet, MapBrass, dot * 1.8f);
 
             // 마법 효과: 불바다(주황 원), 터질 폭발(노랑 원)
             foreach (BattleSim.SpellEffect e in sim.Effects)
             {
-                if (e.Fire) Ring(e.Position, e.Radius, new Color(1f, 0.45f, 0.1f), dot * 1.1f, 28);
-                else if (e.Pending) Ring(e.Position, e.Radius, new Color(1f, 0.95f, 0.2f), dot * 1.1f, 28);
+                if (e.Fire) Ring(e.Position, e.Radius, MapFire, dot * 1.1f, 36);
+                else if (e.Pending) Ring(e.Position, e.Radius, MapBlast, dot * 1.1f, 36);
             }
 
             // 마법을 고른 동안: 쓸 수 있는 범위(성벽에서 150m) 네모 점선
             if (showSpellRange)
             {
                 float edge = sim.CastleHalf + BattleSim.SpellCastRange;
-                for (int k = -20; k <= 20; k++)
+                // K-047 S-10: 점선 대신 이어진 한 줄 (점 간격 ≈ 점 크기)
+                int edgeSteps = Mathf.Clamp(Mathf.CeilToInt(edge / Mathf.Max(0.5f, dot * 0.8f)), 20, 160);
+                for (int k = -edgeSteps; k <= edgeSteps; k++)
                 {
-                    float t = k / 20f * edge;
-                    Color c = new Color(0.75f, 0.5f, 1f);
-                    Add(new Vector3(t, 0f, edge), c, dot * 0.6f);
-                    Add(new Vector3(t, 0f, -edge), c, dot * 0.6f);
-                    Add(new Vector3(edge, 0f, t), c, dot * 0.6f);
-                    Add(new Vector3(-edge, 0f, t), c, dot * 0.6f);
+                    float t = (float)k / edgeSteps * edge;
+                    Add(new Vector3(t, 0f, edge), MapBrassLight, dot * 0.8f);
+                    Add(new Vector3(t, 0f, -edge), MapBrassLight, dot * 0.8f);
+                    Add(new Vector3(edge, 0f, t), MapBrassLight, dot * 0.8f);
+                    Add(new Vector3(-edge, 0f, t), MapBrassLight, dot * 0.8f);
                 }
             }
 
@@ -766,7 +766,7 @@ namespace HumanLastRampart.Combat.Battle
                 Vector3 at = spellPreview.Value;
                 float fromWalls = Mathf.Max(Mathf.Abs(at.x), Mathf.Abs(at.z)) - sim.CastleHalf;
                 bool usable = fromWalls <= BattleSim.SpellCastRange && spell.Ready;
-                Color c = !usable ? new Color(0.55f, 0.55f, 0.58f) : spell.IsFire ? new Color(1f, 0.45f, 0.1f) : new Color(1f, 0.95f, 0.2f);
+                Color c = !usable ? new Color(0.55f, 0.55f, 0.58f) : spell.IsFire ? MapFire : MapBlast;
                 int dots = Mathf.Clamp(Mathf.RoundToInt(spell.Radius * 2.5f), 24, 64);
                 Ring(at, spell.Radius, c, dot * 1.1f, dots);
                 Ring(at, spell.Radius * 0.96f, c, dot * 0.6f, dots);
@@ -822,40 +822,24 @@ namespace HumanLastRampart.Combat.Battle
                 if (c.Side == selectedSide)
                 {
                     // 사거리 원은 칠 수 있는 들판 쪽(K-042: 자기 들판 + 모서리 2문만 옆 들판)만 — 맞은편·닿지 않는 옆 들판 쪽 호는 그리지 않는다
-                    const int ringDots = 72;
+                    // K-047 S-10: 고른 대포는 점 수백 개로 구역을 채우지 않고, 이어진 황동 윤곽선 하나만
+                    int ringDots = selected ? Mathf.Clamp(Mathf.CeilToInt(c.Range * 2f * Mathf.PI / Mathf.Max(0.5f, dot * 0.7f)), 72, 400) : 72;
                     for (int k = 0; k < ringDots; k++)
                     {
                         float a = k * Mathf.PI * 2f / ringDots;
                         Vector3 p = c.Position + new Vector3(Mathf.Cos(a), 0f, Mathf.Sin(a)) * c.Range;
                         if (!CannonReaches(c, p)) continue;
-                        Add(p, selected ? new Color(1f, 0.9f, 0.3f) : new Color(0.8f, 0.8f, 0.8f), dot * (selected ? 0.7f : 0.45f));
-                    }
-
-                    // 고른 대포: 쏠 수 있는 구역을 옅은 점 격자로 채운다 (성 안은 빼고)
-                    if (selected)
-                    {
-                        const float step = 5f;
-                        int steps = Mathf.CeilToInt(c.Range / step);
-                        for (int gz = -steps; gz <= steps; gz++)
-                        {
-                            for (int gx = -steps; gx <= steps; gx++)
-                            {
-                                Vector3 p = c.Position + new Vector3(gx * step, 0f, gz * step);
-                                if (Mathf.Max(Mathf.Abs(p.x), Mathf.Abs(p.z)) < sim.CastleHalf + 1f) continue;
-                                if ((p - c.Position).sqrMagnitude > c.Range * c.Range || !CannonReaches(c, p)) continue;
-                                Add(p, new Color(1f, 0.85f, 0.35f), dot * 0.35f);
-                            }
-                        }
+                        Add(p, selected ? MapBrassLight : new Color(0.8f, 0.8f, 0.8f), dot * (selected ? 0.8f : 0.45f));
                     }
                 }
 
-                Add(c.Position, selected ? new Color(1f, 0.9f, 0.2f) : Color.white, dot * (selected ? 2.4f : 1.7f));
+                Add(c.Position, selected ? MapBrassLight : Color.white, dot * (selected ? 2.4f : 1.7f));
                 // 불붙이는 중 (K-046): 대포 점 위에 깜빡이는 주황 불씨 — 곧 발사
                 if (c.Igniting && Mathf.Repeat(Time.unscaledTime, 0.3f) < 0.18f)
-                    Add(c.Position, new Color(1f, 0.5f, 0.05f), dot * 1.1f);
+                    Add(c.Position, MapFire, dot * 1.1f);
                 if (c.HasAim)
                 {
-                    Color aimColor = c.Idle ? new Color(0.6f, 0.6f, 0.6f) : new Color(1f, 0.2f, 0.2f);
+                    Color aimColor = c.Idle ? new Color(0.6f, 0.6f, 0.6f) : MapDanger;
                     Add(c.Aim, aimColor, dot * 2.2f);
                     for (int k = 0; k < 12; k++)
                     {
@@ -869,6 +853,11 @@ namespace HumanLastRampart.Combat.Battle
             markerBuffer.SetData(markers);
             if (n > 0) Graphics.DrawMeshInstancedProcedural(quad, 0, mapMaterial, bounds, n, markerBlock);
         }
+
+        // 지도 표시 색 (K-047 색 역할 표 = UiTokens): 황동 = 고름·범위, 불·폭발 = 그 마법의 빛, 위험 = 조준점
+        static readonly Color MapBrass = HumanLastRampart.UI.UiTokens.Brass, MapBrassLight = HumanLastRampart.UI.UiTokens.BrassLight;
+        static readonly Color MapFire = HumanLastRampart.UI.UiTokens.Fire, MapBlast = HumanLastRampart.UI.UiTokens.Blast;
+        static readonly Color MapDanger = HumanLastRampart.UI.UiTokens.DangerLight;
 
         // 대포가 그 지점의 들판 면을 칠 수 있는가 (BattleSim.CannonCanReach와 같은 규칙, 사거리는 부르는 쪽이 본다)
         static bool CannonReaches(BattleSim.CannonInfo c, Vector3 p) =>
