@@ -109,11 +109,22 @@ namespace HumanLastRampart.Combat.Battle
 
         // 흐름 지도: 면마다 성벽 앞(10m 안, 성벽 폭) 칸에서 거꾸로 퍼져 나가는 가장 짧은 길 (8방향, 막힌 칸은 못 지나감).
         // 칸마다 '다음에 갈 이웃 칸' 방향을 저장한다. 대각선은 양옆 두 칸이 모두 열려 있을 때만 (모서리 끼임 방지)
+        // 계산용 배열은 한 번만 만들어 다시 쓴다 (K-061: 토벽·나무가 무너질 때마다 칸 수 × 8 힙 등 약 0.7MB를 새로 만들어
+        // 불바다·폭발 순간 프레임 할당이 806KB까지 튀었다). 결과는 같다 — 비용은 면마다 처음부터 다시 채우고 힙은 비운다
+        float[] flowCost;
+        MinHeap flowHeap;
+
         void BuildFlow()
         {
             int size = terrainLayout.Size, cells = size * size;
-            var cost = new float[cells];
-            var heap = new MinHeap(cells);
+            if (flowCost == null || flowCost.Length != cells)
+            {
+                flowCost = new float[cells];
+                flowHeap = new MinHeap(cells);
+            }
+
+            float[] cost = flowCost;
+            MinHeap heap = flowHeap;
             for (int side = 0; side < 4; side++)
             {
                 float3 n = WallGeometry.Outward(side), r = WallGeometry.Right(side);
