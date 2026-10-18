@@ -34,6 +34,9 @@ namespace HumanLastRampart.Meta
         string reason;
         string done;   // 방금 확정한 결과 (다시 고르기 전까지 같은 견적은 확정할 수 없다)
 
+        // 병영 안 탭 (K-058): PrepEntry가 [병종 훈련]·[용병 고용] 여는 길을 넣어 둔다
+        internal static Action OpenTraining, OpenMercenary;
+
         public static void Show(Button source, IScreenContext context, PreparationTransactions session, bool recruit)
         {
             if (source == null || !source.IsInteractable()) return;
@@ -65,6 +68,11 @@ namespace HumanLastRampart.Meta
             Ui.Size(head, -1f, 48f);
             Text title = Ui.Label(head.transform, "Title", recruit ? "병영" : "성벽 수리", UiTokens.H2, UiTokens.Ink, TextAnchor.MiddleLeft, true);
             Ui.Size(title, 0f, 48f, true);
+            if (recruit)   // 병영 안 다른 일 (K-058): 훈련·용병 — 이 장부를 닫고 그 장부를 연다
+            {
+                if (OpenTraining != null) Ui.Size(Ui.Button(head.transform, "병영:훈련", "병종 훈련", () => { Close(); OpenTraining(); }, UiButtonKind.Tab), 176f, 48f);
+                if (OpenMercenary != null) Ui.Size(Ui.Button(head.transform, "병영:용병", "용병 고용", () => { Close(); OpenMercenary(); }, UiButtonKind.Tab), 176f, 48f);
+            }
             if (Ui.HudIcon(head.transform, "Gold Icon", "Icons/stat_gold", 32f) == null) Ui.Size(Ui.Label(head.transform, "Gold Word", "골드", UiTokens.Small, UiTokens.InkSoft), 44f, 48f);
             gold = Ui.Label(head.transform, "Gold", "", UiTokens.H2, UiTokens.Ink, TextAnchor.MiddleLeft, true);
             Ui.Size(gold, 136f, 48f);

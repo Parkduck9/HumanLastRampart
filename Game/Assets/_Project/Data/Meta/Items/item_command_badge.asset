@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1979e1d39f0a463e84316a2ea467adf9, type: 3}
+  m_Name: item_command_badge
+  m_EditorClassIdentifier: 
+  id: item_command_badge
+  displayName: 지휘 휘장
+  price: 600
+  description: 주인공이 선 성벽 병사가 더 빨리 쏜다
+  slot: 2
+  consumable: 0
+  perWall: 0
+  maxOwned: 1
+  shopOrder: 6
+  effects:
+  - Stat: 2
+    Value: -0.1
+    UnitDefId: 

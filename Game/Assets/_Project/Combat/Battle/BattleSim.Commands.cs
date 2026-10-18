@@ -144,7 +144,7 @@ namespace HumanLastRampart.Combat.Battle
             {
                 if (other == targetSide || other == fromSide) continue;
                 bool otherOpposite = (targetSide + 2) % 4 == other;
-                float misheard = (rules != null ? (otherOpposite ? rules.ShoutMisheardOpposite : rules.ShoutMisheardAdjacent) : (otherOpposite ? 0.3f : 0.15f)) + bonus;
+                float misheard = ((rules != null ? (otherOpposite ? rules.ShoutMisheardOpposite : rules.ShoutMisheardAdjacent) : (otherOpposite ? 0.3f : 0.15f)) + bonus) * Boost.ShoutMisheardMul;   // 큰 목청 호루라기 (K-058)
                 if (commandRandom.NextFloat() < misheard)
                 {
                     Notice?.Invoke($"{SideNames[other]}이 잘못 듣고 따릅니다");
@@ -189,7 +189,7 @@ namespace HumanLastRampart.Combat.Battle
             };
             sAway[soldier] = 1;
             messengers.Add(m);
-            Notice?.Invoke($"전령이 {SideNames[targetSide]}으로 달려갑니다 · 약 {m.Distance / MessengerSpeed():0}초");
+            Notice?.Invoke($"전령이 {SideNames[targetSide]}으로 달려갑니다 · 약 {m.Distance / (MessengerSpeed() * Boost.MessengerSpeedMul):0}초");   // 전령 나팔 (K-058)
             return true;
         }
 
@@ -250,7 +250,7 @@ namespace HumanLastRampart.Combat.Battle
                     continue;
                 }
 
-                m.Travelled = math.min(m.Travelled + MessengerSpeed() * RunSpeedRatio(m.Soldier) * dt, m.Distance);   // 대포병은 느리게 (K-034)
+                m.Travelled = math.min(m.Travelled + MessengerSpeed() * Boost.MessengerSpeedMul * RunSpeedRatio(m.Soldier) * dt, m.Distance);   // 전령 나팔 (K-058)   // 대포병은 느리게 (K-034)
                 float u = m.Returning ? m.EndU - m.Direction * m.Travelled : m.StartU + m.Direction * m.Travelled;
                 // 떠날 때는 자기 자리에서 달리는 길로, 돌아올 때는 마지막 몇 m를 자기 자리로 비스듬히 (K-039 의견 6: 순간 이동 없앰)
                 sPos[m.Soldier] = WalkIn(RingPosition(u), m.Home, m.Returning ? m.Distance - m.Travelled : m.Travelled);

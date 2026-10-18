@@ -122,13 +122,42 @@ namespace HumanLastRampart.Meta
                     }
                     nextHeroes.Add(copy); // 사망한 영웅도 표시를 위해 유지한다.
                 }
+                // 군의관 천막 (K-058): 잃은 병사 중 일부가 돌아온다 (분대마다 반올림)
+                float recover = setup.Boosts != null ? Math.Max(0f, Math.Min(1f, setup.Boosts.RecoverLostRatio)) : 0f;
                 var nextSquads = new List<SquadState>(campaign.Squads.Count);
                 foreach (SquadState current in campaign.Squads)
                 {
                     SquadState copy = current.Clone();
-                    if (losses.TryGetValue(copy.SquadId, out SquadLoss loss)) copy.Count -= loss.LostCount;
+                    if (losses.TryGetValue(copy.SquadId, out SquadLoss loss))
+                        copy.Count -= loss.LostCount - (int)Math.Floor(loss.LostCount * recover + 0.5f);
                     if (copy.Count > 0) nextSquads.Add(copy);
                 }
+
+                // 용병 손실 (K-058, C-006 v1.3 초안): 계약 ID로 맞춘다
+                var startMercs = Index(setup.Mercenaries ?? new List<SquadState>(), s => s.SquadId, "시작 용병");
+                var mercLosses = Index(result.MercenaryLosses ?? new List<SquadLoss>(), s => s.SquadId, "용병 손실");
+                foreach (var pair in mercLosses)
+                {
+                    Require(startMercs.TryGetValue(pair.Key, out SquadState merc), "알 수 없는 용병 결과입니다: " + pair.Key);
+                    Require(pair.Value.LostCount >= 0 && pair.Value.LostCount <= merc.Count, "용병 손실이 시작 인원 범위를 넘습니다: " + pair.Key);
+                }
+                var nextMercs = new List<MercenaryContract>();
+                foreach (MercenaryContract current in campaign.Mercenaries ?? new List<MercenaryContract>())
+                {
+                    MercenaryContract copy = current.Clone();
+                    if (mercLosses.TryGetValue(copy.ContractId, out SquadLoss loss)) copy.Count -= loss.LostCount;
+                    if (copy.Count > 0) nextMercs.Add(copy);
+                }
+
+                // 이번 전투에 쓴 소모품 하나씩 (불화살 꾸러미·화약 통)
+                var nextItems = new List<OwnedItem>();
+                foreach (OwnedItem current in campaign.Items ?? new List<OwnedItem>()) nextItems.Add(current.Clone());
+                foreach (string used in setup.ConsumedItemIds ?? new List<string>())
+                {
+                    OwnedItem line = nextItems.Find(i => i.ItemId == used && string.IsNullOrEmpty(i.WallId) && i.Count > 0);
+                    if (line != null) line.Count--;
+                }
+                nextItems.RemoveAll(i => i.Count <= 0);
                 var nextWalls = new List<WallSegmentState>(campaign.Wall.Count);
                 foreach (WallSegmentState current in campaign.Wall)
                 {
@@ -143,6 +172,8 @@ namespace HumanLastRampart.Meta
                 campaign.Squads = nextSquads;
                 campaign.Wall = nextWalls;
                 campaign.Traps = nextTraps;
+                campaign.Mercenaries = nextMercs;
+                campaign.Items = nextItems;
                 campaign.LastAppliedBattleRunId = result.BattleRunId;
                 return true;
             }

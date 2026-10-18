@@ -789,7 +789,7 @@ namespace HumanLastRampart.Combat.Battle
             // 망원경 렌즈 (하늘색 원, MAP-5)
             if (lens.HasValue)
             {
-                Ring(lens.Value, BattleSim.TelescopeRadius, MapBrassLight, dot * 1.2f, 64);   // K-047 색 역할: 망원경 = 황동 빛
+                Ring(lens.Value, sim.TelescopeRange, MapBrassLight, dot * 1.2f, 64);   // K-047 색 역할: 망원경 = 황동 빛 · 망원경 렌즈 강화 반영 (K-058)
             }
 
             // 마법사 위치 (보라 점, D-058)

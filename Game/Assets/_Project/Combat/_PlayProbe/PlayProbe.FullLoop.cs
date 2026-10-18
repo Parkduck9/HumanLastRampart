@@ -108,7 +108,7 @@ public sealed partial class PlayProbe
             yield return WaitScreen(ScreenId.Prep, 900);
             var yard = Object.FindAnyObjectByType<HumanLastRampart.Meta.PrepYard>();
             Assert.IsNotNull(yard, "정비 마당");
-            Assert.AreEqual(4, yard.StationCount, "장소 4곳 (수리·병영·함정 공방·계단)");
+            Assert.AreEqual(5, yard.StationCount, "장소 5곳 (수리·병영·함정 공방·상점·계단, K-058)");
             yield return Capture("loop_07_prep_yard");
 
             // 수리 1번: 북쪽 성벽 55HP 손상 → 100HP 견적 → 확정 (55HP, 6골드 올림)

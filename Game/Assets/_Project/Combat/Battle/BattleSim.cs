@@ -82,6 +82,7 @@ namespace HumanLastRampart.Combat.Battle
             public bool Movable;      // 대포 분대는 옮기지 않는다
             public string UnitName;
             public float SoldierHp;
+            public bool Mercenary;    // 용병 무리 (K-058) — 성벽 병력·70% 손실 패배 계산 밖, 옮기지 않음
         }
 
         // 결과
@@ -422,7 +423,11 @@ namespace HumanLastRampart.Combat.Battle
             var weaponList = new List<WeaponKindData>();
             var placed = new List<(SquadState squad, PostDef post, int weapon, float hp)>();
             var placedUnits = new List<UnitDef>();
-            foreach (SquadState squad in setup.Squads)
+            // 용병 무리(K-058)도 분대처럼 선다 — 계약 ID로 가려 낸다
+            var allSquads = new List<SquadState>(setup.Squads);
+            if (setup.Mercenaries != null)
+                foreach (SquadState merc in setup.Mercenaries) { allSquads.Add(merc); mercenaryIds.Add(merc.SquadId); }
+            foreach (SquadState squad in allSquads)
             {
                 PostDef post = string.IsNullOrEmpty(squad.PostId) ? null : defs.Get<PostDef>(squad.PostId);
                 UnitDef unit = defs.Get<UnitDef>(squad.UnitDefId);
@@ -432,11 +437,14 @@ namespace HumanLastRampart.Combat.Battle
                     continue;   // 미배치 분대·무기 없는 병종은 이번 전투에 서지 않는다
                 }
 
-                if (!weaponIndex.TryGetValue(weapon.Id, out int w))
+                // 무기 값은 병종 강화(훈련·단체 아이템, K-058)까지 넣어 병종마다 — 용병은 정예 단계라 따로
+                bool mercenary = mercenaryIds.Contains(squad.SquadId);
+                string weaponKey = weapon.Id + '|' + unit.Id + (mercenary ? "|merc" : "");
+                if (!weaponIndex.TryGetValue(weaponKey, out int w))
                 {
                     w = weaponList.Count;
-                    weaponIndex[weapon.Id] = w;
-                    weaponList.Add(MakeWeapon(weapon));
+                    weaponIndex[weaponKey] = w;
+                    weaponList.Add(MakeWeapon(weapon, Boost.UnitFor(unit.Id, mercenary)));
                     weaponUnits.Add(unit);   // 투사체 그림 (K-032)
                 }
 
@@ -525,7 +533,8 @@ namespace HumanLastRampart.Combat.Battle
                 for (int c = 0; c < squad.Count; c += chunk)
                 {
                     int size = Mathf.Min(chunk, squad.Count - c);
-                    squads.Add(new SquadInfo { State = squad, Side = side, FirstSoldier = index + c, Alive = size, Start = size, Movable = !cannonSquad, UnitName = unitName, SoldierHp = hp });
+                    bool mercenary = mercenaryIds.Contains(squad.SquadId);
+                    squads.Add(new SquadInfo { State = squad, Side = side, FirstSoldier = index + c, Alive = size, Start = size, Movable = !cannonSquad && !mercenary, UnitName = mercenary ? unitName + " 용병" : unitName, SoldierHp = hp, Mercenary = mercenary });
                 }
                 for (int i = 0; i < squad.Count; i++)
                 {
@@ -571,18 +580,20 @@ namespace HumanLastRampart.Combat.Battle
         static float3 WalkIn(float3 ring, float3 spot, float distance) =>
             math.lerp(spot, ring, math.smoothstep(0f, WalkInDistance, distance));
 
-        static WeaponKindData MakeWeapon(WeaponDef w) => new WeaponKindData
+        // b = 병종 강화 (없으면 null = 정의 그대로)
+        static WeaponKindData MakeWeapon(WeaponDef w, UnitBoost b) => new WeaponKindData
         {
-            Damage = w.Damage,
-            Range = w.Range,
-            Interval = Mathf.Max(0.05f, w.Interval),
-            AreaRadius = w.AreaRadius,
+            Damage = Mathf.Max(1, Mathf.RoundToInt(w.Damage * (b != null ? b.DamageMul : 1f))),
+            Range = w.Range + (b != null ? b.RangeAdd : 0f),
+            Interval = Mathf.Max(0.05f, w.Interval * (b != null ? b.IntervalMul : 1f)),
+            AreaRadius = w.AreaRadius > 0f ? w.AreaRadius + (b != null ? b.AreaRadiusAdd : 0f) : 0f,
+            BurnChance = b != null && w.AreaRadius <= 0f ? b.BurnChance : 0f,
             ProjectileSpeed = Mathf.Max(1f, w.ProjectileSpeed),
             NearDistance = w.NearDistance,
             FarDistance = w.FarDistance,
-            AccuracyNear = w.AccuracyNear,
-            AccuracyMid = w.AccuracyMid,
-            AccuracyFar = w.AccuracyFar,
+            AccuracyNear = Mathf.Clamp01(w.AccuracyNear + (b != null ? b.AccuracyNearAdd : 0f)),
+            AccuracyMid = Mathf.Clamp01(w.AccuracyMid + (b != null ? (b.AccuracyNearAdd + b.AccuracyFarAdd) * 0.5f : 0f)),
+            AccuracyFar = Mathf.Clamp01(w.AccuracyFar + (b != null ? b.AccuracyFarAdd : 0f)),
             SpreadNear = w.SpreadNear,
             SpreadMid = w.SpreadMid,
             SpreadFar = w.SpreadFar,
@@ -597,7 +608,7 @@ namespace HumanLastRampart.Combat.Battle
                 int garrison = 0;
                 foreach (SquadInfo squad in squads)
                 {
-                    if (squad.Side == side) garrison += squad.Start;
+                    if (squad.Side == side && !squad.Mercenary) garrison += squad.Start;   // 용병은 70% 손실 계산 밖 (D-079 U9)
                 }
 
                 wallHp[side] = wall != null ? wall.Hp : 0;
@@ -646,6 +657,7 @@ namespace HumanLastRampart.Combat.Battle
             freeCount[0] = shotCapacity;
             shotQueue = new NativeQueue<Shot>(p);
             hitQueue = new NativeQueue<HitEvent>(p);
+            igniteQueue = new NativeQueue<int>(p);
             stats = new NativeArray<int>(BattleStat.Count, p);
             tally = new NativeArray<float>(4 * SideStat.Count, p);
             piles = new NativeArray<float>(4 * pile.Bins, p);
@@ -674,7 +686,7 @@ namespace HumanLastRampart.Combat.Battle
                     wallHp[side] = Mathf.Max(0f, wallHp[side] - tally[b + SideStat.WallDamage]);
                 }
 
-                garrisonDamage[side] += tally[b + SideStat.GarrisonDamage];
+                garrisonDamage[side] += tally[b + SideStat.GarrisonDamage] * WallGuardMul(side);   // 방패 난간 (K-058)
                 KillSoldiersFromDamage(side);
 
                 SideStatus status = Sides[side];
@@ -689,6 +701,7 @@ namespace HumanLastRampart.Combat.Battle
                 Sides[side] = status;
             }
 
+            ApplyArrowBurns();   // 불화살 화상 (K-058, BattleSim.Boosts.cs)
             Spawn();
             UpdateMessengers(dt);
             UpdateGroupMoves(dt);
@@ -747,6 +760,7 @@ namespace HumanLastRampart.Combat.Battle
                 MarkSoldierFallen(squad.FirstSoldier + squad.Alive);   // 쓰러짐 그림 (K-032)
                 RefillAfterFall(squad.FirstSoldier + squad.Alive);     // 빈 총안을 가까운 뒷줄 병사가 메운다 (K-045)
                 squads[target] = squad;
+                if (squad.Mercenary) { SoldiersDirty = true; continue; }   // 용병은 성벽 병력 수에 안 들어간다
                 SideStatus status = Sides[side];
                 status.GarrisonAlive--;
                 Sides[side] = status;
@@ -886,6 +900,8 @@ namespace HumanLastRampart.Combat.Battle
                 RetryInterval = RetryInterval,
                 FrameSeed = seed ^ (frameNumber * 2654435761u),
                 IntervalMultiplier = IntervalMultiplier,
+                HeroSide = Boost.HeroWallIntervalMul != 1f ? commanderSide : -1,   // 지휘 휘장 (K-058)
+                HeroSideIntervalMultiplier = Boost.HeroWallIntervalMul,
                 FarAccuracyMultiplier = FarAccuracyMultiplier,
                 FrontArc = (byte)(FrontArcOnly ? 1 : 0),
                 MuzzleHeight = SoldierDrawSize * MuzzleHeightRatio,   // 투사체 출발점 (K-035, BattleSim.Burn.cs)
@@ -932,6 +948,8 @@ namespace HumanLastRampart.Combat.Battle
                 Hits = hitQueue.AsParallelWriter(),
                 Grid = grid,
                 DeltaTime = dt,
+                Ignites = igniteQueue.AsParallelWriter(),   // 불화살 (K-058)
+                FrameSeed = seed ^ (frameNumber * 40503u),
             }.Schedule(shotCapacity, 256, h);
 
             h = new ApplyBattleHitsJob
@@ -1058,7 +1076,9 @@ namespace HumanLastRampart.Combat.Battle
             {
                 if (lostBySquad[id] > 0)
                 {
-                    result.SquadLosses.Add(new SquadLoss { SquadId = id, LostCount = lostBySquad[id] });
+                    var loss = new SquadLoss { SquadId = id, LostCount = lostBySquad[id] };
+                    if (mercenaryIds.Contains(id)) result.MercenaryLosses.Add(loss);   // 용병 손실은 따로 (K-058)
+                    else result.SquadLosses.Add(loss);
                 }
             }
 
@@ -1149,6 +1169,7 @@ namespace HumanLastRampart.Combat.Battle
             ReleaseBurn();
             if (shotQueue.IsCreated) shotQueue.Dispose();
             if (hitQueue.IsCreated) hitQueue.Dispose();
+            if (igniteQueue.IsCreated) igniteQueue.Dispose();
         }
 
         static void Release<T>(ref NativeArray<T> array) where T : struct

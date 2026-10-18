@@ -725,17 +725,75 @@ public sealed class SimProbe
         File.WriteAllText(Environment.GetEnvironmentVariable("HLR_PROBE_OUT") ?? "probe.txt", log.ToString(), new UTF8Encoding(false));
     }
 
-    static void RunPriced(DefinitionLookup lookup, Difficulty difficulty, int[] prices, StringBuilder log, bool assist, int policy = 0, int seed = 1234, Action<BattleSim> chaos = null)
+    // K-058 (D-079 U10): 강화 없이 현실 4번은 지고, 강화를 잘 쓰면 이기는지. 두 플레이 모두 D-075 기준(준비 때 옆·뒤 1/3을 정면으로)
+    // + 보조(대포·마법·망원경) + 정면 먼저 모집. 강화 사용 = 정비 때 아래 SpendOnUpgrades 정책을 먼저 쓰고 남은 돈으로 궁수
+    [Test]
+    public void UpgradeCompare()
+    {
+        var catalogs = new List<DefinitionCatalog>();
+        foreach (string guid in AssetDatabase.FindAssets("t:DefinitionCatalog"))
+            catalogs.Add(AssetDatabase.LoadAssetAtPath<DefinitionCatalog>(AssetDatabase.GUIDToAssetPath(guid)));
+        DefinitionLookup lookup = DefinitionLookup.Build(catalogs);
+        var log = new StringBuilder();
+        log.AppendLine($"소스 {Environment.GetEnvironmentVariable("HLR_HEAD")} · dt 0.05s · 시드 1234 · 가격 A · 정면 1/3 옮기기 · 보조 · 정면 먼저 모집");
+        foreach (Difficulty difficulty in new[] { Difficulty.Realistic, Difficulty.Easy })
+            foreach (bool upgrades in new[] { false, true })
+            {
+                log.AppendLine($"== {difficulty} · {(upgrades ? "강화 사용" : "강화 없이")}");
+                RunPriced(lookup, difficulty, new[] { 5, 8, 12 }, log, true, 1, 1234, null, true, upgrades);
+            }
+        File.WriteAllText(Environment.GetEnvironmentVariable("HLR_PROBE_OUT") ?? "probe.txt", log.ToString(), new UTF8Encoding(false));
+    }
+
+    // 강화 사용 정책 (시험 전용): 마법사 → 주인공 휘장 → 소모품 → 시설 → 궁수 훈련(골드 절반 안) → 정원이 차면 북쪽 용병. 남은 골드는 궁수 모집에
+    static string SpendOnUpgrades(CampaignState c, DefinitionLookup lookup, bool troopsFull)
+    {
+        var bought = new List<string>();
+        void Try(string item, string wall = null, int keep = 300)
+        {
+            ItemDef def = lookup.Get<ItemDef>(item);
+            if (def == null || c.Gold < def.Price + keep) return;
+            if (HumanLastRampart.Core.Upgrades.UpgradeRules.TryBuy(c, lookup, item, wall, out _)) bought.Add(def.DisplayName);
+        }
+
+        Try("item_gem_staff");
+        Try("item_hourglass_charm");
+        Try("item_command_badge");
+        if (HumanLastRampart.Core.Upgrades.UpgradeRules.OwnedCount(c, "item_fire_arrows") == 0) Try("item_fire_arrows", null, 100);
+        Try("item_surgeon_tent");
+        if (!HumanLastRampart.Core.Upgrades.UpgradeRules.OwnsForWall(c, "item_shield_rail", WallIds.North)) Try("item_shield_rail", WallIds.North);
+        foreach (string unit in new[] { "unit_archer", "unit_cannon_crew", "unit_gunner" })
+            while (HumanLastRampart.Core.Upgrades.UpgradeRules.CanTrain(c, lookup, unit, out TrainingDef next, out _) && next.Price <= c.Gold / 2)
+            {
+                HumanLastRampart.Core.Upgrades.UpgradeRules.TryTrain(c, lookup, unit, out _);
+                bought.Add($"{unit.Replace("unit_", "")} 훈련{next.Level}");
+            }
+        if (troopsFull)
+            foreach (string merc in new[] { "merc_archer", "merc_gunner" })
+            {
+                MercenaryDef def = lookup.Get<MercenaryDef>(merc);
+                int room = def.PerWallCap - HumanLastRampart.Core.Upgrades.UpgradeRules.MercenaryCount(c, merc, WallIds.North);
+                int afford = (c.Gold - 200) / Math.Max(1, def.ContractCost + def.Wage);
+                int n = Math.Min(room, afford);
+                if (n > 0 && HumanLastRampart.Core.Upgrades.UpgradeRules.TryHire(c, lookup, merc, WallIds.North, n, out _)) bought.Add($"{def.DisplayName} {n}");
+            }
+        return bought.Count > 0 ? " 강화[" + string.Join(", ", bought) + "]" : "";
+    }
+
+    static void RunPriced(DefinitionLookup lookup, Difficulty difficulty, int[] prices, StringBuilder log, bool assist, int policy = 0, int seed = 1234, Action<BattleSim> chaos = null, bool reinforce = false, bool upgrades = false)
     {
         const int SlotCap = 160, WallCap = 500, TotalCap = 2000;
         CampaignState c = CampaignFactory.Create(lookup, new NewGameOptions(difficulty), seed);
         CampaignStartDef start = lookup.All<CampaignStartDef>()[0];
         TrapDef bomb = lookup.Get<TrapDef>("trap_bomb");
         WallSide WallOf(SquadState s) => lookup.Get<PostDef>(s.PostId).Wall;
+        bool troopsFull = false;
         for (int battle = 1; battle <= 4; battle++)
         {
             c.BattleNumber = battle;
             c.LastBattle = null;
+            if (upgrades)   // App과 같이 전투 준비 직전 용병 급료 (K-058)
+                foreach (string note in HumanLastRampart.Core.Upgrades.UpgradeRules.PayWages(c, lookup)) log.Append($" ({note})");
             BattleSetup setup = BattleSetupFactory.Create(c, lookup, $"price_{difficulty}_{seed}_{battle}", out string error);
             if (setup == null) { log.AppendLine($"  전투{battle}: 준비 오류 {error}"); return; }
             c.ActiveBattleSetup = setup;
@@ -746,6 +804,7 @@ public sealed class SimProbe
             BattleResult r; float elapsed;
             using (var sim = new BattleSim(setup, lookup))
             {
+                if (reinforce) Reinforce(sim, 0.34f, log);   // D-075 기준 플레이
                 float nextAssist = 0f;
                 int fired = 0;
                 while (!sim.Ended && sim.Elapsed < 1500f)
@@ -815,6 +874,8 @@ public sealed class SimProbe
                 }
             }
 
+            string upgradeText = upgrades ? SpendOnUpgrades(c, lookup, troopsFull) : "";
+            if (upgrades) repairText += upgradeText;
             int hired = 0, spent = 0, capRefusals = 0;
             while (true)
             {
@@ -836,6 +897,7 @@ public sealed class SimProbe
                 target.Count++; c.Gold -= price; spent += price; hired++;
             }
             c.Squads.RemoveAll(s => s.Count == 0);   // 새로 만든 빈 분대 중 못 채운 것은 없앤다 (0명 분대 금지)
+            troopsFull = capRefusals > 0;   // 정원이 찼으면 다음 정비부터 용병 (K-058)
             int freeSlots = c.Squads.Where(s => s.UnitDefId == "unit_archer").Sum(s => SlotCap - s.Count);
             log.AppendLine($" | 정비 {repairText}, 함정 {trapsBought}개(상점 남음 {shop.Count}, 묻힌 함정 {c.Traps.Count}), 궁수 {hired}명 {spent}골드{(capRefusals > 0 ? " (정원으로 멈춤)" : "")} → 골드 {c.Gold} 병력 {c.Squads.Sum(s => s.Count)} 남은 궁수 자리 {freeSlots}");
         }

@@ -316,6 +316,8 @@ namespace HumanLastRampart.App.Flow
         bool PrepareBattle()
         {
             Campaign.LastBattle = null;   // 이전 결과 재사용 방지 (C-004 r2)
+            // 용병 급료 (K-058, D-079 U8): 전투 시작 전에 빠지고, 못 주면 그 계약은 떠난다
+            foreach (string note in HumanLastRampart.Core.Upgrades.UpgradeRules.PayWages(Campaign, lookup)) Debug.Log("[용병] " + note);
             BattleSetup setup = BattleSetupFactory.Create(Campaign, lookup, BattleSetupFactory.NewRunId(), out string error);
             if (setup == null)
             {

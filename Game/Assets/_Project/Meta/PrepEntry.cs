@@ -29,8 +29,15 @@ namespace HumanLastRampart.Meta
             repair = view.AddButton("성벽 수리", () => PreparationPanel.Show(repair, context, session, false));
             recruit = view.AddButton("병력 모집·보충", () => PreparationPanel.Show(recruit, context, session, true));
             trapButton = view.AddButton("함정 구매·설치", () => TrapPreparationPanel.Show(trapButton, context, traps, session));
+            // K-058 (D-079): 상점(영웅 장비 칸·단체 아이템), 병영 안 [병종 훈련]·[용병 고용]
+            Button shop = null, training = null, mercenary = null;
+            shop = view.AddButton("상점", () => UpgradePanel.Show(shop, context, session, UpgradePanel.Mode.Shop));
+            training = view.AddButton("병종 훈련", () => UpgradePanel.Show(training, context, session, UpgradePanel.Mode.Training));
+            mercenary = view.AddButton("용병 고용", () => UpgradePanel.Show(mercenary, context, session, UpgradePanel.Mode.Mercenary));
+            PreparationPanel.OpenTraining = () => training.onClick.Invoke();
+            PreparationPanel.OpenMercenary = () => mercenary.onClick.Invoke();
             var ready = view.AddButton("전투 준비 완료", () => { session.Close(); traps.Close(); Complete(ScreenOutcome.Done); });
-            foreach (Button b in new[] { repair, recruit, trapButton, ready }) ScreenView.HideButton(b);
+            foreach (Button b in new[] { repair, recruit, trapButton, shop, training, mercenary, ready }) ScreenView.HideButton(b);
 
             // D-076 정비 마당 + K-047: 위쪽은 황동 계기 띠 한 줄 — 1순위 골드, 그다음 병력·다음 전투 (S-20)
             view.DockTop(1040f, 80f);
@@ -42,6 +49,7 @@ namespace HumanLastRampart.Meta
             yard.AddStation("성벽 수리", 500f, new Color(0.45f, 0.42f, 0.38f), () => repair.onClick.Invoke());
             yard.AddStation("병영", 1300f, new Color(0.42f, 0.30f, 0.24f), () => recruit.onClick.Invoke());
             yard.AddStation("함정 공방", 2100f, new Color(0.30f, 0.30f, 0.36f), () => trapButton.onClick.Invoke());
+            yard.AddStation("상점", 2550f, new Color(0.46f, 0.36f, 0.22f), () => shop.onClick.Invoke());   // K-058 보급 상인 (간판 그림은 Codex 요청)
             yard.AddStation("성벽 계단", 3000f, new Color(0.40f, 0.38f, 0.30f), () => yard.AskNextBattle(() => ready.onClick.Invoke()));
             var lifetime = repair.GetComponentInParent<UnityEngine.Canvas>().gameObject.AddComponent<PreparationSessionLifetime>();
             lifetime.Session = session; lifetime.Traps = traps;

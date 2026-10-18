@@ -91,7 +91,33 @@ namespace HumanLastRampart.App.Data
                 }
             }
 
+            // 강화·용병 (K-058, D-079): 진행 데이터에서 수치를 계산해 넘긴다. 용병은 그 성벽 가운데 분대 지점에 선다
+            setup.Boosts = Core.Upgrades.UpgradeRules.ComputeBoosts(campaign, defs, setup.ConsumedItemIds);
+            if (campaign.Mercenaries != null)
+            {
+                foreach (MercenaryContract contract in campaign.Mercenaries)
+                {
+                    MercenaryDef merc = defs.Get<MercenaryDef>(contract.MercenaryDefId);
+                    string post = MiddleSquadPost(defs, contract.WallId);
+                    if (merc == null || post == null || contract.Count <= 0) continue;
+                    setup.Mercenaries.Add(new SquadState { SquadId = contract.ContractId, UnitDefId = merc.UnitDefId, Count = contract.Count, PostId = post });
+                }
+            }
+
             return setup;
+        }
+
+        // 성벽 가운데에 가장 가까운 분대 지점
+        static string MiddleSquadPost(IDefinitionLookup defs, string wallId)
+        {
+            PostDef best = null;
+            foreach (PostDef post in defs.All<PostDef>())
+            {
+                if (post.Kind != PostKind.Squad || post.WallId != wallId) continue;
+                if (best == null || Math.Abs(post.PositionAlongWall - 0.5f) < Math.Abs(best.PositionAlongWall - 0.5f)) best = post;
+            }
+
+            return best?.Id;
         }
 
         public static string NewRunId() => "run_" + Guid.NewGuid().ToString("N");

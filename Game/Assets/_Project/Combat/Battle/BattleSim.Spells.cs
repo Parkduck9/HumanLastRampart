@@ -75,8 +75,8 @@ namespace HumanLastRampart.Combat.Battle
         public SpellInfo GetSpell(int index) => new SpellInfo
         {
             Name = spells[index].DisplayName,
-            Radius = spells[index].Radius,
-            Cooldown = spells[index].Cooldown,
+            Radius = SpellRadiusOf(index),   // 강화 반영 (K-058, BattleSim.Boosts.cs)
+            Cooldown = SpellCooldownOf(index),
             CooldownLeft = spellCooldown[index],
             IsFire = spells[index].IsFire,
         };
@@ -113,7 +113,7 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             var at = new Vector3(point.x, 0f, point.z);
-            spellCooldown[index] = spell.Cooldown;   // 바로 대기 시작(같은 프레임 두 번 방지)
+            spellCooldown[index] = SpellCooldownOf(index);   // 바로 대기 시작(같은 프레임 두 번 방지)
             // D-058: 다른 성벽 쪽이면 마법사가 그 성벽 가운데로 가서 도착하면 쏜다
             if (!WizardReadyAt(SideOfPoint(at), index, at))
             {
@@ -136,11 +136,11 @@ namespace HumanLastRampart.Combat.Battle
             {
                 bool fire = spell.Duration > 0f;
                 EffectsStarted++;
-                effects.Add(new SpellEffect { Fire = fire, Pending = !fire, Position = at, Radius = spell.Radius, TimeLeft = fire ? spell.Duration : ExplosionDelay, Serial = EffectsStarted, SpellIndex = index });
+                effects.Add(new SpellEffect { Fire = fire, Pending = !fire, Position = at, Radius = SpellRadiusOf(index), TimeLeft = fire ? SpellDurationOf(index) : ExplosionDelay, Serial = EffectsStarted, SpellIndex = index });
                 fireTick.Add(0f);
-                effectDamage.Add(spell.Damage);
+                effectDamage.Add(SpellDamageOf(index));
             });
-            Notice?.Invoke(spell.Duration > 0f ? $"불바다! {spell.Duration:0}초 동안 탑니다" : "폭발 준비 · 1초 뒤 터집니다");
+            Notice?.Invoke(spell.Duration > 0f ? $"불바다! {SpellDurationOf(index):0}초 동안 탑니다" : "폭발 준비 · 1초 뒤 터집니다");   // 불씨 부적 반영 (K-058)
         }
 
         // BeginFrame에서 (작업이 끝난 뒤) — 재사용 대기, 폭발 대기, 불바다 피해

@@ -106,6 +106,7 @@ namespace HumanLastRampart.Combat.Battle
         public float SpreadNear;
         public float SpreadMid;
         public float SpreadFar;
+        public float BurnChance;      // 맞힌 적에게 화상 (불화살, K-058). 0 = 없음
     }
 
     public struct Shot
@@ -407,6 +408,10 @@ namespace HumanLastRampart.Combat.Battle
         public float RetryInterval;
         public uint FrameSeed;
         public float IntervalMultiplier;      // 비: 공격 간격 길어짐 (공격 속도 −20%, D-028 C4)
+        public int HeroSide;                  // 주인공이 서 있는 성벽 (지휘 휘장, K-058). -1 = 없음
+        public float HeroSideIntervalMultiplier;   // 그 성벽 병사 공격 간격 배율 (1 = 강화 없음)
+
+        float IntervalFor(int s) => IntervalMultiplier * (SoldierSide[s] == HeroSide ? HeroSideIntervalMultiplier : 1f);
         public float FarAccuracyMultiplier;   // 안개·밤: 먼 거리 명중 감소 (Battle.md 6.4)
         public byte FrontArc;                 // 1 = 자기 성벽 앞 90도·각도 순위(D-073). 0 = 예전처럼 둘레 전부 (측정 비교용)
         // 투사체 출발점 (K-035): 병사는 그림 속 활·총 높이 + 바깥쪽으로 조금, 대포는 포구 자리 (BattleSim이 그림 크기에서 정한다)
@@ -430,7 +435,7 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             Shots.Enqueue(shot);
-            SoldierCooldowns[s] = weapon.Interval * IntervalMultiplier;
+            SoldierCooldowns[s] = weapon.Interval * IntervalFor(s);
             SoldierFireTime[s] = Now;
         }
 
@@ -470,7 +475,7 @@ namespace HumanLastRampart.Combat.Battle
 
                 SoldierFuse[s] = 0f;
                 Shots.Enqueue(SoldierPendingShot[s]);
-                SoldierCooldowns[s] = math.max(0f, Weapons[SoldierWeapon[s]].Interval * IntervalMultiplier - IgniteSeconds);
+                SoldierCooldowns[s] = math.max(0f, Weapons[SoldierWeapon[s]].Interval * IntervalFor(s) - IgniteSeconds);
                 SoldierFireTime[s] = Now;
                 return;
             }
@@ -772,8 +777,18 @@ namespace HumanLastRampart.Combat.Battle
         public NativeQueue<HitEvent>.ParallelWriter Hits;
         public GridSpec Grid;
         public float DeltaTime;
+        public NativeQueue<int>.ParallelWriter Ignites;   // 불화살로 화상 입을 적 번호 (K-058) — 메인 스레드가 다음 프레임에 붙인다
+        public uint FrameSeed;
 
         const float TargetHitRadius = 1.2f;
+
+        // 화살·총알이 적 e를 맞혔을 때 화상 굴리기
+        void RollBurn(int slot, int e, WeaponKindData weapon)
+        {
+            if (weapon.BurnChance <= 0f) return;
+            uint h = math.hash(new uint2((uint)slot, FrameSeed ^ (uint)e));
+            if ((h & 0xffffff) / 16777216f < weapon.BurnChance) Ignites.Enqueue(e);
+        }
         const float SplashHitRadius = 0.9f;
 
         public void Execute(int slot)
@@ -831,6 +846,7 @@ namespace HumanLastRampart.Combat.Battle
                     if (d.x * d.x + d.z * d.z <= TargetHitRadius * TargetHitRadius)
                     {
                         Hits.Enqueue(new HitEvent { Enemy = target, Damage = weapon.Damage });
+                        RollBurn(slot, target.Index, weapon);
                         hit = true;
                     }
                 }
@@ -869,6 +885,7 @@ namespace HumanLastRampart.Combat.Battle
                             Enemy = new EnemyHandle { Index = nearest, Generation = EnemyGeneration[nearest] },
                             Damage = weapon.Damage,
                         });
+                        RollBurn(slot, nearest, weapon);
                     }
                 }
             }

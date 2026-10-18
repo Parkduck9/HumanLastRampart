@@ -1373,3 +1373,17 @@ public interface IScreenContext
   - 사전(Dictionary), 속성, null 허용 값 형식(`int?` 등), 다형 참조는 **저장되지 않는다**.
   - 목록 안이나 깊은 곳의 null 객체는 빈 객체로 돌아온다.
 - 설정(소리·화면 효과·흔들림·전체 화면·글자 크기)은 진행 데이터가 아니다. `Core/Settings/GameSettings`(PlayerPrefs, 이 컴퓨터에 한 벌)이고 계약 밖이다.
+
+## C-004 v1.6 · C-005 v1.7 · C-006 v1.3 · C-010 v1.11 초안 — 강화·상점·용병 (K-058, D-079)
+- 정의 (C-010 v1.11, `Data/Meta/` → MetaCatalog):
+  - `ItemDef` 확장 — `slot`(Group·HeroTool·HeroBadge·WizardStaff·WizardCharm), `consumable`(한 전투), `perWall`(성벽 하나에 붙음), `maxOwned`, `shopOrder`, `List<UpgradeEffect> effects`. 품목 11개 (`Items/`)
+  - `TrainingDef` — `unitDefId`, `level`(1부터 차례로), `price`, `effects` (`Training/`, 3병종 × 3단계). 효과는 쌓인다
+  - `MercenaryDef` — `unitDefId`, `contractCost`(1명), `wage`(1명·전투마다), `perWallCap`, `eliteLevel`(훈련 단계 상당) (`Mercenaries/`)
+  - `UpgradeEffect { UpgradeStat Stat; float Value; string UnitDefId }` — 배율 종류는 ×(1+값), 더하기 종류(반경·초·확률·명중·사거리·회복)는 +값
+- 진행 데이터 (C-004 v1.6): `Items: List<OwnedItem{ItemId, Count, EquippedBy, WallId}>`, `Training: List<TrainingState{UnitDefId, Level}>`, `Mercenaries: List<MercenaryContract{ContractId "merc_", MercenaryDefId, WallId, Count}>`
+  - 바꾸는 쪽: Meta.Prep(구매·장착·훈련·고용·해고, 규칙은 `Core.Upgrades.UpgradeRules`), App(전투 준비 직전 `PayWages` — 못 주는 계약은 떠남), Meta.Result(승리 반영 때 용병 손실·소모품 1개씩·군의관 회복)
+- 전투 준비 (C-005 v1.7): `Boosts: BattleBoosts`(App이 `UpgradeRules.ComputeBoosts`로 계산 — 끼운 영웅 아이템(살아 있는 영웅만)·단체 아이템·훈련·성벽 아이템), `Mercenaries: List<SquadState>`(SquadId = 계약 ID, 그 성벽 가운데 분대 지점), `ConsumedItemIds`
+  - Combat은 정의를 다시 찾지 않고 수치만 쓴다. 용병은 성벽 병력(70% 손실 패배)·묶음 이동에서 빠진다
+- 전투 결과 (C-006 v1.3): `MercenaryLosses: List<SquadLoss>` — 분대 손실(`SquadLosses`)과 섞지 않는다
+- 승인 필요: 위 필드 이름·소유, 군의관 회복 반올림(분대마다 반올림), 급료를 '전투 준비 직전 App'에서 빼는 시점
+- 저장(C-004 v1.5, K-062): 새 필드(`Items`·`Training`·`Mercenaries`)는 `[Serializable]` 클래스의 공개 필드 목록이라 `CampaignSave`(CampaignState 통째 JsonUtility)에 그대로 저장·복원된다. 예전 저장에는 없으므로 빈 목록이 된다

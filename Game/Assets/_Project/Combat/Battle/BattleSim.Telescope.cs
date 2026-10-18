@@ -44,9 +44,10 @@ namespace HumanLastRampart.Combat.Battle
         void Spot(float3 at)
         {
             if (Ended) return;
-            int2 minCell = grid.CellOf(at - new float3(TelescopeRadius, 0f, TelescopeRadius));
-            int2 maxCell = grid.CellOf(at + new float3(TelescopeRadius, 0f, TelescopeRadius));
-            float radiusSq = TelescopeRadius * TelescopeRadius;
+            float range = TelescopeRange;   // 망원경 렌즈 (K-058)
+            int2 minCell = grid.CellOf(at - new float3(range, 0f, range));
+            int2 maxCell = grid.CellOf(at + new float3(range, 0f, range));
+            float radiusSq = range * range;
             for (int z = minCell.y; z <= maxCell.y; z++)
             {
                 for (int x = minCell.x; x <= maxCell.x; x++)

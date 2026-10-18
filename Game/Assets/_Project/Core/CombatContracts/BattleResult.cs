@@ -36,6 +36,7 @@ namespace HumanLastRampart.Core.CombatContracts
         public List<WallOutcome> WallOutcomes = new List<WallOutcome>();
         public List<string> ConsumedTrapIds = new List<string>();
         public List<TrapMove> TrapMoves = new List<TrapMove>();             // v1.1 (P1-C14)
+        public List<SquadLoss> MercenaryLosses = new List<SquadLoss>();     // v1.3 초안 (K-058): 용병 손실 — SquadId = 계약 ID. 분대 손실과 따로
     }
 
     [Serializable]
