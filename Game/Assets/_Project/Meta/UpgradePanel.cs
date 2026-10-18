@@ -60,8 +60,10 @@ namespace HumanLastRampart.Meta
 
             HorizontalLayoutGroup head = Ui.Row(sheet.transform, "Head", UiTokens.S16);
             Ui.Size(head, -1f, 48f);
-            string name = mode == Mode.Shop ? "상점" : mode == Mode.Training ? "병종 훈련" : "용병 고용";
+            // 훈련·용병은 병영 안 탭 (K-047): 제목은 "병영", 머리에 모집·훈련·용병 탭 — 병영 모집 장부와 같은 모양
+            string name = mode == Mode.Shop ? "상점" : "병영";
             Ui.Size(Ui.Label(head.transform, "Title", name, UiTokens.H2, UiTokens.Ink, TextAnchor.MiddleLeft, true), 0f, 48f, true);
+            if (mode != Mode.Shop) PreparationPanel.BarracksTabs(head.transform, mode == Mode.Training ? 1 : 2, () => Close(true));
             if (Ui.HudIcon(head.transform, "Gold Icon", "Icons/stat_gold", 32f) == null) Ui.Size(Ui.Label(head.transform, "Gold Word", "골드", UiTokens.Small, UiTokens.InkSoft), 44f, 48f);
             gold = Ui.Label(head.transform, "Gold", "", UiTokens.H2, UiTokens.Ink, TextAnchor.MiddleLeft, true);
             Ui.Size(gold, 136f, 48f);
@@ -320,7 +322,7 @@ namespace HumanLastRampart.Meta
 
             if (cost < 0)
             {
-                if (!string.IsNullOrEmpty(why)) Ui.Size(Ui.Label(line.transform, "Reason", why, UiTokens.Text, UiTokens.Danger), 440f, 40f);
+                if (!string.IsNullOrEmpty(why)) Ui.Size(Ui.Label(line.transform, "Reason", why, UiTokens.Text, UiTokens.DangerInk), 440f, 40f);
                 return;
             }
 
@@ -338,10 +340,14 @@ namespace HumanLastRampart.Meta
             Render();
         }
 
-        void Close()
+        void Close() => Close(false);
+
+        // instant = 병영 탭을 바꿀 때 — 닫히는 장부가 새 장부 뒤로 비쳐 겹쳐 보이지 않게 바로 치운다
+        void Close(bool instant)
         {
             if (behind != null) behind.interactable = true;
-            Ui.Close(shade);
+            if (instant) { shade.SetActive(false); UnityEngine.Object.Destroy(shade); }
+            else Ui.Close(shade);
             if (EventSystem.current != null) EventSystem.current.SetSelectedGameObject(source.gameObject);
         }
     }

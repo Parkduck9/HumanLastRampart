@@ -161,8 +161,8 @@ namespace HumanLastRampart.UI
                     else
                     {
                         uint h = Hash(x, y);
-                        float k = grain ? 1f + ((Hash(0, y / 2) % 7) - 3) * 0.018f + ((h % 9) == 0 ? -0.05f : 0f)
-                            : 1f + ((h % 7) - 3) * 0.012f + ((h % 23) == 0 ? -0.06f : 0f);
+                        float k = grain ? 1f + (Noise(Hash(0, y / 2), 7) - 3) * 0.018f + ((h % 9) == 0 ? -0.05f : 0f)
+                            : 1f + (Noise(h, 7) - 3) * 0.012f + ((h % 23) == 0 ? -0.06f : 0f);
                         c = Shade(face, k);
                     }
 
@@ -190,7 +190,7 @@ namespace HumanLastRampart.UI
                     else if (fold == 4 || fold == 5) c = UiTokens.PaperShade;
                     else if (danger && x >= 1 && x <= 3) c = x == 3 ? Shade(UiTokens.Danger, 0.75f) : UiTokens.Danger;
                     else if (dy == 1 && y < h / 2) c = UiTokens.PaperShade;
-                    else c = Shade(UiTokens.Paper, 1f + ((Hash(x, y) % 7) - 3) * 0.012f);
+                    else c = Shade(UiTokens.Paper, 1f + (Noise(Hash(x, y), 7) - 3) * 0.012f);
                     px[y * w + x] = c;
                 }
 
@@ -211,7 +211,7 @@ namespace HumanLastRampart.UI
                     else if (dx == 0 || dy == 0 || dx + dy == 3) c = UiTokens.Ink;
                     else if ((dx == 1 || dy == 1 || dx + dy == 4) && Hash(x, y) % 3 != 0) c = UiTokens.Ink;
                     else if (dx == 2 || dy == 2) c = UiTokens.PaperShade;
-                    else c = Shade(UiTokens.Paper, 1f + ((Hash(x, y) % 7) - 3) * 0.012f);
+                    else c = Shade(UiTokens.Paper, 1f + (Noise(Hash(x, y), 7) - 3) * 0.012f);
                     px[y * size + x] = c;
                 }
 
@@ -250,7 +250,7 @@ namespace HumanLastRampart.UI
                     else if (!down && y == size - 2) c = hi;                    // 위 밝은 줄 (볼록)
                     else if (!down && (y == 1 || y == 2)) c = lo;                // 아래 두 줄 그림자
                     else if (down && y == size - 2) c = lo;                      // 눌림: 위가 어두움
-                    else c = Shade(face, 1f + ((Hash(0, y) % 5) - 2) * 0.02f);
+                    else c = Shade(face, 1f + (Noise(Hash(0, y), 5) - 2) * 0.02f);
                     px[y * size + x] = c;
                 }
 
@@ -411,6 +411,9 @@ namespace HumanLastRampart.UI
         }
 
         static Color Shade(Color c, float k) => new Color(Mathf.Clamp01(c.r * k), Mathf.Clamp01(c.g * k), Mathf.Clamp01(c.b * k), c.a);
+
+        // 0 ~ n-1 정수 (uint에서 바로 빼면 음수가 아니라 아주 큰 수가 되어 색이 하얗게 날아갔다 — K-047 사진 r10)
+        static int Noise(uint h, int n) => (int)(h % (uint)n);
 
         static uint Hash(int x, int y)
         {

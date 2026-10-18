@@ -35,7 +35,7 @@ namespace HumanLastRampart.Meta
         string done;   // 방금 확정한 결과 (다시 고르기 전까지 같은 견적은 확정할 수 없다)
 
         // 병영 안 탭 (K-058): PrepEntry가 [병종 훈련]·[용병 고용] 여는 길을 넣어 둔다
-        internal static Action OpenTraining, OpenMercenary;
+        internal static Action OpenRecruit, OpenTraining, OpenMercenary;
 
         public static void Show(Button source, IScreenContext context, PreparationTransactions session, bool recruit)
         {
@@ -70,8 +70,7 @@ namespace HumanLastRampart.Meta
             Ui.Size(title, 0f, 48f, true);
             if (recruit)   // 병영 안 다른 일 (K-058): 훈련·용병 — 이 장부를 닫고 그 장부를 연다
             {
-                if (OpenTraining != null) Ui.Size(Ui.Button(head.transform, "병영:훈련", "병종 훈련", () => { Close(); OpenTraining(); }, UiButtonKind.Tab), 176f, 48f);
-                if (OpenMercenary != null) Ui.Size(Ui.Button(head.transform, "병영:용병", "용병 고용", () => { Close(); OpenMercenary(); }, UiButtonKind.Tab), 176f, 48f);
+                BarracksTabs(head.transform, 0, () => Close(true));
             }
             if (Ui.HudIcon(head.transform, "Gold Icon", "Icons/stat_gold", 32f) == null) Ui.Size(Ui.Label(head.transform, "Gold Word", "골드", UiTokens.Small, UiTokens.InkSoft), 44f, 48f);
             gold = Ui.Label(head.transform, "Gold", "", UiTokens.H2, UiTokens.Ink, TextAnchor.MiddleLeft, true);
@@ -274,7 +273,7 @@ namespace HumanLastRampart.Meta
 
             if (quote == null)
             {
-                Text why = Ui.Label(line.transform, "Reason", Short(reason), UiTokens.Text, UiTokens.Danger);
+                Text why = Ui.Label(line.transform, "Reason", Short(reason), UiTokens.Text, UiTokens.DangerInk);
                 Ui.Size(why, 900f, 40f);
                 return;
             }
@@ -315,11 +314,31 @@ namespace HumanLastRampart.Meta
             if (close != null) close.GetComponent<Button>().interactable = true;   // 닫기는 남긴다
         }
 
-        void Close()
+        // 병영 안 탭 세 개 (모집·훈련·용병) — 세 장부가 같은 머리 탭을 쓴다. 바꿀 때는 지금 장부를 바로 치우고(겹쳐 보이지 않게) 다른 장부를 연다
+        internal static void BarracksTabs(Transform head, int current, Action closeNow)
+        {
+            string[] keys = { "병영:모집", "병영:훈련", "병영:용병" };
+            string[] names = { "모집", "병종 훈련", "용병 고용" };
+            Action[] opens = { OpenRecruit, OpenTraining, OpenMercenary };
+            for (int i = 0; i < 3; i++)
+            {
+                if (opens[i] == null) continue;
+                Action open = opens[i];
+                bool here = i == current;
+                Button tab = Ui.Button(head, keys[i], names[i], () => { if (here) return; closeNow(); open(); }, UiButtonKind.Tab);
+                Ui.Size(tab, i == 0 ? 112f : 160f, 48f);
+                Ui.SetOn(tab, here);
+            }
+        }
+
+        void Close() => Close(false);
+
+        void Close(bool instant)
         {
             session.CancelQuote(); quote = null;
             if (behind != null) behind.interactable = true;
-            Ui.Close(shade);
+            if (instant) { shade.SetActive(false); UnityEngine.Object.Destroy(shade); }
+            else Ui.Close(shade);
             if (EventSystem.current != null) EventSystem.current.SetSelectedGameObject(source.gameObject);
         }
 

@@ -216,7 +216,7 @@ namespace HumanLastRampart.UI
             feel.ContentGroup = content.gameObject.AddComponent<CanvasGroup>();
             feel.ContentGroup.blocksRaycasts = false;
 
-            Color ink = brass ? UiTokens.Ink : kind == UiButtonKind.Quiet ? UiTokens.BodyDim : UiTokens.Body;
+            Color ink = brass ? UiTokens.Ink : kind == UiButtonKind.Quiet ? UiTokens.InkSoft : UiTokens.Body;   // Quiet = 종이 판 위 글 단추
             if (kind == UiButtonKind.Icon)
             {
                 Image picture = Icon(content, "Icon", icon ?? UiArt.IconClose, 1f, UiTokens.Body);
@@ -233,7 +233,7 @@ namespace HumanLastRampart.UI
                 }
 
                 Text text = Label(content, "Label", label, UiTokens.Text, ink, icon != null ? TextAnchor.MiddleLeft : TextAnchor.MiddleCenter, brass);
-                if (brass) text.fontStyle = FontStyle.Bold;
+                if (brass) { text.font = UiFonts.Body; text.fontStyle = FontStyle.Bold; }   // 황동 위 글은 또렷한 본문 글꼴 굵게 (명조 작은 글은 번졌다)
                 text.horizontalOverflow = HorizontalWrapMode.Overflow;
                 Stretch(text.rectTransform);
                 text.rectTransform.offsetMin = new Vector2(icon != null ? left : UiTokens.S16, 0f);

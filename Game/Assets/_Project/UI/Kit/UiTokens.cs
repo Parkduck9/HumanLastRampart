@@ -9,7 +9,7 @@ namespace HumanLastRampart.UI
         public static readonly Color Paper = Hex(0xe8d9b5);       // 종이 바탕: 지도·보고서·쪽지·대사창
         public static readonly Color PaperShade = Hex(0xc9b48a);  // 종이 안쪽 띠·접힌 그림자
         public static readonly Color Ink = Hex(0x3a2a1e);         // 종이 위 글·선
-        public static readonly Color InkSoft = Hex(0x6e5842);     // 종이 위 보조 글
+        public static readonly Color InkSoft = Hex(0x54402f);     // 종이 위 보조 글 (종이 대비 7:1 — 예전 #6e5842는 4.8:1이라 작은 글이 흐렸다)
         public static readonly Color Wood = Hex(0x3b2a1f);        // 나무 바탕: 명령판·장부·단추
         public static readonly Color WoodLight = Hex(0x5e4430);   // 나무 볼록한 위쪽
         public static readonly Color WoodDark = Hex(0x23170f);    // 나무 아래쪽 그림자
@@ -21,7 +21,9 @@ namespace HumanLastRampart.UI
         public static readonly Color BrassDark = Hex(0x8a6a32);   // 황동 그늘
         public static readonly Color Danger = Hex(0xb4533c);      // 위험: 위급·패배·되돌릴 수 없음
         public static readonly Color DangerLight = Hex(0xe28a6c); // 어둠 위에서 읽히는 위험 글
-        public static readonly Color Good = Hex(0x7fa35a);        // 남은 체력·승리
+        public static readonly Color Good = Hex(0x7fa35a);        // 남은 체력·승리 (막대·도장 — 종이 위 글에는 GoodInk)
+        public static readonly Color GoodInk = Hex(0x3d6326);     // 종이 위 좋음 글 (대비 5:1)
+        public static readonly Color DangerInk = Hex(0x9a3f2a);   // 종이 위 위험 글 (대비 4.8:1)
         public static readonly Color Fire = Hex(0xff9a3c);        // 불 마법·함정 불씨
         public static readonly Color Blast = Hex(0xffd75a);       // 폭발 마법
         public static readonly Color Enemy = Hex(0xb9b1e6);       // 지도 위 적 무리 글 (차가운 보라)
