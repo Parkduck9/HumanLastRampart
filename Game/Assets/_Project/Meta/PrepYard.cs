@@ -31,9 +31,8 @@ namespace HumanLastRampart.Meta
         const float WalkFps = 8f;
 
         readonly List<Station> stations = new List<Station>();
-        RectTransform strip, hero;
+        RectTransform strip, hero, prompt;
         RawImage heroImage;
-        Text prompt;
         Texture2D heroSheet;
         int sheetColumns = 1, sheetRows = 1;
         float heroX = 900f;
@@ -61,23 +60,25 @@ namespace HumanLastRampart.Meta
         public void AddStation(string name, float x, Color color, Action use)
         {
             var station = new Station { Name = name, X = x, Color = color, Use = use };
-            if (hasBackdrop)
+            if (!hasBackdrop)
             {
-                // 배경 그림(K-027)이 마당을 그리므로 건물 도형 대신 간판 판과 바닥 표시만 — 큰 상자가 그림을 덮던 것 (2026-10-16 사진)
-                Block(strip, name + " Spot", new Vector2(x, GroundY - 20f), new Vector2(200f, 14f), new Color(0.84f, 0.69f, 0.42f, 0.55f));
-                Block(strip, name + " Plate", new Vector2(x, GroundY + 330f), new Vector2(320f, 52f), new Color(0.06f, 0.08f, 0.07f, 0.78f));
-            }
-            else
-            {
-                // 건물 자리 (임시 도형): 몸체 + 지붕 띠 + 이름 간판
+                // 건물 자리 (배경 그림이 없을 때만 임시 도형): 몸체 + 지붕 띠
                 RectTransform body = Block(strip, name, new Vector2(x, GroundY + 140f), new Vector2(260f, 280f), color);
                 Block(body, "Roof", new Vector2(0f, 150f), new Vector2(300f, 30f), Color.Lerp(color, Color.black, 0.35f), true);
             }
 
-            station.Sign = Label(strip, name, new Vector2(x, GroundY + 330f), 30, UiStyle.Brass, new Vector2(300f, 44f));
+            // K-047: 장소마다 나무 간판 (Ui Plate — 도트 계단 모서리) + 이름은 세계 글꼴. 바닥에는 서는 자리 황동 빛
+            Block(strip, name + " Spot", new Vector2(x, GroundY - 20f), new Vector2(192f, UiTokens.Dot * 3f), UiTokens.Alpha(UiTokens.Brass, 0.55f));
+            Image plate = Ui.Panel(strip, name + " Plate", UiPanel.Plate);
+            plate.raycastTarget = false;
+            Ui.Place(plate.rectTransform, Vector2.zero, new Vector2(x, GroundY + 330f), new Vector2(304f, 64f), new Vector2(0.5f, 0.5f));
+            Text sign = Ui.Label(plate.transform, "Name", name, UiTokens.H2, UiTokens.BrassLight, TextAnchor.MiddleCenter, true);
+            sign.horizontalOverflow = HorizontalWrapMode.Overflow;
+            Ui.Stretch(sign.rectTransform);
+            station.Sign = plate.rectTransform;
             stations.Add(station);
             hero.SetAsLastSibling();   // 주인공은 건물 앞에
-            prompt.rectTransform.SetAsLastSibling();
+            prompt.SetAsLastSibling();
         }
 
         void BuildScene(RectTransform layer)
@@ -114,10 +115,14 @@ namespace HumanLastRampart.Meta
             }
             else heroImage.color = new Color(0.8f, 0.7f, 0.5f);
 
-            prompt = Label(strip, "", Vector2.zero, 30, UiStyle.Body, new Vector2(420f, 48f)).GetComponent<Text>();
-            var outline = prompt.gameObject.AddComponent<Outline>();
-            outline.effectColor = new Color(0f, 0f, 0f, 0.9f);
-            Label(layer, "A/D 걷기 · E 들어가기", new Vector2(0f, 0f), 22, UiStyle.TextDim, new Vector2(500f, 36f), new Vector2(0.5f, 0f), new Vector2(0f, 24f));
+            // 가까이 가면 간판 위에 [E] 키 표시 (S-15: 지금 할 수 있는 행동만)
+            prompt = Ui.KeyHint(strip, "E", "들어가기");
+            prompt.anchorMin = prompt.anchorMax = Vector2.zero;
+            prompt.pivot = new Vector2(0.5f, 0f);
+            prompt.gameObject.AddComponent<ContentSizeFitter>().horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+            HorizontalLayoutGroup hints = Ui.Row(layer, "Key Hints", UiTokens.S24);
+            Ui.Place((RectTransform)hints.transform, Vector2.zero, new Vector2(UiTokens.S32, UiTokens.S32), new Vector2(400f, 33f), Vector2.zero);
+            Ui.KeyHint(hints.transform, "A · D", "걷기");
             Place();
         }
 
@@ -145,12 +150,16 @@ namespace HumanLastRampart.Meta
 
             Animate(move != 0f);
             Place();
-            prompt.gameObject.SetActive(free && near != null);
-            if (near != null)
+            bool show = free && near != null;
+            if (prompt.gameObject.activeSelf != show)
             {
-                prompt.text = $"[E] {near.Name}";
-                prompt.rectTransform.anchoredPosition = new Vector2(near.X, GroundY + 390f);
+                if (show) UiAppear.Show(prompt.gameObject);   // 자리는 매 프레임 따라가므로 밀지 않고 나타나기만
+                else prompt.gameObject.SetActive(false);
             }
+
+            if (near != null) prompt.anchoredPosition = new Vector2(near.X, GroundY + 378f);
+            foreach (Station s in stations)
+                if (s.Sign != null) s.Sign.localScale = Vector3.one * Mathf.MoveTowards(s.Sign.localScale.x, s == near ? 1.08f : 1f, Time.unscaledDeltaTime * 1.2f);   // 가까운 간판이 살짝 커진다
         }
 
         // 시험·마우스용: 장소 이름으로 바로 들어가기 (E와 같은 길)
@@ -180,39 +189,10 @@ namespace HumanLastRampart.Meta
         public void AskNextBattle(Action start)
         {
             if (confirm != null) return;
-            var shade = new GameObject("Next Battle Confirm", typeof(RectTransform), typeof(Image));
-            shade.transform.SetParent(transform.parent, false);   // 화면 맨 위 층
-            var rect = (RectTransform)shade.transform;
-            rect.anchorMin = Vector2.zero; rect.anchorMax = Vector2.one; rect.offsetMin = rect.offsetMax = Vector2.zero;
-            shade.GetComponent<Image>().color = UiStyle.Shade;
-            confirm = shade;
-            RectTransform box = Block(rect, "Box", Vector2.zero, new Vector2(720f, 320f), UiStyle.PanelSolid, true);
-            box.anchorMin = box.anchorMax = new Vector2(0.5f, 0.5f);
-            UiStyle.Border(box.GetComponent<Image>());
-            Label(box, "성벽 위로 올라가 다음 전투를 시작할까요?", new Vector2(0f, 70f), 30, UiStyle.Body, new Vector2(660f, 80f), new Vector2(0.5f, 0.5f), new Vector2(0f, 70f));
-            ConfirmButton(box, "다음 전투 시작", new Vector2(-150f, -70f), () => { Close(); start?.Invoke(); }, true);
-            ConfirmButton(box, "더 둘러보기", new Vector2(150f, -70f), Close, false);
-        }
-
-        void Close()
-        {
-            if (confirm != null) Destroy(confirm);
-            confirm = null;
-        }
-
-        void ConfirmButton(RectTransform parent, string text, Vector2 at, Action onClick, bool primary)
-        {
-            var obj = new GameObject(text, typeof(RectTransform), typeof(Image), typeof(Button));
-            obj.transform.SetParent(parent, false);
-            var rect = (RectTransform)obj.transform;
-            rect.anchorMin = rect.anchorMax = new Vector2(0.5f, 0.5f);
-            rect.anchoredPosition = at;
-            rect.sizeDelta = new Vector2(260f, UiStyle.ButtonHeight);
-            var button = obj.GetComponent<Button>();
-            button.targetGraphic = obj.GetComponent<Image>();
-            UiStyle.StyleButton(button, primary);
-            button.onClick.AddListener(() => onClick());
-            Label(rect, text, Vector2.zero, 26, UiStyle.Body, rect.sizeDelta, new Vector2(0.5f, 0.5f), Vector2.zero);
+            // 화면 맨 위 층 (Ui.Confirm: 어둠막 + 양피지 확인 창, 출정 = 황동)
+            confirm = Ui.Confirm(transform.parent, "성벽 위로 올라갈까요?", "다음 전투가 바로 시작됩니다",
+                "다음 전투 시작", "출정", () => { confirm = null; start?.Invoke(); },
+                "더 둘러보기", "더 둘러보기", () => confirm = null);
         }
 
         // 주인공: 걸으면 옆모습 걷기 행(1), 서 있으면 앞모습 행(3) 첫 칸. 시트 옆모습은 왼쪽을 보므로 오른쪽이면 뒤집는다
@@ -247,28 +227,6 @@ namespace HumanLastRampart.Meta
             var image = obj.GetComponent<Image>();
             image.color = color;
             image.raycastTarget = false;
-            return rect;
-        }
-
-        static RectTransform Label(RectTransform parent, string text, Vector2 at, int size, Color color, Vector2 box)
-            => Label(parent, text, at, size, color, box, Vector2.zero, at);
-
-        static RectTransform Label(RectTransform parent, string text, Vector2 at, int size, Color color, Vector2 box, Vector2 anchor, Vector2 position)
-        {
-            var obj = new GameObject("Label", typeof(RectTransform), typeof(Text));
-            obj.transform.SetParent(parent, false);
-            var rect = (RectTransform)obj.transform;
-            rect.anchorMin = rect.anchorMax = anchor;
-            rect.anchoredPosition = position;
-            rect.sizeDelta = box;
-            var t = obj.GetComponent<Text>();
-            t.font = ScreenView.UiFont;
-            t.fontSize = size;
-            t.color = color;
-            t.alignment = TextAnchor.MiddleCenter;
-            t.text = text;
-            t.raycastTarget = false;
-            t.horizontalOverflow = HorizontalWrapMode.Overflow;
             return rect;
         }
     }

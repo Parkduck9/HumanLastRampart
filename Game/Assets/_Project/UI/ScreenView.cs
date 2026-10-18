@@ -6,96 +6,15 @@ using UnityEngine.UI;
 
 namespace HumanLastRampart.UI
 {
-    // 공통 화면 스타일 (D-066, Codex 공통 UI v1). 전투 HudStyle과 같은 색을 쓴다.
-    // 원본: Docs/References/codex_ui_direction_v1/PROPOSAL.md
-    public static class UiStyle
-    {
-        public static readonly Color Background = Hex(0x101613, 1f);      // 화면 바탕
-        public static readonly Color Shade = Hex(0x101613, 0.94f);        // 팝업 뒤 가림막
-        public static readonly Color Panel = Hex(0x26352d, 0.86f);        // 창
-        // 테두리(Outline)를 붙이는 창은 불투명하게: 반투명이면 뒤에 그려진 테두리 복사본이 비쳐 보인다
-        public static readonly Color PanelSolid = Hex(0x23302a, 1f);     // Panel을 Background 위에 겹친 색
-        public static readonly Color PanelDeep = Hex(0x18211c, 1f);       // 창 안쪽 구역 (지도 바탕 등)
-        public static readonly Color Brass = Hex(0xd5b16b, 1f);           // 강조·테두리·제목
-        public static readonly Color Body = Hex(0xeee4cf, 1f);            // 본문
-        public static readonly Color TextDim = Hex(0xb9c2b0, 1f);         // 보조 글
-        public static readonly Color Danger = Hex(0xc37e70, 1f);          // 위험
-        public static readonly Color ButtonNormal = Hex(0x33473b, 1f);          // 보통 버튼
-        public static readonly Color ButtonHover = Hex(0x46604f, 1f);
-        public static readonly Color Primary = Hex(0x8a7440, 1f);         // 주된 다음 행동·선택
-        public static readonly Color PrimaryHover = Hex(0xa38a50, 1f);
-        public static readonly Color Disabled = Hex(0x2a2f2b, 1f);        // 비활성
-        public const float ButtonHeight = 60f;                            // 1920x1080 기준 최소 44~48 이상
-
-        // 얇은 황동 테두리 — 가장자리 선 4개 (Outline 효과는 창 뒤로 황동 복사본이 비쳐 색이 바뀌어 쓰지 않는다)
-        public static void Border(Graphic graphic, float alpha = 0.85f, float thickness = 2f)
-        {
-            if (graphic == null || graphic.transform.Find("Frame") != null) return;
-            var frame = new GameObject("Frame", typeof(RectTransform), typeof(LayoutElement)).GetComponent<RectTransform>();
-            frame.GetComponent<LayoutElement>().ignoreLayout = true;   // 세로 목록 창 안에서도 줄 하나로 끼지 않게
-            frame.SetParent(graphic.transform, false);
-            frame.anchorMin = Vector2.zero; frame.anchorMax = Vector2.one; frame.offsetMin = frame.offsetMax = Vector2.zero;
-            var color = new Color(Brass.r, Brass.g, Brass.b, alpha);
-            Edge(frame, new Vector2(0, 1), new Vector2(1, 1), new Vector2(0, -thickness), Vector2.zero, color);
-            Edge(frame, new Vector2(0, 0), new Vector2(1, 0), Vector2.zero, new Vector2(0, thickness), color);
-            Edge(frame, new Vector2(0, 0), new Vector2(0, 1), Vector2.zero, new Vector2(thickness, 0), color);
-            Edge(frame, new Vector2(1, 0), new Vector2(1, 1), new Vector2(-thickness, 0), Vector2.zero, color);
-        }
-
-        static void Edge(Transform parent, Vector2 anchorMin, Vector2 anchorMax, Vector2 offsetMin, Vector2 offsetMax, Color color)
-        {
-            var line = new GameObject("Edge", typeof(RectTransform), typeof(Image));
-            var rect = line.GetComponent<RectTransform>();
-            rect.SetParent(parent, false);
-            rect.anchorMin = anchorMin; rect.anchorMax = anchorMax; rect.offsetMin = offsetMin; rect.offsetMax = offsetMax;
-            var image = line.GetComponent<Image>();
-            image.color = color;
-            image.raycastTarget = false;
-        }
-
-        // 버튼 색: 바탕 그림에 색을 직접 넣고 상태는 밝기 배율로 구분한다 (보통/호버·포커스/눌림/비활성)
-        // 색을 ColorBlock에만 넣으면 이미 켜진 버튼에는 처음 색이 적용되지 않아 하얗게 보인다
-        public static void StyleButton(Button button, bool primary = false)
-        {
-            if (button == null) return;
-            var graphic = button.targetGraphic;
-            if (graphic != null) graphic.color = primary ? Primary : ButtonNormal;
-            var colors = ColorBlock.defaultColorBlock;
-            colors.normalColor = Color.white;
-            colors.highlightedColor = new Color(1.3f, 1.3f, 1.3f, 1f);
-            colors.selectedColor = colors.highlightedColor;
-            colors.pressedColor = new Color(0.8f, 0.8f, 0.8f, 1f);
-            colors.disabledColor = new Color(0.55f, 0.55f, 0.55f, 0.8f);
-            colors.colorMultiplier = 1f;
-            button.colors = colors;
-            Border(graphic, primary ? 1f : 0.55f);
-        }
-
-        public static void SetPrimary(Button button) { StyleButton(button, true); }
-
-        // 그림 색을 직접 쓰는 버튼(격자 칸 등): 상태는 밝기만 바꾼다
-        public static void StyleTintButton(Button button)
-        {
-            if (button == null) return;
-            var colors = ColorBlock.defaultColorBlock;
-            colors.highlightedColor = new Color(0.88f, 0.88f, 0.88f);
-            colors.selectedColor = colors.highlightedColor;
-            colors.pressedColor = new Color(0.7f, 0.7f, 0.7f);
-            colors.disabledColor = new Color(0.75f, 0.75f, 0.75f, 0.85f);
-            button.colors = colors;
-        }
-
-        static Color Hex(int rgb, float alpha) => new Color(((rgb >> 16) & 0xff) / 255f, ((rgb >> 8) & 0xff) / 255f, (rgb & 0xff) / 255f, alpha);
-    }
-
-    // Phase 2용 공용 버튼/팝업. 화면 씬에만 속하며 EventSystem은 Boot가 제공한다.
+    // 0·3·4·5번 화면 공용 틀 (K-047, Docs/GDD/UI_NoSlop.md). 판은 양피지(임명장·보고서·장부), 정비 위쪽은 황동 계기 띠.
+    // 부품은 Ui 한 벌만 쓴다. 단추 이름은 "btn:" + 열쇠 — 시험(PlayProbe)은 열쇠로 찾는다
     public sealed class ScreenView : IDisposable
     {
-        static Font temporaryFont;
         readonly GameObject root;
         readonly CanvasGroup input;
         readonly RectTransform panel;
         readonly Image background;
+        RectTransform actions;
         GameObject popup;
         Button firstButton;
         bool disposed;
@@ -104,7 +23,7 @@ namespace HumanLastRampart.UI
         public ScreenView(Transform owner, string title, string description)
             : this(owner, title, description, false, null, null) { }
 
-        // 스토리 전용 배치. 기존 3인자 메인·정비·결과 화면은 중앙 패널을 그대로 쓴다.
+        // 스토리 전용 배치: 배경 그림 + 오른쪽 인물 + 아래 손그림 말풍선 대사
         public ScreenView(Transform owner, string title, string description, Texture2D character, string speaker)
             : this(owner, title, description, true, character, speaker) { }
 
@@ -125,64 +44,80 @@ namespace HumanLastRampart.UI
             input = root.GetComponent<CanvasGroup>();
             SetInput(false);
 
-            background = Image(root.transform, "Background", UiStyle.Background);
-            Stretch(background.rectTransform);
-            if (storyPresentation)
-                panel = MakeStory(root.transform, title, description, character, speaker);
+            background = Ui.Image(root.transform, "Background", new Color(0.06f, 0.055f, 0.06f, 1f), true);
+            Ui.Stretch(background.rectTransform);
+            if (storyPresentation) panel = MakeStory(title, description, character, speaker);
             else
             {
                 panel = MakePanel(root.transform, "Content");
-                Label(panel, title, 46, 80, UiStyle.Brass);
-                Divider(panel);
-                // 설명 글 크기 27은 정비 요약 갱신(PreparationPanel.RefreshSummary)이 찾는 기준이라 유지한다
-                Label(panel, description, 27, 150, UiStyle.Body);
+                if (!string.IsNullOrEmpty(title))
+                {
+                    Text heading = Ui.Label(panel, "Title", title, UiTokens.H1, UiTokens.Ink, TextAnchor.MiddleLeft, true);
+                    Ui.Size(heading, -1f, 64f);
+                    Rule(panel);
+                }
+
+                if (!string.IsNullOrEmpty(description))
+                {
+                    Text body = Ui.Label(panel, "Description", description, UiTokens.Text, UiTokens.InkSoft, TextAnchor.UpperLeft);
+                    Ui.Size(body, -1f, Mathf.Max(36f, body.preferredHeight));
+                }
             }
+
         }
 
-        // 화면의 주된 다음 행동 하나를 황동색으로 표시
-        public void MarkPrimary(Button button) { UiStyle.SetPrimary(button); }
+        bool appeared;
 
-        // 그림 위주 화면(결과 그림판 D-076 등)용: 창 크기를 바꾸고, 세로 목록 안에 빈 구역을 하나 받아 직접 채운다
+        // 그림 위주 화면(결과 보고서 등)용: 판 크기를 바꾸고, 세로 목록 안에 빈 구역을 하나 받아 직접 채운다
         public void SetPanelSize(float width, float height) { panel.sizeDelta = new Vector2(width, height); }
 
         public RectTransform AddArea(string name, float height)
         {
-            var obj = new GameObject(name, typeof(RectTransform), typeof(LayoutElement));
-            obj.transform.SetParent(panel, false);
-            obj.GetComponent<LayoutElement>().preferredHeight = height;
-            return (RectTransform)obj.transform;
+            var rect = Ui.Rect(panel, name);
+            Ui.Size(rect, -1f, height);
+            if (actions != null) actions.SetAsLastSibling();   // 단추 줄은 늘 맨 아래
+            return rect;
         }
 
-        public static Font UiFont => GetFont();
+        public static Font UiFont => UiFonts.Body;
 
-        // 정비 마당(D-076)용: 창을 화면 위쪽 띠로 올리고(요약만), 창 아래 화면 전체에 마당을 그릴 수 있게 바탕 바로 위 층을 준다
+        // 정비 마당(D-076)용: 판을 화면 위쪽 황동 계기 띠로 바꾼다 (요약만 — AddArea로 채운다)
         public void DockTop(float width, float height)
         {
             panel.anchorMin = panel.anchorMax = panel.pivot = new Vector2(0.5f, 1f);
-            panel.anchoredPosition = new Vector2(0f, -16f);
+            panel.anchoredPosition = new Vector2(0f, -UiTokens.S32);
             panel.sizeDelta = new Vector2(width, height);
+            Ui.SetPanel(panel.GetComponent<Image>(), UiPanel.Band);
+            var layout = panel.GetComponent<VerticalLayoutGroup>();
+            layout.padding = new RectOffset(32, 32, 16, 16);
+            layout.childAlignment = TextAnchor.MiddleLeft;
+            if (actions != null) Ui.Size(actions, -1f, 0f).ignoreLayout = true;   // 숨긴 단추 줄은 띠 높이를 차지하지 않는다
         }
 
         public RectTransform AddBackdropLayer(string name)
         {
-            var obj = new GameObject(name, typeof(RectTransform));
-            obj.transform.SetParent(root.transform, false);
-            obj.transform.SetSiblingIndex(1);   // 바탕(0) 바로 위, 창 아래
-            var rect = (RectTransform)obj.transform;
-            Stretch(rect);
+            var rect = Ui.Rect(root.transform, name);
+            rect.SetSiblingIndex(1);   // 바탕(0) 바로 위, 판 아래
+            Ui.Stretch(rect);
             return rect;
         }
 
         public CanvasGroup PanelGroup => panel.GetComponent<CanvasGroup>();
 
-        // K-027 화면 배경 그림 (Art/UI/Resources/ScreenArt/이름). 바탕색 위에 화면을 덮도록(비율 유지, 넘치는 쪽은 잘림) 깐다.
-        // 그림이 없으면 false — 예전 단색 바탕 그대로
-        public bool SetBackdrop(string artName)
+        // K-027 화면 배경 그림 (Art/UI/Resources/ScreenArt/이름). 화면을 덮도록(비율 유지, 넘치는 쪽은 잘림) 깐다. 없으면 false
+        public bool SetBackdrop(string artName, float dim = 0f)
         {
             var texture = Resources.Load<Texture2D>("ScreenArt/" + artName);
             if (texture == null) return false;
+            Backdrop(background.transform, texture, dim);
+            return true;
+        }
+
+        static void Backdrop(Transform parent, Texture2D texture, float dim)
+        {
             var obj = new GameObject("Backdrop Art", typeof(RectTransform), typeof(CanvasRenderer), typeof(RawImage), typeof(AspectRatioFitter));
-            obj.transform.SetParent(background.transform, false);   // 바탕(0)의 자식 — 마당 층(1)·창보다 뒤
+            obj.transform.SetParent(parent, false);
+            obj.transform.SetAsFirstSibling();
             var image = obj.GetComponent<RawImage>();
             image.texture = texture;
             image.color = Color.white;
@@ -190,48 +125,62 @@ namespace HumanLastRampart.UI
             var fit = obj.GetComponent<AspectRatioFitter>();
             fit.aspectMode = AspectRatioFitter.AspectMode.EnvelopeParent;
             fit.aspectRatio = (float)texture.width / Mathf.Max(1, texture.height);
-            return true;
+            if (dim > 0f)
+            {
+                // 판 뒤 장면을 누르는 어둠 (가장자리가 더 어둡게 — 미니어처 흐림처럼 가운데로 눈이 간다)
+                Image shade = Ui.Image(parent, "Backdrop Dim", UiTokens.Alpha(UiTokens.Night, dim));
+                Ui.Stretch(shade.rectTransform);
+                Image edge = Ui.Image(parent, "Backdrop Edge", UiTokens.Alpha(Color.black, Mathf.Min(1f, dim + 0.25f)));
+                edge.sprite = UiArt.Get(UiArt.Vignette);
+                Ui.Stretch(edge.rectTransform);
+            }
         }
 
-        // 창을 반투명하게 (배경 그림이 비치게). 창 테두리는 선 4개라 반투명이어도 비치지 않는다
-        public void SetPanelAlpha(float alpha)
-        {
-            var image = panel.GetComponent<Image>();
-            if (image == null) return;
-            var color = image.color;
-            image.color = new Color(color.r, color.g, color.b, alpha);
-        }
-
-        // 메인 화면(K-027 배경)용: 창을 왼쪽 제목 여백으로 옮긴다 — 배경 오른쪽의 장교·빛을 가리지 않게
+        // 메인 화면(K-027 배경)용: 판을 왼쪽 제목 여백으로 — 배경 오른쪽의 장교·빛을 가리지 않게
         public void DockLeft(float width, float height)
         {
             panel.anchorMin = panel.anchorMax = panel.pivot = new Vector2(0f, 0.5f);
-            panel.anchoredPosition = new Vector2(110f, 0f);
+            panel.anchoredPosition = new Vector2(128f, 0f);
             panel.sizeDelta = new Vector2(width, height);
         }
 
-        // 버튼을 보이지 않게 숨기되 누를 수 있는 상태로 둔다 — 마당 상호작용(E)과 시험이 같은 길로 부른다
+        // 단추를 보이지 않게 숨기되 누를 수 있는 상태로 둔다 — 마당 상호작용(E)과 시험이 같은 길로 부른다
         public static void HideButton(Button button)
         {
             var group = button.gameObject.AddComponent<CanvasGroup>();
             group.alpha = 0f;
             group.blocksRaycasts = false;
             var element = button.GetComponent<LayoutElement>();
-            if (element != null) element.ignoreLayout = true;
+            if (element == null) element = button.gameObject.AddComponent<LayoutElement>();
+            element.ignoreLayout = true;
             ((RectTransform)button.transform).sizeDelta = Vector2.zero;
         }
 
-        public Button AddButton(string text, UnityAction action)
+        public Button AddButton(string text, UnityAction action) => AddButton(text, text, action, false);
+
+        // key = 시험이 찾는 열쇠, label = 보이는 글. primary면 황동 단추 (화면마다 하나)
+        public Button AddButton(string key, string label, UnityAction action, bool primary)
         {
-            var button = MakeButton(panel, text, action);
+            Button button;
             if (storyPresentation)
             {
-                var rect = button.GetComponent<RectTransform>();
-                rect.anchorMin = rect.anchorMax = rect.pivot = new Vector2(1, 0);
-                rect.sizeDelta = new Vector2(220, 64);
-                rect.anchoredPosition = new Vector2(-32, 24);
+                button = Ui.Button(panel, key, label, () => action(), UiButtonKind.Primary, UiArt.IconPlay);
+                Ui.Place((RectTransform)button.transform, new Vector2(1f, 0f), new Vector2(-UiTokens.S32, UiTokens.S24), new Vector2(208f, 56f), new Vector2(1f, 0f));
             }
-            if (firstButton == null) firstButton = button;
+            else
+            {
+                if (actions == null)
+                {
+                    HorizontalLayoutGroup row = Ui.Row(panel, "Actions", UiTokens.S16, TextAnchor.MiddleRight);
+                    actions = (RectTransform)row.transform;
+                    Ui.Size(row, -1f, 64f);
+                }
+
+                button = Ui.Button(actions, key, label, () => action(), primary ? UiButtonKind.Primary : UiButtonKind.Normal);
+                Ui.Size(button, primary ? 288f : 224f, 64f);
+            }
+
+            if (firstButton == null || primary) firstButton = button;
             return button;
         }
 
@@ -239,36 +188,55 @@ namespace HumanLastRampart.UI
         {
             input.interactable = active;
             input.blocksRaycasts = active;
+            if (active && !appeared)
+            {
+                // 화면이 열릴 때 판이 밀려 올라온다 (S-24). 자리(DockTop·DockLeft)가 정해진 뒤에 시작한다
+                appeared = true;
+                UiAppear.Show(panel.gameObject, new Vector2(0f, -UiTokens.S24));
+            }
         }
 
         public void FocusFirst() { Focus(firstButton); }
 
+        // 난이도: 카드 두 장 (이름 + 한 줄). 돌아가기는 판 모서리의 닫기 표시
         public void ShowDifficulty(UnityAction easy, UnityAction realistic)
         {
             if (popup != null || disposed) return;
             panel.GetComponent<CanvasGroup>().interactable = false;
-            var shade = Image(root.transform, "Difficulty Popup", UiStyle.Shade);
-            Stretch(shade.rectTransform);
+            Image shade = Ui.Shade(root.transform, "Difficulty Popup");
             popup = shade.gameObject;
-            var content = MakePanel(popup.transform, "Difficulty");
-            Label(content, "난이도 선택", 46, 80, UiStyle.Brass);
-            Divider(content);
-            Label(content, "쉬움: 적 규모 절반 · 전투 지도에서 시간 정지\n현실: 전투 지도에서도 시간 진행", 27, 150,
-                UiStyle.Body);
-            var easyButton = MakeButton(content, "쉬움", easy);
-            MakeButton(content, "현실", realistic);
-            MakeButton(content, "돌아가기", ClosePopup);
-            Focus(easyButton);
+            Image box = Ui.Panel(shade.transform, "Difficulty", UiPanel.Parchment);
+            Ui.Place(box.rectTransform, new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(880f, 400f));
+            UiAppear.Show(box.gameObject, new Vector2(0f, -UiTokens.S24));
+            Text heading = Ui.Label(box.transform, "Title", "어떤 싸움으로 나설까", UiTokens.H2, UiTokens.Ink, TextAnchor.MiddleLeft, true);
+            Ui.Place(heading.rectTransform, new Vector2(0f, 1f), new Vector2(UiTokens.S48, -UiTokens.S48), new Vector2(700f, 48f), new Vector2(0f, 0.5f));
+            Button close = Ui.IconButton(box.transform, "돌아가기", UiArt.IconClose, ClosePopup, 48f);
+            Ui.Place((RectTransform)close.transform, new Vector2(1f, 1f), new Vector2(-UiTokens.S24, -UiTokens.S24), new Vector2(48f, 48f), new Vector2(1f, 1f));
+            Button first = Card(box.transform, "쉬움", "쉬움", "적이 절반\n지도를 펴면 시간이 멈춤", -200f, easy);
+            Card(box.transform, "현실", "현실", "적이 그대로\n지도를 펴도 시간이 흐름", 200f, realistic);
+            Focus(first);
+        }
+
+        static Button Card(Transform parent, string key, string name, string line, float x, UnityAction action)
+        {
+            Button card = Ui.Button(parent, key, name, () => action());
+            Ui.Place((RectTransform)card.transform, new Vector2(0.5f, 0f), new Vector2(x, UiTokens.S48), new Vector2(360f, 208f), new Vector2(0.5f, 0f));
+            Text title = Ui.LabelOf(card);
+            title.font = UiFonts.Display;
+            title.fontSize = UiTokens.H2;
+            title.color = UiTokens.Brass;
+            title.alignment = TextAnchor.UpperCenter;
+            title.rectTransform.offsetMax = new Vector2(-UiTokens.S16, -UiTokens.S32);
+            Text detail = Ui.Label(card.transform.Find("Content"), "Detail", line, UiTokens.Text, UiTokens.Body, TextAnchor.LowerCenter);
+            Ui.Stretch(detail.rectTransform, UiTokens.S32);
+            return card;
         }
 
         void ClosePopup()
         {
             if (popup == null || disposed || !input.interactable) return;
             ClearSelection(popup.transform);
-            foreach (var button in popup.GetComponentsInChildren<Button>())
-                button.onClick.RemoveAllListeners();
-            popup.SetActive(false);
-            UnityEngine.Object.Destroy(popup);
+            Ui.Close(popup);
             popup = null;
             panel.GetComponent<CanvasGroup>().interactable = true;
             FocusFirst();
@@ -286,87 +254,74 @@ namespace HumanLastRampart.UI
             UnityEngine.Object.Destroy(root);
         }
 
-        // 승인된 공통 시안의 배경 공간·오른쪽 인물·하단 대사창. 새 배경 아트 대신 단순 색면을 쓴다.
-        static RectTransform MakeStory(Transform parent, string title, string description, Texture2D character, string speaker)
+        // 스토리: 배경 그림(없으면 어두운 바탕) + 오른쪽 인물 + 아래 손그림 말풍선(이름 나무판 + 대사)
+        RectTransform MakeStory(string title, string description, Texture2D character, string speaker)
         {
-            var sky = Image(parent, "Story Backdrop", new Color(0.145f, 0.212f, 0.180f));
-            Stretch(sky.rectTransform);
-            sky.raycastTarget = false;
-            StoryBand(parent, "Distant Landscape", new Vector2(0, 0.45f), new Vector2(1, 0.66f),
-                new Color(0.25f, 0.29f, 0.22f));
-            StoryBand(parent, "Wall Silhouette", new Vector2(0, 0.33f), new Vector2(1, 0.49f),
-                new Color(0.31f, 0.34f, 0.28f));
-            StoryBand(parent, "Walkway Silhouette", new Vector2(0, 0), new Vector2(1, 0.33f),
-                UiStyle.PanelDeep);
+            var art = Resources.Load<Texture2D>("ScreenArt/main");
+            if (art != null) Backdrop(background.transform, art, 0.55f);
 
-            var heading = Label(parent, title, 34, 60, UiStyle.Brass);
-            StoryRect(heading.rectTransform, new Vector2(0.055f, 0.87f), new Vector2(0.62f, 0.95f));
-            heading.alignment = TextAnchor.MiddleLeft;
             if (character != null)
             {
-                var holder = new GameObject("Story Character", typeof(RectTransform)).GetComponent<RectTransform>();
-                holder.SetParent(parent, false);
-                StoryRect(holder, new Vector2(0.60f, 0.335f), new Vector2(0.88f, 0.90f));
-                var art = new GameObject("Wizard Front", typeof(RectTransform), typeof(CanvasRenderer),
-                    typeof(RawImage), typeof(AspectRatioFitter));
-                art.transform.SetParent(holder, false);
-                var image = art.GetComponent<RawImage>();
+                var holder = Ui.Rect(root.transform, "Story Character");
+                holder.anchorMin = new Vector2(0.58f, 0.30f);
+                holder.anchorMax = new Vector2(0.90f, 0.96f);
+                holder.offsetMin = holder.offsetMax = Vector2.zero;
+                var obj = new GameObject("Character", typeof(RectTransform), typeof(CanvasRenderer), typeof(RawImage), typeof(AspectRatioFitter));
+                obj.transform.SetParent(holder, false);
+                var image = obj.GetComponent<RawImage>();
                 image.texture = character;
                 image.color = Color.white;
                 image.raycastTarget = false;
-                var fit = art.GetComponent<AspectRatioFitter>();
+                var fit = obj.GetComponent<AspectRatioFitter>();
                 fit.aspectMode = AspectRatioFitter.AspectMode.FitInParent;
                 fit.aspectRatio = (float)character.width / Mathf.Max(1, character.height);
             }
 
-            var dialogue = Image(parent, "Story Dialogue", UiStyle.PanelSolid);
-            var rect = dialogue.rectTransform;
-            StoryRect(rect, new Vector2(0.055f, 0.055f), new Vector2(0.945f, 0.335f));
-            dialogue.gameObject.AddComponent<CanvasGroup>();
-            UiStyle.Border(dialogue, 1f);
-
-            var name = Label(rect, speaker ?? "", 28, 48, UiStyle.Brass);
-            name.gameObject.name = "Story Speaker";
-            StoryRect(name.rectTransform, new Vector2(0, 0.75f), new Vector2(1, 1));
-            name.rectTransform.offsetMin = new Vector2(32, 0);
-            name.rectTransform.offsetMax = new Vector2(-32, -12);
-            name.alignment = TextAnchor.MiddleLeft;
-
-            var body = Label(rect, description, 30, 120, UiStyle.Body);
-            body.gameObject.name = "Story Line";
-            StoryRect(body.rectTransform, new Vector2(0, 0.32f), new Vector2(1, 0.76f));
-            body.rectTransform.offsetMin = new Vector2(32, 0);
-            body.rectTransform.offsetMax = new Vector2(-32, 0);
-            body.alignment = TextAnchor.UpperLeft;
-            return rect;
-        }
-
-        static void StoryBand(Transform parent, string name, Vector2 min, Vector2 max, Color color)
-        {
-            var image = Image(parent, name, color);
-            StoryRect(image.rectTransform, min, max);
-            image.raycastTarget = false;
-        }
-
-        static void StoryRect(RectTransform rect, Vector2 min, Vector2 max)
-        {
-            rect.anchorMin = min;
-            rect.anchorMax = max;
+            Image bubble = Ui.Panel(root.transform, "Story Dialogue", UiPanel.Bubble);
+            var rect = bubble.rectTransform;
+            rect.anchorMin = new Vector2(0.06f, 0.05f);
+            rect.anchorMax = new Vector2(0.94f, 0.31f);
             rect.offsetMin = rect.offsetMax = Vector2.zero;
+            bubble.gameObject.AddComponent<CanvasGroup>();
+            // 말풍선 꼬리: 오른쪽 인물 쪽으로
+            Image tail = Ui.Image(rect, "Tail", Color.white);
+            tail.sprite = UiArt.Get(UiArt.BubbleTail);
+            // 그림은 위가 넓고 아래 왼쪽이 뾰족하다 → 위아래·좌우를 뒤집어 넓은 쪽을 말풍선 윗변에 붙이고 끝이 오른쪽 위를 향하게
+            Ui.Place(tail.rectTransform, new Vector2(0.78f, 1f), new Vector2(0f, -UiTokens.Dot * 2f), UiArt.Size(tail.sprite, 2f), new Vector2(0.5f, 1f));
+            tail.rectTransform.localScale = new Vector3(-1f, -1f, 1f);
+
+            if (!string.IsNullOrEmpty(speaker))
+            {
+                Image plate = Ui.Panel(rect, "Speaker Plate", UiPanel.Plate);
+                Ui.Place(plate.rectTransform, new Vector2(0f, 1f), new Vector2(UiTokens.S48, UiTokens.S16), new Vector2(0f, 56f), new Vector2(0f, 0f));
+                var row = plate.gameObject.AddComponent<HorizontalLayoutGroup>();
+                row.padding = new RectOffset(24, 24, 8, 8);
+                row.childControlWidth = row.childControlHeight = true;
+                row.childForceExpandWidth = false;
+                plate.gameObject.AddComponent<ContentSizeFitter>().horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+                Text name = Ui.Label(plate.transform, "Story Speaker", speaker, UiTokens.Text, UiTokens.BrassLight, TextAnchor.MiddleCenter, true);
+                name.horizontalOverflow = HorizontalWrapMode.Overflow;
+            }
+
+            Text body = Ui.Label(rect, "Story Line", description, UiTokens.H2, UiTokens.Ink, TextAnchor.UpperLeft);
+            body.rectTransform.anchorMin = new Vector2(0f, 0f);
+            body.rectTransform.anchorMax = new Vector2(1f, 1f);
+            body.rectTransform.offsetMin = new Vector2(UiTokens.S48, 96f);
+            body.rectTransform.offsetMax = new Vector2(-UiTokens.S48, -UiTokens.S48);
+            return rect;
         }
 
         static RectTransform MakePanel(Transform parent, string name)
         {
-            var image = Image(parent, name, UiStyle.PanelSolid);
+            Image image = Ui.Panel(parent, name, UiPanel.Parchment);
             var rect = image.rectTransform;
             rect.anchorMin = rect.anchorMax = new Vector2(0.5f, 0.5f);
-            rect.sizeDelta = new Vector2(960, 740);
-            UiStyle.Border(image);
+            rect.sizeDelta = new Vector2(960f, 720f);
             image.gameObject.AddComponent<CanvasGroup>();
             var layout = image.gameObject.AddComponent<VerticalLayoutGroup>();
-            layout.padding = new RectOffset(56, 56, 40, 40);
-            layout.spacing = 20;
-            layout.childAlignment = TextAnchor.UpperCenter;
+            layout.padding = new RectOffset(48, 48, 48, 48);
+            layout.spacing = UiTokens.S24;
+            layout.childAlignment = TextAnchor.UpperLeft;
             layout.childControlWidth = true;
             layout.childControlHeight = true;
             layout.childForceExpandWidth = true;
@@ -374,70 +329,11 @@ namespace HumanLastRampart.UI
             return rect;
         }
 
-        // 제목 아래 얇은 황동 선
-        static void Divider(Transform parent)
+        // 제목 아래 잉크 한 줄 (한 점 = 3px)
+        static void Rule(Transform parent)
         {
-            var line = Image(parent, "Divider", new Color(UiStyle.Brass.r, UiStyle.Brass.g, UiStyle.Brass.b, 0.6f));
-            line.raycastTarget = false;
-            line.gameObject.AddComponent<LayoutElement>().preferredHeight = 2;
-        }
-
-        static Image Image(Transform parent, string name, Color color)
-        {
-            var obj = new GameObject(name, typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
-            obj.transform.SetParent(parent, false);
-            var image = obj.GetComponent<Image>();
-            image.color = color;
-            return image;
-        }
-
-        static void Stretch(RectTransform rect)
-        {
-            rect.anchorMin = Vector2.zero;
-            rect.anchorMax = Vector2.one;
-            rect.offsetMin = rect.offsetMax = Vector2.zero;
-        }
-
-        static Text Label(Transform parent, string text, int size, float height, Color color)
-        {
-            var obj = new GameObject("Label", typeof(RectTransform), typeof(CanvasRenderer), typeof(Text), typeof(LayoutElement));
-            obj.transform.SetParent(parent, false);
-            var label = obj.GetComponent<Text>();
-            label.font = GetFont();
-            label.fontSize = size;
-            label.text = text;
-            label.color = color;
-            label.alignment = TextAnchor.MiddleCenter;
-            label.horizontalOverflow = HorizontalWrapMode.Wrap;
-            label.verticalOverflow = VerticalWrapMode.Truncate;
-            label.supportRichText = false;
-            label.raycastTarget = false;
-            obj.GetComponent<LayoutElement>().preferredHeight = height;
-            return label;
-        }
-
-        static Button MakeButton(Transform parent, string text, UnityAction action)
-        {
-            var image = Image(parent, text, Color.white);
-            var button = image.gameObject.AddComponent<Button>();
-            button.targetGraphic = image;
-            UiStyle.StyleButton(button);
-            image.gameObject.AddComponent<LayoutElement>().preferredHeight = UiStyle.ButtonHeight;
-            var label = Label(image.transform, text, 28, UiStyle.ButtonHeight, UiStyle.Body);
-            Stretch(label.rectTransform);
-            button.onClick.AddListener(action);
-            return button;
-        }
-
-        static Font GetFont()
-        {
-            if (temporaryFont != null) return temporaryFont;
-            // D-033 F1: 설치된 시스템 글꼴을 임시 사용. 글꼴 파일을 복사/배포하지 않는다.
-            temporaryFont = Font.CreateDynamicFontFromOSFont(
-                new[] { "Malgun Gothic", "맑은 고딕", "Apple SD Gothic Neo", "Noto Sans CJK KR", "Arial" }, 32);
-            if (temporaryFont == null)
-                temporaryFont = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-            return temporaryFont;
+            Image line = Ui.Image(parent, "Rule", UiTokens.Alpha(UiTokens.Ink, 0.55f));
+            Ui.Size(line, -1f, UiTokens.Dot);
         }
 
         static void Focus(Button button)
