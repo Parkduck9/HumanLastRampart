@@ -127,6 +127,14 @@ namespace HumanLastRampart.UI
             label.supportRichText = false;
             label.raycastTarget = false;
             label.lineSpacing = 1.05f;
+            // 종이 위 작은 글(24 이하)은 또렷한 본문 글꼴 굵게 — 가는 획이 종이 무늬에 묻혀 회색으로 보였다 (사진 r11)
+            bool onPaper = color == UiTokens.Ink || color == UiTokens.InkSoft || color == UiTokens.DangerInk || color == UiTokens.GoodInk;
+            if (onPaper && size <= UiTokens.Text)
+            {
+                label.font = UiFonts.Body;
+                label.fontStyle = FontStyle.Bold;
+            }
+
             return label;
         }
 
