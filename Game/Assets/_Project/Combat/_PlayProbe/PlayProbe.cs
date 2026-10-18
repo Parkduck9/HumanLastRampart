@@ -1147,8 +1147,26 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
         Time.captureDeltaTime = 0.0005f;   // 전투는 거의 멈춤 — old/new가 같은 순간
         try
         {
+            // 정면(북) 궁수 구간으로 주인공·카메라를 옮긴다 — 성벽 가운데에는 총병만 있어 궁수가 안 보였다 (K-057 1차 시험)
+            int archerStart = 0, archerCount = 0;
+            foreach (var (unit, start, count) in sim.SoldierGroups)
+                if (HumanLastRampart.Combat.Battle.ProportionTrial.IsArcher(unit)) { archerStart = start; archerCount = count; }
+            Assert.Greater(archerCount, 0, "궁수 병종이 전투에 있다");
+            float archerAlong = float.NaN;
+            for (int i = archerStart; i < archerStart + archerCount; i++)
+            {
+                int row = sim.SoldierRow(i, out int side, out float lateral);
+                if (row < 0 || side != 0) continue;
+                if (float.IsNaN(archerAlong) || Mathf.Abs(lateral) < Mathf.Abs(archerAlong)) archerAlong = lateral;   // 가운데에서 가장 가까운 정면 궁수
+            }
+
+            Assert.IsFalse(float.IsNaN(archerAlong), "정면 성벽에 궁수가 서 있다");
+            Note($"정면 궁수 구간: 성벽 따라 {archerAlong:0.0}m");
+            var alongField = typeof(HumanLastRampart.Combat.Battle.BattleCameraRig).GetField("along", flags);
             rig.ShowSide(0);
+            alongField.SetValue(rig, archerAlong);   // 북쪽: 오른쪽 = +x
             rig.SetPreset(0);
+            for (int i = 0; i < 5; i++) yield return null;
             foreach (var (w, t, name) in new[] {
                 (HumanLastRampart.Core.CombatContracts.Weather.Clear, HumanLastRampart.Core.CombatContracts.TimeOfDay.Day, "day"),
                 (HumanLastRampart.Core.CombatContracts.Weather.Clear, HumanLastRampart.Core.CombatContracts.TimeOfDay.Night, "night") })
@@ -1163,10 +1181,43 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
                 }
             }
 
-            // 주인공 달리기 (오른쪽, 옆 달리기 칸) — 낮
+            // 궁수 사격 순간 — 낮. 전투를 돌리며 카메라 근처(±4m) 정면 궁수가 사격 칸일 때 멈추고 old/new
             var g = setup.Forecast; g.InitialWeather = HumanLastRampart.Core.CombatContracts.Weather.Clear; g.TimeOfDay = HumanLastRampart.Core.CombatContracts.TimeOfDay.Day; g.Changes = false; setup.Forecast = g;
             sim.WeatherDirty = true;
             HumanLastRampart.Combat.Battle.ProportionTrial.Enabled = false;
+            Time.captureDeltaTime = 1f / 20f;
+            int firing = -1;
+            for (int k = 0; k < 400 && firing < 0; k++)
+            {
+                yield return null;
+                sim.Complete();
+                for (int i = archerStart; i < archerStart + archerCount && firing < 0; i++)
+                {
+                    if (sim.SoldierRow(i, out int side, out float lateral) < 0 || side != 0 || Mathf.Abs(lateral - archerAlong) > 4f) continue;
+                    var inst = sim.SoldierInstances[i];
+                    float frame = inst.PosFrame.w;
+                    if (inst.TintSize.w > 0f && frame >= HumanLastRampart.Combat.PerfLab.PerfLabArt.FireFrame0 && frame < HumanLastRampart.Combat.PerfLab.PerfLabArt.FireFrame0 + HumanLastRampart.Combat.PerfLab.PerfLabArt.PoseWindow)
+                        firing = i;
+                }
+            }
+
+            Time.captureDeltaTime = 0.0005f;
+            if (firing >= 0)
+            {
+                Note($"궁수 사격 순간: 병사 {firing}");
+                yield return Capture("proportion_archer_fire_A_old");
+                HumanLastRampart.Combat.Battle.ProportionTrial.Enabled = true;
+                for (int i = 0; i < 3; i++) yield return null;
+                yield return Capture("proportion_archer_fire_A_new");
+                HumanLastRampart.Combat.Battle.ProportionTrial.Enabled = false;
+                for (int i = 0; i < 3; i++) yield return null;
+            }
+            else
+            {
+                Note("궁수 사격 순간을 400프레임 안에 찾지 못함 (사진 없음)");
+            }
+
+            // 주인공 달리기 (오른쪽, 옆 달리기 칸) — 낮
             rig.WalkInput = 1f;
             for (int i = 0; i < 8; i++) yield return null;
             Assert.AreEqual(HumanLastRampart.Combat.Battle.BattleCameraRig.HeroPose.Run, rig.Pose, "오른쪽으로 달리는 중");
