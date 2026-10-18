@@ -87,7 +87,7 @@ namespace HumanLastRampart.Combat.Battle
             if (before == Weather.Rain) return "비가 그쳤습니다";
             if (now == Weather.Fog) return "안개가 끼었습니다 — 먼 곳이 보이지 않습니다";
             if (before == Weather.Fog) return "안개가 걷혔습니다";
-            return $"날씨가 바뀌었습니다: {WeatherName(before)} → {WeatherName(now)}";
+            return $"날씨가 바뀌었습니다 · {WeatherName(now)}";
         }
     }
 }

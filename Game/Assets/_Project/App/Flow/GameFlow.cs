@@ -7,6 +7,8 @@ using HumanLastRampart.Core.Campaign;
 using HumanLastRampart.Core.CombatContracts;
 using HumanLastRampart.Core.Definitions;
 using HumanLastRampart.Core.Flow;
+using HumanLastRampart.Core.Save;
+using HumanLastRampart.Core.Settings;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.UI;
@@ -65,7 +67,16 @@ namespace HumanLastRampart.App.Flow
             if (Instance == this)
             {
                 Instance = null;
+                GameSettings.Changed -= ApplySystemSettings;
             }
+        }
+
+        // 소리 크기·전체 화면 (K-062). 전체 화면은 사용자가 한 번이라도 골랐을 때만 바꾼다
+        static void ApplySystemSettings()
+        {
+            AudioListener.volume = GameSettings.MasterVolume;
+            if (GameSettings.FullscreenChosen && Screen.fullScreen != GameSettings.Fullscreen)
+                Screen.fullScreenMode = GameSettings.Fullscreen ? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed;
         }
 
         void Start()
@@ -78,6 +89,9 @@ namespace HumanLastRampart.App.Flow
 
             EnsureEventSystem();
             overlay = BootOverlay.Create(transform);
+            GameSettings.Load();                       // 설정 (K-062): 소리·전체 화면은 App이 적용, 나머지는 각 화면이 읽는다
+            GameSettings.Changed += ApplySystemSettings;
+            ApplySystemSettings();
 
             if (adoptOnStart)
             {
@@ -164,6 +178,17 @@ namespace HumanLastRampart.App.Flow
 
                 Campaign = created;
             }
+            else if (outcome == ScreenOutcome.ContinueGame)
+            {
+                // 이어하기 (K-062): 저장한 진행을 불러온다. 못 읽으면 오류 안내 → 메인
+                if (!CampaignSave.TryLoad(out CampaignState loaded, out _, out string loadError))
+                {
+                    ShowDataError("저장된 진행을 불러오지 못했습니다 — " + loadError);
+                    return;
+                }
+
+                Campaign = loaded;
+            }
             else if (context.Screen == ScreenId.Story && Campaign != null)
             {
                 state.StoryIsDefeatEnding = Campaign.NextStory != null && Campaign.NextStory.Kind == StoryKind.DefeatEnding;
@@ -232,6 +257,12 @@ namespace HumanLastRampart.App.Flow
                 yield break;   // 오류 안내가 떠 있다
             }
 
+            // 진행 자동 저장 (K-062): 정비 화면에 들어올 때 슬롯 1개. 실패해도 게임은 계속 (경고만)
+            if (step.Screen == ScreenId.Prep && Campaign != null && !CampaignSave.Save(Campaign, ScreenId.Prep, out string saveError))
+            {
+                Debug.LogWarning("[저장] 진행을 저장하지 못했습니다: " + saveError);
+            }
+
             yield return OpenScreen(step.Screen);
 
             transitioning = false;
@@ -256,6 +287,11 @@ namespace HumanLastRampart.App.Flow
 
         void ApplyCampaignChanges(FlowStep step)
         {
+            if (step.DeleteSave)
+            {
+                CampaignSave.Delete();   // 한 판이 끝남 (K-062)
+            }
+
             if (step.DiscardCampaign)
             {
                 Campaign = null;

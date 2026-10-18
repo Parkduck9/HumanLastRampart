@@ -16,12 +16,11 @@ namespace HumanLastRampart.Meta
             bool valid = BattleResultApplier.TryApply(campaign, out string error,
                 context.Definitions.Get<TerrainDef>(campaign?.ActiveBattleSetup?.TerrainId));
             var result = campaign?.LastBattle;
-            ResultReportFormatter.Report report = null;
             if (valid)
             {
                 try
                 {
-                    report = ResultReportFormatter.Build(campaign.ActiveBattleSetup, result,
+                    ResultReportFormatter.Build(campaign.ActiveBattleSetup, result,
                         id => context.Definitions.Get<UnitDef>(id)?.DisplayName ?? id,
                         id => context.Definitions.Get<PostDef>(id)?.WallId,
                         id => context.Definitions.Get<UnitDef>(id)?.MaxHp ?? 0);
@@ -29,30 +28,28 @@ namespace HumanLastRampart.Meta
                 catch (System.ArgumentException exception)
                 {
                     valid = false;
-                    error = "결과 상세 데이터를 표시하지 못했습니다: " + exception.Message;
+                    error = "결과 상세 데이터를 표시하지 못했습니다: " + exception.Message;   // 개발 기록용 (ReportDataError)
                 }
             }
-            // D-076: 글자 덩어리 대신 그림판 한 장 — 성벽 도식·병종별 손실 막대·영웅 초상을 한 번에 보고 확인
-            string headline = valid
-                ? $"{(result.Outcome == BattleOutcome.Victory ? "승리" : "패배")} · 처치 {result.DefeatedEnemyCount:N0} · 골드 +{result.EarnedGold:N0}"
-                : "전투 정보를 처리하지 못했습니다.";
-            var view = new ScreenView(transform, $"전투 {result?.BattleNumber} 결과", headline);
-            // K-027: 승리면 버틴 성벽, 패배면 무너진 성벽 배경. 큰 창이 거의 다 덮으므로 창을 조금 비치게
-            if (valid && view.SetBackdrop(result.Outcome == BattleOutcome.Victory ? "victory" : "defeat"))
-                view.SetPanelAlpha(0.88f);
+
+            // K-047 4번 화면: 승패 도장이 찍힌 전투 보고서 한 장 — 1순위는 승패, 그다음 성벽·병력·영웅 (D-076 그림판)
+            var view = new ScreenView(transform, valid ? $"전투 {result.BattleNumber} 보고" : "보고서가 비었습니다",
+                valid ? "" : "전령이 길을 잃었습니다. 다음으로 넘어갈 수 없습니다.");
             if (valid)
             {
+                view.SetBackdrop(result.Outcome == BattleOutcome.Victory ? "victory" : "defeat", 0.45f);
                 view.SetPanelSize(1600f, 900f);
-                RectTransform board = view.AddArea("Result Board", 440f);
-                board.sizeDelta = new Vector2(1488f, 440f);
+                RectTransform head = view.AddArea("Result Head", 96f);
+                ResultBoard.BuildHead(head, result);
+                RectTransform board = view.AddArea("Result Board", 456f);
+                board.sizeDelta = new Vector2(1504f, 456f);
                 ResultBoard.Build(board, campaign.ActiveBattleSetup, result, id => context.Definitions.Get<UnitDef>(id));
             }
-            var next = view.AddButton("다음", () => Complete(ScreenOutcome.Done));
+
+            var next = view.AddButton("다음", "보고 마치기", () => Complete(ScreenOutcome.Done), true);
             next.interactable = valid;
-            view.MarkPrimary(next);   // 주된 다음 행동 (D-066)
             if (!valid) context.ReportDataError(error);
             return view;
         }
-
     }
 }

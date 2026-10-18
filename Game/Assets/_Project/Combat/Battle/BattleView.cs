@@ -58,6 +58,8 @@ namespace HumanLastRampart.Combat.Battle
         readonly List<(GraphicsBuffer buffer, MaterialPropertyBlock block, int start, int count)> runnerDraws =
             new List<(GraphicsBuffer, MaterialPropertyBlock, int, int)>();
         readonly GraphicsBuffer runnerBuffer;   // 전체 (지도 점)
+        bool soldierMapStale = true;            // 지도 점 버퍼(soldierBuffer·runnerBuffer)를 다시 올려야 함 (K-061)
+        readonly float[] wallRatioShown = { -1f, -1f, -1f, -1f };   // 마지막으로 칠한 성벽 체력 비율 (K-061)
         readonly MaterialPropertyBlock mapRunnerBlock;
         readonly BattlePropView props;          // 성벽 난간·대포 그림
         readonly BattleWorldView world;         // 성벽·포탑 3D 목업 (K-001)
@@ -96,6 +98,12 @@ namespace HumanLastRampart.Combat.Battle
         readonly GraphicsBuffer flameBuffer;
         readonly MaterialPropertyBlock flameBlock;
         readonly PerfLabInstance[] flameInstances;
+        // 3등신 시험 그림 (K-057, ProportionTrial): 켜고 끌 때 궁수·주인공 블록의 그림만 바꿔 끼운다. 꺼져 있으면 아무것도 안 함
+        UnitDef trialArcher;
+        MaterialPropertyBlock trialArcherBlock, trialArcherFireBlock;
+        readonly Texture2D heroSheetOriginal, heroIdleOriginal;
+        readonly Texture heroNormalOriginal, heroIdleNormalOriginal;
+        bool trialShown;
         readonly Renderer[] walls = new Renderer[4];
         Light sunLight;
         Transform[] pileBlocks;          // 시체 더미 칸마다 상자 (높이가 생기면 만든다)
@@ -195,6 +203,14 @@ namespace HumanLastRampart.Combat.Battle
                 {
                     // 사격·쓰러짐 시트 (K-032). 칸 번호 구간은 BattleSim.SoldierPose
                     AddPose(soldierPoseDraws, buffer, count, unit.FireSheet, PerfLabArt.FireFrame0);
+                    if (ProportionTrial.IsArcher(unit))
+                    {
+                        // 3등신 시험 그림으로 바꿔 끼울 블록 (K-057)
+                        trialArcher = unit;
+                        trialArcherBlock = block;
+                        trialArcherFireBlock = unit.FireSheet != null ? soldierPoseDraws[soldierPoseDraws.Count - 1].block : null;
+                    }
+
                     AddPose(soldierPoseDraws, buffer, count, unit.DeathSheet, PerfLabArt.FallFrame0);
                     AddPose(soldierPoseDraws, buffer, count, unit.IgniteSheet, PerfLabArt.IgniteFrame0);   // 대포병 불붙이기 (K-046)
                 }
@@ -255,6 +271,10 @@ namespace HumanLastRampart.Combat.Battle
 
             heroBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, 1, PerfLabInstance.Stride);
             heroBlock.SetBuffer(InstancesId, heroBuffer);
+            heroSheetOriginal = heroSheet;            // 3등신 시험 그림에서 되돌릴 원래 그림 (K-057)
+            heroIdleOriginal = heroIdleSheet;
+            heroNormalOriginal = heroNormalSheet;
+            heroIdleNormalOriginal = heroIdleNormalSheet;
             if (heroIdleSheet != null)
             {
                 heroIdleBlock = new MaterialPropertyBlock();
@@ -329,6 +349,35 @@ namespace HumanLastRampart.Combat.Battle
         }
 
         public bool HasHeroCommandArt => heroCommandBlock != null;
+
+        // 3등신 시험 그림 켜기·끄기 (K-057): 궁수 서기·사격, 주인공 시트·서기 블록의 그림을 바꾼다. 버퍼·칸 구간은 그대로.
+        // 시험 그림은 인물 키 192px라 SheetScale이 기존 그림과 같은 월드 키로 맞춘다. 원래 노멀맵은 칸이 안 맞아 시험 그림에는 뺀다
+        void ApplyProportionTrial()
+        {
+            trialShown = ProportionTrial.Enabled;
+            if (trialArcher != null && trialArcherBlock != null)
+            {
+                Texture2D sheet = ProportionTrial.ArcherStatic(trialArcher.Sheet);
+                ApplyFigure(trialArcherBlock, sheet, ProportionTrial.Normal(sheet, trialArcher.Sheet, trialArcher.NormalSheet));
+                Texture2D fire = ProportionTrial.ArcherFire(trialArcher.FireSheet);
+                if (trialArcherFireBlock != null && fire != null) ApplyFigure(trialArcherFireBlock, fire);
+                sim.SetFireSheetFrames(trialArcher, fire);   // 시험 사격은 4칸 (놓기 = 4번째 칸, 기존과 같은 자리)
+            }
+
+            if (heroSheetOriginal != null)
+            {
+                Texture2D hero = ProportionTrial.HeroGrid(heroSheetOriginal);
+                Apply(heroBlock, hero, PerfLabArt.HeroLayout, ProportionTrial.Normal(hero, heroSheetOriginal, heroNormalOriginal), PerfLabArt.SheetScale(hero), true);
+            }
+
+            if (heroIdleBlock != null && heroIdleOriginal != null)
+            {
+                Texture2D idle = ProportionTrial.HeroIdle(heroIdleOriginal);
+                ApplyFigure(heroIdleBlock, idle, ProportionTrial.Normal(idle, heroIdleOriginal, heroIdleNormalOriginal));
+            }
+
+            sim.SoldiersDirty = true;
+        }
 
         void BuildEnvironment()
         {
@@ -419,6 +468,7 @@ namespace HumanLastRampart.Combat.Battle
         // 작업이 끝난 뒤(sim.Complete 후) 부른다. 지도 모드면 같은 데이터를 점으로 그린다(mapDotSize = 최소 점 크기 m)
         public void Draw(bool mapMode = false, float mapDotSize = 0f)
         {
+            if (ProportionTrial.Enabled != trialShown) ApplyProportionTrial();   // 3등신 시험 그림 (K-057) — 꺼져 있으면 건너뜀
             if (look != null)
             {
                 bool litBefore = HumanLastRampart.Combat.Render.BattleLook.LitActive;
@@ -471,11 +521,18 @@ namespace HumanLastRampart.Combat.Battle
             if (sim.SoldiersDirty)
             {
                 sim.RefreshSoldierInstances();
-                soldierBuffer.SetData(sim.SoldierInstances);
                 foreach (var (buffer, _, start, count) in soldierDraws) buffer.SetData(sim.SoldierInstances, start, 0, count);
-                runnerBuffer.SetData(sim.RunnerInstances);
                 foreach (var (buffer, _, start, count) in runnerDraws) buffer.SetData(sim.RunnerInstances, start, 0, count);
+                soldierMapStale = true;
                 sim.SoldiersDirty = false;
+            }
+
+            // 지도 점용 전체 병사·달리는 병사 버퍼는 지도를 볼 때만 올린다 (K-061: 전투 화면에서 매 프레임 병사 수 × 2만큼 헛올림)
+            if (mapMode && soldierMapStale)
+            {
+                soldierBuffer.SetData(sim.SoldierInstances);
+                runnerBuffer.SetData(sim.RunnerInstances);
+                soldierMapStale = false;
             }
 
             if (sim.SoldierCount > 0)
@@ -551,6 +608,8 @@ namespace HumanLastRampart.Combat.Battle
             {
                 BattleSim.SideStatus status = sim.Sides[side];
                 float ratio = status.WallMaxHp > 0 ? Mathf.Clamp01((float)status.WallHp / status.WallMaxHp) : 1f;
+                if (ratio == wallRatioShown[side]) continue;   // 바뀔 때만 (K-061: 재질 값을 매 프레임 넣지 않게)
+                wallRatioShown[side] = ratio;
                 walls[side].material.color = Color.Lerp(new Color(0.75f, 0.2f, 0.15f), new Color(0.72f, 0.7f, 0.66f), ratio);
                 world?.SetWallHealth(side, ratio);   // 질감 판(통로·바깥면)에도 같은 붉은 기
             }
@@ -608,8 +667,9 @@ namespace HumanLastRampart.Combat.Battle
         {
             IReadOnlyList<BattleSim.SpellEffect> list = sim.Effects;
             int discs = 0, flashes = 0;
-            foreach (BattleSim.SpellEffect e in list)
+            for (int i = 0; i < list.Count; i++)   // 인덱스로 (K-061: 인터페이스 foreach는 매 프레임 열거자 할당)
             {
+                BattleSim.SpellEffect e = list[i];
                 if (!e.Fire && !e.Pending && effectArt != null && effectArt.HasBurstArt) continue;   // 터짐은 도트 그림으로 (K-015). 원판은 그대로
                 if (e.Fire && effectArt != null && effectArt.HasFireArt) continue;   // 불바다는 불 그림만 — 바닥 빨간 원판 빼기 (K-036, 사용자 피드백 12-b). 지도에는 주황 원이 남는다
                 if (e.Fire || e.Pending)
@@ -729,32 +789,34 @@ namespace HumanLastRampart.Combat.Battle
             // 망원경 렌즈 (하늘색 원, MAP-5)
             if (lens.HasValue)
             {
-                Ring(lens.Value, sim.TelescopeRange, new Color(0.4f, 0.9f, 1f), dot * 1.2f, 48);   // 망원경 렌즈 강화 반영 (K-058)
-                Ring(lens.Value, sim.TelescopeRange * 0.96f, new Color(0.4f, 0.9f, 1f), dot * 0.8f, 48);
+                Ring(lens.Value, sim.TelescopeRange, MapBrassLight, dot * 1.2f, 64);   // K-047 색 역할: 망원경 = 황동 빛 · 망원경 렌즈 강화 반영 (K-058)
             }
 
             // 마법사 위치 (보라 점, D-058)
-            if (sim.WizardPresent) Add(sim.WizardFeet, new Color(0.75f, 0.45f, 1f), dot * 1.8f);
+            if (sim.WizardPresent) Add(sim.WizardFeet, MapBrass, dot * 1.8f);
 
             // 마법 효과: 불바다(주황 원), 터질 폭발(노랑 원)
-            foreach (BattleSim.SpellEffect e in sim.Effects)
+            IReadOnlyList<BattleSim.SpellEffect> effects = sim.Effects;
+            for (int i = 0; i < effects.Count; i++)
             {
-                if (e.Fire) Ring(e.Position, e.Radius, new Color(1f, 0.45f, 0.1f), dot * 1.1f, 28);
-                else if (e.Pending) Ring(e.Position, e.Radius, new Color(1f, 0.95f, 0.2f), dot * 1.1f, 28);
+                BattleSim.SpellEffect e = effects[i];
+                if (e.Fire) Ring(e.Position, e.Radius, MapFire, dot * 1.1f, 36);
+                else if (e.Pending) Ring(e.Position, e.Radius, MapBlast, dot * 1.1f, 36);
             }
 
             // 마법을 고른 동안: 쓸 수 있는 범위(성벽에서 150m) 네모 점선
             if (showSpellRange)
             {
                 float edge = sim.CastleHalf + BattleSim.SpellCastRange;
-                for (int k = -20; k <= 20; k++)
+                // K-047 S-10: 점선 대신 이어진 한 줄 (점 간격 ≈ 점 크기)
+                int edgeSteps = Mathf.Clamp(Mathf.CeilToInt(edge / Mathf.Max(0.5f, dot * 0.8f)), 20, 160);
+                for (int k = -edgeSteps; k <= edgeSteps; k++)
                 {
-                    float t = k / 20f * edge;
-                    Color c = new Color(0.75f, 0.5f, 1f);
-                    Add(new Vector3(t, 0f, edge), c, dot * 0.6f);
-                    Add(new Vector3(t, 0f, -edge), c, dot * 0.6f);
-                    Add(new Vector3(edge, 0f, t), c, dot * 0.6f);
-                    Add(new Vector3(-edge, 0f, t), c, dot * 0.6f);
+                    float t = (float)k / edgeSteps * edge;
+                    Add(new Vector3(t, 0f, edge), MapBrassLight, dot * 0.8f);
+                    Add(new Vector3(t, 0f, -edge), MapBrassLight, dot * 0.8f);
+                    Add(new Vector3(edge, 0f, t), MapBrassLight, dot * 0.8f);
+                    Add(new Vector3(-edge, 0f, t), MapBrassLight, dot * 0.8f);
                 }
             }
 
@@ -766,7 +828,7 @@ namespace HumanLastRampart.Combat.Battle
                 Vector3 at = spellPreview.Value;
                 float fromWalls = Mathf.Max(Mathf.Abs(at.x), Mathf.Abs(at.z)) - sim.CastleHalf;
                 bool usable = fromWalls <= BattleSim.SpellCastRange && spell.Ready;
-                Color c = !usable ? new Color(0.55f, 0.55f, 0.58f) : spell.IsFire ? new Color(1f, 0.45f, 0.1f) : new Color(1f, 0.95f, 0.2f);
+                Color c = !usable ? new Color(0.55f, 0.55f, 0.58f) : spell.IsFire ? MapFire : MapBlast;
                 int dots = Mathf.Clamp(Mathf.RoundToInt(spell.Radius * 2.5f), 24, 64);
                 Ring(at, spell.Radius, c, dot * 1.1f, dots);
                 Ring(at, spell.Radius * 0.96f, c, dot * 0.6f, dots);
@@ -825,40 +887,24 @@ namespace HumanLastRampart.Combat.Battle
                 if (c.Side == selectedSide)
                 {
                     // 사거리 원은 칠 수 있는 들판 쪽(K-042: 자기 들판 + 모서리 2문만 옆 들판)만 — 맞은편·닿지 않는 옆 들판 쪽 호는 그리지 않는다
-                    const int ringDots = 72;
+                    // K-047 S-10: 고른 대포는 점 수백 개로 구역을 채우지 않고, 이어진 황동 윤곽선 하나만
+                    int ringDots = selected ? Mathf.Clamp(Mathf.CeilToInt(c.Range * 2f * Mathf.PI / Mathf.Max(0.5f, dot * 0.7f)), 72, 400) : 72;
                     for (int k = 0; k < ringDots; k++)
                     {
                         float a = k * Mathf.PI * 2f / ringDots;
                         Vector3 p = c.Position + new Vector3(Mathf.Cos(a), 0f, Mathf.Sin(a)) * c.Range;
                         if (!CannonReaches(c, p)) continue;
-                        Add(p, selected ? new Color(1f, 0.9f, 0.3f) : new Color(0.8f, 0.8f, 0.8f), dot * (selected ? 0.7f : 0.45f));
-                    }
-
-                    // 고른 대포: 쏠 수 있는 구역을 옅은 점 격자로 채운다 (성 안은 빼고)
-                    if (selected)
-                    {
-                        const float step = 5f;
-                        int steps = Mathf.CeilToInt(c.Range / step);
-                        for (int gz = -steps; gz <= steps; gz++)
-                        {
-                            for (int gx = -steps; gx <= steps; gx++)
-                            {
-                                Vector3 p = c.Position + new Vector3(gx * step, 0f, gz * step);
-                                if (Mathf.Max(Mathf.Abs(p.x), Mathf.Abs(p.z)) < sim.CastleHalf + 1f) continue;
-                                if ((p - c.Position).sqrMagnitude > c.Range * c.Range || !CannonReaches(c, p)) continue;
-                                Add(p, new Color(1f, 0.85f, 0.35f), dot * 0.35f);
-                            }
-                        }
+                        Add(p, selected ? MapBrassLight : new Color(0.8f, 0.8f, 0.8f), dot * (selected ? 0.8f : 0.45f));
                     }
                 }
 
-                Add(c.Position, selected ? new Color(1f, 0.9f, 0.2f) : Color.white, dot * (selected ? 2.4f : 1.7f));
+                Add(c.Position, selected ? MapBrassLight : Color.white, dot * (selected ? 2.4f : 1.7f));
                 // 불붙이는 중 (K-046): 대포 점 위에 깜빡이는 주황 불씨 — 곧 발사
                 if (c.Igniting && Mathf.Repeat(Time.unscaledTime, 0.3f) < 0.18f)
-                    Add(c.Position, new Color(1f, 0.5f, 0.05f), dot * 1.1f);
+                    Add(c.Position, MapFire, dot * 1.1f);
                 if (c.HasAim)
                 {
-                    Color aimColor = c.Idle ? new Color(0.6f, 0.6f, 0.6f) : new Color(1f, 0.2f, 0.2f);
+                    Color aimColor = c.Idle ? new Color(0.6f, 0.6f, 0.6f) : MapDanger;
                     Add(c.Aim, aimColor, dot * 2.2f);
                     for (int k = 0; k < 12; k++)
                     {
@@ -868,10 +914,15 @@ namespace HumanLastRampart.Combat.Battle
                 }
             }
 
-            for (int k = n; k < MarkerCapacity; k++) markers[k] = default;
-            markerBuffer.SetData(markers);
+            // 그리는 수(n)만큼만 올린다 (K-061: 예전엔 2048칸을 지우고 전부 올렸다 — 그리기는 어차피 n개)
+            if (n > 0) markerBuffer.SetData(markers, 0, 0, n);
             if (n > 0) Graphics.DrawMeshInstancedProcedural(quad, 0, mapMaterial, bounds, n, markerBlock);
         }
+
+        // 지도 표시 색 (K-047 색 역할 표 = UiTokens): 황동 = 고름·범위, 불·폭발 = 그 마법의 빛, 위험 = 조준점
+        static readonly Color MapBrass = HumanLastRampart.UI.UiTokens.Brass, MapBrassLight = HumanLastRampart.UI.UiTokens.BrassLight;
+        static readonly Color MapFire = HumanLastRampart.UI.UiTokens.Fire, MapBlast = HumanLastRampart.UI.UiTokens.Blast;
+        static readonly Color MapDanger = HumanLastRampart.UI.UiTokens.DangerLight;
 
         // 대포가 그 지점의 들판 면을 칠 수 있는가 (BattleSim.CannonCanReach와 같은 규칙, 사거리는 부르는 쪽이 본다)
         static bool CannonReaches(BattleSim.CannonInfo c, Vector3 p) =>

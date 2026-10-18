@@ -432,11 +432,11 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
         Note($"정비 시작: 골드 {gold0}, 병력 {total0}, {wall.SegmentId} {wall.Hp}/{wall.MaxHp}");
         yield return Capture("prep_0_screen");
 
-        // 모집: 북쪽 성벽 지점을 4번 넘기면 분대 1 (대포 1~4 다음), 기존 궁수 분대에 11명 보충 → 300명 기준 5골드 × 11
+        // 모집: 북쪽 성벽 분대 1 지점, 기존 궁수 분대에 11명 보충 → 300명 기준 5골드 × 11
+        // K-047: 지점은 칸을 바로 누르고, 값은 고를 때마다 바로 보인다 (견적 단추 없음)
         yield return Click("병력 모집·보충", 300);
-        for (int i = 0; i < 4; i++) yield return ClickPrefix("지점:", 60);
+        yield return Click("지점:post_north_squad_1", 60);
         yield return Click("인원 +10", 60);
-        yield return Click("모집 견적 확인", 60);
         yield return Capture("prep_1_recruit_quote");
         int squad0 = c.Squads.First(s => s.PostId == "post_north_squad_1").Count;
         yield return Click("확정 모집", 60);
@@ -452,7 +452,7 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
         // 수리: 55HP 손상, 100HP 요청 → 실제 55HP, 6골드(올림)
         int gold1 = c.Gold;
         yield return Click("성벽 수리", 300);
-        yield return Click("선택 성벽 100HP 수리 견적", 60);
+        yield return Click("수리:100", 60);
         yield return Click("확정 수리", 60);
         wall = c.Wall.First(w => w.SegmentId == wall.SegmentId);
         Assert.AreEqual(wall.MaxHp, wall.Hp, "55HP 수리");
@@ -816,6 +816,90 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
         Time.captureDeltaTime = 0f;
     }
 
+    // K-060: 설치 대포 크기 (보이는 폭 = 병사 키 × 1.15, 납작함 보정) — 뒤(A·B)와 들판 쪽 정면 사진, 대포 묶음 이동 중 사진
+    [UnityTest]
+    public IEnumerator CannonArt()
+    {
+        Directory.CreateDirectory(Out);
+        log = new StringBuilder();
+        Time.captureDeltaTime = 1f / 20f;
+        SceneManager.LoadScene("Boot");
+        yield return null;
+        yield return null;
+        yield return WaitScreen(ScreenId.MainMenu, 900);
+        yield return Click("게임 시작", 600);
+        yield return Click("쉬움", 300);
+        yield return WaitScreen(ScreenId.Story, 600);
+        yield return Click("넘기기", 600);
+        yield return WaitScreen(ScreenId.Battle, 900);
+        for (int i = 0; i < 60; i++) yield return null;
+        Time.captureDeltaTime = 0.0001f;
+        var flags = System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance;
+        var entry = UnityEngine.Object.FindObjectsByType<HumanLastRampart.Combat.Battle.BattleEntry>(FindObjectsSortMode.None)[0];
+        var rig = (HumanLastRampart.Combat.Battle.BattleCameraRig)typeof(HumanLastRampart.Combat.Battle.BattleEntry).GetField("rig", flags).GetValue(entry);
+        var sim = (HumanLastRampart.Combat.Battle.BattleSim)typeof(HumanLastRampart.Combat.Battle.BattleEntry).GetField("sim", flags).GetValue(entry);
+        var alongField = typeof(HumanLastRampart.Combat.Battle.BattleCameraRig).GetField("along", flags);
+        Note($"설치 대포 칸 높이 {HumanLastRampart.Combat.Battle.BattlePropView.InstalledCannonSize:0.000}m · 보이는 폭 {HumanLastRampart.Combat.Battle.BattlePropView.InstalledCannonVisibleWidth:0.000}m (병사 키 0.35m × 1.15 = 0.403m)");
+
+        sim.Complete();
+        int cannon = -1;
+        for (int i = 0; i < sim.CannonCount; i++) if (sim.GetCannon(i).Side == 0) { cannon = i; break; }
+        Assert.GreaterOrEqual(cannon, 0, "북쪽 대포");
+        var info = sim.GetCannon(cannon);
+        rig.ShowSide(0);
+        alongField.SetValue(rig, info.Position.x);   // 북쪽: 오른쪽 = +x
+        for (int p = 0; p < 2; p++)
+        {
+            rig.SetPreset(p);
+            for (int i = 0; i < 5; i++) yield return null;
+            yield return Capture($"cannon_installed_back_{"AB"[p]}");
+        }
+
+        // 정면: 들판 쪽에서 성벽을 바라보는 임시 사진기 (전투 사진기 위에 그린다)
+        var main = (Camera)typeof(HumanLastRampart.Combat.Battle.BattleEntry).GetField("battleCamera", flags).GetValue(entry);
+        var front = new GameObject("PlayProbe Front Camera").AddComponent<Camera>();
+        front.CopyFrom(main);
+        front.depth = main.depth + 10f;
+        Vector3 at = info.Position + new Vector3(0f, 0.2f, 0f);
+        front.transform.position = at + new Vector3(0f, 0.35f, 2.2f);   // 북쪽 바깥 2.2m, 조금 위
+        front.transform.LookAt(at);
+        for (int i = 0; i < 3; i++) yield return null;
+        yield return Capture("cannon_installed_front");
+        front.enabled = false;
+
+        // 대포 옮기기: 북쪽 대포를 동쪽 빈 사격구로 끌고 간다 (K-060)
+        sim.Complete();
+        Note($"동쪽 빈 사격구 {sim.FreeCannonBays(1)}곳");
+        Assert.IsTrue(sim.MoveCannon(cannon, 1, false), "대포 옮기기 출발");
+        Time.captureDeltaTime = 1f / 20f;
+        for (int i = 0; i < 40; i++) yield return null;
+        Time.captureDeltaTime = 0.0001f;
+        sim.Complete();
+        Assert.Greater(sim.CannonHauls.Count, 0, "끄는 대포");
+        Vector3 haul = sim.CannonHauls[0].Position;
+        Note($"끄는 대포 위치 ({haul.x:0.0},{haul.z:0.0}) · 끈 거리 {sim.CannonHauls[0].Travelled:0.0}m · 속도 {HumanLastRampart.Combat.Battle.BattleSim.HaulSpeed:0.00}m/초");
+        rig.ShowSide(0);
+        alongField.SetValue(rig, haul.x);
+        for (int p = 0; p < 2; p++)
+        {
+            rig.SetPreset(p);
+            for (int i = 0; i < 3; i++) yield return null;
+            yield return Capture($"cannon_haul_back_{"AB"[p]}");
+        }
+
+        // 끄는 모습 옆에서 (통로 안쪽에서 바깥을 보며 대포 옆쪽으로)
+        haul = sim.CannonHauls.Count > 0 ? sim.CannonHauls[0].Position : haul;
+        front.transform.position = haul + new Vector3(0f, 0.45f, -1.8f);
+        front.transform.LookAt(haul + new Vector3(0f, 0.2f, 0f));
+        front.enabled = true;
+        for (int i = 0; i < 3; i++) yield return null;
+        yield return Capture("cannon_haul_side");
+        UnityEngine.Object.Destroy(front.gameObject);
+
+        File.WriteAllText(Path.Combine(Out, "cannon_art.txt"), log.ToString(), new UTF8Encoding(false));
+        Time.captureDeltaTime = 0f;
+    }
+
     // D-046: 병사 1줄·작게, 적은 성벽 가까이서 줄어듦, 카메라 A/B/C, Q/E 자동 달리기(옆 성벽 가운데까지 약 12초)
     [UnityTest]
     public IEnumerator WallScale()
@@ -891,6 +975,8 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
         return t != null ? t.text.Replace("\n", " | ") : "(HUD 없음)";
     }
 
+    const string KeyPrefix = "btn:";   // HumanLastRampart.UI.Ui.KeyPrefix (이 시험 어셈블리는 UI를 참조하지 않는다)
+
     static bool InputOpen() => UnityEngine.Object.FindObjectsByType<EventSystem>(FindObjectsSortMode.None).Any(e => e.isActiveAndEnabled);
 
     static Button FindReady(string label)
@@ -899,6 +985,7 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
         foreach (Button b in UnityEngine.Object.FindObjectsByType<Button>(FindObjectsSortMode.None))
         {
             if (!b.isActiveAndEnabled || !b.IsInteractable()) continue;
+            if (b.name == KeyPrefix + label) return b;   // K-047: 단추 열쇠 (보이는 글자와 따로)
             Text t = b.GetComponentInChildren<Text>();
             if (t != null && t.text == label) return b;
         }
@@ -930,7 +1017,7 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
             {
                 if (!b.isActiveAndEnabled || !b.IsInteractable()) continue;
                 Text t = b.GetComponentInChildren<Text>();
-                if (t != null && t.text.StartsWith(prefix)) { b.onClick.Invoke(); yield return null; yield break; }
+                if (b.name.StartsWith(KeyPrefix + prefix) || (t != null && t.text.StartsWith(prefix))) { b.onClick.Invoke(); yield return null; yield break; }
             }
             yield return null;
         }
@@ -1120,6 +1207,197 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
         Time.captureDeltaTime = 0f;
     }
 
+    // 3등신 시험 그림 비교 (K-057, Codex K-056): 같은 장면·같은 카메라(A, 정면 성벽)에서 스위치 끔(old)/켬(new) 사진 쌍.
+    // 낮·밤, 그리고 주인공 달리기 순간. 궁수·주인공만 바뀌고 다른 병종·적은 그대로인 게 정상
+    [UnityTest]
+    public IEnumerator ProportionTrial()
+    {
+        Directory.CreateDirectory(Out);
+        log = new StringBuilder();
+        HumanLastRampart.Combat.Battle.ProportionTrial.Enabled = false;
+        Time.captureDeltaTime = 1f / 20f;
+        SceneManager.LoadScene("Boot");
+        yield return null;
+        yield return null;
+        yield return WaitScreen(ScreenId.MainMenu, 900);
+        yield return Click("게임 시작", 600);
+        yield return Click("현실", 300);
+        yield return WaitScreen(ScreenId.Story, 600);
+        yield return Click("넘기기", 600);
+        yield return WaitScreen(ScreenId.Battle, 900);
+        for (int i = 0; i < 80; i++) yield return null;   // 적이 다가오고 궁수가 쏘기 시작하게
+        var flags = System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance;
+        var entry = UnityEngine.Object.FindObjectsByType<HumanLastRampart.Combat.Battle.BattleEntry>(FindObjectsSortMode.None)[0];
+        var sim = (HumanLastRampart.Combat.Battle.BattleSim)typeof(HumanLastRampart.Combat.Battle.BattleEntry).GetField("sim", flags).GetValue(entry);
+        var rig = (HumanLastRampart.Combat.Battle.BattleCameraRig)typeof(HumanLastRampart.Combat.Battle.BattleEntry).GetField("rig", flags).GetValue(entry);
+        var setup = GameFlow.Instance.Campaign.ActiveBattleSetup;
+        Time.captureDeltaTime = 0.0005f;   // 전투는 거의 멈춤 — old/new가 같은 순간
+        try
+        {
+            // 정면(북) 궁수 구간으로 주인공·카메라를 옮긴다 — 성벽 가운데에는 총병만 있어 궁수가 안 보였다 (K-057 1차 시험)
+            int archerStart = 0, archerCount = 0;
+            foreach (var (unit, start, count) in sim.SoldierGroups)
+                if (HumanLastRampart.Combat.Battle.ProportionTrial.IsArcher(unit)) { archerStart = start; archerCount = count; }
+            Assert.Greater(archerCount, 0, "궁수 병종이 전투에 있다");
+            float archerAlong = float.NaN;
+            for (int i = archerStart; i < archerStart + archerCount; i++)
+            {
+                int row = sim.SoldierRow(i, out int side, out float lateral);
+                if (row < 0 || side != 0) continue;
+                if (float.IsNaN(archerAlong) || Mathf.Abs(lateral) < Mathf.Abs(archerAlong)) archerAlong = lateral;   // 가운데에서 가장 가까운 정면 궁수
+            }
+
+            Assert.IsFalse(float.IsNaN(archerAlong), "정면 성벽에 궁수가 서 있다");
+            Note($"정면 궁수 구간: 성벽 따라 {archerAlong:0.0}m");
+            var alongField = typeof(HumanLastRampart.Combat.Battle.BattleCameraRig).GetField("along", flags);
+            rig.ShowSide(0);
+            alongField.SetValue(rig, archerAlong);   // 북쪽: 오른쪽 = +x
+            rig.SetPreset(0);
+            for (int i = 0; i < 5; i++) yield return null;
+            foreach (var (w, t, name) in new[] {
+                (HumanLastRampart.Core.CombatContracts.Weather.Clear, HumanLastRampart.Core.CombatContracts.TimeOfDay.Day, "day"),
+                (HumanLastRampart.Core.CombatContracts.Weather.Clear, HumanLastRampart.Core.CombatContracts.TimeOfDay.Night, "night") })
+            {
+                var f = setup.Forecast; f.InitialWeather = w; f.TimeOfDay = t; f.Changes = false; setup.Forecast = f;
+                sim.WeatherDirty = true;
+                foreach (bool trial in new[] { false, true })
+                {
+                    HumanLastRampart.Combat.Battle.ProportionTrial.Enabled = trial;
+                    for (int i = 0; i < 5; i++) yield return null;
+                    yield return Capture($"proportion_{name}_A_{(trial ? "new" : "old")}");
+                }
+            }
+
+            // 궁수 사격 순간 — 낮. 전투를 돌리며 카메라 근처(±4m) 정면 궁수가 사격 칸일 때 멈추고 old/new
+            var g = setup.Forecast; g.InitialWeather = HumanLastRampart.Core.CombatContracts.Weather.Clear; g.TimeOfDay = HumanLastRampart.Core.CombatContracts.TimeOfDay.Day; g.Changes = false; setup.Forecast = g;
+            sim.WeatherDirty = true;
+            HumanLastRampart.Combat.Battle.ProportionTrial.Enabled = false;
+            Time.captureDeltaTime = 1f / 20f;
+            int firing = -1;
+            for (int k = 0; k < 400 && firing < 0; k++)
+            {
+                yield return null;
+                sim.Complete();
+                for (int i = archerStart; i < archerStart + archerCount && firing < 0; i++)
+                {
+                    if (sim.SoldierRow(i, out int side, out float lateral) < 0 || side != 0 || Mathf.Abs(lateral - archerAlong) > 4f) continue;
+                    var inst = sim.SoldierInstances[i];
+                    float frame = inst.PosFrame.w;
+                    if (inst.TintSize.w > 0f && frame >= HumanLastRampart.Combat.PerfLab.PerfLabArt.FireFrame0 && frame < HumanLastRampart.Combat.PerfLab.PerfLabArt.FireFrame0 + HumanLastRampart.Combat.PerfLab.PerfLabArt.PoseWindow)
+                        firing = i;
+                }
+            }
+
+            Time.captureDeltaTime = 0.0005f;
+            if (firing >= 0)
+            {
+                Note($"궁수 사격 순간: 병사 {firing}");
+                yield return Capture("proportion_archer_fire_A_old");
+                HumanLastRampart.Combat.Battle.ProportionTrial.Enabled = true;
+                for (int i = 0; i < 3; i++) yield return null;
+                yield return Capture("proportion_archer_fire_A_new");
+                HumanLastRampart.Combat.Battle.ProportionTrial.Enabled = false;
+                for (int i = 0; i < 3; i++) yield return null;
+            }
+            else
+            {
+                Note("궁수 사격 순간을 400프레임 안에 찾지 못함 (사진 없음)");
+            }
+
+            // 주인공 달리기 (오른쪽, 옆 달리기 칸) — 낮
+            rig.WalkInput = 1f;
+            for (int i = 0; i < 8; i++) yield return null;
+            Assert.AreEqual(HumanLastRampart.Combat.Battle.BattleCameraRig.HeroPose.Run, rig.Pose, "오른쪽으로 달리는 중");
+            yield return Capture("proportion_hero_run_A_old");
+            HumanLastRampart.Combat.Battle.ProportionTrial.Enabled = true;
+            for (int i = 0; i < 3; i++) yield return null;
+            yield return Capture("proportion_hero_run_A_new");
+            rig.WalkInput = 0f;
+            for (int i = 0; i < 8; i++) yield return null;
+            yield return Capture("proportion_hero_idle_A_new");
+            HumanLastRampart.Combat.Battle.ProportionTrial.Enabled = false;
+            for (int i = 0; i < 3; i++) yield return null;
+            yield return Capture("proportion_hero_idle_A_old");
+            Note("3등신 시험: 궁수(서기·사격)와 주인공만 바뀜. 시험 그림 인물 키 192px → 기존(서기 300px)과 같은 월드 키로 맞춤");
+        }
+        finally
+        {
+            HumanLastRampart.Combat.Battle.ProportionTrial.Enabled = false;   // 다른 시험에 남지 않게
+            File.WriteAllText(Path.Combine(Out, "proportion_trial.txt"), log.ToString(), new UTF8Encoding(false));
+            Time.captureDeltaTime = 0f;
+        }
+    }
+
+    // 메인 설정 창·이어하기 (K-062): 저장은 임시 폴더에서만(사용자 저장을 건드리지 않게), 설정은 끝나면 원래 값으로
+    [UnityTest]
+    public IEnumerator SettingsAndContinue()
+    {
+        Directory.CreateDirectory(Out);
+        log = new StringBuilder();
+        Time.captureDeltaTime = 1f / 20f;
+        string previousFolder = HumanLastRampart.Core.Save.CampaignSave.Folder;
+        string folder = Path.Combine(Path.GetTempPath(), "hlr_probe_save_" + Guid.NewGuid().ToString("N"));
+        HumanLastRampart.Core.Save.CampaignSave.Folder = folder;
+        HumanLastRampart.Core.Settings.GameSettings.Load();
+        bool effects = HumanLastRampart.Core.Settings.GameSettings.ScreenEffects;
+        try
+        {
+            SceneManager.LoadScene("Boot");
+            yield return null;
+            yield return null;
+            yield return WaitScreen(ScreenId.MainMenu, 900);
+            Assert.IsNull(FindReadyPrefix("이어하기"), "저장이 없으면 이어하기 버튼 없음");
+            yield return Capture("main_menu_no_save");
+
+            yield return Click("설정", 300);
+            for (int i = 0; i < 3; i++) yield return null;
+            yield return Capture("settings_popup");
+            yield return ClickPrefix("화면 효과", 60);
+            Assert.AreEqual(!effects, HumanLastRampart.Core.Settings.GameSettings.ScreenEffects, "누르면 바로 바뀐다");
+            yield return Capture("settings_popup_toggled");
+            HumanLastRampart.Core.Settings.GameSettings.SetScreenEffects(effects);
+            yield return Click("닫기", 60);
+            for (int i = 0; i < 3; i++) yield return null;
+            Assert.IsNotNull(FindReady("게임 시작"), "설정을 닫으면 메인 메뉴 입력이 돌아온다");
+
+            // 저장 하나를 만들고 메인을 다시 열면 이어하기 → 정비 화면
+            var campaign = HumanLastRampart.App.Data.CampaignFactory.Create(GameFlow.Instance.Definitions, new NewGameOptions(Difficulty.Realistic), 4321);
+            campaign.BattleNumber = 2;
+            Assert.IsTrue(HumanLastRampart.Core.Save.CampaignSave.Save(campaign, ScreenId.Prep, out string error), error);
+            SceneManager.LoadScene("Boot");
+            yield return null;
+            yield return null;
+            yield return WaitScreen(ScreenId.MainMenu, 900);
+            Assert.IsNotNull(FindReadyPrefix("이어하기"), "저장이 있으면 이어하기 버튼");
+            yield return Capture("main_menu_continue");
+            yield return ClickPrefix("이어하기", 120);
+            yield return WaitScreen(ScreenId.Prep, 900);
+            Assert.AreEqual(2, GameFlow.Instance.Campaign.BattleNumber, "저장한 진행을 불러옴");
+            yield return Capture("prep_after_continue");
+            Note($"이어하기: {GameFlow.Instance.Campaign.BattleNumber}번째 전투 앞 정비, 골드 {GameFlow.Instance.Campaign.Gold}");
+        }
+        finally
+        {
+            HumanLastRampart.Core.Settings.GameSettings.SetScreenEffects(effects);
+            HumanLastRampart.Core.Save.CampaignSave.Folder = previousFolder;
+            if (Directory.Exists(folder)) Directory.Delete(folder, true);
+            File.WriteAllText(Path.Combine(Out, "settings_continue.txt"), log.ToString(), new UTF8Encoding(false));
+            Time.captureDeltaTime = 0f;
+        }
+    }
+
+    static Button FindReadyPrefix(string prefix)
+    {
+        if (!InputOpen()) return null;
+        foreach (Button b in UnityEngine.Object.FindObjectsByType<Button>(FindObjectsSortMode.None))
+        {
+            if (!b.isActiveAndEnabled || !b.IsInteractable()) continue;
+            Text t = b.GetComponentInChildren<Text>();
+            if (t != null && t.text.StartsWith(prefix)) return b;
+        }
+        return null;
+    }
+
     // 2번 지도 (MAP-1): 3단계 사진, 쉬움 시간 정지, 현실 시간 흐름
     [UnityTest]
     public IEnumerator MapEasy() { yield return MapCheck(Difficulty.Easy, "map_easy"); }
@@ -1218,10 +1496,11 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
         Assert.IsTrue(entry.AimSelectedCannonAt(new Vector3(30f, 0f, 20f)), "성 안마당 조준");
         for (int i = 0; i < 60; i++) yield return null;
         yield return Capture("cannon_aim_side");
-        var labels = UnityEngine.Object.FindObjectsByType<Text>(FindObjectsSortMode.None).Select(t => t.text).Where(t => t.Contains("번:")).ToList();
-        Note("대포 표시: " + string.Join(" | ", labels));
-        Assert.IsTrue(labels.Any(t => t.Contains("4번: 조준 — 대기")), "적 없는 곳을 노린 대포는 대기");
-        Assert.IsTrue(labels.Any(t => t.Contains("포격 중")), "적이 오는 길을 노린 대포는 포격");
+        // K-047 포병판: 줄마다 상태 낱말 칸 "Cannon N State" (포격·대기·자동·병사 없음)
+        var states = UnityEngine.Object.FindObjectsByType<Text>(FindObjectsSortMode.None).Where(t => t.name.StartsWith("Cannon ") && t.name.EndsWith(" State") && t.gameObject.activeInHierarchy).ToList();
+        Note("대포 표시: " + string.Join(" | ", states.OrderBy(t => t.name).Select(t => t.name.Substring(7, 1) + "번 " + t.text)));
+        Assert.IsTrue(states.Any(t => t.name == "Cannon 4 State" && t.text == "대기"), "적 없는 곳을 노린 대포는 대기");
+        Assert.IsTrue(states.Any(t => t.text == "포격"), "적이 오는 길을 노린 대포는 포격");
         // K-046 불붙이기: 쏘기 전 1.5초(막대 뻗기 0.5 + 도화선 1) 동안 '불붙이는 중' — 간격 6초라 몇 초 안에 한 번은 보인다
         int igniting = -1;
         for (int i = 0; i < 200 && igniting < 0; i++)
@@ -1333,7 +1612,7 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
             yield return null;
         }
         Note("무리 표시: " + string.Join(" | ", labels));
-        Assert.IsTrue(labels.Any(t => t.StartsWith("북쪽 약")), "지도에 무리 표시");
+        Assert.IsTrue(labels.Any(t => t.StartsWith("약 ")), "지도에 무리 표시");   // K-047: 방향은 지도 자리로 보이므로 "약 320"만
         yield return Capture("telescope_after");
         entry.ToggleMap();
         for (int i = 0; i < 4; i++) yield return null;

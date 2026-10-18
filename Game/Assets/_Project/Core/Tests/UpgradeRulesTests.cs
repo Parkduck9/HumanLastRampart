@@ -148,6 +148,31 @@ namespace HumanLastRampart.Core.Tests
             Assert.AreEqual(0, c.Mercenaries.Count);
         }
 
+        // 저장(K-062 CampaignSave = CampaignState 통째 JsonUtility)을 거쳐도 강화 필드가 남고, null 글자가 ""로 와도 같은 효과
+        [Test]
+        public void UpgradeFields_SurviveJsonRoundTrip()
+        {
+            FakeDefinitions defs = Defs();
+            CampaignState c = Campaign(10000);
+            Assert.IsTrue(UpgradeRules.TryBuy(c, defs, "item_lens", null, out _));
+            Assert.IsTrue(UpgradeRules.TryBuy(c, defs, "item_horn", null, out _));   // 가방 (EquippedBy null)
+            Assert.IsTrue(UpgradeRules.TryBuy(c, defs, "item_arrows", null, out _));
+            Assert.IsTrue(UpgradeRules.TryTrain(c, defs, "unit_archer", out _));
+            Assert.IsTrue(UpgradeRules.TryHire(c, defs, "merc_archer", WallIds.North, 10, out _));
+
+            var loaded = new CampaignState();
+            UnityEngine.JsonUtility.FromJsonOverwrite(UnityEngine.JsonUtility.ToJson(c), loaded);
+            Assert.AreEqual(c.Items.Count, loaded.Items.Count);
+            Assert.AreEqual(1, UpgradeRules.TrainingLevel(loaded, "unit_archer"));
+            Assert.AreEqual(10, UpgradeRules.MercenaryCount(loaded, "merc_archer", WallIds.North));
+            BattleBoosts before = UpgradeRules.ComputeBoosts(c, defs, null), after = UpgradeRules.ComputeBoosts(loaded, defs, null);
+            Assert.AreEqual(before.TelescopeRadiusMul, after.TelescopeRadiusMul, 1e-5f);
+            Assert.AreEqual(1f, after.MessengerSpeedMul, 1e-5f, "가방 속 나팔은 불러온 뒤에도 효과 없음");
+            Assert.IsTrue(UpgradeRules.TryBuy(loaded, defs, "item_arrows", null, out _));
+            Assert.AreEqual(2, UpgradeRules.OwnedCount(loaded, "item_arrows"), "불러온 뒤에도 소모품은 같은 줄에 쌓인다");
+            Assert.AreEqual(1, loaded.Items.FindAll(i => i.ItemId == "item_arrows").Count);
+        }
+
         [Test]
         public void HeroItems_OnFallenHero_HaveNoEffect()
         {

@@ -16,8 +16,10 @@ public sealed partial class PlayProbe
 {
     static class UpgradeKeys
     {
-        public const string Shop = "상점", BuyLens = "구매: 망원경 렌즈", BuyArrows = "구매: 불화살 꾸러미";
-        public const string Training = "병종 훈련", TrainArcher = "훈련: 궁수", Mercenary = "용병 고용", HireArcher = "고용: 궁수 용병";
+        // K-047 열쇠 이름 (btn:…): 고르기 칸 → 황동 단추 하나
+        public const string Shop = "상점", Lens = "물건:item_telescope_lens", Arrows = "물건:item_fire_arrows", Buy = "확정 구매";
+        public const string Training = "병영:훈련", Archer = "병종:unit_archer", Train = "확정 훈련";
+        public const string Mercenary = "병영:용병", ArcherMerc = "용병:merc_archer", Hire = "확정 고용";
     }
 
     [UnityTest]
@@ -54,8 +56,10 @@ public sealed partial class PlayProbe
             for (int i = 0; i < 3; i++) yield return null;
             yield return Capture("upgrade_00_shop");
             int gold0 = c.Gold;
-            yield return Press(UpgradeKeys.BuyLens, 60, true);
-            yield return Press(UpgradeKeys.BuyArrows, 60, true);
+            yield return Press(UpgradeKeys.Lens, 60);
+            yield return Press(UpgradeKeys.Buy, 60);
+            yield return Press(UpgradeKeys.Arrows, 60);
+            yield return Press(UpgradeKeys.Buy, 60);
             OwnedItem lens = c.Items.FirstOrDefault(i => i.ItemId == "item_telescope_lens");
             Assert.IsNotNull(lens, "렌즈를 샀다");
             Assert.IsFalse(string.IsNullOrEmpty(lens.EquippedBy), "주인공 소지품 칸에 끼움");
@@ -69,14 +73,16 @@ public sealed partial class PlayProbe
             yield return Press(UpgradeKeys.Training, 60);
             for (int i = 0; i < 3; i++) yield return null;
             yield return Capture("upgrade_02_training");
-            yield return Press(UpgradeKeys.TrainArcher, 60, true);
+            yield return Press(UpgradeKeys.Archer, 60);
+            yield return Press(UpgradeKeys.Train, 60);
             Assert.AreEqual(1, c.Training.FirstOrDefault(t => t.UnitDefId == "unit_archer")?.Level ?? 0, "궁수 1단계");
             yield return Press(LoopKeys.Close, 60);
 
             // 병영 → 용병 고용: 북쪽에 궁수 용병 10명
             Assert.IsTrue(yard.Use(LoopKeys.Barracks), "병영 장소");
             yield return Press(UpgradeKeys.Mercenary, 60);
-            yield return Press(UpgradeKeys.HireArcher, 60, true);
+            yield return Press(UpgradeKeys.ArcherMerc, 60);
+            yield return Press(UpgradeKeys.Hire, 60);   // 북쪽(첫 성벽 탭)·10명이 처음 값
             Assert.AreEqual(10, c.Mercenaries.Sum(m => m.Count), "용병 10명");
             yield return Capture("upgrade_03_mercenary");
             yield return Press(LoopKeys.Close, 60);

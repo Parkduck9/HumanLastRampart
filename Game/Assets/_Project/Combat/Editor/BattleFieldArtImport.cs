@@ -31,6 +31,7 @@ namespace HumanLastRampart.Combat.Editor
             importer.alphaIsTransparency = true;
             importer.textureCompression = TextureImporterCompression.Uncompressed;
             importer.npotScale = TextureImporterNPOTScale.None;
+            importer.maxTextureSize = 4096;   // K-052 대포병 6칸 시트는 2304px — 기본 2048이면 줄어든다 (K-060)
 
             if (sprite)
             {

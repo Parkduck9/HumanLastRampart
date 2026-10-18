@@ -2,7 +2,7 @@ using System;
 
 namespace HumanLastRampart.Core.Campaign
 {
-    // 강화·상점·용병 진행 데이터 (C-004 v1.5 초안, K-058, D-079)
+    // 강화·상점·용병 진행 데이터 (C-004 v1.6 초안, K-058, D-079)
 
     // 가진 아이템 한 줄. 영웅 아이템은 한 개씩(Count 1), 소모품은 쌓아 둔 수, 방패 난간은 성벽마다 한 줄
     [Serializable]

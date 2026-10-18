@@ -3,6 +3,7 @@
     "rootNamespace": "HumanLastRampart.Combat",
     "references": [
         "HLR.Core",
+        "HLR.UI",
         "Unity.Burst",
         "Unity.Collections",
         "Unity.Mathematics",

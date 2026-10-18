@@ -32,10 +32,13 @@ namespace HumanLastRampart.Combat.PerfLab
         // Codex 캐릭터 시트 공통 규격: 칸 256×384, 모든 칸 발 (128, 352). 그림 크기로 열·행을 센다
         // (고블린 1024×768 = 4×2 걷기·공격, 주인공 1024×1536 = 4×4, 정적 데모 256×384 = 1×1)
         public const int CellWidth = 256, CellHeight = 384;
+        // 칸 폭이 다른 시트(K-052 대포병 384×384 등)는 CannonArt.CellWidthPx 표를 본다 (K-060)
+        static int CellWidthOf(Texture sheet) =>
+            sheet != null && CannonArt.CellWidthPx.TryGetValue(sheet.name, out int w) ? w : CellWidth;
         public static SheetLayout FromSheet(Texture sheet) => SheetLayout.Make(
-            Mathf.Max(1, sheet.width / CellWidth), Mathf.Max(1, sheet.height / CellHeight),
-            0.5f, (CellHeight - 352f) / CellHeight, (float)CellWidth / CellHeight);
-        public static int FrameCount(Texture sheet) => Mathf.Max(1, sheet.width / CellWidth) * Mathf.Max(1, sheet.height / CellHeight);
+            Mathf.Max(1, sheet.width / CellWidthOf(sheet)), Mathf.Max(1, sheet.height / CellHeight),
+            0.5f, (CellHeight - 352f) / CellHeight, (float)CellWidthOf(sheet) / CellHeight);
+        public static int FrameCount(Texture sheet) => Mathf.Max(1, sheet.width / CellWidthOf(sheet)) * Mathf.Max(1, sheet.height / CellHeight);
 
         // 시트별 인물 크기 맞추기 (K-034): 같은 칸 384px 안이라도 시트마다 인물이 다른 크기로 그려져 있다
         // (서 있기 300px, 사격 249~265, 달리기 약 230~260 환산 — Tools/SheetMeasure/sheet-heights.md).
@@ -46,7 +49,15 @@ namespace HumanLastRampart.Combat.PerfLab
         public const float DefaultFigurePx = 300f;   // 표에 없는 시트: Codex 기준 서 있는 인물 키
 
         public static float FigurePx(Texture sheet) =>
-            sheet != null && PerfLabSheetHeights.FigurePx.TryGetValue(sheet.name, out float px) && px > 1f ? px : DefaultFigurePx;
+            sheet != null && sheet.name.StartsWith(TrialSheetPrefix) ? TrialFigurePx
+            : sheet != null && PerfLabSheetHeights.FigurePx.TryGetValue(sheet.name, out float px) && px > 1f ? px
+            : sheet != null && CannonArt.FigurePx.TryGetValue(sheet.name, out float extra) ? extra   // K-052 대포병 (K-060)
+            : DefaultFigurePx;
+
+        // 3등신 시험 그림 (K-057, Codex K-056): 모든 칸 인물 키 192px(원본 48점 × 4). 이름이 이 앞글자로 시작하면 이 키로 맞춘다
+        // → 기존 그림(서기 300px)과 같은 월드 키로 선다. 자동 표(PerfLabSheetHeights)는 손대지 않는다
+        public const string TrialSheetPrefix = "trial3_";
+        public const float TrialFigurePx = 192f;
 
         // 그 시트를 그릴 배율. referencePx = 이 개체의 기준 인물 키 (병사 FigureReferencePx, 적은 자기 기본 시트 키)
         public static float SheetScale(Texture sheet, float referencePx = FigureReferencePx) => referencePx / FigurePx(sheet);

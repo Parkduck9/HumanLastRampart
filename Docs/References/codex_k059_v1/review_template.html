@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>K-059 · UI 키트와 스토리 그림 1판</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#1a1511;color:#e8d9b5;font:20px/1.65 '맑은 고딕',sans-serif}main{max-width:1504px;padding:32px;margin:auto}h1,h2,h3{font-family:'바탕',serif;color:#f5d99c;line-height:1.3}h1{font-size:48px;margin:8px 0 24px}h2{font-size:32px;margin:0 0 16px}h3{font-size:24px;margin:0 0 16px}p{max-width:1100px;margin:8px 0 24px}.eyebrow{color:#d5b16b}a{color:#f5d99c}section{padding:32px 0;border-top:3px solid #3a2a1e}nav{display:flex;gap:24px;flex-wrap:wrap;margin:24px 0}button,select,input{font:inherit}button,select{padding:8px 16px;background:#3b2a1f;border:3px solid #8a6a32;color:#e8d9b5;cursor:pointer}button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #f5d99c;outline-offset:4px}label{display:inline-flex;align-items:center;gap:8px}.tools{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin:16px 0 24px}.fixed{overflow:auto;padding:16px;background:#23170f;max-width:100%}canvas{display:block;image-rendering:pixelated}figure{margin:0 0 24px}figcaption{font-size:20px;color:#c9b48a;margin:8px 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(312px,1fr));gap:24px}.sample{padding:16px;background:#23170f;overflow:auto}.sample canvas{margin:8px 0}.sample p{margin:8px 0}.raw{display:flex;flex-wrap:wrap;gap:24px}.raw figure{padding:16px;background:#23170f;margin:0}.raw figcaption{max-width:280px;overflow-wrap:anywhere}.note{padding:16px 24px;background:#3b2a1f;border-left:6px solid #d5b16b}.muted{color:#c9b48a}.badge{color:#7fa35a}table{border-collapse:collapse;width:100%;font-size:20px}th,td{padding:8px 16px;text-align:left;border-bottom:3px solid #3a2a1e;vertical-align:top}code{overflow-wrap:anywhere}details{margin:16px 0}summary{cursor:pointer;color:#d5b16b}.legend{display:flex;gap:16px;flex-wrap:wrap}.legend span{padding:8px 16px;background:#23170f}#story{cursor:pointer}#portraitStrip{display:flex;gap:24px;min-width:max-content}.portrait{background:#3b2a1f;padding:16px}.portrait canvas{background:repeating-conic-gradient(#23170f 0% 25%,#3b2a1f 0% 50%) 50% /24px 24px}.sceneCaption{display:flex;gap:24px;align-items:center}#status{color:#7fa35a}footer{padding:32px 0;color:#c9b48a}#fault{background:#b4533c;color:#fff;padding:16px;display:none}
+@media(max-width:700px){main{padding:24px 16px}h1{font-size:32px}.grid{grid-template-columns:1fr}}
+</style>
+<main><div class="eyebrow">Human Last Rampart · K-059 · 사용자 확정 전</div>
+<h1>성벽 위 장교의 군용 도구</h1>
+<p>양피지·잉크·나무·황동 한 벌과 스토리 그림. 도트 원본을 정수 배율로 비교하는 검토 자료입니다.</p>
+<p class="note">그림 시안입니다. 게임 연결·유니티 실행은 하지 않았습니다. 초상의 연한 광륜은 보완이 필요하며, 초상 비율과 글꼴은 아직 사용자 선택 전입니다.</p>
+<nav aria-label="검토 항목"><a href="#kit">판과 단추</a><a href="#parts">원본 전체</a><a href="#dialogue">스토리 화면</a><a href="#portraits">표정 비교</a><a href="#handoff">규격과 남은 확인</a></nav>
+<div id="fault" role="alert"></div><p id="status" aria-live="polite">그림을 불러오는 중입니다.</p>
+<section id="kit"><h2>판과 단추</h2><p>원본 1점 = 화면 3화소. 예시 판 크기는 9칸 늘이기로 만들며 가운데 무늬는 큰 판에서 반복합니다. 화면이 좁으면 가로로 밀어 볼 수 있습니다.</p>
+<div class="tools"><label><input id="borders" type="checkbox"> 9칸 경계선</label><label>판 <select id="panel"></select></label><label>바탕 <select id="backdrop"><option value="dark">밤색</option><option value="paper">종이색</option></select></label></div>
+<div class="legend"><span>밝은 황동선 = 모서리와 가운데의 경계</span><span>안쪽은 반복 또는 늘이기</span></div>
+<figure class="fixed"><canvas id="panelSmall"></canvas><figcaption>작은 창 · 360×168화소</figcaption></figure>
+<figure class="fixed"><canvas id="panelLarge"></canvas><figcaption>큰 창 · 900×360화소</figcaption></figure>
+<div class="grid"><article class="sample"><h3>나무 단추</h3><canvas id="woodStates"></canvas><p>보통 / 올림 / 누름</p></article><article class="sample"><h3>황동 단추</h3><canvas id="brassStates"></canvas><p>보통 / 올림 / 누름</p></article></div>
+<p class="muted">올림은 빛 테두리와 떠오르는 위치, 누름은 위 그늘·아래 두께와 내려가는 위치로 구분합니다.</p>
+</section>
+<section id="parts"><h2>원본 그림 전체</h2><p>UI 키트 36종과 스토리 부품 10종. 각 그림은 원본의 정확히 3배로 보입니다. 판·단추의 모서리 밖은 투명합니다.</p><div id="allParts" class="raw"></div></section>
+<section id="dialogue"><h2>말풍선과 장면</h2><p>성벽 배경과 대사 흉상을 함께 놓은 검토용 화면입니다. 아래 화면은 1920×1080화소이며 자동으로 축소하지 않습니다.</p>
+<div class="tools"><label>배경 <select id="scene"><option value="dusk">해 질 녘</option><option value="night">밤</option></select></label><label>화자 <select id="speaker"><option value="hero">주인공 장교</option><option value="wizard">마법사</option><option value="archer">궁수 전령</option></select></label><label>표정 <select id="expression"><option value="0">보통</option><option value="1">웃음</option><option value="2">놀람</option><option value="3">결의</option></select></label><label>대사 <select id="lineMode"><option value="short">짧은 말</option><option value="long">긴 말</option><option value="narrator">해설</option></select></label><button id="advance">다음 대사</button><button id="auto">자동 넘김 켜기</button></div>
+<div class="fixed"><canvas id="story" width="1920" height="1080" tabindex="0" role="img" aria-label="성벽 위 인물과 대사창 예시"></canvas></div>
+<p id="lineText" aria-live="polite"></p>
+<details><summary>한 화면을 작게 훑어보기</summary><p>아래는 배치만 보는 960×540 견본입니다. 도트 크기 판정은 위의 실제 크기로 봅니다.</p><div class="fixed"><canvas id="overview" width="960" height="540"></canvas></div></details>
+</section>
+<section id="portraits"><h2>같은 인물의 네 표정</h2><p>보통·웃음·놀람·결의. 내보낸 시트는 256×384화소 네 칸이며, 흉상 그림은 각 칸의 128×192화소 영역에 배치했습니다. 아래에서는 그 흉상 영역을 3배로 비교합니다.</p><div class="tools"><label>인물 <select id="portraitPerson"><option value="hero">주인공 장교</option><option value="wizard">마법사</option><option value="archer">궁수 전령</option></select></label><label><input id="cellLine" type="checkbox"> 내용 영역 경계</label></div><div class="fixed"><div id="portraitStrip"></div></div><p>주인공은 기존 흰 머리·검정과 금 장교복, 마법사는 밤색 머리·보라 로브를 참고했습니다. 궁수의 기존 자료는 뒷모습이므로 얼굴은 새 시안입니다. K-056의 전신 비율을 확정하는 자료가 아닙니다.</p></section>
+<section id="handoff"><h2>규격과 남은 확인</h2><div class="note">그림 파일 검사와 화면 연결 검사는 구분합니다. S-01~S-30 전체 합격을 선언하지 않습니다. 배치·동작·소리·상태 피드백은 실제 게임에서 확인해야 합니다.</div>
+<details><summary>PNG 51종 이름·크기·9칸 경계</summary><p>경계 순서: 왼쪽·아래·오른쪽·위. 좌표는 원본 그림 화소입니다.</p><div class="fixed"><table><thead><tr><th>이름</th><th>크기</th><th>경계</th><th>가운데</th></tr></thead><tbody id="specs"></tbody></table></div></details>
+<h3>글꼴 후보 두 벌</h3><p>그림 안에는 글자를 넣지 않았습니다. 게임용 글꼴은 미선택이며, 이 페이지의 대사 견본은 바탕·맑은 고딕으로 배치만 확인합니다. 외부 글꼴 내려받기가 차단되어 후보 글꼴의 실물 견본 사진은 남아 있습니다.</p>
+<ul><li><a href="https://github.com/quiple/galmuri">갈무리11</a> — 작은 본문용 도트 후보. <a href="https://github.com/quiple/galmuri/blob/main/ofl.md">OFL 1.1</a>.</li><li><a href="https://neodgm.dalgona.dev/">Neo둥근모</a> — 제목·이름·숫자용 도트 후보. <a href="https://github.com/neodgm/neodgm/blob/main/LICENSE.txt">OFL 1.1</a>.</li></ul><p>두 후보 모두 공식 라이선스상 상업용 소프트웨어 동봉·임베딩을 허용하며, 배포 시 저작권·라이선스 문서를 함께 보존해야 합니다. 실제 채택과 글자 크기는 사용자 선택 뒤 Claude가 연결합니다.</p>
+<h3>Claude 인계</h3><p>UI 키트 36종은 요청 이름 그대로 복사할 수 있습니다. 스토리 10종의 경계와 초상·배경 5종의 제안 이름은 README·manifest에 적었습니다. 원안 5장과 생성 프롬프트도 함께 보관합니다.</p>
+<p>남은 확인: 초상 외곽의 연한 반투명 광륜 제거, 실제 UI 반복 방식·초상 여백 연결, 게임의 대사 줄바꿈, 작은 글자 가독성, 초상 얼굴 동일성·도트 밀도, 전환과 소리. 브라우저 제어 연결이 없어 실제 클릭 검증은 수행하지 못했습니다. 게임 파일과 공용 목록은 수정하지 않았습니다.</p></section>
+<footer>사용자 확정 전 1판 · 서버·외부 이미지·외부 스크립트 없이 직접 열 수 있습니다.</footer></main>
+<script>
+const DATA=__DATA__;
+const assets={},images={};let ready=false,tick=0,auto=false,lineIndex=0;
+const byId=id=>document.getElementById(id),expressions=['보통','웃음','놀람','결의'];
+const names={hero:'주인공 장교',wizard:'마법사',archer:'궁수 전령'};
+const lines={hero:['고향의 성벽은 우리가 지킨다.','횃불이 꺼지기 전에 북쪽 성벽을 살펴야겠어.\n마을 사람들이 편히 잠들 수 있도록, 오늘 밤도 함께 지키자.'],wizard:['장교님, 준비가 끝났습니다.','성벽 너머에서 수상한 빛이 보였습니다.\n제가 먼저 살피겠습니다. 병사들은 횃불 곁에 모여 있게 해 주십시오.'],archer:['장교님! 북쪽에서 보고드립니다.','북쪽 성벽에 사다리가 붙었습니다!\n병사들이 길목을 지키고 있습니다. 장교님의 명령을 기다립니다.']};
+function clear(c,w,h){c.width=w;c.height=h;const x=c.getContext('2d');x.imageSmoothingEnabled=false;return x;}
+// 9칸의 고정 변은 원본 점 수를 보존하고 큰 판의 가운데만 반복한다.
+function nine(ctx,name,x,y,w,h,guides=true){
+ const a=assets[name],im=images[name];if(!a||!im)throw Error('그림 없음: '+name);
+ const b=a.border;if(!b){ctx.drawImage(im,x,y,w,h);return;}
+ const [l,bot,r,t]=b,sw=a.w-l-r,sh=a.h-t-bot;
+ const sx=[0,l,a.w-r],sy=[0,t,a.h-bot],ssw=[l,sw,r],ssh=[t,sh,bot];
+ const dx=[x,x+l,x+w-r],dy=[y,y+t,y+h-bot],dw=[l,w-l-r,r],dh=[t,h-t-bot,bot];
+ for(let row=0;row<3;row++)for(let col=0;col<3;col++){
+  if(a.mode==='반복'&&row===1&&col===1){
+   for(let yy=0;yy<dh[row];yy+=sh)for(let xx=0;xx<dw[col];xx+=sw){let cw=Math.min(sw,dw[col]-xx),ch=Math.min(sh,dh[row]-yy);ctx.drawImage(im,sx[col],sy[row],cw,ch,dx[col]+xx,dy[row]+yy,cw,ch);}
+  }else ctx.drawImage(im,sx[col],sy[row],ssw[col],ssh[row],dx[col],dy[row],dw[col],dh[row]);
+ }
+ if(guides&&byId('borders').checked){ctx.save();ctx.fillStyle='#f5d99c';ctx.globalAlpha=.8;for(const xx of [x+l,x+w-r-1])ctx.fillRect(xx,y,1,h);for(const yy of [y+t,y+h-bot-1])ctx.fillRect(x,yy,w,1);ctx.restore();}
+}
+function logical(w,h){const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');x.imageSmoothingEnabled=false;return[c,x];}
+function present(c,source){let x=clear(c,source.width*3,source.height*3);x.drawImage(source,0,0,c.width,c.height);}
+function text(ctx,txt,x,y,size,color='#3a2a1e',font='sans-serif'){ctx.fillStyle=color;ctx.font=size+'px '+font;ctx.textBaseline='top';ctx.fillText(txt,x,y);}
+function panelExamples(){for(const [id,w,h] of [['panelSmall',120,56],['panelLarge',300,120]]){
+ const[c,x]=logical(w,h);nine(x,byId('panel').value,0,0,w,h);present(byId(id),c);
+ }document.querySelectorAll('.fixed,.sample,.raw figure').forEach(e=>e.style.background=byId('backdrop').value==='paper'?'#c9b48a':'#23170f');}
+function buttons(){for(const material of ['wood','brass']){
+ const[c,x]=logical(116,24);for(let i=0;i<3;i++){const yy=i===1?1:i===2?3:2;nine(x,'button_'+material+(i===2?'_down':''),i*40,yy,36,18);if(i===1)nine(x,'frame_glow',i*40,yy,36,18,false);}
+ present(byId(material+'States'),c);
+}}
+function parts(){const box=byId('allParts');box.replaceChildren();for(const a of DATA.filter(a=>a.kind==='UI'||a.kind==='스토리 부품')){
+ const f=document.createElement('figure'),c=document.createElement('canvas'),caption=document.createElement('figcaption');const[c0,x]=logical(a.w,a.h);x.drawImage(images[a.name],0,0);if(a.border&&byId('borders').checked){const[l,b,r,t]=a.border;x.fillStyle='#f5d99c';x.globalAlpha=.8;x.fillRect(l,0,1,a.h);x.fillRect(a.w-r-1,0,1,a.h);x.fillRect(0,t,a.w,1);x.fillRect(0,a.h-b-1,a.w,1);}present(c,c0);caption.textContent=a.title+' · '+a.name+' · '+a.w+'×'+a.h;f.append(c,caption);box.append(f);
+}}
+function portraitStrip(){const name=byId('portraitPerson').value,box=byId('portraitStrip');box.replaceChildren();for(let i=0;i<4;i++){
+ const f=document.createElement('figure');f.className='portrait';const c=document.createElement('canvas'),[lc,x]=logical(128,192);x.drawImage(images['story_portrait_'+name],i*256+64,160,128,192,0,0,128,192);if(byId('cellLine').checked){x.strokeStyle='#d5b16b';x.lineWidth=1;x.strokeRect(.5,.5,127,191);}present(c,lc);const cap=document.createElement('figcaption');cap.textContent=expressions[i];f.append(c,cap);box.append(f);
+}}
+function wrapped(ctx,txt,x,y,max,size,line){ctx.fillStyle='#3a2a1e';ctx.font=size+'px "맑은 고딕",sans-serif';ctx.textBaseline='top';let yy=y;for(const paragraph of txt.split('\n')){let current='';for(const ch of paragraph){if(ctx.measureText(current+ch).width>max){ctx.fillText(current,x,yy);current=ch;yy+=line;}else current+=ch;}ctx.fillText(current,x,yy);yy+=line;}return yy;}
+function story(){if(!ready)return;
+ const [c,x]=logical(640,360),person=byId('speaker').value,mode=byId('lineMode').value,f=+byId('expression').value;
+ x.drawImage(images['story_bg_rampart_'+byId('scene').value],0,0);
+ if(mode!=='narrator'){
+  x.drawImage(images['story_portrait_'+person],f*256,0,256,384,-32,-88,256,384);
+  // 말풍선 꼬리 윗변은 상자 속에 겹쳐 이음선이 생기지 않게 한다.
+  x.save();x.translate(138,256);x.scale(1,-1);x.drawImage(images.bubble_tail,0,0);x.restore();
+ }
+ nine(x,'story_box',24,252,592,96);
+ if(mode!=='narrator')nine(x,'story_nameplate',36,240,108,20);
+ const [btn,bx]=logical(40,16);nine(bx,'story_button'+(auto?'_on':''),0,0,40,16,false);x.drawImage(btn,532,12);nine(x,'story_button',576,12,40,16,false);
+ const nx=clear(byId('story'),1920,1080);nx.drawImage(c,0,0,1920,1080);
+ const actual=mode==='narrator'?'해가 저물자 성벽의 횃불이 하나둘 켜졌다.\n돌아온 장교는 오랜 고향의 불빛을 바라보았다.':lines[person][mode==='long'?1:lineIndex%2];
+ if(mode!=='narrator')text(nx,names[person],126,729,24,'#e8d9b5','"바탕",serif');
+ wrapped(nx,actual,120,807,1660,24,40);
+ text(nx,'자동',1620,48,20,'#e8d9b5');text(nx,'넘기기',1740,48,20,'#e8d9b5');
+ nx.imageSmoothingEnabled=false;nx.drawImage(images['story_next_'+tick%4],1788,981,21,15);
+ const ov=byId('overview').getContext('2d');ov.imageSmoothingEnabled=false;ov.clearRect(0,0,960,540);ov.drawImage(byId('story'),0,0,960,540);
+ byId('lineText').textContent=(mode==='narrator'?'해설':names[person]+' · '+expressions[f])+' — '+actual.replaceAll('\n',' ');
+}
+function specs(){for(const a of DATA){const tr=document.createElement('tr');for(const s of [a.name+'.png',a.w+'×'+a.h,a.border?a.border.join(' · '):'해당 없음',a.mode||'해당 없음']){const td=document.createElement('td');td.textContent=s;tr.append(td);}byId('specs').append(tr);}}
+function redraw(){if(!ready)return;panelExamples();buttons();parts();story();}
+async function init(){try{
+ for(const a of DATA){assets[a.name]=a;const im=new Image;im.src=a.data;await im.decode();images[a.name]=im;}
+ for(const a of DATA.filter(a=>a.border)){const o=document.createElement('option');o.value=a.name;o.textContent=a.title+' · '+a.name;byId('panel').append(o);}
+ specs();ready=true;redraw();portraitStrip();byId('status').textContent='PNG 51종 불러오기 완료 · UI 36 / 스토리 부품 10 / 초상 3 / 배경 2';
+ for(const id of ['borders','panel','backdrop'])byId(id).addEventListener('change',redraw);
+ for(const id of ['scene','speaker','expression','lineMode'])byId(id).addEventListener('change',story);
+ for(const id of ['portraitPerson','cellLine'])byId(id).addEventListener('change',portraitStrip);
+ const advance=()=>{lineIndex++;byId('expression').value=String(lineIndex%4);story();};byId('advance').onclick=advance;byId('story').onclick=advance;byId('story').onkeydown=e=>{if(e.code==='Space'||e.code==='Enter'){e.preventDefault();advance();}};
+ byId('auto').onclick=()=>{auto=!auto;byId('auto').textContent=auto?'자동 넘김 끄기':'자동 넘김 켜기';story();};
+ setInterval(()=>{tick++;if(auto&&tick%12===0)advance();else story();},350);
+ window.K059Review={count:DATA.length,nine,assets,images,redraw,story};
+ }catch(e){byId('fault').style.display='block';byId('fault').textContent='검토 페이지 오류: '+e.message;byId('status').textContent='불러오기 실패';}}
+init();
+</script></html>

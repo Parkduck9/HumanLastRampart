@@ -23,10 +23,10 @@ public sealed partial class PlayProbe
         public const string NewGame = "게임 시작", Easy = "쉬움";
         public const string Speed4 = "×4", TestWin = "[시험] 승리", TestLoseWall = "[시험] 패배 — 성벽 붕괴";
         public const string ResultNext = "다음";
-        public const string Repair = "성벽 수리", Barracks = "병영 (모집·보충)", Workshop = "함정 공방", Stairs = "성벽 계단 (다음 전투)";   // PrepEntry 장소 이름
-        public const string RepairQuote = "선택 성벽 100HP 수리 견적", RepairConfirm = "확정 수리";
-        public const string PostPrefix = "지점:", PlusTen = "인원 +10", RecruitQuote = "모집 견적 확인", RecruitConfirm = "확정 모집";
-        public const string CellPrefix = "cell_", TrapBuyPrefix = "한 번에 구매·설치", TabPrefix = "탭:", BuildPrefix = "한 번에 짓기";
+        public const string Repair = "성벽 수리", Barracks = "병영", Workshop = "함정 공방", Stairs = "성벽 계단";   // PrepEntry 장소 이름 (K-047 간판)
+        public const string RepairQuote = "수리:100", RepairConfirm = "확정 수리";   // K-047: 수리 카드 (값은 바로 보인다)
+        public const string PostPrefix = "지점:", PlusTen = "인원 +10", RecruitConfirm = "확정 모집";   // K-047: 견적 단추 없음
+        public const string CellPrefix = "cell_", TrapBuyPrefix = "한 번에 구매·설치", TabPrefix = "탭:지형", BuildPrefix = "한 번에 짓기";
         public const string Close = "닫기", StartNextBattle = "다음 전투 시작";
     }
 
@@ -127,17 +127,19 @@ public sealed partial class PlayProbe
             // 모집 1번: 북쪽 첫 분대 지점(대포 지점 건너뜀)에 +10 → 견적 → 확정
             int goldRecruit = c.Gold, total0 = c.Squads.Sum(s => s.Count);
             Assert.IsTrue(yard.Use(LoopKeys.Barracks), "병영 장소");
-            for (int k = 0; k < 12; k++)
+            // K-047 병영 장부: 지점은 칸으로 늘어서 있다 — 이름(btn:지점:<지점 ID>)에 _squad_가 든 첫 칸을 바로 누른다
+            Button post = null;
+            for (int k = 0; k < 120 && post == null; k++)
             {
-                Button post = FindPressable(LoopKeys.PostPrefix, true);
-                Assert.IsNotNull(post, "지점 단추");
-                if (ButtonLabel(post).Contains("_squad_")) break;
-                post.onClick.Invoke();
-                yield return null;
+                post = Object.FindObjectsByType<Button>(FindObjectsSortMode.None)
+                    .Where(b => b.isActiveAndEnabled && b.IsInteractable() && b.name.StartsWith(KeyPrefix + LoopKeys.PostPrefix) && b.name.Contains("_squad_"))
+                    .OrderBy(b => b.name, System.StringComparer.Ordinal).FirstOrDefault();
+                if (post == null) yield return null;
             }
-            Assert.IsTrue(ButtonLabel(FindPressable(LoopKeys.PostPrefix, true)).Contains("_squad_"), "분대 지점을 고름");
+            Assert.IsNotNull(post, "분대 지점 칸");
+            post.onClick.Invoke();
+            yield return null;
             yield return Press(LoopKeys.PlusTen, 60);
-            yield return Press(LoopKeys.RecruitQuote, 60);
             yield return Press(LoopKeys.RecruitConfirm, 60);
             int recruited = c.Squads.Sum(s => s.Count) - total0;
             Assert.Greater(recruited, 0, "모집 반영");
@@ -266,7 +268,7 @@ public sealed partial class PlayProbe
         foreach (Button b in Object.FindObjectsByType<Button>(FindObjectsSortMode.None))
         {
             if (!b.isActiveAndEnabled || !b.IsInteractable()) continue;
-            if (prefix ? b.name.StartsWith(key) : b.name == key) return b;
+            if (prefix ? b.name.StartsWith(key) || b.name.StartsWith(KeyPrefix + key) : b.name == key || b.name == KeyPrefix + key) return b;   // K-047 열쇠 이름
             string label = ButtonLabel(b);
             if (byText == null && (prefix ? label.StartsWith(key) : label == key)) byText = b;
         }

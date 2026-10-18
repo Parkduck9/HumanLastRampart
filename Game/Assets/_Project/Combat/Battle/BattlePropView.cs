@@ -32,7 +32,12 @@ namespace HumanLastRampart.Combat.Battle
         const float AimSideThreshold = 0.2f;                  // 좌우 성분이 이보다 크면 옆 그림 (약 12도)
 
         // 반동 대포 (K-016 cannon_recoil: 칸 256×256, 바퀴 접지 (128,240), 10fps)
-        const float RecoilCannonSize = 0.6f;                  // 칸 높이(m) — 보이는 폭 약 0.55m, 사격구 폭 1.12m 안
+        // K-060: 보이는 폭 = 병사 키 × 1.15 (Codex K-052 측정 — 끄는 대포와 같은 축척) → 칸 높이 약 0.44m. 예전 0.6(보이는 폭 0.55m).
+        // 사격구 폭 1.12m 안, 운용병 2명(대포 자리 ±0.45m)과 겹치지 않는다 (대포 반폭 0.2m + 병사 반폭 약 0.12m)
+        const float SoldierHeight = 1.4f * BattleSim.WallFigureScale;   // 병사 키 0.35m (BattleSim.SoldierDrawSize와 같다)
+        static readonly float RecoilCannonSize = CannonArt.InstalledWidthPerSoldier * SoldierHeight / CannonArt.RecoilVisibleWidthFraction;
+        // 위에서 내려다볼 때 납작해지는 것(캐릭터는 셰이더 _ViewStretch로 보정)을 대포도 같게 — 보정이 없어 작은 검은 점처럼 보였다 (K-060)
+        static readonly int ViewStretchId = Shader.PropertyToID("_ViewStretch");
         const float RecoilFrameSeconds = 0.15f;               // 반동 1칸·복귀 1칸을 이만큼씩 (K-036: 0.1초는 눈에 안 띄어 늘림)
         // 포구 연기 (K-016 muzzle_smoke: 칸 256×256 6칸, 원점 (128,240) — 시안 10fps를 조금 느리게 한 번)
         const int SmokeFrames = 6;
@@ -54,6 +59,21 @@ namespace HumanLastRampart.Combat.Battle
         readonly GraphicsBuffer smokeBuffer;
         readonly MaterialPropertyBlock smokeBlock;
         readonly PerfLabInstance[] smokeInstances;
+
+        // 대포 끌기 (K-060, Codex K-052): 당기는 병사·미는 병사·포가·바퀴 (sim.CannonHauls마다 하나씩)
+        static readonly int SheetScaleId = Shader.PropertyToID("_SheetScale");
+        static readonly int ShotModeId = Shader.PropertyToID("_ShotMode");
+        static readonly int ShotColorId = Shader.PropertyToID("_ShotColor");
+        const float HaulFps = 8f;   // 끄는 걸음 칸 속도 — 이동 속도는 칸마다 한 걸음(32px)이라 HaulSpeed와 짝 (BattleSim.HaulSpeed)
+        sealed class HaulKind
+        {
+            public GraphicsBuffer Buffer;
+            public MaterialPropertyBlock Block;
+            public PerfLabInstance[] Instances;
+            public int Count;
+        }
+
+        readonly HaulKind haulPull, haulPush, haulChassis, haulWheel;
 
         sealed class Piece
         {
@@ -78,15 +98,9 @@ namespace HumanLastRampart.Combat.Battle
             recoilArt = recoil != null;
             float half = sim.CastleHalf;
 
-            // 성벽마다 대포 자리(성벽 따라 m)
+            // 성벽마다 대포 사격구 자리(성벽 따라 m) — 빈 사격구 포함 (K-060: 대포를 옮겨 받을 자리)
             var bays = new List<float>[4];
-            for (int s = 0; s < 4; s++) bays[s] = new List<float>();
-            for (int i = 0; i < sim.CannonCount; i++)
-            {
-                BattleSim.CannonInfo c = sim.GetCannon(i);
-                float3 r = WallGeometry.Right(c.Side);
-                bays[c.Side].Add(c.Position.x * r.x + c.Position.z * r.z);
-            }
+            for (int s = 0; s < 4; s++) bays[s] = new List<float>(sim.CannonBays(s));
 
             var wallLayout = PerfLabArt.SheetLayout.Make(1, 1, 0.5f, WallPivotY, 2f);
             for (int side = 0; side < 4; side++)
@@ -127,6 +141,27 @@ namespace HumanLastRampart.Combat.Battle
                 cannonInstances = new PerfLabInstance[sim.CannonCount];
                 cannonBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, sim.CannonCount, PerfLabInstance.Stride);
                 cannonBlock.SetBuffer(InstancesId, cannonBuffer);
+                cannonBlock.SetFloat(ViewStretchId, 1f);   // 병사와 같은 납작함 보정 (K-060)
+
+                // 대포 끌기 그림 (K-060). 그림이 하나라도 없으면 끌기 그림은 그리지 않는다
+                int hauls = Mathf.Max(1, sim.CannonCount);
+                float crewScale = PerfLabArt.CellHeight / CannonArt.CrewFigurePx;   // 칸 384 중 인물 210 → 크기 값 = 인물 키
+                var pullSheet = Resources.Load<Texture2D>(CannonArt.PullSheet);
+                var pushSheet = Resources.Load<Texture2D>(CannonArt.PushSheet);
+                var chassis = Resources.Load<Texture2D>(CannonArt.HaulChassis);
+                var wheel = Resources.Load<Texture2D>(CannonArt.HaulWheel);
+                if (pullSheet != null && pushSheet != null && chassis != null && wheel != null)
+                {
+                    haulPull = MakeHaul(pullSheet, PerfLabArt.FromSheet(pullSheet), crewScale, hauls);
+                    haulPush = MakeHaul(pushSheet, PerfLabArt.FromSheet(pushSheet), crewScale, hauls);
+                    haulChassis = MakeHaul(chassis, PerfLabArt.SheetLayout.Make(1, 1, CannonArt.HaulPivotXPx / CannonArt.HaulCellWidthPx,
+                        (CannonArt.HaulCellHeightPx - CannonArt.HaulPivotYPx) / CannonArt.HaulCellHeightPx, CannonArt.HaulCellWidthPx / CannonArt.HaulCellHeightPx), 1f, hauls);
+                    haulWheel = MakeHaul(wheel, PerfLabArt.SheetLayout.Make(1, 1, 0.5f, 0.5f, 1f), 1f, hauls);
+                    haulWheel.Block.SetFloat(ShotModeId, 2f);   // 바퀴는 개체 색 칸(rgb)을 방향으로 보고 돌린다 (투사체와 같은 셰이더 기능)
+                    // 포가·바퀴는 납작함 보정을 끈다 — 보정은 판마다 기준점에서 늘려 바퀴 중심과 포가 바퀴 자리가 어긋난다 (병사만 보정)
+                    haulWheel.Block.SetFloat(ViewStretchId, 0f);
+                    haulChassis.Block.SetFloat(ViewStretchId, 0f);
+                }
 
                 if (recoilArt)
                 {
@@ -142,6 +177,68 @@ namespace HumanLastRampart.Combat.Battle
                 }
             }
         }
+
+        HaulKind MakeHaul(Texture2D texture, PerfLabArt.SheetLayout layout, float sheetScale, int capacity)
+        {
+            var kind = new HaulKind { Block = new MaterialPropertyBlock(), Instances = new PerfLabInstance[capacity] };
+            Apply(kind.Block, texture, layout);
+            kind.Block.SetFloat(SheetScaleId, sheetScale);
+            kind.Block.SetFloat(ViewStretchId, 1f);
+            kind.Buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, capacity, PerfLabInstance.Stride);
+            kind.Block.SetBuffer(InstancesId, kind.Buffer);
+            return kind;
+        }
+
+        // 대포 끌기 (K-060): 걸음 칸과 위치를 함께 32px 단위로 나눠 발이 미끄러지지 않게(Codex K-052 규칙 — 칸마다 왼쪽 32px, 디딘 발은 제자리).
+        // 그림은 왼쪽으로 끈다 → 사진기에서 오른쪽으로 가면 좌우 뒤집기. 바퀴는 끈 거리만큼 돈다(각 = 거리 ÷ 반지름)
+        void DrawHauls(float shade)
+        {
+            if (haulPull == null) return;
+            haulPull.Count = haulPush.Count = haulChassis.Count = haulWheel.Count = 0;
+            IReadOnlyList<BattleSim.CannonHaul> hauls = sim.CannonHauls;
+            if (hauls.Count == 0) return;
+            Camera view = Camera.main;
+            Vector3 camRight = view != null ? Vector3.ProjectOnPlane(view.transform.right, Vector3.up).normalized : Vector3.right;
+            float mpp = CannonArt.MetersPerPx(SoldierHeight);
+            float step = CannonArt.CrewStepPx * mpp;
+            float cannonSize = CannonArt.HaulCellHeightPx * mpp;
+            float wheelSize = CannonArt.WheelDiameterPx * mpp;
+            for (int h = 0; h < hauls.Count && haulPull.Count < haulPull.Instances.Length; h++)
+            {
+                BattleSim.CannonHaul haul = hauls[h];
+                Vector3 dir = haul.Direction.sqrMagnitude > 1e-6f ? haul.Direction.normalized : Vector3.right;
+                int steps = Mathf.FloorToInt(Mathf.Max(0f, haul.Travelled) / step);
+                Vector3 at = haul.Position - dir * (haul.Travelled - steps * step);   // 걸음 단위로 끊은 자리
+                int frame = steps % CannonArt.CrewFrames;
+                bool flip = Vector3.Dot(dir, camRight) > 0f;   // 그림은 왼쪽(사진기 왼쪽)으로 끈다
+                float w = flip ? -frame - 1 : frame;
+                var tint = new float4(shade, shade, shade, SoldierHeight);
+                Vector3 pull = at - dir * (CannonArt.PullOffsetPx * mpp);   // 그림 왼쪽(−) = 가는 쪽
+                Vector3 push = at - dir * (CannonArt.PushOffsetPx * mpp);
+                haulPull.Instances[haulPull.Count++] = new PerfLabInstance { PosFrame = new float4(pull.x, pull.y, pull.z, w), TintSize = tint };
+                if (haul.PushCrew) haulPush.Instances[haulPush.Count++] = new PerfLabInstance { PosFrame = new float4(push.x, push.y, push.z, w), TintSize = tint };
+                haulChassis.Instances[haulChassis.Count++] = new PerfLabInstance { PosFrame = new float4(at.x, at.y, at.z, flip ? -1f : 0f), TintSize = new float4(shade, shade, shade, cannonSize) };
+
+                // 바퀴: 칸 중심 = 기준점에서 위로 (352 − 301.5)px, 옆으로 0.5px. 회전 방향은 가는 쪽
+                float sideSign = flip ? -1f : 1f;
+                Vector3 hub = at + camRight * (sideSign * (CannonArt.WheelCenterXPx - CannonArt.HaulPivotXPx) * mpp)
+                    + Vector3.up * ((CannonArt.HaulPivotYPx - CannonArt.WheelCenterYPx) * mpp);   // 바퀴 판은 가운데 기준
+                float angle = steps * step / (wheelSize * 0.5f) * (flip ? -1f : 1f);
+                Vector3 axis = camRight * Mathf.Cos(angle) + Vector3.up * Mathf.Sin(angle);
+                haulWheel.Instances[haulWheel.Count++] = new PerfLabInstance { PosFrame = new float4(hub.x, hub.y, hub.z, 0f), TintSize = new float4(axis.x, axis.y, axis.z, wheelSize) };
+            }
+
+            haulWheel.Block.SetColor(ShotColorId, new Color(shade, shade, shade, 1f));
+            foreach (HaulKind kind in new[] { haulChassis, haulWheel, haulPush, haulPull })
+            {
+                if (kind.Count <= 0) continue;
+                kind.Buffer.SetData(kind.Instances, 0, 0, kind.Count);
+                Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, kind.Count, kind.Block);
+            }
+        }
+
+        // 확인용 (K-060): 이번 프레임 그린 끄는 대포 수
+        public int HaulDrawCount => haulChassis != null ? haulChassis.Count : 0;
 
         Piece MakeDraw(Texture2D texture, PerfLabArt.SheetLayout layout, float3 right, List<Vector3> feet)
         {
@@ -186,6 +283,7 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             if (cannonBuffer == null) return;
+            DrawHauls(shade);
             int smokes = 0;
             for (int i = 0; i < cannonInstances.Length; i++)
             {
@@ -212,11 +310,11 @@ namespace HumanLastRampart.Combat.Battle
                 cannonInstances[i] = new PerfLabInstance
                 {
                     PosFrame = new float4(p.x, p.y, p.z, frame),
-                    TintSize = c.Alive ? new float4(shade, shade, shade, size) : float4.zero,
+                    TintSize = c.Alive && !c.Moving ? new float4(shade, shade, shade, size) : float4.zero,   // 끄는 중이면 끌기 그림이 대신 (K-060)
                 };
 
                 // 포구 연기: 쏜 뒤 0.75초 한 번 (스스로 빛나는 불이 아니라 밝기는 대포와 같게)
-                if (smokeInstances == null || !c.Alive) continue;
+                if (smokeInstances == null || !c.Alive || c.Moving) continue;
                 float age = since;
                 if (age < 0f || age >= SmokeFrames / SmokeFps) continue;
                 Vector3 m = p + new Vector3(n.x, 0f, n.z) * SmokeForward + Vector3.up * SmokeLift;
@@ -237,6 +335,10 @@ namespace HumanLastRampart.Combat.Battle
             }
         }
 
+        // 확인용 (K-060): 설치 대포 그림 칸 높이(m)와 보이는 폭(m)
+        public static float InstalledCannonSize => RecoilCannonSize;
+        public static float InstalledCannonVisibleWidth => RecoilCannonSize * CannonArt.RecoilVisibleWidthFraction;
+
         // 확인용: 대포 i의 지금 그림 칸 (0 왼쪽, 1 가운데, 2 오른쪽)
         public int CannonFrame(int index) => cannonInstances != null && index < cannonInstances.Length ? (int)cannonInstances[index].PosFrame.w : -1;
         public int WallPieceCount { get { int n = 0; foreach (Piece d in wallDraws) n += d.Feet.Length; return n; } }
@@ -247,6 +349,10 @@ namespace HumanLastRampart.Combat.Battle
             wallDraws.Clear();
             cannonBuffer?.Release();
             smokeBuffer?.Release();
+            haulPull?.Buffer.Release();
+            haulPush?.Buffer.Release();
+            haulChassis?.Buffer.Release();
+            haulWheel?.Buffer.Release();
         }
     }
 }

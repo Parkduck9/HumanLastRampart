@@ -9,42 +9,79 @@ using UnityEngine.UI;
 
 namespace HumanLastRampart.Meta
 {
-    // 4번 결과 화면 그림판 (D-076): 글자 덩어리 대신 한 장에 — 왼쪽 성벽 도식(4면 피해), 가운데 병종별 병력 손실 막대,
-    // 오른쪽 영웅 초상과 체력. 그림(성 도식·흉상)은 Codex K-028 확정 전이라 지금은 도형·병종 시트 첫 칸으로 그린다
+    // 4번 결과 화면 (D-076 → K-047): 양피지 전투 보고서 한 장. 머리 = 승패 도장 + 처치·골드, 몸 = 성벽 도식 · 병종별 손실 막대 · 영웅 초상.
+    // 칸은 상자 대신 잉크 세로줄로 나눈다. 그림(성 도식·흉상)은 Codex 확정 전이라 도형·병종 시트 첫 칸으로 그린다
     public static class ResultBoard
     {
-        const float ColumnGap = 28f;
-        static readonly Color Good = new Color(0.45f, 0.72f, 0.42f);
-        static readonly Color Warn = new Color(0.86f, 0.70f, 0.34f);
-        static readonly Color Bad = new Color(0.80f, 0.36f, 0.30f);
-        static readonly Color Track = new Color(1f, 1f, 1f, 0.08f);
+        const float ColumnGap = UiTokens.S48;
+
+        // 머리 줄: [도장 승/패] 승리 · [처치 아이콘] 1,234 · [골드 아이콘] +120
+        public static void BuildHead(RectTransform area, BattleResult result)
+        {
+            bool victory = result.Outcome == BattleOutcome.Victory;
+            HorizontalLayoutGroup row = Ui.Row(area, "Head Row", UiTokens.S24);
+            Ui.Stretch((RectTransform)row.transform);
+            Color mark = victory ? UiTokens.Good : UiTokens.Danger;
+            Image seal = Ui.Icon(row.transform, "Seal", UiArt.Seal, 1f, mark);
+            Text sealText = Ui.Label(seal.transform, "Mark", victory ? "승" : "패", UiTokens.H2, mark, TextAnchor.MiddleCenter, true);
+            Ui.Stretch(sealText.rectTransform);
+            Text outcome = Ui.Label(row.transform, "Outcome", victory ? "승리" : "패배", UiTokens.H1, mark, TextAnchor.MiddleLeft, true);
+            Ui.Size(outcome, outcome.preferredWidth + 8f, 96f);
+            Stat(row.transform, "Icons/stat_kills", "처치", result.DefeatedEnemyCount.ToString("N0"));
+            Stat(row.transform, "Icons/stat_gold", "골드", "+" + result.EarnedGold.ToString("N0"));
+        }
+
+        static void Stat(Transform row, string icon, string word, string value)
+        {
+            RectTransform gap = Ui.Rect(row, "Gap");
+            Ui.Size(gap, UiTokens.S24, 96f);
+            Image picture = Ui.HudIcon(row, word + " Icon", icon, 32f);
+            if (picture == null)
+            {
+                Text label = Ui.Label(row, word, word, UiTokens.Text, UiTokens.InkSoft);
+                Ui.Size(label, label.preferredWidth + 4f, 96f);
+            }
+
+            Text number = Ui.Label(row, word + " Value", value, UiTokens.H2, UiTokens.Ink, TextAnchor.MiddleLeft, true);
+            Ui.Size(number, number.preferredWidth + 8f, 96f);
+        }
 
         public static void Build(RectTransform area, BattleSetup setup, BattleResult result, Func<string, UnitDef> unit)
         {
-            float width = area.rect.width > 1f ? area.rect.width : 1488f;
+            float width = area.rect.width > 1f ? area.rect.width : area.sizeDelta.x > 1f ? area.sizeDelta.x : 1504f;
             float column = (width - ColumnGap * 2f) / 3f;
-            RectTransform walls = Column(area, "Walls", 0f, column, "성벽 피해");
-            RectTransform squads = Column(area, "Squads", column + ColumnGap, column, "병력 손실");
-            RectTransform heroes = Column(area, "Heroes", (column + ColumnGap) * 2f, column, "영웅 상태");
+            RectTransform walls = Column(area, "Walls", 0f, column, "성벽");
+            RectTransform squads = Column(area, "Squads", column + ColumnGap, column, "병력");
+            RectTransform heroes = Column(area, "Heroes", (column + ColumnGap) * 2f, column, "주인공과 마법사");
+            for (int i = 1; i < 3; i++)
+            {
+                // 칸 사이 잉크 세로줄 (한 점)
+                Image line = Ui.Image(area, "Divider", UiTokens.Alpha(UiTokens.Ink, 0.35f));
+                line.rectTransform.anchorMin = new Vector2(0f, 0f);
+                line.rectTransform.anchorMax = new Vector2(0f, 1f);
+                line.rectTransform.pivot = new Vector2(0.5f, 0.5f);
+                line.rectTransform.anchoredPosition = new Vector2(column * i + ColumnGap * (i - 0.5f), 0f);
+                line.rectTransform.sizeDelta = new Vector2(UiTokens.Dot, -UiTokens.S24);
+            }
+
             DrawWalls(walls, setup, result);
             DrawSquads(squads, setup, result, unit);
             DrawHeroes(heroes, setup, result, unit);
         }
 
-        // ── 성벽: 성을 위에서 본 네모, 4면 막대 색 = 남은 체력 비율, 옆에 이번 피해 ──
+        // ── 성벽: 성을 위에서 본 네모, 4면 막대 색 = 남은 체력 비율, 옆에 이번 피해 (멀쩡한 면은 글 없이 흐리게) ──
         static void DrawWalls(RectTransform box, BattleSetup setup, BattleResult result)
         {
             var after = new Dictionary<string, int>();
             foreach (WallOutcome w in result.WallOutcomes) after[w.SegmentId] = w.HpAfter;
-            const float size = 220f, thick = 22f;
-            var center = new Vector2(0f, -40f);
-            Rect(box, "Yard", center, new Vector2(size - thick * 2f, size - thick * 2f), new Color(0.16f, 0.21f, 0.18f));
-            Text(box, "성", center, 30, UiStyle.TextDim, new Vector2(80f, 40f));
+            const float size = 216f, thick = 24f;
+            var center = new Vector2(0f, -24f);
+            Rect(box, "Yard", center, new Vector2(size - thick * 2f, size - thick * 2f), UiTokens.Alpha(UiTokens.PaperShade, 0.6f));
             string[] ids = { WallIds.North, WallIds.East, WallIds.South, WallIds.West };
             string[] names = { "북", "동", "남", "서" };
             Vector2[] offsets = { new Vector2(0f, (size - thick) / 2f), new Vector2((size - thick) / 2f, 0f), new Vector2(0f, -(size - thick) / 2f), new Vector2(-(size - thick) / 2f, 0f) };
             Vector2[] sizes = { new Vector2(size, thick), new Vector2(thick, size), new Vector2(size, thick), new Vector2(thick, size) };
-            Vector2[] labelOffsets = { new Vector2(0f, size / 2f + 34f), new Vector2(size / 2f + 70f, 0f), new Vector2(0f, -size / 2f - 34f), new Vector2(-size / 2f - 70f, 0f) };
+            Vector2[] labelOffsets = { new Vector2(0f, size / 2f + 32f), new Vector2(size / 2f + 72f, 0f), new Vector2(0f, -size / 2f - 32f), new Vector2(-size / 2f - 72f, 0f) };
             for (int i = 0; i < 4; i++)
             {
                 WallSegmentState start = setup.Wall.Find(w => w.SegmentId == ids[i]);
@@ -52,9 +89,11 @@ namespace HumanLastRampart.Meta
                 int hpAfter = after.TryGetValue(ids[i], out int a) ? a : start.Hp;
                 float ratio = start.MaxHp > 0 ? Mathf.Clamp01((float)hpAfter / start.MaxHp) : 1f;
                 Rect(box, "Wall " + names[i], center + offsets[i], sizes[i], RatioColor(ratio));
+                Rect(box, "Wall Edge " + names[i], center + offsets[i], sizes[i] + new Vector2(UiTokens.Dot * 2f, UiTokens.Dot * 2f), UiTokens.Ink).SetAsFirstSibling();
                 int damage = start.Hp - hpAfter;
-                string text = damage > 0 ? $"{names[i]} −{damage:N0}\n{ratio:P0}" : $"{names[i]}\n멀쩡";
-                Text(box, text, center + labelOffsets[i], 20, damage > 0 ? UiStyle.Body : UiStyle.TextDim, new Vector2(130f, 52f));
+                Text label = Text(box, damage > 0 ? $"{names[i]} −{damage:N0}" : names[i], center + labelOffsets[i], UiTokens.Text,
+                    damage > 0 ? UiTokens.Ink : UiTokens.InkSoft, new Vector2(136f, 32f), TextAnchor.MiddleCenter, true);
+                if (damage > 0 && ratio < 0.35f) label.color = UiTokens.Danger;
             }
         }
 
@@ -74,34 +113,36 @@ namespace HumanLastRampart.Meta
                 lost[s.UnitDefId] += lostBySquad.TryGetValue(s.SquadId, out int n) ? n : 0;
             }
 
-            if (order.Count == 0) { Text(box, "참가 분대 없음", new Vector2(0f, -40f), 22, UiStyle.TextDim, new Vector2(300f, 40f)); return; }
-            float rowHeight = Mathf.Min(96f, 300f / order.Count);
-            float barWidth = box.rect.width > 1f ? box.rect.width - 150f : 300f;
+            if (order.Count == 0) return;   // 빈 상태 글을 쓰지 않는다 (S-21)
+            float rowHeight = Mathf.Min(96f, 312f / order.Count);
+            float barWidth = box.rect.width > 1f ? box.rect.width - 152f : box.sizeDelta.x - 152f;
             for (int i = 0; i < order.Count; i++)
             {
                 UnitDef def = unit(order[i]);
-                float y = 70f - i * rowHeight - rowHeight * 0.5f;
-                Portrait(box, def, new Vector2(-box.rect.width / 2f + 48f, y), rowHeight * 0.95f);
+                float y = 120f - i * rowHeight - rowHeight * 0.5f;
+                float half = box.sizeDelta.x / 2f;
+                Portrait(box, def, new Vector2(-half + 48f, y), rowHeight * 0.95f);
                 int total = start[order[i]], gone = Mathf.Min(lost[order[i]], total);
-                float left = -box.rect.width / 2f + 104f + barWidth / 2f;
-                Rect(box, "Track", new Vector2(left, y - 10f), new Vector2(barWidth, 16f), Track);
+                float left = -half + 104f + barWidth / 2f;
+                Rect(box, "Track", new Vector2(left, y - 12f), new Vector2(barWidth, 18f), UiTokens.Ink);
                 float keep = total > 0 ? (float)(total - gone) / total : 1f;
-                Rect(box, "Kept", new Vector2(left - barWidth / 2f + barWidth * keep / 2f, y - 10f), new Vector2(barWidth * keep, 16f), Good);
-                if (gone > 0) Rect(box, "Lost", new Vector2(left - barWidth / 2f + barWidth * keep + barWidth * (1f - keep) / 2f, y - 10f), new Vector2(barWidth * (1f - keep), 16f), Bad);
+                float inner = barWidth - UiTokens.Dot * 2f;
+                Rect(box, "Kept", new Vector2(left - inner / 2f + inner * keep / 2f, y - 12f), new Vector2(inner * keep, 12f), UiTokens.Good);
+                if (gone > 0) Rect(box, "Lost", new Vector2(left - inner / 2f + inner * keep + inner * (1f - keep) / 2f, y - 12f), new Vector2(inner * (1f - keep), 12f), UiTokens.Danger);
                 string name = def != null && !string.IsNullOrEmpty(def.DisplayName) ? def.DisplayName : order[i];
-                Text(box, gone > 0 ? $"{name}  {total:N0} → {total - gone:N0}  (−{gone:N0})" : $"{name}  {total:N0}  손실 없음",
-                    new Vector2(left, y + 14f), 20, gone > 0 ? UiStyle.Body : UiStyle.TextDim, new Vector2(barWidth, 28f), TextAnchor.MiddleLeft);
+                Text(box, gone > 0 ? $"{name}  {total - gone:N0}/{total:N0}  −{gone:N0}" : $"{name}  {total:N0}",
+                    new Vector2(left, y + 14f), UiTokens.Small, gone > 0 ? UiTokens.Ink : UiTokens.InkSoft, new Vector2(barWidth, 28f), TextAnchor.MiddleLeft);
             }
         }
 
-        // ── 영웅: 초상 + 체력 막대 + 생존/사망 ──
+        // ── 주인공과 마법사: 초상 + 체력 막대 (쓰러지면 초상이 어둡고 막대가 붉다) ──
         static void DrawHeroes(RectTransform box, BattleSetup setup, BattleResult result, Func<string, UnitDef> unit)
         {
             var outcomes = new Dictionary<string, HeroOutcome>();
             foreach (HeroOutcome h in result.HeroOutcomes) outcomes[h.InstanceId] = h;
-            if (setup.Heroes.Count == 0) { Text(box, "영웅 없음", new Vector2(0f, -40f), 22, UiStyle.TextDim, new Vector2(300f, 40f)); return; }
-            float rowHeight = Mathf.Min(120f, 300f / setup.Heroes.Count);
-            float barWidth = box.rect.width > 1f ? box.rect.width - 160f : 280f;
+            if (setup.Heroes.Count == 0) return;
+            float rowHeight = Mathf.Min(128f, 312f / setup.Heroes.Count);
+            float barWidth = box.sizeDelta.x - 168f;
             for (int i = 0; i < setup.Heroes.Count; i++)
             {
                 HeroState start = setup.Heroes[i];
@@ -110,15 +151,17 @@ namespace HumanLastRampart.Meta
                 int hp = took ? o.HpAfter : start.Hp;
                 bool alive = took ? o.IsAliveAfter : start.IsAlive;
                 int max = def != null && def.MaxHp > 0 ? def.MaxHp : Mathf.Max(1, start.Hp);
-                float y = 70f - i * rowHeight - rowHeight * 0.5f;
-                Portrait(box, def, new Vector2(-box.rect.width / 2f + 52f, y), rowHeight * 0.95f, alive ? Color.white : new Color(0.4f, 0.4f, 0.4f));
-                float left = -box.rect.width / 2f + 112f + barWidth / 2f;
+                float y = 120f - i * rowHeight - rowHeight * 0.5f;
+                float half = box.sizeDelta.x / 2f;
+                Portrait(box, def, new Vector2(-half + 52f, y), rowHeight * 0.95f, alive ? Color.white : new Color(0.35f, 0.3f, 0.28f));
+                float left = -half + 112f + barWidth / 2f;
                 float ratio = Mathf.Clamp01((float)hp / max);
-                Rect(box, "Track", new Vector2(left, y - 10f), new Vector2(barWidth, 16f), Track);
-                Rect(box, "Hp", new Vector2(left - barWidth / 2f + barWidth * ratio / 2f, y - 10f), new Vector2(barWidth * ratio, 16f), alive ? RatioColor(ratio) : Bad);
+                float inner = barWidth - UiTokens.Dot * 2f;
+                Rect(box, "Track", new Vector2(left, y - 12f), new Vector2(barWidth, 18f), UiTokens.Ink);
+                Rect(box, "Hp", new Vector2(left - inner / 2f + inner * ratio / 2f, y - 12f), new Vector2(inner * ratio, 12f), alive ? RatioColor(ratio) : UiTokens.Danger);
                 string name = def != null && !string.IsNullOrEmpty(def.DisplayName) ? def.DisplayName : start.UnitDefId;
-                Text(box, alive ? $"{name}  체력 {hp:N0}/{max:N0}{(took ? "" : " · 미참전")}" : $"{name}  쓰러짐",
-                    new Vector2(left, y + 14f), 20, alive ? UiStyle.Body : UiStyle.Danger, new Vector2(barWidth, 28f), TextAnchor.MiddleLeft);
+                Text(box, alive ? $"{name}  {hp:N0}/{max:N0}" : $"{name}  쓰러짐", new Vector2(left, y + 14f), UiTokens.Small,
+                    alive ? (took ? UiTokens.Ink : UiTokens.InkSoft) : UiTokens.Danger, new Vector2(barWidth, 28f), TextAnchor.MiddleLeft);
             }
         }
 
@@ -126,7 +169,8 @@ namespace HumanLastRampart.Meta
         static void Portrait(RectTransform parent, UnitDef def, Vector2 at, float height, Color? tint = null)
         {
             Texture2D sheet = def != null ? (def.IdleSheet != null ? def.IdleSheet : def.Sheet) : null;
-            var obj = new GameObject("Portrait", typeof(RectTransform), typeof(RawImage));
+            if (sheet == null) return;
+            var obj = new GameObject("Portrait", typeof(RectTransform), typeof(CanvasRenderer), typeof(RawImage));
             obj.transform.SetParent(parent, false);
             var rect = (RectTransform)obj.transform;
             rect.anchorMin = rect.anchorMax = new Vector2(0.5f, 0.5f);
@@ -134,69 +178,51 @@ namespace HumanLastRampart.Meta
             rect.sizeDelta = new Vector2(height * 2f / 3f, height);
             var image = obj.GetComponent<RawImage>();
             image.raycastTarget = false;
-            if (sheet == null) { image.color = new Color(1f, 1f, 1f, 0.1f); return; }
             image.texture = sheet;
             int cols = Mathf.Max(1, Mathf.RoundToInt(sheet.width / 256f)), rows = Mathf.Max(1, Mathf.RoundToInt(sheet.height / 384f));
             image.uvRect = new UnityEngine.Rect(0f, 1f - 1f / rows, 1f / cols, 1f / rows);
             image.color = tint ?? Color.white;
         }
 
+        // 칸: 제목(세계 글꼴) + 가운데 기준 그리기 판. 이름(Walls·Squads·Heroes)은 시험이 찾는다
         static RectTransform Column(RectTransform area, string name, float x, float width, string title)
         {
-            var obj = new GameObject(name, typeof(RectTransform), typeof(Image));
-            obj.transform.SetParent(area, false);
-            var rect = (RectTransform)obj.transform;
+            var rect = Ui.Rect(area, name);
             rect.anchorMin = new Vector2(0f, 0f);
             rect.anchorMax = new Vector2(0f, 1f);
             rect.pivot = new Vector2(0f, 0.5f);
             rect.anchoredPosition = new Vector2(x, 0f);
             rect.sizeDelta = new Vector2(width, 0f);
-            obj.GetComponent<Image>().color = UiStyle.PanelDeep;
-            obj.GetComponent<Image>().raycastTarget = false;
-            UiStyle.Border(obj.GetComponent<Image>(), 0.5f, 1f);
-            var titleText = Text(rect, title, Vector2.zero, 26, UiStyle.Brass, new Vector2(width, 40f));
-            titleText.rectTransform.anchorMin = titleText.rectTransform.anchorMax = new Vector2(0.5f, 1f);
-            titleText.rectTransform.anchoredPosition = new Vector2(0f, -28f);
-            // 그리기 기준: 가운데 (아래 그림들은 가운데 기준 좌표)
-            var content = new GameObject("Content", typeof(RectTransform)).GetComponent<RectTransform>();
-            content.SetParent(rect, false);
+            Text heading = Ui.Label(rect, "Title", title, UiTokens.H2, UiTokens.Ink, TextAnchor.MiddleLeft, true);
+            heading.rectTransform.anchorMin = heading.rectTransform.anchorMax = heading.rectTransform.pivot = new Vector2(0f, 1f);
+            heading.rectTransform.anchoredPosition = Vector2.zero;
+            heading.rectTransform.sizeDelta = new Vector2(width, 48f);
+            var content = Ui.Rect(rect, "Content");
             content.anchorMin = content.anchorMax = new Vector2(0.5f, 0.5f);
             content.sizeDelta = new Vector2(width, 360f);
             return content;
         }
 
-        static void Rect(RectTransform parent, string name, Vector2 at, Vector2 size, Color color)
+        static RectTransform Rect(RectTransform parent, string name, Vector2 at, Vector2 size, Color color)
         {
-            var obj = new GameObject(name, typeof(RectTransform), typeof(Image));
-            obj.transform.SetParent(parent, false);
-            var rect = (RectTransform)obj.transform;
+            Image image = Ui.Image(parent, name, color);
+            var rect = image.rectTransform;
             rect.anchorMin = rect.anchorMax = new Vector2(0.5f, 0.5f);
             rect.anchoredPosition = at;
             rect.sizeDelta = size;
-            var image = obj.GetComponent<Image>();
-            image.color = color;
-            image.raycastTarget = false;
+            return rect;
         }
 
-        static Text Text(RectTransform parent, string text, Vector2 at, int size, Color color, Vector2 box, TextAnchor anchor = TextAnchor.MiddleCenter)
+        static Text Text(RectTransform parent, string text, Vector2 at, int size, Color color, Vector2 box, TextAnchor anchor = TextAnchor.MiddleCenter, bool display = false)
         {
-            var obj = new GameObject("Text", typeof(RectTransform), typeof(Text));
-            obj.transform.SetParent(parent, false);
-            var rect = (RectTransform)obj.transform;
-            rect.anchorMin = rect.anchorMax = new Vector2(0.5f, 0.5f);
-            rect.anchoredPosition = at;
-            rect.sizeDelta = box;
-            var t = obj.GetComponent<Text>();
-            t.font = ScreenView.UiFont;
-            t.fontSize = size;
-            t.color = color;
-            t.alignment = anchor;
-            t.text = text;
-            t.raycastTarget = false;
+            Text t = Ui.Label(parent, "Text", text, size, color, anchor, display);
             t.horizontalOverflow = HorizontalWrapMode.Overflow;
+            t.rectTransform.anchorMin = t.rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
+            t.rectTransform.anchoredPosition = at;
+            t.rectTransform.sizeDelta = box;
             return t;
         }
 
-        static Color RatioColor(float ratio) => ratio >= 0.7f ? Good : ratio >= 0.35f ? Warn : Bad;
+        static Color RatioColor(float ratio) => ratio >= 0.7f ? UiTokens.Good : ratio >= 0.35f ? UiTokens.Brass : UiTokens.Danger;
     }
 }

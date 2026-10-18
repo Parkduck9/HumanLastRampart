@@ -1,181 +1,208 @@
 using System;
+using System.Collections.Generic;
 using HumanLastRampart.Core.Campaign;
+using HumanLastRampart.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace HumanLastRampart.Combat.Battle
 {
-    // 2번 지도 모드 표시 (BattleMap.md 2장): 위쪽 가운데 띠에 지도 상태·쉬움 시간 정지
-    // 창 모양은 K-021 시안(짙은 올리브 창 + 황동 1px 테두리 + 안쪽 어두운 띠, 제목 왼쪽 정렬 + 가는 선), 표식은 K-020 그림
+    // 2번 지도 화면 (BattleMap.md 2장, K-047): 구역은 셋 — 위 계기 띠(지도 상태는 띠 안에) · 왼쪽 명령판 · 오른쪽 포병·마법판.
+    // 성과 적 무리가 있는 가운데는 비워 둔다 (S-01·S-02). 병사 묶음 창은 고를 때만 띠 아래에 잠깐
     public sealed partial class BattleHud
     {
-        Text mapBanner;
-        bool mapMode;
-        GameObject globalPanel;
-        Text globalStatus;
+        bool mapMode, mapFrozen;
 
-        // 지도 전체 명령 (MAP-2, Battle.md 5.1-1): 4면에 한 번에. 성벽 명령은 지워진다 (D-031 K3, D-039)
-        public event Action<TargetPriority> GlobalCommandChosen;
+        // ── 왼쪽 명령판: 받을 곳(전체·북·동·남·서) → 명령 6개 (D-071) ──
+        public event Action<TargetPriority> GlobalCommandChosen;     // 4면 한 번에 (MAP-2). 성벽 명령은 지워진다 (D-031 K3, D-039)
+        public event Action<int, TargetPriority> WallCommandChosen;  // 성벽 하나 — 준비 중에는 바로, 전투 중에는 있는 자리 성벽만 바로·나머지는 전령
+        GameObject commandBoard, commandBody;
+        int commandTarget = -1;   // -1 = 전체
+        readonly Button[] commandTabs = new Button[5];
+        readonly Button[] orderButtons = new Button[6];
+        readonly Image[] wallOrderIcons = new Image[4];
+        Text heroRule;
 
-        // 대포 조준 (MAP-3, Battle.md 5.2): 지도 위 대포 표시 누르기 → 들판 찍기 (K-037: 벽 탭·번호 단추 대신)
+        // 명령 6개 아이콘 (K-026, TargetPriority 순서)과 판에 보이는 짧은 이름 (열쇠는 BattleSim.PriorityNames — 시험이 그것으로 누른다)
+        static readonly string[] PriorityIcons = { "priority_low_hp", "priority_high_hp", "priority_nearest", "priority_climbing", "priority_special", "priority_dense" };
+        static readonly string[] PriorityShort = { "약한 적", "튼튼한 적", "가까운 적", "오르는 적", "특수 적", "밀집한 곳" };
+
+        // ── 오른쪽 포병·마법판 (MAP-3·4) ──
         public event Action<int> CannonPicked;         // 대포 번호 (sim 안 순서 0~)
         public event Action CannonClearChosen;
-        GameObject cannonPanel;
-        Text cannonTitle;
-        Text cannonGuide;
-        readonly Text[] cannonLabels = new Text[4];
-        readonly System.Collections.Generic.List<Button> cannonMarkers = new System.Collections.Generic.List<Button>();
-
-        // 마법 (MAP-4, Battle.md 5.3): 고르고 들판 클릭
         public event Action<int> SpellChosen;
-        GameObject spellPanel;
-        Text spellTitle;
-        readonly System.Collections.Generic.List<Text> spellLabels = new System.Collections.Generic.List<Text>();
-        readonly System.Collections.Generic.List<Image> spellButtons = new System.Collections.Generic.List<Image>();
+        GameObject fireBoard, fireBody, spellSection;
+        Text cannonTitle, fireGuide;
+        Button cannonClear;
+        readonly Button[] cannonRows = new Button[4];
+        readonly Text[] cannonStates = new Text[4];
+        readonly Image[] cannonStateIcons = new Image[4];
+        readonly int[] rowCannon = { -1, -1, -1, -1 };
+        readonly List<Button> cannonMarkers = new List<Button>();
+        readonly List<Button> spellButtons = new List<Button>();
+        readonly List<Image> spellCooldowns = new List<Image>();
+        readonly List<Text> spellKeys = new List<Text>();
+        int spellSelected = -1;
 
         public void SetMapMode(bool open, bool frozen)
         {
-            if (mapBanner == null)
-            {
-                // K-021 위쪽 상태 띠: 짙은 바탕 + 왼쪽 황동 막대
-                Image band = NewImage(root.transform, "Map Banner", HudStyle.PhaseBand);
-                // 준비 문구에 시작 방법까지 들어가 넓힌다 (K-037). 양옆 창(왼쪽 330·오른쪽 380) 사이 1920 기준 안쪽
-                Anchor(band.rectTransform, new Vector2(0.5f, 1f), new Vector2(0f, -20f), new Vector2(780f, 56f), new Vector2(0.5f, 1f));
-                Image bar = NewImage(band.transform, "Bar", HudStyle.Brass);
-                bar.raycastTarget = false;
-                Anchor(bar.rectTransform, new Vector2(0f, 0.5f), Vector2.zero, new Vector2(3f, 56f), new Vector2(0f, 0.5f));
-                mapBanner = NewText(band.transform, "Text", 24, TextAnchor.MiddleCenter);
-                Anchor(mapBanner.rectTransform, new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(760f, 50f), new Vector2(0.5f, 0.5f));
-            }
-
+            mapFrozen = frozen;
+            if (commandBoard == null) BuildCommandBoard();
+            if (fireBoard == null) BuildFireBoard();
             if (open != mapMode)
             {
-                nextRefresh = 0f;   // 안내 문구 바로 바꾸기
-            }
-
-            mapMode = open;
-            mapBanner.transform.parent.gameObject.SetActive(open);
-            if (globalPanel == null) BuildGlobalPanel();
-            globalPanel.SetActive(open);
-            if (cannonPanel == null) BuildCannonPanel();
-            cannonPanel.SetActive(open);
-            if (spellPanel != null) spellPanel.SetActive(open);
-            if (!open)
-            {
-                foreach (Text label in groupLabels) label.gameObject.SetActive(false);
-                foreach (GroupMarker marker in groupMarkers) marker.Root.gameObject.SetActive(false);
-                foreach (Button marker in cannonMarkers) marker.gameObject.SetActive(false);
-                foreach (Text c in compass) if (c != null) c.gameObject.SetActive(false);
-                foreach (Image back in compassBacks) if (back != null) back.gameObject.SetActive(false);
-                if (heroMarker != null) heroMarker.gameObject.SetActive(false);
-                if (groupPopup != null) groupPopup.SetActive(false);
-            }
-            if (open)
-            {
-                mapBanner.text = preparing ? "전투 준비 — 명령·대포 조준을 정하고 [전투 시작] 또는 Tab"
-                    : frozen ? "지도 — 시간 멈춤 (쉬움)" : "지도 — 시간이 흐릅니다 (현실)";
-            }
-        }
-
-        // 병사 명령 (D-071): 받을 곳 고르기(전체·북·동·남·서) → 명령 고르기. 전체는 4면 한 번에(MAP-2)
-        // 성벽 하나를 고르면 WallCommandChosen — 전투 준비 중에는 바로, 전투 중에는 있는 자리 성벽만 바로·나머지는 전령(BattleEntry)
-        public event Action<int, TargetPriority> WallCommandChosen;
-        int commandTarget = -1;   // -1 = 전체
-        readonly Image[] commandTabs = new Image[5];
-        Text globalTitle;
-
-        // 명령 6개 앞 아이콘 (K-026, TargetPriority 순서)
-        static readonly string[] PriorityIcons = { "priority_low_hp", "priority_high_hp", "priority_nearest", "priority_climbing", "priority_special", "priority_dense" };
-
-        void BuildGlobalPanel()
-        {
-            Image panel = NewImage(root.transform, "Global Command", HudStyle.MapPanel);
-            HudStyle.MapFrame(panel);
-            globalPanel = panel.gameObject;
-            // 왼쪽 위 상태판 바로 아래 (상태판을 접고 펴면 LayoutStatus가 따라 옮긴다)
-            Anchor(panel.rectTransform, new Vector2(0f, 1f), new Vector2(20f, -30f - StatusHeight), new Vector2(330f, 550f), new Vector2(0f, 1f));
-            globalTitle = NewText(panel.transform, "Title", 24, TextAnchor.MiddleLeft);
-            globalTitle.color = HudStyle.Text;
-            Anchor(globalTitle.rectTransform, new Vector2(0f, 1f), new Vector2(16f, -10f), new Vector2(262f, 36f), new Vector2(0f, 1f));
-            MapDivider(panel.transform, -50f);
-
-            string[] targets = { "전체", "북쪽", "동쪽", "남쪽", "서쪽" };   // 대포 패널의 북·동·남·서 탭과 구분
-            for (int i = 0; i < targets.Length; i++)
-            {
-                int target = i - 1;
-                Button tab = NewButton(panel.transform, targets[i], () => commandTarget = target, true);
-                Anchor((RectTransform)tab.transform, new Vector2(0f, 1f), new Vector2(12f + i * 62f, -58f), new Vector2(58f, 44f), new Vector2(0f, 1f));
-                tab.GetComponentInChildren<Text>().fontSize = 20;
-                commandTabs[i] = tab.GetComponent<Image>();
-            }
-
-            for (int i = 0; i < BattleSim.PriorityNames.Length; i++)
-            {
-                var priority = (TargetPriority)i;
-                Button button = NewButton(panel.transform, BattleSim.PriorityNames[i], () =>
+                nextRefresh = 0f;   // 띠 상태·키 안내 바로 바꾸기
+                mapMode = open;
+                PlaceNotices(open);
+                if (!open)
                 {
-                    if (commandTarget < 0) GlobalCommandChosen?.Invoke(priority);
-                    else WallCommandChosen?.Invoke(commandTarget, priority);
-                }, true);
-                Anchor((RectTransform)button.transform, new Vector2(0.5f, 1f), new Vector2(0f, -112f - i * 54f), new Vector2(300f, 48f), new Vector2(0.5f, 1f));
-                // 시안처럼 왼쪽 정렬 + 앞에 아이콘 (글자는 그대로 — 시험이 글자로 찾는다)
-                Image icon = i < PriorityIcons.Length ? HudStyle.ArtImage(button.transform, "Icon", "Icons/" + PriorityIcons[i], new Vector2(32f, 32f)) : null;
-                if (icon != null)
-                {
-                    Anchor(icon.rectTransform, new Vector2(0f, 0.5f), new Vector2(10f, 0f), new Vector2(32f, 32f), new Vector2(0f, 0.5f));
-                    Text label = button.GetComponentInChildren<Text>();
-                    label.alignment = TextAnchor.MiddleLeft;
-                    label.rectTransform.offsetMin = new Vector2(52f, 0f);
+                    foreach (Text label in groupLabels) label.gameObject.SetActive(false);
+                    foreach (GroupMarker marker in groupMarkers) marker.Root.gameObject.SetActive(false);
+                    foreach (Button marker in cannonMarkers) marker.gameObject.SetActive(false);
+                    foreach (Text c in compass) if (c != null) c.gameObject.SetActive(false);
+                    foreach (Image back in compassBacks) if (back != null) back.gameObject.SetActive(false);
+                    if (heroMarker != null) heroMarker.gameObject.SetActive(false);
+                    if (groupPopup != null) groupPopup.SetActive(false);
                 }
             }
 
-            globalStatus = NewText(panel.transform, "Status", 18, TextAnchor.UpperLeft);
-            globalStatus.color = HudStyle.TextDim;
-            Anchor(globalStatus.rectTransform, new Vector2(0.5f, 0f), new Vector2(0f, 8f), new Vector2(300f, 96f), new Vector2(0.5f, 0f));
-            MakeCollapsible(panel, globalTitle.gameObject, 550f);
-            globalPanel.SetActive(false);
+            UiAppear.Toggle(commandBoard, open, new Vector2(-UiTokens.S24, 0f));
+            UiAppear.Toggle(fireBoard, open, new Vector2(UiTokens.S24, 0f));
         }
 
-        // K-021 제목 아래 가는 선 (창 안쪽 띠 안에서)
-        void MapDivider(Transform panel, float y)
+        // 나무 판 하나: 세로 목록 + 내용에 맞춘 높이. 머리 줄(제목 + 접기)과 몸통을 돌려준다
+        Image Board(string name, Vector2 anchor, Vector2 position, float width, string title, out Text titleText, out GameObject body)
         {
-            Image line = NewImage(panel, "Divider", HudStyle.MapDivider);
-            line.raycastTarget = false;
-            var rect = line.rectTransform;
-            rect.anchorMin = new Vector2(0f, 1f);
-            rect.anchorMax = new Vector2(1f, 1f);
-            rect.pivot = new Vector2(0.5f, 1f);
-            rect.offsetMin = new Vector2(14f, y - 1f);
-            rect.offsetMax = new Vector2(-14f, y);
-        }
+            Image panel = Ui.Panel(root.transform, name, UiPanel.Wood);
+            Ui.Place(panel.rectTransform, anchor, position, new Vector2(width, 0f), anchor);
+            var column = panel.gameObject.AddComponent<VerticalLayoutGroup>();
+            column.padding = new RectOffset(24, 24, 16, 24);
+            column.spacing = UiTokens.S8;
+            column.childControlWidth = column.childControlHeight = true;
+            column.childForceExpandWidth = true;
+            column.childForceExpandHeight = false;
+            panel.gameObject.AddComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
 
-        // 창 접기 (D-073): 오른쪽 위 ▲/▼ 단추 — 접으면 제목 줄만 남는다. 지도를 넓게 보려고
-        const float CollapsedHeight = 56f;
-
-        void MakeCollapsible(Image panel, GameObject title, float fullHeight)
-        {
-            var content = new System.Collections.Generic.List<GameObject>();
-            foreach (Transform child in panel.transform)
-                if (child.gameObject != title && child.name != "Frame" && child.name != "Inset") content.Add(child.gameObject);   // 테두리는 접어도 남긴다
-
-            bool collapsed = false;
-            Button toggle = null;
-            toggle = NewButton(panel.transform, "▲", () =>
+            HorizontalLayoutGroup head = Ui.Row(panel.transform, "Head", UiTokens.S8);
+            Ui.Size(head, -1f, 48f);
+            titleText = Ui.Label(head.transform, "Title", title, UiTokens.H2, UiTokens.Brass, TextAnchor.MiddleLeft, true);
+            Ui.Size(titleText, width - 48f - 48f - UiTokens.S8, 48f);
+            VerticalLayoutGroup inner = Ui.Column(panel.transform, "Body", UiTokens.S8);
+            GameObject bodyObject = inner.gameObject;
+            body = bodyObject;
+            Button fold = null;
+            fold = Ui.IconButton(head.transform, "접기:" + name, UiArt.IconUp, () =>
             {
-                collapsed = !collapsed;
-                foreach (GameObject go in content) go.SetActive(!collapsed);
-                var size = panel.rectTransform.sizeDelta;
-                panel.rectTransform.sizeDelta = new Vector2(size.x, collapsed ? CollapsedHeight : fullHeight);
-                toggle.GetComponentInChildren<Text>().text = collapsed ? "▼" : "▲";
-            }, true);
-            toggle.GetComponent<Image>().color = new Color(HudStyle.MapButton.r, HudStyle.MapButton.g, HudStyle.MapButton.b, 0f);   // 시안: 바탕 없이 테두리만
-            toggle.GetComponentInChildren<Text>().color = HudStyle.Brass;
-            Anchor((RectTransform)toggle.transform, new Vector2(1f, 1f), new Vector2(-8f, -8f), new Vector2(40f, 40f), new Vector2(1f, 1f));
+                bool open = !bodyObject.activeSelf;
+                bodyObject.SetActive(open);
+                Ui.SetIcon(fold, open ? UiArt.IconUp : UiArt.IconDown);
+            }, 48f);
+            return panel;
         }
 
-        // 전투 준비 (D-071): 전투 시작 전에 지도가 열린 채 시간이 멈춰 있다. 명령·대포 조준을 정하고 [전투 시작]
+        void BuildCommandBoard()
+        {
+            Image panel = Board("Command Board", new Vector2(0f, 1f), new Vector2(Edge, -(Edge + BandHeight + UiTokens.S16)), 416f, "병사 명령", out _, out commandBody);
+            commandBoard = panel.gameObject;
+
+            HorizontalLayoutGroup tabs = Ui.Row(commandBody.transform, "Targets", UiTokens.S8);
+            string[] keys = { "전체", "북쪽", "동쪽", "남쪽", "서쪽" };   // 시험이 이 열쇠로 누른다
+            string[] labels = { "전체", "북", "동", "남", "서" };
+            for (int i = 0; i < keys.Length; i++)
+            {
+                int target = i - 1;
+                commandTabs[i] = Ui.Button(tabs.transform, keys[i], labels[i], () => { commandTarget = target; nextRefresh = 0f; }, UiButtonKind.Tab);
+                Ui.Size(commandTabs[i], 64f, 48f);
+            }
+
+            var grid = Ui.Rect(commandBody.transform, "Orders").gameObject.AddComponent<GridLayoutGroup>();
+            grid.cellSize = new Vector2(180f, 52f);
+            grid.spacing = new Vector2(UiTokens.S8, UiTokens.S8);
+            grid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+            grid.constraintCount = 2;
+            for (int i = 0; i < BattleSim.PriorityNames.Length && i < orderButtons.Length; i++)
+            {
+                var priority = (TargetPriority)i;
+                Button button = Ui.Button(grid.transform, BattleSim.PriorityNames[i], PriorityShort[i], () =>
+                {
+                    if (commandTarget < 0) GlobalCommandChosen?.Invoke(priority);
+                    else WallCommandChosen?.Invoke(commandTarget, priority);
+                    nextRefresh = 0f;
+                });
+                Image icon = Ui.HudIcon(button.transform.Find("Content"), "Icon", "Icons/" + PriorityIcons[i], 24f);
+                if (icon != null)
+                {
+                    Anchor(icon.rectTransform, new Vector2(0f, 0.5f), new Vector2(UiTokens.S16, 0f), icon.rectTransform.sizeDelta, new Vector2(0f, 0.5f));
+                    Text label = Ui.LabelOf(button);
+                    label.alignment = TextAnchor.MiddleLeft;
+                    label.rectTransform.offsetMin = new Vector2(UiTokens.S16 + icon.rectTransform.sizeDelta.x + UiTokens.S8, 0f);
+                }
+
+                orderButtons[i] = button;
+            }
+
+            // 지금 4면 명령: 북 [아이콘]  동 [아이콘] …
+            HorizontalLayoutGroup now = Ui.Row(commandBody.transform, "Now", UiTokens.S8);
+            Ui.Size(now, -1f, 32f);
+            for (int side = 0; side < 4; side++)
+            {
+                Text letter = Ui.Label(now.transform, "Side", SideNames[side], UiTokens.Small, UiTokens.BodyDim, TextAnchor.MiddleCenter, true);
+                Ui.Size(letter, 24f, 32f);
+                wallOrderIcons[side] = Ui.HudIcon(now.transform, "Order " + SideNames[side], "Icons/" + PriorityIcons[0], 24f);
+                if (side < 3)
+                {
+                    RectTransform gap = Ui.Rect(now.transform, "Gap");
+                    Ui.Size(gap, UiTokens.S16, 32f);
+                }
+            }
+
+            heroRule = Ui.Label(commandBody.transform, "Hero Rule", "", UiTokens.Small, UiTokens.BodyDim);
+            Ui.Size(heroRule, -1f, 28f);
+            commandBoard.SetActive(false);
+        }
+
+        void BuildFireBoard()
+        {
+            Image panel = Board("Fire Board", new Vector2(1f, 1f), new Vector2(-Edge, -(Edge + BandHeight + UiTokens.S16)), 400f, "대포", out cannonTitle, out fireBody);
+            fireBoard = panel.gameObject;
+
+            for (int i = 0; i < 4; i++)
+            {
+                int row = i;
+                Button button = Ui.Button(fireBody.transform, "대포 " + (i + 1), "", () => { if (rowCannon[row] >= 0) CannonPicked?.Invoke(rowCannon[row]); }, UiButtonKind.Tab);
+                Ui.Size(button, -1f, 48f);
+                Transform content = button.transform.Find("Content");
+                Text number = Ui.Label(content, "Number", (i + 1).ToString(), UiTokens.Text, UiTokens.Brass, TextAnchor.MiddleCenter, true);
+                Anchor(number.rectTransform, new Vector2(0f, 0.5f), new Vector2(UiTokens.S16, 0f), new Vector2(24f, 40f), new Vector2(0f, 0.5f));
+                Image cannon = Ui.HudIcon(content, "Cannon", "Icons/unit_cannon", 24f);
+                if (cannon != null) Anchor(cannon.rectTransform, new Vector2(0f, 0.5f), new Vector2(48f, 0f), cannon.rectTransform.sizeDelta, new Vector2(0f, 0.5f));
+                Image state = Ui.Icon(content, "State Icon", UiArt.IconAuto, 1f, UiTokens.BodyDim);
+                Anchor(state.rectTransform, new Vector2(0f, 0.5f), new Vector2(96f, 0f), state.rectTransform.sizeDelta, new Vector2(0f, 0.5f));
+                cannonStateIcons[i] = state;
+                cannonStates[i] = Ui.Label(content, "Cannon " + (i + 1) + " State", "", UiTokens.Small, UiTokens.Body);
+                Anchor(cannonStates[i].rectTransform, new Vector2(0f, 0.5f), new Vector2(144f, 0f), new Vector2(180f, 40f), new Vector2(0f, 0.5f));
+                cannonRows[i] = button;
+            }
+
+            cannonClear = Ui.Button(fireBody.transform, "조준 해제", "조준 풀기", () => CannonClearChosen?.Invoke());
+            Ui.Size(cannonClear, -1f, 48f);
+            fireGuide = Ui.Label(fireBody.transform, "Guide", "", UiTokens.Small, UiTokens.BodyDim);
+            Ui.Size(fireGuide, -1f, 28f);
+
+            // 마법사 칸 (마법사가 없으면 칸째 숨긴다 — S-21)
+            VerticalLayoutGroup spells = Ui.Column(fireBody.transform, "Wizard", UiTokens.S8);
+            spellSection = spells.gameObject;
+            Image line = Ui.Image(spells.transform, "Rule", UiTokens.BrassDark);
+            Ui.Size(line, -1f, UiTokens.Dot);
+            Text heading = Ui.Label(spells.transform, "Heading", "마법사", UiTokens.Text, UiTokens.Brass, TextAnchor.MiddleLeft, true);
+            Ui.Size(heading, -1f, 32f);
+            Ui.Row(spells.transform, "Spells", UiTokens.S8);
+            fireBoard.SetActive(false);
+        }
+
+        // 전투 준비 (D-071): 지도가 열린 채 시간이 멈춰 있다. 명령·대포 조준을 정하고 [전투 시작]
         public event Action BattleStartChosen;
-        GameObject startButton;
+        Button startButton;
         bool preparing;
 
         public void SetPreparing(bool value)
@@ -183,97 +210,65 @@ namespace HumanLastRampart.Combat.Battle
             preparing = value;
             if (startButton == null)
             {
-                Button button = NewButton(root.transform, "전투 시작", () => BattleStartChosen?.Invoke());
-                Anchor((RectTransform)button.transform, new Vector2(0.5f, 1f), new Vector2(0f, -84f), new Vector2(300f, 56f), new Vector2(0.5f, 1f));
-                // K-021: 황동 바탕 + 밝은 황동 테두리 + 어두운 글 (화면의 주된 다음 행동)
-                Image face = button.GetComponent<Image>();
-                face.color = HudStyle.Brass;
-                HudStyle.SetBorderColor(face, HudStyle.PrimaryEdge);
-                Text label = button.GetComponentInChildren<Text>();
-                label.fontSize = 26;
-                label.fontStyle = FontStyle.Bold;
-                label.color = HudStyle.PrimaryText;
-                startButton = button.gameObject;
+                startButton = Ui.Button(root.transform, "전투 시작", "전투 시작", () => BattleStartChosen?.Invoke(), UiButtonKind.Primary);
+                Anchor((RectTransform)startButton.transform, new Vector2(0.5f, 1f), new Vector2(0f, -Edge), new Vector2(320f, 64f), new Vector2(0.5f, 1f));
+                startButton.gameObject.SetActive(false);
             }
 
-            startButton.SetActive(value);
+            UiAppear.Toggle(startButton.gameObject, value, new Vector2(0f, UiTokens.S16));
             nextRefresh = 0f;
+            if (slipColumn != null) PlaceNotices(mapMode);
         }
-
-        void BuildCannonPanel()
-        {
-            Image panel = NewImage(root.transform, "Cannon Panel", HudStyle.MapPanel);
-            HudStyle.MapFrame(panel);
-            cannonPanel = panel.gameObject;
-            // 위 끝 기준(접으면 위로 접힌다). 위치는 예전(가운데 기준 +40)과 같다: 위 끝 = 가운데 + 300
-            Anchor(panel.rectTransform, new Vector2(1f, 0.5f), new Vector2(-20f, 300f), new Vector2(380f, CannonPanelHeight), new Vector2(1f, 1f));
-            cannonTitle = NewText(panel.transform, "Title", 26, TextAnchor.MiddleLeft);
-            Anchor(cannonTitle.rectTransform, new Vector2(0f, 1f), new Vector2(16f, -10f), new Vector2(300f, 40f), new Vector2(0f, 1f));
-            MapDivider(panel.transform, -54f);
-
-            // K-037: 북·동·남·서 탭과 1~4번 단추 대신 지도 위 대포 표시를 누른다. 창은 고른 대포가 있는 성벽의 4문 상태(글)만
-            for (int i = 0; i < 4; i++)
-            {
-                cannonLabels[i] = NewText(panel.transform, "Cannon " + (i + 1), 20, TextAnchor.MiddleLeft);
-                Anchor(cannonLabels[i].rectTransform, new Vector2(0f, 1f), new Vector2(18f, -64f - i * 36f), new Vector2(344f, 32f), new Vector2(0f, 1f));
-            }
-
-            Button clear = NewButton(panel.transform, "조준 해제", () => CannonClearChosen?.Invoke(), true);
-            Anchor((RectTransform)clear.transform, new Vector2(0.5f, 1f), new Vector2(0f, -212f), new Vector2(350f, 50f), new Vector2(0.5f, 1f));
-            clear.GetComponent<Image>().color = new Color(HudStyle.MapButton.r, HudStyle.MapButton.g, HudStyle.MapButton.b, 0.25f);   // 시안: 옅은 바탕
-            // 안내 글: 어두운 받침 + 왼쪽 황동 막대 (K-021 cannon-guide)
-            Image note = NewImage(panel.transform, "Guide Backing", HudStyle.MapNote);
-            note.raycastTarget = false;
-            Anchor(note.rectTransform, new Vector2(0.5f, 0f), new Vector2(0f, 10f), new Vector2(350f, 84f), new Vector2(0.5f, 0f));
-            Image noteBar = NewImage(note.transform, "Bar", HudStyle.Brass);
-            noteBar.raycastTarget = false;
-            Anchor(noteBar.rectTransform, new Vector2(0f, 0.5f), Vector2.zero, new Vector2(2f, 84f), new Vector2(0f, 0.5f));
-            cannonGuide = NewText(panel.transform, "Guide", 18, TextAnchor.UpperLeft);
-            Anchor(cannonGuide.rectTransform, new Vector2(0.5f, 0f), new Vector2(4f, 12f), new Vector2(330f, 78f), new Vector2(0.5f, 0f));
-            cannonGuide.horizontalOverflow = HorizontalWrapMode.Wrap;
-            MakeCollapsible(panel, cannonTitle.gameObject, CannonPanelHeight);
-            cannonPanel.SetActive(false);
-        }
-
-        const float CannonPanelHeight = 370f;
 
         // 칠 수 있는 들판 면 비트 → "북·동" (K-042)
         static string ReachText(int reach)
         {
-            string[] names = { "북", "동", "남", "서" };
-            var parts = new System.Collections.Generic.List<string>(3);
-            for (int side = 0; side < 4; side++) if ((reach & (1 << side)) != 0) parts.Add(names[side]);
+            var parts = new List<string>(3);
+            for (int side = 0; side < 4; side++) if ((reach & (1 << side)) != 0) parts.Add(SideNames[side]);
             return string.Join("·", parts);
         }
 
-        // 고른 벽의 대포 4문 상태 (BattleEntry가 그리기 뒤 부름)
+        // 고른 벽의 대포 4문 상태 (BattleEntry가 그리기 뒤 부름). 상태는 아이콘으로, 낱말은 작게 (S-26)
         public void RefreshCannons(BattleSim sim, int side, int selected)
         {
-            if (cannonPanel == null || !mapMode) return;
-            string[] names = { "북", "동", "남", "서" };
-            cannonTitle.text = $"대포 — {names[side]}쪽";
-            for (int i = 0; i < 4; i++)
-            {
-                cannonLabels[i].text = $"{i + 1}번: 없음";
-                cannonLabels[i].color = HudStyle.TextDim;
-            }
-
-            string guide = "지도에서 대포 표시를 누른 뒤 쏠 수 있는 구역(노란 점)을 왼쪽 클릭";
+            if (fireBoard == null || !mapMode) return;
+            cannonTitle.text = $"{SideFull[side]} 대포";
+            for (int i = 0; i < 4; i++) rowCannon[i] = -1;
+            bool aimed = false;
+            string guide = "지도의 대포를 눌러 고르기";
             for (int c = 0; c < sim.CannonCount; c++)
             {
                 BattleSim.CannonInfo info = sim.GetCannon(c);
                 if (info.Side != side || info.Number < 1 || info.Number > 4) continue;
-                string state = !info.Alive ? "운용병 없음" : !info.HasAim ? "자동(밀집한 곳)" : info.Idle ? "조준 — 대기(근처에 적 없음)" : "조준 — 포격 중";
-                cannonLabels[info.Number - 1].text = (c == selected ? "▶ " : "") + $"{info.Number}번: {state}";
-                cannonLabels[info.Number - 1].color = c == selected ? HudStyle.Brass : HudStyle.Text;
-                if (c == selected) guide = $"{info.Number}번 선택됨 — 노란 점 구역(사거리 {info.Range:0}m, {ReachText(info.Reach)} 들판)을 왼쪽 클릭";
+                int row = info.Number - 1;
+                rowCannon[row] = c;
+                string icon = !info.Alive ? UiArt.IconClose : !info.HasAim ? UiArt.IconAuto : info.Idle ? UiArt.IconIdle : UiArt.IconFlag;
+                Color tint = !info.Alive ? UiTokens.Danger : !info.HasAim ? UiTokens.BodyDim : info.Idle ? UiTokens.BodyDim : UiTokens.Brass;
+                if (info.Igniting && Mathf.Repeat(Time.unscaledTime, 0.3f) < 0.18f) tint = UiTokens.Fire;   // 불붙이는 중 — 곧 발사 (K-046)
+                cannonStateIcons[row].sprite = UiArt.Get(icon);
+                cannonStateIcons[row].rectTransform.sizeDelta = UiArt.Size(cannonStateIcons[row].sprite);
+                cannonStateIcons[row].color = tint;
+                cannonStates[row].text = !info.Alive ? "병사 없음" : !info.HasAim ? "자동" : info.Idle ? "대기" : "포격";
+                cannonStates[row].color = info.Alive ? UiTokens.Body : UiTokens.DangerLight;
+                if (c == selected)
+                {
+                    aimed = info.HasAim;
+                    guide = $"들판을 눌러 조준 · {ReachText(info.Reach)} 들판 {info.Range:0}m";
+                }
             }
 
-            cannonGuide.text = guide;
+            for (int i = 0; i < 4; i++)
+            {
+                cannonRows[i].gameObject.SetActive(rowCannon[i] >= 0);   // 없는 대포 줄은 감춘다 (S-21)
+                Ui.SetOn(cannonRows[i], rowCannon[i] >= 0 && rowCannon[i] == selected);
+            }
+
+            cannonClear.interactable = aimed;
+            if (spellSelected < 0) fireGuide.text = guide;
         }
 
-        // 지도 위 대포 표시 (K-037): 대포마다 누를 수 있는 작은 단추(대포 아이콘 + 번호). 누르면 그 대포를 고른다(CannonPicked)
-        // 창들보다 뒤(맨 앞 형제)에 둬서 창 위를 누를 때는 창이 먼저 받는다
+        // 지도 위 대포 표시 (K-037): 대포마다 누를 수 있는 작은 단추(대포 그림 + 번호). 누르면 그 대포를 고른다
+        // 판들보다 뒤(앞 형제)에 둬서 판 위를 누를 때는 판이 먼저 받는다
         public void RefreshCannonMarkers(BattleSim sim, Camera camera, int selected)
         {
             for (int c = 0; c < sim.CannonCount; c++)
@@ -281,19 +276,22 @@ namespace HumanLastRampart.Combat.Battle
                 if (cannonMarkers.Count <= c)
                 {
                     int index = c;
-                    Button button = NewButton(root.transform, "", () => CannonPicked?.Invoke(index), true);
-                    button.gameObject.name = "Cannon Marker";
-                    var rect = (RectTransform)button.transform;
-                    rect.sizeDelta = new Vector2(40f, 40f);
-                    Image icon = HudStyle.ArtImage(button.transform, "Icon", "Icons/unit_cannon", new Vector2(32f, 32f));
-                    if (icon != null) icon.transform.SetAsFirstSibling();   // 번호 글자보다 뒤
-                    Text markerNumber = button.GetComponentInChildren<Text>();
-                    markerNumber.fontSize = 16;
-                    markerNumber.fontStyle = FontStyle.Bold;
-                    markerNumber.alignment = icon != null ? TextAnchor.LowerRight : TextAnchor.MiddleCenter;   // 아이콘이 없으면 번호만 가운데
-                    markerNumber.rectTransform.offsetMax = new Vector2(-2f, 0f);
-                    var outline = markerNumber.gameObject.AddComponent<Outline>();
-                    outline.effectColor = new Color(0f, 0f, 0f, 0.9f);
+                    Button button = Ui.Button(root.transform, "대포 표시 " + c, null, () => CannonPicked?.Invoke(index), UiButtonKind.Icon, UiArt.IconFlag);
+                    ((RectTransform)button.transform).sizeDelta = new Vector2(48f, 48f);
+                    Transform content = button.transform.Find("Content");
+                    Sprite art = UiArt.Hud("Icons/unit_cannon");
+                    Transform icon = content.Find("Icon");
+                    if (art != null && icon != null)
+                    {
+                        var image = icon.GetComponent<Image>();
+                        image.sprite = art;
+                        image.color = Color.white;
+                        image.rectTransform.sizeDelta = Ui.IntegerSize(art, 32f);
+                    }
+
+                    Text numberLabel = Ui.Outlined(Ui.Label(content, "Number", "", UiTokens.Small, UiTokens.Body, TextAnchor.LowerRight, true));
+                    numberLabel.fontStyle = FontStyle.Bold;
+                    Ui.Stretch(numberLabel.rectTransform, UiTokens.Dot);
                     button.transform.SetAsFirstSibling();
                     cannonMarkers.Add(button);
                 }
@@ -305,74 +303,80 @@ namespace HumanLastRampart.Combat.Battle
                 marker.gameObject.SetActive(show);
                 if (!show) continue;
                 var markerRect = (RectTransform)marker.transform;
-                markerRect.anchorMin = markerRect.anchorMax = new Vector2(screen.x / Mathf.Max(1, Screen.width), screen.y / Mathf.Max(1, Screen.height));
+                markerRect.anchorMin = markerRect.anchorMax = Viewport(screen);
                 markerRect.anchoredPosition = Vector2.zero;
-                Image face = marker.GetComponent<Image>();
-                HudStyle.SetMapButton(face, c == selected);
-                face.color = new Color(face.color.r, face.color.g, face.color.b, info.Alive ? face.color.a : 0.45f);   // 운용병이 없으면 흐리게
-                Text number = marker.GetComponentInChildren<Text>();
+                Ui.SetOn(marker, c == selected);
+                var feel = marker.GetComponent<UiButtonFeel>();
+                feel.FaceColor = info.Alive ? Color.white : new Color(0.6f, 0.6f, 0.6f, 0.75f);   // 운용병이 없으면 흐리게
+                Text number = marker.transform.Find("Content/Number").GetComponent<Text>();
                 number.text = info.Number.ToString();
-                number.color = c == selected ? HudStyle.Brass : HudStyle.Text;
+                number.color = c == selected ? UiTokens.BrassLight : UiTokens.Body;
             }
 
             for (int c = sim.CannonCount; c < cannonMarkers.Count; c++) cannonMarkers[c].gameObject.SetActive(false);
         }
 
-        // 마법 패널 (지도 아래 가운데). 정의 수만큼 버튼
+        // 마법 (지도 오른쪽 판 아래). 재사용 대기는 단추 위로 시계 방향으로 걷히는 어둠 + 남은 초 (S-26)
         public void RefreshSpells(BattleSim sim, int selected)
         {
-            if (!mapMode) return;
-            if (spellPanel == null)
+            if (!mapMode || fireBoard == null) return;
+            spellSelected = selected;
+            Transform row = spellSection.transform.Find("Spells");
+            if (spellButtons.Count == 0)
             {
-                Image panel = NewImage(root.transform, "Spell Panel", HudStyle.MapPanel);
-                HudStyle.MapFrame(panel);
-                spellPanel = panel.gameObject;
-                Anchor(panel.rectTransform, new Vector2(0.5f, 0f), new Vector2(0f, 70f), new Vector2(660f, 120f), new Vector2(0.5f, 0f));
-                spellTitle = NewText(panel.transform, "Title", 20, TextAnchor.MiddleLeft);
-                Anchor(spellTitle.rectTransform, new Vector2(0.5f, 1f), new Vector2(0f, -8f), new Vector2(624f, 30f), new Vector2(0.5f, 1f));
                 for (int i = 0; i < sim.SpellCount; i++)
                 {
                     int index = i;
-                    Button button = NewButton(panel.transform, "", () => SpellChosen?.Invoke(index), true);
-                    Anchor((RectTransform)button.transform, new Vector2(0f, 0f), new Vector2(16f + i * 318f, 12f), new Vector2(306f, 60f), new Vector2(0f, 0f));
-                    Text label = button.GetComponentInChildren<Text>();
+                    BattleSim.SpellInfo info = sim.GetSpell(i);
+                    Button button = Ui.Button(row, "마법 " + (i + 1), info.Name, () => SpellChosen?.Invoke(index), UiButtonKind.Tab);
+                    Ui.Size(button, 172f, 56f);
+                    Text label = Ui.LabelOf(button);
                     label.alignment = TextAnchor.MiddleLeft;
-                    label.rectTransform.offsetMin = new Vector2(14f, 0f);
-                    spellLabels.Add(label);
-                    spellButtons.Add(button.GetComponent<Image>());
+                    label.color = info.IsFire ? UiTokens.Fire : UiTokens.Blast;
+                    Image cool = Ui.Image(button.transform, "Cooldown", UiTokens.Alpha(UiTokens.Outline, 0.72f));
+                    cool.type = Image.Type.Filled;
+                    cool.fillMethod = Image.FillMethod.Radial360;
+                    cool.fillOrigin = (int)Image.Origin360.Top;
+                    cool.fillClockwise = false;
+                    Ui.Stretch(cool.rectTransform, UiTokens.Dot);
+                    cool.transform.SetSiblingIndex(1);   // 바탕 위, 글 아래
+                    Text key = Ui.Label(button.transform.Find("Content"), "Key", "", UiTokens.Small, UiTokens.BodyDim, TextAnchor.MiddleRight);
+                    Ui.Stretch(key.rectTransform);
+                    key.rectTransform.offsetMax = new Vector2(-UiTokens.S16, 0f);
+                    spellButtons.Add(button);
+                    spellCooldowns.Add(cool);
+                    spellKeys.Add(key);
                 }
             }
 
-            spellPanel.SetActive(true);
-            spellTitle.text = !sim.WizardPresent ? "마법사 — 이번 전투에 없음"
-                : selected >= 0 ? "들판을 왼쪽 클릭 (보라 점선 = 성벽에서 150m 안)" : "마법사 — 마법을 고른 뒤 들판 클릭";
-            for (int i = 0; i < spellLabels.Count; i++)
+            UiAppear.Toggle(spellSection, sim.WizardPresent);
+            for (int i = 0; i < spellButtons.Count; i++)
             {
                 BattleSim.SpellInfo info = sim.GetSpell(i);
-                string state = info.Ready ? "준비" : $"{info.CooldownLeft:0}초";
-                string key = i == 0 ? "[Q] " : i == 1 ? "[W] " : "";   // D-073 단축키
-                spellLabels[i].text = (i == selected ? "▶ " : "") + $"{key}{info.Name} — {state}";
-                spellButtons[i].color = i == selected ? HudStyle.MagicActive : info.Ready && sim.WizardPresent ? HudStyle.Magic : HudStyle.ButtonDisabled;
-                HudStyle.SetBorderColor(spellButtons[i], i == selected ? HudStyle.Brass : HudStyle.MapButtonEdge);
+                spellCooldowns[i].fillAmount = info.Ready || info.Cooldown <= 0f ? 0f : Mathf.Clamp01(info.CooldownLeft / info.Cooldown);
+                spellKeys[i].text = !info.Ready ? $"{info.CooldownLeft:0}초" : i == 0 ? "Q" : i == 1 ? "W" : "";
+                spellButtons[i].interactable = info.Ready && sim.WizardPresent;
+                Ui.SetOn(spellButtons[i], i == selected);
+                Ui.LabelOf(spellButtons[i]).color = info.IsFire ? UiTokens.Fire : UiTokens.Blast;
             }
+
+            if (selected >= 0) fireGuide.text = $"들판을 눌러 마법 · 성벽에서 {BattleSim.SpellCastRange:0}m 안";
         }
 
-        // 망원경으로 확인한 무리 표시 (MAP-5): 지도 위 무리 가운데에 "북쪽 약 320 · 오우거 1"
-        readonly System.Collections.Generic.List<Text> groupLabels = new System.Collections.Generic.List<Text>();
+        // 망원경으로 확인한 무리 표시 (MAP-5): 무리 가운데에 "약 320 · 특수 1" (방향은 지도에서 보인다)
+        readonly List<Text> groupLabels = new List<Text>();
 
         public void RefreshGroupLabels(BattleSim sim, Camera camera)
         {
-            string[] names = { "북쪽", "동쪽", "남쪽", "서쪽" };
             var groups = sim.SpottedGroups;
-            float scale = 1080f / Mathf.Max(1, Screen.height);
             for (int i = 0; i < groups.Count; i++)
             {
                 if (groupLabels.Count <= i)
                 {
-                    Text t = NewText(root.transform, "Group Label", 20, TextAnchor.MiddleCenter);
-                    t.color = new Color(0.6f, 0.95f, 1f);
-                    t.rectTransform.anchorMin = t.rectTransform.anchorMax = Vector2.zero;
-                    t.rectTransform.sizeDelta = new Vector2(320f, 30f);
+                    Text t = Ui.Outlined(Ui.Label(root.transform, "Group Label", "", UiTokens.Small, UiTokens.Enemy, TextAnchor.MiddleCenter, true));
+                    t.horizontalOverflow = HorizontalWrapMode.Overflow;
+                    t.rectTransform.sizeDelta = new Vector2(320f, 28f);
+                    t.transform.SetAsFirstSibling();
                     groupLabels.Add(t);
                 }
 
@@ -380,16 +384,17 @@ namespace HumanLastRampart.Combat.Battle
                 Vector3 screen = camera.WorldToScreenPoint(g.Center);
                 Text label = groupLabels[i];
                 label.gameObject.SetActive(mapMode);
-                label.rectTransform.anchoredPosition = new Vector2(screen.x, screen.y + 26f) * scale;
-                label.text = $"{names[g.Side]} 약 {g.Alive}{(g.Special > 0 ? $" · 특수 {g.Special}" : "")}";
+                label.rectTransform.anchorMin = label.rectTransform.anchorMax = Viewport(screen);
+                label.rectTransform.anchoredPosition = new Vector2(0f, 28f);
+                label.text = g.Special > 0 ? $"약 {g.Alive} · 특수 {g.Special}" : $"약 {g.Alive}";
             }
 
             for (int i = groups.Count; i < groupLabels.Count; i++) groupLabels[i].gameObject.SetActive(false);
         }
 
         // ── 병력 묶음 (D-072): 지도 위 10명 묶음 표시. 누르면 갈 성벽이 바로 뜨고, 끌어다 다른 성벽에 놓아도 된다 ──
-        // K-020 그림: 궁수(청록)·총병(자주) 깃발 + 숫자, 고르면 모서리 테두리, 옮기는 중이면 옆에 화살표. 그림이 없으면 예전 글자(궁10)
-        public event Action<int> GroupDestinationChosen;   // 고른 성벽 0~3
+        // K-020 그림: 궁수(청록)·총병(자주) 깃발 + 숫자, 고르면 모서리 테두리, 옮기는 중이면 옆에 화살표
+        public event Action<int> GroupDestinationChosen;        // 고른 성벽 0~3
         public event Action<int> WallGroupsDestinationChosen;   // 한 번에 옮기기 — 고른 묶음이 있는 성벽의 묶음 전부(20명 남김)
         readonly Button[] wallMoveButtons = new Button[4];
 
@@ -401,7 +406,7 @@ namespace HumanLastRampart.Combat.Battle
             public Image Plate;        // 깃발에 그려진 '10'을 덮는 숫자 판 (10명이 아닐 때)
             public Image PlateInner;
             public Image Arrow;        // 옮기는 중 화살표
-            public Text Count;         // 그림이면 숫자만, 없으면 예전 글자(궁10→북)
+            public Text Count;
         }
 
         // 깃발 그림의 숫자 판 자리 (K-020 build.ps1: 바깥 13×9 at 17,21 / 안쪽 11×7, 좌상단 원점)
@@ -409,9 +414,9 @@ namespace HumanLastRampart.Combat.Battle
         static readonly Color ArcherShade = new Color32(0x24, 0x53, 0x60, 0xff);
         static readonly Color GunnerShade = new Color32(0x59, 0x36, 0x4f, 0xff);
 
-        readonly System.Collections.Generic.List<GroupMarker> groupMarkers = new System.Collections.Generic.List<GroupMarker>();
-        readonly System.Collections.Generic.List<Vector2> groupMarkerScreen = new System.Collections.Generic.List<Vector2>();
-        readonly System.Collections.Generic.List<int> groupMarkerIndex = new System.Collections.Generic.List<int>();
+        readonly List<GroupMarker> groupMarkers = new List<GroupMarker>();
+        readonly List<Vector2> groupMarkerScreen = new List<Vector2>();
+        readonly List<int> groupMarkerIndex = new List<int>();
         GameObject groupPopup;
         Text groupPopupTitle;
         readonly Button[] groupPopupButtons = new Button[4];
@@ -420,35 +425,41 @@ namespace HumanLastRampart.Combat.Battle
         {
             var go = new GameObject("Group Marker", typeof(RectTransform));
             go.transform.SetParent(root.transform, false);
+            go.transform.SetAsFirstSibling();   // 판들보다 뒤
             var marker = new GroupMarker { Root = (RectTransform)go.transform };
             marker.Root.anchorMin = marker.Root.anchorMax = Vector2.zero;
             marker.Root.sizeDelta = new Vector2(64f, 32f);
-            marker.Selected = HudStyle.ArtImage(go.transform, "Selected", "Map/group_selected", new Vector2(40f, 40f));
-            marker.Flag = HudStyle.ArtImage(go.transform, "Flag", "Map/flag_archer", new Vector2(32f, 32f));
+            marker.Selected = Ui.HudIcon(go.transform, "Selected", "Map/group_selected", 40f);
+            marker.Flag = Ui.HudIcon(go.transform, "Flag", "Map/flag_archer", 32f);
             if (marker.Flag == null)
             {
                 if (marker.Selected != null) UnityEngine.Object.Destroy(marker.Selected.gameObject);
                 marker.Selected = null;
-                Text t = NewText(go.transform, "Label", 17, TextAnchor.MiddleCenter);
+                Text t = Ui.Outlined(NewText(go.transform, "Label", UiTokens.Small, TextAnchor.MiddleCenter));
                 Anchor(t.rectTransform, new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(64f, 24f), new Vector2(0.5f, 0.5f));
-                var outline = t.gameObject.AddComponent<Outline>();
-                outline.effectColor = new Color(0f, 0f, 0f, 0.9f);
                 marker.Count = t;
                 return marker;
             }
 
             marker.Plate = NewImage(marker.Flag.transform, "Count Plate", PlateEdge);
-            marker.Plate.raycastTarget = false;
             Anchor(marker.Plate.rectTransform, new Vector2(0f, 1f), new Vector2(17f, -21f), new Vector2(13f, 9f));
             marker.PlateInner = NewImage(marker.Plate.transform, "Inner", ArcherShade);
-            marker.PlateInner.raycastTarget = false;
             Anchor(marker.PlateInner.rectTransform, new Vector2(0f, 1f), new Vector2(1f, -1f), new Vector2(11f, 7f));
-            marker.Count = NewText(marker.Plate.transform, "Count", 10, TextAnchor.MiddleCenter);
+            // 그림 속 숫자 판(13×9 점)에 맞춘 작은 숫자 — 글자가 아니라 그림의 일부라 20 규칙 밖
+            var count = new GameObject("Count", typeof(RectTransform), typeof(CanvasRenderer), typeof(Text));
+            count.transform.SetParent(marker.Plate.transform, false);
+            marker.Count = count.GetComponent<Text>();
+            marker.Count.font = UiFonts.Body;
+            marker.Count.fontSize = 10;
             marker.Count.fontStyle = FontStyle.Bold;
+            marker.Count.alignment = TextAnchor.MiddleCenter;
+            marker.Count.color = UiTokens.Body;
+            marker.Count.raycastTarget = false;
+            marker.Count.horizontalOverflow = HorizontalWrapMode.Overflow;
             marker.Count.verticalOverflow = VerticalWrapMode.Overflow;
             Anchor(marker.Count.rectTransform, new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(13f, 9f), new Vector2(0.5f, 0.5f));
             // 화살표: 깃발 오른쪽 4화소 띄움 (K-020 README 배치안)
-            marker.Arrow = HudStyle.ArtImage(go.transform, "Arrow", "Map/move_east", new Vector2(24f, 24f));
+            marker.Arrow = Ui.HudIcon(go.transform, "Arrow", "Map/move_east", 24f);
             if (marker.Arrow != null) Anchor(marker.Arrow.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(32f, 0f), new Vector2(24f, 24f), new Vector2(0.5f, 0.5f));
             return marker;
         }
@@ -464,9 +475,7 @@ namespace HumanLastRampart.Combat.Battle
                 if (!info.Movable || info.Alive <= 0) continue;
                 if (groupMarkers.Count <= used) groupMarkers.Add(NewGroupMarker());
 
-                // 성벽 바깥쪽으로 4m 띄워 성을 덮지 않게. 글자는 짧게(궁10) — 묶음끼리 4~5m 간격이라 길면 겹친다
-                // 같은 성벽 묶음은 성벽 따라 순서대로 바깥 4m·안쪽 마당 5m 번갈아 — 북·남쪽은 글자가 가로로 붙어 겹쳤고,
-                // 바깥 8m로 두 줄을 쌓으면 남쪽 줄이 아래 마법 창에 가렸다
+                // 성벽 바깥쪽으로 4m 띄워 성을 덮지 않게. 같은 성벽 묶음은 성벽 따라 순서대로 바깥 4m·안쪽 마당 5m 번갈아
                 Vector3 world = new Vector3(info.Center.x, info.Center.y, info.Center.z);
                 if (info.Side >= 0)
                 {
@@ -479,14 +488,13 @@ namespace HumanLastRampart.Combat.Battle
                 if (g == selected && dragScreen.HasValue) screen = dragScreen.Value;   // 끄는 중이면 마우스를 따라온다
                 GroupMarker marker = groupMarkers[used++];
                 marker.Root.gameObject.SetActive(mapMode);
-                // 화면 비율 자리에 기준점 (화면 크기와 상관없이 지도 위 그 자리)
-                marker.Root.anchorMin = marker.Root.anchorMax = new Vector2(screen.x / Mathf.Max(1, Screen.width), screen.y / Mathf.Max(1, Screen.height));
+                marker.Root.anchorMin = marker.Root.anchorMax = Viewport(screen);
                 marker.Root.anchoredPosition = Vector2.zero;
                 bool chosen = g == selected;
                 if (marker.Flag != null)
                 {
                     bool gunner = !string.IsNullOrEmpty(info.UnitName) && info.UnitName.Contains("총");
-                    Sprite flag = HudStyle.Art(gunner ? "Map/flag_gunner" : "Map/flag_archer");
+                    Sprite flag = UiArt.Hud(gunner ? "Map/flag_gunner" : "Map/flag_archer");
                     if (flag != null) marker.Flag.sprite = flag;
                     marker.Flag.color = info.Moving && !chosen ? new Color(0.78f, 0.78f, 0.78f, 1f) : Color.white;   // 옮기는 중은 조금 어둡게
                     bool full = info.Alive == BattleSim.GroupSize;   // 10명이면 그림의 '10' 그대로
@@ -499,7 +507,7 @@ namespace HumanLastRampart.Combat.Battle
                         marker.Arrow.gameObject.SetActive(info.Moving);
                         if (info.Moving)
                         {
-                            Sprite arrow = HudStyle.Art(MoveArrow(camera, world, screen, info.TargetSide));
+                            Sprite arrow = UiArt.Hud(MoveArrow(camera, world, screen, info.TargetSide));
                             if (arrow != null) marker.Arrow.sprite = arrow;
                         }
                     }
@@ -507,8 +515,8 @@ namespace HumanLastRampart.Combat.Battle
                 else
                 {
                     string shortName = string.IsNullOrEmpty(info.UnitName) ? "병" : info.UnitName.Substring(0, 1);
-                    marker.Count.text = info.Moving ? $"{shortName}{info.Alive}→{SideShort[info.TargetSide]}" : $"{shortName}{info.Alive}";
-                    marker.Count.color = chosen ? HudStyle.Brass : info.Moving ? HudStyle.TextDim : new Color(0.75f, 0.9f, 1f);
+                    marker.Count.text = $"{shortName}{info.Alive}";
+                    marker.Count.color = chosen ? UiTokens.Brass : info.Moving ? UiTokens.BodyDim : UiTokens.Body;
                 }
 
                 groupMarkerScreen.Add(new Vector2(screen.x, screen.y));
@@ -524,76 +532,76 @@ namespace HumanLastRampart.Combat.Battle
         {
             if (targetSide < 0 || targetSide > 3) return "Map/move_east";
             Unity.Mathematics.float3 n = WallGeometry.Outward(targetSide);
-            float reach = Mathf.Max(5f, new Vector2(world.x, world.z).magnitude);   // 성 가운데에서 지금 거리 ≈ 성벽까지 거리
+            float reach = Mathf.Max(5f, new Vector2(world.x, world.z).magnitude);
             Vector3 goal = camera.WorldToScreenPoint(new Vector3(n.x, world.y, n.z) * reach);
             float dx = goal.x - screen.x, dy = goal.y - screen.y;
             if (Mathf.Abs(dx) >= Mathf.Abs(dy)) return dx >= 0f ? "Map/move_east" : "Map/move_west";
             return dy >= 0f ? "Map/move_north" : "Map/move_south";
         }
 
-        // 주인공 위치 (밤사이 계획 4): 지도에서 어느 성벽 명령이 바로 가고 어느 쪽이 전령인지 알 수 있게
-        Text heroMarker;
+        // 주인공 위치 (밤사이 계획 4): 다이아몬드 표 + "주인공". 어느 성벽이 바로 가는지는 명령판 아래 한 줄에
+        RectTransform heroMarker;
 
         public void RefreshHeroMarker(Camera camera, Vector3 heroFeet, int heroSide, bool preparing)
         {
             if (heroMarker == null)
             {
-                heroMarker = NewText(root.transform, "Hero Marker", 18, TextAnchor.MiddleCenter);
-                heroMarker.rectTransform.sizeDelta = new Vector2(220f, 26f);
-                heroMarker.color = HudStyle.Brass;
-                var outline = heroMarker.gameObject.AddComponent<Outline>();
-                outline.effectColor = new Color(0f, 0f, 0f, 0.9f);
+                HorizontalLayoutGroup row = Ui.Row(root.transform, "Hero Marker", UiTokens.S4, TextAnchor.MiddleCenter);
+                heroMarker = (RectTransform)row.transform;
+                heroMarker.pivot = new Vector2(0.5f, 0f);
+                row.gameObject.AddComponent<ContentSizeFitter>().horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+                heroMarker.sizeDelta = new Vector2(120f, 30f);
+                Ui.Icon(heroMarker, "Diamond", UiArt.IconHero, 1f, UiTokens.Brass);
+                Text name = Ui.Outlined(Ui.Label(heroMarker, "Name", "주인공", UiTokens.Small, UiTokens.Brass, TextAnchor.MiddleLeft, true));
+                Ui.Size(name, name.preferredWidth + 4f, 30f);
+                heroMarker.SetAsFirstSibling();
             }
 
             Vector3 screen = camera.WorldToScreenPoint(heroFeet);
-            heroMarker.rectTransform.anchorMin = heroMarker.rectTransform.anchorMax = new Vector2(screen.x / Mathf.Max(1, Screen.width), screen.y / Mathf.Max(1, Screen.height));
-            heroMarker.rectTransform.anchoredPosition = new Vector2(0f, 18f);
-            // 준비 중에는 모든 성벽이 바로라 '바로 전달' 안내를 빼고 위치만
-            heroMarker.text = preparing ? "◆ 주인공" : $"◆ 주인공 ({SideShort[heroSide]}쪽만 바로, 다른 성벽은 전령)";
+            heroMarker.anchorMin = heroMarker.anchorMax = Viewport(screen);
+            heroMarker.anchoredPosition = new Vector2(0f, UiTokens.S16);
             heroMarker.gameObject.SetActive(mapMode);
+            if (heroRule != null)
+            {
+                heroRule.text = preparing ? "준비 중에는 모든 성벽에 바로 닿습니다" : $"{SideFull[heroSide]}만 바로 · 나머지는 전령";
+            }
         }
 
-        // 동서남북 표시 (D-073): 성벽 바깥 14m에 큰 글자 — 지도를 옮기거나 넓혀도 어느 쪽인지 바로 보이게
-        // K-020 나침반 받침(64px 그림)을 글자 뒤에 2배로 깐다 — 받침 가운데 어두운 칸(약 20px → 40px)에 40 글자가 들어간다
+        // 동서남북 표시 (D-073): 성벽 바깥 14m에 큰 글자 — 지도를 옮기거나 넓혀도 어느 쪽인지 바로 보이게. K-020 나침반 받침 그림
         const float CompassBackSize = 128f;
         readonly Text[] compass = new Text[4];
         readonly Image[] compassBacks = new Image[4];
 
         public void RefreshCompass(Camera camera, float castleHalf)
         {
-            string[] names = { "북", "동", "남", "서" };
             for (int side = 0; side < 4; side++)
             {
                 if (compass[side] == null)
                 {
-                    Text t = NewText(root.transform, "Compass " + names[side], 40, TextAnchor.MiddleCenter);
-                    t.rectTransform.sizeDelta = new Vector2(80f, 56f);
-                    t.color = HudStyle.Brass;
+                    Text t = Ui.Outlined(Ui.Label(root.transform, "Compass " + SideNames[side], SideNames[side], UiTokens.H2, UiTokens.Brass, TextAnchor.MiddleCenter, true));
                     t.fontStyle = FontStyle.Bold;
-                    var outline = t.gameObject.AddComponent<Outline>();
-                    outline.effectColor = new Color(0f, 0f, 0f, 0.9f);
-                    outline.effectDistance = new Vector2(2f, -2f);
-                    t.text = names[side];
-                    t.transform.SetAsFirstSibling();   // 창들보다 뒤
+                    t.rectTransform.sizeDelta = new Vector2(80f, 56f);
+                    t.transform.SetAsFirstSibling();   // 판들보다 뒤
                     compass[side] = t;
-                    Image back = HudStyle.ArtImage(root.transform, "Compass Back " + names[side], "Map/compass_back", new Vector2(CompassBackSize, CompassBackSize));
+                    Image back = Ui.HudIcon(root.transform, "Compass Back " + SideNames[side], "Map/compass_back", CompassBackSize);
                     if (back != null) back.transform.SetAsFirstSibling();   // 글자보다도 뒤
                     compassBacks[side] = back;
                 }
 
-                // 가까이 볼 때(성 가까이, 전투 준비)는 성 마당 가운데에서 8m — 바깥 14m는 화면 끝 창들에 가렸다
+                // 가까이 볼 때(성 가까이, 전투 준비)는 성 마당 가운데에서 8m — 바깥 14m는 화면 끝 판들에 가렸다
                 Unity.Mathematics.float3 n = WallGeometry.Outward(side);
                 float distance = camera.orthographicSize <= 45f ? 8f : castleHalf + 14f;
                 Vector3 screen = camera.WorldToScreenPoint(new Vector3(n.x, 0f, n.z) * distance);
                 // 화면 밖이면 가장자리에 붙여 둔다 (방향은 그대로 알 수 있게)
-                var viewport = new Vector2(Mathf.Clamp(screen.x / Mathf.Max(1, Screen.width), 0.04f, 0.96f), Mathf.Clamp(screen.y / Mathf.Max(1, Screen.height), 0.06f, 0.94f));
-                compass[side].rectTransform.anchorMin = compass[side].rectTransform.anchorMax = viewport;
+                Vector2 view = Viewport(screen);
+                view = new Vector2(Mathf.Clamp(view.x, 0.04f, 0.96f), Mathf.Clamp(view.y, 0.06f, 0.94f));
+                compass[side].rectTransform.anchorMin = compass[side].rectTransform.anchorMax = view;
                 compass[side].rectTransform.anchoredPosition = Vector2.zero;
                 compass[side].gameObject.SetActive(mapMode);
                 Image backImage = compassBacks[side];
                 if (backImage != null)
                 {
-                    backImage.rectTransform.anchorMin = backImage.rectTransform.anchorMax = viewport;
+                    backImage.rectTransform.anchorMin = backImage.rectTransform.anchorMax = view;
                     backImage.rectTransform.anchoredPosition = Vector2.zero;
                     backImage.gameObject.SetActive(mapMode);
                 }
@@ -631,35 +639,44 @@ namespace HumanLastRampart.Combat.Battle
             return best;
         }
 
+        // 묶음을 고르면 띠 아래 가운데에 작은 나무 판: [동쪽] [남쪽] [서쪽] / [모두 동쪽] … (성과 적 무리를 가리지 않는 자리)
         void ShowGroupPopup(BattleSim sim, int selected, bool dragging)
         {
             if (groupPopup == null)
             {
-                Image panel = NewImage(root.transform, "Group Popup", HudStyle.MapPanel);
-                HudStyle.MapFrame(panel);
+                Image panel = Ui.Panel(root.transform, "Group Popup", UiPanel.Wood);
                 groupPopup = panel.gameObject;
-                Anchor(panel.rectTransform, new Vector2(0.5f, 0f), new Vector2(0f, 200f), new Vector2(560f, 176f), new Vector2(0.5f, 0f));
-                groupPopupTitle = NewText(panel.transform, "Title", 20, TextAnchor.MiddleCenter);
-                Anchor(groupPopupTitle.rectTransform, new Vector2(0.5f, 1f), new Vector2(0f, -6f), new Vector2(540f, 30f), new Vector2(0.5f, 1f));
+                Anchor(panel.rectTransform, new Vector2(0.5f, 1f), new Vector2(0f, -(Edge + BandHeight + UiTokens.S16)), new Vector2(560f, 0f), new Vector2(0.5f, 1f));
+                var column = panel.gameObject.AddComponent<VerticalLayoutGroup>();
+                column.padding = new RectOffset(24, 24, 16, 24);
+                column.spacing = UiTokens.S8;
+                column.childControlWidth = column.childControlHeight = true;
+                column.childForceExpandWidth = true;
+                column.childForceExpandHeight = false;
+                panel.gameObject.AddComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+                groupPopupTitle = Ui.Label(panel.transform, "Title", "", UiTokens.Text, UiTokens.Body);
+                Ui.Size(groupPopupTitle, -1f, 36f);
+                HorizontalLayoutGroup one = Ui.Row(panel.transform, "One", UiTokens.S8);
+                HorizontalLayoutGroup all = Ui.Row(panel.transform, "All", UiTokens.S8);
                 for (int i = 0; i < 4; i++)
                 {
                     int side = i;
-                    Button button = NewButton(panel.transform, $"{SideShort[i]}쪽으로", () => GroupDestinationChosen?.Invoke(side), true);
-                    Anchor((RectTransform)button.transform, new Vector2(0f, 0f), new Vector2(14f + i * 134f, 12f), new Vector2(126f, 52f), new Vector2(0f, 0f));
-                    groupPopupButtons[i] = button;
+                    groupPopupButtons[i] = Ui.Button(one.transform, $"{SideShort[i]}쪽으로", SideFull[i], () => GroupDestinationChosen?.Invoke(side));
+                    Ui.Size(groupPopupButtons[i], 160f, 48f);
                     // 아랫줄: 이 성벽 묶음 한 번에 (사용자 2차 피드백 11, 성벽마다 20명 남김)
-                    Button all = NewButton(panel.transform, $"전부 {SideShort[i]}쪽으로", () => WallGroupsDestinationChosen?.Invoke(side), true);
-                    Anchor((RectTransform)all.transform, new Vector2(0f, 0f), new Vector2(14f + i * 134f, 70f), new Vector2(126f, 52f), new Vector2(0f, 0f));
-                    wallMoveButtons[i] = all;
+                    wallMoveButtons[i] = Ui.Button(all.transform, $"전부 {SideShort[i]}쪽으로", "모두 " + SideFull[i], () => WallGroupsDestinationChosen?.Invoke(side));
+                    Ui.Size(wallMoveButtons[i], 160f, 48f);
                 }
+
+                groupPopup.SetActive(false);
             }
 
             bool show = mapMode && selected >= 0 && selected < sim.GroupCount;
-            groupPopup.SetActive(show);
+            UiAppear.Toggle(groupPopup, show, new Vector2(0f, UiTokens.S16));
             if (!show) return;
             BattleSim.GroupInfo info = sim.GetGroup(selected);
-            groupPopupTitle.text = dragging ? $"{info.UnitName} {info.Alive}명 — 갈 성벽 위에 놓으세요"
-                : $"{info.UnitName} {info.Alive}명 ({(info.Side >= 0 ? SideShort[info.Side] + "쪽" : "이동 중")}) — 어디로 보낼까요";
+            groupPopupTitle.text = dragging ? "보낼 성벽 위에서 놓기"
+                : info.Side >= 0 ? $"{info.UnitName} {info.Alive}명 · {SideFull[info.Side]} 성벽" : $"{info.UnitName} {info.Alive}명 · 이동 중";
             for (int i = 0; i < 4; i++)
             {
                 groupPopupButtons[i].gameObject.SetActive(info.Side >= 0 && i != info.Side);
@@ -667,21 +684,26 @@ namespace HumanLastRampart.Combat.Battle
             }
         }
 
-        // 지금 성벽별 명령 (패널 아래)
+        // 명령판 고름 표시 + 지금 4면 명령 아이콘
         void RefreshGlobalStatus(BattleSim sim)
         {
-            if (globalStatus == null || !mapMode) return;
-            string[] names = { "북", "동", "남", "서" };
-            for (int i = 0; i < commandTabs.Length; i++)
-                if (commandTabs[i] != null) HudStyle.SetMapButton(commandTabs[i], i - 1 == commandTarget);
-            globalTitle.text = commandTarget < 0 ? "병사 명령 — 4면 전체" : $"병사 명령 — {names[commandTarget]}쪽 성벽";
-            var lines = new string[4];
-            for (int side = 0; side < 4; side++)
+            if (commandBoard == null || !mapMode) return;
+            for (int i = 0; i < commandTabs.Length; i++) Ui.SetOn(commandTabs[i], i - 1 == commandTarget);
+            int current = -1;
+            if (commandTarget >= 0) current = (int)sim.PriorityOf(commandTarget);
+            else
             {
-                lines[side] = $"{names[side]}: {BattleSim.PriorityNames[(int)sim.PriorityOf(side)]}";
+                current = (int)sim.PriorityOf(0);
+                for (int side = 1; side < 4; side++) if ((int)sim.PriorityOf(side) != current) current = -1;
             }
 
-            globalStatus.text = string.Join("\n", lines);
+            for (int i = 0; i < orderButtons.Length; i++) if (orderButtons[i] != null) Ui.SetOn(orderButtons[i], i == current);
+            for (int side = 0; side < 4; side++)
+            {
+                if (wallOrderIcons[side] == null) continue;
+                Sprite icon = UiArt.Hud("Icons/" + PriorityIcons[(int)sim.PriorityOf(side)]);
+                if (icon != null) wallOrderIcons[side].sprite = icon;
+            }
         }
     }
 }

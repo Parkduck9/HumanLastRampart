@@ -24,7 +24,7 @@ namespace HumanLastRampart.Core.Campaign
         public List<TrapStockEntry> TrapShop = new List<TrapStockEntry>();   // v1.3 (D-050): 상점에 남은 함정 재고. 시작값 App, 보충·구매 Meta.Prep
         public int TrapShopRestockedForBattle;      // v1.3: 상점 보충을 마지막으로 한 전투 번호 (정비 재진입 때 두 번 보충하지 않게)
         public List<TerrainWork> TerrainWorks = new List<TerrainWork>();   // v1.4 초안 (D-077, K-049): 지형 손질. 무작위 지형 자체는 RngSeed로 다시 만든다
-        // v1.5 초안 (K-058, D-079): 강화·상점·용병. 바꾸는 쪽 = Meta.Prep(구매·장착·훈련·고용), App(급료·소모품은 전투 준비 때), Meta.Result(용병 손실·군의관)
+        // v1.6 초안 (K-058, D-079): 강화·상점·용병. 바꾸는 쪽 = Meta.Prep(구매·장착·훈련·고용), App(급료·소모품은 전투 준비 때), Meta.Result(용병 손실·군의관)
         public List<OwnedItem> Items = new List<OwnedItem>();
         public List<TrainingState> Training = new List<TrainingState>();
         public List<MercenaryContract> Mercenaries = new List<MercenaryContract>();

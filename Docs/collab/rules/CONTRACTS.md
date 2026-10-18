@@ -1347,15 +1347,43 @@ public interface IScreenContext
    - 나무 쓰러뜨리기: D-078 '지금 넣음' — 코드에서 찾지 못함 (K-051 진행 중인지 확인 필요)
 5. 문서 손질: `CampaignState` 머리 주석은 아직 'C-004 v1~v1.3', `BattleSetup` 머리 주석에는 v1.6 표기가 없다(코드 파일이라 이 카드에서 고치지 않음)
 
-## C-004 v1.5 · C-005 v1.7 · C-006 v1.3 · C-010 v1.11 초안 — 강화·상점·용병 (K-058, D-079)
+## C-003 v1.4 초안 — 메인 '이어하기' 신호 (K-062)
+- 상태: **초안 — 사용자 승인 필요** (2026-10-19, 작업 카드 K-062, 작성 Claude)
+- `ScreenOutcome`에 `ContinueGame`을 **맨 뒤에** 붙인다. 기존 값·이름은 그대로(C-003 변경 규칙).
+- 메인 화면이 `IScreenContext.Complete(ContinueGame)`으로 보낸다(새 게임과 달리 난이도 없음). 받을 수 있는 화면은 메인뿐이다(`FlowRouter.IsAllowed`).
+- App 순서표: 메인 + ContinueGame → 저장 불러오기(`FlowStep.LoadSave`) → **정비(Prep)**.
+  - 저장을 못 읽으면 오류 안내(D-017 E2)를 띄우고 메인으로 간다.
+- 저장 지우기(`FlowStep.DeleteSave`):
+  - 패배 엔딩 스토리가 끝나 메인으로 갈 때, 마지막 전투 뒤 정비를 마쳐 메인으로 갈 때 지운다.
+  - 도중에 '메인으로'(BackToMainMenu)를 고르면 저장을 남긴다(이어하기 가능).
+
+## C-004 v1.5 초안 — 진행 저장 파일 (K-062)
+- 상태: **초안 — 사용자 승인 필요** (2026-10-19, K-062, 작성 Claude · Core 소유 Claude). CampaignState 필드는 바꾸지 않는다.
+- **언제·어디:**
+  - App이 **정비 화면에 들어올 때마다 자동 저장**한다. 슬롯은 1개다.
+  - 파일은 `Application.persistentDataPath/save/slot1.json`이다. 임시 파일에 쓴 뒤 바꿔 끼운다.
+  - 저장에 실패해도 게임은 계속 간다(경고만).
+- **형식** (`Core/Save/CampaignSave.cs`):
+  - `{ FormatVersion, Contract, SavedAtUtc, BattleNumber, Difficulty, ResumeScreen, NullFields[], Campaign }`
+  - `Campaign`은 CampaignState 전체의 JsonUtility JSON 문자열이다. **필드 목록을 손으로 적지 않고 통째로** 저장하므로, 필드가 늘어도(K-058 등) 따라간다.
+  - `FormatVersion` 1. 이 코드보다 큰 판 번호의 파일은 읽지 않는다.
+  - 불러올 때는 새 `CampaignState`(필드 기본값) 위에 덮어쓴다. 예전 파일에 없는 새 필드는 기본값이 된다.
+  - JsonUtility는 null 객체를 빈 객체로 바꾼다. 그래서 저장 때 null이던 맨 위 객체 필드(예: `ActiveBattleSetup`·`LastBattle`·`NextStory`) 이름을 `NullFields`에 적어 두고, 불러온 뒤 다시 null로 둔다.
+- **진행 데이터에 필드를 더하는 쪽이 지킬 것:** `[Serializable]` 클래스의 공개 필드만 저장된다.
+  - 사전(Dictionary), 속성, null 허용 값 형식(`int?` 등), 다형 참조는 **저장되지 않는다**.
+  - 목록 안이나 깊은 곳의 null 객체는 빈 객체로 돌아온다.
+- 설정(소리·화면 효과·흔들림·전체 화면·글자 크기)은 진행 데이터가 아니다. `Core/Settings/GameSettings`(PlayerPrefs, 이 컴퓨터에 한 벌)이고 계약 밖이다.
+
+## C-004 v1.6 · C-005 v1.7 · C-006 v1.3 · C-010 v1.11 초안 — 강화·상점·용병 (K-058, D-079)
 - 정의 (C-010 v1.11, `Data/Meta/` → MetaCatalog):
   - `ItemDef` 확장 — `slot`(Group·HeroTool·HeroBadge·WizardStaff·WizardCharm), `consumable`(한 전투), `perWall`(성벽 하나에 붙음), `maxOwned`, `shopOrder`, `List<UpgradeEffect> effects`. 품목 11개 (`Items/`)
   - `TrainingDef` — `unitDefId`, `level`(1부터 차례로), `price`, `effects` (`Training/`, 3병종 × 3단계). 효과는 쌓인다
   - `MercenaryDef` — `unitDefId`, `contractCost`(1명), `wage`(1명·전투마다), `perWallCap`, `eliteLevel`(훈련 단계 상당) (`Mercenaries/`)
   - `UpgradeEffect { UpgradeStat Stat; float Value; string UnitDefId }` — 배율 종류는 ×(1+값), 더하기 종류(반경·초·확률·명중·사거리·회복)는 +값
-- 진행 데이터 (C-004 v1.5): `Items: List<OwnedItem{ItemId, Count, EquippedBy, WallId}>`, `Training: List<TrainingState{UnitDefId, Level}>`, `Mercenaries: List<MercenaryContract{ContractId "merc_", MercenaryDefId, WallId, Count}>`
+- 진행 데이터 (C-004 v1.6): `Items: List<OwnedItem{ItemId, Count, EquippedBy, WallId}>`, `Training: List<TrainingState{UnitDefId, Level}>`, `Mercenaries: List<MercenaryContract{ContractId "merc_", MercenaryDefId, WallId, Count}>`
   - 바꾸는 쪽: Meta.Prep(구매·장착·훈련·고용·해고, 규칙은 `Core.Upgrades.UpgradeRules`), App(전투 준비 직전 `PayWages` — 못 주는 계약은 떠남), Meta.Result(승리 반영 때 용병 손실·소모품 1개씩·군의관 회복)
 - 전투 준비 (C-005 v1.7): `Boosts: BattleBoosts`(App이 `UpgradeRules.ComputeBoosts`로 계산 — 끼운 영웅 아이템(살아 있는 영웅만)·단체 아이템·훈련·성벽 아이템), `Mercenaries: List<SquadState>`(SquadId = 계약 ID, 그 성벽 가운데 분대 지점), `ConsumedItemIds`
   - Combat은 정의를 다시 찾지 않고 수치만 쓴다. 용병은 성벽 병력(70% 손실 패배)·묶음 이동에서 빠진다
 - 전투 결과 (C-006 v1.3): `MercenaryLosses: List<SquadLoss>` — 분대 손실(`SquadLosses`)과 섞지 않는다
 - 승인 필요: 위 필드 이름·소유, 군의관 회복 반올림(분대마다 반올림), 급료를 '전투 준비 직전 App'에서 빼는 시점
+- 저장(C-004 v1.5, K-062): 새 필드(`Items`·`Training`·`Mercenaries`)는 `[Serializable]` 클래스의 공개 필드 목록이라 `CampaignSave`(CampaignState 통째 JsonUtility)에 그대로 저장·복원된다. 예전 저장에는 없으므로 빈 목록이 된다

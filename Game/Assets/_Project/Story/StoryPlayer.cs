@@ -14,17 +14,13 @@ namespace HumanLastRampart.Story
     // 슬롭 배제 기준(UI_NoSlop): 종이 바탕 + 잉크 2점 테두리 + 깎은 귀, 점 3px, 글자 32/24/20, 글자 기호 대신 그린 표시
     public sealed class StoryPlayer : MonoBehaviour
     {
-        const float Dot = 3f;                    // UI 한 점 = 화면 3px (1080 기준)
+        const float Dot = UiTokens.Dot;                    // UI 한 점 = 화면 3px (1080 기준)
         const float CharsPerSecond = 36f;
         const float AutoPause = 1.1f;            // 자동: 다 나온 뒤 기다림 (+ 글자 수에 비례)
         const float FadeClose = 0.3f, FadeOpen = 0.4f;
         const float ShakeTime = 0.45f;
         static readonly Vector2 PortraitSize = new Vector2(512f, 768f);   // 256×384 칸의 정수 2배 (점이 고르게)
 
-        // 색 역할 (UI_NoSlop 3.3)
-        static readonly Color Paper = Hex(0xe8d9b5), PaperLight = Hex(0xf3e7c9), PaperShade = Hex(0xcdb98f);
-        static readonly Color Ink = Hex(0x3a2a1e), Wood = Hex(0x3b2a1f), WoodLight = Hex(0x5a412e);
-        static readonly Color Brass = Hex(0xd5b16b), BrassLight = Hex(0xf5d99c), Ivory = Hex(0xeee4cf);
         static readonly Color Listening = new Color(0.42f, 0.42f, 0.48f, 1f);
 
         public event Action Finished;
@@ -35,7 +31,9 @@ namespace HumanLastRampart.Story
 
         List<(StoryScene scene, StoryLine line)> lines;
         CanvasGroup inputGate;   // 화면(ScreenView) 입력 막힘이면 키보드도 무시
-        RectTransform stage, box, nameplate, nextMark, autoGlow;
+        RectTransform stage, box, nameplate, nextMark;
+        Image tail;
+        Button autoButton;
         RawImage backdrop;
         AspectRatioFitter backdropFit;
         readonly RawImage[] portraits = new RawImage[2];   // 0 왼쪽 · 1 오른쪽
@@ -100,55 +98,55 @@ namespace HumanLastRampart.Story
             }
 
             // 아래 어둠띠: 상자 뒤 장면을 조금 눌러 글이 또렷하게
-            var under = NewImage(root, "Box Shade", new Color(0f, 0f, 0f, 0.35f));
+            var under = NewImage(root, "Box Shade", UiTokens.Alpha(UiTokens.Outline, 0.35f));
             under.rectTransform.anchorMin = Vector2.zero;
             under.rectTransform.anchorMax = new Vector2(1f, 0f);
             under.rectTransform.pivot = new Vector2(0.5f, 0f);
             under.rectTransform.sizeDelta = new Vector2(0f, 336f);
 
-            // 대사 상자: 종이 + 잉크 테두리
-            box = NewRect(root, "Story Box");
+            // 대사 상자 (K-047): 옥토패스식 손그림 말풍선 틀(UiArt.Bubble) + 말하는 사람 쪽으로 꼬리
+            Image bubble = Ui.Panel(root, "Story Box", UiPanel.Bubble);
+            bubble.raycastTarget = false;
+            box = bubble.rectTransform;
             box.anchorMin = new Vector2(0.06f, 0f);
             box.anchorMax = new Vector2(0.94f, 0f);
             box.pivot = new Vector2(0.5f, 0f);
-            box.offsetMin = new Vector2(0f, 32f);
-            box.offsetMax = new Vector2(0f, 32f + 264f);
-            PixelPanel(box, Paper, PaperLight, PaperShade, Ink);
-            body = NewText(box, "Story Text", 32, Ink, TextAnchor.UpperLeft);
+            box.offsetMin = new Vector2(0f, UiTokens.S32);
+            box.offsetMax = new Vector2(0f, UiTokens.S32 + 264f);
+            // 꼬리 그림은 위가 넓고 아래 왼쪽이 뾰족 → 위아래를 뒤집어 넓은 쪽을 말풍선 윗변에 붙인다 (좌우는 ApplyLine이 말하는 쪽으로)
+            tail = Ui.Image(box, "Story Tail", Color.white);
+            tail.sprite = UiArt.Get(UiArt.BubbleTail);
+            Ui.Place(tail.rectTransform, new Vector2(0.25f, 1f), new Vector2(0f, -Dot * 2f), UiArt.Size(tail.sprite, 2f), new Vector2(0.5f, 1f));
+            tail.rectTransform.localScale = new Vector3(1f, -1f, 1f);
+            tail.gameObject.SetActive(false);
+            body = Ui.Label(box, "Story Text", "", UiTokens.H2, UiTokens.Ink, TextAnchor.UpperLeft);
+            body.font = font != null ? font : UiFonts.Body;
             body.rectTransform.anchorMin = Vector2.zero;
             body.rectTransform.anchorMax = Vector2.one;
-            body.rectTransform.offsetMin = new Vector2(64f, 48f);
-            body.rectTransform.offsetMax = new Vector2(-96f, -48f);
-            body.horizontalOverflow = HorizontalWrapMode.Wrap;
+            body.rectTransform.offsetMin = new Vector2(64f, UiTokens.S48);
+            body.rectTransform.offsetMax = new Vector2(-96f, -UiTokens.S48);
             body.verticalOverflow = VerticalWrapMode.Truncate;
             body.lineSpacing = 1.15f;
 
-            // 이름표: 짙은 나무 + 잉크 테두리 + 황동 글, 상자 왼쪽 위에 걸침
-            nameplate = NewRect(box, "Story Nameplate");
+            // 이름표: 나무 간판(UiArt.Plate) + 황동 글(세계 글꼴), 상자 왼쪽 위에 걸침
+            Image plate = Ui.Panel(box, "Story Nameplate", UiPanel.Plate);
+            plate.raycastTarget = false;
+            nameplate = plate.rectTransform;
             nameplate.anchorMin = nameplate.anchorMax = new Vector2(0f, 1f);
             nameplate.pivot = new Vector2(0f, 0.5f);
-            nameplate.anchoredPosition = new Vector2(48f, 0f);
+            nameplate.anchoredPosition = new Vector2(UiTokens.S48, 0f);
             nameplate.sizeDelta = new Vector2(240f, 56f);
-            PixelPanel(nameplate, Wood, WoodLight, Hex(0x2a1d15), Ink);
-            speaker = NewText(nameplate, "Story Speaker", 24, Brass, TextAnchor.MiddleCenter);
+            speaker = Ui.Label(nameplate, "Story Speaker", "", UiTokens.Text, UiTokens.BrassLight, TextAnchor.MiddleCenter, true);
+            speaker.horizontalOverflow = HorizontalWrapMode.Overflow;
             Stretch(speaker.rectTransform);
             speaker.fontStyle = FontStyle.Bold;
 
-            // 넘김 표시: 도트 삼각형 (글자 기호 대신 점 3줄), 다 나오면 위아래로 까딱
-            nextMark = NewRect(box, "Story Next");
+            // 넘김 표시: 도트 아이콘(아래 화살), 다 나오면 한 점씩 까딱
+            Image mark = Ui.Icon(box, "Story Next", UiArt.IconDown, 1f, UiTokens.Ink);
+            nextMark = mark.rectTransform;
             nextMark.anchorMin = nextMark.anchorMax = new Vector2(1f, 0f);
             nextMark.pivot = new Vector2(1f, 0f);
-            nextMark.anchoredPosition = new Vector2(-48f, 32f);
-            nextMark.sizeDelta = new Vector2(Dot * 7f, Dot * 4f);
-            for (int row = 0; row < 4; row++)
-            {
-                int width = 7 - row * 2;
-                var step = NewImage(nextMark, "Step", row == 0 ? BrassLight : Ink);
-                step.rectTransform.anchorMin = step.rectTransform.anchorMax = new Vector2(0.5f, 1f);
-                step.rectTransform.pivot = new Vector2(0.5f, 1f);
-                step.rectTransform.sizeDelta = new Vector2(Mathf.Max(1, width) * Dot, Dot);
-                step.rectTransform.anchoredPosition = new Vector2(0f, -row * Dot);
-            }
+            nextMark.anchoredPosition = new Vector2(-UiTokens.S48, UiTokens.S32);
 
             // 누르기 받는 판 (화면 전체, 인물·상자 위 / 단추 아래)
             var catcher = NewImage(root, "Story Advance", new Color(0f, 0f, 0f, 0f));
@@ -159,15 +157,11 @@ namespace HumanLastRampart.Story
             advance.onClick.AddListener(Advance);
 
             // 오른쪽 위 단추: [자동] [넘기기] — 나무판, 고르면 황동 빛 테두리
-            var autoButton = SmallButton(root, "자동", new Vector2(-32f - 160f - 16f, -32f), ToggleAuto);
-            autoGlow = NewRect(autoButton, "Glow");
-            Stretch(autoGlow);
-            autoGlow.offsetMin = new Vector2(-Dot, -Dot);
-            autoGlow.offsetMax = new Vector2(Dot, Dot);
-            autoGlow.SetAsFirstSibling();
-            FrameEdges(autoGlow, Brass, Dot);
-            autoGlow.gameObject.SetActive(false);
-            SmallButton(root, "넘기기", new Vector2(-32f, -32f), Skip);
+            // K-047: Ui 나무 단추 (열쇠 = 보이는 글), 자동이 켜지면 빛 테두리가 남는다
+            autoButton = Ui.Button(root, "자동", "자동", ToggleAuto, UiButtonKind.Tab);
+            Ui.Place((RectTransform)autoButton.transform, new Vector2(1f, 1f), new Vector2(-UiTokens.S32 - 160f - UiTokens.S16, -UiTokens.S32), new Vector2(160f, 56f), new Vector2(1f, 1f));
+            Button skip = Ui.Button(root, "넘기기", "넘기기", Skip);
+            Ui.Place((RectTransform)skip.transform, new Vector2(1f, 1f), new Vector2(-UiTokens.S32, -UiTokens.S32), new Vector2(160f, 56f), new Vector2(1f, 1f));
 
             // 암전 덮개 (맨 위, 누르기 막지 않음)
             fadeCover = NewImage(root, "Story Fade", Color.black);
@@ -238,6 +232,15 @@ namespace HumanLastRampart.Story
                 nameplate.sizeDelta = new Vector2(Mathf.Max(200f, speaker.preferredWidth + 64f), 56f);
             }
 
+            // 말풍선 꼬리: 말하는 사람 쪽 (왼쪽 인물 = 0.25, 오른쪽 = 0.75, 해설이면 없음)
+            tail.gameObject.SetActive(line.Side != StorySide.None);
+            if (line.Side != StorySide.None)
+            {
+                bool right = line.Side == StorySide.Right;
+                tail.rectTransform.anchorMin = tail.rectTransform.anchorMax = new Vector2(right ? 0.75f : 0.25f, 1f);
+                tail.rectTransform.localScale = new Vector3(right ? -1f : 1f, -1f, 1f);   // 끝이 인물 쪽을 향하게
+            }
+
             if (line.Effect == StoryEffect.Shake) shakeUntil = Time.unscaledTime + ShakeTime;
             fullText = line.Text ?? "";
         }
@@ -268,7 +271,7 @@ namespace HumanLastRampart.Story
         {
             if (finished || !InputOpen) return;
             auto = !auto;
-            autoGlow.gameObject.SetActive(auto);
+            Ui.SetOn(autoButton, auto);
         }
 
         public void Skip()
@@ -343,96 +346,10 @@ namespace HumanLastRampart.Story
             // 넘김 표시: 다 나왔을 때만, 0.5초마다 한 점 까딱 (점 크기 단위로 움직여 도트가 번지지 않게)
             bool ready = !typing && fade == FadeState.None;
             nextMark.gameObject.SetActive(ready);
-            if (ready) nextMark.anchoredPosition = new Vector2(-48f, Mathf.Repeat(now, 1f) < 0.5f ? 32f : 32f - Dot);
+            if (ready) nextMark.anchoredPosition = new Vector2(-UiTokens.S48, Mathf.Repeat(now, 1f) < 0.5f ? UiTokens.S32 : UiTokens.S32 - Dot);
         }
 
-        // ── 그리기 도우미 ──
-        // 도트 판: 2점 잉크 테두리 + 깎은 귀(한 점 계단) + 안쪽 위 밝은 줄·아래 어두운 줄
-        static void PixelPanel(RectTransform target, Color fill, Color light, Color shade, Color edge)
-        {
-            float e = Dot * 2f;
-            var body = NewImage(target, "Fill", fill);
-            Stretch(body.rectTransform);
-            body.rectTransform.offsetMin = new Vector2(e, e);
-            body.rectTransform.offsetMax = new Vector2(-e, -e);
-            var top = NewImage(target, "Light", light);
-            Band(top.rectTransform, true, e, Dot);
-            var bottom = NewImage(target, "Shade", shade);
-            Band(bottom.rectTransform, false, e, Dot);
-            FrameEdges(target, edge, e);
-            // 깎은 귀: 모서리 안쪽에 한 점 잉크
-            foreach (Vector2 corner in new[] { Vector2.zero, Vector2.right, Vector2.up, Vector2.one })
-            {
-                var dot = NewImage(target, "Corner", edge);
-                var rect = dot.rectTransform;
-                rect.anchorMin = rect.anchorMax = rect.pivot = corner;
-                rect.sizeDelta = new Vector2(Dot, Dot);
-                rect.anchoredPosition = new Vector2(corner.x > 0f ? -Dot : Dot, corner.y > 0f ? -Dot : Dot);   // 비워 둔 귀 칸(2점) 안쪽 한 점
-            }
-        }
-
-        // 네 변 (모서리 칸은 비워 둔다 → 귀가 깎여 보인다)
-        static void FrameEdges(RectTransform target, Color color, float thickness)
-        {
-            Edge(target, new Vector2(0f, 1f), new Vector2(1f, 1f), new Vector2(thickness, -thickness), new Vector2(-thickness, 0f), color);
-            Edge(target, Vector2.zero, new Vector2(1f, 0f), new Vector2(thickness, 0f), new Vector2(-thickness, thickness), color);
-            Edge(target, Vector2.zero, new Vector2(0f, 1f), new Vector2(0f, thickness), new Vector2(thickness, -thickness), color);
-            Edge(target, new Vector2(1f, 0f), Vector2.one, new Vector2(-thickness, thickness), new Vector2(0f, -thickness), color);
-        }
-
-        static void Edge(RectTransform parent, Vector2 anchorMin, Vector2 anchorMax, Vector2 offsetMin, Vector2 offsetMax, Color color)
-        {
-            var image = NewImage(parent, "Edge", color);
-            var rect = image.rectTransform;
-            rect.anchorMin = anchorMin;
-            rect.anchorMax = anchorMax;
-            rect.offsetMin = offsetMin;
-            rect.offsetMax = offsetMax;
-        }
-
-        static void Band(RectTransform rect, bool top, float inset, float height)
-        {
-            rect.anchorMin = new Vector2(0f, top ? 1f : 0f);
-            rect.anchorMax = new Vector2(1f, top ? 1f : 0f);
-            rect.pivot = new Vector2(0.5f, top ? 1f : 0f);
-            rect.offsetMin = new Vector2(inset, top ? -inset - height : inset);
-            rect.offsetMax = new Vector2(-inset, top ? -inset : inset + height);
-        }
-
-        RectTransform SmallButton(RectTransform root, string label, Vector2 at, Action onClick)
-        {
-            var rect = NewRect(root, label);
-            rect.anchorMin = rect.anchorMax = rect.pivot = new Vector2(1f, 1f);
-            rect.anchoredPosition = at;
-            rect.sizeDelta = new Vector2(160f, 56f);
-            PixelPanel(rect, Wood, WoodLight, Hex(0x2a1d15), Ink);
-            var hit = rect.gameObject.AddComponent<Image>();
-            hit.color = new Color(0f, 0f, 0f, 0f);   // 누르는 자리
-            var button = rect.gameObject.AddComponent<Button>();
-            button.targetGraphic = hit;
-            button.transition = Selectable.Transition.None;
-            button.onClick.AddListener(() => onClick());
-            // 글은 PixelPanel 칸들보다 뒤에 만들어야 위에 그려진다 — 첫 Text가 이름표 글이 되게(시험이 글자로 찾음)
-            var text = NewText(rect, "Text", 24, Ivory, TextAnchor.MiddleCenter);
-            Stretch(text.rectTransform);
-            text.text = label;
-            return rect;
-        }
-
-        Text NewText(RectTransform parent, string name, int size, Color color, TextAnchor alignment)
-        {
-            var obj = new GameObject(name, typeof(RectTransform), typeof(Text));
-            obj.transform.SetParent(parent, false);
-            var text = obj.GetComponent<Text>();
-            text.font = font;
-            text.fontSize = size;
-            text.color = color;
-            text.alignment = alignment;
-            text.supportRichText = false;
-            text.raycastTarget = false;
-            return text;
-        }
-
+        // ── 그리기 도우미 (판·단추·글은 HumanLastRampart.UI.Ui 부품) ──
         static RectTransform NewRect(Transform parent, string name)
         {
             var obj = new GameObject(name, typeof(RectTransform));
@@ -457,6 +374,5 @@ namespace HumanLastRampart.Story
             rect.offsetMin = rect.offsetMax = Vector2.zero;
         }
 
-        static Color Hex(int rgb) => new Color(((rgb >> 16) & 0xff) / 255f, ((rgb >> 8) & 0xff) / 255f, (rgb & 0xff) / 255f, 1f);
     }
 }
