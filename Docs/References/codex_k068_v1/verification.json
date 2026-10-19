@@ -1,0 +1,411 @@
+{
+  "sprite_count": 31,
+  "sprites": [
+    {
+      "id": "grass_01",
+      "size_px": [
+        64,
+        32
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sheet_matches": true,
+      "sha256": "000bc45aacf2748e09829f582ef4417be8c74c580291d98f177b439cf8d4d074"
+    },
+    {
+      "id": "grass_02",
+      "size_px": [
+        64,
+        32
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sheet_matches": true,
+      "sha256": "697560b94c85fecdbdb68612bce909d16e4a0b422365b0b62497927e09097bd1"
+    },
+    {
+      "id": "grass_03",
+      "size_px": [
+        64,
+        32
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sheet_matches": true,
+      "sha256": "926a1098632154f0d13bab8b685599692a406f02cd4c159e77a88933723a97f9"
+    },
+    {
+      "id": "flowers_01",
+      "size_px": [
+        64,
+        32
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sheet_matches": true,
+      "sha256": "e66271532e21252a5f04b155b1b623f67517e504161736d9ef1171c828eb4d5d"
+    },
+    {
+      "id": "flowers_02",
+      "size_px": [
+        64,
+        32
+      ],
+      "alpha_range": [
+        0,
+        254
+      ],
+      "sheet_matches": true,
+      "sha256": "cb2573decf4e419cd7d3b3149e2f9d4d4d600c3d923768a538381c6b6b152810"
+    },
+    {
+      "id": "dirt_01",
+      "size_px": [
+        128,
+        64
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sheet_matches": true,
+      "sha256": "f747a43a9cb4ad814292c8ba34938beb1819348a0dbb5a243e0b88a9dd03eaf6"
+    },
+    {
+      "id": "dirt_02",
+      "size_px": [
+        128,
+        64
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sheet_matches": true,
+      "sha256": "1c6b4e47d8f437ac131735087c7220b304a5eeb26096b052d448772616bfce72"
+    },
+    {
+      "id": "dirt_03",
+      "size_px": [
+        128,
+        64
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sheet_matches": true,
+      "sha256": "ab978dd7e3db197eff6d3397d0db6337f49070fe7c17fb48c5e71b3d6b763a1e"
+    },
+    {
+      "id": "path_straight",
+      "size_px": [
+        128,
+        128
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sheet_matches": true,
+      "sha256": "65e49c98dec0186019171389574c3febe724944eae7aa0f7561b863873bce618"
+    },
+    {
+      "id": "path_curve",
+      "size_px": [
+        128,
+        128
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sheet_matches": true,
+      "sha256": "1d5f4c2243705548a0b6403fc7399d3db7a41733157c7d58ebfd6823763f7f6f"
+    },
+    {
+      "id": "pebbles_01",
+      "size_px": [
+        64,
+        32
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sheet_matches": true,
+      "sha256": "3fb44282e1a9fee58fa184188d8d708e2a75080c9150ca022f27de3ef638f612"
+    },
+    {
+      "id": "pebbles_02",
+      "size_px": [
+        64,
+        32
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sheet_matches": true,
+      "sha256": "9146f89ff0c2ba7fc18a157cfa095d2c841af4b1f9d7980b58afcd1cca219064"
+    },
+    {
+      "id": "scorch_01",
+      "size_px": [
+        128,
+        64
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sheet_matches": true,
+      "sha256": "b5e75501d5b19d9cc9b30c84104e34f025ed27bce4b8197261d073b899d04c17"
+    },
+    {
+      "id": "scorch_02",
+      "size_px": [
+        128,
+        64
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sheet_matches": true,
+      "sha256": "e7a95454fa53e220490848d5ebd54ab8b5cee4afa8adb8292ce1d7c77f9d774f"
+    },
+    {
+      "id": "crater_01",
+      "size_px": [
+        128,
+        64
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sheet_matches": true,
+      "sha256": "931652e94c36a0f41de457fd84e1728c7cf4a9fa9aa0c203c27e15394f7e274f"
+    },
+    {
+      "id": "crater_02",
+      "size_px": [
+        128,
+        64
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sheet_matches": true,
+      "sha256": "f9eb7c6005277ab020e59a73da97e1792519d4f7350e4774e6ca5caf637180a3"
+    },
+    {
+      "id": "bush_01",
+      "size_px": [
+        64,
+        64
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sheet_matches": true,
+      "sha256": "b459c5e264f16352899de2f1e20153da2fd7860bff483fb6f839893fb7a81b3b"
+    },
+    {
+      "id": "bush_02",
+      "size_px": [
+        64,
+        64
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sheet_matches": true,
+      "sha256": "30b5810bb472274d72e032281ba3100d9758e270e77493943777eceeec8a61d4"
+    },
+    {
+      "id": "bush_03",
+      "size_px": [
+        64,
+        64
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sheet_matches": true,
+      "sha256": "bcadb8e3365a79107ab4e052159dc9a674147adfc01fa453ac4a2d3e8ebb2b47"
+    },
+    {
+      "id": "tallgrass_01",
+      "size_px": [
+        64,
+        64
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sheet_matches": true,
+      "sha256": "04b439401a17208e872b15cc975d345b9a5997c748b018af83fa1221b2dbd313"
+    },
+    {
+      "id": "tallgrass_02",
+      "size_px": [
+        64,
+        64
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sheet_matches": true,
+      "sha256": "56c4ab260756b9e723fcffdf72607feb9861895e912761ad27a5f42204f96e3b"
+    },
+    {
+      "id": "weapon_01",
+      "size_px": [
+        64,
+        64
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sheet_matches": true,
+      "sha256": "aedbfd816a20a370bea33bdce74ec247aaa5e693c1c5c0c1ed9602287595c097"
+    },
+    {
+      "id": "weapon_02",
+      "size_px": [
+        64,
+        64
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sheet_matches": true,
+      "sha256": "fd9239ebd96d9f59da8b2ed6b584c593c6a86052def1ee326cc9db7844f8a857"
+    },
+    {
+      "id": "weapon_03",
+      "size_px": [
+        64,
+        64
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sheet_matches": true,
+      "sha256": "e12350c7a1be69c69199fd2ce2af1c6dfdf375c9ef1aee86c340abd01e9d2c09"
+    },
+    {
+      "id": "shield",
+      "size_px": [
+        64,
+        64
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sheet_matches": true,
+      "sha256": "d0fb057d90e573589553054a62230f06ab5445aac4c06e10b2d4dfe861e1c895"
+    },
+    {
+      "id": "signpost",
+      "size_px": [
+        64,
+        64
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sheet_matches": true,
+      "sha256": "8ff5457234ae06a0b53179793f80670ed117814a6bc75d02cbcbe47c41183dd7"
+    },
+    {
+      "id": "earthwall_intact",
+      "size_px": [
+        256,
+        128
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sheet_matches": true,
+      "sha256": "b91e5eb60e006ca5716f0b8dc2676cf754151e56a48f640be99946180f329f3b"
+    },
+    {
+      "id": "earthwall_cracked",
+      "size_px": [
+        256,
+        128
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sheet_matches": true,
+      "sha256": "a4fd1374f90b420c08528620839864d4324bb3bfa9cee124a43ab86c2316d419"
+    },
+    {
+      "id": "earthwall_collapsed",
+      "size_px": [
+        256,
+        128
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sheet_matches": true,
+      "sha256": "246c98e1628154c06a6d1c6b243ec94df926ea17eb17df0df4856d74381fa89b"
+    },
+    {
+      "id": "earthwall_rubble",
+      "size_px": [
+        256,
+        128
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sheet_matches": true,
+      "sha256": "a4c65896a35ec3fdb5b4a40fe9aa0a581da1a5128fdbf44e9ad42c4b8446d63d"
+    },
+    {
+      "id": "fallen_tree",
+      "size_px": [
+        256,
+        128
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sheet_matches": true,
+      "sha256": "8690dd114d89038d2cadc1bb709064eaaaea786c9e262cf003ded0aeac4b7d6f"
+    }
+  ],
+  "path_edges_equal": true,
+  "review_self_contained": true,
+  "unity_run": false
+}

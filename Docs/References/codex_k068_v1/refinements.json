@@ -1,0 +1,10 @@
+{
+  "earthwall_cracked": {
+    "path": "C:\\Users\\User\\.codex\\generated_images\\01a154b6-1057-70e2-8cbd-88828021d856\\exec-6c810552-88e7-491e-b81d-bd23d4257f73.png",
+    "prompt": "Add several deep irregular cracks and small missing soil clods to this exact EARTH BERM. Preserve the same long low silhouette, grass cap, soil material, lighting, diagonal direction and footprint. No masonry stones, bricks, wood or planks. It must still be an earthen soil embankment."
+  },
+  "earthwall_collapsed": {
+    "path": "C:\\Users\\User\\.codex\\generated_images\\01a154b6-1057-70e2-8cbd-88828021d856\\exec-4ff0f747-d212-4b96-b88d-1e9689d51997.png",
+    "prompt": "Collapse the central 60 percent of this exact EARTH BERM, creating a wide passable gap and low loose dirt in the middle, with two low grassy soil stubs at each end. Preserve same footprint and diagonal direction, soil material and upper-left light. No wood, braces, planks, masonry or stones. Only broken brown soil and turf."
+  }
+}
