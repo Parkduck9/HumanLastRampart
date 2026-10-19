@@ -1,0 +1,81 @@
+{
+  "goblin": {
+    "source": "Goblin/goblin_walk_attack4.png",
+    "colors": [
+      "#100a09",
+      "#232013",
+      "#545a23",
+      "#828937",
+      "#abad5c",
+      "#261c18",
+      "#45352b",
+      "#6f513a",
+      "#392418",
+      "#73482d",
+      "#a9784a",
+      "#e6a117",
+      "#f8d24f",
+      "#f9f5e8"
+    ]
+  },
+  "ladder_empty": {
+    "source": "Static/ladder_goblin_static.png",
+    "colors": [
+      "#100909",
+      "#2a2327",
+      "#55483b",
+      "#7e6f61",
+      "#414b1c",
+      "#7a8930",
+      "#a7b74a",
+      "#331f15",
+      "#74442c",
+      "#b87846",
+      "#d2aa85",
+      "#f4e2cb",
+      "#974e3a",
+      "#efb424",
+      "#faca39",
+      "#fdf7de"
+    ]
+  },
+  "ogre": {
+    "source": "Static/ogre_static.png",
+    "colors": [
+      "#110908",
+      "#4a4734",
+      "#7d765b",
+      "#a7a07b",
+      "#382318",
+      "#78432b",
+      "#a4744c",
+      "#4e4440",
+      "#908780",
+      "#d7cec4",
+      "#62140a",
+      "#9c4f28",
+      "#f9e6cf"
+    ]
+  },
+  "ladder_carry": {
+    "source": "Static/ladder_goblin_static.png",
+    "colors": [
+      "#100909",
+      "#2a2327",
+      "#55483b",
+      "#7e6f61",
+      "#414b1c",
+      "#7a8930",
+      "#a7b74a",
+      "#331f15",
+      "#74442c",
+      "#b87846",
+      "#d2aa85",
+      "#f4e2cb",
+      "#974e3a",
+      "#efb424",
+      "#faca39",
+      "#fdf7de"
+    ]
+  }
+}

@@ -1,0 +1,218 @@
+[
+  {
+    "name": "goblin_front",
+    "cell": [
+      64,
+      96
+    ],
+    "foot_baseline": 88,
+    "center_x": 32,
+    "opaque_bbox": [
+      13,
+      48,
+      47,
+      88
+    ],
+    "body_height_estimate": 40,
+    "head_height_estimate": 15,
+    "head_ratio_estimate": 0.375,
+    "source": "goblin_selected.png",
+    "source_crop": [
+      290,
+      232,
+      746,
+      776
+    ],
+    "colors": 13,
+    "sha256": "0de68d42fbbad1ef2d7a168753c24f08d4214bb201799adac11bcdcbdcd9e303"
+  },
+  {
+    "name": "goblin_side",
+    "cell": [
+      64,
+      96
+    ],
+    "foot_baseline": 88,
+    "center_x": 32,
+    "opaque_bbox": [
+      14,
+      48,
+      42,
+      88
+    ],
+    "body_height_estimate": 40,
+    "head_height_estimate": 15,
+    "head_ratio_estimate": 0.375,
+    "source": "goblin_selected.png",
+    "source_crop": [
+      189,
+      232,
+      573,
+      776
+    ],
+    "colors": 13,
+    "sha256": "5f18abf818d2d5c2ba0118b457a0998f005d041d1b8eb6485a0f59c57740f55e"
+  },
+  {
+    "name": "ladder_empty_front",
+    "cell": [
+      64,
+      96
+    ],
+    "foot_baseline": 88,
+    "center_x": 32,
+    "opaque_bbox": [
+      20,
+      46,
+      44,
+      88
+    ],
+    "body_height_estimate": 42,
+    "head_height_estimate": 15,
+    "head_ratio_estimate": 0.357,
+    "source": "ladder_empty_selected.png",
+    "source_crop": [
+      212,
+      113,
+      671,
+      909
+    ],
+    "colors": 15,
+    "sha256": "9ed9ddf48ffb390875adefccff043a21ddd14dad09a08140839a7bcd09388d91"
+  },
+  {
+    "name": "ladder_empty_side",
+    "cell": [
+      64,
+      96
+    ],
+    "foot_baseline": 88,
+    "center_x": 32,
+    "opaque_bbox": [
+      23,
+      46,
+      40,
+      88
+    ],
+    "body_height_estimate": 42,
+    "head_height_estimate": 15,
+    "head_ratio_estimate": 0.357,
+    "source": "ladder_empty_selected.png",
+    "source_crop": [
+      222,
+      114,
+      556,
+      919
+    ],
+    "colors": 16,
+    "sha256": "44547efb96f10a58595f9cf2ac7f242a87a1f53d022a2f8981aa96030224b3ff"
+  },
+  {
+    "name": "ladder_carry_front",
+    "cell": [
+      64,
+      96
+    ],
+    "foot_baseline": 88,
+    "center_x": 32,
+    "opaque_bbox": [
+      22,
+      34,
+      54,
+      88
+    ],
+    "body_height_estimate": 42,
+    "head_height_estimate": 15,
+    "head_ratio_estimate": 0.357,
+    "source": "ladder_carry_proportioned.png",
+    "source_crop": [
+      208,
+      98,
+      673,
+      887
+    ],
+    "colors": 16,
+    "sha256": "5029720645b361c0f96eff70fccc39d192d476fa6bdcd633165c14abd988ec21"
+  },
+  {
+    "name": "ladder_carry_side",
+    "cell": [
+      64,
+      96
+    ],
+    "foot_baseline": 88,
+    "center_x": 32,
+    "opaque_bbox": [
+      13,
+      34,
+      41,
+      88
+    ],
+    "body_height_estimate": 42,
+    "head_height_estimate": 14,
+    "head_ratio_estimate": 0.333,
+    "source": "ladder_carry_proportioned.png",
+    "source_crop": [
+      200,
+      98,
+      608,
+      895
+    ],
+    "colors": 16,
+    "sha256": "05711c8a2d92afca18c59b60ad1cd2c6a3c03435efe6bee1ae7fefc935846686"
+  },
+  {
+    "name": "ogre_front",
+    "cell": [
+      96,
+      112
+    ],
+    "foot_baseline": 104,
+    "center_x": 48,
+    "opaque_bbox": [
+      10,
+      36,
+      71,
+      104
+    ],
+    "body_height_estimate": 68,
+    "head_height_estimate": 24,
+    "head_ratio_estimate": 0.353,
+    "source": "ogre_selected.png",
+    "source_crop": [
+      35,
+      121,
+      769,
+      944
+    ],
+    "colors": 13,
+    "sha256": "f2438423174cbf3af86caeaf65b3a32cc5410ecd1f5ee420d0ae6152f2713125"
+  },
+  {
+    "name": "ogre_side",
+    "cell": [
+      96,
+      112
+    ],
+    "foot_baseline": 104,
+    "center_x": 48,
+    "opaque_bbox": [
+      18,
+      36,
+      65,
+      104
+    ],
+    "body_height_estimate": 68,
+    "head_height_estimate": 24,
+    "head_ratio_estimate": 0.353,
+    "source": "ogre_selected.png",
+    "source_crop": [
+      123,
+      121,
+      696,
+      947
+    ],
+    "colors": 12,
+    "sha256": "eda6a085a9fd6abb78ac1e22016d5412cc05229c3d486367b7def887bfde546a"
+  }
+]

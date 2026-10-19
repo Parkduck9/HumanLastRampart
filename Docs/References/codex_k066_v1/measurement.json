@@ -1,0 +1,24 @@
+{
+  "source_size": [
+    1024,
+    1536
+  ],
+  "alpha128_bounds": [
+    266,
+    224,
+    765,
+    1391
+  ],
+  "source_height": 1167,
+  "head_source_y": [
+    224,
+    610
+  ],
+  "head_ratio_estimate": 0.33076263924592975,
+  "visible_source_grid_estimate_px": 16,
+  "output_normalization_px_per_dot": 22.442307692307693,
+  "output_figure_height": 52,
+  "output_head_estimate": 17,
+  "outline_native_estimate": 1,
+  "method": "알파128 경계. 머리 끝 y610은 육안 표식. 52점은 출력 정규화이며 유일한 원본 격자 검출값이 아님."
+}
