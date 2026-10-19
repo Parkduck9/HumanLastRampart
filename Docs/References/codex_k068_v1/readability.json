@@ -1,0 +1,66 @@
+{
+  "source": "Game/Assets/_Project/Art/Characters/Goblin/goblin_walk_attack4.png",
+  "frame_rect_top_left": [
+    0,
+    0,
+    256,
+    384
+  ],
+  "method": "Same actual goblin frame, 28px tall. Compare luminance at inner alpha contour to underlying scene. Enemy composited last. Static composite diagnostic only; not gameplay proof.",
+  "tests": [
+    {
+      "background": "none",
+      "goblin_height_px": 28,
+      "mean_contour_luma_difference": 0.226,
+      "contour_fraction_above_0_10": 0.7823
+    },
+    {
+      "background": "grass_02",
+      "goblin_height_px": 28,
+      "mean_contour_luma_difference": 0.2258,
+      "contour_fraction_above_0_10": 0.7823
+    },
+    {
+      "background": "dirt_01",
+      "goblin_height_px": 28,
+      "mean_contour_luma_difference": 0.2371,
+      "contour_fraction_above_0_10": 0.8145
+    },
+    {
+      "background": "path_straight",
+      "goblin_height_px": 28,
+      "mean_contour_luma_difference": 0.2119,
+      "contour_fraction_above_0_10": 0.7903
+    },
+    {
+      "background": "pebbles_02",
+      "goblin_height_px": 28,
+      "mean_contour_luma_difference": 0.226,
+      "contour_fraction_above_0_10": 0.7823
+    },
+    {
+      "background": "scorch_02",
+      "goblin_height_px": 28,
+      "mean_contour_luma_difference": 0.2208,
+      "contour_fraction_above_0_10": 0.7903
+    },
+    {
+      "background": "crater_02",
+      "goblin_height_px": 28,
+      "mean_contour_luma_difference": 0.2156,
+      "contour_fraction_above_0_10": 0.7419
+    },
+    {
+      "background": "bush_02",
+      "goblin_height_px": 28,
+      "mean_contour_luma_difference": 0.226,
+      "contour_fraction_above_0_10": 0.75
+    },
+    {
+      "background": "tallgrass_02",
+      "goblin_height_px": 28,
+      "mean_contour_luma_difference": 0.2169,
+      "contour_fraction_above_0_10": 0.7177
+    }
+  ]
+}
