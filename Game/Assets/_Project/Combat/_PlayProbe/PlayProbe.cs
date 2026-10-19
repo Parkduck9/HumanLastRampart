@@ -1739,13 +1739,16 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
 
     // 배치 모드에는 화면 그리기 단계(WaitForEndOfFrame)가 없다. 전투의 LateUpdate(인스턴싱 그리기 예약) 뒤에
     // 도는 찍개 컴포넌트가 같은 프레임 안에서 카메라를 직접 그려 찍는다. 화면 덮개 UI는 잠시 카메라 공간으로 바꾼다.
-    IEnumerator Capture(string name)
+    IEnumerator Capture(string name, int width = 1600, int height = 900, bool sceneOnly = false)
     {
         if (SystemInfo.graphicsDeviceType == UnityEngine.Rendering.GraphicsDeviceType.Null) yield break;
         // K-047: 덜 열린 반투명 판이 찍히지 않게 열리는 연출을 바로 끝낸다 (프레임을 기다리면 전투가 흘러 시점 시험이 어긋난다)
         HumanLastRampart.UI.UiAppear.FinishAll();   // 닫히던 판도 끝낸다 (K-047: 앞 창이 뒤에 비쳐 찍히던 것)
         var go = new GameObject("PlayProbe Shooter");
         var shooter = go.AddComponent<ProbeShooter>();
+        shooter.Width = width;
+        shooter.Height = height;
+        shooter.SceneOnly = sceneOnly;
         shooter.Path = Path.Combine(Out, $"{++shot:00}_{name}.png");
         for (int i = 0; i < 10 && !shooter.Done; i++) yield return null;
         UnityEngine.Object.Destroy(go);
@@ -1757,6 +1760,8 @@ public sealed class ProbeShooter : MonoBehaviour
 {
     public string Path;
     public bool Done;
+    public int Width = 1600, Height = 900;   // 발표 자료용 사진은 1920×1080 (PlayProbe.Portfolio.cs)
+    public bool SceneOnly;                    // 화면 위 표시판 없이 장면만
 
     const int ProbeLayer = 31;   // 사진 찍는 동안만 표시판을 옮겨 두는 층 (게임에서 안 쓴다)
 
@@ -1776,7 +1781,7 @@ public sealed class ProbeShooter : MonoBehaviour
     {
         if (Done || Path == null) return;
         Done = true;
-        const int w = 1600, h = 900;
+        int w = Width, h = Height;
         var rt = new RenderTexture(w, h, 24);
         var tex = new Texture2D(w, h, TextureFormat.RGB24, false);
         var cams = Camera.allCameras.OrderBy(c => c.depth).ToArray();
@@ -1810,7 +1815,7 @@ public sealed class ProbeShooter : MonoBehaviour
                 canvas.planeDistance = 1f;
                 changed.Add(canvas);
             }
-            if (changed.Count > 0)
+            if (changed.Count > 0 && !SceneOnly)
             {
                 Canvas.ForceUpdateCanvases();
                 Color[] black = RenderUi(ui, rt, tex, Color.black);
