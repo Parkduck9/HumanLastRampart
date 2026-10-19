@@ -1,0 +1,226 @@
+{
+  "archer_back": {
+    "source": "archer_back_generated.png",
+    "body_top": "auto",
+    "head_bottom": 660,
+    "axis": 512,
+    "tool": "built-in image_gen",
+    "history": [
+      {
+        "prompt": "Use case: stylized-concept. Asset: a single standing idle pixel-art soldier reference on genuine transparent background. Reference image 1 is the USER PICKED hero first generated version, sole style reference: match its BIG spiky hair head, chunky short sturdy body, very short legs, big leather boots, round mitten hands and thick BLACK outline. Do NOT draw the hero. Reference image 2 is this soldier's existing art; preserve its hair color, uniform colors and weapon identity exactly, but redraw in reference 1 proportions. Native human figure height 52 pixels, hair-to-chin 17 pixels (one THIRD of total height). One pixel black outer outline; approximately THREE flat shading colors per material. Very coarse pixel grid, no microtexture, no thin detailed realistic rendering. Treat output as a large nearest neighbor enlargement of a roughly 26-pixel-wide, 52-pixel-high figure (screen pixel blocks about 20px). Full body including all weapon and boots with ample transparent margin. One figure only, no text, no floor, no ground shadow, no glow, no duplicates, no sheet, no animation, no hero. Stand naturally upright at rest.\nSubject: light brown spiky hair, navy blue tunic, simple cream-white edging bands, brown gloves and oversized boots; wooden bow held lowered beside body, brown quiver and white fletched arrows on BACK.\nPose and camera: straight BACK VIEW idle, head and torso facing entirely away, only the back of hair and ears visible, NO eyes or face, both boots visible. Most important combat-facing reference.",
+        "original_output_location": "C:\\Users\\User\\.codex\\generated_images\\01a154a5-e355-7092-929d-76f27f423760\\exec-69237165-30f5-4f29-a41c-846ab31c2f42.png"
+      },
+      {
+        "prompt": "Use case: style-transfer pixel sprite correction. Image1 is the soldier to edit. Image2 is the USER PICKED hero FIRST generated original, sole proportion/style target. Keep soldier BACK VIEW and all outfit/hair colors and weapon. Do NOT draw hero. The soldier's head is currently too tall relative to the USER PICKED hero. Make hair-top to bottom-of-head exactly one THIRD of human full height, like image2, keeping BIG spiky hair and chunky outline. Head including hair17 pixels; rest of body35 pixels; total52 native pixels. Do not make small realistic head or small eyes. Current head is40-46% of height; bring it to33%. Keep short torso and legs, round hands and giant boots, broaden sturdy torso slightly. On 64x96 native canvas, center human at x32; scalp top y36; head/neck junction y53; boot bottoms at y88. Flat feet standing idle. Tall weapons may extend above head; do not count weapon in human height. BLACK1-pixel outline; three colors per material. At1024x1536 render every native pixel as a solid16x16 square. Coarse pixels with no tiny details. Keep weapon: wooden bow on viewer LEFT and quiver on back. Entire human and weapon unclipped; transparent background; no floor, shadow, glow, text. Exactly one soldier.",
+        "original_output_location": "C:\\Users\\User\\.codex\\generated_images\\01a154a5-e355-7092-929d-76f27f423760\\exec-bda5ad99-5f04-4316-ba73-fcda3ea80312.png"
+      },
+      {
+        "prompt": "Edit this sprite. ONLY rescale the entire head including the hair, ears and face to 75% of its CURRENT width and height. Keep the neck connection at the same location. Hair top must move substantially DOWN, NOT stay at same height. Preserve the body below the neck, arms, boots, weapon and all colors unchanged. Head currently occupies40% of total height; after rescaling it should occupy33%, like a three-head-tall sprite. Do not shrink only the face while leaving the hair big. Keep pixel blocks coarse, black outer outline, and clear blue eyes in front view. Same view and pose. Transparent background. No text or ground.",
+        "original_output_location": "C:\\Users\\User\\.codex\\generated_images\\01a154a5-e355-7092-929d-76f27f423760\\exec-22bb3d8c-7dc8-44db-8f8f-c7472e3da568.png"
+      },
+      {
+        "prompt": "Edit ONLY the head: enlarge the entire hair+head+ears by 120% of its current width and height, anchored at the neck. Current head is slightly too small; make it one THIRD of total human height. Keep body below neck, pose, back view, bow, quiver, uniform and colors exactly unchanged. Preserve chunky pixels and one-pixel BLACK outline. Same transparent background. No text, floor, shadows or glow.",
+        "original_output_location": "C:\\Users\\User\\.codex\\generated_images\\01a154a5-e355-7092-929d-76f27f423760\\exec-eccc063a-a48f-4713-81e2-abbd4acc625e.png"
+      },
+      {
+        "prompt": "Edit the entire head including hair, face and ears with a SMALL size increase: increase its width and height by ONLY TWENTY PERCENT (multiply dimensions by1.2). Keep neck anchor fixed. Everything below the neck and all equipment must stay completely unchanged. Preserve pose, front/back view, colors, coarse pixel art, black outline and transparent background. Only a small20% enlargement of the head. No text or ground.",
+        "original_output_location": "C:\\Users\\User\\.codex\\generated_images\\01a154a5-e355-7092-929d-76f27f423760\\exec-c62eef6c-d0cd-4158-9aee-f82744da25b1.png"
+      }
+    ],
+    "selected_original_output": "C:\\Users\\User\\.codex\\generated_images\\01a154a5-e355-7092-929d-76f27f423760\\exec-c62eef6c-d0cd-4158-9aee-f82744da25b1.png",
+    "style_reference": "../codex_hero_octopath_review_v6/generated.png",
+    "existing_reference": "Game/Assets/_Project/Art/Characters/Static/archer_static.png"
+  },
+  "archer_front": {
+    "source": "archer_front_generated.png",
+    "body_top": "auto",
+    "head_bottom": 640,
+    "axis": 505,
+    "tool": "built-in image_gen",
+    "history": [
+      {
+        "prompt": "Use case: stylized-concept. A single full-body FRONT VIEW standing idle soldier, transparent background, no text or floor or glow. Image 1 is USER PICKED hero v6 FIRST generated: copy its exact coarse chunky pixel proportions and material rendering, but NEVER draw the hero. Image 2 is soldier existing art; keep that hair color, uniform colors and weapon. Big spiky hair head incl face 17 pixels of 52-pixel total human height, short sturdy torso, very short legs, BIG leather boots, round mitten hands, BLACK 1-pixel outline, THREE flat shades per material, simple band trims. Two clear BLUE iris eyes each with about one white highlight pixel, like image 1. Render as nearest neighbor enlargement of an approximately 26px wide by52px tall native sprite, chunky visible square pixels about20 screen pixels across. No fine detail or microtexture. Human standing relaxed, arms lowered, feet flat and apart, head and body facing camera. One single figure, ample transparent margin around entire weapon and figure.\nSubject: Light brown spiky hair; navy blue tunic with simple cream-white edging bands, brown gloves/belt/oversized boots; wooden bow lowered in anatomical LEFT hand (viewer RIGHT); quiver worn on BACK with white arrows visible only behind shoulder, never on chest.",
+        "original_output_location": "C:\\Users\\User\\.codex\\generated_images\\01a154a5-e355-7092-929d-76f27f423760\\exec-691e05e2-3cbf-47db-b21a-8afb79d0a72e.png"
+      },
+      {
+        "prompt": "Use case: style-transfer pixel sprite correction. Image1 is the soldier FRONT VIEW target to edit. Image2 is USER PICKED FIRST generated hero v6, sole proportions/style reference. Keep soldier identity/hair/outfit/weapon colors and FRONT idle pose; no hero. Match image2 hair-top to chin exactly ONE THIRD total human height. Keep big spiky hair, clear BLUE irises with one WHITE highlight pixel per eye, not tiny realistic eyes. Current head taller than1/3: reduce its hair-top to chin height until17 of52 native pixels, with35 pixels for the body below chin through sole. Big boots, very short legs, short sturdy torso, round hands, thick BLACK1-pixel outline. Geometry on64x96 canvas: center bodyx32; hair-top y36; chin/head-bottom y53; boots bottom y88. Render exactly as nearest neighbor16x enlargement if1024x1536. Only3 flat shades/material, simple cream or gold trim bands. Preserve light brown hair, navy cream uniform, wooden bow held lowered on VIEWER RIGHT (switch from input left side), and quiver ON BACK with arrows showing behind shoulder only. Both boots level on same flat baseline, entire weapon visible; no text, no floor, no ground shadow, no glow. Genuine transparent background, one soldier.",
+        "original_output_location": "C:\\Users\\User\\.codex\\generated_images\\01a154a5-e355-7092-929d-76f27f423760\\exec-4551e369-9112-4564-b3d5-3c380b63976a.png"
+      },
+      {
+        "prompt": "Edit this sprite. ONLY rescale the entire head including the hair, ears and face to 75% of its CURRENT width and height. Keep the neck connection at the same location. Hair top must move substantially DOWN, NOT stay at same height. Preserve the body below the neck, arms, boots, weapon and all colors unchanged. Head currently occupies40% of total height; after rescaling it should occupy33%, like a three-head-tall sprite. Do not shrink only the face while leaving the hair big. Keep pixel blocks coarse, black outer outline, and clear blue eyes in front view. Same view and pose. Transparent background. No text or ground.",
+        "original_output_location": "C:\\Users\\User\\.codex\\generated_images\\01a154a5-e355-7092-929d-76f27f423760\\exec-d20690da-cf88-481f-8b25-8d38203d980b.png"
+      }
+    ],
+    "selected_original_output": "C:\\Users\\User\\.codex\\generated_images\\01a154a5-e355-7092-929d-76f27f423760\\exec-d20690da-cf88-481f-8b25-8d38203d980b.png",
+    "style_reference": "../codex_hero_octopath_review_v6/generated.png",
+    "existing_reference": "Game/Assets/_Project/Art/Characters/Static/archer_static.png"
+  },
+  "gunner_back": {
+    "source": "gunner_back_generated.png",
+    "body_top": "auto",
+    "head_bottom": 625,
+    "axis": 540,
+    "tool": "built-in image_gen",
+    "history": [
+      {
+        "prompt": "Use case: stylized-concept. Asset: a single standing idle pixel-art soldier reference on genuine transparent background. Reference image 1 is the USER PICKED hero first generated version, sole style reference: match its BIG spiky hair head, chunky short sturdy body, very short legs, big leather boots, round mitten hands and thick BLACK outline. Do NOT draw the hero. Reference image 2 is this soldier's existing art; preserve its hair color, uniform colors and weapon identity exactly, but redraw in reference 1 proportions. Native human figure height 52 pixels, hair-to-chin 17 pixels (one THIRD of total height). One pixel black outer outline; approximately THREE flat shading colors per material. Very coarse pixel grid, no microtexture, no thin detailed realistic rendering. Treat output as a large nearest neighbor enlargement of a roughly 26-pixel-wide, 52-pixel-high figure (screen pixel blocks about 20px). Full body including all weapon and boots with ample transparent margin. One figure only, no text, no floor, no ground shadow, no glow, no duplicates, no sheet, no animation, no hero. Stand naturally upright at rest.\nSubject: dark brown spiky hair, navy blue tunic with cream-white trim bands, gray metal shoulder pads, brown leather gloves belt and oversized boots; wood-stock metal-barreled musket held DOWN vertically alongside body, resting rather than aiming.\nPose and camera: straight BACK VIEW idle, head and torso facing entirely away, only the back of hair and ears visible, NO eyes or face, both boots visible. Most important combat-facing reference.",
+        "original_output_location": "C:\\Users\\User\\.codex\\generated_images\\01a154a5-e355-7092-929d-76f27f423760\\exec-3a66712d-eb9f-4004-acc7-0937aa857478.png"
+      },
+      {
+        "prompt": "Use case: style-transfer pixel sprite correction. Image1 is the soldier to edit. Image2 is the USER PICKED hero FIRST generated original, sole proportion/style target. Keep soldier BACK VIEW and all outfit/hair colors and weapon. Do NOT draw hero. The soldier's head is currently too tall relative to the USER PICKED hero. Make hair-top to bottom-of-head exactly one THIRD of human full height, like image2, keeping BIG spiky hair and chunky outline. Head including hair17 pixels; rest of body35 pixels; total52 native pixels. Do not make small realistic head or small eyes. Current head is40-46% of height; bring it to33%. Keep short torso and legs, round hands and giant boots, broaden sturdy torso slightly. On 64x96 native canvas, center human at x32; scalp top y36; head/neck junction y53; boot bottoms at y88. Flat feet standing idle. Tall weapons may extend above head; do not count weapon in human height. BLACK1-pixel outline; three colors per material. At1024x1536 render every native pixel as a solid16x16 square. Coarse pixels with no tiny details. Keep weapon: long wood-stock metal musket lowered upright on viewer LEFT. Entire human and weapon unclipped; transparent background; no floor, shadow, glow, text. Exactly one soldier.",
+        "original_output_location": "C:\\Users\\User\\.codex\\generated_images\\01a154a5-e355-7092-929d-76f27f423760\\exec-c4d4b843-8f97-434f-83f5-a827952f527d.png"
+      },
+      {
+        "prompt": "Edit this sprite. ONLY rescale the ENTIRE HEAD including hair, ears and face to 90% of its CURRENT width and height, anchored at the neck. Hair top moves DOWN substantially. Do NOT leave the big hair unchanged. Keep everything below the neck unchanged: body, arms, gloves, boots, weapon, colors, pose and view. Aim for three-head-tall human proportions, head33% total height. Keep chunky square pixels, BLACK outline, blue iris with white highlight in each eye if face is visible. Genuine transparent background; no text, floor, glow or shadows. Do not change view or weapon side.",
+        "original_output_location": "C:\\Users\\User\\.codex\\generated_images\\01a154a5-e355-7092-929d-76f27f423760\\exec-33c6f1cd-489b-4bf1-9cf2-30f1af519be7.png"
+      },
+      {
+        "prompt": "Edit ONLY the entire head including all hair, face and ears: ENLARGE it by 120% of current width and height, anchored at the neck. It is currently too small. Head must be one THIRD of total human height. Keep body below neck, view, pose, weapon, uniform, colors and boots unchanged. Keep big clear blue eyes with white highlights if face visible. Coarse square pixels and thick BLACK outline. Transparent background, no text, ground, shadow or glow.",
+        "original_output_location": "C:\\Users\\User\\.codex\\generated_images\\01a154a5-e355-7092-929d-76f27f423760\\exec-48fdc9f6-d8bf-47f0-8f2a-f42bc46293b9.png"
+      },
+      {
+        "prompt": "Edit the entire head including hair, face and ears with a SMALL size increase: increase its width and height by ONLY TWENTY PERCENT (multiply dimensions by1.2). Keep neck anchor fixed. Everything below the neck and all equipment must stay completely unchanged. Preserve pose, front/back view, colors, coarse pixel art, black outline and transparent background. Only a small20% enlargement of the head. No text or ground.",
+        "original_output_location": "C:\\Users\\User\\.codex\\generated_images\\01a154a5-e355-7092-929d-76f27f423760\\exec-780bb96e-9f0c-42fd-a46b-c2b5ed5f9926.png"
+      }
+    ],
+    "selected_original_output": "C:\\Users\\User\\.codex\\generated_images\\01a154a5-e355-7092-929d-76f27f423760\\exec-780bb96e-9f0c-42fd-a46b-c2b5ed5f9926.png",
+    "style_reference": "../codex_hero_octopath_review_v6/generated.png",
+    "existing_reference": "Game/Assets/_Project/Art/Characters/Static/gunner_static.png"
+  },
+  "gunner_front": {
+    "source": "gunner_front_generated.png",
+    "body_top": "auto",
+    "head_bottom": 615,
+    "axis": 492,
+    "tool": "built-in image_gen",
+    "history": [
+      {
+        "prompt": "Use case: stylized-concept. A single full-body FRONT VIEW standing idle soldier, transparent background, no text or floor or glow. Image 1 is USER PICKED hero v6 FIRST generated: copy its exact coarse chunky pixel proportions and material rendering, but NEVER draw the hero. Image 2 is soldier existing art; keep that hair color, uniform colors and weapon. Big spiky hair head incl face 17 pixels of 52-pixel total human height, short sturdy torso, very short legs, BIG leather boots, round mitten hands, BLACK 1-pixel outline, THREE flat shades per material, simple band trims. Two clear BLUE iris eyes each with about one white highlight pixel, like image 1. Render as nearest neighbor enlargement of an approximately 26px wide by52px tall native sprite, chunky visible square pixels about20 screen pixels across. No fine detail or microtexture. Human standing relaxed, arms lowered, feet flat and apart, head and body facing camera. One single figure, ample transparent margin around entire weapon and figure.\nSubject: Dark brown spiky hair; navy blue tunic with simple cream-white edging bands, gray metal shoulder guards, brown leather gloves/belt/oversized boots; wood-stock long metal-barrel musket held lowered vertically beside body, no aiming.",
+        "original_output_location": "C:\\Users\\User\\.codex\\generated_images\\01a154a5-e355-7092-929d-76f27f423760\\exec-64498c25-3314-4679-acf3-1f237dbbb85c.png"
+      },
+      {
+        "prompt": "Use case: style-transfer pixel sprite correction. Image1 is the soldier FRONT VIEW target to edit. Image2 is USER PICKED FIRST generated hero v6, sole proportions/style reference. Keep soldier identity/hair/outfit/weapon colors and FRONT idle pose; no hero. Match image2 hair-top to chin exactly ONE THIRD total human height. Keep big spiky hair, clear BLUE irises with one WHITE highlight pixel per eye, not tiny realistic eyes. Current head taller than1/3: reduce its hair-top to chin height until17 of52 native pixels, with35 pixels for the body below chin through sole. Big boots, very short legs, short sturdy torso, round hands, thick BLACK1-pixel outline. Geometry on64x96 canvas: center bodyx32; hair-top y36; chin/head-bottom y53; boots bottom y88. Render exactly as nearest neighbor16x enlargement if1024x1536. Only3 flat shades/material, simple cream or gold trim bands. Preserve dark brown hair, navy cream uniform, gray metal shoulder pads, wood-stock metal-barrel musket held lowered upright on VIEWER RIGHT (switch from input left side). Both boots level on same flat baseline, entire weapon visible; no text, no floor, no ground shadow, no glow. Genuine transparent background, one soldier.",
+        "original_output_location": "C:\\Users\\User\\.codex\\generated_images\\01a154a5-e355-7092-929d-76f27f423760\\exec-dcce00d5-9f75-452c-b4e7-71d689b4c127.png"
+      },
+      {
+        "prompt": "Edit this sprite. ONLY rescale the ENTIRE HEAD including hair, ears and face to 85% of its CURRENT width and height, anchored at the neck. Hair top moves DOWN substantially. Do NOT leave the big hair unchanged. Keep everything below the neck unchanged: body, arms, gloves, boots, weapon, colors, pose and view. Aim for three-head-tall human proportions, head33% total height. Keep chunky square pixels, BLACK outline, blue iris with white highlight in each eye if face is visible. Genuine transparent background; no text, floor, glow or shadows. Do not change view or weapon side.",
+        "original_output_location": "C:\\Users\\User\\.codex\\generated_images\\01a154a5-e355-7092-929d-76f27f423760\\exec-221dedaa-61b8-4e2c-9947-990835d5af9a.png"
+      },
+      {
+        "prompt": "Edit ONLY the entire head including all hair, face and ears: ENLARGE it by 120% of current width and height, anchored at the neck. It is currently too small. Head must be one THIRD of total human height. Keep body below neck, view, pose, weapon, uniform, colors and boots unchanged. Keep big clear blue eyes with white highlights if face visible. Coarse square pixels and thick BLACK outline. Transparent background, no text, ground, shadow or glow.",
+        "original_output_location": "C:\\Users\\User\\.codex\\generated_images\\01a154a5-e355-7092-929d-76f27f423760\\exec-c67e3705-969d-4924-be0c-47b696944876.png"
+      },
+      {
+        "prompt": "Edit the entire head including hair, face and ears with a SMALL size increase: increase its width and height by ONLY TWENTY PERCENT (multiply dimensions by1.2). Keep neck anchor fixed. Everything below the neck and all equipment must stay completely unchanged. Preserve pose, front/back view, colors, coarse pixel art, black outline and transparent background. Only a small20% enlargement of the head. No text or ground.",
+        "original_output_location": "C:\\Users\\User\\.codex\\generated_images\\01a154a5-e355-7092-929d-76f27f423760\\exec-2ecab16c-ab19-4c7c-ad14-4b0d29483332.png"
+      }
+    ],
+    "selected_original_output": "C:\\Users\\User\\.codex\\generated_images\\01a154a5-e355-7092-929d-76f27f423760\\exec-2ecab16c-ab19-4c7c-ad14-4b0d29483332.png",
+    "style_reference": "../codex_hero_octopath_review_v6/generated.png",
+    "existing_reference": "Game/Assets/_Project/Art/Characters/Static/gunner_static.png"
+  },
+  "cannon_crew_back": {
+    "source": "cannon_crew_back_generated.png",
+    "body_top": "auto",
+    "head_bottom": 665,
+    "axis": 492,
+    "tool": "built-in image_gen",
+    "history": [
+      {
+        "prompt": "Use case: stylized-concept. Asset: a single standing idle pixel-art soldier reference on genuine transparent background. Reference image 1 is the USER PICKED hero first generated version, sole style reference: match its BIG spiky hair head, chunky short sturdy body, very short legs, big leather boots, round mitten hands and thick BLACK outline. Do NOT draw the hero. Reference image 2 is this soldier's existing art; preserve its hair color, uniform colors and weapon identity exactly, but redraw in reference 1 proportions. Native human figure height 52 pixels, hair-to-chin 17 pixels (one THIRD of total height). One pixel black outer outline; approximately THREE flat shading colors per material. Very coarse pixel grid, no microtexture, no thin detailed realistic rendering. Treat output as a large nearest neighbor enlargement of a roughly 26-pixel-wide, 52-pixel-high figure (screen pixel blocks about 20px). Full body including all weapon and boots with ample transparent margin. One figure only, no text, no floor, no ground shadow, no glow, no duplicates, no sheet, no animation, no hero. Stand naturally upright at rest.\nSubject: dark charcoal gray spiky hair, navy blue and cream-white uniform, brown crossed back suspenders, brown gloves and oversized boots; long brown cannon cleaning ramrod with pale tan fluffy brush tip held upright at side (NOT a cannon, NOT a gun, NOT empty-handed).\nPose and camera: straight BACK VIEW idle, head and torso facing entirely away, only the back of hair and ears visible, NO eyes or face, both boots visible. Most important combat-facing reference.",
+        "original_output_location": "C:\\Users\\User\\.codex\\generated_images\\01a154a5-e355-7092-929d-76f27f423760\\exec-f4ee7922-d6d8-4f74-8e39-96e3749b12db.png"
+      },
+      {
+        "prompt": "Use case: style-transfer pixel sprite correction. Image1 is the soldier to edit. Image2 is the USER PICKED hero FIRST generated original, sole proportion/style target. Keep soldier BACK VIEW and all outfit/hair colors and weapon. Do NOT draw hero. The soldier's head is currently too tall relative to the USER PICKED hero. Make hair-top to bottom-of-head exactly one THIRD of human full height, like image2, keeping BIG spiky hair and chunky outline. Head including hair17 pixels; rest of body35 pixels; total52 native pixels. Do not make small realistic head or small eyes. Current head is40-46% of height; bring it to33%. Keep short torso and legs, round hands and giant boots, broaden sturdy torso slightly. On 64x96 native canvas, center human at x32; scalp top y36; head/neck junction y53; boot bottoms at y88. Flat feet standing idle. Tall weapons may extend above head; do not count weapon in human height. BLACK1-pixel outline; three colors per material. At1024x1536 render every native pixel as a solid16x16 square. Coarse pixels with no tiny details. Keep weapon: long cannon cleaning ramrod pale brush on viewer RIGHT. Entire human and weapon unclipped; transparent background; no floor, shadow, glow, text. Exactly one soldier.",
+        "original_output_location": "C:\\Users\\User\\.codex\\generated_images\\01a154a5-e355-7092-929d-76f27f423760\\exec-5d1e637a-3cc7-4cb1-8322-a39f995b369b.png"
+      },
+      {
+        "prompt": "Edit this sprite. ONLY rescale the ENTIRE HEAD including hair and ears to 75% of its CURRENT width and height, anchored at the neck. The top of the spiky hair moves DOWN substantially. Do not leave the big hair unchanged. Keep everything below the neck unchanged: body, arms, gloves, boots, ramrod, colors, pose and view. The result should be three-head-tall with head one THIRD total height, not the current40%. Keep chunky square pixel art with thick black outline. Genuine transparent background, no text, ground, glow or shadows.",
+        "original_output_location": "C:\\Users\\User\\.codex\\generated_images\\01a154a5-e355-7092-929d-76f27f423760\\exec-71c78e52-f7bf-4e06-8eda-e6135cdabeba.png"
+      }
+    ],
+    "selected_original_output": "C:\\Users\\User\\.codex\\generated_images\\01a154a5-e355-7092-929d-76f27f423760\\exec-71c78e52-f7bf-4e06-8eda-e6135cdabeba.png",
+    "style_reference": "../codex_hero_octopath_review_v6/generated.png",
+    "existing_reference": "Game/Assets/_Project/Art/Characters/Static/cannon_crew_static.png"
+  },
+  "cannon_crew_front": {
+    "source": "cannon_crew_front_generated.png",
+    "body_top": "auto",
+    "head_bottom": 690,
+    "axis": 530,
+    "tool": "built-in image_gen",
+    "history": [
+      {
+        "prompt": "Use case: stylized-concept. A single full-body FRONT VIEW standing idle soldier, transparent background, no text or floor or glow. Image 1 is USER PICKED hero v6 FIRST generated: copy its exact coarse chunky pixel proportions and material rendering, but NEVER draw the hero. Image 2 is soldier existing art; keep that hair color, uniform colors and weapon. Big spiky hair head incl face 17 pixels of 52-pixel total human height, short sturdy torso, very short legs, BIG leather boots, round mitten hands, BLACK 1-pixel outline, THREE flat shades per material, simple band trims. Two clear BLUE iris eyes each with about one white highlight pixel, like image 1. Render as nearest neighbor enlargement of an approximately 26px wide by52px tall native sprite, chunky visible square pixels about20 screen pixels across. No fine detail or microtexture. Human standing relaxed, arms lowered, feet flat and apart, head and body facing camera. One single figure, ample transparent margin around entire weapon and figure.\nSubject: Dark charcoal gray spiky hair; navy blue and cream-white uniform; brown suspenders, brown gloves/belt/oversized boots; long brown cannon cleaning ramrod with pale tan brush tip held upright beside body. NO gun, NO cannon, NO empty hands.",
+        "original_output_location": "C:\\Users\\User\\.codex\\generated_images\\01a154a5-e355-7092-929d-76f27f423760\\exec-26029452-9bc2-4fc0-89ec-189c51d35565.png"
+      },
+      {
+        "prompt": "Use case: style-transfer pixel sprite correction. Image1 is the soldier FRONT VIEW target to edit. Image2 is USER PICKED FIRST generated hero v6, sole proportions/style reference. Keep soldier identity/hair/outfit/weapon colors and FRONT idle pose; no hero. Match image2 hair-top to chin exactly ONE THIRD total human height. Keep big spiky hair, clear BLUE irises with one WHITE highlight pixel per eye, not tiny realistic eyes. Current head taller than1/3: reduce its hair-top to chin height until17 of52 native pixels, with35 pixels for the body below chin through sole. Big boots, very short legs, short sturdy torso, round hands, thick BLACK1-pixel outline. Geometry on64x96 canvas: center bodyx32; hair-top y36; chin/head-bottom y53; boots bottom y88. Render exactly as nearest neighbor16x enlargement if1024x1536. Only3 flat shades/material, simple cream or gold trim bands. Preserve dark charcoal-gray hair, navy cream uniform, brown suspenders, brown gloves, long cannon cleaning ramrod with pale tan brush on VIEWER LEFT. Both boots level on same flat baseline, entire weapon visible; no text, no floor, no ground shadow, no glow. Genuine transparent background, one soldier.",
+        "original_output_location": "C:\\Users\\User\\.codex\\generated_images\\01a154a5-e355-7092-929d-76f27f423760\\exec-ef100e44-5e66-49b4-b363-aa584f78f2a2.png"
+      },
+      {
+        "prompt": "Edit this sprite. ONLY rescale the ENTIRE HEAD including hair, ears and face to 75% of its CURRENT width and height, anchored at the neck. Hair top moves DOWN substantially. Do NOT leave the big hair unchanged. Keep everything below the neck unchanged: body, arms, gloves, boots, weapon, colors, pose and view. Aim for three-head-tall human proportions, head33% total height. Keep chunky square pixels, BLACK outline, blue iris with white highlight in each eye if face is visible. Genuine transparent background; no text, floor, glow or shadows. Do not change view or weapon side.",
+        "original_output_location": "C:\\Users\\User\\.codex\\generated_images\\01a154a5-e355-7092-929d-76f27f423760\\exec-b9f21985-f6a4-4fc6-a52d-8bcda1641bf8.png"
+      },
+      {
+        "prompt": "Edit ONLY the entire head including all hair, face and ears: ENLARGE it by 120% of current width and height, anchored at the neck. It is currently too small. Head must be one THIRD of total human height. Keep body below neck, view, pose, weapon, uniform, colors and boots unchanged. Keep big clear blue eyes with white highlights if face visible. Coarse square pixels and thick BLACK outline. Transparent background, no text, ground, shadow or glow.",
+        "original_output_location": "C:\\Users\\User\\.codex\\generated_images\\01a154a5-e355-7092-929d-76f27f423760\\exec-ae13a1f5-b739-4506-8938-4ce8b29e90f6.png"
+      },
+      {
+        "prompt": "Edit the entire head including hair, face and ears with a SMALL size increase: increase its width and height by ONLY TWENTY PERCENT (multiply dimensions by1.2). Keep neck anchor fixed. Everything below the neck and all equipment must stay completely unchanged. Preserve pose, front/back view, colors, coarse pixel art, black outline and transparent background. Only a small20% enlargement of the head. No text or ground.",
+        "original_output_location": "C:\\Users\\User\\.codex\\generated_images\\01a154a5-e355-7092-929d-76f27f423760\\exec-6f21c7f3-3366-4d89-9074-fe4631e3cb29.png"
+      }
+    ],
+    "selected_original_output": "C:\\Users\\User\\.codex\\generated_images\\01a154a5-e355-7092-929d-76f27f423760\\exec-6f21c7f3-3366-4d89-9074-fe4631e3cb29.png",
+    "style_reference": "../codex_hero_octopath_review_v6/generated.png",
+    "existing_reference": "Game/Assets/_Project/Art/Characters/Static/cannon_crew_static.png"
+  },
+  "wizard_back": {
+    "source": "wizard_back_generated.png",
+    "body_top": "auto",
+    "head_bottom": 745,
+    "axis": 512,
+    "tool": "built-in image_gen",
+    "history": [
+      {
+        "prompt": "Use case: stylized-concept. Asset: a single standing idle pixel-art soldier reference on genuine transparent background. Reference image 1 is the USER PICKED hero first generated version, sole style reference: match its BIG spiky hair head, chunky short sturdy body, very short legs, big leather boots, round mitten hands and thick BLACK outline. Do NOT draw the hero. Reference image 2 is this soldier's existing art; preserve its hair color, uniform colors and weapon identity exactly, but redraw in reference 1 proportions. Native human figure height 52 pixels, hair-to-chin 17 pixels (one THIRD of total height). One pixel black outer outline; approximately THREE flat shading colors per material. Very coarse pixel grid, no microtexture, no thin detailed realistic rendering. Treat output as a large nearest neighbor enlargement of a roughly 26-pixel-wide, 52-pixel-high figure (screen pixel blocks about 20px). Full body including all weapon and boots with ample transparent margin. One figure only, no text, no floor, no ground shadow, no glow, no duplicates, no sheet, no animation, no hero. Stand naturally upright at rest.\nSubject: warm chestnut orange-brown spiky hair, purple robe with simple gold edging bands, brown belt and oversized brown boots; brown wooden staff topped by a BLUE crystal, held upright in anatomical RIGHT hand, appearing on viewer RIGHT in back view.\nPose and camera: straight BACK VIEW idle, head and torso facing entirely away, only the back of hair and ears visible, NO eyes or face, both boots visible. Most important combat-facing reference.",
+        "original_output_location": "C:\\Users\\User\\.codex\\generated_images\\01a154a5-e355-7092-929d-76f27f423760\\exec-fcfbb28d-02ba-4b9a-bf06-e66d7f88c5b4.png"
+      },
+      {
+        "prompt": "Use case: style-transfer pixel sprite correction. Image1 is the soldier to edit. Image2 is the USER PICKED hero FIRST generated original, sole proportion/style target. Keep soldier BACK VIEW and all outfit/hair colors and weapon. Do NOT draw hero. The soldier's head is currently too tall relative to the USER PICKED hero. Make hair-top to bottom-of-head exactly one THIRD of human full height, like image2, keeping BIG spiky hair and chunky outline. Head including hair17 pixels; rest of body35 pixels; total52 native pixels. Do not make small realistic head or small eyes. Current head is40-46% of height; bring it to33%. Keep short torso and legs, round hands and giant boots, broaden sturdy torso slightly. On 64x96 native canvas, center human at x32; scalp top y36; head/neck junction y53; boot bottoms at y88. Flat feet standing idle. Tall weapons may extend above head; do not count weapon in human height. BLACK1-pixel outline; three colors per material. At1024x1536 render every native pixel as a solid16x16 square. Coarse pixels with no tiny details. Keep weapon: wooden staff blue crystal on viewer RIGHT. Entire human and weapon unclipped; transparent background; no floor, shadow, glow, text. Exactly one soldier.",
+        "original_output_location": "C:\\Users\\User\\.codex\\generated_images\\01a154a5-e355-7092-929d-76f27f423760\\exec-fdf735ba-3701-49db-af4b-e62e2e8d76ab.png"
+      },
+      {
+        "prompt": "Edit this sprite. ONLY rescale the ENTIRE HEAD including all spiky hair and ears to 65% of its CURRENT width and height, anchored at the neck. The hair top must move DOWN by a large amount. Do not leave the huge hair unchanged. Keep the entire body below the neck exactly as it is: purple gold robe, hands, boots, staff, colors, view and pose. The human should become three-head-tall, with head one THIRD height, instead of the current nearly half-height head. Preserve coarse square pixels and thick BLACK outline. Genuine transparent background. No text, ground, shadow or glow.",
+        "original_output_location": "C:\\Users\\User\\.codex\\generated_images\\01a154a5-e355-7092-929d-76f27f423760\\exec-c2c281a7-75ff-4d71-8834-376d43cc1f41.png"
+      }
+    ],
+    "selected_original_output": "C:\\Users\\User\\.codex\\generated_images\\01a154a5-e355-7092-929d-76f27f423760\\exec-c2c281a7-75ff-4d71-8834-376d43cc1f41.png",
+    "style_reference": "../codex_hero_octopath_review_v6/generated.png",
+    "existing_reference": "Game/Assets/_Project/Art/Characters/Static/wizard_back_static.png"
+  },
+  "wizard_front": {
+    "source": "wizard_front_generated.png",
+    "body_top": "auto",
+    "head_bottom": 675,
+    "axis": 520,
+    "tool": "built-in image_gen",
+    "history": [
+      {
+        "prompt": "Use case: stylized-concept. A single full-body FRONT VIEW standing idle soldier, transparent background, no text or floor or glow. Image 1 is USER PICKED hero v6 FIRST generated: copy its exact coarse chunky pixel proportions and material rendering, but NEVER draw the hero. Image 2 is soldier existing art; keep that hair color, uniform colors and weapon. Big spiky hair head incl face 17 pixels of 52-pixel total human height, short sturdy torso, very short legs, BIG leather boots, round mitten hands, BLACK 1-pixel outline, THREE flat shades per material, simple band trims. Two clear BLUE iris eyes each with about one white highlight pixel, like image 1. Render as nearest neighbor enlargement of an approximately 26px wide by52px tall native sprite, chunky visible square pixels about20 screen pixels across. No fine detail or microtexture. Human standing relaxed, arms lowered, feet flat and apart, head and body facing camera. One single figure, ample transparent margin around entire weapon and figure.\nSubject: Warm chestnut orange-brown spiky hair; purple robe with simple gold edging bands, brown belt/oversized boots; wooden staff topped by BLUE crystal held in anatomical RIGHT hand (viewer LEFT in front view).",
+        "original_output_location": "C:\\Users\\User\\.codex\\generated_images\\01a154a5-e355-7092-929d-76f27f423760\\exec-412c2d67-c1b4-4478-9ae3-b6ca86c6818f.png"
+      },
+      {
+        "prompt": "Use case: style-transfer pixel sprite correction. Image1 is the soldier FRONT VIEW target to edit. Image2 is USER PICKED FIRST generated hero v6, sole proportions/style reference. Keep soldier identity/hair/outfit/weapon colors and FRONT idle pose; no hero. Match image2 hair-top to chin exactly ONE THIRD total human height. Keep big spiky hair, clear BLUE irises with one WHITE highlight pixel per eye, not tiny realistic eyes. Current head taller than1/3: reduce its hair-top to chin height until17 of52 native pixels, with35 pixels for the body below chin through sole. Big boots, very short legs, short sturdy torso, round hands, thick BLACK1-pixel outline. Geometry on64x96 canvas: center bodyx32; hair-top y36; chin/head-bottom y53; boots bottom y88. Render exactly as nearest neighbor16x enlargement if1024x1536. Only3 flat shades/material, simple cream or gold trim bands. Preserve warm chestnut orange-brown hair, purple gold robe, wooden staff blue crystal on VIEWER LEFT. Both boots level on same flat baseline, entire weapon visible; no text, no floor, no ground shadow, no glow. Genuine transparent background, one soldier.",
+        "original_output_location": "C:\\Users\\User\\.codex\\generated_images\\01a154a5-e355-7092-929d-76f27f423760\\exec-63568f6d-9460-4cbe-998b-65f3dcd34b50.png"
+      },
+      {
+        "prompt": "Edit this sprite. ONLY rescale the ENTIRE HEAD including all spiky hair, ears and face to 65% of its CURRENT width and height, anchored at the neck. The hair top must move DOWN by a large amount. Do not leave the huge hair unchanged. Keep body below neck exactly as it is: purple gold robe, hands, boots, staff, colors, FRONT view and pose. The human should become three-head-tall with head one THIRD total height, instead of current nearly half-height head. Keep large clear BLUE eyes with one white highlight pixel each, and coarse square pixels with thick BLACK outline. Genuine transparent background. No text, ground, shadow or glow.",
+        "original_output_location": "C:\\Users\\User\\.codex\\generated_images\\01a154a5-e355-7092-929d-76f27f423760\\exec-42accec0-cdf0-4593-9bfa-9855e1d938b3.png"
+      }
+    ],
+    "selected_original_output": "C:\\Users\\User\\.codex\\generated_images\\01a154a5-e355-7092-929d-76f27f423760\\exec-42accec0-cdf0-4593-9bfa-9855e1d938b3.png",
+    "style_reference": "../codex_hero_octopath_review_v6/generated.png",
+    "existing_reference": "Game/Assets/_Project/Art/Characters/Static/wizard_static.png"
+  }
+}
