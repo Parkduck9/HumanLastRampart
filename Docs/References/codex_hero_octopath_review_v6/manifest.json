@@ -1,0 +1,43 @@
+{
+  "input": "corrected.png",
+  "input_size": [
+    1024,
+    1536
+  ],
+  "crop_alpha128_bounds": [
+    257,
+    221,
+    773,
+    1402
+  ],
+  "alpha_preserved_inside": true,
+  "resize_method": "NEAREST",
+  "content_size": [
+    28,
+    64
+  ],
+  "canvas": [
+    48,
+    80
+  ],
+  "baseline_y": 72,
+  "sha256": "924337b852229f0ca968918473539000ce3ff49e8afd643e3e149a8e3a332ab9",
+  "limitations": [
+    "not measured original game sprite dimensions",
+    "not hand-authored uniform pixel grid",
+    "low alpha edge glow remains in generated source",
+    "no Unity verification"
+  ],
+  "selected": {
+    "file": "hero_idle_56x112.png",
+    "canvas": [
+      56,
+      112
+    ],
+    "content": [
+      42,
+      96
+    ],
+    "baseline_y": 104
+  }
+}
