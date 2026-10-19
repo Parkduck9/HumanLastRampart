@@ -1,0 +1,202 @@
+﻿[
+    {
+        "id":  "item_command_badge",
+        "name":  "지휘 휘장",
+        "group":  "상점",
+        "description":  "주인공이 선 성벽 병사가 더 빨리 쏜다",
+        "price":  "600",
+        "consumable":  "0",
+        "perWall":  "0"
+    },
+    {
+        "id":  "item_ember_charm",
+        "name":  "불씨 부적",
+        "group":  "상점",
+        "description":  "불바다가 더 오래 타고 화상이 잘 붙는다",
+        "price":  "500",
+        "consumable":  "0",
+        "perWall":  "0"
+    },
+    {
+        "id":  "item_fire_arrows",
+        "name":  "불화살 꾸러미",
+        "group":  "상점",
+        "description":  "다음 전투 한 번, 궁수 화살에 불이 붙는다",
+        "price":  "200",
+        "consumable":  "1",
+        "perWall":  "0"
+    },
+    {
+        "id":  "item_gem_staff",
+        "name":  "보석 지팡이",
+        "group":  "상점",
+        "description":  "폭발 마법 피해와 반경이 커진다",
+        "price":  "600",
+        "consumable":  "0",
+        "perWall":  "0"
+    },
+    {
+        "id":  "item_hourglass_charm",
+        "name":  "모래시계 부적",
+        "group":  "상점",
+        "description":  "마법을 더 자주 쓴다",
+        "price":  "700",
+        "consumable":  "0",
+        "perWall":  "0"
+    },
+    {
+        "id":  "item_loud_whistle",
+        "name":  "큰 목청 호루라기",
+        "group":  "상점",
+        "description":  "외침을 잘못 듣는 일이 줄어든다",
+        "price":  "250",
+        "consumable":  "0",
+        "perWall":  "0"
+    },
+    {
+        "id":  "item_messenger_horn",
+        "name":  "전령 나팔",
+        "group":  "상점",
+        "description":  "전령이 더 빨리 달린다",
+        "price":  "300",
+        "consumable":  "0",
+        "perWall":  "0"
+    },
+    {
+        "id":  "item_powder_keg",
+        "name":  "화약 통",
+        "group":  "상점",
+        "description":  "다음 전투 한 번, 총병 피해가 커진다",
+        "price":  "250",
+        "consumable":  "1",
+        "perWall":  "0"
+    },
+    {
+        "id":  "item_shield_rail",
+        "name":  "방패 난간",
+        "group":  "상점",
+        "description":  "그 성벽 위로 올라온 적의 피해를 막는다",
+        "price":  "500",
+        "consumable":  "0",
+        "perWall":  "1"
+    },
+    {
+        "id":  "item_surgeon_tent",
+        "name":  "군의관 천막",
+        "group":  "상점",
+        "description":  "이긴 전투에서 잃은 병사 일부가 돌아온다",
+        "price":  "800",
+        "consumable":  "0",
+        "perWall":  "0"
+    },
+    {
+        "id":  "item_telescope_lens",
+        "name":  "망원경 렌즈",
+        "group":  "상점",
+        "description":  "망원경 반경이 넓어진다",
+        "price":  "400",
+        "consumable":  "0",
+        "perWall":  "0"
+    },
+    {
+        "id":  "training_archer_1",
+        "name":  "궁수 1단계",
+        "group":  "훈련",
+        "description":  "먼 거리 명중",
+        "price":  "300"
+    },
+    {
+        "id":  "training_archer_2",
+        "name":  "궁수 2단계",
+        "group":  "훈련",
+        "description":  "더 빨리 쏜다",
+        "price":  "900"
+    },
+    {
+        "id":  "training_archer_3",
+        "name":  "궁수 3단계",
+        "group":  "훈련",
+        "description":  "화살 피해",
+        "price":  "2500"
+    },
+    {
+        "id":  "training_cannon_crew_1",
+        "name":  "대포 운용병 1단계",
+        "group":  "훈련",
+        "description":  "장전이 빨라진다",
+        "price":  "300"
+    },
+    {
+        "id":  "training_cannon_crew_2",
+        "name":  "대포 운용병 2단계",
+        "group":  "훈련",
+        "description":  "포탄 범위",
+        "price":  "900"
+    },
+    {
+        "id":  "training_cannon_crew_3",
+        "name":  "대포 운용병 3단계",
+        "group":  "훈련",
+        "description":  "대포 피해",
+        "price":  "2500"
+    },
+    {
+        "id":  "training_gunner_1",
+        "name":  "총병 1단계",
+        "group":  "훈련",
+        "description":  "가까운 거리 명중",
+        "price":  "300"
+    },
+    {
+        "id":  "training_gunner_2",
+        "name":  "총병 2단계",
+        "group":  "훈련",
+        "description":  "총 피해",
+        "price":  "900"
+    },
+    {
+        "id":  "training_gunner_3",
+        "name":  "총병 3단계",
+        "group":  "훈련",
+        "description":  "사거리",
+        "price":  "2500"
+    },
+    {
+        "id":  "merc_archer",
+        "name":  "궁수 용병",
+        "group":  "용병",
+        "contractCost":  "15",
+        "wage":  "3"
+    },
+    {
+        "id":  "merc_gunner",
+        "name":  "총병 용병",
+        "group":  "용병",
+        "contractCost":  "24",
+        "wage":  "5"
+    },
+    {
+        "id":  "mark_gold_coin",
+        "name":  "골드",
+        "group":  "공용 표시",
+        "description":  "구매·고용 비용"
+    },
+    {
+        "id":  "mark_wage",
+        "name":  "급료",
+        "group":  "공용 표시",
+        "description":  "전투마다 되풀이되는 급료"
+    },
+    {
+        "id":  "badge_one_battle",
+        "name":  "한 전투만",
+        "group":  "공용 표시",
+        "description":  "불화살 꾸러미·화약 통의 소모 표시"
+    },
+    {
+        "id":  "badge_per_wall",
+        "name":  "성벽별",
+        "group":  "공용 표시",
+        "description":  "방패 난간의 성벽별 구매 표시"
+    }
+]

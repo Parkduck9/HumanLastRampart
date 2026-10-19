@@ -1,0 +1,427 @@
+﻿{
+    "result":  "통과",
+    "nativeCount":  26,
+    "previewCount":  52,
+    "dataEntries":  22,
+    "sharedMarks":  4,
+    "trainingEmblems":  "단계별 상단 문양 동일",
+    "uniqueImages":  26,
+    "icons":  [
+                  {
+                      "id":  "item_command_badge",
+                      "name":  "지휘 휘장",
+                      "bounds":  [
+                                     5,
+                                     3,
+                                     26,
+                                     29
+                                 ],
+                      "opaquePixels":  394,
+                      "paletteColors":  6,
+                      "size":  "32×32",
+                      "alpha":  "0 또는 255",
+                      "margin":  "1px 이상",
+                      "scales":  "2배·4배 점 일치"
+                  },
+                  {
+                      "id":  "item_ember_charm",
+                      "name":  "불씨 부적",
+                      "bounds":  [
+                                     6,
+                                     3,
+                                     25,
+                                     28
+                                 ],
+                      "opaquePixels":  368,
+                      "paletteColors":  9,
+                      "size":  "32×32",
+                      "alpha":  "0 또는 255",
+                      "margin":  "1px 이상",
+                      "scales":  "2배·4배 점 일치"
+                  },
+                  {
+                      "id":  "item_fire_arrows",
+                      "name":  "불화살 꾸러미",
+                      "bounds":  [
+                                     3,
+                                     3,
+                                     26,
+                                     28
+                                 ],
+                      "opaquePixels":  431,
+                      "paletteColors":  9,
+                      "size":  "32×32",
+                      "alpha":  "0 또는 255",
+                      "margin":  "1px 이상",
+                      "scales":  "2배·4배 점 일치"
+                  },
+                  {
+                      "id":  "item_gem_staff",
+                      "name":  "보석 지팡이",
+                      "bounds":  [
+                                     4,
+                                     3,
+                                     29,
+                                     28
+                                 ],
+                      "opaquePixels":  251,
+                      "paletteColors":  7,
+                      "size":  "32×32",
+                      "alpha":  "0 또는 255",
+                      "margin":  "1px 이상",
+                      "scales":  "2배·4배 점 일치"
+                  },
+                  {
+                      "id":  "item_hourglass_charm",
+                      "name":  "모래시계 부적",
+                      "bounds":  [
+                                     6,
+                                     4,
+                                     25,
+                                     28
+                                 ],
+                      "opaquePixels":  405,
+                      "paletteColors":  5,
+                      "size":  "32×32",
+                      "alpha":  "0 또는 255",
+                      "margin":  "1px 이상",
+                      "scales":  "2배·4배 점 일치"
+                  },
+                  {
+                      "id":  "item_loud_whistle",
+                      "name":  "큰 목청 호루라기",
+                      "bounds":  [
+                                     5,
+                                     2,
+                                     28,
+                                     24
+                                 ],
+                      "opaquePixels":  314,
+                      "paletteColors":  6,
+                      "size":  "32×32",
+                      "alpha":  "0 또는 255",
+                      "margin":  "1px 이상",
+                      "scales":  "2배·4배 점 일치"
+                  },
+                  {
+                      "id":  "item_messenger_horn",
+                      "name":  "전령 나팔",
+                      "bounds":  [
+                                     3,
+                                     8,
+                                     28,
+                                     25
+                                 ],
+                      "opaquePixels":  285,
+                      "paletteColors":  6,
+                      "size":  "32×32",
+                      "alpha":  "0 또는 255",
+                      "margin":  "1px 이상",
+                      "scales":  "2배·4배 점 일치"
+                  },
+                  {
+                      "id":  "item_powder_keg",
+                      "name":  "화약 통",
+                      "bounds":  [
+                                     5,
+                                     1,
+                                     26,
+                                     28
+                                 ],
+                      "opaquePixels":  474,
+                      "paletteColors":  8,
+                      "size":  "32×32",
+                      "alpha":  "0 또는 255",
+                      "margin":  "1px 이상",
+                      "scales":  "2배·4배 점 일치"
+                  },
+                  {
+                      "id":  "item_shield_rail",
+                      "name":  "방패 난간",
+                      "bounds":  [
+                                     2,
+                                     6,
+                                     29,
+                                     28
+                                 ],
+                      "opaquePixels":  545,
+                      "paletteColors":  7,
+                      "size":  "32×32",
+                      "alpha":  "0 또는 255",
+                      "margin":  "1px 이상",
+                      "scales":  "2배·4배 점 일치"
+                  },
+                  {
+                      "id":  "item_surgeon_tent",
+                      "name":  "군의관 천막",
+                      "bounds":  [
+                                     3,
+                                     2,
+                                     29,
+                                     26
+                                 ],
+                      "opaquePixels":  436,
+                      "paletteColors":  8,
+                      "size":  "32×32",
+                      "alpha":  "0 또는 255",
+                      "margin":  "1px 이상",
+                      "scales":  "2배·4배 점 일치"
+                  },
+                  {
+                      "id":  "item_telescope_lens",
+                      "name":  "망원경 렌즈",
+                      "bounds":  [
+                                     3,
+                                     3,
+                                     29,
+                                     29
+                                 ],
+                      "opaquePixels":  509,
+                      "paletteColors":  8,
+                      "size":  "32×32",
+                      "alpha":  "0 또는 255",
+                      "margin":  "1px 이상",
+                      "scales":  "2배·4배 점 일치"
+                  },
+                  {
+                      "id":  "training_archer_1",
+                      "name":  "궁수 1단계",
+                      "bounds":  [
+                                     4,
+                                     3,
+                                     28,
+                                     30
+                                 ],
+                      "opaquePixels":  255,
+                      "paletteColors":  7,
+                      "size":  "32×32",
+                      "alpha":  "0 또는 255",
+                      "margin":  "1px 이상",
+                      "scales":  "2배·4배 점 일치"
+                  },
+                  {
+                      "id":  "training_archer_2",
+                      "name":  "궁수 2단계",
+                      "bounds":  [
+                                     4,
+                                     3,
+                                     28,
+                                     30
+                                 ],
+                      "opaquePixels":  280,
+                      "paletteColors":  7,
+                      "size":  "32×32",
+                      "alpha":  "0 또는 255",
+                      "margin":  "1px 이상",
+                      "scales":  "2배·4배 점 일치"
+                  },
+                  {
+                      "id":  "training_archer_3",
+                      "name":  "궁수 3단계",
+                      "bounds":  [
+                                     4,
+                                     3,
+                                     28,
+                                     30
+                                 ],
+                      "opaquePixels":  305,
+                      "paletteColors":  7,
+                      "size":  "32×32",
+                      "alpha":  "0 또는 255",
+                      "margin":  "1px 이상",
+                      "scales":  "2배·4배 점 일치"
+                  },
+                  {
+                      "id":  "training_cannon_crew_1",
+                      "name":  "대포 운용병 1단계",
+                      "bounds":  [
+                                     4,
+                                     4,
+                                     28,
+                                     30
+                                 ],
+                      "opaquePixels":  356,
+                      "paletteColors":  7,
+                      "size":  "32×32",
+                      "alpha":  "0 또는 255",
+                      "margin":  "1px 이상",
+                      "scales":  "2배·4배 점 일치"
+                  },
+                  {
+                      "id":  "training_cannon_crew_2",
+                      "name":  "대포 운용병 2단계",
+                      "bounds":  [
+                                     4,
+                                     4,
+                                     28,
+                                     30
+                                 ],
+                      "opaquePixels":  380,
+                      "paletteColors":  7,
+                      "size":  "32×32",
+                      "alpha":  "0 또는 255",
+                      "margin":  "1px 이상",
+                      "scales":  "2배·4배 점 일치"
+                  },
+                  {
+                      "id":  "training_cannon_crew_3",
+                      "name":  "대포 운용병 3단계",
+                      "bounds":  [
+                                     4,
+                                     4,
+                                     28,
+                                     30
+                                 ],
+                      "opaquePixels":  406,
+                      "paletteColors":  7,
+                      "size":  "32×32",
+                      "alpha":  "0 또는 255",
+                      "margin":  "1px 이상",
+                      "scales":  "2배·4배 점 일치"
+                  },
+                  {
+                      "id":  "training_gunner_1",
+                      "name":  "총병 1단계",
+                      "bounds":  [
+                                     3,
+                                     2,
+                                     26,
+                                     30
+                                 ],
+                      "opaquePixels":  228,
+                      "paletteColors":  8,
+                      "size":  "32×32",
+                      "alpha":  "0 또는 255",
+                      "margin":  "1px 이상",
+                      "scales":  "2배·4배 점 일치"
+                  },
+                  {
+                      "id":  "training_gunner_2",
+                      "name":  "총병 2단계",
+                      "bounds":  [
+                                     3,
+                                     2,
+                                     26,
+                                     30
+                                 ],
+                      "opaquePixels":  253,
+                      "paletteColors":  8,
+                      "size":  "32×32",
+                      "alpha":  "0 또는 255",
+                      "margin":  "1px 이상",
+                      "scales":  "2배·4배 점 일치"
+                  },
+                  {
+                      "id":  "training_gunner_3",
+                      "name":  "총병 3단계",
+                      "bounds":  [
+                                     3,
+                                     2,
+                                     26,
+                                     30
+                                 ],
+                      "opaquePixels":  278,
+                      "paletteColors":  8,
+                      "size":  "32×32",
+                      "alpha":  "0 또는 255",
+                      "margin":  "1px 이상",
+                      "scales":  "2배·4배 점 일치"
+                  },
+                  {
+                      "id":  "merc_archer",
+                      "name":  "궁수 용병",
+                      "bounds":  [
+                                     4,
+                                     3,
+                                     29,
+                                     29
+                                 ],
+                      "opaquePixels":  311,
+                      "paletteColors":  7,
+                      "size":  "32×32",
+                      "alpha":  "0 또는 255",
+                      "margin":  "1px 이상",
+                      "scales":  "2배·4배 점 일치"
+                  },
+                  {
+                      "id":  "merc_gunner",
+                      "name":  "총병 용병",
+                      "bounds":  [
+                                     3,
+                                     2,
+                                     29,
+                                     29
+                                 ],
+                      "opaquePixels":  284,
+                      "paletteColors":  8,
+                      "size":  "32×32",
+                      "alpha":  "0 또는 255",
+                      "margin":  "1px 이상",
+                      "scales":  "2배·4배 점 일치"
+                  },
+                  {
+                      "id":  "mark_gold_coin",
+                      "name":  "골드",
+                      "bounds":  [
+                                     5,
+                                     5,
+                                     27,
+                                     27
+                                 ],
+                      "opaquePixels":  377,
+                      "paletteColors":  4,
+                      "size":  "32×32",
+                      "alpha":  "0 또는 255",
+                      "margin":  "1px 이상",
+                      "scales":  "2배·4배 점 일치"
+                  },
+                  {
+                      "id":  "mark_wage",
+                      "name":  "급료",
+                      "bounds":  [
+                                     5,
+                                     5,
+                                     30,
+                                     27
+                                 ],
+                      "opaquePixels":  336,
+                      "paletteColors":  5,
+                      "size":  "32×32",
+                      "alpha":  "0 또는 255",
+                      "margin":  "1px 이상",
+                      "scales":  "2배·4배 점 일치"
+                  },
+                  {
+                      "id":  "badge_one_battle",
+                      "name":  "한 전투만",
+                      "bounds":  [
+                                     4,
+                                     4,
+                                     27,
+                                     28
+                                 ],
+                      "opaquePixels":  536,
+                      "paletteColors":  5,
+                      "size":  "32×32",
+                      "alpha":  "0 또는 255",
+                      "margin":  "1px 이상",
+                      "scales":  "2배·4배 점 일치"
+                  },
+                  {
+                      "id":  "badge_per_wall",
+                      "name":  "성벽별",
+                      "bounds":  [
+                                     4,
+                                     8,
+                                     27,
+                                     27
+                                 ],
+                      "opaquePixels":  460,
+                      "paletteColors":  5,
+                      "size":  "32×32",
+                      "alpha":  "0 또는 255",
+                      "margin":  "1px 이상",
+                      "scales":  "2배·4배 점 일치"
+                  }
+              ]
+}
