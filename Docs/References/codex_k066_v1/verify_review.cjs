@@ -1,0 +1,40 @@
+const fs=require('fs');
+const path=require('path');
+const {pathToFileURL}=require('url');
+const {chromium}=require('C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const dir=__dirname;
+const root=path.resolve(dir,'../../..');
+(async()=>{
+ const browser=await chromium.launch({channel:'chrome',headless:true});
+ const page=await browser.newPage({viewport:{width:1800,height:1100},deviceScaleFactor:1});
+ const errors=[];page.on('pageerror',e=>errors.push(String(e)));
+ await page.goto(pathToFileURL(path.join(root,'_HTML/4_그림_캐릭터/codex_K-066_적6판_다시_v1.html')).href);
+ await page.locator('img').evaluateAll(images=>Promise.all(images.map(i=>i.decode())));
+ const images=await page.locator('img').evaluateAll(a=>a.map(i=>({valid:i.complete&&i.naturalWidth>0,inline:i.src.startsWith('data:')})));
+ const alignment=async()=>page.locator('.gallery').evaluateAll(gs=>gs.map(g=>{
+  const n=Number(g.style.getPropertyValue('--scale'));
+  return [...g.querySelectorAll('figure')].map(f=>{
+   const stage=f.querySelector('.stage').getBoundingClientRect(),im=f.querySelector('img'),r=im.getBoundingClientRect();
+   const foot=im.getAttribute('height')==='96'?88:104;
+   return Math.abs((r.top+foot*n)-(stage.top+104*n))<0.1;
+  });
+ }));
+ const four=await alignment();
+ await page.screenshot({path:path.join(dir,'review_desktop_4x.png')});
+ await page.locator('section').first().scrollIntoViewIfNeeded();
+ await page.screenshot({path:path.join(dir,'review_enemy_4x.png')});
+ await page.locator('section').nth(3).scrollIntoViewIfNeeded();
+ await page.screenshot({path:path.join(dir,'review_ogre_4x.png')});
+ await page.getByRole('button',{name:'1배 · 실제 점'}).click();
+ const one=await alignment();
+ const scaleOne=await page.locator('.gallery').evaluateAll(a=>a.every(e=>e.style.getPropertyValue('--scale')==='1'));
+ await page.evaluate(()=>scrollTo(0,0));
+ await page.screenshot({path:path.join(dir,'review_desktop_1x.png')});
+ await page.setViewportSize({width:390,height:844});
+ const mobileOverflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth);
+ await page.screenshot({path:path.join(dir,'review_mobile.png')});
+ const result={browser:'Chrome headless',imageCount:images.length,allImagesDecoded:images.every(x=>x.valid),allImagesEmbedded:images.every(x=>x.inline),scaleButtonWorks:scaleOne,footLinesAligned4x:four.flat().every(Boolean),footLinesAligned1x:one.flat().every(Boolean),pageErrors:errors,mobilePageOverflow:mobileOverflow};
+ fs.writeFileSync(path.join(dir,'review_validation.json'),JSON.stringify(result,null,2));
+ console.log(result);await browser.close();
+ if(errors.length||!result.allImagesDecoded||!result.footLinesAligned4x||!result.footLinesAligned1x||mobileOverflow)process.exitCode=1;
+})().catch(e=>{console.error(e);process.exitCode=1});
