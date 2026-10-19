@@ -1,0 +1,122 @@
+﻿[
+    {
+        "conversion":  "483,150,323,672;46,96;5,8",
+        "label":  "곤봉 고블린",
+        "foot":  [
+                     28,
+                     104
+                 ],
+        "sha256":  "70F385359DEDFC2529403A9C857AF2CB3AF573060D795BB5099A82E15F845F20",
+        "view":  "front",
+        "canvas":  [
+                       56,
+                       112
+                   ],
+        "file":  "goblin_front.png"
+    },
+    {
+        "conversion":  "1036,156,242,667;35,96;10,8",
+        "label":  "곤봉 고블린",
+        "foot":  [
+                     28,
+                     104
+                 ],
+        "sha256":  "B03F6F6B65C9D159FE04E79DCD64822A026293FB50320EC68EF382DDE648F818",
+        "view":  "side",
+        "canvas":  [
+                       56,
+                       112
+                   ],
+        "file":  "goblin_side.png"
+    },
+    {
+        "conversion":  "332,110,361,835;42,96;7,8",
+        "label":  "사다리 고블린 · 빈손",
+        "foot":  [
+                     28,
+                     104
+                 ],
+        "sha256":  "F4F9D022BC0811256DAFFC05FC6D1A97CACA30FE28EC4AB11147B497095377DC",
+        "view":  "front",
+        "canvas":  [
+                       56,
+                       112
+                   ],
+        "file":  "ladder_empty_front.png"
+    },
+    {
+        "conversion":  "961,134,312,825;36,96;10,8",
+        "label":  "사다리 고블린 · 빈손",
+        "foot":  [
+                     28,
+                     104
+                 ],
+        "sha256":  "3A2F3B0C3B098FD63FF16E01E252810A397EDD97C66FABB4E29998D684DF7516",
+        "view":  "side",
+        "canvas":  [
+                       56,
+                       112
+                   ],
+        "file":  "ladder_empty_side.png"
+    },
+    {
+        "conversion":  "271,117,434,835;51,98;2,6",
+        "label":  "사다리 고블린 · 운반",
+        "foot":  [
+                     28,
+                     104
+                 ],
+        "sha256":  "1EAC7D0C1792CAC3FA9536CD0CFD05E7D111FE008A4447E097E349909DDF22C7",
+        "view":  "front",
+        "canvas":  [
+                       56,
+                       112
+                   ],
+        "file":  "ladder_carry_front.png"
+    },
+    {
+        "conversion":  "923,117,398,848;46,98;5,6",
+        "label":  "사다리 고블린 · 운반",
+        "foot":  [
+                     28,
+                     104
+                 ],
+        "sha256":  "EA471EDDB316BEBEFDDCFDA78876F2F9FDB2A08833A8E43602D3D134A0FB2358",
+        "view":  "side",
+        "canvas":  [
+                       56,
+                       112
+                   ],
+        "file":  "ladder_carry_side.png"
+    },
+    {
+        "conversion":  "46,113,719,996;92,128;10,24",
+        "label":  "오우거",
+        "foot":  [
+                     56,
+                     152
+                 ],
+        "sha256":  "CC906FF61FDCD07F235F670CD65897B865BBC5CDE4C98FE2341D07D1075B25C8",
+        "view":  "front",
+        "canvas":  [
+                       112,
+                       160
+                   ],
+        "file":  "ogre_front.png"
+    },
+    {
+        "conversion":  "898,114,370,1000;47,128;32,24",
+        "label":  "오우거",
+        "foot":  [
+                     56,
+                     152
+                 ],
+        "sha256":  "A142910194206A429A94896CED260CFE15ACAB412ABEBC7A558886BDAFD328B7",
+        "view":  "side",
+        "canvas":  [
+                       112,
+                       160
+                   ],
+        "file":  "ogre_side.png"
+    }
+]

@@ -1,0 +1,100 @@
+﻿{
+    "goblin":  {
+                   "colors":  [
+                                  "#120F0B",
+                                  "#282713",
+                                  "#42441C",
+                                  "#666D2C",
+                                  "#8C8F3E",
+                                  "#ABAD5C",
+                                  "#251C18",
+                                  "#3A2C26",
+                                  "#584235",
+                                  "#7B5740",
+                                  "#302014",
+                                  "#51331E",
+                                  "#7B512F",
+                                  "#A9784A",
+                                  "#6F4425",
+                                  "#BA8550",
+                                  "#EAB83E",
+                                  "#F1D0AC"
+                              ],
+                   "source":  "Game/Assets/_Project/Art/Characters/Goblin/goblin_walk_attack4.png"
+               },
+    "ladder_carry":  {
+                         "colors":  [
+                                        "#100A09",
+                                        "#272123",
+                                        "#55483B",
+                                        "#766151",
+                                        "#373D15",
+                                        "#5A6923",
+                                        "#819033",
+                                        "#A7B34C",
+                                        "#331F16",
+                                        "#58341D",
+                                        "#88502D",
+                                        "#B37444",
+                                        "#705739",
+                                        "#A57C5A",
+                                        "#CBA986",
+                                        "#E2C8AA",
+                                        "#C38348",
+                                        "#F1AB63",
+                                        "#924E38",
+                                        "#C47B5E"
+                                    ],
+                         "source":  "Game/Assets/_Project/Art/Characters/Static/ladder_goblin_static.png"
+                     },
+    "ogre":  {
+                 "colors":  [
+                                "#100C09",
+                                "#3B3A28",
+                                "#605D45",
+                                "#82795B",
+                                "#A19773",
+                                "#BAAE86",
+                                "#302014",
+                                "#572F1F",
+                                "#7E4A30",
+                                "#9C6D47",
+                                "#4B2A1D",
+                                "#6F3E27",
+                                "#905F45",
+                                "#B88D60",
+                                "#4E4643",
+                                "#7D746D",
+                                "#ACA39A",
+                                "#E7D0AC",
+                                "#642C17",
+                                "#9A4E2C"
+                            ],
+                 "source":  "Game/Assets/_Project/Art/Characters/Static/ogre_static.png"
+             },
+    "ladder_empty":  {
+                         "colors":  [
+                                        "#100A09",
+                                        "#272123",
+                                        "#55483B",
+                                        "#766151",
+                                        "#373D15",
+                                        "#5A6923",
+                                        "#819033",
+                                        "#A7B34C",
+                                        "#331F16",
+                                        "#58341D",
+                                        "#88502D",
+                                        "#B37444",
+                                        "#705739",
+                                        "#A57C5A",
+                                        "#CBA986",
+                                        "#E2C8AA",
+                                        "#C38348",
+                                        "#F1AB63",
+                                        "#924E38",
+                                        "#C47B5E"
+                                    ],
+                         "source":  "Game/Assets/_Project/Art/Characters/Static/ladder_goblin_static.png"
+                     }
+}
