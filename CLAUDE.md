@@ -17,6 +17,8 @@
 
 ## 꼭 지킬 것
 - 사용자 보고는 **한글**로 한다. 모르는 것은 추측하지 않고 묻는다.
+- **AI끼리 주고받는 글은 영어가 기본이다** (2026-10-19 사용자 지시, 토큰 절약): Codex 카드 지시문과 `CARD_RESULT.md`, 하위 에이전트·다른 세션에 보내는 지시와 메시지. 사용자가 보는 것(답장, ROADMAP·DECISIONS·검토 페이지, 화면·현황판에 나오는 기록, 게임 안 글, 코드 주석)은 그대로 한글.
+- 토큰 절약 (2026-10-19 사용자 지시): 자동 압축은 60만 토큰(`~/.claude/settings.json` `autoCompactWindow`). 토큰이 갑자기 많이 줄면 여러 에이전트·세션·예약 작업이 의도치 않게 돌고 있는지 먼저 확인한다.
 - **내 소유 파일만 쓴다.** `AGENTS.md`, `Docs/collab/live/codex/`, Codex 소유 코드·씬은 읽기만 한다.
 - 내 기록은 `Docs/collab/live/claude/`에만 쓰고, 모든 기록은 맨 아래에 추가만 한다.
 - `live/claude/tasks.md`나 `outbox.md`를 바꾸면 `live/claude/status.js`도 갱신한다.
