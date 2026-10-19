@@ -1,6 +1,7 @@
 # 유지보수 안내 (Human Last Rampart)
 
 - 작성 Claude · 2026-10-16 · 카드 K-054 · 기준: develop(K-050 합친 뒤)
+- 고침 Claude · 2026-10-19 · 기준: develop(K-047·K-051·K-058·K-060·K-061·K-062 합친 뒤) — 지형 수치·어긋남·시험 수를 고치고 8~10장(화면 부품·저장과 설정·강화와 상점)을 더함
 - 이 문서의 내용은 **코드와 데이터에서 직접 확인한 것만** 적었다. 경로는 따로 적지 않으면 `Game/Assets/_Project/` 아래다. 줄 번호는 바뀔 수 있으니 이름으로 찾는다.
 - 사용자용 보기: `_HTML/1_진행과규칙/19_유지보수안내.html`
 
@@ -28,7 +29,7 @@
 | `Story` | 5번 스토리 화면·데이터(`StoryScript`)·제작 도구(Editor) |
 | `Combat` | 1·2번 전투: `Battle/`(계산·그리기·HUD·카메라), `PerfLab/`(그림 규격·셰이더·성능 시제품), `Render/`(화면 효과), `Tests/`, `_PlayProbe/`, `_SimProbe/` |
 | `Meta` | 4번 결과(`ResultEntry`·`ResultBoard`·`BattleResultApplier`), 3번 정비(`PrepEntry`·`PrepYard`·수리·모집·함정·지형 손질) |
-| `UI` | 공용 화면 바탕(`ScreenEntryBase`·`ScreenView`) |
+| `UI` | 공용 화면 바탕(`ScreenEntryBase`·`ScreenView`), 화면 부품 묶음 `UI/Kit`(8장) |
 | `Art` | `Characters/`(정의에 연결하는 시트), `Battle/Resources/BattleArt`(이름으로 읽는 전장 그림), `UI/Resources` |
 | `Data` | 정의 에셋: `Combat/{Enemies,Posts,Rules,Spells,Start,Terrains,TrapSlots,Units,Waves,Weapons}`, `Meta/`, `Traps/` |
 | `Scenes` | Boot, MainMenu, Story, Battle, Result, Prep |
@@ -114,7 +115,7 @@
 | 총안 자리 | `BattleSim.Slots.cs` | `SlotRowInset`, `RefillReach` 1.2, `SlotWalkSpeed` 1.2 |
 | 성벽 3D 비율 | `BattleWorldView.cs` | 1안 (돌출부 0.75S, 틈 0.6S, 사격구 3.2S) |
 | 지형 크기 | `Data/Combat/Terrains/terrain_1..4.asset` | 들판 160, 성 반폭 20, 고정 언덕 |
-| 무작위 지형·토벽 | `Core/Terrain/TerrainLayout.cs` `TerrainRules` | 돌아감 0.5·넘음 0.3·넘을 때 속도 0.7, 토벽 체력 80·초당 10 부숨, 토벽 20골드·언덕 10골드, 언덕 4~7개, 나무 6~10무리, 바위 4~8무리 |
+| 무작위 지형·토벽 | `Core/Terrain/TerrainLayout.cs` `TerrainRules` | 토벽: 돌아감 0.5·넘음 0.3(나머지 허묾)·넘을 때 속도 0.7, 토벽 체력 80·초당 10 부숨 / **언덕: 돌아감 0.7(`HillDetourChance`)·나머지 넘음** / 나무 쓰러짐 누적 25(`TreeFallPressure`)·잔해 위 속도 0.7 / 토벽 20·언덕 10·길 내기 5·옮기기 5골드, 철거 환불 0.5 / 언덕 4~7개, 나무 6~10무리, 바위 4~8무리 |
 | 지형 켜기·끄기 | `BattleSim.Terrain.cs` | `TerrainEnabled` (측정용 static) |
 | 카메라 | `BattleCameraRig.cs` | 프리셋 A·B·C(뒤·위·숙임), `HeroInset`, 시야각 40, 흔들림 |
 | 지도 카메라 | `BattleMapCamera.cs` | `SideHalfHeight` 80, `CloseHalfHeight` 40, `DotPixels` 7 |
@@ -124,7 +125,7 @@
 
 **알아 둘 어긋남** (코드 확인 2026-10-16)
 - `BattleSetup.cs`의 주석은 쉬움 배율이 0.5라고 하지만 실제 데이터 값은 0.75다.
-- 언덕 반응은 D-078에 '돌아감 70%·넘음 30%'로 적혀 있지만, 코드(`BattleSim.Terrain` `Decide`)는 돌아감 50%·넘음 50%다.
+- ~~언덕 반응은 D-078에 '돌아감 70%·넘음 30%'로 적혀 있지만, 코드는 돌아감 50%·넘음 50%다.~~ → K-051에서 고침(2026-10-18). 지금은 결정대로 70/30이다.
 
 ## 5. 시험 돌리는 법
 | 묶음 | 종류 | 무엇 |
@@ -133,7 +134,11 @@
 | `HLR.App.Tests` | 편집 | 화면 흐름 표, 실제 데이터 검사(`RealDataTests`) |
 | `HLR.Combat.Tests` | 편집 | 그림 연결, 우회, 연습, 함정, 총안, 마법사 |
 | `HLR.SimProbe` | 편집(측정) | 4전투 균형·배율 훑기·프레임 비용·불바다 통과율 등 14개 |
-| `HLR.PlayProbe` | 플레이 | Boot부터 버튼을 눌러 돌리는 한 바퀴·화면·그림 확인과 사진 23개 |
+| `HLR.PlayProbe` | 플레이 | Boot부터 버튼을 눌러 돌리는 한 바퀴(`PlayProbe.FullLoop`: 승리·패배 경로)·화면·그림 확인, 강화 상점(`.Upgrades`), 그리기 시간(`.FrameTiming`), 설정과 이어하기 |
+
+- 2026-10-19 기준 수: 편집 89개(88 통과·1 보류), 플레이 30개(30 통과).
+- 플레이 시험이 사진을 찍기 직전에는 `UiAppear.FinishOpening()`으로 열리는 중인 판을 바로 다 연다. **프레임을 흘려보내 기다리지 않는다** — 전투 시간이 같이 흘러 대포 조준·명령 시험이 어긋난다(2026-10-19에 겪음).
+- 측정만 따로: `-assemblyNames HLR.SimProbe -testFilter SimProbe.OgreSweep`(또는 `FrameCost`) `-nographics`.
 
 - 유니티 안에서: Window → General → Test Runner에서 EditMode / PlayMode를 고른다.
 - 일괄(밤 시험): 유니티를 모두 닫고
@@ -182,3 +187,36 @@
   - 정의는 `Data/Combat/Units·Enemies/*.asset`에서 guid로 가리킨다.
 - **이름으로 읽는 그림**은 `Resources` 아래에 둔다: `Art/Battle/Resources/BattleArt/`(Cannon·Effects·Props·Sky·Terrain·World), `Art/UI/Resources/{HudArt,ScreenArt,TrapMap}`, `Story/Resources/{Stories,StoryArt}`. 가져오기 설정은 `Combat/Editor/*Import.cs`가 자동으로 맞춘다.
 - `.meta`를 직접 만들 때는 같은 종류의 기존 그림 `.meta`를 복사하고 guid만 새 값으로 바꾼다(필터 점, 압축 없음, 밉맵 없음).
+
+## 8. 화면 부품 묶음 `UI/Kit` (K-047, 2026-10-19)
+- 기준 문서: `Docs/GDD/UI_NoSlop.md`(무엇을 하지 않는가), `UI_NoSlop_적용결과.md`(화면별 적용), `UI_NoSlop_에셋요청.md`(Codex 그림 요청).
+- **새 화면·창은 이 부품으로만 만든다.** 색·글자 크기·간격을 화면 코드에 직접 적지 않는다.
+
+| 파일 | 하는 일 |
+|---|---|
+| `UiTokens.cs` | 색(종이 `Paper`·글 `Ink`/`InkSoft`·나무 `Wood`·강조 `Brass`·위험 `Danger`·지도 마법 `Fire`/`Blast` 등), 간격 `S4~S48`, 글자 `H1 48·H2 32·Text 24·Small 20`, 열고 닫는 시간 `Open 0.18·Close 0.12`초, 단추 높이 60 (1920×1080 기준) |
+| `Ui.cs` | 만드는 함수: `Panel(부모, 이름, UiPanel 종류)`, `Label`, `Button(부모, 키, 글, 누를 때, 종류, 아이콘)`, `IconButton`, `Row`·`Column`, `Stretch`·`Place`·`Size` |
+| `UiArt.cs` | 판·단추·쪽지·말풍선·도장·아이콘 그림 이름과 9조각 테두리. 그림이 없으면 단색으로 대신 그린다 |
+| `UiAppear.cs` | 판 열기(밀려 올라오며 0.18초)·닫기(0.12초). 시험용 `FinishOpening`·`FinishAll` |
+| `UiButtonFeel.cs`, `UiPulse.cs`, `UiBar.cs`, `UiClock.cs` | 단추 눌림 느낌, 반짝임, 막대, 실제 시간 시계(시험 고정 간격과 무관) |
+
+- **단추 이름은 `"btn:" + 키`**다. 플레이 시험은 이 키로 단추를 찾아 누르므로 키를 바꾸면 시험도 같이 고친다.
+- 종이 위 작은 글은 `InkSoft`(대비 8.6:1)를 쓴다. 예전 연한 색은 흐려 보였다.
+
+## 9. 저장과 설정 (K-062, 2026-10-19)
+- **진행 저장:** `Core/Save/CampaignSave.cs` — 정비 화면에 들어올 때마다 자동 저장, 슬롯 1개, 파일 `Application.persistentDataPath/save/slot1.json`. `CampaignState`를 통째로 저장하므로 진행 데이터에 필드를 더하면 따라 저장된다(사전·속성·`int?`는 저장 안 됨 — CONTRACTS C-004 v1.5).
+  - 메인 '이어하기' → 불러와서 정비 화면으로(`ScreenOutcome.ContinueGame`). 패배 결말·마지막 정비를 마치면 지운다.
+  - 저장 폴더를 시험마다 바꾸려면 `CampaignSave.Folder`를 쓴다.
+- **설정:** `Core/Settings/GameSettings.cs`(이 컴퓨터의 PlayerPrefs) — 소리 크기, 화면 효과, 미니어처 흐림 세기(0·0.5·1), 화면 흔들림, 전체 화면, 글자 크기(1·1.15·1.3). 창은 `Frontend/SettingsPopup.cs`. 바뀌면 `GameSettings.Changed`가 알린다.
+
+## 10. 강화·상점·용병 (K-058, D-079, 2026-10-19)
+- 설계: `Docs/GDD/Upgrade_Shop.md`. 규칙은 모두 `Core/Upgrades/UpgradeRules.cs` 한 곳에 있다(사기·끼우기·훈련·고용·해고·급료·전투 배율 계산).
+- 정의 에셋: `Data/Meta/Items/`(품목 11개), `Data/Meta/Training/`(궁수·총병·대포병 × 3단계), `Data/Meta/Mercenaries/`.
+- 화면: `Meta/UpgradePanel.cs`(정비 마당에서 연다).
+- 흐름: 정비에서 사기·훈련·고용 → 전투 준비 직전에 App이 급료를 빼고(`PayWages`, 못 주면 그 용병은 떠남) 배율을 계산(`ComputeBoosts`) → 전투는 `BattleSetup.Boosts` 수치만 쓴다 → 결과에서 소모품 1개씩 줄고 용병 손실이 반영된다.
+- 값을 고치려면 정의 에셋을 고친다(코드 기본값보다 에셋이 우선).
+
+## 11. 대포 옮기기 (K-060, 2026-10-19)
+- `Combat/Battle/BattleSim.Haul.cs`. 성벽마다 사격구 6곳(`CannonBaysPerSide` — 대포 4문 + 빈 2곳, 사용자 확인 전).
+- 지도에서 대포를 고르고 **R → 보낼 성벽 쪽 들판 누르기**(다시 R = 취소). 준비 단계는 바로, 전투 중 주인공 없는 성벽 대포는 전령이 닿아야 출발. 끄는 속도 약 0.64m/초(그림 걸음과 맞춤 — 바꾸면 발이 미끄러진다).
+- 옮긴 자리는 그 전투 안에서만 남는다(다음 전투에 남기지 않음).
