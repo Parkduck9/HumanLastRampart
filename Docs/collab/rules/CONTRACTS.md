@@ -1387,3 +1387,11 @@ public interface IScreenContext
 - 전투 결과 (C-006 v1.3): `MercenaryLosses: List<SquadLoss>` — 분대 손실(`SquadLosses`)과 섞지 않는다
 - 승인 필요: 위 필드 이름·소유, 군의관 회복 반올림(분대마다 반올림), 급료를 '전투 준비 직전 App'에서 빼는 시점
 - 저장(C-004 v1.5, K-062): 새 필드(`Items`·`Training`·`Mercenaries`)는 `[Serializable]` 클래스의 공개 필드 목록이라 `CampaignSave`(CampaignState 통째 JsonUtility)에 그대로 저장·복원된다. 예전 저장에는 없으므로 빈 목록이 된다
+
+## 계약 점검 (2026-10-19, 조정 담당) — K-051·K-060·K-061 합친 뒤
+- **K-054 모아 보기 4번(코드와 결정이 다른 곳) 해소:** K-051에서 언덕은 `TerrainRules.HillDetourChance`로 **돌아감 70%·넘음 30%**(D-078대로), 나무 덩이는 적이 누적해서 부딪히면(`TerrainRules.TreeFallPressure`) **쓰러진 나무 잔해**가 되어 지나갈 수 있다. 잔해 위는 느리다. 모두 Combat 내부(`BattleSim.Terrain`) → 계약 변경 없음
+- **K-060 대포 옮기기** (`BattleSim.Haul`): 성벽마다 사격구 6곳(대포 4문 + 빈 2곳, `CannonBaysPerSide`), 옮기는 동안 쏘지 않음, 전투 중 다른 성벽 대포는 전령이 닿아야 출발. 사격구 위치·옮긴 결과는 **그 전투 안에서만** 유지된다. `CampaignState`·`BattleSetup`·`BattleResult`·정의 데이터를 바꾸지 않는다 → 계약 변경 없음
+  - 사용자 확인 대기: 빈 사격구 2곳·지도 R 키 조작. **옮긴 대포 자리를 다음 전투에 남길지**는 아직 정하지 않았다(남기려면 C-004에 성벽별 대포 사격구 목록을 더하는 새 판이 필요)
+- **K-061 할당 줄이기** (흐름장 배열 재사용): Combat 내부 → 계약 변경 없음
+- **K-047 화면 다시 만들기** (`UI/Kit`): 공용 UI 부품이 늘었지만 화면 전환·데이터 약속은 그대로 → 계약 변경 없음. 공용 UI 부품 목록은 `Docs/GDD/MAINTENANCE.md`에 적는다
+- 아직 승인 대기인 초안 (변동 없음): C-003 v1.4, C-004 v1.4·v1.5·v1.6, C-005 v1.5·v1.6·v1.7, C-006 v1.3, C-009 r0, C-010 v1.8~v1.11
