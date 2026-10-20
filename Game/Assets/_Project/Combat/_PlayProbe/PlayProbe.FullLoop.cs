@@ -194,7 +194,7 @@ public sealed partial class PlayProbe
             }
             else Note("자유 배치: 놓을 자리를 찾지 못함");
 
-            yield return Press("할 일:" + "길 내기", 60, true);   // 칸 방식 할 일로 기존 흐름도 본다
+            yield return Press("할 일:" + "철거", 60, true);   // 길 내기·옮기기는 없앰 (사용자 2026-10-20 #7) — 칸 방식 할 일은 철거만 남음
             yield return null;
             Button ground = FindPressable(LoopKeys.CellPrefix, true);
             if (ground != null)

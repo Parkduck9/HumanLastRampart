@@ -27,7 +27,8 @@ namespace HumanLastRampart.Combat.Battle
         const float ModuleWidth = 2.7f;                       // 난간 한 판 폭(m) — 병사(0.35m)가 허리 높이 돌출부 뒤에 서는 크기
         const float WallPivotY = (512f - 182f) / 512f;        // 그림 속 통로 윗면 줄 = 성벽 윗면
         const float WallInset = 0.12f;                        // 바깥 모서리에서 안쪽으로
-        const float CannonSize = 0.45f;
+        public const float CannonScale = 1.5f;                // 사용자 2026-10-20 #20: 대포 1.5배 (운용병 자리·포구도 함께 — BattleSim.CannonCrewOffset)
+        const float CannonSize = 0.45f * CannonScale;
         const float CannonInset = 0.25f;                      // 운용병(0.5m)보다 바깥
         const float AimSideThreshold = 0.2f;                  // 좌우 성분이 이보다 크면 옆 그림 (약 12도)
 
@@ -35,7 +36,7 @@ namespace HumanLastRampart.Combat.Battle
         // K-060: 보이는 폭 = 병사 키 × 1.15 (Codex K-052 측정 — 끄는 대포와 같은 축척) → 칸 높이 약 0.44m. 예전 0.6(보이는 폭 0.55m).
         // 사격구 폭 1.12m 안, 운용병 2명(대포 자리 ±0.45m)과 겹치지 않는다 (대포 반폭 0.2m + 병사 반폭 약 0.12m)
         const float SoldierHeight = 1.4f * BattleSim.WallFigureScale;   // 병사 키 0.35m (BattleSim.SoldierDrawSize와 같다)
-        static readonly float RecoilCannonSize = CannonArt.InstalledWidthPerSoldier * SoldierHeight / CannonArt.RecoilVisibleWidthFraction;
+        static readonly float RecoilCannonSize = CannonArt.InstalledWidthPerSoldier * SoldierHeight / CannonArt.RecoilVisibleWidthFraction * CannonScale;
         // 위에서 내려다볼 때 납작해지는 것(캐릭터는 셰이더 _ViewStretch로 보정)을 대포도 같게 — 보정이 없어 작은 검은 점처럼 보였다 (K-060)
         static readonly int ViewStretchId = Shader.PropertyToID("_ViewStretch");
         const float RecoilFrameSeconds = 0.15f;               // 반동 1칸·복귀 1칸을 이만큼씩 (K-036: 0.1초는 눈에 안 띄어 늘림)
@@ -43,7 +44,7 @@ namespace HumanLastRampart.Combat.Battle
         const int SmokeFrames = 6;
         const float SmokeFps = 8f;
         const float SmokeSize = 1.2f;                         // K-036: 0.7m는 사진기 거리에서 안 보였다
-        const float SmokeForward = 0.45f;                     // 대포 자리에서 바깥쪽으로 (포구)
+        const float SmokeForward = 0.45f * CannonScale;       // 대포 자리에서 바깥쪽으로 (포구)
         const float SmokeLift = 0.12f;                        // 통로 위 (포구 높이쯤)
 
         readonly BattleSim sim;

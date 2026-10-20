@@ -38,12 +38,12 @@ $env:HLR_PLAY_OUT="$env:TEMP\hlr_play"
 | # | Item | State | Notes |
 |---|---|---|---|
 | 1 | Night brightness 3 photos | IN PROGRESS | `Combat/Render/NightTuning.cs` (one Level 0..1 drives sprite brightness, exposure, vignette, ambient + floor, moon, torch intensity/range). Wired in BattleSim.Weather.cs, BattleView.ApplyAtmosphere, BattleLook.Apply, BattleLights torch block. Next: probe `NightLevels` captures levels 0/0.35/0.7/1 → user picks → set `NightTuning.DefaultLevel` |
-| 8 | Gunner dry-fire | TODO | see Tier 1 |
-| 10 | Cannon backwards | TODO | see Tier 1 |
-| 14 | Barracks count/−10/type | TODO | see Tier 1 |
-| 15 | "done" stamp locks buy | TODO | see Tier 1 |
-| 20 | First group in 5 s, cannon ×1.5 | TODO | decided ×1.5 |
-| 7a | Remove Path & Move actions | TODO | keep EarthWall, Hill, Demolish; old saves still apply old Path/Move works |
+| 8 | Gunner dry-fire | CODED, UNTESTED | `BattleJobs.cs` SoldierFireJob: no target → `SoldierIdle[s]=1`, target → 0; pose aim branch already skips idle. Not done: pose interval × HeroSideIntervalMultiplier, muzzle sprite (K-088) |
+| 10 | Cannon backwards | CODED, UNTESTED | `SoldierFireJob.CannonFrontMargin = 2` m: cannon target must satisfy dot(d, Outward) ≥ 2 (job), same in `BattleSim.CannonCanReach` and `BattleView.CannonReaches`. Sprite facing unchanged (camera always looks at the current wall from behind) |
+| 14 | Barracks count/−10/type | CODED, UNTESTED | `Meta/PreparationPanel.cs`: count reset on wall/post/unit change and after commit; "인원 −10" button; max = remaining room; post cell shows "지점 · 병종"; right column "지점 — 병종 분대 N명" |
+| 15 | "done" stamp locks buy | CODED, UNTESTED | `UpgradePanel.cs` (shop/training/mercenary) + `PreparationPanel.cs` (recruit/repair): stamp is a notice in the price line, button stays usable |
+| 20 | First group in 5 s, cannon ×1.5 | HALF | cannon ×1.5 CODED (`BattlePropView.CannonScale`, crew offsets 0.55/0.4 in BattleSim.cs, muzzle distance in BattleSim.Burn.cs). First-group spawn TODO |
+| 7a | Remove Path & Move actions | CODED, UNTESTED | `TrapPreparationPanel.RenderTerrainTab` shows only 토벽·언덕·철거; FullLoop probe presses "할 일:철거" |
 | 12/13 | 2-cell terrain pieces, 45° steps, no gap | TODO | needs K-087 art for connection; logic can start before art |
 | 9 | Free trap placement | TODO | |
 | 2 | Overlap: squeeze into gaps | TODO | ask user about overflow beyond minimum spacing |

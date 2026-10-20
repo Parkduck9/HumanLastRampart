@@ -651,7 +651,7 @@ namespace HumanLastRampart.Combat.Battle
             if (night)
             {
                 sky = Color.Lerp(sky, new Color(0.03f, 0.05f, 0.12f), 0.8f);
-                sunIntensity *= 0.25f;
+                sunIntensity *= HumanLastRampart.Combat.Render.NightTuning.SunScale;
             }
 
             camera.clearFlags = CameraClearFlags.SolidColor;
@@ -662,7 +662,9 @@ namespace HumanLastRampart.Combat.Battle
                 sunLight.color = night ? new Color(0.6f, 0.7f, 1f) : Color.white;
             }
 
-            RenderSettings.ambientLight = sky * (night ? 0.6f : 1f);
+            RenderSettings.ambientLight = night
+                ? sky * HumanLastRampart.Combat.Render.NightTuning.AmbientScale + HumanLastRampart.Combat.Render.NightTuning.AmbientFloor
+                : sky;
             RenderSettings.fog = battle.LowVisibility || battle.IsRaining;
             RenderSettings.fogMode = FogMode.Linear;
             RenderSettings.fogColor = sky;
@@ -952,8 +954,12 @@ namespace HumanLastRampart.Combat.Battle
         static readonly Color MapDanger = HumanLastRampart.UI.UiTokens.DangerLight;
 
         // 대포가 그 지점의 들판 면을 칠 수 있는가 (BattleSim.CannonCanReach와 같은 규칙, 사거리는 부르는 쪽이 본다)
-        static bool CannonReaches(BattleSim.CannonInfo c, Vector3 p) =>
-            (c.Reach & (1 << WallGeometry.FieldSide(new Unity.Mathematics.float3(p.x, 0f, p.z)))) != 0;
+        static bool CannonReaches(BattleSim.CannonInfo c, Vector3 p)
+        {
+            if ((c.Reach & (1 << WallGeometry.FieldSide(new Unity.Mathematics.float3(p.x, 0f, p.z)))) == 0) return false;
+            Unity.Mathematics.float3 o = WallGeometry.Outward(c.Side);
+            return (p.x - c.Position.x) * o.x + (p.z - c.Position.z) * o.z >= SoldierFireJob.CannonFrontMargin;   // 자기 성벽선 앞만
+        }
 
         // 지도 점: 가장자리가 부드럽지 않은 둥근 점 (알파 잘라내기)
         static Texture2D CreateDotTexture()

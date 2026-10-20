@@ -607,10 +607,13 @@ namespace HumanLastRampart.Meta
         void RenderTerrainTab()
         {
             HorizontalLayoutGroup chips = Ui.Row(side, "Actions Kind", UiTokens.S8);
-            string[] shortNames = { "토벽", "언덕", "길", "옮기기", "철거" };
-            for (int i = 0; i < 5; i++)
+            // 사용자 2026-10-20 #7: 길 내기·옮기기는 없앤다 (토벽·언덕·철거만). 옛 저장의 길·옮긴 덩이는 그대로 남는다
+            TerrainAction[] shown = { TerrainAction.EarthWall, TerrainAction.Hill, TerrainAction.Demolish };
+            string[] shortNames = { "토벽", "언덕", "철거" };
+            if (Array.IndexOf(shown, action) < 0) action = TerrainAction.EarthWall;
+            for (int i = 0; i < shown.Length; i++)
             {
-                var a = (TerrainAction)i;
+                var a = shown[i];
                 Button chip = Ui.Button(chips.transform, "할 일:" + TerrainWorkTransactions.NameOf(a), shortNames[i], () => { if (action == a) return; action = a; picked.Clear(); message = null; Render(); }, UiButtonKind.Tab);
                 Ui.Size(chip, 136f, 72f);
                 Text label = Ui.LabelOf(chip);

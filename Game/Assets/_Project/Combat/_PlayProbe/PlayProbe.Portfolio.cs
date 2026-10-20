@@ -66,6 +66,63 @@ public sealed partial class PlayProbe
         }
     }
 
+    // 밤 밝기 비교 (사용자 2026-10-20 "밝기 조절해서 3개 사진") — 같은 밤 장면을 단계별로 찍는다. 결과: NN_night_level_*.png
+    [UnityTest]
+    public IEnumerator NightLevels()
+    {
+        Directory.CreateDirectory(Out);
+        log = new StringBuilder();
+        Time.captureDeltaTime = 1f / 20f;
+        KeepPreparation = true;
+        float before = HumanLastRampart.Combat.Render.NightTuning.Level;
+        try
+        {
+            SceneManager.LoadScene("Boot");
+            yield return null;
+            yield return null;
+            yield return WaitScreen(ScreenId.MainMenu, 900);
+            yield return Press("게임 시작", 600);
+            yield return Press("현실", 300);
+            yield return WaitScreen(ScreenId.Story, 600);
+            CampaignState c = GameFlow.Instance.Campaign;
+            c.BattleNumber = 4;
+            var story = Object.FindAnyObjectByType<HumanLastRampart.Story.StoryPlayer>();
+            for (int i = 0; i < 300 && story == null; i++) { yield return null; story = Object.FindAnyObjectByType<HumanLastRampart.Story.StoryPlayer>(); }
+            story.Skip();
+            yield return WaitScreen(ScreenId.Battle, 900);
+
+            BattleSetup setup = c.ActiveBattleSetup;
+            var f = setup.Forecast; f.InitialWeather = Weather.Clear; f.TimeOfDay = TimeOfDay.Night; f.Changes = false; setup.Forecast = f;
+            var entry = Object.FindObjectsByType<HumanLastRampart.Combat.Battle.BattleEntry>(FindObjectsSortMode.None)[0];
+            var sim = (HumanLastRampart.Combat.Battle.BattleSim)typeof(HumanLastRampart.Combat.Battle.BattleEntry)
+                .GetField("sim", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(entry);
+            sim.WeatherDirty = true;
+            entry.StartBattle();
+            yield return Press("×4", 120);
+            for (int i = 0; i < 6000 && sim.Elapsed < 60f && !sim.Ended; i++) yield return null;
+            yield return Press("×1", 120);
+            sim.Complete();
+
+            float[] levels = { 0f, 0.35f, 0.7f, 1f };
+            foreach (float level in levels)
+            {
+                HumanLastRampart.Combat.Render.NightTuning.Level = level;
+                sim.WeatherDirty = true;   // 하늘·환경광·화면 효과 다시
+                for (int i = 0; i < 6; i++) yield return null;
+                sim.Complete();
+                Note($"밤 밝기 {level:0.00}: 그림 밝기 {HumanLastRampart.Combat.Render.NightTuning.SpriteBrightness:0.00}, 노출 {HumanLastRampart.Combat.Render.NightTuning.Exposure:0.00}");
+                yield return Capture($"night_level_{Mathf.RoundToInt(level * 100):000}", 1280, 720, true);
+            }
+        }
+        finally
+        {
+            HumanLastRampart.Combat.Render.NightTuning.Level = before;
+            KeepPreparation = false;
+            File.WriteAllText(Path.Combine(Out, "night_levels.txt"), log.ToString(), new UTF8Encoding(false));
+            Time.captureDeltaTime = 0f;
+        }
+    }
+
     [UnityTest]
     public IEnumerator PortfolioShots()
     {

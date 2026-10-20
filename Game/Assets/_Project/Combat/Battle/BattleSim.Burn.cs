@@ -19,7 +19,7 @@ namespace HumanLastRampart.Combat.Battle
     {
         const float MuzzleHeightRatio = 0.6f;         // 병사 그림 높이(SoldierDrawSize)에 곱함
         const float MuzzleForwardDistance = 0.15f;    // 성벽 바깥쪽으로 (m)
-        const float CannonMuzzleDistance = 0.7f;      // BattlePropView: 대포 자리 0.25 + 포구 연기 0.45
+        const float CannonMuzzleDistance = 0.25f + 0.45f * BattlePropView.CannonScale;   // BattlePropView: 대포 자리 0.25 + 포구 연기
         const float CannonMuzzleLift = 0.12f;         // BattlePropView SmokeLift
         const float FlameSizeRatio = 0.6f;            // 불꽃 크기 = 적 그림 크기 × 이 값
 

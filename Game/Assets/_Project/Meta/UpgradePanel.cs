@@ -168,9 +168,9 @@ namespace HumanLastRampart.Meta
 
             if (picked.Consumable) Ui.Size(Ui.Label(right.transform, "Have", $"가진 수 {UpgradeRules.OwnedCount(Campaign, picked.Id)}", UiTokens.Text, UiTokens.Ink), -1f, 32f);
             PriceLine(right.transform, act != null && price >= 0 ? price : -1, act == null ? why : null);
-            Button commit = Ui.Button(right.transform, "확정 구매", done ?? action ?? "사기", () => { act?.Invoke(); }, UiButtonKind.Primary);
+            Button commit = Ui.Button(right.transform, "확정 구매", action ?? "사기", () => { act?.Invoke(); }, UiButtonKind.Primary);
             Ui.Size(commit, -1f, 64f);
-            commit.interactable = act != null && done == null;
+            commit.interactable = act != null;
         }
 
         bool OwnedMark(ItemDef item) =>
@@ -240,13 +240,13 @@ namespace HumanLastRampart.Meta
             bool can = UpgradeRules.CanTrain(Campaign, Defs, picked.Id, out TrainingDef next, out string why);
             if (next != null) Ui.Size(Ui.Label(right.transform, "Next", $"{next.Level}단계  {next.Description}", UiTokens.Text, UiTokens.InkSoft), -1f, 32f);
             PriceLine(right.transform, can ? next.Price : -1, can ? null : why);
-            Button commit = Ui.Button(right.transform, "확정 훈련", done ?? (next != null ? $"{next.Level}단계 훈련" : "훈련"), () =>
+            Button commit = Ui.Button(right.transform, "확정 훈련", next != null ? $"{next.Level}단계 훈련" : "훈련", () =>
             {
                 if (UpgradeRules.TryTrain(Campaign, Defs, picked.Id, out _)) done = "훈련을 마쳤습니다";
                 Changed(keepDone: true);
             }, UiButtonKind.Primary);
             Ui.Size(commit, -1f, 64f);
-            commit.interactable = can && done == null;
+            commit.interactable = can;
         }
 
         // ── 병영: 용병 고용 ──
@@ -303,13 +303,13 @@ namespace HumanLastRampart.Meta
             Ui.Size(Ui.Label(right.transform, "Wage", $"전투마다 급료 {picked.Wage * hireCount:N0}", UiTokens.Text, UiTokens.InkSoft), -1f, 32f);
             bool can = UpgradeRules.CanHire(Campaign, Defs, picked.Id, wallId, hireCount, out int cost, out string why);
             PriceLine(right.transform, can ? cost : -1, can ? null : why);
-            Button commit = Ui.Button(right.transform, "확정 고용", done ?? $"{hireCount}명 고용", () =>
+            Button commit = Ui.Button(right.transform, "확정 고용", $"{hireCount}명 고용", () =>
             {
                 if (UpgradeRules.TryHire(Campaign, Defs, picked.Id, wallId, hireCount, out _)) done = "계약했습니다";
                 Changed(keepDone: true);
             }, UiButtonKind.Primary);
             Ui.Size(commit, -1f, 64f);
-            commit.interactable = can && done == null;
+            commit.interactable = can;
         }
 
         // 값 줄: [골드] 600 · 남는 골드 / 안 되면 이유 한 줄(붉게) / 방금 한 일이면 도장
@@ -345,11 +345,11 @@ namespace HumanLastRampart.Meta
         {
             HorizontalLayoutGroup line = Ui.Row(parent, "Price", UiTokens.S8);
             Ui.Size(line, -1f, 40f);
+            // 방금 한 일은 알림으로만 (사용자 2026-10-20 #15: 도장이 단추를 잠가 다음 단계를 못 샀다) — 다음 값은 이어서 보인다
             if (done != null)
             {
                 Ui.Icon(line.transform, "Done", UiArt.IconCheck, 1f, UiTokens.Good);
-                Ui.Size(Ui.Label(line.transform, "Text", done, UiTokens.Text, UiTokens.Ink), 360f, 40f);
-                return;
+                Ui.Size(Ui.Label(line.transform, "Text", done, UiTokens.Text, UiTokens.Ink), 200f, 40f);
             }
 
             if (cost < 0)

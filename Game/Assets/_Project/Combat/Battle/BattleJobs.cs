@@ -452,6 +452,7 @@ namespace HumanLastRampart.Combat.Battle
         // TargetPriority 순서 (Core.Campaign.TargetPriority와 같게)
         const byte LowestHpRatio = 0, HighestHpRatio = 1, Nearest = 2, ClimbingFirst = 3, SpecialFirst = 4, DensestArea = 5;
         const float Cos30 = 0.8660254f, Cos60 = 0.5f;
+        public const float CannonFrontMargin = 2f;   // 대포는 자기 자리에서 성벽 바깥으로 이만큼 앞인 곳만 (BattleSim.CannonCanReach·지도 미리보기도 같은 값)
 
         // 체력 비율을 10% 띠로 — 97%와 95%를 같은 적으로 보고 병사들이 나눠 쏘게 (D-073)
         static float BandOf(float ratio) => math.floor(ratio * 10f);
@@ -546,6 +547,8 @@ namespace HumanLastRampart.Combat.Battle
                         {
                             // 대포 (K-042): 자기 들판 + 모서리 2문만 옆 들판. 각도 대신 들판 면으로 가른다
                             if ((reach & (1 << WallGeometry.FieldSide(EnemyPositions[e]))) == 0) continue;
+                            // 그래도 자기 성벽선 앞이어야 한다 (사용자 2026-10-20 #10: 옆 들판 적을 성 안쪽 위로 넘겨 거꾸로 쐈다)
+                            if (d.x * wallOut.x + d.z * wallOut.z < CannonFrontMargin) continue;
                         }
                         else if (FrontArc != 0 && cosine <= (onWall ? -0.2f : 0f))
                         {
@@ -602,8 +605,12 @@ namespace HumanLastRampart.Combat.Battle
             if (best < 0)
             {
                 SoldierCooldowns[s] = RetryInterval;
+                // 표적 없음 → 겨누기 동작을 하지 않게 (사용자 2026-10-20 #8: 재시도 0.25초가 겨누기 구간 0.375초보다 짧아 헛동작 반복)
+                SoldierIdle[s] = 1;
                 return;
             }
+
+            SoldierIdle[s] = 0;
 
             float distance = math.sqrt(bestDistSq);
             // 앞질러 겨눔: 날아가는 시간 (+ 대포는 불붙이는 시간 — 그동안 조준이 고정되므로, K-046)

@@ -54,7 +54,7 @@ namespace HumanLastRampart.Combat.Battle
             get
             {
                 if (HumanLastRampart.Combat.Render.BattleLook.LitActive) return 1f;
-                float b = TimeOfDay == TimeOfDay.Night ? 0.5f : 1f;
+                float b = TimeOfDay == TimeOfDay.Night ? HumanLastRampart.Combat.Render.NightTuning.SpriteBrightness : 1f;
                 if (IsRaining) b *= 0.8f;
                 else if (CurrentWeather == Weather.Fog) b *= 0.85f;
                 else if (CurrentWeather == Weather.Cloudy) b *= 0.92f;

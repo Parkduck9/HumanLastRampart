@@ -32,8 +32,8 @@ namespace HumanLastRampart.Combat.Battle
         const float SoldierDrawSize = 1.4f * WallFigureScale;
         const float SoldierInset = 0.5f;                    // 성벽 바깥 모서리에서 안쪽으로 (대포·운용병. 병사 줄은 BattleSim.Slots SlotRowInset)
         const float SoldierRowDepth = 0.3f;                 // 줄 사이 (안쪽으로)
-        const float CannonCrewOffset = 0.45f;               // 대포 운용병은 대포 양옆 (대포 그림 보이는 폭 약 0.55m)
-        const float CannonShooterOffset = 0.3f;             // 불붙이는 병사(오른쪽)는 횃불이 대포 심지에 닿게 조금 더 가까이
+        const float CannonCrewOffset = 0.55f;               // 대포 운용병은 대포 양옆 (대포 1.5배 — 보이는 폭 약 0.6m, 사격구 폭 1.12m)
+        const float CannonShooterOffset = 0.4f;             // 불붙이는 병사(오른쪽)는 횃불이 대포 심지에 닿게 조금 더 가까이
         // 대포 운용병 i의 대포 자리 기준 옆 거리 (+ = 바깥을 볼 때 오른쪽). 0 = 쏘는 병사(오른쪽), 1 = 왼쪽, 그 뒤는 바깥으로 번갈아
         static float CannonCrewAlong(int i) => i == 0 ? CannonShooterOffset : (i % 2 == 0 ? 1f : -1f) * CannonCrewOffset * (1 + i / 2);
         const float WalkInDistance = 2f;                    // 달리는 길 ↔ 자기 자리를 이 거리 동안 비스듬히 오간다 (K-039 의견 6)

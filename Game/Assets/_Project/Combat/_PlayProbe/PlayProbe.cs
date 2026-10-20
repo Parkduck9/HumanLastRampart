@@ -445,7 +445,9 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
         Assert.AreEqual(squad0 + 11, c.Squads.First(s => s.PostId == "post_north_squad_1").Count, "분대에 11명");
         Assert.AreEqual(total0 + 11, c.Squads.Sum(s => s.Count));
         for (int i = 0; i < 3; i++) yield return null;
-        Assert.IsNull(FindReady("확정 모집"), "같은 견적은 다시 확정할 수 없다");
+        // 사용자 2026-10-20 #15: 확정 뒤에도 단추가 잠기지 않고, 인원은 1명으로 돌아가 새 견적으로 바로 또 모집할 수 있다
+        Assert.IsNotNull(FindReady("확정 모집"), "모집 뒤에도 바로 또 모집할 수 있다");
+        Assert.AreEqual(gold0 - 55, c.Gold, "다시 누르기 전에는 골드가 그대로");
         yield return Capture("prep_2_recruit_done");
         yield return Click("닫기", 60);
 
@@ -1474,9 +1476,25 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
         yield return Click("넘기기", 600);
         yield return WaitScreen(ScreenId.Battle, 900);
         yield return Click("×4", 300);
-        for (int i = 0; i < 240; i++) yield return null;
         var entry = UnityEngine.Object.FindObjectsByType<HumanLastRampart.Combat.Battle.BattleEntry>(FindObjectsSortMode.None)[0];
         var sim = (HumanLastRampart.Combat.Battle.BattleSim)typeof(HumanLastRampart.Combat.Battle.BattleEntry).GetField("sim", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(entry);
+
+        // '대기' 확인은 적이 성벽에 닿기 전에 (사용자 2026-10-20 #10: 성 안마당은 이제 칠 수 없어 성벽 바로 앞을 노린다)
+        for (int i = 0; i < 10; i++) yield return null;
+        entry.ToggleMap();
+        entry.SelectCannonSide(0);
+        yield return null;
+        entry.SelectCannon(4);
+        HumanLastRampart.Combat.Battle.BattleSim.CannonInfo four = default;
+        for (int c = 0; c < sim.CannonCount; c++) { var ci = sim.GetCannon(c); if (ci.Side == 0 && ci.Number == 4) four = ci; }
+        Assert.IsTrue(entry.AimSelectedCannonAt(new Vector3(four.Position.x, 0f, sim.CastleHalf + 5f)), "성벽 바로 앞 조준");
+        for (int i = 0; i < 20; i++) yield return null;
+        var early = UnityEngine.Object.FindObjectsByType<Text>(FindObjectsSortMode.None).Where(t => t.name == "Cannon 4 State" && t.gameObject.activeInHierarchy).ToList();
+        Note($"초반 4번 대포: {string.Join(",", early.Select(t => t.text))} (게임 {sim.Elapsed:0}초)");
+        Assert.IsTrue(early.Any(t => t.text == "대기"), "적 없는 곳을 노린 대포는 대기");
+        entry.ToggleMap();
+
+        for (int i = 0; i < 210; i++) yield return null;
         entry.ToggleMap();
         entry.SelectCannonSide(0);
         yield return null;
@@ -1494,13 +1512,13 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
         entry.SelectCannon(4);
         Assert.IsFalse(entry.AimSelectedCannonAt(new Vector3(0f, 0f, 250f)), "사거리 밖은 거부");
         // 진짜 성 안마당(북쪽 면 안, 성벽 반폭 20m 안). 예전 (30,20)은 동쪽 성벽 밖이라 우회 적이 오면 포격해 시험이 들쑥날쑥했다
-        Assert.IsTrue(entry.AimSelectedCannonAt(new Vector3(2f, 0f, 10f)), "성 안마당 조준");
+        // 사용자 2026-10-20 #10: 대포는 자기 성벽선 앞만 — 성 안마당은 이제 거부. 대기 확인은 성벽 바로 앞(적이 아직 안 온 곳)으로
+        Assert.IsFalse(entry.AimSelectedCannonAt(new Vector3(2f, 0f, 10f)), "성 안마당(성벽 뒤)은 거부");
         for (int i = 0; i < 60; i++) yield return null;
         yield return Capture("cannon_aim_side");
         // K-047 포병판: 줄마다 상태 낱말 칸 "Cannon N State" (포격·대기·자동·병사 없음)
         var states = UnityEngine.Object.FindObjectsByType<Text>(FindObjectsSortMode.None).Where(t => t.name.StartsWith("Cannon ") && t.name.EndsWith(" State") && t.gameObject.activeInHierarchy).ToList();
         Note("대포 표시: " + string.Join(" | ", states.OrderBy(t => t.name).Select(t => t.name.Substring(7, 1) + "번 " + t.text)));
-        Assert.IsTrue(states.Any(t => t.name == "Cannon 4 State" && t.text == "대기"), "적 없는 곳을 노린 대포는 대기");
         Assert.IsTrue(states.Any(t => t.text == "포격"), "적이 오는 길을 노린 대포는 포격");
         // K-046 불붙이기: 쏘기 전 1.5초(막대 뻗기 0.5 + 도화선 1) 동안 '불붙이는 중' — 간격 6초라 몇 초 안에 한 번은 보인다
         int igniting = -1;

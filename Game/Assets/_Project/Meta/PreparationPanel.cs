@@ -86,7 +86,7 @@ namespace HumanLastRampart.Meta
                 Button tab = Ui.Button(tabs.transform, "성벽:" + WallIds.All[i], PreparationTransactions.WallName(WallIds.All[i]), () =>
                 {
                     if (wallIndex == index) return;
-                    wallIndex = index; postIndex = unitIndex = 0; Changed();
+                    wallIndex = index; postIndex = unitIndex = 0; count = 1; Changed();
                 }, UiButtonKind.Tab);
                 Ui.Size(tab, 248f, 72f);
                 Text label = Ui.LabelOf(tab);
@@ -146,7 +146,10 @@ namespace HumanLastRampart.Meta
                 var p = posts[i];
                 var squadAt = campaign.Squads.Find(s => s.PostId == p.Id);
                 int capAt = p.Kind == PostKind.Cannon ? session.Rules.CannonCrewPostCapacity : session.Rules.SquadPostCapacity;
-                Button cell = Ui.Button(grid.transform, "지점:" + p.Id, p.DisplayName, () => { if (postIndex == index) return; postIndex = index; unitIndex = 0; Changed(); }, UiButtonKind.Tab);
+                // 분대 종류를 이름 옆에 (사용자 2026-10-20 #14: 총 분대인지 활 분대인지 안 보였다)
+                string kindName = squadAt != null ? context.Definitions.Get<UnitDef>(squadAt.UnitDefId)?.DisplayName : null;
+                string cellText = kindName != null ? $"{p.DisplayName} · {kindName}" : p.DisplayName;
+                Button cell = Ui.Button(grid.transform, "지점:" + p.Id, cellText, () => { if (postIndex == index) return; postIndex = index; unitIndex = 0; count = 1; Changed(); }, UiButtonKind.Tab);
                 Text label = Ui.LabelOf(cell);
                 label.alignment = TextAnchor.MiddleLeft;
                 label.fontSize = UiTokens.Small;
@@ -167,39 +170,41 @@ namespace HumanLastRampart.Meta
             unitIndex %= units.Count;
             var unit = units[unitIndex];
 
-            Text where = Ui.Label(right.transform, "Post", post.DisplayName, UiTokens.Text, UiTokens.Ink, TextAnchor.MiddleLeft, true);
+            string squadLine = squad != null ? $"{post.DisplayName} — {unit.DisplayName} 분대 {squad.Count}명" : $"{post.DisplayName} — 빈 지점 (병종을 고르세요)";
+            Text where = Ui.Label(right.transform, "Post", squadLine, UiTokens.Text, UiTokens.Ink, TextAnchor.MiddleLeft, true);
             Ui.Size(where, -1f, 32f);
             HorizontalLayoutGroup kinds = Ui.Row(right.transform, "Units", UiTokens.S8);
             for (int i = 0; i < units.Count; i++)
             {
                 int index = i;
-                Button chip = Ui.Button(kinds.transform, "병종:" + units[i].Id, units[i].DisplayName, () => { if (unitIndex == index) return; unitIndex = index; Changed(); }, UiButtonKind.Tab);
+                Button chip = Ui.Button(kinds.transform, "병종:" + units[i].Id, units[i].DisplayName, () => { if (unitIndex == index) return; unitIndex = index; count = 1; Changed(); }, UiButtonKind.Tab);
                 Ui.Size(chip, 152f, 48f);
                 Ui.SetOn(chip, i == unitIndex);
                 chip.interactable = squad == null;   // 기존 분대는 같은 병종만 보충
             }
 
-            // 인원: [−] 11 [+] [+10]
+            // 인원: [−10] [−] 11 [+] [+10] — 최대는 그 지점에 남은 자리 (대포 지점은 대포 정원)
+            int room = Math.Max(1, (post.Kind == PostKind.Cannon ? session.Rules.CannonCrewPostCapacity : session.Rules.SquadPostCapacity) - (squad?.Count ?? 0));
+            count = Math.Min(count, room);
             HorizontalLayoutGroup counter = Ui.Row(right.transform, "Count", UiTokens.S8);
             Ui.Size(counter, -1f, 56f);
+            Button tenDown = Ui.Button(counter.transform, "인원 −10", "−10", () => { count = Math.Max(1, count - 10); Changed(); });
+            Ui.Size(tenDown, 80f, 56f);
             Ui.IconButton(counter.transform, "인원 −1", UiArt.IconMinus, () => { count = Math.Max(1, count - 1); Changed(); }, 56f);
             Text number = Ui.Label(counter.transform, "Number", $"{count}명", UiTokens.H2, UiTokens.Ink, TextAnchor.MiddleCenter, true);
             Ui.Size(number, 112f, 56f);
-            Ui.IconButton(counter.transform, "인원 +1", UiArt.IconPlus, () => { count = Math.Min(session.Rules.SquadPostCapacity, count + 1); Changed(); }, 56f);
-            Button ten = Ui.Button(counter.transform, "인원 +10", "+10", () => { count = Math.Min(session.Rules.SquadPostCapacity, count + 10); Changed(); });
+            Ui.IconButton(counter.transform, "인원 +1", UiArt.IconPlus, () => { count = Math.Min(room, count + 1); Changed(); }, 56f);
+            Button ten = Ui.Button(counter.transform, "인원 +10", "+10", () => { count = Math.Min(room, count + 10); Changed(); });
             Ui.Size(ten, 80f, 56f);
 
-            if (done == null)
-            {
-                bool ok = session.TryRecruit(post.Id, unit.Id, count, out quote, out reason, out bool error);
-                if (error) { DataError(reason); return; }
-                if (!ok) quote = null;
-            }
+            bool can = session.TryRecruit(post.Id, unit.Id, count, out quote, out reason, out bool error);
+            if (error) { DataError(reason); return; }
+            if (!can) quote = null;
 
             Price(right.transform);
-            Button commit = Ui.Button(right.transform, "확정 모집", done ?? $"{count}명 모집", Commit, UiButtonKind.Primary);
+            Button commit = Ui.Button(right.transform, "확정 모집", $"{count}명 모집", Commit, UiButtonKind.Primary);
             Ui.Size(commit, -1f, 64f);
-            commit.interactable = quote != null && done == null;
+            commit.interactable = quote != null;
         }
 
         // ── 수리: 세 가지 (100 · 이 성벽 모두 · 네 성벽 모두), 칸마다 값 ──
@@ -216,13 +221,9 @@ namespace HumanLastRampart.Meta
             string[] whyNot = new string[3];
             for (int i = 0; i < 3; i++)
             {
-                if (done == null)
-                {
-                    bool ok = TryRepair((RepairChoice)i, wallId, out var q, out whyNot[i], out bool error);
-                    if (error) { DataError(whyNot[i]); return; }
-                    costs[i] = ok ? q.Cost : -1;
-                }
-                else costs[i] = -1;
+                bool ok = TryRepair((RepairChoice)i, wallId, out var q, out whyNot[i], out bool error);
+                if (error) { DataError(whyNot[i]); return; }
+                costs[i] = ok ? q.Cost : -1;
             }
 
             for (int i = 0; i < 3; i++)
@@ -233,24 +234,21 @@ namespace HumanLastRampart.Meta
                 Text label = Ui.LabelOf(card);
                 label.alignment = TextAnchor.UpperCenter;
                 label.rectTransform.offsetMax = new Vector2(-UiTokens.S16, -UiTokens.S16);
-                string costText = costs[i] >= 0 ? $"{costs[i]:N0}골드" : done != null ? "" : Short(whyNot[i]);
+                string costText = costs[i] >= 0 ? $"{costs[i]:N0}골드" : Short(whyNot[i]);
                 Text cost = Ui.Label(card.transform.Find("Content"), "Cost", costText, UiTokens.Small, costs[i] >= 0 ? UiTokens.BrassLight : UiTokens.BodyDim, TextAnchor.LowerCenter);
                 Ui.Stretch(cost.rectTransform, UiTokens.S16);
                 Ui.SetOn(card, choice == repairChoice);
             }
 
             // 마지막에 고른 쪽으로 다시 견적 — 확정은 이 견적 하나 (견적은 하나만 살아 있다)
-            if (done == null)
-            {
-                bool ok = TryRepair(repairChoice, wallId, out quote, out reason, out bool error);
-                if (error) { DataError(reason); return; }
-                if (!ok) quote = null;
-            }
+            bool can = TryRepair(repairChoice, wallId, out quote, out reason, out bool failed);
+            if (failed) { DataError(reason); return; }
+            if (!can) quote = null;
 
             Price(body);
-            Button commit = Ui.Button(body, "확정 수리", done ?? "수리", Commit, UiButtonKind.Primary);
+            Button commit = Ui.Button(body, "확정 수리", "수리", Commit, UiButtonKind.Primary);
             Ui.Size(commit, -1f, 64f);
-            commit.interactable = quote != null && done == null;
+            commit.interactable = quote != null;
         }
 
         bool TryRepair(RepairChoice choice, string wallId, out PreparationTransactions.Quote q, out string why, out bool error)
@@ -264,12 +262,12 @@ namespace HumanLastRampart.Meta
         {
             HorizontalLayoutGroup line = Ui.Row(parent, "Price", UiTokens.S8);
             Ui.Size(line, -1f, 40f);
+            // 방금 확정한 것은 알림으로만 — 다음 견적은 이어서 보이고 바로 또 할 수 있다 (사용자 2026-10-20 #15)
             if (done != null)
             {
-                Image check = Ui.Icon(line.transform, "Done", UiArt.IconCheck, 1f, UiTokens.Good);
-                Text text = Ui.Label(line.transform, "Text", "장부에 적었습니다", UiTokens.Text, UiTokens.Ink);
-                Ui.Size(text, 360f, 40f);
-                return;
+                Ui.Icon(line.transform, "Done", UiArt.IconCheck, 1f, UiTokens.Good);
+                Text text = Ui.Label(line.transform, "Text", done, UiTokens.Text, UiTokens.Ink);
+                Ui.Size(text, 160f, 40f);
             }
 
             if (quote == null)
@@ -299,7 +297,7 @@ namespace HumanLastRampart.Meta
             var q = quote; quote = null;
             bool ok = session.TryCommit(q, out var why, out bool error);
             if (error) { DataError(why); return; }
-            if (ok) done = recruit ? "모집 완료" : "수리 완료";
+            if (ok) { done = recruit ? "모집 완료" : "수리 완료"; count = 1; }
             else reason = why;
             RefreshSummary(source, context, session);
             Render();

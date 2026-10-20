@@ -106,6 +106,14 @@ namespace HumanLastRampart.Combat.Battle
                 return false;
             }
 
+            // 자기 성벽선 앞만 (사용자 2026-10-20 #10: 성 안쪽 위로 넘겨 거꾸로 쏘지 않게)
+            float3 o = WallGeometry.Outward(side);
+            if (dx * o.x + dz * o.z < SoldierFireJob.CannonFrontMargin)
+            {
+                reason = $"{SideNames[side]} 대포 {number}: 성벽 뒤쪽은 쏠 수 없습니다";
+                return false;
+            }
+
             return true;
         }
 

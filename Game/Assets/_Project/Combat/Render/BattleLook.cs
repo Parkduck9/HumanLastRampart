@@ -29,7 +29,7 @@ namespace HumanLastRampart.Combat.Render
         static readonly Color BloomTint = new Color(1f, 0.93f, 0.82f);   // 따뜻한 번짐
 
         // ── 톤 매핑·노출 ── ACES(필름 느낌)는 중간 밝기를 조금 어둡게 하므로 노출을 올려 맞춘다
-        const float ExposureDay = 0.3f, ExposureNight = -0.15f;
+        const float ExposureDay = 0.3f;   // 밤 노출은 NightTuning (사용자가 밝기 단계를 고른다)
 
         // ── 색 보정 ── 낮·불빛은 따뜻하게, 밤은 푸르게. 그림자는 살짝 차갑게, 밝은 곳은 따뜻하게(필름처럼 색이 갈린다)
         const float TemperatureDay = 10f, TemperatureNight = -24f;
@@ -41,7 +41,7 @@ namespace HumanLastRampart.Combat.Render
         const float SplitBalance = -15f;                                 // 음수 = 그림자 색이 조금 더 넓게
 
         // ── 가장자리 어둡게 (Vignette) ──
-        const float VignetteDay = 0.26f, VignetteNight = 0.38f, VignetteRainExtra = 0.06f;
+        const float VignetteDay = 0.26f, VignetteRainExtra = 0.06f;   // 밤은 NightTuning.Vignette
         const float VignetteSmoothness = 0.5f;
 
         // ── 빛줄기 (TiltShift 세로 패스에 더함) ── 맑은 낮에 위에서 비스듬히 내려오는 느낌. 세기는 아주 약하게
@@ -101,7 +101,7 @@ namespace HumanLastRampart.Combat.Render
         {
             float contrast = 14f, saturation = 14f, temperature = TemperatureDay;
             float bloomIntensity = night ? BloomNight : BloomDay;
-            float vignetteIntensity = night ? VignetteNight : VignetteDay;
+            float vignetteIntensity = night ? NightTuning.Vignette : VignetteDay;
             tiltScale = 1f;
             shafts = night ? ShaftsNight : ShaftsClear;
             switch (weather)
@@ -129,7 +129,7 @@ namespace HumanLastRampart.Combat.Render
                 saturation -= 10f;
             }
 
-            color.postExposure.Override(night ? ExposureNight : ExposureDay);
+            color.postExposure.Override(night ? NightTuning.Exposure : ExposureDay);
             color.contrast.Override(contrast);
             color.saturation.Override(saturation);
             white.temperature.Override(temperature);

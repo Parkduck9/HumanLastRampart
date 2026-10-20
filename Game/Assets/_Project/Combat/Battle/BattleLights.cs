@@ -17,8 +17,7 @@ namespace HumanLastRampart.Combat.Battle
         // 총안에 선 병사(0.5m)와 옆으로 비켜 있고, 횃불 돌 뒤에는 병사 자리를 두지 않는다
         public const float TorchInset = 0.35f;
         public const float TorchHeight = 0.24f;        // 성벽 위 높이 (돌출부 끝쯤 — 병사 키 0.35m 기준)
-        const float TorchRange = 2f;            // 통로와 난간을 비춘다 (이웃 횃불과 조금 겹치게)
-        const float TorchIntensity = 0.8f;      // 바로 옆 병사가 하얗게 날아가지 않게
+        const float TorchRange = 2f;            // 처음 값. 실제 세기·반경은 NightTuning (밤 밝기 단계, 2026-10-20)
         const float RainTorchMultiplier = 0.75f;
         const float FlameSize = 0.035f;         // 눈에 보이는 불꽃 지름 (m) — 병사 머리보다 작게
         static readonly Color TorchColor = new Color(1f, 0.58f, 0.26f);
@@ -60,7 +59,8 @@ namespace HumanLastRampart.Combat.Battle
 
         bool torchesOn;
         Weather torchWeather;
-        bool torchesDecided;
+        bool torchesDecided, torchNight;
+        int torchTuning = -1;
 
         public BattleLights(BattleSim sim, Transform parent)
         {
@@ -140,12 +140,17 @@ namespace HumanLastRampart.Combat.Battle
             AgeTimed(Time.deltaTime);
 
             // 횃불: 밤낮은 전투 중 안 바뀌고, 날씨가 바뀌면 다시 판단
-            if (!torchesDecided || torchWeather != sim.CurrentWeather)
+            if (!torchesDecided || torchWeather != sim.CurrentWeather || torchNight != (sim.TimeOfDay == TimeOfDay.Night)
+                || torchTuning != HumanLastRampart.Combat.Render.NightTuning.Version)
             {
                 torchesDecided = true;
                 torchWeather = sim.CurrentWeather;
-                bool night = sim.TimeOfDay == TimeOfDay.Night;
-                SetTorches(night, sim.IsRaining ? TorchIntensity * RainTorchMultiplier : TorchIntensity);
+                torchNight = sim.TimeOfDay == TimeOfDay.Night;
+                torchTuning = HumanLastRampart.Combat.Render.NightTuning.Version;
+                float intensity = HumanLastRampart.Combat.Render.NightTuning.TorchIntensity;
+                foreach (Light torch in torches) torch.range = HumanLastRampart.Combat.Render.NightTuning.TorchRange;
+                SetTorches(false, 0f);   // 세기를 다시 넣으려고 한 번 끈다
+                SetTorches(torchNight, sim.IsRaining ? intensity * RainTorchMultiplier : intensity);
             }
 
             if (torchesOn) FlickerTorches();
