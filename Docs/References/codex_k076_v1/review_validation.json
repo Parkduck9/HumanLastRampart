@@ -1,0 +1,7 @@
+{
+  "embeddedAnimationImages": 7,
+  "drawCalls": 56,
+  "frameStepping": true,
+  "pauseAndStep": true,
+  "mode": "모의 DOM 실행: 실제 브라우저 렌더링 아님"
+}
