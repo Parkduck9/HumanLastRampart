@@ -1,0 +1,82 @@
+{
+  "hero_neutral": {
+    "source": "C:\\Users\\User\\.codex\\generated_images\\01a156d4-476b-79b0-b635-4b84f22327b6\\exec-fa16f5df-d93c-4690-9327-da7f5a9437b3.png",
+    "prompt": "Use case: style-transfer. Image 1 is EDIT TARGET: white-haired officer story portrait with neutral expression. Image 2 is the USER-APPROVED STYLE REFERENCE, not an edit target. Correct target proportions to match reference: ENLARGE HEAD so hair top to chin is exactly ONE THIRD of full character height; shorten torso and legs accordingly while keeping large sturdy boots, wide stocky short body. Current target is too tall and too finely detailed. Use FEWER, LARGER, sharply square pixels like the reference and approximately 3 shading steps per material. Keep white spiky hair, clearly blue eyes with white highlight, neutral expression, dark officer coat simple gold trim, cream shirt, brown boots and belt, front pose. Preserve transparent 2:3 canvas and bottom boot baseline. One full-body character only, no glow, no labels. Do not reproduce target's small-head proportions.",
+    "references": [
+      "C:\\Users\\User\\.codex\\generated_images\\01a156d4-476b-79b0-b635-4b84f22327b6\\exec-9ab4d397-9243-4032-bc25-df2800c4d8bf.png",
+      "Docs/References/codex_hero_octopath_review_v6/generated.png"
+    ],
+    "previous_prompt": "Use case: illustration-story. Create ONE isolated full-body story dialogue character portrait for Human Last Rampart, neutral expression. Identity: white spiky hair, blue eyes with white highlight, dark charcoal officer coat, gold collar trim and epaulettes and cuffs, cream shirt, brown belt and big brown boots. Follow the already viewed USER PICK FIRST generated hero v6 image: head about 1/3 total height, short sturdy body, big boots, visible blue iris and white catchlight, dark thick one-native-pixel outline, chunky square pixels, approximately three shading steps per material. Also follow the viewed K065 wizard/archer identity for those characters. NOT a realistic portrait, NOT a bust. Front facing, relaxed arms, very slight 3/4 face allowed, both feet same baseline, no ground shadow, no background, no glow, no letters, no extra panels. Compose centered inside a 2:3 transparent canvas with generous empty margin: head top at about 20% height, boot soles at 91.67% height, character height about 72%. Intended final canvas 256x384 made from native64x96 nearest-neighbor pixels; draw deliberately coarse native pixel shapes. This is a new artwork using the already viewed references for identity and style. Expression NEUTRAL calm attentive.",
+    "tool": "built-in image_gen",
+    "transparent_background": true
+  },
+  "wizard_neutral": {
+    "source": "C:\\Users\\User\\.codex\\generated_images\\01a156d4-476b-79b0-b635-4b84f22327b6\\exec-3bc27d34-066f-4b35-84d4-f44fbe177e1f.png",
+    "prompt": "Use case: illustration-story. Create ONE isolated full-body story dialogue character portrait for Human Last Rampart, neutral expression. Identity: warm chestnut spiky hair, blue eyes with white highlight, purple robe with simple gold edging, brown belt and boots, wooden staff with a small blue crystal on viewer left. Follow the already viewed USER PICK FIRST generated hero v6 image: head about 1/3 total height, short sturdy body, big boots, visible blue iris and white catchlight, dark thick one-native-pixel outline, chunky square pixels, approximately three shading steps per material. Also follow the viewed K065 wizard/archer identity for those characters. NOT a realistic portrait, NOT a bust. Front facing, relaxed arms, very slight 3/4 face allowed, both feet same baseline, no ground shadow, no background, no glow, no letters, no extra panels. Compose centered inside a 2:3 transparent canvas with generous empty margin: head top at about 20% height, boot soles at 91.67% height, character height about 72%. Intended final canvas 256x384 made from native64x96 nearest-neighbor pixels; draw deliberately coarse native pixel shapes. This is a new artwork using the already viewed references for identity and style. Expression NEUTRAL calm attentive.",
+    "tool": "built-in image_gen",
+    "transparent_background": true
+  },
+  "archer_neutral": {
+    "source": "C:\\Users\\User\\.codex\\generated_images\\01a156d4-476b-79b0-b635-4b84f22327b6\\exec-7a65b50d-9489-4d39-91a2-ce1ba3180b38.png",
+    "prompt": "Use case: illustration-story. Create ONE isolated full-body story dialogue character portrait for Human Last Rampart, neutral expression. Identity: light warm brown spiky hair, blue eyes with white highlight, navy and cream soldier uniform, brown gloves and big boots, wooden bow on viewer right and quiver on back. Follow the already viewed USER PICK FIRST generated hero v6 image: head about 1/3 total height, short sturdy body, big boots, visible blue iris and white catchlight, dark thick one-native-pixel outline, chunky square pixels, approximately three shading steps per material. Also follow the viewed K065 wizard/archer identity for those characters. NOT a realistic portrait, NOT a bust. Front facing, relaxed arms, very slight 3/4 face allowed, both feet same baseline, no ground shadow, no background, no glow, no letters, no extra panels. Compose centered inside a 2:3 transparent canvas with generous empty margin: head top at about 20% height, boot soles at 91.67% height, character height about 72%. Intended final canvas 256x384 made from native64x96 nearest-neighbor pixels; draw deliberately coarse native pixel shapes. This is a new artwork using the already viewed references for identity and style. Expression NEUTRAL calm attentive.",
+    "tool": "built-in image_gen",
+    "transparent_background": true
+  },
+  "hero_determined": {
+    "source": "C:\\Users\\User\\.codex\\generated_images\\01a156d4-476b-79b0-b635-4b84f22327b6\\exec-94c06b95-8900-42db-a12a-b74ba4626433.png",
+    "prompt": "Use case: style-transfer. Image 1 is EDIT TARGET: white-haired officer story portrait with determined expression. Image 2 is the USER-APPROVED STYLE REFERENCE, not an edit target. Correct target proportions to match reference: ENLARGE HEAD so hair top to chin is exactly ONE THIRD of full character height; shorten torso and legs accordingly while keeping large sturdy boots, wide stocky short body. Current target is too tall and too finely detailed. Use FEWER, LARGER, sharply square pixels like the reference and approximately 3 shading steps per material. Keep white spiky hair, clearly blue eyes with white highlight, determined expression, dark officer coat simple gold trim, cream shirt, brown boots and belt, front pose. Preserve transparent 2:3 canvas and bottom boot baseline. One full-body character only, no glow, no labels. Do not reproduce target's small-head proportions.",
+    "references": [
+      "C:\\Users\\User\\.codex\\generated_images\\01a156d4-476b-79b0-b635-4b84f22327b6\\exec-ec4bc1d1-968f-4bb9-a6ea-3c29267fc78d.png",
+      "Docs/References/codex_hero_octopath_review_v6/generated.png"
+    ],
+    "previous_prompt": "Use case: identity-preserve. Edit this game story portrait to expression determined. Change only eyebrows, eyelids and mouth. Firm lowered eyebrows and resolute closed mouth, blue irises visible. Preserve SAME character white hair, officer coat, pose, proportions, pixel sizes, exact canvas, exact head and feet position, boots, clothing and silhouette. Full body, chunky pixel art, dark outline. Keep transparent background. No labels or panels.",
+    "tool": "built-in image_gen",
+    "transparent_background": true
+  },
+  "hero_surprised": {
+    "source": "C:\\Users\\User\\.codex\\generated_images\\01a156d4-476b-79b0-b635-4b84f22327b6\\exec-ec5fd6ea-b7fa-4f80-86b9-2a5690778525.png",
+    "prompt": "Use case: style-transfer. Image 1 is EDIT TARGET: white-haired officer story portrait with surprised expression. Image 2 is the USER-APPROVED STYLE REFERENCE, not an edit target. Correct target proportions to match reference: ENLARGE HEAD so hair top to chin is exactly ONE THIRD of full character height; shorten torso and legs accordingly while keeping large sturdy boots, wide stocky short body. Current target is too tall and too finely detailed. Use FEWER, LARGER, sharply square pixels like the reference and approximately 3 shading steps per material. Keep white spiky hair, clearly blue eyes with white highlight, surprised expression, dark officer coat simple gold trim, cream shirt, brown boots and belt, front pose. Preserve transparent 2:3 canvas and bottom boot baseline. One full-body character only, no glow, no labels. Do not reproduce target's small-head proportions.",
+    "references": [
+      "C:\\Users\\User\\.codex\\generated_images\\01a156d4-476b-79b0-b635-4b84f22327b6\\exec-0312dc8f-b86e-450e-ae0f-6cccb188a89a.png",
+      "Docs/References/codex_hero_octopath_review_v6/generated.png"
+    ],
+    "previous_prompt": "Use case: identity-preserve. Edit this game story portrait to expression surprised. Change only eyebrows, eyelids and mouth. Raised eyebrows, widened blue eyes, small open mouth. Preserve SAME character white hair, officer coat, pose, proportions, pixel sizes, exact canvas, exact head and feet position, boots, clothing and silhouette. Full body, chunky pixel art, dark outline. Keep transparent background. No labels or panels.",
+    "tool": "built-in image_gen",
+    "transparent_background": true
+  },
+  "hero_tired": {
+    "source": "C:\\Users\\User\\.codex\\generated_images\\01a156d4-476b-79b0-b635-4b84f22327b6\\exec-abd57058-b128-4e81-88f3-5186f16571bb.png",
+    "prompt": "Use case: style-transfer. Image 1 is EDIT TARGET: white-haired officer story portrait with tired expression. Image 2 is the USER-APPROVED STYLE REFERENCE, not an edit target. Correct target proportions to match reference: ENLARGE HEAD so hair top to chin is exactly ONE THIRD of full character height; shorten torso and legs accordingly while keeping large sturdy boots, wide stocky short body. Current target is too tall and too finely detailed. Use FEWER, LARGER, sharply square pixels like the reference and approximately 3 shading steps per material. Keep white spiky hair, clearly blue eyes with white highlight, tired expression, dark officer coat simple gold trim, cream shirt, brown boots and belt, front pose. Preserve transparent 2:3 canvas and bottom boot baseline. One full-body character only, no glow, no labels. Do not reproduce target's small-head proportions.",
+    "references": [
+      "C:\\Users\\User\\.codex\\generated_images\\01a156d4-476b-79b0-b635-4b84f22327b6\\exec-eaf440e5-5ee7-42b5-b010-15230a464225.png",
+      "Docs/References/codex_hero_octopath_review_v6/generated.png"
+    ],
+    "previous_prompt": "Use case: identity-preserve. Edit this game story portrait to expression tired. Change only eyebrows, eyelids and mouth. Half-lidded blue eyes, heavy brows and slight weary mouth. Preserve SAME character white hair, officer coat, pose, proportions, pixel sizes, exact canvas, exact head and feet position, boots, clothing and silhouette. Full body, chunky pixel art, dark outline. Keep transparent background. No labels or panels.",
+    "tool": "built-in image_gen",
+    "transparent_background": true
+  },
+  "archer_alarmed": {
+    "source": "C:\\Users\\User\\.codex\\generated_images\\01a156d4-476b-79b0-b635-4b84f22327b6\\exec-52945fa3-f14d-4860-9210-8378c4a44666.png",
+    "prompt": "Use case: identity-preserve. Edit this archer portrait to an ALARMED expression calling out an urgent warning: raised eyebrows, wide blue eyes, open mouth. Change only face. Preserve exact light brown spiky hair, navy and cream uniform, quiver, wooden bow, gloves and boots, pose, proportions, full-body silhouette, exact canvas dimensions and all character positions. Same chunky outlined pixel art. Transparent background. No text, no glow, no other panels.",
+    "tool": "built-in image_gen",
+    "transparent_background": true
+  },
+  "wizard_determined": {
+    "source": "C:\\Users\\User\\.codex\\generated_images\\01a156d4-476b-79b0-b635-4b84f22327b6\\exec-d16ffaa6-72d5-4e52-9bff-981f7be573b0.png",
+    "prompt": "Use case: identity-preserve. Edit this wizard story portrait to expression determined. Change only eyebrows, eyelids and mouth. Firm lowered eyebrows and resolute closed mouth, blue irises visible. Preserve SAME chestnut hair and purple gold robe wizard, exact pose and staff, proportions, canvas, head and feet position, boots, clothing and silhouette. Front full body chunky pixel art dark outline. Transparent background, no glow, no text.",
+    "tool": "built-in image_gen",
+    "transparent_background": true
+  },
+  "wizard_surprised": {
+    "source": "C:\\Users\\User\\.codex\\generated_images\\01a156d4-476b-79b0-b635-4b84f22327b6\\exec-34a0d4f2-f670-49e8-ac2d-cf898e3fcda8.png",
+    "prompt": "Use case: identity-preserve. Edit this wizard story portrait to expression surprised. Change only eyebrows, eyelids and mouth. Raised eyebrows, widened blue eyes, small open round mouth. Preserve SAME chestnut hair and purple gold robe wizard, exact pose and staff, proportions, canvas, head and feet position, boots, clothing and silhouette. Front full body chunky pixel art dark outline. Transparent background, no glow, no text.",
+    "tool": "built-in image_gen",
+    "transparent_background": true
+  },
+  "wizard_tired": {
+    "source": "C:\\Users\\User\\.codex\\generated_images\\01a156d4-476b-79b0-b635-4b84f22327b6\\exec-6b428a09-f15c-4497-8267-0bc6dfce3b75.png",
+    "prompt": "Use case: identity-preserve. Edit this wizard story portrait to expression tired. Change only eyebrows, eyelids and mouth. Half-lidded blue eyes and weary downturned mouth. Preserve SAME chestnut hair and purple gold robe wizard, exact pose and staff, proportions, canvas, head and feet position, boots, clothing and silhouette. Front full body chunky pixel art dark outline. Transparent background, no glow, no text.",
+    "tool": "built-in image_gen",
+    "transparent_background": true
+  }
+}
