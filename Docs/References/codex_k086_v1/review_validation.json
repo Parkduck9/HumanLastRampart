@@ -1,0 +1,102 @@
+{
+  "checks": [
+    {
+      "check": "한국어 문서",
+      "passed": true
+    },
+    {
+      "check": "외부 이미지 주소 없음",
+      "passed": true
+    },
+    {
+      "check": "내장 PNG 주소",
+      "passed": true
+    },
+    {
+      "check": "내장 PNG 주소",
+      "passed": true
+    },
+    {
+      "check": "내장 PNG 주소",
+      "passed": true
+    },
+    {
+      "check": "내장 이미지 3개 준비",
+      "passed": true
+    },
+    {
+      "check": "proof 원본 바이트 일치",
+      "passed": true
+    },
+    {
+      "check": "composite 원본 바이트 일치",
+      "passed": true
+    },
+    {
+      "check": "old 원본 바이트 일치",
+      "passed": true
+    },
+    {
+      "check": "다음 칸 1",
+      "passed": true
+    },
+    {
+      "check": "다음 칸 2",
+      "passed": true
+    },
+    {
+      "check": "다음 칸 3",
+      "passed": true
+    },
+    {
+      "check": "다음 칸 4",
+      "passed": true
+    },
+    {
+      "check": "다음 칸 5",
+      "passed": true
+    },
+    {
+      "check": "다음 칸 6",
+      "passed": true
+    },
+    {
+      "check": "이전 칸 순환",
+      "passed": true
+    },
+    {
+      "check": "처음으로",
+      "passed": true
+    },
+    {
+      "check": "재생",
+      "passed": true
+    },
+    {
+      "check": "시간에 따라 칸 전환",
+      "passed": true
+    },
+    {
+      "check": "정지 유지",
+      "passed": true
+    },
+    {
+      "check": "안내선 끄기",
+      "passed": true
+    },
+    {
+      "check": "속도 변경",
+      "passed": true
+    },
+    {
+      "check": "합성 펼침 이미지 지정",
+      "passed": true
+    },
+    {
+      "check": "교체 준비 완료로 표시하지 않음",
+      "passed": true
+    }
+  ],
+  "draw_calls": 39,
+  "method": "Node VM의 DOM·이미지 모형 검사. 실제 브라우저 디코딩·배치 검사는 미수행."
+}
