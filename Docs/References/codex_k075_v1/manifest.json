@@ -1,0 +1,717 @@
+﻿{
+    "scale":  3,
+    "palette":  [
+                    "#110E16",
+                    "#292733",
+                    "#45434F",
+                    "#686673",
+                    "#111E32",
+                    "#203D60",
+                    "#32628B",
+                    "#A98756",
+                    "#DBC593",
+                    "#FFF0C5",
+                    "#8D5537",
+                    "#D99059",
+                    "#FFD19A",
+                    "#3A221D",
+                    "#6B3C28",
+                    "#A3633C",
+                    "#CB8B53",
+                    "#1D4E7A",
+                    "#5D9FC8",
+                    "#FFF9E8",
+                    "#E75913",
+                    "#FFA927",
+                    "#FFF27F"
+                ],
+    "native_pivot_top_left":  [
+                                  48,
+                                  120
+                              ],
+    "integration_notes":  [
+                              "Game/는 변경하지 않았다. 파일별 칸 크기와 피벗은 Claude가 연결한다.",
+                              "견인은 칸 경계에서 36px 이동한다. 연속 이동 보간의 접지는 게임 측 처리가 필요하다.",
+                              "정지 대포병 노멀맵은 제작하지 않았다. 기존 크기의 노멀맵을 새 시트에 그대로 쓰지 않는다."
+                          ],
+    "game_pivot_top_left":  [
+                                144,
+                                360
+                            ],
+    "haul":  {
+                 "step_game":  36,
+                 "interpolation":  "none",
+                 "planted_world_game":  [
+                                            108,
+                                            108,
+                                            108,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                 "step_at_256_scale":  32,
+                 "direction":  "left",
+                 "step_native":  12,
+                 "planted_sole_native":  [
+                                             36,
+                                             48,
+                                             60,
+                                             36,
+                                             48,
+                                             60
+                                         ],
+                 "note":  "상체 축은 x=48에 정렬하고 하체만 점진적으로 접지 위치에 보정했다. 손 파지와 이동 보간 연결은 실제 게임 검토가 남는다."
+             },
+    "card":  "K-075",
+    "ignite_contact":  {
+                           "cannon_source":  "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/haul_cannon_body.png",
+                           "cannon_draw_offset_game":  [
+                                                           0,
+                                                           8
+                                                       ],
+                           "frame_index":  3,
+                           "crew_draw_offset_game":  [
+                                                         173,
+                                                         0
+                                                     ],
+                           "cannon_source_fuse":  [
+                                                      269,
+                                                      132
+                                                  ],
+                           "cannon_source_pivot":  [
+                                                       336,
+                                                       352
+                                                   ],
+                           "note":  "현재 대포를 y=8에 놓고 병사를 지정한 x에 놓으면 접촉 칸의 실제 불씨 픽셀이 도화선 (269,140)에 겹친다.",
+                           "fuse_game":  [
+                                             269,
+                                             140
+                                         ],
+                           "flame_contact_native":  [
+                                                        32,
+                                                        46.666666666666664
+                                                    ],
+                           "flame_contact_game":  [
+                                                      96,
+                                                      140
+                                                  ]
+                       },
+    "sources":  [
+                    {
+                        "sha256":  "ED44F363EB0A1D341AE1B50DEEB8D292410DA8F8A2CE4AC695F29AACAC72A935",
+                        "file":  "source/static.png",
+                        "kind":  "static"
+                    },
+                    {
+                        "sha256":  "86C595ADE94E7F97B3DF10762541AB9D40612B5D31277C32872D8B780E6BB7C8",
+                        "file":  "source/run_fixed.png",
+                        "kind":  "run"
+                    },
+                    {
+                        "sha256":  "4E11F7008F60E691A4FCFA7EF756EE5EF242E459CDDB98FC3135CE398FFB3BE0",
+                        "file":  "source/ignite_fixed.png",
+                        "kind":  "ignite"
+                    },
+                    {
+                        "sha256":  "281967605DC78E039439C2AE65419664383CD3BA484777D24C374EE0B8D8A908",
+                        "file":  "source/fall_back.png",
+                        "kind":  "fall"
+                    },
+                    {
+                        "sha256":  "9E1583692F0499546E56543CA8522D613E9469953AF4C5CF548C5098BE451E30",
+                        "file":  "source/push.png",
+                        "kind":  "push"
+                    },
+                    {
+                        "sha256":  "75092E17139F28772F515558BB99D90E1D4FBDF1A94969EE15DA25AC6D27EF6F",
+                        "file":  "source/pull.png",
+                        "kind":  "pull"
+                    }
+                ],
+    "frame_direction":  "left_to_right",
+    "native_cell":  [
+                        96,
+                        128
+                    ],
+    "unity_normalized_pivot":  [
+                                   0.5,
+                                   0.0625
+                               ],
+    "game_cell":  [
+                      288,
+                      384
+                  ],
+    "decision":  "D-080 / D-081",
+    "sheets":  [
+                   {
+                       "native":  "native/Characters/Static/cannon_crew_static.png",
+                       "kind":  "static",
+                       "current_source_sha256":  "5EE84F511A5351AA9E93CC6E4A22ADBB063B2C54F7993A5557EB039C17122EA3",
+                       "preview_4x":  "previews/static_4x.png",
+                       "frame_order":  [
+                                           "뒷모습 대기"
+                                       ],
+                       "target":  "Game/Assets/_Project/Art/Characters/Static/cannon_crew_static.png",
+                       "frames":  [
+                                      {
+                                          "normalization_axis_x":  48,
+                                          "index":  0,
+                                          "bounds":  [
+                                                         28,
+                                                         47,
+                                                         46,
+                                                         73
+                                                     ],
+                                          "source_scale":  0.072277227722772272,
+                                          "baseline_bottom_exclusive":  120,
+                                          "label":  "뒷모습 대기",
+                                          "sole_x":  51,
+                                          "source_axis_x":  533
+                                      }
+                                  ],
+                       "game":  "game/Characters/Static/cannon_crew_static.png",
+                       "frame_count":  1
+                   },
+                   {
+                       "native":  "native/Characters/Run/cannon_crew_run.png",
+                       "kind":  "run",
+                       "current_source_sha256":  "7E4BD00D40549A19479FE738AD73C9A01EF70C0F8C272A5F7E17F6551270EEE3",
+                       "preview_4x":  "previews/run_4x.png",
+                       "frame_order":  [
+                                           "왼발 디딤",
+                                           "오른발 통과",
+                                           "오른발 디딤",
+                                           "왼발 통과"
+                                       ],
+                       "target":  "Game/Assets/_Project/Art/Characters/Run/cannon_crew_run.png",
+                       "frames":  [
+                                      {
+                                          "normalization_axis_x":  48,
+                                          "index":  0,
+                                          "bounds":  [
+                                                         16,
+                                                         46,
+                                                         69,
+                                                         74
+                                                     ],
+                                          "source_scale":  0.14038461538461539,
+                                          "baseline_bottom_exclusive":  120,
+                                          "label":  "왼발 디딤",
+                                          "sole_x":  34,
+                                          "source_axis_x":  267
+                                      },
+                                      {
+                                          "normalization_axis_x":  48,
+                                          "index":  1,
+                                          "bounds":  [
+                                                         14,
+                                                         46,
+                                                         61,
+                                                         74
+                                                     ],
+                                          "source_scale":  0.13984674329501914,
+                                          "baseline_bottom_exclusive":  120,
+                                          "label":  "오른발 통과",
+                                          "sole_x":  56,
+                                          "source_axis_x":  849
+                                      },
+                                      {
+                                          "normalization_axis_x":  48,
+                                          "index":  2,
+                                          "bounds":  [
+                                                         16,
+                                                         46,
+                                                         71,
+                                                         74
+                                                     ],
+                                          "source_scale":  0.14011516314779271,
+                                          "baseline_bottom_exclusive":  120,
+                                          "label":  "오른발 디딤",
+                                          "sole_x":  41,
+                                          "source_axis_x":  1345
+                                      },
+                                      {
+                                          "normalization_axis_x":  48,
+                                          "index":  3,
+                                          "bounds":  [
+                                                         15,
+                                                         46,
+                                                         61,
+                                                         74
+                                                     ],
+                                          "source_scale":  0.13984674329501914,
+                                          "baseline_bottom_exclusive":  120,
+                                          "label":  "왼발 통과",
+                                          "sole_x":  55,
+                                          "source_axis_x":  1934
+                                      }
+                                  ],
+                       "game":  "game/Characters/Run/cannon_crew_run.png",
+                       "frame_count":  4
+                   },
+                   {
+                       "native":  "native/Characters/Fire/cannon_crew_ignite6.png",
+                       "kind":  "ignite",
+                       "current_source_sha256":  "7A2602E4B72B04DC4C1FAD460FC6FE7A1A7E925D0F66875B72B4D18418D1AF68",
+                       "preview_4x":  "previews/ignite_4x.png",
+                       "frame_order":  [
+                                           "막대 내림",
+                                           "들기",
+                                           "도화선 접근",
+                                           "도화선 접촉",
+                                           "거두기",
+                                           "대기 복귀"
+                                       ],
+                       "target":  "Game/Assets/_Project/Art/Characters/Fire/cannon_crew_ignite6.png",
+                       "frames":  [
+                                      {
+                                          "normalization_axis_x":  48,
+                                          "index":  0,
+                                          "bounds":  [
+                                                         26,
+                                                         46,
+                                                         45,
+                                                         74
+                                                     ],
+                                          "source_scale":  0.16258351893095768,
+                                          "baseline_bottom_exclusive":  120,
+                                          "label":  "막대 내림",
+                                          "flame_center_native":  [
+                                                                      29,
+                                                                      66
+                                                                  ],
+                                          "sole_x":  45,
+                                          "source_axis_x":  187
+                                      },
+                                      {
+                                          "normalization_axis_x":  48,
+                                          "index":  1,
+                                          "bounds":  [
+                                                         23,
+                                                         46,
+                                                         48,
+                                                         74
+                                                     ],
+                                          "source_scale":  0.16258351893095768,
+                                          "baseline_bottom_exclusive":  120,
+                                          "label":  "들기",
+                                          "flame_center_native":  [
+                                                                      26,
+                                                                      54
+                                                                  ],
+                                          "sole_x":  45,
+                                          "source_axis_x":  563
+                                      },
+                                      {
+                                          "normalization_axis_x":  48,
+                                          "index":  2,
+                                          "bounds":  [
+                                                         19,
+                                                         45,
+                                                         51,
+                                                         75
+                                                     ],
+                                          "source_scale":  0.16258351893095768,
+                                          "baseline_bottom_exclusive":  120,
+                                          "label":  "도화선 접근",
+                                          "flame_center_native":  [
+                                                                      23,
+                                                                      49
+                                                                  ],
+                                          "sole_x":  45,
+                                          "source_axis_x":  969
+                                      },
+                                      {
+                                          "normalization_axis_x":  48,
+                                          "index":  3,
+                                          "bounds":  [
+                                                         28,
+                                                         45,
+                                                         43,
+                                                         75
+                                                     ],
+                                          "source_scale":  0.16258351893095768,
+                                          "baseline_bottom_exclusive":  120,
+                                          "label":  "도화선 접촉",
+                                          "flame_center_native":  [
+                                                                      31,
+                                                                      49
+                                                                  ],
+                                          "sole_x":  45,
+                                          "source_axis_x":  1339
+                                      },
+                                      {
+                                          "normalization_axis_x":  48,
+                                          "index":  4,
+                                          "bounds":  [
+                                                         19,
+                                                         46,
+                                                         51,
+                                                         74
+                                                     ],
+                                          "source_scale":  0.16258351893095768,
+                                          "baseline_bottom_exclusive":  120,
+                                          "label":  "거두기",
+                                          "flame_center_native":  [
+                                                                      22,
+                                                                      54
+                                                                  ],
+                                          "sole_x":  45,
+                                          "source_axis_x":  1705
+                                      },
+                                      {
+                                          "normalization_axis_x":  48,
+                                          "index":  5,
+                                          "bounds":  [
+                                                         26,
+                                                         46,
+                                                         42,
+                                                         74
+                                                     ],
+                                          "source_scale":  0.16258351893095768,
+                                          "baseline_bottom_exclusive":  120,
+                                          "label":  "대기 복귀",
+                                          "flame_center_native":  [
+                                                                      29,
+                                                                      66
+                                                                  ],
+                                          "sole_x":  45,
+                                          "source_axis_x":  2027
+                                      }
+                                  ],
+                       "game":  "game/Characters/Fire/cannon_crew_ignite6.png",
+                       "frame_count":  6
+                   },
+                   {
+                       "native":  "native/Characters/Fall/cannon_crew_fall.png",
+                       "kind":  "fall",
+                       "current_source_sha256":  "BEC2BF5224B50E84FAF9CC577615E331A6AACDA469489E196239B57804EB35BF",
+                       "preview_4x":  "previews/fall_4x.png",
+                       "frame_order":  [
+                                           "무릎 꺾임",
+                                           "무릎 꿇음",
+                                           "옆으로 쓰러짐",
+                                           "옆으로 누움"
+                                       ],
+                       "target":  "Game/Assets/_Project/Art/Characters/Fall/cannon_crew_fall.png",
+                       "frames":  [
+                                      {
+                                          "normalization_axis_x":  48,
+                                          "index":  0,
+                                          "bounds":  [
+                                                         22,
+                                                         47,
+                                                         52,
+                                                         73
+                                                     ],
+                                          "source_scale":  0.13176895306859207,
+                                          "baseline_bottom_exclusive":  120,
+                                          "label":  "무릎 꺾임",
+                                          "sole_x":  50,
+                                          "source_axis_x":  242
+                                      },
+                                      {
+                                          "normalization_axis_x":  48,
+                                          "index":  1,
+                                          "bounds":  [
+                                                         21,
+                                                         55,
+                                                         54,
+                                                         65
+                                                     ],
+                                          "source_scale":  0.13176895306859207,
+                                          "baseline_bottom_exclusive":  120,
+                                          "label":  "무릎 꿇음",
+                                          "sole_x":  65,
+                                          "source_axis_x":  722
+                                      },
+                                      {
+                                          "normalization_axis_x":  48,
+                                          "index":  2,
+                                          "bounds":  [
+                                                         15,
+                                                         66,
+                                                         66,
+                                                         54
+                                                     ],
+                                          "source_scale":  0.13176895306859207,
+                                          "baseline_bottom_exclusive":  120,
+                                          "label":  "옆으로 쓰러짐",
+                                          "sole_x":  54,
+                                          "source_axis_x":  1245
+                                      },
+                                      {
+                                          "normalization_axis_x":  48,
+                                          "index":  3,
+                                          "bounds":  [
+                                                         14,
+                                                         89,
+                                                         68,
+                                                         31
+                                                     ],
+                                          "source_scale":  0.13176895306859207,
+                                          "baseline_bottom_exclusive":  120,
+                                          "label":  "옆으로 누움",
+                                          "sole_x":  57,
+                                          "source_axis_x":  1784
+                                      }
+                                  ],
+                       "game":  "game/Characters/Fall/cannon_crew_fall.png",
+                       "frame_count":  4
+                   },
+                   {
+                       "native":  "native/Battle/Resources/BattleArt/Cannon/crew_push6.png",
+                       "kind":  "push",
+                       "current_source_sha256":  "666BAF673EDCE403C0C2B5340558E9ABA4228B0C850495C2DAFA387B53AB61B0",
+                       "preview_4x":  "previews/push_4x.png",
+                       "frame_order":  [
+                                           "왼발 앞 디딤",
+                                           "왼발 가운데 디딤",
+                                           "왼발 뒤 디딤",
+                                           "오른발 앞 디딤",
+                                           "오른발 가운데 디딤",
+                                           "오른발 뒤 디딤"
+                                       ],
+                       "target":  "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/crew_push6.png",
+                       "frames":  [
+                                      {
+                                          "normalization_axis_x":  48,
+                                          "index":  0,
+                                          "bounds":  [
+                                                         17,
+                                                         47,
+                                                         59,
+                                                         73
+                                                     ],
+                                          "source_scale":  0.15145228215767634,
+                                          "planted_foot_native_x":  36,
+                                          "baseline_bottom_exclusive":  120,
+                                          "label":  "왼발 앞 디딤",
+                                          "world_foot_game_x":  108,
+                                          "sole_x":  62,
+                                          "planted_leg":  "왼발",
+                                          "source_axis_x":  228
+                                      },
+                                      {
+                                          "normalization_axis_x":  48,
+                                          "index":  1,
+                                          "bounds":  [
+                                                         17,
+                                                         47,
+                                                         54,
+                                                         73
+                                                     ],
+                                          "source_scale":  0.15082644628099173,
+                                          "planted_foot_native_x":  48,
+                                          "baseline_bottom_exclusive":  120,
+                                          "label":  "왼발 가운데 디딤",
+                                          "world_foot_game_x":  108,
+                                          "sole_x":  47,
+                                          "planted_leg":  "왼발",
+                                          "source_axis_x":  588
+                                      },
+                                      {
+                                          "normalization_axis_x":  48,
+                                          "index":  2,
+                                          "bounds":  [
+                                                         17,
+                                                         46,
+                                                         54,
+                                                         74
+                                                     ],
+                                          "source_scale":  0.15082644628099173,
+                                          "planted_foot_native_x":  60,
+                                          "baseline_bottom_exclusive":  120,
+                                          "label":  "왼발 뒤 디딤",
+                                          "world_foot_game_x":  108,
+                                          "sole_x":  58,
+                                          "planted_leg":  "왼발",
+                                          "source_axis_x":  930
+                                      },
+                                      {
+                                          "normalization_axis_x":  48,
+                                          "index":  3,
+                                          "bounds":  [
+                                                         18,
+                                                         46,
+                                                         61,
+                                                         74
+                                                     ],
+                                          "source_scale":  0.15082644628099173,
+                                          "planted_foot_native_x":  36,
+                                          "baseline_bottom_exclusive":  120,
+                                          "label":  "오른발 앞 디딤",
+                                          "world_foot_game_x":  0,
+                                          "sole_x":  65,
+                                          "planted_leg":  "오른발",
+                                          "source_axis_x":  1287
+                                      },
+                                      {
+                                          "normalization_axis_x":  48,
+                                          "index":  4,
+                                          "bounds":  [
+                                                         18,
+                                                         46,
+                                                         55,
+                                                         74
+                                                     ],
+                                          "source_scale":  0.15082644628099173,
+                                          "planted_foot_native_x":  48,
+                                          "baseline_bottom_exclusive":  120,
+                                          "label":  "오른발 가운데 디딤",
+                                          "world_foot_game_x":  0,
+                                          "sole_x":  48,
+                                          "planted_leg":  "오른발",
+                                          "source_axis_x":  1647
+                                      },
+                                      {
+                                          "normalization_axis_x":  48,
+                                          "index":  5,
+                                          "bounds":  [
+                                                         18,
+                                                         47,
+                                                         53,
+                                                         73
+                                                     ],
+                                          "source_scale":  0.15082644628099173,
+                                          "planted_foot_native_x":  60,
+                                          "baseline_bottom_exclusive":  120,
+                                          "label":  "오른발 뒤 디딤",
+                                          "world_foot_game_x":  0,
+                                          "sole_x":  58,
+                                          "planted_leg":  "오른발",
+                                          "source_axis_x":  2013
+                                      }
+                                  ],
+                       "game":  "game/Battle/Resources/BattleArt/Cannon/crew_push6.png",
+                       "frame_count":  6
+                   },
+                   {
+                       "native":  "native/Battle/Resources/BattleArt/Cannon/crew_pull6.png",
+                       "kind":  "pull",
+                       "current_source_sha256":  "906E0C9AEF8A351BE30E5624F434DEF424C1D215D34693F1DE06CF23095200A2",
+                       "preview_4x":  "previews/pull_4x.png",
+                       "frame_order":  [
+                                           "왼발 앞 디딤",
+                                           "왼발 가운데 디딤",
+                                           "왼발 뒤 디딤",
+                                           "오른발 앞 디딤",
+                                           "오른발 가운데 디딤",
+                                           "오른발 뒤 디딤"
+                                       ],
+                       "target":  "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/crew_pull6.png",
+                       "frames":  [
+                                      {
+                                          "normalization_axis_x":  48,
+                                          "index":  0,
+                                          "bounds":  [
+                                                         13,
+                                                         47,
+                                                         66,
+                                                         73
+                                                     ],
+                                          "source_scale":  0.16590909090909092,
+                                          "planted_foot_native_x":  36,
+                                          "baseline_bottom_exclusive":  120,
+                                          "label":  "왼발 앞 디딤",
+                                          "world_foot_game_x":  108,
+                                          "sole_x":  42,
+                                          "planted_leg":  "왼발",
+                                          "source_axis_x":  228
+                                      },
+                                      {
+                                          "normalization_axis_x":  48,
+                                          "index":  1,
+                                          "bounds":  [
+                                                         15,
+                                                         46,
+                                                         56,
+                                                         74
+                                                     ],
+                                          "source_scale":  0.1662870159453303,
+                                          "planted_foot_native_x":  48,
+                                          "baseline_bottom_exclusive":  120,
+                                          "label":  "왼발 가운데 디딤",
+                                          "world_foot_game_x":  108,
+                                          "sole_x":  48,
+                                          "planted_leg":  "왼발",
+                                          "source_axis_x":  560
+                                      },
+                                      {
+                                          "normalization_axis_x":  48,
+                                          "index":  2,
+                                          "bounds":  [
+                                                         12,
+                                                         47,
+                                                         59,
+                                                         73
+                                                     ],
+                                          "source_scale":  0.16515837104072398,
+                                          "planted_foot_native_x":  60,
+                                          "baseline_bottom_exclusive":  120,
+                                          "label":  "왼발 뒤 디딤",
+                                          "world_foot_game_x":  108,
+                                          "sole_x":  55,
+                                          "planted_leg":  "왼발",
+                                          "source_axis_x":  909
+                                      },
+                                      {
+                                          "normalization_axis_x":  48,
+                                          "index":  3,
+                                          "bounds":  [
+                                                         11,
+                                                         46,
+                                                         66,
+                                                         74
+                                                     ],
+                                          "source_scale":  0.16515837104072398,
+                                          "planted_foot_native_x":  36,
+                                          "baseline_bottom_exclusive":  120,
+                                          "label":  "오른발 앞 디딤",
+                                          "world_foot_game_x":  0,
+                                          "sole_x":  43,
+                                          "planted_leg":  "오른발",
+                                          "source_axis_x":  1272
+                                      },
+                                      {
+                                          "normalization_axis_x":  48,
+                                          "index":  4,
+                                          "bounds":  [
+                                                         11,
+                                                         46,
+                                                         59,
+                                                         74
+                                                     ],
+                                          "source_scale":  0.1655328798185941,
+                                          "planted_foot_native_x":  48,
+                                          "baseline_bottom_exclusive":  120,
+                                          "label":  "오른발 가운데 디딤",
+                                          "world_foot_game_x":  0,
+                                          "sole_x":  48,
+                                          "planted_leg":  "오른발",
+                                          "source_axis_x":  1653
+                                      },
+                                      {
+                                          "normalization_axis_x":  48,
+                                          "index":  5,
+                                          "bounds":  [
+                                                         10,
+                                                         46,
+                                                         61,
+                                                         74
+                                                     ],
+                                          "source_scale":  0.16478555304740405,
+                                          "planted_foot_native_x":  60,
+                                          "baseline_bottom_exclusive":  120,
+                                          "label":  "오른발 뒤 디딤",
+                                          "world_foot_game_x":  0,
+                                          "sole_x":  55,
+                                          "planted_leg":  "오른발",
+                                          "source_axis_x":  2009
+                                      }
+                                  ],
+                       "game":  "game/Battle/Resources/BattleArt/Cannon/crew_pull6.png",
+                       "frame_count":  6
+                   }
+               ]
+}

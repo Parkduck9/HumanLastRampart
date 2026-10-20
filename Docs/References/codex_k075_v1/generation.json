@@ -1,0 +1,53 @@
+{
+  "tool": "image_gen (내장 도구)",
+  "calls": 9,
+  "reference": "D-080 처음 생성본 generated.png / K-065 대포병 정체성",
+  "processing": "C#의 알파 정리·최근접 축소·23색 제한·중심과 접지 정렬. Python 이미지 편집과 외부 API 호출은 사용하지 않았다.",
+  "sources": [
+    {
+      "source": "source/static.png",
+      "result": "채택",
+      "generated_file": "exec-0a049e9e-24fa-4fa5-a0cf-34a9d5771d27.png"
+    },
+    {
+      "source": "source/run.png",
+      "result": "다리 자세 반복으로 미채택",
+      "generated_file": "exec-0460ebd0-8342-4114-addb-6b7a201cea00.png"
+    },
+    {
+      "source": "source/run_fixed.png",
+      "result": "채택",
+      "generated_file": "exec-e164be2d-0600-404c-b431-c04943aad3a6.png"
+    },
+    {
+      "source": "source/ignite.png",
+      "result": "막대 길이·높이 초과로 미채택",
+      "generated_file": "exec-848adec5-8213-49c7-9a7a-b025565a4841.png"
+    },
+    {
+      "source": "source/ignite_fixed.png",
+      "result": "채택",
+      "generated_file": "exec-5c991ed8-8522-4f26-b0ed-7ffdb46b809a.png"
+    },
+    {
+      "source": "source/fall.png",
+      "result": "기존 뒷모습 방향과 달라 미채택",
+      "generated_file": "exec-89f57b2c-73db-43cd-a8cb-cfe34dc64c6c.png"
+    },
+    {
+      "source": "source/fall_back.png",
+      "result": "채택",
+      "generated_file": "exec-7821125a-7932-4b88-b597-19918c528ab1.png"
+    },
+    {
+      "source": "source/push.png",
+      "result": "채택",
+      "generated_file": "exec-fe485567-a143-45e5-bbbb-5b1e32d1b0e8.png"
+    },
+    {
+      "source": "source/pull.png",
+      "result": "채택",
+      "generated_file": "exec-7ced901a-957a-444d-89de-42f61185b341.png"
+    }
+  ]
+}
