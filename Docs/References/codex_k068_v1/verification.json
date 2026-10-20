@@ -324,7 +324,7 @@
         255
       ],
       "sheet_matches": true,
-      "sha256": "d0fb057d90e573589553054a62230f06ab5445aac4c06e10b2d4dfe861e1c895"
+      "sha256": "8c82e0faae8a2c5f4f36d16747cd943cac648f873d193dbc82a61a2c6b69ea29"
     },
     {
       "id": "signpost",
@@ -407,5 +407,13 @@
   ],
   "path_edges_equal": true,
   "review_self_contained": true,
-  "unity_run": false
+  "unity_run": false,
+  "legacy_game_snapshot_matches": true,
+  "legacy_game_snapshot_file_count": 1065,
+  "current_game_file_count": 1065,
+  "embedded_review_images_verified": 76,
+  "four_x_views": 31,
+  "before_after_controls": 2,
+  "external_resources": [],
+  "browser_render_tested": true
 }

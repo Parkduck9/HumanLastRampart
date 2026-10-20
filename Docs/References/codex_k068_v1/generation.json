@@ -116,8 +116,8 @@
   },
   "shield": {
     "source": "source/shield.png",
-    "generated_path": "C:\\Users\\User\\.codex\\generated_images\\01a154b6-1057-70e2-8cbd-88828021d856\\exec-0ec66a71-28d0-4777-a3ad-e17fa1a0925c.png",
-    "prompt": "Use case: stylized-concept. Production game sprite for Human Last Rampart HD-2D battlefield. Match reference K-030 earth wall and logs: chunky square pixel art, restrained natural olive green and brown, upper-left sunlight, no smooth painting or black pure outlines. Transparent background, single isolated asset centered, no text or labels, no border, no other objects. Camera sees ground at 25 degree downward pitch, very shallow elliptical ground footprint. Keep overall contrast low so dark outlined green-brown enemy goblins remain clearly readable. Asset: FALLEN SHIELD, battered small round wooden shield tipped against ground, faded iron rim, no heraldry, thin brown outline, bottom center foot. Intended final sprite 64x64 pixels. Single sprite only. Do not draw any background plane or labels."
+    "generated_path": "C:/Users/User/.codex/generated_images/01a156d0-b228-7761-85da-392e065eba56/exec-2f6e969e-38b9-4d95-847a-312d41b6af6c.png",
+    "prompt": "Edit target: existing shield. Preserve wooden planks, dull iron rim, center boss, muted olive brown palette and chunky pixel art. Shield lies completely flat face-up on horizontal ground, shallow 25 degree camera, strongly foreshortened wide ellipse. Isolated transparent background, upper-left light. Built-in image_gen edit, K-069."
   },
   "signpost": {
     "source": "source/signpost.png",

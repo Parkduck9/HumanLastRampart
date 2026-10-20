@@ -285,10 +285,10 @@
                       "bounds":  [
                                      3,
                                      2,
-                                     26,
+                                     27,
                                      30
                                  ],
-                      "opaquePixels":  228,
+                      "opaquePixels":  236,
                       "paletteColors":  8,
                       "size":  "32×32",
                       "alpha":  "0 또는 255",
@@ -301,10 +301,10 @@
                       "bounds":  [
                                      3,
                                      2,
-                                     26,
+                                     27,
                                      30
                                  ],
-                      "opaquePixels":  253,
+                      "opaquePixels":  261,
                       "paletteColors":  8,
                       "size":  "32×32",
                       "alpha":  "0 또는 255",
@@ -317,10 +317,10 @@
                       "bounds":  [
                                      3,
                                      2,
-                                     26,
+                                     27,
                                      30
                                  ],
-                      "opaquePixels":  278,
+                      "opaquePixels":  286,
                       "paletteColors":  8,
                       "size":  "32×32",
                       "alpha":  "0 또는 255",
@@ -352,7 +352,7 @@
                                      29,
                                      29
                                  ],
-                      "opaquePixels":  284,
+                      "opaquePixels":  292,
                       "paletteColors":  8,
                       "size":  "32×32",
                       "alpha":  "0 또는 255",

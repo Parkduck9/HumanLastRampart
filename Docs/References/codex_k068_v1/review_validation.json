@@ -1,0 +1,21 @@
+{
+  "imageCount": 76,
+  "allImagesDecoded": true,
+  "controls": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+  ],
+  "errors": [],
+  "mobileOverflow": false,
+  "captures": [
+    "review/browser_shield.png",
+    "review/browser_intact.png",
+    "review/browser_cracked.png",
+    "review/browser_collapsed.png",
+    "review/browser_rubble.png"
+  ]
+}
