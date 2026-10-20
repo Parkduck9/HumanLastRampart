@@ -1,0 +1,42 @@
+﻿{
+    "limitations":  [
+                        "후면 원안의 보폭·손동작·접점은 최종 검토 전",
+                        "96/288 규격의 최종 교체 시트는 만들지 않았다",
+                        "Unity와 실제 게임 검증은 미수행"
+                    ],
+    "source_hashes":  {
+                          "Game/Assets/_Project/Art/Characters/Fire/cannon_crew_ignite6.png":  "0F832D3C457690D52DAD34FD1A99CD52A413A00C357ED1341E83E5B2E4D1B133",
+                          "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/cannon_recoil.png":  "C0B5A4CACB8839D3856DAA26390E6882F95E1375B8828C662D5C245DAF25D44D"
+                      },
+    "checks":  {
+                   "contact_outside_required_cell":  true,
+                   "all_baseline_120":  true,
+                   "six_frames":  true,
+                   "no_components_under_3":  true,
+                   "binary_alpha":  true,
+                   "exact_4x_nearest_neighbor":  true,
+                   "read_only_game_hashes_unchanged":  true
+               },
+    "decoded_preview_sizes":  [
+                                  {
+                                      "width":  1728,
+                                      "file":  "composite6.png",
+                                      "height":  160
+                                  },
+                                  {
+                                      "width":  6912,
+                                      "file":  "composite6_4x.png",
+                                      "height":  640
+                                  },
+                                  {
+                                      "width":  864,
+                                      "file":  "ignite_back_proof.png",
+                                      "height":  128
+                                  },
+                                  {
+                                      "width":  3456,
+                                      "file":  "ignite_back_proof_4x.png",
+                                      "height":  512
+                                  }
+                              ]
+}

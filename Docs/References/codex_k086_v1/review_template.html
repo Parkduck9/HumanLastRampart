@@ -1,0 +1,32 @@
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>K-086 대포 불붙이기 · 규격 검토</title>
+<style>*{box-sizing:border-box}body{margin:0;background:#101613;color:#eee4cf;font:16px/1.7 system-ui,sans-serif}main{max-width:1420px;margin:auto;padding:28px}h1{font-size:28px}h2{font-size:20px}.notice{border-left:4px solid #e0b56f;padding:16px;background:#29332c}button,input{font:inherit}button{min-height:44px;padding:6px 18px;background:#34463b;color:#fff;border:1px solid #a38f64;border-radius:4px;cursor:pointer}.controls{display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:20px 0}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}article{padding:18px;background:#202c25;border:1px solid #53614d;border-radius:8px}.scene{background-color:#2a3237;background-image:linear-gradient(45deg,#323d4266 25%,transparent 25%),linear-gradient(-45deg,#323d4266 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#323d4266 75%),linear-gradient(-45deg,transparent 75%,#323d4266 75%);background-size:24px 24px;background-position:0 0,0 12px,12px -12px,-12px 0}canvas{width:100%;height:auto;image-rendering:pixelated;display:block}.wide{grid-column:1/-1}.scroll{overflow:auto}.scroll img{height:384px;image-rendering:pixelated;max-width:none}code{color:#ffe3a3}a{color:#ebcc8c}table{border-collapse:collapse}td,th{border:1px solid #53614d;padding:8px;text-align:left}.muted{color:#bfcbc2}@media(max-width:760px){main{padding:16px}.grid{grid-template-columns:1fr}h1{font-size:23px}}</style>
+<main><h1>K-086 · 오른쪽 대포병이 왼쪽으로 불붙이기</h1>
+<p class="notice"><strong>규격 확인 대기 · 최종 교체 시트 아님</strong><br>후면 원안과 여섯 칸 합성을 만들었습니다. 요청한 인물 크기와 간격을 지키면 접촉점이 기존 96px 칸의 왼쪽 밖에 있습니다. 붉은 사각형은 기존 칸이며, 왼쪽 여백이 필요한 부분을 그대로 보여 줍니다.</p>
+<p>대포는 설치형 <code>cannon_recoil.png</code> 첫 칸 원본입니다. 병사 키 0.35m = 73px, 대포 보이는 폭 0.40m, 점화병은 중심 오른쪽 0.30m로 합성했습니다. 왼쪽 보조병은 생략했습니다. 포신 후방 상단의 금색 십자는 <strong>접점 후보</strong>이며, 원본에는 구분 가능한 도화선이 없어 확정 위치가 아닙니다.</p>
+<div class="controls"><button id="play">정지</button><button id="prev">이전 칸</button><button id="next">다음 칸</button><button id="reset">처음으로</button><label>속도 <input id="speed" type="range" min="1" max="10" value="4"> <span id="rate">4</span>칸/초</label><label><input id="guides" type="checkbox" checked> 칸·접점 표시</label><strong id="caption"></strong></div>
+<div class="grid"><article><h2>새 후면 원안</h2><canvas id="new" class="scene" width="288" height="160"></canvas><p>교차 멜빵·남색 코트·큰 장화를 유지했습니다. 횃불이 왼쪽으로 내려갑니다. 144×128 검토 칸에 인물을 (96,120) 기준으로 놓았습니다.</p></article><article><h2>현재 게임 시트</h2><canvas id="old" class="scene" width="288" height="160"></canvas><p>현재 파일의 여섯 칸을 그대로 재생합니다. 정면 모습과 위로 든 횃불을 비교할 수 있습니다. 인물은 같은 약 73px 높이로 표시합니다.</p></article><article class="wide"><h2>설치 대포 + 오른쪽 점화병</h2><canvas id="composite" class="scene" width="288" height="160" style="max-width:864px"></canvas><p>네 번째 칸에서 불씨가 포신 뒤쪽 위에 겹칩니다. 기존 칸 경계 밖까지 횃불이 뻗어야 이 배치가 가능합니다. 금색 접점 후보는 안내선이며 대포 파일을 고치지 않았습니다. 실수 좌표를 합성 정수 좌표로 반올림한 오차는 1px 이내입니다.</p></article></div>
+<h2>확인이 필요한 규격</h2><table><tr><th></th><th>기존 요구</th><th>검토 제안</th></tr><tr><td>원본 한 칸</td><td>96×128</td><td>144×128 · 왼쪽 여백 48px 추가</td></tr><tr><td>원본 발 피벗</td><td>(48,120)</td><td>(96,120)</td></tr><tr><td>게임 한 칸</td><td>288×384</td><td>432×384 · 원본 3배</td></tr><tr><td>게임 발 피벗</td><td>(144,360)</td><td>(288,360)</td></tr></table>
+<p><code>접촉 x = 48 − 0.30 × 73 ÷ 0.35 = −14.57px</code><br>게임 시트에서는 x=−43.71px입니다. 도화선이 중앙보다 오른쪽에 있더라도 원본 대포 좌표 약 x=169보다 오른쪽이어야 기존 칸에 들어옵니다. 포신 중앙의 후방 상단과는 차이가 큽니다.</p>
+<p class="notice">이 작업 폴더의 코드는 대포 1.5배(폭 약 0.60m), 점화병 간격 0.40m, 다른 병사 0.55m입니다. 카드가 지정한 0.40m / 0.30m / 0.45m와 다릅니다. 실제 연결 수치는 Claude가 확인해야 합니다.</p>
+<h2>여섯 칸 합성 펼쳐 보기</h2><div class="scroll scene"><img id="strip" alt="설치 대포와 점화병의 여섯 칸 합성"></div>
+<p class="muted">내장 이미지 · 서버 없이 열기 가능. 이미지 생성 도구로 원안 1장을 만들고 최근접 축소·23색 제한·이진 알파·작은 고립점 제거로 정리했습니다. 보폭·상체 중심·1→6 반복 연결, 접촉 순간의 작은 불꽃 강조는 최종 작업이 남았습니다. Unity·실제 게임 확인은 하지 않았습니다.</p></main>
+<script>
+const DATA=__DATA__;
+let frame=0,playing=true,ready=false,last=0;
+const imgs={},get=id=>document.getElementById(id);
+function paint(){if(!ready)return;const foot=DATA.crewFoot;
+ for(const id of ['new','old','composite']){const c=get(id),g=c.getContext('2d');g.imageSmoothingEnabled=false;g.clearRect(0,0,c.width,c.height);
+ if(id==='new')g.drawImage(imgs.proof,frame*144,0,144,128,foot-96,0,144,128);
+ if(id==='old'){const im=imgs.old,w=im.width/6,s=73/219;g.drawImage(im,frame*w,0,w,im.height,foot-w*s/2,120-360*s,w*s,im.height*s);}
+ if(id==='composite')g.drawImage(imgs.composite,frame*288,0,288,160,0,0,288,160);
+ if(get('guides').checked){g.strokeStyle='#f18b7e';g.lineWidth=0.5;g.strokeRect(foot-48,0,96,128);g.strokeStyle='#80cbad';g.beginPath();g.moveTo(0,120);g.lineTo(288,120);g.stroke();if(id!=='old'){g.strokeStyle='#ffe28c';g.beginPath();g.moveTo(124,DATA.tipY);g.lineTo(132,DATA.tipY);g.moveTo(128,DATA.tipY-4);g.lineTo(128,DATA.tipY+4);g.stroke();}}
+ }get('caption').textContent=(frame+1)+' / 6 · '+DATA.labels[frame];get('play').textContent=playing?'정지':'재생';}
+get('play').onclick=()=>{playing=!playing;last=0;paint();};
+get('next').onclick=()=>{playing=false;frame=(frame+1)%6;paint();};
+get('prev').onclick=()=>{playing=false;frame=(frame+5)%6;paint();};
+get('reset').onclick=()=>{frame=0;last=0;paint();};
+get('guides').onchange=paint;
+get('speed').oninput=()=>{get('rate').textContent=get('speed').value;last=0;};
+function tick(t){if(ready&&playing){if(!last)last=t;if(t-last>=1000/Number(get('speed').value)){frame=(frame+1)%6;last=t;paint();}}requestAnimationFrame(tick);}
+Promise.all(Object.entries(DATA.images).map(([key,src])=>new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>{imgs[key]=im;resolve();};im.onerror=reject;im.src=src;}))).then(()=>{ready=true;get('strip').src=DATA.images.composite;paint();requestAnimationFrame(tick);}).catch(()=>{get('caption').textContent='이미지를 불러오지 못했습니다.';});
+</script></html>
