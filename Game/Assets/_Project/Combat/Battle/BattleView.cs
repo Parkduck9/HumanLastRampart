@@ -261,7 +261,7 @@ namespace HumanLastRampart.Combat.Battle
             heroBlock = new MaterialPropertyBlock();
             if (heroSheet != null)
             {
-                Apply(heroBlock, heroSheet, PerfLabArt.HeroLayout, heroNormalSheet, PerfLabArt.SheetScale(heroSheet), true);
+                Apply(heroBlock, heroSheet, PerfLabArt.HeroLayoutOf(heroSheet), heroNormalSheet, PerfLabArt.SheetScale(heroSheet), true);
             }
             else
             {
@@ -367,7 +367,7 @@ namespace HumanLastRampart.Combat.Battle
             if (heroSheetOriginal != null)
             {
                 Texture2D hero = ProportionTrial.HeroGrid(heroSheetOriginal);
-                Apply(heroBlock, hero, PerfLabArt.HeroLayout, ProportionTrial.Normal(hero, heroSheetOriginal, heroNormalOriginal), PerfLabArt.SheetScale(hero), true);
+                Apply(heroBlock, hero, PerfLabArt.HeroLayoutOf(hero), ProportionTrial.Normal(hero, heroSheetOriginal, heroNormalOriginal), PerfLabArt.SheetScale(hero), true);
             }
 
             if (heroIdleBlock != null && heroIdleOriginal != null)

@@ -121,6 +121,7 @@ namespace HumanLastRampart.Meta
                 string id = item.Id;
                 Button cell = Ui.Button(grid.transform, "물건:" + id, item.DisplayName, () => { if (pickedItem == id) return; pickedItem = id; Changed(); }, UiButtonKind.Tab);
                 Ui.LabelOf(cell).alignment = TextAnchor.MiddleLeft;
+                CellIcon(cell, id);
                 Ui.SetOn(cell, id == pickedItem);
                 if (OwnedMark(item))
                 {
@@ -130,7 +131,7 @@ namespace HumanLastRampart.Meta
             }
 
             ItemDef picked = items.Find(i => i.Id == pickedItem);
-            Ui.Size(Ui.Label(right.transform, "Name", picked.DisplayName, UiTokens.H2, UiTokens.Ink, TextAnchor.MiddleLeft, true), -1f, 40f);
+            Heading(right.transform, picked.Id, picked.DisplayName);
             Ui.Size(Ui.Label(right.transform, "About", picked.Description, UiTokens.Text, UiTokens.InkSoft), -1f, 64f);
 
             string action = null, why = null;
@@ -223,6 +224,7 @@ namespace HumanLastRampart.Meta
                 Button cell = Ui.Button(grid.transform, "병종:" + id, unit.DisplayName, () => { if (pickedUnit == id) return; pickedUnit = id; Changed(); }, UiButtonKind.Tab);
                 Text label = Ui.LabelOf(cell);
                 label.alignment = TextAnchor.MiddleLeft;
+                CellIcon(cell, TrainingIconId(id));
                 Text level = Ui.Label(cell.transform.Find("Content"), "Level", $"{UpgradeRules.TrainingLevel(Campaign, id)}/{UpgradeRules.MaxTrainingLevel(Defs, id)}", UiTokens.Small, UiTokens.BodyDim, TextAnchor.MiddleRight);
                 Ui.Stretch(level.rectTransform);
                 level.rectTransform.offsetMax = new Vector2(-UiTokens.S16, 0f);
@@ -231,7 +233,7 @@ namespace HumanLastRampart.Meta
 
             UnitDef picked = units.Find(u => u.Id == pickedUnit);
             int now = UpgradeRules.TrainingLevel(Campaign, picked.Id);
-            Ui.Size(Ui.Label(right.transform, "Name", picked.DisplayName, UiTokens.H2, UiTokens.Ink, TextAnchor.MiddleLeft, true), -1f, 40f);
+            Heading(right.transform, TrainingIconId(picked.Id), picked.DisplayName);
             UiBar bar = Ui.Bar(right.transform, "Level", 400f, 15f, false);
             bar.Set((float)now / Math.Max(1, UpgradeRules.MaxTrainingLevel(Defs, picked.Id)));
             Ui.Size(bar, 400f, 15f);
@@ -270,6 +272,7 @@ namespace HumanLastRampart.Meta
                 string id = merc.Id;
                 Button cell = Ui.Button(grid.transform, "용병:" + id, merc.DisplayName, () => { if (pickedMerc == id) return; pickedMerc = id; Changed(); }, UiButtonKind.Tab);
                 Ui.LabelOf(cell).alignment = TextAnchor.MiddleLeft;
+                CellIcon(cell, id);
                 Text there = Ui.Label(cell.transform.Find("Content"), "Count", $"{UpgradeRules.MercenaryCount(Campaign, id, wallId)}/{merc.PerWallCap}", UiTokens.Small, UiTokens.BodyDim, TextAnchor.MiddleRight);
                 Ui.Stretch(there.rectTransform);
                 there.rectTransform.offsetMax = new Vector2(-UiTokens.S16, 0f);
@@ -291,7 +294,7 @@ namespace HumanLastRampart.Meta
             }
 
             MercenaryDef picked = mercs.Find(m => m.Id == pickedMerc);
-            Ui.Size(Ui.Label(right.transform, "Name", picked.DisplayName, UiTokens.H2, UiTokens.Ink, TextAnchor.MiddleLeft, true), -1f, 40f);
+            Heading(right.transform, picked.Id, picked.DisplayName);
             HorizontalLayoutGroup counter = Ui.Row(right.transform, "Count", UiTokens.S8);
             Ui.Size(counter, -1f, 56f);
             Ui.IconButton(counter.transform, "인원 −5", UiArt.IconMinus, () => { hireCount = Math.Max(5, hireCount - 5); Changed(); }, 56f);
@@ -310,6 +313,34 @@ namespace HumanLastRampart.Meta
         }
 
         // 값 줄: [골드] 600 · 남는 골드 / 안 되면 이유 한 줄(붉게) / 방금 한 일이면 도장
+        // 아이콘 (Codex K-067, HudArt/Upgrades/<정의 이름>) — 그림이 없으면 예전처럼 글만
+        const string IconFolder = "Upgrades/";
+
+        static void CellIcon(Button cell, string id)
+        {
+            Image icon = Ui.HudIcon(cell.transform.Find("Content"), "Icon", IconFolder + id, 32f);
+            if (icon == null) return;
+            Ui.Place(icon.rectTransform, new Vector2(0f, 0.5f), new Vector2(UiTokens.S8, 0f), icon.rectTransform.sizeDelta, new Vector2(0f, 0.5f));
+            Text label = Ui.LabelOf(cell);
+            if (label != null) label.rectTransform.offsetMin = new Vector2(UiTokens.S8 + icon.rectTransform.sizeDelta.x + UiTokens.S8, 0f);
+        }
+
+        static void Heading(Transform parent, string iconId, string name)
+        {
+            HorizontalLayoutGroup row = Ui.Row(parent, "Heading", UiTokens.S16);
+            Ui.HudIcon(row.transform, "Icon", IconFolder + iconId, 64f);
+            Ui.Size(Ui.Label(row.transform, "Name", name, UiTokens.H2, UiTokens.Ink, TextAnchor.MiddleLeft, true), -1f, 64f, true);
+            Ui.Size(row, -1f, 64f);
+        }
+
+        // 훈련 아이콘: 다음에 할 단계 (다 했으면 마지막 단계)
+        string TrainingIconId(string unitId)
+        {
+            int max = UpgradeRules.MaxTrainingLevel(Defs, unitId);
+            int level = Math.Max(1, Math.Min(UpgradeRules.TrainingLevel(Campaign, unitId) + 1, max));
+            return UpgradeRules.TrainingAt(Defs, unitId, level)?.Id ?? "";
+        }
+
         void PriceLine(Transform parent, int cost, string why)
         {
             HorizontalLayoutGroup line = Ui.Row(parent, "Price", UiTokens.S8);

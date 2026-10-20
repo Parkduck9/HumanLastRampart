@@ -95,6 +95,14 @@ namespace HumanLastRampart.Combat.Battle
         const float RubbleSize = 1.2f;             // 허물어진 토벽 = 낮은 흙더미 (hill_small_side 작게)
         const float RockPileSize = 2.5f;           // 바위 덩이 (rocks_side)
         readonly Kind earthWallNS, earthWallEW, rubble, rockPiles;   // 토벽은 성벽과 나란히 선 판 (남북 면 / 동서 면)
+        // 토벽 부서짐 3단계 (Codex K-068: 칸 256×128, 바닥 가운데, 판 5.6×2.8m) — [단계 0 멀쩡·1 금 감·2 무너짐][0 남북 면·1 동서 면]
+        // 허물어진 칸은 잔해(earthwall_rubble). 새 그림이 없으면 예전 earthwall_side·hill_small_side 그대로
+        const float K068BoardHeight = 2.8f;
+        const float CrackedBelow = 0.67f, CollapsedBelow = 0.34f;   // 남은 체력 비율
+        static readonly string[] WallStageFiles = { "earthwall_intact", "earthwall_cracked", "earthwall_collapsed" };
+        readonly Kind[,] wallStages = new Kind[3, 2];
+        readonly Kind[] newRubble = new Kind[2];
+        bool fallenTreeArt;
         int terrainVersion = -1;
         // 쓰러진 나무 (K-051): 나무 덩이 칸마다 그린 나무 판 (소품 종류, 판 번호, 칸) — 쓰러지면 숨기고 통나무 더미(logs_side)를 그린다
         readonly List<(int kind, int index, int cell)> terrainTrees = new List<(int, int, int)>();
@@ -152,13 +160,28 @@ namespace HumanLastRampart.Combat.Battle
             if (shape != null)
             {
                 int walls = shape.EarthWallCells.Count;
-                earthWallNS = MakeTerrainKind("earthwall_side", 320, 96, walls, Vector3.right);
-                earthWallEW = MakeTerrainKind("earthwall_side", 320, 96, walls, Vector3.forward);
-                rubble = MakeTerrainKind("hill_small_side", 160, 96, walls, null);
+                for (int s = 0; s < 3; s++)
+                {
+                    wallStages[s, 0] = MakeBoardKind(WallStageFiles[s], walls, Vector3.right);
+                    wallStages[s, 1] = MakeBoardKind(WallStageFiles[s], walls, Vector3.forward);
+                }
+
+                newRubble[0] = MakeBoardKind("earthwall_rubble", walls, Vector3.right);
+                newRubble[1] = MakeBoardKind("earthwall_rubble", walls, Vector3.forward);
+                if (wallStages[0, 0] == null)
+                {
+                    earthWallNS = MakeTerrainKind("earthwall_side", 320, 96, walls, Vector3.right);
+                    earthWallEW = MakeTerrainKind("earthwall_side", 320, 96, walls, Vector3.forward);
+                }
+
+                if (newRubble[0] == null) rubble = MakeTerrainKind("hill_small_side", 160, 96, walls, null);
                 rockPiles = MakeTerrainKind("rocks_side", 160, 112, shape.RockCells.Count, null);
-                fallenLogs = MakeTerrainKind("logs_side", 160, 80, shape.TreeCells.Count, null);   // 쓰러진 나무 잔해 (K-051)
+                fallenLogs = MakeBoardKind("fallen_tree", shape.TreeCells.Count, null);   // 쓰러진 나무 잔해 (K-051, 그림 K-068)
+                fallenTreeArt = fallenLogs != null;
+                if (fallenLogs == null) fallenLogs = MakeTerrainKind("logs_side", 160, 80, shape.TreeCells.Count, null);
             }
 
+            BuildDressing();
             BuildBackdrop();
             BuildGroundFog();
         }
@@ -294,12 +317,178 @@ namespace HumanLastRampart.Combat.Battle
             return false;
         }
 
+        // ── 들판 꾸미기 (Codex K-068) ──
+        // 세운 소품: 덤불·키 큰 풀은 깔때기 밖·가장자리, 꽂힌 무기·방패는 성벽 앞 싸움터(깔때기 안도 — 작아서 적을 안 가린다), 표지판 몇 개.
+        // 바닥 무늬: 풀·꽃·자갈은 들판 전체, 흙 자리는 드문드문, 그을음·구덩이는 성벽 앞 싸움터에. 바닥에 납작하게 깐 반투명 판
+        // (판 크기 = Codex manifest의 billboard_size_m / size_m)
+        static readonly (string file, float width, float height)[] UprightSpecs =
+        {
+            ("k068_bush_01", 1.354f, 0.914f), ("k068_bush_02", 1.723f, 1.435f), ("k068_bush_03", 1.108f, 0.582f),
+            ("k068_tallgrass_01", 1.149f, 1.029f), ("k068_tallgrass_02", 1.108f, 1.380f),
+            ("k068_weapon_01", 0.96f, 1.029f), ("k068_weapon_02", 0.8f, 0.629f), ("k068_weapon_03", 1.124f, 0.857f),
+            ("k068_shield", 0.862f, 0.739f), ("k068_signpost", 0.985f, 1.389f),
+        };
+        static readonly (string file, float width, float depth, int count, int zone)[] DecalSpecs =
+        {
+            // zone 0 들판 전체, 1 성벽 앞 싸움터(성벽 바깥 4~45m)
+            ("ground_grass_01", 0.65f, 0.45f, 220, 0), ("ground_grass_02", 0.85f, 0.5f, 220, 0), ("ground_grass_03", 0.5f, 0.4f, 200, 0),
+            ("ground_flowers_01", 0.7f, 0.5f, 90, 0), ("ground_flowers_02", 0.8f, 0.55f, 90, 0),
+            ("ground_pebbles_01", 0.9f, 0.6f, 80, 0), ("ground_pebbles_02", 1.2f, 0.8f, 60, 0),
+            ("ground_dirt_01", 2.4f, 1.7f, 45, 0), ("ground_dirt_02", 1.8f, 1.3f, 45, 0), ("ground_dirt_03", 3f, 2f, 35, 0),
+            ("ground_scorch_01", 2.8f, 2.1f, 14, 1), ("ground_scorch_02", 4f, 2.6f, 10, 1),
+            ("ground_crater_01", 2.2f, 1.8f, 10, 1), ("ground_crater_02", 3.6f, 2.8f, 6, 1),
+        };
+        const float DecalOpacity = 0.9f;
+        const float SmallDecalScale = 2.5f;
+        const float DecalLift = 0.03f;
+        const float BattleBandNear = 4f, BattleBandFar = 45f;
+        readonly Kind[] extraProps = new Kind[UprightSpecs.Length];
+        readonly List<(GameObject go, Material material)> decals = new List<(GameObject, Material)>();
+        bool decalsVisible = true;
+
+        void BuildDressing()
+        {
+            var random = new System.Random(Seed + 68);
+            float field = sim.FieldSize;
+            Vector2 RandomField() => new Vector2(Range(random, -field, field), Range(random, -field, field));
+            Vector2 RandomBattleBand()
+            {
+                int side = random.Next(4);
+                float3 n = WallGeometry.Outward(side), r = WallGeometry.Right(side);
+                float outward = sim.CastleHalf + Range(random, BattleBandNear, BattleBandFar);
+                float along = Range(random, -sim.CastleHalf * 1.4f, sim.CastleHalf * 1.4f);
+                return new Vector2(n.x * outward + r.x * along, n.z * outward + r.z * along);
+            }
+
+            Vector2 RandomNearWalls()
+            {
+                int side = random.Next(4);
+                float3 n = WallGeometry.Outward(side), r = WallGeometry.Right(side);
+                float outward = sim.CastleHalf + Range(random, BattleBandNear, 60f);
+                float along = Range(random, -sim.CastleHalf * 2f, sim.CastleHalf * 2f);
+                return new Vector2(n.x * outward + r.x * along, n.z * outward + r.z * along);
+            }
+
+            // 세운 소품
+            var lists = new List<(Vector2 p, bool flip)>[UprightSpecs.Length];
+            for (int i = 0; i < lists.Length; i++) lists[i] = new List<(Vector2, bool)>();
+            void Put(int kind, Vector2 p) => lists[kind].Add((p, random.NextDouble() < 0.5));
+            for (int attempt = 0, placed = 0; placed < 220 && attempt < 5000; attempt++)
+            {
+                Vector2 p = RandomField();
+                if (WallDistance(p) < ForestWallGap || InFunnel(p, -4f)) continue;   // 깔때기 가운데는 비우고 가장자리까지
+                Put(random.Next(5), p);   // 덤불 3·키 큰 풀 2
+                placed++;
+            }
+
+            for (int k = 0; k < 90; k++)
+            {
+                Vector2 p = RandomBattleBand();
+                if (WallDistance(p) < BattleBandNear) continue;
+                Put(5 + random.Next(4), p);   // 꽂힌 무기 3·방패
+            }
+
+            for (int k = 0; k < 8; k++)
+            {
+                Vector2 p = RandomField();
+                if (WallDistance(p) < 25f || InFunnel(p, 2f)) continue;
+                Put(9, p);
+            }
+
+            for (int i = 0; i < UprightSpecs.Length; i++)
+            {
+                if (lists[i].Count == 0) continue;
+                var spec = UprightSpecs[i];
+                Kind kind = MakeKind(Folder + spec.file, lists[i].Count, PerfLabArt.SheetLayout.Make(1, 1, 0.5f, 0f, spec.width / spec.height), true);
+                if (kind == null) continue;
+                for (int j = 0; j < lists[i].Count; j++)
+                {
+                    var (p, flip) = lists[i][j];
+                    kind.Instances[j] = new PerfLabInstance { PosFrame = new float4(p.x, 0f, p.y, flip ? -1f : 0f), TintSize = new float4(1f, 1f, 1f, spec.height * Range(random, 0.85f, 1.15f)) };
+                }
+
+                kind.Count = lists[i].Count;
+                kind.Buffer.SetData(kind.Instances, 0, 0, kind.Count);
+                extraProps[i] = kind;
+            }
+
+            // 바닥 무늬: 종류마다 납작한 판 묶음 하나 (메시 한 개)
+            Shader unlit = Shader.Find("Universal Render Pipeline/Unlit");
+            if (unlit == null) return;
+            foreach (var spec in DecalSpecs)
+            {
+                var texture = Resources.Load<Texture2D>(Folder + spec.file);
+                if (texture == null) continue;
+                texture.filterMode = FilterMode.Point;
+                var vertices = new List<Vector3>(spec.count * 4);
+                var uvs = new List<Vector2>(spec.count * 4);
+                var triangles = new List<int>(spec.count * 6);
+                for (int k = 0; k < spec.count; k++)
+                {
+                    // 들판 전체 무늬도 70%는 성벽 가까이(사진기가 보는 곳)에 모은다
+                    Vector2 p = spec.zone == 1 || random.NextDouble() < 0.7 ? RandomNearWalls() : RandomField();
+                    if (WallDistance(p) < 2f) continue;
+                    // 작은 무늬(풀·꽃·자갈)는 전투 사진기 거리에서 안 보여서 키운다 (발표 사진 확인 2026-10-20)
+                    float scale = Range(random, 0.8f, 1.25f) * (spec.width < 1.5f ? SmallDecalScale : 1f);
+                    float hw = spec.width * 0.5f * scale, hd = spec.depth * 0.5f * scale;
+                    bool flip = random.NextDouble() < 0.5;
+                    float y = DecalLift + k * 0.0004f;   // 겹칠 때 깜빡이지 않게 아주 조금씩 높이
+                    int b = vertices.Count;
+                    vertices.Add(new Vector3(p.x - hw, y, p.y - hd));
+                    vertices.Add(new Vector3(p.x + hw, y, p.y - hd));
+                    vertices.Add(new Vector3(p.x - hw, y, p.y + hd));
+                    vertices.Add(new Vector3(p.x + hw, y, p.y + hd));
+                    uvs.Add(new Vector2(flip ? 1f : 0f, 0f));
+                    uvs.Add(new Vector2(flip ? 0f : 1f, 0f));
+                    uvs.Add(new Vector2(flip ? 1f : 0f, 1f));
+                    uvs.Add(new Vector2(flip ? 0f : 1f, 1f));
+                    triangles.AddRange(new[] { b, b + 2, b + 1, b + 1, b + 2, b + 3 });
+                }
+
+                if (vertices.Count == 0) continue;
+                var mesh = new Mesh { name = "Decals " + spec.file, indexFormat = IndexFormat.UInt32 };
+                mesh.SetVertices(vertices);
+                mesh.SetUVs(0, uvs);
+                mesh.SetTriangles(triangles, 0);
+                mesh.RecalculateBounds();
+                var m = new Material(unlit) { name = "Battle Decal (runtime)" };
+                m.SetTexture(BaseMapId, texture);
+                m.mainTexture = texture;
+                m.SetColor(BaseColorId, new Color(1f, 1f, 1f, DecalOpacity));
+                m.SetFloat("_Surface", 1f);
+                m.SetFloat("_Blend", 0f);
+                m.SetOverrideTag("RenderType", "Transparent");
+                m.SetFloat("_SrcBlend", (float)BlendMode.SrcAlpha);
+                m.SetFloat("_DstBlend", (float)BlendMode.OneMinusSrcAlpha);
+                if (m.HasProperty("_SrcBlendAlpha")) m.SetFloat("_SrcBlendAlpha", (float)BlendMode.One);
+                if (m.HasProperty("_DstBlendAlpha")) m.SetFloat("_DstBlendAlpha", (float)BlendMode.OneMinusSrcAlpha);
+                m.SetFloat("_ZWrite", 0f);
+                m.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
+                m.renderQueue = (int)RenderQueue.Transparent - 50;   // 땅 위 다른 반투명(안개)보다 먼저
+                GameObject go = Place("Decals", mesh, m);
+                decals.Add((go, m));
+            }
+        }
+
+        void TintDecals(float shade)
+        {
+            foreach (var (_, m) in decals) m.SetColor(BaseColorId, new Color(shade, shade, shade, DecalOpacity));
+        }
+
+        void SetDecalsVisible(bool visible)
+        {
+            if (visible == decalsVisible) return;
+            decalsVisible = visible;
+            foreach (var (go, _) in decals) go.SetActive(visible);
+        }
+
         // ── 매 프레임 ──
 
         // 작업이 끝난 뒤(sim.Complete 후). 지도 모드면 판 그림을 그리지 않고 먼 산·하늘을 숨긴다
         public void Draw(bool mapMode)
         {
             SetBackdropVisible(!mapMode);
+            SetDecalsVisible(!mapMode);
             UpdateGroundFog(!mapMode && sim.CurrentWeather == Weather.Fog);
             if (mapMode) return;
             TintBackdrop();
@@ -320,7 +509,19 @@ namespace HumanLastRampart.Combat.Battle
                 Submit(kind);
             }
 
-            if (shadeChanged || Time.unscaledTime >= nextRefresh)
+            if (shadeChanged)
+                foreach (Kind kind in extraProps)
+                {
+                    if (kind == null) continue;
+                    for (int i = 0; i < kind.Count; i++) kind.Instances[i].TintSize = new float4(shade, shade, shade, kind.Instances[i].TintSize.w);
+                    kind.Buffer.SetData(kind.Instances, 0, 0, kind.Count);
+                }
+
+            foreach (Kind kind in extraProps) if (kind != null) Submit(kind);
+            if (shadeChanged) TintDecals(shade);
+
+            bool refresh = shadeChanged || Time.unscaledTime >= nextRefresh;
+            if (refresh)
             {
                 nextRefresh = Time.unscaledTime + RefreshSeconds;
                 RefreshPiles(shade);
@@ -331,10 +532,9 @@ namespace HumanLastRampart.Combat.Battle
             if (trapBuried != null) Submit(trapBuried);
             if (trapCrater != null) Submit(trapCrater);
 
-            if (shadeChanged || terrainVersion != sim.TerrainVersion) RefreshTerrainBoards(shade);
-            if (earthWallNS != null) Submit(earthWallNS);
-            if (earthWallEW != null) Submit(earthWallEW);
-            if (rubble != null) Submit(rubble);
+            // 토벽은 맞을수록 단계가 바뀌므로 주기마다 다시 맞춘다 (K-068)
+            if (refresh || terrainVersion != sim.TerrainVersion) RefreshTerrainBoards(shade);
+            foreach (Kind kind in TerrainWallKinds()) Submit(kind);
             if (rockPiles != null) Submit(rockPiles);
             if (fallenLogs != null) Submit(fallenLogs);
         }
@@ -362,7 +562,7 @@ namespace HumanLastRampart.Combat.Battle
             {
                 if (sim.TerrainKindAt(c) != TerrainCell.FallenTrees || fallenLogs.Count >= fallenLogs.Instances.Length) continue;
                 Vector2 p = shape.Center(c);
-                fallenLogs.Instances[fallenLogs.Count++] = new PerfLabInstance { PosFrame = new float4(p.x, 0f, p.y, (c & 1) == 0 ? 0f : -1f), TintSize = new float4(shade, shade, shade, FallenLogsSize) };
+                fallenLogs.Instances[fallenLogs.Count++] = new PerfLabInstance { PosFrame = new float4(p.x, 0f, p.y, (c & 1) == 0 ? 0f : -1f), TintSize = new float4(shade, shade, shade, fallenTreeArt ? K068BoardHeight : FallenLogsSize) };
             }
 
             if (fallenLogs.Count > 0) fallenLogs.Buffer.SetData(fallenLogs.Instances, 0, 0, fallenLogs.Count);
@@ -374,22 +574,38 @@ namespace HumanLastRampart.Combat.Battle
             terrainVersion = sim.TerrainVersion;
             TerrainLayout shape = sim.TerrainLayout;
             if (shape == null) return;
-            if (earthWallNS != null) earthWallNS.Count = 0;
-            if (earthWallEW != null) earthWallEW.Count = 0;
-            if (rubble != null) rubble.Count = 0;
+            foreach (Kind k in TerrainWallKinds()) k.Count = 0;
             foreach (int c in shape.EarthWallCells)
             {
                 Vector2 p = shape.Center(c);
                 bool broken = sim.TerrainKindAt(c) == TerrainCell.Breach;
                 int side = WallGeometry.FieldSide(new float3(p.x, 0f, p.y));
-                Kind kind = broken ? rubble : side == 0 || side == 2 ? earthWallNS : earthWallEW;
+                int orient = side == 0 || side == 2 ? 0 : 1;
+                Kind kind;
+                float size;
+                if (wallStages[0, 0] != null || newRubble[0] != null)
+                {
+                    float health = sim.EarthWallHealth(c);
+                    int stage = health < CollapsedBelow ? 2 : health < CrackedBelow ? 1 : 0;
+                    kind = broken ? newRubble[orient] ?? rubble : wallStages[stage, orient] ?? (orient == 0 ? earthWallNS : earthWallEW);
+                    size = kind == rubble ? RubbleSize : kind == earthWallNS || kind == earthWallEW ? EarthWallBoardHeight : K068BoardHeight;
+                }
+                else
+                {
+                    kind = broken ? rubble : orient == 0 ? earthWallNS : earthWallEW;
+                    size = broken ? RubbleSize : EarthWallBoardHeight;
+                }
+
                 if (kind == null || kind.Count >= kind.Instances.Length) continue;
                 kind.Instances[kind.Count++] = new PerfLabInstance
                 {
                     PosFrame = new float4(p.x, 0f, p.y, 0f),
-                    TintSize = new float4(shade, shade, shade, broken ? RubbleSize : EarthWallBoardHeight),
+                    TintSize = new float4(shade, shade, shade, size),
                 };
             }
+
+            foreach (Kind k in TerrainWallKinds())
+                if (k.Count > 0) k.Buffer.SetData(k.Instances, 0, 0, k.Count);
 
             if (rockPiles != null)
             {
@@ -402,9 +618,27 @@ namespace HumanLastRampart.Combat.Battle
                 }
             }
 
-            foreach (Kind kind in new[] { earthWallNS, earthWallEW, rubble, rockPiles })
-                if (kind != null && kind.Count > 0) kind.Buffer.SetData(kind.Instances, 0, 0, kind.Count);
+            if (rockPiles != null && rockPiles.Count > 0) rockPiles.Buffer.SetData(rockPiles.Instances, 0, 0, rockPiles.Count);
             RefreshFallenTrees(shape, shade);
+        }
+
+        // 토벽·잔해 판 종류 (있는 것만)
+        IEnumerable<Kind> TerrainWallKinds()
+        {
+            if (earthWallNS != null) yield return earthWallNS;
+            if (earthWallEW != null) yield return earthWallEW;
+            if (rubble != null) yield return rubble;
+            foreach (Kind k in wallStages) if (k != null) yield return k;
+            foreach (Kind k in newRubble) if (k != null) yield return k;
+        }
+
+        // K-068 판 (칸 256×128, 바닥 가운데 기준) — 그림이 없으면 null
+        Kind MakeBoardKind(string file, int capacity, Vector3? fixedRight)
+        {
+            if (capacity <= 0) return null;
+            Kind kind = MakeKind(TerrainFolder + file, capacity, PerfLabArt.SheetLayout.Make(1, 1, 0.5f, 0f, 2f), true);
+            if (kind != null && fixedRight.HasValue) kind.Block.SetVector(FixedRightId, new Vector4(fixedRight.Value.x, 0f, fixedRight.Value.z, 1f));
+            return kind;
         }
 
         Kind MakeTerrainKind(string file, int width, int height, int capacity, Vector3? fixedRight)
@@ -737,6 +971,15 @@ namespace HumanLastRampart.Combat.Battle
             rubble?.Buffer.Release();
             rockPiles?.Buffer.Release();
             fallenLogs?.Buffer.Release();
+            foreach (Kind kind in wallStages) kind?.Buffer.Release();
+            foreach (Kind kind in newRubble) kind?.Buffer.Release();
+            foreach (Kind kind in extraProps) kind?.Buffer.Release();
+            foreach (var (go, material) in decals)
+            {
+                if (go != null && go.TryGetComponent(out MeshFilter filter)) UnityEngine.Object.Destroy(filter.sharedMesh);
+                if (material != null) UnityEngine.Object.Destroy(material);
+            }
+            decals.Clear();
             if (root != null) UnityEngine.Object.Destroy(root);
             if (horizonMaterial != null) UnityEngine.Object.Destroy(horizonMaterial);
             if (skyMaterial != null) UnityEngine.Object.Destroy(skyMaterial);

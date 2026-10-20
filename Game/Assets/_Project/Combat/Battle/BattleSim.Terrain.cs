@@ -36,6 +36,9 @@ namespace HumanLastRampart.Combat.Battle
         public TerrainLayout TerrainLayout => terrainLayout;
         public int TerrainVersion { get; private set; }   // 토벽이 무너질 때마다 늘어난다 (그리기가 다시 맞춘다)
         public byte TerrainKindAt(int cell) => tCells.IsCreated && cell >= 0 && cell < tCells.Length ? tCells[cell] : TerrainCell.Free;
+        // 토벽 칸의 남은 체력 비율 0~1 (그리기용 — 부서짐 단계, K-068). 작업이 끝난 뒤(Complete 후)에만 읽는다
+        public float EarthWallHealth(int cell) =>
+            tWallHp.IsCreated && cell >= 0 && cell < tWallHp.Length ? Mathf.Clamp01(tWallHp[cell] / TerrainRules.EarthWallHp) : 1f;
 
         void InitTerrain(Allocator p)
         {
