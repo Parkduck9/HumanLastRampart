@@ -1,0 +1,26 @@
+{
+  "passed": true,
+  "file_protocol": true,
+  "embedded_images_decoded": true,
+  "image_count": 9,
+  "far": {
+    "height": 109.5,
+    "y": 480
+  },
+  "near": {
+    "height": 219,
+    "y": 1020
+  },
+  "occlusion_changes_pixels": true,
+  "mask_and_occluder_toggles": true,
+  "all_five_station_buttons": true,
+  "pan_right_scroll_px": 2358,
+  "zoom_100_percent_width": 3840,
+  "animated_depth_changes_scale": true,
+  "blocked_click_rejected": true,
+  "valid_ground_click": true,
+  "mobile_page_overflow": false,
+  "script_errors": [],
+  "external_requests": [],
+  "unity_run": false
+}
