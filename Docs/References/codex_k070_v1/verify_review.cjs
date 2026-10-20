@@ -1,0 +1,34 @@
+const fs=require('fs');
+const path=require('path');
+const {pathToFileURL}=require('url');
+const {chromium}=require('C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+// 실제 파일 열기·그림 디코딩·배율 버튼·작은 화면 넘침을 확인한다.
+(async()=>{
+ const browser=await chromium.launch({channel:'chrome',headless:true});
+ const page=await browser.newPage({viewport:{width:1600,height:1100},deviceScaleFactor:1});
+ const errors=[];page.on('pageerror',e=>errors.push(String(e)));
+ const file=path.resolve(__dirname,'../../../_HTML/4_그림_캐릭터/codex_K-070_인물크기비교_v1.html');
+ await page.goto(pathToFileURL(file).href);
+ await page.locator('img').evaluateAll(xs=>Promise.all(xs.map(x=>x.decode())));
+ const decoded=await page.locator('img').evaluateAll(xs=>xs.every(x=>x.complete&&x.naturalWidth>0&&x.src.startsWith('data:')));
+ const widths=()=>page.locator('.board:visible').evaluateAll(xs=>xs.map(x=>x.getBoundingClientRect().width));
+ const one=await widths();
+ await page.screenshot({path:path.join(__dirname,'review_desktop_1x.png')});
+ await page.locator('#four').click();
+ const four=await widths();
+ await page.locator('section').first().scrollIntoViewIfNeeded();
+ await page.screenshot({path:path.join(__dirname,'review_desktop_4x.png')});
+ await page.locator('#one').click();
+ await page.locator('section').nth(3).scrollIntoViewIfNeeded();
+ await page.screenshot({path:path.join(__dirname,'review_mock.png')});
+ const mocks=await page.locator('img[alt*="합성"]').evaluateAll(xs=>xs.map(x=>({width:x.getBoundingClientRect().width,natural:x.naturalWidth})));
+ await page.setViewportSize({width:390,height:844});
+ await page.evaluate(()=>scrollTo(0,0));
+ await page.screenshot({path:path.join(__dirname,'review_mobile.png')});
+ const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth);
+ const result={decoded,one,four,mocks,mobile_page_overflow:overflow,script_errors:errors};
+ fs.writeFileSync(path.join(__dirname,'review_validation.json'),JSON.stringify(result,null,2));
+ await browser.close();
+ if(!decoded||one.length!==3||one.some(x=>x!==480)||four.some(x=>x!==1920)||mocks.some(x=>x.width!==x.natural)||overflow||errors.length)throw new Error(JSON.stringify(result));
+ console.log(JSON.stringify(result));
+})().catch(e=>{console.error(e);process.exit(1)});
