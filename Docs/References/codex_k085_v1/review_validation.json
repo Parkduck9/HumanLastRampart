@@ -1,0 +1,84 @@
+{
+  "images": [
+    {
+      "alt": "전투 HUD 현재 사진",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "전투 HUD 기대 화면",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "전투 HUD 원본 크기",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "북 성벽 위험 목업",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "정비 마당 현재 사진",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "정비 마당 기대 화면",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "정비 마당 원본 크기",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "상점 진열대 현재 사진",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "상점 진열대 기대 화면",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "상점 진열대 원본 크기",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "훈련 세 기둥 기대 화면",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "선택에 따라 올라가는 망원경 렌즈",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "굴림 돋움 실제 설치 글꼴 1배 3배 비교판",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "글꼴 비교판 원본",
+      "loaded": true,
+      "embedded": true
+    }
+  ],
+  "original_display_width": 1920,
+  "selection_motion": {
+    "name": "lift",
+    "duration": "1.6s"
+  },
+  "pause_works": true,
+  "resume_works": true,
+  "reduced_motion_works": true,
+  "mobile_page_overflow": false,
+  "script_errors": []
+}

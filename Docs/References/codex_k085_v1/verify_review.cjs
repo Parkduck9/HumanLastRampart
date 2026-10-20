@@ -1,0 +1,34 @@
+const fs=require('fs');
+const path=require('path');
+const {pathToFileURL}=require('url');
+const {chromium}=require('C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+// 직접 열기, 내장 그림 디코딩, 원본 확대와 작은 화면의 페이지 넘침을 확인한다.
+(async()=>{
+ const browser=await chromium.launch({channel:'chrome',headless:true});
+ const page=await browser.newPage({viewport:{width:1600,height:1000},deviceScaleFactor:1});
+ const errors=[];page.on('pageerror',e=>errors.push(String(e)));
+ await page.goto(pathToFileURL(path.resolve(__dirname,'../../../_HTML/6_그림_화면/codex_K-085_UI2판_기대사진2_v1.html')).href);
+ await page.locator('img').evaluateAll(xs=>Promise.all(xs.map(x=>x.decode())));
+ const images=await page.locator('img').evaluateAll(xs=>xs.map(x=>({alt:x.alt,loaded:x.complete&&x.naturalWidth>0,embedded:x.src.startsWith('data:')})));
+ await page.screenshot({path:path.join(__dirname,'review_desktop.png')});
+ await page.locator('section').filter({has:page.getByRole('heading',{name:'상점 진열대',exact:true})}).scrollIntoViewIfNeeded();
+ await page.screenshot({path:path.join(__dirname,'review_shop.png')});
+ await page.locator('details').first().locator('summary').click();
+ const full=await page.locator('details').first().locator('img').evaluate(x=>x.getBoundingClientRect().width);
+ const lift=await page.locator('.lift-icon').evaluate(x=>({name:getComputedStyle(x).animationName,duration:getComputedStyle(x).animationDuration}));
+ await page.getByRole('button',{name:'움직임 멈추기',exact:true}).click();
+ const paused=await page.locator('.lift-icon').evaluate(x=>getComputedStyle(x).animationPlayState==='paused');
+ await page.getByRole('button',{name:'움직임 재생',exact:true}).click();
+ const resumed=await page.locator('.lift-icon').evaluate(x=>getComputedStyle(x).animationPlayState==='running');
+ await page.emulateMedia({reducedMotion:'reduce'});
+ const reduced=await page.locator('.lift-icon').evaluate(x=>getComputedStyle(x).animationName==='none');
+ await page.emulateMedia({reducedMotion:'no-preference'});
+ await page.setViewportSize({width:390,height:844});await page.evaluate(()=>scrollTo(0,0));
+ await page.screenshot({path:path.join(__dirname,'review_mobile.png')});
+ const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth);
+ const result={images,original_display_width:full,selection_motion:lift,pause_works:paused,resume_works:resumed,reduced_motion_works:reduced,mobile_page_overflow:overflow,script_errors:errors};
+ fs.writeFileSync(path.join(__dirname,'review_validation.json'),JSON.stringify(result,null,2));
+ await browser.close();
+ if(images.some(x=>!x.loaded||!x.embedded)||full!==1920||!paused||!resumed||!reduced||overflow||errors.length)throw new Error(JSON.stringify(result));
+ console.log(JSON.stringify(result));
+})().catch(e=>{console.error(e);process.exit(1)});
