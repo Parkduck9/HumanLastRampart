@@ -70,6 +70,9 @@ Shader "HLR/PerfLabSprite"
         float _Cutoff;
         float _MapMode;
         float4 _MapColor;
+        float _MapSight;          // >0: 지도에서 성벽 바깥 이 거리(m)까지만 보인다 (적 점). 망원경 렌즈 안은 더 멀어도 보인다
+        float _MapCastleHalf;
+        float4 _MapLens;          // xyz 렌즈 가운데, w 반경 (0 = 렌즈 없음)
         float _MinWorldSize;
         float4 _FixedRight;
         float _SpriteLit;   // 전역: 1이면 빛을 받는다 (BattleLook)
@@ -227,6 +230,14 @@ Shader "HLR/PerfLabSprite"
                 {
                     // 지도: 카메라를 정면으로 보는 점(가운데 기준), 너무 작으면 최소 크기. 크기 0(숨김)은 그대로 숨김
                     float dot = size > 0.0 ? max(size, _MinWorldSize) : 0.0;
+                    if (_MapSight > 0.0)
+                    {
+                        // 지도 시야 (사용자 2026-10-20 '지금은 어디서 오는지 다 보인다'): 성벽에서 시야 밖이고 망원경 렌즈 밖이면 숨김
+                        float fromWall = max(abs(data.posFrame.x), abs(data.posFrame.z)) - _MapCastleHalf;
+                        float2 toLens = data.posFrame.xz - _MapLens.xz;
+                        bool inLens = _MapLens.w > 0.0 && (toLens.x * toLens.x + toLens.y * toLens.y) < _MapLens.w * _MapLens.w;   // (지역 변수 dot이 dot()을 가린다)
+                        if (fromWall > _MapSight && !inLens) dot = 0.0;
+                    }
                     float3 right = UNITY_MATRIX_V[0].xyz;
                     float3 up = UNITY_MATRIX_V[1].xyz;
                     float3 mapWorld = data.posFrame.xyz + right * (input.positionOS.x * dot) + up * ((input.positionOS.y - 0.5) * dot);

@@ -304,7 +304,9 @@ namespace HumanLastRampart.Combat.Battle
                 BattleSim.TrapInfo info = sim.GetTrap(i);
                 if (info.State == BattleSim.TrapState.Exploded && trapStates[i] != BattleSim.TrapState.Exploded)
                 {
-                    if (trap != null && trapPlays.Count < BurstCapacity) trapPlays.Add((info.Position, info.DamageRadius * BurstSizePerRadius, 0f));
+                    // 땅에 묻힌 함정이 솟구치게: 판을 땅 밑으로 내린다 (사용자 2026-10-20 '묻힌 것 같지 않고 위로 뜬다')
+                    float trapSize = info.DamageRadius * BurstSizePerRadius;
+                    if (trap != null && trapPlays.Count < BurstCapacity) trapPlays.Add((info.Position + Vector3.down * trapSize * MagicBurstSink, trapSize, 0f));
                     AddSmokePlay(info.Position, info.DamageRadius * 1.2f, -0.3f, 2f, info.DamageRadius * 0.6f, 0.4f);   // 흙먼지 섞인 검은 연기 (K-041)
                     BattleCameraRig.Shake(TrapShake, info.Position);
                 }

@@ -18,6 +18,12 @@ namespace HumanLastRampart.Combat.Battle
         static readonly int AspectId = Shader.PropertyToID("_Aspect");
         static readonly int MapModeId = Shader.PropertyToID("_MapMode");
         static readonly int MapColorId = Shader.PropertyToID("_MapColor");
+        static readonly int MapSightId = Shader.PropertyToID("_MapSight");
+        static readonly int MapCastleHalfId = Shader.PropertyToID("_MapCastleHalf");
+        static readonly int MapLensId = Shader.PropertyToID("_MapLens");
+        // 지도 시야 (사용자 2026-10-20): 지도에는 성벽에서 이 거리 안의 적만 노란 점으로 보인다. 그 밖은 망원경(오른쪽 누르기)으로 본다
+        public const float MapSightDistance = 60f;
+        Vector4 mapLens;
         static readonly int MinWorldSizeId = Shader.PropertyToID("_MinWorldSize");
         static readonly int NormalTexId = Shader.PropertyToID("_NormalTex");
         static readonly int HasNormalId = Shader.PropertyToID("_HasNormal");
@@ -513,10 +519,14 @@ namespace HumanLastRampart.Combat.Battle
 
             if (mapMode)
             {
+                float mapSight = Mathf.Min(MapSightDistance, sim.VisibleDistance);   // 안개·밤이면 더 좁게
                 foreach (var (block, _, count, special) in mapEnemyDraws)
                 {
                     if (count <= 0) continue;
                     block.SetFloat(MinWorldSizeId, special ? mapDotSize * 2.2f : mapDotSize);
+                    block.SetFloat(MapSightId, mapSight);
+                    block.SetFloat(MapCastleHalfId, sim.CastleHalf);
+                    block.SetVector(MapLensId, mapLens);
                     Graphics.DrawMeshInstancedProcedural(quad, 0, mapMaterial, bounds, count, block);
                 }
             }
@@ -669,6 +679,10 @@ namespace HumanLastRampart.Combat.Battle
             }
         }
 
+        static readonly Color TrapRed = new Color(0.95f, 0.18f, 0.12f);
+        bool? hasCraterArt;
+        bool HasCraterArt => hasCraterArt ??= Resources.Load<Texture2D>("BattleArt/Props/trap_2") != null;   // 함정 구덩이 그림 (BattleFieldArt)
+
         // 마법 효과 (임시 모양): 불바다 = 주황 원판, 폭발 대기 = 어두운 노랑 원판, 터짐 = 밝은 공
         void DrawEffects()
         {
@@ -698,8 +712,9 @@ namespace HumanLastRampart.Combat.Battle
                 }
             }
 
-            // 터진 함정 구덩이 (실제 위치, 어두운 원) — D-050
-            for (int t = 0; t < sim.TrapCount; t++)
+            // 터진 함정 구덩이 (실제 위치, 어두운 원) — D-050. 구덩이 그림(BattleFieldArt trap_2)이 있으면 그리지 않는다
+            // (사용자 2026-10-20 '함정 아래 원반 지워')
+            for (int t = 0; t < sim.TrapCount && !HasCraterArt; t++)
             {
                 BattleSim.TrapInfo trap = sim.GetTrap(t);
                 if (trap.State != BattleSim.TrapState.Exploded) continue;
@@ -778,6 +793,8 @@ namespace HumanLastRampart.Combat.Battle
         // 지도 대포 표시: 모든 대포 위치(흰), 고른 벽 대포의 사거리 원(회색 점선), 조준점(빨강, 쉬는 중이면 회색), 고른 대포(노랑)
         public void DrawMapMarkers(int selectedSide, int selectedCannon, float dot, bool showSpellRange = false, Vector3? lens = null)
         {
+            // 망원경 렌즈 안은 시야 밖 적도 보인다 (다음 장면의 적 점 그리기가 쓴다)
+            mapLens = lens.HasValue ? new Vector4(lens.Value.x, lens.Value.y, lens.Value.z, sim.TelescopeRange) : Vector4.zero;
             int n = 0;
             void Add(Vector3 p, Color c, float size)
             {
@@ -868,8 +885,10 @@ namespace HumanLastRampart.Combat.Battle
                 switch (t.State)
                 {
                     case BattleSim.TrapState.Armed:
-                        Add(t.Mark, new Color(1f, 0.55f, 0.1f), dot * 1.8f);
-                        Ring(t.Mark, 2.5f, new Color(1f, 0.55f, 0.1f), dot * 0.6f, 10);
+                        // 빨간 원 (사용자 2026-10-20 '함정 설치한 건 빨간 원으로 보기 편하게'): 터지는 범위 크기, 두 겹, 가운데 점 — 누르면 터진다
+                        Add(t.Mark, TrapRed, dot * 2.2f);
+                        Ring(t.Mark, t.DamageRadius, TrapRed, dot * 1.3f, 32);
+                        Ring(t.Mark, t.DamageRadius * 0.93f, TrapRed, dot * 0.7f, 32);
                         break;
                     case BattleSim.TrapState.Fusing:
                         Add(t.Mark, new Color(1f, 0.95f, 0.3f), dot * 2.4f);
