@@ -39,3 +39,8 @@ Windows PowerShell과 기본 `System.Drawing`을 사용합니다. Unity 실행�
 검사 결과는 `qa_assets.json`, `qa_review.json`에 저장했습니다. 검토 페이지를 실제 브라우저로 연 `review_desktop.png`, `review_mobile.png`, `review_training.png`도 함께 보관했습니다. 전체 비교표와 세 화면 이미지를 직접 열어 확인했습니다.
 
 게임 연결과 Unity 실행 화면 비교는 이번 카드에서 수행하지 않았습니다. 연결 시 원본 PNG를 사용하고 필터는 Point, 압축은 없음, 밉맵은 끄는 설정을 권장합니다. 확대 PNG는 검토용입니다.
+
+
+## v1.1 총병 문양 수정
+
+총병 훈련 3종과 용병 총병의 머스킷에 개머리판·좁은 총열·격발 장치·방아쇠울을 표시했습니다. 기존 팔레트와 계급 점을 유지하고 원본 32×32에서 제작했습니다.

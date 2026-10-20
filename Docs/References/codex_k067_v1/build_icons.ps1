@@ -42,10 +42,17 @@ public static class K067Icons {
   Poly(b,paper,23,10,28,13,23,16);L(b,23,13,26,13,gold);L(b,5,11,8,13,rust);L(b,5,15,8,13,rust);
  }
  static void Musket(Bitmap b) {
-  Poly(b,wood,5,19,9,15,14,16,10,22,6,24,4,22);L(b,6,20,8,18,gold);L(b,6,22,10,20,tarnish);
-  Poly(b,shade,10,15,22,3,25,6,13,18);L(b,11,15,22,4,paper);L(b,14,17,25,6,gold);
-  L(b,21,5,24,8,ink);L(b,18,8,21,11,ink);R(b,13,14,3,3,tarnish);P(b,15,14,light);
-  L(b,12,18,15,20,gold);L(b,15,20,17,18,gold);P(b,16,17,gold);R(b,23,3,2,2,ink);
+  // 개머리판·총열·방아쇠울·격발 장치를 구분한다.
+  Poly(b,wood,4,20,8,16,11,17,14,14,17,16,12,21,9,22,7,25,4,24);
+  Poly(b,gold,5,21,8,18,10,19,8,22,6,24,5,24);
+  L(b,10,18,23,5,wood);L(b,11,19,24,6,tarnish);
+  L(b,13,14,24,3,ink);L(b,14,15,25,4,paper);L(b,15,16,26,5,shade);
+  L(b,23,3,26,6,ink);P(b,24,3,paper);P(b,26,5,paper);
+  L(b,20,8,22,10,gold);L(b,16,12,18,14,gold);
+  R(b,12,16,4,2,gold);P(b,14,16,light);
+  L(b,15,15,14,12,ink);P(b,13,12,gold);P(b,15,12,paper);
+  L(b,12,20,15,22,gold);L(b,15,22,18,19,gold);L(b,18,19,16,17,gold);
+  L(b,14,18,14,20,paper);P(b,15,20,paper);
  }
  static void Cannon(Bitmap b) {
   Poly(b,tarnish,7,10,24,5,27,12,10,17);L(b,8,10,24,6,light);L(b,9,11,24,7,gold);L(b,10,16,26,12,wood);

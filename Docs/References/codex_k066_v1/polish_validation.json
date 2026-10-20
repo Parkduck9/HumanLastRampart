@@ -1,0 +1,8 @@
+{
+  "card": "K-069",
+  "native_sprites_checked": 8,
+  "exact_4x_previews_checked": 30,
+  "manifest_hashes_valid": true,
+  "palette_alpha_baseline_valid": true,
+  "identity_checks": "Head and lower body pixels asserted in unify_ladder.py; carry variants derive from empty variants."
+}

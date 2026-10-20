@@ -113,6 +113,10 @@ save(cell(src,(96,112),104,52),'hero_corrected_comparison')
 (P/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding='utf-8')
 (P/'palettes.json').write_text(json.dumps({k:{'source':sources.get(k,sources['ladder_empty']),'colors':['#'+bytes(c).hex() for c in v]} for k,v in pals.items()},ensure_ascii=False,indent=2),encoding='utf-8')
 
+from unify_ladder import unify
+unify()
+manifest=json.loads((P/'manifest.json').read_text(encoding='utf-8'))
+
 def aligned(name):
     im=Image.open(P/(name+'.png')).convert('RGBA')
     pad=Image.new('RGBA',(96,112))

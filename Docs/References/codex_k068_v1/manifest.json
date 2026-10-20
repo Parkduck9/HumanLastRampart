@@ -3,7 +3,7 @@
   "version": 1,
   "pixel_rect_origin": "bottom_left",
   "pivot_units": "normalized_bottom_left",
-  "size_axes": "width=X, depth=Z, height=Y; size_m is intended placement extent in meters (ground quad includes transparent margin; path is a full 5m tile). billboard_size_m is the full transparent quad; upright height includes depth*sin(25deg).",
+  "size_axes": "width=X, depth=Z, height=Y; size_m is intended placement extent in meters (ground quad includes transparent margin; path is a full 5m tile). billboard_size_m is the full transparent quad; small props use the declared visible width and screen-facing height.",
   "ground_projection": "UV textures are normalized to ground plane. Apply on XZ once; review projects depth by sin(25 degrees). Do not flatten PNG again.",
   "cell_size_m": 5,
   "camera_pitch_deg": 25,
@@ -546,7 +546,7 @@
       "recommended_opacity": 0.85,
       "billboard_size_m": {
         "width": 1.3538,
-        "height": 1.4552
+        "height": 0.9143
       },
       "sheet": "upright_sheet.png",
       "sheet_rect": [
@@ -582,7 +582,7 @@
       "recommended_opacity": 0.85,
       "billboard_size_m": {
         "width": 1.7231,
-        "height": 2.1806
+        "height": 1.4345
       },
       "sheet": "upright_sheet.png",
       "sheet_rect": [
@@ -618,7 +618,7 @@
       "recommended_opacity": 0.85,
       "billboard_size_m": {
         "width": 1.1077,
-        "height": 0.9506
+        "height": 0.5818
       },
       "sheet": "upright_sheet.png",
       "sheet_rect": [
@@ -654,7 +654,7 @@
       "recommended_opacity": 0.85,
       "billboard_size_m": {
         "width": 1.1487,
-        "height": 1.2701
+        "height": 1.0286
       },
       "sheet": "upright_sheet.png",
       "sheet_rect": [
@@ -690,7 +690,7 @@
       "recommended_opacity": 0.85,
       "billboard_size_m": {
         "width": 1.1077,
-        "height": 1.6986
+        "height": 1.3804
       },
       "sheet": "upright_sheet.png",
       "sheet_rect": [
@@ -726,7 +726,7 @@
       "recommended_opacity": 0.85,
       "billboard_size_m": {
         "width": 0.96,
-        "height": 1.1493
+        "height": 1.0286
       },
       "sheet": "upright_sheet.png",
       "sheet_rect": [
@@ -762,7 +762,7 @@
       "recommended_opacity": 0.85,
       "billboard_size_m": {
         "width": 0.8,
-        "height": 0.7493
+        "height": 0.6286
       },
       "sheet": "upright_sheet.png",
       "sheet_rect": [
@@ -798,7 +798,7 @@
       "recommended_opacity": 0.85,
       "billboard_size_m": {
         "width": 1.1243,
-        "height": 1.002
+        "height": 0.8571
       },
       "sheet": "upright_sheet.png",
       "sheet_rect": [
@@ -833,8 +833,8 @@
       "passable_visual": true,
       "recommended_opacity": 0.85,
       "billboard_size_m": {
-        "width": 0.8784,
-        "height": 0.6954
+        "width": 0.8615,
+        "height": 0.7385
       },
       "sheet": "upright_sheet.png",
       "sheet_rect": [
@@ -870,7 +870,7 @@
       "recommended_opacity": 0.85,
       "billboard_size_m": {
         "width": 0.9846,
-        "height": 1.5418
+        "height": 1.3887
       },
       "sheet": "upright_sheet.png",
       "sheet_rect": [

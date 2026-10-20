@@ -116,23 +116,18 @@
     "foot_baseline": 88,
     "center_x": 32,
     "opaque_bbox": [
-      22,
+      20,
       34,
-      54,
+      58,
       88
     ],
     "body_height_estimate": 42,
     "head_height_estimate": 15,
     "head_ratio_estimate": 0.357,
-    "source": "ladder_carry_proportioned.png",
-    "source_crop": [
-      208,
-      98,
-      673,
-      887
-    ],
-    "colors": 16,
-    "sha256": "5029720645b361c0f96eff70fccc39d192d476fa6bdcd633165c14abd988ec21"
+    "source": "ladder_empty_front.png + unify_ladder.py",
+    "source_crop": null,
+    "colors": 15,
+    "sha256": "53835aa9690f36ffe903e3d0ce504bb13fe0679197f466850cb40f09c96515a7"
   },
   {
     "name": "ladder_carry_side",
@@ -143,23 +138,18 @@
     "foot_baseline": 88,
     "center_x": 32,
     "opaque_bbox": [
-      13,
+      11,
       34,
-      41,
+      39,
       88
     ],
     "body_height_estimate": 42,
-    "head_height_estimate": 14,
-    "head_ratio_estimate": 0.333,
-    "source": "ladder_carry_proportioned.png",
-    "source_crop": [
-      200,
-      98,
-      608,
-      895
-    ],
+    "head_height_estimate": 15,
+    "head_ratio_estimate": 0.357,
+    "source": "ladder_empty_side.png + unify_ladder.py",
+    "source_crop": null,
     "colors": 16,
-    "sha256": "05711c8a2d92afca18c59b60ad1cd2c6a3c03435efe6bee1ae7fefc935846686"
+    "sha256": "e169e1e10a369f1094fd553bd4333f1532d9d39088591b038bf097f342022f57"
   },
   {
     "name": "ogre_front",
