@@ -336,13 +336,18 @@ namespace HumanLastRampart.Combat.Battle
         // 성벽 위 둘레 좌표: 북(0) → 동 → 남 → 서, 각 성벽은 바깥을 볼 때 왼쪽 끝에서 오른쪽 끝으로 2H
         float RingU(int side, float along) => side * 2f * CastleHalf + math.clamp(along, -CastleHalf, CastleHalf) + CastleHalf;
 
+        const float RingInset = 1.4f;   // 둘레 길: 성벽 바깥 모서리에서 안쪽으로
+
         float3 RingPosition(float u)
         {
             float perimeter = CastleHalf * 8f;
             u = Mod(u, perimeter);
             int side = math.min(3, (int)(u / (2f * CastleHalf)));
             float along = u - side * 2f * CastleHalf - CastleHalf;
-            return WallGeometry.Outward(side) * (CastleHalf - 1.4f) + WallGeometry.Right(side) * along + new float3(0f, WallHeight, 0f);
+            // 모서리: 성벽 따라 끝까지 가면 바깥 모서리(탑 자리)에 닿았다가 옆 성벽 시작점으로 2m 순간이동했다 (사용자 지적 2026-10-20).
+            // 양쪽 성벽이 같이 쓰는 안쪽 모서리 점(통로 안쪽 RingInset)에서 멈췄다 꺾어 가게 — 주인공처럼 모서리를 돈다
+            along = math.clamp(along, -(CastleHalf - RingInset), CastleHalf - RingInset);
+            return WallGeometry.Outward(side) * (CastleHalf - RingInset) + WallGeometry.Right(side) * along + new float3(0f, WallHeight, 0f);
         }
 
         static float Mod(float a, float m) => a - m * math.floor(a / m);
