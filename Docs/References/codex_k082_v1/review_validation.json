@@ -1,0 +1,14 @@
+{
+  "pass": true,
+  "embedded_pngs_decoded": 34,
+  "canvases_loaded_in_mock": 17,
+  "motion_canvases": 12,
+  "static_game_canvases": 5,
+  "animation_tick": true,
+  "frame_selection": true,
+  "pause_resume": true,
+  "background_switch": true,
+  "external_dependencies": 0,
+  "browser_render_verified": false,
+  "browser_blocker": "No browsers in CUA inventory; iab unavailable. PNG decoding and mock DOM checks are not a browser render."
+}
