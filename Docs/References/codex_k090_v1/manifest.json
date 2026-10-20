@@ -1,0 +1,2638 @@
+{
+    "card":  "K-090",
+    "version":  1,
+    "type":  "radial_ui",
+    "asset_root":  "Docs/References/codex_k090_v1",
+    "coordinates":  "top-left, x right, y down; angles clockwise from north",
+    "import":  {
+                   "texture_type":  "Sprite (2D and UI)",
+                   "filter":  "Point",
+                   "compression":  "None",
+                   "mipmaps":  false,
+                   "alpha_is_transparency":  true,
+                   "mesh":  "Full Rect",
+                   "pixels_per_unit":  100
+               },
+    "scale":  {
+                  "art_native_to_game":  3,
+                  "resampling":  "nearest-neighbor",
+                  "direction_native_cell":  [
+                                                74,
+                                                74
+                                            ],
+                  "direction_game_cell":  [
+                                              222,
+                                              222
+                                          ],
+                  "amount_native_cell":  [
+                                             120,
+                                             120
+                                         ],
+                  "amount_game_cell":  [
+                                           360,
+                                           360
+                                       ],
+                  "typography":  "compass sprites are crisp 36x36 final-resolution raster glyphs, no native duplicate",
+                  "character_sheet_contract":  "not applicable: UI, no foot baseline"
+              },
+    "direction":  {
+                      "pivot":  [
+                                    111,
+                                    111
+                                ],
+                      "size":  [
+                                   222,
+                                   222
+                               ],
+                      "order":  [
+                                    "north",
+                                    "east",
+                                    "south",
+                                    "west"
+                                ],
+                      "labels":  [
+                                     "북",
+                                     "동",
+                                     "남",
+                                     "서"
+                                 ],
+                      "centers_clockwise_degrees":  [
+                                                        0,
+                                                        90,
+                                                        180,
+                                                        270
+                                                    ],
+                      "hit_radius":  [
+                                         48,
+                                         108
+                                     ],
+                      "half_sector_degrees":  43,
+                      "gap_action":  "no action",
+                      "hub":  "direction_hub.png",
+                      "hub_top_left":  [
+                                           66,
+                                           66
+                                       ],
+                      "hub_text_safe_rect":  [
+                                                 79,
+                                                 96,
+                                                 64,
+                                                 30
+                                             ],
+                      "dynamic_count":  "40명 is an example, render runtime text",
+                      "label_centers":  [
+                                            [
+                                                111,
+                                                46
+                                            ],
+                                            [
+                                                176,
+                                                111
+                                            ],
+                                            [
+                                                111,
+                                                176
+                                            ],
+                                            [
+                                                46,
+                                                111
+                                            ]
+                                        ],
+                      "pointer_centers":  [
+                                              [
+                                                  111,
+                                                  20
+                                              ],
+                                              [
+                                                  202,
+                                                  111
+                                              ],
+                                              [
+                                                  111,
+                                                  202
+                                              ],
+                                              [
+                                                  20,
+                                                  111
+                                              ]
+                                          ],
+                      "layer_order":  [
+                                          "direction_base",
+                                          "quadrants",
+                                          "direction_hub",
+                                          "compass",
+                                          "pointer",
+                                          "runtime count"
+                                      ],
+                      "disabled":  "desaturated rim and slash, disable hit action; hide pointer and dim glyph at integration"
+                  },
+    "amount":  {
+                   "pivot":  [
+                                 180,
+                                 180
+                             ],
+                   "size":  [
+                                360,
+                                360
+                            ],
+                   "order":  [
+                                 "one",
+                                 "half",
+                                 "all"
+                             ],
+                   "labels":  [
+                                  "1분대 보내기",
+                                  "1/2 보내기",
+                                  "전체 보내기"
+                              ],
+                   "centers_clockwise_degrees":  [
+                                                     0,
+                                                     120,
+                                                     240
+                                                 ],
+                   "hit_radius":  [
+                                      45,
+                                      177
+                                  ],
+                   "half_sector_degrees":  58,
+                   "gap_action":  "no action",
+                   "hub":  "amount_hub.png",
+                   "hub_top_left":  [
+                                        141,
+                                        141
+                                    ],
+                   "content_centers":  [
+                                           [
+                                               180,
+                                               75
+                                           ],
+                                           [
+                                               264,
+                                               235
+                                           ],
+                                           [
+                                               96,
+                                               235
+                                           ]
+                                       ],
+                   "label_font_pixels":  24,
+                   "icons":  [
+                                 "icon_one",
+                                 "icon_half",
+                                 "icon_all"
+                             ],
+                   "number_badges":  "existing HudArt/Command/command_number_1..3.png, read only",
+                   "hover_underline":  "existing HudArt/Command/command_underline.png",
+                   "next":  "same direction picker at same cursor anchor; remove amount wheel first"
+               },
+    "selection":  {
+                      "corners":  [
+                                      "tl",
+                                      "tr",
+                                      "br",
+                                      "bl"
+                                  ],
+                      "corner_size":  [
+                                          24,
+                                          24
+                                      ],
+                      "edge_horizontal_tile":  [
+                                                   24,
+                                                   6
+                                               ],
+                      "edge_vertical_tile":  [
+                                                 6,
+                                                 24
+                                             ],
+                      "tile_mode":  "Repeat, no stretching; 15px brass dash + 9px gap",
+                      "nine_slice":  "disabled for all sprites; compose four fixed corners and repeated edges",
+                      "selected_ring_size":  [
+                                                 72,
+                                                 30
+                                             ],
+                      "selected_ring_pivot_pixels_top_left":  [
+                                                                  36,
+                                                                  15
+                                                              ],
+                      "selected_ring_pivot_unity_normalized":  [
+                                                                   0.5,
+                                                                   0.5
+                                                               ],
+                      "flag_ground_anchor":  "align ring center to flag pole ground point",
+                      "selection_fill":  "transparent"
+                  },
+    "sheets":  [
+                   {
+                       "file":  "direction_states_sheet.png",
+                       "cell":  [
+                                    222,
+                                    222
+                                ],
+                       "grid":  [
+                                    4,
+                                    3
+                                ],
+                       "columns":  [
+                                       "north",
+                                       "east",
+                                       "south",
+                                       "west"
+                                   ],
+                       "rows":  [
+                                    "normal",
+                                    "hover",
+                                    "disabled"
+                                ],
+                       "pivot_per_cell":  [
+                                              111,
+                                              111
+                                          ]
+                   },
+                   {
+                       "file":  "amount_states_sheet.png",
+                       "cell":  [
+                                    360,
+                                    360
+                                ],
+                       "grid":  [
+                                    3,
+                                    3
+                                ],
+                       "columns":  [
+                                       "one",
+                                       "half",
+                                       "all"
+                                   ],
+                       "rows":  [
+                                    "normal",
+                                    "hover",
+                                    "disabled"
+                                ],
+                       "pivot_per_cell":  [
+                                              180,
+                                              180
+                                          ]
+                   },
+                   {
+                       "file":  "native/direction_states_sheet.png",
+                       "cell":  [
+                                    74,
+                                    74
+                                ],
+                       "grid":  [
+                                    4,
+                                    3
+                                ],
+                       "columns":  [
+                                       "north",
+                                       "east",
+                                       "south",
+                                       "west"
+                                   ],
+                       "rows":  [
+                                    "normal",
+                                    "hover",
+                                    "disabled"
+                                ],
+                       "pivot_per_cell":  [
+                                              37,
+                                              37
+                                          ]
+                   },
+                   {
+                       "file":  "native/amount_states_sheet.png",
+                       "cell":  [
+                                    120,
+                                    120
+                                ],
+                       "grid":  [
+                                    3,
+                                    3
+                                ],
+                       "columns":  [
+                                       "one",
+                                       "half",
+                                       "all"
+                                   ],
+                       "rows":  [
+                                    "normal",
+                                    "hover",
+                                    "disabled"
+                                ],
+                       "pivot_per_cell":  [
+                                              60,
+                                              60
+                                          ]
+                   }
+               ],
+    "sources":  {
+                    "wood":  "wood_source.png: built-in image generation, then palette-quantized and masked deterministically",
+                    "existing_hud":  "Game/Assets/_Project/Art/UI/Resources/HudArt/Command",
+                    "map_capture":  "Docs/References/codex_k020_v1/reference_map.png (historical saved map capture, not a fresh game capture)",
+                    "night_capture":  "Docs/References/night_levels_20261020.png, upper-right quadrant 0.35",
+                    "mockups":  "1920x1080 composites; added flags and UI are illustrative; no Unity capture performed",
+                    "font":  "Windows Malgun Gothic Bold rasterized locally; font file not redistributed"
+                },
+    "files":  [
+                  {
+                      "file":  "native/direction_north_normal.png",
+                      "size":  [
+                                   74,
+                                   74
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    37,
+                                                    37
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "native_ui",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "direction_north_normal.png",
+                      "size":  [
+                                   222,
+                                   222
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    111,
+                                                    111
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "native/direction_north_hover.png",
+                      "size":  [
+                                   74,
+                                   74
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    37,
+                                                    37
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "native_ui",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "direction_north_hover.png",
+                      "size":  [
+                                   222,
+                                   222
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    111,
+                                                    111
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "native/direction_north_disabled.png",
+                      "size":  [
+                                   74,
+                                   74
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    37,
+                                                    37
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "native_ui",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "direction_north_disabled.png",
+                      "size":  [
+                                   222,
+                                   222
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    111,
+                                                    111
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "native/direction_east_normal.png",
+                      "size":  [
+                                   74,
+                                   74
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    37,
+                                                    37
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "native_ui",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "direction_east_normal.png",
+                      "size":  [
+                                   222,
+                                   222
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    111,
+                                                    111
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "native/direction_east_hover.png",
+                      "size":  [
+                                   74,
+                                   74
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    37,
+                                                    37
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "native_ui",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "direction_east_hover.png",
+                      "size":  [
+                                   222,
+                                   222
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    111,
+                                                    111
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "native/direction_east_disabled.png",
+                      "size":  [
+                                   74,
+                                   74
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    37,
+                                                    37
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "native_ui",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "direction_east_disabled.png",
+                      "size":  [
+                                   222,
+                                   222
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    111,
+                                                    111
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "native/direction_south_normal.png",
+                      "size":  [
+                                   74,
+                                   74
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    37,
+                                                    37
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "native_ui",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "direction_south_normal.png",
+                      "size":  [
+                                   222,
+                                   222
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    111,
+                                                    111
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "native/direction_south_hover.png",
+                      "size":  [
+                                   74,
+                                   74
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    37,
+                                                    37
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "native_ui",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "direction_south_hover.png",
+                      "size":  [
+                                   222,
+                                   222
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    111,
+                                                    111
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "native/direction_south_disabled.png",
+                      "size":  [
+                                   74,
+                                   74
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    37,
+                                                    37
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "native_ui",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "direction_south_disabled.png",
+                      "size":  [
+                                   222,
+                                   222
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    111,
+                                                    111
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "native/direction_west_normal.png",
+                      "size":  [
+                                   74,
+                                   74
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    37,
+                                                    37
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "native_ui",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "direction_west_normal.png",
+                      "size":  [
+                                   222,
+                                   222
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    111,
+                                                    111
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "native/direction_west_hover.png",
+                      "size":  [
+                                   74,
+                                   74
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    37,
+                                                    37
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "native_ui",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "direction_west_hover.png",
+                      "size":  [
+                                   222,
+                                   222
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    111,
+                                                    111
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "native/direction_west_disabled.png",
+                      "size":  [
+                                   74,
+                                   74
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    37,
+                                                    37
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "native_ui",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "direction_west_disabled.png",
+                      "size":  [
+                                   222,
+                                   222
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    111,
+                                                    111
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "native/direction_base.png",
+                      "size":  [
+                                   74,
+                                   74
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    37,
+                                                    37
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "native_ui",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "direction_base.png",
+                      "size":  [
+                                   222,
+                                   222
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    111,
+                                                    111
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "native/direction_hub.png",
+                      "size":  [
+                                   30,
+                                   30
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    15,
+                                                    15
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "native_ui",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "direction_hub.png",
+                      "size":  [
+                                   90,
+                                   90
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    45,
+                                                    45
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "native/amount_hub.png",
+                      "size":  [
+                                   26,
+                                   26
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    13,
+                                                    13
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "native_ui",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "amount_hub.png",
+                      "size":  [
+                                   78,
+                                   78
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    39,
+                                                    39
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "compass_north.png",
+                      "size":  [
+                                   36,
+                                   36
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    18,
+                                                    18
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "native/pointer_north.png",
+                      "size":  [
+                                   9,
+                                   7
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    4.5,
+                                                    3.5
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "native_ui",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "pointer_north.png",
+                      "size":  [
+                                   27,
+                                   21
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    13.5,
+                                                    10.5
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "compass_east.png",
+                      "size":  [
+                                   36,
+                                   36
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    18,
+                                                    18
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "native/pointer_east.png",
+                      "size":  [
+                                   7,
+                                   9
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    3.5,
+                                                    4.5
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "native_ui",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "pointer_east.png",
+                      "size":  [
+                                   21,
+                                   27
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    10.5,
+                                                    13.5
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "compass_south.png",
+                      "size":  [
+                                   36,
+                                   36
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    18,
+                                                    18
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "native/pointer_south.png",
+                      "size":  [
+                                   9,
+                                   7
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    4.5,
+                                                    3.5
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "native_ui",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "pointer_south.png",
+                      "size":  [
+                                   27,
+                                   21
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    13.5,
+                                                    10.5
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "compass_west.png",
+                      "size":  [
+                                   36,
+                                   36
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    18,
+                                                    18
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "native/pointer_west.png",
+                      "size":  [
+                                   7,
+                                   9
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    3.5,
+                                                    4.5
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "native_ui",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "pointer_west.png",
+                      "size":  [
+                                   21,
+                                   27
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    10.5,
+                                                    13.5
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "native/amount_one_normal.png",
+                      "size":  [
+                                   120,
+                                   120
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    60,
+                                                    60
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "native_ui",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "amount_one_normal.png",
+                      "size":  [
+                                   360,
+                                   360
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    180,
+                                                    180
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "native/amount_one_hover.png",
+                      "size":  [
+                                   120,
+                                   120
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    60,
+                                                    60
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "native_ui",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "amount_one_hover.png",
+                      "size":  [
+                                   360,
+                                   360
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    180,
+                                                    180
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "native/amount_one_disabled.png",
+                      "size":  [
+                                   120,
+                                   120
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    60,
+                                                    60
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "native_ui",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "amount_one_disabled.png",
+                      "size":  [
+                                   360,
+                                   360
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    180,
+                                                    180
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "native/amount_half_normal.png",
+                      "size":  [
+                                   120,
+                                   120
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    60,
+                                                    60
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "native_ui",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "amount_half_normal.png",
+                      "size":  [
+                                   360,
+                                   360
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    180,
+                                                    180
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "native/amount_half_hover.png",
+                      "size":  [
+                                   120,
+                                   120
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    60,
+                                                    60
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "native_ui",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "amount_half_hover.png",
+                      "size":  [
+                                   360,
+                                   360
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    180,
+                                                    180
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "native/amount_half_disabled.png",
+                      "size":  [
+                                   120,
+                                   120
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    60,
+                                                    60
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "native_ui",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "amount_half_disabled.png",
+                      "size":  [
+                                   360,
+                                   360
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    180,
+                                                    180
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "native/amount_all_normal.png",
+                      "size":  [
+                                   120,
+                                   120
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    60,
+                                                    60
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "native_ui",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "amount_all_normal.png",
+                      "size":  [
+                                   360,
+                                   360
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    180,
+                                                    180
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "native/amount_all_hover.png",
+                      "size":  [
+                                   120,
+                                   120
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    60,
+                                                    60
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "native_ui",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "amount_all_hover.png",
+                      "size":  [
+                                   360,
+                                   360
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    180,
+                                                    180
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "native/amount_all_disabled.png",
+                      "size":  [
+                                   120,
+                                   120
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    60,
+                                                    60
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "native_ui",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "amount_all_disabled.png",
+                      "size":  [
+                                   360,
+                                   360
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    180,
+                                                    180
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "native/icon_one.png",
+                      "size":  [
+                                   18,
+                                   17
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    9,
+                                                    8.5
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "native_ui",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "icon_one.png",
+                      "size":  [
+                                   54,
+                                   51
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    27,
+                                                    25.5
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "native/icon_half.png",
+                      "size":  [
+                                   18,
+                                   17
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    9,
+                                                    8.5
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "native_ui",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "icon_half.png",
+                      "size":  [
+                                   54,
+                                   51
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    27,
+                                                    25.5
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "native/icon_all.png",
+                      "size":  [
+                                   18,
+                                   17
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    9,
+                                                    8.5
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "native_ui",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "icon_all.png",
+                      "size":  [
+                                   54,
+                                   51
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    27,
+                                                    25.5
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "native/selection_corner_tl.png",
+                      "size":  [
+                                   8,
+                                   8
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    4,
+                                                    4
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "native_ui",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "selection_corner_tl.png",
+                      "size":  [
+                                   24,
+                                   24
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    12,
+                                                    12
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "native/selection_corner_tr.png",
+                      "size":  [
+                                   8,
+                                   8
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    4,
+                                                    4
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "native_ui",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "selection_corner_tr.png",
+                      "size":  [
+                                   24,
+                                   24
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    12,
+                                                    12
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "native/selection_corner_br.png",
+                      "size":  [
+                                   8,
+                                   8
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    4,
+                                                    4
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "native_ui",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "selection_corner_br.png",
+                      "size":  [
+                                   24,
+                                   24
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    12,
+                                                    12
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "native/selection_corner_bl.png",
+                      "size":  [
+                                   8,
+                                   8
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    4,
+                                                    4
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "native_ui",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "selection_corner_bl.png",
+                      "size":  [
+                                   24,
+                                   24
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    12,
+                                                    12
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "native/selection_dash_h.png",
+                      "size":  [
+                                   8,
+                                   2
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    4,
+                                                    1
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "native_ui",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "selection_dash_h.png",
+                      "size":  [
+                                   24,
+                                   6
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    12,
+                                                    3
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "native/selection_dash_v.png",
+                      "size":  [
+                                   2,
+                                   8
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    1,
+                                                    4
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "native_ui",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "selection_dash_v.png",
+                      "size":  [
+                                   6,
+                                   24
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    3,
+                                                    12
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "native/selected_flag_ring.png",
+                      "size":  [
+                                   24,
+                                   10
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    12,
+                                                    5
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "native_ui",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "selected_flag_ring.png",
+                      "size":  [
+                                   72,
+                                   30
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    36,
+                                                    15
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "direction_states_sheet.png",
+                      "size":  [
+                                   888,
+                                   666
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    444,
+                                                    333
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "amount_states_sheet.png",
+                      "size":  [
+                                   1080,
+                                   1080
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    540,
+                                                    540
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "ui_sprite",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "native/direction_states_sheet.png",
+                      "size":  [
+                                   296,
+                                   222
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    148,
+                                                    111
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "native_ui",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "native/amount_states_sheet.png",
+                      "size":  [
+                                   360,
+                                   360
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    180,
+                                                    180
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "native_ui",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "preview_direction_north.png",
+                      "size":  [
+                                   222,
+                                   222
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    111,
+                                                    111
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "preview",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "preview_direction_east.png",
+                      "size":  [
+                                   222,
+                                   222
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    111,
+                                                    111
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "preview",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "preview_direction_south.png",
+                      "size":  [
+                                   222,
+                                   222
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    111,
+                                                    111
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "preview",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "preview_direction_west.png",
+                      "size":  [
+                                   222,
+                                   222
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    111,
+                                                    111
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "preview",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "preview_direction_disabled.png",
+                      "size":  [
+                                   222,
+                                   222
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    111,
+                                                    111
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "preview",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "preview_amount_0.png",
+                      "size":  [
+                                   360,
+                                   360
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    180,
+                                                    180
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "preview",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "preview_amount_1.png",
+                      "size":  [
+                                   360,
+                                   360
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    180,
+                                                    180
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "preview",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "preview_amount_2.png",
+                      "size":  [
+                                   360,
+                                   360
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    180,
+                                                    180
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "preview",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "preview_amount_3.png",
+                      "size":  [
+                                   360,
+                                   360
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    180,
+                                                    180
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "preview",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "mockup_a_selection_direction.png",
+                      "size":  [
+                                   1920,
+                                   1080
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    960,
+                                                    540
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "mockup",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "mockup_b1_amount.png",
+                      "size":  [
+                                   1920,
+                                   1080
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    960,
+                                                    540
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "mockup",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "mockup_b2_direction.png",
+                      "size":  [
+                                   1920,
+                                   1080
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    960,
+                                                    540
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "mockup",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "mockup_a_selection_direction_night.png",
+                      "size":  [
+                                   1920,
+                                   1080
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    960,
+                                                    540
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "mockup",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "mockup_b1_amount_night.png",
+                      "size":  [
+                                   1920,
+                                   1080
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    960,
+                                                    540
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "mockup",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "mockup_b2_direction_night.png",
+                      "size":  [
+                                   1920,
+                                   1080
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    960,
+                                                    540
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "mockup",
+                      "frames":  1
+                  },
+                  {
+                      "file":  "overview.png",
+                      "size":  [
+                                   1100,
+                                   650
+                               ],
+                      "pivot_pixels_top_left":  [
+                                                    550,
+                                                    325
+                                                ],
+                      "pivot_unity_normalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                      "nine_slice_lbrt":  [
+                                              0,
+                                              0,
+                                              0,
+                                              0
+                                          ],
+                      "kind":  "preview",
+                      "frames":  1
+                  }
+              ]
+}

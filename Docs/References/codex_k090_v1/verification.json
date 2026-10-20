@@ -1,0 +1,17 @@
+{
+    "card":  "K-090",
+    "manifest_sizes_rgba":  100,
+    "exact_native_3x":  40,
+    "exact_preview_4x":  45,
+    "stable_state_masks":  21,
+    "binary_alpha_pieces":  21,
+    "single_8_connected_piece_regions":  21,
+    "embedded_png_decodes":  67,
+    "mockups_1920x1080":  6,
+    "foot_baseline":  "not applicable: radial UI",
+    "browser":  "unavailable: CUA browser inventory empty; no real browser render test",
+    "javascript":  "see review_verification.json, Node VM behavior checks only",
+    "unity":  "not opened or run",
+    "git":  "no writes",
+    "result":  "passed static image and package checks"
+}
