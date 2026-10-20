@@ -70,3 +70,5 @@ Desktop.ini
 
 # 안티그래비티 부하 직원 임시 지시 파일 (Tools/GeminiHelper/ask.ps1)
 /.agy/
+# 코덱스 코드 작업 기록 (Tools/CodexCode/run-code.ps1)
+/.codex-code/

@@ -1,0 +1,12 @@
+CODE-01 — Squad selection and sending on the battle map (items 4/5/6, user-confirmed 2026-10-20).
+
+Behaviour (map mode only):
+(a) Shift + left-drag on the map draws a selection box (screen-space rectangle, brass outline). On RELEASE, every movable squad marker inside the box is selected (highlight them), and a ROUND 4-QUADRANT PICKER appears centred at the cursor: up = North(0), right = East(1), down = South(2), left = West(3) — side indices as WallGeometry / BattleSim use them (verify the mapping in code; "up on screen" must be north on the map camera). Clicking a quadrant sends ALL selected squads to that wall via the existing delivery path (`BattleEntry.OrderGroupMove`, instant / hero-present / messenger). Right-click or Escape cancels. If nothing was inside the box, no picker.
+(b) Left-click on a wall of the castle on the map (the wall band itself, not the field) → an AMOUNT wheel opens at the cursor with 3 choices: "1분대 보내기" (one 10-soldier group), "1/2 보내기" (ceil(half) of that wall's movable groups), "전체 보내기" (all movable groups, i.e. existing `MoveWallGroups` behaviour, respecting `KeepPerWall`). After choosing, the same 4-quadrant picker opens to choose the destination wall (the source wall's quadrant disabled). Then send through the same delivery path (add an `OrderWallMove` variant for a count if needed, keeping the 3-tier delivery).
+- Plain left-drag still pans the map; existing single-marker drag & popup keep working.
+- NO rectangular panels: picker and wheel are round/radial. Until Codex art K-090 lands (Docs/References/codex_k090_v1/ may appear), build them from existing UI sprites/procedural circles in the current HUD style (see BattleHud.Commands.cs for the command-menu look). Keep art lookups tolerant of missing files.
+- Korean labels: 북 동 남 서, "1분대 보내기", "1/2 보내기", "전체 보내기", and a centre count like "30명".
+
+Research already done (verified by Claude): Docs/GDD/research/squad_select_agy_20261020.md — insertion points: BattleEntry.cs:348-406 (map mouse branches), BattleHud.Map.cs:418-419 + 468-528 (groupMarkerScreen / groupMarkerIndex), BattleHud.Map.cs:629-640 GroupAtScreen, BattleSim.Groups.cs:72 MoveGroup, :131 KeepPerWall, :133 MoveWallGroups, BattleEntry.cs:125-160 OrderGroupMove/OrderWallMove.
+
+Tests: add a PlayProbe step or EditMode test that (1) selects groups by a screen rect and sends them to another wall (garrison counts change after delivery), (2) the "1/2" choice moves ceil(n/2) groups and keeps KeepPerWall. Update the handoff Progress row "4/5/6" to CODED with notes.
