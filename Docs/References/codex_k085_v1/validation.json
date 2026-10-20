@@ -1,0 +1,50 @@
+{
+  "screens": [
+    {
+      "screen": "battle",
+      "dimensions": true,
+      "exact_nearest_3x": true,
+      "exact_nearest_4x": true,
+      "alpha_255": true,
+      "off_grid_pixels": 0
+    },
+    {
+      "screen": "battle_danger",
+      "dimensions": true,
+      "exact_nearest_3x": true,
+      "exact_nearest_4x": true,
+      "alpha_255": true,
+      "off_grid_pixels": 0
+    },
+    {
+      "screen": "yard",
+      "dimensions": true,
+      "exact_nearest_3x": true,
+      "exact_nearest_4x": true,
+      "alpha_255": true,
+      "off_grid_pixels": 0
+    },
+    {
+      "screen": "shop",
+      "dimensions": true,
+      "exact_nearest_3x": true,
+      "exact_nearest_4x": true,
+      "alpha_255": true,
+      "off_grid_pixels": 0
+    },
+    {
+      "screen": "training",
+      "dimensions": true,
+      "exact_nearest_3x": true,
+      "exact_nearest_4x": true,
+      "alpha_255": true,
+      "off_grid_pixels": 0
+    }
+  ],
+  "original_before_files_byte_identical": true,
+  "before_after_pair_dimensions": true,
+  "font_board_dimensions": true,
+  "minimum_text_contrast": 7.01,
+  "foot_baseline": "해당 없음 · 캐릭터 시트가 아닌 화면 목업",
+  "stray_pixel_scope": "캔버스 밖 데이터 없음, 모든 3배 출력의 원본 격자 일치 확인. 장면 원본의 미술 결함까지 자동 판정하지 않음."
+}
