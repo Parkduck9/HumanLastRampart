@@ -38,9 +38,10 @@ namespace HumanLastRampart.Combat.PerfLab
         public const int SixCellWidth = 288;
         public const float SixFootPx = 360f, DefaultFootPx = 352f;
         public const float SixFigurePx = 73f * 3f;   // 표에 없는 6판 시트의 인물 키
+        // 6판 시트가 먼저 — 같은 이름으로 바꿔 끼운 시트(예: cannon_crew_ignite6)가 예전 표의 칸 폭을 따르지 않게
         static int CellWidthOf(Texture sheet) =>
-            sheet != null && CannonArt.CellWidthPx.TryGetValue(sheet.name, out int w) ? w
-            : IsSixSheet(sheet) ? SixCellWidth : CellWidth;
+            IsSixSheet(sheet) ? SixCellWidth
+            : sheet != null && CannonArt.CellWidthPx.TryGetValue(sheet.name, out int w) ? w : CellWidth;
         public static bool IsSixSheet(Texture sheet) => sheet != null && sheet.width % SixCellWidth == 0 && sheet.width % CellWidth != 0;
         public static float FootPx(Texture sheet) => IsSixSheet(sheet) ? SixFootPx : DefaultFootPx;
         public static SheetLayout FromSheet(Texture sheet) => SheetLayout.Make(
@@ -58,9 +59,9 @@ namespace HumanLastRampart.Combat.PerfLab
 
         public static float FigurePx(Texture sheet) =>
             sheet != null && sheet.name.StartsWith(TrialSheetPrefix) ? TrialFigurePx
+            : IsSixSheet(sheet) ? SixFigurePx   // D-081: 예전 측정표의 같은 이름 값(256칸 그림 키)을 쓰지 않는다
             : sheet != null && PerfLabSheetHeights.FigurePx.TryGetValue(sheet.name, out float px) && px > 1f ? px
             : sheet != null && CannonArt.FigurePx.TryGetValue(sheet.name, out float extra) ? extra   // K-052 대포병 (K-060)
-            : IsSixSheet(sheet) ? SixFigurePx   // D-081 (측정 도구를 다시 돌리면 표 값이 먼저)
             : DefaultFigurePx;
 
         // 3등신 시험 그림 (K-057, Codex K-056): 모든 칸 인물 키 192px(원본 48점 × 4). 이름이 이 앞글자로 시작하면 이 키로 맞춘다

@@ -29,8 +29,8 @@ MonoBehaviour:
       effect: 2
     - speaker: "장교"
       side: 1
-      portrait: {fileID: 2800000, guid: c4e761f2657a4ac284f9c21bbf2ab6fa, type: 3}
-      cell: 12
+      portrait: {fileID: 2800000, guid: 7250f7a6eb1c4e14893d87ceb074d5e3, type: 3}
+      cell: 0
       text: "……다음에는, 반드시 지켜 내겠다."
       background: {fileID: 0}
       effect: 0

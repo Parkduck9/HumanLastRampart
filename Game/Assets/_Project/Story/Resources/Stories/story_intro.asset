@@ -29,29 +29,29 @@ MonoBehaviour:
       effect: 2
     - speaker: "궁수"
       side: 2
-      portrait: {fileID: 2800000, guid: 9bbb432c5b1d445cb092d3e80eb1aa65, type: 3}
+      portrait: {fileID: 2800000, guid: 134c3c35574c4e1ab53647ea05e38e74, type: 3}
       cell: 0
       text: "장교님! 정말 돌아오셨군요. 북쪽 들판에 놈들이 보입니다!"
       background: {fileID: 0}
       effect: 0
     - speaker: "장교"
       side: 1
-      portrait: {fileID: 2800000, guid: c4e761f2657a4ac284f9c21bbf2ab6fa, type: 3}
-      cell: 12
+      portrait: {fileID: 2800000, guid: 7250f7a6eb1c4e14893d87ceb074d5e3, type: 3}
+      cell: 0
       text: "옷깃을 여밀 틈도 없겠군. 모두 성벽 위로 올라라."
       background: {fileID: 0}
       effect: 0
     - speaker: "마법사"
       side: 2
-      portrait: {fileID: 2800000, guid: 9073a327a7964d64b8a8d956175940c8, type: 3}
+      portrait: {fileID: 2800000, guid: 7fe0bfc0b6d84809b17818291c3b986e, type: 3}
       cell: 0
       text: "제 불꽃도 준비됐어요. 지시만 내려 주세요."
       background: {fileID: 0}
       effect: 0
     - speaker: "장교"
       side: 1
-      portrait: {fileID: 2800000, guid: c4e761f2657a4ac284f9c21bbf2ab6fa, type: 3}
-      cell: 12
+      portrait: {fileID: 2800000, guid: 7250f7a6eb1c4e14893d87ceb074d5e3, type: 3}
+      cell: 0
       text: "이곳이 우리의 마지막 성벽이다. 한 걸음도 물러서지 마라!"
       background: {fileID: 0}
       effect: 1
