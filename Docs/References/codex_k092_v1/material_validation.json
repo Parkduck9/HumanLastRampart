@@ -1,0 +1,380 @@
+{
+  "all_pass": true,
+  "probes": [
+    {
+      "sheet": "hero_back_idle",
+      "point": [
+        128,
+        80
+      ],
+      "note": "흰 머리는 무광",
+      "source_rgba": [
+        199,
+        186,
+        190,
+        253
+      ],
+      "mask_rgba": [
+        13,
+        26,
+        0,
+        253
+      ],
+      "expected_rg": [
+        13,
+        26
+      ],
+      "pass": true
+    },
+    {
+      "sheet": "hero_back_idle",
+      "point": [
+        77,
+        189
+      ],
+      "note": "금색 견장은 금속",
+      "source_rgba": [
+        180,
+        115,
+        0,
+        253
+      ],
+      "mask_rgba": [
+        255,
+        217,
+        0,
+        253
+      ],
+      "expected_rg": [
+        255,
+        217
+      ],
+      "pass": true
+    },
+    {
+      "sheet": "wizard_static",
+      "point": [
+        140,
+        80
+      ],
+      "note": "주황 머리는 무광",
+      "source_rgba": [
+        116,
+        49,
+        22,
+        253
+      ],
+      "mask_rgba": [
+        13,
+        26,
+        0,
+        253
+      ],
+      "expected_rg": [
+        13,
+        26
+      ],
+      "pass": true
+    },
+    {
+      "sheet": "wizard_static",
+      "point": [
+        136,
+        166
+      ],
+      "note": "얼굴 피부는 무광",
+      "source_rgba": [
+        254,
+        199,
+        154,
+        253
+      ],
+      "mask_rgba": [
+        13,
+        26,
+        0,
+        253
+      ],
+      "expected_rg": [
+        13,
+        26
+      ],
+      "pass": true
+    },
+    {
+      "sheet": "wizard_static",
+      "point": [
+        123,
+        219
+      ],
+      "note": "목 장식은 금속",
+      "source_rgba": [
+        230,
+        143,
+        2,
+        253
+      ],
+      "mask_rgba": [
+        255,
+        217,
+        0,
+        253
+      ],
+      "expected_rg": [
+        255,
+        217
+      ],
+      "pass": true
+    },
+    {
+      "sheet": "gunner_static",
+      "point": [
+        189,
+        210
+      ],
+      "note": "총열은 금속",
+      "source_rgba": [
+        222,
+        192,
+        165,
+        255
+      ],
+      "mask_rgba": [
+        255,
+        191,
+        0,
+        255
+      ],
+      "expected_rg": [
+        255,
+        191
+      ],
+      "pass": true
+    },
+    {
+      "sheet": "gunner_static",
+      "point": [
+        138,
+        247
+      ],
+      "note": "파란 옷은 무광",
+      "source_rgba": [
+        24,
+        41,
+        75,
+        255
+      ],
+      "mask_rgba": [
+        13,
+        26,
+        0,
+        255
+      ],
+      "expected_rg": [
+        13,
+        26
+      ],
+      "pass": true
+    },
+    {
+      "sheet": "gunner_static",
+      "point": [
+        137,
+        159
+      ],
+      "note": "갈색 머리는 무광",
+      "source_rgba": [
+        165,
+        88,
+        51,
+        255
+      ],
+      "mask_rgba": [
+        13,
+        26,
+        0,
+        255
+      ],
+      "expected_rg": [
+        13,
+        26
+      ],
+      "pass": true
+    },
+    {
+      "sheet": "cannon_recoil",
+      "point": [
+        128,
+        100
+      ],
+      "note": "밝은 포신은 금속",
+      "source_rgba": [
+        141,
+        124,
+        115,
+        253
+      ],
+      "mask_rgba": [
+        255,
+        191,
+        0,
+        253
+      ],
+      "expected_rg": [
+        255,
+        191
+      ],
+      "pass": true
+    },
+    {
+      "sheet": "cannon_recoil",
+      "point": [
+        128,
+        200
+      ],
+      "note": "나무 포가는 무광",
+      "source_rgba": [
+        105,
+        65,
+        38,
+        253
+      ],
+      "mask_rgba": [
+        13,
+        26,
+        0,
+        253
+      ],
+      "expected_rg": [
+        13,
+        26
+      ],
+      "pass": true
+    },
+    {
+      "sheet": "cannon_recoil",
+      "point": [
+        80,
+        205
+      ],
+      "note": "어두운 나무도 무광",
+      "source_rgba": [
+        45,
+        31,
+        24,
+        253
+      ],
+      "mask_rgba": [
+        13,
+        26,
+        0,
+        253
+      ],
+      "expected_rg": [
+        13,
+        26
+      ],
+      "pass": true
+    },
+    {
+      "sheet": "goblin_walk_attack4",
+      "point": [
+        87,
+        313
+      ],
+      "note": "나무 몽둥이는 무광",
+      "source_rgba": [
+        115,
+        72,
+        45,
+        255
+      ],
+      "mask_rgba": [
+        13,
+        26,
+        0,
+        255
+      ],
+      "expected_rg": [
+        13,
+        26
+      ],
+      "pass": true
+    },
+    {
+      "sheet": "goblin_walk_attack4",
+      "point": [
+        137,
+        245
+      ],
+      "note": "녹색 피부는 무광",
+      "source_rgba": [
+        171,
+        173,
+        92,
+        255
+      ],
+      "mask_rgba": [
+        13,
+        26,
+        0,
+        255
+      ],
+      "expected_rg": [
+        13,
+        26
+      ],
+      "pass": true
+    },
+    {
+      "sheet": "ogre_static",
+      "point": [
+        136,
+        214
+      ],
+      "note": "오우거 피부는 무광",
+      "source_rgba": [
+        160,
+        149,
+        111,
+        253
+      ],
+      "mask_rgba": [
+        13,
+        26,
+        0,
+        253
+      ],
+      "expected_rg": [
+        13,
+        26
+      ],
+      "pass": true
+    },
+    {
+      "sheet": "ogre_static",
+      "point": [
+        127,
+        289
+      ],
+      "note": "오우거 버클은 철",
+      "source_rgba": [
+        194,
+        183,
+        171,
+        253
+      ],
+      "mask_rgba": [
+        242,
+        140,
+        0,
+        253
+      ],
+      "expected_rg": [
+        242,
+        140
+      ],
+      "pass": true
+    }
+  ]
+}
