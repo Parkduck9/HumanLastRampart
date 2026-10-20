@@ -1,0 +1,174 @@
+﻿{
+    "card":  "K-084",
+    "type":  "정지 화면 목업 · 게임 에셋 아님",
+    "native_size":  [
+                        640,
+                        360
+                    ],
+    "screen_size":  [
+                        1920,
+                        1080
+                    ],
+    "scale":  3,
+    "filter":  "nearest-neighbor",
+    "font":  "Malgun Gothic Bold",
+    "font_sizes_native":  [
+                              22,
+                              15,
+                              11
+                          ],
+    "font_sizes_screen":  [
+                              66,
+                              45,
+                              33
+                          ],
+    "story_line_height":  51,
+    "panel_center_tile_native":  [
+                                     24,
+                                     24
+                                 ],
+    "fixed_border_native":  3,
+    "report_rect_screen":  [
+                               252,
+                               87,
+                               1416,
+                               906
+                           ],
+    "report_coverage_percent":  61.87,
+    "seal_diameter_screen":  192,
+    "frame_count":  1,
+    "frame_order":  [
+                        "static"
+                    ],
+    "pivot":  null,
+    "foot_baseline":  null,
+    "background_quantization":  "640×360 nearest-neighbor + median-cut 256 colors, then exact 3x",
+    "portraits":  "K-071 native 64×96 at 3x; result busts cropped at native scale",
+    "title":  "한글 양각 조판, K-083 영문 로고 제외",
+    "sources":  [
+                    "Docs/GDD/UI_Redesign_v2.md",
+                    "Docs/GDD/UI_NoSlop.md",
+                    "Docs/References/ui_redesign_v2/now_main.png",
+                    "Docs/References/ui_redesign_v2/now_story.png",
+                    "Docs/References/ui_redesign_v2/now_result.png",
+                    "Docs/References/codex_k083_v1/main_menu_keyart.png",
+                    "Docs/References/codex_k071_v1/",
+                    "Docs/References/codex_k067_v1/",
+                    "Game/Assets/_Project/Art/UI/Resources/ScreenArt/main.png",
+                    "Game/Assets/_Project/Art/UI/Resources/ScreenArt/victory.png"
+                ],
+    "files":  [
+                  {
+                      "file":  "after_main.png",
+                      "size":  [
+                                   1920,
+                                   1080
+                               ]
+                  },
+                  {
+                      "file":  "after_main_detail_4x.png",
+                      "size":  [
+                                   640,
+                                   480
+                               ]
+                  },
+                  {
+                      "file":  "after_main_native.png",
+                      "size":  [
+                                   640,
+                                   360
+                               ]
+                  },
+                  {
+                      "file":  "after_result.png",
+                      "size":  [
+                                   1920,
+                                   1080
+                               ]
+                  },
+                  {
+                      "file":  "after_result_detail_4x.png",
+                      "size":  [
+                                   640,
+                                   480
+                               ]
+                  },
+                  {
+                      "file":  "after_result_native.png",
+                      "size":  [
+                                   640,
+                                   360
+                               ]
+                  },
+                  {
+                      "file":  "after_story_paper.png",
+                      "size":  [
+                                   1920,
+                                   1080
+                               ]
+                  },
+                  {
+                      "file":  "after_story_paper_detail_4x.png",
+                      "size":  [
+                                   640,
+                                   480
+                               ]
+                  },
+                  {
+                      "file":  "after_story_paper_native.png",
+                      "size":  [
+                                   640,
+                                   360
+                               ]
+                  },
+                  {
+                      "file":  "after_story_wood.png",
+                      "size":  [
+                                   1920,
+                                   1080
+                               ]
+                  },
+                  {
+                      "file":  "after_story_wood_detail_4x.png",
+                      "size":  [
+                                   640,
+                                   480
+                               ]
+                  },
+                  {
+                      "file":  "after_story_wood_native.png",
+                      "size":  [
+                                   640,
+                                   360
+                               ]
+                  },
+                  {
+                      "file":  "compare_after_main.png",
+                      "size":  [
+                                   3840,
+                                   1134
+                               ]
+                  },
+                  {
+                      "file":  "compare_after_result.png",
+                      "size":  [
+                                   3840,
+                                   1134
+                               ]
+                  },
+                  {
+                      "file":  "compare_after_story_paper.png",
+                      "size":  [
+                                   3840,
+                                   1134
+                               ]
+                  },
+                  {
+                      "file":  "compare_after_story_wood.png",
+                      "size":  [
+                                   3840,
+                                   1134
+                               ]
+                  }
+              ]
+}
