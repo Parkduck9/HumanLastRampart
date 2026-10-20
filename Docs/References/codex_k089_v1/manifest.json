@@ -1,0 +1,540 @@
+{
+  "card": "K-089",
+  "version": 1,
+  "status": "asset proposal; engine integration pending",
+  "coordinate_system": {
+    "origin": "top_left",
+    "x": "right",
+    "y": "down",
+    "rect": "[x,y,width,height]; right/bottom exclusive",
+    "pixel_edges": "foot is the boundary below the last opaque row"
+  },
+  "background": {
+    "file": "prep_yard.png",
+    "native_file": "native/prep_yard.png",
+    "size_px": [
+      3840,
+      1080
+    ],
+    "native_size_px": [
+      1280,
+      360
+    ],
+    "upscale": 3,
+    "filter": "nearest",
+    "frame_count": 1,
+    "pivot_px": [
+      0,
+      1080
+    ],
+    "source": "source/generated_wide.png",
+    "source_crop_px": [
+      0,
+      160,
+      2048,
+      736
+    ],
+    "processing": "crop excess skyline/foreground without stretching; nearest 1280x360; 192-color palette; nearest 3x"
+  },
+  "walkable": {
+    "file": "walkable_mask.png",
+    "native_file": "native/walkable_mask.png",
+    "white": 255,
+    "black": 0,
+    "semantics": "hero foot center; approximately 0.2m clearance baked in, no second inflation",
+    "horizon_y_px": -60,
+    "horizon_visible": false,
+    "nearest_row_px": 1020,
+    "farthest_row_px": 480,
+    "near_depth_m": 0,
+    "far_depth_m": 8,
+    "depth_m": 8,
+    "near_horizontal_pixels_per_metre": 128.8235294117647,
+    "far_horizontal_pixels_per_metre": 64.41176470588235,
+    "near_projected_depth_pixels_per_metre": 135,
+    "far_projected_depth_pixels_per_metre": 33.75,
+    "near_native_hero_scale": 3,
+    "far_native_hero_scale": 1.5,
+    "near_game_sheet_scale": 1,
+    "far_game_sheet_scale": 0.5,
+    "near_hero_figure_height_px": 219,
+    "far_hero_figure_height_px": 109.5,
+    "world_origin_px": [
+      1920,
+      1020
+    ],
+    "formula": {
+      "d": "depth from nearest line, 0..8 metres",
+      "q": "1 + d/8",
+      "x_px": "1920 + (219/1.7) * X_m / q",
+      "y_px": "-60 + 1080/q",
+      "inverse_d_m": "8*(1080/(y_px+60)-1)",
+      "inverse_X_m": "(x_px-1920)*(1+d_m/8)/(219/1.7)",
+      "hero_native_scale": "3/q"
+    },
+    "notes_ko": "위아래 이동 8m를 우선한다. 브리프의 이전 2~4m 예시보다 최종 사용자 결정 6~10m를 우선했다. 먼 선은 전역 깊이 한계이고 실제 통행은 마스크를 따른다."
+  },
+  "camera_suggestion": {
+    "pitch_down_deg": 30,
+    "focal_length_px": 892.5155926060803,
+    "principal_point_px": [
+      1920,
+      455.2941176470588
+    ],
+    "height_m": 7.260377357754472,
+    "near_ground_forward_m": 3.808219178082192,
+    "camera_model": "off-axis pinhole, world X horizontal; ground Z away; screen-facing billboard hero; panorama is a fixed projection with horizontal image crop/pan",
+    "calibration_limit_ko": "생성 그림의 모든 돌·건물을 실측한 카메라 복원은 아니다. 바닥 투영과 캐릭터 배치를 위한 일관된 제안값이다."
+  },
+  "stations": [
+    {
+      "id": "repair",
+      "name_ko": "성벽 수리",
+      "door_px": [
+        750,
+        459
+      ],
+      "interaction_px": [
+        750,
+        510
+      ],
+      "trigger_rect_px": [
+        660,
+        492,
+        180,
+        90
+      ],
+      "world_interaction_m": [
+        -17.20836,
+        7.15789
+      ],
+      "approach_lane_px": [
+        750,
+        510,
+        750,
+        972
+      ]
+    },
+    {
+      "id": "barracks",
+      "name_ko": "병영",
+      "door_px": [
+        1305,
+        459
+      ],
+      "interaction_px": [
+        1305,
+        510
+      ],
+      "trigger_rect_px": [
+        1215,
+        492,
+        180,
+        90
+      ],
+      "world_interaction_m": [
+        -9.04542,
+        7.15789
+      ],
+      "approach_lane_px": [
+        1305,
+        510,
+        1305,
+        990
+      ]
+    },
+    {
+      "id": "traps",
+      "name_ko": "함정 공방",
+      "door_px": [
+        2010,
+        459
+      ],
+      "interaction_px": [
+        2010,
+        510
+      ],
+      "trigger_rect_px": [
+        1920,
+        492,
+        180,
+        90
+      ],
+      "world_interaction_m": [
+        1.32372,
+        7.15789
+      ],
+      "approach_lane_px": [
+        2010,
+        510,
+        2010,
+        990
+      ]
+    },
+    {
+      "id": "shop",
+      "name_ko": "상점",
+      "door_px": [
+        2700,
+        459
+      ],
+      "interaction_px": [
+        2700,
+        510
+      ],
+      "trigger_rect_px": [
+        2610,
+        492,
+        180,
+        90
+      ],
+      "world_interaction_m": [
+        11.47224,
+        7.15789
+      ],
+      "approach_lane_px": [
+        2700,
+        510,
+        2700,
+        990
+      ]
+    },
+    {
+      "id": "stairs",
+      "name_ko": "성벽 계단",
+      "door_px": [
+        3330,
+        459
+      ],
+      "interaction_px": [
+        3330,
+        510
+      ],
+      "trigger_rect_px": [
+        3240,
+        492,
+        180,
+        90
+      ],
+      "world_interaction_m": [
+        20.73828,
+        7.15789
+      ],
+      "approach_lane_px": [
+        3330,
+        510,
+        3330,
+        780
+      ]
+    }
+  ],
+  "occluders": [
+    {
+      "id": "left_pillar",
+      "name_ko": "앞쪽 왼쪽 돌기둥",
+      "file": "occluders/left_pillar.png",
+      "native_file": "native/left_pillar.png",
+      "size_px": [
+        3840,
+        1080
+      ],
+      "pivot_px": [
+        0,
+        1080
+      ],
+      "bounds_px": [
+        267,
+        711,
+        510,
+        1041
+      ],
+      "sort_foot_row_px": 1038,
+      "collision_polygon_px": [
+        [
+          282,
+          981
+        ],
+        [
+          507,
+          981
+        ],
+        [
+          507,
+          1041
+        ],
+        [
+          282,
+          1041
+        ]
+      ]
+    },
+    {
+      "id": "barrels",
+      "name_ko": "앞쪽 나무통 두 개",
+      "file": "occluders/barrels.png",
+      "native_file": "native/barrels.png",
+      "size_px": [
+        3840,
+        1080
+      ],
+      "pivot_px": [
+        0,
+        1080
+      ],
+      "bounds_px": [
+        678,
+        831,
+        945,
+        1056
+      ],
+      "sort_foot_row_px": 1053,
+      "collision_polygon_px": [
+        [
+          681,
+          984
+        ],
+        [
+          825,
+          984
+        ],
+        [
+          825,
+          1014
+        ],
+        [
+          936,
+          1014
+        ],
+        [
+          936,
+          1056
+        ],
+        [
+          804,
+          1056
+        ],
+        [
+          804,
+          1029
+        ],
+        [
+          681,
+          1029
+        ]
+      ]
+    },
+    {
+      "id": "left_banner",
+      "name_ko": "앞쪽 왼쪽 깃발과 기둥",
+      "file": "occluders/left_banner.png",
+      "native_file": "native/left_banner.png",
+      "size_px": [
+        3840,
+        1080
+      ],
+      "pivot_px": [
+        0,
+        1080
+      ],
+      "bounds_px": [
+        108,
+        561,
+        276,
+        969
+      ],
+      "sort_foot_row_px": 969,
+      "collision_polygon_px": [
+        [
+          114,
+          948
+        ],
+        [
+          150,
+          948
+        ],
+        [
+          150,
+          978
+        ],
+        [
+          114,
+          978
+        ]
+      ]
+    },
+    {
+      "id": "right_banner",
+      "name_ko": "앞쪽 오른쪽 깃발과 기둥",
+      "file": "occluders/right_banner.png",
+      "native_file": "native/right_banner.png",
+      "size_px": [
+        3840,
+        1080
+      ],
+      "pivot_px": [
+        0,
+        1080
+      ],
+      "bounds_px": [
+        3414,
+        636,
+        3585,
+        1080
+      ],
+      "sort_foot_row_px": 1080,
+      "collision_polygon_px": [
+        [
+          3426,
+          1080
+        ],
+        [
+          3462,
+          1080
+        ],
+        [
+          3462,
+          1137
+        ],
+        [
+          3426,
+          1137
+        ]
+      ]
+    }
+  ],
+  "occlusion": {
+    "background_includes_props": true,
+    "rule": "base background -> shadow -> hero -> occluder only when hero foot y <= occluder sort_foot_row_px; in front, draw hero after that occluder",
+    "alpha": "binary straight alpha; extracted pixels equal background at identical coordinates",
+    "notes_ko": "배경에도 같은 물체가 있다. 별도 레이어는 뒤로 간 인물 위에 물체를 다시 그리는 용도다. 정적인 지면 그림자는 배경에 남고 인물 그림자는 별도로 그린다."
+  },
+  "hero": {
+    "source": "Docs/References/codex_k070_v1/hero_native_96x128.png",
+    "native_cell_px": [
+      96,
+      128
+    ],
+    "native_pivot_px": [
+      48,
+      120
+    ],
+    "native_figure_height_px": 73,
+    "game_cell_px": [
+      288,
+      384
+    ],
+    "game_pivot_px": [
+      144,
+      360
+    ],
+    "orientation": "single existing front idle frame; not a new motion sheet"
+  },
+  "mockup": {
+    "file": "mockup_stations.png",
+    "frame_count": 1,
+    "size_px": [
+      3840,
+      1080
+    ],
+    "placements": [
+      {
+        "foot_px": [
+          750,
+          510
+        ],
+        "depth_m": 7.15789,
+        "native_hero_scale": 1.583333,
+        "figure_height_px": 115.583,
+        "cell_px": [
+          152,
+          203
+        ],
+        "cell_pivot_px": [
+          76,
+          190
+        ],
+        "station_id": "repair"
+      },
+      {
+        "foot_px": [
+          1305,
+          615
+        ],
+        "depth_m": 4.8,
+        "native_hero_scale": 1.875,
+        "figure_height_px": 136.875,
+        "cell_px": [
+          180,
+          240
+        ],
+        "cell_pivot_px": [
+          90,
+          225
+        ],
+        "station_id": "barracks"
+      },
+      {
+        "foot_px": [
+          2010,
+          1008
+        ],
+        "depth_m": 0.08989,
+        "native_hero_scale": 2.966667,
+        "figure_height_px": 216.567,
+        "cell_px": [
+          285,
+          380
+        ],
+        "cell_pivot_px": [
+          142,
+          356
+        ],
+        "station_id": "traps"
+      },
+      {
+        "foot_px": [
+          2700,
+          870
+        ],
+        "depth_m": 1.29032,
+        "native_hero_scale": 2.583333,
+        "figure_height_px": 188.583,
+        "cell_px": [
+          248,
+          331
+        ],
+        "cell_pivot_px": [
+          124,
+          310
+        ],
+        "station_id": "shop"
+      },
+      {
+        "foot_px": [
+          3330,
+          735
+        ],
+        "depth_m": 2.86792,
+        "native_hero_scale": 2.208333,
+        "figure_height_px": 161.208,
+        "cell_px": [
+          212,
+          283
+        ],
+        "cell_pivot_px": [
+          106,
+          265
+        ],
+        "station_id": "stairs"
+      }
+    ],
+    "notes_ko": "다섯 인물은 같은 영웅을 서로 다른 깊이에 놓은 비교 표본이다. 실제 게임 캡처가 아니다."
+  },
+  "preview_policy": "previews are native images x4 nearest; native mockup is downsampled from the composited game mockup before 4x enlargement",
+  "sources_sha256": {
+    "Docs/References/codex_k070_v1/hero_native_96x128.png": "aafa47917a8674262efb91a47bd881bce0c84bb1749c9c8d872e854c9630e283",
+    "Game/Assets/_Project/Art/UI/Resources/ScreenArt/prep.png": "47ddaae3ac424e8eb0dbcde1a8f8e305c91550c465ac1de0bcfe55367860b26c",
+    "Game/Assets/_Project/Meta/PrepYard.cs": "de6c86d4652b3b3fe63f35c8bd72a0d3fe0aa6f569744a541921fd91b8e07948",
+    "Game/Assets/_Project/Meta/PrepEntry.cs": "69f78d43c476073e411e4cabc5b46bf941f179102ff702f32892a755af2558a7"
+  }
+}

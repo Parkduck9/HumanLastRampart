@@ -1,0 +1,133 @@
+{
+  "passed": true,
+  "background_size": [
+    3840,
+    1080
+  ],
+  "native_size": [
+    1280,
+    360
+  ],
+  "nearest_3x_exact": true,
+  "mask_binary": true,
+  "mask_connected_components": 1,
+  "near_far_endpoint_rows": [
+    1020,
+    480
+  ],
+  "depth_m": 8,
+  "hero_near_far_heights": [
+    219,
+    109.5
+  ],
+  "occluders": [
+    {
+      "file": "occluders/left_pillar.png",
+      "size": [
+        3840,
+        1080
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "native_connected_component_sizes": [
+        7640
+      ],
+      "background_pixels_match": true
+    },
+    {
+      "file": "occluders/barrels.png",
+      "size": [
+        3840,
+        1080
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "native_connected_component_sizes": [
+        4430
+      ],
+      "background_pixels_match": true
+    },
+    {
+      "file": "occluders/left_banner.png",
+      "size": [
+        3840,
+        1080
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "native_connected_component_sizes": [
+        4719
+      ],
+      "background_pixels_match": true
+    },
+    {
+      "file": "occluders/right_banner.png",
+      "size": [
+        3840,
+        1080
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "native_connected_component_sizes": [
+        5902
+      ],
+      "background_pixels_match": true
+    }
+  ],
+  "hero_native_foot_boundary": 120,
+  "mockup_placements": [
+    {
+      "station": "repair",
+      "target_foot_row": 510,
+      "actual_opaque_bottom_edge": 510,
+      "on_walkable_ground": true
+    },
+    {
+      "station": "barracks",
+      "target_foot_row": 615,
+      "actual_opaque_bottom_edge": 615,
+      "on_walkable_ground": true
+    },
+    {
+      "station": "traps",
+      "target_foot_row": 1008,
+      "actual_opaque_bottom_edge": 1008,
+      "on_walkable_ground": true
+    },
+    {
+      "station": "shop",
+      "target_foot_row": 870,
+      "actual_opaque_bottom_edge": 870,
+      "on_walkable_ground": true
+    },
+    {
+      "station": "stairs",
+      "target_foot_row": 735,
+      "actual_opaque_bottom_edge": 735,
+      "on_walkable_ground": true
+    }
+  ],
+  "station_triggers_and_lanes_checked": [
+    "repair",
+    "barracks",
+    "traps",
+    "shop",
+    "stairs"
+  ],
+  "preview_native_4x_exact": true,
+  "sources_unchanged": {
+    "Docs/References/codex_k070_v1/hero_native_96x128.png": true,
+    "Game/Assets/_Project/Art/UI/Resources/ScreenArt/prep.png": true,
+    "Game/Assets/_Project/Meta/PrepYard.cs": true,
+    "Game/Assets/_Project/Meta/PrepEntry.cs": true
+  },
+  "unity_run": false
+}
