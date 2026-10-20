@@ -15,6 +15,8 @@ Take the first item in the Progress table that is not DONE, follow the work loop
 
 ## Starting Codex on ASSET cards (credits reset; run in two terminals)
 
+**PAUSED (2026-10-20 15:26, M-CX-124):** the user cancelled new drawing runs for now. Do NOT run these until the user says so again. Character reference = `Docs/References/codex_hero_octopath_review_v6/generated.png` (D-080 correction, D-081).
+
 ```
 powershell -NoProfile -ExecutionPolicy Bypass -File Tools\CodexCards\run-cards.ps1 -Cards K-086,K-080,K-087,K-081
 powershell -NoProfile -ExecutionPolicy Bypass -File Tools\CodexCards\run-cards.ps1 -Cards K-076,K-089,K-088,K-084
@@ -37,7 +39,9 @@ $env:HLR_PLAY_OUT="$env:TEMP\hlr_play"
 
 | # | Item | State | Notes |
 |---|---|---|---|
-| 1 | Night brightness 3 photos | IN PROGRESS | `Combat/Render/NightTuning.cs` (one Level 0..1 drives sprite brightness, exposure, vignette, ambient + floor, moon, torch intensity/range). Wired in BattleSim.Weather.cs, BattleView.ApplyAtmosphere, BattleLook.Apply, BattleLights torch block. Next: probe `NightLevels` captures levels 0/0.35/0.7/1 → user picks → set `NightTuning.DefaultLevel` |
+| — | Commit 621c77d (2026-10-20) | DONE | items 1, 8, 10, 14, 15, 7a and cannon ×1.5 are committed and tested (edit 76/77 + 1 inconclusive, play 32/32). Rows below marked CODED are now DONE |
+| 1 | Night brightness | DONE | user picked Level 0.4 (`NightTuning.DefaultLevel`) |
+| 1-old | (history) Night brightness 3 photos | DONE | `Combat/Render/NightTuning.cs` (one Level 0..1 drives sprite brightness, exposure, vignette, ambient + floor, moon, torch intensity/range). Wired in BattleSim.Weather.cs, BattleView.ApplyAtmosphere, BattleLook.Apply, BattleLights torch block. Next: probe `NightLevels` captures levels 0/0.35/0.7/1 → user picks → set `NightTuning.DefaultLevel` |
 | 8 | Gunner dry-fire | CODED, UNTESTED | `BattleJobs.cs` SoldierFireJob: no target → `SoldierIdle[s]=1`, target → 0; pose aim branch already skips idle. Not done: pose interval × HeroSideIntervalMultiplier, muzzle sprite (K-088) |
 | 10 | Cannon backwards | CODED, UNTESTED | `SoldierFireJob.CannonFrontMargin = 2` m: cannon target must satisfy dot(d, Outward) ≥ 2 (job), same in `BattleSim.CannonCanReach` and `BattleView.CannonReaches`. Sprite facing unchanged (camera always looks at the current wall from behind) |
 | 14 | Barracks count/−10/type | CODED, UNTESTED | `Meta/PreparationPanel.cs`: count reset on wall/post/unit change and after commit; "인원 −10" button; max = remaining room; post cell shows "지점 · 병종"; right column "지점 — 병종 분대 N명" |
@@ -78,7 +82,7 @@ $env:HLR_PLAY_OUT="$env:TEMP\hlr_play"
 - #12/13: replace today's free 6 m piece (commit 0d9873c). Piece = anchor cell + direction (8 dirs, 45°): straight = anchor + E/N neighbour, diagonal = anchor + NE/NW neighbour; store in `TerrainWork` (Free=true, X/Z = anchor cell centre, Rotation = 0/45/90/135). `TerrainRules.FreeCover` → the two cells. Diagonal: flow field must not step diagonally between the two blocked cells' free neighbours across the shared corner (`BattleSim.Terrain.cs` Dijkstra neighbour loop). Connection art via K-087 (hub + 8 arms on the map; joint posts + 5 m / 7.07 m boards in battle).
 - #9: SlotId "free:x:z"; `Meta/TrapPreparationTransactions.cs` IsPlaceable :79, Occupied :87 (distance test on ActualX/Z), TryCommit :117-124, CanBuyMany :142-149, Validate :198-201 (accept free ids); `TerrainWorkTransactions.cs` trap overlap via `layout.CellOf(ActualX, ActualZ)`. Battle already uses ActualX/Z. Fix probes/tests that build cell ids (SimProbe.cs:869-872, PlayProbe.cs:233-237,300,346-356, CampaignSaveTests.cs:39, BattleTrapTests.cs:36,112).
 - #2: `BattleSim.Slots.cs` — when a wall is over capacity, recompute slot pitch so all soldiers fit evenly (min spacing ~0.25 m), instead of stacking 9 overflow spots (:116-120).
-- #4/5/6: `Combat/Battle/BattleEntry.cs:349-406` (map input), `BattleHud.Map.cs:467-528,643-685`, `Groups.cs`. Shift+left-drag = box select (plain left-drag still pans). Releasing a Shift+drag that started on selected markers opens a radial picker at the cursor: up=N, down=S, left=W, right=E (round icons, no rectangle panel).
+- #4/5/6 (user-confirmed): `Combat/Battle/BattleEntry.cs:349-406` (map input), `BattleHud.Map.cs:467-528,643-685`, `Groups.cs`. (a) Shift+left-drag draws a box selecting squad markers; ON RELEASE a round 4-quadrant picker appears at the cursor (up=N, right=E, down=S, left=W); clicking a quadrant sends all selected squads there. (b) Left-click a wall (N/E/S/W) on the map → amount wheel like the middle-click command wheel: [1분대 보내기][1/2 보내기][전체 보내기] → then the same 4-quadrant picker for the destination. Plain left-drag still pans. No rectangular panels.
 - #11/19 lens: `Combat/Battle/BattleSim.Telescope.cs`, `BattleView.cs:24-26,794-817`, shader lens branch (`PerfLabSprite.shader:235-239`). Keep a list of (position, time) for dots that were inside the lens last frame and are now outside (or lens released); draw them ~4 s fading. Only with the lens item (`item_telescope_lens`).
 - #7: contact shadow quads under props/enemies/earth walls (K-088), shadow distance 50 → ~90 m (`Assets/Settings/PC_RPAsset.asset`, measure FrameCost). Lighting: in `Combat/PerfLab/PerfLabSprite.shader:282-324` add Blinn-Phong specular (URP `LightingSpecular`) with per-kind smoothness, use normal maps (K-081). Ground/wall meshes may use URP Simple Lit.
 - #18: replace `Meta/PrepYard.cs` strip with a 3D ground plane + box colliders + occluder quads + trigger boxes from K-089 manifest; hero billboard moves with WASD/arrows in X and Z; keep station actions from `Meta/PrepEntry.cs:29-54`.

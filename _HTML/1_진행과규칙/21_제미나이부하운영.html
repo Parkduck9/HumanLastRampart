@@ -24,14 +24,22 @@ ul, ol { padding-left:22px; margin:6px 0; }
 </style></head>
 <body><main>
 <h1>제미나이 부하 직원 운영 문서 (Claude 전용, 계속 고쳐 씀)</h1>
-<nav><a href="#s1">1. 설치 (사용자가 한 번만 — 다운로드·로그인은 사용자 몫)</a><a href="#s2">2. Claude가 맡기는 방법</a><a href="#s3">3. 맡길 일 / 맡기지 않을 일</a><a href="#s4">4. 검증 규칙 (Claude가 받은 결과를 쓰기 전에)</a><a href="#s5">5. 배운 것 (쓸 때마다 더함)</a><a href="#s6">6. 사용 기록 (한 줄씩)</a></nav>
+<nav><a href="#s1">1-새. 설치 — 공식 안티그래비티 명령줄 도구 `agy` (2026-10-20 바뀜)</a><a href="#s2">1. (예전) 제미나이 명령줄 도구 설치 — 개인 로그인 막힘, 기록용</a><a href="#s3">2. Claude가 맡기는 방법</a><a href="#s4">3. 맡길 일 / 맡기지 않을 일</a><a href="#s5">4. 검증 규칙 (Claude가 받은 결과를 쓰기 전에)</a><a href="#s6">5. 배운 것 (쓸 때마다 더함)</a><a href="#s7">6. 사용 기록 (한 줄씩)</a></nav>
 
 <ul>
 <li>시작: 2026-10-20 · 사용자 결정 "공식 제미나이 명령줄 도구로" (안티그래비티 토큰 꺼내 쓰기는 계정 정지·보안 위험으로 쓰지 않음)</li>
 <li>목적: <strong>조사·읽기·초안은 제미나이가, Claude는 검증만</strong> → Claude 토큰 절약. 제미나이 할당량이 떨어지면 그때부터 Claude가 직접 한다.</li>
 <li>이 문서는 쓸 때마다 "4. 배운 것"과 "5. 사용 기록"을 고쳐 더 좋은 결과가 나오게 한다. 화면용: <code>_HTML/1_진행과규칙/21_제미나이부하운영.html</code> (<code>Tools/DocPage/md2page.ps1</code>로 다시 만듦).</li>
 </ul>
-<h2 id="s1">1. 설치 (사용자가 한 번만 — 다운로드·로그인은 사용자 몫)</h2>
+<h2 id="s1">1-새. 설치 — 공식 안티그래비티 명령줄 도구 <code>agy</code> (2026-10-20 바뀜)</h2>
+<ul>
+<li>왜 바뀌었나: 제미나이 명령줄 도구에 구글 로그인을 하면 "개인용은 더 이상 지원하지 않음, 안티그래비티로 옮기라"는 안내가 나온다. 구글은 2026년 5월 제미나이 명령줄 도구를 <strong>안티그래비티 명령줄 도구(agy)</strong> 로 옮겼다(공식, 토큰 꺼내 쓰기 아님).</li>
+<li>설치(파워셸, 구글 공식 설치 문서의 명령): <code>irm https://antigravity.google/cli/install.ps1 | iex</code> → 기본 위치 <code>%LOCALAPPDATA%\agy\bin</code></li>
+<li>확인: 새 창에서 <code>agy --version</code>, 그다음 <code>agy</code> 를 한 번 대화형으로 실행해 로그인·작업 폴더 신뢰를 마친다(헤드리스 실행은 저장된 로그인을 쓴다).</li>
+<li>실행 도구 <code>ask.ps1</code>은 agy가 있으면 agy를 쓴다: <code>agy -p &lt;지시&gt; --sandbox --output-format text</code>. 허가가 필요한 도구(파일 쓰기·명령)는 헤드리스에서 기본으로 실행되지 않는다 — "모든 허가 건너뛰기" 옵션은 절대 쓰지 않는다.</li>
+<li>쓸 수 있는 양: 공식 문서의 "모델 할당량" 쪽 — 첫 사용 뒤 <code>agy</code> 안 사용량 화면으로 확인해 여기에 적는다.</li>
+</ul>
+<h2 id="s2">1. (예전) 제미나이 명령줄 도구 설치 — 개인 로그인 막힘, 기록용</h2>
 <pre><code>winget install OpenJS.NodeJS.LTS
 npm install -g @google/gemini-cli
 gemini
@@ -40,8 +48,11 @@ gemini
 <li>마지막 줄을 처음 실행하면 로그인 방법을 묻는다 → <strong>구글로 로그인</strong>을 고르면 브라우저가 열린다. 로그인 뒤 창을 닫으면 끝.</li>
 <li>무료 사용량(개인 구글 계정, 2025년 기준 안내): 분당 약 60번·하루 약 1,000번 — 설치 뒤 실제 값은 도구의 안내로 다시 확인.</li>
 <li>확인: <code>gemini -p "say ok"</code> 가 글을 돌려주면 준비 완료.</li>
+<li>설치 때 겪은 것 (2026-10-20):</li>
+<li style="margin-left:22px">노드는 이미 깔려 있었다(24판) — 설치 전에 열어 둔 터미널은 경로를 몰라 <code>npm</code>·<code>node</code>를 못 찾는다 → 새 창을 열거나 <code>$env:Path = "C:\Program Files\nodejs;$env:APPDATA\npm;" + $env:Path</code></li>
+<li style="margin-left:22px">파워셸 실행 정책이 <code>gemini.ps1</code>을 막는다 → 보안 설정은 바꾸지 않고 <strong><code>gemini.cmd</code></strong> 로 부른다 (실행 도구도 이렇게 함)</li>
 </ul>
-<h2 id="s2">2. Claude가 맡기는 방법</h2>
+<h2 id="s3">2. Claude가 맡기는 방법</h2>
 <pre><code>powershell -NoProfile -ExecutionPolicy Bypass -File Tools\GeminiHelper\ask.ps1 -Task &lt;지시.md&gt; -Out &lt;결과.md&gt;
 </code></pre>
 <ul>
@@ -49,7 +60,7 @@ gemini
 <li>결과 첫 줄이 <code>QUOTA_EXHAUSTED</code>(종료 코드 3)면 할당량 소진 → Claude가 같은 일을 직접 한다.</li>
 <li>실행 기록: <code>Tools/GeminiHelper/runs.log</code>.</li>
 </ul>
-<h2 id="s3">3. 맡길 일 / 맡기지 않을 일</h2>
+<h2 id="s4">3. 맡길 일 / 맡기지 않을 일</h2>
 <div class="tw"><table><tr><th>맡김 (읽기·조사)</th><th>맡기지 않음</th></tr>
 <tr><td>코드 어디서 무엇을 하는지 찾기 (파일:줄 목록)</td><td>코드·자료·그림 수정 (Claude·코덱스 몫)</td></tr>
 <tr><td>웹 조사 요약 (출처 주소 필수)</td><td>깃 쓰기(커밋·푸시·가지)</td></tr>
@@ -57,18 +68,18 @@ gemini
 <tr><td>문서 초안(영어) — Claude가 고쳐 씀</td><td>설계 결정 (사용자에게 묻는다)</td></tr>
 <tr><td>여러 파일 비교·목록 만들기</td><td>비밀번호·토큰·설정 파일 읽기</td></tr>
 </table></div>
-<h2 id="s4">4. 검증 규칙 (Claude가 받은 결과를 쓰기 전에)</h2>
+<h2 id="s5">4. 검증 규칙 (Claude가 받은 결과를 쓰기 전에)</h2>
 <ol>
 <li>파일:줄 주장은 <strong>전부 또는 무작위 3개 이상</strong>을 직접 열어 확인한다. 하나라도 틀리면 그 결과 전체를 다시 확인한다.</li>
 <li>웹 주장은 주소가 있는 것만 쓴다. 숫자·날짜는 원문 확인 전까지 "확인 안 됨"으로 표시.</li>
 <li>UNSURE 항목은 Claude가 직접 찾거나 사용자에게 묻는다.</li>
 <li>같은 종류의 일에서 2번 틀리면 그 종류는 맡기지 않는다(5장에 기록).</li>
 </ol>
-<h2 id="s5">5. 배운 것 (쓸 때마다 더함)</h2>
+<h2 id="s6">5. 배운 것 (쓸 때마다 더함)</h2>
 <ul>
 <li>(아직 없음 — 첫 사용 뒤 적는다)</li>
 </ul>
-<h2 id="s6">6. 사용 기록 (한 줄씩)</h2>
+<h2 id="s7">6. 사용 기록 (한 줄씩)</h2>
 <div class="tw"><table><tr><th>날짜</th><th>맡긴 일</th><th>결과</th><th>검증</th><th>아낀 정도</th></tr>
 <tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
 </table></div>
