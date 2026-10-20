@@ -1,0 +1,206 @@
+{
+  "card": "K-073",
+  "decision": "D-081",
+  "native_cell": [
+    96,
+    128
+  ],
+  "game_cell": [
+    288,
+    384
+  ],
+  "native_foot_top_left": [
+    48,
+    120
+  ],
+  "game_foot_top_left": [
+    144,
+    360
+  ],
+  "unity_pivot_normalized_bottom_left": [
+    0.5,
+    0.0625
+  ],
+  "scale": 3,
+  "filter": "nearest",
+  "sheets": [
+    {
+      "motion": "static",
+      "native": "archer_static_native.png",
+      "game": "archer_static.png",
+      "preview_4x": "archer_static_4x.png",
+      "frames": 1,
+      "order": [
+        "후면 대기"
+      ],
+      "source_game": "Game/Assets/_Project/Art/Characters/Static/archer_static.png",
+      "source_cell": [
+        256,
+        384
+      ],
+      "source_foot_top_left": [
+        128,
+        352
+      ],
+      "raw_crop_boxes": []
+    },
+    {
+      "motion": "run",
+      "native": "archer_run_native.png",
+      "game": "archer_run.png",
+      "preview_4x": "archer_run_4x.png",
+      "frames": 4,
+      "order": [
+        "오른발 전진",
+        "교차·오른발 지지",
+        "왼발 전진",
+        "교차·왼발 지지"
+      ],
+      "source_game": "Game/Assets/_Project/Art/Characters/Run/archer_run.png",
+      "source_cell": [
+        256,
+        384
+      ],
+      "source_foot_top_left": [
+        128,
+        352
+      ],
+      "raw_crop_boxes": [
+        [
+          140,
+          126,
+          513,
+          646
+        ],
+        [
+          165,
+          125,
+          474,
+          647
+        ],
+        [
+          66,
+          127,
+          456,
+          648
+        ],
+        [
+          114,
+          127,
+          416,
+          650
+        ]
+      ]
+    },
+    {
+      "motion": "fire",
+      "native": "archer_fire_native.png",
+      "game": "archer_fire.png",
+      "preview_4x": "archer_fire_4x.png",
+      "frames": 6,
+      "order": [
+        "준비",
+        "당기기",
+        "조준",
+        "발사",
+        "회복",
+        "다음 화살 준비"
+      ],
+      "source_game": "Game/Assets/_Project/Art/Characters/Fire/archer_fire.png",
+      "source_cell": [
+        256,
+        384
+      ],
+      "source_foot_top_left": [
+        128,
+        352
+      ],
+      "raw_crop_boxes": [
+        [
+          75,
+          147,
+          324,
+          617
+        ],
+        [
+          25,
+          108,
+          336,
+          617
+        ],
+        [
+          0,
+          117,
+          342,
+          617
+        ],
+        [
+          20,
+          118,
+          362,
+          617
+        ],
+        [
+          56,
+          148,
+          296,
+          616
+        ],
+        [
+          27,
+          146,
+          299,
+          617
+        ]
+      ]
+    },
+    {
+      "motion": "fall",
+      "native": "archer_fall_native.png",
+      "game": "archer_fall.png",
+      "preview_4x": "archer_fall_4x.png",
+      "frames": 4,
+      "order": [
+        "피격",
+        "무릎 꺾임",
+        "옆으로 넘어짐",
+        "쓰러짐"
+      ],
+      "source_game": "Game/Assets/_Project/Art/Characters/Fall/archer_fall.png",
+      "source_cell": [
+        256,
+        384
+      ],
+      "source_foot_top_left": [
+        128,
+        352
+      ],
+      "raw_crop_boxes": [
+        [
+          129,
+          187,
+          467,
+          670
+        ],
+        [
+          89,
+          330,
+          403,
+          670
+        ],
+        [
+          0,
+          356,
+          439,
+          670
+        ],
+        [
+          0,
+          461,
+          500,
+          670
+        ]
+      ]
+    }
+  ]
+}

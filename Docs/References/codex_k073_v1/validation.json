@@ -1,0 +1,211 @@
+{
+  "frames": {
+    "static": [
+      {
+        "frame": 0,
+        "bbox": [
+          31,
+          47,
+          65,
+          120
+        ],
+        "bottom_exclusive": 120,
+        "connected_component_sizes": [
+          1667
+        ]
+      }
+    ],
+    "run": [
+      {
+        "frame": 0,
+        "bbox": [
+          19,
+          47,
+          71,
+          120
+        ],
+        "bottom_exclusive": 120,
+        "connected_component_sizes": [
+          2082
+        ]
+      },
+      {
+        "frame": 1,
+        "bbox": [
+          28,
+          47,
+          71,
+          120
+        ],
+        "bottom_exclusive": 120,
+        "connected_component_sizes": [
+          1824
+        ]
+      },
+      {
+        "frame": 2,
+        "bbox": [
+          17,
+          47,
+          72,
+          120
+        ],
+        "bottom_exclusive": 120,
+        "connected_component_sizes": [
+          2083
+        ]
+      },
+      {
+        "frame": 3,
+        "bbox": [
+          28,
+          47,
+          70,
+          120
+        ],
+        "bottom_exclusive": 120,
+        "connected_component_sizes": [
+          1852
+        ]
+      }
+    ],
+    "fire": [
+      {
+        "frame": 0,
+        "bbox": [
+          26,
+          47,
+          65,
+          120
+        ],
+        "bottom_exclusive": 120,
+        "connected_component_sizes": [
+          1862
+        ]
+      },
+      {
+        "frame": 1,
+        "bbox": [
+          20,
+          41,
+          68,
+          120
+        ],
+        "bottom_exclusive": 120,
+        "connected_component_sizes": [
+          1889
+        ]
+      },
+      {
+        "frame": 2,
+        "bbox": [
+          16,
+          42,
+          69,
+          120
+        ],
+        "bottom_exclusive": 120,
+        "connected_component_sizes": [
+          1925
+        ]
+      },
+      {
+        "frame": 3,
+        "bbox": [
+          18,
+          42,
+          71,
+          120
+        ],
+        "bottom_exclusive": 120,
+        "connected_component_sizes": [
+          1940
+        ]
+      },
+      {
+        "frame": 4,
+        "bbox": [
+          28,
+          47,
+          65,
+          120
+        ],
+        "bottom_exclusive": 120,
+        "connected_component_sizes": [
+          1824
+        ]
+      },
+      {
+        "frame": 5,
+        "bbox": [
+          29,
+          47,
+          71,
+          120
+        ],
+        "bottom_exclusive": 120,
+        "connected_component_sizes": [
+          1818
+        ]
+      }
+    ],
+    "fall": [
+      {
+        "frame": 0,
+        "bbox": [
+          30,
+          47,
+          81,
+          120
+        ],
+        "bottom_exclusive": 120,
+        "connected_component_sizes": [
+          2145
+        ]
+      },
+      {
+        "frame": 1,
+        "bbox": [
+          22,
+          69,
+          69,
+          120
+        ],
+        "bottom_exclusive": 120,
+        "connected_component_sizes": [
+          1694
+        ]
+      },
+      {
+        "frame": 2,
+        "bbox": [
+          15,
+          73,
+          81,
+          120
+        ],
+        "bottom_exclusive": 120,
+        "connected_component_sizes": [
+          1807
+        ]
+      },
+      {
+        "frame": 3,
+        "bbox": [
+          10,
+          88,
+          86,
+          120
+        ],
+        "bottom_exclusive": 120,
+        "connected_component_sizes": [
+          1603
+        ]
+      }
+    ]
+  },
+  "game_files_unchanged": 1065,
+  "nearest_3x_verified": true,
+  "binary_alpha": true,
+  "foot_bottom_exclusive": 120
+}

@@ -1,0 +1,38 @@
+const fs=require('fs');
+const path=require('path');
+const {pathToFileURL}=require('url');
+const {chromium}=require('C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+// 로컬 검토 페이지의 내장 그림·재생·버튼·작은 화면을 확인한다.
+(async()=>{
+ const browser=await chromium.launch({channel:'chrome',headless:true});
+ const page=await browser.newPage({viewport:{width:1400,height:1100},deviceScaleFactor:1});
+ const errors=[];page.on('pageerror',e=>errors.push(String(e)));
+ await page.goto(pathToFileURL(path.resolve(__dirname,'../../../_HTML/4_그림_캐릭터/codex_K-073_궁수동작_v1.html')).href);
+ await page.waitForFunction(()=>window.previewReady===true);
+ await page.locator('img').evaluateAll(xs=>Promise.all(xs.map(x=>x.decode())));
+ await page.locator('#pause').click();
+ const a=await page.locator('.frame').allTextContents();
+ await page.locator('#next').click();
+ const b=await page.locator('.frame').allTextContents();
+ const frameStep=a.some((x,i)=>x!==b[i]);
+ const canvasBefore=await page.locator('canvas').nth(2).evaluate(c=>c.toDataURL());
+ await page.locator('#flip').click();
+ const canvasAfter=await page.locator('canvas').nth(2).evaluate(c=>c.toDataURL());
+ const flip=canvasBefore!==canvasAfter;
+ await page.locator('#speed').selectOption('4');
+ await page.locator('#pause').click();
+ const c=await page.locator('.frame').allTextContents();
+ await page.waitForFunction(before=>[...document.querySelectorAll('.frame')].some((x,i)=>x.textContent!==before[i]),c);
+ const playing=true;
+ await page.locator('#pause').click();
+ await page.screenshot({path:path.join(__dirname,'review_desktop.png'),fullPage:true});
+ const count=await page.locator('canvas').count();
+ const images=await page.locator('img').evaluateAll(xs=>xs.every(x=>x.complete&&x.naturalWidth>0&&x.src.startsWith('data:')));
+ await page.setViewportSize({width:390,height:844});
+ await page.screenshot({path:path.join(__dirname,'review_mobile.png'),fullPage:true});
+ const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth);
+ const result={canvas_count:count,all_embedded_images_loaded:images,animated_images_loaded:8,frame_step:frameStep,flip,playing,mobile_overflow:overflow,script_errors:errors};
+ fs.writeFileSync(path.join(__dirname,'review_validation.json'),JSON.stringify(result,null,2));
+ await browser.close();console.log(JSON.stringify(result));
+ if(count!==8||!images||!frameStep||!flip||overflow||errors.length)process.exit(1);
+})().catch(e=>{console.error(e);process.exit(1)});
