@@ -1,0 +1,213 @@
+{
+  "card": "K-074",
+  "decision": "D-081",
+  "native_cell": [
+    96,
+    128
+  ],
+  "game_cell": [
+    288,
+    384
+  ],
+  "native_foot_top_left": [
+    48,
+    120
+  ],
+  "game_foot_top_left": [
+    144,
+    360
+  ],
+  "unity_pivot_normalized_bottom_left": [
+    0.5,
+    0.0625
+  ],
+  "scale": 3,
+  "filter": "nearest",
+  "sheets": [
+    {
+      "motion": "static",
+      "native": "gunner_static_native.png",
+      "game": "gunner_static.png",
+      "preview_4x": "gunner_static_4x.png",
+      "frames": 1,
+      "order": [
+        "후면 대기"
+      ],
+      "source_game": "Game/Assets/_Project/Art/Characters/Static/gunner_static.png",
+      "source_cell": [
+        256,
+        384
+      ],
+      "source_foot_top_left": [
+        128,
+        352
+      ],
+      "raw_crop_boxes": [
+        [
+          278,
+          288,
+          894,
+          1356
+        ]
+      ]
+    },
+    {
+      "motion": "run",
+      "native": "gunner_run_native.png",
+      "game": "gunner_run.png",
+      "preview_4x": "gunner_run_4x.png",
+      "frames": 4,
+      "order": [
+        "오른발 전진",
+        "교차·오른발 지지",
+        "왼발 전진",
+        "교차·왼발 지지"
+      ],
+      "source_game": "Game/Assets/_Project/Art/Characters/Run/gunner_run.png",
+      "source_cell": [
+        256,
+        384
+      ],
+      "source_foot_top_left": [
+        128,
+        352
+      ],
+      "raw_crop_boxes": [
+        [
+          58,
+          122,
+          530,
+          657
+        ],
+        [
+          625,
+          115,
+          1067,
+          657
+        ],
+        [
+          1123,
+          115,
+          1616,
+          657
+        ],
+        [
+          1714,
+          115,
+          2154,
+          657
+        ]
+      ]
+    },
+    {
+      "motion": "fire",
+      "native": "gunner_fire_native.png",
+      "game": "gunner_fire.png",
+      "preview_4x": "gunner_fire_4x.png",
+      "frames": 6,
+      "order": [
+        "견착",
+        "조준",
+        "발사·총구 화염",
+        "반동",
+        "총 내리기",
+        "재장전 암시"
+      ],
+      "source_game": "Game/Assets/_Project/Art/Characters/Fire/gunner_fire.png",
+      "source_cell": [
+        256,
+        384
+      ],
+      "source_foot_top_left": [
+        128,
+        352
+      ],
+      "raw_crop_boxes": [
+        [
+          37,
+          235,
+          332,
+          672
+        ],
+        [
+          376,
+          236,
+          725,
+          674
+        ],
+        [
+          763,
+          237,
+          1147,
+          674
+        ],
+        [
+          1164,
+          237,
+          1482,
+          673
+        ],
+        [
+          1537,
+          235,
+          1868,
+          674
+        ],
+        [
+          1892,
+          234,
+          2159,
+          673
+        ]
+      ]
+    },
+    {
+      "motion": "fall",
+      "native": "gunner_fall_native.png",
+      "game": "gunner_fall.png",
+      "preview_4x": "gunner_fall_4x.png",
+      "frames": 4,
+      "order": [
+        "피격",
+        "무릎 꺾임",
+        "옆으로 넘어짐",
+        "쓰러짐"
+      ],
+      "source_game": "Game/Assets/_Project/Art/Characters/Fall/gunner_fall.png",
+      "source_cell": [
+        256,
+        384
+      ],
+      "source_foot_top_left": [
+        128,
+        352
+      ],
+      "raw_crop_boxes": [
+        [
+          38,
+          135,
+          494,
+          650
+        ],
+        [
+          578,
+          187,
+          1013,
+          650
+        ],
+        [
+          1020,
+          298,
+          1497,
+          649
+        ],
+        [
+          1525,
+          418,
+          2138,
+          650
+        ]
+      ]
+    }
+  ]
+}
