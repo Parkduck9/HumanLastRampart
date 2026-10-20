@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -30,7 +30,8 @@ namespace HumanLastRampart.Combat.Battle
         int[] sSlot;            // 병사 → 자리 (side × SlotStride + 번호), -1 = 없음
         float3[] sWalkFrom, sWalkTo;
         float[] sWalkT;         // 0~1 걷는 중, -1 = 아님
-        int overflowCount;
+        const float MinimumSlotSpacing = 0.25f;
+        readonly List<WallSlot>[] denseSlots = new List<WallSlot>[4];
         const int SlotStride = 100000;
 
         // 성벽 따라 대포 사격구 자리 (성벽 3D가 난간을 낮추는 곳) / 횃불을 단 돌출부 자리 (BattleLights·BattleEffectsView)
@@ -79,6 +80,7 @@ namespace HumanLastRampart.Combat.Battle
                     foreach (float lateral in row % 2 == 0 ? embrasures : merlons)
                         list.Add(new WallSlot { Lateral = lateral, Row = row, Occupant = -1 });
                 wallSlots[side] = list;
+                denseSlots[side] = SqueezedSlots(side);
             }
         }
 
@@ -97,9 +99,10 @@ namespace HumanLastRampart.Combat.Battle
         }
 
         // 구간 [lo, hi] 안에서 center에 가까운 빈자리를 맡는다: 구간 안 앞줄 → 구간 안 뒷줄 → 구간 밖 가까운 곳(앞줄 먼저)
-        // 성벽에 빈자리가 하나도 없으면 안쪽 끝에 겹쳐 세운다(정원 500명을 다 채운 성벽 — 자리 약 270개)
+        // 부족하면 먼저 성벽 전체 간격을 좁힌다. 이동 전에 확보한 자리만 사용한다
         float3 ClaimSlot(int soldier, int side, float lo, float hi, float center)
         {
+            if (sSlot[soldier] < 0 && WallRoom(side) > 0) EnsureWallRoom(side, 1);
             ReleaseSlot(soldier);
             List<WallSlot> list = wallSlots[side];
             int best = -1;
@@ -115,8 +118,7 @@ namespace HumanLastRampart.Combat.Battle
 
             if (best < 0)
             {
-                float lateral = math.clamp(center + ((overflowCount++ % 9) - 4) * 0.24f, -CastleHalf + 1f, CastleHalf - 1f);
-                return WallGeometry.Outward(side) * (CastleHalf - SlotRowInset[SlotRowInset.Length - 1]) + WallGeometry.Right(side) * lateral + new float3(0f, WallHeight, 0f);
+                throw new System.InvalidOperationException("초기 병력이 성벽의 최소 간격 정원을 넘었습니다");
             }
 
             WallSlot taken = list[best];
@@ -124,6 +126,70 @@ namespace HumanLastRampart.Combat.Battle
             list[best] = taken;
             sSlot[soldier] = side * SlotStride + best;
             return SlotPosition(sSlot[soldier]);
+        }
+
+        // 성벽 끝·대포 사격구·횃불은 비우고, 남은 구간에 최소 간격 자리 표를 만든다
+        List<WallSlot> SqueezedSlots(int side)
+        {
+            var list = new List<WallSlot>();
+            float from = BattleWallLayout.From(CastleHalf), to = BattleWallLayout.To(CastleHalf);
+            int columns = math.max(2, (int)math.floor((to - from) / MinimumSlotSpacing) + 1);
+            for (int row = 0; row < SlotRowInset.Length; row++)
+                for (int col = 0; col < columns; col++)
+                {
+                    float lateral = math.lerp(from, to, col / (float)(columns - 1));
+                    if (BattleWallLayout.InBay(lateral, cannonBays[side])) continue;
+                    if (row % 2 != 0 && torchSpots[side].Exists(t => math.abs(t - lateral) < MinimumSlotSpacing)) continue;
+                    list.Add(new WallSlot { Lateral = lateral, Row = row, Occupant = -1 });
+                }
+            return list;
+        }
+
+        // 이미 달리는 묶음의 예약 자리도 센다. 최소 간격 정원을 넘은 인원은 출발시키지 않는다
+        int WallRoom(int side)
+        {
+            int occupied = 0;
+            foreach (WallSlot slot in wallSlots[side]) if (slot.Occupant >= 0) occupied++;
+            return math.max(0, math.max(wallSlots[side].Count, denseSlots[side].Count) - occupied);
+        }
+
+        bool EnsureWallRoom(int side, int incoming)
+        {
+            var occupants = new List<int>();
+            foreach (WallSlot slot in wallSlots[side]) if (slot.Occupant >= 0) occupants.Add(slot.Occupant);
+            if (occupants.Count + incoming <= wallSlots[side].Count) return true;
+            if (occupants.Count + incoming > denseSlots[side].Count) return false;
+            wallSlots[side] = new List<WallSlot>(denseSlots[side]);
+            for (int k = 0; k < occupants.Count; k++)
+            {
+                int soldier = occupants[k];
+                WallSlot slot = wallSlots[side][k];
+                slot.Occupant = soldier;
+                wallSlots[side][k] = slot;
+                sSlot[soldier] = side * SlotStride + k;
+                StopWalk(soldier);
+                if (sAway[soldier] == 0) sPos[soldier] = SlotPosition(sSlot[soldier]);
+            }
+            foreach (GroupMove move in groupMoves)
+            {
+                if (move.TargetSide != side) continue;
+                for (int k = 0; k < move.EndSpot.Length; k++)
+                {
+                    int soldier = squads[move.Group].FirstSoldier + k;
+                    move.EndSpot[k] = HomeSpot(soldier);
+                    float endU = RingU(side, math.dot(move.EndSpot[k], WallGeometry.Right(side)));
+                    move.Distance[k] = Mod(move.Direction[k] * (endU - move.StartU[k]), CastleHalf * 8f);
+                }
+            }
+            foreach (Messenger messenger in messengers)
+                if (sSlot[messenger.Soldier] >= 0 && sSlot[messenger.Soldier] / SlotStride == side) messenger.Home = HomeSpot(messenger.Soldier);
+            foreach (RunnerPair pair in runners)
+                if (pair != null)
+                    for (int k = 0; k < pair.Soldiers.Length; k++)
+                        if (pair.Soldiers[k] >= 0 && sSlot[pair.Soldiers[k]] >= 0 && sSlot[pair.Soldiers[k]] / SlotStride == side)
+                            pair.Home[k] = HomeSpot(pair.Soldiers[k]);
+            SoldiersDirty = true;
+            return true;
         }
 
         void ReleaseSlot(int soldier)

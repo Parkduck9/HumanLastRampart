@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -83,6 +83,25 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             int from = squad.Side;
+            int room = WallRoom(targetSide);
+            int remaining = math.max(0, squad.Alive - room);
+            if (room == 0)
+            {
+                Notice?.Invoke($"{SideNames[targetSide]} 성벽 가득 참 — {remaining}명 남음");
+                return false;
+            }
+            if (!EnsureWallRoom(targetSide, math.min(room, squad.Alive))) return false;
+            if (remaining > 0)
+            {
+                // 살아 있는 뒤쪽 인원만 새 묶음으로 남긴다. 기존 사망 수와 원래 분대 ID는 유지한다
+                SquadInfo stayed = squad;
+                stayed.FirstSoldier += room;
+                stayed.Alive = stayed.Start = remaining;
+                squads.Add(stayed);
+                squad.Alive = room;
+                squad.Start -= remaining;
+                squads[index] = squad;
+            }
             LeaveSide(index, from);   // 원래 성벽 자리를 비운다
             // 설 자리를 떠나기 전에 정해 맡아 둔다 — 병사마다 자기 총안 자리로 곧장 달려간다 (사용자 2차 피드백 10, K-045).
             // 묶음 구간 = 빈 앞줄 자리가 가장 많은 곳, 그 안에서 가까운 빈 총안부터
@@ -93,6 +112,7 @@ namespace HumanLastRampart.Combat.Battle
             {
                 ArriveSide(index, targetSide, spots);
                 Notice?.Invoke($"{squad.UnitName} {squad.Alive}명이 {SideNames[from]}에서 {SideNames[targetSide]}으로");
+                if (remaining > 0) Notice?.Invoke($"{SideNames[targetSide]} 성벽 가득 참 — {remaining}명 남음");
                 return true;
             }
 
@@ -122,6 +142,7 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             groupMoves.Add(move);
+            if (remaining > 0) Notice?.Invoke($"{SideNames[targetSide]} 성벽 가득 참 — {remaining}명 남음");
             Notice?.Invoke($"{squad.UnitName} {squad.Alive}명이 {SideNames[targetSide]}으로 달려갑니다 · 약 {longest / MessengerSpeed():0}초");
             return true;
         }
@@ -159,19 +180,23 @@ namespace HumanLastRampart.Combat.Battle
             float3 right = WallGeometry.Right(fromSide), toward = WallGeometry.Outward(toSide);
             float sign = math.sign(math.dot(right, toward));
             candidates.Sort((a, b) => (sign * GroupLateral(b, fromSide)).CompareTo(sign * GroupLateral(a, fromSide)));
-            int moved = 0, movedGroups = 0;
+            int moved = 0, movedGroups = 0, refused = 0;
             foreach (int g in candidates)
             {
                 if (movedGroups >= maxGroups) break;
                 int alive = squads[g].Alive;
                 if (movable - alive < KeepPerWall) continue;   // 이 묶음까지 보내면 최소 병력보다 적어짐
+                int room = WallRoom(toSide);
+                if (room < alive) refused += alive - room;
                 if (!MoveGroup(g, toSide, instant)) continue;
+                alive = squads[g].Alive;   // 실제 출발한 인원만 센다
                 movable -= alive;
                 moved += alive;
                 movedGroups++;
             }
 
-            if (moved == 0) Notice?.Invoke($"{SideNames[fromSide]}: 최소 {KeepPerWall}명을 남기면 더 보낼 병력이 없습니다");
+            if (refused > 0) Notice?.Invoke($"{SideNames[toSide]} 성벽 가득 참 — {refused}명 남음");
+            else if (moved == 0) Notice?.Invoke($"{SideNames[fromSide]}: 최소 {KeepPerWall}명을 남기면 더 보낼 병력이 없습니다");
             else Notice?.Invoke($"{SideNames[fromSide]}에서 {SideNames[toSide]}으로 {moved}명 보냄 · {movable}명 지킴");
             return moved;
         }

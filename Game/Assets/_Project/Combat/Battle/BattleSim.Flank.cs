@@ -100,7 +100,7 @@ namespace HumanLastRampart.Combat.Battle
             {
                 attackPlan.Add(flank[g]
                     ? new GroupPlan { Side = flankSides[random.NextInt(0, flankSides.Count)], SpawnAt = random.NextFloat(0f, FlankLatestSeconds), Flank = true, Count = groups[g].count }
-                    : new GroupPlan { Side = FrontSide, SpawnAt = groups[g].group.SpawnAtSeconds, Flank = false, Count = groups[g].count });
+                    : new GroupPlan { Side = FrontSide, SpawnAt = g == 0 ? 0f : groups[g].group.SpawnAtSeconds, Flank = false, Count = groups[g].count });
             }
 
             groupDiscovered = new bool[groups.Count];

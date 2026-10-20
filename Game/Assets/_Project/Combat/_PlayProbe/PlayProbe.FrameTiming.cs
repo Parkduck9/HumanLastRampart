@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -75,6 +75,50 @@ public sealed partial class PlayProbe
     // 1화소를 읽어 GPU가 다 그릴 때까지 기다린 시간(= CPU 그리기 제출 + GPU 완료)을 잰다. 화면 위 표시판(오버레이 UI)은 빠진다
     ProbeRenderTimer renderTimer;
 
+    // 4,200명 부하 시험은 최소 간격을 지킬 수 있는 80m 시험 성벽을 쓴다.
+    // 에셋은 저장하지 않고 메모리 값만 바꿨다가 반드시 복원한다. 40m 성벽의 과거 성능값과 직접 비교하지 않는다.
+    sealed class CrowdedProbeTerrain : System.IDisposable
+    {
+        readonly List<(HumanLastRampart.Core.Definitions.TerrainDef terrain, float half)> saved = new List<(HumanLastRampart.Core.Definitions.TerrainDef, float)>();
+        readonly System.Reflection.FieldInfo field = typeof(HumanLastRampart.Core.Definitions.TerrainDef)
+            .GetField("castleHalfSize", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+
+        public CrowdedProbeTerrain()
+        {
+            Assert.IsNotNull(field);
+            foreach (var terrain in GameFlow.Instance.Definitions.All<HumanLastRampart.Core.Definitions.TerrainDef>())
+            {
+                saved.Add((terrain, terrain.CastleHalfSize));
+                field.SetValue(terrain, Mathf.Max(40f, terrain.CastleHalfSize));
+            }
+        }
+
+        public void Dispose()
+        {
+            foreach (var item in saved) field.SetValue(item.terrain, item.half);
+        }
+    }
+
+    // 부하를 줄여 통과시키지 않도록 인원과 줄별 간격도 확인한다
+    static void AssertCrowdedProbe(HumanLastRampart.Combat.Battle.BattleSim sim)
+    {
+        Assert.GreaterOrEqual(sim.SoldierCount, TimingSoldierTarget, "4,200명 부하 유지");
+        var rows = new Dictionary<int, List<float>>();
+        for (int i = 0; i < sim.SoldierCount; i++)
+        {
+            int row = sim.SoldierRow(i, out int side, out float along);
+            if (row < 0) continue;   // 대포 운용병은 별도 자리
+            int key = side * 10 + row;
+            if (!rows.TryGetValue(key, out var values)) rows[key] = values = new List<float>();
+            values.Add(along);
+        }
+        foreach (var values in rows.Values)
+        {
+            values.Sort();
+            for (int i = 1; i < values.Count; i++) Assert.GreaterOrEqual(values[i] - values[i - 1], 0.24f, "부하 시험도 같은 줄에서 겹치지 않음");
+        }
+    }
+
     [UnityTest]
     public IEnumerator FrameTiming()
     {
@@ -87,6 +131,7 @@ public sealed partial class PlayProbe
         bool batch = Application.isBatchMode;
         if (batch) renderTimer = new GameObject("PlayProbe Render Timer").AddComponent<ProbeRenderTimer>();
         else Screen.SetResolution(1920, 1080, FullScreenMode.Windowed);   // 창 실행: 실제 화면을 1920×1080으로
+        CrowdedProbeTerrain crowdedTerrain = null;
         try
         {
             SceneManager.LoadScene("Boot");
@@ -104,6 +149,8 @@ public sealed partial class PlayProbe
             int cannonCrew = c.Squads.Where(s => s.UnitDefId.Contains("cannon")).Sum(s => s.Count);
             int each = Mathf.CeilToInt((TimingSoldierTarget - cannonCrew) / (float)Mathf.Max(1, line.Count));
             foreach (SquadState s in line) s.Count = each;
+            crowdedTerrain = new CrowdedProbeTerrain();
+            Note("4,200명 · 시험 성벽 80m: 기존 40m 성능 기준과 직접 비교하지 않음");
             var story = Object.FindAnyObjectByType<HumanLastRampart.Story.StoryPlayer>();
             for (int i = 0; i < 300 && story == null; i++) { yield return null; story = Object.FindAnyObjectByType<HumanLastRampart.Story.StoryPlayer>(); }
             Assert.IsNotNull(story, "스토리 재생기");
@@ -119,6 +166,7 @@ public sealed partial class PlayProbe
             Note($"설정: 현실 {setup.BattleNumber}번, 적 배율 {setup.EnemyCountMultiplier}, 병사 {sim.SoldierCount}명, 적 최대 동시 {setup.MaxConcurrentEnemies}, 화면 {Screen.width}×{Screen.height}, " +
                  $"그래픽 {SystemInfo.graphicsDeviceType} {SystemInfo.graphicsDeviceName}, 프레임 통계 기능 {FrameTimingManager.IsFeatureEnabled()}, " +
                  (batch ? $"배치 실행 — 카메라 직접 그리기 {renderTimer.Width}×{renderTimer.Height}로 그리기 시간 측정" : "창 실행 — 실제 화면 그리기 포함"));
+            AssertCrowdedProbe(sim);
             entry.StartBattle();
             for (int i = 0; i < 30; i++) yield return null;
 
@@ -176,6 +224,7 @@ public sealed partial class PlayProbe
         }
         finally
         {
+            crowdedTerrain?.Dispose();
             KeepPreparation = false;
             HumanLastRampart.Combat.Render.BattleLook.Enabled = look0;
             recorders.Dispose();

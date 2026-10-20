@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -130,6 +130,7 @@ public sealed partial class PlayProbe
         log = new StringBuilder();
         Time.captureDeltaTime = 1f / 20f;
         KeepPreparation = true;
+        CrowdedProbeTerrain crowdedTerrain = null;
         try
         {
             SceneManager.LoadScene("Boot");
@@ -146,6 +147,8 @@ public sealed partial class PlayProbe
             int cannonCrew = c.Squads.Where(s => s.UnitDefId.Contains("cannon")).Sum(s => s.Count);
             int each = Mathf.CeilToInt((TimingSoldierTarget - cannonCrew) / (float)Mathf.Max(1, line.Count));
             foreach (SquadState s in line) s.Count = each;
+            crowdedTerrain = new CrowdedProbeTerrain();
+            Note("4,200명 · 시험 성벽 80m: 실제 게임 성벽 40m와 구분");
             var story = Object.FindAnyObjectByType<HumanLastRampart.Story.StoryPlayer>();
             for (int i = 0; i < 300 && story == null; i++) { yield return null; story = Object.FindAnyObjectByType<HumanLastRampart.Story.StoryPlayer>(); }
             Assert.IsNotNull(story, "스토리 재생기");
@@ -158,6 +161,7 @@ public sealed partial class PlayProbe
             var sim = (HumanLastRampart.Combat.Battle.BattleSim)typeof(HumanLastRampart.Combat.Battle.BattleEntry)
                 .GetField("sim", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(entry);
             sim.WeatherDirty = true;
+            AssertCrowdedProbe(sim);
             entry.StartBattle();
 
             // 적이 성벽 앞에 몰릴 때까지 (게임 시간 70초)
@@ -209,6 +213,7 @@ public sealed partial class PlayProbe
         }
         finally
         {
+            crowdedTerrain?.Dispose();
             KeepPreparation = false;
             File.WriteAllText(Path.Combine(Out, "portfolio.txt"), log.ToString(), new UTF8Encoding(false));
             Time.captureDeltaTime = 0f;

@@ -362,6 +362,8 @@ namespace HumanLastRampart.Combat.Battle
                 GroupPlan plan = attackPlan[groupIndex];
                 // 무리가 나오는 데 걸리는 시간: 규칙에 속도가 있으면 수에 맞춰 길게 (작은 무리는 최소 12초)
                 float spread = rules != null && rules.SpawnPerSecond > 0f ? Mathf.Max(SpawnSpreadSeconds, count / rules.SpawnPerSecond) : SpawnSpreadSeconds;
+                bool firstGroup = groupIndex == 0;   // 첫 무리는 성벽 가까이서 2초 안에 나오고, 뒤 무리의 출현 규칙은 유지한다
+                if (firstGroup) spread = 2f;
                 waveGroups.Add((plan.Side, def.IsSpecial));
                 groupSlots.Add((cursor[k], count));   // 한 무리의 슬롯은 이어져 있다 (발견 판정용)
                 for (int j = 0; j < count; j++)
@@ -376,12 +378,12 @@ namespace HumanLastRampart.Combat.Battle
                     eAnim[slot] = phase;
                     eStop[slot] = CastleHalf + 1.5f + phase * 6f;   // 성벽 앞에 여러 줄로
                     eSide[slot] = (byte)plan.Side;
-                    float depth = random.NextFloat(FieldSize - FieldBand, FieldSize);
+                    float depth = firstGroup ? CastleHalf + random.NextFloat(60f, 70f) : random.NextFloat(FieldSize - FieldBand, FieldSize);
                     float halfWidth = funnelBase + (depth - CastleHalf) * funnelSlope;   // D-065: 들판에서는 넓게
                     entries.Add(new SpawnEntry
                     {
                         Slot = slot,
-                        Time = plan.SpawnAt + random.NextFloat(0f, spread),
+                        Time = (firstGroup ? 0f : plan.SpawnAt) + random.NextFloat(0f, spread),
                         Side = plan.Side,
                         Lateral = random.NextFloat(-halfWidth, halfWidth),
                         Depth = depth,
