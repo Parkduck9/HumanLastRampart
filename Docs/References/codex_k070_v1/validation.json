@@ -1,0 +1,223 @@
+{
+  "sprites": [
+    {
+      "name": "archer_back",
+      "cell": [
+        96,
+        128
+      ],
+      "foot_bottom_exclusive": 120,
+      "body_axis_x": 48,
+      "figure_height": 73,
+      "source_bbox": [
+        295,
+        215,
+        817,
+        1321
+      ],
+      "source_axis": 550,
+      "head_height_estimate": 25,
+      "palette_colors": 24,
+      "opaque_bbox": [
+        31,
+        47,
+        65,
+        120
+      ],
+      "sha256": "881c2d84b5ce8392fad042cf6add5f25bd153efa1eb8679e049c03d73b3bf10e"
+    },
+    {
+      "name": "archer_front",
+      "cell": [
+        96,
+        128
+      ],
+      "foot_bottom_exclusive": 120,
+      "body_axis_x": 48,
+      "figure_height": 73,
+      "source_bbox": [
+        265,
+        137,
+        904,
+        1353
+      ],
+      "source_axis": 540,
+      "head_height_estimate": 25,
+      "palette_colors": 27,
+      "opaque_bbox": [
+        31,
+        47,
+        69,
+        120
+      ],
+      "sha256": "22f3677bd1937e97fa3253509ea538ba178566d7797c1b1bc4fbd0296e964719"
+    },
+    {
+      "name": "goblin_front",
+      "cell": [
+        96,
+        128
+      ],
+      "foot_bottom_exclusive": 120,
+      "body_axis_x": 48,
+      "figure_height": 73,
+      "source_bbox": [
+        148,
+        325,
+        831,
+        1306
+      ],
+      "source_axis": 550,
+      "head_height_estimate": 29,
+      "palette_colors": 13,
+      "opaque_bbox": [
+        18,
+        47,
+        69,
+        120
+      ],
+      "sha256": "e3c6c24823cb40500c05a524f5d403acefb41873d3efcbdda77eab07551d6920"
+    }
+  ],
+  "species_variant": {
+    "file": "goblin_species56_96x128.png",
+    "figure_height": 56,
+    "head_height_estimate": 22,
+    "cell": [
+      96,
+      128
+    ],
+    "foot_bottom_exclusive": 120
+  },
+  "hero_native_height": 73,
+  "screenshot_size": [
+    1920,
+    1080
+  ],
+  "crop": [
+    560,
+    200,
+    1360,
+    600
+  ],
+  "mock_samples": [
+    {
+      "version": "old",
+      "subject": "archer_back",
+      "screen_height": 70,
+      "scale": 1.3461538461538463,
+      "resampling": "nearest; fractional pixel repetition",
+      "screenshot_foot_xy": [
+        650,
+        555
+      ]
+    },
+    {
+      "version": "old",
+      "subject": "archer_back",
+      "screen_height": 80,
+      "scale": 1.5384615384615385,
+      "resampling": "nearest; fractional pixel repetition",
+      "screenshot_foot_xy": [
+        770,
+        555
+      ]
+    },
+    {
+      "version": "old",
+      "subject": "archer_back",
+      "screen_height": 90,
+      "scale": 1.7307692307692308,
+      "resampling": "nearest; fractional pixel repetition",
+      "screenshot_foot_xy": [
+        890,
+        555
+      ]
+    },
+    {
+      "version": "old",
+      "subject": "archer_front",
+      "screen_height": 80,
+      "scale": 1.5384615384615385,
+      "resampling": "nearest; fractional pixel repetition",
+      "screenshot_foot_xy": [
+        1025,
+        555
+      ]
+    },
+    {
+      "version": "old",
+      "subject": "goblin_front",
+      "screen_height": 62,
+      "scale": 1.55,
+      "resampling": "nearest; fractional pixel repetition",
+      "screenshot_foot_xy": [
+        1155,
+        555
+      ]
+    },
+    {
+      "version": "native",
+      "subject": "archer_back",
+      "screen_height": 70,
+      "scale": 0.958904109589041,
+      "resampling": "nearest; fractional pixel repetition",
+      "screenshot_foot_xy": [
+        650,
+        555
+      ]
+    },
+    {
+      "version": "native",
+      "subject": "archer_back",
+      "screen_height": 80,
+      "scale": 1.095890410958904,
+      "resampling": "nearest; fractional pixel repetition",
+      "screenshot_foot_xy": [
+        770,
+        555
+      ]
+    },
+    {
+      "version": "native",
+      "subject": "archer_back",
+      "screen_height": 90,
+      "scale": 1.2328767123287672,
+      "resampling": "nearest; fractional pixel repetition",
+      "screenshot_foot_xy": [
+        890,
+        555
+      ]
+    },
+    {
+      "version": "native",
+      "subject": "archer_front",
+      "screen_height": 80,
+      "scale": 1.095890410958904,
+      "resampling": "nearest; fractional pixel repetition",
+      "screenshot_foot_xy": [
+        1025,
+        555
+      ]
+    },
+    {
+      "version": "native",
+      "subject": "goblin_front",
+      "screen_height": 62,
+      "scale": 1.1071428571428572,
+      "resampling": "nearest; fractional pixel repetition",
+      "screenshot_foot_xy": [
+        1155,
+        555
+      ]
+    }
+  ],
+  "inline_images_decoded": 10,
+  "source_hashes_unchanged": 1231,
+  "checks": [
+    "archer_back: 칸·발선·키·이진알파·정수4배 확인",
+    "archer_front: 칸·발선·키·이진알파·정수4배 확인",
+    "goblin_front: 칸·발선·키·이진알파·정수4배 확인"
+  ],
+  "browser_validation": "별도 review_validation.json 참조"
+}
