@@ -1,0 +1,482 @@
+{
+  "card": "K-088",
+  "version": 1,
+  "coordinates": "pixel bounds / anchor: top-left; normalized pivots: bottom-left",
+  "generation": {
+    "tool": "built-in image_gen",
+    "sources": [
+      "source/vfx_generated.png",
+      "source/dirt_generated.png"
+    ],
+    "processing_ko": "생성 이미지에서 주 덩어리 추출, 최근접 축소, 3색 팔레트 정리, 프레임 배치. 그림자는 수식으로 생성."
+  },
+  "sheets_replaced": [],
+  "assets": [
+    {
+      "id": "muzzle_flash_right",
+      "name_ko": "총구 불꽃 · 오른쪽",
+      "kind": "billboard_vfx",
+      "native_file": "native/muzzle_flash_right.png",
+      "native_size_px": [
+        288,
+        128
+      ],
+      "preview_4x": "previews/muzzle_flash_right_4x.png",
+      "native_cell_px": [
+        96,
+        128
+      ],
+      "game_cell_px": [
+        288,
+        384
+      ],
+      "frame_count": 3,
+      "frame_order": [
+        "발화",
+        "짧은 화염",
+        "잔여 퍼프"
+      ],
+      "frame_duration_ms": [
+        35,
+        45,
+        40
+      ],
+      "loop": false,
+      "background": "transparent",
+      "alpha": "straight",
+      "blend": "SrcAlpha One",
+      "filter": "Point",
+      "anchor_top_left_px": [
+        48,
+        80
+      ],
+      "game_anchor_top_left_px": [
+        144,
+        240
+      ],
+      "socket_pivot_bottom_left_normalized": [
+        0.5,
+        0.375
+      ],
+      "reference_body_center_x": 48,
+      "reference_foot_line_y": 120,
+      "reference_game_foot_pivot_px": [
+        144,
+        360
+      ],
+      "foot_line_test": "해당 없음: 인물 없는 총구 부착 효과. 기준 격자만 공유.",
+      "frame_alpha_bounds_top_left": [
+        [
+          48,
+          77,
+          58,
+          84
+        ],
+        [
+          48,
+          75,
+          65,
+          86
+        ],
+        [
+          51,
+          76,
+          60,
+          84
+        ]
+      ],
+      "game_file": "game/muzzle_flash_right.png",
+      "game_size_px": [
+        864,
+        384
+      ]
+    },
+    {
+      "id": "muzzle_flash_back",
+      "name_ko": "총구 불꽃 · 카메라 반대쪽",
+      "kind": "billboard_vfx",
+      "native_file": "native/muzzle_flash_back.png",
+      "native_size_px": [
+        288,
+        128
+      ],
+      "preview_4x": "previews/muzzle_flash_back_4x.png",
+      "native_cell_px": [
+        96,
+        128
+      ],
+      "game_cell_px": [
+        288,
+        384
+      ],
+      "frame_count": 3,
+      "frame_order": [
+        "발화",
+        "짧은 화염",
+        "잔여 퍼프"
+      ],
+      "frame_duration_ms": [
+        35,
+        45,
+        40
+      ],
+      "loop": false,
+      "background": "transparent",
+      "alpha": "straight",
+      "blend": "SrcAlpha One",
+      "filter": "Point",
+      "anchor_top_left_px": [
+        48,
+        80
+      ],
+      "game_anchor_top_left_px": [
+        144,
+        240
+      ],
+      "socket_pivot_bottom_left_normalized": [
+        0.5,
+        0.375
+      ],
+      "reference_body_center_x": 48,
+      "reference_foot_line_y": 120,
+      "reference_game_foot_pivot_px": [
+        144,
+        360
+      ],
+      "foot_line_test": "해당 없음: 인물 없는 총구 부착 효과. 기준 격자만 공유.",
+      "frame_alpha_bounds_top_left": [
+        [
+          44,
+          71,
+          52,
+          81
+        ],
+        [
+          43,
+          65,
+          54,
+          81
+        ],
+        [
+          44,
+          70,
+          52,
+          78
+        ]
+      ],
+      "game_file": "game/muzzle_flash_back.png",
+      "game_size_px": [
+        864,
+        384
+      ]
+    },
+    {
+      "id": "smoke_up",
+      "name_ko": "총 연기 · 위로 흐름",
+      "kind": "billboard_vfx",
+      "native_file": "native/smoke_up.png",
+      "native_size_px": [
+        384,
+        128
+      ],
+      "preview_4x": "previews/smoke_up_4x.png",
+      "native_cell_px": [
+        96,
+        128
+      ],
+      "game_cell_px": [
+        288,
+        384
+      ],
+      "frame_count": 4,
+      "frame_order": [
+        "작은 퍼프",
+        "상승 1",
+        "상승 2",
+        "소멸"
+      ],
+      "frame_duration_ms": [
+        70,
+        90,
+        110,
+        130
+      ],
+      "loop": false,
+      "background": "transparent",
+      "alpha": "straight",
+      "blend": "SrcAlpha OneMinusSrcAlpha",
+      "filter": "Point",
+      "anchor_top_left_px": [
+        48,
+        80
+      ],
+      "game_anchor_top_left_px": [
+        144,
+        240
+      ],
+      "socket_pivot_bottom_left_normalized": [
+        0.5,
+        0.375
+      ],
+      "reference_body_center_x": 48,
+      "reference_foot_line_y": 120,
+      "reference_game_foot_pivot_px": [
+        144,
+        360
+      ],
+      "foot_line_test": "해당 없음: 인물 없는 총구 부착 효과. 기준 격자만 공유.",
+      "frame_alpha_bounds_top_left": [
+        [
+          44,
+          74,
+          51,
+          82
+        ],
+        [
+          44,
+          71,
+          53,
+          79
+        ],
+        [
+          43,
+          63,
+          57,
+          75
+        ],
+        [
+          44,
+          56,
+          61,
+          70
+        ]
+      ],
+      "game_file": "game/smoke_up.png",
+      "game_size_px": [
+        1152,
+        384
+      ]
+    },
+    {
+      "id": "contact_shadow_small",
+      "name_ko": "작은 접지 그림자 · 병사·고블린",
+      "kind": "ground_contact_shadow",
+      "native_file": "native/contact_shadow_small.png",
+      "native_size_px": [
+        64,
+        64
+      ],
+      "preview_4x": "previews/contact_shadow_small_4x.png",
+      "frame_count": 1,
+      "pivot_bottom_left_normalized": [
+        0.5,
+        0.5
+      ],
+      "filter": "Bilinear",
+      "alpha": "straight",
+      "background": "transparent",
+      "rgb": [
+        0,
+        0,
+        0
+      ],
+      "peak_alpha": 135,
+      "blend": "alpha_weighted_multiply",
+      "blend_formula": "ground_rgb * (1 - texture_alpha * opacity)",
+      "quad_size_m": [
+        0.85,
+        0.48
+      ],
+      "orientation": "horizontal_XZ",
+      "recommended_opacity": 0.65,
+      "notes_ko": "검정 RGB와 연속 알파. 알파를 무시하는 순수 곱셈 재질에 직접 넣지 않는다. 지면에 한 번만 투영한다."
+    },
+    {
+      "id": "contact_shadow_medium",
+      "name_ko": "중간 접지 그림자 · 오우거·대포",
+      "kind": "ground_contact_shadow",
+      "native_file": "native/contact_shadow_medium.png",
+      "native_size_px": [
+        128,
+        64
+      ],
+      "preview_4x": "previews/contact_shadow_medium_4x.png",
+      "frame_count": 1,
+      "pivot_bottom_left_normalized": [
+        0.5,
+        0.5
+      ],
+      "filter": "Bilinear",
+      "alpha": "straight",
+      "background": "transparent",
+      "rgb": [
+        0,
+        0,
+        0
+      ],
+      "peak_alpha": 145,
+      "blend": "alpha_weighted_multiply",
+      "blend_formula": "ground_rgb * (1 - texture_alpha * opacity)",
+      "quad_size_m": [
+        1.8,
+        0.95
+      ],
+      "orientation": "horizontal_XZ",
+      "recommended_opacity": 0.65,
+      "notes_ko": "검정 RGB와 연속 알파. 알파를 무시하는 순수 곱셈 재질에 직접 넣지 않는다. 지면에 한 번만 투영한다."
+    },
+    {
+      "id": "contact_shadow_wall_5m",
+      "name_ko": "넓은 접지 그림자 · 토벽 5 m",
+      "kind": "ground_contact_shadow",
+      "native_file": "native/contact_shadow_wall_5m.png",
+      "native_size_px": [
+        192,
+        64
+      ],
+      "preview_4x": "previews/contact_shadow_wall_5m_4x.png",
+      "frame_count": 1,
+      "pivot_bottom_left_normalized": [
+        0.5,
+        0.5
+      ],
+      "filter": "Bilinear",
+      "alpha": "straight",
+      "background": "transparent",
+      "rgb": [
+        0,
+        0,
+        0
+      ],
+      "peak_alpha": 150,
+      "blend": "alpha_weighted_multiply",
+      "blend_formula": "ground_rgb * (1 - texture_alpha * opacity)",
+      "quad_size_m": [
+        5.5,
+        1.8
+      ],
+      "orientation": "horizontal_XZ",
+      "recommended_opacity": 0.65,
+      "notes_ko": "검정 RGB와 연속 알파. 알파를 무시하는 순수 곱셈 재질에 직접 넣지 않는다. 지면에 한 번만 투영한다."
+    },
+    {
+      "id": "contact_shadow_wall_7m",
+      "name_ko": "넓은 접지 그림자 · 토벽 7 m",
+      "kind": "ground_contact_shadow",
+      "native_file": "native/contact_shadow_wall_7m.png",
+      "native_size_px": [
+        256,
+        64
+      ],
+      "preview_4x": "previews/contact_shadow_wall_7m_4x.png",
+      "frame_count": 1,
+      "pivot_bottom_left_normalized": [
+        0.5,
+        0.5
+      ],
+      "filter": "Bilinear",
+      "alpha": "straight",
+      "background": "transparent",
+      "rgb": [
+        0,
+        0,
+        0
+      ],
+      "peak_alpha": 150,
+      "blend": "alpha_weighted_multiply",
+      "blend_formula": "ground_rgb * (1 - texture_alpha * opacity)",
+      "quad_size_m": [
+        7.7,
+        1.8
+      ],
+      "orientation": "horizontal_XZ",
+      "recommended_opacity": 0.65,
+      "notes_ko": "검정 RGB와 연속 알파. 알파를 무시하는 순수 곱셈 재질에 직접 넣지 않는다. 지면에 한 번만 투영한다."
+    },
+    {
+      "id": "dirt_skirt_5m",
+      "name_ko": "토벽 흙자락 · 5 m",
+      "kind": "ground_dirt_decal",
+      "native_file": "native/dirt_skirt_5m.png",
+      "native_size_px": [
+        192,
+        64
+      ],
+      "preview_4x": "previews/dirt_skirt_5m_4x.png",
+      "frame_count": 1,
+      "pivot_bottom_left_normalized": [
+        0.5,
+        0.5
+      ],
+      "filter": "Point",
+      "alpha": "straight",
+      "blend": "SrcAlpha OneMinusSrcAlpha",
+      "quad_size_m": [
+        5.6,
+        1.8
+      ],
+      "orientation": "horizontal_XZ",
+      "recommended_opacity": 0.8,
+      "notes_ko": "픽셀 흙자락을 먼저, 토벽을 나중에 표시한다. 지면 투영은 한 번만 적용한다.",
+      "game_file": "game/dirt_skirt_5m.png",
+      "game_size_px": [
+        576,
+        192
+      ]
+    },
+    {
+      "id": "dirt_skirt_7m",
+      "name_ko": "토벽 흙자락 · 7 m",
+      "kind": "ground_dirt_decal",
+      "native_file": "native/dirt_skirt_7m.png",
+      "native_size_px": [
+        256,
+        64
+      ],
+      "preview_4x": "previews/dirt_skirt_7m_4x.png",
+      "frame_count": 1,
+      "pivot_bottom_left_normalized": [
+        0.5,
+        0.5
+      ],
+      "filter": "Point",
+      "alpha": "straight",
+      "blend": "SrcAlpha OneMinusSrcAlpha",
+      "quad_size_m": [
+        7.8,
+        1.8
+      ],
+      "orientation": "horizontal_XZ",
+      "recommended_opacity": 0.8,
+      "notes_ko": "픽셀 흙자락을 먼저, 토벽을 나중에 표시한다. 지면 투영은 한 번만 적용한다.",
+      "game_file": "game/dirt_skirt_7m.png",
+      "game_size_px": [
+        768,
+        192
+      ]
+    }
+  ],
+  "source_references": [
+    {
+      "file": "Game/Assets/_Project/Art/Characters/Fire/gunner_fire.png",
+      "sha256": "10a7906f436ea393c5ba68abb28ae7f497edcbacdb4b24fcf85c58c377613f21"
+    },
+    {
+      "file": "Docs/References/codex_k068_v1/sprites/earthwall_intact.png",
+      "sha256": "b91e5eb60e006ca5716f0b8dc2676cf754151e56a48f640be99946180f329f3b"
+    },
+    {
+      "file": "Docs/References/codex_k068_v1/sprites/dirt_01.png",
+      "sha256": "f747a43a9cb4ad814292c8ba34938beb1819348a0dbb5a243e0b88a9dd03eaf6"
+    }
+  ],
+  "integration_ko": [
+    "총구 불꽃은 사격 확정 시 1회, 35/45/40 ms. 연기는 발사 후 80 ms부터 400 ms 재생한다.",
+    "총구 소켓이 효과 앵커에 오도록 배치한다. 발 피벗은 인물용 기준이며 효과 부착 피벗과 다르다.",
+    "현재 총병 시트 2번 프레임(0 시작)에는 기존 불꽃이 포함된다. 검토 합성은 불꽃 없는 1번 겨누기 프레임을 사용한다. 게임 연결 시 기존 불꽃 중복 처리가 필요하다.",
+    "원본 사수는 뒤·오른쪽 사선 시점이다. 반대쪽 효과 검토는 같은 총구에서 위로 방출한 방향 견본이며 새로운 정후면 사수 동작은 제공하지 않는다.",
+    "접지 그림자는 지면 XZ 판에 놓고 깊이 겹침을 피한다. 순수 RGB 곱셈 대신 알파 가중 곱셈을 사용한다.",
+    "그림자는 64~256 px 원본을 Bilinear로 사용한다. 3배 픽셀 확대 계약은 불꽃·연기 시트와 흙자락에 적용한다."
+  ],
+  "unity_tested": false
+}
