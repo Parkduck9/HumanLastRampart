@@ -1,0 +1,583 @@
+{
+  "card": "K-078",
+  "size_decision": "D-081",
+  "native_cell": [
+    96,
+    128
+  ],
+  "game_cell": [
+    288,
+    384
+  ],
+  "native_pivot_top_left": [
+    48,
+    120
+  ],
+  "game_pivot_top_left": [
+    144,
+    360
+  ],
+  "unity_normalized_pivot": [
+    0.5,
+    0.0625
+  ],
+  "frame_layout": "left_to_right",
+  "sheets": [
+    {
+      "name": "ladder_goblin_static",
+      "destination": "Game/Assets/_Project/Art/Characters/Static/ladder_goblin_static.png",
+      "native": "ladder_goblin_static_native.png",
+      "game": "ladder_goblin_static.png",
+      "preview_4x": "ladder_goblin_static_4x.png",
+      "frame_count": 1,
+      "frame_order": [
+        "사다리 들고 서기"
+      ],
+      "native_cell": [
+        96,
+        128
+      ],
+      "game_cell": [
+        288,
+        384
+      ],
+      "native_pivot_top_left": [
+        48,
+        120
+      ],
+      "game_pivot_top_left": [
+        144,
+        360
+      ],
+      "unity_normalized_pivot": [
+        0.5,
+        0.0625
+      ],
+      "includes_ladder": true,
+      "native_opaque_bboxes": [
+        [
+          31,
+          60,
+          68,
+          120
+        ]
+      ],
+      "component_sizes": [
+        [
+          1556
+        ]
+      ],
+      "native_body_anchors": [
+        [
+          47.5,
+          96
+        ]
+      ],
+      "source_frame_indices": [
+        0
+      ],
+      "sha256": "df4177cf4cfd1aab010f401f693198588483591a72ed9cff6e7665d19933961c",
+      "source": "source_static.png"
+    },
+    {
+      "name": "ladder_goblin_walk",
+      "destination": "Game/Assets/_Project/Art/Characters/Walk/ladder_goblin_walk.png",
+      "native": "ladder_goblin_walk_native.png",
+      "game": "ladder_goblin_walk.png",
+      "preview_4x": "ladder_goblin_walk_4x.png",
+      "frame_count": 4,
+      "frame_order": [
+        "왼발 내딛기",
+        "엇갈림",
+        "오른발 내딛기",
+        "반대 엇갈림"
+      ],
+      "native_cell": [
+        96,
+        128
+      ],
+      "game_cell": [
+        288,
+        384
+      ],
+      "native_pivot_top_left": [
+        48,
+        120
+      ],
+      "game_pivot_top_left": [
+        144,
+        360
+      ],
+      "unity_normalized_pivot": [
+        0.5,
+        0.0625
+      ],
+      "includes_ladder": true,
+      "native_opaque_bboxes": [
+        [
+          32,
+          60,
+          68,
+          120
+        ],
+        [
+          32,
+          60,
+          68,
+          120
+        ],
+        [
+          31,
+          60,
+          69,
+          120
+        ],
+        [
+          32,
+          60,
+          66,
+          120
+        ]
+      ],
+      "component_sizes": [
+        [
+          1474
+        ],
+        [
+          1456
+        ],
+        [
+          1514
+        ],
+        [
+          1398
+        ]
+      ],
+      "native_body_anchors": [
+        [
+          48.0,
+          96
+        ],
+        [
+          48.0,
+          96
+        ],
+        [
+          48.0,
+          96
+        ],
+        [
+          47.5,
+          96
+        ]
+      ],
+      "source_frame_indices": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "sha256": "6e2771e9f84b279250225e885d5d44b9c8e191389690636e0336994bd25372fb",
+      "source": "source_carrier.png"
+    },
+    {
+      "name": "ladder_goblin_carry_run4",
+      "destination": "Game/Assets/_Project/Art/Characters/Ladder/ladder_goblin_carry_run4.png",
+      "native": "ladder_goblin_carry_run4_native.png",
+      "game": "ladder_goblin_carry_run4.png",
+      "preview_4x": "ladder_goblin_carry_run4_4x.png",
+      "frame_count": 4,
+      "frame_order": [
+        "왼발 지지·오른무릎 들기",
+        "오른발 지지·왼무릎 들기",
+        "왼발 지지·오른무릎 들기",
+        "오른발 지지·왼무릎 들기"
+      ],
+      "native_cell": [
+        96,
+        128
+      ],
+      "game_cell": [
+        288,
+        384
+      ],
+      "native_pivot_top_left": [
+        48,
+        120
+      ],
+      "game_pivot_top_left": [
+        144,
+        360
+      ],
+      "unity_normalized_pivot": [
+        0.5,
+        0.0625
+      ],
+      "includes_ladder": false,
+      "native_opaque_bboxes": [
+        [
+          30,
+          64,
+          61,
+          120
+        ],
+        [
+          27,
+          64,
+          61,
+          120
+        ],
+        [
+          29,
+          64,
+          61,
+          120
+        ],
+        [
+          28,
+          64,
+          62,
+          120
+        ]
+      ],
+      "component_sizes": [
+        [
+          1115
+        ],
+        [
+          1161
+        ],
+        [
+          1118
+        ],
+        [
+          1172
+        ]
+      ],
+      "native_body_anchors": [
+        [
+          47.5,
+          97
+        ],
+        [
+          48.0,
+          97
+        ],
+        [
+          47.5,
+          97
+        ],
+        [
+          48.5,
+          97
+        ]
+      ],
+      "source_frame_indices": [
+        1,
+        0,
+        3,
+        2
+      ],
+      "sha256": "228ba937b69248bd153d7c485fc407247b6f8d51b6eaab9cdc7636af87824a74",
+      "source": "source_carry.png"
+    },
+    {
+      "name": "ladder_goblin_deploy4",
+      "destination": "Game/Assets/_Project/Art/Characters/Ladder/ladder_goblin_deploy4.png",
+      "native": "ladder_goblin_deploy4_native.png",
+      "game": "ladder_goblin_deploy4.png",
+      "preview_4x": "ladder_goblin_deploy4_4x.png",
+      "frame_count": 4,
+      "frame_order": [
+        "준비",
+        "앞으로 잡기",
+        "위로 세우기",
+        "성벽에 밀어 기대기"
+      ],
+      "native_cell": [
+        96,
+        128
+      ],
+      "game_cell": [
+        288,
+        384
+      ],
+      "native_pivot_top_left": [
+        48,
+        120
+      ],
+      "game_pivot_top_left": [
+        144,
+        360
+      ],
+      "unity_normalized_pivot": [
+        0.5,
+        0.0625
+      ],
+      "includes_ladder": false,
+      "native_opaque_bboxes": [
+        [
+          30,
+          64,
+          63,
+          120
+        ],
+        [
+          30,
+          64,
+          70,
+          120
+        ],
+        [
+          30,
+          64,
+          71,
+          120
+        ],
+        [
+          28,
+          64,
+          65,
+          120
+        ]
+      ],
+      "component_sizes": [
+        [
+          1246
+        ],
+        [
+          1220
+        ],
+        [
+          1261
+        ],
+        [
+          1222
+        ]
+      ],
+      "native_body_anchors": [
+        [
+          47.5,
+          97
+        ],
+        [
+          47.5,
+          97
+        ],
+        [
+          48.0,
+          97
+        ],
+        [
+          48.5,
+          97
+        ]
+      ],
+      "source_frame_indices": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "sha256": "ea42b6ba6ef8cb1e5620da6f3e215e1e361234347f1f9c8e1c015b56da3b3f8d",
+      "source": "source_deploy.png"
+    },
+    {
+      "name": "ladder_goblin_climb4",
+      "destination": "Game/Assets/_Project/Art/Characters/Ladder/ladder_goblin_climb4.png",
+      "native": "ladder_goblin_climb4_native.png",
+      "game": "ladder_goblin_climb4.png",
+      "preview_4x": "ladder_goblin_climb4_4x.png",
+      "frame_count": 4,
+      "frame_order": [
+        "화면 오른쪽 손·무릎 올림",
+        "화면 왼쪽 손으로 옮겨 잡기",
+        "화면 왼쪽 손·무릎 올림",
+        "화면 오른쪽으로 다시 잡기"
+      ],
+      "native_cell": [
+        96,
+        128
+      ],
+      "game_cell": [
+        288,
+        384
+      ],
+      "native_pivot_top_left": [
+        48,
+        120
+      ],
+      "game_pivot_top_left": [
+        144,
+        360
+      ],
+      "unity_normalized_pivot": [
+        0.5,
+        0.0625
+      ],
+      "includes_ladder": false,
+      "native_opaque_bboxes": [
+        [
+          31,
+          60,
+          62,
+          120
+        ],
+        [
+          34,
+          60,
+          65,
+          120
+        ],
+        [
+          32,
+          51,
+          64,
+          120
+        ],
+        [
+          30,
+          60,
+          61,
+          120
+        ]
+      ],
+      "component_sizes": [
+        [
+          1217
+        ],
+        [
+          1165
+        ],
+        [
+          1211
+        ],
+        [
+          1228
+        ]
+      ],
+      "native_body_anchors": [
+        [
+          48.0,
+          93
+        ],
+        [
+          48.5,
+          93
+        ],
+        [
+          48.5,
+          91
+        ],
+        [
+          47.5,
+          93
+        ]
+      ],
+      "source_frame_indices": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "sha256": "aa21e873540a0fb0057b51dfd763bee233df059028dc76401e1e07459e3c43bd",
+      "source": "source_climb.png",
+      "frame_sources": [
+        "source_climb.png#0",
+        "source_climb_corrected.png#1",
+        "source_climb_left.png#0",
+        "source_climb.png#3"
+      ]
+    },
+    {
+      "name": "ladder_front",
+      "destination": "Game/Assets/_Project/Art/Characters/Ladder/ladder_front.png",
+      "native": "ladder_front_native.png",
+      "game": "ladder_front.png",
+      "preview_4x": "ladder_front_4x.png",
+      "frame_count": 1,
+      "frame_order": [
+        "정면"
+      ],
+      "native_cell": [
+        64,
+        384
+      ],
+      "game_cell": [
+        256,
+        1536
+      ],
+      "native_pivot_top_left": [
+        32,
+        368
+      ],
+      "game_pivot_top_left": [
+        128,
+        1472
+      ],
+      "unity_normalized_pivot": [
+        0.5,
+        0.04166666666666663
+      ],
+      "scale": 4,
+      "world_height_m": 4.3,
+      "game_opaque_bbox": [
+        24,
+        320,
+        232,
+        1472
+      ],
+      "sha256": "7892c618ff48430388b622b886083d30b433a6ea1c8e4788938e3cd8d9c308e6"
+    },
+    {
+      "name": "ladder_side",
+      "destination": "Game/Assets/_Project/Art/Characters/Ladder/ladder_side.png",
+      "native": "ladder_side_native.png",
+      "game": "ladder_side.png",
+      "preview_4x": "ladder_side_4x.png",
+      "frame_count": 1,
+      "frame_order": [
+        "측면"
+      ],
+      "native_cell": [
+        64,
+        384
+      ],
+      "game_cell": [
+        256,
+        1536
+      ],
+      "native_pivot_top_left": [
+        32,
+        368
+      ],
+      "game_pivot_top_left": [
+        128,
+        1472
+      ],
+      "unity_normalized_pivot": [
+        0.5,
+        0.04166666666666663
+      ],
+      "scale": 4,
+      "world_height_m": 4.3,
+      "game_opaque_bbox": [
+        64,
+        320,
+        192,
+        1472
+      ],
+      "sha256": "c87bb7abebcbf4add38148b71621446a3094fa690ddfe8f9f55d225a53fbe86b"
+    }
+  ],
+  "ladder_world_height_m": 4.3,
+  "source_hashes": {
+    "Game\\Assets\\_Project\\Art\\Characters\\Static\\ladder_goblin_static.png": "f6fa814cdb4521e775d99f6da685656519e6e89bca9158473498d5c6fa6118db",
+    "Game\\Assets\\_Project\\Art\\Characters\\Walk\\ladder_goblin_walk.png": "e620e115990f1cb7d72cd297a08645806688c654aaa39ffecca41f5ad86071bc",
+    "Game\\Assets\\_Project\\Art\\Characters\\Ladder\\ladder_goblin_carry_run4.png": "f20ef3eea6035e90d8a65302e5d3a284a440dcb34b516d0bfdce3dacc83a284e",
+    "Game\\Assets\\_Project\\Art\\Characters\\Ladder\\ladder_goblin_deploy4.png": "27c6b2802bdfd6303c8097a10b325212ddcc54d54beef462da8753f8ffca0bef",
+    "Game\\Assets\\_Project\\Art\\Characters\\Ladder\\ladder_goblin_climb4.png": "ac4a1ffe9ba8d6c2dbf1d259f7e1854b44fb699060b6e46fe3b0315c160e2aa2",
+    "Game\\Assets\\_Project\\Art\\Characters\\Ladder\\ladder_front.png": "7c4ade7b17ddda39e7a06af87adeae1dec439a1ebc0dd3ca1c3604b169b0d5f7",
+    "Game\\Assets\\_Project\\Art\\Characters\\Ladder\\ladder_side.png": "32ae4f1b07abd9a2ceac321f9df160d0cdcd0a574248a89079306a2f877f49b4"
+  }
+}

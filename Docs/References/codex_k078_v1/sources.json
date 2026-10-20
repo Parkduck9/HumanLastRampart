@@ -1,0 +1,9 @@
+{
+  "static": {"heights": [60], "body_x_ratio": [0.40]},
+  "carrier": {"heights": [60, 60, 60, 60], "body_x_ratio": [0.35, 0.35, 0.35, 0.35]},
+  "carry": {"heights": [56, 56, 56, 56], "body_x_ratio": [0.53, 0.53, 0.53, 0.53]},
+  "deploy": {"heights": [56, 56, 56, 56], "body_x_ratio": [0.50, 0.39, 0.36, 0.50]},
+  "climb": {"heights": [60, 60, 69, 60], "body_x_ratio": [0.50, 0.50, 0.50, 0.50]},
+  "ladder_front": {"width": 52},
+  "ladder_side": {"width": 32}
+}
