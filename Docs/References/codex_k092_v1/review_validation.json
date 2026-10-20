@@ -1,0 +1,260 @@
+{
+  "page_errors": [],
+  "failed_requests": [],
+  "ready": true,
+  "loaded_images": 85,
+  "card_count": 45,
+  "overflow": false,
+  "frames_checked": 142,
+  "preview_alpha_mismatches": 0,
+  "zero_gain_equal": true,
+  "animation_frame_changed": true,
+  "sheets": [
+    {
+      "name": "archer_fall",
+      "width": 288,
+      "height": 384,
+      "different": 19293
+    },
+    {
+      "name": "cannon_crew_fall",
+      "width": 288,
+      "height": 384,
+      "different": 18454
+    },
+    {
+      "name": "goblin_fall4",
+      "width": 288,
+      "height": 384,
+      "different": 13986
+    },
+    {
+      "name": "gunner_fall",
+      "width": 288,
+      "height": 384,
+      "different": 19328
+    },
+    {
+      "name": "ogre_fall4",
+      "width": 256,
+      "height": 384,
+      "different": 22786
+    },
+    {
+      "name": "archer_fire",
+      "width": 288,
+      "height": 384,
+      "different": 16739
+    },
+    {
+      "name": "cannon_crew_ignite6",
+      "width": 288,
+      "height": 384,
+      "different": 19442
+    },
+    {
+      "name": "gunner_fire",
+      "width": 288,
+      "height": 384,
+      "different": 15633
+    },
+    {
+      "name": "goblin_walk_attack4",
+      "width": 288,
+      "height": 384,
+      "different": 12267
+    },
+    {
+      "name": "hero_back_idle",
+      "width": 256,
+      "height": 384,
+      "different": 30491
+    },
+    {
+      "name": "hero_command",
+      "width": 256,
+      "height": 384,
+      "different": 28464
+    },
+    {
+      "name": "hero_walk_run_grid",
+      "width": 256,
+      "height": 384,
+      "different": 26156
+    },
+    {
+      "name": "ladder_front",
+      "width": 256,
+      "height": 1536,
+      "different": 140292
+    },
+    {
+      "name": "ladder_goblin_carry_run4",
+      "width": 288,
+      "height": 384,
+      "different": 10035
+    },
+    {
+      "name": "ladder_goblin_climb4",
+      "width": 288,
+      "height": 384,
+      "different": 10953
+    },
+    {
+      "name": "ladder_goblin_deploy4",
+      "width": 288,
+      "height": 384,
+      "different": 11214
+    },
+    {
+      "name": "ladder_side",
+      "width": 256,
+      "height": 1536,
+      "different": 74583
+    },
+    {
+      "name": "arrow",
+      "width": 256,
+      "height": 128,
+      "different": 2090
+    },
+    {
+      "name": "bullet_trace",
+      "width": 256,
+      "height": 128,
+      "different": 0
+    },
+    {
+      "name": "cannonball",
+      "width": 256,
+      "height": 128,
+      "different": 3760
+    },
+    {
+      "name": "archer_run",
+      "width": 288,
+      "height": 384,
+      "different": 18719
+    },
+    {
+      "name": "cannon_crew_run",
+      "width": 288,
+      "height": 384,
+      "different": 21431
+    },
+    {
+      "name": "gunner_run",
+      "width": 288,
+      "height": 384,
+      "different": 18308
+    },
+    {
+      "name": "archer_static",
+      "width": 288,
+      "height": 384,
+      "different": 14987
+    },
+    {
+      "name": "cannon_crew_static",
+      "width": 288,
+      "height": 384,
+      "different": 18929
+    },
+    {
+      "name": "gunner_static",
+      "width": 288,
+      "height": 384,
+      "different": 15309
+    },
+    {
+      "name": "ladder_goblin_static",
+      "width": 288,
+      "height": 384,
+      "different": 13997
+    },
+    {
+      "name": "ogre_static",
+      "width": 256,
+      "height": 384,
+      "different": 14698
+    },
+    {
+      "name": "wizard_back_static",
+      "width": 256,
+      "height": 384,
+      "different": 31852
+    },
+    {
+      "name": "wizard_cast",
+      "width": 256,
+      "height": 384,
+      "different": 23367
+    },
+    {
+      "name": "wizard_static",
+      "width": 256,
+      "height": 384,
+      "different": 33604
+    },
+    {
+      "name": "ladder_goblin_walk",
+      "width": 288,
+      "height": 384,
+      "different": 13257
+    },
+    {
+      "name": "ogre_attack4",
+      "width": 256,
+      "height": 384,
+      "different": 22723
+    },
+    {
+      "name": "ogre_walk",
+      "width": 256,
+      "height": 384,
+      "different": 28697
+    },
+    {
+      "name": "cannon_recoil",
+      "width": 256,
+      "height": 256,
+      "different": 22244
+    },
+    {
+      "name": "crew_pull6",
+      "width": 384,
+      "height": 384,
+      "different": 20052
+    },
+    {
+      "name": "crew_push6",
+      "width": 384,
+      "height": 384,
+      "different": 20847
+    },
+    {
+      "name": "haul_cannon_body",
+      "width": 768,
+      "height": 384,
+      "different": 23676
+    },
+    {
+      "name": "haul_cannon_chassis",
+      "width": 768,
+      "height": 384,
+      "different": 18907
+    },
+    {
+      "name": "haul_cannon_wheel",
+      "width": 101,
+      "height": 101,
+      "different": 5784
+    },
+    {
+      "name": "muzzle_smoke",
+      "width": 256,
+      "height": 256,
+      "different": 0
+    }
+  ]
+}
