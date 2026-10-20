@@ -478,7 +478,9 @@ namespace HumanLastRampart.Combat.Battle
                 look.Refresh();
                 if (litBefore != HumanLastRampart.Combat.Render.BattleLook.LitActive) sim.SoldiersDirty = true;   // 밝기 숫자가 바뀌었으니 병사 그림 다시
             }
+            if (viewCamera != null) BattleLights.ViewPosition = viewCamera.transform.position;
             lights?.Update(mapMode);
+            if (viewCamera != null) world?.UpdateView(viewCamera.transform.position, mapMode);   // 모서리 탑이 사진기를 가리면 숨김
             foreach (var (buffer, block, start, count) in enemyDraws)
             {
                 if (count <= 0) continue;
@@ -618,8 +620,11 @@ namespace HumanLastRampart.Combat.Battle
         }
 
         // 날씨·밤낮 연출 (CY2-C4): 하늘색·햇빛·안개. 화면 씬이 활성 씬이라 RenderSettings는 이 전투에만 쓰인다
+        Camera viewCamera;   // 전투 사진기 (ApplyAtmosphere가 매 장면 넘긴다 — 주 사진기 표시가 없어 Camera.main으로는 못 찾는다)
+
         public void ApplyAtmosphere(Camera camera, BattleSim battle)
         {
+            viewCamera = camera;
             bool night = battle.TimeOfDay == HumanLastRampart.Core.CombatContracts.TimeOfDay.Night;
             if (look == null) look = new HumanLastRampart.Combat.Render.BattleLook(camera, root.transform);   // 화면 효과 (D-062 1단계)
             look.Apply(battle.CurrentWeather, night);

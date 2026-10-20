@@ -149,8 +149,15 @@ namespace HumanLastRampart.Combat.Battle
                 // 발판: 모서리를 중심으로, 위가 통로 높이
                 var platformCenter = corner - outward * 0.7f;
                 Box("Corner Platform", platformCenter + Vector3.up * (top * 0.5f), Quaternion.identity, new Vector3(p.TowerPlatform, top, p.TowerPlatform), BattleWorldMaterials.Surface.TowerWall);
+                // 발판 윗면에 통로와 같은 돌 바닥을 같은 높이로 (사용자 '코너 돌 때 땅이 위아래로' 2026-10-20 — 윗면이 탑 벽 질감을 늘인 민무늬라 통로와 확 달라 보였다)
+                if (materials.HasArt(BattleWorldMaterials.Surface.WalkwayStone))
+                    Box("Corner Walkway", platformCenter + Vector3.up * (top + SkinLift * 0.5f), Quaternion.identity,
+                        new Vector3(p.TowerPlatform, SkinLift, p.TowerPlatform), BattleWorldMaterials.Surface.WalkwayStone,
+                        new Vector2(p.TowerPlatform, p.TowerPlatform), Vector2.zero);
                 // 솟은 탑: 발판 바깥쪽 끝 (통로 밖이라 길을 막지 않음)
                 var towerCenter = corner + outward * (p.TowerSize * 0.5f * 0.9f);
+                towerCenters[side] = towerCenter;
+                collectingTower = towerParts[side] = new List<Renderer>();
                 Box("Corner Tower", towerCenter + Vector3.up * ((top + p.TowerRise) * 0.5f), Quaternion.LookRotation(outward), new Vector3(p.TowerSize, top + p.TowerRise, p.TowerSize), BattleWorldMaterials.Surface.TowerWall);
                 // 탑 위 돌출부 4면
                 float towerTop = top + p.TowerRise;
@@ -165,6 +172,28 @@ namespace HumanLastRampart.Combat.Battle
 
                 // 탑 지붕 (낮은 피라미드 대신 납작한 상자 — 목업)
                 Box("Tower Roof", towerCenter + Vector3.up * (towerTop + p.MerlonHeight + 0.15f), Quaternion.LookRotation(outward), new Vector3(p.TowerSize * 0.7f, 0.3f, p.TowerSize * 0.7f), BattleWorldMaterials.Surface.TowerRoof);
+                collectingTower = null;
+            }
+        }
+
+        // 모서리 탑이 사진기 바로 옆이면 숨긴다 — 모서리를 돌 때 탑 벽이 화면 절반을 덮었다 (2026-10-20)
+        const float TowerHideDistance = 4.5f;
+        readonly Vector3[] towerCenters = new Vector3[4];
+        readonly List<Renderer>[] towerParts = new List<Renderer>[4];
+        List<Renderer> collectingTower;
+        readonly bool[] towerHidden = new bool[4];
+
+        public void UpdateView(Vector3 cameraPosition, bool mapMode)
+        {
+            for (int side = 0; side < 4; side++)
+            {
+                List<Renderer> parts = towerParts[side];
+                if (parts == null) continue;
+                Vector3 d = cameraPosition - towerCenters[side];
+                bool hide = !mapMode && d.x * d.x + d.z * d.z < TowerHideDistance * TowerHideDistance;
+                if (hide == towerHidden[side]) continue;
+                towerHidden[side] = hide;
+                foreach (Renderer r in parts) if (r != null) r.enabled = !hide;
             }
         }
 
@@ -204,6 +233,7 @@ namespace HumanLastRampart.Combat.Battle
             materials.Apply(renderer, surface, uvSize, uvOffset);   // 1m당 32화소로 반복 (그림이 있을 때만)
             if (collecting != null && (surface == BattleWorldMaterials.Surface.WallStone || surface == BattleWorldMaterials.Surface.ParapetSide || surface == BattleWorldMaterials.Surface.ParapetTop))
                 collecting.Add((renderer, surface));
+            collectingTower?.Add(renderer);
             PieceCount++;
             return renderer;
         }

@@ -17,6 +17,55 @@ public sealed partial class PlayProbe
 {
     const int PfWidth = 1920, PfHeight = 1080;
 
+    // 모서리 돌기 확인 (사용자 '코너 돌 때 땅이 위아래로' 2026-10-20): 북쪽 성벽 오른쪽 끝에서 동쪽으로 도는 동안
+    // 사진 14장과 매 장면 사진기 높이·숙임·방향, 주인공 발 높이를 적는다. 결과: HLR_PLAY_OUT/corner_sequence.txt
+    [UnityTest]
+    public IEnumerator CornerSequence()
+    {
+        Directory.CreateDirectory(Out);
+        log = new StringBuilder();
+        Time.captureDeltaTime = 1f / 20f;
+        try
+        {
+            SceneManager.LoadScene("Boot");
+            yield return null;
+            yield return null;
+            yield return WaitScreen(ScreenId.MainMenu, 900);
+            yield return Press("게임 시작", 600);
+            yield return Press("쉬움", 300);
+            yield return WaitScreen(ScreenId.Story, 600);
+            var story = Object.FindAnyObjectByType<HumanLastRampart.Story.StoryPlayer>();
+            for (int i = 0; i < 300 && story == null; i++) { yield return null; story = Object.FindAnyObjectByType<HumanLastRampart.Story.StoryPlayer>(); }
+            story.Skip();
+            yield return WaitScreen(ScreenId.Battle, 900);
+            var entry = Object.FindObjectsByType<HumanLastRampart.Combat.Battle.BattleEntry>(FindObjectsSortMode.None)[0];
+            var flags = System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance;
+            var rig = (HumanLastRampart.Combat.Battle.BattleCameraRig)typeof(HumanLastRampart.Combat.Battle.BattleEntry).GetField("rig", flags).GetValue(entry);
+            var sim = (HumanLastRampart.Combat.Battle.BattleSim)typeof(HumanLastRampart.Combat.Battle.BattleEntry).GetField("sim", flags).GetValue(entry);
+            entry.StartBattle();
+            Time.captureDeltaTime = 0.0001f;   // 전투는 거의 멈춤 (사진기·주인공은 실제 시간)
+            rig.ShowSide(0);
+            rig.WalkInput = 1f;
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+            while (rig.HeroFeet.x < sim.CastleHalf - 5f && watch.Elapsed.TotalSeconds < 15) yield return null;
+            for (int k = 0; k < 14; k++)
+            {
+                Camera cam = Camera.allCameras.Where(c => !c.orthographic).OrderBy(c => c.depth).First();
+                Note($"{k:00}: 면 {rig.Side} 방향 {rig.Yaw:0.0}도 · 사진기 높이 {cam.transform.position.y:0.000} 숙임 {cam.transform.eulerAngles.x:0.0}도 · 발 높이 {rig.HeroFeet.y:0.000} 발 ({rig.HeroFeet.x:0.0}, {rig.HeroFeet.z:0.0})");
+                yield return Capture($"corner_{k:00}", 960, 540, true);
+                var gap = System.Diagnostics.Stopwatch.StartNew();
+                while (gap.Elapsed.TotalSeconds < 0.12) yield return null;
+            }
+
+            rig.WalkInput = 0f;
+        }
+        finally
+        {
+            File.WriteAllText(Path.Combine(Out, "corner_sequence.txt"), log.ToString(), new UTF8Encoding(false));
+            Time.captureDeltaTime = 0f;
+        }
+    }
+
     [UnityTest]
     public IEnumerator PortfolioShots()
     {

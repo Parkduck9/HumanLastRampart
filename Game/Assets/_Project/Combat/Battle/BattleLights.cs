@@ -25,6 +25,7 @@ namespace HumanLastRampart.Combat.Battle
         static readonly Color FlameColor = new Color(2.2f, 1.1f, 0.35f);   // 조금 밝게(HDR) 칠해 은은히 번지게
 
         const int FlashCapacity = 28;
+        public static Vector3 ViewPosition;   // 전투 사진기 자리 (BattleView가 매 장면 넣는다) — 총구 빛은 여기서 가까운 총병만
         // 쏠 때·터질 때 빛 (2026-10-20)
         public const float CannonImpactIntensity = 14f;
         const float MuzzleSeconds = 0.12f;
@@ -250,8 +251,7 @@ namespace HumanLastRampart.Combat.Battle
 
             // 총 쏘기: 주인공 가까운 총병 몇 명만 (수백 명 모두 빛을 켜면 무겁다)
             gunFlashes.Clear();
-            Camera view = Camera.main;
-            sim.RecentGunshots(gunFlashes, MuzzleSeconds, view != null ? view.transform.position : Vector3.zero, GunFlashMax);
+            sim.RecentGunshots(gunFlashes, MuzzleSeconds, ViewPosition, GunFlashMax);
             for (int i = 0; i < gunFlashes.Count && used < FlashCapacity; i++)
                 Use(used++, gunFlashes[i], 0.5f, MuzzleColor, GunMuzzleIntensity * flashDay, 0.35f, 2.5f);
 
