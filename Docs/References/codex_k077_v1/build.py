@@ -33,12 +33,14 @@ def inline(im):
 
 def main():
     cfg=json.loads((P/'generation.json').read_text(encoding='utf-8'))
-    src=Image.open(P/'generated.png').convert('RGBA')
+    src=Image.open(P/cfg['source_file']).convert('RGBA')
     pal=json.loads((R/'Docs/References/codex_k066_v1/palettes.json').read_text(encoding='utf-8'))['goblin']['colors']
+    # 카드의 파란 홍채 요구를 반영하고 기존 피부·가죽 색은 유지한다.
+    pal += ['#193e61', '#24598b', '#4890ce']
     palette=np.array([tuple(bytes.fromhex(c[1:])) for c in pal],dtype=np.int32)
     frames=[]; checks=[]
     for i,c in enumerate(cfg['frames']):
-        source=Image.open(P/c['source']).convert('RGBA') if 'source' in c else src
+        source=src
         im=source.crop(c['crop']); a=np.array(im)
         a[a[:,:,3]<128]=0; a[a[:,:,3]>=128,3]=255
         im=Image.fromarray(a)
@@ -58,8 +60,11 @@ def main():
         out=Image.new('RGBA',(96,128)); out.paste(tile,(x,y))
         assert out.getbbox()[3]==120
         assert len(components(out))==1
+        pixels=np.array(out).astype(np.int32)
+        blue_count=int(((pixels[:,:,2]>pixels[:,:,0]*1.2)&(pixels[:,:,2]>pixels[:,:,1]*1.2)&(pixels[:,:,2]>80)&(pixels[:,:,3]>0)).sum())
+        assert i==11 or blue_count>0, f'파란 홍채 누락: {i}'
         frames.append(out)
-        checks.append({'index':i,'bbox':out.getbbox(),'ground_bottom_exclusive':120,'axis_x':48,'components_8_connected':1,'removed_source_fragment_pixels':removed,'opaque_pixels':int((np.array(out)[:,:,3]>0).sum())})
+        checks.append({'index':i,'bbox':out.getbbox(),'ground_bottom_exclusive':120,'axis_x':48,'components_8_connected':1,'removed_source_fragment_pixels':removed,'opaque_pixels':int((np.array(out)[:,:,3]>0).sum()),'blue_iris_pixels':blue_count})
     definitions=[('goblin_walk_attack4',0,8,2,['걷기: 왼발 지지','걷기: 통과','걷기: 오른발 지지','걷기: 반대 통과','공격: 준비','공격: 들어 올리기','공격: 내려치기','공격: 회복']),('goblin_fall4',8,4,1,['피격 반동','무릎 꺾임','옆으로 넘어짐','옆으로 누움']),('goblin_wallhit4',12,4,1,['토벽 타격: 준비','토벽 타격: 머리 위로 들기','토벽 타격: 내려치기','토벽 타격: 회복'])]
     manifest={'card':'K-077','size_decision':'D-081','native_cell':[96,128],'game_cell':[288,384],'native_pivot_pixels_top_left':[48,120],'game_pivot_pixels_top_left':[144,360],'unity_normalized_pivot':[0.5,0.0625],'alpha':'binary 0/255','scaling':'nearest-neighbor','figure_height_target':56,'sheets':[]}
     for name,start,count,rows,order in definitions:
