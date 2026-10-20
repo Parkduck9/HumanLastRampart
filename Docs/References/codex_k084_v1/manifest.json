@@ -169,6 +169,20 @@
                                    3840,
                                    1134
                                ]
+                  },
+                  {
+                      "file":  "review_desktop.png",
+                      "size":  [
+                                   1440,
+                                   4358
+                               ]
+                  },
+                  {
+                      "file":  "review_mobile.png",
+                      "size":  [
+                                   390,
+                                   4544
+                               ]
                   }
               ]
 }
