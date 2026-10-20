@@ -1,0 +1,1529 @@
+{
+    "card":  "K-094",
+    "version":  1,
+    "status":  "그림 제작 완료 · 게임 연결 및 사용자 외형 검토 대기",
+    "trapKinds":  [
+                      {
+                          "label":  "폭발 함정",
+                          "damageRadiusDefaultMeters":  10,
+                          "source":  "Game/Assets/_Project/Data/Traps/trap_bomb.asset",
+                          "radiusSource":  "Game/Assets/_Project/Core/Definitions/TrapDef.cs",
+                          "id":  "trap_bomb"
+                      }
+                  ],
+    "scale":  {
+                  "iconCanvas":  [
+                                     24,
+                                     24
+                                 ],
+                  "unityNormalizedMapPivot":  [
+                                                  0.5,
+                                                  0.5
+                                              ],
+                  "mapPixelsPerMeter":  6.4,
+                  "filter":  "Point",
+                  "mapPivotTopLeft":  [
+                                          12,
+                                          12
+                                      ],
+                  "coordinateConvention":  "원점 왼쪽 위, x 오른쪽, y 아래",
+                  "mapPixelsPer5Meters":  32,
+                  "compression":  "None",
+                  "iconArtMaxPixels":  24
+              },
+    "stateOrder":  [
+                       "buried",
+                       "armed",
+                       "selected",
+                       "ghost",
+                       "ghost_invalid"
+                   ],
+    "mapStateSheet":  {
+                          "cell":  [
+                                       24,
+                                       24
+                                   ],
+                          "frames":  5,
+                          "file":  "sheets/trap_bomb_map_states.png",
+                          "pivotTopLeft":  [
+                                               12,
+                                               12
+                                           ]
+                      },
+    "dust":  {
+                 "frameOrder":  [
+                                    "dig_0",
+                                    "dig_1",
+                                    "dig_2",
+                                    "dig_3"
+                                ],
+                 "durationSeconds":  0.4,
+                 "unityNormalizedPivot":  [
+                                              0.5,
+                                              0.1875
+                                          ],
+                 "fps":  10,
+                 "loop":  false,
+                 "pivotTopLeft":  [
+                                      16,
+                                      26
+                                  ],
+                 "intentionalRisePixels":  [
+                                               0,
+                                               1,
+                                               3,
+                                               5
+                                           ],
+                 "cell":  [
+                              32,
+                              32
+                          ],
+                 "file":  "effects/dig_map_4f.png"
+             },
+    "commonSheets":  {
+                         "nativeBurialPivot":  [
+                                                   48,
+                                                   120
+                                               ],
+                         "unityNormalizedPivot":  [
+                                                      0.5,
+                                                      0.0625
+                                                  ],
+                         "trapOrder":  [
+                                           "buried",
+                                           "armed",
+                                           "selected",
+                                           "ghost",
+                                           "ghost_invalid"
+                                       ],
+                         "dustNative":  "sheets/dig_native_96x128_4f.png",
+                         "gameBurialPivot":  [
+                                                 144,
+                                                 360
+                                             ],
+                         "nativeCell":  [
+                                            96,
+                                            128
+                                        ],
+                         "trapNative":  "sheets/trap_bomb_states_native_96x128.png",
+                         "gameCell":  [
+                                          288,
+                                          384
+                                      ],
+                         "trapGame":  "sheets/trap_bomb_states_game_288x384.png",
+                         "trapFrames":  5,
+                         "note":  "사람의 발 대신 매설점으로 기준선을 사용. 지도용 표식은 중심 기준.",
+                         "dustFrames":  4,
+                         "dustGame":  "sheets/dig_game_288x384_4f.png"
+                     },
+    "rings":  {
+                  "scalingNote":  "PNG 선을 확대하지 말고 최종 화면 반경으로 재생성. SVG는 vector-effect=non-scaling-stroke. Unity 벡터 지원 여부는 연결 담당 확인. 패키지 변경 없음.",
+                  "pivotFormula":  "radius + 2",
+                  "layerOrder":  [
+                                     "fill",
+                                     "line",
+                                     "icon"
+                                 ],
+                  "linePixels":  1,
+                  "colors":  {
+                                 "valid_brass":  "#d5b16b",
+                                 "valid_green":  "#9abe77",
+                                 "invalid":  "#e16d61"
+                             },
+                  "radiiMeters":  [
+                                      5,
+                                      10,
+                                      15,
+                                      20
+                                  ],
+                  "fillAlphaByteRange":  [
+                                             8,
+                                             30
+                                         ],
+                  "geometry":  "정수 중점 원 알고리즘 + 원주 거리 4화소 켜짐/4화소 꺼짐; 가장자리 알파 255",
+                  "scalableFiles":  [
+                                        "rings/radius_valid_brass_scalable.svg",
+                                        "rings/radius_valid_green_scalable.svg",
+                                        "rings/radius_invalid_scalable.svg"
+                                    ],
+                  "defaultDamageRadiusPixels":  64,
+                  "dashPixels":  4,
+                  "canvasFormula":  "2 * radius + 5",
+                  "radiiPixels":  [
+                                      32,
+                                      64,
+                                      96,
+                                      128
+                                  ],
+                  "gapPixels":  4
+              },
+    "mockup":  {
+                   "description":  "현재 게임 타일 재조합. 자유 좌표 예시이며 실제 지형·설치 판정 아님.",
+                   "base":  "map_base_current_tiles.png",
+                   "source":  "Game/Assets/_Project/Art/UI/Resources/TrapMap/",
+                   "actualGameCapture":  false,
+                   "positionsPixels":  [
+                                           [
+                                               307,
+                                               114
+                                           ],
+                                           [
+                                               451,
+                                               177
+                                           ],
+                                           [
+                                               569,
+                                               284
+                                           ],
+                                           [
+                                               184,
+                                               371
+                                           ],
+                                           [
+                                               662,
+                                               145
+                                           ]
+                                       ],
+                   "file":  "mockup_free_placement.png"
+               },
+    "replacements":  [
+
+                     ],
+    "sourceGeneration":  {
+                             "original":  "source/generated.png",
+                             "prompt":  "Use case: stylized-concept. Create a production pixel-art source sheet for Human Last Rampart top-down tactical map. Transparent background, no text. TWO distinct isolated subjects horizontally side by side with huge transparent margins, no frame borders: LEFT a small buried medieval black-powder explosive trap viewed strictly top-down: round compact brown soil disturbed patch, a partially buried brass/dark iron cap, tiny red fuse nub; no modern landmine, no perspective side wall. RIGHT a small ochre/brown dig dust puff, a compact irregular cloud with 3 connected rounded lobes, designed for a burial effect. Strong chunky readable pixel clusters, dark 1-pixel-looking outline, three tones per material, muted olive brown dirt, aged brass and warm pale ochre dust. Low resolution game sprite aesthetic, designed to reduce trap to 20x20 pixels and cloud to 24x16 pixels, absolutely no tiny photorealistic texture, no blur, no glow, no lettering. Two subjects only, centers at quarter and three-quarter of canvas, same apparent size. Preserve actual transparent alpha. Palette/style compatible with muted olive/brass medieval top-down map and Octopath-inspired chunky sprites.",
+                             "tool":  "내장 image_gen",
+                             "postprocess":  "두 피사체 영역별 불투명 경계 추출, 20×20 및 28×18 최근접 샘플, 제한 팔레트, 가장 큰 연결 덩어리 보존, 아이콘 외곽선, 상태 겉칠, 먼지 크기·상승·투명도 변환"
+                         },
+    "verification":  {
+                         "unityRun":  false,
+                         "gitWrites":  false,
+                         "browserEvidence":  "qa/browser_check.json",
+                         "gameModified":  false,
+                         "assetChecks":  [
+                                             "icons/trap_bomb_armed.png : 단일 연결 덩어리, 바깥 투명 여백",
+                                             "icons/trap_bomb_buried.png : 단일 연결 덩어리, 바깥 투명 여백",
+                                             "icons/trap_bomb_ghost.png : 단일 연결 덩어리, 바깥 투명 여백",
+                                             "icons/trap_bomb_ghost_invalid.png : 단일 연결 덩어리, 바깥 투명 여백",
+                                             "rings/radius_invalid_r128_line.png : 정수 화소 점선, 반경 오차 0.6화소 이내, 가장자리 알파 255",
+                                             "rings/radius_invalid_r32_line.png : 정수 화소 점선, 반경 오차 0.6화소 이내, 가장자리 알파 255",
+                                             "rings/radius_invalid_r64_line.png : 정수 화소 점선, 반경 오차 0.6화소 이내, 가장자리 알파 255",
+                                             "rings/radius_invalid_r96_line.png : 정수 화소 점선, 반경 오차 0.6화소 이내, 가장자리 알파 255",
+                                             "rings/radius_valid_brass_r128_line.png : 정수 화소 점선, 반경 오차 0.6화소 이내, 가장자리 알파 255",
+                                             "rings/radius_valid_brass_r32_line.png : 정수 화소 점선, 반경 오차 0.6화소 이내, 가장자리 알파 255",
+                                             "rings/radius_valid_brass_r64_line.png : 정수 화소 점선, 반경 오차 0.6화소 이내, 가장자리 알파 255",
+                                             "rings/radius_valid_brass_r96_line.png : 정수 화소 점선, 반경 오차 0.6화소 이내, 가장자리 알파 255",
+                                             "rings/radius_valid_green_r128_line.png : 정수 화소 점선, 반경 오차 0.6화소 이내, 가장자리 알파 255",
+                                             "rings/radius_valid_green_r32_line.png : 정수 화소 점선, 반경 오차 0.6화소 이내, 가장자리 알파 255",
+                                             "rings/radius_valid_green_r64_line.png : 정수 화소 점선, 반경 오차 0.6화소 이내, 가장자리 알파 255",
+                                             "rings/radius_valid_green_r96_line.png : 정수 화소 점선, 반경 오차 0.6화소 이내, 가장자리 알파 255",
+                                             "trap_bomb_states_game_288x384.png : 모든 화소가 원본의 정확한 3×3 복제",
+                                             "dig_game_288x384_4f.png : 모든 화소가 원본의 정확한 3×3 복제",
+                                             "상태 5장 순서·지도 중심 (12,12)·공통 매설 기준선 y=120 일치",
+                                             "먼지 4장 순서·매설점 (16,26) → (48,120) 일치; 상승은 의도된 동작",
+                                             "모든 4배 보기는 최근접 확대와 화소 단위 일치"
+                                         ],
+                         "limitations":  [
+                                             "실제 지도 판정·포인터 연동은 Claude 연결 작업",
+                                             "Unity Play·실제 캡처·사용자 외형 승인 미수행"
+                                         ]
+                     },
+    "assets":  [
+                   {
+                       "file":  "map_base_current_tiles.png",
+                       "width":  768,
+                       "height":  576,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               0,
+                                               0,
+                                               767,
+                                               575
+                                           ],
+                       "nonzeroAlphaMin":  255,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  0,
+                       "sha256":  "5809d03e2b2fb39b39c0206df5bd8f4bfc6604d1121d10710d429449761cfec5"
+                   },
+                   {
+                       "file":  "mockup_free_placement.png",
+                       "width":  768,
+                       "height":  576,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               0,
+                                               0,
+                                               767,
+                                               575
+                                           ],
+                       "nonzeroAlphaMin":  255,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  0,
+                       "sha256":  "ef1408db0f320e5f7690ec18d2badabae89c4bad10fa99bc6744701db0db2edb"
+                   },
+                   {
+                       "file":  "effects/dig_0.png",
+                       "width":  32,
+                       "height":  32,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               12,
+                                               19,
+                                               20,
+                                               25
+                                           ],
+                       "nonzeroAlphaMin":  255,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  985,
+                       "sha256":  "71e91e931d0f13e2a354f063f9bceacbf4fc4c3ef3d8d28256767bf0957b3e46",
+                       "pivotTopLeft":  [
+                                            16,
+                                            26
+                                        ]
+                   },
+                   {
+                       "file":  "effects/dig_1.png",
+                       "width":  32,
+                       "height":  32,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               8,
+                                               13,
+                                               24,
+                                               24
+                                           ],
+                       "nonzeroAlphaMin":  224,
+                       "nonzeroAlphaMax":  224,
+                       "transparentPixels":  894,
+                       "sha256":  "e85a3ed4f6a6cd89cb98e3c332b81332a61f134828736f86327e9084a8aedf19",
+                       "pivotTopLeft":  [
+                                            16,
+                                            26
+                                        ]
+                   },
+                   {
+                       "file":  "effects/dig_2.png",
+                       "width":  32,
+                       "height":  32,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               3,
+                                               6,
+                                               28,
+                                               22
+                                           ],
+                       "nonzeroAlphaMin":  158,
+                       "nonzeroAlphaMax":  158,
+                       "transparentPixels":  750,
+                       "sha256":  "786775e5374d45284f8bd1e776009f17e932afc4d00225c3a092aa16609fb6da",
+                       "pivotTopLeft":  [
+                                            16,
+                                            26
+                                        ]
+                   },
+                   {
+                       "file":  "effects/dig_3.png",
+                       "width":  32,
+                       "height":  32,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               2,
+                                               3,
+                                               29,
+                                               20
+                                           ],
+                       "nonzeroAlphaMin":  76,
+                       "nonzeroAlphaMax":  76,
+                       "transparentPixels":  732,
+                       "sha256":  "5825b00a4501a8f4978e65eb7cf00f6e1d3e5853f727275bc2ca440afd6fdf86",
+                       "pivotTopLeft":  [
+                                            16,
+                                            26
+                                        ]
+                   },
+                   {
+                       "file":  "effects/dig_map_4f.png",
+                       "width":  128,
+                       "height":  32,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               12,
+                                               3,
+                                               125,
+                                               25
+                                           ],
+                       "nonzeroAlphaMin":  76,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  3361,
+                       "sha256":  "a61e5481463d10507eb0c34b3321d6a769c360279c4e73c08a13d5b37708301d"
+                   },
+                   {
+                       "file":  "icons/trap_bomb_armed.png",
+                       "width":  24,
+                       "height":  24,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               1,
+                                               1,
+                                               22,
+                                               22
+                                           ],
+                       "nonzeroAlphaMin":  255,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  249,
+                       "sha256":  "f57236a97e6e78e57aa8cf0131f4765af558ec5d392cbbc921d05132332a9b8c",
+                       "pivotTopLeft":  [
+                                            12,
+                                            12
+                                        ],
+                       "frameOrder":  [
+                                          "trap_bomb_armed"
+                                      ],
+                       "components8":  1
+                   },
+                   {
+                       "file":  "icons/trap_bomb_buried.png",
+                       "width":  24,
+                       "height":  24,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               1,
+                                               1,
+                                               22,
+                                               22
+                                           ],
+                       "nonzeroAlphaMin":  255,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  249,
+                       "sha256":  "a918334fdccf2109b2fe9698254f54b871134ac5cca0929d5f51f79fd6fef4e4",
+                       "pivotTopLeft":  [
+                                            12,
+                                            12
+                                        ],
+                       "frameOrder":  [
+                                          "trap_bomb_buried"
+                                      ],
+                       "components8":  1
+                   },
+                   {
+                       "file":  "icons/trap_bomb_ghost.png",
+                       "width":  24,
+                       "height":  24,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               1,
+                                               1,
+                                               22,
+                                               22
+                                           ],
+                       "nonzeroAlphaMin":  114,
+                       "nonzeroAlphaMax":  114,
+                       "transparentPixels":  249,
+                       "sha256":  "1385757b2027da3204ca1b33e2db6752082579dfe9aabf0504057bb79c256f05",
+                       "pivotTopLeft":  [
+                                            12,
+                                            12
+                                        ],
+                       "frameOrder":  [
+                                          "trap_bomb_ghost"
+                                      ],
+                       "components8":  1
+                   },
+                   {
+                       "file":  "icons/trap_bomb_ghost_invalid.png",
+                       "width":  24,
+                       "height":  24,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               1,
+                                               1,
+                                               22,
+                                               22
+                                           ],
+                       "nonzeroAlphaMin":  114,
+                       "nonzeroAlphaMax":  114,
+                       "transparentPixels":  249,
+                       "sha256":  "0e82879a6d3f06ea291edcdcc665701203f1bf7e1f8c625aa06eb08a3b03499b",
+                       "pivotTopLeft":  [
+                                            12,
+                                            12
+                                        ],
+                       "frameOrder":  [
+                                          "trap_bomb_ghost_invalid"
+                                      ],
+                       "components8":  1
+                   },
+                   {
+                       "file":  "icons/trap_bomb_selected.png",
+                       "width":  24,
+                       "height":  24,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               0,
+                                               0,
+                                               23,
+                                               23
+                                           ],
+                       "nonzeroAlphaMin":  255,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  213,
+                       "sha256":  "002757e328e6d75b010d969992ab31af7581c057ce61226b19722e2554e6571f",
+                       "pivotTopLeft":  [
+                                            12,
+                                            12
+                                        ],
+                       "frameOrder":  [
+                                          "trap_bomb_selected"
+                                      ],
+                       "components8":  5
+                   },
+                   {
+                       "file":  "previews/dig_map_4f_4x.png",
+                       "width":  512,
+                       "height":  128,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               48,
+                                               12,
+                                               503,
+                                               103
+                                           ],
+                       "nonzeroAlphaMin":  76,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  53776,
+                       "sha256":  "86c9e2abbb6048a1bf1930377995a40089d5b5fd2c89fa4f46a5ba024a4d7978"
+                   },
+                   {
+                       "file":  "previews/radius_invalid_4x.png",
+                       "width":  532,
+                       "height":  532,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               8,
+                                               8,
+                                               523,
+                                               523
+                                           ],
+                       "nonzeroAlphaMin":  8,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  75840,
+                       "sha256":  "14393acc3835d2f8b95d363418f2a02b6d82ddce5c90cd1456d8a7f7045f067a"
+                   },
+                   {
+                       "file":  "previews/radius_valid_brass_4x.png",
+                       "width":  532,
+                       "height":  532,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               8,
+                                               8,
+                                               523,
+                                               523
+                                           ],
+                       "nonzeroAlphaMin":  8,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  75840,
+                       "sha256":  "c0f04b290a6ec6b05d2929c0cb456cd9a076eee2e08bac26016b0f02e2ff7589"
+                   },
+                   {
+                       "file":  "previews/radius_valid_green_4x.png",
+                       "width":  532,
+                       "height":  532,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               8,
+                                               8,
+                                               523,
+                                               523
+                                           ],
+                       "nonzeroAlphaMin":  8,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  75840,
+                       "sha256":  "3ebea56f3b22bd2d9c75105956fa6752a273149f4388866e449d6aecc6c64743"
+                   },
+                   {
+                       "file":  "previews/trap_bomb_armed_4x.png",
+                       "width":  96,
+                       "height":  96,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               4,
+                                               4,
+                                               91,
+                                               91
+                                           ],
+                       "nonzeroAlphaMin":  255,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  3984,
+                       "sha256":  "ddfb767032d652e9f09a1299affeb7160e05f140f0530c46daef8bee6fa0393c"
+                   },
+                   {
+                       "file":  "previews/trap_bomb_buried_4x.png",
+                       "width":  96,
+                       "height":  96,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               4,
+                                               4,
+                                               91,
+                                               91
+                                           ],
+                       "nonzeroAlphaMin":  255,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  3984,
+                       "sha256":  "5fad841cdae0a4b26016c18a2d32a716692849531b7a9030200864d04024d4d0"
+                   },
+                   {
+                       "file":  "previews/trap_bomb_ghost_4x.png",
+                       "width":  96,
+                       "height":  96,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               4,
+                                               4,
+                                               91,
+                                               91
+                                           ],
+                       "nonzeroAlphaMin":  114,
+                       "nonzeroAlphaMax":  114,
+                       "transparentPixels":  3984,
+                       "sha256":  "242874b0bcc94c82ef4560da199c36de1029d01ddd14c013c935d908a874f182"
+                   },
+                   {
+                       "file":  "previews/trap_bomb_ghost_invalid_4x.png",
+                       "width":  96,
+                       "height":  96,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               4,
+                                               4,
+                                               91,
+                                               91
+                                           ],
+                       "nonzeroAlphaMin":  114,
+                       "nonzeroAlphaMax":  114,
+                       "transparentPixels":  3984,
+                       "sha256":  "29d991c8f1bbaca8d2e90ea8a344045f445e16f7e0572a5fc445f79fcc13332a"
+                   },
+                   {
+                       "file":  "previews/trap_bomb_map_states_4x.png",
+                       "width":  480,
+                       "height":  96,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               4,
+                                               0,
+                                               475,
+                                               95
+                                           ],
+                       "nonzeroAlphaMin":  114,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  19344,
+                       "sha256":  "227d8729a5ecff2435824e9e85a287bf00dc2c7b346323a1311f894b6b5564ff"
+                   },
+                   {
+                       "file":  "previews/trap_bomb_selected_4x.png",
+                       "width":  96,
+                       "height":  96,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               0,
+                                               0,
+                                               95,
+                                               95
+                                           ],
+                       "nonzeroAlphaMin":  255,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  3408,
+                       "sha256":  "d4b66b37bf41dbbae4db8d7bb1f59e3b3ec96d8eab57f352ed07ed9df68c5676"
+                   },
+                   {
+                       "file":  "rings/radius_invalid_r128_combined.png",
+                       "width":  261,
+                       "height":  261,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               2,
+                                               2,
+                                               258,
+                                               258
+                                           ],
+                       "nonzeroAlphaMin":  8,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  16477,
+                       "sha256":  "85efd5448795c6460ebaa398e05f5bc8aac58b70af38ff11d72c76c827306934",
+                       "pivotTopLeft":  [
+                                            130,
+                                            130
+                                        ],
+                       "radiusPixels":  128,
+                       "layer":  "combined"
+                   },
+                   {
+                       "file":  "rings/radius_invalid_r128_fill.png",
+                       "width":  261,
+                       "height":  261,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               3,
+                                               3,
+                                               257,
+                                               257
+                                           ],
+                       "nonzeroAlphaMin":  8,
+                       "nonzeroAlphaMax":  29,
+                       "transparentPixels":  16692,
+                       "sha256":  "e32a7650084d81a6b5431a5620e68e2c99eba5ad58652ee13a1fddc87a50e6c9",
+                       "pivotTopLeft":  [
+                                            130,
+                                            130
+                                        ],
+                       "radiusPixels":  128,
+                       "layer":  "fill"
+                   },
+                   {
+                       "file":  "rings/radius_invalid_r128_line.png",
+                       "width":  261,
+                       "height":  261,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               2,
+                                               2,
+                                               258,
+                                               258
+                                           ],
+                       "nonzeroAlphaMin":  255,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  67758,
+                       "sha256":  "6a4abe756f5c587a88ea05a32dc6a4da3a4827644a2557dac8400186bde9c067",
+                       "pivotTopLeft":  [
+                                            130,
+                                            130
+                                        ],
+                       "radiusPixels":  128,
+                       "layer":  "line"
+                   },
+                   {
+                       "file":  "rings/radius_invalid_r32_combined.png",
+                       "width":  69,
+                       "height":  69,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               2,
+                                               2,
+                                               66,
+                                               66
+                                           ],
+                       "nonzeroAlphaMin":  8,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  1506,
+                       "sha256":  "6a5cbb4ba6a1579e76d794901d770688c86bd85dc12c9833942f78ad38e1b363",
+                       "pivotTopLeft":  [
+                                            34,
+                                            34
+                                        ],
+                       "radiusPixels":  32,
+                       "layer":  "combined"
+                   },
+                   {
+                       "file":  "rings/radius_invalid_r32_fill.png",
+                       "width":  69,
+                       "height":  69,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               3,
+                                               3,
+                                               65,
+                                               65
+                                           ],
+                       "nonzeroAlphaMin":  8,
+                       "nonzeroAlphaMax":  29,
+                       "transparentPixels":  1556,
+                       "sha256":  "1514a5d6fc78142ebd752c15b6ec34a18157677723a594cae9f6fd0c31c6faf8",
+                       "pivotTopLeft":  [
+                                            34,
+                                            34
+                                        ],
+                       "radiusPixels":  32,
+                       "layer":  "fill"
+                   },
+                   {
+                       "file":  "rings/radius_invalid_r32_line.png",
+                       "width":  69,
+                       "height":  69,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               2,
+                                               2,
+                                               66,
+                                               66
+                                           ],
+                       "nonzeroAlphaMin":  255,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  4671,
+                       "sha256":  "76ffedb7b16bdeb27e20cf1444248ae7aa5db46c4568176131b4177b920f0c13",
+                       "pivotTopLeft":  [
+                                            34,
+                                            34
+                                        ],
+                       "radiusPixels":  32,
+                       "layer":  "line"
+                   },
+                   {
+                       "file":  "rings/radius_invalid_r64_combined.png",
+                       "width":  133,
+                       "height":  133,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               2,
+                                               2,
+                                               130,
+                                               130
+                                           ],
+                       "nonzeroAlphaMin":  8,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  4740,
+                       "sha256":  "0286b4483505bfb09b01afa1d12f61d53c91b4a108d06038c71bf88ea237f008",
+                       "pivotTopLeft":  [
+                                            66,
+                                            66
+                                        ],
+                       "radiusPixels":  64,
+                       "layer":  "combined"
+                   },
+                   {
+                       "file":  "rings/radius_invalid_r64_fill.png",
+                       "width":  133,
+                       "height":  133,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               3,
+                                               3,
+                                               129,
+                                               129
+                                           ],
+                       "nonzeroAlphaMin":  8,
+                       "nonzeroAlphaMax":  29,
+                       "transparentPixels":  4840,
+                       "sha256":  "ec4560c969f186b87f9b98b66d6baca5d144ed94570b5d8742f7c682d77d6a72",
+                       "pivotTopLeft":  [
+                                            66,
+                                            66
+                                        ],
+                       "radiusPixels":  64,
+                       "layer":  "fill"
+                   },
+                   {
+                       "file":  "rings/radius_invalid_r64_line.png",
+                       "width":  133,
+                       "height":  133,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               2,
+                                               2,
+                                               130,
+                                               130
+                                           ],
+                       "nonzeroAlphaMin":  255,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  17500,
+                       "sha256":  "cb01c7027e2412210552decad0c4b51d93475a2ea26fa9b90d720817a7c0076f",
+                       "pivotTopLeft":  [
+                                            66,
+                                            66
+                                        ],
+                       "radiusPixels":  64,
+                       "layer":  "line"
+                   },
+                   {
+                       "file":  "rings/radius_invalid_r96_combined.png",
+                       "width":  197,
+                       "height":  197,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               2,
+                                               2,
+                                               194,
+                                               194
+                                           ],
+                       "nonzeroAlphaMin":  8,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  9732,
+                       "sha256":  "2397f07b4017db3926d72e019b24d379ce288e908fb1289f1e23832da7a3adef",
+                       "pivotTopLeft":  [
+                                            98,
+                                            98
+                                        ],
+                       "radiusPixels":  96,
+                       "layer":  "combined"
+                   },
+                   {
+                       "file":  "rings/radius_invalid_r96_fill.png",
+                       "width":  197,
+                       "height":  197,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               3,
+                                               3,
+                                               193,
+                                               193
+                                           ],
+                       "nonzeroAlphaMin":  8,
+                       "nonzeroAlphaMax":  29,
+                       "transparentPixels":  9896,
+                       "sha256":  "e7d5bbd07fa71916937e9aaab1c980323a3b353dfad4ac39a64785c1d6a0c206",
+                       "pivotTopLeft":  [
+                                            98,
+                                            98
+                                        ],
+                       "radiusPixels":  96,
+                       "layer":  "fill"
+                   },
+                   {
+                       "file":  "rings/radius_invalid_r96_line.png",
+                       "width":  197,
+                       "height":  197,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               2,
+                                               2,
+                                               194,
+                                               194
+                                           ],
+                       "nonzeroAlphaMin":  255,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  38542,
+                       "sha256":  "f27c4fa5030e6bd654dd6aba47724cb28a6e1956f7f6b2ae2b574f9db62d9ea1",
+                       "pivotTopLeft":  [
+                                            98,
+                                            98
+                                        ],
+                       "radiusPixels":  96,
+                       "layer":  "line"
+                   },
+                   {
+                       "file":  "rings/radius_valid_brass_r128_combined.png",
+                       "width":  261,
+                       "height":  261,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               2,
+                                               2,
+                                               258,
+                                               258
+                                           ],
+                       "nonzeroAlphaMin":  8,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  16477,
+                       "sha256":  "cd5cf64b50c3907d3f0b986c8d29e219633df3653a33de0c17fa9b32542297a3",
+                       "pivotTopLeft":  [
+                                            130,
+                                            130
+                                        ],
+                       "radiusPixels":  128,
+                       "layer":  "combined"
+                   },
+                   {
+                       "file":  "rings/radius_valid_brass_r128_fill.png",
+                       "width":  261,
+                       "height":  261,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               3,
+                                               3,
+                                               257,
+                                               257
+                                           ],
+                       "nonzeroAlphaMin":  8,
+                       "nonzeroAlphaMax":  29,
+                       "transparentPixels":  16692,
+                       "sha256":  "bab8b5bd2ac15a6173763b5048de773981d2b8e9ce7e3fa15e9ad0311c7a5d6b",
+                       "pivotTopLeft":  [
+                                            130,
+                                            130
+                                        ],
+                       "radiusPixels":  128,
+                       "layer":  "fill"
+                   },
+                   {
+                       "file":  "rings/radius_valid_brass_r128_line.png",
+                       "width":  261,
+                       "height":  261,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               2,
+                                               2,
+                                               258,
+                                               258
+                                           ],
+                       "nonzeroAlphaMin":  255,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  67758,
+                       "sha256":  "cdedcad2de3f78b223355cafc6de350f5d1ff022e97dbc76349c5d540b675dd8",
+                       "pivotTopLeft":  [
+                                            130,
+                                            130
+                                        ],
+                       "radiusPixels":  128,
+                       "layer":  "line"
+                   },
+                   {
+                       "file":  "rings/radius_valid_brass_r32_combined.png",
+                       "width":  69,
+                       "height":  69,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               2,
+                                               2,
+                                               66,
+                                               66
+                                           ],
+                       "nonzeroAlphaMin":  8,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  1506,
+                       "sha256":  "4b8b1cfc94ee50a00035b1bf9b6f4f5063050764aad6ff39621f462d67c9c509",
+                       "pivotTopLeft":  [
+                                            34,
+                                            34
+                                        ],
+                       "radiusPixels":  32,
+                       "layer":  "combined"
+                   },
+                   {
+                       "file":  "rings/radius_valid_brass_r32_fill.png",
+                       "width":  69,
+                       "height":  69,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               3,
+                                               3,
+                                               65,
+                                               65
+                                           ],
+                       "nonzeroAlphaMin":  8,
+                       "nonzeroAlphaMax":  29,
+                       "transparentPixels":  1556,
+                       "sha256":  "b6510232b17ab09ccd8c5481bc810b2f574dd81b7462deefc160f9c1639c966c",
+                       "pivotTopLeft":  [
+                                            34,
+                                            34
+                                        ],
+                       "radiusPixels":  32,
+                       "layer":  "fill"
+                   },
+                   {
+                       "file":  "rings/radius_valid_brass_r32_line.png",
+                       "width":  69,
+                       "height":  69,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               2,
+                                               2,
+                                               66,
+                                               66
+                                           ],
+                       "nonzeroAlphaMin":  255,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  4671,
+                       "sha256":  "131e0ca001ac6da9b2e04c2f14df344dc023081987768dc74255586faa47d371",
+                       "pivotTopLeft":  [
+                                            34,
+                                            34
+                                        ],
+                       "radiusPixels":  32,
+                       "layer":  "line"
+                   },
+                   {
+                       "file":  "rings/radius_valid_brass_r64_combined.png",
+                       "width":  133,
+                       "height":  133,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               2,
+                                               2,
+                                               130,
+                                               130
+                                           ],
+                       "nonzeroAlphaMin":  8,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  4740,
+                       "sha256":  "939ac1922c04c2d065342ca8afa75a29bd48a8b348e0243607dde8b788263be7",
+                       "pivotTopLeft":  [
+                                            66,
+                                            66
+                                        ],
+                       "radiusPixels":  64,
+                       "layer":  "combined"
+                   },
+                   {
+                       "file":  "rings/radius_valid_brass_r64_fill.png",
+                       "width":  133,
+                       "height":  133,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               3,
+                                               3,
+                                               129,
+                                               129
+                                           ],
+                       "nonzeroAlphaMin":  8,
+                       "nonzeroAlphaMax":  29,
+                       "transparentPixels":  4840,
+                       "sha256":  "f16f180ad0de96c89ea7681800ca401e9ae2b62768d45964dd2f4c39245cd53d",
+                       "pivotTopLeft":  [
+                                            66,
+                                            66
+                                        ],
+                       "radiusPixels":  64,
+                       "layer":  "fill"
+                   },
+                   {
+                       "file":  "rings/radius_valid_brass_r64_line.png",
+                       "width":  133,
+                       "height":  133,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               2,
+                                               2,
+                                               130,
+                                               130
+                                           ],
+                       "nonzeroAlphaMin":  255,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  17500,
+                       "sha256":  "ff10e79a434195e8580983c53a2e90d57596006eb33b86428713c550a741da07",
+                       "pivotTopLeft":  [
+                                            66,
+                                            66
+                                        ],
+                       "radiusPixels":  64,
+                       "layer":  "line"
+                   },
+                   {
+                       "file":  "rings/radius_valid_brass_r96_combined.png",
+                       "width":  197,
+                       "height":  197,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               2,
+                                               2,
+                                               194,
+                                               194
+                                           ],
+                       "nonzeroAlphaMin":  8,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  9732,
+                       "sha256":  "a8ac7ddae82ce8147e38d482d6158819c1b31616999661234419bb70b19f7fa7",
+                       "pivotTopLeft":  [
+                                            98,
+                                            98
+                                        ],
+                       "radiusPixels":  96,
+                       "layer":  "combined"
+                   },
+                   {
+                       "file":  "rings/radius_valid_brass_r96_fill.png",
+                       "width":  197,
+                       "height":  197,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               3,
+                                               3,
+                                               193,
+                                               193
+                                           ],
+                       "nonzeroAlphaMin":  8,
+                       "nonzeroAlphaMax":  29,
+                       "transparentPixels":  9896,
+                       "sha256":  "6d713adb9be691548cbe35bec739013634fc5247345605e5d3ac1d4f5b223edf",
+                       "pivotTopLeft":  [
+                                            98,
+                                            98
+                                        ],
+                       "radiusPixels":  96,
+                       "layer":  "fill"
+                   },
+                   {
+                       "file":  "rings/radius_valid_brass_r96_line.png",
+                       "width":  197,
+                       "height":  197,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               2,
+                                               2,
+                                               194,
+                                               194
+                                           ],
+                       "nonzeroAlphaMin":  255,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  38542,
+                       "sha256":  "535c51aa267aa520e412110d90dbdeaee25ea2e4c45ea6eb6687e93620c47a4a",
+                       "pivotTopLeft":  [
+                                            98,
+                                            98
+                                        ],
+                       "radiusPixels":  96,
+                       "layer":  "line"
+                   },
+                   {
+                       "file":  "rings/radius_valid_green_r128_combined.png",
+                       "width":  261,
+                       "height":  261,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               2,
+                                               2,
+                                               258,
+                                               258
+                                           ],
+                       "nonzeroAlphaMin":  8,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  16477,
+                       "sha256":  "c2572c7c0ee688ef376d496c7f0b26b9d93f7cbbef804fa4b7bdc44eb5c4fa70",
+                       "pivotTopLeft":  [
+                                            130,
+                                            130
+                                        ],
+                       "radiusPixels":  128,
+                       "layer":  "combined"
+                   },
+                   {
+                       "file":  "rings/radius_valid_green_r128_fill.png",
+                       "width":  261,
+                       "height":  261,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               3,
+                                               3,
+                                               257,
+                                               257
+                                           ],
+                       "nonzeroAlphaMin":  8,
+                       "nonzeroAlphaMax":  29,
+                       "transparentPixels":  16692,
+                       "sha256":  "fb7378c8436e69c0f7044cbf304ab973bc46a5182eebbbc5d1648cb443e63d8d",
+                       "pivotTopLeft":  [
+                                            130,
+                                            130
+                                        ],
+                       "radiusPixels":  128,
+                       "layer":  "fill"
+                   },
+                   {
+                       "file":  "rings/radius_valid_green_r128_line.png",
+                       "width":  261,
+                       "height":  261,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               2,
+                                               2,
+                                               258,
+                                               258
+                                           ],
+                       "nonzeroAlphaMin":  255,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  67758,
+                       "sha256":  "33c6f260e819485521bd2eced9e59ec2982ee4ac53c6699cbf969110fcb26ae0",
+                       "pivotTopLeft":  [
+                                            130,
+                                            130
+                                        ],
+                       "radiusPixels":  128,
+                       "layer":  "line"
+                   },
+                   {
+                       "file":  "rings/radius_valid_green_r32_combined.png",
+                       "width":  69,
+                       "height":  69,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               2,
+                                               2,
+                                               66,
+                                               66
+                                           ],
+                       "nonzeroAlphaMin":  8,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  1506,
+                       "sha256":  "29a01df41b7aacea4e125373b617c2372187f0e7ec71fcfb17ca64a2543b7b96",
+                       "pivotTopLeft":  [
+                                            34,
+                                            34
+                                        ],
+                       "radiusPixels":  32,
+                       "layer":  "combined"
+                   },
+                   {
+                       "file":  "rings/radius_valid_green_r32_fill.png",
+                       "width":  69,
+                       "height":  69,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               3,
+                                               3,
+                                               65,
+                                               65
+                                           ],
+                       "nonzeroAlphaMin":  8,
+                       "nonzeroAlphaMax":  29,
+                       "transparentPixels":  1556,
+                       "sha256":  "f9d985358f55155c40135da5705816d636da1e6fb8c028b938a1d97e6b15f291",
+                       "pivotTopLeft":  [
+                                            34,
+                                            34
+                                        ],
+                       "radiusPixels":  32,
+                       "layer":  "fill"
+                   },
+                   {
+                       "file":  "rings/radius_valid_green_r32_line.png",
+                       "width":  69,
+                       "height":  69,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               2,
+                                               2,
+                                               66,
+                                               66
+                                           ],
+                       "nonzeroAlphaMin":  255,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  4671,
+                       "sha256":  "e6349915a76522607d5ccc5bb85fdc9ae57e136a956d912b097d519d19e08596",
+                       "pivotTopLeft":  [
+                                            34,
+                                            34
+                                        ],
+                       "radiusPixels":  32,
+                       "layer":  "line"
+                   },
+                   {
+                       "file":  "rings/radius_valid_green_r64_combined.png",
+                       "width":  133,
+                       "height":  133,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               2,
+                                               2,
+                                               130,
+                                               130
+                                           ],
+                       "nonzeroAlphaMin":  8,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  4740,
+                       "sha256":  "099a6f5fa046ba618d7c77e9f3dcf38cf36a890a0f359959f07efcac68a52878",
+                       "pivotTopLeft":  [
+                                            66,
+                                            66
+                                        ],
+                       "radiusPixels":  64,
+                       "layer":  "combined"
+                   },
+                   {
+                       "file":  "rings/radius_valid_green_r64_fill.png",
+                       "width":  133,
+                       "height":  133,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               3,
+                                               3,
+                                               129,
+                                               129
+                                           ],
+                       "nonzeroAlphaMin":  8,
+                       "nonzeroAlphaMax":  29,
+                       "transparentPixels":  4840,
+                       "sha256":  "4d2a55830145e7e58ed0fce728de55fd68549cc62d0c1dc2bfdb1526aa87cd06",
+                       "pivotTopLeft":  [
+                                            66,
+                                            66
+                                        ],
+                       "radiusPixels":  64,
+                       "layer":  "fill"
+                   },
+                   {
+                       "file":  "rings/radius_valid_green_r64_line.png",
+                       "width":  133,
+                       "height":  133,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               2,
+                                               2,
+                                               130,
+                                               130
+                                           ],
+                       "nonzeroAlphaMin":  255,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  17500,
+                       "sha256":  "4bc76f7933980153be3613b9156aeb5bc77057ad4b72c74d436c2ce4be7115c0",
+                       "pivotTopLeft":  [
+                                            66,
+                                            66
+                                        ],
+                       "radiusPixels":  64,
+                       "layer":  "line"
+                   },
+                   {
+                       "file":  "rings/radius_valid_green_r96_combined.png",
+                       "width":  197,
+                       "height":  197,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               2,
+                                               2,
+                                               194,
+                                               194
+                                           ],
+                       "nonzeroAlphaMin":  8,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  9732,
+                       "sha256":  "c0d06d02742c34ba36cb4e89bd16516792e7b387f47362677d38681b1c07fec7",
+                       "pivotTopLeft":  [
+                                            98,
+                                            98
+                                        ],
+                       "radiusPixels":  96,
+                       "layer":  "combined"
+                   },
+                   {
+                       "file":  "rings/radius_valid_green_r96_fill.png",
+                       "width":  197,
+                       "height":  197,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               3,
+                                               3,
+                                               193,
+                                               193
+                                           ],
+                       "nonzeroAlphaMin":  8,
+                       "nonzeroAlphaMax":  29,
+                       "transparentPixels":  9896,
+                       "sha256":  "df2363bfe72fc1faa2004bb8a3139355bc573f43003fc01f00d27718456ca7f0",
+                       "pivotTopLeft":  [
+                                            98,
+                                            98
+                                        ],
+                       "radiusPixels":  96,
+                       "layer":  "fill"
+                   },
+                   {
+                       "file":  "rings/radius_valid_green_r96_line.png",
+                       "width":  197,
+                       "height":  197,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               2,
+                                               2,
+                                               194,
+                                               194
+                                           ],
+                       "nonzeroAlphaMin":  255,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  38542,
+                       "sha256":  "34680f803c8c661e9097c05d965fcb096afe34b7ee4f38dce7561d48fa34d99f",
+                       "pivotTopLeft":  [
+                                            98,
+                                            98
+                                        ],
+                       "radiusPixels":  96,
+                       "layer":  "line"
+                   },
+                   {
+                       "file":  "sheets/dig_game_288x384_4f.png",
+                       "width":  1152,
+                       "height":  384,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               132,
+                                               291,
+                                               1049,
+                                               359
+                                           ],
+                       "nonzeroAlphaMin":  76,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  435753,
+                       "sha256":  "d1ba2da5d1177f3e61cf622c21373e8daba7febcc693caa28f4a00749f00ca6d"
+                   },
+                   {
+                       "file":  "sheets/dig_native_96x128_4f.png",
+                       "width":  384,
+                       "height":  128,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               44,
+                                               97,
+                                               349,
+                                               119
+                                           ],
+                       "nonzeroAlphaMin":  76,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  48417,
+                       "sha256":  "e406770333e2344563bae22dfb2aa5de9ac7325469c000808f89629d73e4ed28"
+                   },
+                   {
+                       "file":  "sheets/trap_bomb_map_states.png",
+                       "width":  120,
+                       "height":  24,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               1,
+                                               0,
+                                               118,
+                                               23
+                                           ],
+                       "nonzeroAlphaMin":  114,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  1209,
+                       "sha256":  "6cee1c2f77a97f92a72b9087de9f40117a73ec9afed3cf48b573b7d066af7096"
+                   },
+                   {
+                       "file":  "sheets/trap_bomb_states_game_288x384.png",
+                       "width":  1440,
+                       "height":  384,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               111,
+                                               291,
+                                               1328,
+                                               362
+                                           ],
+                       "nonzeroAlphaMin":  114,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  537921,
+                       "sha256":  "bc03f7d258463a74d573bf577c373047ffb44f690e2bb320fe9152aeeb6f3a68"
+                   },
+                   {
+                       "file":  "sheets/trap_bomb_states_native_96x128.png",
+                       "width":  480,
+                       "height":  128,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               37,
+                                               97,
+                                               442,
+                                               120
+                                           ],
+                       "nonzeroAlphaMin":  114,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  59769,
+                       "sha256":  "8c9c39f3f382434c6b748796772df80dbb07fb13fe293d72ec4f635a6b8d20a3"
+                   },
+                   {
+                       "file":  "source/generated.png",
+                       "width":  1774,
+                       "height":  887,
+                       "format":  "RGBA PNG",
+                       "boundsInclusive":  [
+                                               65,
+                                               88,
+                                               1711,
+                                               844
+                                           ],
+                       "nonzeroAlphaMin":  1,
+                       "nonzeroAlphaMax":  255,
+                       "transparentPixels":  1275230,
+                       "sha256":  "0ad1ee36b1542a16fd52c236339a9b1dc58b49c07502596b0b3513815b57d44a"
+                   }
+               ]
+}
