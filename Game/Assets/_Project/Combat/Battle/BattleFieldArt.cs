@@ -628,30 +628,31 @@ namespace HumanLastRampart.Combat.Battle
 
         readonly HashSet<int> freeWallCells = new HashSet<int>();
 
-        // 자유 배치 토벽 (사용자 2026-10-20): 조각 가운데에 돌린 방향의 판 한 장. 금 간 정도 = 덮은 칸 중 가장 상한 칸,
-        // 한 칸이라도 뚫리면 무너진 더미
+        // 칸 두 개 토벽 (사용자 2026-10-20 #12): 칸마다 조각 방향(0·45·90·135도)으로 돌린 판 한 장. 칸마다 금 간 정도·무너짐을 따로.
+        // 대각선은 칸 대각선(7.07m)을 덮게 판을 조금 크게 — 이음 조각 그림(K-087)이 오면 바꾼다
+        const float DiagonalBoardScale = 1.26f;
+
         void RefreshFreeWalls(TerrainLayout shape, float shade)
         {
             foreach (var piece in shape.FreeWalls)
             {
                 int orient = Mathf.RoundToInt(Mathf.Repeat(piece.Rotation, 180f) / 45f) % 4;
+                bool diagonal = orient == 1 || orient == 3;
                 orient = orient == 0 ? 0 : orient == 2 ? 1 : orient == 1 ? 2 : 3;
-                float health = 1f;
-                bool broken = false;
                 foreach (int c in piece.Cells)
                 {
-                    if (sim.TerrainKindAt(c) == TerrainCell.Breach) broken = true;
-                    health = Mathf.Min(health, sim.EarthWallHealth(c));
+                    bool broken = sim.TerrainKindAt(c) == TerrainCell.Breach;
+                    float health = sim.EarthWallHealth(c);
+                    int stage = health < CollapsedBelow ? 2 : health < CrackedBelow ? 1 : 0;
+                    Kind kind = broken ? newRubble[orient] ?? newRubble[0] : wallStages[stage, orient] ?? wallStages[stage, 0];
+                    if (kind == null || kind.Count >= kind.Instances.Length) continue;
+                    Vector2 p = shape.Center(c);
+                    kind.Instances[kind.Count++] = new PerfLabInstance
+                    {
+                        PosFrame = new float4(p.x, 0f, p.y, 0f),
+                        TintSize = new float4(shade, shade, shade, K068BoardHeight * (diagonal ? DiagonalBoardScale : 1f)),
+                    };
                 }
-
-                int stage = health < CollapsedBelow ? 2 : health < CrackedBelow ? 1 : 0;
-                Kind kind = broken ? newRubble[orient] ?? newRubble[0] : wallStages[stage, orient] ?? wallStages[stage, 0];
-                if (kind == null || kind.Count >= kind.Instances.Length) continue;
-                kind.Instances[kind.Count++] = new PerfLabInstance
-                {
-                    PosFrame = new float4(piece.Center.x, 0f, piece.Center.y, 0f),
-                    TintSize = new float4(shade, shade, shade, K068BoardHeight),
-                };
             }
         }
 

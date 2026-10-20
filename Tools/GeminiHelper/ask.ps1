@@ -20,16 +20,23 @@ if (-not $tool) { Write-Output "안티그래비티 명령줄 도구(agy)가 없�
 
 $rules = Get-Content -Raw -Encoding UTF8 (Join-Path $here 'RULES.md')
 $body = Get-Content -Raw -Encoding UTF8 $Task
-$prompt = $rules + "`n`n---`n`n" + $body
-$args = @('-p', $prompt)
+# 긴 지시를 명령줄에 그대로 넘기면 윈도우 파워셸 5.1이 따옴표·줄바꿈을 깨뜨린다(첫 실행 실패, 2026-10-20) →
+# 저장소 안 임시 파일(.agy/)에 적고 "이 파일을 읽고 따르라"는 짧은 한 줄만 넘긴다
+$work = Join-Path $repo '.agy'
+New-Item -ItemType Directory -Force $work | Out-Null
+$taskCopy = Join-Path $work ("task_" + (Get-Date -Format 'yyyyMMdd_HHmmss') + ".md")
+[IO.File]::WriteAllText($taskCopy, ($rules + "`n`n---`n`n" + $body), (New-Object Text.UTF8Encoding $false))
+$rel = $taskCopy.Substring($repo.Length + 1).Replace('\', '/')
+$prompt = "Read the file $rel in the current directory and follow its instructions exactly. Reply only with the requested output."
+$argv = @('-p', $prompt)   # $args는 파워셸 예약 변수라 쓰지 않는다
 # agy 헤드리스: 사람에게 묻는 창이 없다 — 허가가 필요한 도구(파일 쓰기·명령)는 기본 'request-review'라 실행되지 않는다.
 # --dangerously-skip-permissions 는 절대 쓰지 않는다. --sandbox 로 터미널 제한도 켠다
-if ($tool -eq 'agy') { $args += @('--sandbox', '--output-format', 'text', '--print-timeout', '10m'); if ($Model) { $args += @('--model', $Model) } }
-elseif ($Model) { $args += @('-m', $Model) }
+if ($tool -eq 'agy') { $argv += @('--sandbox', '--output-format', 'text', '--print-timeout', '10m'); if ($Model) { $argv += @('--model', $Model) } }
+elseif ($Model) { $argv += @('-m', $Model) }
 
 $watch = [Diagnostics.Stopwatch]::StartNew()
 Push-Location $repo
-try { $text = (& $tool @args 2>&1 | Out-String) } finally { Pop-Location }   # gemini는 .ps1 판이 실행 정책에 막혀 .cmd 판으로
+try { $text = (& $tool @argv 2>&1 | Out-String) } finally { Pop-Location }   # gemini는 .ps1 판이 실행 정책에 막혀 .cmd 판으로
 $watch.Stop()
 
 $quota = $text -match 'RESOURCE_EXHAUSTED|quota|429|rate limit|Quota exceeded'

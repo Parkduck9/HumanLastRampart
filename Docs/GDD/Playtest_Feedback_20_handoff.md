@@ -15,7 +15,7 @@ Take the first item in the Progress table that is not DONE, follow the work loop
 
 ## Starting Codex on ASSET cards (credits reset; run in two terminals)
 
-**PAUSED (2026-10-20 15:26, M-CX-124):** the user cancelled new drawing runs for now. Do NOT run these until the user says so again. Character reference = `Docs/References/codex_hero_octopath_review_v6/generated.png` (D-080 correction, D-081).
+**PAUSED (2026-10-20 15:26, M-CX-124)** → **RESUMED 2026-10-20 ~16:10** (user: "코덱스 이제 일 나눠서 진행시켜"). Claude started line A `K-087,K-086,K-080,K-081` and line B `K-089,K-088,K-076,K-084`. If a line stopped, rerun only the cards without CARD_RESULT.md. Character reference = `Docs/References/codex_hero_octopath_review_v6/generated.png` (D-080 correction, D-081).
 
 ```
 powershell -NoProfile -ExecutionPolicy Bypass -File Tools\CodexCards\run-cards.ps1 -Cards K-086,K-080,K-087,K-081

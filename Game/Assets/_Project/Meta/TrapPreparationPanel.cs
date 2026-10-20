@@ -165,10 +165,10 @@ namespace HumanLastRampart.Meta
             Ui.Stretch(input.rectTransform);
             freeInput = input.gameObject;
             var placer = freeInput.AddComponent<FreePlacementInput>();
-            placer.Moved = local => { hoverMeters = Snap(local / mapScale); PaintGhost(); };
+            placer.Moved = local => { hoverMeters = local / mapScale; PaintGhost(); };
             placer.Left = () => { hoverMeters = null; PaintGhost(); };
             placer.Rotated = () => { freeRotation = Mathf.Repeat(freeRotation + TerrainRules.FreeRotateStep, 180f); };
-            placer.Placed = local => PlaceFree(Snap(local / mapScale));
+            placer.Placed = local => PlaceFree(TerrainRules.PieceAnchor(session.Layout, local / mapScale, freeRotation));
             ghostCover = Layer(input.rectTransform, "Ghost Cover");
             ghost = Ui.Image(freeInput.transform, "Ghost", GhostOk);
             ghost.raycastTarget = false;
@@ -185,22 +185,23 @@ namespace HumanLastRampart.Meta
             return rect;
         }
 
-        static Vector2 Snap(Vector2 meters) => new Vector2(Mathf.Round(meters.x * 2f) / 2f, Mathf.Round(meters.y * 2f) / 2f);
-
         TerrainWorkKind FreeKind => action == TerrainAction.Hill ? TerrainWorkKind.Hill : TerrainWorkKind.EarthWall;
 
-        // 조각 하나의 그림 (지도 위 = 북): 토벽 = 길이 6m 판(그림 두께는 3m로 보이게), 언덕 = 둥근 둔덕
-        // 지도 축척이 작아(1m ≈ 5화소) 토벽 그림은 가는 줄로만 보인다 → 토벽은 흙색 막대(두께 최소 8화소)로 그린다
-        void DressPiece(Image image, TerrainWorkKind kind, Vector2 meters, float rotation)
+        // 조각 하나의 그림 (지도 위 = 북): 두 칸 가운데를 잇는 막대 — 칸 끝까지 닿게(직선 10m, 대각선 14m).
+        // 토벽 = 흙색 막대(지도 축척이 작아 두께 최소 8화소), 언덕 = 칸 폭 둔덕 그림을 길게. anchor = 기준 칸 가운데
+        void DressPiece(Image image, TerrainWorkKind kind, Vector2 anchor, float rotation)
         {
             bool wall = kind == TerrainWorkKind.EarthWall;
+            TerrainLayout shape = session.Layout;
+            Vector2Int step = TerrainRules.PieceStep(rotation);
+            bool diagonal = step.x != 0 && step.y != 0;
+            float length = shape.CellSize * 2f * (diagonal ? 1.4142f : 1f);
             image.sprite = wall ? null : raisedHillIcon;
             var rect = image.rectTransform;
             rect.anchorMin = rect.anchorMax = rect.pivot = new Vector2(0.5f, 0.5f);
-            rect.anchoredPosition = meters * mapScale;
-            rect.sizeDelta = wall ? new Vector2(TerrainRules.FreeWallLength * mapScale, Mathf.Max(8f, TerrainRules.FreeWallThickness * mapScale))
-                                  : Vector2.one * TerrainRules.HillPieceRadius * 2f * mapScale;
-            rect.localRotation = Quaternion.Euler(0f, 0f, wall ? rotation : 0f);
+            rect.anchoredPosition = TerrainRules.PieceCenter(shape, anchor, rotation) * mapScale;
+            rect.sizeDelta = new Vector2(length * mapScale, wall ? Mathf.Max(8f, TerrainRules.FreeWallThickness * mapScale) : shape.CellSize * mapScale);
+            rect.localRotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(step.y, step.x) * Mathf.Rad2Deg);
         }
 
         static readonly Color WallBar = new Color(0.52f, 0.34f, 0.17f), CoverTint = new Color(0.55f, 0.36f, 0.18f, 0.35f);
@@ -229,7 +230,7 @@ namespace HumanLastRampart.Meta
             ghost.gameObject.SetActive(show);
             ghostCover.gameObject.SetActive(show);
             if (!show) return;
-            Vector2 p = hoverMeters.Value;
+            Vector2 p = TerrainRules.PieceAnchor(session.Layout, hoverMeters.Value, freeRotation);   // 칸에 붙는다
             DressPiece(ghost, FreeKind, p, freeRotation);
             bool ok = works.CanTarget(action, TerrainRules.FreeId(p.x, p.y, freeRotation), picked);
             ghost.color = ok ? GhostOk : GhostBad;
@@ -251,10 +252,11 @@ namespace HumanLastRampart.Meta
         // 왼쪽 누르기: 고른 조각을 다시 누르면 빼고, 아니면 놓을 수 있을 때 고른다
         void PlaceFree(Vector2 p)
         {
+            // p = 기준 칸 가운데. 고른 조각과 같은 기준 칸이면 뺀다
             for (int k = picked.Count - 1; k >= 0; k--)
             {
                 if (!TerrainRules.TryParseFree(picked[k], out float x, out float z, out _)) continue;
-                if ((new Vector2(x, z) - p).sqrMagnitude <= 1.5f * 1.5f) { picked.RemoveAt(k); message = null; Render(); return; }
+                if ((new Vector2(x, z) - p).sqrMagnitude <= 0.5f) { picked.RemoveAt(k); message = null; Render(); return; }
             }
 
             string id = TerrainRules.FreeId(p.x, p.y, freeRotation);

@@ -103,7 +103,8 @@ namespace HumanLastRampart.Core.Tests
             TerrainLayout layout = TerrainGenerator.Generate(terrain, 7, works);
             var wall = new List<int>();
             TerrainRules.FreeCover(layout, TerrainWorkKind.EarthWall, new Vector2(12.5f, 41f), 45f, wall);
-            Assert.That(wall.Count, Is.InRange(2, 6), "6m 비스듬한 토벽은 5m 칸 여러 개를 덮는다");
+            Assert.AreEqual(2, wall.Count, "토벽 조각은 늘 딱 두 칸 (사용자 2026-10-20 #12)");
+            Assert.AreEqual(layout.CellOf(12.5f + 5f, 41f + 5f), wall[1], "45도 = 기준 칸의 북동 칸");
             foreach (int c in wall)
                 if (empty.Cells[c] == TerrainCell.Free) Assert.AreEqual(TerrainCell.EarthWall, layout.Cells[c]);
             Assert.AreEqual(1, layout.FreeWalls.Count);

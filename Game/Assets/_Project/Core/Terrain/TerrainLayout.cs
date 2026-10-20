@@ -59,35 +59,50 @@ namespace HumanLastRampart.Core.Traps
         public const float WallClearance = 10f;       // 성벽에서 이 거리 안에는 놓지 않는다
         public const float FrontCorridorHalf = 10f;   // 면마다 정면 가운데 너비 20m에는 놓지 않는다
 
-        // 자유 배치 (사용자 2026-10-20) — 토벽은 길이 6m·두께 1.5m 판, 언덕은 반경 3.5m 둥근 둔덕 (제안값)
-        public const float FreeWallLength = 6f;
-        public const float FreeWallThickness = 1.5f;
-        public const float HillPieceRadius = 3.5f;
+        // 칸 두 개 조각 (사용자 2026-10-20 #12·8: 토벽·언덕은 칸에 맞춰 딱 2칸, 45도씩 돌림, 대각선도 빈틈없이).
+        // 조각 = 기준 칸(X·Z가 들어간 칸) + 돌림 방향 이웃 칸: 0도 동, 45도 북동, 90도 북, 135도 북서.
+        // 대각선 두 칸 사이 모서리는 흐름 지도가 이미 막는다(대각선 이동은 양옆 두 칸이 모두 비어야 함, BattleSim.Terrain BuildFlow)
         public const float FreeRotateStep = 45f;
+        public const float FreeWallThickness = 1.5f;   // 지도 그림 두께(m)
 
-        // 자유 배치 조각이 덮는 땅 칸 (0.5m 간격 표본이 들어간 칸 모두). 같은 입력이면 늘 같은 순서
-        public static void FreeCover(TerrainLayout layout, TerrainWorkKind kind, Vector2 center, float rotation, List<int> into)
+        public static Vector2Int PieceStep(float rotation)
+        {
+            switch (Mathf.RoundToInt(Mathf.Repeat(rotation, 180f) / 45f) % 4)
+            {
+                case 1: return new Vector2Int(1, 1);
+                case 2: return new Vector2Int(0, 1);
+                case 3: return new Vector2Int(-1, 1);
+                default: return new Vector2Int(1, 0);
+            }
+        }
+
+        // 마우스 자리 p에서 놓을 기준 칸 가운데: 조각 가운데(두 칸 가운데의 중점)가 p에 가장 가깝게
+        public static Vector2 PieceAnchor(TerrainLayout layout, Vector2 p, float rotation)
+        {
+            Vector2Int step = PieceStep(rotation);
+            Vector2 half = new Vector2(step.x, step.y) * (layout.CellSize * 0.5f);
+            int c = layout.CellOf(p.x - half.x, p.y - half.y);
+            return c < 0 ? p : layout.Center(c);
+        }
+
+        // 조각 가운데(그리기용): 두 칸 가운데의 중점
+        public static Vector2 PieceCenter(TerrainLayout layout, Vector2 anchor, float rotation)
+        {
+            Vector2Int step = PieceStep(rotation);
+            return anchor + new Vector2(step.x, step.y) * (layout.CellSize * 0.5f);
+        }
+
+        // 조각이 덮는 땅 칸: 기준 칸 + 이웃 칸 (격자 밖이면 빠짐). 토벽·언덕 모두 같다
+        public static void FreeCover(TerrainLayout layout, TerrainWorkKind kind, Vector2 anchor, float rotation, List<int> into)
         {
             into.Clear();
-            if (layout == null) return;
-            const float step = 0.5f;
-            if (kind == TerrainWorkKind.EarthWall)
-            {
-                float rad = rotation * Mathf.Deg2Rad;
-                var along = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
-                var across = new Vector2(-along.y, along.x);
-                float a = FreeWallLength * 0.5f, b = FreeWallThickness * 0.5f;
-                for (float u = -a; u <= a + 0.001f; u += step)
-                    for (float v = -b; v <= b + 0.001f; v += step)
-                        AddCover(layout, center + along * u + across * v, into);
-            }
-            else if (kind == TerrainWorkKind.Hill)
-            {
-                float r = HillPieceRadius;
-                for (float u = -r; u <= r + 0.001f; u += step)
-                    for (float v = -r; v <= r + 0.001f; v += step)
-                        if (u * u + v * v <= r * r) AddCover(layout, center + new Vector2(u, v), into);
-            }
+            if (layout == null || (kind != TerrainWorkKind.EarthWall && kind != TerrainWorkKind.Hill)) return;
+            int a = layout.CellOf(anchor.x, anchor.y);
+            if (a < 0) return;
+            into.Add(a);
+            Vector2Int step = PieceStep(rotation);
+            int i = a % layout.Size + step.x, j = a / layout.Size + step.y;
+            if (i >= 0 && j >= 0 && i < layout.Size && j < layout.Size) into.Add(j * layout.Size + i);
         }
 
         // 자유 배치 이름표 "free:{x}:{z}:{돌림}" — 함정 칸 ID와 섞이지 않는다. 같은 자리·각도는 같은 이름표
@@ -106,11 +121,6 @@ namespace HumanLastRampart.Core.Traps
                 && !float.IsNaN(z) && !float.IsInfinity(z) && !float.IsNaN(rotation) && !float.IsInfinity(rotation);
         }
 
-        static void AddCover(TerrainLayout layout, Vector2 p, List<int> into)
-        {
-            int c = layout.CellOf(p.x, p.y);
-            if (c >= 0 && !into.Contains(c)) into.Add(c);
-        }
     }
 
     // 한 지형의 들판 격자 (무작위 + 지형 손질). 성 가운데 원점, 북 +Z, 동 +X — 전투와 같다.
@@ -291,9 +301,9 @@ namespace HumanLastRampart.Core.Traps
                 {
                     layout.Cells[c] = TerrainCell.Hill;
                     if (!layout.RaisedHillCells.Contains(c)) layout.RaisedHillCells.Add(c);
+                    Vector2 at = layout.Center(c);
+                    layout.Hills.Add(new Vector3(at.x, layout.CellSize * 0.6f, at.y));   // 그리기용 작은 언덕 (칸마다 — 이웃이면 겹쳐 능선처럼)
                 }
-
-                layout.Hills.Add(new Vector3(center.x, TerrainRules.HillPieceRadius, center.y));   // 그리기용 둥근 언덕
             }
         }
 
