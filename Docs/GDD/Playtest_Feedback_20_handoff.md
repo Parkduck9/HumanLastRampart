@@ -15,7 +15,8 @@ Take the first item in the Progress table that is not DONE, follow the work loop
 
 ## Starting Codex on ASSET cards (credits reset; run in two terminals)
 
-**PAUSED (2026-10-20 15:26, M-CX-124)** → **RESUMED 2026-10-20 ~16:10** (user: "코덱스 이제 일 나눠서 진행시켜"). Claude started line A `K-087,K-086,K-080,K-081` and line B `K-089,K-088,K-076,K-084`. If a line stopped, rerun only the cards without CARD_RESULT.md. Character reference = `Docs/References/codex_hero_octopath_review_v6/generated.png` (D-080 correction, D-081).
+**PAUSED (2026-10-20 15:26, M-CX-124)** → **RESUMED 2026-10-20 ~16:10** (user: "코덱스 이제 일 나눠서 진행시켜"). Claude started line A `K-087,K-086,K-080,K-081` and line B `K-089,K-088,K-076,K-084`. If a line stopped, rerun only the cards without CARD_RESULT.md.
+**More lines 2026-10-20 ~16:40** (user: "코덱스 초기화됐다 많이 시켜"): C `K-090,K-093,K-072` · D `K-094,K-091,K-079` · E `K-092,K-095,K-085` (K-072/079/085 = reruns of credit-stopped cards). New briefs: K-090 squad radial UI, K-091 lens afterimage + repair map, K-092 specular masks, K-093 tutorial guidance, K-094 free-trap map art, K-095 night readability. Character reference = `Docs/References/codex_hero_octopath_review_v6/generated.png` (D-080 correction, D-081).
 
 ```
 powershell -NoProfile -ExecutionPolicy Bypass -File Tools\CodexCards\run-cards.ps1 -Cards K-086,K-080,K-087,K-081
