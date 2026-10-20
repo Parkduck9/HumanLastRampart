@@ -17,6 +17,7 @@ namespace HumanLastRampart.Combat.Battle
 
         float[] sRunDir;                                // +1 오른쪽, -1 왼쪽, 0 서 있음
         byte[] sHasRunSheet;
+        byte[] sRunFacesRight;   // 1 = 달리기 그림이 오른쪽을 보고 뛴다 (6판). 예전 그림은 왼쪽
         float[] sRunSpeed;                              // 병사별 달리기 속도 배율 (1 = 전령 속도)
         NativeArray<PerfLabInstance> runnerInstances;   // 달리는 병사만 크기가 있다 (나머지 0 = 안 그림)
 
@@ -55,6 +56,7 @@ namespace HumanLastRampart.Combat.Battle
             int n = math.max(1, soldierCount);
             sRunDir = new float[n];
             sHasRunSheet = new byte[n];
+            sRunFacesRight = new byte[n];
             sRunSpeed = new float[n];
             for (int i = 0; i < n; i++) sRunSpeed[i] = 1f;
             runnerInstances = new NativeArray<PerfLabInstance>(n, p);
@@ -64,7 +66,8 @@ namespace HumanLastRampart.Combat.Battle
                 float speed = unit.Kind == UnitKind.CannonCrew ? CannonCrewRunSpeedRatio : 1f;
                 for (int i = start; i < start + count; i++) sRunSpeed[i] = speed;
                 if (unit.RunSheet == null) continue;
-                for (int i = start; i < start + count; i++) sHasRunSheet[i] = 1;
+                byte right = (byte)(PerfLabArt.RunFacesRight(unit.RunSheet) ? 1 : 0);
+                for (int i = start; i < start + count; i++) { sHasRunSheet[i] = 1; sRunFacesRight[i] = right; }
             }
         }
 
@@ -91,7 +94,8 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             int frame = (int)math.floor(Elapsed * RunFps * sRunSpeed[i] + i * 0.37f) % PerfLabArt.FramesPerAction;
-            float w = sRunDir[i] > 0f ? -frame - 1 : frame;
+            bool flip = sRunFacesRight[i] != 0 ? sRunDir[i] < 0f : sRunDir[i] > 0f;   // 가는 쪽과 그림이 보는 쪽이 다르면 뒤집기
+            float w = flip ? -frame - 1 : frame;
             runnerInstances[i] = new PerfLabInstance
             {
                 PosFrame = new float4(sPos[i], w),

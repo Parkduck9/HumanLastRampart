@@ -875,6 +875,7 @@ namespace HumanLastRampart.Combat.Battle
                 SoldierCannonReach = sCannonReach,
                 SoldierIdle = sIdle,
                 SoldierFireTime = sFireTime,
+                SoldierFireLateral = sFireLateral,
                 Now = Elapsed,
                 Weapons = weapons,
                 EnemyPositions = ePos,

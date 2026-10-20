@@ -60,6 +60,14 @@ namespace HumanLastRampart.Combat.Battle
 
         public int PieceCount { get; private set; }
 
+        // 들판 바닥 판에 풀 질감 (반복 크기는 재질 공용 코드의 그림 한 장 미터)
+        public void DressGround(Renderer ground, Vector2 sizeMeters)
+        {
+            if (materials == null || ground == null || !materials.HasArt(BattleWorldMaterials.Surface.FieldGrass)) return;
+            ground.sharedMaterial = materials.Get(BattleWorldMaterials.Surface.FieldGrass);
+            materials.Apply(ground, BattleWorldMaterials.Surface.FieldGrass, sizeMeters);
+        }
+
         public BattleWorldView(BattleSim sim, Transform parent)
         {
             root = new GameObject("Battle World 3D (목업)");

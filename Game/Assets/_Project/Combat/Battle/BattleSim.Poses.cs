@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using HumanLastRampart.Combat.PerfLab;
 using HumanLastRampart.Core.Definitions;
 using Unity.Collections;
@@ -21,8 +21,11 @@ namespace HumanLastRampart.Combat.Battle
         const float DeployHeight = 0.5f;          // 사다리 오르기 첫 0.5m는 세우기 칸
 
         NativeArray<float> sFireTime;             // 병사가 마지막으로 쏜 시각 (SoldierFireJob이 쓴다)
+        NativeArray<float> sFireLateral;          // 마지막으로 쏜 쪽 (+ 오른쪽). 사격 그림은 왼쪽을 겨눈 그림 → 오른쪽이면 뒤집는다
+        const float FireFlipLateral = 0.5f;       // 거의 정면이면 뒤집지 않는다(m)
         float[] sFallStart;                       // 병사가 쓰러진 시각 (0 = 아님)
         byte[] sFireFrames;                       // 병종 사격 시트 칸 수 (0 = 없음)
+        byte[] sFireFacesRight;                   // 1 = 사격 그림이 오른쪽을 겨눔 (PerfLabArt.FireFacesRight)
         byte[] sFallFrames;
         NativeArray<float> eFallStart;            // 적이 쓰러지기 시작한 시각 (작업이 쓴다)
         NativeArray<PerfLabInstance> ladderInstances;
@@ -42,8 +45,10 @@ namespace HumanLastRampart.Combat.Battle
             int n = math.max(1, soldierCount);
             sFireTime = new NativeArray<float>(n, p);
             for (int i = 0; i < n; i++) sFireTime[i] = -100f;
+            sFireLateral = new NativeArray<float>(n, p);
             sFallStart = new float[n];
             sFireFrames = new byte[n];
+            sFireFacesRight = new byte[n];
             sFallFrames = new byte[n];
             InitIgnite(p);   // 대포 불붙이기 (K-046, BattleSim.Ignite.cs)
             foreach (var (unit, start, count) in soldierGroups)
@@ -53,8 +58,10 @@ namespace HumanLastRampart.Combat.Battle
                 byte fall = (byte)(unit.DeathSheet != null ? math.min(PerfLabArt.FrameCount(unit.DeathSheet), PerfLabArt.PoseWindow) : 0);
                 byte ignite = PoseFrames(unit.IgniteSheet);   // 대포병 불붙이기 (K-046)
                 if (fire > 0 || fall > 0 || ignite > 0) HasSoldierPoseArt = true;
+                byte faceRight = (byte)(PerfLabArt.FireFacesRight(unit.FireSheet) ? 1 : 0);
                 for (int i = start; i < start + count; i++)
                 {
+                    sFireFacesRight[i] = faceRight;
                     sFireFrames[i] = fire;
                     sFallFrames[i] = fall;
                     sIgniteFrames[i] = ignite;
@@ -126,12 +133,40 @@ namespace HumanLastRampart.Combat.Battle
                 frame = PerfLabArt.FireFrame0 + frames - 1;
             }
 
+            // 사격 그림이 겨누는 쪽과 실제로 쏜 쪽(바깥을 볼 때 좌우)이 반대면 좌우 뒤집기 (사용자 지적 2026-10-20). 음수 칸 = 뒤집기
+            if (frame >= PerfLabArt.FireFrame0 && sFireLateral.IsCreated)
+            {
+                float lateral = sFireLateral[i];
+                bool artRight = sFireFacesRight != null && sFireFacesRight[i] != 0;
+                if (artRight ? lateral < -FireFlipLateral : lateral > FireFlipLateral) frame = -frame - 1;
+            }
             return true;
+        }
+
+        // 방금(window초 안에) 쏜 총병 자리 — near에서 가까운 max명 (총구 빛, BattleLights). 작업이 끝난 뒤에만 부른다
+        public void RecentGunshots(List<UnityEngine.Vector3> into, float window, UnityEngine.Vector3 near, int max)
+        {
+            if (!sFireTime.IsCreated || max <= 0) return;
+            var found = new List<(float d, UnityEngine.Vector3 p)>();
+            foreach (var (unit, start, count) in soldierGroups)
+            {
+                if (unit == null || unit.Kind != UnitKind.Gunner) continue;
+                for (int i = start; i < start + count; i++)
+                {
+                    if (sAlive[i] == 0 || Elapsed - sFireTime[i] > window) continue;
+                    var p = new UnityEngine.Vector3(sPos[i].x, sPos[i].y, sPos[i].z);
+                    found.Add(((p - near).sqrMagnitude, p));
+                }
+            }
+
+            found.Sort((a, b) => a.d.CompareTo(b.d));
+            for (int k = 0; k < found.Count && k < max; k++) into.Add(found[k].p);
         }
 
         void ReleasePoseArt()
         {
             Release(ref sFireTime);
+            Release(ref sFireLateral);
             Release(ref eFallStart);
             Release(ref ladderInstances);
             ReleaseIgnite();

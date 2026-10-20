@@ -42,6 +42,13 @@ namespace HumanLastRampart.Combat.PerfLab
         static int CellWidthOf(Texture sheet) =>
             IsSixSheet(sheet) ? SixCellWidth
             : sheet != null && CannonArt.CellWidthPx.TryGetValue(sheet.name, out int w) ? w : CellWidth;
+        // 그림이 바라보는 쪽 (사용자 지적 2026-10-20: 좌우가 반대로 쏘고, 뒤를 보며 뛴다)
+        // - 사격 시트: 6판 궁수는 왼쪽, 6판 총병은 오른쪽을 겨눈다 (예전 그림은 모두 왼쪽으로 본다)
+        // - 달리기 시트: 예전 그림은 왼쪽을 보고 달리고, 6판 그림은 오른쪽을 보고 달린다
+        static readonly System.Collections.Generic.HashSet<string> FireRightSheets = new System.Collections.Generic.HashSet<string> { "gunner_fire" };
+        public static bool FireFacesRight(Texture sheet) => sheet != null && IsSixSheet(sheet) && FireRightSheets.Contains(sheet.name);
+        public static bool RunFacesRight(Texture sheet) => IsSixSheet(sheet);
+
         public static bool IsSixSheet(Texture sheet) => sheet != null && sheet.width % SixCellWidth == 0 && sheet.width % CellWidth != 0;
         public static float FootPx(Texture sheet) => IsSixSheet(sheet) ? SixFootPx : DefaultFootPx;
         public static SheetLayout FromSheet(Texture sheet) => SheetLayout.Make(

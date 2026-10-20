@@ -382,6 +382,7 @@ namespace HumanLastRampart.Combat.Battle
         [ReadOnly] public NativeArray<byte> SoldierCannonReach;   // 대포가 칠 수 있는 들판 면 (비트 0~3, K-042). 0 = 대포 아님
         public NativeArray<byte> SoldierIdle;                // 조준점 근처에 적이 없어 쉼
         public NativeArray<float> SoldierFireTime;            // 마지막으로 쏜 시각 (사격 그림, K-032)
+        public NativeArray<float> SoldierFireLateral;         // 마지막으로 쏜 쪽 (성벽 따라 오른쪽 +) — 사격 그림 좌우 뒤집기
         public float Now;
         [ReadOnly] public NativeArray<byte> SidePriority;     // 성벽별 TargetPriority
         [ReadOnly] public NativeArray<WeaponKindData> Weapons;
@@ -437,6 +438,7 @@ namespace HumanLastRampart.Combat.Battle
             Shots.Enqueue(shot);
             SoldierCooldowns[s] = weapon.Interval * IntervalFor(s);
             SoldierFireTime[s] = Now;
+            SoldierFireLateral[s] = math.dot(shot.To - shot.From, WallGeometry.Right(SoldierSide[s]));   // + = 바깥을 볼 때 오른쪽으로 쏨 (사격 그림 좌우)
         }
 
         float3 Muzzle(int s, WeaponKindData weapon)

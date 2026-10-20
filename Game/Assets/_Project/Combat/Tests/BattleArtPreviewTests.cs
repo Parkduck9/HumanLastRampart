@@ -93,7 +93,9 @@ namespace HumanLastRampart.Combat.Tests
                     if (!sim.IsRunnerPicture(i, out bool flipped, out bool standingHidden)) continue;
                     runners++;
                     Assert.IsTrue(standingHidden, "달리는 동안 서 있는 그림은 숨김");
-                    Assert.IsTrue(flipped, "동쪽(둘레 +)으로 달리면 좌우 뒤집기");
+                    // 예전 달리기 그림은 왼쪽을 보고 달려 둘레 +로 가면 뒤집었다. 6판 그림(D-081)은 오른쪽을 보고 달려 뒤집지 않는다
+                    bool sixRun = PerfLab.PerfLabArt.RunFacesRight(lookup.Get<UnitDef>("unit_archer")?.RunSheet);
+                    Assert.AreEqual(!sixRun, flipped, "동쪽(둘레 +)으로 달릴 때 그림이 가는 쪽을 본다");
                 }
 
                 Assert.AreEqual(1, runners, "전령 한 명");

@@ -332,6 +332,7 @@ namespace HumanLastRampart.Combat.Battle
                     var landed = new Vector3(shot.PosFrame.x, 0f, shot.PosFrame.z);
                     trapPlays.Add((landed, Mathf.Max(CannonBurstMinSize, radius * CannonBurstPerRadius), 0f));
                     AddSmokePlay(landed, Mathf.Max(1.2f, radius * 0.8f), -0.2f, 1.4f, 1.5f, 0.55f);   // 작은 흙연기 (K-041)
+                    BattleLights.Flash(landed, radius, BattleLights.ImpactColor, BattleLights.CannonImpactIntensity, 0.35f);   // 터지는 빛 (2026-10-20)
                     continue;
                 }
 

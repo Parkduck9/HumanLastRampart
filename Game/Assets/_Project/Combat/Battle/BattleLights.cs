@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using HumanLastRampart.Core.CombatContracts;
 using Unity.Mathematics;
 using UnityEngine;
@@ -24,7 +24,19 @@ namespace HumanLastRampart.Combat.Battle
         static readonly Color TorchColor = new Color(1f, 0.58f, 0.26f);
         static readonly Color FlameColor = new Color(2.2f, 1.1f, 0.35f);   // 조금 밝게(HDR) 칠해 은은히 번지게
 
-        const int FlashCapacity = 16;
+        const int FlashCapacity = 28;
+        // 쏠 때·터질 때 빛 (2026-10-20)
+        public const float CannonImpactIntensity = 14f;
+        const float MuzzleSeconds = 0.12f;
+        const float CannonMuzzleIntensity = 8f;
+        const float GunMuzzleIntensity = 3f;
+        const int GunFlashMax = 6;
+        const float CastSeconds = 0.8f;
+        const float CastIntensity = 7f;
+        const float DayFlashMultiplier = 1.8f;   // 낮에는 햇빛에 묻히지 않게
+        public static readonly Color ImpactColor = new Color(1f, 0.7f, 0.4f);
+        static readonly Color MuzzleColor = new Color(1f, 0.78f, 0.45f);
+        static readonly Color CastColor = new Color(0.55f, 0.65f, 1f);
         const float BlastSeconds = 0.4f;        // 폭발 번쩍 (BattleSim 폭발 표시 시간과 같다)
         const float BlastIntensity = 9f;        // 함정 폭발
         const float MagicBlastIntensity = 24f;  // 마법 폭발은 크게 번쩍 (K-041: 대포·함정과 확실히 다르게)
@@ -52,6 +64,7 @@ namespace HumanLastRampart.Combat.Battle
         public BattleLights(BattleSim sim, Transform parent)
         {
             this.sim = sim;
+            pending.Clear();   // 앞 전투에서 남은 번쩍 지우기
             root = new GameObject("Battle Lights");
             root.transform.SetParent(parent, false);
             BuildTorches();
@@ -119,8 +132,11 @@ namespace HumanLastRampart.Combat.Battle
                 torchesDecided = false;   // 지도에서 돌아오면 다시 판단
                 for (int i = 0; i < flashes.Count; i++) flashes[i].enabled = false;
                 TrackTraps(Time.deltaTime);
+                AgeTimed(Time.deltaTime);
                 return;
             }
+
+            AgeTimed(Time.deltaTime);
 
             // 횃불: 밤낮은 전투 중 안 바뀌고, 날씨가 바뀌면 다시 판단
             if (!torchesDecided || torchWeather != sim.CurrentWeather)
@@ -211,7 +227,66 @@ namespace HumanLastRampart.Combat.Battle
                 Use(used++, blast.position, blast.radius, BlastColor, BlastIntensity * Mathf.Clamp01(blast.timeLeft / BlastSeconds));
             }
 
+            // ── 쏠 때·터질 때 빛 (사용자 2026-10-20 '효과만 터지고 빛이 없어 어색하다') ──
+            float flashDay = sim.TimeOfDay == TimeOfDay.Night ? 1f : DayFlashMultiplier;
+
+            // 포탄 착탄 (BattleEffectsView가 떨어지는 순간 알린다)
+            for (int i = 0; i < timed.Count && used < FlashCapacity; i++)
+            {
+                var f = timed[i];
+                float k = Mathf.Clamp01(f.timeLeft / f.seconds);
+                Use(used++, f.position, f.radius, f.color, f.intensity * flashDay * k * k, FlashHeight, f.radius * 2.5f + 5f);
+            }
+
+            // 대포 발사: 포구 번쩍
+            for (int i = 0; i < sim.CannonCount && used < FlashCapacity; i++)
+            {
+                float age = sim.CannonFireAge(i);
+                if (age >= MuzzleSeconds * 1.5f) continue;
+                BattleSim.CannonInfo c = sim.GetCannon(i);
+                float k = 1f - Mathf.Clamp01(age / (MuzzleSeconds * 1.5f));
+                Use(used++, c.Position, 1f, MuzzleColor, CannonMuzzleIntensity * flashDay * k * k, 0.5f, 6f);
+            }
+
+            // 총 쏘기: 주인공 가까운 총병 몇 명만 (수백 명 모두 빛을 켜면 무겁다)
+            gunFlashes.Clear();
+            Camera view = Camera.main;
+            sim.RecentGunshots(gunFlashes, MuzzleSeconds, view != null ? view.transform.position : Vector3.zero, GunFlashMax);
+            for (int i = 0; i < gunFlashes.Count && used < FlashCapacity; i++)
+                Use(used++, gunFlashes[i], 0.5f, MuzzleColor, GunMuzzleIntensity * flashDay, 0.35f, 2.5f);
+
+            // 마법 쓰기: 마법사 지팡이에 푸른 빛이 차올랐다 사라진다
+            float cast = sim.WizardCastAge;
+            if (sim.WizardPresent && cast >= 0f && cast < CastSeconds && used < FlashCapacity)
+            {
+                float k = Mathf.Sin(Mathf.Clamp01(cast / CastSeconds) * Mathf.PI);
+                Use(used++, sim.WizardFeet, 1f, CastColor, CastIntensity * flashDay * k, 0.6f, 5f);
+            }
+
             for (int i = used; i < flashes.Count; i++) flashes[i].enabled = false;
+        }
+
+        // 잠깐 번쩍이는 빛을 남긴다 (포탄 착탄 등 — 그리기 쪽이 사건을 알 때 부른다)
+        public static void Flash(Vector3 at, float radius, Color color, float intensity, float seconds) =>
+            pending.Add((at, radius, color, intensity, seconds, seconds));
+
+        static readonly List<(Vector3 position, float radius, Color color, float intensity, float seconds, float timeLeft)> pending =
+            new List<(Vector3, float, Color, float, float, float)>();
+        readonly List<(Vector3 position, float radius, Color color, float intensity, float seconds, float timeLeft)> timed =
+            new List<(Vector3, float, Color, float, float, float)>();
+        readonly List<Vector3> gunFlashes = new List<Vector3>();
+
+        void AgeTimed(float dt)
+        {
+            timed.AddRange(pending);
+            pending.Clear();
+            for (int i = timed.Count - 1; i >= 0; i--)
+            {
+                var f = timed[i];
+                f.timeLeft -= dt;
+                if (f.timeLeft <= 0f) timed.RemoveAt(i);
+                else timed[i] = f;
+            }
         }
 
         // 풀의 index번 빛을 켠다 (없으면 만든다). 범위는 효과 반경보다 넓게
