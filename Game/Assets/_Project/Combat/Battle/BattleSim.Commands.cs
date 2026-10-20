@@ -345,8 +345,10 @@ namespace HumanLastRampart.Combat.Battle
             int side = math.min(3, (int)(u / (2f * CastleHalf)));
             float along = u - side * 2f * CastleHalf - CastleHalf;
             // 모서리: 성벽 따라 끝까지 가면 바깥 모서리(탑 자리)에 닿았다가 옆 성벽 시작점으로 2m 순간이동했다 (사용자 지적 2026-10-20).
-            // 양쪽 성벽이 같이 쓰는 안쪽 모서리 점(통로 안쪽 RingInset)에서 멈췄다 꺾어 가게 — 주인공처럼 모서리를 돈다
-            along = math.clamp(along, -(CastleHalf - RingInset), CastleHalf - RingInset);
+            // 양쪽 성벽이 같이 쓰는 안쪽 모서리 점(통로 안쪽 RingInset)에서 꺾어 가게 — 주인공처럼 모서리를 돈다.
+            // 성벽 한 구간(2H)을 안쪽 모서리 점 사이(2(H−RingInset))로 줄여 이어 붙인다 → 모서리에서 멈칫하지 않는다
+            // (자기 자리와의 차이는 WalkIn이 처음·마지막 몇 m에서 메운다)
+            along *= (CastleHalf - RingInset) / CastleHalf;
             return WallGeometry.Outward(side) * (CastleHalf - RingInset) + WallGeometry.Right(side) * along + new float3(0f, WallHeight, 0f);
         }
 

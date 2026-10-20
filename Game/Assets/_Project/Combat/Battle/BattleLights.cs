@@ -30,10 +30,10 @@ namespace HumanLastRampart.Combat.Battle
         public const float CannonImpactIntensity = 14f;
         const float MuzzleSeconds = 0.12f;
         const float CannonMuzzleIntensity = 8f;
-        const float GunMuzzleIntensity = 3f;
+        const float GunMuzzleIntensity = 1.6f;   // 사용자 '총구 빛은 조금 약하게' (2026-10-20)
         const int GunFlashMax = 6;
         const float CastSeconds = 0.8f;
-        const float CastIntensity = 7f;
+        const float CastIntensity = 1.5f;
         const float DayFlashMultiplier = 1.8f;   // 낮에는 햇빛에 묻히지 않게
         public static readonly Color ImpactColor = new Color(1f, 0.7f, 0.4f);
         static readonly Color MuzzleColor = new Color(1f, 0.78f, 0.45f);
@@ -244,23 +244,22 @@ namespace HumanLastRampart.Combat.Battle
             {
                 float age = sim.CannonFireAge(i);
                 if (age >= MuzzleSeconds * 1.5f) continue;
-                BattleSim.CannonInfo c = sim.GetCannon(i);
                 float k = 1f - Mathf.Clamp01(age / (MuzzleSeconds * 1.5f));
-                Use(used++, c.Position, 1f, MuzzleColor, CannonMuzzleIntensity * flashDay * k * k, 0.5f, 6f);
+                Use(used++, sim.CannonMuzzle(i), 1f, MuzzleColor, CannonMuzzleIntensity * flashDay * k * k, 0.1f, 6f);   // 포구 바로 위 (사용자 2026-10-20 '포탑 총구에서')
             }
 
             // 총 쏘기: 주인공 가까운 총병 몇 명만 (수백 명 모두 빛을 켜면 무겁다)
             gunFlashes.Clear();
             sim.RecentGunshots(gunFlashes, MuzzleSeconds, ViewPosition, GunFlashMax);
             for (int i = 0; i < gunFlashes.Count && used < FlashCapacity; i++)
-                Use(used++, gunFlashes[i], 0.5f, MuzzleColor, GunMuzzleIntensity * flashDay, 0.35f, 2.5f);
+                Use(used++, gunFlashes[i], 0.5f, MuzzleColor, GunMuzzleIntensity * flashDay, 0.02f, 1.6f);   // 총구 자리 (RecentGunshots가 총구 좌표를 준다), 대포보다 약하게
 
             // 마법 쓰기: 마법사 지팡이에 푸른 빛이 차올랐다 사라진다
             float cast = sim.WizardCastAge;
             if (sim.WizardPresent && cast >= 0f && cast < CastSeconds && used < FlashCapacity)
             {
                 float k = Mathf.Sin(Mathf.Clamp01(cast / CastSeconds) * Mathf.PI);
-                Use(used++, sim.WizardFeet, 1f, CastColor, CastIntensity * flashDay * k, 0.6f, 5f);
+                Use(used++, sim.WizardFeet, 0.5f, CastColor, CastIntensity * k, 0.4f, 1.8f);   // 성벽 위 가까이라 약하고 좁게 (처음 값은 통로가 하얗게 날아갔다)
             }
 
             for (int i = used; i < flashes.Count; i++) flashes[i].enabled = false;

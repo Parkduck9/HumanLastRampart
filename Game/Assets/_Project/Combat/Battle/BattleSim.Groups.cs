@@ -193,9 +193,12 @@ namespace HumanLastRampart.Combat.Battle
                     }
                     else
                     {
-                        // 먼저 닿은 병사는 자기 자리에 서서 기다린다 (모두 닿을 때까지 한곳에 겹쳐 있지 않게)
+                        // 먼저 닿은 병사는 자기 자리에 서서 바로 그 성벽에서 싸운다 (사용자 2026-10-20 '뒷사람을 기다렸다 간다' —
+                        // 예전에는 묶음이 다 닿을 때까지 쏘지 않고 서 있었다). 묶음 기록(성벽 병력 수)은 다 닿았을 때 ArriveSide가 맞춘다
                         sPos[soldier] = move.EndSpot[k];
                         SetRunning(soldier, 0f);
+                        sSide[soldier] = (byte)move.TargetSide;
+                        sAway[soldier] = 0;
                     }
                 }
 

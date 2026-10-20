@@ -23,6 +23,7 @@ namespace HumanLastRampart.Combat.Battle
         NativeArray<float> sFireTime;             // 병사가 마지막으로 쏜 시각 (SoldierFireJob이 쓴다)
         NativeArray<float> sFireLateral;          // 마지막으로 쏜 쪽 (+ 오른쪽). 사격 그림은 왼쪽을 겨눈 그림 → 오른쪽이면 뒤집는다
         const float FireFlipLateral = 0.5f;       // 거의 정면이면 뒤집지 않는다(m)
+        const float GunMuzzleSide = 0.12f;        // 총병 사격 그림의 총구가 몸 가운데에서 옆으로 나온 거리(m, 병사 키 0.35m 기준)
         float[] sFallStart;                       // 병사가 쓰러진 시각 (0 = 아님)
         byte[] sFireFrames;                       // 병종 사격 시트 칸 수 (0 = 없음)
         byte[] sFireFacesRight;                   // 1 = 사격 그림이 오른쪽을 겨눔 (PerfLabArt.FireFacesRight)
@@ -154,7 +155,11 @@ namespace HumanLastRampart.Combat.Battle
                 for (int i = start; i < start + count; i++)
                 {
                     if (sAlive[i] == 0 || Elapsed - sFireTime[i] > window) continue;
-                    var p = new UnityEngine.Vector3(sPos[i].x, sPos[i].y, sPos[i].z);
+                    // 총구 자리: 투사체 출발점(Muzzle)과 같게 + 그림 속 총구가 쏜 쪽 옆으로 나와 있는 만큼
+                    int side = sSide[i];
+                    float3 m = sPos[i] + WallGeometry.Outward(side) * MuzzleForwardDistance + new float3(0f, SoldierDrawSize * MuzzleHeightRatio, 0f)
+                        + WallGeometry.Right(side) * (sFireLateral[i] >= 0f ? GunMuzzleSide : -GunMuzzleSide);
+                    var p = new UnityEngine.Vector3(m.x, m.y, m.z);
                     found.Add(((p - near).sqrMagnitude, p));
                 }
             }

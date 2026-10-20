@@ -679,6 +679,7 @@ namespace HumanLastRampart.Combat.Battle
                 BattleSim.SpellEffect e = list[i];
                 if (!e.Fire && !e.Pending && effectArt != null && effectArt.HasBurstArt) continue;   // 터짐은 도트 그림으로 (K-015). 원판은 그대로
                 if (e.Fire && effectArt != null && effectArt.HasFireArt) continue;   // 불바다는 불 그림만 — 바닥 빨간 원판 빼기 (K-036, 사용자 피드백 12-b). 지도에는 주황 원이 남는다
+                if (e.Pending && effectArt != null && effectArt.HasBurstArt) continue;   // 폭발 대기 노란 원판 빼기 (사용자 2026-10-20 'Q 스킬 아래 원반'). 지도에는 표시가 남는다
                 if (e.Fire || e.Pending)
                 {
                     Renderer disc = Pooled(effectDiscs, discs++, PrimitiveType.Cylinder, "Spell Disc");

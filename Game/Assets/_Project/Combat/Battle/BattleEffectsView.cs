@@ -40,6 +40,7 @@ namespace HumanLastRampart.Combat.Battle
 
         // 마법 폭발 (K-041 사용자 피드백 '폭탄도 일반 대포랑 똑같은 이펙트'): 대포 착탄과 확실히 다르게
         const float MagicBurstPerRadius = 2.6f;      // 가운데 큰 폭발 (예전 2배)
+        const float MagicBurstSink = 0.3f;           // 판 높이의 이만큼 땅 밑으로 (2026-10-20)
         const int MagicFireballs = 4;                // 둘레에 조금 늦게 터지는 불덩이
         const float FireballDelayMax = 0.3f;
         const int RingSparks = 28;                   // 충격파 고리: 불티를 원으로 늘어놓고 반경을 키운다
@@ -399,11 +400,15 @@ namespace HumanLastRampart.Combat.Battle
         // 터지는 순간 한 번: 큰 폭발 + 늦게 터지는 불덩이 + 충격파 고리 + 잔불 + 연기 + 화면 흔들림
         void StartMagicBurst(Vector3 at, float radius)
         {
-            if (magicPlays.Count < BurstCapacity) magicPlays.Add((at, radius * MagicBurstPerRadius, 0f));
+            // 판을 땅 밑으로 조금 내린다 — 폭발 그림 가운데가 판 높이의 절반쯤이라 너무 위에서 터져 보였다 (사용자 2026-10-20).
+            // 내려간 아랫부분은 땅에 가려져 땅에서 솟구치는 것처럼 보인다
+            float main = radius * MagicBurstPerRadius;
+            if (magicPlays.Count < BurstCapacity) magicPlays.Add((at + Vector3.down * main * MagicBurstSink, main, 0f));
             for (int k = 0; k < MagicFireballs && magicPlays.Count < BurstCapacity; k++)
             {
-                Vector3 p = at + RandomFlat(radius * 0.75f);
-                magicPlays.Add((p, radius * Range(0.8f, 1.2f), -Range(0.08f, FireballDelayMax)));
+                float size = radius * Range(0.8f, 1.2f);
+                Vector3 p = at + RandomFlat(radius * 0.75f) + Vector3.down * size * MagicBurstSink;
+                magicPlays.Add((p, size, -Range(0.08f, FireballDelayMax)));
             }
 
             ringPlays.Add((at, radius, 0f));

@@ -33,6 +33,9 @@ namespace HumanLastRampart.Combat.Battle
         const float SoldierInset = 0.5f;                    // 성벽 바깥 모서리에서 안쪽으로 (대포·운용병. 병사 줄은 BattleSim.Slots SlotRowInset)
         const float SoldierRowDepth = 0.3f;                 // 줄 사이 (안쪽으로)
         const float CannonCrewOffset = 0.45f;               // 대포 운용병은 대포 양옆 (대포 그림 보이는 폭 약 0.55m)
+        const float CannonShooterOffset = 0.3f;             // 불붙이는 병사(오른쪽)는 횃불이 대포 심지에 닿게 조금 더 가까이
+        // 대포 운용병 i의 대포 자리 기준 옆 거리 (+ = 바깥을 볼 때 오른쪽). 0 = 쏘는 병사(오른쪽), 1 = 왼쪽, 그 뒤는 바깥으로 번갈아
+        static float CannonCrewAlong(int i) => i == 0 ? CannonShooterOffset : (i % 2 == 0 ? 1f : -1f) * CannonCrewOffset * (1 + i / 2);
         const float WalkInDistance = 2f;                    // 달리는 길 ↔ 자기 자리를 이 거리 동안 비스듬히 오간다 (K-039 의견 6)
 
         // 대포 자리 (쏘는 병사 → 성벽 위 대포 위치). 대포 분대는 대포 양옆에 서므로 쏘는 병사 자리와 다르다
@@ -541,9 +544,9 @@ namespace HumanLastRampart.Combat.Battle
                     float3 position;
                     if (cannonSquad)
                     {
-                        // 대포 왼쪽(쏘는 병사)·오른쪽, 더 있으면 그 바깥으로 번갈아 (K-039 의견 2: 대포마다 2명)
-                        float sign = i % 2 == 0 ? -1f : 1f;
-                        position = WallSpot(side, along + sign * CannonCrewOffset * (1 + i / 2), 0);
+                        // 대포 오른쪽(쏘는 병사 — 불붙이기 그림이 왼쪽으로 횃불을 내밀므로 대포 쪽을 향함)·왼쪽, 더 있으면 그 바깥으로 번갈아
+                        // (K-039 의견 2: 대포마다 2명. 사용자 2026-10-20: 왼쪽 병사가 바깥으로 불을 붙이던 것을 오른쪽 병사가 대포 쪽으로)
+                        position = WallSpot(side, along + CannonCrewAlong(i), 0);
                     }
                     else
                     {
