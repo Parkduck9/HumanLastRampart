@@ -1,0 +1,27 @@
+{
+    "pngCount":  64,
+    "result":  "통과",
+    "checks":  [
+                   "icons/trap_bomb_armed.png : 단일 연결 덩어리, 바깥 투명 여백",
+                   "icons/trap_bomb_buried.png : 단일 연결 덩어리, 바깥 투명 여백",
+                   "icons/trap_bomb_ghost.png : 단일 연결 덩어리, 바깥 투명 여백",
+                   "icons/trap_bomb_ghost_invalid.png : 단일 연결 덩어리, 바깥 투명 여백",
+                   "rings/radius_invalid_r128_line.png : 정수 화소 점선, 반경 오차 0.6화소 이내, 가장자리 알파 255",
+                   "rings/radius_invalid_r32_line.png : 정수 화소 점선, 반경 오차 0.6화소 이내, 가장자리 알파 255",
+                   "rings/radius_invalid_r64_line.png : 정수 화소 점선, 반경 오차 0.6화소 이내, 가장자리 알파 255",
+                   "rings/radius_invalid_r96_line.png : 정수 화소 점선, 반경 오차 0.6화소 이내, 가장자리 알파 255",
+                   "rings/radius_valid_brass_r128_line.png : 정수 화소 점선, 반경 오차 0.6화소 이내, 가장자리 알파 255",
+                   "rings/radius_valid_brass_r32_line.png : 정수 화소 점선, 반경 오차 0.6화소 이내, 가장자리 알파 255",
+                   "rings/radius_valid_brass_r64_line.png : 정수 화소 점선, 반경 오차 0.6화소 이내, 가장자리 알파 255",
+                   "rings/radius_valid_brass_r96_line.png : 정수 화소 점선, 반경 오차 0.6화소 이내, 가장자리 알파 255",
+                   "rings/radius_valid_green_r128_line.png : 정수 화소 점선, 반경 오차 0.6화소 이내, 가장자리 알파 255",
+                   "rings/radius_valid_green_r32_line.png : 정수 화소 점선, 반경 오차 0.6화소 이내, 가장자리 알파 255",
+                   "rings/radius_valid_green_r64_line.png : 정수 화소 점선, 반경 오차 0.6화소 이내, 가장자리 알파 255",
+                   "rings/radius_valid_green_r96_line.png : 정수 화소 점선, 반경 오차 0.6화소 이내, 가장자리 알파 255",
+                   "trap_bomb_states_game_288x384.png : 모든 화소가 원본의 정확한 3×3 복제",
+                   "dig_game_288x384_4f.png : 모든 화소가 원본의 정확한 3×3 복제",
+                   "상태 5장 순서·지도 중심 (12,12)·공통 매설 기준선 y=120 일치",
+                   "먼지 4장 순서·매설점 (16,26) → (48,120) 일치; 상승은 의도된 동작",
+                   "모든 4배 보기는 최근접 확대와 화소 단위 일치"
+               ]
+}
