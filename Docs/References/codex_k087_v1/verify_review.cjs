@@ -1,0 +1,41 @@
+const fs = require('fs');
+const path = require('path');
+const {pathToFileURL} = require('url');
+const {chromium} = require('C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+(async()=>{
+  const root=__dirname;
+  const file=path.resolve(root,'../../../_HTML/5_그림_전장/codex_K-087_토벽언덕이음_v1.html');
+  const browser=await chromium.launch({channel:'chrome',headless:true});
+  const errors=[];
+  try {
+    const page=await browser.newPage({viewport:{width:1440,height:1000}});
+    page.on('pageerror',e=>errors.push(String(e)));
+    page.on('console',e=>{if(e.type()==='error')errors.push(e.text())});
+    await page.goto(pathToFileURL(file).href);
+    await page.waitForFunction(()=>window.previewReady===true);
+    await page.locator('img').evaluateAll(imgs=>Promise.all(imgs.map(i=>i.decode())));
+    const images=await page.locator('img').evaluateAll(a=>a.map(i=>({alt:i.alt,loaded:i.complete&&i.naturalWidth>0,embedded:i.src.startsWith('data:image/png;base64,')})));
+    if(images.some(i=>!i.loaded||!i.embedded))throw Error('내장 이미지 로드 실패');
+    const first=await page.locator('#damage').getAttribute('src');
+    await page.waitForFunction(src=>document.querySelector('#damage').src!==src,first);
+    await page.locator('#toggle').click();
+    const stopped=await page.locator('#damage').getAttribute('src');
+    await page.waitForTimeout(1300);
+    const pauseWorks=(await page.locator('#damage').getAttribute('src'))===stopped;
+    await page.locator('#all').click();
+    const allWorks=(await page.locator('#maskLabel').textContent()).includes('255 / 255');
+    await page.locator('#none').click();
+    const noneWorks=(await page.locator('#maskLabel').textContent()).includes('0 / 255');
+    await page.locator('#kind').selectOption('hill');
+    await page.locator('#all').click();
+    const canvasNonempty=await page.locator('#maskCanvas').evaluate(c=>{const a=c.getContext('2d').getImageData(0,0,96,96).data;return a.some((n,i)=>i%4===3&&n>0)});
+    await page.screenshot({path:path.join(root,'review/desktop.png'),fullPage:true});
+    await page.setViewportSize({width:390,height:844});
+    const mobileOverflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth);
+    await page.screenshot({path:path.join(root,'review/mobile.png'),fullPage:true});
+    const report={card:'K-087',protocol:'file://',imageCount:images.length,images,animationChanges:true,pauseWorks,allWorks,noneWorks,canvasNonempty,mobileOverflow,errors,unityRun:false};
+    fs.writeFileSync(path.join(root,'review_validation.json'),JSON.stringify(report,null,2));
+    console.log(JSON.stringify({imageCount:images.length,pauseWorks,allWorks,noneWorks,canvasNonempty,mobileOverflow,errors}));
+    if(!pauseWorks||!allWorks||!noneWorks||!canvasNonempty||mobileOverflow||errors.length)process.exitCode=1;
+  } finally {await browser.close()}
+})().catch(e=>{console.error(e);process.exit(1)});

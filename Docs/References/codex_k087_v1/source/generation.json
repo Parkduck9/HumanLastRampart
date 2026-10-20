@@ -1,0 +1,37 @@
+{
+  "card": "K-087",
+  "mode": "built-in image_gen",
+  "cli_used": false,
+  "reference_files_read_only": [
+    "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Terrain/earthwall_intact.png",
+    "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Terrain/earthwall_intact.png.meta",
+    "Game/Assets/_Project/Art/UI/Resources/TrapMap/earthwall_map.png",
+    "Game/Assets/_Project/Art/UI/Resources/TrapMap/raised_hill_map.png",
+    "Docs/References/codex_k068_v1/terrain_sheet.png"
+  ],
+  "calls": [
+    {
+      "output": "battle_first.png",
+      "role": "initial generated atlas; not the final alpha source",
+      "transparent_background": true,
+      "original_file": "C:/Users/User/.codex/generated_images/01a15802-78c8-73a1-89cd-0a17b15fd2a3/exec-cd4bb5ff-d4ae-4c22-b334-a56518ecf922.png",
+      "prompt": "Use case: stylized-concept. Asset type: pixel art terrain construction texture kit for Human Last Rampart. Create ONE coherent sprite atlas on transparent background, 1536x1024 landscape. Exactly four horizontal strips, evenly spaced one per row, each spanning x=128 to1408: row1 intact packed earth defensive wall, row2 cracked packed earth wall, row3 partially collapsed low wall, row4 low rubble. Each strip has level horizontal top and bottom and square open sides with NO end posts; its edges visually repeat. The top two wall strips are identical height. Materials: chunky angular warm brown compact soil clods, dark chocolate 1 pixel outlines, only 3 earth shade steps, muted olive moss and tiny dry grass across narrow top edge, upper-left highlights. Low side-on camera-facing fixed billboard, almost frontal, not isometric; do NOT tilt the horizontal baseline. Hand placed crisp chunky pixel art like 16-bit HD2D field dressing, no blur, no soft shadows or gradients. Bottom row rubble has continuous low stony earth bed, no floating disconnected specks. Atlas must contain no labels no lettering no grid and no extra props. Transparent gaps between rows. Reference style is dark outlined russet ochre soil, moss green grass cap. It is EARTH, not a wooden palisade, no planks. Intact stage height represents 2.8m. Leave wide empty margins."
+    },
+    {
+      "output": "map_generated.png",
+      "role": "map hub and ridge source atlas",
+      "transparent_background": true,
+      "original_file": "C:/Users/User/.codex/generated_images/01a15802-78c8-73a1-89cd-0a17b15fd2a3/exec-93ae0646-b0ef-49cb-a82c-e63170419d0d.png",
+      "prompt": "Use case: stylized-concept. ONE sprite kit atlas for top-down pixel art terrain autotile in Human Last Rampart. Transparent background, square 1024x1024. Exactly FOUR isolated assets arranged a 2 by 2 regular grid with generous transparent margin. Top left: small round hub of packed ochre brown earth, dark outline, mossy olive grass top, viewed directly from overhead. Top right: long horizontal straight earthen ridge with perfectly parallel sides and open square cut left and right ends; matching top-left hub soil. Bottom left: round broad grassy hill mound, olive green top with 3 stepped shades, dark ochre dirt edge, directly overhead. Bottom right: long horizontal broad grassy ridge, parallel sides with open square ends, matching bottom left mound. Each horizontal ridge is 3 times as long as wide. Pixel art style crisp chunky deliberate pixels with thick dark chocolate contours, 3 tones per material, like old 16 bit HD2D field props; intended to be reduced to 32px grid tiles. No trees, no flowers, no soft lighting, no cast shadow, no extra objects, no text, no separators. Keep assets centered in four quadrants. True transparent background."
+    },
+    {
+      "output": "battle_cutout.png",
+      "role": "final battle source; background extraction requested through image_gen",
+      "transparent_background": true,
+      "referenced_image": "battle_first.png",
+      "original_file": "C:/Users/User/.codex/generated_images/01a15802-78c8-73a1-89cd-0a17b15fd2a3/exec-8dbd6592-1b8a-4e2b-9e7f-1cde9c55f82d.png",
+      "prompt": "Use case: background-extraction. Edit target the attached terrain atlas. Remove ALL brown background, ALL glow, ALL fog and ALL ground shadows, replacing them with true alpha=0 transparency. Keep ONLY the four pixel-art earthen wall strips, grass growing directly on them and rubble. Preserve the horizontal silhouettes, four row ordering, brown/olive earth materials, and pixel structure. ALL solid earth and grass must be fully opaque alpha=255. Outside the earth strips and directly attached grass alpha=0. NO soft transparent haze whatsoever. No new artwork, no labels. This is a game sprite cutout atlas."
+    }
+  ],
+  "technical_processing": "Source crops, binary alpha threshold 128, largest 8-connected component cleanup, nearest-neighbour registration/scaling, source-column periodic boundary matching, baseline registration, directional source sampling, and atlas/preview assembly. No Game files modified."
+}
