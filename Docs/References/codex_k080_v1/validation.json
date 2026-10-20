@@ -1,0 +1,277 @@
+{
+  "passed": true,
+  "frames": [
+    {
+      "sheet": "hero_back_idle.png",
+      "frame": 0,
+      "bbox": [
+        28,
+        47,
+        66,
+        120
+      ],
+      "opaque_pixels": 2011,
+      "components": 1,
+      "head_axis": 47.5
+    },
+    {
+      "sheet": "hero_walk_run_grid.png",
+      "frame": 0,
+      "bbox": [
+        29,
+        47,
+        70,
+        120
+      ],
+      "opaque_pixels": 2034,
+      "components": 1,
+      "head_axis": 48
+    },
+    {
+      "sheet": "hero_walk_run_grid.png",
+      "frame": 1,
+      "bbox": [
+        29,
+        47,
+        67,
+        120
+      ],
+      "opaque_pixels": 2012,
+      "components": 1,
+      "head_axis": 48
+    },
+    {
+      "sheet": "hero_walk_run_grid.png",
+      "frame": 2,
+      "bbox": [
+        27,
+        47,
+        67,
+        120
+      ],
+      "opaque_pixels": 2081,
+      "components": 1,
+      "head_axis": 47.5
+    },
+    {
+      "sheet": "hero_walk_run_grid.png",
+      "frame": 3,
+      "bbox": [
+        29,
+        47,
+        67,
+        120
+      ],
+      "opaque_pixels": 2055,
+      "components": 1,
+      "head_axis": 48
+    },
+    {
+      "sheet": "hero_walk_run_grid.png",
+      "frame": 4,
+      "bbox": [
+        27,
+        47,
+        66,
+        120
+      ],
+      "opaque_pixels": 1817,
+      "components": 1,
+      "head_axis": 47.5
+    },
+    {
+      "sheet": "hero_walk_run_grid.png",
+      "frame": 5,
+      "bbox": [
+        29,
+        47,
+        66,
+        120
+      ],
+      "opaque_pixels": 1695,
+      "components": 1,
+      "head_axis": 47.5
+    },
+    {
+      "sheet": "hero_walk_run_grid.png",
+      "frame": 6,
+      "bbox": [
+        27,
+        47,
+        66,
+        120
+      ],
+      "opaque_pixels": 1812,
+      "components": 1,
+      "head_axis": 47.5
+    },
+    {
+      "sheet": "hero_walk_run_grid.png",
+      "frame": 7,
+      "bbox": [
+        29,
+        47,
+        66,
+        120
+      ],
+      "opaque_pixels": 1682,
+      "components": 1,
+      "head_axis": 47.5
+    },
+    {
+      "sheet": "hero_walk_run_grid.png",
+      "frame": 8,
+      "bbox": [
+        28,
+        47,
+        82,
+        120
+      ],
+      "opaque_pixels": 2300,
+      "components": 1,
+      "head_axis": 48
+    },
+    {
+      "sheet": "hero_walk_run_grid.png",
+      "frame": 9,
+      "bbox": [
+        28,
+        47,
+        86,
+        120
+      ],
+      "opaque_pixels": 2187,
+      "components": 1,
+      "head_axis": 48
+    },
+    {
+      "sheet": "hero_walk_run_grid.png",
+      "frame": 10,
+      "bbox": [
+        27,
+        47,
+        85,
+        120
+      ],
+      "opaque_pixels": 2320,
+      "components": 1,
+      "head_axis": 47.5
+    },
+    {
+      "sheet": "hero_walk_run_grid.png",
+      "frame": 11,
+      "bbox": [
+        28,
+        47,
+        78,
+        120
+      ],
+      "opaque_pixels": 2136,
+      "components": 1,
+      "head_axis": 47.5
+    },
+    {
+      "sheet": "hero_walk_run_grid.png",
+      "frame": 12,
+      "bbox": [
+        29,
+        47,
+        67,
+        120
+      ],
+      "opaque_pixels": 1965,
+      "components": 1,
+      "head_axis": 48
+    },
+    {
+      "sheet": "hero_walk_run_grid.png",
+      "frame": 13,
+      "bbox": [
+        29,
+        47,
+        67,
+        120
+      ],
+      "opaque_pixels": 1948,
+      "components": 1,
+      "head_axis": 48
+    },
+    {
+      "sheet": "hero_walk_run_grid.png",
+      "frame": 14,
+      "bbox": [
+        28,
+        47,
+        67,
+        120
+      ],
+      "opaque_pixels": 2036,
+      "components": 1,
+      "head_axis": 48
+    },
+    {
+      "sheet": "hero_walk_run_grid.png",
+      "frame": 15,
+      "bbox": [
+        29,
+        47,
+        67,
+        120
+      ],
+      "opaque_pixels": 1955,
+      "components": 1,
+      "head_axis": 48
+    },
+    {
+      "sheet": "hero_command.png",
+      "frame": 0,
+      "bbox": [
+        28,
+        47,
+        66,
+        120
+      ],
+      "opaque_pixels": 2011,
+      "components": 1,
+      "head_axis": 47.5
+    },
+    {
+      "sheet": "hero_command.png",
+      "frame": 1,
+      "bbox": [
+        27,
+        47,
+        70,
+        120
+      ],
+      "opaque_pixels": 2006,
+      "components": 1,
+      "head_axis": 47.5
+    },
+    {
+      "sheet": "hero_command.png",
+      "frame": 2,
+      "bbox": [
+        21,
+        47,
+        73,
+        120
+      ],
+      "opaque_pixels": 2045,
+      "components": 1,
+      "head_axis": 48
+    }
+  ],
+  "game_sources_unchanged": true,
+  "native_alpha": "binary 0/255",
+  "nearest_3x_exact": true,
+  "nearest_4x_exact": true,
+  "review": {
+    "all_images_decoded": true,
+    "animated_canvases": 12,
+    "play_pause_step": true,
+    "mobile_no_horizontal_overflow": true,
+    "console_errors": []
+  },
+  "unity_run": false
+}
