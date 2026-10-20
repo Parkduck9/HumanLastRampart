@@ -28,8 +28,7 @@
         310
       ],
       "axis": 163,
-      "scale": 0.21212121212121213,
-      "source": "corrected_generated.png"
+      "scale": 0.21212121212121213
     },
     {
       "crop": [
@@ -161,5 +160,6 @@
       "axis": 158,
       "scale": 0.21212121212121213
     }
-  ]
+  ],
+  "source_file": "blue_eyes_generated.png"
 }
