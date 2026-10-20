@@ -1,0 +1,335 @@
+{
+  "card": "K-077",
+  "size_decision": "D-081",
+  "native_cell": [
+    96,
+    128
+  ],
+  "game_cell": [
+    288,
+    384
+  ],
+  "native_pivot_pixels_top_left": [
+    48,
+    120
+  ],
+  "game_pivot_pixels_top_left": [
+    144,
+    360
+  ],
+  "unity_normalized_pivot": [
+    0.5,
+    0.0625
+  ],
+  "alpha": "binary 0/255",
+  "scaling": "nearest-neighbor",
+  "figure_height_target": 56,
+  "sheets": [
+    {
+      "file": "goblin_walk_attack4.png",
+      "native_file": "goblin_walk_attack4_native.png",
+      "preview_file": "goblin_walk_attack4_4x.png",
+      "grid": [
+        4,
+        2
+      ],
+      "frame_count": 8,
+      "order_top_left_row_major": [
+        "걷기: 왼발 지지",
+        "걷기: 통과",
+        "걷기: 오른발 지지",
+        "걷기: 반대 통과",
+        "공격: 준비",
+        "공격: 들어 올리기",
+        "공격: 내려치기",
+        "공격: 회복"
+      ],
+      "native_size": [
+        384,
+        256
+      ],
+      "game_size": [
+        1152,
+        768
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "bbox": [
+            24,
+            65,
+            67,
+            120
+          ],
+          "ground_bottom_exclusive": 120,
+          "axis_x": 48,
+          "components_8_connected": 1,
+          "removed_source_fragment_pixels": 0,
+          "opaque_pixels": 1216
+        },
+        {
+          "index": 1,
+          "bbox": [
+            26,
+            65,
+            68,
+            120
+          ],
+          "ground_bottom_exclusive": 120,
+          "axis_x": 48,
+          "components_8_connected": 1,
+          "removed_source_fragment_pixels": 0,
+          "opaque_pixels": 1213
+        },
+        {
+          "index": 2,
+          "bbox": [
+            23,
+            64,
+            66,
+            120
+          ],
+          "ground_bottom_exclusive": 120,
+          "axis_x": 48,
+          "components_8_connected": 1,
+          "removed_source_fragment_pixels": 0,
+          "opaque_pixels": 1223
+        },
+        {
+          "index": 3,
+          "bbox": [
+            30,
+            65,
+            70,
+            120
+          ],
+          "ground_bottom_exclusive": 120,
+          "axis_x": 48,
+          "components_8_connected": 1,
+          "removed_source_fragment_pixels": 0,
+          "opaque_pixels": 1241
+        },
+        {
+          "index": 4,
+          "bbox": [
+            21,
+            64,
+            66,
+            120
+          ],
+          "ground_bottom_exclusive": 120,
+          "axis_x": 48,
+          "components_8_connected": 1,
+          "removed_source_fragment_pixels": 0,
+          "opaque_pixels": 1402
+        },
+        {
+          "index": 5,
+          "bbox": [
+            24,
+            57,
+            69,
+            120
+          ],
+          "ground_bottom_exclusive": 120,
+          "axis_x": 48,
+          "components_8_connected": 1,
+          "removed_source_fragment_pixels": 0,
+          "opaque_pixels": 1506
+        },
+        {
+          "index": 6,
+          "bbox": [
+            24,
+            78,
+            73,
+            120
+          ],
+          "ground_bottom_exclusive": 120,
+          "axis_x": 48,
+          "components_8_connected": 1,
+          "removed_source_fragment_pixels": 0,
+          "opaque_pixels": 1175
+        },
+        {
+          "index": 7,
+          "bbox": [
+            20,
+            64,
+            65,
+            120
+          ],
+          "ground_bottom_exclusive": 120,
+          "axis_x": 48,
+          "components_8_connected": 1,
+          "removed_source_fragment_pixels": 0,
+          "opaque_pixels": 1397
+        }
+      ]
+    },
+    {
+      "file": "goblin_fall4.png",
+      "native_file": "goblin_fall4_native.png",
+      "preview_file": "goblin_fall4_4x.png",
+      "grid": [
+        4,
+        1
+      ],
+      "frame_count": 4,
+      "order_top_left_row_major": [
+        "피격 반동",
+        "무릎 꺾임",
+        "옆으로 넘어짐",
+        "옆으로 누움"
+      ],
+      "native_size": [
+        384,
+        128
+      ],
+      "game_size": [
+        1152,
+        384
+      ],
+      "frames": [
+        {
+          "index": 8,
+          "bbox": [
+            21,
+            70,
+            73,
+            120
+          ],
+          "ground_bottom_exclusive": 120,
+          "axis_x": 48,
+          "components_8_connected": 1,
+          "removed_source_fragment_pixels": 0,
+          "opaque_pixels": 1436
+        },
+        {
+          "index": 9,
+          "bbox": [
+            21,
+            78,
+            67,
+            120
+          ],
+          "ground_bottom_exclusive": 120,
+          "axis_x": 48,
+          "components_8_connected": 1,
+          "removed_source_fragment_pixels": 0,
+          "opaque_pixels": 1202
+        },
+        {
+          "index": 10,
+          "bbox": [
+            14,
+            81,
+            76,
+            120
+          ],
+          "ground_bottom_exclusive": 120,
+          "axis_x": 48,
+          "components_8_connected": 1,
+          "removed_source_fragment_pixels": 0,
+          "opaque_pixels": 1153
+        },
+        {
+          "index": 11,
+          "bbox": [
+            17,
+            95,
+            76,
+            120
+          ],
+          "ground_bottom_exclusive": 120,
+          "axis_x": 48,
+          "components_8_connected": 1,
+          "removed_source_fragment_pixels": 7,
+          "opaque_pixels": 914
+        }
+      ]
+    },
+    {
+      "file": "goblin_wallhit4.png",
+      "native_file": "goblin_wallhit4_native.png",
+      "preview_file": "goblin_wallhit4_4x.png",
+      "grid": [
+        4,
+        1
+      ],
+      "frame_count": 4,
+      "order_top_left_row_major": [
+        "토벽 타격: 준비",
+        "토벽 타격: 머리 위로 들기",
+        "토벽 타격: 내려치기",
+        "토벽 타격: 회복"
+      ],
+      "native_size": [
+        384,
+        128
+      ],
+      "game_size": [
+        1152,
+        384
+      ],
+      "frames": [
+        {
+          "index": 12,
+          "bbox": [
+            24,
+            67,
+            65,
+            120
+          ],
+          "ground_bottom_exclusive": 120,
+          "axis_x": 48,
+          "components_8_connected": 1,
+          "removed_source_fragment_pixels": 0,
+          "opaque_pixels": 1187
+        },
+        {
+          "index": 13,
+          "bbox": [
+            26,
+            59,
+            67,
+            120
+          ],
+          "ground_bottom_exclusive": 120,
+          "axis_x": 48,
+          "components_8_connected": 1,
+          "removed_source_fragment_pixels": 0,
+          "opaque_pixels": 1333
+        },
+        {
+          "index": 14,
+          "bbox": [
+            17,
+            75,
+            75,
+            120
+          ],
+          "ground_bottom_exclusive": 120,
+          "axis_x": 48,
+          "components_8_connected": 1,
+          "removed_source_fragment_pixels": 0,
+          "opaque_pixels": 1293
+        },
+        {
+          "index": 15,
+          "bbox": [
+            25,
+            70,
+            73,
+            120
+          ],
+          "ground_bottom_exclusive": 120,
+          "axis_x": 48,
+          "components_8_connected": 1,
+          "removed_source_fragment_pixels": 0,
+          "opaque_pixels": 1214
+        }
+      ]
+    }
+  ]
+}
