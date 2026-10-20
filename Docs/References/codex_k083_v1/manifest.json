@@ -1,0 +1,260 @@
+{
+  "card": "K-083",
+  "status": "검토용·게임 미연결",
+  "title": "Human Last Rampart",
+  "title_status": "DECISIONS.md에서 표시 제목 확정 항목을 찾지 못해 카드 지시의 영문 임시 제목 사용",
+  "tool": "built-in image_gen",
+  "prompts": "prompts.json",
+  "hero_reference": "Docs/References/codex_hero_octopath_review_v6/generated.png",
+  "size_decision": "문서 최신 D-080 정정은 원본 인물 약 52점으로 기술. 이후 52/73점 확정 항목 없음. 이 카드는 전투 인물 시트가 아닌 키 아트.",
+  "sheet_contract": "정지 로고·배경·표지이므로 256×384 격자와 프레임 발선 피벗은 적용하지 않음",
+  "menu_overlay": {
+    "reference_resolution": [
+      1920,
+      1080
+    ],
+    "x": 128,
+    "y": 284,
+    "width": 624,
+    "height": 512,
+    "source": "MainMenuEntry.cs 및 ScreenView.DockLeft 읽기"
+  },
+  "export": "생성 배경·표지 1672×941 → 1920×1080 최근접 보간. 약 0.05% 화면비 보정. 로고 원본 크기·알파 보존.",
+  "preview_crops": {
+    "hero_detail_4x.png": [
+      1450,
+      360,
+      256,
+      320
+    ],
+    "logo_detail_4x.png": [
+      700,
+      170,
+      256,
+      192
+    ]
+  },
+  "cover_note": "이미지 생성 도구로 로고를 합성한 표지 변형. 원본 배경과 픽셀 단위 동일성은 보장하지 않음.",
+  "assets": [
+    {
+      "file": "cover.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "alpha_range": [
+        255,
+        255
+      ],
+      "content_bounds": [
+        0,
+        0,
+        1920,
+        1080
+      ],
+      "frame_count": 1,
+      "pivot": null,
+      "frame_order": [
+        "static"
+      ]
+    },
+    {
+      "file": "cover_960.png",
+      "size": [
+        960,
+        540
+      ],
+      "alpha_range": [
+        255,
+        255
+      ],
+      "content_bounds": [
+        0,
+        0,
+        960,
+        540
+      ],
+      "frame_count": 1,
+      "pivot": null,
+      "frame_order": [
+        "static"
+      ]
+    },
+    {
+      "file": "hero_detail_4x.png",
+      "size": [
+        1024,
+        1280
+      ],
+      "alpha_range": [
+        255,
+        255
+      ],
+      "content_bounds": [
+        0,
+        0,
+        1024,
+        1280
+      ],
+      "frame_count": 1,
+      "pivot": null,
+      "frame_order": [
+        "static"
+      ]
+    },
+    {
+      "file": "logo_detail_4x.png",
+      "size": [
+        1024,
+        768
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "content_bounds": [
+        0,
+        0,
+        1024,
+        768
+      ],
+      "frame_count": 1,
+      "pivot": null,
+      "frame_order": [
+        "static"
+      ]
+    },
+    {
+      "file": "main_menu_keyart.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "alpha_range": [
+        255,
+        255
+      ],
+      "content_bounds": [
+        0,
+        0,
+        1920,
+        1080
+      ],
+      "frame_count": 1,
+      "pivot": null,
+      "frame_order": [
+        "static"
+      ]
+    },
+    {
+      "file": "main_menu_keyart_960.png",
+      "size": [
+        960,
+        540
+      ],
+      "alpha_range": [
+        255,
+        255
+      ],
+      "content_bounds": [
+        0,
+        0,
+        960,
+        540
+      ],
+      "frame_count": 1,
+      "pivot": null,
+      "frame_order": [
+        "static"
+      ]
+    },
+    {
+      "file": "review_desktop.png",
+      "size": [
+        1440,
+        6032
+      ],
+      "alpha_range": [
+        255,
+        255
+      ],
+      "content_bounds": [
+        0,
+        0,
+        1440,
+        6032
+      ],
+      "frame_count": 1,
+      "pivot": null,
+      "frame_order": [
+        "static"
+      ]
+    },
+    {
+      "file": "review_mobile.png",
+      "size": [
+        390,
+        4273
+      ],
+      "alpha_range": [
+        255,
+        255
+      ],
+      "content_bounds": [
+        0,
+        0,
+        390,
+        4273
+      ],
+      "frame_count": 1,
+      "pivot": null,
+      "frame_order": [
+        "static"
+      ]
+    },
+    {
+      "file": "title_logo.png",
+      "size": [
+        1774,
+        887
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "content_bounds": [
+        45,
+        22,
+        1755,
+        869
+      ],
+      "frame_count": 1,
+      "pivot": null,
+      "frame_order": [
+        "static"
+      ]
+    },
+    {
+      "file": "title_logo_wide.png",
+      "size": [
+        2172,
+        724
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "content_bounds": [
+        40,
+        52,
+        2144,
+        586
+      ],
+      "frame_count": 1,
+      "pivot": null,
+      "frame_order": [
+        "static"
+      ]
+    }
+  ]
+}
