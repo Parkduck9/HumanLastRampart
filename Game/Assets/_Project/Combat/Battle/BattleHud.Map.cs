@@ -490,13 +490,13 @@ namespace HumanLastRampart.Combat.Battle
                 marker.Root.gameObject.SetActive(mapMode);
                 marker.Root.anchorMin = marker.Root.anchorMax = Viewport(screen);
                 marker.Root.anchoredPosition = Vector2.zero;
-                bool chosen = g == selected;
+                bool chosen = g == selected || boxGroups.Contains(g);
                 if (marker.Flag != null)
                 {
                     bool gunner = !string.IsNullOrEmpty(info.UnitName) && info.UnitName.Contains("총");
                     Sprite flag = UiArt.Hud(gunner ? "Map/flag_gunner" : "Map/flag_archer");
                     if (flag != null) marker.Flag.sprite = flag;
-                    marker.Flag.color = info.Moving && !chosen ? new Color(0.78f, 0.78f, 0.78f, 1f) : Color.white;   // 옮기는 중은 조금 어둡게
+                    marker.Flag.color = chosen ? UiTokens.Brass : info.Moving ? new Color(0.78f, 0.78f, 0.78f, 1f) : Color.white;   // 선택 테두리 그림이 없어도 황동색으로 구별
                     bool full = info.Alive == BattleSim.GroupSize;   // 10명이면 그림의 '10' 그대로
                     marker.Plate.gameObject.SetActive(!full);
                     marker.PlateInner.color = gunner ? GunnerShade : ArcherShade;

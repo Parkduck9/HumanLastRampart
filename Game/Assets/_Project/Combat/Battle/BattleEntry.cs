@@ -41,6 +41,10 @@ namespace HumanLastRampart.Combat.Battle
         bool panPending, panMoved;   // 빈 지도 끌기 (D-073)
         Vector2 panLast;
         Vector3 panPress;
+        bool boxSelecting, amountWheel;
+        Vector2 boxStart, wheelScreen;
+        int sourceWall = -1, wallMoveCount;
+        readonly System.Collections.Generic.List<int> selectedGroups = new System.Collections.Generic.List<int>();
 
         public ScreenId Id => ScreenId.Battle;
 
@@ -152,11 +156,88 @@ namespace HumanLastRampart.Combat.Battle
         {
             if (sim == null || group < 0 || group >= sim.GroupCount) return;
             int wall = sim.GetGroup(group).Side;
+            OrderWallMoveCount(wall, targetSide, int.MaxValue);
+        }
+
+        public void OrderWallMoveCount(int wall, int targetSide, int maxGroups)
+        {
+            if (sim == null || maxGroups <= 0 || wall > 3 || targetSide < 0 || targetSide > 3) return;
             if (wall < 0 || wall == targetSide) return;
-            if (preparing) sim.IssueWallMove(wall, targetSide, true);
-            else if (rig == null || rig.Side == wall) sim.IssueWallMove(wall, targetSide, false);
-            else sim.IssueWallMoveByMessenger(rig.Side, rig.Along, wall, targetSide);
+            if (preparing) sim.IssueWallMove(wall, targetSide, true, maxGroups);
+            else if (rig == null || rig.Side == wall) sim.IssueWallMove(wall, targetSide, false, maxGroups);
+            else sim.IssueWallMoveByMessenger(rig.Side, rig.Along, wall, targetSide, maxGroups);
             selectedGroup = -1;
+        }
+
+        // 성벽 통로 띠만 누를 수 있다. 마당·들판은 지도 끌기와 함정 조작에 남긴다
+        public static int WallAtPoint(Vector3 world, float castleHalf)
+        {
+            float reach = Mathf.Max(Mathf.Abs(world.x), Mathf.Abs(world.z));
+            return reach >= castleHalf - 2f && reach <= castleHalf ? SideOfPoint(world) : -1;
+        }
+
+        public int SelectGroupsInScreenRect(Rect rect)
+        {
+            selectedGroups.Clear();
+            selectedGroup = -1;
+            hud.RefreshGroupMarkers(sim, battleCamera, -1, null);
+            selectedGroups.AddRange(hud.GroupsInScreenRect(sim, rect));
+            hud.SetBoxGroups(selectedGroups);
+            return selectedGroups.Count;
+        }
+
+        public void SendSelectedGroups(int side)
+        {
+            foreach (int group in selectedGroups) OrderGroupMove(group, side);
+            CancelSquadSelection();
+        }
+
+        void CancelSquadSelection()
+        {
+            boxSelecting = false;
+            selectedGroups.Clear();
+            sourceWall = -1;
+            hud?.HideSelectionBox();
+            hud?.CloseSquadWheel();
+            hud?.SetBoxGroups(null);
+        }
+
+        int SelectedSoldiers()
+        {
+            int count = 0;
+            foreach (int group in selectedGroups) count += sim.GetGroup(group).Alive;
+            return count;
+        }
+
+        void ChooseSquadWheel(Vector2 point)
+        {
+            int choice = hud.PickSquadWheel(point);
+            if (choice < 0) return;
+            if (amountWheel)
+            {
+                wallMoveCount = sim.WallMoveGroupCount(sourceWall, choice);
+                amountWheel = false;
+                hud.ShowSquadWheel(wheelScreen, false, WallMoveSoldiers(sourceWall, wallMoveCount), sourceWall);
+            }
+            else if (sourceWall >= 0)
+            {
+                OrderWallMoveCount(sourceWall, choice, wallMoveCount);
+                CancelSquadSelection();
+            }
+            else SendSelectedGroups(choice);
+        }
+
+        int WallMoveSoldiers(int wall, int maxGroups)
+        {
+            int total = 0, count = 0;
+            for (int g = 0; g < sim.GroupCount; g++)
+            {
+                BattleSim.GroupInfo info = sim.GetGroup(g);
+                if (info.Side != wall || !info.Movable || info.Moving || info.Alive <= 0) continue;
+                total += info.Alive;
+                count++;
+            }
+            return Mathf.Min(Mathf.Max(0, total - BattleSim.KeepPerWall), Mathf.Min(count, maxGroups) * BattleSim.GroupSize);
         }
 
         // 지도 위 한 점에서 가장 가까운 성벽 (성 가운데 기준으로 더 많이 치우친 축)
@@ -281,6 +362,9 @@ namespace HumanLastRampart.Combat.Battle
 
             var keyboard = Keyboard.current;
             var mouse = Mouse.current;
+            bool cancelSquad = mapOpen && (boxSelecting || hud.SquadWheelOpen)
+                && ((keyboard != null && keyboard.escapeKey.wasPressedThisFrame) || (mouse != null && mouse.rightButton.wasPressedThisFrame));
+            if (cancelSquad) CancelSquadSelection();
             if (mouse != null && !sim.Ended && !mapOpen)
             {
                 if (mouse.middleButton.wasPressedThisFrame) hud.ToggleMenu(rig != null ? rig.Side : 0);
@@ -292,7 +376,7 @@ namespace HumanLastRampart.Combat.Battle
                 // 2번 지도 모드 (BattleMap.md): Tab·M 열고 닫기, Esc 닫기(명령 메뉴가 열려 있으면 메뉴 먼저). D-071: Tab = 지도
                 // 전투 준비 중에 지도를 닫으면 전투가 시작된다
                 bool toggle = keyboard.tabKey.wasPressedThisFrame || keyboard.mKey.wasPressedThisFrame
-                    || (keyboard.escapeKey.wasPressedThisFrame && mapOpen && !hud.MenuOpen);
+                    || (keyboard.escapeKey.wasPressedThisFrame && mapOpen && !hud.MenuOpen && !cancelSquad);
                 if (toggle)
                 {
                     if (preparing) StartBattle();
@@ -346,13 +430,24 @@ namespace HumanLastRampart.Combat.Battle
                 // 대포를 고른 상태에서 들판(UI 바깥)을 왼쪽 클릭 → 조준점
                 // 아무것도 고르지 않았으면 내 함정 표시를 눌러 점화 (D-050)
                 bool overUi = UnityEngine.EventSystems.EventSystem.current != null && UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject();
-                if (mouse != null && mouse.leftButton.wasPressedThisFrame && !overUi)
+                if (mouse != null && mouse.leftButton.wasPressedThisFrame && hud.SquadWheelOpen)
+                    ChooseSquadWheel(mouse.position.ReadValue());
+                else if (mouse != null && mouse.leftButton.wasPressedThisFrame && !overUi && !cancelSquad)
                 {
                     Vector2 point = mouse.position.ReadValue();
                     Vector3 world = battleCamera.ScreenToWorldPoint(new Vector3(point.x, point.y, battleCamera.nearClipPlane));
                     // D-072: 병력 묶음 표시를 누르면 고르고 끌기 시작 (마법·대포보다 먼저)
                     int group = hud.GroupAtScreen(point);
-                    if (group >= 0)
+                    if (keyboard != null && (keyboard.leftShiftKey.isPressed || keyboard.rightShiftKey.isPressed))
+                    {
+                        CancelSquadSelection();
+                        selectedGroup = selectedSpell = selectedCannon = -1;
+                        panPending = dragging = false;
+                        boxStart = point;
+                        boxSelecting = true;
+                        hud.ShowSelectionBox(point, point);
+                    }
+                    else if (group >= 0)
                     {
                         selectedGroup = group;
                         selectedSpell = -1;
@@ -373,6 +468,24 @@ namespace HumanLastRampart.Combat.Battle
                     }
                 }
 
+                if (boxSelecting && mouse != null)
+                {
+                    Vector2 point = mouse.position.ReadValue();
+                    hud.ShowSelectionBox(boxStart, point);
+                    if (!mouse.leftButton.isPressed)
+                    {
+                        boxSelecting = false;
+                        hud.HideSelectionBox();
+                        Vector2 lo = Vector2.Min(boxStart, point), hi = Vector2.Max(boxStart, point);
+                        if (SelectGroupsInScreenRect(Rect.MinMaxRect(lo.x, lo.y, hi.x, hi.y)) > 0)
+                        {
+                            amountWheel = false;
+                            sourceWall = -1;
+                            hud.ShowSquadWheel(point, false, SelectedSoldiers());
+                        }
+                    }
+                }
+
                 if (panPending && mouse != null)
                 {
                     Vector2 point = mouse.position.ReadValue();
@@ -389,7 +502,20 @@ namespace HumanLastRampart.Combat.Battle
                     else
                     {
                         panPending = false;
-                        if (!panMoved && !DetonateTrapAt(panPress)) selectedGroup = -1;
+                        if (!panMoved)
+                        {
+                            int wall = WallAtPoint(panPress, sim.CastleHalf);
+                            selectedGroup = -1;
+                            if (wall >= 0)
+                            {
+                                CancelSquadSelection();
+                                sourceWall = wall;
+                                amountWheel = true;
+                                wheelScreen = point;
+                                hud.ShowSquadWheel(point, true, WallMoveSoldiers(wall, int.MaxValue));
+                            }
+                            else DetonateTrapAt(panPress);
+                        }
                     }
                 }
 
@@ -407,7 +533,7 @@ namespace HumanLastRampart.Combat.Battle
 
                 // 망원경 (MAP-5): 오른쪽 버튼을 누르고 있는 동안 렌즈, 0.15초마다 무리 확인
                 lens = null;
-                if (mouse != null && mouse.rightButton.isPressed)
+                if (mouse != null && mouse.rightButton.isPressed && !cancelSquad && !hud.SquadWheelOpen && !boxSelecting)
                 {
                     Vector3 world = battleCamera.ScreenToWorldPoint(new Vector3(mouse.position.ReadValue().x, mouse.position.ReadValue().y, battleCamera.nearClipPlane));
                     UseTelescope(world);
@@ -562,6 +688,8 @@ namespace HumanLastRampart.Combat.Battle
         {
             if (sim == null || mapCamera == null) return;
             mapOpen = !mapOpen;
+            CancelSquadSelection();
+            panPending = dragging = false;
             if (mapOpen)
             {
                 hud.CloseMenu();

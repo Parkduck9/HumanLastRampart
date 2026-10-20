@@ -5,6 +5,11 @@
 - Rules for whoever continues: reports to the user in KOREAN; commit only files you changed, file by file; never switch branches (work on `develop`); after every item update `Docs/GDD/ROADMAP.md` + `Docs/collab/view/ROADMAP.html`; ask the user instead of guessing; show photos for visual changes.
 - Work loop (`Docs/GDD/Loop_Engineering_v1.md` §3, adopted by the user): write the done-condition first → implement → edit tests → play tests → photo check → commit → log. Max 3 attempts per item, then stop and ask. Log one entry per attempt at the bottom of `Docs/collab/live/claude/loop_log.md` (Codex: `Docs/collab/live/codex/loop_log.md`).
 
+## Codex CODE line (started 2026-10-20 ~16:00, user: "그래 그렇게 시작하자" — Claude weekly quota 96%)
+- Runner: `Tools/CodexCode/run-code.ps1 -Brief Tools\CodexCode\briefs\CODE-0N.md` (rules `Tools/CodexCode/COMMON.md`). Codex edits code in the main checkout; NO git writes, NO Unity. Result: `.codex-code/CODE-0N_RESULT.md`.
+- Queue running now: CODE-01 squad selection → CODE-02 start-in-5s + squeeze soldiers → CODE-03 lens afterimage → CODE-04 free trap placement.
+- After each: run the Unity tests (section "How to test"), look at photos, commit the changed files. If Claude is gone, the user (or Codex in an interactive session) does this step.
+
 ## Starting Codex on code (paste to Codex in the repo root C:\Unity\1\HumanLastRampart)
 
 ```
@@ -51,8 +56,8 @@ $env:HLR_PLAY_OUT="$env:TEMP\hlr_play"
 | 7a | Remove Path & Move actions | CODED, UNTESTED | `TrapPreparationPanel.RenderTerrainTab` shows only 토벽·언덕·철거; FullLoop probe presses "할 일:철거" |
 | 12/13 | 2-cell terrain pieces, 45° steps, no gap | TODO | needs K-087 art for connection; logic can start before art |
 | 9 | Free trap placement | TODO | |
-| 2 | Overlap: squeeze into gaps | TODO | ask user about overflow beyond minimum spacing |
-| 4/5/6 | Shift box select + radial N/E/S/W picker | TODO | amount (all/half/10) placement to confirm |
+| 2 | Overlap: squeeze into gaps | PARTIAL, REVERTED | CODE-02 stopped (Codex credits) — its half-done diff threw "성벽 최소 간격 초과" in 2 PlayProbes and failed 3 own tests. Saved: Docs/GDD/research/code02_partial/ (patch + test). Rerun CODE-02 from there. | ask user about overflow beyond minimum spacing |
+| 4/5/6 | Shift box select + radial N/E/S/W picker | DONE (Claude verified: edit 85/86+1 inc., play 32/32; photos still to take) | CODE-01: Shift-release marker selection/highlight; brass radial N/E/S/W picker; wall-band click → one/ceil-half/all wheel → destination (source disabled). Count preserved through instant/direct/messenger delivery; KeepPerWall retained. Added BattleSquadSelectionTests. Standalone C# compilation passed; Unity tests/photos pending. See .codex-code/CODE-01_RESULT.md |
 | 11/19 | Lens afterimage 3–5 s | TODO | last position when a dot LEAVES the lens circle (or on release) stays ~4 s, fading |
 | 16 | Repair map | TODO | waiting: user asked for a longer explanation (per-wall vs segments) |
 | 7 | Contact shadows → Simple-Lit-style lighting | TODO | K-088 art; shader: Blinn-Phong spec + normal maps (K-081) |

@@ -130,7 +130,19 @@ namespace HumanLastRampart.Combat.Battle
         // 그 성벽에 옮길 수 있는 병사를 최소 KeepPerWall명(방어 10 + 전령용 10) 남긴다. 대포 분대는 원래 안 옮긴다
         public const int KeepPerWall = 20;
 
-        public int MoveWallGroups(int fromSide, int toSide, bool instant)
+        // 수량 바퀴: 한 묶음 / 절반(올림) / 전체. 최소 잔류 병력은 실제 이동 때 다시 검사한다
+        public int WallMoveGroupCount(int side, int choice)
+        {
+            int count = 0;
+            for (int g = 0; g < GroupCount; g++)
+            {
+                GroupInfo info = GetGroup(g);
+                if (info.Side == side && info.Movable && !info.Moving && info.Alive > 0) count++;
+            }
+            return choice == 0 ? Mathf.Min(1, count) : choice == 1 ? (count + 1) / 2 : count;
+        }
+
+        public int MoveWallGroups(int fromSide, int toSide, bool instant, int maxGroups = int.MaxValue)
         {
             if (Ended || fromSide == toSide || fromSide < 0 || fromSide > 3 || toSide < 0 || toSide > 3) return 0;
             var candidates = new List<int>();
@@ -147,14 +159,16 @@ namespace HumanLastRampart.Combat.Battle
             float3 right = WallGeometry.Right(fromSide), toward = WallGeometry.Outward(toSide);
             float sign = math.sign(math.dot(right, toward));
             candidates.Sort((a, b) => (sign * GroupLateral(b, fromSide)).CompareTo(sign * GroupLateral(a, fromSide)));
-            int moved = 0;
+            int moved = 0, movedGroups = 0;
             foreach (int g in candidates)
             {
+                if (movedGroups >= maxGroups) break;
                 int alive = squads[g].Alive;
                 if (movable - alive < KeepPerWall) continue;   // 이 묶음까지 보내면 최소 병력보다 적어짐
                 if (!MoveGroup(g, toSide, instant)) continue;
                 movable -= alive;
                 moved += alive;
+                movedGroups++;
             }
 
             if (moved == 0) Notice?.Invoke($"{SideNames[fromSide]}: 최소 {KeepPerWall}명을 남기면 더 보낼 병력이 없습니다");
