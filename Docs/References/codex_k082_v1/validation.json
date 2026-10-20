@@ -1,0 +1,427 @@
+﻿{
+    "read_only_files_changed":  [
+
+                                ],
+    "assets":  [
+                   {
+                       "size":  [
+                                    512,
+                                    512
+                                ],
+                       "baseline_pass":  true,
+                       "file":  "result/codex_portrait_hero.png",
+                       "pass":  true,
+                       "preview_size":  [
+                                            2048,
+                                            2048
+                                        ],
+                       "frame_bounds_exclusive":  [
+                                                      [
+                                                          64,
+                                                          40,
+                                                          448,
+                                                          480
+                                                      ]
+                                                  ],
+                       "transparent_pixels":  158400,
+                       "opaque_pixels":  103744,
+                       "opaque_color_count":  29,
+                       "nearest_neighbor_grid_errors":  0,
+                       "native_islands_le_2_pixels":  0,
+                       "alpha_partial_pixels":  0,
+                       "same_size_as_source":  true
+                   },
+                   {
+                       "size":  [
+                                    512,
+                                    512
+                                ],
+                       "baseline_pass":  true,
+                       "file":  "result/codex_portrait_wizard.png",
+                       "pass":  true,
+                       "preview_size":  [
+                                            2048,
+                                            2048
+                                        ],
+                       "frame_bounds_exclusive":  [
+                                                      [
+                                                          64,
+                                                          40,
+                                                          440,
+                                                          480
+                                                      ]
+                                                  ],
+                       "transparent_pixels":  149504,
+                       "opaque_pixels":  112640,
+                       "opaque_color_count":  28,
+                       "nearest_neighbor_grid_errors":  0,
+                       "native_islands_le_2_pixels":  0,
+                       "alpha_partial_pixels":  0,
+                       "same_size_as_source":  true
+                   },
+                   {
+                       "size":  [
+                                    512,
+                                    512
+                                ],
+                       "baseline_pass":  true,
+                       "file":  "result/codex_portrait_archer.png",
+                       "pass":  true,
+                       "preview_size":  [
+                                            2048,
+                                            2048
+                                        ],
+                       "frame_bounds_exclusive":  [
+                                                      [
+                                                          56,
+                                                          40,
+                                                          456,
+                                                          480
+                                                      ]
+                                                  ],
+                       "transparent_pixels":  144320,
+                       "opaque_pixels":  117824,
+                       "opaque_color_count":  30,
+                       "nearest_neighbor_grid_errors":  0,
+                       "native_islands_le_2_pixels":  0,
+                       "alpha_partial_pixels":  0,
+                       "same_size_as_source":  true
+                   },
+                   {
+                       "size":  [
+                                    512,
+                                    512
+                                ],
+                       "baseline_pass":  true,
+                       "file":  "result/codex_portrait_gunner.png",
+                       "pass":  true,
+                       "preview_size":  [
+                                            2048,
+                                            2048
+                                        ],
+                       "frame_bounds_exclusive":  [
+                                                      [
+                                                          48,
+                                                          40,
+                                                          472,
+                                                          480
+                                                      ]
+                                                  ],
+                       "transparent_pixels":  145856,
+                       "opaque_pixels":  116288,
+                       "opaque_color_count":  29,
+                       "nearest_neighbor_grid_errors":  0,
+                       "native_islands_le_2_pixels":  0,
+                       "alpha_partial_pixels":  0,
+                       "same_size_as_source":  true
+                   },
+                   {
+                       "size":  [
+                                    512,
+                                    512
+                                ],
+                       "baseline_pass":  true,
+                       "file":  "result/codex_portrait_cannon.png",
+                       "pass":  true,
+                       "preview_size":  [
+                                            2048,
+                                            2048
+                                        ],
+                       "frame_bounds_exclusive":  [
+                                                      [
+                                                          56,
+                                                          40,
+                                                          456,
+                                                          480
+                                                      ]
+                                                  ],
+                       "transparent_pixels":  153600,
+                       "opaque_pixels":  108544,
+                       "opaque_color_count":  28,
+                       "nearest_neighbor_grid_errors":  0,
+                       "native_islands_le_2_pixels":  0,
+                       "alpha_partial_pixels":  0,
+                       "same_size_as_source":  true
+                   },
+                   {
+                       "size":  [
+                                    1024,
+                                    384
+                                ],
+                       "baseline_pass":  true,
+                       "file":  "TrapMap/worker_dig_archer.png",
+                       "pass":  true,
+                       "preview_size":  [
+                                            4096,
+                                            1536
+                                        ],
+                       "frame_bounds_exclusive":  [
+                                                      [
+                                                          28,
+                                                          72,
+                                                          224,
+                                                          352
+                                                      ],
+                                                      [
+                                                          20,
+                                                          96,
+                                                          212,
+                                                          352
+                                                      ],
+                                                      [
+                                                          28,
+                                                          72,
+                                                          252,
+                                                          352
+                                                      ],
+                                                      [
+                                                          8,
+                                                          72,
+                                                          244,
+                                                          352
+                                                      ]
+                                                  ],
+                       "transparent_pixels":  271360,
+                       "opaque_pixels":  121856,
+                       "opaque_color_count":  27,
+                       "nearest_neighbor_grid_errors":  0,
+                       "native_islands_le_2_pixels":  0,
+                       "alpha_partial_pixels":  0,
+                       "same_size_as_source":  true
+                   },
+                   {
+                       "size":  [
+                                    1024,
+                                    384
+                                ],
+                       "baseline_pass":  true,
+                       "file":  "TrapMap/worker_dig_gunner.png",
+                       "pass":  true,
+                       "preview_size":  [
+                                            4096,
+                                            1536
+                                        ],
+                       "frame_bounds_exclusive":  [
+                                                      [
+                                                          20,
+                                                          56,
+                                                          252,
+                                                          352
+                                                      ],
+                                                      [
+                                                          28,
+                                                          60,
+                                                          228,
+                                                          352
+                                                      ],
+                                                      [
+                                                          4,
+                                                          56,
+                                                          228,
+                                                          352
+                                                      ],
+                                                      [
+                                                          16,
+                                                          56,
+                                                          252,
+                                                          352
+                                                      ]
+                                                  ],
+                       "transparent_pixels":  260592,
+                       "opaque_pixels":  132624,
+                       "opaque_color_count":  27,
+                       "nearest_neighbor_grid_errors":  0,
+                       "native_islands_le_2_pixels":  0,
+                       "alpha_partial_pixels":  0,
+                       "same_size_as_source":  true
+                   },
+                   {
+                       "size":  [
+                                    1024,
+                                    384
+                                ],
+                       "baseline_pass":  true,
+                       "file":  "TrapMap/worker_earth_archer.png",
+                       "pass":  true,
+                       "preview_size":  [
+                                            4096,
+                                            1536
+                                        ],
+                       "frame_bounds_exclusive":  [
+                                                      [
+                                                          68,
+                                                          56,
+                                                          232,
+                                                          352
+                                                      ],
+                                                      [
+                                                          60,
+                                                          52,
+                                                          224,
+                                                          352
+                                                      ],
+                                                      [
+                                                          44,
+                                                          52,
+                                                          212,
+                                                          352
+                                                      ],
+                                                      [
+                                                          52,
+                                                          52,
+                                                          216,
+                                                          352
+                                                      ]
+                                                  ],
+                       "transparent_pixels":  273280,
+                       "opaque_pixels":  119936,
+                       "opaque_color_count":  24,
+                       "nearest_neighbor_grid_errors":  0,
+                       "native_islands_le_2_pixels":  0,
+                       "alpha_partial_pixels":  0,
+                       "same_size_as_source":  true
+                   },
+                   {
+                       "size":  [
+                                    1024,
+                                    384
+                                ],
+                       "baseline_pass":  true,
+                       "file":  "TrapMap/worker_earth_gunner.png",
+                       "pass":  true,
+                       "preview_size":  [
+                                            4096,
+                                            1536
+                                        ],
+                       "frame_bounds_exclusive":  [
+                                                      [
+                                                          40,
+                                                          56,
+                                                          220,
+                                                          352
+                                                      ],
+                                                      [
+                                                          72,
+                                                          56,
+                                                          236,
+                                                          352
+                                                      ],
+                                                      [
+                                                          48,
+                                                          52,
+                                                          220,
+                                                          352
+                                                      ],
+                                                      [
+                                                          48,
+                                                          56,
+                                                          220,
+                                                          352
+                                                      ]
+                                                  ],
+                       "transparent_pixels":  270672,
+                       "opaque_pixels":  122544,
+                       "opaque_color_count":  28,
+                       "nearest_neighbor_grid_errors":  0,
+                       "native_islands_le_2_pixels":  0,
+                       "alpha_partial_pixels":  0,
+                       "same_size_as_source":  true
+                   },
+                   {
+                       "size":  [
+                                    1024,
+                                    384
+                                ],
+                       "baseline_pass":  true,
+                       "file":  "TrapMap/worker_log_archer.png",
+                       "pass":  true,
+                       "preview_size":  [
+                                            4096,
+                                            1536
+                                        ],
+                       "frame_bounds_exclusive":  [
+                                                      [
+                                                          36,
+                                                          68,
+                                                          224,
+                                                          352
+                                                      ],
+                                                      [
+                                                          32,
+                                                          64,
+                                                          224,
+                                                          352
+                                                      ],
+                                                      [
+                                                          32,
+                                                          64,
+                                                          224,
+                                                          352
+                                                      ],
+                                                      [
+                                                          32,
+                                                          60,
+                                                          228,
+                                                          352
+                                                      ]
+                                                  ],
+                       "transparent_pixels":  266192,
+                       "opaque_pixels":  127024,
+                       "opaque_color_count":  27,
+                       "nearest_neighbor_grid_errors":  0,
+                       "native_islands_le_2_pixels":  0,
+                       "alpha_partial_pixels":  0,
+                       "same_size_as_source":  true
+                   },
+                   {
+                       "size":  [
+                                    1024,
+                                    384
+                                ],
+                       "baseline_pass":  true,
+                       "file":  "TrapMap/worker_log_gunner.png",
+                       "pass":  true,
+                       "preview_size":  [
+                                            4096,
+                                            1536
+                                        ],
+                       "frame_bounds_exclusive":  [
+                                                      [
+                                                          36,
+                                                          60,
+                                                          236,
+                                                          352
+                                                      ],
+                                                      [
+                                                          36,
+                                                          64,
+                                                          232,
+                                                          352
+                                                      ],
+                                                      [
+                                                          12,
+                                                          56,
+                                                          216,
+                                                          352
+                                                      ],
+                                                      [
+                                                          32,
+                                                          60,
+                                                          232,
+                                                          352
+                                                      ]
+                                                  ],
+                       "transparent_pixels":  261696,
+                       "opaque_pixels":  131520,
+                       "opaque_color_count":  27,
+                       "nearest_neighbor_grid_errors":  0,
+                       "native_islands_le_2_pixels":  0,
+                       "alpha_partial_pixels":  0,
+                       "same_size_as_source":  true
+                   }
+               ],
+    "pass":  true,
+    "read_only_files_checked":  199,
+    "unity_run":  false,
+    "browser_render_verified":  false
+}
