@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>플레이 의견 20가지 설계 1판</title>
+<style>
+:root { --bg:#f6f4ef; --surface:#fff; --surface-2:#efece4; --text:#22201c; --muted:#6b665c; --line:#ddd8cc; --accent:#8a5a2b; --warn-soft:#f6dfd9; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg:#171614; --surface:#211f1c; --surface-2:#2a2824; --text:#ece8df; --muted:#a39d91; --line:#3a3732; --accent:#d9a066; --warn-soft:#3d2420; } }
+:root[data-theme="dark"] { --bg:#171614; --surface:#211f1c; --surface-2:#2a2824; --text:#ece8df; --muted:#a39d91; --line:#3a3732; --accent:#d9a066; --warn-soft:#3d2420; }
+body { margin:0; background:var(--bg); color:var(--text); font:15px/1.65 "Malgun Gothic","Apple SD Gothic Neo",sans-serif; }
+main { max-width:980px; margin:0 auto; padding:24px 16px 64px; }
+h1 { font-size:26px; margin:8px 0 12px; }
+h2 { font-size:20px; margin:36px 0 10px; padding-top:12px; border-top:2px solid var(--line); color:var(--accent); }
+h3 { font-size:16px; margin:20px 0 6px; }
+nav { display:flex; flex-wrap:wrap; gap:6px; margin:12px 0 8px; }
+nav a { background:var(--surface); border:1px solid var(--line); border-radius:999px; padding:3px 11px; color:var(--text); text-decoration:none; font-size:13px; }
+code { background:var(--surface-2); padding:1px 5px; border-radius:4px; font-size:13px; word-break:break-all; }
+pre { background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:10px 12px; overflow-x:auto; }
+pre code { background:none; padding:0; }
+.tw { overflow-x:auto; margin:8px 0; }
+table { border-collapse:collapse; width:100%; background:var(--surface); font-size:14px; }
+th, td { border:1px solid var(--line); padding:6px 9px; text-align:left; vertical-align:top; }
+th { background:var(--surface-2); }
+ul, ol { padding-left:22px; margin:6px 0; }
+</style></head>
+<body><main>
+<h1>플레이 의견 20가지 설계 1판</h1>
+<nav><a href="#s1">0. 한눈에 보기</a><a href="#s2">1. 밤이 너무 어둡다</a><a href="#s3">2. 병사가 많을수록 겹친다</a><a href="#s4">3. 화면이 너무 복잡하다</a><a href="#s5">4·5·6. 분대 보내기 (여러 개 고르기·절반·드래그)</a><a href="#s6">7. 토벽이 떠 보임 · 그림자 · 반사 (물리 기반 빛 가능성)</a><a href="#s7">8. 총병이 쏘지 않는데 쏘는 동작을 함</a><a href="#s8">9. 함정도 자유 설치</a><a href="#s9">10. 옆 성벽 대포가 거꾸로 쏨</a><a href="#s10">11. "길"은 무엇을 하나?</a><a href="#s11">12. 토벽·언덕은 칸에 맞춰 딱 2칸</a><a href="#s12">13. 이어 놓으면 붙어 보이게</a><a href="#s13">14. 병영: 인원 유지·−10·분대 종류</a><a href="#s14">15. 병종 훈련 다음 단계를 못 산다</a><a href="#s15">16. 성벽 수리 화면</a><a href="#s16">17·19. 튜토리얼 (1단계 전투 + 정비 강제 순서)</a><a href="#s17">18. 정비 마당을 "그림 배경 + 보이지 않는 충돌체"로</a><a href="#s18">20. 시작 5초 안에 적 보이기 · 대포 키우기</a><a href="#s19">21. 작업 순서 (결정 뒤, 제안)</a><a href="#s20">22. 질문 모음 (답해 주시면 구현 설계로 넘어갑니다)</a><a href="#s21">근거 (코드 위치, 모두 `Game/Assets/_Project/` 아래)</a></nav>
+
+<ul>
+<li>작성 Claude · 2026-10-20 · 사용자 의견 20가지(밤 어두움 ~ 시작 5초·대포 크기)와 참고 영상(미리 그린 배경 + 보이지 않는 충돌체)</li>
+<li>상태: <strong>설계 초안 — 사용자 결정 뒤 구현 설계 → 작업</strong>. 결정이 필요한 것은 각 항목의 "질문"과 맨 끝 질문 모음에 모았다.</li>
+<li>원인은 코드를 직접 읽고 찾았다(파일:줄은 문서 끝 "근거"에). 토큰이 떨어지면 코덱스가 이어받는 문서: <code>Docs/GDD/Playtest_Feedback_20_handoff.md</code>(영어).</li>
+</ul>
+<h2 id="s1">0. 한눈에 보기</h2>
+<div class="tw"><table><tr><th>번호</th><th>의견</th><th>원인/현재</th><th>제안</th><th>크기</th><th>결정 필요</th></tr>
+<tr><td>1</td><td>밤이 너무 어둡다</td><td>밤 노출·환경광·병사 밝기 0.5가 겹쳐 어두움</td><td>달빛 바닥 밝기 + 횃불 강화 + 적 테두리빛</td><td>중</td><td>얼마나 밝게</td></tr>
+<tr><td>2</td><td>병사가 많으면 겹친다</td><td>자리가 모자라면 안쪽 줄 9자리에 쌓음</td><td>성벽당 정원 + 넘치면 이동 거절·안내 + 줄 간격</td><td>중</td><td>정원 처리</td></tr>
+<tr><td>3</td><td>화면이 복잡하다</td><td>—</td><td>화면마다 코덱스 사진 1장 → 검토 → 조립</td><td>큼</td><td>순서</td></tr>
+<tr><td>4·5·6</td><td>분대 보내기가 번거롭다, 절반 보내기, 드래그</td><td>깃발 하나씩 끌어 놓기</td><td>상자 고르기 + 성벽 누르기 + 전부/절반/10명</td><td>중</td><td>드래그 방식</td></tr>
+<tr><td>7</td><td>토벽이 떠 보임, 그림자·반사</td><td>그림자 거리 50m, 발밑 그림자 없음, 정반사 없음</td><td>발밑 그림자 + 그림자 거리 + 간이 물리 기반 빛</td><td>큼</td><td>범위</td></tr>
+<tr><td>8</td><td>총병이 안 쏘고 쏘는 동작</td><td>표적이 없을 때 0.25초마다 겨누기 동작 반복</td><td>표적 있을 때만 겨누기 + 총구 불꽃 그림</td><td>소</td><td>—</td></tr>
+<tr><td>9</td><td>함정도 자유 설치</td><td>칸 이름 방식</td><td>자리값 방식으로 (전투 쪽은 이미 자리값)</td><td>중</td><td>12번과 같은 규칙?</td></tr>
+<tr><td>10</td><td>옆 대포가 거꾸로 쏨</td><td>대포는 앞쪽 검사 없이 옆 들판까지 겨눔</td><td>자기 성벽 바깥만 + 대포 그림 방향</td><td>소</td><td>—</td></tr>
+<tr><td>11</td><td>길은 무엇?</td><td>막혀서 돌아가는 적의 길만 조금 바꿈</td><td>길 위 적을 끌어당기게 바꾸거나 없앰</td><td>소</td><td>고르기</td></tr>
+<tr><td>12</td><td>토벽·언덕은 칸 2개만</td><td>자유 배치라 3~6칸을 덮음</td><td>칸에 맞춰 딱 2칸, 돌리기는 가로/세로</td><td>중</td><td>대각선</td></tr>
+<tr><td>13</td><td>이어 놓으면 붙어 보이게</td><td>칸마다 따로 그림</td><td>이웃을 보고 이음 조각 고르기</td><td>중</td><td>그림 필요(코덱스)</td></tr>
+<tr><td>14</td><td>병영 인원 유지·−10·분대 종류</td><td>고를 때 인원을 1로 안 돌림</td><td>고칠 때 1로, −10, "총병 분대" 표시</td><td>소</td><td>—</td></tr>
+<tr><td>15</td><td>훈련 다음 단계 못 삼</td><td>"마쳤습니다" 표시가 단추를 잠금</td><td>표시는 알림만, 단추는 규칙대로</td><td>소</td><td>—</td></tr>
+<tr><td>16</td><td>성벽 수리가 어렵다</td><td>탭 4개 + 카드 3장</td><td>성 지도 한 장에 네 성벽 체력, 누르면 수리</td><td>중</td><td>—</td></tr>
+<tr><td>17</td><td>1단계 튜토리얼</td><td>없음</td><td>강제 단계 튜토리얼</td><td>큼</td><td>단계 목록</td></tr>
+<tr><td>18</td><td>그림 배경 + 충돌체 마당</td><td>지금은 좌우 띠 + 정지 그림</td><td>미리 그린 배경 위 3차원 걸음</td><td>큼</td><td>이동 방식</td></tr>
+<tr><td>19</td><td>1단계 뒤 정비 튜토리얼·렌즈</td><td>렌즈는 반경만 키움, 1단계는 4면에서 옴</td><td>북쪽만 → 정비 강제 순서 → 렌즈 잔상 5초</td><td>큼</td><td>렌즈 값</td></tr>
+<tr><td>20</td><td>5초 안에 적 보이기, 대포 키우기</td><td>적이 120~160m에서 나와 25~40초 걸림</td><td>첫 무리를 가깝게, 대포 1.5배</td><td>소</td><td>배율</td></tr>
+</table></div>
+<h2 id="s2">1. 밤이 너무 어둡다</h2>
+<ul>
+<li>현재: 밤 병사 밝기 0.5(<code>BattleSim.Brightness</code>), 해 0.25배, 환경광 = 밤하늘색 × 0.6, 화면 노출 −0.15, 비네트 0.38, 적은 성벽에서 30m 넘으면 흐려진다.</li>
+<li>제안 (보기 좋게 + 읽히게):</li>
+<li style="margin-left:22px"><strong>달빛 바닥</strong>: 환경광에 최저값(푸른 회색)을 두어 아무리 어두워도 형체는 보이게. 병사 밝기 0.5 → 0.7.</li>
+<li style="margin-left:22px"><strong>노출</strong>: 밤 −0.15 → +0.1, 비네트 0.38 → 0.25.</li>
+<li style="margin-left:22px"><strong>횃불</strong>: 세기 0.8 → 1.4, 반경 2m → 4m (성벽 위가 따뜻하게 밝은 섬처럼).</li>
+<li style="margin-left:22px"><strong>적 테두리빛</strong>: 밤에만 적 그림 가장자리에 아주 얇은 달빛 테두리 → 어둠 속에서도 무리 모양이 읽힌다.</li>
+<li style="margin-left:22px">(선택) 설정 화면에 "밝기" 막대.</li>
+<li>질문: 밤 느낌을 얼마나 남길지 — ① 조금 밝게(지금 분위기 유지) ② 많이 밝게(읽기 우선). 사진 두 장으로 비교해 고르면 가장 좋다.</li>
+</ul>
+<h2 id="s3">2. 병사가 많을수록 겹친다</h2>
+<ul>
+<li>원인: 성벽 자리가 다 차면 넘친 병사를 <strong>안쪽 줄 9자리(0.24m 간격)에 겹쳐 쌓는다</strong>. 줄 사이 깊이도 0.25~0.3m라 낮은 카메라에선 겹쳐 보인다. 성벽당 정원과 "가득 참" 검사가 없다.</li>
+<li>제안:</li>
+<li style="margin-left:22px">성벽당 <strong>정원</strong>(자리 수)을 두고 보낼 때 넘치면 <strong>넘치는 만큼만 보내고</strong> "북쪽 성벽 가득 참 — 30명 남음" 알림.</li>
+<li style="margin-left:22px">넘친 병사는 겹치지 않게 성벽 전체 길이에 고르게 펼친다(안전망).</li>
+<li style="margin-left:22px">줄 간격을 넓혀 앞줄·뒷줄이 겹쳐 보이지 않게.</li>
+<li style="margin-left:22px">달리는 병사끼리도 살짝 밀어내기(길 위 겹침).</li>
+<li>질문: 가득 찬 성벽으로 보낼 때 ① 넘치는 만큼 원래 성벽에 남김(추천) ② 아예 거절.</li>
+</ul>
+<h2 id="s4">3. 화면이 너무 복잡하다</h2>
+<ul>
+<li>사용자 방침대로: <strong>화면마다 코덱스가 "완성 모습" 사진 1장</strong> → 화면 설계 검토(UI 다시 설계 2판 규칙) → 필요한 부품만 그림으로 → Claude가 조립.</li>
+<li>순서 제안: ① 정비 마당(18번과 함께) ② 병영 ③ 성벽 수리(16번) ④ 함정 공방 ⑤ 전투 화면 위 정보 ⑥ 결과.</li>
+<li>화면마다 먼저 적는 것: "이 화면에서 꼭 보여야 할 정보 3개 / 할 수 있는 일 3개" — 이것 밖은 접는다.</li>
+<li>질문: 순서가 위와 같으면 될까요? 첫 사진 카드를 바로 만들까요?</li>
+</ul>
+<h2 id="s5">4·5·6. 분대 보내기 (여러 개 고르기·절반·드래그)</h2>
+<ul>
+<li>현재: 지도에서 10명 깃발을 하나씩 눌러 끌어 놓거나, 눌러서 나오는 창에서 "북쪽으로/전부 북쪽으로". 지도에서 왼쪽 끌기는 지도 옮기기.</li>
+<li>제안 — <strong>실시간 전략 게임 방식</strong>:</li>
+<li style="margin-left:22px"><strong>왼쪽 끌기 = 상자 고르기</strong>(빈 땅에서 시작할 때). 깃발 위에서 시작하면 지금처럼 그 깃발 끌기.</li>
+<li style="margin-left:22px"><strong>성벽 이름(북·동·남·서)을 누르면</strong> 그 성벽 분대 모두 고르기. 컨트롤 누르고 누르면 더하기/빼기.</li>
+<li style="margin-left:22px">고른 상태에서 <strong>가고 싶은 성벽을 누르면 보냄</strong>.</li>
+<li style="margin-left:22px">화면 아래 띠: <code>[전부] [절반] [10명]</code> — 보낼 양. 기본은 전부. 절반 = 고른 10명 묶음 수의 절반(올림).</li>
+<li style="margin-left:22px">지도 옮기기는 <strong>가운데 버튼 끌기·화면 가장자리·화살표 키</strong>로.</li>
+<li>절반은 지금 구조(10명 묶음)로 가능하다 — 묶음 단위로 나누면 된다. 10명보다 잘게(예: 5명) 나누려면 분대 구조를 바꿔야 한다.</li>
+<li>질문: 왼쪽 끌기를 ① 상자 고르기로(추천, 스타크래프트와 같음) ② 지금처럼 지도 옮기기, 고르기는 시프트+끌기 ③ 다른 방법.</li>
+</ul>
+<h2 id="s6">7. 토벽이 떠 보임 · 그림자 · 반사 (물리 기반 빛 가능성)</h2>
+<ul>
+<li>떠 보이는 이유:</li>
+<li style="margin-left:22px"><strong>그림자 거리 50m</strong> — 카메라에서 먼 토벽·적은 그림자가 아예 없다.</li>
+<li style="margin-left:22px">세운 판 그림이라 땅에 닿는 곳에 <strong>발밑 그림자(접지 그림자)</strong> 가 없다.</li>
+<li style="margin-left:22px">판 아래가 땅과 섞이지 않는다(흙 자국 없음).</li>
+<li>제안 1 — 땅에 붙이기 (바로 효과 큼):</li>
+<li style="margin-left:22px">토벽·언덕·소품·적 아래에 <strong>부드러운 타원 발밑 그림자</strong>(그림자 계산 없이 그리는 값싼 방식), 토벽 아래 <strong>흙 자국 무늬</strong>.</li>
+<li style="margin-left:22px">그림자 거리 50m → 90m 정도(성능 측정 후).</li>
+<li>제안 2 — 빛 (물리 기반 빛, 즉 PBR이 가능한가?):</li>
+<li style="margin-left:22px">지금 쉐이더: 감싸는 확산광 + 하늘 환경광 + 추가 조명(횃불·폭발)까지 있다. <strong>정반사(번쩍임)는 없다.</strong></li>
+<li style="margin-left:22px">판 그림(도트)에 완전한 물리 기반 빛을 쓰려면 그림마다 <strong>노멀맵·거칠기 맵</strong>이 필요하다. 노멀맵은 이미 카드(K-081)로 계획되어 있다.</li>
+<li style="margin-left:22px">그래서 <strong>간이 물리 기반 빛</strong>을 제안한다 — 같은 쉐이더에 더한다:</li>
+<li style="margin-left:22px">정반사: 노멀맵 + 재질별 거칠기 값(쇠 갑옷·대포는 번쩍, 흙·천은 거의 없음). 폭발·횃불 근처에서 금속이 반짝인다.</li>
+<li style="margin-left:22px">난반사·확산반사: 지금의 확산광을 노멀맵 방향으로 계산.</li>
+<li style="margin-left:22px">환경광: 하늘색(위)·땅색(아래) 두 빛을 방향으로 섞기.</li>
+<li style="margin-left:22px">전반사 느낌(반사광 되튐): 큰 불빛 옆에 <strong>넓고 약한 땅색 빛</strong>을 하나 더 켜서 "주변 땅이 비춘 빛"을 흉내.</li>
+<li style="margin-left:22px">땅은 유니티 기본 물리 기반 재질이라 이미 불빛을 받는다 — 노멀맵만 더하면 울퉁불퉁하게 빛난다.</li>
+<li style="margin-left:22px">비용: 병사·적 수천 명이 같은 쉐이더라 계산을 몇 줄만 더한다. 성능 시험(FrameCost)으로 확인.</li>
+<li>질문: 범위 ① 발밑 그림자·흙 자국만 먼저 ② 간이 물리 기반 빛까지(그림마다 노멀·거칠기 맵 = 코덱스 일이 큼).</li>
+</ul>
+<h2 id="s7">8. 총병이 쏘지 않는데 쏘는 동작을 함</h2>
+<ul>
+<li>원인(확인): 표적을 못 찾으면 0.25초 뒤 다시 찾는데, 이 간격이 "겨누기 동작 구간(0.375초)"보다 짧아 <strong>표적 없이 겨누기 동작만 계속 반복</strong>한다(사거리 30m 밖·가려진 적·이미 맞을 예정인 적 등). 실제로 쏜 것은 아니다.</li>
+<li>추가: 실제로 쏴도 총구 불빛은 카메라 가까운 6명만, 짧게(0.12초), 다른 불빛에 밀려 안 보일 때가 많다. 총 불꽃 <strong>그림</strong>은 없다.</li>
+<li>고침:</li>
+<li style="margin-left:22px">표적이 있을 때만 겨누기 동작.</li>
+<li style="margin-left:22px">영웅 버프 시 동작 간격도 실제 사격 간격과 같게.</li>
+<li style="margin-left:22px">총구 불꽃 <strong>그림</strong>(작은 빛 조각, 개수 제한 없음) + 불빛은 지금처럼.</li>
+<li>질문 없음 (바로 고침 가능).</li>
+</ul>
+<h2 id="s8">9. 함정도 자유 설치</h2>
+<ul>
+<li>현재: 함정 자리는 칸 이름("cell_면_열_행")으로 저장. <strong>전투는 이미 실제 자리값으로 함정을 놓는다</strong> → 바꿀 곳은 정비(놓기·저장 검사·겹침 검사) 쪽뿐.</li>
+<li>제안: 토벽·언덕 자유 배치(오늘 만든 것)와 같은 입력 — 마우스를 따라 함정 모양 + 터지는 범위 원, 놓을 수 없으면 빨강. 함정끼리 최소 간격(함정 반경)·토벽/언덕/나무/바위 위 불가.</li>
+<li>옛 저장(칸 이름)은 그대로 읽힌다.</li>
+<li>질문: 12번이 "칸에 맞춰"로 바뀌므로, 함정도 ① 완전 자유(추천 — 함정은 작아서 칸 단위가 어색) ② 칸에 맞춤.</li>
+</ul>
+<h2 id="s9">10. 옆 성벽 대포가 거꾸로 쏨</h2>
+<ul>
+<li>원인(확인): 대포는 "앞쪽인가" 검사 없이 <strong>옆 성벽 들판까지</strong> 겨눈다(성벽마다 대포 4문 모두 옆 들판 하나를 함께 맡음). 그래서 북쪽 대포가 서쪽 들판의 적을 쏘면 포탄이 성 안쪽 위를 가로질러 간다. 지도 명령 포격도 같은 규칙.</li>
+<li>또 대포 그림은 늘 "카메라 반대쪽을 보는" 한 방향 그림이라 옆 성벽 대포는 겨눈 방향과 그림 방향이 다르게 보인다.</li>
+<li>고침: 대포는 <strong>자기 성벽 바깥쪽(성벽선 앞)</strong> 적만 — 모서리 바깥의 옆 들판은 성벽선 앞일 때만 허용. 지도 명령도 같은 규칙(지도에서 빨갛게). 대포 그림은 성벽마다 바깥을 보게 고정.</li>
+<li>질문 없음.</li>
+</ul>
+<h2 id="s10">11. "길"은 무엇을 하나?</h2>
+<ul>
+<li>지금: 길 칸은 (1) 함정을 놓을 수 있는 땅이고 (2) 토벽·언덕에 <strong>막혀서 돌아가는 적</strong>이 고르는 길을 조금 길 쪽으로 바꾼다. <strong>빈 들판의 적을 끌어당기지는 않는다.</strong> 그래서 써도 효과가 거의 안 보인다.</li>
+<li>고르기:</li>
+<li style="margin-left:22px"><strong>끌어당기는 길</strong>로 바꾼다(추천): 길에서 일정 거리(예: 15m) 안의 적은 길로 들어와 길을 따라 걷는다(길 위는 조금 빠름). → "토벽으로 막고 길로 유도해 함정 밭으로" 전략이 산다.</li>
+<li style="margin-left:22px">없앤다(지형 손질은 토벽·언덕·옮기기만).</li>
+<li>질문: ① 끌어당기는 길 ② 없애기.</li>
+</ul>
+<h2 id="s11">12. 토벽·언덕은 칸에 맞춰 딱 2칸</h2>
+<ul>
+<li>현재(오늘 만든 자유 배치): 6m 판이 놓인 자리에 따라 5m 칸 3~6개를 막는다 → 사용자 의도와 다름.</li>
+<li>고침: <strong>칸에 붙는 2칸 조각</strong>.</li>
+<li style="margin-left:22px">마우스가 있는 칸 + 옆 칸 1개 = 2칸. 오른쪽 누르기로 <strong>가로 ↔ 세로</strong>(90도).</li>
+<li style="margin-left:22px">놓일 모습·막을 칸 표시(초록/빨강)는 오늘 만든 것을 그대로 쓴다.</li>
+<li style="margin-left:22px">칸 경계에 걸쳐도 늘 정확히 2칸.</li>
+<li style="margin-left:22px">언덕도 같은 2칸.</li>
+<li>질문: 대각선(45도)도 둘까요? 대각선 2칸은 모서리만 닿아 <strong>적이 그 틈으로 빠져나갈 수 있다</strong>. 추천: 가로·세로만.</li>
+</ul>
+<h2 id="s12">13. 이어 놓으면 붙어 보이게</h2>
+<ul>
+<li>칸 조각마다 이웃 칸을 보고 <strong>이음 모양</strong>을 고른다(땅 타일의 자동 잇기 방식):</li>
+<li style="margin-left:22px">토벽: 끝·가운데·꺾임(ㄱ자) 조각 — 이어 놓으면 하나의 긴 벽처럼.</li>
+<li style="margin-left:22px">언덕: 혼자/이어짐 — 이어 놓으면 능선처럼 하나로.</li>
+<li>지도에도 같은 규칙(지도 그림 조각).</li>
+<li>그림: 코덱스 카드 1장(토벽 이음 조각 4종 × 3단계 부서짐 + 언덕 이음 조각, 전투용·지도용).</li>
+<li>질문 없음(12번 결정 뒤).</li>
+</ul>
+<h2 id="s13">14. 병영: 인원 유지·−10·분대 종류</h2>
+<ul>
+<li>원인(확인): 인원 숫자가 화면을 열 때 한 번만 1이 되고, 성벽·지점·병종을 바꿔도 그대로다.</li>
+<li>고침:</li>
+<li style="margin-left:22px">성벽·지점·병종을 바꾸면 <strong>1로</strong>, 모집 성공 뒤에도 1로.</li>
+<li style="margin-left:22px"><strong>−10</strong> 단추 추가.</li>
+<li style="margin-left:22px">최대값을 "그 지점에 남은 자리"로(지금은 넘게 고른 뒤 나중에 거절됨). 대포 지점은 대포 정원.</li>
+<li style="margin-left:22px">지점 칸에 <strong>"총병 분대 7/30"</strong> 처럼 종류를 글과 아이콘으로.</li>
+<li>질문 없음.</li>
+</ul>
+<h2 id="s14">15. 병종 훈련 다음 단계를 못 산다</h2>
+<ul>
+<li>원인(확인): 사고 나면 "훈련을 마쳤습니다" 표시가 <strong>단추를 잠근다</strong>. 다른 병종을 눌러야 풀린다. 규칙은 멀쩡하다.</li>
+<li>같은 문제가 상점(소모품 두 번째 구매)·용병 고용·병영 모집·성벽 수리에도 있다.</li>
+<li>고침: 결과 표시는 알림 한 줄로만, 단추는 규칙대로 바로 다음 단계를 살 수 있게. 다섯 곳 모두.</li>
+<li>질문 없음.</li>
+</ul>
+<h2 id="s15">16. 성벽 수리 화면</h2>
+<ul>
+<li>현재: 성벽 탭 4개 + 수리 카드 3장 + 값 줄.</li>
+<li>제안: <strong>성 지도 한 장</strong>(함정 공방 지도와 같은 그림)에 네 성벽을 체력 색(초록→노랑→빨강)과 숫자로. 성벽을 누르면 아래에 <code>[+100 수리 · 40골드] [이 성벽 가득] [네 성벽 모두 가득]</code>. 지금 체력 → 수리 뒤 체력을 막대로 미리 보여 준다.</li>
+<li>참고: 체력은 지금 <strong>성벽마다 하나</strong>(구간별 체력 없음). 구간별로 하려면 전투 쪽 데이터가 더 필요 — 이번엔 성벽 단위로 제안.</li>
+<li>질문: 성벽 단위로 충분한가요, 구간(성벽 한 면을 3~5조각)까지 원하나요?</li>
+</ul>
+<h2 id="s16">17·19. 튜토리얼 (1단계 전투 + 정비 강제 순서)</h2>
+<h3>17·19-1. 흐름</h3>
+<ul>
+<li><strong>1단계 전투</strong>: 적은 <strong>북쪽에서만</strong>(지금은 4면 모두 — 자료 고침). 낮.</li>
+<li>전투 중 강제 단계(한 단계 끝내야 다음):</li>
+<li style="margin-left:22px">영웅 걷기(좌우) → 2. 지점에서 집중 대상 바꾸기 → 3. 지도 열기 → 4. 분대 보내기(4·5·6 방식) → 5. 대포 포격 지점 찍기 → 6. 마법 쓰기 → 7. 함정 누르기(미리 깔린 함정 1개) → 8. 망원경(오른쪽 누르고 있기).</li>
+<li style="margin-left:22px">단계마다 화면 한쪽에 짧은 지시 한 줄 + 누를 곳 빛내기, 나머지 조작은 잠금, 그동안 적은 느리게(또는 멈춤).</li>
+<li><strong>1단계 끝 → 결과 → 정비 강제 순서</strong>:</li>
+<li style="margin-left:22px">성벽 수리(한 번 수리) → 2. 함정 공방(함정 1개 놓기) → 3. 병영(10명 모집해 보기) → 4. 상점(<strong>망원경 렌즈 사기 + 장착</strong>) → 5. 계단으로 2단계.</li>
+<li style="margin-left:22px">정비 마당에서 다음 장소만 열려 있고 나머지는 잠금 + 화살표.</li>
+<li>2단계부터 자유.</li>
+</ul>
+<h3>17·19-2. 망원경 렌즈 (새 효과)</h3>
+<ul>
+<li>지금 렌즈: 망원경 반경 1.4배(영웅 장착).</li>
+<li>새 효과: <strong>렌즈가 있으면 망원경으로 본 곳의 적이 손을 뗀 뒤에도 5초 동안 잔상으로 지도에 남는다</strong>(조금씩 흐려짐).</li>
+<li>질문:</li>
+<li style="margin-left:22px">렌즈 없이도 망원경은 쓸 수 있고, 렌즈는 잔상을 더하는 것이 맞나요? (반경 1.4배는 유지?)</li>
+<li style="margin-left:22px">튜토리얼에서 렌즈 값: ① 무료로 받기 ② 골드를 그만큼 주고 사게 하기(추천 — 사는 법을 배움).</li>
+</ul>
+<h3>17·19-3. 만드는 방식</h3>
+<ul>
+<li>튜토리얼 단계를 <strong>자료(목록)</strong> 로 만든다: 단계 이름 · 지시 글 · 빛낼 단추 · 끝 조건 · 잠글 조작. → 글은 스토리 도구처럼 나중에 고치기 쉽다.</li>
+<li>저장에 "튜토리얼 끝" 표시 — 새 게임만 튜토리얼, 다시 하기는 설정에서.</li>
+<li>질문: 전투 중 단계 목록이 위 8개면 될까요? 빼거나 더할 것?</li>
+</ul>
+<h2 id="s17">18. 정비 마당을 "그림 배경 + 보이지 않는 충돌체"로</h2>
+<ul>
+<li>영상의 방식: 배경은 <strong>미리 그린 그림 한 장</strong>, 그 뒤에 <strong>보이지 않는 땅·벽 모양(충돌체)</strong> 만 최소로 두어, 3차원 인물이 그림 속을 걷고 그림자가 그림 위 땅에 떨어진다. 그림의 기둥 같은 것은 <strong>가림 판</strong>(그림에서 오려낸 조각)이 인물 앞을 가린다.</li>
+<li>우리 적용 (설계 가능):</li>
+<li style="margin-left:22px">정비 마당 그림 1장(코덱스) — 공방·상점·병영·수리 장소·계단이 한 그림에.</li>
+<li style="margin-left:22px">그 그림을 고정 카메라 앞에 놓고, 땅 높이에 <strong>보이지 않는 바닥</strong>(그림자 받기), 건물 앞에 상자 충돌체 몇 개.</li>
+<li style="margin-left:22px">영웅은 지금 전투와 같은 판 그림 인물 — 바닥을 걷고, 그림자 생김, 기둥 뒤로 가면 가림 판이 가린다.</li>
+<li style="margin-left:22px">장소 앞에 <strong>들어가기 영역</strong>(보이지 않는 상자) — 들어가면 "[E] 함정 공방".</li>
+<li style="margin-left:22px">걷기: ① 좌우만(지금과 같음) ② 앞뒤까지(그림 속 깊이로) — 질문.</li>
+<li>지금 구조(3600 너비 띠 + 정지 그림, 장소 좌표가 그림과 안 맞음)를 이것으로 바꾼다. 장소 기능(수리·병영·공방·상점·계단)은 그대로 연결.</li>
+<li>그림이 넓으면 카메라가 좌우로 따라가며 보여 준다(그림 한 장을 미끄러지게).</li>
+<li>질문: 걷기를 좌우만? 앞뒤까지?</li>
+</ul>
+<h2 id="s18">20. 시작 5초 안에 적 보이기 · 대포 키우기</h2>
+<ul>
+<li>현재: 적이 성벽에서 100~140m 밖에서, 최대 12초에 걸쳐 나오고, 고블린 초속 4m라 성벽까지 25~40초. 밤엔 30m 안에서야 보인다.</li>
+<li>고침: <strong>첫 무리</strong>는 성벽에서 60~70m에 시작 0~2초 사이에 나오게(그 뒤 무리는 지금대로). 1단계는 낮이라 5초 안에 화면에 보인다.</li>
+<li>대포 키우기: 지금 대포 그림은 병사보다 조금 큰 정도(약 0.44m). <strong>1.5배</strong>를 제안 — 대포 둘레 병사 자리도 그만큼 넓힌다. 사진으로 확인.</li>
+<li>참고: 포탄은 지금 대포보다 훨씬 크게(1.6) 그려진다 — 대포를 키우며 포탄은 줄이는 게 자연스럽다.</li>
+<li>질문: 배율 ① 1.3배 ② 1.5배(추천) ③ 2배.</li>
+</ul>
+<h2 id="s19">21. 작업 순서 (결정 뒤, 제안)</h2>
+<ol>
+<li><strong>바로 고칠 버그(결정 불필요)</strong>: 8 총병 동작 · 10 대포 방향 · 14 병영 · 15 훈련·구매 잠금 — 반나절.</li>
+<li><strong>결정 뒤 작은 것</strong>: 20 시작·대포 크기 · 2 병사 겹침 · 11 길 · 1 밤 밝기.</li>
+<li><strong>12·13 칸 2개 조각과 이음</strong>(+코덱스 그림 카드) · 9 함정 자유 설치.</li>
+<li><strong>4·5·6 분대 고르기·보내기</strong>.</li>
+<li><strong>16 수리 지도</strong> · 3 화면 사진 카드 시작.</li>
+<li><strong>7 발밑 그림자</strong> → (승인 시) 간이 물리 기반 빛.</li>
+<li><strong>18 정비 마당 새 구조</strong>(코덱스 배경 그림 필요).</li>
+<li><strong>17·19 튜토리얼</strong>(위 기능들이 먼저 있어야 함).</li>
+</ol>
+<ul>
+<li>각 단계는 "루프 엔지니어링 1판" 고리(끝 조건 → 만들기 → 시험·사진 → 기록)로 한다.</li>
+</ul>
+<h2 id="s20">22. 질문 모음 (답해 주시면 구현 설계로 넘어갑니다)</h2>
+<ol>
+<li>(1) 밤 밝기: 조금 밝게 / 많이 밝게 — 사진 두 장 비교로 고를까요?</li>
+<li>(2) 가득 찬 성벽으로 보낼 때: 넘치는 만큼 남기기(추천) / 거절</li>
+<li>(3) 화면 사진 카드 순서: 정비 마당 → 병영 → 수리 → 공방 → 전투 → 결과, 맞나요?</li>
+<li>(4·6) 왼쪽 끌기: 상자 고르기(추천) / 지도 옮기기 유지 + 시프트 끌기로 고르기 / 다른 방법</li>
+<li>(7) 빛 범위: 발밑 그림자만 먼저 / 간이 물리 기반 빛까지</li>
+<li>(9) 함정: 완전 자유(추천) / 칸에 맞춤</li>
+<li>(11) 길: 끌어당기는 길(추천) / 없애기</li>
+<li>(12) 대각선 2칸 조각: 없음(추천) / 있음</li>
+<li>(16) 수리: 성벽 단위 / 구간 단위</li>
+<li>(17) 전투 튜토리얼 8단계 목록 그대로?</li>
+<li>(19) 렌즈: 망원경은 렌즈 없이도 되고 렌즈가 잔상을 더함, 반경 1.4배 유지? 튜토리얼 렌즈 값은 골드 지급 후 구매(추천) / 무료</li>
+<li>(18) 정비 마당 걷기: 좌우만 / 앞뒤까지</li>
+<li>(20) 대포 배율: 1.3 / 1.5(추천) / 2</li>
+<li>루프 엔지니어링 1판(별도 문서)을 이번 작업부터 적용할까요?</li>
+</ol>
+<h2 id="s21">근거 (코드 위치, 모두 <code>Game/Assets/_Project/</code> 아래)</h2>
+<ul>
+<li>8 총병: <code>Combat/Battle/BattleSim.Poses.cs:101-145</code>(겨누기 구간), <code>BattleJobs.cs:602-606</code>(표적 없음 → 0.25초 재시도), <code>BattleSim.cs:47</code>(재시도 간격), <code>BattleLights.cs:27,31,33,34</code>(총구 불빛 제한)</li>
+<li>10 대포: <code>BattleJobs.cs:545-553</code>(대포 앞쪽 검사 없음), <code>BattleSim.Cannons.cs:69-85</code>(옆 들판 허용), <code>:88-110</code>(지도 명령), <code>BattlePropView.cs:288-329</code>(그림 방향)</li>
+<li>2 겹침: <code>BattleSim.Slots.cs:16</code>(줄 깊이), <code>:116-120</code>(넘침 9자리 쌓기), <code>Groups.cs:72-163</code>(정원 검사 없음)</li>
+<li>4·5·6: <code>BattleEntry.cs:349-406</code>(깃발 끌기·지도 옮기기), <code>BattleHud.Map.cs:643-685</code>(보내기 창), <code>Groups.cs:16</code>(10명 묶음)</li>
+<li>20: <code>BattleSim.cs:48-49,364,379-384</code>(나오는 거리·시간), 적 속도 <code>Data/Combat/Enemies</code>, <code>BattlePropView.cs:38</code>(대포 크기), <code>BattleJobs.cs:1149</code>(포탄 크기)</li>
+<li>1 밤: <code>BattleSim.Weather.cs:52-63</code>, <code>BattleView.cs:635-680</code>, <code>Combat/Render/BattleLook.cs:28-50</code>, <code>BattleLights.cs:15-25</code></li>
+<li>7 그림자: 그래픽 설정 <code>Assets/Settings/PC_RPAsset.asset</code>(그림자 거리 50), 쉐이더 <code>Combat/PerfLab/PerfLabSprite.shader:282-324</code>(확산·환경광·추가 조명, 정반사 없음)</li>
+<li>14 병영: <code>Meta/PreparationPanel.cs:31,89,149,176,185-189</code></li>
+<li>15 훈련: <code>Meta/UpgradePanel.cs:209-250</code>(마침 표시가 단추 잠금), 같은 문제 <code>:195-199,306-312</code>, <code>PreparationPanel.cs:302</code></li>
+<li>16 수리: <code>Meta/PreparationPanel.cs:206-287</code>, 체력은 성벽 4개뿐 <code>App/Data/CampaignFactory.cs:31</code></li>
+<li>9 함정: 칸 이름 의존 <code>Meta/TrapPreparationTransactions.cs:79,87,117-124,198-201</code>, 전투는 자리값 <code>Combat/Battle/BattleSim.Traps.cs:74</code></li>
+<li>11 길: <code>Combat/Battle/BattleSim.Terrain.cs:327-367</code>(막힌 적만 흐름 지도 따름)</li>
+<li>17·19: 튜토리얼 없음, 1단계 자료 <code>Data/Combat/Waves/wave_1.asset</code>(4면), 렌즈 <code>Data/Meta/Items/item_telescope_lens.asset</code>, 망원경 <code>Combat/Battle/BattleSim.Telescope.cs</code></li>
+<li>18: <code>Meta/PrepYard.cs</code>(3600 너비 띠, 장소 좌표 고정), <code>Meta/PrepEntry.cs:48-54</code></li>
+</ul>
+
+</main></body></html>
