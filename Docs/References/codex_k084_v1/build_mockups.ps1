@@ -56,10 +56,10 @@ public class Mockup084 {
   foreach(int xx in new int[]{x+2,x+w-4})foreach(int yy in new int[]{y+2,y+h-4})Rect(xx,yy,2,2,C(paper?"#9e803d":"#b1945c"));
  }
  static void Brass(string text,int x,int y,int w,int h){Rect(x,y,w,h,C("#291d15"));Rect(x+1,y+1,w-2,h-2,C("#725327"));Rect(x+2,y+2,w-4,h-4,C("#c6a251"));Rect(x+3,y+3,w-6,2,C("#e3c477"));Rect(x+3,y+h-5,w-6,2,C("#ab8740"));Text(text,x+(w-text.Length*15)/2,y+5,15,ink);}
- static void Save(string name){g.Dispose();using(var full=new Bitmap(1920,1080))using(var z=Graphics.FromImage(full)){z.InterpolationMode=InterpolationMode.NearestNeighbor;z.PixelOffsetMode=PixelOffsetMode.Half;z.DrawImage(b,new Rectangle(0,0,1920,1080));full.Save(Path.Combine(dest,name+".png"),ImageFormat.Png);}b.Save(Path.Combine(dest,name+"_native.png"));using(var crop=b.Clone(new Rectangle(32,70,160,120),PixelFormat.Format32bppArgb))using(var p=new Bitmap(640,480))using(var z=Graphics.FromImage(p)){z.InterpolationMode=InterpolationMode.NearestNeighbor;z.PixelOffsetMode=PixelOffsetMode.Half;z.DrawImage(crop,new Rectangle(0,0,640,480));p.Save(Path.Combine(dest,name+"_detail_4x.png"));}b.Dispose();}
+ static void Save(string name){g.Dispose();using(var full=new Bitmap(1920,1080))using(var z=Graphics.FromImage(full)){z.InterpolationMode=InterpolationMode.NearestNeighbor;z.PixelOffsetMode=PixelOffsetMode.Half;z.DrawImage(b,new Rectangle(0,0,1920,1080));full.Save(Path.Combine(dest,name+".png"),ImageFormat.Png);}b.Save(Path.Combine(dest,name+"_native.png"));using(var crop=b.Clone(new Rectangle(name.Contains("story")?424:name.Contains("result")?100:28,name.Contains("story")?150:name.Contains("result")?70:60,160,120),PixelFormat.Format32bppArgb))using(var p=new Bitmap(640,480))using(var z=Graphics.FromImage(p)){z.InterpolationMode=InterpolationMode.NearestNeighbor;z.PixelOffsetMode=PixelOffsetMode.Half;z.DrawImage(crop,new Rectangle(0,0,640,480));p.Save(Path.Combine(dest,name+"_detail_4x.png"));}b.Dispose();}
  static void Story(bool paper){Start("Game/Assets/_Project/Art/UI/Resources/ScreenArt/main.png");
   Panel(490,12,52,20,false);Text("자동",502,15,11,light);Panel(550,12,66,20,false);Text("넘기기",564,15,11,light);
-  Image("Docs/References/codex_k071_v1/archer_neutral_64x96.png",490,157,64,96);
+  Image("Docs/References/codex_k071_v1/archer_neutral_64x96.png",440,157,64,96);
   Panel(32,250,576,94,paper);Panel(48,235,78,23,false);Text("궁수",69,237,15,light);
   Color c=paper?ink:light;
   Text("장교님! 정말 돌아오셨군요.",52,268,11,c);
