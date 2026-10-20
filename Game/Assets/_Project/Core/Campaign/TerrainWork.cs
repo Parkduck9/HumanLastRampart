@@ -21,6 +21,11 @@ namespace HumanLastRampart.Core.Campaign
         public string CellId;             // "cell_{성벽}_{열}_{행}" (TrapGrid)
         public TerrainWorkKind Kind;
         public int Paid;                  // 낸 골드 (K-051 철거 환불 계산용). 옮기기는 놓은 줄에 적는다
+        // 자유 배치 (사용자 2026-10-20: 토벽·언덕은 칸 없이 아무 곳에, 오른쪽 누르기로 돌려서). Free면 CellId는 "free:..." 이름표일 뿐
+        // 이고, 자리(X·Z, 성 가운데 기준 m)와 돌림(도, 45도 단위)으로 덮는 땅 칸을 계산한다 (TerrainRules.FreeCover)
+        public bool Free;
+        public float X, Z;
+        public float Rotation;
 
         public TerrainWork Clone() => (TerrainWork)MemberwiseClone();
     }

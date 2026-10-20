@@ -44,6 +44,15 @@ namespace HumanLastRampart.Meta
         TerrainAction action = TerrainAction.EarthWall;
         Sprite earthwallIcon, raisedHillIcon, treesIcon, rocksIcon, grassIcon;
         readonly Sprite[] pathIcons = new Sprite[16];     // K-029 흙길: 북1·동2·남4·서8 연결 비트
+        // 자유 배치 (사용자 2026-10-20): 토벽·언덕은 칸 없이 지도 아무 곳에, 오른쪽 누르기로 45도씩 돌려 놓는다
+        RectTransform mapRect, pieceLayer, workerLayer, ghostCover;
+        GameObject freeInput;
+        Image ghost;
+        float mapScale, freeRotation;
+        Vector2? hoverMeters;
+        Sprite earthwallFull;
+        static readonly Color GhostOk = new Color(0.75f, 1f, 0.7f, 0.75f), GhostBad = new Color(1f, 0.3f, 0.25f, 0.7f);
+        bool FreeMode => terrainTab && (action == TerrainAction.EarthWall || action == TerrainAction.Hill);
 
         public static void Show(Button source, IScreenContext context, TrapPreparationTransactions session, PreparationTransactions preparation)
         { if (source != null && source.IsInteractable()) new TrapPreparationPanel(source, context, session, preparation); }
@@ -148,6 +157,148 @@ namespace HumanLastRampart.Meta
 
             Text front = Ui.Outlined(Ui.Label(map, "Front", "정면", UiTokens.Small, UiTokens.BrassLight, TextAnchor.MiddleCenter));
             Ui.Place(front.rectTransform, new Vector2(0.5f, 0.5f), Vector2.up * (MapPx * 0.5f - 60f), new Vector2(80f, 28f));
+
+            // 자유 배치 층: 놓은 조각(철거 때만 누름) → 입력 판(토벽·언덕 고를 때만 켬, 놓일 모습 포함) → 작업 연출
+            mapRect = map; mapScale = scale;
+            pieceLayer = Layer(map, "Free Pieces");
+            var input = Ui.Image(map, "Free Placement", new Color(0f, 0f, 0f, 0f), true);
+            Ui.Stretch(input.rectTransform);
+            freeInput = input.gameObject;
+            var placer = freeInput.AddComponent<FreePlacementInput>();
+            placer.Moved = local => { hoverMeters = Snap(local / mapScale); PaintGhost(); };
+            placer.Left = () => { hoverMeters = null; PaintGhost(); };
+            placer.Rotated = () => { freeRotation = Mathf.Repeat(freeRotation + TerrainRules.FreeRotateStep, 180f); };
+            placer.Placed = local => PlaceFree(Snap(local / mapScale));
+            ghostCover = Layer(input.rectTransform, "Ghost Cover");
+            ghost = Ui.Image(freeInput.transform, "Ghost", GhostOk);
+            ghost.raycastTarget = false;
+            ghost.gameObject.SetActive(false);
+            workerLayer = Layer(map, "Free Workers");
+        }
+
+        static RectTransform Layer(RectTransform map, string name)
+        {
+            var layer = new GameObject(name, typeof(RectTransform));
+            layer.transform.SetParent(map, false);
+            var rect = (RectTransform)layer.transform;
+            Ui.Stretch(rect);
+            return rect;
+        }
+
+        static Vector2 Snap(Vector2 meters) => new Vector2(Mathf.Round(meters.x * 2f) / 2f, Mathf.Round(meters.y * 2f) / 2f);
+
+        TerrainWorkKind FreeKind => action == TerrainAction.Hill ? TerrainWorkKind.Hill : TerrainWorkKind.EarthWall;
+
+        // 조각 하나의 그림 (지도 위 = 북): 토벽 = 길이 6m 판(그림 두께는 3m로 보이게), 언덕 = 둥근 둔덕
+        // 지도 축척이 작아(1m ≈ 5화소) 토벽 그림은 가는 줄로만 보인다 → 토벽은 흙색 막대(두께 최소 8화소)로 그린다
+        void DressPiece(Image image, TerrainWorkKind kind, Vector2 meters, float rotation)
+        {
+            bool wall = kind == TerrainWorkKind.EarthWall;
+            image.sprite = wall ? null : raisedHillIcon;
+            var rect = image.rectTransform;
+            rect.anchorMin = rect.anchorMax = rect.pivot = new Vector2(0.5f, 0.5f);
+            rect.anchoredPosition = meters * mapScale;
+            rect.sizeDelta = wall ? new Vector2(TerrainRules.FreeWallLength * mapScale, Mathf.Max(8f, TerrainRules.FreeWallThickness * mapScale))
+                                  : Vector2.one * TerrainRules.HillPieceRadius * 2f * mapScale;
+            rect.localRotation = Quaternion.Euler(0f, 0f, wall ? rotation : 0f);
+        }
+
+        static readonly Color WallBar = new Color(0.52f, 0.34f, 0.17f), CoverTint = new Color(0.55f, 0.36f, 0.18f, 0.35f);
+
+        // 조각이 실제로 막는 땅 칸 (5m 칸) — 적의 길 찾기는 이 칸으로 한다
+        void PaintCover(TerrainWorkKind kind, Vector2 meters, float rotation, Color color, string name)
+        {
+            var cells = new List<int>();
+            TerrainLayout shape = session.Layout;
+            TerrainRules.FreeCover(shape, kind, meters, rotation, cells);
+            foreach (int c in cells)
+            {
+                Image square = Ui.Image(pieceLayer, name, color);
+                var r = square.rectTransform;
+                r.anchorMin = r.anchorMax = new Vector2(0.5f, 0.5f);
+                r.anchoredPosition = shape.Center(c) * mapScale;
+                r.sizeDelta = Vector2.one * (shape.CellSize * mapScale - 1f);
+                square.transform.SetAsFirstSibling();
+            }
+        }
+
+        void PaintGhost()
+        {
+            if (ghost == null) return;
+            bool show = FreeMode && hoverMeters.HasValue;
+            ghost.gameObject.SetActive(show);
+            ghostCover.gameObject.SetActive(show);
+            if (!show) return;
+            Vector2 p = hoverMeters.Value;
+            DressPiece(ghost, FreeKind, p, freeRotation);
+            bool ok = works.CanTarget(action, TerrainRules.FreeId(p.x, p.y, freeRotation), picked);
+            ghost.color = ok ? GhostOk : GhostBad;
+            // 놓일 자리가 막을 칸 (초록 / 빨강)
+            foreach (Transform child in ghostCover) UnityEngine.Object.Destroy(child.gameObject);
+            var cells = new List<int>();
+            TerrainLayout shape = session.Layout;
+            TerrainRules.FreeCover(shape, FreeKind, p, freeRotation, cells);
+            foreach (int c in cells)
+            {
+                Image square = Ui.Image(ghostCover, "Cover", new Color(ghost.color.r, ghost.color.g, ghost.color.b, 0.3f));
+                var r = square.rectTransform;
+                r.anchorMin = r.anchorMax = new Vector2(0.5f, 0.5f);
+                r.anchoredPosition = shape.Center(c) * mapScale;
+                r.sizeDelta = Vector2.one * (shape.CellSize * mapScale - 1f);
+            }
+        }
+
+        // 왼쪽 누르기: 고른 조각을 다시 누르면 빼고, 아니면 놓을 수 있을 때 고른다
+        void PlaceFree(Vector2 p)
+        {
+            for (int k = picked.Count - 1; k >= 0; k--)
+            {
+                if (!TerrainRules.TryParseFree(picked[k], out float x, out float z, out _)) continue;
+                if ((new Vector2(x, z) - p).sqrMagnitude <= 1.5f * 1.5f) { picked.RemoveAt(k); message = null; Render(); return; }
+            }
+
+            string id = TerrainRules.FreeId(p.x, p.y, freeRotation);
+            if (works.CanTarget(action, id, picked)) { picked.Add(id); message = null; }
+            else { message = "여기에는 놓을 수 없습니다 (빈 땅·함정 구역 안·함정과 겹치지 않게)"; messageBad = true; }
+            Render();
+        }
+
+        // 지어 둔 자유 조각 + 고른 조각 (철거 탭에서는 놓은 조각을 눌러 고른다)
+        void PaintFree()
+        {
+            if (pieceLayer == null) return;
+            foreach (Transform child in pieceLayer) UnityEngine.Object.Destroy(child.gameObject);
+            bool demolish = terrainTab && action == TerrainAction.Demolish;
+            var all = context.Campaign.TerrainWorks;
+            if (all != null)
+                foreach (TerrainWork work in all)
+                {
+                    if (work == null || !work.Free || work.TerrainId != session.Terrain.Id) continue;
+                    string id = work.CellId;
+                    var at = new Vector2(work.X, work.Z);
+                    PaintCover(work.Kind, at, work.Rotation, CoverTint, "Cover " + id);
+                    bool wall = work.Kind == TerrainWorkKind.EarthWall;
+                    Image image = Ui.Image(pieceLayer, id, wall ? WallBar : Color.white);
+                    DressPiece(image, work.Kind, at, work.Rotation);
+                    image.raycastTarget = demolish;
+                    if (demolish && picked.Contains(id)) image.color = new Color(1f, 0.4f, 0.3f);
+                    if (demolish)
+                    {
+                        var button = image.gameObject.AddComponent<Button>();
+                        button.targetGraphic = image;
+                        button.onClick.AddListener(() => Toggle(id));
+                    }
+                }
+
+            if (!FreeMode) return;
+            foreach (string id in picked)
+            {
+                if (!TerrainRules.TryParseFree(id, out float x, out float z, out float rotation)) continue;
+                PaintCover(FreeKind, new Vector2(x, z), rotation, new Color(1f, 0.85f, 0.45f, 0.35f), "Picked cover");
+                Image image = Ui.Image(pieceLayer, "Picked " + id, new Color(1f, 0.85f, 0.45f, 0.95f));
+                DressPiece(image, FreeKind, new Vector2(x, z), rotation);
+                image.raycastTarget = false;
+            }
         }
 
         // K-029 타일로 땅 그림 한 장 만들기 (5m = 32화소): 풀 2종 섞기, 언덕 3단계, 무작위 지형의 나무·바위 덩이(K-049), 성 안 흙 + 성 둘레 그림
@@ -248,6 +399,7 @@ namespace HumanLastRampart.Meta
             gridSelected = MakeSprite("grid_selected"); gridPlaced = MakeSprite("grid_placed"); trapBuried = MakeSprite("trap_buried");
             // K-030 지도 그림: 직선 토벽은 10×5m(64×32) 한 장 — 칸 하나(5m)에는 왼쪽 절반만
             earthwallIcon = MakeSprite("earthwall_map", 32); raisedHillIcon = MakeSprite("raised_hill_map");
+            earthwallFull = MakeSprite("earthwall_map");
             // K-051: 옮긴 나무·바위, 옮겨 간 자리(풀), 낸 길 — 땅 그림은 열 때 한 번만 만들어 칸 위에 겹쳐 보인다
             treesIcon = MakeSprite("trees"); rocksIcon = MakeSprite("rocks"); grassIcon = MakeSprite("grass_a");
             for (int b = 0; b < 16; b++) pathIcons[b] = MakeSprite("path_" + b);
@@ -274,9 +426,21 @@ namespace HumanLastRampart.Meta
 
         void PaintTiles()
         {
+            bool free = FreeMode;
+            if (freeInput != null) freeInput.SetActive(free);
             foreach (var pair in tiles)
             {
                 string id = pair.Key; Image image = pair.Value;
+                if (free)
+                {
+                    // 자유 배치 중에는 칸 겉칠을 숨긴다 (지어 둔 칸 그림·묻힌 함정은 남는다)
+                    image.enabled = false;
+                    image.GetComponent<Button>().interactable = false;
+                    PaintWork(image, id);
+                    continue;
+                }
+
+                image.enabled = true;
                 // 함정 탭: 함정을 놓을 수 있는 칸 / 지형 탭: 고른 할 일을 할 수 있는 칸
                 bool allowed = terrainTab ? works.CanTarget(action, id, picked) : session.IsPlaceable(id);
                 bool occupied = !terrainTab && session.Occupied(id), chosen = picked.Contains(id);
@@ -294,6 +458,9 @@ namespace HumanLastRampart.Meta
                     Ui.Stretch(icon.rectTransform);
                 }
             }
+
+            PaintFree();
+            PaintGhost();
         }
 
         // 지어 둔 손질 그림 (K-030·K-029 지도 칸). 동·서 성벽 칸의 토벽은 성벽과 나란하게 90도 돌린다
@@ -461,14 +628,16 @@ namespace HumanLastRampart.Meta
 
             bool ok = works.CanApply(action, picked, out int cost, out string why);
             string hint = action == TerrainAction.Move && picked.Count % 2 == 1 ? "이제 놓을 빈 칸을 누르기"
-                : action == TerrainAction.Move ? "옮길 나무·바위 칸을 누르기" : "지도에서 칸을 누르기";
+                : action == TerrainAction.Move ? "옮길 나무·바위 칸을 누르기"
+                : FreeMode ? "지도에 놓기 (왼쪽) · 돌리기 (오른쪽)" : "지도에서 칸을 누르기";
             PriceLine(ok, cost, why, hint);
 
             HorizontalLayoutGroup act = Ui.Row(side, "Actions", UiTokens.S16);
             Ui.Size(act, -1f, 64f);
             string verb = TerrainWorkTransactions.NameOf(action);
             int count = action == TerrainAction.Move ? picked.Count / 2 : picked.Count;
-            var build = Ui.Button(act.transform, BuildLabel, count > 0 ? $"{count}칸 {verb}" : verb, Build, UiButtonKind.Primary);
+            string unit = FreeMode ? "개" : "칸";
+            var build = Ui.Button(act.transform, BuildLabel, count > 0 ? $"{count}{unit} {verb}" : verb, Build, UiButtonKind.Primary);
             Ui.Size(build, 288f, 64f);
             build.interactable = ok;
             ClearButton(act.transform);
@@ -570,9 +739,10 @@ namespace HumanLastRampart.Meta
             var cells = new List<string>(picked);
             TerrainAction done = action;
             bool ok = works.TryApply(done, cells, out List<string> changed, out int delta, out string reason);
+            string unit = ok && changed.Count > 0 && TerrainRules.TryParseFree(changed[0], out _, out _, out _) ? "개" : "칸";
             message = !ok ? reason
-                : delta >= 0 ? $"{changed.Count}칸 {TerrainWorkTransactions.NameOf(done)} · {delta:N0}골드 돌려받음"
-                : $"{changed.Count}칸 {TerrainWorkTransactions.NameOf(done)} · {-delta:N0}골드";
+                : delta >= 0 ? $"{changed.Count}{unit} {TerrainWorkTransactions.NameOf(done)} · {delta:N0}골드 돌려받음"
+                : $"{changed.Count}{unit} {TerrainWorkTransactions.NameOf(done)} · {-delta:N0}골드";
             messageBad = !ok;
             if (ok) picked.Clear();
             preparation.CancelQuote();
@@ -587,10 +757,24 @@ namespace HumanLastRampart.Meta
             string act = what == TerrainAction.Hill ? "earth" : what == TerrainAction.Move ? "log" : "dig";
             for (int k = 0; k < cells.Count; k++)
             {
-                if (!tiles.TryGetValue(cells[k], out Image tile)) continue;
                 Texture2D sheet = Tile($"worker_{act}_{(k % 2 == 0 ? "archer" : "gunner")}");
-                float height = tile.rectTransform.rect.height * 1.6f;
-                TerrainWorkerAnimation.Play(tile.rectTransform, sheet, WorkerSeconds, height);
+                RectTransform anchor;
+                if (tiles.TryGetValue(cells[k], out Image tile)) anchor = tile.rectTransform;
+                else if (workerLayer != null && TerrainRules.TryParseFree(cells[k], out float x, out float z, out _))
+                {
+                    // 자유 조각: 그 자리에 칸 크기 자리표를 두고 연출한다
+                    var spot = new GameObject("Worker spot", typeof(RectTransform));
+                    spot.transform.SetParent(workerLayer, false);
+                    anchor = (RectTransform)spot.transform;
+                    anchor.anchorMin = anchor.anchorMax = new Vector2(0.5f, 0.5f);
+                    anchor.anchoredPosition = new Vector2(x, z) * mapScale;
+                    anchor.sizeDelta = Vector2.one * session.Terrain.TrapCellSize * mapScale;
+                    UnityEngine.Object.Destroy(spot, WorkerSeconds + 0.5f);
+                }
+                else continue;
+
+                float height = anchor.rect.height * 1.6f;
+                TerrainWorkerAnimation.Play(anchor, sheet, WorkerSeconds, height);
             }
         }
 

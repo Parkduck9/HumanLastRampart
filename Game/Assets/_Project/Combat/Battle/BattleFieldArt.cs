@@ -100,8 +100,10 @@ namespace HumanLastRampart.Combat.Battle
         const float K068BoardHeight = 2.8f;
         const float CrackedBelow = 0.67f, CollapsedBelow = 0.34f;   // 남은 체력 비율
         static readonly string[] WallStageFiles = { "earthwall_intact", "earthwall_cracked", "earthwall_collapsed" };
-        readonly Kind[,] wallStages = new Kind[3, 2];
-        readonly Kind[] newRubble = new Kind[2];
+        // 방향: 0 = 동서로 긴 판, 1 = 남북으로 긴 판, 2·3 = 자유 배치 비스듬한 판 (45도·135도, 사용자 2026-10-20)
+        readonly Kind[,] wallStages = new Kind[3, 4];
+        readonly Kind[] newRubble = new Kind[4];
+        static readonly Vector3[] WallOrientRight = { Vector3.right, Vector3.forward, new Vector3(0.7071f, 0f, 0.7071f), new Vector3(-0.7071f, 0f, 0.7071f) };
         bool fallenTreeArt;
         int terrainVersion = -1;
         // 쓰러진 나무 (K-051): 나무 덩이 칸마다 그린 나무 판 (소품 종류, 판 번호, 칸) — 쓰러지면 숨기고 통나무 더미(logs_side)를 그린다
@@ -160,14 +162,12 @@ namespace HumanLastRampart.Combat.Battle
             if (shape != null)
             {
                 int walls = shape.EarthWallCells.Count;
-                for (int s = 0; s < 3; s++)
+                int orients = shape.FreeWalls.Count > 0 ? 4 : 2;
+                for (int o = 0; o < orients; o++)
                 {
-                    wallStages[s, 0] = MakeBoardKind(WallStageFiles[s], walls, Vector3.right);
-                    wallStages[s, 1] = MakeBoardKind(WallStageFiles[s], walls, Vector3.forward);
+                    for (int s = 0; s < 3; s++) wallStages[s, o] = MakeBoardKind(WallStageFiles[s], walls, WallOrientRight[o]);
+                    newRubble[o] = MakeBoardKind("earthwall_rubble", walls, WallOrientRight[o]);
                 }
-
-                newRubble[0] = MakeBoardKind("earthwall_rubble", walls, Vector3.right);
-                newRubble[1] = MakeBoardKind("earthwall_rubble", walls, Vector3.forward);
                 if (wallStages[0, 0] == null)
                 {
                     earthWallNS = MakeTerrainKind("earthwall_side", 320, 96, walls, Vector3.right);
@@ -575,8 +575,12 @@ namespace HumanLastRampart.Combat.Battle
             TerrainLayout shape = sim.TerrainLayout;
             if (shape == null) return;
             foreach (Kind k in TerrainWallKinds()) k.Count = 0;
+            freeWallCells.Clear();
+            foreach (var piece in shape.FreeWalls) foreach (int c in piece.Cells) freeWallCells.Add(c);
+            if (wallStages[0, 0] != null) RefreshFreeWalls(shape, shade);
             foreach (int c in shape.EarthWallCells)
             {
+                if (wallStages[0, 0] != null && freeWallCells.Contains(c)) continue;   // 자유 조각은 조각마다 한 장으로 그렸다
                 Vector2 p = shape.Center(c);
                 bool broken = sim.TerrainKindAt(c) == TerrainCell.Breach;
                 int side = WallGeometry.FieldSide(new float3(p.x, 0f, p.y));
@@ -620,6 +624,35 @@ namespace HumanLastRampart.Combat.Battle
 
             if (rockPiles != null && rockPiles.Count > 0) rockPiles.Buffer.SetData(rockPiles.Instances, 0, 0, rockPiles.Count);
             RefreshFallenTrees(shape, shade);
+        }
+
+        readonly HashSet<int> freeWallCells = new HashSet<int>();
+
+        // 자유 배치 토벽 (사용자 2026-10-20): 조각 가운데에 돌린 방향의 판 한 장. 금 간 정도 = 덮은 칸 중 가장 상한 칸,
+        // 한 칸이라도 뚫리면 무너진 더미
+        void RefreshFreeWalls(TerrainLayout shape, float shade)
+        {
+            foreach (var piece in shape.FreeWalls)
+            {
+                int orient = Mathf.RoundToInt(Mathf.Repeat(piece.Rotation, 180f) / 45f) % 4;
+                orient = orient == 0 ? 0 : orient == 2 ? 1 : orient == 1 ? 2 : 3;
+                float health = 1f;
+                bool broken = false;
+                foreach (int c in piece.Cells)
+                {
+                    if (sim.TerrainKindAt(c) == TerrainCell.Breach) broken = true;
+                    health = Mathf.Min(health, sim.EarthWallHealth(c));
+                }
+
+                int stage = health < CollapsedBelow ? 2 : health < CrackedBelow ? 1 : 0;
+                Kind kind = broken ? newRubble[orient] ?? newRubble[0] : wallStages[stage, orient] ?? wallStages[stage, 0];
+                if (kind == null || kind.Count >= kind.Instances.Length) continue;
+                kind.Instances[kind.Count++] = new PerfLabInstance
+                {
+                    PosFrame = new float4(piece.Center.x, 0f, piece.Center.y, 0f),
+                    TintSize = new float4(shade, shade, shade, K068BoardHeight),
+                };
+            }
         }
 
         // 토벽·잔해 판 종류 (있는 것만)

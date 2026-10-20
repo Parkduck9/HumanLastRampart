@@ -83,5 +83,32 @@ namespace HumanLastRampart.Core.Tests
             Assert.IsTrue(TrapGrid.IsPlaceable(terrain, layout, path), "길 위에는 함정을 놓을 수 있다");
             Assert.That(layout.RockCells.Count, Is.GreaterThanOrEqualTo(TerrainRules.RockClustersMin));
         }
+
+        // 자유 배치 (사용자 2026-10-20): 자리·각도로 덮는 칸을 계산해 토벽·언덕 칸이 되고, 이름표는 읽고 쓰기가 같다
+        [Test]
+        public void FreePieces_CoverCells_AndIdRoundTrips()
+        {
+            TerrainDef terrain = Terrain();
+            string id = TerrainRules.FreeId(12.5f, 41f, 45f);
+            Assert.IsTrue(TerrainRules.TryParseFree(id, out float x, out float z, out float rot));
+            Assert.AreEqual(12.5f, x, 0.001f); Assert.AreEqual(41f, z, 0.001f); Assert.AreEqual(45f, rot, 0.001f);
+            Assert.IsFalse(TerrainRules.TryParseFree("cell_0_1_2", out _, out _, out _));
+
+            var works = new List<TerrainWork>
+            {
+                new TerrainWork { TerrainId = terrain.Id, CellId = id, Kind = TerrainWorkKind.EarthWall, Free = true, X = 12.5f, Z = 41f, Rotation = 45f },
+                new TerrainWork { TerrainId = terrain.Id, CellId = TerrainRules.FreeId(-40f, -12f, 0f), Kind = TerrainWorkKind.Hill, Free = true, X = -40f, Z = -12f },
+            };
+            TerrainLayout empty = TerrainGenerator.Generate(terrain, 7, null);
+            TerrainLayout layout = TerrainGenerator.Generate(terrain, 7, works);
+            var wall = new List<int>();
+            TerrainRules.FreeCover(layout, TerrainWorkKind.EarthWall, new Vector2(12.5f, 41f), 45f, wall);
+            Assert.That(wall.Count, Is.InRange(2, 6), "6m 비스듬한 토벽은 5m 칸 여러 개를 덮는다");
+            foreach (int c in wall)
+                if (empty.Cells[c] == TerrainCell.Free) Assert.AreEqual(TerrainCell.EarthWall, layout.Cells[c]);
+            Assert.AreEqual(1, layout.FreeWalls.Count);
+            Assert.AreEqual(TerrainCell.Hill, layout.KindAt(-40f, -12f));
+            Assert.IsTrue(layout.RaisedHillCells.Contains(layout.CellOf(-40f, -12f)));
+        }
     }
 }

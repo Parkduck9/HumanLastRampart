@@ -164,6 +164,38 @@ public sealed partial class PlayProbe
             yield return Press(LoopKeys.TabPrefix, 60, true);
             for (int i = 0; i < 3; i++) yield return null;
             yield return Capture("loop_11_terrain_tab");
+
+            // 자유 배치 (사용자 2026-10-20): 토벽은 칸이 아니라 지도 위 아무 곳에 — 놓을 수 있는 자리를 찾아 하나는 돌려서 둘 놓는다
+            var placer = Object.FindAnyObjectByType<HumanLastRampart.Meta.FreePlacementInput>();
+            Assert.IsNotNull(placer, "토벽을 고르면 자유 배치 입력이 켜진다");
+            Vector2[] spots = { new Vector2(-150f, 250f), new Vector2(160f, 260f), new Vector2(260f, -140f), new Vector2(-260f, 150f), new Vector2(-140f, -260f), new Vector2(120f, 300f), new Vector2(-300f, -100f), new Vector2(300f, 120f) };
+            int placed = 0;
+            foreach (Vector2 spot in spots)
+            {
+                if (placed == 1) placer.Rotate();   // 두 번째는 45도 돌려서
+                placer.PlaceAt(spot);
+                yield return null;
+                Button pick = FindPressable(LoopKeys.BuildPrefix, true);
+                string label = pick != null ? ButtonLabel(pick) : "";
+                placed = label.StartsWith("2") ? 2 : label.StartsWith("1") ? 1 : placed;
+                if (placed >= 2) break;
+            }
+
+            placer.MoveTo(new Vector2(-60f, -300f));   // 놓일 모습(초록·빨강)이 사진에 보이게
+            yield return null;
+            yield return Capture("loop_11b_free_pick");
+            if (placed > 0)
+            {
+                yield return Press(LoopKeys.BuildPrefix, 60, true);
+                Note((c.TerrainWorks?.Count ?? 0) > works0 ? $"자유 배치 토벽 {placed}개, 남은 골드 {c.Gold}" : $"자유 배치 짓기 실패 (골드 {c.Gold})");
+                yield return null;
+                yield return Capture("loop_11c_free_built");
+                works0 = c.TerrainWorks?.Count ?? 0;
+            }
+            else Note("자유 배치: 놓을 자리를 찾지 못함");
+
+            yield return Press("할 일:" + "길 내기", 60, true);   // 칸 방식 할 일로 기존 흐름도 본다
+            yield return null;
             Button ground = FindPressable(LoopKeys.CellPrefix, true);
             if (ground != null)
             {

@@ -58,6 +58,59 @@ namespace HumanLastRampart.Core.Traps
         public const int RockClustersMin = 4, RockClustersMax = 8, RockClusterCellsMax = 2;
         public const float WallClearance = 10f;       // 성벽에서 이 거리 안에는 놓지 않는다
         public const float FrontCorridorHalf = 10f;   // 면마다 정면 가운데 너비 20m에는 놓지 않는다
+
+        // 자유 배치 (사용자 2026-10-20) — 토벽은 길이 6m·두께 1.5m 판, 언덕은 반경 3.5m 둥근 둔덕 (제안값)
+        public const float FreeWallLength = 6f;
+        public const float FreeWallThickness = 1.5f;
+        public const float HillPieceRadius = 3.5f;
+        public const float FreeRotateStep = 45f;
+
+        // 자유 배치 조각이 덮는 땅 칸 (0.5m 간격 표본이 들어간 칸 모두). 같은 입력이면 늘 같은 순서
+        public static void FreeCover(TerrainLayout layout, TerrainWorkKind kind, Vector2 center, float rotation, List<int> into)
+        {
+            into.Clear();
+            if (layout == null) return;
+            const float step = 0.5f;
+            if (kind == TerrainWorkKind.EarthWall)
+            {
+                float rad = rotation * Mathf.Deg2Rad;
+                var along = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
+                var across = new Vector2(-along.y, along.x);
+                float a = FreeWallLength * 0.5f, b = FreeWallThickness * 0.5f;
+                for (float u = -a; u <= a + 0.001f; u += step)
+                    for (float v = -b; v <= b + 0.001f; v += step)
+                        AddCover(layout, center + along * u + across * v, into);
+            }
+            else if (kind == TerrainWorkKind.Hill)
+            {
+                float r = HillPieceRadius;
+                for (float u = -r; u <= r + 0.001f; u += step)
+                    for (float v = -r; v <= r + 0.001f; v += step)
+                        if (u * u + v * v <= r * r) AddCover(layout, center + new Vector2(u, v), into);
+            }
+        }
+
+        // 자유 배치 이름표 "free:{x}:{z}:{돌림}" — 함정 칸 ID와 섞이지 않는다. 같은 자리·각도는 같은 이름표
+        public static string FreeId(float x, float z, float rotation) =>
+            string.Format(System.Globalization.CultureInfo.InvariantCulture, "free:{0:0.0}:{1:0.0}:{2:0}", x, z, Mathf.Repeat(rotation, 180f));
+
+        public static bool TryParseFree(string id, out float x, out float z, out float rotation)
+        {
+            x = z = rotation = 0f;
+            if (string.IsNullOrEmpty(id) || !id.StartsWith("free:")) return false;
+            string[] parts = id.Split(':');
+            var inv = System.Globalization.CultureInfo.InvariantCulture;
+            const System.Globalization.NumberStyles style = System.Globalization.NumberStyles.Float;
+            return parts.Length == 4 && float.TryParse(parts[1], style, inv, out x) && float.TryParse(parts[2], style, inv, out z)
+                && float.TryParse(parts[3], style, inv, out rotation) && !float.IsNaN(x) && !float.IsInfinity(x)
+                && !float.IsNaN(z) && !float.IsInfinity(z) && !float.IsNaN(rotation) && !float.IsInfinity(rotation);
+        }
+
+        static void AddCover(TerrainLayout layout, Vector2 p, List<int> into)
+        {
+            int c = layout.CellOf(p.x, p.y);
+            if (c >= 0 && !into.Contains(c)) into.Add(c);
+        }
     }
 
     // 한 지형의 들판 격자 (무작위 + 지형 손질). 성 가운데 원점, 북 +Z, 동 +X — 전투와 같다.
@@ -74,6 +127,15 @@ namespace HumanLastRampart.Core.Traps
         public readonly List<int> EarthWallCells = new List<int>();
         public readonly List<int> RaisedHillCells = new List<int>();
         public readonly List<int> PathCells = new List<int>();
+        // 자유 배치한 토벽 (그리기용: 가운데·돌림·덮은 칸). 길 찾기는 칸(EarthWallCells)으로 한다
+        public readonly List<FreePiece> FreeWalls = new List<FreePiece>();
+
+        public struct FreePiece
+        {
+            public Vector2 Center;
+            public float Rotation;
+            public List<int> Cells;
+        }
 
         public TerrainLayout(float cellSize, float fieldSize)
         {
@@ -160,6 +222,12 @@ namespace HumanLastRampart.Core.Traps
                 foreach (TerrainWork work in works)
                 {
                     if (work == null || work.TerrainId != terrain.Id) continue;
+                    if (work.Free)
+                    {
+                        ApplyFree(layout, work);
+                        continue;
+                    }
+
                     int c = layout.CellOfTrapCell(terrain, work.CellId);
                     if (c < 0) continue;
                     switch (work.Kind)
@@ -198,6 +266,35 @@ namespace HumanLastRampart.Core.Traps
             }
 
             return layout;
+        }
+
+        // 자유 배치 토벽·언덕을 칸에 옮긴다 (덮은 칸 = TerrainRules.FreeCover)
+        static void ApplyFree(TerrainLayout layout, TerrainWork work)
+        {
+            var center = new Vector2(work.X, work.Z);
+            var cells = new List<int>();
+            TerrainRules.FreeCover(layout, work.Kind, center, work.Rotation, cells);
+            if (cells.Count == 0) return;
+            if (work.Kind == TerrainWorkKind.EarthWall)
+            {
+                foreach (int c in cells)
+                {
+                    layout.Cells[c] = TerrainCell.EarthWall;
+                    if (!layout.EarthWallCells.Contains(c)) layout.EarthWallCells.Add(c);
+                }
+
+                layout.FreeWalls.Add(new TerrainLayout.FreePiece { Center = center, Rotation = work.Rotation, Cells = cells });
+            }
+            else if (work.Kind == TerrainWorkKind.Hill)
+            {
+                foreach (int c in cells)
+                {
+                    layout.Cells[c] = TerrainCell.Hill;
+                    if (!layout.RaisedHillCells.Contains(c)) layout.RaisedHillCells.Add(c);
+                }
+
+                layout.Hills.Add(new Vector3(center.x, TerrainRules.HillPieceRadius, center.y));   // 그리기용 둥근 언덕
+            }
         }
 
         // 정의에 적힌 언덕만 (무작위·손질 없음) — 측정 비교용

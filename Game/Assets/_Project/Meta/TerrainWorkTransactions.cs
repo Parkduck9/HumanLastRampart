@@ -71,7 +71,15 @@ namespace HumanLastRampart.Meta
         // 이 칸을 고를 수 있는가 (지도 칸 색칠). picked = 지금까지 고른 칸 (옮기기는 순서가 뜻을 가진다)
         public bool CanTarget(TerrainAction action, string cellId, IReadOnlyList<string> picked)
         {
-            if (!traps.HasNextBattle || traps.IsClosed || !InGrid(cellId)) return false;
+            if (!traps.HasNextBattle || traps.IsClosed) return false;
+            if (TerrainRules.TryParseFree(cellId, out float fx, out float fz, out float frot))
+            {
+                if (action == TerrainAction.Demolish) return WorkAt(cellId) != null;
+                return (action == TerrainAction.EarthWall || action == TerrainAction.Hill)
+                    && CanPlaceFree(action == TerrainAction.EarthWall ? TerrainWorkKind.EarthWall : TerrainWorkKind.Hill, fx, fz, frot, picked);
+            }
+
+            if (!InGrid(cellId)) return false;
             byte kind = KindOf(cellId);
             TerrainWork work = WorkAt(cellId);
             switch (action)
@@ -155,7 +163,13 @@ namespace HumanLastRampart.Meta
                     TerrainWorkKind kind = action == TerrainAction.EarthWall ? TerrainWorkKind.EarthWall : action == TerrainAction.Hill ? TerrainWorkKind.Hill : TerrainWorkKind.Path;
                     foreach (string id in cellIds)
                     {
-                        works.Add(new TerrainWork { TerrainId = terrainId, CellId = id, Kind = kind, Paid = Price(action) });
+                        var work = new TerrainWork { TerrainId = terrainId, CellId = id, Kind = kind, Paid = Price(action) };
+                        if (TerrainRules.TryParseFree(id, out float fx, out float fz, out float frot))
+                        {
+                            work.Free = true; work.X = fx; work.Z = fz; work.Rotation = frot;
+                        }
+
+                        works.Add(work);
                         done.Add(id);
                     }
 
@@ -191,6 +205,48 @@ namespace HumanLastRampart.Meta
                 default: return "지을 수 없는 칸이 섞여 있습니다 (언덕·나무·바위·함정·이미 지은 칸)";
             }
         }
+
+        // 자유 배치 (사용자 2026-10-20): 덮는 땅 칸이 모두 빈 땅이고, 성벽에서 함정 구역(TrapNear~TrapFar) 안이며,
+        // 함정이 놓인 칸·먼저 고른 조각과 겹치지 않아야 한다
+        public bool CanPlaceFree(TerrainWorkKind kind, float x, float z, float rotation, IReadOnlyList<string> picked)
+        {
+            var terrain = traps.Terrain;
+            TerrainLayout layout = traps.Layout;
+            if (terrain == null || layout == null) return false;
+            var center = new UnityEngine.Vector2(x, z);
+            float wall = TerrainLayout.WallDistance(terrain.CastleHalfSize, center);
+            if (wall < terrain.TrapNear || wall > terrain.TrapFar) return false;
+            var cells = new List<int>();
+            TerrainRules.FreeCover(layout, kind, center, rotation, cells);
+            if (cells.Count == 0) return false;
+            foreach (int c in cells) if (layout.Cells[c] != TerrainCell.Free) return false;
+
+            // 함정이 놓인 칸
+            foreach (var trap in traps.Campaign.Traps)
+            {
+                if (trap == null || trap.TerrainId != terrain.Id) continue;
+                if (cells.Contains(layout.CellOfTrapCell(terrain, trap.SlotId))) return false;
+            }
+
+            // 먼저 고른 조각 (아직 짓지 않은 것)
+            if (picked != null)
+            {
+                var other = new List<int>();
+                foreach (string id in picked)
+                {
+                    if (!TerrainRules.TryParseFree(id, out float px, out float pz, out float prot)) continue;
+                    if (px == x && pz == z && prot == rotation) continue;
+                    // 다른 종류를 섞어 고르지는 않으므로 같은 종류로 덮는다
+                    TerrainRules.FreeCover(layout, kind, new UnityEngine.Vector2(px, pz), prot, other);
+                    foreach (int c in other) if (cells.Contains(c)) return false;
+                }
+            }
+
+            return true;
+        }
+
+        public bool CanPlaceFree(TerrainWorkKind kind, string freeId, IReadOnlyList<string> picked) =>
+            TerrainRules.TryParseFree(freeId, out float x, out float z, out float rotation) && CanPlaceFree(kind, x, z, rotation, picked);
 
         bool InGrid(string cellId) =>
             traps.Terrain != null && TrapGrid.TryParse(cellId, out int side, out int column, out int row)
