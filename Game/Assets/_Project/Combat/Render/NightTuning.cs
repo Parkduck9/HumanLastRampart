@@ -7,7 +7,7 @@ namespace HumanLastRampart.Combat.Render
     public static class NightTuning
     {
         static float level = DefaultLevel;
-        public const float DefaultLevel = 0.4f;   // 사용자 선택 2026-10-20: "0.4 정도, 1단계보다 조금 밝게" (사진 Docs/References/night_levels_20261020.png)
+        public const float DefaultLevel = 0.65f;   // 사용자 선택 2026-10-20: 처음 0.4 → "0.65로 변경" (사진 Docs/References/night_levels_20261020.png)
 
         public static float Level
         {
