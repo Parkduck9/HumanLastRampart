@@ -1,0 +1,31 @@
+{
+    "browser":  "Chrome headless",
+    "limitations":  "Unity 실행·실제 게임 연결·사용자 Play 확인 미수행. 390px 화면은 Chrome 창 최소 폭 때문에 별도 검증하지 않음.",
+    "checks":  [
+                   {
+                       "viewport_width":  1424,
+                       "ready":  true,
+                       "content_width":  1424,
+                       "duration_virtual_ms":  2500,
+                       "all_images_loaded":  true,
+                       "capture":  "desktop",
+                       "no_horizontal_page_overflow":  true,
+                       "screenshot":  "review_desktop.png",
+                       "animation_frame_changes":  11,
+                       "opened_as":  "file://"
+                   },
+                   {
+                       "viewport_width":  500,
+                       "ready":  true,
+                       "content_width":  500,
+                       "duration_virtual_ms":  2500,
+                       "all_images_loaded":  true,
+                       "capture":  "mobile",
+                       "no_horizontal_page_overflow":  true,
+                       "screenshot":  "review_mobile.png",
+                       "animation_frame_changes":  10,
+                       "opened_as":  "file://"
+                   }
+               ],
+    "visual_inspection":  "데스크톱·좁은 화면 캡처 확인. 원본 4배 시트 세 동작도 육안 확인."
+}
