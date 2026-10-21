@@ -1,0 +1,7 @@
+{
+  "type": "mock_DOM_only_not_browser",
+  "syntax": true,
+  "tiles": 35,
+  "manual_frame_controls": true,
+  "hero_final_frame_crop": true
+}

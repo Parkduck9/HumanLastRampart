@@ -40,6 +40,7 @@ namespace HumanLastRampart.Combat.Battle
 
         // 대포 자리 (쏘는 병사 → 성벽 위 대포 위치). 대포 분대는 대포 양옆에 서므로 쏘는 병사 자리와 다르다
         readonly Dictionary<int, float3> cannonSpots = new Dictionary<int, float3>();
+        readonly HashSet<int> alignedCannonShooters = new HashSet<int>();   // 확장 점화 시트의 사격병만 설치 대포의 접점 깊이에 맞춤
 
         // 병종별 병사 구간 (그리기용): 병종 정의, 병사 배열 시작, 수
         readonly List<(UnitDef unit, int start, int count)> soldierGroups = new List<(UnitDef, int, int)>();
@@ -397,7 +398,7 @@ namespace HumanLastRampart.Combat.Battle
 
         static EnemyKind MakeKind(EnemyDef def)
         {
-            bool hasSheet = def.Sheet != null;
+            bool hasSheet = def.MovingSheet != null;
             return new EnemyKind
             {
                 WallDamage = def.WallDamage,
@@ -412,7 +413,7 @@ namespace HumanLastRampart.Combat.Battle
                     ? new float3(1f, 1f, 1f)
                     : (def.IsSpecial ? new float3(0.55f, 0.3f, 0.75f) : new float3(0.85f, 0.25f, 0.2f)),
                 // 오우거·사다리 고블린은 걷기 4칸 미리 연결(사용자 검토 전) — 공격 중에도 걷기 칸
-                SheetFrames = (byte)(hasSheet ? Mathf.Min(PerfLabArt.FrameCount(def.Sheet), 255) : PerfLabArt.FramesPerAction * 2),
+                SheetFrames = (byte)(hasSheet ? Mathf.Min(PerfLabArt.FrameCount(def.MovingSheet), 255) : PerfLabArt.FramesPerAction * 2),
                 // 따로 붙인 동작 시트 (K-032, BattleSim.Poses.cs). 원래 시트가 없으면 쓰지 않는다 (임시 그림 그대로)
                 AttackFrames = hasSheet ? PoseFrames(def.AttackSheet) : (byte)0,
                 DeployFrames = hasSheet ? PoseFrames(def.DeploySheet) : (byte)0,
@@ -534,6 +535,8 @@ namespace HumanLastRampart.Combat.Battle
                 if (cannonSquad) cannonSpots[index] = WallSpot(side, along, 0);   // 대포는 지점 자리, 운용병은 그 양옆
                 int chunk = cannonSquad ? squad.Count : GroupSize;
                 UnitDef unitDef = defs.Get<UnitDef>(squad.UnitDefId);
+                if (cannonSquad && unitDef != null && PerfLabArt.IsExpandedIgnite(unitDef.IgniteSheet))
+                    alignedCannonShooters.Add(index);
                 string unitName = unitDef != null && !string.IsNullOrEmpty(unitDef.DisplayName) ? unitDef.DisplayName : "병사";
                 for (int c = 0; c < squad.Count; c += chunk)
                 {
@@ -548,7 +551,7 @@ namespace HumanLastRampart.Combat.Battle
                     {
                         // 대포 오른쪽(쏘는 병사 — 불붙이기 그림이 왼쪽으로 횃불을 내밀므로 대포 쪽을 향함)·왼쪽, 더 있으면 그 바깥으로 번갈아
                         // (K-039 의견 2: 대포마다 2명. 사용자 2026-10-20: 왼쪽 병사가 바깥으로 불을 붙이던 것을 오른쪽 병사가 대포 쪽으로)
-                        position = WallSpot(side, along + CannonCrewAlong(i), 0);
+                        position = CannonCrewSpot(index - i, side, along, i);
                     }
                     else
                     {
@@ -577,6 +580,15 @@ namespace HumanLastRampart.Combat.Battle
         // 성벽 위 한 자리: 성벽 따라 lateral(m), row = 0 바깥 줄(SoldierInset)부터 안쪽으로 — 대포·운용병 자리
         float3 WallSpot(int side, float lateral, int row) =>
             WallGeometry.Outward(side) * (CastleHalf - SoldierInset - row * SoldierRowDepth) + WallGeometry.Right(side) * lateral + new float3(0f, WallHeight, 0f);
+
+        // 생성과 이동 도착에서 같은 자리를 사용한다. 뒤의 보조병·구형 시트 자리는 유지한다.
+        float3 CannonCrewSpot(int shooter, int side, float bay, int crew)
+        {
+            float3 spot = WallSpot(side, bay + CannonCrewAlong(crew), 0);
+            if (crew == 0 && alignedCannonShooters.Contains(shooter))
+                spot += WallGeometry.Outward(side) * (CannonArt.InstalledForwardOffset - CannonArt.IgniterDepthClearance);
+            return spot;
+        }
 
         // 대포 위치 (쏘는 병사 번호로). 표에 없으면 그 병사 자리
         float3 CannonSpot(int shooter) => cannonSpots.TryGetValue(shooter, out float3 spot) ? spot : sPos[shooter];

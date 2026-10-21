@@ -147,15 +147,17 @@ public sealed partial class PlayProbe
             yield return Capture("loop_09_recruit");
             yield return Press(LoopKeys.Close, 60);
 
-            // 함정 1칸 구매 → 지형 탭에서 1칸 짓기(지을 칸이 있으면)
+            // 함정 자유 위치 구매 → 지형 탭에서 짓기
             int goldTrap = c.Gold, traps0 = c.Traps.Count;
             int works0 = c.TerrainWorks?.Count ?? 0;
             Assert.IsTrue(yard.Use(LoopKeys.Workshop), "함정 공방 장소");
             for (int i = 0; i < 3; i++) yield return null;
-            Button cell = FindPressable(LoopKeys.CellPrefix, true);
-            Assert.IsNotNull(cell, "함정을 놓을 칸");
-            string trapCell = cell.name;
-            cell.onClick.Invoke();
+            var trapSession = new HumanLastRampart.Meta.TrapPreparationTransactions(c, GameFlow.Instance.Definitions);
+            Vector2 trapPoint = FreeTrapTestSupport.Point(trapSession, "trap_bomb");
+            string trapCell = HumanLastRampart.Core.Traps.TrapGrid.FreeId(trapPoint.x, trapPoint.y);
+            var trapPlacer = Object.FindAnyObjectByType<HumanLastRampart.Meta.FreePlacementInput>();
+            Assert.IsNotNull(trapPlacer, "함정 자유 배치 입력");
+            trapPlacer.PlaceAt(FreeTrapTestSupport.MapPoint(trapSession, trapPoint));
             yield return null;
             yield return Press(LoopKeys.TrapBuyPrefix, 60, true);
             Assert.AreEqual(traps0 + 1, c.Traps.Count, "함정 1개 설치");

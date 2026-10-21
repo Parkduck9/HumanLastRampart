@@ -54,7 +54,7 @@ namespace HumanLastRampart.Combat.Tests
                 Assert.AreEqual(BattleSim.WallHeight, feet.y, 0.001f);
                 Texture sheet = sim.WizardUnit.Sheet;
                 Assert.IsNotNull(sheet, "마법사 그림 연결");
-                Assert.AreEqual(256, sheet.width);
+                Assert.AreEqual(288, sheet.width);   // D-081 최신 96점 원본의 정확 3배 칸
                 Assert.AreEqual(384, sheet.height);
             }
         }

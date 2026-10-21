@@ -81,7 +81,7 @@ namespace HumanLastRampart.Combat.Battle
                 UnitDef heroUnit = HeroUnit(setup, defs);
                 view = new BattleView(sim, spriteShader, transform, HeroSheet(setup, defs), heroUnit?.IdleSheet,
                     heroUnit?.NormalSheet, heroUnit?.IdleNormalSheet);   // 노멀맵 짝 (D-062 G4) — 없으면 null
-                view.SetHeroCommandArt(heroUnit?.CommandSheet);   // 휠 메뉴 명령 손짓 (K-032)
+                view.SetHeroCommandArt(heroUnit?.CommandSheet, heroUnit?.NormalFor(heroUnit.CommandSheet));
                 rig = new BattleCameraRig(battleCamera, sim.CastleHalf, BattleSim.WallHeight);
                 mapCamera = new BattleMapCamera(battleCamera, sim.CastleHalf, sim.FieldSize);
                 easy = setup.Difficulty == Difficulty.Easy;

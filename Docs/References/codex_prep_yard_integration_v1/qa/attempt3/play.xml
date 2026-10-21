@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="2" result="Passed" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-21 07:42:05Z" end-time="2026-10-21 07:42:10Z" duration="4.6667892">
+  <test-suite type="TestSuite" id="1057" name="HumanLastRampart" fullname="HumanLastRampart" runstate="Runnable" testcasecount="49" result="Passed" start-time="2026-10-21 07:42:05Z" end-time="2026-10-21 07:42:10Z" duration="4.666789" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <test-suite type="Assembly" id="1053" name="HLR.PlayProbe.dll" fullname="C:/Unity/1/HumanLastRampart/Game/Library/ScriptAssemblies/HLR.PlayProbe.dll" runstate="Runnable" testcasecount="49" result="Passed" start-time="2026-10-21 07:42:05Z" end-time="2026-10-21 07:42:10Z" duration="4.661535" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="61652" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestFixture" id="1015" name="PlayProbe" fullname="PlayProbe" classname="PlayProbe" runstate="Runnable" testcasecount="37" result="Passed" start-time="2026-10-21 07:42:05Z" end-time="2026-10-21 07:42:10Z" duration="4.660271" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1025" name="PrepYardDepthAndCollision" fullname="PlayProbe.PrepYardDepthAndCollision" methodname="PrepYardDepthAndCollision" classname="PlayProbe" runstate="Runnable" seed="1773023410" result="Passed" start-time="2026-10-21 07:42:05Z" end-time="2026-10-21 07:42:07Z" duration="1.902786" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[[PlayProbe] 실제 3D 바닥 투영, 앞뒤 이동, 충돌, 5장소, 팝업 입력 중단과 화면 종료 정리 통과
+]]></output>
+        </test-case>
+        <test-case id="1031" name="TrapFlow" fullname="PlayProbe.TrapFlow" methodname="TrapFlow" classname="PlayProbe" runstate="Runnable" seed="1846201181" result="Passed" start-time="2026-10-21 07:42:07Z" end-time="2026-10-21 07:42:10Z" duration="2.747286" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[[PlayProbe] 가운데 함정 근처 적 7마리 (시간 0.4)
+[PlayProbe] 점화 → 상태 Fusing
+[PlayProbe] 폭발 뒤 상태 Exploded, 처치 0 → 17
+[PlayProbe] 폭발 잔류 확인: 효과 목록/그리기 0, 구덩이 GroundPlane=1·높이0.025m·중앙 피벗
+[PlayProbe] 전투 끝 Victory, 터진 함정 trap_32, 밀린 함정 0
+[PlayProbe] 결과 반영: 함정 3개 남음(터진 trap_32 제거), 재진입 무변경
+[PlayProbe] 정비 화면 진입 정상
+Saving results to: C:/Users/User/AppData/LocalLow/DefaultCompany/HumanLastRampart\TestResults.xml
+]]></output>
+        </test-case>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

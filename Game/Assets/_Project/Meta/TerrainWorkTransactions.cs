@@ -225,7 +225,7 @@ namespace HumanLastRampart.Meta
             foreach (var trap in traps.Campaign.Traps)
             {
                 if (trap == null || trap.TerrainId != terrain.Id) continue;
-                if (cells.Contains(layout.CellOfTrapCell(terrain, trap.SlotId))) return false;
+                if (cells.Contains(layout.CellOf(trap.ActualX, trap.ActualZ))) return false;
             }
 
             // 먼저 고른 조각 (아직 짓지 않은 것)

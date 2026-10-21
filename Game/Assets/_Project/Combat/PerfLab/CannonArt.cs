@@ -34,6 +34,9 @@ namespace HumanLastRampart.Combat.PerfLab
         // Codex 측정: 정면 설치 대포 폭 ÷ 서 있는 대포병 키 = 345 ÷ 300 ≈ 1.15. 병사 키 0.35m → 보이는 폭 약 0.40m (끄는 대포와 같은 축척)
         public const float InstalledWidthPerSoldier = 345f / 300f;
         public const float RecoilVisibleWidthFraction = 234f / 256f;   // cannon_recoil 칸 256 중 보이는 폭 (alphaBBox 11~245)
+        // 설치 그림의 발은 논리 대포 자리보다 바깥쪽이다. 확장 점화병도 같은 깊이에 선다.
+        public const float InstalledForwardOffset = 0.25f;
+        public const float IgniterDepthClearance = 0.02f;   // 겹친 빌보드에서 대포가 불꽃을 덮지 않도록 병사는 조금 뒤에
 
         // 그림 화소 → m (대포병 인물 키 210px = 병사 키)
         public static float MetersPerPx(float soldierHeight) => soldierHeight / CrewFigurePx;

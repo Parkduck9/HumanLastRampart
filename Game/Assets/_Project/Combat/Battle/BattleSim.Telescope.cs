@@ -27,11 +27,36 @@ namespace HumanLastRampart.Combat.Battle
 
         public IReadOnlyList<GroupSummary> SpottedGroups => spottedSummaries;
         public int SpottedGroupCount { get; private set; }
+        LensAfterimage lensAfterimages;
+        public bool HasTelescopeLens => Boost.TelescopeRadiusMul > 1f;
+        public LensAfterimage TelescopeAfterimages => lensAfterimages;
 
         void InitTelescope(Allocator p)
         {
             groupSpotted = new NativeArray<byte>(math.max(1, waveGroups.Count), p);
             spottedManaged = new bool[math.max(1, waveGroups.Count)];
+            if (HasTelescopeLens) lensAfterimages = new LensAfterimage(enemyCount);
+        }
+
+        // Complete 뒤 지도 그리기에서 호출. 렌즈를 놓거나 지도를 닫으면 null로 마지막 자리를 남긴다.
+        public void UpdateTelescopeAfterimages(Vector3? lens, float now)
+        {
+            if (lensAfterimages == null) return;
+            lensAfterimages.Begin();
+            if (lens.HasValue)
+            {
+                Vector3 center = lens.Value;
+                float radiusSq = TelescopeRange * TelescopeRange;
+                for (int e = 0; e < enemyCount; e++)
+                {
+                    if (!EnemyState.IsAlive(eState[e])) continue;
+                    float3 p = ePos[e];
+                    float dx = p.x - center.x, dz = p.z - center.z;
+                    if (dx * dx + dz * dz >= radiusSq) continue;
+                    lensAfterimages.Observe(e, new Vector3(p.x, 0.6f, p.z), kinds[eKind[e]].IsSpecial != 0);
+                }
+            }
+            lensAfterimages.End(now);
         }
 
         // 렌즈로 본 곳 — 작업이 도는 중이면 다음 프레임 처음에 처리

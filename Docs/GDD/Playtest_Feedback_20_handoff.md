@@ -55,10 +55,10 @@ $env:HLR_PLAY_OUT="$env:TEMP\hlr_play"
 | 20 | First group in 5 s, cannon ×1.5 | CODE-02 functional verified (Codex 2026-10-20) | First group: 0–2s / 60–70m; stages 1–4 tested. Targeted 8/8, full EditMode 93 pass + 1 inconclusive, full PlayMode 33/33. Cannon ×1.5 already in 621c77d. No Git writes. |
 | 7a | Remove Path & Move actions | CODED, UNTESTED | `TrapPreparationPanel.RenderTerrainTab` shows only 토벽·언덕·철거; FullLoop probe presses "할 일:철거" |
 | 12/13 | 2-cell terrain pieces, 45° steps, no gap | TODO | needs K-087 art for connection; logic can start before art |
-| 9 | Free trap placement | TODO | |
+| 9 | Free trap placement | CODE-04 functional verified (2026-10-21) | Free coordinates, spacing, valid/invalid ghost, batch installation, legacy saves/recovery. Full edit 99 pass + 1 existing inconclusive; play45/45. |
 | 2 | Overlap: squeeze into gaps | CODE-02 functional verified; performance evidence limited | Dense 0.25m slots, destination reservations, partial groups stay at source, no stacked fallback. Targeted 8/8; edit 93+1 inconclusive; play 33/33. 4,200-person stress probes use an in-memory 80m test wall restored in finally, actual 40m terrain assets unchanged. CPU/GPU/magic-stage measurement still needs valid follow-up; no performance improvement claimed. See .codex-code/CODE-02_RESULT.md. |
 | 4/5/6 | Shift box select + radial N/E/S/W picker | DONE (Claude verified: edit 85/86+1 inc., play 32/32; photos still to take) | CODE-01: Shift-release marker selection/highlight; brass radial N/E/S/W picker; wall-band click → one/ceil-half/all wheel → destination (source disabled). Count preserved through instant/direct/messenger delivery; KeepPerWall retained. Added BattleSquadSelectionTests. Standalone C# compilation passed; Unity tests/photos pending. See .codex-code/CODE-01_RESULT.md |
-| 11/19 | Lens afterimage 3–5 s | TODO | last position when a dot LEAVES the lens circle (or on release) stays ~4 s, fading |
+| 11/19 | Lens afterimage 3–5 s | CODE-03 functional verified (2026-10-21) | Last observed position4s, 512-capacity fade, no-lens unchanged;5 new edit cases. Shader import succeeds; actual map appearance follow-up. |
 | 16 | Repair map | TODO | waiting: user asked for a longer explanation (per-wall vs segments) |
 | 7 | Contact shadows → Simple-Lit-style lighting | TODO | K-088 art; shader: Blinn-Phong spec + normal maps (K-081) |
 | 18 | 2.5D prep yard | TODO | K-089 art |

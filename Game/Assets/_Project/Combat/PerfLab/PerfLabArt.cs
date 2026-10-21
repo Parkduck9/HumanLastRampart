@@ -38,9 +38,17 @@ namespace HumanLastRampart.Combat.PerfLab
         public const int SixCellWidth = 288;
         public const float SixFootPx = 360f, DefaultFootPx = 352f;
         public const float SixFigurePx = 73f * 3f;   // 표에 없는 6판 시트의 인물 키
+        // K-086: 인물 크기는 그대로 두고 왼쪽 점화 여백만 늘린 144×128 원본의 3배.
+        // 이름과 전체 크기까지 확인해 기존 288칸·384칸 점화 시트에는 적용하지 않는다.
+        const int ExpandedIgniteCellWidth = 432;
+        public static bool IsExpandedIgnite(Texture sheet) => sheet != null
+            && sheet.name == CannonArt.IgniteSheetName
+            && sheet.width == ExpandedIgniteCellWidth * CannonArt.CrewFrames
+            && sheet.height == CellHeight;
         // 6판 시트가 먼저 — 같은 이름으로 바꿔 끼운 시트(예: cannon_crew_ignite6)가 예전 표의 칸 폭을 따르지 않게
         static int CellWidthOf(Texture sheet) =>
-            IsSixSheet(sheet) ? SixCellWidth
+            IsExpandedIgnite(sheet) ? ExpandedIgniteCellWidth
+            : IsSixSheet(sheet) ? SixCellWidth
             : sheet != null && CannonArt.CellWidthPx.TryGetValue(sheet.name, out int w) ? w : CellWidth;
         // 그림이 바라보는 쪽 (사용자 지적 2026-10-20: 좌우가 반대로 쏘고, 뒤를 보며 뛴다)
         // - 사격 시트: 6판 궁수는 왼쪽, 6판 총병은 오른쪽을 겨눈다 (예전 그림은 모두 왼쪽으로 본다)
@@ -49,11 +57,13 @@ namespace HumanLastRampart.Combat.PerfLab
         public static bool FireFacesRight(Texture sheet) => sheet != null && IsSixSheet(sheet) && FireRightSheets.Contains(sheet.name);
         public static bool RunFacesRight(Texture sheet) => IsSixSheet(sheet);
 
-        public static bool IsSixSheet(Texture sheet) => sheet != null && sheet.width % SixCellWidth == 0 && sheet.width % CellWidth != 0;
-        public static float FootPx(Texture sheet) => IsSixSheet(sheet) ? SixFootPx : DefaultFootPx;
+        public static bool IsSixSheet(Texture sheet) => sheet != null && !IsExpandedIgnite(sheet)
+            && sheet.width % SixCellWidth == 0 && sheet.width % CellWidth != 0;
+        public static float FootPx(Texture sheet) => IsExpandedIgnite(sheet) || IsSixSheet(sheet) ? SixFootPx : DefaultFootPx;
         public static SheetLayout FromSheet(Texture sheet) => SheetLayout.Make(
             Mathf.Max(1, sheet.width / CellWidthOf(sheet)), Mathf.Max(1, sheet.height / CellHeight),
-            0.5f, (CellHeight - FootPx(sheet)) / CellHeight, (float)CellWidthOf(sheet) / CellHeight);
+            IsExpandedIgnite(sheet) ? 2f / 3f : 0.5f,
+            (CellHeight - FootPx(sheet)) / CellHeight, (float)CellWidthOf(sheet) / CellHeight);
         public static int FrameCount(Texture sheet) => Mathf.Max(1, sheet.width / CellWidthOf(sheet)) * Mathf.Max(1, sheet.height / CellHeight);
 
         // 시트별 인물 크기 맞추기 (K-034): 같은 칸 384px 안이라도 시트마다 인물이 다른 크기로 그려져 있다
@@ -65,7 +75,8 @@ namespace HumanLastRampart.Combat.PerfLab
         public const float DefaultFigurePx = 300f;   // 표에 없는 시트: Codex 기준 서 있는 인물 키
 
         public static float FigurePx(Texture sheet) =>
-            sheet != null && sheet.name.StartsWith(TrialSheetPrefix) ? TrialFigurePx
+            IsExpandedIgnite(sheet) ? SixFigurePx
+            : sheet != null && sheet.name.StartsWith(TrialSheetPrefix) ? TrialFigurePx
             : IsSixSheet(sheet) ? SixFigurePx   // D-081: 예전 측정표의 같은 이름 값(256칸 그림 키)을 쓰지 않는다
             : sheet != null && PerfLabSheetHeights.FigurePx.TryGetValue(sheet.name, out float px) && px > 1f ? px
             : sheet != null && CannonArt.FigurePx.TryGetValue(sheet.name, out float extra) ? extra   // K-052 대포병 (K-060)

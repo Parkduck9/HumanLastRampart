@@ -45,8 +45,7 @@ namespace HumanLastRampart.Meta
             BuildSummary(view.AddArea("Summary", 48f), campaign.BattleNumber);
             PreparationPanel.RefreshSummary(repair, context, session);
 
-            bool backdrop = view.SetBackdrop("prep");   // K-027 성 안 마당 배경 (있으면 마당의 하늘·성벽 띠 대신)
-            PrepYard yard = PrepYard.Build(view, HeroUnit(context), backdrop);
+            PrepYard yard = PrepYard.Build(view, HeroUnit(context));   // K-089 배경·3D 바닥·가림을 마당이 함께 소유한다.
             yard.AddStation("성벽 수리", 500f, new Color(0.45f, 0.42f, 0.38f), () => repair.onClick.Invoke());
             yard.AddStation("병영", 1300f, new Color(0.42f, 0.30f, 0.24f), () => recruit.onClick.Invoke());
             yard.AddStation("함정 공방", 2100f, new Color(0.30f, 0.30f, 0.36f), () => trapButton.onClick.Invoke());

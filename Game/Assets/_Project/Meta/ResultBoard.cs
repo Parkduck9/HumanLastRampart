@@ -165,21 +165,26 @@ namespace HumanLastRampart.Meta
             }
         }
 
-        // 병종 그림 시트의 첫 칸(256×384 격자, 위 왼쪽)을 초상으로. 서 있기 그림이 있으면 그것
+        // 병종 그림 시트의 첫 칸을 초상으로. 서 있기 그림 우선, 6판은 288×384·발360 / 기존은256×384·발352.
         static void Portrait(RectTransform parent, UnitDef def, Vector2 at, float height, Color? tint = null)
         {
             Texture2D sheet = def != null ? (def.IdleSheet != null ? def.IdleSheet : def.Sheet) : null;
             if (sheet == null) return;
+            bool six = sheet.width % 288 == 0 && sheet.width % 256 != 0;
+            float cellWidth = six ? 288f : 256f;
+            float footFromBottom = (384f - (six ? 360f : 352f)) / 384f;
             var obj = new GameObject("Portrait", typeof(RectTransform), typeof(CanvasRenderer), typeof(RawImage));
             obj.transform.SetParent(parent, false);
             var rect = (RectTransform)obj.transform;
             rect.anchorMin = rect.anchorMax = new Vector2(0.5f, 0.5f);
-            rect.anchoredPosition = at;
-            rect.sizeDelta = new Vector2(height * 2f / 3f, height);
+            rect.pivot = new Vector2(0.5f, footFromBottom);
+            // 기존 초상의 발선을 유지한다. 새 그림의 하단 투명 여백8px 차이를 위치에 반영한다.
+            rect.anchoredPosition = at - new Vector2(0f, height * (0.5f - 32f / 384f));
+            rect.sizeDelta = new Vector2(height * cellWidth / 384f, height);
             var image = obj.GetComponent<RawImage>();
             image.raycastTarget = false;
             image.texture = sheet;
-            int cols = Mathf.Max(1, Mathf.RoundToInt(sheet.width / 256f)), rows = Mathf.Max(1, Mathf.RoundToInt(sheet.height / 384f));
+            int cols = Mathf.Max(1, Mathf.RoundToInt(sheet.width / cellWidth)), rows = Mathf.Max(1, Mathf.RoundToInt(sheet.height / 384f));
             image.uvRect = new UnityEngine.Rect(0f, 1f - 1f / rows, 1f / cols, 1f / rows);
             image.color = tint ?? Color.white;
         }

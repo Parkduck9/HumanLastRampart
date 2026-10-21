@@ -201,7 +201,7 @@ namespace HumanLastRampart.Combat.Battle
             var spots = new float3[alive];
             for (int k = 0; k < alive; k++)
             {
-                spots[k] = WallSpot(side, bay + CannonCrewAlong(k), 0);   // 쏘는 병사 오른쪽, 다음 왼쪽 (BuildSoldiers와 같게)
+                spots[k] = CannonCrewSpot(shooter, side, bay, k);   // 생성 때의 점화 깊이도 유지한다
             }
 
             ArriveSide(squad, side, spots);

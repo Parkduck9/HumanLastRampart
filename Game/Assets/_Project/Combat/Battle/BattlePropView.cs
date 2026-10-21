@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using HumanLastRampart.Combat.PerfLab;
+using HumanLastRampart.Core.Definitions;
 using Unity.Collections;
 using Unity.Mathematics;
 using UnityEngine;
@@ -29,7 +30,6 @@ namespace HumanLastRampart.Combat.Battle
         const float WallInset = 0.12f;                        // 바깥 모서리에서 안쪽으로
         public const float CannonScale = 1.5f;                // 사용자 2026-10-20 #20: 대포 1.5배 (운용병 자리·포구도 함께 — BattleSim.CannonCrewOffset)
         const float CannonSize = 0.45f * CannonScale;
-        const float CannonInset = 0.25f;                      // 운용병(0.5m)보다 바깥
         const float AimSideThreshold = 0.2f;                  // 좌우 성분이 이보다 크면 옆 그림 (약 12도)
 
         // 반동 대포 (K-016 cannon_recoil: 칸 256×256, 바퀴 접지 (128,240), 10fps)
@@ -146,15 +146,16 @@ namespace HumanLastRampart.Combat.Battle
 
                 // 대포 끌기 그림 (K-060). 그림이 하나라도 없으면 끌기 그림은 그리지 않는다
                 int hauls = Mathf.Max(1, sim.CannonCount);
-                float crewScale = PerfLabArt.CellHeight / CannonArt.CrewFigurePx;   // 칸 384 중 인물 210 → 크기 값 = 인물 키
                 var pullSheet = Resources.Load<Texture2D>(CannonArt.PullSheet);
                 var pushSheet = Resources.Load<Texture2D>(CannonArt.PushSheet);
                 var chassis = Resources.Load<Texture2D>(CannonArt.HaulChassis);
                 var wheel = Resources.Load<Texture2D>(CannonArt.HaulWheel);
                 if (pullSheet != null && pushSheet != null && chassis != null && wheel != null)
                 {
-                    haulPull = MakeHaul(pullSheet, PerfLabArt.FromSheet(pullSheet), crewScale, hauls);
-                    haulPush = MakeHaul(pushSheet, PerfLabArt.FromSheet(pushSheet), crewScale, hauls);
+                    haulPull = MakeHaul(pullSheet, PerfLabArt.FromSheet(pullSheet), PerfLabArt.SheetScale(pullSheet), hauls);
+                    haulPush = MakeHaul(pushSheet, PerfLabArt.FromSheet(pushSheet), PerfLabArt.SheetScale(pushSheet), hauls);
+                    ApplyHaulNormal(haulPull, Resources.Load<Texture2D>(CannonArt.PullSheet + "_normal"));
+                    ApplyHaulNormal(haulPush, Resources.Load<Texture2D>(CannonArt.PushSheet + "_normal"));
                     haulChassis = MakeHaul(chassis, PerfLabArt.SheetLayout.Make(1, 1, CannonArt.HaulPivotXPx / CannonArt.HaulCellWidthPx,
                         (CannonArt.HaulCellHeightPx - CannonArt.HaulPivotYPx) / CannonArt.HaulCellHeightPx, CannonArt.HaulCellWidthPx / CannonArt.HaulCellHeightPx), 1f, hauls);
                     haulWheel = MakeHaul(wheel, PerfLabArt.SheetLayout.Make(1, 1, 0.5f, 0.5f, 1f), 1f, hauls);
@@ -190,6 +191,13 @@ namespace HumanLastRampart.Combat.Battle
             return kind;
         }
 
+        static void ApplyHaulNormal(HaulKind kind, Texture2D normal)
+        {
+            var color = kind.Block.GetTexture(MainTexId) as Texture2D;
+            if (SheetNormalPair.Match(color, normal) == null) return;
+            kind.Block.SetTexture("_NormalTex", normal); kind.Block.SetFloat("_HasNormal", 1f);
+        }
+
         // 대포 끌기 (K-060): 걸음 칸과 위치를 함께 32px 단위로 나눠 발이 미끄러지지 않게(Codex K-052 규칙 — 칸마다 왼쪽 32px, 디딘 발은 제자리).
         // 그림은 왼쪽으로 끈다 → 사진기에서 오른쪽으로 가면 좌우 뒤집기. 바퀴는 끈 거리만큼 돈다(각 = 거리 ÷ 반지름)
         void DrawHauls(float shade)
@@ -201,7 +209,9 @@ namespace HumanLastRampart.Combat.Battle
             Camera view = Camera.main;
             Vector3 camRight = view != null ? Vector3.ProjectOnPlane(view.transform.right, Vector3.up).normalized : Vector3.right;
             float mpp = CannonArt.MetersPerPx(SoldierHeight);
-            float step = CannonArt.CrewStepPx * mpp;
+            var pullTexture = haulPull.Block.GetTexture(MainTexId);
+            float step = PerfLabArt.IsSixSheet(pullTexture) ? 36f * SoldierHeight / PerfLabArt.SixFigurePx
+                : CannonArt.CrewStepPx * mpp;
             float cannonSize = CannonArt.HaulCellHeightPx * mpp;
             float wheelSize = CannonArt.WheelDiameterPx * mpp;
             for (int h = 0; h < hauls.Count && haulPull.Count < haulPull.Instances.Length; h++)
@@ -307,7 +317,7 @@ namespace HumanLastRampart.Combat.Battle
                     frame = lateral < -AimSideThreshold ? 0 : lateral > AimSideThreshold ? 2 : 1;
                 }
 
-                Vector3 p = c.Position + new Vector3(n.x, 0f, n.z) * (0.5f - CannonInset);
+                Vector3 p = c.Position + new Vector3(n.x, 0f, n.z) * CannonArt.InstalledForwardOffset;
                 cannonInstances[i] = new PerfLabInstance
                 {
                     PosFrame = new float4(p.x, p.y, p.z, frame),

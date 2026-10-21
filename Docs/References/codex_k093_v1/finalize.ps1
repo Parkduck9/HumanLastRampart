@@ -46,7 +46,7 @@ foreach($s in $specs){
   $frames+=@{index=$i;alpha_bbox_top_left=@($a[0],$a[1],$a[2],$a[3]);opaque_colors=$a[5];connected_components=$cc[0];smallest_component_pixels=$cc[1]}
  }
  $order=@('기본');if($s.n -eq 6){$order=@('정지','접근 1','접근 2','최대','복귀 2','복귀 1')};if($s.n -eq 20){$order=$keys}
- $asset=[ordered]@{id=$s.name;label_ko=$s.label;native_file="$($s.name)_native.png";game_file="$($s.name).png";preview_4x_file="$($s.name)_4x.png";native_cell=@($s.w,$s.h);game_cell=@($s.w*3,$s.h*3);native_sheet=@($native.Width,$native.Height);game_sheet=@($game.Width,$game.Height);columns=$s.n;rows=1;frame_count=$s.n;frame_order=$order;pivot_top_left_native=@($s.w/2,$s.h/2);pivot_top_left_game=@($s.w*3/2,$s.h*3/2);fps=0;loop=$false;frames=$frames}
+ $asset=[ordered]@{id=$s.name;label_ko=$s.label;native_file="$($s.name)_native.png";game_file="$($s.name).png";preview_4x_file="$($s.name)_4x.png";native_cell=@($s.w,$s.h);game_cell=@(($s.w*3),($s.h*3));native_sheet=@($native.Width,$native.Height);game_sheet=@($game.Width,$game.Height);columns=$s.n;rows=1;frame_count=$s.n;frame_order=$order;pivot_top_left_native=@(($s.w/2),($s.h/2));pivot_top_left_game=@(($s.w*3/2),($s.h*3/2));fps=0;loop=$false;frames=$frames}
  if($s.n -eq 6){$asset.fps=6;$asset.loop=$true}
  if($s.name -eq 'instruction_box'){$asset.nine_slice_border_native=@{left=8;right=8;top=8;bottom=8};$asset.nine_slice_border_game=@{left=24;right=24;top=24;bottom=24};$asset.center_mode='tile';$asset.edge_mode='tile';$asset.text_safe_inset_native=@(11,10,11,10);$asset.example_size_game=@(900,144)}
  if($s.name -like 'pointer_*'){$asset.tip_top_left_native=switch($s.name){'pointer_up'{@(15,3)}'pointer_right'{@(28,15)}'pointer_down'{@(16,28)}'pointer_left'{@(3,16)}};$asset.motion_offsets_native=@(0,1,2,3,2,1)}

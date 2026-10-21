@@ -1,0 +1,406 @@
+{
+  "date": "2026-10-20",
+  "manifest": "manifest_current.json",
+  "sheets": 35,
+  "frames": 135,
+  "checks": [
+    {
+      "sheet": "archer_static.png",
+      "checks": {
+        "native_size_equal": true,
+        "native_alpha_equal": true,
+        "game_size_equal": true,
+        "game_alpha_equal": true,
+        "exact_manifest_scale": true,
+        "source_hash_equal": true
+      }
+    },
+    {
+      "sheet": "archer_run.png",
+      "checks": {
+        "native_size_equal": true,
+        "native_alpha_equal": true,
+        "game_size_equal": true,
+        "game_alpha_equal": true,
+        "exact_manifest_scale": true,
+        "source_hash_equal": true
+      }
+    },
+    {
+      "sheet": "archer_fire.png",
+      "checks": {
+        "native_size_equal": true,
+        "native_alpha_equal": true,
+        "game_size_equal": true,
+        "game_alpha_equal": true,
+        "exact_manifest_scale": true,
+        "source_hash_equal": true
+      }
+    },
+    {
+      "sheet": "archer_fall.png",
+      "checks": {
+        "native_size_equal": true,
+        "native_alpha_equal": true,
+        "game_size_equal": true,
+        "game_alpha_equal": true,
+        "exact_manifest_scale": true,
+        "source_hash_equal": true
+      }
+    },
+    {
+      "sheet": "gunner_static.png",
+      "checks": {
+        "native_size_equal": true,
+        "native_alpha_equal": true,
+        "game_size_equal": true,
+        "game_alpha_equal": true,
+        "exact_manifest_scale": true,
+        "source_hash_equal": true
+      }
+    },
+    {
+      "sheet": "gunner_run.png",
+      "checks": {
+        "native_size_equal": true,
+        "native_alpha_equal": true,
+        "game_size_equal": true,
+        "game_alpha_equal": true,
+        "exact_manifest_scale": true,
+        "source_hash_equal": true
+      }
+    },
+    {
+      "sheet": "gunner_fire.png",
+      "checks": {
+        "native_size_equal": true,
+        "native_alpha_equal": true,
+        "game_size_equal": true,
+        "game_alpha_equal": true,
+        "exact_manifest_scale": true,
+        "source_hash_equal": true
+      }
+    },
+    {
+      "sheet": "gunner_fall.png",
+      "checks": {
+        "native_size_equal": true,
+        "native_alpha_equal": true,
+        "game_size_equal": true,
+        "game_alpha_equal": true,
+        "exact_manifest_scale": true,
+        "source_hash_equal": true
+      }
+    },
+    {
+      "sheet": "cannon_crew_static.png",
+      "checks": {
+        "native_size_equal": true,
+        "native_alpha_equal": true,
+        "game_size_equal": true,
+        "game_alpha_equal": true,
+        "exact_manifest_scale": true,
+        "source_hash_equal": true
+      }
+    },
+    {
+      "sheet": "cannon_crew_run.png",
+      "checks": {
+        "native_size_equal": true,
+        "native_alpha_equal": true,
+        "game_size_equal": true,
+        "game_alpha_equal": true,
+        "exact_manifest_scale": true,
+        "source_hash_equal": true
+      }
+    },
+    {
+      "sheet": "cannon_crew_ignite6.png",
+      "checks": {
+        "native_size_equal": true,
+        "native_alpha_equal": true,
+        "game_size_equal": true,
+        "game_alpha_equal": true,
+        "exact_manifest_scale": true,
+        "source_hash_equal": true
+      }
+    },
+    {
+      "sheet": "cannon_crew_fall.png",
+      "checks": {
+        "native_size_equal": true,
+        "native_alpha_equal": true,
+        "game_size_equal": true,
+        "game_alpha_equal": true,
+        "exact_manifest_scale": true,
+        "source_hash_equal": true
+      }
+    },
+    {
+      "sheet": "crew_push6.png",
+      "checks": {
+        "native_size_equal": true,
+        "native_alpha_equal": true,
+        "game_size_equal": true,
+        "game_alpha_equal": true,
+        "exact_manifest_scale": true,
+        "source_hash_equal": true
+      }
+    },
+    {
+      "sheet": "crew_pull6.png",
+      "checks": {
+        "native_size_equal": true,
+        "native_alpha_equal": true,
+        "game_size_equal": true,
+        "game_alpha_equal": true,
+        "exact_manifest_scale": true,
+        "source_hash_equal": true
+      }
+    },
+    {
+      "sheet": "wizard_back_static.png",
+      "checks": {
+        "native_size_equal": true,
+        "native_alpha_equal": true,
+        "game_size_equal": true,
+        "game_alpha_equal": true,
+        "exact_manifest_scale": true,
+        "source_hash_equal": true
+      }
+    },
+    {
+      "sheet": "wizard_static.png",
+      "checks": {
+        "native_size_equal": true,
+        "native_alpha_equal": true,
+        "game_size_equal": true,
+        "game_alpha_equal": true,
+        "exact_manifest_scale": true,
+        "source_hash_equal": true
+      }
+    },
+    {
+      "sheet": "wizard_cast.png",
+      "checks": {
+        "native_size_equal": true,
+        "native_alpha_equal": true,
+        "game_size_equal": true,
+        "game_alpha_equal": true,
+        "exact_manifest_scale": true,
+        "source_hash_equal": true
+      }
+    },
+    {
+      "sheet": "wizard_walk.png",
+      "checks": {
+        "native_size_equal": true,
+        "native_alpha_equal": true,
+        "game_size_equal": true,
+        "game_alpha_equal": true,
+        "exact_manifest_scale": true,
+        "source_hash_equal": true
+      }
+    },
+    {
+      "sheet": "goblin_walk_attack4.png",
+      "checks": {
+        "native_size_equal": true,
+        "native_alpha_equal": true,
+        "game_size_equal": true,
+        "game_alpha_equal": true,
+        "exact_manifest_scale": true,
+        "source_hash_equal": true
+      }
+    },
+    {
+      "sheet": "goblin_fall4.png",
+      "checks": {
+        "native_size_equal": true,
+        "native_alpha_equal": true,
+        "game_size_equal": true,
+        "game_alpha_equal": true,
+        "exact_manifest_scale": true,
+        "source_hash_equal": true
+      }
+    },
+    {
+      "sheet": "goblin_wallhit4.png",
+      "checks": {
+        "native_size_equal": true,
+        "native_alpha_equal": true,
+        "game_size_equal": true,
+        "game_alpha_equal": true,
+        "exact_manifest_scale": true,
+        "source_hash_equal": true
+      }
+    },
+    {
+      "sheet": "ladder_goblin_static.png",
+      "checks": {
+        "native_size_equal": true,
+        "native_alpha_equal": true,
+        "game_size_equal": true,
+        "game_alpha_equal": true,
+        "exact_manifest_scale": true,
+        "source_hash_equal": true
+      }
+    },
+    {
+      "sheet": "ladder_goblin_walk.png",
+      "checks": {
+        "native_size_equal": true,
+        "native_alpha_equal": true,
+        "game_size_equal": true,
+        "game_alpha_equal": true,
+        "exact_manifest_scale": true,
+        "source_hash_equal": true
+      }
+    },
+    {
+      "sheet": "ladder_goblin_carry_run4.png",
+      "checks": {
+        "native_size_equal": true,
+        "native_alpha_equal": true,
+        "game_size_equal": true,
+        "game_alpha_equal": true,
+        "exact_manifest_scale": true,
+        "source_hash_equal": true
+      }
+    },
+    {
+      "sheet": "ladder_goblin_deploy4.png",
+      "checks": {
+        "native_size_equal": true,
+        "native_alpha_equal": true,
+        "game_size_equal": true,
+        "game_alpha_equal": true,
+        "exact_manifest_scale": true,
+        "source_hash_equal": true
+      }
+    },
+    {
+      "sheet": "ladder_goblin_climb4.png",
+      "checks": {
+        "native_size_equal": true,
+        "native_alpha_equal": true,
+        "game_size_equal": true,
+        "game_alpha_equal": true,
+        "exact_manifest_scale": true,
+        "source_hash_equal": true
+      }
+    },
+    {
+      "sheet": "ladder_front.png",
+      "checks": {
+        "native_size_equal": true,
+        "native_alpha_equal": true,
+        "game_size_equal": true,
+        "game_alpha_equal": true,
+        "exact_manifest_scale": true,
+        "source_hash_equal": true
+      }
+    },
+    {
+      "sheet": "ladder_side.png",
+      "checks": {
+        "native_size_equal": true,
+        "native_alpha_equal": true,
+        "game_size_equal": true,
+        "game_alpha_equal": true,
+        "exact_manifest_scale": true,
+        "source_hash_equal": true
+      }
+    },
+    {
+      "sheet": "ogre_static.png",
+      "checks": {
+        "native_size_equal": true,
+        "native_alpha_equal": true,
+        "game_size_equal": true,
+        "game_alpha_equal": true,
+        "exact_manifest_scale": true,
+        "source_hash_equal": true
+      }
+    },
+    {
+      "sheet": "ogre_walk.png",
+      "checks": {
+        "native_size_equal": true,
+        "native_alpha_equal": true,
+        "game_size_equal": true,
+        "game_alpha_equal": true,
+        "exact_manifest_scale": true,
+        "source_hash_equal": true
+      }
+    },
+    {
+      "sheet": "ogre_attack4.png",
+      "checks": {
+        "native_size_equal": true,
+        "native_alpha_equal": true,
+        "game_size_equal": true,
+        "game_alpha_equal": true,
+        "exact_manifest_scale": true,
+        "source_hash_equal": true
+      }
+    },
+    {
+      "sheet": "ogre_fall4.png",
+      "checks": {
+        "native_size_equal": true,
+        "native_alpha_equal": true,
+        "game_size_equal": true,
+        "game_alpha_equal": true,
+        "exact_manifest_scale": true,
+        "source_hash_equal": true
+      }
+    },
+    {
+      "sheet": "hero_back_idle.png",
+      "checks": {
+        "native_size_equal": true,
+        "native_alpha_equal": true,
+        "game_size_equal": true,
+        "game_alpha_equal": true,
+        "exact_manifest_scale": true,
+        "source_hash_equal": true
+      }
+    },
+    {
+      "sheet": "hero_walk_run_grid.png",
+      "checks": {
+        "native_size_equal": true,
+        "native_alpha_equal": true,
+        "game_size_equal": true,
+        "game_alpha_equal": true,
+        "exact_manifest_scale": true,
+        "source_hash_equal": true
+      }
+    },
+    {
+      "sheet": "hero_command.png",
+      "checks": {
+        "native_size_equal": true,
+        "native_alpha_equal": true,
+        "game_size_equal": true,
+        "game_alpha_equal": true,
+        "exact_manifest_scale": true,
+        "source_hash_equal": true
+      }
+    }
+  ],
+  "all_pass": true,
+  "passed_checks": 210,
+  "total_checks": 210,
+  "source_images_modified": false,
+  "existing_png_preserved": true,
+  "regenerated_sheets": [
+    "wizard_back_static.png",
+    "wizard_static.png",
+    "wizard_cast.png",
+    "wizard_walk.png"
+  ],
+  "unity_verified": false,
+  "hash_basis": "source_game"
+}

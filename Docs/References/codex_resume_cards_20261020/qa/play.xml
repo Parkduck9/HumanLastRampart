@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="45" result="Passed" total="45" passed="45" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-20 12:33:12Z" end-time="2026-10-20 12:34:21Z" duration="68.5773149">
+  <test-suite type="TestSuite" id="1053" name="HumanLastRampart" fullname="HumanLastRampart" runstate="Runnable" testcasecount="45" result="Passed" start-time="2026-10-20 12:33:12Z" end-time="2026-10-20 12:34:21Z" duration="68.577315" total="45" passed="45" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <test-suite type="Assembly" id="1049" name="HLR.PlayProbe.dll" fullname="C:/Unity/1/HumanLastRampart/Game/Library/ScriptAssemblies/HLR.PlayProbe.dll" runstate="Runnable" testcasecount="45" result="Passed" start-time="2026-10-20 12:33:12Z" end-time="2026-10-20 12:34:21Z" duration="68.571423" total="45" passed="45" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="12092" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestFixture" id="1001" name="FreeTrapPreparationTests" fullname="FreeTrapPreparationTests" classname="FreeTrapPreparationTests" runstate="Runnable" testcasecount="12" result="Passed" start-time="2026-10-20 12:33:12Z" end-time="2026-10-20 12:33:12Z" duration="0.049135" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1003" name="Band_IncludesFourSidesAndCorners_RejectsCastleAndOutside" fullname="FreeTrapPreparationTests.Band_IncludesFourSidesAndCorners_RejectsCastleAndOutside" methodname="Band_IncludesFourSidesAndCorners_RejectsCastleAndOutside" classname="FreeTrapPreparationTests" runstate="Runnable" seed="55488415" result="Passed" start-time="2026-10-20 12:33:12Z" end-time="2026-10-20 12:33:12Z" duration="0.014961" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1006" name="Batch_IsPreflighted_NoPartialPaymentForOverlappingSelections" fullname="FreeTrapPreparationTests.Batch_IsPreflighted_NoPartialPaymentForOverlappingSelections" methodname="Batch_IsPreflighted_NoPartialPaymentForOverlappingSelections" classname="FreeTrapPreparationTests" runstate="Runnable" seed="1128396145" result="Passed" start-time="2026-10-20 12:33:12Z" end-time="2026-10-20 12:33:12Z" duration="0.010356" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1002" name="FreeCoordinate_IsExactAndMarked_WithoutCellSnap" fullname="FreeTrapPreparationTests.FreeCoordinate_IsExactAndMarked_WithoutCellSnap" methodname="FreeCoordinate_IsExactAndMarked_WithoutCellSnap" classname="FreeTrapPreparationTests" runstate="Runnable" seed="1892950496" result="Passed" start-time="2026-10-20 12:33:12Z" end-time="2026-10-20 12:33:12Z" duration="0.000911" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1008" name="LegacyCellSave_WithNearbyAndMovedTraps_StillValidates" fullname="FreeTrapPreparationTests.LegacyCellSave_WithNearbyAndMovedTraps_StillValidates" methodname="LegacyCellSave_WithNearbyAndMovedTraps_StillValidates" classname="FreeTrapPreparationTests" runstate="Runnable" seed="988671099" result="Passed" start-time="2026-10-20 12:33:12Z" end-time="2026-10-20 12:33:12Z" duration="0.003771" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-suite type="ParameterizedMethod" id="1014" name="MalformedCoordinates_AreRejected" fullname="FreeTrapPreparationTests.MalformedCoordinates_AreRejected" classname="FreeTrapPreparationTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-20 12:33:12Z" end-time="2026-10-20 12:33:12Z" duration="0.003104" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-case id="1010" name="MalformedCoordinates_AreRejected(&quot;free:NaN:40&quot;)" fullname="FreeTrapPreparationTests.MalformedCoordinates_AreRejected(&quot;free:NaN:40&quot;)" methodname="MalformedCoordinates_AreRejected" classname="FreeTrapPreparationTests" runstate="Runnable" seed="322280159" result="Passed" start-time="2026-10-20 12:33:12Z" end-time="2026-10-20 12:33:12Z" duration="0.000479" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+          <test-case id="1011" name="MalformedCoordinates_AreRejected(&quot;free:0:Infinity&quot;)" fullname="FreeTrapPreparationTests.MalformedCoordinates_AreRejected(&quot;free:0:Infinity&quot;)" methodname="MalformedCoordinates_AreRejected" classname="FreeTrapPreparationTests" runstate="Runnable" seed="1579980328" result="Passed" start-time="2026-10-20 12:33:12Z" end-time="2026-10-20 12:33:12Z" duration="0.000177" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+          <test-case id="1012" name="MalformedCoordinates_AreRejected(&quot;free:0:40:45&quot;)" fullname="FreeTrapPreparationTests.MalformedCoordinates_AreRejected(&quot;free:0:40:45&quot;)" methodname="MalformedCoordinates_AreRejected" classname="FreeTrapPreparationTests" runstate="Runnable" seed="776433349" result="Passed" start-time="2026-10-20 12:33:12Z" end-time="2026-10-20 12:33:12Z" duration="0.000115" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+          <test-case id="1013" name="MalformedCoordinates_AreRejected(&quot;free:0&quot;)" fullname="FreeTrapPreparationTests.MalformedCoordinates_AreRejected(&quot;free:0&quot;)" methodname="MalformedCoordinates_AreRejected" classname="FreeTrapPreparationTests" runstate="Runnable" seed="1609093987" result="Passed" start-time="2026-10-20 12:33:12Z" end-time="2026-10-20 12:33:12Z" duration="0.000095" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+        </test-suite>
+        <test-case id="1004" name="OnlyTrapGround_IsPlaceable_RegardlessOfIdFormat" fullname="FreeTrapPreparationTests.OnlyTrapGround_IsPlaceable_RegardlessOfIdFormat" methodname="OnlyTrapGround_IsPlaceable_RegardlessOfIdFormat" classname="FreeTrapPreparationTests" runstate="Runnable" seed="2075252534" result="Passed" start-time="2026-10-20 12:33:12Z" end-time="2026-10-20 12:33:12Z" duration="0.000602" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1005" name="Spacing_UsesBlastRadiusAndActualPosition_ForExistingAndPicked" fullname="FreeTrapPreparationTests.Spacing_UsesBlastRadiusAndActualPosition_ForExistingAndPicked" methodname="Spacing_UsesBlastRadiusAndActualPosition_ForExistingAndPicked" classname="FreeTrapPreparationTests" runstate="Runnable" seed="44894375" result="Passed" start-time="2026-10-20 12:33:12Z" end-time="2026-10-20 12:33:12Z" duration="0.000466" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1007" name="StoredTrap_ReinstallsFreeWithoutGold_AndRecoveryStillFindsIt" fullname="FreeTrapPreparationTests.StoredTrap_ReinstallsFreeWithoutGold_AndRecoveryStillFindsIt" methodname="StoredTrap_ReinstallsFreeWithoutGold_AndRecoveryStillFindsIt" classname="FreeTrapPreparationTests" runstate="Runnable" seed="181683482" result="Passed" start-time="2026-10-20 12:33:12Z" end-time="2026-10-20 12:33:12Z" duration="0.002938" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1009" name="TerrainWork_BlocksAtActualTrapCell_NotTheOriginalSlot" fullname="FreeTrapPreparationTests.TerrainWork_BlocksAtActualTrapCell_NotTheOriginalSlot" methodname="TerrainWork_BlocksAtActualTrapCell_NotTheOriginalSlot" classname="FreeTrapPreparationTests" runstate="Runnable" seed="724984315" result="Passed" start-time="2026-10-20 12:33:12Z" end-time="2026-10-20 12:33:12Z" duration="0.001849" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+      </test-suite>
+      <test-suite type="TestFixture" id="1015" name="PlayProbe" fullname="PlayProbe" classname="PlayProbe" runstate="Runnable" testcasecount="33" result="Passed" start-time="2026-10-20 12:33:12Z" end-time="2026-10-20 12:34:21Z" duration="68.521004" total="33" passed="33" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1035" name="ArtPreview" fullname="PlayProbe.ArtPreview" methodname="ArtPreview" classname="PlayProbe" runstate="Runnable" seed="1773795264" result="Passed" start-time="2026-10-20 12:33:12Z" end-time="2026-10-20 12:33:15Z" duration="2.635050" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[[PlayProbe] 난간 판 0개, 대포 16문
+[PlayProbe] 대포 조준 left: 그림 칸 0 (왼쪽)
+[PlayProbe] 대포 조준 center: 그림 칸 0 (왼쪽)
+[PlayProbe] 대포 조준 right: 그림 칸 0 (왼쪽)
+[PlayProbe] 달리는 병사 그림 1명
+[PlayProbe] 달리는 병사 위치 (12.6,18.6)
+]]></output>
+        </test-case>
+        <test-case id="1026" name="CameraCompare" fullname="PlayProbe.CameraCompare" methodname="CameraCompare" classname="PlayProbe" runstate="Runnable" seed="6931678" result="Passed" start-time="2026-10-20 12:33:15Z" end-time="2026-10-20 12:33:16Z" duration="1.231316" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1045" name="CannonAim" fullname="PlayProbe.CannonAim" methodname="CannonAim" classname="PlayProbe" runstate="Runnable" seed="1644716887" result="Passed" start-time="2026-10-20 12:33:16Z" end-time="2026-10-20 12:33:17Z" duration="0.953080" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[[PlayProbe] 초반 4번 대포: 대기 (게임 6초)
+[PlayProbe] 대포 1: 사거리 45m, 조준 (-6.00, 0.00, 46.50)
+[PlayProbe] 대포 2: 사거리 45m, 조준 (-2.00, 0.00, 46.50)
+[PlayProbe] 대포 3: 사거리 45m, 조준 (2.00, 0.00, 46.50)
+[PlayProbe] 대포 표시: 1번 포격 | 2번 포격 | 3번 포격 | 4번 포격
+[PlayProbe] 불붙이는 대포: 0면 1번
+]]></output>
+        </test-case>
+        <test-case id="1036" name="CannonArt" fullname="PlayProbe.CannonArt" methodname="CannonArt" classname="PlayProbe" runstate="Runnable" seed="163216829" result="Passed" start-time="2026-10-20 12:33:17Z" end-time="2026-10-20 12:33:18Z" duration="1.088196" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[[PlayProbe] 설치 대포 칸 높이 0.661m · 보이는 폭 0.604m (병사 키 0.35m × 1.15 = 0.403m)
+[PlayProbe] 동쪽 빈 사격구 2곳
+[PlayProbe] 끄는 대포 위치 (-10.6,18.9) · 끈 거리 1.3m · 속도 0.64m/초
+]]></output>
+        </test-case>
+        <test-case id="1038" name="CommandFlow" fullname="PlayProbe.CommandFlow" methodname="CommandFlow" classname="PlayProbe" runstate="Runnable" seed="601947032" result="Passed" start-time="2026-10-20 12:33:18Z" end-time="2026-10-20 12:33:19Z" duration="1.234253" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[[PlayProbe] 명령하기: 북쪽 오르는 적부터 — 즉시 적용·진행 데이터 기록 확인
+[PlayProbe] 소리 지르기 서쪽 밀집한 곳: 서쪽 현재 DensestArea (못 들었을 수도 있음)
+[PlayProbe] 전령 왕복 끝 (23초 뒤), 서쪽 최종 DensestArea, 진행 데이터 DensestArea
+]]></output>
+        </test-case>
+        <test-case id="1019" name="CornerSequence" fullname="PlayProbe.CornerSequence" methodname="CornerSequence" classname="PlayProbe" runstate="Runnable" seed="1585483662" result="Passed" start-time="2026-10-20 12:33:19Z" end-time="2026-10-20 12:33:25Z" duration="5.614030" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[[PlayProbe] 00: 면 0 방향 0.0도 · 사진기 높이 6.250 숙임 25.0도 · 발 높이 4.000 발 (15.0, 19.0)
+[PlayProbe] 01: 면 0 방향 0.0도 · 사진기 높이 6.250 숙임 25.0도 · 발 높이 4.000 발 (15.8, 19.0)
+[PlayProbe] 02: 면 0 방향 0.0도 · 사진기 높이 6.250 숙임 25.0도 · 발 높이 4.000 발 (16.6, 19.0)
+[PlayProbe] 03: 면 0 방향 0.0도 · 사진기 높이 6.250 숙임 25.0도 · 발 높이 4.000 발 (17.4, 19.0)
+[PlayProbe] 04: 면 0 방향 0.0도 · 사진기 높이 6.250 숙임 25.0도 · 발 높이 4.000 발 (18.2, 19.0)
+[PlayProbe] 05: 면 1 방향 1.9도 · 사진기 높이 6.250 숙임 25.0도 · 발 높이 4.000 발 (19.0, 19.0)
+[PlayProbe] 06: 면 1 방향 50.1도 · 사진기 높이 6.250 숙임 25.0도 · 발 높이 4.000 발 (19.0, 18.2)
+[PlayProbe] 07: 면 1 방향 90.0도 · 사진기 높이 6.250 숙임 25.0도 · 발 높이 4.000 발 (19.0, 17.3)
+[PlayProbe] 08: 면 1 방향 90.0도 · 사진기 높이 6.250 숙임 25.0도 · 발 높이 4.000 발 (19.0, 16.5)
+[PlayProbe] 09: 면 1 방향 90.0도 · 사진기 높이 6.250 숙임 25.0도 · 발 높이 4.000 발 (19.0, 15.7)
+[PlayProbe] 10: 면 1 방향 90.0도 · 사진기 높이 6.250 숙임 25.0도 · 발 높이 4.000 발 (19.0, 14.9)
+[PlayProbe] 11: 면 1 방향 90.0도 · 사진기 높이 6.250 숙임 25.0도 · 발 높이 4.000 발 (19.0, 14.1)
+[PlayProbe] 12: 면 1 방향 90.0도 · 사진기 높이 6.250 숙임 25.0도 · 발 높이 4.000 발 (19.0, 13.3)
+[PlayProbe] 13: 면 1 방향 90.0도 · 사진기 높이 6.250 숙임 25.0도 · 발 높이 4.000 발 (19.0, 12.5)
+]]></output>
+        </test-case>
+        <test-case id="1023" name="EasyFullRun" fullname="PlayProbe.EasyFullRun" methodname="EasyFullRun" classname="PlayProbe" runstate="Runnable" seed="319102574" result="Passed" start-time="2026-10-20 12:33:25Z" end-time="2026-10-20 12:33:27Z" duration="1.958376" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[[PlayProbe] [easy] 새 게임 시작
+[PlayProbe] 스토리: story_intro
+[PlayProbe] -- 전투 1 시작: 골드 100, 병사 252, 성벽 15000/10000/10000/10000, 적 배율 0.75
+[PlayProbe] 전투 1 끝 (501프레임 ≈ 게임 100초): 북 성벽 14787/15000 · 병력 63/63 · 처치 477/750 · 1:04 ×4 | 북 성벽 14787/15000 병력 63/63 들판 175 벽 앞 0 오름 0 위 0 더미 1.5m 체력 낮은 적부터 | 동 성벽 10000/10000 병력 63/63 들판 0 벽 앞 0 오름 0 위 0 더미 0.0m 체력 낮은 적부터 | 남 성벽 10000/10000 병력 63/63 들판 0 벽 앞 0 오름 0 위 0 더미 0.0m 체력 낮은 적부터 | 서 성벽 10000/10000 병력 63/63 들판 0 벽 앞 0 오름 0 위 0 더미 0.0m 체력 낮은 적부터
+[PlayProbe] 결과: Victory None 처치 750 골드 750 손실 분대 0(합 0) 성벽 피해 1 영웅 2
+[PlayProbe] 결과 반영 확인: 골드 100→850, 병사 252→252, 성벽 14760/10000/10000/10000, 다음 번호 2
+[PlayProbe] 결과 그림판 세 칸 확인 (전투 1)
+[PlayProbe] -- 전투 2 시작: 골드 850, 병사 252, 성벽 14760/10000/10000/10000, 적 배율 0.75
+[PlayProbe] 전투 2 끝 (349프레임 ≈ 게임 70초): 북 성벽 12503/15000 · 병력 63/63 · 처치 727/2,250 · 0:58 ×4 | 북 성벽 12503/15000 병력 63/63 들판 750 벽 앞 64 오름 0 위 0 더미 2.9m 체력 낮은 적부터 | 동 성벽 10000/10000 병력 63/63 들판 0 벽 앞 0 오름 0 위 0 더미 0.0m 체력 낮은 적부터 | 남 성벽 10000/10000 병력 63/63 들판 0 벽 앞 0 오름 0 위 0 더미 0.0m 체력 낮은 적부터 | 서 성벽 10000/10000 병력 63/63 들판 90 벽 앞 0 오름 0 위 0 더미 0.0m 체력 낮은 적부터
+[PlayProbe] 결과: Defeat GarrisonLost 처치 1024 골드 0 손실 분대 5(합 45) 성벽 피해 1 영웅 2
+[PlayProbe] 패배 엔딩 화면 (결과 화면 건너뜀)
+[PlayProbe] 메인 복귀, 진행 데이터 폐기 확인
+]]></output>
+        </test-case>
+        <test-case id="1016" name="FrameTiming" fullname="PlayProbe.FrameTiming" methodname="FrameTiming" classname="PlayProbe" runstate="Runnable" seed="1938488629" result="Passed" start-time="2026-10-20 12:33:27Z" end-time="2026-10-20 12:33:30Z" duration="3.254635" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[[PlayProbe] 4,200명 · 시험 성벽 80m: 기존 40m 성능 기준과 직접 비교하지 않음
+[PlayProbe] 설정: 현실 4번, 적 배율 1.5, 병사 4208명, 적 최대 동시 50000, 화면 640×480, 그래픽 Direct3D12 NVIDIA GeForce RTX 3060, 프레임 통계 기능 True, 배치 실행 — 카메라 직접 그리기 1920×1080로 그리기 시간 측정
+[PlayProbe] ① 초반 (맑은 낮, 효과 켬): 프레임 평균 1.97ms (약 507fps) · 상위 1% 7.9ms · 최대 7.9ms · 게임 8초 · 처치 545
+[PlayProbe]     계수기: Main Thread 1.99ms(최대 2.6) · CPU Main Thread Frame Time 1.88ms(최대 2.5) · CPU Render Thread Frame Time 0.00ms(최대 0.0) · GPU Frame Time 0.00ms(최대 0.0) · Draw Calls Count 0 (최대 0) · Batches Count 0 (최대 0) · SetPass Calls Count 0 (최대 0) · Triangles Count 0 (최대 0) · GC Allocated In Frame 2861 (최대 3198)
+[PlayProbe]     FrameTimingManager: 메인 1.87ms · GPU 0.00ms
+[PlayProbe] ② 중반 (성벽에 몰림, 효과 켬): 프레임 평균 1.33ms (약 749fps) · 상위 1% 3.0ms · 최대 3.0ms · 게임 22초 · 처치 4484
+[PlayProbe]     계수기: Main Thread 1.28ms(최대 1.3) · CPU Main Thread Frame Time 1.15ms(최대 1.2) · CPU Render Thread Frame Time 0.00ms(최대 0.0) · GPU Frame Time 0.00ms(최대 0.0) · Draw Calls Count 0 (최대 0) · Batches Count 0 (최대 0) · SetPass Calls Count 0 (최대 0) · Triangles Count 0 (최대 0) · GC Allocated In Frame 2818 (최대 2818)
+[PlayProbe]     FrameTimingManager: 메인 1.26ms · GPU 0.00ms
+[PlayProbe] ② 중반 · 640×480: 프레임 평균 1.17ms (약 852fps) · 상위 1% 2.1ms · 최대 2.1ms · 게임 22초 · 처치 4484
+[PlayProbe]     계수기: Main Thread 1.18ms(최대 1.2) · CPU Main Thread Frame Time 1.03ms(최대 1.0) · CPU Render Thread Frame Time 0.00ms(최대 0.0) · GPU Frame Time 0.00ms(최대 0.0) · Draw Calls Count 0 (최대 0) · Batches Count 0 (최대 0) · SetPass Calls Count 0 (최대 0) · Triangles Count 0 (최대 0) · GC Allocated In Frame 2818 (최대 2818)
+[PlayProbe]     FrameTimingManager: 메인 1.11ms · GPU 0.00ms
+[PlayProbe] ② 중반 · 화면 효과 끔 (빛 받기·그림자도 꺼짐): 프레임 평균 1.13ms (약 882fps) · 상위 1% 1.5ms · 최대 1.5ms · 게임 22초 · 처치 4484
+[PlayProbe]     계수기: Main Thread 1.11ms(최대 1.1) · CPU Main Thread Frame Time 1.08ms(최대 1.1) · CPU Render Thread Frame Time 0.00ms(최대 0.0) · GPU Frame Time 0.00ms(최대 0.0) · Draw Calls Count 0 (최대 0) · Batches Count 0 (최대 0) · SetPass Calls Count 0 (최대 0) · Triangles Count 0 (최대 0) · GC Allocated In Frame 2818 (최대 2818)
+[PlayProbe]     FrameTimingManager: 메인 1.08ms · GPU 0.00ms
+[PlayProbe] ② 중반 · 안개 켬: 프레임 평균 1.43ms (약 699fps) · 상위 1% 2.3ms · 최대 2.3ms · 게임 22초 · 처치 4484
+[PlayProbe]     계수기: Main Thread 1.87ms(최대 2.3) · CPU Main Thread Frame Time 1.69ms(최대 2.1) · CPU Render Thread Frame Time 0.00ms(최대 0.0) · GPU Frame Time 0.00ms(최대 0.0) · Draw Calls Count 0 (최대 0) · Batches Count 0 (최대 0) · SetPass Calls Count 0 (최대 0) · Triangles Count 0 (최대 0) · GC Allocated In Frame 2818 (최대 2818)
+[PlayProbe]     FrameTimingManager: 메인 1.32ms · GPU 0.00ms
+[PlayProbe] ② 중반 · 밤 (횃불 켬): 프레임 평균 1.66ms (약 604fps) · 상위 1% 2.8ms · 최대 2.8ms · 게임 22초 · 처치 4484
+[PlayProbe]     계수기: Main Thread 1.92ms(최대 2.6) · CPU Main Thread Frame Time 1.73ms(최대 2.3) · CPU Render Thread Frame Time 0.00ms(최대 0.0) · GPU Frame Time 0.00ms(최대 0.0) · Draw Calls Count 0 (최대 0) · Batches Count 0 (최대 0) · SetPass Calls Count 0 (최대 0) · Triangles Count 0 (최대 0) · GC Allocated In Frame 2818 (최대 2818)
+[PlayProbe]     FrameTimingManager: 메인 1.55ms · GPU 0.00ms
+[PlayProbe] 마법: 불바다 실패, 폭발 실패 (마법사 있음)
+[PlayProbe] ③ 불바다+폭발: 프레임 평균 2.05ms (약 489fps) · 상위 1% 3.5ms · 최대 3.5ms · 게임 22초 · 처치 4484
+[PlayProbe]     계수기: Main Thread 2.04ms(최대 3.3) · CPU Main Thread Frame Time 1.89ms(최대 3.0) · CPU Render Thread Frame Time 0.00ms(최대 0.0) · GPU Frame Time 0.00ms(최대 0.0) · Draw Calls Count 0 (최대 0) · Batches Count 0 (최대 0) · SetPass Calls Count 0 (최대 0) · Triangles Count 0 (최대 0) · GC Allocated In Frame 2830 (최대 3530)
+[PlayProbe]     FrameTimingManager: 메인 1.88ms · GPU 0.00ms
+]]></output>
+        </test-case>
+        <test-case id="1017" name="FullLoop" fullname="PlayProbe.FullLoop" methodname="FullLoop" classname="PlayProbe" runstate="Runnable" seed="1599054817" result="Passed" start-time="2026-10-20 12:33:30Z" end-time="2026-10-20 12:33:34Z" duration="3.625386" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[[PlayProbe] 새 게임: 쉬움, 전투 1, 골드 100, 병력 252, 이야기 story_intro
+[PlayProbe] 스토리 1/5줄까지 넘김 → 넘기기
+[PlayProbe] 결과: 골드 100→160, 병력 252→251, 성벽 14950/10000/10000/10000
+[PlayProbe] 자유 배치 토벽 2개, 남은 골드 34
+[PlayProbe] 지형 탭: 지을 수 있는 칸이 없음
+[PlayProbe] 정비: 수리 wall_north −6골드, 모집 11명 −55골드, 함정 free:0.375:92.625, 남은 골드 34
+[PlayProbe] 두 번째 전투 시작: terrain_2, 병력 262, 함정 1, 지형 손질 2
+]]></output>
+        </test-case>
+        <test-case id="1018" name="FullLoopDefeat" fullname="PlayProbe.FullLoopDefeat" methodname="FullLoopDefeat" classname="PlayProbe" runstate="Runnable" seed="1859251169" result="Passed" start-time="2026-10-20 12:33:34Z" end-time="2026-10-20 12:33:35Z" duration="0.734559" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[[PlayProbe] 패배 엔딩 2줄: 
+[PlayProbe] 패배 → 패배 엔딩 → 메인, 진행 데이터 폐기
+]]></output>
+        </test-case>
+        <test-case id="1030" name="HeroPose" fullname="PlayProbe.HeroPose" methodname="HeroPose" classname="PlayProbe" runstate="Runnable" seed="980397087" result="Passed" start-time="2026-10-20 12:33:35Z" end-time="2026-10-20 12:33:41Z" duration="6.454053" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[[PlayProbe] 모서리: 북 → 1면, 카메라 방향 0도 (돌아가는 중)
+[PlayProbe] 모서리 뒤: 카메라 방향 90도 (동쪽 90도)
+[PlayProbe] 주인공: 서 있기 A/B/C, 걷기 오른쪽·왼쪽, 달리기 확인 (along 0.7)
+]]></output>
+        </test-case>
+        <test-case id="1034" name="LookCompare" fullname="PlayProbe.LookCompare" methodname="LookCompare" classname="PlayProbe" runstate="Runnable" seed="185535258" result="Passed" start-time="2026-10-20 12:33:41Z" end-time="2026-10-20 12:33:42Z" duration="1.135311" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[[PlayProbe] 날씨 Clear · Night
+]]></output>
+        </test-case>
+        <test-case id="1043" name="MapEasy" fullname="PlayProbe.MapEasy" methodname="MapEasy" classname="PlayProbe" runstate="Runnable" seed="6183706" result="Passed" start-time="2026-10-20 12:33:42Z" end-time="2026-10-20 12:33:44Z" duration="1.425536" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[[PlayProbe] 전체 명령 [오르는 적부터] 4면 적용, 진행 데이터 기록 (시간 52.4)
+[PlayProbe] 지도 연 동안 경과 52.4 → 52.4
+]]></output>
+        </test-case>
+        <test-case id="1044" name="MapRealistic" fullname="PlayProbe.MapRealistic" methodname="MapRealistic" classname="PlayProbe" runstate="Runnable" seed="1233201133" result="Passed" start-time="2026-10-20 12:33:44Z" end-time="2026-10-20 12:33:45Z" duration="1.519037" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[[PlayProbe] 전체 명령 [오르는 적부터] 4면 적용, 진행 데이터 기록 (시간 55.4)
+[PlayProbe] 지도 연 동안 경과 53.0 → 63.6
+]]></output>
+        </test-case>
+        <test-case id="1020" name="NightLevels" fullname="PlayProbe.NightLevels" methodname="NightLevels" classname="PlayProbe" runstate="Runnable" seed="829289010" result="Passed" start-time="2026-10-20 12:33:45Z" end-time="2026-10-20 12:33:46Z" duration="1.057810" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[[PlayProbe] 밤 밝기 0.00: 그림 밝기 0.50, 노출 -0.15
+[PlayProbe] 밤 밝기 0.35: 그림 밝기 0.66, 노출 0.22
+[PlayProbe] 밤 밝기 0.70: 그림 밝기 0.82, 노출 0.59
+[PlayProbe] 밤 밝기 1.00: 그림 밝기 0.95, 노출 0.90
+]]></output>
+        </test-case>
+        <test-case id="1021" name="PortfolioShots" fullname="PlayProbe.PortfolioShots" methodname="PortfolioShots" classname="PlayProbe" runstate="Runnable" seed="600910035" result="Passed" start-time="2026-10-20 12:33:46Z" end-time="2026-10-20 12:33:50Z" duration="3.794569" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[[PlayProbe] 4,200명 · 시험 성벽 80m: 실제 게임 성벽 40m와 구분
+[PlayProbe] 낮: 게임 22초, 병사 4208명, 처치 4677
+[PlayProbe] 마법: 불바다 실패, 폭발 실패
+]]></output>
+        </test-case>
+        <test-case id="1029" name="PrepFlow" fullname="PlayProbe.PrepFlow" methodname="PrepFlow" classname="PlayProbe" runstate="Runnable" seed="1884090779" result="Passed" start-time="2026-10-20 12:33:50Z" end-time="2026-10-20 12:33:51Z" duration="1.289464" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[[PlayProbe] 정비 시작: 골드 160, 병력 251, wall_north 14945/15000
+[PlayProbe] 모집 11명 −55골드, 수리 55HP −6골드 → 골드 99, 병력 262
+[PlayProbe] 다음 전투 준비에 모집·수리 반영 확인
+]]></output>
+        </test-case>
+        <test-case id="1048" name="PrepPhase" fullname="PlayProbe.PrepPhase" methodname="PrepPhase" classname="PlayProbe" runstate="Runnable" seed="1728269002" result="Passed" start-time="2026-10-20 12:33:51Z" end-time="2026-10-20 12:33:52Z" duration="0.807628" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[[PlayProbe] 준비 중 동쪽 명령: 특수 적 먼저
+[PlayProbe] 준비 중 묶음 이동: 10명 북→동, 북 63→53, 동 63→73
+[PlayProbe] 한 번에 옮기기 남→서: 남쪽 옮길 수 있는 병사 20명 남음, 서쪽 처음 병력 98
+[PlayProbe] 전투 중 묶음 이동 북→서: 8.4초
+]]></output>
+        </test-case>
+        <test-case id="1028" name="PrepTrapFlow" fullname="PlayProbe.PrepTrapFlow" methodname="PrepTrapFlow" classname="PlayProbe" runstate="Runnable" seed="595315088" result="Passed" start-time="2026-10-20 12:33:52Z" end-time="2026-10-20 12:33:54Z" duration="1.584644" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[[PlayProbe] 정비 진입: 골드 160, 상점 재고 12, 보충 기록 2, 다음 전투 2
+[PlayProbe] 설치: trap_31 terrain_2 free:0.375:92.625 (0.4,92.6) 골드 160→135
+[PlayProbe] 전투 2: 함정 근처 적 17 (시간 0.4)
+[PlayProbe] 전투 2 끝: Defeat, 터진 함정 trap_31, 함정 상태 Exploded
+]]></output>
+        </test-case>
+        <test-case id="1041" name="ProportionTrial" fullname="PlayProbe.ProportionTrial" methodname="ProportionTrial" classname="PlayProbe" runstate="Runnable" seed="1603939123" result="Passed" start-time="2026-10-20 12:33:54Z" end-time="2026-10-20 12:33:56Z" duration="2.085944" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[[PlayProbe] 정면 궁수 구간: 성벽 따라 -6.3m
+[PlayProbe] 궁수 사격 순간: 병사 33
+[PlayProbe] 3등신 시험: 궁수(서기·사격)와 주인공만 바뀜. 시험 그림 인물 키 192px → 기존(서기 300px)과 같은 월드 키로 맞춤
+]]></output>
+        </test-case>
+        <test-case id="1024" name="RealisticRun" fullname="PlayProbe.RealisticRun" methodname="RealisticRun" classname="PlayProbe" runstate="Runnable" seed="334628263" result="Passed" start-time="2026-10-20 12:33:56Z" end-time="2026-10-20 12:33:58Z" duration="2.038914" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[[PlayProbe] [realistic] 새 게임 시작
+[PlayProbe] 스토리: story_intro
+[PlayProbe] -- 전투 1 시작: 골드 100, 병사 252, 성벽 15000/10000/10000/10000, 적 배율 1.5
+[PlayProbe] 전투 1 끝 (577프레임 ≈ 게임 115초): 북 성벽 12853/15000 · 병력 45/63 · 처치 1,465/1,500 · 1:47 ×4 | 북 성벽 12853/15000 병력 45/63 들판 22 벽 앞 13 오름 0 위 1 더미 4.0m 체력 낮은 적부터 | 동 성벽 10000/10000 병력 63/63 들판 0 벽 앞 0 오름 0 위 0 더미 0.0m 체력 낮은 적부터 | 남 성벽 10000/10000 병력 63/63 들판 0 벽 앞 0 오름 0 위 0 더미 0.0m 체력 낮은 적부터 | 서 성벽 10000/10000 병력 63/63 들판 0 벽 앞 0 오름 0 위 0 더미 0.0m 체력 낮은 적부터
+[PlayProbe] 결과: Victory None 처치 1500 골드 1500 손실 분대 3(합 19) 성벽 피해 1 영웅 2
+[PlayProbe] 결과 반영 확인: 골드 100→1600, 병사 252→233, 성벽 12798/10000/10000/10000, 다음 번호 2
+[PlayProbe] 결과 그림판 세 칸 확인 (전투 1)
+[PlayProbe] -- 전투 2 시작: 골드 1600, 병사 233, 성벽 12798/10000/10000/10000, 적 배율 1.5
+[PlayProbe] 전투 2 끝 (334프레임 ≈ 게임 67초): 북 성벽 9664/15000 · 병력 44/44 · 처치 1,081/4,500 · 0:40 ×4 | 북 성벽 9664/15000 병력 44/44 들판 529 벽 앞 1 오름 0 위 0 더미 4.0m 체력 낮은 적부터 | 동 성벽 10000/10000 병력 63/63 들판 0 벽 앞 0 오름 0 위 0 더미 0.0m 체력 낮은 적부터 | 남 성벽 10000/10000 병력 63/63 들판 0 벽 앞 0 오름 0 위 0 더미 0.0m 체력 낮은 적부터 | 서 성벽 10000/10000 병력 63/63 들판 0 벽 앞 0 오름 0 위 0 더미 0.0m 체력 낮은 적부터
+[PlayProbe] 결과: Defeat GarrisonLost 처치 1463 골드 0 손실 분대 7(합 33) 성벽 피해 1 영웅 2
+[PlayProbe] 패배 엔딩 화면 (결과 화면 건너뜀)
+[PlayProbe] 메인 복귀, 진행 데이터 폐기 확인
+]]></output>
+        </test-case>
+        <test-case id="1042" name="SettingsAndContinue" fullname="PlayProbe.SettingsAndContinue" methodname="SettingsAndContinue" classname="PlayProbe" runstate="Runnable" seed="1198486697" result="Passed" start-time="2026-10-20 12:33:58Z" end-time="2026-10-20 12:33:59Z" duration="1.195964" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[[PlayProbe] 이어하기: 2번째 전투 앞 정비, 골드 100
+]]></output>
+        </test-case>
+        <test-case id="1046" name="SpellCast" fullname="PlayProbe.SpellCast" methodname="SpellCast" classname="PlayProbe" runstate="Runnable" seed="1261593287" result="Passed" start-time="2026-10-20 12:33:59Z" end-time="2026-10-20 12:34:00Z" duration="1.062668" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[[PlayProbe] 알림: 폭발 준비 · 1초 뒤 터집니다 | 폭발: 재사용 대기 40초 | 폭발! 적 14마리에 피해
+]]></output>
+        </test-case>
+        <test-case id="1025" name="StoryFlow" fullname="PlayProbe.StoryFlow" methodname="StoryFlow" classname="PlayProbe" runstate="Runnable" seed="1208553845" result="Passed" start-time="2026-10-20 12:34:00Z" end-time="2026-10-20 12:34:01Z" duration="1.209166" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[[PlayProbe] 스토리 1줄:  — 
+[PlayProbe] 스토리 2줄:  — 장교 훈련을 마치고 삼 년. 나는 장교 옷을 입은 채 고향 성벽으로 돌아왔다.
+[PlayProbe] 스토리 3줄: 궁수 — 장교님! 정말 돌아오셨군요. 북쪽 들판에 놈들이 보입니다!
+[PlayProbe] 스토리 4줄: 장교 — 옷깃을 여밀 틈도 없겠군. 모두 성벽 위로 올라라.
+[PlayProbe] 스토리 5줄: 마법사 — 제 불꽃도 준비됐어요. 지시만 내려 주세요.
+[PlayProbe] 스토리 6줄: 장교 — 이곳이 우리의 마지막 성벽이다. 한 걸음도 물러서지 마라!
+[PlayProbe] 스토리: 6줄, 누른 횟수 14
+]]></output>
+        </test-case>
+        <test-case id="1047" name="Telescope" fullname="PlayProbe.Telescope" methodname="Telescope" classname="PlayProbe" runstate="Runnable" seed="934403192" result="Passed" start-time="2026-10-20 12:34:01Z" end-time="2026-10-20 12:34:02Z" duration="1.047125" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[[PlayProbe] 확인한 무리 2
+[PlayProbe] 무리 표시: 약 52 | 약 266
+]]></output>
+        </test-case>
+        <test-case id="1027" name="TrapFlow" fullname="PlayProbe.TrapFlow" methodname="TrapFlow" classname="PlayProbe" runstate="Runnable" seed="41441464" result="Passed" start-time="2026-10-20 12:34:02Z" end-time="2026-10-20 12:34:04Z" duration="1.446794" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[[PlayProbe] 가운데 함정 근처 적 7마리 (시간 0.4)
+[PlayProbe] 점화 → 상태 Fusing
+[PlayProbe] 폭발 뒤 상태 Exploded, 처치 0 → 8
+[PlayProbe] 전투 끝 Victory, 터진 함정 trap_32, 밀린 함정 0
+[PlayProbe] 결과 반영: 함정 2개 남음(터진 trap_32 제거), 재진입 무변경
+[PlayProbe] 정비 화면 진입 정상
+]]></output>
+        </test-case>
+        <test-case id="1022" name="UpgradeShop" fullname="PlayProbe.UpgradeShop" methodname="UpgradeShop" classname="PlayProbe" runstate="Runnable" seed="543248944" result="Passed" start-time="2026-10-20 12:34:04Z" end-time="2026-10-20 12:34:05Z" duration="1.334723" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[[PlayProbe] 강화: 골드 4080, 아이템 item_telescope_lens×1,item_fire_arrows×1, 훈련 unit_archer1, 용병 10
+]]></output>
+        </test-case>
+        <test-case id="1037" name="WallScale" fullname="PlayProbe.WallScale" methodname="WallScale" classname="PlayProbe" runstate="Runnable" seed="840074894" result="Passed" start-time="2026-10-20 12:34:05Z" end-time="2026-10-20 12:34:14Z" duration="8.556292" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[[PlayProbe] E 자동 달리기: 북 가운데 → 1면 along 0.0, 실제 7.6초 (기대 12초)
+[PlayProbe] 성벽 앞에 적이 붙은 면 0, 시간 13.0초
+]]></output>
+        </test-case>
+        <test-case id="1040" name="WallSlots" fullname="PlayProbe.WallSlots" methodname="WallSlots" classname="PlayProbe" runstate="Runnable" seed="519766394" result="Passed" start-time="2026-10-20 12:34:14Z" end-time="2026-10-20 12:34:15Z" duration="0.920936" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[[PlayProbe] 0면: 총안 51칸, 돌 뒤 44칸, 횃불 13개, 대포 사격구 6곳
+[PlayProbe] 1면: 총안 52칸, 돌 뒤 45칸, 횃불 13개, 대포 사격구 6곳
+[PlayProbe] 2면: 총안 52칸, 돌 뒤 45칸, 횃불 13개, 대포 사격구 6곳
+[PlayProbe] 3면: 총안 52칸, 돌 뒤 45칸, 횃불 13개, 대포 사격구 6곳
+[PlayProbe] 줄별 병사: 총안 87 · 돌 뒤 72 · 둘째 총안 줄 43 · 그 뒤 18
+]]></output>
+        </test-case>
+        <test-case id="1039" name="WeatherShots" fullname="PlayProbe.WeatherShots" methodname="WeatherShots" classname="PlayProbe" runstate="Runnable" seed="2080376099" result="Passed" start-time="2026-10-20 12:34:15Z" end-time="2026-10-20 12:34:16Z" duration="1.599758" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[[PlayProbe] Clear·Day: 현재 Clear, 시야 10000, 밝기 1.00, 낮은 시야 False, 비 False
+[PlayProbe]   횃불 켜짐 0, 화면 안 0, 사진기 (0.0, 6.1, 16.0)
+[PlayProbe] Cloudy·Day: 현재 Cloudy, 시야 10000, 밝기 1.00, 낮은 시야 False, 비 False
+[PlayProbe]   횃불 켜짐 0, 화면 안 0, 사진기 (0.0, 6.1, 16.0)
+[PlayProbe] Rain·Day: 현재 Rain, 시야 10000, 밝기 1.00, 낮은 시야 False, 비 True
+[PlayProbe]   횃불 켜짐 0, 화면 안 0, 사진기 (0.0, 6.1, 16.0)
+[PlayProbe] Fog·Day: 현재 Fog, 시야 25, 밝기 1.00, 낮은 시야 True, 비 False
+[PlayProbe]   횃불 켜짐 0, 화면 안 0, 사진기 (0.0, 6.1, 16.0)
+[PlayProbe] Clear·Night: 현재 Clear, 시야 30, 밝기 1.00, 낮은 시야 True, 비 False
+[PlayProbe]   횃불 위치 (19.7, 4.2, 17.4) 세기 1.2 범위 3.3
+[PlayProbe]   횃불 위치 (-19.7, 4.2, -15.0) 세기 1.2 범위 3.3
+[PlayProbe]   횃불 위치 (12.8, 4.2, 19.7) 세기 1.2 범위 3.3
+[PlayProbe]   횃불 위치 (-19.7, 4.2, 0.1) 세기 1.3 범위 3.3
+[PlayProbe]   횃불 화면 0.52,0.43 거리 4.1
+[PlayProbe]   횃불 켜짐 52, 화면 안 1, 사진기 (0.0, 6.1, 16.0)
+[PlayProbe] Rain·Night: 현재 Rain, 시야 30, 밝기 1.00, 낮은 시야 True, 비 True
+[PlayProbe]   횃불 위치 (19.7, 4.2, 17.4) 세기 0.9 범위 3.3
+[PlayProbe]   횃불 위치 (-19.7, 4.2, -15.0) 세기 0.9 범위 3.3
+[PlayProbe]   횃불 위치 (12.8, 4.2, 19.7) 세기 0.9 범위 3.3
+[PlayProbe]   횃불 위치 (-19.7, 4.2, 0.1) 세기 1.0 범위 3.3
+[PlayProbe]   횃불 화면 0.52,0.43 거리 4.1
+[PlayProbe]   횃불 켜짐 52, 화면 안 1, 사진기 (0.0, 6.1, 16.0)
+[PlayProbe] 전투 중 변화: Rain, 불 피해 배율 0.5 (소나기 0.5 기대)
+]]></output>
+        </test-case>
+        <test-case id="1031" name="WizardPose" fullname="PlayProbe.WizardPose" methodname="WizardPose" classname="PlayProbe" runstate="Runnable" seed="2117935339" result="Passed" start-time="2026-10-20 12:34:16Z" end-time="2026-10-20 12:34:18Z" duration="1.415504" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[[PlayProbe] 정면 A: 마법사 발 (-0.4,4.0,19.0) 화면 (0.39,0.23) 키 112px · 주인공 키 112px (1600×900 기준)
+[PlayProbe] 정면 B: 마법사 발 (-0.4,4.0,19.0) 화면 (0.39,0.26) 키 104px · 주인공 키 104px (1600×900 기준)
+[PlayProbe] 정면 C: 마법사 발 (-0.4,4.0,19.0) 화면 (0.40,0.19) 키 91px · 주인공 키 91px (1600×900 기준)
+[PlayProbe] 동쪽 마법: 이동 True, 목표 1
+[PlayProbe] 이동 중: 마법사 발 (19.0,4.0,10.4) 화면 (-2.10,0.19) 키 91px · 주인공 키 91px (1600×900 기준)
+[PlayProbe] 동쪽 도착 A: 마법사 발 (19.0,4.0,0.4) 화면 (0.39,0.23) 키 112px · 주인공 키 112px (1600×900 기준)
+]]></output>
+        </test-case>
+        <test-case id="1032" name="WorldMock1" fullname="PlayProbe.WorldMock1" methodname="WorldMock1" classname="PlayProbe" runstate="Runnable" seed="422755130" result="Passed" start-time="2026-10-20 12:34:18Z" end-time="2026-10-20 12:34:19Z" duration="1.659332" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[[PlayProbe] 시안 1 도트 비율 (허리 높이 난간): 조각 355개 · 날씨 Fog Day
+]]></output>
+        </test-case>
+        <test-case id="1033" name="WorldMock2" fullname="PlayProbe.WorldMock2" methodname="WorldMock2" classname="PlayProbe" runstate="Runnable" seed="1405644417" result="Passed" start-time="2026-10-20 12:34:19Z" end-time="2026-10-20 12:34:21Z" duration="1.541869" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[[PlayProbe] 시안 2 실제 비율 (가슴 높이 난간·큰 탑): 조각 277개 · 날씨 Rain Night
+Saving results to: C:/Users/User/AppData/LocalLow/DefaultCompany/HumanLastRampart\TestResults.xml
+]]></output>
+        </test-case>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

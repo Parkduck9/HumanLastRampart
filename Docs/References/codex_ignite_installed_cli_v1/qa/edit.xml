@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="6" result="Passed" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-21 07:20:11Z" end-time="2026-10-21 07:20:12Z" duration="0.2687609">
+  <test-suite type="TestSuite" id="1000" name="HumanLastRampart" fullname="HumanLastRampart" runstate="Runnable" testcasecount="131" result="Passed" start-time="2026-10-21 07:20:11Z" end-time="2026-10-21 07:20:12Z" duration="0.268761" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1118" name="HLR.Combat.Tests.dll" fullname="C:/Unity/1/HumanLastRampart/Game/Library/ScriptAssemblies/HLR.Combat.Tests.dll" runstate="Runnable" testcasecount="63" result="Passed" start-time="2026-10-21 07:20:11Z" end-time="2026-10-21 07:20:12Z" duration="0.262331" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="58616" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1119" name="HumanLastRampart" fullname="HumanLastRampart" runstate="Runnable" testcasecount="63" result="Passed" start-time="2026-10-21 07:20:11Z" end-time="2026-10-21 07:20:12Z" duration="0.261232" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1120" name="Combat" fullname="HumanLastRampart.Combat" runstate="Runnable" testcasecount="63" result="Passed" start-time="2026-10-21 07:20:11Z" end-time="2026-10-21 07:20:12Z" duration="0.260390" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1121" name="Tests" fullname="HumanLastRampart.Combat.Tests" runstate="Runnable" testcasecount="63" result="Passed" start-time="2026-10-21 07:20:11Z" end-time="2026-10-21 07:20:12Z" duration="0.259566" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1106" name="ExpandedIgnitePlacementTests" fullname="HumanLastRampart.Combat.Tests.ExpandedIgnitePlacementTests" classname="HumanLastRampart.Combat.Tests.ExpandedIgnitePlacementTests" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-10-21 07:20:11Z" end-time="2026-10-21 07:20:12Z" duration="0.258278" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="ParameterizedMethod" id="1110" name="InitialPlacement_OnlyExpandedShooterGetsForwardOffset_OnEveryWall" fullname="HumanLastRampart.Combat.Tests.ExpandedIgnitePlacementTests.InitialPlacement_OnlyExpandedShooterGetsForwardOffset_OnEveryWall" classname="HumanLastRampart.Combat.Tests.ExpandedIgnitePlacementTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-10-21 07:20:11Z" end-time="2026-10-21 07:20:12Z" duration="0.196827" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1107" name="InitialPlacement_OnlyExpandedShooterGetsForwardOffset_OnEveryWall(&quot;expanded&quot;)" fullname="HumanLastRampart.Combat.Tests.ExpandedIgnitePlacementTests.InitialPlacement_OnlyExpandedShooterGetsForwardOffset_OnEveryWall(&quot;expanded&quot;)" methodname="InitialPlacement_OnlyExpandedShooterGetsForwardOffset_OnEveryWall" classname="HumanLastRampart.Combat.Tests.ExpandedIgnitePlacementTests" runstate="Runnable" seed="324231527" result="Passed" start-time="2026-10-21 07:20:11Z" end-time="2026-10-21 07:20:12Z" duration="0.154919" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1108" name="InitialPlacement_OnlyExpandedShooterGetsForwardOffset_OnEveryWall(&quot;legacy&quot;)" fullname="HumanLastRampart.Combat.Tests.ExpandedIgnitePlacementTests.InitialPlacement_OnlyExpandedShooterGetsForwardOffset_OnEveryWall(&quot;legacy&quot;)" methodname="InitialPlacement_OnlyExpandedShooterGetsForwardOffset_OnEveryWall" classname="HumanLastRampart.Combat.Tests.ExpandedIgnitePlacementTests" runstate="Runnable" seed="113956073" result="Passed" start-time="2026-10-21 07:20:12Z" end-time="2026-10-21 07:20:12Z" duration="0.017437" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1109" name="InitialPlacement_OnlyExpandedShooterGetsForwardOffset_OnEveryWall(&quot;none&quot;)" fullname="HumanLastRampart.Combat.Tests.ExpandedIgnitePlacementTests.InitialPlacement_OnlyExpandedShooterGetsForwardOffset_OnEveryWall(&quot;none&quot;)" methodname="InitialPlacement_OnlyExpandedShooterGetsForwardOffset_OnEveryWall" classname="HumanLastRampart.Combat.Tests.ExpandedIgnitePlacementTests" runstate="Runnable" seed="1921235954" result="Passed" start-time="2026-10-21 07:20:12Z" end-time="2026-10-21 07:20:12Z" duration="0.015730" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="ParameterizedMethod" id="1114" name="InstantMove_PreservesCrewOffsets_AroundAllFourWalls" fullname="HumanLastRampart.Combat.Tests.ExpandedIgnitePlacementTests.InstantMove_PreservesCrewOffsets_AroundAllFourWalls" classname="HumanLastRampart.Combat.Tests.ExpandedIgnitePlacementTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-10-21 07:20:12Z" end-time="2026-10-21 07:20:12Z" duration="0.057652" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1111" name="InstantMove_PreservesCrewOffsets_AroundAllFourWalls(&quot;expanded&quot;)" fullname="HumanLastRampart.Combat.Tests.ExpandedIgnitePlacementTests.InstantMove_PreservesCrewOffsets_AroundAllFourWalls(&quot;expanded&quot;)" methodname="InstantMove_PreservesCrewOffsets_AroundAllFourWalls" classname="HumanLastRampart.Combat.Tests.ExpandedIgnitePlacementTests" runstate="Runnable" seed="327534357" result="Passed" start-time="2026-10-21 07:20:12Z" end-time="2026-10-21 07:20:12Z" duration="0.020826" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1112" name="InstantMove_PreservesCrewOffsets_AroundAllFourWalls(&quot;legacy&quot;)" fullname="HumanLastRampart.Combat.Tests.ExpandedIgnitePlacementTests.InstantMove_PreservesCrewOffsets_AroundAllFourWalls(&quot;legacy&quot;)" methodname="InstantMove_PreservesCrewOffsets_AroundAllFourWalls" classname="HumanLastRampart.Combat.Tests.ExpandedIgnitePlacementTests" runstate="Runnable" seed="447788768" result="Passed" start-time="2026-10-21 07:20:12Z" end-time="2026-10-21 07:20:12Z" duration="0.017366" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1113" name="InstantMove_PreservesCrewOffsets_AroundAllFourWalls(&quot;none&quot;)" fullname="HumanLastRampart.Combat.Tests.ExpandedIgnitePlacementTests.InstantMove_PreservesCrewOffsets_AroundAllFourWalls(&quot;none&quot;)" methodname="InstantMove_PreservesCrewOffsets_AroundAllFourWalls" classname="HumanLastRampart.Combat.Tests.ExpandedIgnitePlacementTests" runstate="Runnable" seed="1995623458" result="Passed" start-time="2026-10-21 07:20:12Z" end-time="2026-10-21 07:20:12Z" duration="0.018120" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[Saving results to: C:/Users/User/AppData/LocalLow/DefaultCompany/HumanLastRampart\TestResults.xml
+]]></output>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

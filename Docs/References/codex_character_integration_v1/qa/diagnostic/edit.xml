@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="5" result="Failed(Child)" total="5" passed="0" failed="5" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-21 08:00:59Z" end-time="2026-10-21 08:00:59Z" duration="0.0820348">
+  <test-suite type="TestSuite" id="1000" name="HumanLastRampart" fullname="HumanLastRampart" runstate="Runnable" testcasecount="144" result="Failed" site="Child" start-time="2026-10-21 08:00:59Z" end-time="2026-10-21 08:00:59Z" duration="0.082035" total="5" passed="0" failed="5" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <failure>
+      <message><![CDATA[One or more child tests had errors]]></message>
+    </failure>
+    <test-suite type="Assembly" id="1136" name="HLR.Combat.Tests.dll" fullname="C:/Unity/1/HumanLastRampart/Game/Library/ScriptAssemblies/HLR.Combat.Tests.dll" runstate="Runnable" testcasecount="72" result="Failed" site="Child" start-time="2026-10-21 08:00:59Z" end-time="2026-10-21 08:00:59Z" duration="0.076934" total="5" passed="0" failed="5" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="40268" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <failure>
+        <message><![CDATA[One or more child tests had errors]]></message>
+      </failure>
+      <test-suite type="TestFixture" id="1038" name="CharacterArtIntegrationTests" fullname="CharacterArtIntegrationTests" classname="CharacterArtIntegrationTests" runstate="Runnable" testcasecount="9" result="Failed" site="Child" start-time="2026-10-21 08:00:59Z" end-time="2026-10-21 08:00:59Z" duration="0.075735" total="5" passed="0" failed="5" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <failure>
+          <message><![CDATA[One or more child tests had errors]]></message>
+        </failure>
+        <test-suite type="ParameterizedMethod" id="1044" name="InstalledUnitUsesNewSheetAndMatchingNormals" fullname="CharacterArtIntegrationTests.InstalledUnitUsesNewSheetAndMatchingNormals" classname="CharacterArtIntegrationTests" runstate="Runnable" testcasecount="5" result="Failed" site="Child" start-time="2026-10-21 08:00:59Z" end-time="2026-10-21 08:00:59Z" duration="0.073322" total="5" passed="0" failed="5" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <failure>
+            <message><![CDATA[One or more child tests had errors]]></message>
+          </failure>
+          <test-case id="1039" name="InstalledUnitUsesNewSheetAndMatchingNormals(&quot;unit_hero&quot;,1152)" fullname="CharacterArtIntegrationTests.InstalledUnitUsesNewSheetAndMatchingNormals(&quot;unit_hero&quot;,1152)" methodname="InstalledUnitUsesNewSheetAndMatchingNormals" classname="CharacterArtIntegrationTests" runstate="Runnable" seed="1070841037" result="Failed" start-time="2026-10-21 08:00:59Z" end-time="2026-10-21 08:00:59Z" duration="0.027862" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+            <failure>
+              <message><![CDATA[  unit_hero: hero_back_idle 짝 노멀
+  Expected: not null
+  But was:  null
+]]></message>
+              <stack-trace><![CDATA[at CharacterArtIntegrationTests.InstalledUnitUsesNewSheetAndMatchingNormals (System.String name, System.Int32 width) [0x001f9] in C:\Unity\1\HumanLastRampart\Game\Assets\_Project\Combat\Tests\CharacterArtIntegrationTests.cs:34
+]]></stack-trace>
+            </failure>
+            <output><![CDATA[연결 진단 hero_back_idle: 색 288x384, 법선 x, 경로 Assets/_Project/Art/Characters/Hero/hero_back_idle_normal.png, runRef 
+직렬화 쌍 수 3
+쌍 hero_walk_run_grid (UnityEngine.Texture2D) -> hero_walk_run_grid_normal (UnityEngine.Texture2D)
+쌍 hero_back_idle (UnityEngine.Texture2D) -> 
+쌍 hero_command (UnityEngine.Texture2D) -> 
+]]></output>
+          </test-case>
+          <test-case id="1040" name="InstalledUnitUsesNewSheetAndMatchingNormals(&quot;unit_wizard&quot;,288)" fullname="CharacterArtIntegrationTests.InstalledUnitUsesNewSheetAndMatchingNormals(&quot;unit_wizard&quot;,288)" methodname="InstalledUnitUsesNewSheetAndMatchingNormals" classname="CharacterArtIntegrationTests" runstate="Runnable" seed="283064960" result="Failed" label="Error" start-time="2026-10-21 08:00:59Z" end-time="2026-10-21 08:00:59Z" duration="0.010446" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+            <failure>
+              <message><![CDATA[UnityEngine.MissingReferenceException : The variable runNormalSheet of UnitDef doesn't exist anymore.
+You probably need to reassign the runNormalSheet variable of the 'UnitDef' script in the inspector.]]></message>
+              <stack-trace><![CDATA[  at UnityEngine.Object+MarshalledUnityObject.TryThrowEditorNullExceptionObject (UnityEngine.Object unityObj, System.String parameterName) [0x000cd] in <4188a0f79dff4b4191dbeaff03bfe462>:0 
+  at UnityEngine.Bindings.ThrowHelper.ThrowNullReferenceException (System.Object obj) [0x00010] in <4188a0f79dff4b4191dbeaff03bfe462>:0 
+  at UnityEngine.Object.GetName () [0x00006] in <4188a0f79dff4b4191dbeaff03bfe462>:0 
+  at UnityEngine.Object.get_name () [0x00001] in <4188a0f79dff4b4191dbeaff03bfe462>:0 
+  at CharacterArtIntegrationTests.InstalledUnitUsesNewSheetAndMatchingNormals (System.String name, System.Int32 width) [0x000d7] in C:\Unity\1\HumanLastRampart\Game\Assets\_Project\Combat\Tests\CharacterArtIntegrationTests.cs:29 
+  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)
+  at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo culture) [0x0006a] in <d49d4cb128564ee1b54a84338c98d353>:0 ]]></stack-trace>
+            </failure>
+          </test-case>
+          <test-case id="1041" name="InstalledUnitUsesNewSheetAndMatchingNormals(&quot;unit_archer&quot;,288)" fullname="CharacterArtIntegrationTests.InstalledUnitUsesNewSheetAndMatchingNormals(&quot;unit_archer&quot;,288)" methodname="InstalledUnitUsesNewSheetAndMatchingNormals" classname="CharacterArtIntegrationTests" runstate="Runnable" seed="1945397788" result="Failed" label="Error" start-time="2026-10-21 08:00:59Z" end-time="2026-10-21 08:00:59Z" duration="0.009280" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+            <failure>
+              <message><![CDATA[UnityEngine.MissingReferenceException : The variable runNormalSheet of UnitDef doesn't exist anymore.
+You probably need to reassign the runNormalSheet variable of the 'UnitDef' script in the inspector.]]></message>
+              <stack-trace><![CDATA[  at UnityEngine.Object+MarshalledUnityObject.TryThrowEditorNullExceptionObject (UnityEngine.Object unityObj, System.String parameterName) [0x000cd] in <4188a0f79dff4b4191dbeaff03bfe462>:0 
+  at UnityEngine.Bindings.ThrowHelper.ThrowNullReferenceException (System.Object obj) [0x00010] in <4188a0f79dff4b4191dbeaff03bfe462>:0 
+  at UnityEngine.Object.GetName () [0x00006] in <4188a0f79dff4b4191dbeaff03bfe462>:0 
+  at UnityEngine.Object.get_name () [0x00001] in <4188a0f79dff4b4191dbeaff03bfe462>:0 
+  at CharacterArtIntegrationTests.InstalledUnitUsesNewSheetAndMatchingNormals (System.String name, System.Int32 width) [0x000d7] in C:\Unity\1\HumanLastRampart\Game\Assets\_Project\Combat\Tests\CharacterArtIntegrationTests.cs:29 
+  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)
+  at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo culture) [0x0006a] in <d49d4cb128564ee1b54a84338c98d353>:0 ]]></stack-trace>
+            </failure>
+          </test-case>
+          <test-case id="1042" name="InstalledUnitUsesNewSheetAndMatchingNormals(&quot;unit_gunner&quot;,288)" fullname="CharacterArtIntegrationTests.InstalledUnitUsesNewSheetAndMatchingNormals(&quot;unit_gunner&quot;,288)" methodname="InstalledUnitUsesNewSheetAndMatchingNormals" classname="CharacterArtIntegrationTests" runstate="Runnable" seed="232758548" result="Failed" label="Error" start-time="2026-10-21 08:00:59Z" end-time="2026-10-21 08:00:59Z" duration="0.008863" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+            <failure>
+              <message><![CDATA[UnityEngine.MissingReferenceException : The variable runNormalSheet of UnitDef doesn't exist anymore.
+You probably need to reassign the runNormalSheet variable of the 'UnitDef' script in the inspector.]]></message>
+              <stack-trace><![CDATA[  at UnityEngine.Object+MarshalledUnityObject.TryThrowEditorNullExceptionObject (UnityEngine.Object unityObj, System.String parameterName) [0x000cd] in <4188a0f79dff4b4191dbeaff03bfe462>:0 
+  at UnityEngine.Bindings.ThrowHelper.ThrowNullReferenceException (System.Object obj) [0x00010] in <4188a0f79dff4b4191dbeaff03bfe462>:0 
+  at UnityEngine.Object.GetName () [0x00006] in <4188a0f79dff4b4191dbeaff03bfe462>:0 
+  at UnityEngine.Object.get_name () [0x00001] in <4188a0f79dff4b4191dbeaff03bfe462>:0 
+  at CharacterArtIntegrationTests.InstalledUnitUsesNewSheetAndMatchingNormals (System.String name, System.Int32 width) [0x000d7] in C:\Unity\1\HumanLastRampart\Game\Assets\_Project\Combat\Tests\CharacterArtIntegrationTests.cs:29 
+  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)
+  at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo culture) [0x0006a] in <d49d4cb128564ee1b54a84338c98d353>:0 ]]></stack-trace>
+            </failure>
+          </test-case>
+          <test-case id="1043" name="InstalledUnitUsesNewSheetAndMatchingNormals(&quot;unit_cannon_crew&quot;,288)" fullname="CharacterArtIntegrationTests.InstalledUnitUsesNewSheetAndMatchingNormals(&quot;unit_cannon_crew&quot;,288)" methodname="InstalledUnitUsesNewSheetAndMatchingNormals" classname="CharacterArtIntegrationTests" runstate="Runnable" seed="1827278509" result="Failed" label="Error" start-time="2026-10-21 08:00:59Z" end-time="2026-10-21 08:00:59Z" duration="0.009302" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+            <failure>
+              <message><![CDATA[UnityEngine.MissingReferenceException : The variable runNormalSheet of UnitDef doesn't exist anymore.
+You probably need to reassign the runNormalSheet variable of the 'UnitDef' script in the inspector.]]></message>
+              <stack-trace><![CDATA[  at UnityEngine.Object+MarshalledUnityObject.TryThrowEditorNullExceptionObject (UnityEngine.Object unityObj, System.String parameterName) [0x000cd] in <4188a0f79dff4b4191dbeaff03bfe462>:0 
+  at UnityEngine.Bindings.ThrowHelper.ThrowNullReferenceException (System.Object obj) [0x00010] in <4188a0f79dff4b4191dbeaff03bfe462>:0 
+  at UnityEngine.Object.GetName () [0x00006] in <4188a0f79dff4b4191dbeaff03bfe462>:0 
+  at UnityEngine.Object.get_name () [0x00001] in <4188a0f79dff4b4191dbeaff03bfe462>:0 
+  at CharacterArtIntegrationTests.InstalledUnitUsesNewSheetAndMatchingNormals (System.String name, System.Int32 width) [0x000d7] in C:\Unity\1\HumanLastRampart\Game\Assets\_Project\Combat\Tests\CharacterArtIntegrationTests.cs:29 
+  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)
+  at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo culture) [0x0006a] in <d49d4cb128564ee1b54a84338c98d353>:0 ]]></stack-trace>
+            </failure>
+            <output><![CDATA[Saving results to: C:/Users/User/AppData/LocalLow/DefaultCompany/HumanLastRampart\TestResults.xml
+]]></output>
+          </test-case>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

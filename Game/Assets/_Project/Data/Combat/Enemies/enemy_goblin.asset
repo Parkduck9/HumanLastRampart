@@ -22,3 +22,11 @@ MonoBehaviour:
   sheet: {fileID: 2800000, guid: b3d4ea76535e4d6d85ca1a232a8d7b12, type: 3}
   normalSheet: {fileID: 2800000, guid: 9fb5251f82fe44c99d0a66f7004038c4, type: 3}
   deathSheet: {fileID: 2800000, guid: a090547155244c3dab2e40b2668f082c, type: 3}
+  attackSheet: {fileID: 2800000, guid: fe60191f0e09405294d9bb82dca91637, type: 3}
+  poseNormals:
+  - Sheet: {fileID: 2800000, guid: b3d4ea76535e4d6d85ca1a232a8d7b12, type: 3}
+    Normal: {fileID: 2800000, guid: 9fb5251f82fe44c99d0a66f7004038c4, type: 3}
+  - Sheet: {fileID: 2800000, guid: a090547155244c3dab2e40b2668f082c, type: 3}
+    Normal: {fileID: 2800000, guid: 3efb7ef487b34449b5330c2a5fa45fc8, type: 3}
+  - Sheet: {fileID: 2800000, guid: fe60191f0e09405294d9bb82dca91637, type: 3}
+    Normal: {fileID: 2800000, guid: 2b774412f2a04d439a57d885d210f613, type: 3}

@@ -24,3 +24,13 @@ MonoBehaviour:
   fireSheet: {fileID: 2800000, guid: 77712fd5d7784cb3858f6cee7662a38f, type: 3}
   deathSheet: {fileID: 2800000, guid: 1ce4ecdac9504d06b34d300d20d5e839, type: 3}
   projectileSheet: {fileID: 2800000, guid: f1542e5fe7ee4a25a258ae5cc2fce20b, type: 3}
+  runNormalSheet: {fileID: 2800000, guid: 15215f836a0d48aea7e1de13b7da5b05, type: 3}
+  poseNormals:
+  - Sheet: {fileID: 2800000, guid: 9bbb432c5b1d445cb092d3e80eb1aa65, type: 3}
+    Normal: {fileID: 2800000, guid: 01f399281c8b4d828bee32c603d44974, type: 3}
+  - Sheet: {fileID: 2800000, guid: ca45a3950036483ea0c9dc299d2ce017, type: 3}
+    Normal: {fileID: 2800000, guid: 15215f836a0d48aea7e1de13b7da5b05, type: 3}
+  - Sheet: {fileID: 2800000, guid: 77712fd5d7784cb3858f6cee7662a38f, type: 3}
+    Normal: {fileID: 2800000, guid: 6e437b2dc46b41b5bc39704ac1f5d961, type: 3}
+  - Sheet: {fileID: 2800000, guid: 1ce4ecdac9504d06b34d300d20d5e839, type: 3}
+    Normal: {fileID: 2800000, guid: 233d451689304ba38b7d74c876623e3d, type: 3}

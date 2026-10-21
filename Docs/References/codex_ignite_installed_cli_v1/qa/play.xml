@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="1" result="Passed" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-21 07:20:23Z" end-time="2026-10-21 07:20:25Z" duration="1.9600572">
+  <test-suite type="TestSuite" id="1056" name="HumanLastRampart" fullname="HumanLastRampart" runstate="Runnable" testcasecount="48" result="Passed" start-time="2026-10-21 07:20:23Z" end-time="2026-10-21 07:20:25Z" duration="1.960057" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <test-suite type="Assembly" id="1052" name="HLR.PlayProbe.dll" fullname="C:/Unity/1/HumanLastRampart/Game/Library/ScriptAssemblies/HLR.PlayProbe.dll" runstate="Runnable" testcasecount="48" result="Passed" start-time="2026-10-21 07:20:23Z" end-time="2026-10-21 07:20:25Z" duration="1.954135" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="53192" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestFixture" id="1015" name="PlayProbe" fullname="PlayProbe" classname="PlayProbe" runstate="Runnable" testcasecount="36" result="Passed" start-time="2026-10-21 07:20:23Z" end-time="2026-10-21 07:20:25Z" duration="1.952867" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1020" name="InstalledIgniteContactSixFrames" fullname="PlayProbe.InstalledIgniteContactSixFrames" methodname="InstalledIgniteContactSixFrames" classname="PlayProbe" runstate="Runnable" seed="1431392866" result="Passed" start-time="2026-10-21 07:20:23Z" end-time="2026-10-21 07:20:25Z" duration="1.941584" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[[PlayProbe] 게임 설치 에셋 그대로: 2592×384, 432×384 여섯 칸, 발 288·360
+[PlayProbe] 실제 A 사진기: 위치 (-12.00, 6.10, 16.00), 각도 (24.00, 0.00, 0.00), 화각 40
+[PlayProbe] 시점 변경: 주인공의 성벽 방향·가로 자리만 첫 대포로 옮김. 거리·높이·각도·화각 확대 없음.
+[PlayProbe] 1번 칸: 실제 점화 구간 80, 전투 시간 0
+[PlayProbe] 2번 칸: 실제 점화 구간 81, 전투 시간 0
+[PlayProbe] 3번 칸: 실제 점화 구간 82, 전투 시간 0
+[PlayProbe] 4번 칸: 실제 점화 구간 83, 전투 시간 0
+[PlayProbe] A 접촉칸: 불꽃 화면범위 (x:950.70, y:485.41, width:20.03, height:25.04), 고리 (960.00, 498.51), 심지끝 (965.37, 507.45), 대포칸 0
+[PlayProbe] 5번 칸: 실제 점화 구간 84, 전투 시간 0
+[PlayProbe] 6번 칸: 실제 점화 구간 85, 전투 시간 0
+[PlayProbe] 사진기 B 움직일 때: 불꽃 화면범위 (x:951.22, y:496.02, width:18.92, height:23.64), 고리 (960.00, 508.45), 심지끝 (965.07, 516.90), 대포칸 0
+[PlayProbe] 사진기 C 높게: 불꽃 화면범위 (x:951.68, y:434.50, width:17.93, height:22.41), 고리 (960.00, 446.80), 심지끝 (964.81, 454.81), 대포칸 0
+[PlayProbe] 검사: 실제 그리기 배치의 A/B/C 접점 투영 범위 포함. 사진으로 가림·자연스러움은 별도 확인한다.
+Saving results to: C:/Users/User/AppData/LocalLow/DefaultCompany/HumanLastRampart\TestResults.xml
+]]></output>
+        </test-case>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

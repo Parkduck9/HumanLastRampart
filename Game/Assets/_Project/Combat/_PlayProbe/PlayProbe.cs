@@ -238,13 +238,18 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
             });
         }
 
+        // 자동 폭발(1%)은 그대로 둔다. 전투 밖 대조 함정으로 보존 검사가 빈 검사가 되지 않게 한다.
+        string controlTrapId = c.NewInstanceId("trap");
+        c.Traps.Add(new TrapPlacement { TrapId = controlTrapId, TrapDefId = "trap_bomb", TerrainId = "terrain_2",
+            SlotId = "cell_0_2_12", Marked = true });
+        var originalTraps = c.Traps.Select(t => (t.TrapId, t.SlotId, t.TerrainId)).ToArray();
         yield return Click("넘기기", 600);
         yield return WaitScreen(ScreenId.Battle, 900);
         var entry = UnityEngine.Object.FindObjectsByType<HumanLastRampart.Combat.Battle.BattleEntry>(FindObjectsSortMode.None)[0];
         var flags = System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance;
         var sim = (HumanLastRampart.Combat.Battle.BattleSim)typeof(HumanLastRampart.Combat.Battle.BattleEntry).GetField("sim", flags).GetValue(entry);
         var rig = (HumanLastRampart.Combat.Battle.BattleCameraRig)typeof(HumanLastRampart.Combat.Battle.BattleEntry).GetField("rig", flags).GetValue(entry);
-        Assert.AreEqual(3, sim.TrapCount, "이 지형 함정 3개");
+        Assert.AreEqual(3, sim.TrapCount, "이 지형 함정 3개, 다른 지형 대조 함정은 전투에서 제외");
         yield return Click("×4", 300);
         int near = 0;
         // 코루틴은 작업이 도는 중에 불리므로 먼저 끝내고 읽는다 (Complete는 여러 번 불러도 된다)
@@ -270,6 +275,7 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
         sim.Complete();
         Note($"폭발 뒤 상태 {sim.GetTrap(1).State}, 처치 {kills0} → {sim.Kills}");
         Assert.AreEqual(HumanLastRampart.Combat.Battle.BattleSim.TrapState.Exploded, sim.GetTrap(1).State);
+        yield return VerifyTrapVisualCleanup(entry, sim, 1);
         entry.ToggleMap();
         for (int i = 0; i < 3; i++) yield return null;
         entry.MapCamera.SetLevel(HumanLastRampart.Combat.Battle.BattleMapCamera.Level.Close);
@@ -279,7 +285,6 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
 
         // 연동 (Codex T-CX-035 결과 반영 C-007 v1.1): 전투를 끝까지 이기고 결과 화면에서 터진 함정만 사라지는지
         string exploded = sim.GetTrap(1).TrapId;
-        var survivors = new[] { sim.GetTrap(0).TrapId, sim.GetTrap(2).TrapId };
         yield return Click("×4", 60);
         int waited = 0;
         while (FindReady("결과로") == null && waited < 40000) { waited++; yield return null; }
@@ -292,13 +297,22 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
         {
             yield return WaitScreen(ScreenId.Result, 900);
             yield return WaitReady("다음", 300);
-            Assert.IsFalse(c.Traps.Any(t => t.TrapId == exploded), "터진 함정은 진행 데이터에서 사라진다");
-            foreach (string id in survivors)
+            Assert.Contains(exploded, result.ConsumedTrapIds, "수동 점화한 함정이 실제 폭발 목록에 포함");
+            foreach (var original in originalTraps)
             {
-                TrapPlacement t = c.Traps.FirstOrDefault(x => x.TrapId == id);
+                if (result.ConsumedTrapIds.Contains(original.TrapId))
+                {
+                    Assert.IsFalse(c.Traps.Any(t => t.TrapId == original.TrapId), "수동·자동 폭발 함정 모두 제거");
+                    continue;
+                }
+                TrapPlacement t = c.Traps.FirstOrDefault(x => x.TrapId == original.TrapId);
                 Assert.IsNotNull(t, "안 터진 함정은 남는다");
-                Assert.IsTrue(t.Marked && t.SlotId.StartsWith("cell_0_"), "지도 표시·처음 칸은 그대로");
+                Assert.IsTrue(t.Marked && t.SlotId == original.SlotId && t.TerrainId == original.TerrainId,
+                    "안 터진 함정의 표시·처음 칸·지형은 그대로");
             }
+            Assert.IsTrue(c.Traps.Any(t => t.TrapId == controlTrapId), "전투 밖 대조 함정이 반드시 남아 보존 검사를 수행");
+            Assert.AreEqual(originalTraps.Length - result.ConsumedTrapIds.Count(id => originalTraps.Any(t => t.TrapId == id)),
+                c.Traps.Count, "실제 폭발한 함정 수만큼만 줄어든다");
 
             // 결과 화면에 몇 프레임 머물러도(재진입 역할) 다시 반영되지 않는다 (D-076 그림판 — 상세 팝업 없음)
             int gold = c.Gold, traps = c.Traps.Count;
@@ -343,23 +357,43 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
         yield return Click("함정 구매·설치", 300);
         for (int i = 0; i < 3; i++) yield return null;
         yield return Capture("preptrap_0_panel");
-        const string cellId = "cell_0_4_12";   // 북쪽 가운데, 성벽에서 약 72m (D-061 가로 8칸)
-        Button tile = UnityEngine.Object.FindObjectsByType<Button>(FindObjectsSortMode.None).FirstOrDefault(b => b.name == cellId && b.isActiveAndEnabled);
-        Assert.IsNotNull(tile, "칸 버튼");
-        Assert.IsTrue(tile.interactable);
-        tile.onClick.Invoke();
+        var session = new HumanLastRampart.Meta.TrapPreparationTransactions(c, GameFlow.Instance.Definitions);
+        Vector2 point = FreeTrapTestSupport.Point(session, "trap_bomb");
+        string cellId = HumanLastRampart.Core.Traps.TrapGrid.FreeId(point.x, point.y);
+        var placer = UnityEngine.Object.FindAnyObjectByType<HumanLastRampart.Meta.FreePlacementInput>();
+        Assert.IsNotNull(placer, "함정 자유 배치 입력");
+        placer.MoveTo(FreeTrapTestSupport.MapPoint(session, point));
+        var ghost = placer.transform.Find("Ghost").GetComponent<Image>();
+        var ring = placer.transform.Find("Trap Blast Radius").GetComponent<Image>();
+        Assert.IsTrue(ghost.gameObject.activeSelf && ghost.color.g > ghost.color.r, "가능한 땅은 초록 고스트");
+        Assert.IsTrue(ring.gameObject.activeSelf);
+        float pixelsPerMeter = FreeTrapTestSupport.MapPoint(session, Vector2.right).x;
+        Assert.AreEqual(session.Radius("trap_bomb") * 2f * pixelsPerMeter, ring.rectTransform.sizeDelta.x, .01f, "실제 폭발 반경 원");
+        yield return Capture("preptrap_0a_free_valid");
+        placer.MoveTo(Vector2.zero);
+        Assert.IsTrue(ghost.color.r > ghost.color.g, "성 안은 빨강 고스트");
+        yield return Capture("preptrap_0b_free_invalid");
+        placer.MoveTo(FreeTrapTestSupport.MapPoint(session, point));
+        placer.PlaceAt(FreeTrapTestSupport.MapPoint(session, point));
+        yield return null;
+        Assert.IsTrue(FreeTrapTestSupport.BuyButton().interactable, "자유 위치 선택");
+        placer.PlaceAt(FreeTrapTestSupport.MapPoint(session, point));
+        yield return null;
+        Assert.IsFalse(FreeTrapTestSupport.BuyButton().interactable, "같은 위치를 다시 누르면 선택 해제");
+        placer.PlaceAt(FreeTrapTestSupport.MapPoint(session, point));
         yield return null;
         // K-042: 칸을 여러 개 고른 뒤 한 번에 구매 (견적·확정 두 단계 → 단추 하나, 글자 뒤에 칸 수·합계가 붙는다)
         yield return ClickPrefix("한 번에 구매·설치", 60);
         for (int i = 0; i < 3; i++) yield return null;
         yield return Capture("preptrap_1_installed");
-        TrapPlacement placed = c.Traps.FirstOrDefault(t => t.SlotId == cellId);
+        TrapPlacement placed = c.Traps.FirstOrDefault(t => t.SlotId.StartsWith("free:") && Vector2.Distance(new Vector2(t.ActualX, t.ActualZ), point) < .001f);
         Assert.IsNotNull(placed, "진행 데이터에 함정");
         Assert.AreEqual(gold0 - 25, c.Gold, "25골드");
         Assert.AreEqual(11, c.TrapShop.First(s => s.TrapDefId == "trap_bomb").Count, "상점 재고 −1");
         Assert.IsTrue(placed.Marked, "지도 표시 기본 켜짐");
-        Button again = UnityEngine.Object.FindObjectsByType<Button>(FindObjectsSortMode.None).FirstOrDefault(b => b.name == cellId && b.isActiveAndEnabled);
-        Assert.IsTrue(again == null || !again.interactable, "설치된 칸은 다시 못 고른다");
+        placer.PlaceAt(FreeTrapTestSupport.MapPoint(session, point));
+        yield return null;
+        Assert.IsFalse(FreeTrapTestSupport.BuyButton().interactable, "설치된 위치는 다시 못 고른다");
         Note($"설치: {placed.TrapId} {placed.TerrainId} {cellId} ({placed.ActualX:0.0},{placed.ActualZ:0.0}) 골드 {gold0}→{c.Gold}");
         yield return Click("닫기", 60);
         yield return Click("전투 준비 완료", 300);
@@ -1809,7 +1843,12 @@ public sealed class ProbeShooter : MonoBehaviour
         try
         {
             // 1) 장면만 찍는다 (화면 위 표시판은 사진기에 안 그려진다)
-            foreach (Camera cam in cams) { var old = cam.targetTexture; cam.targetTexture = rt; cam.Render(); cam.targetTexture = old; }
+            foreach (Camera cam in cams)
+            {
+                // 정비 마당처럼 UI에 넣을 전용 렌더 텍스처는 원래 크기·비율로 갱신한다.
+                if (cam.targetTexture != null) { cam.Render(); continue; }
+                cam.targetTexture = rt; cam.Render(); cam.targetTexture = null;
+            }
             RenderTexture.active = rt;
             tex.ReadPixels(new Rect(0, 0, w, h), 0, 0);
             RenderTexture.active = null;

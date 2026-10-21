@@ -21,6 +21,9 @@ namespace HumanLastRampart.Core.Definitions
         [SerializeField] Texture2D deploySheet;     // 사다리 세우기 (오르기 시작 직후)
         [SerializeField] Texture2D climbSheet;      // 사다리 오르기 (뒷모습)
         [SerializeField] Texture2D ladderSheet;     // 사다리 소품 1칸 256×1536, 아래 (128, 1472), 실체 1152px = 4.3m
+        [SerializeField] Texture2D carrySheet;      // 사다리를 들고 다가오는 동작. 없으면 기존 걷기 그림
+        [SerializeField] Texture2D ladderSideSheet; // 사다리를 옆에서 볼 때
+        [SerializeField] SheetNormalPair[] poseNormals;
 
         public bool IsSpecial => isSpecial;
         public int MaxHp => maxHp;
@@ -37,5 +40,15 @@ namespace HumanLastRampart.Core.Definitions
         public Texture2D DeploySheet => deploySheet;
         public Texture2D ClimbSheet => climbSheet;
         public Texture2D LadderSheet => ladderSheet;
+        public Texture2D CarrySheet => carrySheet;
+        public Texture2D LadderSideSheet => ladderSideSheet;
+        public Texture2D MovingSheet => carriesLadder && carrySheet != null ? carrySheet : sheet;
+        public Texture2D NormalFor(Texture2D color)
+        {
+            if (color == null) return null;
+            if (poseNormals != null) foreach (var pair in poseNormals)
+                if (pair.Sheet == color) return SheetNormalPair.Match(color, pair.Normal);
+            return SheetNormalPair.Match(color, color == sheet ? normalSheet : null);
+        }
     }
 }

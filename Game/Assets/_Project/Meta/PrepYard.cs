@@ -8,226 +8,326 @@ using UnityEngine.UI;
 
 namespace HumanLastRampart.Meta
 {
-    // 정비 마당 (D-076): 성벽 안 작은 마당을 옆에서 본 한 줄 길. 주인공이 A/D(←/→)로 좌우로 걷고,
-    // 장소 가까이에서 E(또는 스페이스)를 누르면 그 장소 일을 연다. 장소: 성벽 수리 · 병영 · 함정 공방 · 성벽 계단.
-    // 장소 일은 기존 창(PreparationPanel·TrapPreparationPanel)을 그대로 쓴다 — 마당은 길과 입구만.
-    // 그림은 Codex K-028 확정 전이라 지금은 색 도형 + 주인공 시트 (확정되면 바꿔 끼움)
+    // K-089: 고정 배경, 실제 3D 바닥·충돌과 화면 평면 인물을 맞춘 정비 마당.
     public sealed class PrepYard : MonoBehaviour
     {
+        [Serializable] public sealed class Layout { public Place[] stations; public Occluder[] occluders; }
+        [Serializable] public sealed class Place { public string id, name; public float x, y; public float[] rect; }
+        [Serializable] public sealed class Occluder { public string id; public float row; public Vector2[] polygon; }
         public sealed class Station
         {
             public string Name;
-            public float X;               // 마당 띠에서 가로 위치
-            public Color Color;
+            public float X;
             public Action Use;
             public RectTransform Sign;
+            public BoxCollider Trigger;
+            public Place Place;
         }
 
-        const float YardWidth = 3600f;     // 마당 띠 길이 (화면 1920 기준 단위)
-        const float GroundY = 250f;        // 바닥 높이 (화면 아래에서)
-        const float WalkSpeed = 520f;      // 초당 (화면 단위) — 마당 끝에서 끝까지 약 7초
-        const float Reach = 170f;          // 이 거리 안이면 상호작용
-        const float HeroHeight = 300f;
-        const float WalkFps = 8f;
-
+        const int YardLayer = 31;
+        const float WalkSpeed = 5f;
         readonly List<Station> stations = new List<Station>();
-        RectTransform strip, hero, prompt;
-        RawImage heroImage;
-        Texture2D heroSheet;
-        int sheetColumns = 1, sheetRows = 1;
-        float heroX = 900f;
-        bool facingRight = true;
-        CanvasGroup blocker;               // 창(팝업)이 열려 있으면 비활성 — 그때는 움직이지 않는다
-        GameObject confirm;
+        readonly List<Collider> obstacles = new List<Collider>();
+        readonly List<(Occluder data, RawImage image)> overlays = new List<(Occluder, RawImage)>();
+        readonly List<UnityEngine.Object> owned = new List<UnityEngine.Object>();
+        RectTransform strip, prompt, viewport;
+        CanvasGroup blocker, screenInput;
+        GameObject confirm, world;
+        Camera yardCamera;
+        RenderTexture target;
+        Mesh heroMesh, shadowMesh;
+        CapsuleCollider body;
+        Material heroMaterial, shadowMaterial;
+        Texture2D mask, heroSheet, idleSheet;
+        Layout layout;
+        Vector2 ground, facing = Vector2.down;
+        int columns = 4, rows = 4;
+        float cellWidth, foot, figure;
+        bool walking;
 
         public int StationCount => stations.Count;
-        public float HeroX => heroX;
+        public float HeroX => HeroPixel.x;
+        public Vector2 HeroGround => ground;
+        public Vector2 HeroPixel => PrepYardProjection.Project(ground);
+        public Camera WorldCamera => yardCamera;
+        public int ObstacleCount => obstacles.Count;
+        public bool CanMove => confirm == null && (blocker == null || blocker.interactable)
+            && (screenInput == null || screenInput.interactable);
+        public bool IsOccluderVisible(string id) => overlays.Exists(o => o.data.id == id && o.image.enabled);
 
-        // backdrop = 화면에 K-027 정비 배경 그림이 깔려 있음 → 하늘·성벽 면·바닥 색 띠를 그리지 않고 걷는 길만 옅게
-        public static PrepYard Build(ScreenView view, UnitDef heroUnit, bool backdrop = false)
+        public static PrepYard Build(ScreenView view, UnitDef unit, bool backdrop = false)
         {
             RectTransform layer = view.AddBackdropLayer("Prep Yard");
             var yard = layer.gameObject.AddComponent<PrepYard>();
             yard.blocker = view.PanelGroup;
-            yard.heroSheet = heroUnit != null ? heroUnit.Sheet : null;
-            yard.hasBackdrop = backdrop;
+            yard.screenInput = layer.GetComponentInParent<CanvasGroup>();
+            yard.heroSheet = unit != null ? unit.Sheet : null;
+            yard.idleSheet = unit != null ? unit.IdleSheet : null;
             yard.BuildScene(layer);
             return yard;
         }
 
-        bool hasBackdrop;
+        T Own<T>(T obj) where T : UnityEngine.Object { owned.Add(obj); return obj; }
 
-        public void AddStation(string name, float x, Color color, Action use)
+        RawImage Picture(string name, Texture texture)
         {
-            var station = new Station { Name = name, X = x, Color = color, Use = use };
-            if (!hasBackdrop)
-            {
-                // 건물 자리 (배경 그림이 없을 때만 임시 도형): 몸체 + 지붕 띠
-                RectTransform body = Block(strip, name, new Vector2(x, GroundY + 140f), new Vector2(260f, 280f), color);
-                Block(body, "Roof", new Vector2(0f, 150f), new Vector2(300f, 30f), Color.Lerp(color, Color.black, 0.35f), true);
-            }
-
-            // K-047: 장소마다 나무 간판 (Ui Plate — 도트 계단 모서리) + 이름은 세계 글꼴. 바닥에는 서는 자리 황동 빛
-            Block(strip, name + " Spot", new Vector2(x, GroundY - 20f), new Vector2(192f, UiTokens.Dot * 3f), UiTokens.Alpha(UiTokens.Brass, 0.55f));
-            Image plate = Ui.Panel(strip, name + " Plate", UiPanel.Plate);
-            plate.raycastTarget = false;
-            Ui.Place(plate.rectTransform, Vector2.zero, new Vector2(x, GroundY + 330f), new Vector2(304f, 64f), new Vector2(0.5f, 0.5f));
-            Text sign = Ui.Label(plate.transform, "Name", name, UiTokens.H2, UiTokens.BrassLight, TextAnchor.MiddleCenter, true);
-            sign.horizontalOverflow = HorizontalWrapMode.Overflow;
-            Ui.Stretch(sign.rectTransform);
-            station.Sign = plate.rectTransform;
-            stations.Add(station);
-            hero.SetAsLastSibling();   // 주인공은 건물 앞에
-            prompt.SetAsLastSibling();
+            var obj = new GameObject(name, typeof(RectTransform), typeof(RawImage));
+            obj.transform.SetParent(strip, false);
+            var image = obj.GetComponent<RawImage>();
+            image.texture = texture; image.raycastTarget = false;
+            var rect = image.rectTransform;
+            rect.anchorMin = rect.anchorMax = rect.pivot = Vector2.zero;
+            rect.sizeDelta = new Vector2(3840f, 1080f);
+            return image;
         }
 
         void BuildScene(RectTransform layer)
         {
-            strip = new GameObject("Strip", typeof(RectTransform)).GetComponent<RectTransform>();
+            layout = JsonUtility.FromJson<Layout>(Resources.Load<TextAsset>("PrepYard/layout").text);
+            viewport = layer;
+            layer.gameObject.AddComponent<RectMask2D>();
+            strip = new GameObject("Panorama", typeof(RectTransform)).GetComponent<RectTransform>();
             strip.SetParent(layer, false);
             strip.anchorMin = strip.anchorMax = strip.pivot = Vector2.zero;
-            strip.sizeDelta = new Vector2(YardWidth, 1080f);
-            // 하늘 → 안쪽 성벽 면 → 바닥 (임시 색). 배경 그림이 있으면 그림이 대신하고 걷는 길만 옅게 남긴다
-            if (!hasBackdrop)
-            {
-                Block(strip, "Sky", new Vector2(YardWidth / 2f, 820f), new Vector2(YardWidth, 520f), new Color(0.32f, 0.40f, 0.48f));
-                Block(strip, "Inner Wall", new Vector2(YardWidth / 2f, GroundY + 230f), new Vector2(YardWidth, 460f), new Color(0.36f, 0.35f, 0.33f));
-                for (float x = 60f; x < YardWidth; x += 180f)   // 성벽 돌 줄눈 느낌
-                    Block(strip, "Joint", new Vector2(x, GroundY + 230f), new Vector2(4f, 460f), new Color(0f, 0f, 0f, 0.18f));
-                Block(strip, "Ground", new Vector2(YardWidth / 2f, GroundY / 2f), new Vector2(YardWidth, GroundY), new Color(0.38f, 0.31f, 0.22f));
-            }
+            strip.sizeDelta = new Vector2(3840f, 1080f);
+            Picture("K089 Background", Resources.Load<Texture2D>("PrepYard/prep_yard"));
+            mask = Own(new Texture2D(2, 2, TextureFormat.RGBA32, false));
+            mask.LoadImage(Resources.Load<TextAsset>("PrepYard/walkable_mask").bytes);
+            mask.filterMode = FilterMode.Point;
 
-            if (!hasBackdrop) Block(strip, "Path", new Vector2(YardWidth / 2f, GroundY - 20f), new Vector2(YardWidth, 40f), new Color(0.50f, 0.45f, 0.38f));   // 배경 그림이 있으면 그림 속 길을 쓴다
+            // 원본 씬·패키지 설정을 바꾸지 않는 독립 공간. 화면이 닫힐 때 함께 해제한다.
+            world = new GameObject("Prep Yard 3D");
+            world.transform.position = new Vector3(0f, -1000f, 0f);
+            var cameraObject = new GameObject("Prep Yard Camera", typeof(Camera));
+            cameraObject.transform.SetParent(world.transform, false);
+            yardCamera = cameraObject.GetComponent<Camera>();
+            cameraObject.transform.localPosition = new Vector3(0f, 7.26037736f, -3.80821918f);
+            cameraObject.transform.localRotation = Quaternion.Euler(30f, 0f, 0f);
+            yardCamera.cullingMask = 1 << YardLayer;
+            yardCamera.clearFlags = CameraClearFlags.SolidColor;
+            yardCamera.backgroundColor = Color.clear;
+            yardCamera.allowHDR = false; yardCamera.allowMSAA = false;
+            yardCamera.nearClipPlane = 0.1f; yardCamera.farClipPlane = 100f;
+            target = Own(new RenderTexture(3840, 1080, 16, RenderTextureFormat.ARGB32));
+            target.filterMode = FilterMode.Point; target.Create();
+            yardCamera.targetTexture = target;
+            var projection = Matrix4x4.Perspective(2f * Mathf.Atan(540f / 892.515593f) * Mathf.Rad2Deg,
+                3840f / 1080f, 0.1f, 100f);
+            projection.m12 = 2f * 455.294118f / 1080f - 1f;
+            yardCamera.projectionMatrix = projection;
+            Picture("World Character And Shadow", target);
 
-            var heroObj = new GameObject("Hero", typeof(RectTransform), typeof(RawImage));
-            heroObj.transform.SetParent(strip, false);
-            hero = (RectTransform)heroObj.transform;
-            hero.anchorMin = hero.anchorMax = Vector2.zero;
-            hero.pivot = new Vector2(0.5f, 0f);
-            hero.sizeDelta = new Vector2(HeroHeight * 2f / 3f, HeroHeight);
-            heroImage = heroObj.GetComponent<RawImage>();
-            heroImage.raycastTarget = false;
+            var floor = new GameObject("Walkable Ground", typeof(BoxCollider));
+            floor.transform.SetParent(world.transform, false);
+            floor.GetComponent<BoxCollider>().center = new Vector3(0f, -0.1f, 4f);
+            floor.GetComponent<BoxCollider>().size = new Vector3(65f, 0.2f, 8f);
+            var heroBody = new GameObject("Hero Collider", typeof(CapsuleCollider));
+            heroBody.transform.SetParent(world.transform, false);
+            body = heroBody.GetComponent<CapsuleCollider>();
+            body.height = 1.7f; body.radius = 0.12f; body.center = Vector3.up * 0.85f; body.isTrigger = true;
+            var rigid = heroBody.AddComponent<Rigidbody>();
+            rigid.isKinematic = true; rigid.useGravity = false;
+
+            var shader = Resources.Load<Shader>("PrepYard/PrepYardSprite");
+            if (shader == null) throw new InvalidOperationException("정비 마당 그림 셰이더 없음");
+            heroMaterial = Own(new Material(shader));
+            shadowMaterial = Own(new Material(shader));
+            shadowMaterial.SetColor("_Tint", new Color(0f, 0f, 0f, 0.28f));
+            shadowMaterial.renderQueue = 2990;
+            heroMesh = Sprite("Hero Billboard", heroMaterial);
+            shadowMesh = Sprite("Ground Projected Shadow", shadowMaterial);
             if (heroSheet != null)
             {
-                heroImage.texture = heroSheet;
-                sheetColumns = Mathf.Max(1, Mathf.RoundToInt(heroSheet.width / 256f));
-                sheetRows = Mathf.Max(1, Mathf.RoundToInt(heroSheet.height / 384f));
+                rows = Mathf.Max(1, heroSheet.height / 384); cellWidth = heroSheet.width / (float)columns;
+                foot = cellWidth == 288f ? 360f : 352f;
+                figure = cellWidth == 288f ? 219f : 300f;
             }
-            else heroImage.color = new Color(0.8f, 0.7f, 0.5f);
-
-            // 가까이 가면 간판 위에 [E] 키 표시 (S-15: 지금 할 수 있는 행동만)
+            foreach (var data in layout.occluders)
+            {
+                overlays.Add((data, Picture("Occluder " + data.id, Resources.Load<Texture2D>("PrepYard/" + data.id))));
+                var obj = new GameObject("Obstacle " + data.id, typeof(MeshCollider));
+                obj.transform.SetParent(world.transform, false);
+                var collider = obj.GetComponent<MeshCollider>();
+                collider.sharedMesh = Own(ObstacleMesh(data.polygon));
+                obstacles.Add(collider);
+            }
             prompt = Ui.KeyHint(strip, "E", "들어가기");
-            prompt.anchorMin = prompt.anchorMax = Vector2.zero;
-            prompt.pivot = new Vector2(0.5f, 0f);
+            prompt.anchorMin = prompt.anchorMax = Vector2.zero; prompt.pivot = new Vector2(0.5f, 0f);
             prompt.gameObject.AddComponent<ContentSizeFitter>().horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
-            HorizontalLayoutGroup hints = Ui.Row(layer, "Key Hints", UiTokens.S24);
-            Ui.Place((RectTransform)hints.transform, Vector2.zero, new Vector2(UiTokens.S32, UiTokens.S32), new Vector2(400f, 33f), Vector2.zero);
-            Ui.KeyHint(hints.transform, "A · D", "걷기");
-            Place();
+            var hints = Ui.Row(layer, "Key Hints", UiTokens.S24);
+            Ui.Place((RectTransform)hints.transform, Vector2.zero, new Vector2(32f, 32f), new Vector2(650f, 40f), Vector2.zero);
+            Ui.KeyHint(hints.transform, "W A S D · 방향키", "이동");
+            ground = PrepYardProjection.Ground(new Vector2(1920f, 850f));
+            PlaceHero();
+        }
+
+        Mesh Sprite(string name, Material material)
+        {
+            var obj = new GameObject(name, typeof(MeshFilter), typeof(MeshRenderer));
+            obj.layer = YardLayer; obj.transform.SetParent(world.transform, false);
+            var mesh = Own(new Mesh { name = name });
+            obj.GetComponent<MeshFilter>().sharedMesh = mesh;
+            var renderer = obj.GetComponent<MeshRenderer>();
+            renderer.sharedMaterial = material;
+            renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            renderer.receiveShadows = false;
+            return mesh;
+        }
+
+        static Mesh ObstacleMesh(Vector2[] polygon)
+        {
+            int n = polygon.Length;
+            var vertices = new Vector3[n * 2]; var triangles = new List<int>();
+            for (int i = 0; i < n; i++)
+            {
+                Vector2 p = PrepYardProjection.Ground(polygon[i]);
+                vertices[i] = new Vector3(p.x, 0f, p.y); vertices[i + n] = vertices[i] + Vector3.up * 3f;
+                int j = (i + 1) % n;
+                triangles.AddRange(new[] { i, j, j + n, i, j + n, i + n });
+            }
+            var mesh = new Mesh { name = "Prep Obstacle Sides" };
+            mesh.vertices = vertices; mesh.triangles = triangles.ToArray(); mesh.RecalculateNormals();
+            return mesh;
+        }
+
+        public void AddStation(string name, float x, Color color, Action use)
+        {
+            var data = Array.Find(layout.stations, p => p.name == name);
+            if (data == null) throw new InvalidOperationException("정비 장소 좌표 없음: " + name);
+            var station = new Station { Name = name, X = data.x, Use = use, Place = data };
+            var obj = new GameObject("Trigger " + data.id, typeof(BoxCollider));
+            obj.transform.SetParent(world.transform, false);
+            Vector2 a = PrepYardProjection.Ground(new Vector2(data.rect[0], data.rect[1]));
+            Vector2 b = PrepYardProjection.Ground(new Vector2(data.rect[0] + data.rect[2], data.rect[1] + data.rect[3]));
+            station.Trigger = obj.GetComponent<BoxCollider>(); station.Trigger.isTrigger = true;
+            station.Trigger.center = new Vector3((a.x + b.x) / 2f, 0.85f, (a.y + b.y) / 2f);
+            station.Trigger.size = new Vector3(Mathf.Abs(b.x - a.x), 1.7f, Mathf.Abs(b.y - a.y));
+            Image plate = Ui.Panel(strip, "Place " + name, UiPanel.Plate); plate.raycastTarget = false;
+            Ui.Place(plate.rectTransform, Vector2.zero, new Vector2(data.x, 1080f - data.y + 180f), new Vector2(240f, 52f), new Vector2(0.5f, 0.5f));
+            Text sign = Ui.Label(plate.transform, "Name", name, UiTokens.H2, UiTokens.BrassLight, TextAnchor.MiddleCenter, true);
+            Ui.Stretch(sign.rectTransform); station.Sign = plate.rectTransform; stations.Add(station);
+            prompt.SetAsLastSibling();
         }
 
         void Update()
         {
-            bool free = blocker == null || blocker.interactable;
-            if (confirm != null) free = false;
-            var keyboard = Keyboard.current;
-            float move = 0f;
-            if (free && keyboard != null)
+            var keyboard = Keyboard.current; Vector2 input = Vector2.zero;
+            if (CanMove && keyboard != null)
             {
-                if (keyboard.aKey.isPressed || keyboard.leftArrowKey.isPressed) move -= 1f;
-                if (keyboard.dKey.isPressed || keyboard.rightArrowKey.isPressed) move += 1f;
+                if (keyboard.aKey.isPressed || keyboard.leftArrowKey.isPressed) input.x -= 1f;
+                if (keyboard.dKey.isPressed || keyboard.rightArrowKey.isPressed) input.x += 1f;
+                if (keyboard.wKey.isPressed || keyboard.upArrowKey.isPressed) input.y += 1f;
+                if (keyboard.sKey.isPressed || keyboard.downArrowKey.isPressed) input.y -= 1f;
             }
-
-            if (move != 0f)
-            {
-                heroX = Mathf.Clamp(heroX + move * WalkSpeed * Time.unscaledDeltaTime, 120f, YardWidth - 120f);
-                facingRight = move > 0f;
-            }
-
-            Station near = Nearest();
-            if (free && near != null && keyboard != null && (keyboard.eKey.wasPressedThisFrame || keyboard.spaceKey.wasPressedThisFrame))
-                near.Use?.Invoke();
-
-            Animate(move != 0f);
-            Place();
-            bool show = free && near != null;
-            if (prompt.gameObject.activeSelf != show)
-            {
-                if (show) UiAppear.Show(prompt.gameObject);   // 자리는 매 프레임 따라가므로 밀지 않고 나타나기만
-                else prompt.gameObject.SetActive(false);
-            }
-
-            if (near != null) prompt.anchoredPosition = new Vector2(near.X, GroundY + 378f);
-            foreach (Station s in stations)
-                if (s.Sign != null) s.Sign.localScale = Vector3.one * Mathf.MoveTowards(s.Sign.localScale.x, s == near ? 1.08f : 1f, Time.unscaledDeltaTime * 1.2f);   // 가까운 간판이 살짝 커진다
+            walking = Move(input, Time.unscaledDeltaTime);
+            if (CanMove && keyboard != null && (keyboard.eKey.wasPressedThisFrame || keyboard.spaceKey.wasPressedThisFrame)) Nearest()?.Use?.Invoke();
+            PlaceHero();
         }
 
-        // 시험·마우스용: 장소 이름으로 바로 들어가기 (E와 같은 길)
-        public bool Use(string stationName)
+        public bool CanStand(Vector2 point)
         {
-            Station station = stations.Find(s => s.Name == stationName);
-            if (station == null) return false;
-            heroX = station.X;
-            station.Use?.Invoke();
+            if (!PrepYardProjection.Walkable(mask, point)) return false;
+            Vector3 position = world.transform.position + new Vector3(point.x, 0f, point.y);
+            foreach (Collider obstacle in obstacles)
+                if (Physics.ComputePenetration(body, position, Quaternion.identity, obstacle, obstacle.transform.position,
+                    obstacle.transform.rotation, out _, out _)) return false;
             return true;
+        }
+
+        // 작은 간격으로 검사해 낮은 프레임에서도 장애물을 건너뛰지 않고 벽을 따라 미끄러진다.
+        public bool Move(Vector2 input, float seconds)
+        {
+            if (!CanMove || seconds <= 0f || input.sqrMagnitude < 0.001f) return false;
+            input = Vector2.ClampMagnitude(input, 1f); facing = input;
+            Vector2 before = ground, delta = input * WalkSpeed * Mathf.Min(seconds, 0.25f);
+            int steps = Mathf.Max(1, Mathf.CeilToInt(delta.magnitude / 0.04f)); delta /= steps;
+            for (int i = 0; i < steps; i++)
+            {
+                Vector2 p = ground + new Vector2(delta.x, 0f); if (CanStand(p)) ground = p;
+                p = ground + new Vector2(0f, delta.y); if (CanStand(p)) ground = p;
+            }
+            return (ground - before).sqrMagnitude > 0.000001f;
+        }
+
+        public bool SetGround(Vector2 position)
+        {
+            if (!CanMove || !CanStand(position)) return false;
+            ground = position; walking = false; PlaceHero(); return true;
         }
 
         public Station Nearest()
         {
-            Station best = null;
-            float bestDistance = Reach;
-            foreach (Station s in stations)
-            {
-                float d = Mathf.Abs(s.X - heroX);
-                if (d <= bestDistance) { bestDistance = d; best = s; }
-            }
-
-            return best;
+            Vector2 pixel = HeroPixel;
+            return stations.Find(s => new Rect(s.Place.rect[0], s.Place.rect[1], s.Place.rect[2], s.Place.rect[3]).Contains(pixel));
         }
 
-        // 계단: '다음 전투를 시작할까요?' 확인 창 (D-076)
+        // 시험용 바로가기. 일반 플레이는 장소까지 이동한 뒤 E를 누른다.
+        public bool Use(string stationName)
+        {
+            if (!CanMove) return false;
+            Station station = stations.Find(s => s.Name == stationName);
+            if (station == null || !SetGround(PrepYardProjection.Ground(new Vector2(station.Place.x, station.Place.y)))) return false;
+            station.Use?.Invoke(); return true;
+        }
+
         public void AskNextBattle(Action start)
         {
             if (confirm != null) return;
-            // 화면 맨 위 층 (Ui.Confirm: 어둠막 + 양피지 확인 창, 출정 = 황동)
             confirm = Ui.Confirm(transform.parent, "성벽 위로 올라갈까요?", "다음 전투가 바로 시작됩니다",
                 "다음 전투 시작", "출정", () => { confirm = null; start?.Invoke(); },
                 "더 둘러보기", "더 둘러보기", () => confirm = null);
         }
 
-        // 주인공: 걸으면 옆모습 걷기 행(1), 서 있으면 앞모습 행(3) 첫 칸. 시트 옆모습은 왼쪽을 보므로 오른쪽이면 뒤집는다
-        void Animate(bool walking)
+        static void Quad(Mesh mesh, Vector3 right, Vector3 up, Vector3 origin, float width, float height, float pivot)
         {
-            if (heroSheet == null) return;
-            int row = walking ? 1 : Mathf.Min(3, sheetRows - 1);
-            int column = walking ? (int)(Time.unscaledTime * WalkFps) % sheetColumns : 0;
-            float w = 1f / sheetColumns, h = 1f / sheetRows;
-            bool flip = walking && facingRight;
-            heroImage.uvRect = new UnityEngine.Rect(flip ? (column + 1) * w : column * w, 1f - (row + 1) * h, flip ? -w : w, h);
+            mesh.vertices = new[] { origin - right * width / 2f - up * height * pivot,
+                origin + right * width / 2f - up * height * pivot,
+                origin + right * width / 2f + up * height * (1f - pivot), origin - right * width / 2f + up * height * (1f - pivot) };
+            mesh.uv = new[] { Vector2.zero, Vector2.right, Vector2.one, Vector2.up };
+            mesh.triangles = new[] { 0, 1, 2, 0, 2, 3 }; mesh.RecalculateBounds();
         }
 
-        // 마당 띠를 옮겨 주인공이 화면 가운데쯤 오게 (끝에서는 멈춤)
-        void Place()
+        void PlaceHero()
         {
-            hero.anchoredPosition = new Vector2(heroX, GroundY - 30f);
-            var parent = (RectTransform)strip.parent;
-            float view = parent.rect.width > 1f ? parent.rect.width : 1920f;
-            float offset = Mathf.Clamp(view / 2f - heroX, view - YardWidth, 0f);
-            strip.anchoredPosition = new Vector2(offset, 0f);
+            Vector2 pixel = HeroPixel;
+            float height = viewport.rect.height > 1f ? viewport.rect.height : 1080f, scale = height / 1080f;
+            float width = viewport.rect.width > 1f ? viewport.rect.width / scale : 1920f;
+            strip.localScale = Vector3.one * scale;
+            strip.anchoredPosition = new Vector2(Mathf.Clamp(width / 2f - pixel.x, Mathf.Min(0f, width - 3840f), 0f) * scale, 0f);
+            body.transform.localPosition = new Vector3(ground.x, 0f, ground.y);
+            foreach (var o in overlays) o.image.enabled = pixel.y <= o.data.row;
+            Station near = Nearest(); prompt.gameObject.SetActive(CanMove && near != null);
+            if (near != null) prompt.anchoredPosition = new Vector2(near.X, 1080f - near.Place.y + 90f);
+            Texture2D texture = heroSheet;
+            int row = Mathf.Abs(facing.y) > Mathf.Abs(facing.x) ? (facing.y > 0f ? 0 : 3) : 1;
+            row = Mathf.Min(row, rows - 1);
+            int column = walking ? (int)(Time.unscaledTime * 8f) % columns : 0, cols = columns, rowCount = rows;
+            float localFoot = foot, localWidth = cellWidth, localFigure = figure;
+            if (!walking && facing.y > 0f && idleSheet != null)
+            {
+                texture = idleSheet; cols = rowCount = 1; column = row = 0;
+                localWidth = idleSheet.width; localFoot = localWidth == 288f ? 360f : 352f; localFigure = localWidth == 288f ? 219f : 300f;
+            }
+            if (texture == null) return;
+            bool flip = row == 1 && facing.x > 0f;
+            Vector4 uv = new Vector4((column + (flip ? 1 : 0)) / (float)cols,
+                1f - (row + 1f) / rowCount, (flip ? -1f : 1f) / cols, 1f / rowCount);
+            heroMaterial.SetTexture("_BaseMap", texture); heroMaterial.SetVector("_UVRect", uv);
+            shadowMaterial.SetTexture("_BaseMap", texture); shadowMaterial.SetVector("_UVRect", uv);
+            float cellHeight = texture.height / (float)rowCount;
+            float h = cellHeight * 1.7f / localFigure, w = localWidth * 1.7f / localFigure, pivot = (cellHeight - localFoot) / cellHeight;
+            Vector3 origin = new Vector3(ground.x, 0f, ground.y);
+            Quad(heroMesh, yardCamera.transform.right, yardCamera.transform.up, origin, w, h, pivot);
+            // 바닥에 놓인 동적 실루엣. 배경에 이미 그려진 고정 그림자는 그대로 둔다.
+            Quad(shadowMesh, Vector3.right, new Vector3(0.32f, 0f, 0.62f), origin + Vector3.up * 0.012f, w, h, pivot);
         }
 
-        static RectTransform Block(RectTransform parent, string name, Vector2 center, Vector2 size, Color color, bool centered = false)
+        void OnDestroy()
         {
-            var obj = new GameObject(name, typeof(RectTransform), typeof(Image));
-            obj.transform.SetParent(parent, false);
-            var rect = (RectTransform)obj.transform;
-            rect.anchorMin = rect.anchorMax = centered ? new Vector2(0.5f, 0.5f) : Vector2.zero;
-            rect.anchoredPosition = center;
-            rect.sizeDelta = size;
-            var image = obj.GetComponent<Image>();
-            image.color = color;
-            image.raycastTarget = false;
-            return rect;
+            if (yardCamera != null) yardCamera.targetTexture = null;
+            if (target != null) target.Release();
+            if (world != null) Destroy(world);
+            foreach (var obj in owned) if (obj != null) Destroy(obj);
         }
     }
 }

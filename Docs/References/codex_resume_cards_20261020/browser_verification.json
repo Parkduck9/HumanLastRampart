@@ -1,0 +1,21 @@
+{
+  "k081": {
+    "pause_step": true,
+    "wizard_sheets_selected": 4,
+    "capture": "resume_v2_browser.png",
+    "console_errors": 0
+  },
+  "k091": {
+    "capture": "browser_review.png",
+    "images": 49,
+    "broken": 0
+  },
+  "k095": {
+    "pause_step": true,
+    "capture": "review/browser_review.png",
+    "images": 28,
+    "broken": 0,
+    "console_errors": 0
+  },
+  "date": "2026-10-21"
+}

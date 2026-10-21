@@ -1,0 +1,7 @@
+4,200명 · 시험 성벽 80m: 기존 40m 성능 기준과 직접 비교하지 않음
+설정: 현실 4번, 적 배율 1.5, 병사 4208명, 적 최대 동시 50000, 화면 640×480, 그래픽 Direct3D12 NVIDIA GeForce RTX 3060, 프레임 통계 기능 True, 배치 실행 — 카메라 직접 그리기 1920×1080로 그리기 시간 측정
+① 초반 (맑은 낮, 효과 켬): 프레임 평균 8.24ms (약 121fps) · 상위 1% 61.9ms · 최대 61.9ms · 게임 8초 · 처치 616
+    계수기: Main Thread 6.20ms(최대 11.5) · CPU Main Thread Frame Time 6.09ms(최대 11.3) · CPU Render Thread Frame Time 0.00ms(최대 0.0) · GPU Frame Time 0.00ms(최대 0.0) · Draw Calls Count 132 (최대 134) · Batches Count 132 (최대 134) · SetPass Calls Count 119 (최대 121) · Triangles Count 333911 (최대 333923) · GC Allocated In Frame 2989 (최대 5352)
+    FrameTimingManager: 메인 7.98ms · GPU 0.00ms
+    카메라 직접 그리기 1920×1080 (GPU 완료까지): 평균 5.90ms · 상위 1% 57.4ms · 최대 57.4ms — 위 프레임 시간에 이미 들어 있다
+중반·마법 측정 보류: 전투가 21.8초에 끝나 75초 조건에 도달하지 못함. 종료 화면을 전투 성능으로 집계하지 않음.

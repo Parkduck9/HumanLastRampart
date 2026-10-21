@@ -64,6 +64,21 @@ namespace HumanLastRampart.Core.Tests
         }
 
         [Test]
+        public void FreeTrapCoordinates_SaveAndLoadWithoutLosingLegacyCellTrap()
+        {
+            CampaignState original = Sample();
+            original.Traps.Add(new TrapPlacement { TrapId = "trap_free", TrapDefId = "trap_bomb", TerrainId = "terrain_1",
+                SlotId = "free:0.375:40.625", ActualX = .375f, ActualZ = 40.625f, Marked = true, MarkX = .375f, MarkZ = 40.625f });
+            Assert.IsTrue(CampaignSave.Save(original, ScreenId.Prep, out string error), error);
+            Assert.IsTrue(CampaignSave.TryLoad(out CampaignState loaded, out _, out error), error);
+            Assert.AreEqual("cell_0_2_3", loaded.Traps[0].SlotId, "기존 칸 저장 유지");
+            Assert.AreEqual("free:0.375:40.625", loaded.Traps[1].SlotId);
+            Assert.AreEqual(.375f, loaded.Traps[1].ActualX);
+            Assert.AreEqual(40.625f, loaded.Traps[1].ActualZ);
+            Assert.AreEqual(JsonUtility.ToJson(original), JsonUtility.ToJson(loaded));
+        }
+
+        [Test]
         public void Peek_ShowsBattleAndDifficulty()
         {
             Assert.IsFalse(CampaignSave.TryPeek(out _), "저장 없음");

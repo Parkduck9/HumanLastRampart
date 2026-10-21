@@ -15,6 +15,54 @@ namespace HumanLastRampart.Core.Traps
 
         public static string CellId(int side, int column, int row) => $"cell_{side}_{column}_{row}";
 
+        // 새 함정은 격자에 붙이지 않는다. 왕복 가능한 소수 문자열로 실제 클릭 좌표를 보존한다.
+        public static string FreeId(float x, float z) => "free:" + x.ToString("R", CultureInfo.InvariantCulture)
+            + ":" + z.ToString("R", CultureInfo.InvariantCulture);
+
+        public static bool TryParseFree(string id, out Vector2 point)
+        {
+            point = default;
+            if (string.IsNullOrEmpty(id) || !id.StartsWith("free:")) return false;
+            string[] parts = id.Split(':');
+            if ((parts.Length != 3 && parts.Length != 4)
+                || !float.TryParse(parts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out float x)
+                || !float.TryParse(parts[2], NumberStyles.Float, CultureInfo.InvariantCulture, out float z)
+                || !Finite(x) || !Finite(z)) return false;
+            // 기존 자유 지형 이름표와 같은 회전 0 표기도 읽는다. 함정에는 회전이 없다.
+            if (parts.Length == 4 && (!float.TryParse(parts[3], NumberStyles.Float, CultureInfo.InvariantCulture, out float rotation) || rotation != 0f)) return false;
+            point = new Vector2(x, z);
+            return true;
+        }
+
+        public static bool TryPosition(TerrainDef terrain, string id, out Vector2 point)
+        {
+            if (TryParseFree(id, out point)) return terrain != null;
+            if (terrain == null || !TryParse(id, out int side, out int column, out int row)
+                || column >= Columns(terrain) || row >= Rows(terrain)) return false;
+            point = Center(terrain, side, column, row);
+            return true;
+        }
+
+        // 네모 성의 모서리도 포함한다. 함정 띠는 가장 가까운 성벽 면에서의 거리다.
+        public static bool InBand(TerrainDef terrain, Vector2 point)
+        {
+            if (terrain == null || !Finite(point.x) || !Finite(point.y)) return false;
+            float distance = TerrainLayout.WallDistance(terrain.CastleHalfSize, point);
+            return distance >= terrain.TrapNear && distance <= terrain.TrapFar
+                && Mathf.Abs(point.x) <= terrain.FieldSize && Mathf.Abs(point.y) <= terrain.FieldSize;
+        }
+
+        public static bool IsPlaceablePoint(TerrainDef terrain, TerrainLayout layout, Vector2 point)
+        {
+            if (!InBand(terrain, point)) return false;
+            if (layout != null) return layout.CellOf(point.x, point.y) >= 0 && TerrainCell.TrapGround(layout.KindAt(point.x, point.y));
+            foreach (Vector3 hill in terrain.Hills)
+                if ((point - new Vector2(hill.x, hill.z)).sqrMagnitude <= hill.y * hill.y) return false;
+            return true;
+        }
+
+        static bool Finite(float value) => !float.IsNaN(value) && !float.IsInfinity(value);
+
         public static bool TryParse(string cellId, out int side, out int column, out int row)
         {
             side = column = row = -1;

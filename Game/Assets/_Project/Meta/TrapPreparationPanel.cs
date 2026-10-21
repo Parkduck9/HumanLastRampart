@@ -47,12 +47,14 @@ namespace HumanLastRampart.Meta
         // 자유 배치 (사용자 2026-10-20): 토벽·언덕은 칸 없이 지도 아무 곳에, 오른쪽 누르기로 45도씩 돌려 놓는다
         RectTransform mapRect, pieceLayer, workerLayer, ghostCover;
         GameObject freeInput;
-        Image ghost;
+        Image ghost, ghostRadius;
+        Sprite radiusRing;
         float mapScale, freeRotation;
         Vector2? hoverMeters;
         Sprite earthwallFull;
         static readonly Color GhostOk = new Color(0.75f, 1f, 0.7f, 0.75f), GhostBad = new Color(1f, 0.3f, 0.25f, 0.7f);
-        bool FreeMode => terrainTab && (action == TerrainAction.EarthWall || action == TerrainAction.Hill);
+        bool FreeMode => !terrainTab || action == TerrainAction.EarthWall || action == TerrainAction.Hill;
+        TrapDef SelectedTrap => context.Definitions.All<TrapDef>()[kind % context.Definitions.All<TrapDef>().Count];
 
         public static void Show(Button source, IScreenContext context, TrapPreparationTransactions session, PreparationTransactions preparation)
         { if (source != null && source.IsInteractable()) new TrapPreparationPanel(source, context, session, preparation); }
@@ -167,12 +169,17 @@ namespace HumanLastRampart.Meta
             var placer = freeInput.AddComponent<FreePlacementInput>();
             placer.Moved = local => { hoverMeters = local / mapScale; PaintGhost(); };
             placer.Left = () => { hoverMeters = null; PaintGhost(); };
-            placer.Rotated = () => { freeRotation = Mathf.Repeat(freeRotation + TerrainRules.FreeRotateStep, 180f); };
-            placer.Placed = local => PlaceFree(TerrainRules.PieceAnchor(session.Layout, local / mapScale, freeRotation));
+            placer.Rotated = () => { if (terrainTab) freeRotation = Mathf.Repeat(freeRotation + TerrainRules.FreeRotateStep, 180f); };
+            placer.Placed = local => PlaceFree(terrainTab ? TerrainRules.PieceAnchor(session.Layout, local / mapScale, freeRotation) : local / mapScale);
             ghostCover = Layer(input.rectTransform, "Ghost Cover");
             ghost = Ui.Image(freeInput.transform, "Ghost", GhostOk);
             ghost.raycastTarget = false;
             ghost.gameObject.SetActive(false);
+            radiusRing = MakeRadiusRing();
+            ghostRadius = Ui.Image(freeInput.transform, "Trap Blast Radius", GhostOk);
+            ghostRadius.sprite = radiusRing;
+            ghostRadius.raycastTarget = false;
+            ghostRadius.gameObject.SetActive(false);
             workerLayer = Layer(map, "Free Workers");
         }
 
@@ -229,7 +236,19 @@ namespace HumanLastRampart.Meta
             bool show = FreeMode && hoverMeters.HasValue;
             ghost.gameObject.SetActive(show);
             ghostCover.gameObject.SetActive(show);
+            ghostRadius.gameObject.SetActive(show && !terrainTab);
             if (!show) return;
+            if (!terrainTab)
+            {
+                Vector2 at = hoverMeters.Value;
+                DressTrap(ghost, at);
+                bool valid = session.CanPick(SelectedTrap.Id, TrapGrid.FreeId(at.x, at.y), picked);
+                ghost.color = valid ? GhostOk : GhostBad;
+                DressRadius(ghostRadius, at, SelectedTrap.DamageRadius);
+                ghostRadius.color = ghost.color;
+                ghostCover.gameObject.SetActive(false);
+                return;
+            }
             Vector2 p = TerrainRules.PieceAnchor(session.Layout, hoverMeters.Value, freeRotation);   // 칸에 붙는다
             DressPiece(ghost, FreeKind, p, freeRotation);
             bool ok = works.CanTarget(action, TerrainRules.FreeId(p.x, p.y, freeRotation), picked);
@@ -252,6 +271,18 @@ namespace HumanLastRampart.Meta
         // 왼쪽 누르기: 고른 조각을 다시 누르면 빼고, 아니면 놓을 수 있을 때 고른다
         void PlaceFree(Vector2 p)
         {
+            if (!terrainTab)
+            {
+                for (int k = picked.Count - 1; k >= 0; k--)
+                    if (TrapGrid.TryPosition(session.Terrain, picked[k], out Vector2 at)
+                        && (at - p).sqrMagnitude <= 4f)
+                    { picked.RemoveAt(k); message = null; Render(); return; }
+                string trapId = TrapGrid.FreeId(p.x, p.y);
+                if (session.CanPick(SelectedTrap.Id, trapId, picked)) { picked.Add(trapId); message = null; }
+                else { message = "놓을 수 없습니다 — 함정 구역의 빈 땅, 다른 함정의 폭발 반경 밖을 골라 주세요"; messageBad = true; }
+                Render();
+                return;
+            }
             // p = 기준 칸 가운데. 고른 조각과 같은 기준 칸이면 뺀다
             for (int k = picked.Count - 1; k >= 0; k--)
             {
@@ -292,6 +323,27 @@ namespace HumanLastRampart.Meta
                     }
                 }
 
+            // 구형 칸 저장도 실제 좌표에 표시한다. 설치한 함정은 환불·회수하지 않는다.
+            foreach (var trap in session.Campaign.Traps)
+            {
+                if (trap == null || trap.TerrainId != session.Terrain.Id) continue;
+                Image buried = Ui.Image(pieceLayer, "Buried " + trap.TrapId, Color.white);
+                DressTrap(buried, new Vector2(trap.ActualX, trap.ActualZ));
+                buried.raycastTarget = false;
+            }
+            if (!terrainTab)
+            {
+                foreach (string id in picked)
+                {
+                    if (!TrapGrid.TryPosition(session.Terrain, id, out Vector2 at)) continue;
+                    Image ring = Ui.Image(pieceLayer, "Picked radius " + id, new Color(1f, .85f, .45f, .65f));
+                    ring.sprite = radiusRing; ring.raycastTarget = false;
+                    DressRadius(ring, at, SelectedTrap.DamageRadius);
+                    Image chosen = Ui.Image(pieceLayer, "Picked " + id, new Color(1f, .85f, .45f));
+                    DressTrap(chosen, at); chosen.raycastTarget = false;
+                }
+                return;
+            }
             if (!FreeMode) return;
             foreach (string id in picked)
             {
@@ -301,6 +353,40 @@ namespace HumanLastRampart.Meta
                 DressPiece(image, FreeKind, new Vector2(x, z), rotation);
                 image.raycastTarget = false;
             }
+        }
+
+        void DressTrap(Image image, Vector2 at)
+        {
+            image.sprite = trapBuried;
+            var rect = image.rectTransform;
+            rect.anchorMin = rect.anchorMax = rect.pivot = new Vector2(.5f, .5f);
+            rect.anchoredPosition = at * mapScale;
+            rect.sizeDelta = Vector2.one * Mathf.Max(16f, 4f * mapScale);
+            rect.localRotation = Quaternion.identity;
+        }
+
+        void DressRadius(Image image, Vector2 at, float radius)
+        {
+            var rect = image.rectTransform;
+            rect.anchorMin = rect.anchorMax = rect.pivot = new Vector2(.5f, .5f);
+            rect.anchoredPosition = at * mapScale;
+            rect.sizeDelta = Vector2.one * radius * 2f * mapScale;
+        }
+
+        Sprite MakeRadiusRing()
+        {
+            const int size = 128;
+            var texture = new Texture2D(size, size, TextureFormat.RGBA32, false) { name = "Trap radius ring", filterMode = FilterMode.Bilinear };
+            var pixels = new Color32[size * size];
+            for (int y = 0; y < size; y++)
+                for (int x = 0; x < size; x++)
+                {
+                    float distance = Vector2.Distance(new Vector2(x + .5f, y + .5f), Vector2.one * size * .5f);
+                    pixels[y * size + x] = new Color32(255, 255, 255, (byte)(distance >= 60f && distance <= 63f ? 255 : 0));
+                }
+            texture.SetPixels32(pixels); texture.Apply(false, true); owned.Add(texture);
+            var sprite = Sprite.Create(texture, new Rect(0, 0, size, size), Vector2.one * .5f, 100f);
+            owned.Add(sprite); return sprite;
         }
 
         // K-029 타일로 땅 그림 한 장 만들기 (5m = 32화소): 풀 2종 섞기, 언덕 3단계, 무작위 지형의 나무·바위 덩이(K-049), 성 안 흙 + 성 둘레 그림
@@ -566,7 +652,7 @@ namespace HumanLastRampart.Meta
             {
                 int index = i;
                 var d = defs[i];
-                Button chip = Ui.Button(kinds.transform, "함정:" + d.Id, d.DisplayName, () => { if (kind == index) return; kind = index; message = null; Render(); }, UiButtonKind.Tab);
+                Button chip = Ui.Button(kinds.transform, "함정:" + d.Id, d.DisplayName, () => { if (kind == index) return; kind = index; picked.Clear(); message = null; Render(); }, UiButtonKind.Tab);
                 Ui.Size(chip, 232f, 72f);
                 Text label = Ui.LabelOf(chip);
                 label.alignment = TextAnchor.UpperCenter;
@@ -592,11 +678,11 @@ namespace HumanLastRampart.Meta
             LegendRow("묻힘");
 
             bool ok = session.CanBuyMany(def.Id, picked, storage, out int cost, out string why);
-            PriceLine(ok, cost, why, "지도에서 칸을 누르기");
+            PriceLine(ok, cost, why, "지도에서 위치 고르기 · 다시 누르면 선택 해제");
 
             HorizontalLayoutGroup act = Ui.Row(side, "Actions", UiTokens.S16);
             Ui.Size(act, -1f, 64f);
-            var buy = Ui.Button(act.transform, BuyLabel, picked.Count > 0 ? $"{picked.Count}칸 묻기" : "묻기", Buy, UiButtonKind.Primary);
+            var buy = Ui.Button(act.transform, BuyLabel, picked.Count > 0 ? $"{picked.Count}개 묻기" : "묻기", Buy, UiButtonKind.Primary);
             Ui.Size(buy, 288f, 64f);
             buy.interactable = ok;
             ClearButton(act.transform);
@@ -730,8 +816,8 @@ namespace HumanLastRampart.Meta
             var cells = new List<string>(picked);
             bool ok = session.TryBuyMany(def.Id, cells, storage, marked, out int placed, out int spent, out string reason, out bool error);
             if (error) { DataError(reason); return; }
-            message = ok ? $"{placed}칸에 묻었습니다" + (spent > 0 ? $" · {spent:N0}골드" : "")
-                : placed > 0 ? $"{placed}칸만 묻었습니다 · {reason}" : reason;
+            message = ok ? $"{placed}개 묻었습니다" + (spent > 0 ? $" · {spent:N0}골드" : "")
+                : placed > 0 ? $"{placed}개만 묻었습니다 · {reason}" : reason;
             messageBad = !ok;
             if (ok || placed > 0) picked.Clear();
             preparation.CancelQuote();

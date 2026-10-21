@@ -129,8 +129,7 @@ public sealed partial class PlayProbe
         bool look0 = HumanLastRampart.Combat.Render.BattleLook.Enabled;
         var recorders = new TimingRecorders();
         bool batch = Application.isBatchMode;
-        if (batch) renderTimer = new GameObject("PlayProbe Render Timer").AddComponent<ProbeRenderTimer>();
-        else Screen.SetResolution(1920, 1080, FullScreenMode.Windowed);   // 창 실행: 실제 화면을 1920×1080으로
+        if (!batch) Screen.SetResolution(1920, 1080, FullScreenMode.Windowed);   // 창 실행: 실제 화면을 1920×1080으로
         CrowdedProbeTerrain crowdedTerrain = null;
         try
         {
@@ -156,6 +155,8 @@ public sealed partial class PlayProbe
             Assert.IsNotNull(story, "스토리 재생기");
             story.Skip();
             yield return WaitScreen(ScreenId.Battle, 900);
+            // 마지막 장면 전환이 끝난 뒤 만들어야 측정 중 지워지지 않는다.
+            if (batch) renderTimer = new GameObject("PlayProbe Render Timer").AddComponent<ProbeRenderTimer>();
 
             BattleSetup setup = c.ActiveBattleSetup;
             var f = setup.Forecast; f.InitialWeather = Weather.Clear; f.TimeOfDay = TimeOfDay.Day; f.Changes = false; setup.Forecast = f;   // 맑은 낮으로 고정 (비교 기준)
@@ -177,6 +178,11 @@ public sealed partial class PlayProbe
             // ② 적이 성벽에 몰린 중반: 게임 시간 75초까지 (×4)
             yield return Press("×4", 120);
             for (int i = 0; i < 6000 && sim.Elapsed < 75f && !sim.Ended; i++) yield return null;
+            if (sim.Ended)
+            {
+                Note($"중반·마법 측정 보류: 전투가 {sim.Elapsed:0.0}초에 끝나 75초 조건에 도달하지 못함. 종료 화면을 전투 성능으로 집계하지 않음.");
+                yield break;
+            }
             yield return Press("×1", 120);
             yield return MeasureWindow("② 중반 (성벽에 몰림, 효과 켬)", sim, recorders);
             yield return Capture("timing_2_mid");
@@ -267,6 +273,11 @@ public sealed partial class PlayProbe
         Note($"{title}: 프레임 평균 {avg:0.00}ms (약 {1000.0 / avg:0}fps) · 상위 1% {top1:0.0}ms · 최대 {times[times.Count - 1]:0.0}ms · 게임 {sim.Elapsed:0}초 · 처치 {sim.Kills}");
         Note($"    계수기: {recorders.Summary(frames)}");
         Note(timingCount > 0 ? $"    FrameTimingManager: 메인 {cpuSum / timingCount:0.00}ms · GPU {gpuSum / timingCount:0.00}ms" : "    FrameTimingManager: 값 없음 (프로젝트 설정 Frame Timing Stats 꺼짐 또는 배치 실행)");
+        if (Application.isBatchMode)
+        {
+            Assert.IsNotNull(renderTimer, "배치 그리기 측정기는 장면 전환 뒤에도 살아 있어야 함");
+            Assert.Greater(renderTimer.Samples.Count, 0, "실제 카메라 그리기 표본 없이 성능 측정 통과 금지");
+        }
         if (renderTimer != null && renderTimer.Samples.Count > 0)
         {
             var draw = new List<double>(renderTimer.Samples);

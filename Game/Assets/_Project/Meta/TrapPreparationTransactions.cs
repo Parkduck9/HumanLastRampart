@@ -5,6 +5,7 @@ using System.Text;
 using HumanLastRampart.Core.Campaign;
 using HumanLastRampart.Core.Definitions;
 using HumanLastRampart.Core.Traps;
+using UnityEngine;
 
 namespace HumanLastRampart.Meta
 {
@@ -76,7 +77,8 @@ namespace HumanLastRampart.Meta
         }
 
         // 함정을 놓을 수 있는 칸 (격자 범위·정의 언덕 + 무작위 지형·지형 손질)
-        public bool IsPlaceable(string cellId) => terrain != null && TrapGrid.IsPlaceable(terrain, Layout, cellId);
+        public bool IsPlaceable(string cellId) => TrapGrid.TryPosition(terrain, cellId, out Vector2 point)
+            && TrapGrid.IsPlaceablePoint(terrain, Layout, point);
         public CampaignState Campaign => campaign;
         public bool IsClosed => closed;
 
@@ -84,7 +86,32 @@ namespace HumanLastRampart.Meta
         public void CancelQuote() { active = null; }
         public int ShopCount(string id) => campaign.TrapShop.Find(e => e.TrapDefId == id)?.Count ?? 0;
         public int StoredCount(string id) => campaign.TrapStock.Find(e => e.TrapDefId == id)?.Count ?? 0;
-        public bool Occupied(string cellId) => terrain != null && campaign.Traps.Exists(t => t.TerrainId == terrain.Id && t.SlotId == cellId);
+        // 지형 손질의 칸 점유 판정도 실제 위치를 본다 (폭발로 밀린 함정 포함).
+        public bool Occupied(string cellId)
+        {
+            if (!TrapGrid.TryPosition(terrain, cellId, out Vector2 point)) return false;
+            int cell = Layout.CellOf(point.x, point.y);
+            return campaign.Traps.Exists(t => t != null && t.TerrainId == terrain.Id && Layout.CellOf(t.ActualX, t.ActualZ) == cell);
+        }
+
+        public float Radius(string definitionId) => definitions.Get<TrapDef>(definitionId)?.DamageRadius ?? 0f;
+
+        public bool CanPick(string definitionId, string id, IReadOnlyList<string> picked)
+        {
+            var def = definitions.Get<TrapDef>(definitionId);
+            if (closed || def == null || !IsPlaceable(id) || !TrapGrid.TryPosition(terrain, id, out Vector2 point)) return false;
+            foreach (var trap in campaign.Traps)
+            {
+                if (trap == null || trap.TerrainId != terrain.Id) continue;
+                float radius = Mathf.Max(def.DamageRadius, Radius(trap.TrapDefId));
+                if ((point - new Vector2(trap.ActualX, trap.ActualZ)).sqrMagnitude <= radius * radius) return false;
+            }
+            if (picked != null)
+                foreach (string other in picked)
+                    if (TrapGrid.TryPosition(terrain, other, out Vector2 at)
+                        && (point - at).sqrMagnitude <= def.DamageRadius * def.DamageRadius) return false;
+            return true;
+        }
 
         public bool TryQuote(string definitionId, string cellId, bool fromStorage, bool marked,
             out Quote quote, out string reason, out bool dataError)
@@ -96,7 +123,7 @@ namespace HumanLastRampart.Meta
             var def = definitions.Get<TrapDef>(definitionId);
             if (def == null) { reason = "함정 정의가 없습니다"; dataError = true; return false; }
             if (!IsPlaceable(cellId)) { reason = "설치할 수 없는 칸입니다"; return false; }
-            if (Occupied(cellId)) { reason = "이미 함정이 설치된 칸입니다"; return false; }
+            if (!CanPick(definitionId, cellId, null)) { reason = "다른 함정의 폭발 반경 안에는 설치할 수 없습니다"; return false; }
             if ((fromStorage ? StoredCount(def.Id) : ShopCount(def.Id)) < 1)
             { reason = fromStorage ? "보관 중인 함정이 없습니다" : "상점 재고가 없습니다"; return false; }
             int cost = fromStorage ? 0 : def.Price;
@@ -114,14 +141,14 @@ namespace HumanLastRampart.Meta
             active = null;
             if (!Validate(out reason)) { dataError = true; return false; }
             if (quote.Stamp != Stamp()) { reason = "상태가 변경됐습니다. 새 견적을 확인해 주세요"; return false; }
-            TrapGrid.TryParse(quote.CellId, out int side, out int column, out int row);
-            var position = TrapGrid.Center(terrain, side, column, row);
+            if (!CanPick(quote.DefinitionId, quote.CellId, null) || !TrapGrid.TryPosition(terrain, quote.CellId, out Vector2 position))
+            { reason = "설치 위치가 변경됐습니다. 새 위치를 골라 주세요"; return false; }
             var traps = campaign.Traps.ConvertAll(t => t.Clone());
             var stock = (quote.FromStorage ? campaign.TrapStock : campaign.TrapShop).ConvertAll(e => e.Clone());
             stock.Find(e => e.TrapDefId == quote.DefinitionId).Count--;
             traps.Add(new TrapPlacement { TrapId = "trap_" + ((long)campaign.NextInstanceNumber + 1), TrapDefId = quote.DefinitionId,
                 TerrainId = terrain.Id, SlotId = quote.CellId, ActualX = position.x, ActualZ = position.y,
-                Marked = quote.Marked, MarkX = quote.Marked ? position.x : 0, MarkZ = quote.Marked ? position.y : 0 });
+                Marked = quote.Marked, MarkX = position.x, MarkZ = position.y });
             campaign.NewInstanceId("trap");
             campaign.Gold -= quote.Cost;
             campaign.Traps = traps;
@@ -141,17 +168,24 @@ namespace HumanLastRampart.Meta
             if (def == null) { reason = "함정 정의가 없습니다"; return false; }
             if (cellIds == null || cellIds.Count == 0) { reason = "설치할 칸을 지도에서 고르세요"; return false; }
             var seen = new HashSet<string>(StringComparer.Ordinal);
+            var prior = new List<string>();
             foreach (string id in cellIds)
             {
                 if (!seen.Add(id)) { reason = "같은 칸을 두 번 골랐습니다"; return false; }
                 if (!IsPlaceable(id)) { reason = "설치할 수 없는 칸이 섞여 있습니다"; return false; }
-                if (Occupied(id)) { reason = "이미 함정이 설치된 칸이 섞여 있습니다"; return false; }
+                if (!CanPick(definitionId, id, prior)) { reason = "폭발 반경 안에 다른 함정이 있는 위치가 섞여 있습니다"; return false; }
+                prior.Add(id);
             }
             int have = fromStorage ? StoredCount(def.Id) : ShopCount(def.Id);
             if (have < cellIds.Count) { reason = $"{(fromStorage ? "보관 중인 함정" : "상점 재고")}이 {have}개뿐입니다"; return false; }
-            cost = fromStorage ? 0 : def.Price * cellIds.Count;
+            long total = fromStorage ? 0L : (long)def.Price * cellIds.Count;
+            if (total > int.MaxValue) { reason = "함정 구매 합계가 너무 큽니다"; return false; }
+            cost = (int)total;
             if (campaign.Gold < cost) { reason = $"골드가 {cost - campaign.Gold:N0} 모자랍니다"; return false; }
             if ((long)campaign.NextInstanceNumber + cellIds.Count >= int.MaxValue) { reason = "함정 ID를 안전하게 발급할 수 없습니다"; return false; }
+            for (int k = 1; k <= cellIds.Count; k++)
+                if (campaign.Traps.Exists(t => t.TrapId == "trap_" + ((long)campaign.NextInstanceNumber + k)))
+                { reason = "함정 ID를 안전하게 발급할 수 없습니다"; return false; }
             return true;
         }
 
@@ -186,7 +220,7 @@ namespace HumanLastRampart.Meta
             var defIds = new HashSet<string>(StringComparer.Ordinal);
             foreach (var def in defs)
                 if (def == null || string.IsNullOrWhiteSpace(def.Id) || !defIds.Add(def.Id) || def.Price < 0 ||
-                    def.ShopStockStart < 0 || def.ShopStockPerPrep < 0 || def.ShopStockMax < def.ShopStockStart)
+                    !Finite(def.DamageRadius) || def.DamageRadius <= 0f || def.ShopStockStart < 0 || def.ShopStockPerPrep < 0 || def.ShopStockMax < def.ShopStockStart)
                 { reason = "함정 가격·재고 정의가 잘못됐습니다"; return false; }
             if (!CheckStock(campaign.TrapShop, true, defIds, out reason) || !CheckStock(campaign.TrapStock, false, defIds, out reason)) return false;
             var ids = new HashSet<string>(StringComparer.Ordinal); var slots = new HashSet<string>(StringComparer.Ordinal);
@@ -195,8 +229,8 @@ namespace HumanLastRampart.Meta
                 if (trap == null || string.IsNullOrWhiteSpace(trap.TrapId) || !ids.Add(trap.TrapId) || !defIds.Contains(trap.TrapDefId))
                 { reason = "설치 함정 ID·정의가 잘못됐습니다"; return false; }
                 var ground = definitions.Get<TerrainDef>(trap.TerrainId);
-                if (!ValidTerrain(ground) || !TrapGrid.TryParse(trap.SlotId, out int side, out int col, out int row) ||
-                    col >= TrapGrid.Columns(ground) || row >= TrapGrid.Rows(ground) || !slots.Add(trap.TerrainId + ":" + trap.SlotId) ||
+                if (!ValidTerrain(ground) || !TrapGrid.TryPosition(ground, trap.SlotId, out Vector2 original) ||
+                    (TrapGrid.TryParseFree(trap.SlotId, out _) && !TrapGrid.InBand(ground, original)) || !slots.Add(trap.TerrainId + ":" + trap.SlotId) ||
                     !Finite(trap.ActualX) || !Finite(trap.ActualZ) || (trap.Marked && (!Finite(trap.MarkX) || !Finite(trap.MarkZ))))
                 { reason = "설치 함정 지형·칸·좌표가 잘못됐습니다"; return false; }
             }
@@ -231,7 +265,7 @@ namespace HumanLastRampart.Meta
             add(campaign.Traps.Count);
             foreach (var e in campaign.Traps) { add(e.TrapId); add(e.TrapDefId); add(e.TerrainId); add(e.SlotId); add(e.ActualX); add(e.ActualZ); add(e.Marked); add(e.MarkX); add(e.MarkZ); }
             if (campaign.TerrainWorks != null) { add(campaign.TerrainWorks.Count); foreach (var w in campaign.TerrainWorks) if (w != null) { add(w.TerrainId); add(w.CellId); add((int)w.Kind); } }   // 지형 손질 (K-049)
-            foreach (var def in definitions.All<TrapDef>()) { add(def.Id); add(def.Price); add(def.ShopStockStart); add(def.ShopStockPerPrep); add(def.ShopStockMax); }
+            foreach (var def in definitions.All<TrapDef>()) { add(def.Id); add(def.Price); add(def.DamageRadius); add(def.ShopStockStart); add(def.ShopStockPerPrep); add(def.ShopStockMax); }
             if (terrain != null) { add(terrain.Id); add(terrain.CastleHalfSize); add(terrain.TrapCellSize); add(terrain.TrapNear); add(terrain.TrapFar); add(terrain.FieldSize); foreach (var h in terrain.Hills) { add(h.x); add(h.y); add(h.z); } }
             return b.ToString();
         }

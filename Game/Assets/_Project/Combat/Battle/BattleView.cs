@@ -42,6 +42,10 @@ namespace HumanLastRampart.Combat.Battle
         readonly BattleSim sim;
         readonly Material material;
         readonly Material mapMaterial;     // 같은 버퍼를 점으로 그리는 지도용
+        readonly Material lensAfterimageMaterial;
+        readonly GraphicsBuffer lensAfterimageBuffer;
+        readonly MaterialPropertyBlock lensAfterimageBlock;
+        readonly PerfLabInstance[] lensAfterimageInstances;
         readonly Texture2D dotTexture;
         readonly List<(MaterialPropertyBlock block, int start, int count, bool special)> mapEnemyDraws =
             new List<(MaterialPropertyBlock, int, int, bool)>();
@@ -87,11 +91,20 @@ namespace HumanLastRampart.Combat.Battle
         // 동작 그림 (K-032 미리 연결, 사용자 검토 전): 같은 개체 버퍼를 시트마다 한 번 더 그린다 (_FrameWindow 구간)
         readonly List<(MaterialPropertyBlock block, int count)> enemyPoseDraws = new List<(MaterialPropertyBlock, int)>();
         readonly List<(MaterialPropertyBlock block, int count)> soldierPoseDraws = new List<(MaterialPropertyBlock, int)>();
-        readonly List<(GraphicsBuffer buffer, MaterialPropertyBlock block, int start, int count)> ladderDraws =
-            new List<(GraphicsBuffer, MaterialPropertyBlock, int, int)>();
+        sealed class LadderDraw
+        {
+            public GraphicsBuffer buffer, sideBuffer;
+            public MaterialPropertyBlock block, sideBlock;
+            public PerfLabInstance[] front, side;
+            public int start, count;
+        }
+        readonly List<LadderDraw> ladderDraws = new List<LadderDraw>();
         // 투사체: 무기마다 한 번 (프레임 번호 = 무기 번호). art = 투사체 그림을 날아가는 방향으로 돌림, 아니면 예전 막대
         readonly List<(MaterialPropertyBlock block, bool art, bool area)> shotDraws = new List<(MaterialPropertyBlock, bool, bool)>();
         MaterialPropertyBlock wizardCastBlock;          // 시전 4칸 (마법이 나간 뒤 CastSeconds 동안)
+        MaterialPropertyBlock wizardRunBlock, wizardFrontBlock;
+        Vector3 wizardLastFeet;
+        bool wizardFlip;
         int wizardCastFrames;
         const float WizardCastFps = 6f;
         const float WizardCastSeconds = 1f;
@@ -141,6 +154,19 @@ namespace HumanLastRampart.Combat.Battle
             mapMaterial = new Material(shader) { name = "BattleMapDots (runtime)" };
             mapMaterial.SetFloat(MapModeId, 1f);
             dotTexture = CreateDotTexture();
+            if (sim.HasTelescopeLens)
+            {
+                Shader afterimageShader = Resources.Load<Shader>("LensAfterimage");
+                if (afterimageShader != null)
+                {
+                    lensAfterimageMaterial = new Material(afterimageShader) { name = "망원경 잔상 (runtime)" };
+                    lensAfterimageBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, LensAfterimage.Capacity, PerfLabInstance.Stride);
+                    lensAfterimageInstances = new PerfLabInstance[LensAfterimage.Capacity];
+                    lensAfterimageBlock = new MaterialPropertyBlock();
+                    lensAfterimageBlock.SetBuffer(InstancesId, lensAfterimageBuffer);
+                    lensAfterimageBlock.SetTexture(MainTexId, dotTexture);
+                }
+            }
             float extent = sim.FieldSize + 20f;
             bounds = new Bounds(Vector3.zero, new Vector3(extent * 2f, 200f, extent * 2f));
 
@@ -151,7 +177,7 @@ namespace HumanLastRampart.Combat.Battle
                 float enemyFigurePx = def.Sheet != null ? PerfLabArt.FigurePx(def.Sheet) : PerfLabArt.FigureReferencePx;
                 if (def.Sheet != null)
                 {
-                    ApplyFigure(block, def.Sheet, def.NormalSheet, enemyFigurePx);   // 칸 256×384 — 고블린 4×2, 정적 데모 1×1
+                    ApplyFigure(block, def.MovingSheet, def.NormalFor(def.MovingSheet), enemyFigurePx);
                 }
                 else
                 {
@@ -165,20 +191,30 @@ namespace HumanLastRampart.Combat.Battle
                 if (def.Sheet != null)
                 {
                     // 공격·세우기·오르기·쓰러짐 시트 (K-032). 칸 번호 구간은 WriteBattleEnemyInstancesJob
-                    AddPose(enemyPoseDraws, buffer, count, def.AttackSheet, PerfLabArt.AttackFrame0, enemyFigurePx);
-                    AddPose(enemyPoseDraws, buffer, count, def.DeploySheet, PerfLabArt.DeployFrame0, enemyFigurePx);
-                    AddPose(enemyPoseDraws, buffer, count, def.ClimbSheet, PerfLabArt.ClimbFrame0, enemyFigurePx);
-                    AddPose(enemyPoseDraws, buffer, count, def.DeathSheet, PerfLabArt.FallFrame0, enemyFigurePx);
+                    AddPose(enemyPoseDraws, buffer, count, def.AttackSheet, PerfLabArt.AttackFrame0, enemyFigurePx, def.NormalFor(def.AttackSheet));
+                    AddPose(enemyPoseDraws, buffer, count, def.DeploySheet, PerfLabArt.DeployFrame0, enemyFigurePx, def.NormalFor(def.DeploySheet));
+                    AddPose(enemyPoseDraws, buffer, count, def.ClimbSheet, PerfLabArt.ClimbFrame0, enemyFigurePx, def.NormalFor(def.ClimbSheet));
+                    AddPose(enemyPoseDraws, buffer, count, def.DeathSheet, PerfLabArt.FallFrame0, enemyFigurePx, def.NormalFor(def.DeathSheet));
                 }
 
                 if (def.CarriesLadder && def.LadderSheet != null && count > 0)
                 {
                     var ladderBlock = new MaterialPropertyBlock();
-                    Apply(ladderBlock, def.LadderSheet, PerfLabArt.LadderLayout);
+                    Apply(ladderBlock, def.LadderSheet, PerfLabArt.LadderLayout, def.NormalFor(def.LadderSheet));
                     ladderBlock.SetFloat(ScreenUprightId, 0f);   // 사다리는 성벽에 기대 선 물건 — 화면 기준으로 눕히지 않고 세로 판 그대로 (K-040)
                     var ladderBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, PerfLabInstance.Stride);
                     ladderBlock.SetBuffer(InstancesId, ladderBuffer);
-                    ladderDraws.Add((ladderBuffer, ladderBlock, start, count));
+                    var ladderDraw = new LadderDraw { buffer = ladderBuffer, block = ladderBlock, start = start, count = count };
+                    if (def.LadderSideSheet != null)
+                    {
+                        ladderDraw.sideBlock = new MaterialPropertyBlock();
+                        Apply(ladderDraw.sideBlock, def.LadderSideSheet, PerfLabArt.LadderLayout, def.NormalFor(def.LadderSideSheet));
+                        ladderDraw.sideBlock.SetFloat(ScreenUprightId, 0f);
+                        ladderDraw.sideBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, PerfLabInstance.Stride);
+                        ladderDraw.sideBlock.SetBuffer(InstancesId, ladderDraw.sideBuffer);
+                        ladderDraw.front = new PerfLabInstance[count]; ladderDraw.side = new PerfLabInstance[count];
+                    }
+                    ladderDraws.Add(ladderDraw);
                 }
 
                 var mapBlock = new MaterialPropertyBlock();
@@ -208,7 +244,7 @@ namespace HumanLastRampart.Combat.Battle
                 if (unit != null && unit.Sheet != null)
                 {
                     // 사격·쓰러짐 시트 (K-032). 칸 번호 구간은 BattleSim.SoldierPose
-                    AddPose(soldierPoseDraws, buffer, count, unit.FireSheet, PerfLabArt.FireFrame0);
+                    AddPose(soldierPoseDraws, buffer, count, unit.FireSheet, PerfLabArt.FireFrame0, normal: unit.NormalFor(unit.FireSheet));
                     if (ProportionTrial.IsArcher(unit))
                     {
                         // 3등신 시험 그림으로 바꿔 끼울 블록 (K-057)
@@ -217,8 +253,8 @@ namespace HumanLastRampart.Combat.Battle
                         trialArcherFireBlock = unit.FireSheet != null ? soldierPoseDraws[soldierPoseDraws.Count - 1].block : null;
                     }
 
-                    AddPose(soldierPoseDraws, buffer, count, unit.DeathSheet, PerfLabArt.FallFrame0);
-                    AddPose(soldierPoseDraws, buffer, count, unit.IgniteSheet, PerfLabArt.IgniteFrame0);   // 대포병 불붙이기 (K-046)
+                    AddPose(soldierPoseDraws, buffer, count, unit.DeathSheet, PerfLabArt.FallFrame0, normal: unit.NormalFor(unit.DeathSheet));
+                    AddPose(soldierPoseDraws, buffer, count, unit.IgniteSheet, PerfLabArt.IgniteFrame0, normal: unit.NormalFor(unit.IgniteSheet));
                 }
 
                 if (unit != null && unit.RunSheet != null)
@@ -294,11 +330,24 @@ namespace HumanLastRampart.Combat.Battle
                 ApplyFigure(wizardBlock, sim.WizardUnit.Sheet, sim.WizardUnit.NormalSheet);   // 정적 뒷모습 1×1
                 wizardBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, 1, PerfLabInstance.Stride);
                 wizardBlock.SetBuffer(InstancesId, wizardBuffer);
+                wizardLastFeet = sim.WizardFeet;
+                if (sim.WizardUnit.RunSheet != null)
+                {
+                    wizardRunBlock = new MaterialPropertyBlock();
+                    ApplyFigure(wizardRunBlock, sim.WizardUnit.RunSheet, sim.WizardUnit.NormalFor(sim.WizardUnit.RunSheet));
+                    wizardRunBlock.SetBuffer(InstancesId, wizardBuffer);
+                }
+                if (sim.WizardUnit.FrontSheet != null)
+                {
+                    wizardFrontBlock = new MaterialPropertyBlock();
+                    ApplyFigure(wizardFrontBlock, sim.WizardUnit.FrontSheet, sim.WizardUnit.NormalFor(sim.WizardUnit.FrontSheet));
+                    wizardFrontBlock.SetBuffer(InstancesId, wizardBuffer);
+                }
                 if (sim.WizardUnit.CastSheet != null)
                 {
                     // 시전 뒷모습 4칸 (K-032). 노멀맵은 정적 그림 짝뿐이라 붙이지 않는다
                     wizardCastBlock = new MaterialPropertyBlock();
-                    ApplyFigure(wizardCastBlock, sim.WizardUnit.CastSheet);
+                    ApplyFigure(wizardCastBlock, sim.WizardUnit.CastSheet, sim.WizardUnit.NormalFor(sim.WizardUnit.CastSheet));
                     wizardCastBlock.SetBuffer(InstancesId, wizardBuffer);
                     wizardCastFrames = PerfLabArt.FrameCount(sim.WizardUnit.CastSheet);
                 }
@@ -335,11 +384,11 @@ namespace HumanLastRampart.Combat.Battle
 
         // 동작 시트 하나 (K-032): 같은 버퍼를 frame0부터 16칸 구간만 그 시트로 그린다. 시트가 없으면 아무것도 안 함
         static void AddPose(List<(MaterialPropertyBlock block, int count)> draws, GraphicsBuffer buffer, int count, Texture2D sheet, int frame0,
-            float referencePx = PerfLabArt.FigureReferencePx)
+            float referencePx = PerfLabArt.FigureReferencePx, Texture2D normal = null)
         {
             if (sheet == null || count <= 0) return;
             var block = new MaterialPropertyBlock();
-            ApplyFigure(block, sheet, null, referencePx);
+            ApplyFigure(block, sheet, normal, referencePx);
             block.SetVector(FrameWindowId, PerfLabArt.Window(frame0));
             block.SetBuffer(InstancesId, buffer);
             draws.Add((block, count));
@@ -476,6 +525,7 @@ namespace HumanLastRampart.Combat.Battle
         // 작업이 끝난 뒤(sim.Complete 후) 부른다. 지도 모드면 같은 데이터를 점으로 그린다(mapDotSize = 최소 점 크기 m)
         public void Draw(bool mapMode = false, float mapDotSize = 0f)
         {
+            if (!mapMode) sim.UpdateTelescopeAfterimages(null, Time.unscaledTime);
             if (ProportionTrial.Enabled != trialShown) ApplyProportionTrial();   // 3등신 시험 그림 (K-057) — 꺼져 있으면 건너뜀
             if (look != null)
             {
@@ -499,10 +549,29 @@ namespace HumanLastRampart.Combat.Battle
                 // 공격·세우기·오르기·쓰러짐 (K-032) — 위에서 올린 같은 버퍼
                 foreach (var (block, count) in enemyPoseDraws)
                     Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, count, block);
-                foreach (var (buffer, block, start, count) in ladderDraws)
+                foreach (var draw in ladderDraws)
                 {
-                    buffer.SetData(sim.LadderInstances, start, 0, count);
-                    Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, count, block);
+                    if (draw.sideBuffer == null)
+                    {
+                        draw.buffer.SetData(sim.LadderInstances, draw.start, 0, draw.count);
+                    }
+                    else
+                    {
+                        Camera camera = Camera.main;
+                        for (int i = 0; i < draw.count; i++)
+                        {
+                            PerfLabInstance item = sim.LadderInstances[draw.start + i];
+                            Vector3 at = new Vector3(item.PosFrame.x, item.PosFrame.y, item.PosFrame.z);
+                            var outward = WallGeometry.Outward(WallGeometry.FieldSide(item.PosFrame.xyz));
+                            Vector3 toCamera = camera != null ? Vector3.ProjectOnPlane(camera.transform.position - at, Vector3.up).normalized : Vector3.forward;
+                            bool side = Mathf.Abs(Vector3.Dot(toCamera, new Vector3(outward.x, 0f, outward.z))) < 0.65f;
+                            draw.front[i] = draw.side[i] = item;
+                            if (side) draw.front[i].TintSize.w = 0f; else draw.side[i].TintSize.w = 0f;
+                        }
+                        draw.buffer.SetData(draw.front); draw.sideBuffer.SetData(draw.side);
+                        Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, draw.count, draw.sideBlock);
+                    }
+                    Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, draw.count, draw.block);
                 }
 
                 // 화상 불꽃 (K-035)
@@ -598,13 +667,31 @@ namespace HumanLastRampart.Combat.Battle
                     float castAge = sim.WizardCastAge;
                     bool casting = wizardCastBlock != null && castAge >= 0f && castAge < WizardCastSeconds;
                     float wizardFrame = casting ? Mathf.Min(Mathf.FloorToInt(castAge * WizardCastFps), wizardCastFrames - 1) : 0f;
+                    MaterialPropertyBlock wizardDraw = casting ? wizardCastBlock : wizardBlock;
+                    Camera camera = Camera.main;
+                    Vector3 movement = feet - wizardLastFeet;
+                    wizardLastFeet = feet;
+                    if (sim.WizardMoving && wizardRunBlock != null)
+                    {
+                        if (camera != null && movement.sqrMagnitude > 0.000001f)
+                            wizardFlip = Vector3.Dot(movement, camera.transform.right) < 0f; // 최신 옆걷기 그림은 오른쪽을 본다.
+                        wizardFrame = Mathf.FloorToInt(sim.Elapsed * 8f) % PerfLabArt.FrameCount(sim.WizardUnit.RunSheet);
+                        if (wizardFlip) wizardFrame = -wizardFrame - 1f;
+                        wizardDraw = wizardRunBlock;
+                    }
+                    else if (!casting && wizardFrontBlock != null && camera != null)
+                    {
+                        var outward = WallGeometry.Outward(sim.WizardSide);
+                        if (Vector3.Dot(camera.transform.position - feet, new Vector3(outward.x, 0f, outward.z)) > 0f)
+                            wizardDraw = wizardFrontBlock;
+                    }
                     wizardInstance[0] = new PerfLabInstance
                     {
                         PosFrame = new float4(feet.x, feet.y, feet.z, wizardFrame),
                         TintSize = new float4(shade, shade, shade, HeroDrawSize),   // 주인공과 같은 크기
                     };
                     wizardBuffer.SetData(wizardInstance);
-                    Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, 1, casting ? wizardCastBlock : wizardBlock);
+                    Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, 1, wizardDraw);
                 }
             }
 
@@ -797,6 +884,8 @@ namespace HumanLastRampart.Combat.Battle
         {
             // 망원경 렌즈 안은 시야 밖 적도 보인다 (다음 장면의 적 점 그리기가 쓴다)
             mapLens = lens.HasValue ? new Vector4(lens.Value.x, lens.Value.y, lens.Value.z, sim.TelescopeRange) : Vector4.zero;
+            sim.UpdateTelescopeAfterimages(lens, Time.unscaledTime);
+            DrawLensAfterimages(dot);
             int n = 0;
             void Add(Vector3 p, Color c, float size)
             {
@@ -981,9 +1070,32 @@ namespace HumanLastRampart.Combat.Battle
             return texture;
         }
 
+        // 반투명 잔상 전용 한 번 그리기. 적의 현재 위치 대신 마지막 관측 자리만 올린다.
+        void DrawLensAfterimages(float dotSize)
+        {
+            LensAfterimage memory = sim.TelescopeAfterimages;
+            if (memory == null || lensAfterimageBuffer == null) return;
+            int count = 0;
+            for (int i = 0; i < LensAfterimage.Capacity; i++)
+            {
+                if (!memory.TryGet(i, Time.unscaledTime, out LensAfterimage.Dot dot, out float alpha)) continue;
+                Color color = dot.Special ? MapSpecialColor : MapEnemyColor;
+                lensAfterimageInstances[count++] = new PerfLabInstance
+                {
+                    PosFrame = new float4(dot.Position.x, dot.Position.y, dot.Position.z, alpha),
+                    TintSize = new float4(color.r, color.g, color.b, dotSize * (dot.Special ? 2.2f : 1f)),
+                };
+            }
+            if (count == 0) return;
+            lensAfterimageBuffer.SetData(lensAfterimageInstances, 0, 0, count);
+            Graphics.DrawMeshInstancedProcedural(quad, 0, lensAfterimageMaterial, bounds, count, lensAfterimageBlock);
+        }
+
         public void Dispose()
         {
             look?.Dispose();
+            lensAfterimageBuffer?.Release();
+            if (lensAfterimageMaterial != null) UnityEngine.Object.Destroy(lensAfterimageMaterial);
             if (mapMaterial != null) UnityEngine.Object.Destroy(mapMaterial);
             markerBuffer?.Release();
             if (markers.IsCreated) markers.Dispose();
@@ -999,7 +1111,7 @@ namespace HumanLastRampart.Combat.Battle
             soldierDraws.Clear();
             foreach (var draw in runnerDraws) draw.buffer.Release();
             runnerDraws.Clear();
-            foreach (var draw in ladderDraws) draw.buffer.Release();
+            foreach (var draw in ladderDraws) { draw.buffer.Release(); draw.sideBuffer?.Release(); }
             ladderDraws.Clear();
             flameBuffer?.Release();
             runnerBuffer?.Release();

@@ -40,6 +40,7 @@ Shader "HLR/PerfLabSprite"
         // 원근 카메라에서도 인물 세로선이 화면에 똑바로 선다. 이때 납작함 보정(_ViewStretch)은 쓰지 않는다(1).
         // 0이면 예전처럼 월드 위로 선 세로 판. _FixedRight 판·투사체·지도 점은 이 값과 상관없이 예전 방식. 그림자 판은 늘 세로 판
         _ScreenUpright ("Screen-aligned upright (0/1)", Float) = 1
+        _GroundPlane ("Ground plane (0/1)", Float) = 0
         // 스스로 빛나는 그림 (K-041 불·폭발): 1이면 해·달 빛을 받지 않고 개체 색(1 넘는 밝은 색)을 그대로 — 빛번짐(Bloom)이 걸린다
         _Emissive ("Self-lit (0/1)", Float) = 0
     }
@@ -83,6 +84,7 @@ Shader "HLR/PerfLabSprite"
         float _ViewStretch;
         float _MaxViewStretch;
         float _ScreenUpright;
+        float _GroundPlane;
         float _Emissive;
 
         struct Attributes
@@ -133,7 +135,12 @@ Shader "HLR/PerfLabSprite"
             float pivotX = flip ? 1.0 - _Pivot.x : _Pivot.x;
             float localX = (input.positionOS.x + 0.5 - pivotX) * _Aspect * size;
             float localY = (input.positionOS.y - _Pivot.y) * size * stretch;
-            if (_ShotMode > 1.5)
+            if (_GroundPlane > 0.5)
+            {
+                // 폭발 뒤 남는 구덩이는 서 있는 판이 아니라 실제 X/Z 바닥에 놓는다.
+                world = data.posFrame.xyz + float3(localX, 0.0, (input.positionOS.y - _Pivot.y) * size);
+            }
+            else if (_ShotMode > 1.5)
             {
                 // 투사체 (K-040): 축 고정 빌보드 — 판의 긴 축 = 3D로 날아가는 방향(개체 색 칸, 그림 +X = 촉),
                 // 판은 그 축 둘레로만 돌아 넓은 면이 카메라 쪽. 옆에서 보면 길게, 뒤에서 보면 짧게(촉이 저쪽·깃이 이쪽) 보인다.
@@ -266,6 +273,7 @@ Shader "HLR/PerfLabSprite"
                 }
 
                 Billboard(input, camRight, upAxis, stretch, world, uv, faceRight);
+                if (_GroundPlane > 0.5) faceNormal = float3(0.0, 1.0, 0.0);
                 output.positionCS = TransformWorldToHClip(world);
                 output.positionWS = world;
                 output.uv = uv;

@@ -24,3 +24,19 @@ MonoBehaviour:
   deploySheet: {fileID: 2800000, guid: 8f2fc603cafa4878892af63745ccd017, type: 3}
   climbSheet: {fileID: 2800000, guid: 41d0da7f932044bc9f35a3afb4835b28, type: 3}
   ladderSheet: {fileID: 2800000, guid: 601d893506ea42f8a2d813e68e5c4a36, type: 3}
+  carrySheet: {fileID: 2800000, guid: b1fa7fe1a3014ba4a6ab27c493badfec, type: 3}
+  ladderSideSheet: {fileID: 2800000, guid: a4b674a32fac4373b2e46e4a6c805e9d, type: 3}
+  normalSheet: {fileID: 2800000, guid: 91905e0854774e53b459fe292fed7aee, type: 3}
+  poseNormals:
+  - Sheet: {fileID: 2800000, guid: 27d178a3bbd3436a8694084ceb39abef, type: 3}
+    Normal: {fileID: 2800000, guid: 91905e0854774e53b459fe292fed7aee, type: 3}
+  - Sheet: {fileID: 2800000, guid: 8f2fc603cafa4878892af63745ccd017, type: 3}
+    Normal: {fileID: 2800000, guid: 2670cea7c7a84b63b130078fb1712120, type: 3}
+  - Sheet: {fileID: 2800000, guid: 41d0da7f932044bc9f35a3afb4835b28, type: 3}
+    Normal: {fileID: 2800000, guid: cdf7215af48141c8946b3479092608af, type: 3}
+  - Sheet: {fileID: 2800000, guid: 601d893506ea42f8a2d813e68e5c4a36, type: 3}
+    Normal: {fileID: 2800000, guid: df12793d94f248409e2a181da780487c, type: 3}
+  - Sheet: {fileID: 2800000, guid: b1fa7fe1a3014ba4a6ab27c493badfec, type: 3}
+    Normal: {fileID: 2800000, guid: bc3fc0e1e20a465db640062da107aa93, type: 3}
+  - Sheet: {fileID: 2800000, guid: a4b674a32fac4373b2e46e4a6c805e9d, type: 3}
+    Normal: {fileID: 2800000, guid: b7632d23eaa04608b87889b27720a650, type: 3}

@@ -1,0 +1,1832 @@
+{
+  "generated_at": "2026-10-21T17:09:57",
+  "sheet_count": 35,
+  "frame_count": 135,
+  "checks_passed": 35,
+  "runtime_connected": 32,
+  "alternatives": [
+    "ladder_goblin_static.png",
+    "ladder_goblin_walk.png",
+    "ogre_static.png"
+  ],
+  "qa_snapshot": [
+    {
+      "kind": "edit",
+      "path": "Docs/References/codex_character_integration_v1/qa/final/edit.xml",
+      "result": "Passed",
+      "total": "129",
+      "passed": "128",
+      "failed": "0",
+      "inconclusive": "1",
+      "file_modified": "2026-10-21T17:06:15"
+    },
+    {
+      "kind": "play",
+      "path": "Docs/References/codex_character_integration_v1/qa/final/play.xml",
+      "result": "Passed",
+      "total": "50",
+      "passed": "50",
+      "failed": "0",
+      "inconclusive": "0",
+      "file_modified": "2026-10-21T17:07:36"
+    }
+  ],
+  "rows": [
+    {
+      "sheet": "archer_static.png",
+      "color": "Game/Assets/_Project/Art/Characters/Static/archer_static.png",
+      "source_color": "Docs/References/codex_k073_v1/archer_static.png",
+      "normal": "Game/Assets/_Project/Art/Characters/Static/archer_static_normal.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/archer_static_normal.png",
+      "size": [
+        288,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "columns": 1,
+      "rows": 1,
+      "frame_order": [
+        "후면 대기"
+      ],
+      "state": "런타임 연결",
+      "reference_detail": "정의 또는 Resources 실행 경로 존재",
+      "references": [
+        "unit_archer.asset : sheet"
+      ],
+      "resource_reference": null,
+      "color_guid": "9bbb432c5b1d445cb092d3e80eb1aa65",
+      "normal_guid": "01f399281c8b4d828bee32c603d44974",
+      "color_source_sha256": "0a7c35db020d1805bbdadacde6362bf7c990448298a61bae618879efdddfc9f2",
+      "color_game_sha256": "0a7c35db020d1805bbdadacde6362bf7c990448298a61bae618879efdddfc9f2",
+      "normal_source_sha256": "d3f0f9baf81f6ada20ef0d8f6cf00dbb274f8db12c0d10d50826038d21541e41",
+      "normal_game_sha256": "d3f0f9baf81f6ada20ef0d8f6cf00dbb274f8db12c0d10d50826038d21541e41",
+      "color_bytes_equal": true,
+      "color_pixels_equal": true,
+      "normal_bytes_equal": true,
+      "normal_pixels_equal": true,
+      "normal_same_size": true,
+      "normal_alpha_equal": true,
+      "color_guid_unique": true,
+      "normal_guid_unique": true,
+      "binding_guid_matches": true,
+      "pose_pair_references": [
+        {
+          "asset": "unit_archer.asset",
+          "normal_guid": "01f399281c8b4d828bee32c603d44974"
+        }
+      ],
+      "pose_pair_matches": true,
+      "checks_passed": true
+    },
+    {
+      "sheet": "archer_run.png",
+      "color": "Game/Assets/_Project/Art/Characters/Run/archer_run.png",
+      "source_color": "Docs/References/codex_k073_v1/archer_run.png",
+      "normal": "Game/Assets/_Project/Art/Characters/Run/archer_run_normal.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/archer_run_normal.png",
+      "size": [
+        1152,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "columns": 4,
+      "rows": 1,
+      "frame_order": [
+        "오른발 전진",
+        "교차·오른발 지지",
+        "왼발 전진",
+        "교차·왼발 지지"
+      ],
+      "state": "런타임 연결",
+      "reference_detail": "정의 또는 Resources 실행 경로 존재",
+      "references": [
+        "unit_archer.asset : runSheet"
+      ],
+      "resource_reference": null,
+      "color_guid": "ca45a3950036483ea0c9dc299d2ce017",
+      "normal_guid": "15215f836a0d48aea7e1de13b7da5b05",
+      "color_source_sha256": "98808a08f186b08f4500f7827c9ed7821f854efc0716a8cbcca76c954b4e3925",
+      "color_game_sha256": "98808a08f186b08f4500f7827c9ed7821f854efc0716a8cbcca76c954b4e3925",
+      "normal_source_sha256": "34df0cbbcf16c980dbfe048cd3bf85ea2f273f19c9be6082a678ca5217d605af",
+      "normal_game_sha256": "34df0cbbcf16c980dbfe048cd3bf85ea2f273f19c9be6082a678ca5217d605af",
+      "color_bytes_equal": true,
+      "color_pixels_equal": true,
+      "normal_bytes_equal": true,
+      "normal_pixels_equal": true,
+      "normal_same_size": true,
+      "normal_alpha_equal": true,
+      "color_guid_unique": true,
+      "normal_guid_unique": true,
+      "binding_guid_matches": true,
+      "pose_pair_references": [
+        {
+          "asset": "unit_archer.asset",
+          "normal_guid": "15215f836a0d48aea7e1de13b7da5b05"
+        }
+      ],
+      "pose_pair_matches": true,
+      "checks_passed": true
+    },
+    {
+      "sheet": "archer_fire.png",
+      "color": "Game/Assets/_Project/Art/Characters/Fire/archer_fire.png",
+      "source_color": "Docs/References/codex_k073_v1/archer_fire.png",
+      "normal": "Game/Assets/_Project/Art/Characters/Fire/archer_fire_normal.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/archer_fire_normal.png",
+      "size": [
+        1728,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "columns": 6,
+      "rows": 1,
+      "frame_order": [
+        "준비",
+        "당기기",
+        "조준",
+        "발사",
+        "회복",
+        "다음 화살 준비"
+      ],
+      "state": "런타임 연결",
+      "reference_detail": "정의 또는 Resources 실행 경로 존재",
+      "references": [
+        "unit_archer.asset : fireSheet"
+      ],
+      "resource_reference": null,
+      "color_guid": "77712fd5d7784cb3858f6cee7662a38f",
+      "normal_guid": "6e437b2dc46b41b5bc39704ac1f5d961",
+      "color_source_sha256": "f425d7e0d3191df7f9db66843112b86138c386f8e3984c221527a6c606702288",
+      "color_game_sha256": "f425d7e0d3191df7f9db66843112b86138c386f8e3984c221527a6c606702288",
+      "normal_source_sha256": "9e788a68995161c7a5d57edfe7366722939dc63fbc6a1a253d3116de9343cbdb",
+      "normal_game_sha256": "9e788a68995161c7a5d57edfe7366722939dc63fbc6a1a253d3116de9343cbdb",
+      "color_bytes_equal": true,
+      "color_pixels_equal": true,
+      "normal_bytes_equal": true,
+      "normal_pixels_equal": true,
+      "normal_same_size": true,
+      "normal_alpha_equal": true,
+      "color_guid_unique": true,
+      "normal_guid_unique": true,
+      "binding_guid_matches": true,
+      "pose_pair_references": [
+        {
+          "asset": "unit_archer.asset",
+          "normal_guid": "6e437b2dc46b41b5bc39704ac1f5d961"
+        }
+      ],
+      "pose_pair_matches": true,
+      "checks_passed": true
+    },
+    {
+      "sheet": "archer_fall.png",
+      "color": "Game/Assets/_Project/Art/Characters/Fall/archer_fall.png",
+      "source_color": "Docs/References/codex_k073_v1/archer_fall.png",
+      "normal": "Game/Assets/_Project/Art/Characters/Fall/archer_fall_normal.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/archer_fall_normal.png",
+      "size": [
+        1152,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "columns": 4,
+      "rows": 1,
+      "frame_order": [
+        "피격",
+        "무릎 꺾임",
+        "옆으로 넘어짐",
+        "쓰러짐"
+      ],
+      "state": "런타임 연결",
+      "reference_detail": "정의 또는 Resources 실행 경로 존재",
+      "references": [
+        "unit_archer.asset : deathSheet"
+      ],
+      "resource_reference": null,
+      "color_guid": "1ce4ecdac9504d06b34d300d20d5e839",
+      "normal_guid": "233d451689304ba38b7d74c876623e3d",
+      "color_source_sha256": "879f9d36ac90a89a61040a12a460815e7e529d0b7c5e5f8337e570f0888d48d3",
+      "color_game_sha256": "879f9d36ac90a89a61040a12a460815e7e529d0b7c5e5f8337e570f0888d48d3",
+      "normal_source_sha256": "bfff7b14d0b9c42e7a57e8acdaa7c73edc6cbcdd2f433e426f165d281d37da48",
+      "normal_game_sha256": "bfff7b14d0b9c42e7a57e8acdaa7c73edc6cbcdd2f433e426f165d281d37da48",
+      "color_bytes_equal": true,
+      "color_pixels_equal": true,
+      "normal_bytes_equal": true,
+      "normal_pixels_equal": true,
+      "normal_same_size": true,
+      "normal_alpha_equal": true,
+      "color_guid_unique": true,
+      "normal_guid_unique": true,
+      "binding_guid_matches": true,
+      "pose_pair_references": [
+        {
+          "asset": "unit_archer.asset",
+          "normal_guid": "233d451689304ba38b7d74c876623e3d"
+        }
+      ],
+      "pose_pair_matches": true,
+      "checks_passed": true
+    },
+    {
+      "sheet": "gunner_static.png",
+      "color": "Game/Assets/_Project/Art/Characters/Static/gunner_static.png",
+      "source_color": "Docs/References/codex_k074_v1/gunner_static.png",
+      "normal": "Game/Assets/_Project/Art/Characters/Static/gunner_static_normal.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/gunner_static_normal.png",
+      "size": [
+        288,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "columns": 1,
+      "rows": 1,
+      "frame_order": [
+        "후면 대기"
+      ],
+      "state": "런타임 연결",
+      "reference_detail": "정의 또는 Resources 실행 경로 존재",
+      "references": [
+        "unit_gunner.asset : sheet"
+      ],
+      "resource_reference": null,
+      "color_guid": "41cc8dcf5f7a4fd5980191d361dc65f3",
+      "normal_guid": "f0e818b3ce2345b8af31485e55a68f21",
+      "color_source_sha256": "0570db03f345ef9c9bc05346ed010e7cfd082fe6a01c0103fb74e7cdce6910f5",
+      "color_game_sha256": "0570db03f345ef9c9bc05346ed010e7cfd082fe6a01c0103fb74e7cdce6910f5",
+      "normal_source_sha256": "f260a9225093245dd8b700fbe6fdfa1fe1790e2fd5f6835f747881f99fd5895d",
+      "normal_game_sha256": "f260a9225093245dd8b700fbe6fdfa1fe1790e2fd5f6835f747881f99fd5895d",
+      "color_bytes_equal": true,
+      "color_pixels_equal": true,
+      "normal_bytes_equal": true,
+      "normal_pixels_equal": true,
+      "normal_same_size": true,
+      "normal_alpha_equal": true,
+      "color_guid_unique": true,
+      "normal_guid_unique": true,
+      "binding_guid_matches": true,
+      "pose_pair_references": [
+        {
+          "asset": "unit_gunner.asset",
+          "normal_guid": "f0e818b3ce2345b8af31485e55a68f21"
+        }
+      ],
+      "pose_pair_matches": true,
+      "checks_passed": true
+    },
+    {
+      "sheet": "gunner_run.png",
+      "color": "Game/Assets/_Project/Art/Characters/Run/gunner_run.png",
+      "source_color": "Docs/References/codex_k074_v1/gunner_run.png",
+      "normal": "Game/Assets/_Project/Art/Characters/Run/gunner_run_normal.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/gunner_run_normal.png",
+      "size": [
+        1152,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "columns": 4,
+      "rows": 1,
+      "frame_order": [
+        "오른발 전진",
+        "교차·오른발 지지",
+        "왼발 전진",
+        "교차·왼발 지지"
+      ],
+      "state": "런타임 연결",
+      "reference_detail": "정의 또는 Resources 실행 경로 존재",
+      "references": [
+        "unit_gunner.asset : runSheet"
+      ],
+      "resource_reference": null,
+      "color_guid": "c41bc62645c84bc4bf83291a3dda7ec8",
+      "normal_guid": "e894fadeea5c45ea917734ae53f4a227",
+      "color_source_sha256": "6132a2797bcc63f51a67c771a7801c8428b92f0f5c380c3e87a36b1d07e8d70d",
+      "color_game_sha256": "6132a2797bcc63f51a67c771a7801c8428b92f0f5c380c3e87a36b1d07e8d70d",
+      "normal_source_sha256": "01d6c373d9fe11e7cbf64a5c0ece7c8ff0deeb8654a2cfc47697e20c75773bf1",
+      "normal_game_sha256": "01d6c373d9fe11e7cbf64a5c0ece7c8ff0deeb8654a2cfc47697e20c75773bf1",
+      "color_bytes_equal": true,
+      "color_pixels_equal": true,
+      "normal_bytes_equal": true,
+      "normal_pixels_equal": true,
+      "normal_same_size": true,
+      "normal_alpha_equal": true,
+      "color_guid_unique": true,
+      "normal_guid_unique": true,
+      "binding_guid_matches": true,
+      "pose_pair_references": [
+        {
+          "asset": "unit_gunner.asset",
+          "normal_guid": "e894fadeea5c45ea917734ae53f4a227"
+        }
+      ],
+      "pose_pair_matches": true,
+      "checks_passed": true
+    },
+    {
+      "sheet": "gunner_fire.png",
+      "color": "Game/Assets/_Project/Art/Characters/Fire/gunner_fire.png",
+      "source_color": "Docs/References/codex_k074_v1/gunner_fire.png",
+      "normal": "Game/Assets/_Project/Art/Characters/Fire/gunner_fire_normal.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/gunner_fire_normal.png",
+      "size": [
+        1728,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "columns": 6,
+      "rows": 1,
+      "frame_order": [
+        "견착",
+        "조준",
+        "발사·총구 화염",
+        "반동",
+        "총 내리기",
+        "재장전 암시"
+      ],
+      "state": "런타임 연결",
+      "reference_detail": "정의 또는 Resources 실행 경로 존재",
+      "references": [
+        "unit_gunner.asset : fireSheet"
+      ],
+      "resource_reference": null,
+      "color_guid": "e16c30e8cb684c009a3aac23aea8e5a3",
+      "normal_guid": "ca5aaca225c348779f137aba2753d8b2",
+      "color_source_sha256": "10a7906f436ea393c5ba68abb28ae7f497edcbacdb4b24fcf85c58c377613f21",
+      "color_game_sha256": "10a7906f436ea393c5ba68abb28ae7f497edcbacdb4b24fcf85c58c377613f21",
+      "normal_source_sha256": "da4e7c27056feac1d7bafc35d756e8001a8375156aba86c2def7cde52e908220",
+      "normal_game_sha256": "da4e7c27056feac1d7bafc35d756e8001a8375156aba86c2def7cde52e908220",
+      "color_bytes_equal": true,
+      "color_pixels_equal": true,
+      "normal_bytes_equal": true,
+      "normal_pixels_equal": true,
+      "normal_same_size": true,
+      "normal_alpha_equal": true,
+      "color_guid_unique": true,
+      "normal_guid_unique": true,
+      "binding_guid_matches": true,
+      "pose_pair_references": [
+        {
+          "asset": "unit_gunner.asset",
+          "normal_guid": "ca5aaca225c348779f137aba2753d8b2"
+        }
+      ],
+      "pose_pair_matches": true,
+      "checks_passed": true
+    },
+    {
+      "sheet": "gunner_fall.png",
+      "color": "Game/Assets/_Project/Art/Characters/Fall/gunner_fall.png",
+      "source_color": "Docs/References/codex_k074_v1/gunner_fall.png",
+      "normal": "Game/Assets/_Project/Art/Characters/Fall/gunner_fall_normal.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/gunner_fall_normal.png",
+      "size": [
+        1152,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "columns": 4,
+      "rows": 1,
+      "frame_order": [
+        "피격",
+        "무릎 꺾임",
+        "옆으로 넘어짐",
+        "쓰러짐"
+      ],
+      "state": "런타임 연결",
+      "reference_detail": "정의 또는 Resources 실행 경로 존재",
+      "references": [
+        "unit_gunner.asset : deathSheet"
+      ],
+      "resource_reference": null,
+      "color_guid": "abae2fe5ccea45a191cf76e820748bd7",
+      "normal_guid": "ee4125c58ec34c5685239d094cdaf53b",
+      "color_source_sha256": "4ef6863f35be19cdd1a0d67bc929074927f9e398c92086a113a6435e4a7f55eb",
+      "color_game_sha256": "4ef6863f35be19cdd1a0d67bc929074927f9e398c92086a113a6435e4a7f55eb",
+      "normal_source_sha256": "907675d6f4505d489f0ae12a834837fc014e5230d815a96dde0e8b16dad68797",
+      "normal_game_sha256": "907675d6f4505d489f0ae12a834837fc014e5230d815a96dde0e8b16dad68797",
+      "color_bytes_equal": true,
+      "color_pixels_equal": true,
+      "normal_bytes_equal": true,
+      "normal_pixels_equal": true,
+      "normal_same_size": true,
+      "normal_alpha_equal": true,
+      "color_guid_unique": true,
+      "normal_guid_unique": true,
+      "binding_guid_matches": true,
+      "pose_pair_references": [
+        {
+          "asset": "unit_gunner.asset",
+          "normal_guid": "ee4125c58ec34c5685239d094cdaf53b"
+        }
+      ],
+      "pose_pair_matches": true,
+      "checks_passed": true
+    },
+    {
+      "sheet": "cannon_crew_static.png",
+      "color": "Game/Assets/_Project/Art/Characters/Static/cannon_crew_static.png",
+      "source_color": "Docs/References/codex_k075_v1/game/Characters/Static/cannon_crew_static.png",
+      "normal": "Game/Assets/_Project/Art/Characters/Static/cannon_crew_static_normal.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/cannon_crew_static_normal.png",
+      "size": [
+        288,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "columns": 1,
+      "rows": 1,
+      "frame_order": [
+        "뒷모습 대기"
+      ],
+      "state": "런타임 연결",
+      "reference_detail": "정의 또는 Resources 실행 경로 존재",
+      "references": [
+        "unit_cannon_crew.asset : sheet"
+      ],
+      "resource_reference": null,
+      "color_guid": "7f645c3e19234801a7ff1e384a13b293",
+      "normal_guid": "b42713b1b74f40a7a3b0ca8e40bbd6f4",
+      "color_source_sha256": "3836ce50297502e9899df0d2a8a432b2d6e8244a9d34998c12819f711358251e",
+      "color_game_sha256": "3836ce50297502e9899df0d2a8a432b2d6e8244a9d34998c12819f711358251e",
+      "normal_source_sha256": "c315cf7f71e7740af40cd2b700dd745780f7f9499920ee6e21ad7b08e965ece1",
+      "normal_game_sha256": "c315cf7f71e7740af40cd2b700dd745780f7f9499920ee6e21ad7b08e965ece1",
+      "color_bytes_equal": true,
+      "color_pixels_equal": true,
+      "normal_bytes_equal": true,
+      "normal_pixels_equal": true,
+      "normal_same_size": true,
+      "normal_alpha_equal": true,
+      "color_guid_unique": true,
+      "normal_guid_unique": true,
+      "binding_guid_matches": true,
+      "pose_pair_references": [
+        {
+          "asset": "unit_cannon_crew.asset",
+          "normal_guid": "b42713b1b74f40a7a3b0ca8e40bbd6f4"
+        }
+      ],
+      "pose_pair_matches": true,
+      "checks_passed": true
+    },
+    {
+      "sheet": "cannon_crew_run.png",
+      "color": "Game/Assets/_Project/Art/Characters/Run/cannon_crew_run.png",
+      "source_color": "Docs/References/codex_k075_v1/game/Characters/Run/cannon_crew_run.png",
+      "normal": "Game/Assets/_Project/Art/Characters/Run/cannon_crew_run_normal.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/cannon_crew_run_normal.png",
+      "size": [
+        1152,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "columns": 4,
+      "rows": 1,
+      "frame_order": [
+        "왼발 디딤",
+        "오른발 통과",
+        "오른발 디딤",
+        "왼발 통과"
+      ],
+      "state": "런타임 연결",
+      "reference_detail": "정의 또는 Resources 실행 경로 존재",
+      "references": [
+        "unit_cannon_crew.asset : runSheet"
+      ],
+      "resource_reference": null,
+      "color_guid": "1e75ca3ef8ba4eefb256edfa72eca636",
+      "normal_guid": "b6bf4ab43e9a40c3a417854ee7e8975e",
+      "color_source_sha256": "94cfa6a2205a2cdaef28a7f99280ede26109f2ee894ee3f252d370234930be51",
+      "color_game_sha256": "94cfa6a2205a2cdaef28a7f99280ede26109f2ee894ee3f252d370234930be51",
+      "normal_source_sha256": "862b85e2a4fe4160caa9eb408d321c67765f0c251fb2f5f4e28774e1e039cc8f",
+      "normal_game_sha256": "862b85e2a4fe4160caa9eb408d321c67765f0c251fb2f5f4e28774e1e039cc8f",
+      "color_bytes_equal": true,
+      "color_pixels_equal": true,
+      "normal_bytes_equal": true,
+      "normal_pixels_equal": true,
+      "normal_same_size": true,
+      "normal_alpha_equal": true,
+      "color_guid_unique": true,
+      "normal_guid_unique": true,
+      "binding_guid_matches": true,
+      "pose_pair_references": [
+        {
+          "asset": "unit_cannon_crew.asset",
+          "normal_guid": "b6bf4ab43e9a40c3a417854ee7e8975e"
+        }
+      ],
+      "pose_pair_matches": true,
+      "checks_passed": true
+    },
+    {
+      "sheet": "cannon_crew_ignite6.png",
+      "color": "Game/Assets/_Project/Art/Characters/Fire/cannon_crew_ignite6.png",
+      "source_color": "Docs/References/codex_k086_v5/game/cannon_crew_ignite6.png",
+      "normal": "Game/Assets/_Project/Art/Characters/Fire/cannon_crew_ignite6_normal.png",
+      "source_normal": "Docs/References/codex_character_integration_v1/expanded_ignite_normal/cannon_crew_ignite6_normal.png",
+      "size": [
+        2592,
+        384
+      ],
+      "cell": [
+        432,
+        384
+      ],
+      "columns": 6,
+      "rows": 1,
+      "frame_order": [
+        "막대 내림",
+        "들기",
+        "도화선 접근",
+        "도화선 접촉",
+        "거두기",
+        "대기 복귀"
+      ],
+      "state": "런타임 연결",
+      "reference_detail": "정의 또는 Resources 실행 경로 존재",
+      "references": [
+        "unit_cannon_crew.asset : igniteSheet"
+      ],
+      "resource_reference": null,
+      "color_guid": "b75ab3c5093e4f079e2ee21e56b399f7",
+      "normal_guid": "cbe6c7b2c1c643bdbec7d777b1d02d9f",
+      "color_source_sha256": "5132d551a86960a7f95884e804534c79244847f260c2c8bd047866f0da4496e9",
+      "color_game_sha256": "5132d551a86960a7f95884e804534c79244847f260c2c8bd047866f0da4496e9",
+      "normal_source_sha256": "138964aeaa9eb392e5ec7d9684a5b353e173d7f86961c5ad300174e2a2884616",
+      "normal_game_sha256": "138964aeaa9eb392e5ec7d9684a5b353e173d7f86961c5ad300174e2a2884616",
+      "color_bytes_equal": true,
+      "color_pixels_equal": true,
+      "normal_bytes_equal": true,
+      "normal_pixels_equal": true,
+      "normal_same_size": true,
+      "normal_alpha_equal": true,
+      "color_guid_unique": true,
+      "normal_guid_unique": true,
+      "binding_guid_matches": true,
+      "pose_pair_references": [
+        {
+          "asset": "unit_cannon_crew.asset",
+          "normal_guid": "cbe6c7b2c1c643bdbec7d777b1d02d9f"
+        }
+      ],
+      "pose_pair_matches": true,
+      "checks_passed": true
+    },
+    {
+      "sheet": "cannon_crew_fall.png",
+      "color": "Game/Assets/_Project/Art/Characters/Fall/cannon_crew_fall.png",
+      "source_color": "Docs/References/codex_k075_v1/game/Characters/Fall/cannon_crew_fall.png",
+      "normal": "Game/Assets/_Project/Art/Characters/Fall/cannon_crew_fall_normal.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/cannon_crew_fall_normal.png",
+      "size": [
+        1152,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "columns": 4,
+      "rows": 1,
+      "frame_order": [
+        "무릎 꺾임",
+        "무릎 꿇음",
+        "옆으로 쓰러짐",
+        "옆으로 누움"
+      ],
+      "state": "런타임 연결",
+      "reference_detail": "정의 또는 Resources 실행 경로 존재",
+      "references": [
+        "unit_cannon_crew.asset : deathSheet"
+      ],
+      "resource_reference": null,
+      "color_guid": "ae478026414744898e758701ec76fd64",
+      "normal_guid": "f44081e03ad44928943c2b260f0f9512",
+      "color_source_sha256": "b258a6de2a54a55d72def698b9fb996b22fbf7f1ec0d10782d8f061c3069cf6d",
+      "color_game_sha256": "b258a6de2a54a55d72def698b9fb996b22fbf7f1ec0d10782d8f061c3069cf6d",
+      "normal_source_sha256": "19515cb0942fd307f64b62d6eac79b2397add3467f3296db6dddccd6cea1e900",
+      "normal_game_sha256": "19515cb0942fd307f64b62d6eac79b2397add3467f3296db6dddccd6cea1e900",
+      "color_bytes_equal": true,
+      "color_pixels_equal": true,
+      "normal_bytes_equal": true,
+      "normal_pixels_equal": true,
+      "normal_same_size": true,
+      "normal_alpha_equal": true,
+      "color_guid_unique": true,
+      "normal_guid_unique": true,
+      "binding_guid_matches": true,
+      "pose_pair_references": [
+        {
+          "asset": "unit_cannon_crew.asset",
+          "normal_guid": "f44081e03ad44928943c2b260f0f9512"
+        }
+      ],
+      "pose_pair_matches": true,
+      "checks_passed": true
+    },
+    {
+      "sheet": "crew_push6.png",
+      "color": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/crew_push6.png",
+      "source_color": "Docs/References/codex_k075_v1/game/Battle/Resources/BattleArt/Cannon/crew_push6.png",
+      "normal": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/crew_push6_normal.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/crew_push6_normal.png",
+      "size": [
+        1728,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "columns": 6,
+      "rows": 1,
+      "frame_order": [
+        "왼발 앞 디딤",
+        "왼발 가운데 디딤",
+        "왼발 뒤 디딤",
+        "오른발 앞 디딤",
+        "오른발 가운데 디딤",
+        "오른발 뒤 디딤"
+      ],
+      "state": "런타임 연결",
+      "reference_detail": "정의 또는 Resources 실행 경로 존재",
+      "references": [],
+      "resource_reference": "CannonArt.PushSheet → BattlePropView Resources.Load",
+      "color_guid": "e53bf35b221fea94a88dd49ee9ce0836",
+      "normal_guid": "342dbf14da6240e396e04523c7e10df2",
+      "color_source_sha256": "73b51b2e4840f1f6243267e0dbe21e0c21efe556c54a973ea3589bd7afa4cfab",
+      "color_game_sha256": "73b51b2e4840f1f6243267e0dbe21e0c21efe556c54a973ea3589bd7afa4cfab",
+      "normal_source_sha256": "db8b9ce8e705556d6d3587665e9a8be470e9d406274b2b6c03cbb6e2322fafdc",
+      "normal_game_sha256": "db8b9ce8e705556d6d3587665e9a8be470e9d406274b2b6c03cbb6e2322fafdc",
+      "color_bytes_equal": true,
+      "color_pixels_equal": true,
+      "normal_bytes_equal": true,
+      "normal_pixels_equal": true,
+      "normal_same_size": true,
+      "normal_alpha_equal": true,
+      "color_guid_unique": true,
+      "normal_guid_unique": true,
+      "binding_guid_matches": true,
+      "pose_pair_references": [],
+      "pose_pair_matches": true,
+      "checks_passed": true
+    },
+    {
+      "sheet": "crew_pull6.png",
+      "color": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/crew_pull6.png",
+      "source_color": "Docs/References/codex_k075_v1/game/Battle/Resources/BattleArt/Cannon/crew_pull6.png",
+      "normal": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/crew_pull6_normal.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/crew_pull6_normal.png",
+      "size": [
+        1728,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "columns": 6,
+      "rows": 1,
+      "frame_order": [
+        "왼발 앞 디딤",
+        "왼발 가운데 디딤",
+        "왼발 뒤 디딤",
+        "오른발 앞 디딤",
+        "오른발 가운데 디딤",
+        "오른발 뒤 디딤"
+      ],
+      "state": "런타임 연결",
+      "reference_detail": "정의 또는 Resources 실행 경로 존재",
+      "references": [],
+      "resource_reference": "CannonArt.PullSheet → BattlePropView Resources.Load",
+      "color_guid": "a218e5067399ab04f9963621f95dbc6f",
+      "normal_guid": "3ec66b6a7f164648b3b643ccf4892926",
+      "color_source_sha256": "ea60ccd1c7ec25c702e317160dfc70c185d883022d9f2b2c4728dbf56a78bef9",
+      "color_game_sha256": "ea60ccd1c7ec25c702e317160dfc70c185d883022d9f2b2c4728dbf56a78bef9",
+      "normal_source_sha256": "93319db7ce7ef6c0c63505f6586de5ea2e5afdb85ea560c1bd367dd6758a0955",
+      "normal_game_sha256": "93319db7ce7ef6c0c63505f6586de5ea2e5afdb85ea560c1bd367dd6758a0955",
+      "color_bytes_equal": true,
+      "color_pixels_equal": true,
+      "normal_bytes_equal": true,
+      "normal_pixels_equal": true,
+      "normal_same_size": true,
+      "normal_alpha_equal": true,
+      "color_guid_unique": true,
+      "normal_guid_unique": true,
+      "binding_guid_matches": true,
+      "pose_pair_references": [],
+      "pose_pair_matches": true,
+      "checks_passed": true
+    },
+    {
+      "sheet": "wizard_back_static.png",
+      "color": "Game/Assets/_Project/Art/Characters/Static/wizard_back_static.png",
+      "source_color": "Docs/References/codex_k076_v1/wizard_back_static.png",
+      "normal": "Game/Assets/_Project/Art/Characters/Static/wizard_back_static_normal.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/resume_v2/wizard_back_static_normal.png",
+      "size": [
+        288,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "columns": 1,
+      "rows": 1,
+      "frame_order": [
+        "후면 서기"
+      ],
+      "state": "런타임 연결",
+      "reference_detail": "정의 또는 Resources 실행 경로 존재",
+      "references": [
+        "unit_wizard.asset : sheet"
+      ],
+      "resource_reference": null,
+      "color_guid": "04a5da04782849b793241d496223d40b",
+      "normal_guid": "eff6c8f52b9b4c94bd730ada77fb899a",
+      "color_source_sha256": "3f96cd668def6932e33d1339c2c8c2d9d4516f9e02b16c159717623fcd993aa3",
+      "color_game_sha256": "3f96cd668def6932e33d1339c2c8c2d9d4516f9e02b16c159717623fcd993aa3",
+      "normal_source_sha256": "7764905850bb808520e4a0df8cb9d39afb6d1f7a0d1ce3bc8e098ebcb4b2ec59",
+      "normal_game_sha256": "7764905850bb808520e4a0df8cb9d39afb6d1f7a0d1ce3bc8e098ebcb4b2ec59",
+      "color_bytes_equal": true,
+      "color_pixels_equal": true,
+      "normal_bytes_equal": true,
+      "normal_pixels_equal": true,
+      "normal_same_size": true,
+      "normal_alpha_equal": true,
+      "color_guid_unique": true,
+      "normal_guid_unique": true,
+      "binding_guid_matches": true,
+      "pose_pair_references": [
+        {
+          "asset": "unit_wizard.asset",
+          "normal_guid": "eff6c8f52b9b4c94bd730ada77fb899a"
+        }
+      ],
+      "pose_pair_matches": true,
+      "checks_passed": true
+    },
+    {
+      "sheet": "wizard_static.png",
+      "color": "Game/Assets/_Project/Art/Characters/Static/wizard_static.png",
+      "source_color": "Docs/References/codex_k076_v1/wizard_static.png",
+      "normal": "Game/Assets/_Project/Art/Characters/Static/wizard_static_normal.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/resume_v2/wizard_static_normal.png",
+      "size": [
+        288,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "columns": 1,
+      "rows": 1,
+      "frame_order": [
+        "정면 서기"
+      ],
+      "state": "런타임 연결",
+      "reference_detail": "정의 또는 Resources 실행 경로 존재",
+      "references": [
+        "unit_wizard.asset : frontSheet"
+      ],
+      "resource_reference": null,
+      "color_guid": "01dc04a024d34e08b29ec75ba6216e56",
+      "normal_guid": "5c3f0f84a1dc4bbbbd5cc759f2d8e57c",
+      "color_source_sha256": "97523b2c8eac6c0ddd70b11fefee47516396b5d0167a939f301f16d7769facd7",
+      "color_game_sha256": "97523b2c8eac6c0ddd70b11fefee47516396b5d0167a939f301f16d7769facd7",
+      "normal_source_sha256": "d734d35cbf5f5e24b90ad7bf13224e853e819fcaab96040eccc300d9aff4f219",
+      "normal_game_sha256": "d734d35cbf5f5e24b90ad7bf13224e853e819fcaab96040eccc300d9aff4f219",
+      "color_bytes_equal": true,
+      "color_pixels_equal": true,
+      "normal_bytes_equal": true,
+      "normal_pixels_equal": true,
+      "normal_same_size": true,
+      "normal_alpha_equal": true,
+      "color_guid_unique": true,
+      "normal_guid_unique": true,
+      "binding_guid_matches": true,
+      "pose_pair_references": [
+        {
+          "asset": "unit_wizard.asset",
+          "normal_guid": "5c3f0f84a1dc4bbbbd5cc759f2d8e57c"
+        }
+      ],
+      "pose_pair_matches": true,
+      "checks_passed": true
+    },
+    {
+      "sheet": "wizard_cast.png",
+      "color": "Game/Assets/_Project/Art/Characters/Static/wizard_cast.png",
+      "source_color": "Docs/References/codex_k076_v1/wizard_cast.png",
+      "normal": "Game/Assets/_Project/Art/Characters/Static/wizard_cast_normal.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/resume_v2/wizard_cast_normal.png",
+      "size": [
+        1152,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "columns": 4,
+      "rows": 1,
+      "frame_order": [
+        "지팡이 들기",
+        "빛 모으기",
+        "방출",
+        "자세 회복"
+      ],
+      "state": "런타임 연결",
+      "reference_detail": "정의 또는 Resources 실행 경로 존재",
+      "references": [
+        "unit_wizard.asset : castSheet"
+      ],
+      "resource_reference": null,
+      "color_guid": "3ea33aa64d5f4fb5a070b5d76aa53dc3",
+      "normal_guid": "eb67234429c1410ca97af74f115a17bc",
+      "color_source_sha256": "2780e400d9e2183cab0444a9b413c05af2a0c2b87d0592825579cf5ea3c2ec2a",
+      "color_game_sha256": "2780e400d9e2183cab0444a9b413c05af2a0c2b87d0592825579cf5ea3c2ec2a",
+      "normal_source_sha256": "9f6f129d92e7c66c93600537e0d7467c2adc42705c2faa1ef0f2c1355787d301",
+      "normal_game_sha256": "9f6f129d92e7c66c93600537e0d7467c2adc42705c2faa1ef0f2c1355787d301",
+      "color_bytes_equal": true,
+      "color_pixels_equal": true,
+      "normal_bytes_equal": true,
+      "normal_pixels_equal": true,
+      "normal_same_size": true,
+      "normal_alpha_equal": true,
+      "color_guid_unique": true,
+      "normal_guid_unique": true,
+      "binding_guid_matches": true,
+      "pose_pair_references": [
+        {
+          "asset": "unit_wizard.asset",
+          "normal_guid": "eb67234429c1410ca97af74f115a17bc"
+        }
+      ],
+      "pose_pair_matches": true,
+      "checks_passed": true
+    },
+    {
+      "sheet": "wizard_walk.png",
+      "color": "Game/Assets/_Project/Art/Characters/Static/wizard_walk.png",
+      "source_color": "Docs/References/codex_k076_v1/wizard_walk.png",
+      "normal": "Game/Assets/_Project/Art/Characters/Static/wizard_walk_normal.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/resume_v2/wizard_walk_normal.png",
+      "size": [
+        1152,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "columns": 4,
+      "rows": 1,
+      "frame_order": [
+        "오른발 내딛기",
+        "다리 모으기",
+        "왼발 내딛기",
+        "다리 모으기 반복"
+      ],
+      "state": "런타임 연결",
+      "reference_detail": "정의 또는 Resources 실행 경로 존재",
+      "references": [
+        "unit_wizard.asset : runSheet"
+      ],
+      "resource_reference": null,
+      "color_guid": "dcbdb2e1ee2e4c32ae18b4726c57cc95",
+      "normal_guid": "4099b0abb2ff49dda2a6a3ae7fdb091f",
+      "color_source_sha256": "8f45fa038b0e6ead0caf2fd271d99bde19bc58d0bef4ea1637e089f2a90903aa",
+      "color_game_sha256": "8f45fa038b0e6ead0caf2fd271d99bde19bc58d0bef4ea1637e089f2a90903aa",
+      "normal_source_sha256": "0b08b2f7c2c7400b993b7922330659c6ca8425fc753479dbaf675acb7f8ae567",
+      "normal_game_sha256": "0b08b2f7c2c7400b993b7922330659c6ca8425fc753479dbaf675acb7f8ae567",
+      "color_bytes_equal": true,
+      "color_pixels_equal": true,
+      "normal_bytes_equal": true,
+      "normal_pixels_equal": true,
+      "normal_same_size": true,
+      "normal_alpha_equal": true,
+      "color_guid_unique": true,
+      "normal_guid_unique": true,
+      "binding_guid_matches": true,
+      "pose_pair_references": [
+        {
+          "asset": "unit_wizard.asset",
+          "normal_guid": "4099b0abb2ff49dda2a6a3ae7fdb091f"
+        }
+      ],
+      "pose_pair_matches": true,
+      "checks_passed": true
+    },
+    {
+      "sheet": "goblin_walk_attack4.png",
+      "color": "Game/Assets/_Project/Art/Characters/Goblin/goblin_walk_attack4.png",
+      "source_color": "Docs/References/codex_k077_v1/goblin_walk_attack4.png",
+      "normal": "Game/Assets/_Project/Art/Characters/Goblin/goblin_walk_attack4_normal.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/goblin_walk_attack4_normal.png",
+      "size": [
+        1152,
+        768
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "columns": 4,
+      "rows": 2,
+      "frame_order": [
+        "걷기: 왼발 지지",
+        "걷기: 통과",
+        "걷기: 오른발 지지",
+        "걷기: 반대 통과",
+        "공격: 준비",
+        "공격: 들어 올리기",
+        "공격: 내려치기",
+        "공격: 회복"
+      ],
+      "state": "런타임 연결",
+      "reference_detail": "정의 또는 Resources 실행 경로 존재",
+      "references": [
+        "enemy_goblin.asset : sheet"
+      ],
+      "resource_reference": null,
+      "color_guid": "b3d4ea76535e4d6d85ca1a232a8d7b12",
+      "normal_guid": "9fb5251f82fe44c99d0a66f7004038c4",
+      "color_source_sha256": "a58b0ffb89e69d65747bddc6c6487f38ba3317685f7acc06cd33af7d596aa7ef",
+      "color_game_sha256": "a58b0ffb89e69d65747bddc6c6487f38ba3317685f7acc06cd33af7d596aa7ef",
+      "normal_source_sha256": "4c556dd6184e7a2d6b0061d57059f3cc9b6dd4cd2b4ffff0c00069ac958f2044",
+      "normal_game_sha256": "4c556dd6184e7a2d6b0061d57059f3cc9b6dd4cd2b4ffff0c00069ac958f2044",
+      "color_bytes_equal": true,
+      "color_pixels_equal": true,
+      "normal_bytes_equal": true,
+      "normal_pixels_equal": true,
+      "normal_same_size": true,
+      "normal_alpha_equal": true,
+      "color_guid_unique": true,
+      "normal_guid_unique": true,
+      "binding_guid_matches": true,
+      "pose_pair_references": [
+        {
+          "asset": "enemy_goblin.asset",
+          "normal_guid": "9fb5251f82fe44c99d0a66f7004038c4"
+        }
+      ],
+      "pose_pair_matches": true,
+      "checks_passed": true
+    },
+    {
+      "sheet": "goblin_fall4.png",
+      "color": "Game/Assets/_Project/Art/Characters/Fall/goblin_fall4.png",
+      "source_color": "Docs/References/codex_k077_v1/goblin_fall4.png",
+      "normal": "Game/Assets/_Project/Art/Characters/Fall/goblin_fall4_normal.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/goblin_fall4_normal.png",
+      "size": [
+        1152,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "columns": 4,
+      "rows": 1,
+      "frame_order": [
+        "피격 반동",
+        "무릎 꺾임",
+        "옆으로 넘어짐",
+        "옆으로 누움"
+      ],
+      "state": "런타임 연결",
+      "reference_detail": "정의 또는 Resources 실행 경로 존재",
+      "references": [
+        "enemy_goblin.asset : deathSheet"
+      ],
+      "resource_reference": null,
+      "color_guid": "a090547155244c3dab2e40b2668f082c",
+      "normal_guid": "3efb7ef487b34449b5330c2a5fa45fc8",
+      "color_source_sha256": "7353e2ae7093551c4f2a9852057ef295846f03109526c84e226289fc519f31e2",
+      "color_game_sha256": "7353e2ae7093551c4f2a9852057ef295846f03109526c84e226289fc519f31e2",
+      "normal_source_sha256": "099a62d75995a84743b9ff4c7bc032c3437ce2bbef00400ead921801042e2fb7",
+      "normal_game_sha256": "099a62d75995a84743b9ff4c7bc032c3437ce2bbef00400ead921801042e2fb7",
+      "color_bytes_equal": true,
+      "color_pixels_equal": true,
+      "normal_bytes_equal": true,
+      "normal_pixels_equal": true,
+      "normal_same_size": true,
+      "normal_alpha_equal": true,
+      "color_guid_unique": true,
+      "normal_guid_unique": true,
+      "binding_guid_matches": true,
+      "pose_pair_references": [
+        {
+          "asset": "enemy_goblin.asset",
+          "normal_guid": "3efb7ef487b34449b5330c2a5fa45fc8"
+        }
+      ],
+      "pose_pair_matches": true,
+      "checks_passed": true
+    },
+    {
+      "sheet": "goblin_wallhit4.png",
+      "color": "Game/Assets/_Project/Art/Characters/Walk/goblin_wallhit4.png",
+      "source_color": "Docs/References/codex_k077_v1/goblin_wallhit4.png",
+      "normal": "Game/Assets/_Project/Art/Characters/Walk/goblin_wallhit4_normal.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/goblin_wallhit4_normal.png",
+      "size": [
+        1152,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "columns": 4,
+      "rows": 1,
+      "frame_order": [
+        "토벽 타격: 준비",
+        "토벽 타격: 머리 위로 들기",
+        "토벽 타격: 내려치기",
+        "토벽 타격: 회복"
+      ],
+      "state": "런타임 연결",
+      "reference_detail": "정의 또는 Resources 실행 경로 존재",
+      "references": [
+        "enemy_goblin.asset : attackSheet"
+      ],
+      "resource_reference": null,
+      "color_guid": "fe60191f0e09405294d9bb82dca91637",
+      "normal_guid": "2b774412f2a04d439a57d885d210f613",
+      "color_source_sha256": "3874cb622fa9ebc797cdb48498754a18421a41f58e8a532b4ac695f0d482c6e5",
+      "color_game_sha256": "3874cb622fa9ebc797cdb48498754a18421a41f58e8a532b4ac695f0d482c6e5",
+      "normal_source_sha256": "195834f41db810f9860b1e24946aabb3e21658ac87c4f4b0d0b205393ace274f",
+      "normal_game_sha256": "195834f41db810f9860b1e24946aabb3e21658ac87c4f4b0d0b205393ace274f",
+      "color_bytes_equal": true,
+      "color_pixels_equal": true,
+      "normal_bytes_equal": true,
+      "normal_pixels_equal": true,
+      "normal_same_size": true,
+      "normal_alpha_equal": true,
+      "color_guid_unique": true,
+      "normal_guid_unique": true,
+      "binding_guid_matches": true,
+      "pose_pair_references": [
+        {
+          "asset": "enemy_goblin.asset",
+          "normal_guid": "2b774412f2a04d439a57d885d210f613"
+        }
+      ],
+      "pose_pair_matches": true,
+      "checks_passed": true
+    },
+    {
+      "sheet": "ladder_goblin_static.png",
+      "color": "Game/Assets/_Project/Art/Characters/Static/ladder_goblin_static.png",
+      "source_color": "Docs/References/codex_k078_v1/ladder_goblin_static.png",
+      "normal": "Game/Assets/_Project/Art/Characters/Static/ladder_goblin_static_normal.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/ladder_goblin_static_normal.png",
+      "size": [
+        288,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "columns": 1,
+      "rows": 1,
+      "frame_order": [
+        "사다리 들고 서기"
+      ],
+      "state": "대체·보관용",
+      "reference_detail": "현재 전투에 별도 서기 상태 없음",
+      "references": [],
+      "resource_reference": null,
+      "color_guid": "076c7d2837a0409d84e0b43819d58342",
+      "normal_guid": "77f95da4826f4c6db5f354a0e008d8e1",
+      "color_source_sha256": "df4177cf4cfd1aab010f401f693198588483591a72ed9cff6e7665d19933961c",
+      "color_game_sha256": "df4177cf4cfd1aab010f401f693198588483591a72ed9cff6e7665d19933961c",
+      "normal_source_sha256": "207a52d607130519fe11a2d180abc3f7b06c742d9329b8d01b2598f3c47bd101",
+      "normal_game_sha256": "207a52d607130519fe11a2d180abc3f7b06c742d9329b8d01b2598f3c47bd101",
+      "color_bytes_equal": true,
+      "color_pixels_equal": true,
+      "normal_bytes_equal": true,
+      "normal_pixels_equal": true,
+      "normal_same_size": true,
+      "normal_alpha_equal": true,
+      "color_guid_unique": true,
+      "normal_guid_unique": true,
+      "binding_guid_matches": true,
+      "pose_pair_references": [],
+      "pose_pair_matches": true,
+      "checks_passed": true
+    },
+    {
+      "sheet": "ladder_goblin_walk.png",
+      "color": "Game/Assets/_Project/Art/Characters/Walk/ladder_goblin_walk.png",
+      "source_color": "Docs/References/codex_k078_v1/ladder_goblin_walk.png",
+      "normal": "Game/Assets/_Project/Art/Characters/Walk/ladder_goblin_walk_normal.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/ladder_goblin_walk_normal.png",
+      "size": [
+        1152,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "columns": 4,
+      "rows": 1,
+      "frame_order": [
+        "왼발 내딛기",
+        "엇갈림",
+        "오른발 내딛기",
+        "반대 엇갈림"
+      ],
+      "state": "대체·보관용",
+      "reference_detail": "carrySheet가 MovingSheet로 우선 선택되어 보관 중인 이전 걷기 대안",
+      "references": [
+        "enemy_goblin_ladder.asset : sheet"
+      ],
+      "resource_reference": null,
+      "color_guid": "27d178a3bbd3436a8694084ceb39abef",
+      "normal_guid": "91905e0854774e53b459fe292fed7aee",
+      "color_source_sha256": "6e2771e9f84b279250225e885d5d44b9c8e191389690636e0336994bd25372fb",
+      "color_game_sha256": "6e2771e9f84b279250225e885d5d44b9c8e191389690636e0336994bd25372fb",
+      "normal_source_sha256": "667ae488c688ed88c02193c702f14086a3c6853790eade46bd10abec0524d5a3",
+      "normal_game_sha256": "667ae488c688ed88c02193c702f14086a3c6853790eade46bd10abec0524d5a3",
+      "color_bytes_equal": true,
+      "color_pixels_equal": true,
+      "normal_bytes_equal": true,
+      "normal_pixels_equal": true,
+      "normal_same_size": true,
+      "normal_alpha_equal": true,
+      "color_guid_unique": true,
+      "normal_guid_unique": true,
+      "binding_guid_matches": true,
+      "pose_pair_references": [
+        {
+          "asset": "enemy_goblin_ladder.asset",
+          "normal_guid": "91905e0854774e53b459fe292fed7aee"
+        }
+      ],
+      "pose_pair_matches": true,
+      "checks_passed": true
+    },
+    {
+      "sheet": "ladder_goblin_carry_run4.png",
+      "color": "Game/Assets/_Project/Art/Characters/Ladder/ladder_goblin_carry_run4.png",
+      "source_color": "Docs/References/codex_k078_v1/ladder_goblin_carry_run4.png",
+      "normal": "Game/Assets/_Project/Art/Characters/Ladder/ladder_goblin_carry_run4_normal.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/ladder_goblin_carry_run4_normal.png",
+      "size": [
+        1152,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "columns": 4,
+      "rows": 1,
+      "frame_order": [
+        "왼발 지지·오른무릎 들기",
+        "오른발 지지·왼무릎 들기",
+        "왼발 지지·오른무릎 들기",
+        "오른발 지지·왼무릎 들기"
+      ],
+      "state": "런타임 연결",
+      "reference_detail": "정의 또는 Resources 실행 경로 존재",
+      "references": [
+        "enemy_goblin_ladder.asset : carrySheet"
+      ],
+      "resource_reference": null,
+      "color_guid": "b1fa7fe1a3014ba4a6ab27c493badfec",
+      "normal_guid": "bc3fc0e1e20a465db640062da107aa93",
+      "color_source_sha256": "228ba937b69248bd153d7c485fc407247b6f8d51b6eaab9cdc7636af87824a74",
+      "color_game_sha256": "228ba937b69248bd153d7c485fc407247b6f8d51b6eaab9cdc7636af87824a74",
+      "normal_source_sha256": "e9115d9d6c2939b52f7df80cea28e5ec4d6fc9ed37faa5e416b6a0f64473ac64",
+      "normal_game_sha256": "e9115d9d6c2939b52f7df80cea28e5ec4d6fc9ed37faa5e416b6a0f64473ac64",
+      "color_bytes_equal": true,
+      "color_pixels_equal": true,
+      "normal_bytes_equal": true,
+      "normal_pixels_equal": true,
+      "normal_same_size": true,
+      "normal_alpha_equal": true,
+      "color_guid_unique": true,
+      "normal_guid_unique": true,
+      "binding_guid_matches": true,
+      "pose_pair_references": [
+        {
+          "asset": "enemy_goblin_ladder.asset",
+          "normal_guid": "bc3fc0e1e20a465db640062da107aa93"
+        }
+      ],
+      "pose_pair_matches": true,
+      "checks_passed": true
+    },
+    {
+      "sheet": "ladder_goblin_deploy4.png",
+      "color": "Game/Assets/_Project/Art/Characters/Ladder/ladder_goblin_deploy4.png",
+      "source_color": "Docs/References/codex_k078_v1/ladder_goblin_deploy4.png",
+      "normal": "Game/Assets/_Project/Art/Characters/Ladder/ladder_goblin_deploy4_normal.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/ladder_goblin_deploy4_normal.png",
+      "size": [
+        1152,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "columns": 4,
+      "rows": 1,
+      "frame_order": [
+        "준비",
+        "앞으로 잡기",
+        "위로 세우기",
+        "성벽에 밀어 기대기"
+      ],
+      "state": "런타임 연결",
+      "reference_detail": "정의 또는 Resources 실행 경로 존재",
+      "references": [
+        "enemy_goblin_ladder.asset : deploySheet"
+      ],
+      "resource_reference": null,
+      "color_guid": "8f2fc603cafa4878892af63745ccd017",
+      "normal_guid": "2670cea7c7a84b63b130078fb1712120",
+      "color_source_sha256": "ea42b6ba6ef8cb1e5620da6f3e215e1e361234347f1f9c8e1c015b56da3b3f8d",
+      "color_game_sha256": "ea42b6ba6ef8cb1e5620da6f3e215e1e361234347f1f9c8e1c015b56da3b3f8d",
+      "normal_source_sha256": "b117f03bcb55ef7ab4e5468f1b5f860d7283daf7c04b725a40943bb4489b9ad1",
+      "normal_game_sha256": "b117f03bcb55ef7ab4e5468f1b5f860d7283daf7c04b725a40943bb4489b9ad1",
+      "color_bytes_equal": true,
+      "color_pixels_equal": true,
+      "normal_bytes_equal": true,
+      "normal_pixels_equal": true,
+      "normal_same_size": true,
+      "normal_alpha_equal": true,
+      "color_guid_unique": true,
+      "normal_guid_unique": true,
+      "binding_guid_matches": true,
+      "pose_pair_references": [
+        {
+          "asset": "enemy_goblin_ladder.asset",
+          "normal_guid": "2670cea7c7a84b63b130078fb1712120"
+        }
+      ],
+      "pose_pair_matches": true,
+      "checks_passed": true
+    },
+    {
+      "sheet": "ladder_goblin_climb4.png",
+      "color": "Game/Assets/_Project/Art/Characters/Ladder/ladder_goblin_climb4.png",
+      "source_color": "Docs/References/codex_k078_v1/ladder_goblin_climb4.png",
+      "normal": "Game/Assets/_Project/Art/Characters/Ladder/ladder_goblin_climb4_normal.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/ladder_goblin_climb4_normal.png",
+      "size": [
+        1152,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "columns": 4,
+      "rows": 1,
+      "frame_order": [
+        "화면 오른쪽 손·무릎 올림",
+        "화면 왼쪽 손으로 옮겨 잡기",
+        "화면 왼쪽 손·무릎 올림",
+        "화면 오른쪽으로 다시 잡기"
+      ],
+      "state": "런타임 연결",
+      "reference_detail": "정의 또는 Resources 실행 경로 존재",
+      "references": [
+        "enemy_goblin_ladder.asset : climbSheet"
+      ],
+      "resource_reference": null,
+      "color_guid": "41d0da7f932044bc9f35a3afb4835b28",
+      "normal_guid": "cdf7215af48141c8946b3479092608af",
+      "color_source_sha256": "aa21e873540a0fb0057b51dfd763bee233df059028dc76401e1e07459e3c43bd",
+      "color_game_sha256": "aa21e873540a0fb0057b51dfd763bee233df059028dc76401e1e07459e3c43bd",
+      "normal_source_sha256": "ef17525c5e10bd3a4ba433e4ef4e0d4ddf66447c35cca6cb89f2f3addc02af52",
+      "normal_game_sha256": "ef17525c5e10bd3a4ba433e4ef4e0d4ddf66447c35cca6cb89f2f3addc02af52",
+      "color_bytes_equal": true,
+      "color_pixels_equal": true,
+      "normal_bytes_equal": true,
+      "normal_pixels_equal": true,
+      "normal_same_size": true,
+      "normal_alpha_equal": true,
+      "color_guid_unique": true,
+      "normal_guid_unique": true,
+      "binding_guid_matches": true,
+      "pose_pair_references": [
+        {
+          "asset": "enemy_goblin_ladder.asset",
+          "normal_guid": "cdf7215af48141c8946b3479092608af"
+        }
+      ],
+      "pose_pair_matches": true,
+      "checks_passed": true
+    },
+    {
+      "sheet": "ladder_front.png",
+      "color": "Game/Assets/_Project/Art/Characters/Ladder/ladder_front.png",
+      "source_color": "Docs/References/codex_k078_v1/ladder_front.png",
+      "normal": "Game/Assets/_Project/Art/Characters/Ladder/ladder_front_normal.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/ladder_front_normal.png",
+      "size": [
+        256,
+        1536
+      ],
+      "cell": [
+        256,
+        1536
+      ],
+      "columns": 1,
+      "rows": 1,
+      "frame_order": [
+        "정면"
+      ],
+      "state": "런타임 연결",
+      "reference_detail": "정의 또는 Resources 실행 경로 존재",
+      "references": [
+        "enemy_goblin_ladder.asset : ladderSheet"
+      ],
+      "resource_reference": null,
+      "color_guid": "601d893506ea42f8a2d813e68e5c4a36",
+      "normal_guid": "df12793d94f248409e2a181da780487c",
+      "color_source_sha256": "7892c618ff48430388b622b886083d30b433a6ea1c8e4788938e3cd8d9c308e6",
+      "color_game_sha256": "7892c618ff48430388b622b886083d30b433a6ea1c8e4788938e3cd8d9c308e6",
+      "normal_source_sha256": "96bdc53dd5d891f7e5e84236caebbc2a50e11b79148dbe52dd9397429848f903",
+      "normal_game_sha256": "96bdc53dd5d891f7e5e84236caebbc2a50e11b79148dbe52dd9397429848f903",
+      "color_bytes_equal": true,
+      "color_pixels_equal": true,
+      "normal_bytes_equal": true,
+      "normal_pixels_equal": true,
+      "normal_same_size": true,
+      "normal_alpha_equal": true,
+      "color_guid_unique": true,
+      "normal_guid_unique": true,
+      "binding_guid_matches": true,
+      "pose_pair_references": [
+        {
+          "asset": "enemy_goblin_ladder.asset",
+          "normal_guid": "df12793d94f248409e2a181da780487c"
+        }
+      ],
+      "pose_pair_matches": true,
+      "checks_passed": true
+    },
+    {
+      "sheet": "ladder_side.png",
+      "color": "Game/Assets/_Project/Art/Characters/Ladder/ladder_side.png",
+      "source_color": "Docs/References/codex_k078_v1/ladder_side.png",
+      "normal": "Game/Assets/_Project/Art/Characters/Ladder/ladder_side_normal.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/ladder_side_normal.png",
+      "size": [
+        256,
+        1536
+      ],
+      "cell": [
+        256,
+        1536
+      ],
+      "columns": 1,
+      "rows": 1,
+      "frame_order": [
+        "측면"
+      ],
+      "state": "런타임 연결",
+      "reference_detail": "정의 또는 Resources 실행 경로 존재",
+      "references": [
+        "enemy_goblin_ladder.asset : ladderSideSheet"
+      ],
+      "resource_reference": null,
+      "color_guid": "a4b674a32fac4373b2e46e4a6c805e9d",
+      "normal_guid": "b7632d23eaa04608b87889b27720a650",
+      "color_source_sha256": "c87bb7abebcbf4add38148b71621446a3094fa690ddfe8f9f55d225a53fbe86b",
+      "color_game_sha256": "c87bb7abebcbf4add38148b71621446a3094fa690ddfe8f9f55d225a53fbe86b",
+      "normal_source_sha256": "e6484942d5386370b494c2a4ce39a1c56a0adc940339a8fa86167da3f0ab1d1d",
+      "normal_game_sha256": "e6484942d5386370b494c2a4ce39a1c56a0adc940339a8fa86167da3f0ab1d1d",
+      "color_bytes_equal": true,
+      "color_pixels_equal": true,
+      "normal_bytes_equal": true,
+      "normal_pixels_equal": true,
+      "normal_same_size": true,
+      "normal_alpha_equal": true,
+      "color_guid_unique": true,
+      "normal_guid_unique": true,
+      "binding_guid_matches": true,
+      "pose_pair_references": [
+        {
+          "asset": "enemy_goblin_ladder.asset",
+          "normal_guid": "b7632d23eaa04608b87889b27720a650"
+        }
+      ],
+      "pose_pair_matches": true,
+      "checks_passed": true
+    },
+    {
+      "sheet": "ogre_static.png",
+      "color": "Game/Assets/_Project/Art/Characters/Static/ogre_static.png",
+      "source_color": "Docs/References/codex_k079_v1/ogre_static.png",
+      "normal": "Game/Assets/_Project/Art/Characters/Static/ogre_static_normal.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/ogre_static_normal.png",
+      "size": [
+        256,
+        384
+      ],
+      "cell": [
+        256,
+        384
+      ],
+      "columns": 1,
+      "rows": 1,
+      "frame_order": [
+        "가만히 서기"
+      ],
+      "state": "대체·보관용",
+      "reference_detail": "현재 전투에 별도 서기 상태 없음",
+      "references": [],
+      "resource_reference": null,
+      "color_guid": "d03684aa8c6e4a67a4524846dd206b16",
+      "normal_guid": "31967d1dbbcc41608ffb098552818283",
+      "color_source_sha256": "b2fead452612250ad05ca074b86bac8bccfa4858c1846cd6497fe8312f8c13af",
+      "color_game_sha256": "b2fead452612250ad05ca074b86bac8bccfa4858c1846cd6497fe8312f8c13af",
+      "normal_source_sha256": "9560d12d75ab5a21e36395cb9b6f5ac7da7d6795ea3ae52d7f24b26b62b19744",
+      "normal_game_sha256": "9560d12d75ab5a21e36395cb9b6f5ac7da7d6795ea3ae52d7f24b26b62b19744",
+      "color_bytes_equal": true,
+      "color_pixels_equal": true,
+      "normal_bytes_equal": true,
+      "normal_pixels_equal": true,
+      "normal_same_size": true,
+      "normal_alpha_equal": true,
+      "color_guid_unique": true,
+      "normal_guid_unique": true,
+      "binding_guid_matches": true,
+      "pose_pair_references": [],
+      "pose_pair_matches": true,
+      "checks_passed": true
+    },
+    {
+      "sheet": "ogre_walk.png",
+      "color": "Game/Assets/_Project/Art/Characters/Walk/ogre_walk.png",
+      "source_color": "Docs/References/codex_k079_v1/ogre_walk.png",
+      "normal": "Game/Assets/_Project/Art/Characters/Walk/ogre_walk_normal.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/ogre_walk_normal.png",
+      "size": [
+        1024,
+        384
+      ],
+      "cell": [
+        256,
+        384
+      ],
+      "columns": 4,
+      "rows": 1,
+      "frame_order": [
+        "왼발 전진",
+        "중간 디딤",
+        "오른발 전진",
+        "반대쪽 중간 디딤"
+      ],
+      "state": "런타임 연결",
+      "reference_detail": "정의 또는 Resources 실행 경로 존재",
+      "references": [
+        "enemy_ogre.asset : sheet"
+      ],
+      "resource_reference": null,
+      "color_guid": "66768a11424c46e18ebf47a6236d46f7",
+      "normal_guid": "f28583b84c324e5da805547d686ec2c6",
+      "color_source_sha256": "5eaabb2f9a89e59996778a27a3cfe592d81e0c039c19a3f825af608ecb38e3a8",
+      "color_game_sha256": "5eaabb2f9a89e59996778a27a3cfe592d81e0c039c19a3f825af608ecb38e3a8",
+      "normal_source_sha256": "c42212462b1b86aca59a6cacea287ed6cc35a6fa5a706dcc63a2f31b258b4d67",
+      "normal_game_sha256": "c42212462b1b86aca59a6cacea287ed6cc35a6fa5a706dcc63a2f31b258b4d67",
+      "color_bytes_equal": true,
+      "color_pixels_equal": true,
+      "normal_bytes_equal": true,
+      "normal_pixels_equal": true,
+      "normal_same_size": true,
+      "normal_alpha_equal": true,
+      "color_guid_unique": true,
+      "normal_guid_unique": true,
+      "binding_guid_matches": true,
+      "pose_pair_references": [
+        {
+          "asset": "enemy_ogre.asset",
+          "normal_guid": "f28583b84c324e5da805547d686ec2c6"
+        }
+      ],
+      "pose_pair_matches": true,
+      "checks_passed": true
+    },
+    {
+      "sheet": "ogre_attack4.png",
+      "color": "Game/Assets/_Project/Art/Characters/Walk/ogre_attack4.png",
+      "source_color": "Docs/References/codex_k079_v1/ogre_attack4.png",
+      "normal": "Game/Assets/_Project/Art/Characters/Walk/ogre_attack4_normal.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/ogre_attack4_normal.png",
+      "size": [
+        1024,
+        384
+      ],
+      "cell": [
+        256,
+        384
+      ],
+      "columns": 4,
+      "rows": 1,
+      "frame_order": [
+        "공격 준비",
+        "머리 위로 들기",
+        "성벽 내려치기",
+        "준비 자세 복귀"
+      ],
+      "state": "런타임 연결",
+      "reference_detail": "정의 또는 Resources 실행 경로 존재",
+      "references": [
+        "enemy_ogre.asset : attackSheet"
+      ],
+      "resource_reference": null,
+      "color_guid": "950740006b1b4e93af480ba8376186be",
+      "normal_guid": "a317b7ab5a094a86bcffc4c383e8dceb",
+      "color_source_sha256": "0cb8cb05c79651b54c32073c5215339efe76561c95c287a2a8d60f1e0ecd7bcc",
+      "color_game_sha256": "0cb8cb05c79651b54c32073c5215339efe76561c95c287a2a8d60f1e0ecd7bcc",
+      "normal_source_sha256": "d3d5489e52f338f725cbc0b9e8dfd76fb6fc56e1e4255c04707774c7a6c45514",
+      "normal_game_sha256": "d3d5489e52f338f725cbc0b9e8dfd76fb6fc56e1e4255c04707774c7a6c45514",
+      "color_bytes_equal": true,
+      "color_pixels_equal": true,
+      "normal_bytes_equal": true,
+      "normal_pixels_equal": true,
+      "normal_same_size": true,
+      "normal_alpha_equal": true,
+      "color_guid_unique": true,
+      "normal_guid_unique": true,
+      "binding_guid_matches": true,
+      "pose_pair_references": [
+        {
+          "asset": "enemy_ogre.asset",
+          "normal_guid": "a317b7ab5a094a86bcffc4c383e8dceb"
+        }
+      ],
+      "pose_pair_matches": true,
+      "checks_passed": true
+    },
+    {
+      "sheet": "ogre_fall4.png",
+      "color": "Game/Assets/_Project/Art/Characters/Fall/ogre_fall4.png",
+      "source_color": "Docs/References/codex_k079_v1/ogre_fall4.png",
+      "normal": "Game/Assets/_Project/Art/Characters/Fall/ogre_fall4_normal.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/ogre_fall4_normal.png",
+      "size": [
+        1024,
+        384
+      ],
+      "cell": [
+        256,
+        384
+      ],
+      "columns": 4,
+      "rows": 1,
+      "frame_order": [
+        "뒤로 휘청임",
+        "무릎 꺾임",
+        "옆으로 넘어짐",
+        "바닥 정지"
+      ],
+      "state": "런타임 연결",
+      "reference_detail": "정의 또는 Resources 실행 경로 존재",
+      "references": [
+        "enemy_ogre.asset : deathSheet"
+      ],
+      "resource_reference": null,
+      "color_guid": "78a0e7b2a3ad4dbcac9ee81260abec90",
+      "normal_guid": "906e3e85b32842b3a5f042eded3423aa",
+      "color_source_sha256": "886add16e6aaffb5fd3ec9d3e973598ecaadde526d632ad54e27bab3d82b7ab2",
+      "color_game_sha256": "886add16e6aaffb5fd3ec9d3e973598ecaadde526d632ad54e27bab3d82b7ab2",
+      "normal_source_sha256": "a0bdeccb20504123f9309e5f07491346c5cca81a9bbf211d865224c384755924",
+      "normal_game_sha256": "a0bdeccb20504123f9309e5f07491346c5cca81a9bbf211d865224c384755924",
+      "color_bytes_equal": true,
+      "color_pixels_equal": true,
+      "normal_bytes_equal": true,
+      "normal_pixels_equal": true,
+      "normal_same_size": true,
+      "normal_alpha_equal": true,
+      "color_guid_unique": true,
+      "normal_guid_unique": true,
+      "binding_guid_matches": true,
+      "pose_pair_references": [
+        {
+          "asset": "enemy_ogre.asset",
+          "normal_guid": "906e3e85b32842b3a5f042eded3423aa"
+        }
+      ],
+      "pose_pair_matches": true,
+      "checks_passed": true
+    },
+    {
+      "sheet": "hero_back_idle.png",
+      "color": "Game/Assets/_Project/Art/Characters/Hero/hero_back_idle.png",
+      "source_color": "Docs/References/codex_k080_v1/hero_back_idle.png",
+      "normal": "Game/Assets/_Project/Art/Characters/Hero/hero_back_idle_normal.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/hero_back_idle_normal.png",
+      "size": [
+        288,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "columns": 1,
+      "rows": 1,
+      "frame_order": [
+        "후면 대기"
+      ],
+      "state": "런타임 연결",
+      "reference_detail": "정의 또는 Resources 실행 경로 존재",
+      "references": [
+        "unit_hero.asset : idleSheet"
+      ],
+      "resource_reference": null,
+      "color_guid": "bfd7be73219f4cf2824e70126bda9be6",
+      "normal_guid": "2eb3af22967146cca08a3c8be0a71baf",
+      "color_source_sha256": "1bda81fed1caf6598540eab6c02a6fe2d24264a884afd2ff6ec7903b039ffa94",
+      "color_game_sha256": "1bda81fed1caf6598540eab6c02a6fe2d24264a884afd2ff6ec7903b039ffa94",
+      "normal_source_sha256": "7c552d1a23c391bd84955896fa67caad150c63fef902a433fca4021b5ae61646",
+      "normal_game_sha256": "7c552d1a23c391bd84955896fa67caad150c63fef902a433fca4021b5ae61646",
+      "color_bytes_equal": true,
+      "color_pixels_equal": true,
+      "normal_bytes_equal": true,
+      "normal_pixels_equal": true,
+      "normal_same_size": true,
+      "normal_alpha_equal": true,
+      "color_guid_unique": true,
+      "normal_guid_unique": true,
+      "binding_guid_matches": true,
+      "pose_pair_references": [
+        {
+          "asset": "unit_hero.asset",
+          "normal_guid": "2eb3af22967146cca08a3c8be0a71baf"
+        }
+      ],
+      "pose_pair_matches": true,
+      "checks_passed": true
+    },
+    {
+      "sheet": "hero_walk_run_grid.png",
+      "color": "Game/Assets/_Project/Art/Characters/Hero/hero_walk_run_grid.png",
+      "source_color": "Docs/References/codex_k080_v1/hero_walk_run_grid.png",
+      "normal": "Game/Assets/_Project/Art/Characters/Hero/hero_walk_run_grid_normal.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/hero_walk_run_grid_normal.png",
+      "size": [
+        1152,
+        1536
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "columns": 4,
+      "rows": 4,
+      "frame_order": [
+        [
+          "후면 걷기 1",
+          "후면 걷기 2",
+          "후면 걷기 3",
+          "후면 걷기 4"
+        ],
+        [
+          "왼쪽 걷기 1",
+          "왼쪽 걷기 2",
+          "왼쪽 걷기 3",
+          "왼쪽 걷기 4"
+        ],
+        [
+          "왼쪽 달리기 1",
+          "왼쪽 달리기 2",
+          "왼쪽 달리기 3",
+          "왼쪽 달리기 4"
+        ],
+        [
+          "정면 걷기 1",
+          "정면 걷기 2",
+          "정면 걷기 3",
+          "정면 걷기 4"
+        ]
+      ],
+      "state": "런타임 연결",
+      "reference_detail": "정의 또는 Resources 실행 경로 존재",
+      "references": [
+        "unit_hero.asset : sheet"
+      ],
+      "resource_reference": null,
+      "color_guid": "c4e761f2657a4ac284f9c21bbf2ab6fa",
+      "normal_guid": "cac8495632e14c56b0e5e429000b757f",
+      "color_source_sha256": "5587d9d2e62d69b2e7a24de3015e0635d54264a3d9c669e2878a72d517d82fd6",
+      "color_game_sha256": "5587d9d2e62d69b2e7a24de3015e0635d54264a3d9c669e2878a72d517d82fd6",
+      "normal_source_sha256": "fea5d6e4c9c59657826a7339f03b43cc71ac37052c547abeb77e2d8349c31bc0",
+      "normal_game_sha256": "fea5d6e4c9c59657826a7339f03b43cc71ac37052c547abeb77e2d8349c31bc0",
+      "color_bytes_equal": true,
+      "color_pixels_equal": true,
+      "normal_bytes_equal": true,
+      "normal_pixels_equal": true,
+      "normal_same_size": true,
+      "normal_alpha_equal": true,
+      "color_guid_unique": true,
+      "normal_guid_unique": true,
+      "binding_guid_matches": true,
+      "pose_pair_references": [
+        {
+          "asset": "unit_hero.asset",
+          "normal_guid": "cac8495632e14c56b0e5e429000b757f"
+        }
+      ],
+      "pose_pair_matches": true,
+      "checks_passed": true
+    },
+    {
+      "sheet": "hero_command.png",
+      "color": "Game/Assets/_Project/Art/Characters/Hero/hero_command.png",
+      "source_color": "Docs/References/codex_k080_v1/hero_command.png",
+      "normal": "Game/Assets/_Project/Art/Characters/Hero/hero_command_normal.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/hero_command_normal.png",
+      "size": [
+        864,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "columns": 3,
+      "rows": 1,
+      "frame_order": [
+        "후면 대기",
+        "손 올리기",
+        "팔 뻗어 지휘"
+      ],
+      "state": "런타임 연결",
+      "reference_detail": "정의 또는 Resources 실행 경로 존재",
+      "references": [
+        "unit_hero.asset : commandSheet"
+      ],
+      "resource_reference": null,
+      "color_guid": "15000a1c800945ceb693f3d98b76546a",
+      "normal_guid": "a466497703cc459481cbf3ee516c2835",
+      "color_source_sha256": "e7997c7b3c4a9c7ac6c34130a47d0eab9ff8bcca378809ceea5812387a615fc8",
+      "color_game_sha256": "e7997c7b3c4a9c7ac6c34130a47d0eab9ff8bcca378809ceea5812387a615fc8",
+      "normal_source_sha256": "0aeeb3eedbf3e3cc3c60e0b560656c36d08813ee31caf672ceb88ad201ed77e3",
+      "normal_game_sha256": "0aeeb3eedbf3e3cc3c60e0b560656c36d08813ee31caf672ceb88ad201ed77e3",
+      "color_bytes_equal": true,
+      "color_pixels_equal": true,
+      "normal_bytes_equal": true,
+      "normal_pixels_equal": true,
+      "normal_same_size": true,
+      "normal_alpha_equal": true,
+      "color_guid_unique": true,
+      "normal_guid_unique": true,
+      "binding_guid_matches": true,
+      "pose_pair_references": [
+        {
+          "asset": "unit_hero.asset",
+          "normal_guid": "a466497703cc459481cbf3ee516c2835"
+        }
+      ],
+      "pose_pair_matches": true,
+      "checks_passed": true
+    }
+  ],
+  "limits_ko": "정적 파일·규격·참조 검사. 이 갤러리는 실제 게임 캡처나 Unity/브라우저 실행 검증이 아니다. 실행 시험은 루트 담당의 별도 기록을 따른다."
+}

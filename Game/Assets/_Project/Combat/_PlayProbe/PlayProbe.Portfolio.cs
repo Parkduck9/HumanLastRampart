@@ -128,6 +128,8 @@ public sealed partial class PlayProbe
     {
         Directory.CreateDirectory(Out);
         log = new StringBuilder();
+        Assert.AreNotEqual(UnityEngine.Rendering.GraphicsDeviceType.Null, SystemInfo.graphicsDeviceType,
+            "시각 촬영에는 그래픽 장치가 필요");
         Time.captureDeltaTime = 1f / 20f;
         KeepPreparation = true;
         CrowdedProbeTerrain crowdedTerrain = null;
@@ -164,15 +166,38 @@ public sealed partial class PlayProbe
             AssertCrowdedProbe(sim);
             entry.StartBattle();
 
-            // 적이 성벽 앞에 몰릴 때까지 (게임 시간 70초)
+            // 초반 장면의 시각 검토용 촬영이다. 70초 생존·후반 밀집 성능 시험과 구분한다.
+            const float captureAt = 6f;
+            Note($"시각 촬영 목표 {captureAt:0}초 · 후반 생존·성능 검증 아님");
             yield return Press("×4", 120);
-            for (int i = 0; i < 6000 && sim.Elapsed < 70f && !sim.Ended; i++) yield return null;
+            for (int i = 0; i < 6000 && sim.Elapsed < captureAt && !sim.Ended; i++) yield return null;
+            sim.Complete();
+            Assert.IsFalse(sim.Ended, "촬영 목표 시간 전에 전투 종료");
+            Assert.GreaterOrEqual(sim.Elapsed, captureAt, "촬영 목표 시간 도달");
             yield return Press("×1", 120);
             for (int i = 0; i < 10; i++) yield return null;
             sim.Complete();
+
+            void AssertLive()
+            {
+                sim.Complete();
+                Assert.IsFalse(sim.Ended, "촬영 도중 전투 종료");
+                Assert.AreEqual(ScreenId.Battle, GameFlow.Instance.CurrentScreen, "정상 전투 화면");
+            }
+
+            IEnumerator CheckedCapture(string name, bool sceneOnly = false)
+            {
+                AssertLive();
+                string path = Path.Combine(Out, $"{shot + 1:00}_{name}.png");
+                yield return Capture(name, PfWidth, PfHeight, sceneOnly);
+                AssertLive();
+                Assert.IsTrue(File.Exists(path), $"촬영 파일 생성: {name}");
+                Note($"촬영 {name}: 게임 {sim.Elapsed:0.00}초 · 전투 진행 · 지도 {entry.MapOpen}");
+            }
+
             Note($"낮: 게임 {sim.Elapsed:0}초, 병사 {sim.SoldierCount}명, 처치 {sim.Kills}");
-            yield return Capture("pf_day_clean", PfWidth, PfHeight, true);
-            yield return Capture("pf_day_hud", PfWidth, PfHeight);
+            yield return CheckedCapture("pf_day_clean", true);
+            yield return CheckedCapture("pf_day_hud");
 
             // 정면 성벽 앞 25m에 폭발·불바다 → 터지는 순간
             sim.Complete();
@@ -184,32 +209,53 @@ public sealed partial class PlayProbe
                 else if (blast < 0) blast = s;
             }
 
-            bool fireOk = fire >= 0 && sim.CastSpell(fire, at + new Vector3(-8f, 0f, 4f));
-            bool blastOk = blast >= 0 && sim.CastSpell(blast, at + new Vector3(6f, 0f, 0f));
+            AssertLive();
+            Assert.IsTrue(sim.WizardPresent, "촬영 전투에 마법사 참가");
+            Assert.IsFalse(sim.WizardMoving, "시전 전에 마법사 정지");
+            Assert.AreEqual(0, sim.WizardSide, "즉시 시전할 북쪽 성벽");
+            Assert.GreaterOrEqual(fire, 0, "불바다 정의");
+            Assert.GreaterOrEqual(blast, 0, "폭발 정의");
+            int effectsBefore = sim.EffectsStarted;
+            bool fireOk = sim.CastSpell(fire, at + new Vector3(-8f, 0f, 4f));
+            bool blastOk = sim.CastSpell(blast, at + new Vector3(6f, 0f, 0f));
             Note($"마법: 불바다 {(fireOk ? "시전" : "실패")}, 폭발 {(blastOk ? "시전" : "실패")}");
+            Assert.IsTrue(fireOk, "불바다 시전 성공");
+            Assert.IsTrue(blastOk, "폭발 시전 성공");
+            sim.Complete();
+            Assert.AreEqual(effectsBefore + 2, sim.EffectsStarted, "이동 예약이 아닌 두 마법 효과 시작");
             for (int i = 0; i < 22; i++) yield return null;   // 폭발은 1초 뒤 (프레임당 0.05초)
-            yield return Capture("pf_day_blast_clean", PfWidth, PfHeight, true);
+            AssertLive();
+            Assert.IsTrue(sim.Effects.Any(e => e.Fire && e.TimeLeft > 0f), "촬영 시 불바다 효과 유지");
+            Assert.IsTrue(sim.Effects.Any(e => !e.Fire && !e.Pending && e.TimeLeft > 0f), "촬영 시 실제 폭발 효과");
+            yield return CheckedCapture("pf_day_blast_clean", true);
             for (int i = 0; i < 6; i++) yield return null;
-            yield return Capture("pf_day_blast_later_clean", PfWidth, PfHeight, true);
+            yield return CheckedCapture("pf_day_blast_later_clean", true);
 
             // 밤 (횃불·불빛)
             f = setup.Forecast; f.TimeOfDay = TimeOfDay.Night; setup.Forecast = f; sim.WeatherDirty = true;
             for (int i = 0; i < 40; i++) yield return null;
-            yield return Capture("pf_night_clean", PfWidth, PfHeight, true);
-            yield return Capture("pf_night_hud", PfWidth, PfHeight);
+            yield return CheckedCapture("pf_night_clean", true);
+            yield return CheckedCapture("pf_night_hud");
             f = setup.Forecast; f.TimeOfDay = TimeOfDay.Day; setup.Forecast = f; sim.WeatherDirty = true;
             for (int i = 0; i < 10; i++) yield return null;
 
             // 지도 (표시판이 내용이므로 같이 찍는다)
             entry.ToggleMap();
             for (int i = 0; i < 5; i++) yield return null;
+            AssertLive();
+            Assert.IsTrue(entry.MapOpen, "지도 열림");
+            Assert.IsNotNull(entry.MapCamera, "지도 카메라");
             entry.MapCamera.SetLevel(HumanLastRampart.Combat.Battle.BattleMapCamera.Level.Full);
             for (int i = 0; i < 5; i++) yield return null;
-            yield return Capture("pf_map_full", PfWidth, PfHeight);
+            Assert.AreEqual(HumanLastRampart.Combat.Battle.BattleMapCamera.Level.Full, entry.MapCamera.Current, "전체 지도 단계");
+            yield return CheckedCapture("pf_map_full");
             entry.MapCamera.SetLevel(HumanLastRampart.Combat.Battle.BattleMapCamera.Level.Side);
             for (int i = 0; i < 5; i++) yield return null;
-            yield return Capture("pf_map_side", PfWidth, PfHeight);
+            Assert.IsTrue(entry.MapOpen, "한 면 촬영 전 지도 유지");
+            Assert.AreEqual(HumanLastRampart.Combat.Battle.BattleMapCamera.Level.Side, entry.MapCamera.Current, "한 면 지도 단계");
+            yield return CheckedCapture("pf_map_side");
             entry.ToggleMap();
+            Assert.IsFalse(entry.MapOpen, "지도 닫힘");
         }
         finally
         {

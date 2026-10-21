@@ -156,6 +156,12 @@ namespace HumanLastRampart.Combat.Battle
             var trapLayout = PerfLabArt.SheetLayout.Make(1, 1, 0.5f, PilePivotY, 1f);
             trapBuried = MakeKind(Folder + "trap_1", traps, trapLayout, false);
             trapCrater = MakeKind(Folder + "trap_2", traps, trapLayout, false);
+            if (trapCrater != null)
+            {
+                trapCrater.Block.SetFloat("_GroundPlane", 1f);
+                // 그림 중심을 지면의 함정 위치에 둔다. 카메라를 돌려도 판이 일어서지 않는다.
+                trapCrater.Block.SetVector(PivotId, new Vector4(0.5f, 0.5f, 0f, 0f));
+            }
 
             // 토벽·바위 덩이 판 (K-049). 토벽 판은 성벽과 나란히 고정 (남북 면 = 동서로 긴 판, 동서 면 = 남북으로 긴 판)
             TerrainLayout shape = sim.TerrainLayout;
@@ -739,7 +745,7 @@ namespace HumanLastRampart.Combat.Battle
                 float size = exploded ? Mathf.Max(TrapCanvas, trap.CraterRadius * 2f / TrapContentWidth) : TrapCanvas;
                 kind.Instances[kind.Count++] = new PerfLabInstance
                 {
-                    PosFrame = new float4(trap.Position.x, 0f, trap.Position.z, 0f),
+                    PosFrame = new float4(trap.Position.x, exploded ? 0.025f : 0f, trap.Position.z, 0f),
                     TintSize = new float4(shade, shade, shade, size),
                 };
             }
