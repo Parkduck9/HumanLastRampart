@@ -135,6 +135,10 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
             if (r.Outcome == BattleOutcome.Defeat && lossesBefore == 0)
             {
                 // W8: 첫 패배는 엔딩이 아니라 같은 요새의 다음 낮 (등대 복구 절반). 정비를 거쳐 같은 밤을 다시 치른다
+                yield return WaitScreen(ScreenId.Result, 900);   // W11: 첫 패배도 결과 화면(잃은 병력 보고)을 거친다
+                yield return WaitReady("다음", 300);
+                Assert.AreEqual(r.BattleRunId, c.LastAppliedBattleRunId, "진 밤의 결과 반영");
+                yield return Click("다음", 60);
                 yield return WaitScreen(ScreenId.Prep, 900);
                 Note($"첫 패배 → 낮 (복구 {c.BeaconRepair}, 연속 패배 {c.ConsecutiveNightLosses})");
                 Assert.AreEqual(1, c.ConsecutiveNightLosses, "연속 패배 +1");
@@ -161,7 +165,9 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
             Assert.AreEqual(gold0 + r.EarnedGold, c.Gold, "결과 화면에서 골드 한 번 반영");
             Assert.AreEqual(r.BattleRunId, c.LastAppliedBattleRunId, "반영 표시 기록");
             int lost = r.SquadLosses.Sum(l => l.LostCount);
-            Assert.AreEqual(soldiers0 - lost - c.LastNightGarrison, c.Squads.Sum(s => s.Count), "잃은 병사 반영 (점화한 밤은 수비대로 남긴 인원도 빠진다)");
+            float recoverRatio = c.ActiveBattleSetup.Boosts != null ? Mathf.Clamp01(c.ActiveBattleSetup.Boosts.RecoverLostRatio) : 0f;   // 군의관 천막: 잃은 병사 일부가 돌아온다
+            int recovered = r.SquadLosses.Sum(l => Mathf.FloorToInt(l.LostCount * recoverRatio + 0.5f));
+            Assert.AreEqual(soldiers0 - lost + recovered - c.LastNightGarrison, c.Squads.Sum(s => s.Count), "잃은 병사 반영 (돌아온 병사 포함, 점화한 밤은 수비대로 남긴 인원도 빠진다)");
             // 요새를 점화하고 다음 요새로 넘어가면 성벽이 가득 채워진다 (BeaconRules.Relight) — 마지막 요새는 그대로
             bool wallsRestored = c.LastNightRelit && !(c.NextStory != null && c.NextStory.Kind == StoryKind.RunComplete);
             foreach (WallOutcome w in r.WallOutcomes)
@@ -457,6 +463,14 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
             Assert.AreEqual(!exploded, c.Traps.Any(t => t.TrapId == placed.TrapId), "터졌으면 사라지고, 불발이면 남는다");
             Note($"결과 반영: 함정 {(exploded ? "사라짐" : "남음(불발)")} · 남은 함정 {c.Traps.Count}");
             yield return Click("다음", 300);
+            // W10: 두 번째 전투는 요새 1의 점화의 밤이라 이기면 봉화선 지도를 먼저 본다 (승패는 무작위) — 지도가 열리면 계속으로 넘긴다
+            for (int wait = 0; wait < 900 && GameFlow.Instance.CurrentScreen != ScreenId.Prep && GameFlow.Instance.CurrentScreen != ScreenId.BeaconMap; wait++) yield return null;
+            if (GameFlow.Instance.CurrentScreen == ScreenId.BeaconMap)
+            {
+                yield return WaitReady("계속", 900);
+                yield return Click("계속", 300);
+            }
+
             yield return WaitScreen(ScreenId.Prep, 900);
             var shop2 = c.TrapShop.First(s => s.TrapDefId == "trap_bomb");
             Note($"두 번째 정비: 상점 재고 {shop2.Count} (11 + 6 = 17 기대), 보충 기록 {c.TrapShopRestockedForBattle}");

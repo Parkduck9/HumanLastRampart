@@ -269,7 +269,22 @@ public sealed partial class PlayProbe
             Assert.IsNotNull(story, "스토리 재생기");
             story.Skip();
             yield return WaitScreen(ScreenId.Battle, 900);   // 준비 단계는 WaitScreen이 바로 넘긴다
+            var lossCampaign = GameFlow.Instance.Campaign;
+            int soldiersBeforeLoss = lossCampaign.Squads.Sum(s => s.Count), northBeforeLoss = lossCampaign.Wall.First(w => w.SegmentId == WallIds.North).Hp, goldBeforeLoss = lossCampaign.Gold;
             yield return Press(LoopKeys.TestLoseWall, 300);
+
+            // W11: 첫 패배도 결과 화면(4번)을 거친다 — 결과(병력 손실·성벽 피해)가 한 번 반영되고 보상 골드는 없다
+            yield return WaitScreen(ScreenId.Result, 900);
+            yield return WaitPressable(LoopKeys.ResultNext, 300);
+            BattleResult lossResult = lossCampaign.LastBattle;
+            Assert.AreEqual(BattleOutcome.Defeat, lossResult.Outcome);
+            Assert.AreEqual(lossResult.BattleRunId, lossCampaign.LastAppliedBattleRunId, "진 밤의 결과가 반영됨 (LastAppliedBattleRunId)");
+            Assert.AreEqual(soldiersBeforeLoss - lossResult.SquadLosses.Sum(l => l.LostCount), lossCampaign.Squads.Sum(s => s.Count), "잃은 병사 반영");
+            Assert.Greater(lossResult.SquadLosses.Sum(l => l.LostCount), 0, "시험 패배 결과에 분대 손실이 들어 있다");
+            Assert.AreEqual(Mathf.Max(0, northBeforeLoss - 50), lossCampaign.Wall.First(w => w.SegmentId == WallIds.North).Hp, "성벽 피해 반영");
+            Assert.AreEqual(goldBeforeLoss, lossCampaign.Gold, "진 밤은 보상 골드가 없다");
+            Assert.AreEqual(0, lossCampaign.ConsecutiveNightLosses, "복구 절반·연속 패배는 결과 화면을 닫은 뒤");
+            yield return Press(LoopKeys.ResultNext, 300);
 
             // W8: 첫 패배는 엔딩이 아니다 — 등대 복구 절반·연속 패배 1, 같은 요새의 다음 낮. 한 번 더 지면 패배 엔딩
             yield return WaitScreen(ScreenId.Prep, 900);
