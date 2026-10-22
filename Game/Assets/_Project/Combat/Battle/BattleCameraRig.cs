@@ -53,7 +53,7 @@ namespace HumanLastRampart.Combat.Battle
         public const float StairsReach = 3f;            // 계단 가운데에서 이 거리(m) 안이고
         public const float StairsInsetMin = InsetMax - 0.5f;   // 통로 안쪽 끝 가까이면 E로 내려갈 수 있다
         public const float TowerSeconds = 1.6f;         // 계단을 오르내리는 시간
-        public const float TowerHeroBack = 0.8f;        // 탑 앞에서 서는 자리: 탑 가운데에서 남쪽(사진기 쪽)으로
+        public const float TowerHeroBack = 1.45f;       // 탑 앞(문 앞)에서 서는 자리: 탑 가운데에서 남쪽(사진기 쪽)으로. 높은 탑(W20)의 아래 반폭 1.1m 밖
 
         float towerBlend;       // 0 = 성벽 위, 1 = 탑 앞
         bool towerTarget;       // 가려는 곳 (true = 탑)

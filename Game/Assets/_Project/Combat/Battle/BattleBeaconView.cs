@@ -37,9 +37,9 @@ namespace HumanLastRampart.Combat.Battle
         public static readonly float BowlOffsetX = (BowlPxX - TowerFootX) * Mpp;
         // K-110 일꾼 칸 288×384, 발 (144, 360). 탑 안 밧줄 틀 바닥 줄 (탑 그림 y 745)
         const float WorkerW = 288f, WorkerH = 384f, WorkerFootY = 360f;
-        static readonly float WorkerFloorLift = (TowerFootY - 745f) * Mpp;
+        const float WorkerFloorLift = 0f;   // W20: 일꾼은 탑 문 앞 마당 바닥에 선다 (옛 탑 틀 안이 아니다)
         // 일꾼 서는 자리 (탑 그림 가로 점)와 변형 (0 = a, 1 = b)
-        static readonly float[] WorkerPx = { 655f, 790f, 930f };
+        static readonly float[] WorkerX = { -0.8f, 0.75f, 1.0f };   // 탑 문 양옆 (주인공은 문 가운데 앞)
         static readonly int[] WorkerVariant = { 0, 1, 1 };
         const int WorkerCount = 3;
         // K-102 불꽃(6칸 8fps)·빛기둥. 칸 288×384, 불꽃 밑·화로 기준점 (144, 126). 새 화로가 K-102 화로보다 커서 키운다
@@ -85,7 +85,10 @@ namespace HumanLastRampart.Combat.Battle
 
         public bool HasArt { get; }
         public Vector3 Feet => baseFeet;
-        public Vector3 Bowl => baseFeet + new Vector3(BowlOffsetX, BowlHeight, 0f);
+        // W20: 불꽃·빛기둥·번쩍은 높은 탑(BattleTowerView) 꼭대기 불방에서 나온다. 옛 탑 그림(몸체·앞 기둥)은 그리지 않는다
+        public Vector3 Bowl => baseFeet + new Vector3(0f, BattleTowerView.LampFloor, 0f);
+        const bool DrawLegacyTowerArt = false;   // 옛 탑 앞 기둥 그림 (그림이 바뀔 때 켤 수 있다)
+        const float TowerGlowScale = 2.2f;        // 먼 탑 꼭대기에서도 보이게 불꽃·빛을 키운다
         // 확인용
         public bool WorkersPushing { get; private set; }
         public int WorkerState { get; private set; }   // 0 서기 · 1 밀기 · 2 쉬기
@@ -197,7 +200,7 @@ namespace HumanLastRampart.Combat.Battle
         }
 
         // 일꾼 i가 서는 자리 (발 위치, 밀 때 흔들림 제외)
-        public Vector3 WorkerFeet(int i) => baseFeet + new Vector3((WorkerPx[i] - TowerFootX) * Mpp, WorkerFloorLift, 0f);
+        public Vector3 WorkerFeet(int i) => baseFeet + new Vector3(WorkerX[i], WorkerFloorLift, BattleTowerView.DoorZ - 0.2f);
 
         // 작업이 끝난 뒤(sim.Complete 후), 지도 모드가 아닐 때
         public void Draw()
@@ -208,9 +211,7 @@ namespace HumanLastRampart.Combat.Battle
             float shade = sim.Brightness;
             float time = sim.Elapsed;
 
-            // 탑 몸체
-            tower.Instances[0] = new PerfLabInstance { PosFrame = new float4(baseFeet.x, baseFeet.y, baseFeet.z, 0f), TintSize = new float4(shade, shade, shade, TowerCellMeters) };
-            Submit(tower, 1, material);
+            // 탑 몸체: W20부터 BattleTowerView(돌 메시)가 그린다 — 옛 그림은 그리지 않는다
 
             // 일꾼: 상태는 전투 시간으로 (미는 중 → 쉬기 → 서기)
             bool pushing = sim.BeamRotating;
@@ -291,7 +292,7 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             // 앞 기둥 (일꾼 앞을 지난다)
-            if (foreground != null)
+            if (foreground != null && DrawLegacyTowerArt)
             {
                 Vector3 f = baseFeet + toCamera * 0.01f;
                 foreground.Instances[0] = new PerfLabInstance { PosFrame = new float4(f.x, f.y, f.z, 0f), TintSize = new float4(shade, shade, shade, TowerCellMeters) };
@@ -304,7 +305,7 @@ namespace HumanLastRampart.Combat.Battle
             {
                 int frame = (int)(Time.unscaledTime * FlameFps) % FlameFrames;
                 float glow = 1.4f;
-                float size = FlameCellH * Mpp * FlameScale * Mathf.Lerp(0.55f, 1f, strength);
+                float size = FlameCellH * Mpp * FlameScale * 1.3f * Mathf.Lerp(0.55f, 1f, strength);
                 flame.Instances[0] = new PerfLabInstance { PosFrame = new float4(bowl.x, bowl.y, bowl.z, frame), TintSize = new float4(glow * 1.2f, glow, glow * 0.8f, size) };
                 Submit(flame, 1, material);
             }
@@ -316,12 +317,12 @@ namespace HumanLastRampart.Combat.Battle
                 float pulse = 0.92f + 0.08f * Mathf.Sin(Time.unscaledTime * 7f) + 0.04f * Mathf.Sin(Time.unscaledTime * 13.1f);
                 float day = sim.TimeOfDay == TimeOfDay.Night ? 1f : 0.45f;   // 낮에는 햇빛에 묻힌다
                 float k = level * pulse * day * Mathf.Lerp(0.6f, 1.15f, strength);
-                pillar.Instances[0] = new PerfLabInstance { PosFrame = new float4(bowl.x, bowl.y, bowl.z, 0f), TintSize = new float4(1.0f * k, 0.85f * k, 0.5f * k, 768f * Mpp * PillarScale * (0.9f + 0.1f * level)) };
-                Submit(pillar, 1, glowMaterial);
+                pillar.Instances[0] = new PerfLabInstance { PosFrame = new float4(bowl.x, bowl.y, bowl.z, 0f), TintSize = new float4(1.0f * k, 0.85f * k, 0.5f * k, 768f * Mpp * PillarScale * TowerGlowScale * (0.9f + 0.1f * level)) };
+                // 빛기둥 그림(위로 뾰족한 막대)은 탑 꼭대기에서 창처럼 솟아 보여 그리지 않는다 (W20) — 부드러운 번쩍(burst)만
                 Piece burst = bursts[Mathf.Clamp((int)sim.Lamp, 0, 2)];
-                if (burst != null)
+                if (burst != null && DrawLegacyTowerArt)   // W20: 옆으로 뻗는 번쩍 살은 탑 꼭대기에서 가시처럼 보여 그리지 않는다 (불방 속 번짐은 BattleTowerView)
                 {
-                    burst.Instances[0] = new PerfLabInstance { PosFrame = new float4(bowl.x, bowl.y, bowl.z, 0f), TintSize = new float4(1.5f * k, 1.2f * k, 0.7f * k, 384f * Mpp * BurstScale) };
+                    burst.Instances[0] = new PerfLabInstance { PosFrame = new float4(bowl.x, bowl.y, bowl.z, 0f), TintSize = new float4(1.5f * k, 1.2f * k, 0.7f * k, 384f * Mpp * BurstScale * TowerGlowScale) };
                     Submit(burst, 1, glowMaterial);
                 }
             }

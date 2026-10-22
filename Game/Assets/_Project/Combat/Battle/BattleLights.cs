@@ -164,6 +164,8 @@ namespace HumanLastRampart.Combat.Battle
 
         // 마당 가운데 등대 탑 불빛 (W9): 밤에 탑 꼭대기에서 마당을 비춘다. 세기는 등불 밝기(약·보통·강)를 따르고, 점화의 밤이면 더 환하다. 낮·지도에서는 끈다
         Light towerLight;
+        const float TowerTopRangeFactor = 1.1f;   // 불방이 높아진 만큼(약 9m) 닿는 거리를 더한다
+        const float TowerTopBoost = 2.2f;         // 멀어진 만큼 세기를 보태 마당이 예전처럼 밝게 (그림 확인 후 조정)
 
         void UpdateTowerLight(bool mapMode)
         {
@@ -176,14 +178,15 @@ namespace HumanLastRampart.Combat.Battle
 
             if (towerLight == null)
             {
-                towerLight = NewLight("Beacon Tower", new Vector3(0f, BattleSim.WallHeight + BattleBeaconView.BowlHeight + 0.25f, 0f));
+                // W20: 높은 탑 꼭대기 불방에서 비춘다. 마당 윗면까지 멀어졌으므로 닿는 거리를 높이만큼 늘린다 (PC·모바일 같은 자리)
+                towerLight = NewLight("Beacon Tower", new Vector3(0f, BattleSim.WallHeight + BattleTowerView.LampHeight, 0f));
                 towerLight.color = HumanLastRampart.Combat.Render.NightTuning.TowerLightColor;
-                towerLight.range = HumanLastRampart.Combat.Render.NightTuning.TowerLightRange;
+                towerLight.range = HumanLastRampart.Combat.Render.NightTuning.TowerLightRange + BattleTowerView.LampHeight * TowerTopRangeFactor;
             }
 
             float level = BattleSim.GlowLevel(sim.Lamp);
             float flicker = 0.9f + 0.1f * Mathf.PerlinNoise(Time.time * 4f, 7.3f);
-            towerLight.intensity = HumanLastRampart.Combat.Render.NightTuning.TowerLightIntensity * level * flicker * (sim.IsIgnitionNight ? 1.3f : 1f) * (sim.IsRaining ? RainTorchMultiplier : 1f);
+            towerLight.intensity = HumanLastRampart.Combat.Render.NightTuning.TowerLightIntensity * TowerTopBoost * level * flicker * (sim.IsIgnitionNight ? 1.3f : 1f) * (sim.IsRaining ? RainTorchMultiplier : 1f);
             towerLight.enabled = true;
         }
 

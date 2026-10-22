@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using HumanLastRampart.Combat.PerfLab;
 using HumanLastRampart.Core.Definitions;
@@ -80,6 +80,8 @@ namespace HumanLastRampart.Combat.Battle
         readonly BattleBeaconView beacon;       // 마당 가운데 등대 탑·일꾼·빛 번쩍 (W9)
         public BattleBeaconView Beacon => beacon;
         BattleCourtyard courtyard;              // 마당 바닥·계단·소품 (W19 임시)
+        BattleTowerView tower;                  // 마당 가운데 높은 등대 탑 (W20 임시)
+        public BattleTowerView Tower => tower;
         readonly BattleWorldView world;         // 성벽·포탑 3D 목업 (K-001)
         readonly BattleLights lights;           // 밤 횃불·폭발 빛 (K-010)
         readonly BattleEffectsView effectArt;   // 마법·함정 폭발, 불바다, 맞음 불꽃, 횃불 불꽃 그림 (K-015)
@@ -526,6 +528,7 @@ namespace HumanLastRampart.Combat.Battle
             courtyard = new BattleCourtyard(half, root.transform, world?.Materials);   // 마당 돌바닥·계단·소품 (W19 임시, Codex 그림이 올 때까지)
             // 옛 마당 상자는 윗면이 새 돌바닥에 완전히 덮여 헛그리기만 한다 (옆면은 성벽 안쪽이라 안 보인다)
             if (courtyard.HasFloor) yard.GetComponent<Renderer>().enabled = false;
+            tower = new BattleTowerView(root.transform, world?.Materials);   // 성벽 돌로 쌓은 높은 탑 (W20 임시, Codex 그림이 올 때까지)
 
             for (int side = 0; side < 4; side++)
             {
@@ -724,6 +727,7 @@ namespace HumanLastRampart.Combat.Battle
             {
                 props.Draw();
                 beacon.Draw();
+                tower?.Tick(sim.TimeOfDay == HumanLastRampart.Core.CombatContracts.TimeOfDay.Night, BattleSim.GlowLevel(sim.Lamp), beacon.FlameStrength);
                 shotBuffer.SetData(sim.ShotInstances);
                 float shotShade = sim.Brightness;
                 foreach (var (block, art, area) in shotDraws)
@@ -1207,6 +1211,7 @@ namespace HumanLastRampart.Combat.Battle
             beacon?.Dispose();
             shadows?.Dispose();
             world?.Dispose();
+            tower?.Dispose();
             courtyard?.Dispose();
             lights?.Dispose();
             HumanLastRampart.Combat.Render.FieldGround.Release();   // 들판 땅 재질·격자 (W15)
