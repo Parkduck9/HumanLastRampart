@@ -258,7 +258,7 @@ namespace HlrBoard
     class TaskRow
     {
         public string Id, Name, Who, Kind, Desc, Model, Stage, Detail;
-        public int Pct, Idle;
+        public int Pct, Idle, StageIdx;
     }
     class Snapshot
     {
@@ -524,7 +524,7 @@ namespace HlrBoard
                 r.Kind = kind; r.Desc = J.S(J.G(it, "desc")); r.Model = model;
                 r.Stage = (kind == "card" ? cardStageNames : stageNames)[stage];
                 r.Pct = stage == 1 ? (int)(lo + (hi - lo) * inner) : lo;
-                r.Detail = detail;
+                r.Detail = detail; r.StageIdx = stage;
                 r.Idle = lastW.HasValue ? (int)(now - lastW.Value).TotalSeconds : -1;
                 rows.Add(r);
             }
@@ -616,6 +616,7 @@ namespace HlrBoard
         public string Kind, Left, Right;
         public double Pct;
         public bool Red;
+        public int Seg; public bool Dim, Active;   // 작업 줄: 단계 칸 수, 멈춘 듯함, 최근 활동
         public RowInfo(string k, string l, string r, double p, bool red) { Kind = k; Left = l; Right = r; Pct = p; Red = red; }
     }
 
@@ -660,9 +661,22 @@ namespace HlrBoard
             if (list.Count == 0) { R.Add(new RowInfo("note", empty, "", 0, false)); return; }
             foreach (TaskRow t in list)
             {
-                string right = t.Stage + "  " + t.Pct + "%";
+                // 가짜 %는 쓰지 않는다: 단계 + 마지막 활동 시각
+                string act = "";
+                bool active = false, stalled = false;
+                if (t.Idle >= 0)
+                {
+                    act = t.Idle < 60 ? "방금" : (t.Idle < 3600 ? (t.Idle / 60) + "분 전 활동" : (t.Idle / 3600) + "시간 전 활동");
+                    active = t.Idle < 60;
+                    stalled = t.Idle >= 900 && (t.StageIdx == 1 || t.StageIdx == 2);
+                    if (stalled) act += " · 멈춤?";
+                }
+                string right = t.Stage;
+                if (act != "") right += "  ·  " + act;
                 if (!string.IsNullOrEmpty(t.Model)) right += "  ·  " + t.Model;
-                R.Add(new RowInfo("task", t.Name, right, t.Pct, false));
+                RowInfo ri = new RowInfo("task", t.Name, right, 0, false);
+                ri.Seg = t.StageIdx; ri.Dim = stalled; ri.Active = active;
+                R.Add(ri);
             }
         }
 
@@ -674,7 +688,7 @@ namespace HlrBoard
             {
                 bool blocked = d.Claude != null && d.Claude.Blocked;
                 string at = "";
-                if (d.Claude != null && d.Claude.Checked.Length > 6) at = "확인 " + d.Claude.Checked.Substring(6);
+                if (d.Claude != null && d.Claude.Checked.Length > 6) at = "사용량 확인 " + d.Claude.Checked.Substring(6);
                 R.Add(new RowInfo("title", blocked ? "클로드 (사용 불가)" : "클로드", at, 0, blocked));
                 Usage(R, d.Claude, "기록 없음", blocked);
                 if (d.HasStages)
@@ -700,7 +714,7 @@ namespace HlrBoard
                 first = false;
             }
             if (!first) R.Add(new RowInfo("gap", "", "", 0, false));
-            R.Add(new RowInfo("note", "갱신 " + d.Time.ToString("HH:mm:ss"), "", 0, false));
+            R.Add(new RowInfo("note", "갱신 " + d.Time.ToString("HH:mm:ss") + " · " + st.RefreshSeconds + "초마다", "", 0, false));
             if (!string.IsNullOrEmpty(d.Fail)) R.Add(new RowInfo("note", d.Fail, "", 0, false));
             return R;
         }
@@ -712,7 +726,7 @@ namespace HlrBoard
         public DBPanel() { DoubleBuffered = true; SetStyle(ControlStyles.ResizeRedraw, true); }
     }
 
-    class Slot { public Label A, B; public Panel Fill; public int BarW; }
+    class Slot { public Label A, B; public Panel Fill; public int BarW; public Panel[] Segs; public Label Dot; }
 
     class BoardView : DBPanel
     {
@@ -723,7 +737,20 @@ namespace HlrBoard
         public ContextMenuStrip Menu;
 
         bool selfHooked;
-        public BoardView() { BackColor = Theme.Back; ForeColor = Theme.Fore; Font = Theme.Normal; AutoScroll = true; }
+        bool blinkOn = true;
+        System.Windows.Forms.Timer blink = new System.Windows.Forms.Timer();
+        public BoardView()
+        {
+            BackColor = Theme.Back; ForeColor = Theme.Fore; Font = Theme.Normal; AutoScroll = true;
+            // 활동 점 깜빡임: 보일 때만 돈다
+            blink.Interval = 600;
+            blink.Tick += delegate
+            {
+                blinkOn = !blinkOn;
+                foreach (Slot s in slots) if (s.Dot != null && s.Dot.Tag is bool && (bool)s.Dot.Tag) s.Dot.Visible = blinkOn;
+            };
+            VisibleChanged += delegate { blink.Enabled = Visible; };
+        }
 
         Label NewLabel(Font f, Color c, int x, int y, int w, ContentAlignment al)
         {
@@ -764,7 +791,7 @@ namespace HlrBoard
                 {
                     Panel p = new DBPanel();
                     p.Location = new Point(Theme.Sc(10), y); p.Width = W; p.BackColor = Theme.Back;
-                    Label a = null, b = null; Panel fill = null; int barW = 0;
+                    Label a = null, b = null, dot = null; Panel fill = null; int barW = 0; Panel[] segs = null;
                     switch (r.Kind)
                     {
                         case "title":
@@ -775,18 +802,30 @@ namespace HlrBoard
                             b = NewLabel(Theme.Bold, Theme.Fore, 0, 1, Theme.Sc(84), ContentAlignment.MiddleRight); b.Left = W - Theme.Sc(84);
                             barW = W - Theme.Sc(170); fill = MakeBar(p, Theme.Sc(72), Theme.Sc(8), barW, Theme.Sc(8)); break;
                         case "task":
-                            p.Height = Theme.Sc(32); a = NewLabel(Theme.Normal, Theme.Fore, 0, 0, Theme.Sc(250), ContentAlignment.MiddleLeft);
+                            p.Height = Theme.Sc(32); a = NewLabel(Theme.Normal, Theme.Fore, 16, 0, Theme.Sc(234), ContentAlignment.MiddleLeft);
                             b = NewLabel(Theme.Small, Theme.Dim, 250, 0, W - Theme.Sc(250), ContentAlignment.MiddleRight);
-                            barW = W; fill = MakeBar(p, 0, Theme.Sc(24), W, Math.Max(2, Theme.Sc(3))); break;
+                            dot = NewLabel(Theme.Small, Color.FromArgb(120, 200, 120), 0, 0, Theme.Sc(14), ContentAlignment.MiddleCenter);
+                            dot.Text = "●"; dot.Visible = false; dot.Tag = false;
+                            // 단계 막대: 5칸 (퍼센트 추측이 아님)
+                            segs = new Panel[5];
+                            int sg = Theme.Sc(3), sw = (W - 4 * sg) / 5;
+                            for (int q = 0; q < 5; q++)
+                            {
+                                Panel sp = new DBPanel(); sp.BackColor = Theme.Track;
+                                sp.Location = new Point(q * (sw + sg), Theme.Sc(25)); sp.Size = new Size(sw, Math.Max(2, Theme.Sc(3)));
+                                p.Controls.Add(sp); segs[q] = sp;
+                            }
+                            break;
                         case "note":
                             p.Height = Theme.Sc(24); a = NewLabel(Theme.Small, Theme.Dim, 0, 0, W, ContentAlignment.MiddleLeft); break;
                         default: p.Height = Theme.Sc(12); break;
                     }
                     if (a != null) p.Controls.Add(a);
                     if (b != null) p.Controls.Add(b);
+                    if (dot != null) p.Controls.Add(dot);
                     Hook(p); if (a != null) Hook(a); if (b != null) Hook(b);
                     Controls.Add(p);
-                    Slot sl = new Slot(); sl.A = a; sl.B = b; sl.Fill = fill; sl.BarW = barW;
+                    Slot sl = new Slot(); sl.A = a; sl.B = b; sl.Fill = fill; sl.BarW = barW; sl.Segs = segs; sl.Dot = dot;
                     slots.Add(sl);
                     y += p.Height;
                 }
@@ -801,6 +840,14 @@ namespace HlrBoard
                 if (s.B != null && s.B.Text != r.Right) s.B.Text = r.Right;
                 Color ca = r.Kind == "title" ? Theme.Brass : (r.Kind == "task" ? Theme.Fore : Theme.Dim);
                 Color cb = r.Kind == "meter" ? Theme.Fore : Theme.Dim;
+                if (r.Kind == "task" && r.Dim) ca = Theme.Dim;
+                if (s.Segs != null)
+                    for (int q = 0; q < 5; q++)
+                    {
+                        Color cs = q < r.Seg ? (r.Dim ? Theme.Dim : Theme.Brass) : Theme.Track;
+                        if (s.Segs[q].BackColor != cs) s.Segs[q].BackColor = cs;
+                    }
+                if (s.Dot != null) { s.Dot.Tag = r.Active; s.Dot.Visible = r.Active && blinkOn; }
                 if (r.Kind == "title" && r.Red) { ca = Theme.Red; cb = Theme.Red; }
                 else if (r.Red) { ca = Theme.Red; cb = Theme.Red; }
                 if (s.A != null && s.A.ForeColor != ca) s.A.ForeColor = ca;
