@@ -1,0 +1,25 @@
+const fs=require('fs');
+const path=require('path');
+const {pathToFileURL}=require('url');
+const {chromium}=require('C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+(async()=>{
+ const browser=await chromium.launch({channel:'chrome',headless:true});
+ const page=await browser.newPage({viewport:{width:1440,height:1000}});
+ const errors=[];page.on('pageerror',e=>errors.push(String(e)));
+ await page.goto(pathToFileURL(path.resolve(__dirname,'../../../_HTML/6_그림_화면/codex_K-100_전투단계경고UI_v1.html')).href);
+ const images=await page.locator('img').evaluateAll(xs=>Promise.all(xs.map(async x=>{await x.decode();return {loaded:x.complete&&x.naturalWidth>0,embedded:x.src.startsWith('data:')};})));
+ const backgrounds=await page.locator('.pulse').evaluateAll(xs=>Promise.all(xs.map(async e=>{const im=new Image();im.src=getComputedStyle(e).backgroundImage.slice(5,-2);await im.decode();return im.width===Number(e.dataset.size)*4&&im.height===Number(e.dataset.size)})));
+ const pos=()=>page.locator('.pulse').first().evaluate(e=>e.style.backgroundPosition);
+ const first=await pos();await page.waitForTimeout(300);const moved=(await pos())!==first;
+ await page.getByRole('button',{name:'움직임 멈추기',exact:true}).click();const stopped=await pos();await page.waitForTimeout(550);const pause=(await pos())===stopped;
+ await page.getByRole('button',{name:'움직임 재생',exact:true}).click();await page.waitForTimeout(300);const resume=(await pos())!==stopped;
+ await page.screenshot({path:path.join(__dirname,'review_desktop.png'),fullPage:true});
+ await page.setViewportSize({width:390,height:844});await page.screenshot({path:path.join(__dirname,'review_mobile.png'),fullPage:true});
+ const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth);
+ await page.emulateMedia({reducedMotion:'reduce'});await page.reload();
+ const reduced=await page.getByRole('button',{name:'움직임 재생',exact:true}).count()===1;
+ const result={images:images.length,all_images_loaded_embedded:images.every(x=>x.loaded&&x.embedded),pulse_backgrounds:backgrounds.length,all_backgrounds_decoded:backgrounds.every(Boolean),animated:moved,pause,resume,reduced_motion_starts_paused:reduced,mobile_overflow:overflow,script_errors:errors};
+ fs.writeFileSync(path.join(__dirname,'review_validation.json'),JSON.stringify(result,null,2));await browser.close();
+ if(!result.all_images_loaded_embedded||!result.all_backgrounds_decoded||!moved||!pause||!resume||!reduced||overflow||errors.length)throw Error(JSON.stringify(result));
+ console.log(JSON.stringify(result));
+})().catch(e=>{console.error(e);process.exit(1)});
