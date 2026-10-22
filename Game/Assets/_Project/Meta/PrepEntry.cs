@@ -41,10 +41,12 @@ namespace HumanLastRampart.Meta
             foreach (Button b in new[] { repair, recruit, trapButton, shop, training, mercenary, ready }) ScreenView.HideButton(b);
 
             // D-076 정비 마당 + K-047: 위쪽은 황동 계기 띠 한 줄 — 1순위 골드, 그다음 병력·다음 전투 (S-20)
-            view.DockTop(1560f, 80f + 2 * 56f);   // W8: 등대 줄 두 개가 늘어난 높이
-            BuildSummary(view.AddArea("Summary", 48f), campaign);
+            bool dayLine = HumanLastRampart.Core.Campaign.BeaconRules.DayLines(campaign).Count > 0;   // W12: 밤 사이 한마디가 있는 날만 줄을 둔다
+            view.DockTop(1560f, 80f + (dayLine ? 3 : 2) * 56f);   // W8: 등대 줄 두 개 (+ W12: 한마디 줄)
+            Button mapButton = BuildSummary(view.AddArea("Summary", 48f), campaign,
+                () => { session.Close(); traps.Close(); Complete(ScreenOutcome.OpenBeaconMap); });   // W10: 봉화선 지도 보기 (보기 전용, 닫으면 정비로)
             PreparationPanel.RefreshSummary(repair, context, session);
-            BeaconPrepPanel.Build(view.AddArea("Beacon Line 1", 48f), view.AddArea("Beacon Line 2", 48f), context,
+            BeaconPrepPanel.Build(view.AddArea("Beacon Line 1", 48f), view.AddArea("Beacon Line 2", 48f), dayLine ? view.AddArea("Beacon Line 3", 48f) : null, context,
                 () => PreparationPanel.RefreshSummary(repair, context, session));   // W8: 요새·밤, 등대 복구, 성벽 조건, 밝기 선택, 등대 수리, 수비대 지원금
 
             PrepYard yard = PrepYard.Build(view, HeroUnit(context));   // K-089 배경·3D 바닥·가림을 마당이 함께 소유한다.
@@ -55,12 +57,30 @@ namespace HumanLastRampart.Meta
             yard.AddStation("성벽 계단", 3000f, new Color(0.40f, 0.38f, 0.30f), () => yard.AskNextBattle(() => ready.onClick.Invoke()));
             var lifetime = repair.GetComponentInParent<UnityEngine.Canvas>().gameObject.AddComponent<PreparationSessionLifetime>();
             lifetime.Session = session; lifetime.Traps = traps;
-            HumanLastRampart.Tutorial.PrepTutorialSource.TryBegin(transform, campaign);   // 첫 전투 뒤 정비 튜토리얼 (W2): 함정 놓기 → 망원경 업그레이드 설명
+            var tutorial = HumanLastRampart.Tutorial.PrepTutorialSource.TryBegin(transform, campaign, context.Definitions);   // 첫 전투 뒤 정비 튜토리얼 (W2): 함정 놓기 → 망원경 업그레이드 설명
+            // W10: 튜토리얼이 도는 동안은 지도 단추를 잠근다 (단계는 저장돼 이어 하지만, 지도로 나가면 정비 화면이 다시 만들어져 안내가 끊기므로)
+            if (tutorial != null) mapButton.gameObject.AddComponent<MapButtonGate>().Init(mapButton, tutorial);
             return view;
         }
 
+        sealed class MapButtonGate : MonoBehaviour
+        {
+            Button button;
+            HumanLastRampart.Tutorial.TutorialDirector director;
+
+            public void Init(Button target, HumanLastRampart.Tutorial.TutorialDirector tutorial)
+            {
+                button = target; director = tutorial;
+                Refresh();
+            }
+
+            void Update() { Refresh(); }
+
+            void Refresh() { if (button != null) button.interactable = director == null || director.Finished; }
+        }
+
         // [정비 마당]  요새 1 · 밤 2 앞          [골드] 1,240   [병력] 520/1,200
-        static void BuildSummary(RectTransform area, HumanLastRampart.Core.Campaign.CampaignState campaign)
+        static Button BuildSummary(RectTransform area, HumanLastRampart.Core.Campaign.CampaignState campaign, Action openMap)
         {
             HorizontalLayoutGroup row = Ui.Row(area, "Summary Row", UiTokens.S16);
             Ui.Stretch((RectTransform)row.transform);
@@ -68,6 +88,8 @@ namespace HumanLastRampart.Meta
             Ui.Size(title, title.preferredWidth + 8f, 48f);
             Text next = Ui.Label(row.transform, "Next Battle", HumanLastRampart.Core.Campaign.BeaconRules.NightLabel(campaign.FortressNumber, campaign.NightNumber) + " 앞", UiTokens.Text, UiTokens.BodyDim);
             Ui.Size(next, next.preferredWidth + 8f, 48f);
+            Button map = Ui.Button(row.transform, "봉화선 지도", "봉화선 지도", openMap);   // W10: 작은 단추
+            Ui.Size(map, 176f, 48f);
             RectTransform spacer = Ui.Rect(row.transform, "Spacer");
             Ui.Size(spacer, 0f, 48f, true);
             Image gold = Ui.HudIcon(row.transform, "Gold Icon", "Icons/stat_gold", 32f);
@@ -78,6 +100,7 @@ namespace HumanLastRampart.Meta
             if (troops == null) Ui.Size(Ui.Label(row.transform, "Troops Word", "병력", UiTokens.Small, UiTokens.BodyDim), 44f, 48f);
             Text troopsValue = Ui.Label(row.transform, "Troops Value", "", UiTokens.Text, UiTokens.Body);
             Ui.Size(troopsValue, 136f, 48f);
+            return map;
         }
 
         // 마당을 걷는 주인공 그림: 참가 영웅 중 주인공(UnitKind.Hero)

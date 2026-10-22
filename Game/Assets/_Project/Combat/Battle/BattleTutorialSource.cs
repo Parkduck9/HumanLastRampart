@@ -62,6 +62,8 @@ namespace HumanLastRampart.Combat.Battle
         public int SpellCasts => spellCasts;
         public int TrapCount => entry.Sim != null ? entry.Sim.TrapCount : 0;
 
+        public bool CanPerform(TutorialStep step) => true;
+
         // 마법사가 없으면 마법 단계는 건너뛴다 (쓸 수 없는 일을 시키지 않는다)
         public bool IsAvailable(TutorialStep step) =>
             step != TutorialStep.Magic || (entry.Sim != null && entry.Sim.WizardPresent && entry.Sim.SpellCount > 0);

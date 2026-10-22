@@ -342,7 +342,8 @@ namespace HumanLastRampart.Core.Tests
             Assert.AreNotEqual(seed, c.RngSeed, "새 지형 씨앗");
             Assert.AreEqual(1, c.LastNightFortress);
             Assert.AreEqual(2, c.LastNightIndex);
-            Assert.IsNull(c.NextStory, "마지막 요새가 아니므로 1회차 완료 이야기 없음");
+            Assert.AreEqual(StoryKind.Normal, c.NextStory.Kind, "마지막 요새가 아니므로 1회차 완료가 아니라 점화 이야기 (W12)");
+            Assert.AreEqual("story_fortress1_relit", c.NextStory.StoryId);
 
             // 낮이 열리면 수비대 지원금
             int gold = c.Gold;

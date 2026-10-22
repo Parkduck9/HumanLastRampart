@@ -14,6 +14,60 @@ namespace HumanLastRampart.Core.Campaign
         public const int MaxConsecutiveLosses = 2;                // 연속 두 번 지면 패배 엔딩 (9.3)
         public const string RunCompleteStoryId = "story_run1_complete";   // 1회차 완료 이야기 (글은 조정 담당)
 
+        // ── 이야기 연결 (W12, Story_Beacon_v1) ───────────────
+        // 새 게임 → 첫 이야기 → 요새 1 도착 → 전투. 요새 점화 → 점화 이야기 → 다음 요새 도착 → 낮(정비).
+        // 이야기 하나가 끝날 때 다음 이야기를 이 표로 찾는다 (없으면 null = 흐름이 다음 화면으로)
+        public const string IntroStoryId = "story_intro";
+        public static string ArriveStoryId(int fortress) => $"story_fortress{fortress}_arrive";
+        public static string RelitStoryId(int fortress) => $"story_fortress{fortress}_relit";
+
+        public static string NextStoryAfter(string storyId)
+        {
+            if (storyId == IntroStoryId) return ArriveStoryId(1);
+            for (int f = 1; f < FortressCount; f++)
+                if (storyId == RelitStoryId(f)) return ArriveStoryId(f + 1);
+            return null;
+        }
+
+        // 이어하기 때 다시 보여 줄 이야기인가: 점화 이야기·요새 도착(낮으로 가는 것)·1회차 완료. 첫 이야기 같은 옛 저장의 찌꺼기는 제외
+        public static bool IsPendingStory(StoryRequest request) =>
+            request != null && (request.Kind == StoryKind.RunComplete || IsRelitStory(request.StoryId) || StoryLeadsToDay(request.StoryId));
+
+        // 점화 이야기인가 (결과 화면 뒤에 열린다)
+        public static bool IsRelitStory(string storyId)
+        {
+            for (int f = 1; f < FortressCount; f++) if (storyId == RelitStoryId(f)) return true;
+            return false;
+        }
+
+        // 이 이야기가 끝나면 전투가 아니라 낮(정비)으로 가는가: 요새 2 이후의 도착 이야기 (요새 1 도착은 바로 첫 전투)
+        public static bool StoryLeadsToDay(string storyId)
+        {
+            for (int f = 2; f <= FortressCount; f++) if (storyId == ArriveStoryId(f)) return true;
+            return false;
+        }
+
+        // ── 밤 사이 한마디 (Story_Beacon_v1 3장) — 정비 화면에 짧은 줄로 보인다 ──
+        public const string LineFirstNightWon = "버텼습니다. 탑이 조금 따뜻해졌어요.";
+        public const string LineIgnitionTonight = "오늘 밤이 마지막이에요. 불, 끝까지 올려 봐요.";
+        public const string LineLostNight = "불이 꺼졌습니다. 다시 지피면 됩니다. 아직 끝난 게 아닙니다.";
+        public const string LineWallsNotReady = "등대는 준비됐는데 성벽이 버티질 못합니다. 낮 동안 고쳐야 합니다.";
+
+        // 지금 낮에 보일 한마디들 (화자, 글). 순서: 어젯밤 이야기(진 밤 > 요새 1 첫 밤) → 오늘 할 일(성벽 부족 > 점화의 밤). 없으면 빈 목록
+        public static List<(string speaker, string text)> DayLines(CampaignState campaign)
+        {
+            var lines = new List<(string, string)>();
+            if (campaign == null) return lines;
+            if (campaign.ConsecutiveNightLosses > 0)
+                lines.Add(("하겐", LineLostNight));
+            else if (campaign.FortressNumber == 1 && campaign.NightNumber == 2 && campaign.LastNightFortress == 1 && campaign.LastNightIndex == 1)
+                lines.Add(("하겐", LineFirstNightWon));
+
+            if (RepairReady(campaign) && !WallsReady(campaign)) lines.Add(("하겐", LineWallsNotReady));
+            else if (IsIgnitionNight(campaign)) lines.Add(("루멘", LineIgnitionTonight));
+            return lines;
+        }
+
         // ── 등대 복구 ────────────────────────────────────────
         public const float RepairMax = 100f;
         public const float GainLow = 20f, GainNormal = 35f, GainHigh = 50f;   // 밝기별 밤당 기본 복구 (9.4)
@@ -208,6 +262,8 @@ namespace HumanLastRampart.Core.Campaign
 
             // 새 요새: 성벽 가득, 복구 0, 밤 1. 새 지형 = 지형 씨앗을 바꿔 무작위 지형을 다시 만든다 (지형 손질·설치 함정은 옛 요새에 남음).
             // 회수해 둔 함정(TrapStock)·상점 재고·병력·영웅은 그대로 들고 간다
+            // W12: 점화 이야기 → (끝나면 이어서) 다음 요새 도착 이야기. 결과 화면 뒤 App이 연다
+            campaign.NextStory = new StoryRequest { Kind = StoryKind.Normal, StoryId = RelitStoryId(campaign.FortressNumber) };
             campaign.FortressNumber++;
             campaign.NightNumber = 1;
             campaign.BeaconRepair = 0f;
