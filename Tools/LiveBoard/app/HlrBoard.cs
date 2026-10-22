@@ -30,6 +30,19 @@ namespace HlrBoard
         [DllImport("user32.dll")] public static extern IntPtr SendMessage(IntPtr h, int msg, IntPtr w, IntPtr l);
 
         [DllImport("user32.dll")] public static extern IntPtr WindowFromPoint(Point p);
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)] public static extern IntPtr FindWindow(string c, string n);
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)] public static extern IntPtr FindWindowEx(IntPtr p, IntPtr after, string c, string n);
+        [DllImport("user32.dll")] public static extern bool GetWindowRect(IntPtr h, out RECT r);
+        [DllImport("user32.dll")] public static extern IntPtr GetWindow(IntPtr h, uint cmd);
+        [DllImport("user32.dll")] public static extern bool SetWindowPos(IntPtr h, IntPtr after, int x, int y, int cx, int cy, uint flags);
+        [DllImport("shell32.dll")] public static extern int SHQueryUserNotificationState(out int state);
+        public static Rectangle ChildRect(IntPtr parent, string cls)
+        {
+            IntPtr h = FindWindowEx(parent, IntPtr.Zero, cls, null);
+            if (h == IntPtr.Zero) return Rectangle.Empty;
+            RECT r; if (!GetWindowRect(h, out r)) return Rectangle.Empty;
+            return Rectangle.FromLTRB(r.left, r.top, r.right, r.bottom);
+        }
         [DllImport("user32.dll")] public static extern IntPtr GetDC(IntPtr h);
         [DllImport("user32.dll")] public static extern int ReleaseDC(IntPtr h, IntPtr dc);
         [DllImport("gdi32.dll")] public static extern IntPtr CreateCompatibleDC(IntPtr dc);
@@ -134,6 +147,7 @@ namespace HlrBoard
         public bool ShowClaude = true;
         public bool ShowCodex = true;
         public bool ShowCharacters = true;   // 숫자 아이콘 옆에 캐릭터 아이콘도 띄우기
+        public bool PerchInside = true;      // 작업 표시줄 안쪽(알림 영역 왼쪽 빈자리)에 넣기, 안 되면 위에
         public bool Perch = true;            // 작업 표시줄 위에 캐릭터를 올려 둔다
         public int PerchX = -1;              // 표시줄 위 가로 위치 (세로 표시줄이면 세로 위치), -1 = 기본
         public bool ShowTrayIcons = false;   // 알림 영역 아이콘 (캐릭터를 올려 두면 기본 꺼짐)
@@ -172,6 +186,7 @@ namespace HlrBoard
                 if (J.G(o, "showCodex") is bool) s.ShowCodex = (bool)J.G(o, "showCodex");
                 if (J.G(o, "showCharacters") is bool) s.ShowCharacters = (bool)J.G(o, "showCharacters");
                 if (J.G(o, "perch") is bool) s.Perch = (bool)J.G(o, "perch");
+                if (J.G(o, "perchInside") is bool) s.PerchInside = (bool)J.G(o, "perchInside");
                 if (J.G(o, "perchX") != null) s.PerchX = (int)J.D(J.G(o, "perchX"), -1);
                 if (J.G(o, "showTrayIcons") is bool) s.ShowTrayIcons = (bool)J.G(o, "showTrayIcons");
                 if (J.G(o, "hoverOpen") is bool) s.HoverOpen = (bool)J.G(o, "hoverOpen");
@@ -204,6 +219,7 @@ namespace HlrBoard
                 b.AppendLine("  \"showCodex\": " + (ShowCodex ? "true" : "false") + ",");
                 b.AppendLine("  \"showCharacters\": " + (ShowCharacters ? "true" : "false") + ",");
                 b.AppendLine("  \"perch\": " + (Perch ? "true" : "false") + ",");
+                b.AppendLine("  \"perchInside\": " + (PerchInside ? "true" : "false") + ",");
                 b.AppendLine("  \"perchX\": " + PerchX + ",");
                 b.AppendLine("  \"showTrayIcons\": " + (ShowTrayIcons ? "true" : "false") + ",");
                 b.AppendLine("  \"hoverOpen\": " + (HoverOpen ? "true" : "false"));
@@ -235,7 +251,9 @@ namespace HlrBoard
         public int AgeMin;
         public int RemFive { get { return (int)Math.Max(0, Math.Min(100, Math.Round(100 - Five))); } }
         public int RemWeek { get { return (int)Math.Max(0, Math.Min(100, Math.Round(100 - Week))); } }
-        public bool Blocked { get { return Known && (Five >= 100 || Week >= 100); } }
+        // 표시 숫자: 5시간·이번 주 남은 양 중 작은 쪽. 0%면 사용 불가
+        public int Rem { get { return Math.Min(RemFive, RemWeek); } }
+        public bool Blocked { get { return Known && (Five >= 100 || Week >= 100 || Rem == 0); } }
     }
     class TaskRow
     {
@@ -964,6 +982,8 @@ namespace HlrBoard
         {
             Ni.Visible = false; Ni.Dispose();
             if (Ch != null) { Ch.Visible = false; Ch.Dispose(); }
+            if (cur != null) { cur.Dispose(); cur = null; }
+            if (chIcon != null) { chIcon.Dispose(); chIcon = null; }
         }
 
         public void MakeChar(bool claude)
@@ -980,7 +1000,7 @@ namespace HlrBoard
         public void Update(Usage u, string tip)
         {
             if (Ch != null) Ch.Text = tip.Length > 63 ? tip.Substring(0, 63) : tip;
-            string txt = (u != null && u.Known) ? u.RemFive.ToString() : "--";
+            string txt = (u != null && u.Known) ? u.Rem.ToString() : "--";
             bool blocked = u != null && u.Blocked;
             string key = txt + "|" + blocked;
             if (key != lastKey)
@@ -999,7 +1019,7 @@ namespace HlrBoard
         }
     }
 
-    // ───────────────────────── 작업 표시줄 위에 올려 두는 캐릭터 ─────────────────────────
+    // ───────────────────────── 작업 표시줄에 올려 두는 캐릭터 ─────────────────────────
     class PerchItem { public bool Claude; public string Text; public bool Blocked; public int Bob; public bool Blink; }
 
     // 픽셀마다 투명도가 있는 창. 투명한 곳은 클릭이 뒤로 통과하고, 캐릭터·숫자 칸만 눌린다. 포커스는 절대 가져가지 않는다.
@@ -1008,15 +1028,25 @@ namespace HlrBoard
         public Action<string, Rectangle> ItemClicked;
         public Action DragEnded;
         public Action<Rectangle> Hovered;
+        public Action DragStarted;
+        class Frame { public Bitmap Bmp; public IntPtr Hb; public Rectangle RcC, RcX; public bool Inside; }
         Settings st;
         PerchItem claude, codex;
-        Bitmap cur;
-        string lastKey = "";
+        Dictionary<string, Frame> frames = new Dictionary<string, Frame>();
+        Frame curF;
         Size size;
         Point pos = new Point(int.MinValue, 0);
         Rectangle rcC = Rectangle.Empty, rcX = Rectangle.Empty;
         bool horizontal = true;
+        bool inside;
+        bool active, fsHidden, fsNow;
+        bool prevDeadC, prevDeadX;
+        int popC = -1, popX = -1;
         int tick;
+        // 작업 표시줄 정보는 가끔(2초, 화면 바뀜) 읽어 두고 쓴다
+        Rectangle tbRc, tbFree, tbBounds; int tbEdge, tbKIn, tbVer, tbAt = -100; bool tbAuto;
+        int dataVer, lastDataVer = -1, lastBits = -1, lastTbVer = -1;
+        List<PerchItem> itemsBuf = new List<PerchItem>();
         System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
         bool down, dragging; int downCursor, downPos; string downWhich;
 
@@ -1026,8 +1056,8 @@ namespace HlrBoard
             FormBorderStyle = FormBorderStyle.None; ShowInTaskbar = false; TopMost = true;
             StartPosition = FormStartPosition.Manual; Size = new Size(1, 1);
             if (menu != null) ContextMenuStrip = menu;
-            timer.Interval = 200;   // 느린 움직임: 바뀔 때만 다시 그린다
-            timer.Tick += delegate { tick++; Refresh2(false); };
+            timer.Interval = 200;   // 느린 움직임: 바뀔 때만 올린다
+            timer.Tick += delegate { tick++; Tick(); };
             MouseDown += OnDown; MouseMove += OnMove; MouseUp += OnUp;
             Microsoft.Win32.SystemEvents.DisplaySettingsChanged += delegate { Refresh2(true); };
         }
@@ -1042,8 +1072,9 @@ namespace HlrBoard
             base.WndProc(ref m);
         }
 
-        public void Begin() { if (!Visible) Show(); timer.Start(); Refresh2(true); }
-        public void End() { timer.Stop(); if (Visible) Hide(); }
+        public void Begin() { active = true; if (!Visible) Show(); timer.Start(); Refresh2(true); }
+        public void End() { active = false; timer.Stop(); if (Visible) Hide(); ClearFrames(); }
+        public void Relayout() { Refresh2(true); }
         public int AxisPos { get { return horizontal ? pos.X : pos.Y; } }
         public bool Hits(Point p)
         {
@@ -1052,14 +1083,46 @@ namespace HlrBoard
             return (!a.IsEmpty && a.Contains(p)) || (!b.IsEmpty && b.Contains(p));
         }
         Rectangle ScreenRect(Rectangle r) { return r.IsEmpty ? r : new Rectangle(pos.X + r.X, pos.Y + r.Y, r.Width, r.Height); }
+        public Rectangle ScreenBounds { get { return Visible && curF != null ? new Rectangle(pos, size) : Rectangle.Empty; } }
 
-        static string Pct(Usage u) { return (u != null && u.Known) ? u.RemFive + "%" : "--"; }
+        void ClearFrames()
+        {
+            foreach (Frame f in frames.Values) { f.Bmp.Dispose(); if (f.Hb != IntPtr.Zero) Native.DeleteObject(f.Hb); }
+            frames.Clear(); curF = null; lastBits = -1;
+        }
+
+        // 표시 숫자 = 5시간·이번 주 남은 양 중 작은 쪽
+        static string Pct(Usage u) { return (u != null && u.Known) ? u.Rem + "%" : "--"; }
         public void SetData(Usage c, Usage x, bool showC, bool showX)
         {
+            string oc = claude != null ? claude.Text + claude.Blocked : null, ox = codex != null ? codex.Text + codex.Blocked : null;
+            bool dc = c != null && c.Blocked, dx = x != null && x.Blocked;
+            if (prevDeadC && !dc) popC = tick + 4;   // 되살아날 때 짧게 폴짝
+            if (prevDeadX && !dx) popX = tick + 4;
+            prevDeadC = dc; prevDeadX = dx;
             claude = showC ? new PerchItem() : null;
-            if (claude != null) { claude.Claude = true; claude.Text = Pct(c); claude.Blocked = c != null && c.Blocked; }
+            if (claude != null) { claude.Claude = true; claude.Text = Pct(c); claude.Blocked = dc; }
             codex = showX ? new PerchItem() : null;
-            if (codex != null) { codex.Text = Pct(x); codex.Blocked = x != null && x.Blocked; }
+            if (codex != null) { codex.Text = Pct(x); codex.Blocked = dx; }
+            string nc = claude != null ? claude.Text + claude.Blocked : null, nx = codex != null ? codex.Text + codex.Blocked : null;
+            if (oc != nc || ox != nx) { dataVer++; ClearFrames(); }
+            Refresh2(false);
+        }
+
+        // 전체 화면 앱이면 숨기고(1초마다 확인), 작업 표시줄이 위로 올라오면 다시 맨 위로 (포커스는 건드리지 않는다)
+        void Tick()
+        {
+            if (!active) return;
+            if (tick % 5 == 0)
+            {
+                int ns; fsNow = false;
+                try { if (Native.SHQueryUserNotificationState(out ns) == 0) fsNow = ns == 2 || ns == 3 || ns == 4; } catch { }
+            }
+            if (fsNow && Visible) { Hide(); fsHidden = true; return; }
+            if (!fsNow && fsHidden) { fsHidden = false; Show(); Refresh2(true); return; }
+            if (fsNow) return;
+            if (Visible && Native.GetWindow(Handle, 3) != IntPtr.Zero)   // GW_HWNDPREV: 누군가 우리 위에 있다
+                Native.SetWindowPos(Handle, (IntPtr)(-1), 0, 0, 0, 0, 0x1 | 0x2 | 0x10);   // TOPMOST, NOSIZE|NOMOVE|NOACTIVATE
             Refresh2(false);
         }
 
@@ -1082,22 +1145,62 @@ namespace HlrBoard
             edge = 3;
         }
 
-        Point ComputePos()
+        // 작업 표시줄 안에서 비어 있는 가로 구간: (앱 버튼 끝 + 여백) ~ (알림 영역 왼쪽 - 여백)
+        static Rectangle FreeSpan(Rectangle tb)
+        {
+            IntPtr tray = Native.FindWindow("Shell_TrayWnd", null);
+            if (tray == IntPtr.Zero) return Rectangle.Empty;
+            Rectangle notify = Native.ChildRect(tray, "TrayNotifyWnd");
+            Rectangle start = Native.ChildRect(tray, "Start");
+            Rectangle rebar = Native.ChildRect(tray, "ReBarWindow32");
+            int right = notify.IsEmpty ? tb.Right - Theme.Sc(250) : notify.Left;
+            int buttonsR = rebar.IsEmpty ? tb.Left + tb.Width / 2 : rebar.Right;
+            // 윈도우 11 가운데 정렬: 시작 단추 왼쪽 거리만큼 대칭으로 버튼이 늘어난다고 본다
+            if (!start.IsEmpty && start.Left - tb.Left > Theme.Sc(200))
+                buttonsR = Math.Max(buttonsR, (tb.Left + tb.Right) - start.Left);
+            int l = buttonsR + Theme.Sc(10), r = right - Theme.Sc(8);
+            if (r - l < 20) return Rectangle.Empty;
+            return Rectangle.FromLTRB(l, tb.Top, r, tb.Bottom);
+        }
+
+        void RefreshTaskbar(bool force)
         {
             Rectangle rc; int edge; bool auto;
             Taskbar(out rc, out edge, out auto);
-            Rectangle b = Screen.FromRectangle(rc).Bounds;
+            Rectangle free = Rectangle.Empty;
+            int kIn = 0;
+            if (st.PerchInside && (edge == 1 || edge == 3) && !auto) { free = FreeSpan(rc); kIn = Math.Max(2, Math.Min(5, (rc.Height - 4) / 10)); }
+            if (force || rc != tbRc || edge != tbEdge || auto != tbAuto || free != tbFree || kIn != tbKIn)
+            {
+                tbRc = rc; tbEdge = edge; tbAuto = auto; tbFree = free; tbKIn = kIn;
+                tbBounds = Screen.FromRectangle(rc).Bounds;
+                tbVer++;
+                ClearFrames();
+            }
+        }
+
+        Point ComputePos()
+        {
+            Rectangle rc = tbRc, b = tbBounds, free = tbFree;
+            int edge = tbEdge; bool auto = tbAuto;
             int x = 0, y = 0;
             horizontal = edge == 1 || edge == 3;
-            if (horizontal)
+            if (inside)
             {
-                y = edge == 3 ? (auto ? b.Bottom : rc.Top) - size.Height : (auto ? b.Top : rc.Bottom);
+                y = rc.Top + (rc.Height - size.Height) / 2;
+                x = st.PerchX >= 0 ? st.PerchX : free.Right - size.Width;
+                x = Math.Max(free.Left, Math.Min(x, free.Right - size.Width));   // 표시줄 안에서만 움직인다
+            }
+            else if (horizontal)
+            {
+                // 자동 숨김이면 화면 끝 2점은 비워 표시줄이 올라오게 한다
+                y = edge == 3 ? (auto ? b.Bottom - 2 : rc.Top) - size.Height : (auto ? b.Top + 2 : rc.Bottom);
                 x = st.PerchX >= 0 ? st.PerchX : b.Right - size.Width - Theme.Sc(300);
                 x = Math.Max(b.Left, Math.Min(x, b.Right - size.Width));
             }
             else
             {
-                x = edge == 0 ? (auto ? b.Left : rc.Right) : (auto ? b.Right : rc.Left) - size.Width;
+                x = edge == 0 ? (auto ? b.Left + 2 : rc.Right) : (auto ? b.Right - 2 : rc.Left) - size.Width;
                 y = st.PerchX >= 0 ? st.PerchX : b.Bottom - size.Height - Theme.Sc(200);
                 y = Math.Max(b.Top, Math.Min(y, b.Bottom - size.Height));
             }
@@ -1106,27 +1209,41 @@ namespace HlrBoard
 
         void Refresh2(bool force)
         {
-            if (!Visible || !IsHandleCreated) return;
-            List<PerchItem> items = new List<PerchItem>();
-            if (claude != null) { claude.Bob = (tick / 3) % 2; claude.Blink = tick % 25 == 0; items.Add(claude); }
-            if (codex != null) { codex.Bob = ((tick + 1) / 3) % 2; codex.Blink = (tick + 12) % 25 == 0; items.Add(codex); }
-            if (items.Count == 0) { return; }
-            int k = Math.Max(3, Theme.Sc(4));
-            StringBuilder sb = new StringBuilder();
-            sb.Append(k);
-            foreach (PerchItem it in items) sb.Append("|" + it.Claude + it.Text + it.Blocked + it.Bob + it.Blink);
-            string key = sb.ToString();
-            bool dirty = force || key != lastKey;
+            if (!active || fsHidden || !Visible || !IsHandleCreated) return;
+            if (force || tick - tbAt >= 10) { RefreshTaskbar(force); tbAt = tick; }
+            int bits = 0;
+            if (claude != null) { claude.Bob = claude.Blocked ? 0 : (tick < popC ? 2 : (tick / 3) % 2); claude.Blink = !claude.Blocked && tick % 25 == 0; bits |= 1 | (claude.Bob << 1) | (claude.Blink ? 8 : 0); }
+            if (codex != null) { codex.Bob = codex.Blocked ? 0 : (tick < popX ? 2 : ((tick + 1) / 3) % 2); codex.Blink = !codex.Blocked && (tick + 12) % 25 == 0; bits |= 16 | (codex.Bob << 5) | (codex.Blink ? 128 : 0); }
+            if (bits == 0) return;
+            bool dirty = force || curF == null || bits != lastBits || dataVer != lastDataVer || tbVer != lastTbVer;
             if (dirty)
             {
-                List<Rectangle> rects;
-                Bitmap nb = Compose(k, items, out rects);
-                if (cur != null) cur.Dispose();
-                cur = nb; size = nb.Size; lastKey = key;
-                rcC = Rectangle.Empty; rcX = Rectangle.Empty;
-                int ri = 0;
-                if (claude != null) rcC = rects[ri++];
-                if (codex != null) rcX = rects[ri++];
+                string key = bits + "|" + dataVer + "|" + tbVer;
+                Frame f;
+                if (!frames.TryGetValue(key, out f))
+                {
+                    itemsBuf.Clear();
+                    if (claude != null) itemsBuf.Add(claude);
+                    if (codex != null) itemsBuf.Add(codex);
+                    List<Rectangle> rects = null;
+                    Bitmap nb = null;
+                    bool ins = false;
+                    if (!tbFree.IsEmpty)
+                        for (int kk = tbKIn; kk >= 2; kk--)
+                        {
+                            Bitmap tryB = Compose(kk, itemsBuf, out rects);
+                            if (tryB.Width <= tbFree.Width) { nb = tryB; ins = true; break; }
+                            tryB.Dispose();
+                        }
+                    if (nb == null) nb = Compose(Math.Max(3, Theme.Sc(4)), itemsBuf, out rects);   // 자리가 모자라면 작업 표시줄 위에
+                    f = new Frame(); f.Bmp = nb; f.Inside = ins; f.Hb = nb.GetHbitmap(Color.FromArgb(0));
+                    int ri = 0;
+                    if (claude != null) f.RcC = rects[ri++];
+                    if (codex != null) f.RcX = rects[ri++];
+                    frames[key] = f;
+                }
+                curF = f; size = f.Bmp.Size; inside = f.Inside; rcC = f.RcC; rcX = f.RcX;
+                lastBits = bits; lastDataVer = dataVer; lastTbVer = tbVer;
             }
             Point np = ComputePos();
             if (dirty || np != pos) { pos = np; Push(); }
@@ -1134,24 +1251,20 @@ namespace HlrBoard
 
         void Push()
         {
-            if (cur == null) return;
-            IntPtr sdc = Native.GetDC(IntPtr.Zero), mdc = Native.CreateCompatibleDC(sdc), hb = IntPtr.Zero, old = IntPtr.Zero;
+            if (curF == null) return;
+            IntPtr sdc = Native.GetDC(IntPtr.Zero), mdc = Native.CreateCompatibleDC(sdc), old = Native.SelectObject(mdc, curF.Hb);
             try
             {
-                hb = cur.GetHbitmap(Color.FromArgb(0));
-                old = Native.SelectObject(mdc, hb);
                 Native.BLENDFUNCTION bf = new Native.BLENDFUNCTION(); bf.BlendOp = 0; bf.SourceConstantAlpha = 255; bf.AlphaFormat = 1;
                 Point src = Point.Empty, dst = pos; Size sz = size;
                 Native.UpdateLayeredWindow(Handle, sdc, ref dst, ref sz, mdc, ref src, 0, ref bf, 2);
             }
             finally
             {
-                if (old != IntPtr.Zero) Native.SelectObject(mdc, old);
-                if (hb != IntPtr.Zero) Native.DeleteObject(hb);
+                Native.SelectObject(mdc, old);
                 Native.DeleteDC(mdc); Native.ReleaseDC(IntPtr.Zero, sdc);
             }
         }
-
         string WhichAt(Point p)
         {
             if (rcC.Contains(p)) return "claude";
@@ -1165,7 +1278,6 @@ namespace HlrBoard
             downCursor = horizontal ? Cursor.Position.X : Cursor.Position.Y;
             downPos = AxisPos;
         }
-        public Rectangle ScreenBounds { get { return Visible && cur != null ? new Rectangle(pos, size) : Rectangle.Empty; } }
         void OnMove(object s, MouseEventArgs e)
         {
             if (!down)
@@ -1175,7 +1287,7 @@ namespace HlrBoard
                 return;
             }
             int d = (horizontal ? Cursor.Position.X : Cursor.Position.Y) - downCursor;
-            if (!dragging && Math.Abs(d) > 4) dragging = true;
+            if (!dragging && Math.Abs(d) > 4) { dragging = true; if (DragStarted != null) DragStarted(); }
             if (dragging) { st.PerchX = downPos + d; Refresh2(false); }
         }
         void OnUp(object s, MouseEventArgs e)
@@ -1187,11 +1299,12 @@ namespace HlrBoard
                 ItemClicked(downWhich, ScreenRect(downWhich == "claude" ? rcC : rcX));
         }
 
-        // 캐릭터(큰 도트) + 오른쪽에 남은 % 칸을 한 장에 그린다. 표시줄 위에 서도록 아래쪽이 발 위치
+        // 캐릭터(큰 도트) + 오른쪽에 남은 % 칸을 한 장에 그린다. 아래쪽이 발 위치.
+        // 한도가 다 찬 서비스는 쓰러진 회색 캐릭터(눈은 X)
         public static Bitmap Compose(int k, List<PerchItem> items, out List<Rectangle> rects)
         {
             rects = new List<Rectangle>();
-            int M = 8 * k, H = M + k, gapIn = k, gapBetween = 2 * k, pad = k;
+            int M = 8 * k, H = M + 2 * k, gapIn = k, gapBetween = 2 * k, pad = k;
             float bigPx = Math.Max(12, M * 0.5f), tinyPx = Math.Max(9, M * 0.28f);
             Color cream = Color.FromArgb(239, 227, 204), red = Color.FromArgb(255, 96, 82), brass = Color.FromArgb(212, 166, 74);
             using (Font big = new Font("Segoe UI", bigPx, FontStyle.Bold, GraphicsUnit.Pixel))
@@ -1228,21 +1341,48 @@ namespace HlrBoard
                         // 눈에 안 보이는(거의 투명한) 바탕: 눌림 판정 칸
                         using (SolidBrush hit = new SolidBrush(Color.FromArgb(3, 0, 0, 0))) g.FillRectangle(hit, ix, 0, itemW[i], H);
                         rects.Add(new Rectangle(ix, 0, itemW[i], H));
-                        // 캐릭터
+                        // 캐릭터 칸 만들기 (죽었으면 옆으로 눕힌다)
                         string[] art = it.Claude ? IconArt.ClaudeArt : IconArt.CodexArt;
+                        char[,] cells = new char[8, 8];
+                        for (int y = 0; y < 8; y++) for (int x = 0; x < 8; x++) cells[y, x] = art[y][x];
+                        if (it.Blocked)
+                        {
+                            char[,] rot = new char[8, 8];
+                            for (int y = 0; y < 8; y++) for (int x = 0; x < 8; x++) rot[x, 7 - y] = cells[y, x];
+                            cells = rot;
+                        }
                         Color body = it.Claude ? Color.FromArgb(235, 132, 62) : Color.FromArgb(46, 192, 172);
                         Color dark = it.Claude ? Color.FromArgb(70, 34, 16) : Color.FromArgb(8, 48, 48);
+                        if (it.Blocked)
+                        {
+                            int lum = (body.R * 30 + body.G * 59 + body.B * 11) / 100;
+                            lum = lum * 75 / 100 + 20;
+                            body = Color.FromArgb(lum, lum, lum);
+                            dark = Color.FromArgb(35, 35, 35);
+                        }
                         int last = 0;
-                        for (int y = 0; y < art.Length; y++) if (art[y].Trim('.').Length > 0) last = y;
-                        int y0 = H - (last + 1) * k - it.Bob * k;   // 숨 쉬듯 한 칸 들썩
+                        for (int y = 0; y < 8; y++) for (int x = 0; x < 8; x++) if ((cells[y, x] == 'O' || cells[y, x] == 'T' || cells[y, x] == 'D') && y > last) last = y;
+                        int y0 = H - (last + 1) * k - it.Bob * k;   // 숨 쉬듯 한 칸 들썩 (죽으면 가만히)
+                        int sub = Math.Max(1, k / 2);
                         using (SolidBrush bb = new SolidBrush(body))
                         using (SolidBrush db = new SolidBrush(it.Blink ? body : dark))
-                            for (int y = 0; y < art.Length; y++)
+                            for (int y = 0; y < 8; y++)
                                 for (int x = 0; x < 8; x++)
                                 {
-                                    char c = art[y][x];
-                                    if (c == 'O' || c == 'T') g.FillRectangle(bb, ix + x * k, y0 + y * k, k, k);
-                                    else if (c == 'D') g.FillRectangle(db, ix + x * k, y0 + y * k, k, k);
+                                    char c = cells[y, x];
+                                    int cx = ix + x * k, cy = y0 + y * k;
+                                    if (c == 'O' || c == 'T') g.FillRectangle(bb, cx, cy, k, k);
+                                    else if (c == 'D')
+                                    {
+                                        if (!it.Blocked) g.FillRectangle(db, cx, cy, k, k);
+                                        else
+                                        {
+                                            g.FillRectangle(bb, cx, cy, k, k);   // 눈 자리를 몸 색으로 깔고 × 를 그린다
+                                            int mx = cx + k / 2, my = cy + k / 2;
+                                            int[][] xs = new int[][] { new int[] { -1, -1 }, new int[] { 1, -1 }, new int[] { 0, 0 }, new int[] { -1, 1 }, new int[] { 1, 1 } };
+                                            foreach (int[] o in xs) g.FillRectangle(db, mx + o[0] * sub - sub / 2, my + o[1] * sub - sub / 2, sub, sub);
+                                        }
+                                    }
                                 }
                         // 숫자 칸
                         int px = ix + M + gapIn;
@@ -1281,7 +1421,7 @@ namespace HlrBoard
         TrayItem claudeIcon, codexIcon;
         BoardForm popup, floatWin;
         PerchForm perch;
-        ToolStripMenuItem miPerch;
+        ToolStripMenuItem miPerch, miPerchIn;
         System.Windows.Forms.Timer refreshTimer = new System.Windows.Forms.Timer();
         System.Windows.Forms.Timer pollTimer = new System.Windows.Forms.Timer();
         Snapshot snap;
@@ -1294,6 +1434,7 @@ namespace HlrBoard
         bool hoverPerch;
         DateTime lastOutsideHide = DateTime.MinValue;
         bool mouseWasDown;
+        bool hoverArmed = true;   // 닫은 뒤에는 마우스가 캐릭터 밖으로 나갔다 와야 다시 열린다
         DateTime? outsideSince;
         EventWaitHandle showEvent;
         const string RunKey = @"Software\Microsoft\Windows\CurrentVersion\Run";
@@ -1314,12 +1455,14 @@ namespace HlrBoard
 
             perch = new PerchForm(st, menu);
             perch.ItemClicked = delegate(string which, Rectangle rect) { ToggleClick(rect); };
+            perch.DragStarted = delegate { HidePopup(); };
             perch.Hovered = delegate(Rectangle r)
             {
+                if (popup.Visible || !hoverArmed) return;
                 lastHover = DateTime.Now; hoverRect = r; hoverPerch = true;
                 if (!hoverStart.HasValue) hoverStart = DateTime.Now;
             };
-            perch.DragEnded = delegate { st.PerchX = perch.AxisPos; st.Save(); };
+            perch.DragEnded = delegate { st.PerchX = perch.AxisPos; st.Save(); HidePopup(); };
             SyncTray();
             if (st.Perch) perch.Begin();
             Log.W("시작: 아이콘 " + ((claudeIcon != null ? 1 : 0) + (codexIcon != null ? 1 : 0)) * (st.ShowCharacters ? 2 : 1) + "개 등록, 올려두기 " + (st.Perch ? "켬" : "끔"));
@@ -1348,7 +1491,7 @@ namespace HlrBoard
         // 알림 영역 아이콘은 `showTrayIcons` 이거나 올려두기가 꺼져 있을 때만 (길이 막히지 않게)
         void SyncTray()
         {
-            bool want = st.ShowTrayIcons || !st.Perch;
+            bool want = st.ShowTrayIcons || !st.Perch || (!st.ShowClaude && !st.ShowCodex);
             if (!want)
             {
                 if (claudeIcon != null) { claudeIcon.Dispose(); claudeIcon = null; }
@@ -1361,10 +1504,15 @@ namespace HlrBoard
             if (snap != null) Apply(snap);
         }
 
+        void HidePopup()
+        {
+            popup.Hide(); pinned = false; hoverStart = null; hoverArmed = false; outsideSince = null;
+        }
+
         void ToggleClick(Rectangle ir)
         {
             if ((DateTime.Now - lastOutsideHide).TotalMilliseconds < 500) return;
-            if (popup.Visible && pinned) { pinned = false; popup.Hide(); }
+            if (popup.Visible && pinned) { HidePopup(); }
             else if (popup.Visible) { pinned = true; }
             else ShowPopupRect(ir, true);
         }
@@ -1380,7 +1528,7 @@ namespace HlrBoard
             // 기본: 마우스를 올리면 윈도우 기본 말풍선만. 창은 왼쪽 누름으로 연다 (hoverOpen 켜면 올려도 열림)
             MouseEventHandler move = delegate
             {
-                if (!st.HoverOpen) return;
+                if (!st.HoverOpen || popup.Visible || !hoverArmed) return;
                 hoverPerch = false;
                 lastHover = DateTime.Now; hoverIcon = t;
                 if (!hoverStart.HasValue) hoverStart = DateTime.Now;
@@ -1388,9 +1536,10 @@ namespace HlrBoard
             MouseEventHandler click = delegate(object s, MouseEventArgs e)
             {
                 if (e.Button != MouseButtons.Left) return;
+                hoverPerch = false;
                 // 바깥 누름으로 막 닫힌 직후의 같은 누름이면 다시 열지 않는다 (아이콘을 눌러 닫는 동작)
                 if ((DateTime.Now - lastOutsideHide).TotalMilliseconds < 500) return;
-                if (popup.Visible && pinned) { pinned = false; popup.Hide(); }
+                if (popup.Visible && pinned) { HidePopup(); }
                 else if (popup.Visible) { pinned = true; }
                 else ShowPopup(t, true);
             };
@@ -1413,6 +1562,8 @@ namespace HlrBoard
                 if (st.Perch) perch.Begin(); else perch.End();
                 SyncTray(); st.Save();
             };
+            miPerchIn = new ToolStripMenuItem("작업 표시줄 안에 넣기");
+            miPerchIn.Click += delegate { st.PerchInside = !st.PerchInside; st.PerchX = -1; st.Save(); perch.Relayout(); };
             miAuto = new ToolStripMenuItem("윈도우 시작 시 자동 실행");
             miAuto.Click += delegate { SetAutoRun(!IsAutoRun()); };
             ToolStripMenuItem cfg = new ToolStripMenuItem("설정 파일 열기");
@@ -1423,9 +1574,9 @@ namespace HlrBoard
             };
             ToolStripMenuItem quit = new ToolStripMenuItem("종료");
             quit.Click += delegate { Quit(); };
-            menu.Items.Add(open); menu.Items.Add(miPerch); menu.Items.Add(miFloat); menu.Items.Add(miAuto); menu.Items.Add(cfg);
+            menu.Items.Add(open); menu.Items.Add(miPerch); menu.Items.Add(miPerchIn); menu.Items.Add(miFloat); menu.Items.Add(miAuto); menu.Items.Add(cfg);
             menu.Items.Add(new ToolStripSeparator()); menu.Items.Add(quit);
-            menu.Opening += delegate { miPerch.Checked = st.Perch; miFloat.Checked = st.Floating; miAuto.Checked = IsAutoRun(); };
+            menu.Opening += delegate { miPerch.Checked = st.Perch; miPerchIn.Checked = st.PerchInside; miFloat.Checked = st.Floating; miAuto.Checked = IsAutoRun(); };
         }
 
         bool IsAutoRun()
@@ -1476,7 +1627,7 @@ namespace HlrBoard
         {
             if (u == null || !u.Known) return name + " 기록 없음";
             string head = u.Blocked ? name + " 사용 불가 · " : name + " ";
-            return head + "5시간 " + u.RemFive + "% 남음 · 이번 주 " + u.RemWeek + "% 남음";
+            return head + u.Rem + "% 남음 (5시간 " + u.RemFive + "% · 주 " + u.RemWeek + "%)";
         }
 
         void Apply(Snapshot s)
@@ -1558,6 +1709,9 @@ namespace HlrBoard
         {
             bool edge = MousePressedEdge();
             Point p = Cursor.Position;
+            // 이 창들은 활성화되지 않아 메뉴가 저절로 안 닫힐 수 있다: 바깥을 누르면 직접 닫는다
+            if (edge && menu.Visible && !menu.Bounds.Contains(p)) menu.Close();
+            if (!hoverArmed && !popup.Visible && !OverIcon(p)) hoverArmed = true;
             if (!popup.Visible)
             {
                 outsideSince = null;
@@ -1575,13 +1729,13 @@ namespace HlrBoard
             }
             if (edge && !popup.Bounds.Contains(p) && !OverIcon(p))
             {
-                pinned = false; popup.Hide(); lastOutsideHide = DateTime.Now; return;
+                HidePopup(); lastOutsideHide = DateTime.Now; return;
             }
             if (pinned) return;
             bool inside = popup.Bounds.Contains(p) || OverIcon(p);
             if (inside) { outsideSince = null; return; }
             if (!outsideSince.HasValue) { outsideSince = DateTime.Now; return; }
-            if ((DateTime.Now - outsideSince.Value).TotalMilliseconds >= (hoverPerch ? 500 : 1000)) { popup.Hide(); outsideSince = null; }
+            if ((DateTime.Now - outsideSince.Value).TotalMilliseconds >= (hoverPerch ? 500 : 1000)) { HidePopup(); }
         }
 
         // 떠 있는 창이 화면 밖으로 나가지 않게 한다
@@ -1667,30 +1821,34 @@ namespace HlrBoard
             }
         }
 
-        // 표시줄 위에 올린 모습을 가짜 표시줄 조각 위에 그려 저장 (검증·설명용)
+        static void FillR(Graphics g, Color c, int x, int y, int w, int h) { using (SolidBrush b = new SolidBrush(c)) g.FillRectangle(b, x, y, w, h); }
+
+        // 작업 표시줄 안에 넣은 모습을 가짜 표시줄 조각 위에 그려 저장한다: 살아 있는 모습(파일), 쓰러진 모습(파일_dead)
         static void SnapshotPerch(Settings st, string png)
         {
-            Collector c = new Collector(st); c.WriteWeb = false;
-            Snapshot s = c.Collect();
-            List<PerchItem> items = new List<PerchItem>();
-            PerchItem a = new PerchItem(); a.Claude = true; a.Text = (s.Claude != null && s.Claude.Known) ? s.Claude.RemFive + "%" : "--"; a.Blocked = s.Claude != null && s.Claude.Blocked; a.Bob = 1;
-            PerchItem b = new PerchItem(); b.Text = (s.Codex != null && s.Codex.Known) ? s.Codex.RemFive + "%" : "--"; b.Blocked = s.Codex != null && s.Codex.Blocked;
-            if (st.ShowClaude) items.Add(a);
-            if (st.ShowCodex) items.Add(b);
-            List<Rectangle> rects;
-            int k = Math.Max(3, Theme.Sc(4));
-            using (Bitmap p = PerchForm.Compose(k, items, out rects))
-            using (Bitmap o = new Bitmap(p.Width + 160, p.Height + 120))
-            using (Graphics g = Graphics.FromImage(o))
+            int tbH = 48, k = Math.Max(2, Math.Min(5, (tbH - 4) / 10));
+            for (int pass = 0; pass < 2; pass++)
             {
-                g.Clear(Color.FromArgb(96, 116, 150));                                        // 바탕 화면 비슷한 색
-                g.FillRectangle(new SolidBrush(Color.FromArgb(30, 30, 36)), 0, p.Height + 20, o.Width, 100);   // 작업 표시줄 조각
-                for (int i = 0; i < 9; i++) g.FillRectangle(new SolidBrush(Color.FromArgb(60, 60, 70)), 20 + i * 44, p.Height + 36, 34, 34);
-                g.DrawImage(p, 80, 20);
-                o.Save(png, ImageFormat.Png);
+                bool dead = pass == 1;
+                List<PerchItem> items = new List<PerchItem>();
+                PerchItem a = new PerchItem(); a.Claude = true; a.Text = dead ? "0%" : "40%"; a.Blocked = dead; a.Bob = dead ? 0 : 1;
+                PerchItem b = new PerchItem(); b.Text = dead ? "0%" : "31%"; b.Blocked = dead;
+                items.Add(a); items.Add(b);
+                List<Rectangle> rects;
+                using (Bitmap p = PerchForm.Compose(k, items, out rects))
+                using (Bitmap o = new Bitmap(p.Width + 420, tbH + 40))
+                using (Graphics g = Graphics.FromImage(o))
+                {
+                    g.Clear(Color.FromArgb(96, 116, 150));
+                    int ty = 40;
+                    FillR(g, Color.FromArgb(32, 32, 38), 0, ty, o.Width, tbH);
+                    for (int i = 0; i < 6; i++) FillR(g, Color.FromArgb(70, 70, 80), 20 + i * 44, ty + 8, 32, 32);
+                    FillR(g, Color.FromArgb(50, 50, 58), o.Width - 300, ty + 4, 290, tbH - 8);   // 알림 영역 자리
+                    g.DrawImage(p, o.Width - 300 - 8 - p.Width, ty + (tbH - p.Height) / 2);
+                    o.Save(dead ? png.Replace(".png", "_dead.png") : png, ImageFormat.Png);
+                }
             }
         }
-
         [STAThread]
         static void Main(string[] args)
         {
