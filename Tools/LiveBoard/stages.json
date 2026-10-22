@@ -128,7 +128,7 @@
                       "kind":  "card",
                       "folder":  "C:\\Unity\\1\\HLR-cards\\K-112",
                       "agent":  "",
-                      "stage":  1
+                      "stage":  5
                   },
                   {
                       "id":  "K-113",
@@ -137,7 +137,7 @@
                       "kind":  "card",
                       "folder":  "C:\\Unity\\1\\HLR-cards\\K-113",
                       "agent":  "",
-                      "stage":  1
+                      "stage":  5
                   },
                   {
                       "id":  "K-114",
@@ -146,7 +146,7 @@
                       "kind":  "card",
                       "folder":  "C:\\Unity\\1\\HLR-cards\\K-114",
                       "agent":  "",
-                      "stage":  1
+                      "stage":  5
                   },
                   {
                       "id":  "W9",
@@ -200,7 +200,16 @@
                       "kind":  "coder",
                       "folder":  "",
                       "agent":  "a6a97a96a2bacfd1e",
-                      "stage":  1
+                      "stage":  5
+                  },
+                  {
+                      "id":  "R2",
+                      "name":  "검토: 오늘 앞선 작업들",
+                      "who":  "",
+                      "kind":  "coder",
+                      "folder":  "",
+                      "agent":  "affa335db42cb7cdd",
+                      "stage":  2
                   }
               ]
 }

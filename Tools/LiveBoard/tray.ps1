@@ -67,7 +67,7 @@ function Get-Board {
                 $inner = [Math]::Min(1.0, $uses / 70.0); $last = $log.LastWriteTime
                 $detail = "도구 사용 ${uses}번"
             }
-            if (Test-Path -LiteralPath $it.folder) { $changed = @(& $git -C $it.folder status --short).Count; $detail += " · 바뀐 파일 ${changed}개" }
+            # 바뀐 파일 수는 화면에서 뺐다 (2026-10-22) — 5초마다 git을 부르지 않는다. 검토 작업처럼 폴더가 없는 줄도 있다
         }
         elseif ($it.kind -eq 'card') {
             $log = Join-Path $it.folder 'CARD_CODEX_LOG.jsonl'
@@ -185,6 +185,8 @@ function Rows($d) {
     Tasks @($d.items | Where-Object { $_.kind -eq 'card' }) '진행 중인 그림 없음'
     Row 'gap' '' '' $null
     Row 'note' ('갱신 ' + $d.updated.Substring(11)) '' $null
+    # 읽기에 실패하면 멈춘 화면을 그대로 두지 않고 알린다 (2026-10-22: 4시 22분에 멈춘 채로 보였음)
+    if ($script:failText) { Row 'note' $script:failText '' $null }
     return $R
 }
 
@@ -272,10 +274,15 @@ $timer.Add_Tick({
     # 목록 파일을 고치는 순간 읽으면 오류가 날 수 있다 — 그 한 번만 건너뛰고 계속 돈다 (2026-10-22 프로그램이 꺼진 일)
     try {
         $d = Get-Board
+        $script:failText = $null; $script:lastGood = $d
         if ($form.Visible) { Render $d }
         $active = @($d.items | Where-Object { $_.pct -lt 100 }).Count
         $icon.Text = ("HLR · 진행 {0}개" -f $active)
-    } catch { }
+    } catch {
+        $script:failText = "갱신 실패 $((Get-Date).ToString('HH:mm:ss')) — 위는 마지막으로 읽은 값: $($_.Exception.Message)"
+        if ($form.Visible -and $script:lastGood) { Render $script:lastGood }
+        $icon.Text = 'HLR · 갱신 실패'
+    }
 })
 $timer.Start()
 $null = Get-Board
