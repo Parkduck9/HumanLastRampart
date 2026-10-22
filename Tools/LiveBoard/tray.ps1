@@ -97,49 +97,76 @@ $form.ForeColor = [System.Drawing.Color]::FromArgb(239, 227, 204)
 $form.Font = $font
 $form.ShowInTaskbar = $false
 $form.TopMost = $true
+$form.GetType().GetProperty('DoubleBuffered', [Reflection.BindingFlags]'Instance,NonPublic').SetValue($form, $true, $null)
 $panel = New-Object System.Windows.Forms.FlowLayoutPanel
 $panel.Dock = 'Fill'; $panel.FlowDirection = 'TopDown'; $panel.WrapContents = $false; $panel.AutoScroll = $true; $panel.Padding = New-Object System.Windows.Forms.Padding(10)
+$panel.GetType().GetProperty('DoubleBuffered', [Reflection.BindingFlags]'Instance,NonPublic').SetValue($panel, $true, $null)
 $form.Controls.Add($panel)
 
-function Add-Label($text, $f, $color) {
-    $l = New-Object System.Windows.Forms.Label
-    $l.Text = $text; $l.AutoSize = $true; $l.MaximumSize = New-Object System.Drawing.Size(470, 0); $l.Font = $f
-    if ($color) { $l.ForeColor = $color }
-    $panel.Controls.Add($l)
-}
-function Add-Bar($pct) {
-    $b = New-Object System.Windows.Forms.ProgressBar
-    $b.Width = 470; $b.Height = 14; $b.Minimum = 0; $b.Maximum = 100; $b.Value = [Math]::Max(0, [Math]::Min(100, [int]$pct))
-    $panel.Controls.Add($b)
-}
 $brass = [System.Drawing.Color]::FromArgb(212, 166, 74)
 $dim = [System.Drawing.Color]::FromArgb(168, 151, 124)
 $warn = [System.Drawing.Color]::FromArgb(224, 164, 88)
+$track = [System.Drawing.Color]::FromArgb(18, 14, 10)
+# 깜빡임 없애기 (사용자 2026-10-22): 줄을 한 번 만들고 글과 막대 길이만 바꾼다. 줄 모양이 바뀔 때만 다시 만든다.
+# 막대는 윈도우 기본 진행 막대 대신 직접 그린 판이라 0부터 차오르는 움직임이 없다.
+$script:shape = ''
+$script:slots = @()
 
-function Render($d) {
-    $panel.SuspendLayout(); $panel.Controls.Clear()
-    Add-Label ('갱신 ' + $d.updated) $font $dim
-    Add-Label '── 토큰 사용량 ──' $bold $brass
-    if ($d.claude) {
-        Add-Label ("클로드 이번 주 {0}% · 5시간 {1}%  (확인 {2})" -f $d.claude.week, $d.claude.five, $d.claude.checked) $font $null
-        Add-Bar $d.claude.week
-    } else { Add-Label '클로드: 아직 기록 없음 (Claude가 확인할 때 채워짐)' $font $dim }
-    if ($d.codex) {
-        Add-Label ("코덱스 이번 주 {0}% (초기화 {1}) · 5시간 {2}% (초기화 {3})" -f $d.codex.week, $d.codex.weekReset, $d.codex.five, $d.codex.fiveReset) $font $null
-        Add-Bar $d.codex.week
-    } else { Add-Label '코덱스: 한도 정보를 읽지 못함' $font $dim }
-    Add-Label '── 진행 중인 작업 ──' $bold $brass
-    if ($d.unity.running) { Add-Label ("유니티 시험 실행 중 · {0}분째 (약 {1}%)" -f $d.unity.minutes, $d.unity.pct) $font $null; Add-Bar $d.unity.pct }
+function Lines($d) {
+    $L = New-Object System.Collections.ArrayList
+    function Line($text, $f, $color, $pct) { [void]$L.Add([pscustomobject]@{ Text = $text; Font = $f; Color = $color; Pct = $pct }) }
+    Line ('갱신 ' + $d.updated) $font $dim $null
+    Line '── 토큰 사용량 ──' $bold $brass $null
+    if ($d.claude) { Line ("클로드 이번 주 {0}% · 5시간 {1}%  (확인 {2})" -f $d.claude.week, $d.claude.five, $d.claude.checked) $font $null $d.claude.week }
+    else { Line '클로드: 아직 기록 없음 (Claude가 확인할 때 채워짐)' $font $dim $null }
+    if ($d.codex) { Line ("코덱스 이번 주 {0}% (초기화 {1}) · 5시간 {2}% (초기화 {3})" -f $d.codex.week, $d.codex.weekReset, $d.codex.five, $d.codex.fiveReset) $font $null $d.codex.week }
+    else { Line '코덱스: 한도 정보를 읽지 못함' $font $dim $null }
+    Line '── 진행 중인 작업 ──' $bold $brass $null
+    if ($d.unity.running) { Line ("유니티 시험 실행 중 · {0}분째 (약 {1}%)" -f $d.unity.minutes, $d.unity.pct) $font $null $d.unity.pct }
     foreach ($it in $d.items) {
-        Add-Label ("{0}  [{1}]  {2}%" -f $it.name, $it.stage, $it.pct) $bold $null
-        $tail = if ($it.idle -gt 180 -and $it.pct -lt 100) { " · {0}분째 움직임 없음" -f [int]($it.idle / 60) } elseif ($it.idle -ge 0) { " · $($it.idle)초 전 움직임" } else { '' }
-        Add-Label ($it.who + ' · ' + $it.detail + $tail) $font $(if ($it.idle -gt 180 -and $it.pct -lt 100) { $warn } else { $dim })
-        Add-Bar $it.pct
+        Line ("{0}  [{1}]  {2}%" -f $it.name, $it.stage, $it.pct) $bold $null $null
+        $stale = $it.idle -gt 180 -and $it.pct -lt 100
+        $tail = if ($stale) { " · {0}분째 움직임 없음" -f [int]($it.idle / 60) } elseif ($it.idle -ge 0) { " · $($it.idle)초 전 움직임" } else { '' }
+        Line ($it.who + ' · ' + $it.detail + $tail) $font $(if ($stale) { $warn } else { $dim }) $it.pct
     }
-    if (-not $d.items) { Add-Label '진행 중인 작업이 없습니다' $font $dim }
-    $panel.ResumeLayout()
+    if (-not $d.items) { Line '진행 중인 작업이 없습니다' $font $dim $null }
+    return $L
 }
 
+function Render($d) {
+    $lines = Lines $d
+    $shape = ($lines | ForEach-Object { "$($_.Font.Style)|$($null -ne $_.Pct)" }) -join ';'
+    if ($shape -ne $script:shape) {
+        # 줄 모양이 바뀌었을 때만 다시 만든다
+        $panel.SuspendLayout(); $panel.Controls.Clear(); $script:slots = @()
+        foreach ($ln in $lines) {
+            $l = New-Object System.Windows.Forms.Label
+            $l.AutoSize = $true; $l.MaximumSize = New-Object System.Drawing.Size(470, 0); $l.Font = $ln.Font
+            $panel.Controls.Add($l)
+            $fill = $null
+            if ($null -ne $ln.Pct) {
+                $bar = New-Object System.Windows.Forms.Panel
+                $bar.Width = 470; $bar.Height = 12; $bar.BackColor = $track; $bar.Margin = New-Object System.Windows.Forms.Padding(3, 2, 3, 8)
+                $fill = New-Object System.Windows.Forms.Panel
+                $fill.Height = 12; $fill.Left = 0; $fill.Top = 0; $fill.BackColor = $brass
+                $bar.Controls.Add($fill); $panel.Controls.Add($bar)
+            }
+            $script:slots += , @($l, $fill)
+        }
+        $panel.ResumeLayout()
+        $script:shape = $shape
+    }
+    for ($i = 0; $i -lt $lines.Count; $i++) {
+        $ln = $lines[$i]; $l = $script:slots[$i][0]; $fill = $script:slots[$i][1]
+        if ($l.Text -ne $ln.Text) { $l.Text = $ln.Text }
+        $color = if ($ln.Color) { $ln.Color } else { $form.ForeColor }
+        if ($l.ForeColor -ne $color) { $l.ForeColor = $color }
+        if ($fill) {
+            $w = [int](470 * [Math]::Max(0, [Math]::Min(100, [double]$ln.Pct)) / 100)
+            if ($fill.Width -ne $w) { $fill.Width = $w }
+        }
+    }
+}
 # ── 알림 영역 아이콘 ──
 $bmp = New-Object System.Drawing.Bitmap(32, 32)
 $g = [System.Drawing.Graphics]::FromImage($bmp)
