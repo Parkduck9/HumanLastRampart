@@ -170,10 +170,22 @@ namespace HumanLastRampart.Meta
                 pieces[i] = piece;
 
                 int pct = max > 0 ? Mathf.RoundToInt(100f * hp / max) : 100;
-                Text text = Ui.Label(go.transform, "Text", $"{PreparationTransactions.WallName(id)}\n{pct}%", UiTokens.Small, UiTokens.Ink, TextAnchor.MiddleCenter);
-                text.fontStyle = FontStyle.Bold;
-                text.horizontalOverflow = HorizontalWrapMode.Overflow;
-                Ui.Stretch(text.rectTransform);
+                string caption = $"{PreparationTransactions.WallName(id)}\n{pct}%";
+                if (crop != null)
+                {
+                    // 성벽 그림 위에 글을 얹으면 돌 무늬에 묻힌다 → 마당 쪽으로 당겨 테두리 글로 쓴다 (누르기는 조각이 받는다)
+                    Text inner = Ui.Outlined(Ui.Label(map, "Text:" + id, caption, UiTokens.Small, UiTokens.Brass, TextAnchor.MiddleCenter, true));
+                    inner.horizontalOverflow = HorizontalWrapMode.Overflow;
+                    inner.raycastTarget = false;
+                    Ui.Place(inner.rectTransform, center, pos * 0.62f, new Vector2(120f, 44f));
+                }
+                else
+                {
+                    Text text = Ui.Label(go.transform, "Text", caption, UiTokens.Small, UiTokens.Ink, TextAnchor.MiddleCenter);
+                    text.fontStyle = FontStyle.Bold;
+                    text.horizontalOverflow = HorizontalWrapMode.Overflow;
+                    Ui.Stretch(text.rectTransform);
+                }
             }
 
             // 외곽선 (K-096): 모든 조각 위에 256점 전체 캔버스 그림. 고른 성벽은 늘, 나머지는 가리킬 때만
