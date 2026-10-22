@@ -12,8 +12,9 @@ namespace HumanLastRampart.Core.CombatContracts
             var forecast = new WeatherForecast
             {
                 InitialWeather = (Weather)random.NextInt(4),   // 맑음·흐림·비·안개 무작위 (D-027 Q4)
-                TimeOfDay = (TimeOfDay)random.NextInt(2),      // 밤낮 무작위
+                TimeOfDay = TimeOfDay.Night,                   // 전투는 언제나 밤 (등대 설계 B6)
             };
+            random.NextInt(2);   // 예전 낮밤 뽑기 난수는 소비해 아래 날씨 변화 난수 순서를 그대로 둔다 (결정성)
 
             float changeChance = rules != null ? rules.WeatherChangeChance : 0.15f;
             if (!random.Chance(changeChance))

@@ -55,6 +55,20 @@ namespace HumanLastRampart.Core.Tests
         }
 
         [Test]
+        public void Forecast_AlwaysNight_WeatherStillVaries()   // 등대 B6: 전투는 언제나 밤, 날씨는 무작위
+        {
+            var rules = TestDefs.Make<BattleRulesDef>("rules");
+            var seen = new System.Collections.Generic.HashSet<Weather>();
+            for (int seed = 0; seed < 500; seed++)
+            {
+                WeatherForecast f = BattleForecast.Get(seed, 1 + seed % 7, rules);
+                Assert.AreEqual(TimeOfDay.Night, f.TimeOfDay, $"시드 {seed}");
+                seen.Add(f.InitialWeather);
+            }
+            Assert.AreEqual(4, seen.Count, "날씨 네 가지가 다 나온다");
+        }
+
+        [Test]
         public void Forecast_ChangesFollowRules()   // D-027 Q4, D-028 C5
         {
             var rules = TestDefs.Make<BattleRulesDef>("rules");

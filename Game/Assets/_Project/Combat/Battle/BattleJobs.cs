@@ -1012,10 +1012,11 @@ namespace HumanLastRampart.Combat.Battle
         [ReadOnly] public NativeArray<EnemyKind> Kinds;
         [ReadOnly] public NativeArray<byte> Sides;
         [ReadOnly] public NativeArray<int> EnemyGroup;
+        [ReadOnly] public NativeArray<byte> TierShown;        // 변형 단계 (0 홀림 · 1 물듦 · 2 변형). 빛줄기 안이면 0
         [ReadOnly] public NativeArray<byte> GroupSpotted;     // 망원경으로 확인한 무리는 시야 밖이어도 보인다
         [WriteOnly] public NativeArray<PerfLabInstance> Instances;
         public float CastleHalf;
-        public float WallScale;         // 성벽 위·사다리에서의 크기 비율 (병사와 맞춤, D-046)
+        public float WallScale;        // 성벽 위·사다리에서의 크기 비율 (병사와 맞춤, D-046)
         public float WallScaleBand;     // 성벽에서 이 거리 안(카메라에서 성벽에 가려지는 곳)에서 원래 크기 → WallScale
         public float VisibleDistance;   // 안개·밤 시야(성벽에서 m). 이 너머는 흐리게, 더 너머는 안 그림
         public float Brightness;        // 밤·비에 어둡게
@@ -1086,7 +1087,8 @@ namespace HumanLastRampart.Combat.Battle
 
             float shade = Brightness;
             float fromWall = math.dot(Positions[i], WallGeometry.Outward(Sides[i])) - CastleHalf;
-            float size = kind.DrawSize * math.lerp(WallScale, 1f, math.saturate((fromWall - 1f) / math.max(0.1f, WallScaleBand - 1f)));
+            int tier = TierShown[i];
+            float size = kind.DrawSize * EnemyTierRules.ScaleMultiplier(tier) * math.lerp(WallScale, 1f, math.saturate((fromWall - 1f) / math.max(0.1f, WallScaleBand - 1f)));
             float beyond = fromWall - VisibleDistance;
             if (beyond > 0f && GroupSpotted[EnemyGroup[i]] == 0)
             {
@@ -1100,7 +1102,8 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             // 화상 (K-035): 살아 있는 동안 붉게 깜빡인다
-            float3 tint = kind.Tint * shade;
+            // 변형 단계: 어둡고 살짝 보라. 눈 빛남(물듦)·안개 연기(변형)는 그림 카드 후 (EnemyTierRules 참고)
+            float3 tint = kind.Tint * shade * EnemyTierRules.TintMultiplier(tier) * EnemyTierRules.WispPulse(tier, Time, i);
             if (Burn[i] > 0f && EnemyState.IsAlive(state))
             {
                 float flicker = 0.5f + 0.5f * math.sin(Time * 18f + i * 1.7f);

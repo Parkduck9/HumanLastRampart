@@ -19,6 +19,32 @@ public sealed class SimProbe
 {
     static readonly System.Reflection.BindingFlags F = System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance;
 
+    // 시험 상태 누수 방지: 여러 시험이 리플렉션으로 정의(BattleRulesDef·EnemyDef·가격 등) 값을 메모리에서 바꾸고
+    // 원래대로 되돌리지 않아, 전체 시험을 돌리면 뒤 시험(UpgradeCompare) 숫자가 달라졌다. 시험마다 전체 정의 값을 저장해 두고 끝나면 복원한다.
+    readonly List<(ScriptableObject asset, string json)> definitionSnapshot = new List<(ScriptableObject, string)>();
+
+    [SetUp]
+    public void SnapshotDefinitions()
+    {
+        definitionSnapshot.Clear();
+        foreach (string guid in AssetDatabase.FindAssets("t:ScriptableObject", new[] { "Assets/_Project" }))
+        {
+            var asset = AssetDatabase.LoadAssetAtPath<ScriptableObject>(AssetDatabase.GUIDToAssetPath(guid));
+            if (asset != null) definitionSnapshot.Add((asset, EditorJsonUtility.ToJson(asset)));
+        }
+    }
+
+    [TearDown]
+    public void RestoreDefinitions()
+    {
+        foreach (var (asset, json) in definitionSnapshot)
+        {
+            if (asset != null && EditorJsonUtility.ToJson(asset) != json) EditorJsonUtility.FromJsonOverwrite(json, asset);
+        }
+
+        definitionSnapshot.Clear();
+    }
+
     [Test]
     public void CampaignBalance()
     {

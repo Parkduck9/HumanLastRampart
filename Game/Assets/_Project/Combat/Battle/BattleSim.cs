@@ -146,6 +146,8 @@ namespace HumanLastRampart.Combat.Battle
         NativeArray<int> eIncoming;
         NativeArray<float> eAnim;
         NativeArray<int> eGroup;            // 웨이브 무리 번호 (망원경, MAP-5)
+        NativeArray<byte> eTier;            // 변형 단계 (setup.EnemyTier, 9.5). 등대 빛줄기가 끌 때를 위해 원래 값을 남긴다
+        NativeArray<byte> eTierShown;       // 지금 적용 중인 단계 (보너스 꺼지면 0). 그리기 작업이 읽는다
         NativeArray<EnemyKind> kinds;
         NativeArray<PerfLabInstance> enemyInstances;
 
@@ -342,6 +344,8 @@ namespace HumanLastRampart.Combat.Battle
             eIncoming = new NativeArray<int>(n, p);
             eAnim = new NativeArray<float>(n, p);
             eGroup = new NativeArray<int>(n, p);
+            eTier = new NativeArray<byte>(n, p);
+            eTierShown = new NativeArray<byte>(n, p);
             enemyInstances = new NativeArray<PerfLabInstance>(n, p);
             kinds = new NativeArray<EnemyKind>(Mathf.Max(1, kindList.Count), p);
             for (int k = 0; k < kindList.Count; k++)
@@ -373,9 +377,12 @@ namespace HumanLastRampart.Combat.Battle
                     int slot = cursor[k]++;
                     eKind[slot] = k;
                     eGroup[slot] = groupIndex;
-                    eMaxHp[slot] = Mathf.Max(1, def.MaxHp);
+                    int tier = EnemyTierRules.Clamp(setup.EnemyTier);   // 오우거·사다리 고블린 포함 전부 같은 규칙 (9.5)
+                    eTier[slot] = (byte)tier;
+                    eTierShown[slot] = (byte)tier;
+                    eMaxHp[slot] = Mathf.Max(1, Mathf.RoundToInt(Mathf.Max(1, def.MaxHp) * EnemyTierRules.HpMultiplier(tier)));
                     eHp[slot] = eMaxHp[slot];
-                    eSpeed[slot] = def.MoveSpeed * random.NextFloat(0.85f, 1.15f);
+                    eSpeed[slot] = def.MoveSpeed * EnemyTierRules.SpeedMultiplier(tier) * random.NextFloat(0.85f, 1.15f);
                     float phase = random.NextFloat();
                     eAnim[slot] = phase;
                     eStop[slot] = CastleHalf + 1.5f + phase * 6f;   // 성벽 앞에 여러 줄로
@@ -1013,6 +1020,7 @@ namespace HumanLastRampart.Combat.Battle
                 Kinds = kinds,
                 Sides = eSide,
                 EnemyGroup = eGroup,
+                TierShown = eTierShown,   // 변형 단계 색·크기 (9.5)
                 GroupSpotted = groupSpotted,
                 Instances = enemyInstances,
                 CastleHalf = CastleHalf,
@@ -1157,6 +1165,8 @@ namespace HumanLastRampart.Combat.Battle
             Release(ref eIncoming);
             Release(ref eAnim);
             Release(ref eGroup);
+            Release(ref eTier);
+            Release(ref eTierShown);
             Release(ref groupSpotted);
             Release(ref craters);
             ReleaseTerrain();   // K-049
