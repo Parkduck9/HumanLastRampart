@@ -1,0 +1,19 @@
+{
+  "loaded": true,
+  "motion": {
+    "src": [
+      {
+        "w": 576,
+        "h": 128
+      },
+      {
+        "w": 576,
+        "h": 128
+      }
+    ],
+    "changed": true
+  },
+  "stopped": true,
+  "mobileOverflow": false,
+  "errors": []
+}
