@@ -1,0 +1,699 @@
+{
+  "card": "K-102",
+  "version": 1,
+  "status": "concept_assets_only",
+  "generation": "built-in image_gen; source_atlas.png",
+  "coordinate_system": "top-left pixels; pivot_px is top-left pixel coordinate, not Unity normalized pivot",
+  "scale": 3,
+  "native_cell": [
+    96,
+    128
+  ],
+  "game_cell": [
+    288,
+    384
+  ],
+  "foot_native": [
+    48,
+    120
+  ],
+  "foot_game": [
+    144,
+    360
+  ],
+  "figure_reference": "73px human; tower silhouette 98px",
+  "unity_normalized_foot_pivot": [
+    0.5,
+    0.0625
+  ],
+  "compositing": {
+    "tower": "normal alpha",
+    "flame": "normal alpha, same canvas position as tower",
+    "pillar": "SrcAlpha One, align pillar anchor to tower bowl; behind flame and tower",
+    "pillar_native_offset": [
+      0,
+      -206
+    ],
+    "pillar_game_offset": [
+      0,
+      -618
+    ]
+  },
+  "notes": [
+    "새 에셋이므로 기존 게임 시트 교체 없음.",
+    "석조 탑의 최하단 불투명 픽셀은 y=120.",
+    "분리 불꽃은 발 픽셀 대신 화로 기준점 (48,42)을 공유.",
+    "빛기둥은 긴 별도 셀 96×256, 게임판 288×768.",
+    "파손된 화로가 점화 때 복원되는 세 상태의 컨셉.",
+    "목업은 기존 자료 합성이고 Unity 캡처가 아님."
+  ],
+  "references": [
+    "Docs/References/codex_k085_v1/battle_before.png",
+    "Docs/References/codex_k089_v1/prep_yard.png",
+    "Game/Assets/_Project/Art/Battle/Resources/BattleArt/wall_a.png",
+    "Docs/References/codex_k070_v1/hero_native_96x128.png"
+  ],
+  "assets": [
+    {
+      "file": "native/beacon_tower_dead.png",
+      "size": [
+        96,
+        128
+      ],
+      "cell": [
+        96,
+        128
+      ],
+      "frames": 1,
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "center_x": 48,
+      "filter": "Point",
+      "alpha": "Straight RGBA",
+      "order": "left_to_right",
+      "role": "tower",
+      "state": "dead"
+    },
+    {
+      "file": "game/beacon_tower_dead.png",
+      "size": [
+        288,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "frames": 1,
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "center_x": 144,
+      "filter": "Point",
+      "alpha": "Straight RGBA",
+      "order": "left_to_right",
+      "role": "tower",
+      "state": "dead"
+    },
+    {
+      "file": "previews/beacon_tower_dead_4x.png",
+      "size": [
+        384,
+        512
+      ],
+      "role": "preview"
+    },
+    {
+      "file": "native/beacon_tower_warming.png",
+      "size": [
+        96,
+        128
+      ],
+      "cell": [
+        96,
+        128
+      ],
+      "frames": 1,
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "center_x": 48,
+      "filter": "Point",
+      "alpha": "Straight RGBA",
+      "order": "left_to_right",
+      "role": "tower",
+      "state": "warming"
+    },
+    {
+      "file": "game/beacon_tower_warming.png",
+      "size": [
+        288,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "frames": 1,
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "center_x": 144,
+      "filter": "Point",
+      "alpha": "Straight RGBA",
+      "order": "left_to_right",
+      "role": "tower",
+      "state": "warming"
+    },
+    {
+      "file": "previews/beacon_tower_warming_4x.png",
+      "size": [
+        384,
+        512
+      ],
+      "role": "preview"
+    },
+    {
+      "file": "native/beacon_tower_lit.png",
+      "size": [
+        96,
+        128
+      ],
+      "cell": [
+        96,
+        128
+      ],
+      "frames": 1,
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "center_x": 48,
+      "filter": "Point",
+      "alpha": "Straight RGBA",
+      "order": "left_to_right",
+      "role": "tower",
+      "state": "lit"
+    },
+    {
+      "file": "game/beacon_tower_lit.png",
+      "size": [
+        288,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "frames": 1,
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "center_x": 144,
+      "filter": "Point",
+      "alpha": "Straight RGBA",
+      "order": "left_to_right",
+      "role": "tower",
+      "state": "lit"
+    },
+    {
+      "file": "previews/beacon_tower_lit_4x.png",
+      "size": [
+        384,
+        512
+      ],
+      "role": "preview"
+    },
+    {
+      "file": "native/beacon_tower_states.png",
+      "size": [
+        288,
+        128
+      ],
+      "cell": [
+        96,
+        128
+      ],
+      "frames": 3,
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "center_x": 48,
+      "filter": "Point",
+      "alpha": "Straight RGBA",
+      "order": "left_to_right",
+      "role": "state_sheet",
+      "frame_order": [
+        "dead",
+        "warming",
+        "lit"
+      ]
+    },
+    {
+      "file": "game/beacon_tower_states.png",
+      "size": [
+        864,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "frames": 3,
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "center_x": 144,
+      "filter": "Point",
+      "alpha": "Straight RGBA",
+      "order": "left_to_right",
+      "role": "state_sheet",
+      "frame_order": [
+        "dead",
+        "warming",
+        "lit"
+      ]
+    },
+    {
+      "file": "previews/beacon_tower_states_4x.png",
+      "size": [
+        1152,
+        512
+      ],
+      "role": "preview"
+    },
+    {
+      "file": "native/beacon_flame_warming.png",
+      "size": [
+        576,
+        128
+      ],
+      "cell": [
+        96,
+        128
+      ],
+      "frames": 6,
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "center_x": 48,
+      "filter": "Point",
+      "alpha": "Straight RGBA",
+      "order": "left_to_right",
+      "role": "flame",
+      "state": "warming",
+      "fps": 8,
+      "loop": true,
+      "anchor_px": [
+        48,
+        42
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "anchor_game_px": [
+        144,
+        126
+      ]
+    },
+    {
+      "file": "game/beacon_flame_warming.png",
+      "size": [
+        1728,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "frames": 6,
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "center_x": 144,
+      "filter": "Point",
+      "alpha": "Straight RGBA",
+      "order": "left_to_right",
+      "role": "flame",
+      "state": "warming",
+      "fps": 8,
+      "loop": true,
+      "anchor_px": [
+        144,
+        126
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "anchor_game_px": [
+        144,
+        126
+      ]
+    },
+    {
+      "file": "previews/beacon_flame_warming_4x.png",
+      "size": [
+        2304,
+        512
+      ],
+      "role": "preview"
+    },
+    {
+      "file": "native/beacon_flame_lit.png",
+      "size": [
+        576,
+        128
+      ],
+      "cell": [
+        96,
+        128
+      ],
+      "frames": 6,
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "center_x": 48,
+      "filter": "Point",
+      "alpha": "Straight RGBA",
+      "order": "left_to_right",
+      "role": "flame",
+      "state": "lit",
+      "fps": 8,
+      "loop": true,
+      "anchor_px": [
+        48,
+        42
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "anchor_game_px": [
+        144,
+        126
+      ]
+    },
+    {
+      "file": "game/beacon_flame_lit.png",
+      "size": [
+        1728,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "frames": 6,
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "center_x": 144,
+      "filter": "Point",
+      "alpha": "Straight RGBA",
+      "order": "left_to_right",
+      "role": "flame",
+      "state": "lit",
+      "fps": 8,
+      "loop": true,
+      "anchor_px": [
+        144,
+        126
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "anchor_game_px": [
+        144,
+        126
+      ]
+    },
+    {
+      "file": "previews/beacon_flame_lit_4x.png",
+      "size": [
+        2304,
+        512
+      ],
+      "role": "preview"
+    },
+    {
+      "file": "native/beacon_light_pillar.png",
+      "size": [
+        96,
+        256
+      ],
+      "role": "additive_glow",
+      "cell": [
+        96,
+        256
+      ],
+      "frames": 1,
+      "pivot_px": [
+        48,
+        248
+      ],
+      "attach_to_tower_px": [
+        48,
+        42
+      ],
+      "blend": "SrcAlpha One",
+      "filter": "Point"
+    },
+    {
+      "file": "game/beacon_light_pillar.png",
+      "size": [
+        288,
+        768
+      ],
+      "role": "additive_glow",
+      "cell": [
+        288,
+        768
+      ],
+      "frames": 1,
+      "pivot_px": [
+        144,
+        744
+      ],
+      "attach_to_tower_px": [
+        144,
+        126
+      ],
+      "blend": "SrcAlpha One",
+      "filter": "Point"
+    },
+    {
+      "file": "previews/beacon_light_pillar_4x.png",
+      "size": [
+        384,
+        1024
+      ],
+      "role": "preview"
+    },
+    {
+      "file": "icons/beacon_dead_48.png",
+      "size": [
+        48,
+        48
+      ],
+      "role": "map_result_icon",
+      "state": "dead",
+      "cell": [
+        48,
+        48
+      ],
+      "frames": 1,
+      "pivot_px": [
+        24,
+        45
+      ]
+    },
+    {
+      "file": "icons/beacon_dead_96.png",
+      "size": [
+        96,
+        96
+      ],
+      "role": "map_result_icon",
+      "state": "dead",
+      "cell": [
+        96,
+        96
+      ],
+      "frames": 1,
+      "pivot_px": [
+        48,
+        90
+      ]
+    },
+    {
+      "file": "previews/beacon_icon_dead_4x.png",
+      "size": [
+        192,
+        192
+      ],
+      "role": "preview"
+    },
+    {
+      "file": "icons/beacon_warming_48.png",
+      "size": [
+        48,
+        48
+      ],
+      "role": "map_result_icon",
+      "state": "warming",
+      "cell": [
+        48,
+        48
+      ],
+      "frames": 1,
+      "pivot_px": [
+        24,
+        45
+      ]
+    },
+    {
+      "file": "icons/beacon_warming_96.png",
+      "size": [
+        96,
+        96
+      ],
+      "role": "map_result_icon",
+      "state": "warming",
+      "cell": [
+        96,
+        96
+      ],
+      "frames": 1,
+      "pivot_px": [
+        48,
+        90
+      ]
+    },
+    {
+      "file": "previews/beacon_icon_warming_4x.png",
+      "size": [
+        192,
+        192
+      ],
+      "role": "preview"
+    },
+    {
+      "file": "icons/beacon_lit_48.png",
+      "size": [
+        48,
+        48
+      ],
+      "role": "map_result_icon",
+      "state": "lit",
+      "cell": [
+        48,
+        48
+      ],
+      "frames": 1,
+      "pivot_px": [
+        24,
+        45
+      ]
+    },
+    {
+      "file": "icons/beacon_lit_96.png",
+      "size": [
+        96,
+        96
+      ],
+      "role": "map_result_icon",
+      "state": "lit",
+      "cell": [
+        96,
+        96
+      ],
+      "frames": 1,
+      "pivot_px": [
+        48,
+        90
+      ]
+    },
+    {
+      "file": "previews/beacon_icon_lit_4x.png",
+      "size": [
+        192,
+        192
+      ],
+      "role": "preview"
+    },
+    {
+      "file": "mockup_battle_night_1920x1080.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "role": "concept_mockup",
+      "background_brightness": 0.65,
+      "source": "Docs/References/codex_k085_v1/battle_before.png",
+      "tower_foot_px": [
+        960,
+        1030
+      ],
+      "note": "기존 전투 캡처 합성. 실제 실행 화면 아님."
+    },
+    {
+      "file": "mockup_prep_day_1920x1080.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "role": "concept_mockup",
+      "source": "Docs/References/codex_k089_v1/prep_yard.png",
+      "source_crop": [
+        960,
+        0,
+        1920,
+        1080
+      ],
+      "tower_foot_px": [
+        960,
+        915
+      ],
+      "note": "기존 정비 마당 중앙 영역 합성. 실제 실행 화면 아님."
+    },
+    {
+      "file": "previews/scale_comparison_4x.png",
+      "size": [
+        1440,
+        512
+      ],
+      "role": "reference_comparison"
+    },
+    {
+      "file": "previews/beacon_lit_full_4x.png",
+      "size": [
+        384,
+        1336
+      ],
+      "role": "full_pillar_composite_preview"
+    }
+  ]
+}

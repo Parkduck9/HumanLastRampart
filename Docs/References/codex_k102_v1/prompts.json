@@ -1,0 +1,11 @@
+{
+  "tool": "built-in image_gen",
+  "calls": 1,
+  "transparent_background": true,
+  "output": "source_atlas.png",
+  "references": [
+    "Game/Assets/_Project/Art/Battle/Resources/BattleArt/wall_a.png",
+    "Docs/References/codex_k089_v1/prep_yard.png"
+  ],
+  "prompt": "Use case: stylized-concept. Asset type: production pixel-art sprite atlas for Human Last Rampart. Reference images: wall_a.png for stone palette and shallow elevated front billboard angle; prep_yard.png for fortress identity. Create a transparent atlas 1536x1024 arranged exactly 3 columns by 2 rows, each region 512x512. Top row: three IDENTICAL short sturdy ancient stone beacon towers, first dead cold ruined with cracked stones and empty brazier; second same tower with warm bronze bowl but NO flame; third same tower with bright golden rim and amber slits but NO flame. Bottom row: left a SMALL orange flame; middle a LARGE bright golden flame; right a tall narrow golden translucent vertical light pillar without any stone or bowl. All elements isolated with generous transparent margins. Towers full body, no cropping, grounded flat foot, centered, three stepped plinths, squat square column, octagonal wide bronze brazier, four low stone prongs around rim, dark thick pixel outline, chunky crisp low-resolution pixel clusters, ~3 shading steps per material, muted taupe grey stones #8a8377, deep charcoal #29282e, small muted moss patches, dark bronze. Same exact silhouette and same alignment for all three towers, high visibility at 73px character scale. Shallow 2.5D elevated frontal camera, only subtle right face visible, not isometric diamond. Tower roughly 100 native pixels high and 60 wide when downsampled. Flame detached for animation. NO captions, lettering, frames, labels, checkerboard background, scenery, characters, floor or cast shadow. True transparent background."
+}
