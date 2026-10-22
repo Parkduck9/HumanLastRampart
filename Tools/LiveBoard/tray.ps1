@@ -32,17 +32,38 @@ function Count-Matches($path, $pattern) {
 
 function When([long]$unix) { [DateTimeOffset]::FromUnixTimeSeconds($unix).ToLocalTime().ToString('MM-dd HH:mm') }
 
+# 모델 이름을 짧은 한글로 (사용자 2026-10-22: % 오른쪽에 어떤 모델인지)
+function ModelName([string]$id) {
+    if (-not $id) { return '' }
+    if ($id -match 'claude-(sonnet|opus|haiku|fable)-(\d+)-(\d+)') {
+        $n = @{ sonnet = '소넷'; opus = '오퍼스'; haiku = '하이쿠'; fable = '페이블' }[$Matches[1]]
+        return "$n $($Matches[2]).$($Matches[3])"
+    }
+    return $id
+}
+function CodexModel {
+    $cfg = "$env:USERPROFILE\.codex\config.toml"
+    if (-not (Test-Path $cfg)) { return '' }
+    $m = Select-String -Path $cfg -Pattern '^\s*model\s*=\s*"([^"]+)"' | Select-Object -First 1
+    if ($m) { return $m.Matches[0].Groups[1].Value } else { return '' }
+}
+
 function Get-Board {
     $now = Get-Date
     $cfg = Get-Content -Raw -Encoding UTF8 $stagesFile | ConvertFrom-Json
+    $codexModel = CodexModel
     $rows = @()
     foreach ($it in $cfg.items) {
         if ([int]$it.stage -ge 5) { continue }   # 끝난 작업은 보이지 않는다 (사용자 2026-10-22)
         $stage = [int]$it.stage; $detail = ''; $inner = 0.0; $last = $null
+        $model = if ($it.kind -eq 'card') { $codexModel } else { '' }
         if ($it.kind -eq 'coder') {
             $log = Get-ChildItem -Path $agents -Recurse -Filter "agent-$($it.agent).jsonl" | Select-Object -First 1
             if ($log) {
                 $uses = Count-Matches $log.FullName '"type":"tool_use"'
+                # 끝부분 응답 줄에서 읽는다 (첫 줄의 model은 작업자 모델이 아님). 5초마다 전체를 읽지 않게 끝 40줄만
+                $mm = Get-Content -LiteralPath $log.FullName -Tail 40 | Select-String -Pattern '"model":"(claude-[^"]+)"' | Select-Object -Last 1
+                if ($mm) { $model = ModelName $mm.Matches[0].Groups[1].Value }
                 $inner = [Math]::Min(1.0, $uses / 70.0); $last = $log.LastWriteTime
                 $detail = "도구 사용 ${uses}번"
             }
@@ -62,7 +83,7 @@ function Get-Board {
         $pct = if ($stage -eq 1) { [int]($lo + ($hi - $lo) * $inner) } else { $lo }
         $idle = if ($last) { [int]($now - $last).TotalSeconds } else { -1 }
         $names = if ($it.kind -eq 'card') { $cardStageNames } else { $stageNames }
-        $rows += [ordered]@{ id = $it.id; name = $it.name; who = $it.who; kind = $it.kind; desc = $it.desc; stage = $names[$stage]; pct = $pct; detail = $detail; idle = $idle }
+        $rows += [ordered]@{ id = $it.id; name = $it.name; who = $it.who; kind = $it.kind; desc = $it.desc; model = $model; stage = $names[$stage]; pct = $pct; detail = $detail; idle = $idle }
     }
 
     $unity = Get-Process Unity -ErrorAction SilentlyContinue | Sort-Object StartTime | Select-Object -First 1
@@ -131,7 +152,8 @@ function Lines($d) {
     function Line($text, $f, $color, $pct) { [void]$L.Add([pscustomobject]@{ Text = $text; Font = $f; Color = $color; Pct = $pct }) }
     function Item($it) {
         # 움직임 시각은 보이지 않는다 (사용자 2026-10-22). 대신 무엇을 하는지 한 줄(desc)
-        Line ("{0}  [{1}]  {2}%" -f $it.name, $it.stage, $it.pct) $bold $null $null
+        $m = if ($it.model) { "  · $($it.model)" } else { '' }
+        Line ("{0}  [{1}]  {2}%{3}" -f $it.name, $it.stage, $it.pct, $m) $bold $null $null
         if ($it.desc) { Line $it.desc $font $null $null }
         Line ($it.who + ' · ' + $it.detail) $font $dim $it.pct
     }
