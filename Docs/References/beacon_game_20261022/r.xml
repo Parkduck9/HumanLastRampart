@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="1" result="Passed" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-22 06:57:52Z" end-time="2026-10-22 06:57:56Z" duration="4.1923425">
+  <test-suite type="TestSuite" id="1063" name="HumanLastRampart" fullname="HumanLastRampart" runstate="Runnable" testcasecount="55" result="Passed" start-time="2026-10-22 06:57:52Z" end-time="2026-10-22 06:57:56Z" duration="4.192343" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <test-suite type="Assembly" id="1059" name="HLR.PlayProbe.dll" fullname="C:/Unity/1/HumanLastRampart/Game/Library/ScriptAssemblies/HLR.PlayProbe.dll" runstate="Runnable" testcasecount="55" result="Passed" start-time="2026-10-22 06:57:52Z" end-time="2026-10-22 06:57:56Z" duration="4.185014" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="34028" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestFixture" id="1015" name="PlayProbe" fullname="PlayProbe" classname="PlayProbe" runstate="Runnable" testcasecount="43" result="Passed" start-time="2026-10-22 06:57:52Z" end-time="2026-10-22 06:57:56Z" duration="4.183290" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1028" name="PortfolioShots" fullname="PlayProbe.PortfolioShots" methodname="PortfolioShots" classname="PlayProbe" runstate="Runnable" seed="848213173" result="Passed" start-time="2026-10-22 06:57:52Z" end-time="2026-10-22 06:57:56Z" duration="4.170458" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[[PlayProbe] 4,200명 · 시험 성벽 80m: 실제 게임 성벽 40m와 구분
+[PlayProbe] 시각 촬영 목표 6초 · 후반 생존·성능 검증 아님
+[PlayProbe] 낮: 게임 7초, 병사 4208명, 처치 89
+[PlayProbe] 촬영 pf_day_clean: 게임 6.80초 · 전투 진행 · 지도 False
+[PlayProbe] 촬영 pf_day_hud: 게임 6.85초 · 전투 진행 · 지도 False
+[PlayProbe] 마법: 불바다 시전, 폭발 시전
+[PlayProbe] 촬영 pf_day_blast_clean: 게임 8.00초 · 전투 진행 · 지도 False
+[PlayProbe] 촬영 pf_day_blast_later_clean: 게임 8.35초 · 전투 진행 · 지도 False
+[PlayProbe] 촬영 pf_night_clean: 게임 10.40초 · 전투 진행 · 지도 False
+[PlayProbe] 촬영 pf_night_hud: 게임 10.45초 · 전투 진행 · 지도 False
+[PlayProbe] 촬영 pf_map_full: 게임 11.50초 · 전투 진행 · 지도 True
+[PlayProbe] 촬영 pf_map_side: 게임 11.80초 · 전투 진행 · 지도 True
+Saving results to: C:/Users/User/AppData/LocalLow/DefaultCompany/HumanLastRampart\TestResults.xml
+]]></output>
+        </test-case>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

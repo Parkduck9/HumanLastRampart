@@ -62,7 +62,7 @@
                       "kind":  "coder",
                       "folder":  "C:\\Unity\\1\\HLR-work\\W6",
                       "agent":  "a3b00a71b5a8c8508",
-                      "stage":  1,
+                      "stage":  4,
                       "desc":  "전투: 등불 밝기 3단계, 빛줄기 안 적 느려지고 더 아프게 맞음, 지도 단추"
                   },
                   {
@@ -72,7 +72,7 @@
                       "kind":  "coder",
                       "folder":  "C:\\Unity\\1\\HLR-work\\W7",
                       "agent":  "ad49fdfcab2f5ee13",
-                      "stage":  3,
+                      "stage":  4,
                       "desc":  "전투: 적 변형 3단계(체력 · 색 · 덩치), 전투 밤 고정, 측정 시험 값 새는 문제"
                   },
                   {
@@ -82,7 +82,7 @@
                       "kind":  "coder",
                       "folder":  "C:\\Unity\\1\\HLR-work\\W8",
                       "agent":  "a34168910d357a744",
-                      "stage":  1,
+                      "stage":  4,
                       "desc":  "진행: 요새 2곳 · 여러 밤, 등대 복구, 점화의 밤, 수비대 20%와 지원금"
                   },
                   {
