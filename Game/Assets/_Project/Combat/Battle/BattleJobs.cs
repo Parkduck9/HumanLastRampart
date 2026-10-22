@@ -156,6 +156,7 @@ namespace HumanLastRampart.Combat.Battle
         [ReadOnly] public NativeArray<float> Piles;
         [ReadOnly] public NativeArray<float4> Craters;   // 터진 함정 구덩이 (x, z, 반경², 속도 배율) — D-050
         public int CraterCount;
+        public BeamField Beam;   // 등대 빛줄기: 빛 안 적은 느려진다 (BattleSim.Lamp.cs)
         public PileSpec Pile;
         public float CastleHalf;
         public float WallHeight;
@@ -202,6 +203,7 @@ namespace HumanLastRampart.Combat.Battle
                     if (dx * dx + dz * dz <= crater.z) slow = math.min(slow, crater.w);
                 }
 
+                if (Beam.Contains(Positions[i])) slow *= Beam.SlowMul;
                 float speed = Speeds[i] * slow;
                 // 깔때기 (D-065): 들판에 넓게 퍼져 있다가 성벽으로 모여든다. 깔때기 폭 안에서의 비율을 지키며 좌우로 좁혀 온다
                 float3 r = WallGeometry.Right(Sides[i]);
@@ -927,6 +929,7 @@ namespace HumanLastRampart.Combat.Battle
         public NativeArray<float> Piles;
         public PileSpec Pile;
         public float CastleHalf;
+        public BeamField Beam;   // 등대 빛줄기: 빛 안 적은 피해를 더 받는다 (BattleSim.Lamp.cs)
 
         public void Execute()
         {
@@ -938,7 +941,9 @@ namespace HumanLastRampart.Combat.Battle
                     continue;
                 }
 
-                int hp = EnemyHp[e] - hit.Damage;
+                int damage = hit.Damage;
+                if (Beam.Contains(EnemyPositions[e])) damage = math.max(1, (int)math.round(damage * Beam.DamageMul));
+                int hp = EnemyHp[e] - damage;
                 EnemyHp[e] = math.max(hp, 0);
                 if (hp > 0)
                 {

@@ -229,6 +229,7 @@ namespace HumanLastRampart.Combat.Battle
             InitBurn(p);   // 불바다 화상 (K-035)
             InitTelescope(p);
             InitTraps(defs, p);
+            InitLamp();   // 등불 밝기·빛줄기 (BattleSim.Lamp.cs)
         }
 
         // ── 준비 ──────────────────────────────────────────────
@@ -297,7 +298,7 @@ namespace HumanLastRampart.Combat.Battle
                     valid.Add(group);
                 }
 
-                int[] counts = ScaledGroupCounts(valid, setup.EnemyCountMultiplier);
+                int[] counts = ScaledGroupCounts(valid, setup.EnemyCountMultiplier * LampCountMul(setup.LampBrightness));   // 등불 밝기 (시작 때만)
                 for (int g = 0; g < valid.Count; g++)
                 {
                     WaveGroup group = valid[g];
@@ -709,6 +710,7 @@ namespace HumanLastRampart.Combat.Battle
 
             RunPendingCommands();   // 작업이 끝난 지금 메뉴에서 고른 명령을 적용
             Elapsed += dt;
+            UpdateLamp(dt);   // 밝기별 켠 시간·빛줄기 각도
             UpdateWeather();
             for (int side = 0; side < 4; side++)
             {
@@ -852,6 +854,7 @@ namespace HumanLastRampart.Combat.Battle
         {
             frameNumber++;
             int n = enemyCount;
+            BeamField beam = CurrentBeam();   // 등대 빛줄기 (BattleSim.Lamp.cs)
             JobHandle h = new EnemyStepJob
             {
                 Positions = ePos,
@@ -866,6 +869,7 @@ namespace HumanLastRampart.Combat.Battle
                 Piles = piles,
                 Craters = craters,
                 CraterCount = craterCount,
+                Beam = beam,
                 Pile = pile,
                 CastleHalf = CastleHalf,
                 WallHeight = WallHeight,
@@ -1009,6 +1013,7 @@ namespace HumanLastRampart.Combat.Battle
                 Piles = piles,
                 Pile = pile,
                 CastleHalf = CastleHalf,
+                Beam = beam,
             }.Schedule(h);
 
             JobHandle enemyDraw = new WriteBattleEnemyInstancesJob
@@ -1129,6 +1134,7 @@ namespace HumanLastRampart.Combat.Battle
                 }
             }
 
+            CopyLampSeconds(result);   // 밝기별 켠 시간 (BattleSim.Lamp.cs)
             AddTrapResults(result);   // 터진 함정·밀려난 함정 (D-050, C-006 v1.1)
             return result;
         }
