@@ -140,7 +140,7 @@ namespace HlrBoard
         public string BoardDataFile = "";
         public string CodexDir = "";
         public string ProjectFolder = "C--Unity-1-HumanLastRampart";
-        public int RefreshSeconds = 5;
+        public int RefreshSeconds = 60;   // 사용자 2026-10-22: 컴퓨터 자원 줄이려 1분마다
         public bool Floating = false;
         public int FloatX = -1;
         public int FloatY = -1;
