@@ -169,7 +169,11 @@ function Lines($d) {
     if (-not $mine -and -not $d.unity.running) { Line '진행 중인 작업이 없습니다' $font $dim $null }
 
     Line '━━ 코덱스 ━━' $bold $brass $null
-    if ($d.codex) { Line ("사용량 이번 주 {0}% (초기화 {1}) · 5시간 {2}% (초기화 {3}) · {4}분 전 값" -f $d.codex.week, $d.codex.weekReset, $d.codex.five, $d.codex.fiveReset, $d.codex.age) $font $null $d.codex.week }
+    if ($d.codex) {
+        # '초기화'가 두 번 나와 읽기 힘듦 (사용자 2026-10-22) → 사용량 한 줄, 초기화 시각 한 줄
+        Line ("사용량 이번 주 {0}% · 5시간 {1}% · {2}분 전 값" -f $d.codex.week, $d.codex.five, $d.codex.age) $font $null $d.codex.week
+        Line ("초기화: 이번 주 {0} · 5시간 {1}" -f $d.codex.weekReset, $d.codex.fiveReset) $font $dim $null
+    }
     else { Line '사용량: 한도 정보를 읽지 못함' $font $dim $null }
     $cards = @($d.items | Where-Object { $_.kind -eq 'card' })
     foreach ($it in $cards) { Item $it }
