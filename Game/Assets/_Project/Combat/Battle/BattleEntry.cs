@@ -404,7 +404,16 @@ namespace HumanLastRampart.Combat.Battle
             float fps = rig.Pose == BattleCameraRig.HeroPose.Run ? HeroRunFps : HeroWalkFps;
             int column = rig.Pose == BattleCameraRig.HeroPose.Idle ? 0 : (int)(Time.unscaledTime * fps) % PerfLab.PerfLabArt.FramesPerAction;
             bool flip = rig.Pose == BattleCameraRig.HeroPose.Run && rig.FacingRight;   // 시트 옆모습은 왼쪽을 본다
-            view.SetHero(rig.HeroFeet, row * PerfLab.PerfLabArt.FramesPerAction + column, flip, !mapOpen, rig.Pose == BattleCameraRig.HeroPose.Idle, command);
+            // 마당 계단·층계참 위에서는 그림만 그 높이를 따라 오르내린다 (W19, 계산 위치는 그대로)
+            view.SetHero(HeroDrawFeet(), row * PerfLab.PerfLabArt.FramesPerAction + column, flip, !mapOpen, rig.Pose == BattleCameraRig.HeroPose.Idle, command);
+        }
+
+        // 그린 발 위치: 계산 위치 + 마당 계단 높이 (메뉴·안내가 그림을 따라가게)
+        Vector3 HeroDrawFeet()
+        {
+            Vector3 feet = rig.HeroFeet;
+            feet.y += BattleCourtyard.HeroLift(feet, sim.CastleHalf);
+            return feet;
         }
 
         TargetingSettings Targeting()
@@ -708,7 +717,7 @@ namespace HumanLastRampart.Combat.Battle
             // 명령 메뉴는 주인공 가슴 높이 오른쪽에 붙는다 (D-072)
             if (hud.MenuOpen && rig != null && !mapOpen)
             {
-                Vector3 screen = battleCamera.WorldToScreenPoint(rig.HeroFeet + Vector3.up * 0.25f);
+                Vector3 screen = battleCamera.WorldToScreenPoint(HeroDrawFeet() + Vector3.up * 0.25f);
                 if (screen.z > 0f) hud.PlaceMenu(new Vector2(screen.x, screen.y));
             }
             view.Draw(mapOpen, mapOpen ? mapCamera.DotWorldSize : 0f);
@@ -725,7 +734,7 @@ namespace HumanLastRampart.Combat.Battle
 
                 hud?.RefreshGroupLabels(sim, battleCamera);
                 hud?.RefreshCompass(battleCamera, sim.CastleHalf);
-                if (rig != null) hud?.RefreshHeroMarker(battleCamera, rig.HeroFeet, rig.Side, preparing);
+                if (rig != null) hud?.RefreshHeroMarker(battleCamera, HeroDrawFeet(), rig.Side, preparing);
                 Mouse dragMouse = Mouse.current;
                 hud?.RefreshGroupMarkers(sim, battleCamera, selectedGroup, dragging && dragMouse != null ? dragMouse.position.ReadValue() : (Vector2?)null);
                 hud?.RefreshCannons(sim, cannonSide, selectedCannon);

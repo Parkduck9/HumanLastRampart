@@ -79,6 +79,7 @@ namespace HumanLastRampart.Combat.Battle
         readonly BattlePropView props;          // 성벽 난간·대포 그림
         readonly BattleBeaconView beacon;       // 마당 가운데 등대 탑·일꾼·빛 번쩍 (W9)
         public BattleBeaconView Beacon => beacon;
+        BattleCourtyard courtyard;              // 마당 바닥·계단·소품 (W19 임시)
         readonly BattleWorldView world;         // 성벽·포탑 3D 목업 (K-001)
         readonly BattleLights lights;           // 밤 횃불·폭발 빛 (K-010)
         readonly BattleEffectsView effectArt;   // 마법·함정 폭발, 불바다, 맞음 불꽃, 횃불 불꽃 그림 (K-015)
@@ -522,6 +523,9 @@ namespace HumanLastRampart.Combat.Battle
             yard.transform.localPosition = new Vector3(0f, BattleSim.WallHeight * 0.5f - 0.05f, 0f);
             yard.transform.localScale = new Vector3(half * 2f - 3f, BattleSim.WallHeight - 0.1f, half * 2f - 3f);
             Tint(yard.GetComponent<Renderer>(), new Color(0.45f, 0.42f, 0.38f));
+            courtyard = new BattleCourtyard(half, root.transform, world?.Materials);   // 마당 돌바닥·계단·소품 (W19 임시, Codex 그림이 올 때까지)
+            // 옛 마당 상자는 윗면이 새 돌바닥에 완전히 덮여 헛그리기만 한다 (옆면은 성벽 안쪽이라 안 보인다)
+            if (courtyard.HasFloor) yard.GetComponent<Renderer>().enabled = false;
 
             for (int side = 0; side < 4; side++)
             {
@@ -1203,6 +1207,7 @@ namespace HumanLastRampart.Combat.Battle
             beacon?.Dispose();
             shadows?.Dispose();
             world?.Dispose();
+            courtyard?.Dispose();
             lights?.Dispose();
             HumanLastRampart.Combat.Render.FieldGround.Release();   // 들판 땅 재질·격자 (W15)
             effectArt?.Dispose();
