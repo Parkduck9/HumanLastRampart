@@ -332,7 +332,7 @@ Shader "HLR/PerfLabSprite"
                 float3 viewDir = float3(0.0, 0.0, 1.0);
                 [branch] if (specOn)
                 {
-                    half2 mask = SAMPLE_TEXTURE2D(_SpecTex, sampler_SpecTex, input.uv).rg;
+                    half2 mask = SAMPLE_TEXTURE2D_LOD(_SpecTex, sampler_SpecTex, input.uv, 0).rg;   // 분기 안이라 미분 없는 표본 (가면은 밉맵 없음)
                     specStrength = mask.r * _SpecGain;
                     specPower = exp2(8.0 * mask.g + 1.0);   // 매끄러움 0 → 2(넓은 번짐), 1 → 512(좁은 점)
                     viewDir = normalize(_WorldSpaceCameraPos - input.positionWS);

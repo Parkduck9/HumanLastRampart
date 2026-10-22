@@ -1509,10 +1509,10 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
         yield return WaitScreen(ScreenId.Story, 600);
         yield return Click("넘기기", 600);
         yield return WaitScreen(ScreenId.Battle, 900);
-        yield return Click("×4", 300);
         var entry = UnityEngine.Object.FindObjectsByType<HumanLastRampart.Combat.Battle.BattleEntry>(FindObjectsSortMode.None)[0];
         var sim = (HumanLastRampart.Combat.Battle.BattleSim)typeof(HumanLastRampart.Combat.Battle.BattleEntry).GetField("sim", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(entry);
 
+        // 선봉이 45~55m에서 나와(2026-10-22) 4배속이면 확인 전에 성벽 앞에 닿는다 → '대기' 확인은 보통 속도로 먼저, 4배속은 그다음
         // '대기' 확인은 적이 성벽에 닿기 전에 (사용자 2026-10-20 #10: 성 안마당은 이제 칠 수 없어 성벽 바로 앞을 노린다)
         for (int i = 0; i < 10; i++) yield return null;
         entry.ToggleMap();
@@ -1527,6 +1527,7 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
         Note($"초반 4번 대포: {string.Join(",", early.Select(t => t.text))} (게임 {sim.Elapsed:0}초)");
         Assert.IsTrue(early.Any(t => t.text == "대기"), "적 없는 곳을 노린 대포는 대기");
         entry.ToggleMap();
+        yield return Click("×4", 300);
 
         for (int i = 0; i < 210; i++) yield return null;
         entry.ToggleMap();
