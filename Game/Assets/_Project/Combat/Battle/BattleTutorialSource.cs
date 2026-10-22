@@ -66,18 +66,22 @@ namespace HumanLastRampart.Combat.Battle
         public bool IsAvailable(TutorialStep step) =>
             step != TutorialStep.Magic || (entry.Sim != null && entry.Sim.WizardPresent && entry.Sim.SpellCount > 0);
 
+        // 주인공은 성벽 위에서 키 0.375m(HeroDrawSize)로 그려진다 — 몸 한가운데는 발에서 그 절반 위 (1.2m로 잡으면 고리가 머리 위 허공에 뜬다)
+        public const float HeroCenterHeight = BattleView.HeroDrawSize * 0.5f;
+
         public bool TryGetTargetScreen(TutorialStep step, out Vector2 screen)
         {
             screen = default;
             Camera camera = entry.BattleCamera;
             if (camera == null || entry.Sim == null) return false;
             Vector3 world;
-            if (step == TutorialStep.Walk && entry.Rig != null) world = entry.Rig.HeroFeet + Vector3.up * 1.2f;
+            if (step == TutorialStep.Walk && entry.Rig != null) world = entry.Rig.HeroFeet + Vector3.up * HeroCenterHeight;
             else if (step == TutorialStep.Squad && entry.MapOpen && TryFindGroup(out Vector3 center)) world = center;
             else return false;
-            Vector3 p = camera.WorldToScreenPoint(world);
+            // 전투 사진기는 낮은 해상도 그림판에 그릴 때가 있어(PerfLabResolution) 화소가 아닌 비율로 구해 화면 크기에 곱한다
+            Vector3 p = camera.WorldToViewportPoint(world);
             if (p.z <= 0f) return false;
-            screen = new Vector2(p.x, p.y);
+            screen = new Vector2(p.x * Screen.width, p.y * Screen.height);
             return true;
         }
 

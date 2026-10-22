@@ -89,7 +89,15 @@ public sealed partial class PlayProbe
             foreach (var image in Object.FindObjectsByType<RawImage>(FindObjectsSortMode.None))
                 if (image.name == "Ring" && image.gameObject.activeInHierarchy) walkRing = image;
             Assert.IsNotNull(walkRing, "걷기 단계 강조 고리");
-            Vector3 heroScreen = entry.BattleCamera.WorldToScreenPoint(entry.Rig.HeroFeet + Vector3.up * 1.2f);
+            Vector3 heroView = entry.BattleCamera.WorldToViewportPoint(entry.Rig.HeroFeet + Vector3.up * HumanLastRampart.Combat.Battle.BattleTutorialSource.HeroCenterHeight);
+            Vector3 heroScreen = new Vector3(heroView.x * Screen.width, heroView.y * Screen.height, 0f);
+            Note($"고리 확인: 화면 {Screen.width}x{Screen.height}, 사진기 화소 {entry.BattleCamera.pixelWidth}x{entry.BattleCamera.pixelHeight}, 그림판 {(entry.BattleCamera.targetTexture != null ? entry.BattleCamera.targetTexture.width + "x" + entry.BattleCamera.targetTexture.height : "없음")}");
+            {
+                Camera bc = entry.BattleCamera;
+                Vector3 feetView = bc.WorldToViewportPoint(entry.Rig.HeroFeet);
+                Note($"고리 진단: 사진기 위치 {bc.transform.position} 회전 {bc.transform.eulerAngles} 시야 {bc.fieldOfView} 비율 {bc.aspect:0.000} 발 {entry.Rig.HeroFeet} 발뷰 {feetView} 가슴뷰 {heroView}");
+                Note($"고리 진단: 앵커 {walkRing.rectTransform.anchorMin}~{walkRing.rectTransform.anchorMax} 위치 {walkRing.rectTransform.position} 로컬 {walkRing.rectTransform.anchoredPosition} 캔버스 {((RectTransform)walkRing.canvas.transform).rect} 배율 {walkRing.canvas.scaleFactor}");
+            }
             Vector3 ringScreen = walkRing.rectTransform.position;
             Assert.Less(Vector2.Distance(heroScreen, ringScreen), 80f, $"고리가 주인공 위에 있음 (주인공 {heroScreen}, 고리 {ringScreen})");
             yield return Capture("tutorial_1_walk");

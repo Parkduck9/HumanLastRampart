@@ -1523,8 +1523,14 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
         HumanLastRampart.Combat.Battle.BattleSim.CannonInfo four = default;
         for (int c = 0; c < sim.CannonCount; c++) { var ci = sim.GetCannon(c); if (ci.Side == 2 && ci.Number == 4) four = ci; }
         Assert.IsTrue(entry.AimSelectedCannonAt(new Vector3(four.Position.x, 0f, -(sim.CastleHalf + 5f))), "남쪽 성벽 바로 앞 조준");
-        for (int i = 0; i < 20; i++) yield return null;
-        var early = UnityEngine.Object.FindObjectsByType<Text>(FindObjectsSortMode.None).Where(t => t.name == "Cannon 4 State" && t.gameObject.activeInHierarchy).ToList();
+        // '대기'는 대포가 장전을 마치고 조준점을 한 번 살펴본 뒤에야 정해진다 → 최대 100프레임(약 5초) 기다린다
+        System.Collections.Generic.List<Text> early = null;
+        for (int i = 0; i < 100; i++)
+        {
+            yield return null;
+            early = UnityEngine.Object.FindObjectsByType<Text>(FindObjectsSortMode.None).Where(t => t.name == "Cannon 4 State" && t.gameObject.activeInHierarchy).ToList();
+            if (i >= 20 && early.Any(t => t.text == "대기")) break;
+        }
         Note($"초반 4번 대포: {string.Join(",", early.Select(t => t.text))} (게임 {sim.Elapsed:0}초)");
         Assert.IsTrue(early.Any(t => t.text == "대기"), "적 없는 곳을 노린 대포는 대기");
         entry.ToggleMap();

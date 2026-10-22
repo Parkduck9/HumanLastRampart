@@ -11,7 +11,8 @@ namespace HumanLastRampart.Combat.Render
     public static class FarSprites
     {
         // 꺼 두면 아무것도 더 그리지 않는다 (BattleView가 바뀐 것을 한 번 알아채고 가까운 그림의 거리 띠를 푼다)
-        public static bool Enabled = true;
+        // 2026-10-22 측정: 이 컴퓨터(데스크톱)에서는 켜면 75초 장면이 약 1ms 느렸다(정점 셰이더를 세 번 돈다). 모바일에서 다시 재기 전까지 꺼 둔다
+        public static bool Enabled = false;
 
         public const float HalfFrom = 60f;       // m — 이보다 멀면 절반 시트 (manifest 제안값, Claude 측정 뒤 확정)
         public const float QuarterFrom = 110f;   // m — 이보다 멀면 1/4 시트
