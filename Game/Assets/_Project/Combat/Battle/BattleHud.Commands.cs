@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using HumanLastRampart.Core.Campaign;
 using HumanLastRampart.UI;
@@ -23,8 +23,10 @@ namespace HumanLastRampart.Combat.Battle
         const int SlipMax = 5;
         const float FeedWidth = 480f;          // 목록 한 줄의 최대 너비 (가운데 단계 띠와 겹치지 않는 폭)
         const float FeedLineHeight = 40f;
-        const float FeedGap = UiTokens.S4;
-        const float FeedReserve = Edge + SlipMax * (FeedLineHeight + FeedGap) + UiTokens.S16;   // 목록이 쓰는 위쪽 높이: 아래 판은 이 밑에서 시작
+        const float FeedGap = UiTokens.S8;      // 목록 줄 간격 (BuildNotices의 Column 간격과 같은 값)
+        const int MapFeedMax = 3;              // 지도에서는 3줄만 (대포 판이 낮은 화면에서도 들어가도록)
+        const float FeedReserve = Edge + (MapFeedMax + 1) * (FeedLineHeight + FeedGap) + UiTokens.S16;   // 지도에서 목록이 쓰는 위쪽 높이(사라지는 한 줄 여유 포함): 대포 판은 이 밑에서 시작
+        int feedMax = SlipMax;
         const float NoticeRepeatWindow = 3f;   // 이 안에 같은 문장이 다시 오면 새 줄 대신 ×2, ×3
         static readonly float[] NoticeSeconds = { 6f, 5f, 4f, 4f, 3f };
 
@@ -317,7 +319,7 @@ namespace HumanLastRampart.Combat.Battle
         // ── 알림 ──
         void BuildNotices()
         {
-            VerticalLayoutGroup column = Ui.Column(root.transform, "Notice Slips", UiTokens.S8);
+            VerticalLayoutGroup column = Ui.Column(root.transform, "Notice Slips", FeedGap);
             column.childForceExpandWidth = false;
             column.childAlignment = TextAnchor.UpperRight;
             slipColumn = (RectTransform)column.transform;
@@ -332,6 +334,29 @@ namespace HumanLastRampart.Combat.Battle
         void PlaceNotices(bool map)
         {
             Ui.Place(slipColumn, new Vector2(1f, 1f), new Vector2(-Edge, -Edge), new Vector2(FeedWidth, 0f), new Vector2(1f, 1f));
+            feedMax = map ? MapFeedMax : SlipMax;
+            TrimNotices();
+        }
+
+        // 사라지는 줄은 배치에서 바로 빼서 (제자리에서 흐려짐) 남은 줄과 아래 판이 밀리거나 겹치지 않게 한다
+        static void FoldSlip(GameObject slip)
+        {
+            if (!slip.TryGetComponent(out LayoutElement element)) element = slip.AddComponent<LayoutElement>();
+            element.ignoreLayout = true;
+            slip.transform.SetAsFirstSibling();
+            UiAppear.Hide(slip, true);
+        }
+
+        // 줄이 넘치면 덜 중요한 것부터 접는다
+        void TrimNotices()
+        {
+            while (noticeLines.Count > feedMax)
+            {
+                int drop = LeastImportantSlip();
+                if (drop < 0) break;
+                FoldSlip(noticeLines[drop].Slip);
+                noticeLines.RemoveAt(drop);
+            }
         }
 
         public void PushNotice(string text)
@@ -351,8 +376,7 @@ namespace HumanLastRampart.Combat.Battle
                     line.Until = now + NoticeSeconds[(int)kind];
                     if (line.Label != null)
                     {
-                        line.Label.text = text + " ×" + line.Count;
-                        FitSlip(line.Slip, line.Label);
+                        FitSlip(line.Slip, line.Label, text + " ×" + line.Count);
                     }
 
                     if (kind == NoticeKind.Danger) ShowDanger();
@@ -366,13 +390,7 @@ namespace HumanLastRampart.Combat.Battle
             noticeLines.Add(added);
             added.Slip = NewSlip(text, kind == NoticeKind.Danger, out added.Label);
             if (kind == NoticeKind.Danger) ShowDanger();
-            while (noticeLines.Count > SlipMax)
-            {
-                int drop = LeastImportantSlip();
-                if (drop < 0) break;
-                UiAppear.Hide(noticeLines[drop].Slip, true);
-                noticeLines.RemoveAt(drop);
-            }
+            TrimNotices();
 
             noticesDirty = true;
             RefreshNotices();
@@ -387,16 +405,36 @@ namespace HumanLastRampart.Combat.Battle
             label = Ui.Label(slip.transform, "Notice Line", text, UiTokens.Small, UiTokens.Ink, TextAnchor.MiddleLeft);
             label.horizontalOverflow = HorizontalWrapMode.Overflow;
             Ui.Stretch(label.rectTransform);
-            label.rectTransform.offsetMin = new Vector2(UiTokens.S16, 0f);
+            float left = UiTokens.S16;
+            if (danger)
+            {
+                // 색을 못 가려도 구분되도록 경고 그림을 붙인다
+                Image warn = Ui.Icon(slip.transform, "Warn", UiArt.IconWarn, 1f, UiTokens.Danger);
+                Anchor(warn.rectTransform, new Vector2(0f, 0.5f), new Vector2(UiTokens.S8, 0f), warn.rectTransform.sizeDelta, new Vector2(0f, 0.5f));
+                left = UiTokens.S8 + warn.rectTransform.sizeDelta.x + UiTokens.S8;
+            }
+
+            label.rectTransform.offsetMin = new Vector2(left, 0f);
             label.rectTransform.offsetMax = new Vector2(-UiTokens.S16, 0f);
-            FitSlip(slip.gameObject, label);
+            FitSlip(slip.gameObject, label, text);
             UiAppear.Show(slip.gameObject);
             return slip.gameObject;
         }
 
-        static void FitSlip(GameObject slip, Text label)
+        // 글이 길면 말줄임표로 자른다 (전체 문장은 시험용 숨은 기록 "Notices"에 남는다)
+        static void FitSlip(GameObject slip, Text label, string full)
         {
-            Ui.Size((RectTransform)slip.transform, Mathf.Min(FeedWidth, label.preferredWidth + 2f * UiTokens.S16), FeedLineHeight);
+            float pad = label.rectTransform.offsetMin.x - label.rectTransform.offsetMax.x;
+            float room = FeedWidth - pad;
+            label.text = full;
+            string shown = full;
+            while (label.preferredWidth > room && shown.Length > 1)
+            {
+                shown = shown.Substring(0, shown.Length - 1);
+                label.text = shown.TrimEnd() + "…";
+            }
+
+            Ui.Size((RectTransform)slip.transform, label.preferredWidth + pad, FeedLineHeight);
         }
 
         void ShowDanger()
@@ -441,7 +479,7 @@ namespace HumanLastRampart.Combat.Battle
             for (int i = noticeLines.Count - 1; i >= 0; i--)
             {
                 if (noticeLines[i].Until >= now) continue;
-                if (noticeLines[i].Slip != null) UiAppear.Hide(noticeLines[i].Slip, true);
+                if (noticeLines[i].Slip != null) FoldSlip(noticeLines[i].Slip);
                 noticeLines.RemoveAt(i);
                 noticesDirty = true;
             }

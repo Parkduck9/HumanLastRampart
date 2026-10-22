@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Text;
 using HumanLastRampart.UI;
 using UnityEngine;
@@ -7,7 +7,7 @@ using UnityEngine.UI;
 namespace HumanLastRampart.Combat.Battle
 {
     // 전투 HUD (K-047, Docs/GDD/UI_NoSlop.md). 전투 HUD는 Combat 안에 둔다 (C-002). 부품은 HumanLastRampart.UI.Ui 한 벌만 쓴다.
-    // 화면 구역 (W17): 아래 왼쪽 황동 계기 띠(지금 성벽 체력 막대가 1순위) · 아래 오른쪽 키 안내 3개 · 오른쪽 위 알림 목록(킬피드).
+    // 화면 구역 (W17): 아래 왼쪽 황동 계기 띠(지금 성벽 체력 막대가 1순위) · 계기 띠 위 키 안내 3개 · 오른쪽 위 알림 목록(킬피드).
     // 위쪽은 들판을 보는 자리라 비워 둔다.
     // 나머지 조작은 F1 조작 판, 시험 단추·내부 정보는 F12 개발 표시에서만 보인다 (S-15·S-16)
     public sealed partial class BattleHud : IDisposable
@@ -150,7 +150,7 @@ namespace HumanLastRampart.Combat.Battle
         {
             Image panel = Ui.Panel(root.transform, "Status Detail", UiPanel.Wood);
             detailBoard = panel.gameObject;
-            Ui.Place(panel.rectTransform, Vector2.zero, new Vector2(Edge, BottomClear), new Vector2(640f, 0f), Vector2.zero);   // 띠 바로 위
+            Ui.Place(panel.rectTransform, Vector2.zero, new Vector2(Edge, BottomClear + 33f + UiTokens.S8), new Vector2(640f, 0f), Vector2.zero);   // 키 안내 줄 위
             var column = panel.gameObject.AddComponent<VerticalLayoutGroup>();
             column.padding = new RectOffset(24, 24, 24, 24);
             column.spacing = UiTokens.S8;
@@ -178,13 +178,13 @@ namespace HumanLastRampart.Combat.Battle
             detailBoard.SetActive(false);
         }
 
-        // ── 아래 오른쪽: 지금 할 수 있는 핵심 행동 3개만 (S-15). 아래 왼쪽은 계기 띠가 쓴다 ──
+        // ── 계기 띠 바로 위 왼쪽: 지금 할 수 있는 핵심 행동 3개만 (S-15) ──
         void BuildHints()
         {
             HorizontalLayoutGroup row = Ui.Row(root.transform, "Key Hints", UiTokens.S24);
             hints = (RectTransform)row.transform;
             row.childAlignment = TextAnchor.MiddleRight;
-            Ui.Place(hints, new Vector2(1f, 0f), new Vector2(-Edge, Edge), new Vector2(800f, 33f), new Vector2(1f, 0f));
+            Ui.Place(hints, Vector2.zero, new Vector2(Edge, BottomClear), new Vector2(800f, 33f), Vector2.zero);   // 띠 바로 위 왼쪽 (어떤 화면 비율에서도 띠와 겹치지 않는다)
             row.gameObject.AddComponent<ContentSizeFitter>().horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
         }
 
