@@ -14,18 +14,22 @@ namespace HumanLastRampart.Combat.Battle
 
         public bool SquadWheelOpen => squadWheel != null && squadWheel.gameObject.activeSelf;
 
-        // 깃발의 실제 화면 자리로 고른다. 이동 중·대포·전사한 묶음은 제외한다
+        // 깃발 그림(가로 32·세로 16화소 반폭)이 상자에 닿거나 병사 무리 가운데가 상자 안이면 고른다.
+        // 깃발은 성벽 안팎으로 번갈아 띄워 그리므로 깃발 한 점만 보면 병사를 감싸도 빠지는 일이 있었다.
+        // 이동 중·대포·전사한 묶음은 제외한다
+        const float FlagHalfWidth = 32f, FlagHalfHeight = 16f;
+
         public List<int> GroupsInScreenRect(BattleSim sim, Rect rect)
         {
             var result = new List<int>();
+            Rect flagRect = Rect.MinMaxRect(rect.xMin - FlagHalfWidth, rect.yMin - FlagHalfHeight,
+                rect.xMax + FlagHalfWidth, rect.yMax + FlagHalfHeight);
             for (int i = 0; i < groupMarkerIndex.Count; i++)
             {
                 int group = groupMarkerIndex[i];
                 BattleSim.GroupInfo info = sim.GetGroup(group);
-                Vector2 p = groupMarkerScreen[i];
-                if (info.Movable && !info.Moving && info.Side >= 0 && info.Alive > 0
-                    && p.x >= rect.xMin && p.x <= rect.xMax && p.y >= rect.yMin && p.y <= rect.yMax)
-                    result.Add(group);
+                if (!info.Movable || info.Moving || info.Side < 0 || info.Alive <= 0) continue;
+                if (flagRect.Contains(groupMarkerScreen[i]) || rect.Contains(groupCenterScreen[i])) result.Add(group);
             }
             return result;
         }
@@ -82,6 +86,10 @@ namespace HumanLastRampart.Combat.Battle
             var go = new GameObject("Squad Wheel", typeof(RectTransform), typeof(CanvasRenderer), typeof(SquadWheelGraphic));
             go.transform.SetParent(root.transform, false);
             squadWheel = (RectTransform)go.transform;
+            // 화면 가장자리에서 열면 고리가 잘려 일부 방향을 못 누르므로 안쪽으로 당긴다
+            float margin = SquadWheelGraphic.Outer * root.transform.lossyScale.x + 8f;
+            screen.x = Mathf.Clamp(screen.x, margin, Mathf.Max(margin, Screen.width - margin));
+            screen.y = Mathf.Clamp(screen.y, margin, Mathf.Max(margin, Screen.height - margin));
             Anchor(squadWheel, Viewport(screen), Vector2.zero, new Vector2(320f, 320f), new Vector2(0.5f, 0.5f));
             wheelGraphic = go.GetComponent<SquadWheelGraphic>();
             wheelGraphic.Segments = amount ? 3 : 4;

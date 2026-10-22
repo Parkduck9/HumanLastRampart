@@ -416,6 +416,7 @@ namespace HumanLastRampart.Combat.Battle
 
         readonly List<GroupMarker> groupMarkers = new List<GroupMarker>();
         readonly List<Vector2> groupMarkerScreen = new List<Vector2>();
+        readonly List<Vector2> groupCenterScreen = new List<Vector2>();   // 깃발이 아닌 병사 무리 가운데
         readonly List<int> groupMarkerIndex = new List<int>();
         GameObject groupPopup;
         Text groupPopupTitle;
@@ -467,6 +468,7 @@ namespace HumanLastRampart.Combat.Battle
         public void RefreshGroupMarkers(BattleSim sim, Camera camera, int selected, Vector2? dragScreen)
         {
             groupMarkerScreen.Clear();
+            groupCenterScreen.Clear();
             groupMarkerIndex.Clear();
             int used = 0;
             for (int g = 0; g < sim.GroupCount; g++)
@@ -484,6 +486,7 @@ namespace HumanLastRampart.Combat.Battle
                     world += new Vector3(n.x, 0f, n.z) * lift;
                 }
 
+                Vector3 center = camera.WorldToScreenPoint(new Vector3(info.Center.x, info.Center.y, info.Center.z));
                 Vector3 screen = camera.WorldToScreenPoint(world);
                 if (g == selected && dragScreen.HasValue) screen = dragScreen.Value;   // 끄는 중이면 마우스를 따라온다
                 GroupMarker marker = groupMarkers[used++];
@@ -520,6 +523,7 @@ namespace HumanLastRampart.Combat.Battle
                 }
 
                 groupMarkerScreen.Add(new Vector2(screen.x, screen.y));
+                groupCenterScreen.Add(new Vector2(center.x, center.y));
                 groupMarkerIndex.Add(g);
             }
 

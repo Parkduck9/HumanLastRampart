@@ -209,10 +209,10 @@ namespace HumanLastRampart.Combat.Battle
             return count;
         }
 
-        void ChooseSquadWheel(Vector2 point)
+        bool ChooseSquadWheel(Vector2 point)
         {
             int choice = hud.PickSquadWheel(point);
-            if (choice < 0) return;
+            if (choice < 0) return false;
             if (amountWheel)
             {
                 wallMoveCount = sim.WallMoveGroupCount(sourceWall, choice);
@@ -225,6 +225,7 @@ namespace HumanLastRampart.Combat.Battle
                 CancelSquadSelection();
             }
             else SendSelectedGroups(choice);
+            return true;
         }
 
         int WallMoveSoldiers(int wall, int maxGroups)
@@ -430,15 +431,22 @@ namespace HumanLastRampart.Combat.Battle
                 // 대포를 고른 상태에서 들판(UI 바깥)을 왼쪽 클릭 → 조준점
                 // 아무것도 고르지 않았으면 내 함정 표시를 눌러 점화 (D-050)
                 bool overUi = UnityEngine.EventSystems.EventSystem.current != null && UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject();
-                if (mouse != null && mouse.leftButton.wasPressedThisFrame && hud.SquadWheelOpen)
-                    ChooseSquadWheel(mouse.position.ReadValue());
-                else if (mouse != null && mouse.leftButton.wasPressedThisFrame && !overUi && !cancelSquad)
+                bool shiftHeld = keyboard != null && (keyboard.leftShiftKey.isPressed || keyboard.rightShiftKey.isPressed);
+                bool pressed = mouse != null && mouse.leftButton.wasPressedThisFrame;
+                // 둥근 표식 바깥을 누르면 표식을 닫고 그 누름을 평소처럼 처리한다 (닫히지 않아 다음 상자를 못 그리던 문제)
+                if (pressed && hud.SquadWheelOpen)
+                {
+                    if (ChooseSquadWheel(mouse.position.ReadValue())) pressed = false;
+                    else { CancelSquadSelection(); overUi = false; }
+                }
+                // 시프트를 누른 채면 UI 판 위에서 시작해도 상자를 그린다
+                if (pressed && (!overUi || shiftHeld) && !cancelSquad)
                 {
                     Vector2 point = mouse.position.ReadValue();
                     Vector3 world = battleCamera.ScreenToWorldPoint(new Vector3(point.x, point.y, battleCamera.nearClipPlane));
                     // D-072: 병력 묶음 표시를 누르면 고르고 끌기 시작 (마법·대포보다 먼저)
                     int group = hud.GroupAtScreen(point);
-                    if (keyboard != null && (keyboard.leftShiftKey.isPressed || keyboard.rightShiftKey.isPressed))
+                    if (shiftHeld)
                     {
                         CancelSquadSelection();
                         selectedGroup = selectedSpell = selectedCannon = -1;
@@ -483,6 +491,7 @@ namespace HumanLastRampart.Combat.Battle
                             sourceWall = -1;
                             hud.ShowSquadWheel(point, false, SelectedSoldiers());
                         }
+                        else hud.PushNotice("상자 안에 보낼 수 있는 분대가 없습니다 (이동 중인 분대는 고를 수 없음)");
                     }
                 }
 
@@ -492,8 +501,19 @@ namespace HumanLastRampart.Combat.Battle
                     if (mouse.leftButton.isPressed)
                     {
                         // 누른 자리에서 6화소 넘게 움직이면 그때부터 끌기 (손떨림으로 함정 점화가 끌기로 바뀌지 않게)
-                        if (!panMoved && (point - panLast).sqrMagnitude > 36f) panMoved = true;
-                        if (panMoved)
+                        if (!panMoved && (point - panLast).sqrMagnitude > 36f)
+                        {
+                            panMoved = true;
+                            // 누른 뒤에 시프트를 눌렀어도 끌기 시작 순간 시프트가 눌려 있으면 상자 고르기로 바꾼다
+                            if (shiftHeld)
+                            {
+                                panPending = false;
+                                boxStart = panLast;
+                                boxSelecting = true;
+                                hud.ShowSelectionBox(boxStart, point);
+                            }
+                        }
+                        if (panMoved && panPending)
                         {
                             mapCamera.DragBy(point - panLast);
                             panLast = point;
