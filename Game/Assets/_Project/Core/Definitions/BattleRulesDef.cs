@@ -20,6 +20,10 @@ namespace HumanLastRampart.Core.Definitions
         [Range(0, 100)] [SerializeField] int lostNightWallFloorPercent = 30;
         [Tooltip("등불 밝기별 전체 적 수 배율 (W11, 사용자 결정). 순서 = LampBrightness: 보통·약·강")]
         [SerializeField] float[] lampCountMultipliers = { 1f, 0.8f, 1.15f };
+        [Tooltip("빛줄기 안의 변형 적에게서 변형 체력 보너스를 없애는 밝기 (W11, 순서 = LampBrightness: 보통·약·강)")]
+        [SerializeField] bool[] beamRemovesTierHp = { true, false, true };
+        [Tooltip("빛줄기 안의 변형 적에게서 변형 속도 보너스를 없애는 밝기 (W11, 순서 = 보통·약·강)")]
+        [SerializeField] bool[] beamRemovesTierSpeed = { false, false, true };
         [Tooltip("하루(낮)에 살 수 있는 등대 수리 횟수 (W11). 0 이하면 제한 없음")]
         [SerializeField] int beaconRepairsPerDay = 1;
         [Tooltip("성벽 보강 한 번에 늘어나는 최대 체력 (W11 골드 쓸 곳)")]
@@ -86,6 +90,8 @@ namespace HumanLastRampart.Core.Definitions
         public int MaxConcurrentEnemiesEasy => maxConcurrentEnemiesEasy;
         public int LostNightWallFloorPercent => lostNightWallFloorPercent;
         public int BeaconRepairsPerDay => beaconRepairsPerDay;
+        public bool BeamRemovesTierHpFor(int brightnessIndex) => beamRemovesTierHp != null && brightnessIndex >= 0 && brightnessIndex < beamRemovesTierHp.Length && beamRemovesTierHp[brightnessIndex];
+        public bool BeamRemovesTierSpeedFor(int brightnessIndex) => beamRemovesTierSpeed != null && brightnessIndex >= 0 && brightnessIndex < beamRemovesTierSpeed.Length && beamRemovesTierSpeed[brightnessIndex];
         public int WallReinforceHp => wallReinforceHp;
         public int WallReinforceMaxPerWall => wallReinforceMaxPerWall;
 

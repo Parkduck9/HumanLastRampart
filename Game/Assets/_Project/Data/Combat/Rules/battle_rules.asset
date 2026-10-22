@@ -32,6 +32,14 @@ MonoBehaviour:
   - 1
   - 0.8
   - 1.15
+  beamRemovesTierHp:
+  - 1
+  - 0
+  - 1
+  beamRemovesTierSpeed:
+  - 0
+  - 0
+  - 1
   beaconRepairsPerDay: 1
   wallReinforceHp: 500
   wallReinforceBasePrice: 2000

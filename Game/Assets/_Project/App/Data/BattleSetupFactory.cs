@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using HumanLastRampart.Core.Campaign;
 using HumanLastRampart.Core.CombatContracts;
@@ -49,6 +49,8 @@ namespace HumanLastRampart.App.Data
                 InitialTargeting = (campaign.Targeting ?? TargetingSettings.CreateDefault()).Clone(),
                 LampBrightness = campaign.PlannedLamp,
                 LampCountMultiplier = rules.LampCountMultiplierFor((int)campaign.PlannedLamp),   // W11: 데이터 (battle_rules.asset)
+                BeamRemovesTierHp = new[] { rules.BeamRemovesTierHpFor(0), rules.BeamRemovesTierHpFor(1), rules.BeamRemovesTierHpFor(2) },
+                BeamRemovesTierSpeed = new[] { rules.BeamRemovesTierSpeedFor(0), rules.BeamRemovesTierSpeedFor(1), rules.BeamRemovesTierSpeedFor(2) },
                 BeamSide = ((campaign.PlannedBeamSide % 4) + 4) % 4,   // 정비 마당 등대에서 명령한 방향 (W9)
                 EnemyTier = BeaconRules.EnemyTier(campaign.FortressNumber, ignition),
                 IsIgnitionNight = ignition,

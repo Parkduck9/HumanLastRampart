@@ -158,6 +158,9 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
 
             if (r.Outcome == BattleOutcome.Defeat)
             {
+                yield return WaitScreen(ScreenId.Result, 900);   // W11: 연속 두 번째 패배도 결과 화면 뒤에 엔딩
+                yield return WaitReady("다음", 300);
+                yield return Click("다음", 60);
                 yield return WaitScreen(ScreenId.Story, 900);
                 Assert.AreEqual(StoryKind.DefeatEnding, GameFlow.Instance.Campaign.NextStory.Kind, "패배 뒤 패배 엔딩");
                 Note("패배 엔딩 화면 (결과 화면 건너뜀)");

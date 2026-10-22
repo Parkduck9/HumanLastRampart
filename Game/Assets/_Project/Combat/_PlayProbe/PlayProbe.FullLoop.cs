@@ -296,7 +296,13 @@ public sealed partial class PlayProbe
             for (int i = 0; i < 3; i++) yield return null;
             yield return Press(LoopKeys.StartNextBattle, 60);
             yield return WaitScreen(ScreenId.Battle, 900);
+            int soldiersBeforeSecond = lossCampaign.Squads.Sum(s => s.Count);
             yield return Press(LoopKeys.TestLoseWall, 300);
+            // W11: 연속 두 번째 패배(엔딩)도 결과 화면에서 그 밤의 손실을 보여 준 뒤 패배 엔딩으로 간다
+            yield return WaitScreen(ScreenId.Result, 900);
+            yield return WaitPressable(LoopKeys.ResultNext, 300);
+            Assert.AreEqual(soldiersBeforeSecond - lossCampaign.LastBattle.SquadLosses.Sum(l => l.LostCount), lossCampaign.Squads.Sum(s => s.Count), "엔딩 밤의 손실도 결과 화면에서 반영·표시");
+            yield return Press(LoopKeys.ResultNext, 300);
             yield return WaitScreen(ScreenId.Story, 900);
             Assert.AreEqual(StoryKind.DefeatEnding, GameFlow.Instance.Campaign.NextStory.Kind, "패배 뒤 패배 엔딩 (결과 화면 건너뜀)");
             HumanLastRampart.Story.StoryPlayer ending = null;

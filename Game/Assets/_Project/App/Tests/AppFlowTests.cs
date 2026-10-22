@@ -71,9 +71,14 @@ namespace HumanLastRampart.App.Tests
             Assert.IsTrue(retry.BeginDay);
             Assert.IsFalse(retry.AdvanceBattle);
 
-            FlowStep end = FlowRouter.Next(ScreenId.Battle, ScreenOutcome.Done, new FlowState { LastBattleOutcome = BattleOutcome.Defeat, LossCanRetry = false });
+            // W11: 연속 두 번째 패배도 결과 화면을 먼저 거치고, 그 뒤에 패배 엔딩
+            FlowStep endReport = FlowRouter.Next(ScreenId.Battle, ScreenOutcome.Done, new FlowState { LastBattleOutcome = BattleOutcome.Defeat, LossCanRetry = false });
+            Assert.AreEqual(ScreenId.Result, endReport.Screen);
+            Assert.IsFalse(endReport.QueueDefeatEnding);
+            FlowStep end = FlowRouter.Next(ScreenId.Result, ScreenOutcome.Done, new FlowState { ResultWasLostNight = true, ResultEndsRun = true });
             Assert.AreEqual(ScreenId.Story, end.Screen);
-            Assert.IsTrue(end.QueueDefeatEnding, "연속 두 번째 패배는 패배 엔딩");
+            Assert.IsTrue(end.QueueDefeatEnding, "연속 두 번째 패배는 보고 뒤 패배 엔딩");
+            Assert.IsFalse(end.ApplyNightLoss);
         }
 
         [Test]

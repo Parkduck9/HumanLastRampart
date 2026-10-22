@@ -228,6 +228,7 @@ namespace HumanLastRampart.App.Flow
                 state.RunComplete = Campaign.NextStory != null && Campaign.NextStory.Kind == StoryKind.RunComplete;   // W8: 마지막 요새 점화
                 state.RelitFortress = Campaign.LastNightRelit;   // W10: 점화한 밤이면 결과 뒤 봉화선 지도
                 state.ResultWasLostNight = Campaign.LastBattle != null && Campaign.LastBattle.Outcome == BattleOutcome.Defeat;   // W11: 진 밤의 보고
+                state.ResultEndsRun = state.ResultWasLostNight && BeaconRules.LossEndsRun(Campaign);   // 연속 두 번째 패배 = 보고 뒤 패배 엔딩
             }
             else if (context.Screen == ScreenId.BeaconMap && Campaign != null)
             {

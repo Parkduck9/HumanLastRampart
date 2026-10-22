@@ -75,6 +75,7 @@ namespace HumanLastRampart.Core.Campaign
         public string SegmentId;   // v1.3: WallIds 중 하나
         public int MaxHp;
         public int Hp;
+        public int BonusMaxHp;     // W11: 성벽 보강으로 늘어난 최대 체력 합 (새 요새로 넘어갈 때 걷어낸다)
         public int Reinforced;     // W11: 성벽 보강으로 산 횟수 (값이 사 갈수록 오른다). 보강은 MaxHp에 바로 더해 저장한다
 
         public WallSegmentState Clone() => (WallSegmentState)MemberwiseClone();
