@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>작업 실시간</title>
+<style>
+  :root { --bg:#1d1813; --panel:#2a221b; --ink:#efe3cc; --dim:#a8977c; --brass:#d4a64a; --good:#7fb069; --warn:#e0a458; --line:#4a3c2e; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:"Malgun Gothic","맑은 고딕",sans-serif; }
+  main { max-width:900px; margin:0 auto; padding:24px 16px; }
+  h1 { font-size:22px; margin:0 0 4px; color:var(--brass); }
+  .sub { color:var(--dim); font-size:13px; margin-bottom:18px; }
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:14px 16px; margin-bottom:12px; }
+  .top { display:flex; justify-content:space-between; gap:12px; align-items:baseline; flex-wrap:wrap; }
+  .name { font-weight:bold; font-size:16px; }
+  .who { color:var(--dim); font-size:13px; }
+  .stage { font-size:13px; padding:2px 8px; border-radius:10px; background:#3a2f24; color:var(--brass); }
+  .bar { height:14px; background:#120e0a; border-radius:7px; overflow:hidden; margin:10px 0 6px; }
+  .fill { height:100%; background:linear-gradient(90deg,#9a7a35,var(--brass)); transition:width .6s; }
+  .fill.done { background:var(--good); }
+  .meta { display:flex; justify-content:space-between; color:var(--dim); font-size:13px; flex-wrap:wrap; gap:8px; }
+  .pct { color:var(--ink); font-weight:bold; }
+  .idle { color:var(--warn); }
+  .empty { color:var(--dim); }
+</style>
+</head>
+<body>
+<main>
+  <h1>작업 실시간</h1>
+  <div class="sub" id="sub">자료를 기다리는 중… (감시 도구 Tools\LiveBoard\start.cmd 가 켜져 있어야 합니다)</div>
+  <div id="unity"></div>
+  <div id="list"></div>
+  <div class="sub">5초마다 저절로 새로 읽습니다. 퍼센트는 어림값입니다: 코딩 5~60%, 검토 60~75%, 합침 75~85%, 시험 85~99%, 끝 100%.</div>
+</main>
+<script>
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+  function render() {
+    const b = window.BOARD;
+    if (!b) return;
+    const age = Math.round((Date.now() - new Date(b.updated.replace(' ', 'T')).getTime()) / 1000);
+    document.getElementById('sub').textContent = '마지막 갱신 ' + b.updated + (age > 20 ? ' · 감시 도구가 멈춘 것 같습니다' : '');
+    const u = b.unity || {};
+    document.getElementById('unity').innerHTML = u.running
+      ? '<div class="card"><div class="top"><span class="name">유니티 시험 실행 중</span><span class="stage">' + u.minutes + '분째</span></div><div class="bar"><div class="fill" style="width:' + u.pct + '%"></div></div><div class="meta"><span>전체 시험은 보통 9분 안팎</span><span class="pct">약 ' + u.pct + '%</span></div></div>'
+      : '<div class="card empty">유니티 시험: 지금은 돌고 있지 않음</div>';
+    const items = b.items || [];
+    document.getElementById('list').innerHTML = items.length ? items.map(it => {
+      const idle = it.idle >= 0 && it.idle > 180 && it.pct < 100 ? '<span class="idle">' + Math.round(it.idle / 60) + '분째 움직임 없음</span>' : (it.idle >= 0 ? '<span>' + it.idle + '초 전 움직임</span>' : '');
+      return '<div class="card"><div class="top"><span class="name">' + esc(it.name) + '</span><span class="stage">' + esc(it.stage) + '</span></div>' +
+        '<div class="who">' + esc(it.who) + '</div>' +
+        '<div class="bar"><div class="fill' + (it.pct >= 100 ? ' done' : '') + '" style="width:' + it.pct + '%"></div></div>' +
+        '<div class="meta"><span>' + esc(it.detail) + '</span>' + idle + '<span class="pct">' + it.pct + '%</span></div></div>';
+    }).join('') : '<div class="card empty">진행 중인 작업이 없습니다</div>';
+  }
+  function reload() {
+    const s = document.createElement('script');
+    s.src = 'board_data.js?t=' + Date.now();
+    s.onload = () => { render(); s.remove(); };
+    s.onerror = () => s.remove();
+    document.body.appendChild(s);
+  }
+  reload();
+  setInterval(reload, 5000);
+</script>
+</body>
+</html>

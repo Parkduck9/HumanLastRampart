@@ -1,0 +1,8 @@
+{
+  "note": "Claude가 단계가 바뀔 때만 고친다. stage: 0 대기, 1 코딩, 2 검토, 3 합침, 4 시험, 5 끝",
+  "items": [
+    { "id": "W2b", "name": "튜토리얼 다듬기 (고리 위치·입력 글씨)", "who": "소넷 코더", "kind": "coder", "folder": "C:\\Unity\\1\\HLR-work\\W2b", "agent": "a014ba00be86ef8b7", "stage": 4 },
+    { "id": "W4b", "name": "먼 적 가벼운 그림", "who": "소넷 코더", "kind": "coder", "folder": "C:\\Unity\\1\\HLR-work\\W4b", "agent": "a226d80d23ab93f5c", "stage": 1 },
+    { "id": "K-101", "name": "반사 가면 다시 만들기", "who": "코덱스", "kind": "card", "folder": "C:\\Unity\\1\\HLR-cards\\K-101", "stage": 1 }
+  ]
+}
