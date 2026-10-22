@@ -57,12 +57,19 @@ namespace HumanLastRampart.Combat.Battle
         // 지도에서 그 면을 깜빡일지 (보고를 받은 뒤 몇 초)
         public bool SideAlert(int side) => Elapsed < sideAlertUntil[side];
 
-        // 지휘관(주인공) 위치 — BattleEntry가 매 프레임 알려 준다
-        public void SetCommander(int side, float along)
+        // 지휘관(주인공) 위치 — BattleEntry가 매 프레임 알려 준다.
+        // onWall = false면 주인공이 성벽에 없다 (W9: 계단으로 내려가 가운데 등대 탑에 있다). side·along은 그때 계단 자리(성벽 가운데)이고,
+        // 발견 전령은 그곳으로 찾아간다. 성벽 위 지휘관 규칙(지휘 휘장 효과, 같은 성벽 발견은 알림만)은 어느 성벽에도 적용되지 않는다
+        public void SetCommander(int side, float along, bool onWall = true)
         {
             commanderSide = side;
             commanderAlong = along;
+            commanderOnWall = onWall;
         }
+
+        bool commanderOnWall = true;
+        public bool CommanderOnWall => commanderOnWall;
+        bool CommanderOnWallSide(int side) => commanderOnWall && side == commanderSide;
 
         // 웨이브 무리마다 나오는 면·시각을 정한다 (전투 실행 ID로 정해 같은 전투를 다시 돌리면 같다)
         void PlanAttack(List<(WaveGroup group, int count)> groups)
@@ -138,7 +145,7 @@ namespace HumanLastRampart.Combat.Battle
 
         void Discover(int side, int enemies)
         {
-            if (commanderSide == side)
+            if (CommanderOnWallSide(side))
             {
                 // 같은 성벽: 지휘관도 보고 있다 — 알림만 (W7 가)
                 Notice?.Invoke($"{SideNames[side]} 성벽으로 적 약 {enemies}이 돌아옵니다!");
