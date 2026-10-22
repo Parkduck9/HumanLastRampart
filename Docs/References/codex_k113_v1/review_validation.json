@@ -1,0 +1,128 @@
+{
+  "images": [
+    {
+      "alt": "모으기 비교 · 좁게 30도",
+      "width": 1920,
+      "height": 1080,
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "좁게 · 30° · 2배 참고 시안",
+      "width": 1920,
+      "height": 1080,
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "실제 게임 북쪽 성벽 원본",
+      "width": 1920,
+      "height": 1080,
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "보통 · 60° · 1배 참고 시안",
+      "width": 1920,
+      "height": 1080,
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "실제 게임 북쪽 성벽 원본",
+      "width": 1920,
+      "height": 1080,
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "넓게 · 90° · 0.67배 참고 시안",
+      "width": 1920,
+      "height": 1080,
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "실제 게임 북쪽 성벽 원본",
+      "width": 1920,
+      "height": 1080,
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "지도 · 좁게 30° 참고 시안",
+      "width": 1920,
+      "height": 1080,
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "실제 게임 지도 원본",
+      "width": 1920,
+      "height": 1080,
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "지도 · 넓게 90° 참고 시안",
+      "width": 1920,
+      "height": 1080,
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "실제 게임 지도 원본",
+      "width": 1920,
+      "height": 1080,
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "밝기 강 / 약 · 유인 비교 참고 시안",
+      "width": 1920,
+      "height": 1080,
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "실제 게임 북쪽 성벽 원본",
+      "width": 1920,
+      "height": 1080,
+      "loaded": true,
+      "embedded": true
+    }
+  ],
+  "all_images_loaded": true,
+  "manual_selection": "넓게 · 90° · 0.67배",
+  "animation_next_frame": "좁게 · 30° · 2배",
+  "animation_pass": true,
+  "stop_pass": true,
+  "mobile_horizontal_overflow": false,
+  "script_errors": [],
+  "scene_alpha": [
+    {
+      "alt": "좁게 · 30° · 2배 참고 시안",
+      "minAlpha": 255
+    },
+    {
+      "alt": "보통 · 60° · 1배 참고 시안",
+      "minAlpha": 255
+    },
+    {
+      "alt": "넓게 · 90° · 0.67배 참고 시안",
+      "minAlpha": 255
+    },
+    {
+      "alt": "지도 · 좁게 30° 참고 시안",
+      "minAlpha": 255
+    },
+    {
+      "alt": "지도 · 넓게 90° 참고 시안",
+      "minAlpha": 255
+    },
+    {
+      "alt": "밝기 강 / 약 · 유인 비교 참고 시안",
+      "minAlpha": 255
+    }
+  ]
+}

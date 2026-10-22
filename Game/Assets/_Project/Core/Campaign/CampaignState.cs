@@ -44,6 +44,7 @@ namespace HumanLastRampart.Core.Campaign
         public bool LastNightRelit;                  // 그 밤에 요새를 점화했는가
         public int LastNightGarrison;                // 점화로 남긴 수비대 수 (결과 화면 표시용)
         public int LastSupportGold;                  // 오늘 낮 받은 수비대 지원금 (정비 화면 표시용)
+        [NonSerialized] public bool BeaconMapPreview;   // W10: 봉화선 지도가 정비에서 열린 '보기만' 모드 (App이 화면을 열 때 정한다. 저장하지 않는다)
 
         public TargetingSettings Targeting = TargetingSettings.CreateDefault();
         public StoryRequest NextStory;

@@ -143,6 +143,7 @@ public sealed partial class PlayProbe
         Time.captureDeltaTime = 1f / 20f;
         KeepPreparation = true;
         bool look0 = HumanLastRampart.Combat.Render.BattleLook.Enabled;
+        bool farSprites0 = HumanLastRampart.Combat.Render.FarSprites.Enabled;
         var recorders = new TimingRecorders();
         bool batch = Application.isBatchMode;
         if (!batch) Screen.SetResolution(1920, 1080, FullScreenMode.Windowed);   // 창 실행: 실제 화면을 1920×1080으로
@@ -213,11 +214,14 @@ public sealed partial class PlayProbe
             yield return Capture("timing_3_mid");
 
             // 먼 적 저비용 그림 끔 (W4b, K-099) — 위 ③과 같은 장면 비교 한 줄
-            bool farBefore = HumanLastRampart.Combat.Render.FarSprites.Enabled;
+            // 켬/끔을 각각 명시적으로 강제해 비교한다 (기본값이 꺼짐이어도 의미 있게). 원래 값은 finally에서 복원
+            HumanLastRampart.Combat.Render.FarSprites.Enabled = true;
+            for (int i = 0; i < 5; i++) yield return null;
+            yield return MeasureWindow("③ 75초대 · 먼 적 그림 켬", sim, recorders);
             HumanLastRampart.Combat.Render.FarSprites.Enabled = false;
             for (int i = 0; i < 5; i++) yield return null;
             yield return MeasureWindow("③ 75초대 · 먼 적 그림 끔 (원래 크기만)", sim, recorders);
-            HumanLastRampart.Combat.Render.FarSprites.Enabled = farBefore;
+            HumanLastRampart.Combat.Render.FarSprites.Enabled = farSprites0;
             for (int i = 0; i < 5; i++) yield return null;
 
             // 같은 장면을 640×480으로 (지난 측정 해상도와 비교)
@@ -276,7 +280,7 @@ public sealed partial class PlayProbe
             crowdedTerrain?.Dispose();
             KeepPreparation = false;
             HumanLastRampart.Combat.Render.BattleLook.Enabled = look0;
-            HumanLastRampart.Combat.Render.FarSprites.Enabled = true;
+            HumanLastRampart.Combat.Render.FarSprites.Enabled = farSprites0;
             recorders.Dispose();
             if (renderTimer != null) Object.Destroy(renderTimer.gameObject);
             renderTimer = null;

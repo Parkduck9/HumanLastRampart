@@ -277,8 +277,13 @@ namespace HumanLastRampart.Combat.Battle
                         bool flip = PerfLabArt.RunFacesRight(courierRunSheet) ? !movingRight : movingRight;   // 달리기 그림이 보는 쪽 (PerfLabArt.RunFacesRight)
                         courierRun.Instances[courierRun.Count++] = new PerfLabInstance { PosFrame = new float4(cp.x, cp.y, cp.z, flip ? -frame - 1 : frame), TintSize = new float4(shade, shade, shade, soldierSize) };
                     }
-                    else if (!c.Busy)
-                        courierStand.Instances[courierStand.Count++] = new PerfLabInstance { PosFrame = new float4(cp.x, cp.y, cp.z, 0f), TintSize = new float4(shade, shade, shade, soldierSize) };
+                    else
+                    {
+                        // 달리기 그림이 없으면 서 있는 그림이 통통 튀며 움직인다
+                        float bob = c.Busy ? Mathf.Abs(Mathf.Sin(time * 14f)) * 0.12f : 0f;
+                        bool movingRight = c.Busy && Vector3.Dot(c.Direction, camRight) > 0f;
+                        courierStand.Instances[courierStand.Count++] = new PerfLabInstance { PosFrame = new float4(cp.x, cp.y + bob, cp.z, movingRight ? -1f : 0f), TintSize = new float4(shade, shade, shade, soldierSize) };
+                    }
                 }
 
                 if (courierStand.Count > 0) Submit(courierStand, courierStand.Count, material);

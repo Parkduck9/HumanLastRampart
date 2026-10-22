@@ -1,0 +1,727 @@
+﻿{
+    "unity_executed":  false,
+    "pass":  true,
+    "decoded_pngs":  [
+                         {
+                             "width":  2172,
+                             "file":  "command_generated.png",
+                             "height":  724
+                         },
+                         {
+                             "width":  288,
+                             "file":  "hero_back_idle.png",
+                             "height":  384
+                         },
+                         {
+                             "width":  96,
+                             "file":  "hero_back_idle_native.png",
+                             "height":  128
+                         },
+                         {
+                             "width":  384,
+                             "file":  "hero_back_idle_native_4x.png",
+                             "height":  512
+                         },
+                         {
+                             "width":  288,
+                             "file":  "hero_back_idle_normal.png",
+                             "height":  384
+                         },
+                         {
+                             "width":  96,
+                             "file":  "hero_back_idle_normal_native.png",
+                             "height":  128
+                         },
+                         {
+                             "width":  288,
+                             "file":  "hero_back_idle_spec.png",
+                             "height":  384
+                         },
+                         {
+                             "width":  96,
+                             "file":  "hero_back_idle_spec_native.png",
+                             "height":  128
+                         },
+                         {
+                             "width":  864,
+                             "file":  "hero_command.png",
+                             "height":  384
+                         },
+                         {
+                             "width":  288,
+                             "file":  "hero_command_native.png",
+                             "height":  128
+                         },
+                         {
+                             "width":  1152,
+                             "file":  "hero_command_native_4x.png",
+                             "height":  512
+                         },
+                         {
+                             "width":  864,
+                             "file":  "hero_command_normal.png",
+                             "height":  384
+                         },
+                         {
+                             "width":  288,
+                             "file":  "hero_command_normal_native.png",
+                             "height":  128
+                         },
+                         {
+                             "width":  864,
+                             "file":  "hero_command_spec.png",
+                             "height":  384
+                         },
+                         {
+                             "width":  288,
+                             "file":  "hero_command_spec_native.png",
+                             "height":  128
+                         },
+                         {
+                             "width":  1152,
+                             "file":  "hero_walk_run_grid.png",
+                             "height":  1536
+                         },
+                         {
+                             "width":  384,
+                             "file":  "hero_walk_run_grid_native.png",
+                             "height":  512
+                         },
+                         {
+                             "width":  1536,
+                             "file":  "hero_walk_run_grid_native_4x.png",
+                             "height":  2048
+                         },
+                         {
+                             "width":  1152,
+                             "file":  "hero_walk_run_grid_normal.png",
+                             "height":  1536
+                         },
+                         {
+                             "width":  384,
+                             "file":  "hero_walk_run_grid_normal_native.png",
+                             "height":  512
+                         },
+                         {
+                             "width":  1152,
+                             "file":  "hero_walk_run_grid_spec.png",
+                             "height":  1536
+                         },
+                         {
+                             "width":  384,
+                             "file":  "hero_walk_run_grid_spec_native.png",
+                             "height":  512
+                         },
+                         {
+                             "width":  576,
+                             "file":  "officer_expressions.png",
+                             "height":  144
+                         },
+                         {
+                             "width":  2304,
+                             "file":  "officer_expressions_4x.png",
+                             "height":  576
+                         },
+                         {
+                             "width":  1536,
+                             "file":  "portraits_final_source.png",
+                             "height":  1024
+                         },
+                         {
+                             "width":  1536,
+                             "file":  "portraits_generated.png",
+                             "height":  1024
+                         },
+                         {
+                             "width":  256,
+                             "file":  "portrait_hero_determined.png",
+                             "height":  384
+                         },
+                         {
+                             "width":  1024,
+                             "file":  "portrait_hero_determined_4x.png",
+                             "height":  1536
+                         },
+                         {
+                             "width":  256,
+                             "file":  "portrait_hero_neutral.png",
+                             "height":  384
+                         },
+                         {
+                             "width":  1024,
+                             "file":  "portrait_hero_neutral_4x.png",
+                             "height":  1536
+                         },
+                         {
+                             "width":  256,
+                             "file":  "portrait_hero_surprised.png",
+                             "height":  384
+                         },
+                         {
+                             "width":  1024,
+                             "file":  "portrait_hero_surprised_4x.png",
+                             "height":  1536
+                         },
+                         {
+                             "width":  256,
+                             "file":  "portrait_hero_tired.png",
+                             "height":  384
+                         },
+                         {
+                             "width":  1024,
+                             "file":  "portrait_hero_tired_4x.png",
+                             "height":  1536
+                         },
+                         {
+                             "width":  1086,
+                             "file":  "walk_final_source.png",
+                             "height":  1448
+                         },
+                         {
+                             "width":  1086,
+                             "file":  "walk_generated.png",
+                             "height":  1448
+                         }
+                     ],
+    "frames":  [
+                   {
+                       "height":  73,
+                       "component_sizes":  [
+                                               2003
+                                           ],
+                       "bbox":  [
+                                    30,
+                                    47,
+                                    70,
+                                    120
+                                ],
+                       "row":  0,
+                       "transparent_rgb_zero":  true,
+                       "binary_alpha":  true,
+                       "palette_colors":  21,
+                       "last_opaque_row":  119,
+                       "torso_axis_x":  48.35,
+                       "sheet":  "hero_walk_run_grid",
+                       "pass":  true,
+                       "column":  0
+                   },
+                   {
+                       "height":  73,
+                       "component_sizes":  [
+                                               1978
+                                           ],
+                       "bbox":  [
+                                    29,
+                                    47,
+                                    68,
+                                    120
+                                ],
+                       "row":  0,
+                       "transparent_rgb_zero":  true,
+                       "binary_alpha":  true,
+                       "palette_colors":  22,
+                       "last_opaque_row":  119,
+                       "torso_axis_x":  48.15,
+                       "sheet":  "hero_walk_run_grid",
+                       "pass":  true,
+                       "column":  1
+                   },
+                   {
+                       "height":  73,
+                       "component_sizes":  [
+                                               2017
+                                           ],
+                       "bbox":  [
+                                    28,
+                                    47,
+                                    68,
+                                    120
+                                ],
+                       "row":  0,
+                       "transparent_rgb_zero":  true,
+                       "binary_alpha":  true,
+                       "palette_colors":  21,
+                       "last_opaque_row":  119,
+                       "torso_axis_x":  48.25,
+                       "sheet":  "hero_walk_run_grid",
+                       "pass":  true,
+                       "column":  2
+                   },
+                   {
+                       "height":  73,
+                       "component_sizes":  [
+                                               2050
+                                           ],
+                       "bbox":  [
+                                    28,
+                                    47,
+                                    68,
+                                    120
+                                ],
+                       "row":  0,
+                       "transparent_rgb_zero":  true,
+                       "binary_alpha":  true,
+                       "palette_colors":  22,
+                       "last_opaque_row":  119,
+                       "torso_axis_x":  47.7,
+                       "sheet":  "hero_walk_run_grid",
+                       "pass":  true,
+                       "column":  3
+                   },
+                   {
+                       "height":  73,
+                       "component_sizes":  [
+                                               2060
+                                           ],
+                       "bbox":  [
+                                    26,
+                                    47,
+                                    69,
+                                    120
+                                ],
+                       "row":  1,
+                       "transparent_rgb_zero":  true,
+                       "binary_alpha":  true,
+                       "palette_colors":  24,
+                       "last_opaque_row":  119,
+                       "torso_axis_x":  47.8,
+                       "sheet":  "hero_walk_run_grid",
+                       "pass":  true,
+                       "column":  0
+                   },
+                   {
+                       "height":  73,
+                       "component_sizes":  [
+                                               1936
+                                           ],
+                       "bbox":  [
+                                    26,
+                                    47,
+                                    70,
+                                    120
+                                ],
+                       "row":  1,
+                       "transparent_rgb_zero":  true,
+                       "binary_alpha":  true,
+                       "palette_colors":  24,
+                       "last_opaque_row":  119,
+                       "torso_axis_x":  48.5,
+                       "sheet":  "hero_walk_run_grid",
+                       "pass":  true,
+                       "column":  1
+                   },
+                   {
+                       "height":  73,
+                       "component_sizes":  [
+                                               2086
+                                           ],
+                       "bbox":  [
+                                    24,
+                                    47,
+                                    69,
+                                    120
+                                ],
+                       "row":  1,
+                       "transparent_rgb_zero":  true,
+                       "binary_alpha":  true,
+                       "palette_colors":  26,
+                       "last_opaque_row":  119,
+                       "torso_axis_x":  48.5,
+                       "sheet":  "hero_walk_run_grid",
+                       "pass":  true,
+                       "column":  2
+                   },
+                   {
+                       "height":  73,
+                       "component_sizes":  [
+                                               1949
+                                           ],
+                       "bbox":  [
+                                    26,
+                                    47,
+                                    69,
+                                    120
+                                ],
+                       "row":  1,
+                       "transparent_rgb_zero":  true,
+                       "binary_alpha":  true,
+                       "palette_colors":  25,
+                       "last_opaque_row":  119,
+                       "torso_axis_x":  48.25,
+                       "sheet":  "hero_walk_run_grid",
+                       "pass":  true,
+                       "column":  3
+                   },
+                   {
+                       "height":  73,
+                       "component_sizes":  [
+                                               2769
+                                           ],
+                       "bbox":  [
+                                    15,
+                                    47,
+                                    80,
+                                    120
+                                ],
+                       "row":  2,
+                       "transparent_rgb_zero":  true,
+                       "binary_alpha":  true,
+                       "palette_colors":  25,
+                       "last_opaque_row":  119,
+                       "torso_axis_x":  48.1,
+                       "sheet":  "hero_walk_run_grid",
+                       "pass":  true,
+                       "column":  0
+                   },
+                   {
+                       "height":  73,
+                       "component_sizes":  [
+                                               2689
+                                           ],
+                       "bbox":  [
+                                    15,
+                                    47,
+                                    82,
+                                    120
+                                ],
+                       "row":  2,
+                       "transparent_rgb_zero":  true,
+                       "binary_alpha":  true,
+                       "palette_colors":  25,
+                       "last_opaque_row":  119,
+                       "torso_axis_x":  47.7,
+                       "sheet":  "hero_walk_run_grid",
+                       "pass":  true,
+                       "column":  1
+                   },
+                   {
+                       "height":  73,
+                       "component_sizes":  [
+                                               2704
+                                           ],
+                       "bbox":  [
+                                    17,
+                                    47,
+                                    81,
+                                    120
+                                ],
+                       "row":  2,
+                       "transparent_rgb_zero":  true,
+                       "binary_alpha":  true,
+                       "palette_colors":  26,
+                       "last_opaque_row":  119,
+                       "torso_axis_x":  48.2,
+                       "sheet":  "hero_walk_run_grid",
+                       "pass":  true,
+                       "column":  2
+                   },
+                   {
+                       "height":  73,
+                       "component_sizes":  [
+                                               2584
+                                           ],
+                       "bbox":  [
+                                    15,
+                                    47,
+                                    73,
+                                    120
+                                ],
+                       "row":  2,
+                       "transparent_rgb_zero":  true,
+                       "binary_alpha":  true,
+                       "palette_colors":  24,
+                       "last_opaque_row":  119,
+                       "torso_axis_x":  48,
+                       "sheet":  "hero_walk_run_grid",
+                       "pass":  true,
+                       "column":  3
+                   },
+                   {
+                       "height":  73,
+                       "component_sizes":  [
+                                               1934
+                                           ],
+                       "bbox":  [
+                                    29,
+                                    47,
+                                    68,
+                                    120
+                                ],
+                       "row":  3,
+                       "transparent_rgb_zero":  true,
+                       "binary_alpha":  true,
+                       "palette_colors":  25,
+                       "last_opaque_row":  119,
+                       "torso_axis_x":  47.75,
+                       "sheet":  "hero_walk_run_grid",
+                       "pass":  true,
+                       "column":  0
+                   },
+                   {
+                       "height":  73,
+                       "component_sizes":  [
+                                               1973
+                                           ],
+                       "bbox":  [
+                                    30,
+                                    47,
+                                    68,
+                                    120
+                                ],
+                       "row":  3,
+                       "transparent_rgb_zero":  true,
+                       "binary_alpha":  true,
+                       "palette_colors":  26,
+                       "last_opaque_row":  119,
+                       "torso_axis_x":  48.45,
+                       "sheet":  "hero_walk_run_grid",
+                       "pass":  true,
+                       "column":  1
+                   },
+                   {
+                       "height":  73,
+                       "component_sizes":  [
+                                               1968
+                                           ],
+                       "bbox":  [
+                                    29,
+                                    47,
+                                    68,
+                                    120
+                                ],
+                       "row":  3,
+                       "transparent_rgb_zero":  true,
+                       "binary_alpha":  true,
+                       "palette_colors":  27,
+                       "last_opaque_row":  119,
+                       "torso_axis_x":  48.25,
+                       "sheet":  "hero_walk_run_grid",
+                       "pass":  true,
+                       "column":  2
+                   },
+                   {
+                       "height":  73,
+                       "component_sizes":  [
+                                               1943
+                                           ],
+                       "bbox":  [
+                                    29,
+                                    47,
+                                    68,
+                                    120
+                                ],
+                       "row":  3,
+                       "transparent_rgb_zero":  true,
+                       "binary_alpha":  true,
+                       "palette_colors":  25,
+                       "last_opaque_row":  119,
+                       "torso_axis_x":  48.05,
+                       "sheet":  "hero_walk_run_grid",
+                       "pass":  true,
+                       "column":  3
+                   },
+                   {
+                       "height":  73,
+                       "component_sizes":  [
+                                               1863
+                                           ],
+                       "bbox":  [
+                                    30,
+                                    47,
+                                    67,
+                                    120
+                                ],
+                       "row":  0,
+                       "transparent_rgb_zero":  true,
+                       "binary_alpha":  true,
+                       "palette_colors":  23,
+                       "last_opaque_row":  119,
+                       "torso_axis_x":  48,
+                       "sheet":  "hero_back_idle",
+                       "pass":  true,
+                       "column":  0
+                   },
+                   {
+                       "height":  73,
+                       "component_sizes":  [
+                                               1863
+                                           ],
+                       "bbox":  [
+                                    30,
+                                    47,
+                                    67,
+                                    120
+                                ],
+                       "row":  0,
+                       "transparent_rgb_zero":  true,
+                       "binary_alpha":  true,
+                       "palette_colors":  23,
+                       "last_opaque_row":  119,
+                       "torso_axis_x":  48,
+                       "sheet":  "hero_command",
+                       "pass":  true,
+                       "column":  0
+                   },
+                   {
+                       "height":  73,
+                       "component_sizes":  [
+                                               1918
+                                           ],
+                       "bbox":  [
+                                    30,
+                                    47,
+                                    72,
+                                    120
+                                ],
+                       "row":  0,
+                       "transparent_rgb_zero":  true,
+                       "binary_alpha":  true,
+                       "palette_colors":  22,
+                       "last_opaque_row":  119,
+                       "torso_axis_x":  47.5,
+                       "sheet":  "hero_command",
+                       "pass":  true,
+                       "column":  1
+                   },
+                   {
+                       "height":  73,
+                       "component_sizes":  [
+                                               1974
+                                           ],
+                       "bbox":  [
+                                    32,
+                                    47,
+                                    82,
+                                    120
+                                ],
+                       "row":  0,
+                       "transparent_rgb_zero":  true,
+                       "binary_alpha":  true,
+                       "palette_colors":  22,
+                       "last_opaque_row":  119,
+                       "torso_axis_x":  47.95,
+                       "sheet":  "hero_command",
+                       "pass":  true,
+                       "column":  2
+                   }
+               ],
+    "browser_render_verified":  false,
+    "notes":  "Browser inventory returned no available apps or browsers. PNG decoding and HTML runtime checks are recorded separately.",
+    "readonly_source_checks":  [
+                                   {
+                                       "path":  "Game/Assets/_Project/Art/Characters/Hero/hero_walk_run_grid.png",
+                                       "sha256":  "5587d9d2e62d69b2e7a24de3015e0635d54264a3d9c669e2878a72d517d82fd6",
+                                       "matches_k107_readonly_source":  true
+                                   },
+                                   {
+                                       "path":  "Game/Assets/_Project/Art/Characters/Hero/hero_back_idle.png",
+                                       "sha256":  "1bda81fed1caf6598540eab6c02a6fe2d24264a884afd2ff6ec7903b039ffa94",
+                                       "matches_k107_readonly_source":  true
+                                   },
+                                   {
+                                       "path":  "Game/Assets/_Project/Art/Characters/Hero/hero_command.png",
+                                       "sha256":  "e7997c7b3c4a9c7ac6c34130a47d0eab9ff8bcca378809ceea5812387a615fc8",
+                                       "matches_k107_readonly_source":  true
+                                   },
+                                   {
+                                       "path":  "Game/Assets/_Project/Story/Resources/StoryArt/portrait_hero_neutral.png",
+                                       "sha256":  "04a39504d7b5928d09ff1a9527e975001fa95adb13f6795baa41b2f669fa993a",
+                                       "matches_k107_readonly_source":  true
+                                   },
+                                   {
+                                       "path":  "Game/Assets/_Project/Art/Battle/Resources/BattleArt/wall_a.png",
+                                       "sha256":  "28d8a5cb07975c7dc2558b99865d0707eba4e2ed3f5b8ac52201d01905dae1b3",
+                                       "matches_k107_readonly_source":  true
+                                   }
+                               ],
+    "checks":  [
+                   {
+                       "pass":  true,
+                       "check":  "hero_walk_run_grid sizes"
+                   },
+                   {
+                       "pass":  true,
+                       "check":  "hero_walk_run_grid color exact nearest 3x"
+                   },
+                   {
+                       "pass":  true,
+                       "check":  "hero_walk_run_grid normal exact nearest 3x"
+                   },
+                   {
+                       "pass":  true,
+                       "check":  "hero_walk_run_grid spec exact nearest 3x"
+                   },
+                   {
+                       "pass":  true,
+                       "check":  "hero_back_idle sizes"
+                   },
+                   {
+                       "pass":  true,
+                       "check":  "hero_back_idle color exact nearest 3x"
+                   },
+                   {
+                       "pass":  true,
+                       "check":  "hero_back_idle normal exact nearest 3x"
+                   },
+                   {
+                       "pass":  true,
+                       "check":  "hero_back_idle spec exact nearest 3x"
+                   },
+                   {
+                       "pass":  true,
+                       "check":  "hero_command sizes"
+                   },
+                   {
+                       "pass":  true,
+                       "check":  "hero_command color exact nearest 3x"
+                   },
+                   {
+                       "pass":  true,
+                       "check":  "hero_command normal exact nearest 3x"
+                   },
+                   {
+                       "pass":  true,
+                       "check":  "hero_command spec exact nearest 3x"
+                   },
+                   {
+                       "pass":  true,
+                       "check":  "portrait neutral size"
+                   },
+                   {
+                       "pass":  true,
+                       "check":  "portrait determined size"
+                   },
+                   {
+                       "pass":  true,
+                       "check":  "portrait surprised size"
+                   },
+                   {
+                       "pass":  true,
+                       "check":  "portrait tired size"
+                   },
+                   {
+                       "pass":  true,
+                       "check":  "tutorial strip layout"
+                   },
+                   {
+                       "pass":  true,
+                       "check":  "portrait_hero_neutral binary alpha"
+                   },
+                   {
+                       "pass":  true,
+                       "check":  "portrait_hero_determined binary alpha"
+                   },
+                   {
+                       "pass":  true,
+                       "check":  "portrait_hero_surprised binary alpha"
+                   },
+                   {
+                       "pass":  true,
+                       "check":  "portrait_hero_tired binary alpha"
+                   },
+                   {
+                       "pass":  true,
+                       "check":  "officer_expressions binary alpha"
+                   }
+               ]
+}

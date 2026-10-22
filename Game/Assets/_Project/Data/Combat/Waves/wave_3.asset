@@ -26,7 +26,7 @@ MonoBehaviour:
     EnemyDefId: enemy_goblin_ladder
     Count: 500
     SpawnAtSeconds: 40
-    Phase: 0
+    Phase: 2
     StreamPerSecond: 0
   - Side: 1
     EnemyDefId: enemy_goblin
@@ -44,7 +44,7 @@ MonoBehaviour:
     EnemyDefId: enemy_goblin_ladder
     Count: 300
     SpawnAtSeconds: 70
-    Phase: 0
+    Phase: 2
     StreamPerSecond: 0
   - Side: 3
     EnemyDefId: enemy_goblin
@@ -55,7 +55,7 @@ MonoBehaviour:
   - Side: 0
     EnemyDefId: enemy_ogre
     Count: 1
-    SpawnAtSeconds: 80
+    SpawnAtSeconds: 90
     Phase: 0
     StreamPerSecond: 0
   - Side: 3

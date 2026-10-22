@@ -1,0 +1,134 @@
+{
+  "pass": true,
+  "embedded_png_count": 24,
+  "decoded_png_headers": [
+    {
+      "key": "hero_walk_run_grid",
+      "width": 1152,
+      "height": 1536
+    },
+    {
+      "key": "old_hero_walk_run_grid",
+      "width": 1152,
+      "height": 1536
+    },
+    {
+      "key": "hero_back_idle",
+      "width": 288,
+      "height": 384
+    },
+    {
+      "key": "old_hero_back_idle",
+      "width": 288,
+      "height": 384
+    },
+    {
+      "key": "hero_command",
+      "width": 864,
+      "height": 384
+    },
+    {
+      "key": "old_hero_command",
+      "width": 864,
+      "height": 384
+    },
+    {
+      "key": "portrait_hero_neutral",
+      "width": 256,
+      "height": 384
+    },
+    {
+      "key": "old_portrait_hero_neutral",
+      "width": 256,
+      "height": 384
+    },
+    {
+      "key": "portrait_hero_determined",
+      "width": 256,
+      "height": 384
+    },
+    {
+      "key": "old_portrait_hero_determined",
+      "width": 256,
+      "height": 384
+    },
+    {
+      "key": "portrait_hero_surprised",
+      "width": 256,
+      "height": 384
+    },
+    {
+      "key": "old_portrait_hero_surprised",
+      "width": 256,
+      "height": 384
+    },
+    {
+      "key": "portrait_hero_tired",
+      "width": 256,
+      "height": 384
+    },
+    {
+      "key": "old_portrait_hero_tired",
+      "width": 256,
+      "height": 384
+    },
+    {
+      "key": "officer_expressions",
+      "width": 576,
+      "height": 144
+    },
+    {
+      "key": "old_officer_expressions",
+      "width": 576,
+      "height": 144
+    },
+    {
+      "key": "hero_walk_run_grid_normal",
+      "width": 1152,
+      "height": 1536
+    },
+    {
+      "key": "hero_walk_run_grid_spec",
+      "width": 1152,
+      "height": 1536
+    },
+    {
+      "key": "hero_command_normal",
+      "width": 864,
+      "height": 384
+    },
+    {
+      "key": "hero_command_spec",
+      "width": 864,
+      "height": 384
+    },
+    {
+      "key": "hero_back_idle_normal",
+      "width": 288,
+      "height": 384
+    },
+    {
+      "key": "hero_back_idle_spec",
+      "width": 288,
+      "height": 384
+    },
+    {
+      "key": "night",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "key": "pick",
+      "width": 4608,
+      "height": 2048
+    }
+  ],
+  "motion_count": 6,
+  "animation_advanced": true,
+  "pause_verified": true,
+  "step_verified": true,
+  "zoom_and_guides_executed": true,
+  "external_resources": false,
+  "browser_render_verified": false,
+  "method": "Node VM DOM/canvas stubs; all embedded PNGs also decoded by System.Drawing in asset verification. No browser available."
+}

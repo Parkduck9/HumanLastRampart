@@ -38,7 +38,9 @@ namespace HumanLastRampart.Combat.Battle
 
         readonly List<WavePhase> groupPhase = new List<WavePhase>();    // 무리마다 (선봉을 뗀 뒤 기준: 본대 또는 공성)
         readonly List<float> groupFirstTime = new List<float>();        // 무리의 첫 적이 나오는 시각
-        int vanguardStart = -1;      // 선봉 슬롯 (첫 무리 맨 앞 vanguardSpawned개)
+        // 무리의 첫 적이 실제로 나온 시각 (동시 출현 상한 때문에 계획보다 늦을 수 있다 — 공성 단계·예고는 이 값을 따른다). 아직이면 MaxValue
+        readonly List<float> groupFirstSpawned = new List<float>();
+        int vanguardStart = -1;     // 선봉 슬롯 (첫 무리 맨 앞 vanguardSpawned개)
         int vanguardSpawned;
         bool finalStarted;
         float finalStartedAt;
@@ -57,7 +59,7 @@ namespace HumanLastRampart.Combat.Battle
             {
                 if (finalStarted) return WavePhase.Final;
                 for (int g = 0; g < groupPhase.Count; g++)
-                    if (groupPhase[g] == WavePhase.Siege && Elapsed >= groupFirstTime[g]) return WavePhase.Siege;
+                    if (groupPhase[g] == WavePhase.Siege && groupFirstSpawned[g] <= Elapsed) return WavePhase.Siege;
                 return Elapsed >= MainPhaseStart ? WavePhase.Main : WavePhase.Vanguard;
             }
         }
@@ -77,9 +79,10 @@ namespace HumanLastRampart.Combat.Battle
 
             for (int g = 0; g < groupPhase.Count; g++)
             {
-                if (groupPhase[g] != WavePhase.Siege) continue;
+                if (groupPhase[g] != WavePhase.Siege || groupFirstSpawned[g] != float.MaxValue) continue;   // 이미 나온 무리는 예고하지 않는다
                 left = groupFirstTime[g] - Elapsed;
-                if (left <= 0f || left > PhaseWarnSeconds) continue;
+                if (left > PhaseWarnSeconds) continue;
+                left = Mathf.Max(0f, left);   // 계획 시각이 지났는데 동시 출현 상한 때문에 아직 안 나왔으면 "곧"으로 예고를 유지한다
                 if (found && warning.SecondsLeft <= left) continue;
                 warning = new PhaseWarning { Phase = WavePhase.Siege, Side = attackPlan[g].Side, SecondsLeft = left };
                 found = true;
@@ -137,8 +140,20 @@ namespace HumanLastRampart.Combat.Battle
             var sides = new List<int>();
             foreach (GroupPlan plan in attackPlan) if (!sides.Contains(plan.Side)) sides.Add(plan.Side);
             sides.Sort();
-            // 면이 바뀐 적은 우회 발견 판정에서 빠지므로 모든 무리를 이미 발견한 것으로 본다
-            if (groupDiscovered != null) for (int g = 0; g < groupDiscovered.Length; g++) groupDiscovered[g] = true;
+            // 이미 나와 있는 우회 무리는 계속 발견·보고되어야 하므로 표시하지 않는다.
+            // 살아서 나와 있는 적이 하나도 없는 무리(남은 적이 전부 아래에서 면이 바뀜)만 발견 끝낸 것으로 본다
+            if (groupDiscovered != null)
+            {
+                for (int g = 0; g < groupDiscovered.Length; g++)
+                {
+                    if (groupDiscovered[g]) continue;
+                    var (start, count) = groupSlots[g];
+                    bool aliveOnField = false;
+                    for (int e = start; e < start + count && !aliveOnField; e++) aliveOnField = EnemyState.IsAlive(eState[e]);
+                    if (!aliveOnField) groupDiscovered[g] = true;
+                }
+            }
+
             for (int i = spawnCursor; i < spawnOrder.Length; i++)
             {
                 SpawnEntry entry = spawnOrder[i];

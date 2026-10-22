@@ -123,7 +123,10 @@ public sealed partial class PlayProbe
             sim.Notice += n => notices.Add(n);
             for (int s = 0; s < 3; s++) sim.IssueMessenger(BattleSim.TowerOrigin, 0f, new[] { 0, 2, 3 }[s], HumanLastRampart.Core.Campaign.TargetPriority.HighestHpRatio);
             sim.IssueMessenger(BattleSim.TowerOrigin, 0f, 0, HumanLastRampart.Core.Campaign.TargetPriority.Nearest);
-            for (int i = 0; i < 40; i++) yield return null;   // 약 2초
+            for (int i = 0; i < 8; i++) yield return null;   // 출발 0.4초 뒤: 달리는 전령이 화면에 보여야 한다 (리뷰 S-1)
+            Assert.IsTrue(sim.GetTowerCourier(0).Busy && sim.GetTowerCourier(0).Direction.sqrMagnitude > 0.01f, "전령이 달리는 중");
+            yield return Capture("tower_06b_couriers_departing", PfWidth, PfHeight);
+            for (int i = 0; i < 32; i++) yield return null;   // 약 2초
             Assert.AreEqual(0, sim.TowerCouriersFree, "전령 3명 모두 출발");
             Assert.AreEqual(1, sim.TowerOrdersQueued, "네 번째는 줄");
             Assert.IsTrue(notices.Exists(n => n.Contains("줄을 섭니다")));

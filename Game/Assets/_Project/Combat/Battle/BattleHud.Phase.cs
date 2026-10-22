@@ -19,7 +19,14 @@ namespace HumanLastRampart.Combat.Battle
         const float PhaseEmblemZone = 40f * PhaseArtScale;                  // 띠 왼쪽 상징 구역 폭
         const float PhasePulseSeconds = 0.25f;                              // 맥동 한 칸 (K-100: 250ms)
 
-        static readonly Dictionary<string, Sprite> phasePulseFrames = new Dictionary<string, Sprite>();
+        // 방향 표식 캐시 (단계·면이 같으면 이름 문자열·위치를 다시 만들지 않는다)
+        int warningSlotKey = -1;
+        string warningSlot, warningSlotPulse;
+        Sprite warningStatic;
+        bool warningPlaced;
+
+        static readonly Dictionary<string, Sprite[]> phasePulseFrames = new Dictionary<string, Sprite[]>();
+        static readonly HashSet<string> phasePulseMissing = new HashSet<string>();
 
         // Refresh가 부른다. 글은 처음 필요할 때 만든다
         void RefreshPhaseBanner(BattleSim sim)
@@ -35,19 +42,24 @@ namespace HumanLastRampart.Combat.Battle
             if (phaseBanner == null) BuildPhaseBanner();
 
             if (!phaseBannerRoot.gameObject.activeSelf) phaseBannerRoot.gameObject.SetActive(true);
-            phaseBanner.text = line;
-
-            // 띠: 글 길이만큼 늘린다 (최소 96×32점). 그림이 없으면 글만
-            if (phaseBand.enabled)
+            // 글·띠 폭·상징은 글이 바뀔 때(단계·면·남은 초가 바뀔 때)만 다시 맞춘다 — 매 프레임 문자열을 만들지 않는다
+            if (!ReferenceEquals(line, shownPhaseLine))
             {
-                float width = Mathf.Max(96f * PhaseArtScale, PhaseEmblemZone + phaseBanner.preferredWidth + 10f * PhaseArtScale + 16f);
-                phaseBannerRoot.sizeDelta = new Vector2(width, 32f * PhaseArtScale);
-            }
+                shownPhaseLine = line;
+                phaseBanner.text = line;
 
-            // 단계 상징 (왼쪽)
-            Sprite emblem = UiArt.Hud("Phase/emblem_" + PhaseKey(phase));
-            phaseEmblem.sprite = emblem;
-            phaseEmblem.enabled = emblem != null && phaseBand.enabled;
+                // 띠: 글 길이만큼 늘린다 (최소 96×32점). 그림이 없으면 글만
+                if (phaseBand.enabled)
+                {
+                    float width = Mathf.Max(96f * PhaseArtScale, PhaseEmblemZone + phaseBanner.preferredWidth + 10f * PhaseArtScale + 16f);
+                    phaseBannerRoot.sizeDelta = new Vector2(width, 32f * PhaseArtScale);
+                }
+
+                // 단계 상징 (왼쪽)
+                Sprite emblem = UiArt.Hud("Phase/emblem_" + PhaseKey(phase));
+                phaseEmblem.sprite = emblem;
+                phaseEmblem.enabled = emblem != null && phaseBand.enabled;
+            }
 
             RefreshPhaseWarningIcon(phase, side, warning);
         }
@@ -93,9 +105,19 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             side = Mathf.Clamp(side, 0, 3);
-            string slot = $"Phase/warning_{PhaseKey(phase)}_{"NESW"[side]}";
+            int iconKey = (int)phase * 4 + side;
+            if (iconKey != warningSlotKey)
+            {
+                warningSlotKey = iconKey;
+                warningSlot = $"Phase/warning_{PhaseKey(phase)}_{"NESW"[side]}";   // 단계·면이 바뀔 때만 만든다
+                warningSlotPulse = warningSlot + "_pulse";
+                warningStatic = null;
+                warningPlaced = false;
+            }
+
             int frame = (int)(Time.unscaledTime / PhasePulseSeconds) % 4;
-            Sprite sprite = PhasePulseFrame(slot + "_pulse", frame) ?? UiArt.Hud(slot);
+            Sprite sprite = PhasePulseFrame(warningSlotPulse, frame);
+            if (sprite == null) sprite = warningStatic ?? (warningStatic = UiArt.Hud(warningSlot));
             if (sprite == null)
             {
                 if (phaseWarningIcon != null) phaseWarningIcon.gameObject.SetActive(false);
@@ -110,6 +132,8 @@ namespace HumanLastRampart.Combat.Battle
 
             if (!phaseWarningIcon.gameObject.activeSelf) phaseWarningIcon.gameObject.SetActive(true);
             phaseWarningIcon.sprite = sprite;
+            if (warningPlaced) return;   // 자리는 단계·면이 바뀔 때만 다시 잡는다
+            warningPlaced = true;
 
             // 북·동·남·서 = 위·오른쪽·아래·왼쪽 가장자리 (화면 방향과 성벽 방향이 같다고 본다)
             Vector2 size = new Vector2(32f, 32f) * PhaseArtScale;
@@ -128,17 +152,19 @@ namespace HumanLastRampart.Combat.Battle
         public static Sprite PhasePulseFrame(string slot, int frame)
         {
             frame = Mathf.Clamp(frame, 0, 3);
-            string key = slot + "#" + frame;
-            if (phasePulseFrames.TryGetValue(key, out Sprite cached) && cached != null) return cached;
+            // 칸 4개를 슬롯별 배열로 둔다 — 이미 만든 칸이나 시트가 없다고 확인된 슬롯은 문자열·불러오기 없이 바로 돌려준다
+            if (phasePulseMissing.Contains(slot)) return null;
+            if (!phasePulseFrames.TryGetValue(slot, out Sprite[] cells)) phasePulseFrames[slot] = cells = new Sprite[4];
+            if (cells[frame] != null) return cells[frame];
             var texture = Resources.Load<Texture2D>("HudArt/" + slot);
-            if (texture == null || texture.width < 128) return null;
+            if (texture == null || texture.width < 128) { phasePulseMissing.Add(slot); return null; }
             texture.filterMode = FilterMode.Point;
             texture.wrapMode = TextureWrapMode.Clamp;
             int cell = texture.width / 4;
             var sprite = Sprite.Create(texture, new Rect(frame * cell, 0f, cell, texture.height), new Vector2(0.5f, 0.5f), 100f, 0, SpriteMeshType.FullRect);
-            sprite.name = key;
+            sprite.name = slot + "#" + frame;
             sprite.hideFlags = HideFlags.HideAndDontSave;
-            phasePulseFrames[key] = sprite;
+            cells[frame] = sprite;
             return sprite;
         }
 
@@ -147,7 +173,12 @@ namespace HumanLastRampart.Combat.Battle
             phase == WavePhase.Vanguard ? "vanguard" : phase == WavePhase.Siege ? "siege" : phase == WavePhase.Final ? "final" : "main";
 
         // 띠에 띄울 글 (없으면 null). 방향 표식은 예고 중일 때만 (최후 돌격은 방향 없음)
-        static string PhaseBannerText(BattleSim sim, out WavePhase phase, out int side, out bool warning)
+        // 같은 (단계, 면, 남은 초)면 지난번 문자열 그대로 돌려준다 (매 프레임 새 문자열을 만들지 않는다)
+        string cachedPhaseLine;
+        int cachedPhaseLineKey = -1;
+        string shownPhaseLine;
+
+        string PhaseBannerText(BattleSim sim, out WavePhase phase, out int side, out bool warning)
         {
             phase = WavePhase.Final;
             side = 0;
@@ -158,11 +189,19 @@ namespace HumanLastRampart.Combat.Battle
             phase = w.Phase;
             side = w.Side;
             warning = true;
-            string name = SideFull[Mathf.Clamp(w.Side, 0, 3)];
-            int seconds = Mathf.Max(1, Mathf.CeilToInt(w.SecondsLeft));
-            return w.Phase == WavePhase.Siege
-                ? $"공성 부대 접근 — {name} ({seconds}초)"
-                : $"본대가 몰려옵니다 — {name}";
+            int sideIndex = Mathf.Clamp(w.Side, 0, 3);
+            bool siege = w.Phase == WavePhase.Siege;
+            // 본대 문구에는 초가 없다. 계획 시각이 지나고도 안 나온 공성 무리는 0 = "곧"
+            int seconds = siege && w.SecondsLeft > 0f ? Mathf.Max(1, Mathf.CeilToInt(w.SecondsLeft)) : 0;
+            int key = ((siege ? 1 : 0) * 4 + sideIndex) * 1000 + seconds;
+            if (key != cachedPhaseLineKey)
+            {
+                cachedPhaseLineKey = key;
+                string name = SideFull[sideIndex];
+                cachedPhaseLine = siege ? (seconds > 0 ? $"공성 부대 접근 — {name} ({seconds}초)" : $"공성 부대 접근 — {name} (곧)") : $"본대가 몰려옵니다 — {name}";
+            }
+
+            return cachedPhaseLine;
         }
     }
 }

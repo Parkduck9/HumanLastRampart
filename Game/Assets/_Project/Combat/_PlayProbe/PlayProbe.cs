@@ -62,16 +62,23 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
             if (GameFlow.Instance.CurrentScreen != ScreenId.Story) break;
             if (lines == 0) yield return Capture("story_0_typing");
             string partial = StoryText();
+            advance = FindAdvance() ?? advance;   // W12: 이야기가 이어지면 화면이 다시 열려 단추가 새로 생긴다
             advance.onClick.Invoke();   // 나오는 중이면 끝까지
             presses++;
             yield return null;
             string full = StoryText();
             for (int i = 0; i < 4; i++) yield return null;
-            Assert.AreEqual(full, StoryText(), "누른 뒤에는 글이 더 늘지 않는다 (끝까지 보임)");
-            Assert.IsTrue(full.StartsWith(partial), "한 자씩 나오던 글의 앞부분");
+            // W12: "……"처럼 짧은 줄은 이미 다 나온 상태라 누르면 다음 줄로 넘어간다 (글이 비었다가 새로 나온다) — 그때는 확인하지 않는다
+            bool nextLineStarted = full.Length < partial.Length || !full.StartsWith(partial) || full.Length < 2;
+            if (!nextLineStarted)
+            {
+                Assert.AreEqual(full, StoryText(), "누른 뒤에는 글이 더 늘지 않는다 (끝까지 보임)");
+                Assert.IsTrue(full.StartsWith(partial), "한 자씩 나오던 글의 앞부분");
+            }
             if (full != last) { lines++; last = full; Note($"스토리 {lines}줄: {SpeakerText()} — {full}"); }
             if (!sawSpeaker && SpeakerText().Length > 0) { sawSpeaker = true; yield return Capture("story_1_speaker"); }
-            advance.onClick.Invoke();   // 다음 줄 (마지막 줄이면 끝 → 전투)
+            advance = FindAdvance() ?? advance;
+            advance.onClick.Invoke();   // 다음 줄 (마지막 줄이면 끝 → 다음 이야기 또는 전투)
             presses++;
             yield return null;
         }
@@ -84,6 +91,7 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
         Time.captureDeltaTime = 0f;
     }
 
+    static Button FindAdvance() => UnityEngine.Object.FindObjectsByType<Button>(FindObjectsSortMode.None).FirstOrDefault(b => b.name == "Story Advance" && b.isActiveAndEnabled);
     static string StoryText() => UnityEngine.Object.FindObjectsByType<Text>(FindObjectsSortMode.None).FirstOrDefault(t => t.name == "Story Text")?.text ?? "";
     static string SpeakerText() => UnityEngine.Object.FindObjectsByType<Text>(FindObjectsSortMode.None).FirstOrDefault(t => t.name == "Story Speaker" && t.gameObject.activeInHierarchy)?.text ?? "";
 
@@ -161,9 +169,11 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
             Assert.AreEqual(gold0 + r.EarnedGold, c.Gold, "결과 화면에서 골드 한 번 반영");
             Assert.AreEqual(r.BattleRunId, c.LastAppliedBattleRunId, "반영 표시 기록");
             int lost = r.SquadLosses.Sum(l => l.LostCount);
-            Assert.AreEqual(soldiers0 - lost, c.Squads.Sum(s => s.Count), "잃은 병사 반영");
+            Assert.AreEqual(soldiers0 - lost - c.LastNightGarrison, c.Squads.Sum(s => s.Count), "잃은 병사 반영 (점화한 밤은 수비대로 남긴 인원도 빠진다)");
+            // 요새를 점화하고 다음 요새로 넘어가면 성벽이 가득 채워진다 (BeaconRules.Relight) — 마지막 요새는 그대로
+            bool wallsRestored = c.LastNightRelit && !(c.NextStory != null && c.NextStory.Kind == StoryKind.RunComplete);
             foreach (WallOutcome w in r.WallOutcomes)
-                Assert.AreEqual(w.HpAfter, c.Wall.First(x => x.SegmentId == w.SegmentId).Hp, "성벽 피해 반영");
+                if (!wallsRestored) Assert.AreEqual(w.HpAfter, c.Wall.First(x => x.SegmentId == w.SegmentId).Hp, "성벽 피해 반영");
             Note($"결과 반영 확인: 골드 {gold0}→{c.Gold}, 병사 {soldiers0}→{c.Squads.Sum(s => s.Count)}, 성벽 {string.Join("/", c.Wall.Select(w => w.Hp))}, 다음 번호 {c.BattleNumber}");
             yield return Capture($"{tag}_result{number}");
             // D-076 결과 그림판: 성벽·병력·영웅 세 칸이 한 화면에 있다 (예전 상세 버튼·팝업 없음)
@@ -171,6 +181,13 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
                 Assert.IsNotNull(GameObject.Find(column), $"결과 그림판 {column} 칸");
             Note($"결과 그림판 세 칸 확인 (전투 {number})");
             yield return Click("다음", 300);
+            if (c.LastNightRelit)
+            {
+                // W10: 요새를 점화한 밤 뒤에는 봉화선 지도가 먼저 (마지막 요새도)
+                yield return WaitScreen(ScreenId.BeaconMap, 900);
+                yield return Click("계속", 300);
+            }
+
             if (c.NextStory != null && c.NextStory.Kind == StoryKind.RunComplete)
             {
                 // W8: 마지막 요새 점화 → 1회차 완료 이야기 → 메인
@@ -1707,7 +1724,14 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
 
     static IEnumerator WaitScreen(ScreenId screen, int frames)
     {
-        for (int i = 0; i < frames && (GameFlow.Instance == null || GameFlow.Instance.CurrentScreen != screen || !InputOpen()); i++) yield return null;
+        for (int i = 0; i < frames && (GameFlow.Instance == null || GameFlow.Instance.CurrentScreen != screen || !InputOpen()); i++)
+        {
+            // W12: 이야기가 사슬로 이어진다 (첫 이야기 → 요새 도착, 점화 → 도착). 이야기 아닌 화면을 기다리는 중이면 이야기는 건너뛴다
+            if (screen != ScreenId.Story && GameFlow.Instance != null && GameFlow.Instance.CurrentScreen == ScreenId.Story && GameFlow.Instance.Campaign?.NextStory?.Kind == StoryKind.Normal && InputOpen())
+                UnityEngine.Object.FindAnyObjectByType<HumanLastRampart.Story.StoryPlayer>()?.Skip();
+            yield return null;
+        }
+
         Assert.AreEqual(screen, GameFlow.Instance.CurrentScreen, "화면 전환");
         for (int i = 0; i < 5; i++) yield return null;
         // 전투 준비(D-071) 지도는 기본으로 바로 넘긴다 — 준비 화면 자체는 PrepPhase에서 찍는다

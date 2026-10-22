@@ -1,0 +1,95 @@
+{
+  "card": "K-114",
+  "version": 1,
+  "type": "static_concept_paintovers",
+  "generation": "built-in image_gen",
+  "deliverySize": [
+    1920,
+    1080
+  ],
+  "sourceSize": [
+    1672,
+    941
+  ],
+  "normalization": "nearest-neighbor; <0.1% aspect ratio adjustment",
+  "alpha": "opaque RGBA, all alpha values 255",
+  "spriteSheets": false,
+  "cellSize": null,
+  "pivot": null,
+  "baseline": null,
+  "frameOrder": null,
+  "animation": "none; rotation implied in illustration only",
+  "references": [
+    "Docs/References/beacon_game_20261022/05_pf_night_clean.png",
+    "Docs/References/beacon_game_20261022/08_pf_map_side.png",
+    "Docs/References/w1_w5_20261022/repair_map.png",
+    "Docs/References/codex_k089_v1/prep_yard.png",
+    "Docs/References/codex_k102_v1/mockup_prep_day_1920x1080.png",
+    "Docs/References/codex_k107_v1/variant_a_generated.png",
+    "Docs/References/codex_k107_v1/comparison_front_night065_game_4x.png"
+  ],
+  "moodReferencesReadOnly": [
+    "C:/Unity/1/HumanLastRampart/Docs/References/beacon_refs/octopath_2.jpg",
+    "C:/Unity/1/HumanLastRampart/Docs/References/beacon_refs/octopath2_1.jpg"
+  ],
+  "assets": [
+    {
+      "file": "night_courtyard_1920x1080.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "frames": 1,
+      "source": "night_courtyard_generated.png",
+      "detailPreview": "night_courtyard_detail_4x.png",
+      "detailCrop": [
+        1440,
+        320,
+        480,
+        270
+      ],
+      "detailScale": 4
+    },
+    {
+      "file": "night_capstan_1920x1080.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "frames": 1,
+      "source": "night_capstan_generated.png",
+      "detailPreview": "night_capstan_detail_4x.png",
+      "detailCrop": [
+        480,
+        470,
+        480,
+        270
+      ],
+      "detailScale": 4
+    },
+    {
+      "file": "day_prep_1920x1080.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "frames": 1,
+      "source": "day_prep_generated.png",
+      "detailPreview": "day_prep_detail_4x.png",
+      "detailCrop": [
+        640,
+        210,
+        480,
+        270
+      ],
+      "detailScale": 4
+    }
+  ],
+  "limitations": [
+    "참고용 콘셉트이며 실제 게임 캡처나 배치 확정안이 아닙니다.",
+    "일꾼을 보여 주기 위해 K-102의 탑 하부를 넓혔습니다. 최종 크기와 절개 구조는 게임 적용 시 검토가 필요합니다.",
+    "근접 장면은 구조 설명용 확대이며 전경과 벽면·장치 세부가 완전히 일치하지 않습니다.",
+    "캐릭터는 그림 안의 참고 표현이며 73점 스프라이트 납품물이 아닙니다.",
+    "정지 그림이므로 발 기준선·프레임 흔들림 검사는 해당하지 않습니다."
+  ]
+}
