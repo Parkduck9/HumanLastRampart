@@ -512,7 +512,7 @@ namespace HumanLastRampart.Combat.Battle
             // W15 (사용자 2026-10-22 '너무 하얗고 평면'): 큰 무늬·잔 자갈·낮은 출렁임·노멀맵·점광원 목록을 받는 들판 땅. 못 쓰면 예전 질감 그대로
             var tintedCopy = ground.GetComponent<Renderer>().sharedMaterial;   // Tint가 만든 재질 사본
             if (HumanLastRampart.Combat.Render.FieldGround.Dress(ground, groundScale.x * 5f, field + 40f, half))
-                Object.Destroy(tintedCopy);   // 새 땅 재질로 바뀌었으니 사본은 버린다 (전투마다 새는 것 방지)
+                UnityEngine.Object.Destroy(tintedCopy);   // 새 땅 재질로 바뀌었으니 사본은 버린다 (전투마다 새는 것 방지)
             else
                 world?.DressGround(ground.GetComponent<Renderer>(), new Vector2(groundScale.x * 10f, groundScale.z * 10f));
 
