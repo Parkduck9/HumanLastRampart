@@ -1,0 +1,47 @@
+﻿{
+    "tool":  "image_gen.imagegen (built-in)",
+    "transparent_background_requested":  true,
+    "calls":  [
+                  {
+                      "output":  "walk_generated.png",
+                      "references":  [
+                                         "Game/Assets/_Project/Art/Characters/Hero/hero_walk_run_grid.png",
+                                         "Docs/References/codex_k107_v1/comparison_front_night065_game_4x.png",
+                                         "Docs/References/codex_k107_v1/variant_a_front_native.png"
+                                     ],
+                      "prompt":  "Use case: identity-preserve. Production pixel-art sprite sheet for Unity, transparent background, NO text. EDIT image 1: replace white-haired hero with Lumen Pharos, 20-year-old male from variant A (SECOND figure in comparison image 2). Preserve image 1\u0027s EXACT 4 columns x 4 rows layout and pose sequence. 16 full-body figures total, each centered in equal cell, feet consistent baseline. Row0 rear walking 4 phases (first phase standing), row1 left-facing walking 4 phases, row2 left-facing running 4 phases, row3 front walking 4 phases. Preserve original hero proportions (head approximately one third height, short sturdy body, chunky large boots), original body height/limb lengths and original precise poses. Identity from comparison\u0027s second figure: tousled brown hair, expressive blue eyes with white highlight AND visible mouth in front/side, navy academy tunic with restrained gold trim, CREAM short lampkeeper mantle over shoulders with gold lighthouse emblem on BACK, small brass lantern on belt and brass telescope on opposite hip. NO white hair, NO epaulettes. Thick dark crisp outline, coarse consistent pixel grid, approximately 73 logical pixels per figure, ~24px head, 3 shading steps per material. Strong clear pixel clusters, matte cloth, restrained gold metal. Avoid airbrushing, glow, bloom, haze, plastic gloss, noisy decorative details. ALL figures complete and separated with ample transparent padding, no cropping or contact shadows. Output SAME aspect ratio as image1, four by four sheet."
+                  },
+                  {
+                      "output":  "portraits_generated.png",
+                      "references":  [
+                                         "Docs/References/codex_k107_v1/variant_a_portrait.png",
+                                         "Game/Assets/_Project/Story/Resources/StoryArt/portrait_hero_neutral.png",
+                                         "Game/Assets/_Project/Art/UI/Resources/HudArt/Tutorial/officer_expressions.png"
+                                     ],
+                      "prompt":  "Use case: identity-preserve. A transparent production PIXEL ART character expression asset sheet, no labels, no background. Character: Lumen Pharos from image1, 20 year old man, messy warm brown hair, blue eyes with white highlights, visible mouth, navy academy tunic with gold trim, cream lampkeeper mantle, brass clasp, belt lantern and brass telescope, dark trousers and chunky brown boots. Keep his identity. Exactly EIGHT separated figures arranged in TWO ROWS x FOUR COLUMNS, no overlaps. Top row: four FULL BODY story portraits in framing of reference image2 (entire standing body and boots; head about one third height, not closeup): neutral, determined (brows down, closed firm mouth), surprised (wide eyes/open mouth), tired (drooped eyelids, weary mouth). Same pose, scale, placement in all four, face toward viewer with slight three-quarter turn. Bottom row: four CHEST-UP tutorial busts in same framing and gestures as image3: neutral speaking; explaining with raised index finger; stern/urgent open mouth; reassuring mild smile. Bust hair and clothing identical to top row. Pixel density about 64x96 logical pixels per story portrait, and 48x48 per bust. Crisp chunky clusters, thick dark one-pixel logical outline, approximately three shades per material. Faces must have clearly visible EYES AND MOUTHS. Matte cream/navy cloth, restrained brass, NO ornate shoulders or medals, no airbrush/soft gradient, no neon/glow, no shadows on transparent ground. Four equal-width columns, top and bottom figures well separated with generous transparent space. A large landscape sheet, all assets complete."
+                  },
+                  {
+                      "output":  "command_generated.png",
+                      "references":  [
+                                         "Game/Assets/_Project/Art/Characters/Hero/hero_command.png",
+                                         "Docs/References/codex_k107_v1/variant_a_front_native.png",
+                                         "Docs/References/codex_k107_v1/comparison_front_night065_game_4x.png"
+                                     ],
+                      "prompt":  "Use case: identity-preserve. EDIT image1 only replacing hero identity, preserving THREE columns ONE row layout, each rear-facing full body pose EXACTLY. First standing feet apart hands lowered, second raises right hand to temple, third raises right arm outward/up to command. Use second figure A identity from comparison image3, proportions identical to original hero in image1, approximately 73px tall and head24px. Messy BROWN hair (not white), NAVY tunic GOLD trim without epaulettes, short CREAM mantle across back to below shoulderblades, with simple centered GOLD LIGHTHOUSE EMBLEM. Brown boots, small brass belt lantern and brass telescope. Keep body axis and feet at same positions in each cell, same head size and silhouette in all three frames. Crisp chunky pixel art, limited 3-shade material palette, dark one-logical-pixel outline, matte cloth, no gradients, no bloom, no shadows on ground, transparent background. Do not crop, all boots visible. Wide 3:1 canvas, generous transparent padding around figures. No text."
+                  },
+                  {
+                      "output":  "walk_final_source.png",
+                      "references":  [
+                                         "Docs/References/codex_k109_v1/walk_generated.png"
+                                     ],
+                      "prompt":  "Precise object edit on this 4x4 pixel art sheet: KEEP EVERY PIXEL, all sixteen poses and entire layout and all face eyes/head/body proportions and clothing unchanged. ONLY add a clearly readable small dark brown horizontal MOUTH to EACH of the four front-facing characters in the BOTTOM ROW, below the nose and above the collar, separated from collar by skin. It must remain visible when figure shrinks to 73px tall (mouth about 2 logical pixels wide). Side-facing mouths remain. Do not add any new features or change lighting, palette, clothes or poses. Same transparent background, same resolution and spacing. No text."
+                  },
+                  {
+                      "output":  "portraits_final_source.png",
+                      "references":  [
+                                         "Docs/References/codex_k109_v1/portraits_generated.png"
+                                     ],
+                      "prompt":  "Precise pixel-art production edit. Preserve this exact 4-column x2-row composition, same 1536x1024 canvas, same transparent background and all eight figures, positions, scales, clothing and poses. The TOP FOUR full-body faces MUST survive downsampling each entire full-body figure to only 75 pixels tall. In the top four faces ONLY, make BOTH blue eye irises LARGE BLOCKS (each roughly 20 to 25 image pixels wide by 20px tall at this resolution, vivid medium blue, dark upper pupil, distinct white highlight). Make mouths strongly visible, roughly 20px wide and 12px thick, warm DARK BROWN. Neutral horizontal calm mouth, determined firm downward mouth, surprised open oval mouth, tired lowered small mouth. Keep eyes separated and leave skin between eyes and mouth. No featureless white eye lines. Bottom four bust eyes/mouths already clear; keep unchanged. Everything else unchanged. Crisp coarse pixel clusters not smooth gradients. No labels, no backdrop."
+                  }
+              ]
+}
