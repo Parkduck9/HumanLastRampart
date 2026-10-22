@@ -404,7 +404,10 @@ namespace HumanLastRampart.Combat.Battle
             float fps = rig.Pose == BattleCameraRig.HeroPose.Run ? HeroRunFps : HeroWalkFps;
             int column = rig.Pose == BattleCameraRig.HeroPose.Idle ? 0 : (int)(Time.unscaledTime * fps) % PerfLab.PerfLabArt.FramesPerAction;
             bool flip = rig.Pose == BattleCameraRig.HeroPose.Run && rig.FacingRight;   // 시트 옆모습은 왼쪽을 본다
-            view.SetHero(rig.HeroFeet, row * PerfLab.PerfLabArt.FramesPerAction + column, flip, !mapOpen, rig.Pose == BattleCameraRig.HeroPose.Idle, command);
+            // 마당 계단·층계참 위에서는 그림만 그 높이를 따라 오르내린다 (W19, 계산 위치는 그대로)
+            Vector3 heroDraw = rig.HeroFeet;
+            heroDraw.y += BattleCourtyard.HeroLift(heroDraw, sim.CastleHalf);
+            view.SetHero(heroDraw, row * PerfLab.PerfLabArt.FramesPerAction + column, flip, !mapOpen, rig.Pose == BattleCameraRig.HeroPose.Idle, command);
         }
 
         TargetingSettings Targeting()

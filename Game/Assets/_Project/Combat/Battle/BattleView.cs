@@ -77,7 +77,8 @@ namespace HumanLastRampart.Combat.Battle
         readonly HumanLastRampart.Combat.Render.ContactShadows shadows;   // 발밑 접촉 그림자 (W3)
         public HumanLastRampart.Combat.Render.ContactShadows Shadows => shadows;
         readonly BattlePropView props;          // 성벽 난간·대포 그림
-        readonly BattleBeaconView beacon;       // 마당 가운데 등대 탑·일꾼·빛 번쩍 (W9)
+        BattleCourtyard courtyard;              // 마당 바닥·계단·소품 (W19 임시)
+        readonly BattleBeaconView beacon;      // 마당 가운데 등대 탑·일꾼·빛 번쩍 (W9)
         public BattleBeaconView Beacon => beacon;
         readonly BattleWorldView world;         // 성벽·포탑 3D 목업 (K-001)
         readonly BattleLights lights;           // 밤 횃불·폭발 빛 (K-010)
@@ -509,6 +510,7 @@ namespace HumanLastRampart.Combat.Battle
             yard.transform.localPosition = new Vector3(0f, BattleSim.WallHeight * 0.5f - 0.05f, 0f);
             yard.transform.localScale = new Vector3(half * 2f - 3f, BattleSim.WallHeight - 0.1f, half * 2f - 3f);
             Tint(yard.GetComponent<Renderer>(), new Color(0.45f, 0.42f, 0.38f));
+            courtyard = new BattleCourtyard(half, root.transform);   // 마당 돌바닥·계단·소품 (W19 임시, Codex 그림이 올 때까지)
 
             for (int side = 0; side < 4; side++)
             {
@@ -1189,6 +1191,7 @@ namespace HumanLastRampart.Combat.Battle
             beacon?.Dispose();
             shadows?.Dispose();
             world?.Dispose();
+            courtyard?.Dispose();
             lights?.Dispose();
             effectArt?.Dispose();
             soldierBuffer?.Release();
