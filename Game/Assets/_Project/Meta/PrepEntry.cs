@@ -1,4 +1,4 @@
-using HumanLastRampart.Core.Flow;
+﻿using HumanLastRampart.Core.Flow;
 using HumanLastRampart.UI;
 using System;
 using UnityEngine;
@@ -41,7 +41,7 @@ namespace HumanLastRampart.Meta
             foreach (Button b in new[] { repair, recruit, trapButton, shop, training, mercenary, ready }) ScreenView.HideButton(b);
 
             // D-076 정비 마당 + K-047: 위쪽은 황동 계기 띠 한 줄 — 1순위 골드, 그다음 병력·다음 전투 (S-20)
-            view.DockTop(1560f, 80f + 2 * 56f);   // W8: 등대 줄 두 개가 늘어난 높이
+            view.DockTop(1560f, 80f + 3 * 56f);   // W8: 등대 줄 두 개 + W16: 갈무리 글꼴 여유 · W12가 셋째 글줄을 얹을 자리
             Button mapButton = BuildSummary(view.AddArea("Summary", 48f), campaign,
                 () => { session.Close(); traps.Close(); Complete(ScreenOutcome.OpenBeaconMap); });   // W10: 봉화선 지도 보기 (보기 전용, 닫으면 정비로)
             PreparationPanel.RefreshSummary(repair, context, session);
