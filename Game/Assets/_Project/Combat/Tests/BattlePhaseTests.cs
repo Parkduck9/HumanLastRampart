@@ -270,7 +270,9 @@ namespace HumanLastRampart.Combat.Tests
         public void SiegePhase_FollowsActualFirstSpawn_NotPlannedTime()
         {
             DefinitionLookup lookup = LoadAll();
-            using (var sim = new BattleSim(Setup(lookup, 4, "run_phase_siege_actual"), lookup))
+            BattleSetup capped = Setup(lookup, 4, "run_phase_siege_actual");
+            capped.MaxConcurrentEnemies = 20;   // 동시 출현 상한을 작게 — 공성 무리의 출현이 계획보다 늦어진다
+            using (var sim = new BattleSim(capped, lookup))
             {
                 int siege = -1;
                 for (int g = 0; g < sim.AttackPlan.Count; g++)
@@ -279,8 +281,18 @@ namespace HumanLastRampart.Combat.Tests
                 Assert.GreaterOrEqual(sim.GroupFirstSpawn(siege), 60f, "초반 사다리 무리는 본대 단계 (설계 문서: 공성은 90초 무렵부터)");
                 // 계획 시각은 지났어도 실제로 나오기 전에는 공성 단계가 아니다 (동시 출현 상한으로 늦어지는 경우)
                 SetElapsed(sim, sim.GroupFirstSpawn(siege) + 0.5f);
-                Assert.AreNotEqual(WavePhase.Siege, sim.CurrentPhase);
-                Assert.IsFalse(sim.TryGetPhaseWarning(out BattleSim.PhaseWarning w) && w.Phase == WavePhase.Siege);
+                sim.BeginFrame(0.0001f);   // 상한(20마리)이 이미 찬 채 계획 시각이 지난다
+                Assert.Less(sim.Spawned, 25, "상한이 실제로 출현을 막고 있다");
+                Assert.AreNotEqual(WavePhase.Siege, sim.CurrentPhase, "안 나왔으면 공성 단계가 아니다");
+                Assert.IsTrue(sim.TryGetPhaseWarning(out BattleSim.PhaseWarning w), "늦어지는 동안 예고가 유지된다");
+                Assert.AreEqual(WavePhase.Siege, w.Phase);
+                Assert.AreEqual(0f, w.SecondsLeft, "\"곧\" (0초)");
+
+                // 상한을 풀면 실제로 나온 뒤 공성 단계가 되고 예고는 사라진다
+                typeof(BattleSim).GetField("maxConcurrent", Private).SetValue(sim, int.MaxValue);
+                sim.BeginFrame(0.0001f);
+                Assert.AreEqual(WavePhase.Siege, sim.CurrentPhase);
+                Assert.IsFalse(sim.TryGetPhaseWarning(out BattleSim.PhaseWarning after) && after.Phase == WavePhase.Siege);
             }
         }
 

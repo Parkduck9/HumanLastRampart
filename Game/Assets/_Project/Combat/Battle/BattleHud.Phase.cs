@@ -191,13 +191,14 @@ namespace HumanLastRampart.Combat.Battle
             warning = true;
             int sideIndex = Mathf.Clamp(w.Side, 0, 3);
             bool siege = w.Phase == WavePhase.Siege;
-            int seconds = siege ? Mathf.Max(1, Mathf.CeilToInt(w.SecondsLeft)) : 0;   // 본대 문구에는 초가 없다
+            // 본대 문구에는 초가 없다. 계획 시각이 지나고도 안 나온 공성 무리는 0 = "곧"
+            int seconds = siege && w.SecondsLeft > 0f ? Mathf.Max(1, Mathf.CeilToInt(w.SecondsLeft)) : 0;
             int key = ((siege ? 1 : 0) * 4 + sideIndex) * 1000 + seconds;
             if (key != cachedPhaseLineKey)
             {
                 cachedPhaseLineKey = key;
                 string name = SideFull[sideIndex];
-                cachedPhaseLine = siege ? $"공성 부대 접근 — {name} ({seconds}초)" : $"본대가 몰려옵니다 — {name}";
+                cachedPhaseLine = siege ? (seconds > 0 ? $"공성 부대 접근 — {name} ({seconds}초)" : $"공성 부대 접근 — {name} (곧)") : $"본대가 몰려옵니다 — {name}";
             }
 
             return cachedPhaseLine;

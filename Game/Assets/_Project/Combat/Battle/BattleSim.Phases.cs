@@ -81,7 +81,8 @@ namespace HumanLastRampart.Combat.Battle
             {
                 if (groupPhase[g] != WavePhase.Siege || groupFirstSpawned[g] != float.MaxValue) continue;   // 이미 나온 무리는 예고하지 않는다
                 left = groupFirstTime[g] - Elapsed;
-                if (left <= 0f || left > PhaseWarnSeconds) continue;
+                if (left > PhaseWarnSeconds) continue;
+                left = Mathf.Max(0f, left);   // 계획 시각이 지났는데 동시 출현 상한 때문에 아직 안 나왔으면 "곧"으로 예고를 유지한다
                 if (found && warning.SecondsLeft <= left) continue;
                 warning = new PhaseWarning { Phase = WavePhase.Siege, Side = attackPlan[g].Side, SecondsLeft = left };
                 found = true;

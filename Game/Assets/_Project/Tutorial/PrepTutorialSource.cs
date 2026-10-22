@@ -12,7 +12,15 @@ namespace HumanLastRampart.Tutorial
 
         readonly IDefinitionLookup definitions;
 
-        PrepTutorialSource(CampaignState campaign, Transform owner, IDefinitionLookup definitions) { this.campaign = campaign; this.owner = owner; this.definitions = definitions; }
+        readonly System.Collections.Generic.Dictionary<string, int> trapPrices = new System.Collections.Generic.Dictionary<string, int>();   // 한 번만 만든다 (모르는 번호는 조용히 건너뛰기 위해 Get 대신 사용)
+        bool canTrap;   // 매 프레임 Tick에서 한 번만 다시 계산한 값
+
+        PrepTutorialSource(CampaignState campaign, Transform owner, IDefinitionLookup definitions)
+        {
+            this.campaign = campaign; this.owner = owner; this.definitions = definitions;
+            if (definitions != null) foreach (TrapDef def in definitions.All<TrapDef>()) if (def != null) trapPrices[def.Id] = def.Price;
+            canTrap = ComputeCanTrap();
+        }
 
         // 정비 입구(PrepEntry)에서 한 줄로 부른다. 튜토리얼 대상이 아니면 아무것도 하지 않는다
         public static TutorialDirector TryBegin(Transform owner, CampaignState campaign, IDefinitionLookup definitions)
@@ -22,24 +30,24 @@ namespace HumanLastRampart.Tutorial
         }
 
         // 함정 놓기는 하나라도 놓을 수 있을 때만 시킨다: 보관품이 있거나, 상점 재고를 지금 골드로 살 수 있을 때. 아니면 설명만 한다
-        public bool CanPerform(TutorialStep step)
+        public bool CanPerform(TutorialStep step) => step != TutorialStep.Trap || canTrap;   // Tick이 갱신한 값을 돌려준다 (하루 몇 번씩 불려도 가볍게)
+
+        bool ComputeCanTrap()
         {
-            if (step != TutorialStep.Trap) return true;
             if (campaign.TrapStock != null)
                 foreach (TrapStockEntry e in campaign.TrapStock) if (e != null && e.Count > 0) return true;
-            if (campaign.TrapShop != null && definitions != null)
+            if (campaign.TrapShop != null)
                 foreach (TrapStockEntry e in campaign.TrapShop)
                 {
-                    if (e == null || e.Count <= 0) continue;
-                    TrapDef def = definitions.Get<TrapDef>(e.TrapDefId);
-                    if (def != null && def.Price <= campaign.Gold) return true;
+                    if (e == null || e.Count <= 0 || e.TrapDefId == null) continue;
+                    if (trapPrices.TryGetValue(e.TrapDefId, out int price) && price <= campaign.Gold) return true;   // 모르는 함정 번호는 조용히 건너뛴다
                 }
 
             return false;
         }
 
         public bool Alive => owner != null && campaign != null;
-        public void Tick(float dt) { }
+        public void Tick(float dt) { if (campaign != null) canTrap = ComputeCanTrap(); }
         public float WalkedMeters => 0f;
         public bool MapOpen => false;
         public int SquadSends => 0;
