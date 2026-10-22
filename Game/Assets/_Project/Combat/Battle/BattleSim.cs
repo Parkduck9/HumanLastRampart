@@ -943,7 +943,7 @@ namespace HumanLastRampart.Combat.Battle
                 RetryInterval = RetryInterval,
                 FrameSeed = seed ^ (frameNumber * 2654435761u),
                 IntervalMultiplier = IntervalMultiplier,
-                HeroSide = Boost.HeroWallIntervalMul != 1f ? commanderSide : -1,   // 지휘 휘장 (K-058)
+                HeroSide = Boost.HeroWallIntervalMul != 1f && commanderOnWall ? commanderSide : -1,   // 지휘 휘장 (K-058)
                 HeroSideIntervalMultiplier = Boost.HeroWallIntervalMul,
                 FarAccuracyMultiplier = FarAccuracyMultiplier,
                 FrontArc = (byte)(FrontArcOnly ? 1 : 0),

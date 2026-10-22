@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace HumanLastRampart.Combat.Render
 {
@@ -26,5 +26,12 @@ namespace HumanLastRampart.Combat.Render
         public static float SunScale => Mathf.Lerp(0.25f, 0.85f, level);   // 달(해 빛을 밤에 줄인 값)
         public static float TorchIntensity => Mathf.Lerp(0.8f, 1.6f, level);
         public static float TorchRange => Mathf.Lerp(2f, 4f, level);
+
+        // 마당 가운데 등대 탑 불빛 (W9). 밤 밝기 단계와 무관한 고정값 — 세기는 등불 밝기(약·보통·강)가 곱해진다 (BattleSim.GlowLevel)
+        public const float TowerLightRange = 9f;
+        public const float TowerLightIntensity = 3.2f;
+        public static readonly Color TowerLightColor = new Color(1f, 0.74f, 0.4f);
+        // 휴대폰은 추가 조명 한도(개체당 4개)가 빠듯해 탑 불빛을 켜지 않는다 — 탑 뒤 빛 번쩍 그림은 그대로 (S6)
+        public static bool TowerLightAllowed => !Application.isMobilePlatform;
     }
 }

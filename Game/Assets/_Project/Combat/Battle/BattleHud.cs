@@ -227,6 +227,7 @@ namespace HumanLastRampart.Combat.Battle
             {
                 "휠 버튼", "명령 메뉴", "A · D", "성벽 따라 달리기", "W · S", "통로 앞뒤로", "Tab", "지도 펼치기",
                 "C", "카메라 바꾸기", "1 · 2 · 3", "빠르기", "P", "멈춤", "H", "4면 자세히", "G", "화면 효과",
+                "E", "계단 내려가기 · 탑 빛줄기 명령", "Q", "탑에서 올라가기",
             });
             HelpColumn(sections.transform, "지도", new[]
             {

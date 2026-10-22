@@ -1,4 +1,4 @@
-using HumanLastRampart.Combat.PerfLab;
+﻿using HumanLastRampart.Combat.PerfLab;
 using HumanLastRampart.Core.CombatContracts;
 using Unity.Mathematics;
 using UnityEngine;
@@ -7,12 +7,14 @@ namespace HumanLastRampart.Combat.Battle
 {
     // 등불 밝기와 등대 빛줄기 (Concept_Beacon_v1 9.3·9.4)
     // - 밝기는 적 수(시작 때만)와 빛줄기 폭·효과를 정한다. 전투 중 바꿔도 적 수는 그대로
-    // - 빛줄기는 성 가운데에서 한 방향으로 뻗는 부채꼴. 방향을 바꾸면 3초에 걸쳐 돌아간다 (도는 중에도 그 순간의 각도로 적용)
+    // - 빛줄기는 성 가운데에서 한 방향으로 뻗는 부채꼴. 방향을 바꾸면 BeamRotateSeconds(6초)에 걸쳐 돌아간다 (도는 중에도 그 순간의 각도로 적용)
+    // - 방향 명령은 가운데 등대 탑의 일꾼에게만 내린다 (W9: 주인공이 계단으로 내려가 명령, BattleCameraRig·BattleEntry). 시뮬레이션은 누가 부르든 RotateBeam 하나
     // - 빛 안 적: 이동 느려짐 + 받는 피해 증가 (모든 피해가 지나는 ApplyBattleHitsJob에서 한 번에 곱한다)
     // - 밝기별 켜 둔 시간(LampSeconds)을 쌓아 결과에 넣는다 (등대 복구 계산용)
     public sealed partial class BattleSim
     {
-        public const float BeamRotateSeconds = 3f;
+        // 90도 한 번 도는 데 걸리는 시간 — 일꾼이 탑을 미는 속도. 조정 가능한 값 (사용자 4차 결정: 6초, 측정 뒤 다시 정한다)
+        public const float BeamRotateSeconds = 6f;
 
         public static readonly float[] BeamWidthDegrees = { 60f, 40f, 80f };      // 인덱스 = (int)LampBrightness (보통·약·강)
         public static readonly float[] BeamSlowAmount = { 0.25f, 0.15f, 0.35f };   // 이동 감소
@@ -23,11 +25,19 @@ namespace HumanLastRampart.Combat.Battle
         public int BeamSide { get; private set; }
         public bool BeamRotating => beamRotateLeft > 0f;
         public float BeamAngleDegrees { get; private set; }   // 수평 각도: +x = 0°, +z(북) = 90°
+        public float BeamTargetDegrees => beamTo;             // 도는 중이면 도착할 각도 (지도에 목표 방향을 보여 주는 데 쓴다). 서 있으면 지금 각도와 같다
+        public float BeamRotateProgress => BeamRotating ? 1f - beamRotateLeft / beamTotal : 1f;
+        public float BeamSecondsLeft => beamRotateLeft;
+        // 등불 밝기별 빛 세기 배율 (탑 뒤 빛 번쩍·탑 불빛이 함께 쓴다). 인덱스 = (int)LampBrightness (보통·약·강)
+        public static readonly float[] LampGlowLevel = { 1f, 0.7f, 1.45f };
+        public static float GlowLevel(LampBrightness b) => LampGlowLevel[Mathf.Clamp((int)b, 0, 2)];
+        public float BeaconRepair => setup != null ? setup.BeaconRepair : 0f;
+        public bool IsIgnitionNight => setup != null && setup.IsIgnitionNight;   // 점화의 밤: 등대 탑이 완전히 켜진 모습
         public float BeamWidth => BeamWidthDegrees[(int)Lamp];
         public bool BeamSuppressesTiers => Lamp == LampBrightness.High;   // 강 밝기 빛 안에서는 변형 단계 효과를 끈다 (9.4·9.5, UpdateTierBeam)
 
         readonly float[] lampSeconds = new float[3];
-        float beamFrom, beamTo, beamRotateLeft;
+        float beamFrom, beamTo, beamRotateLeft, beamTotal = BeamRotateSeconds;
 
         public float GetLampSeconds(LampBrightness b) => lampSeconds[(int)b];
 
@@ -59,16 +69,19 @@ namespace HumanLastRampart.Combat.Battle
             Lamp = brightness;
         }
 
-        // 빛줄기 방향 바꾸기: 지금 각도에서 가까운 쪽으로 3초에 걸쳐 돈다
+        // 빛줄기 방향 바꾸기: 지금 각도에서 가까운 쪽으로 돈다. 걸리는 시간 = BeamRotateSeconds × 돌 각도 ÷ 90도 (90도 6초, 180도 12초).
+        // 이미 그 방향을 향하거나 향해 도는 중이면 아무것도 안 한다 (도는 시간이 다시 길어지지 않게)
         public void RotateBeam(int side)
         {
             if (Ended) return;
             side = ((side % 4) + 4) % 4;
-            if (side == BeamSide && !BeamRotating) return;
+            if (side == BeamSide) return;
             BeamSide = side;
             beamFrom = BeamAngleDegrees;
-            beamTo = beamFrom + Mathf.DeltaAngle(beamFrom, SideAngle(side));
-            beamRotateLeft = BeamRotateSeconds;
+            float delta = Mathf.DeltaAngle(beamFrom, SideAngle(side));
+            beamTo = beamFrom + delta;
+            beamTotal = Mathf.Max(0.05f, BeamRotateSeconds * Mathf.Abs(delta) / 90f);
+            beamRotateLeft = beamTotal;
         }
 
         // 매 프레임 (BeginFrame): 켜 둔 시간 쌓기 + 빛줄기 각도 갱신
@@ -78,7 +91,7 @@ namespace HumanLastRampart.Combat.Battle
             if (beamRotateLeft > 0f)
             {
                 beamRotateLeft = Mathf.Max(0f, beamRotateLeft - dt);
-                float t = 1f - beamRotateLeft / BeamRotateSeconds;
+                float t = 1f - beamRotateLeft / beamTotal;
                 BeamAngleDegrees = Mathf.Lerp(beamFrom, beamTo, t);
             }
         }

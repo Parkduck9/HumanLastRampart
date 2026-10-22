@@ -46,14 +46,28 @@ namespace HumanLastRampart.Meta
             Button mapButton = BuildSummary(view.AddArea("Summary", 48f), campaign,
                 () => { session.Close(); traps.Close(); Complete(ScreenOutcome.OpenBeaconMap); });   // W10: 봉화선 지도 보기 (보기 전용, 닫으면 정비로)
             PreparationPanel.RefreshSummary(repair, context, session);
+            Action refreshTowerLater = null;   // 마당(탑 그림)은 아래에서 만든다 — 수리를 사면 탑 불꽃도 바로 새로 그린다 (S5)
             BeaconPrepPanel.Build(view.AddArea("Beacon Line 1", 48f), view.AddArea("Beacon Line 2", 48f), dayLine ? view.AddArea("Beacon Line 3", 48f) : null, context,
-                () => PreparationPanel.RefreshSummary(repair, context, session));   // W8: 요새·밤, 등대 복구, 성벽 조건, 밝기 선택, 등대 수리, 수비대 지원금
-
+                () => { PreparationPanel.RefreshSummary(repair, context, session); refreshTowerLater?.Invoke(); });   // W8: 요새·밤, 등대 복구, 성벽 조건, 밝기 선택, 등대 수리, 수비대 지원금
             PrepYard yard = PrepYard.Build(view, HeroUnit(context));   // K-089 배경·3D 바닥·가림을 마당이 함께 소유한다.
             yard.AddStation("성벽 수리", 500f, new Color(0.45f, 0.42f, 0.38f), () => repair.onClick.Invoke());
             yard.AddStation("병영", 1300f, new Color(0.42f, 0.30f, 0.24f), () => recruit.onClick.Invoke());
             yard.AddStation("함정 공방", 2100f, new Color(0.30f, 0.30f, 0.36f), () => trapButton.onClick.Invoke());
             yard.AddStation("상점", 2550f, new Color(0.46f, 0.36f, 0.22f), () => shop.onClick.Invoke());   // K-058 보급 상인 (간판 그림은 Codex 요청)
+            // W9: 가운데 등대 — 다음 밤 빛줄기 방향 명령. 탑 그림은 전투 화면과 같은 규칙(꺼짐 없음, 불꽃 세기 = 복구, 점화의 밤 앞이면 완전 점화, K-110 탑 + K-102 불꽃)
+            Action refreshTower = () =>
+            {
+                bool lit = HumanLastRampart.Core.Campaign.BeaconRules.IsIgnitionNight(campaign);
+                yard.SetBeaconFlame(Resources.Load<Texture2D>(lit ? "BattleArt/Beacon/flame_lit" : "BattleArt/Beacon/flame_warming"),
+                    HumanLastRampart.Core.Campaign.BeaconRules.TowerFlameStrength(campaign.BeaconRepair, lit));
+            };
+            refreshTowerLater = refreshTower;
+            yard.AddStation("등대", 1745f, new Color(0.45f, 0.40f, 0.30f), () => yard.OpenModal(parent =>
+                BeaconYardPanel.Build(parent, context, refreshTower, yard.CloseModal)));
+            bool beaconLit = HumanLastRampart.Core.Campaign.BeaconRules.IsIgnitionNight(campaign);
+            yard.AddBeaconTower(Resources.Load<Texture2D>("BattleArt/Beacon/tower_base"),
+                Resources.Load<Texture2D>(beaconLit ? "BattleArt/Beacon/flame_lit" : "BattleArt/Beacon/flame_warming"),
+                HumanLastRampart.Core.Campaign.BeaconRules.TowerFlameStrength(campaign.BeaconRepair, beaconLit), 1920f, 930f);
             yard.AddStation("성벽 계단", 3000f, new Color(0.40f, 0.38f, 0.30f), () => yard.AskNextBattle(() => ready.onClick.Invoke()));
             var lifetime = repair.GetComponentInParent<UnityEngine.Canvas>().gameObject.AddComponent<PreparationSessionLifetime>();
             lifetime.Session = session; lifetime.Traps = traps;

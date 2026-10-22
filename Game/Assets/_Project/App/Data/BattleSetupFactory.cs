@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using HumanLastRampart.Core.Campaign;
 using HumanLastRampart.Core.CombatContracts;
@@ -48,9 +48,10 @@ namespace HumanLastRampart.App.Data
                 Forecast = BattleForecast.Get(campaign.RngSeed, campaign.BattleNumber, rules),   // 예보 방식은 다른 작업이 바꾼다
                 InitialTargeting = (campaign.Targeting ?? TargetingSettings.CreateDefault()).Clone(),
                 LampBrightness = campaign.PlannedLamp,
-                BeamSide = 0,
+                BeamSide = ((campaign.PlannedBeamSide % 4) + 4) % 4,   // 정비 마당 등대에서 명령한 방향 (W9)
                 EnemyTier = BeaconRules.EnemyTier(campaign.FortressNumber, ignition),
                 IsIgnitionNight = ignition,
+                BeaconRepair = campaign.BeaconRepair,
                 FortressNumber = campaign.FortressNumber,
                 NightNumber = campaign.NightNumber,
             };
