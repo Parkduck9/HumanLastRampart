@@ -16,7 +16,7 @@ MonoBehaviour:
   displayName: 대포 운용병 2단계
   unitDefId: unit_cannon_crew
   level: 2
-  price: 900
+  price: 350
   description: 포탄 범위
   effects:
   - Stat: 12

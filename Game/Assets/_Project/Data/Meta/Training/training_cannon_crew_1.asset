@@ -16,7 +16,7 @@ MonoBehaviour:
   displayName: 대포 운용병 1단계
   unitDefId: unit_cannon_crew
   level: 1
-  price: 300
+  price: 200
   description: 장전이 빨라진다
   effects:
   - Stat: 10

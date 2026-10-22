@@ -16,7 +16,7 @@ MonoBehaviour:
   displayName: 총병 3단계
   unitDefId: unit_gunner
   level: 3
-  price: 2500
+  price: 750
   description: 사거리
   effects:
   - Stat: 11

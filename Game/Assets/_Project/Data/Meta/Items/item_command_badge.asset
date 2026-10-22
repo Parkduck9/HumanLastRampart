@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: item_command_badge
   displayName: 지휘 휘장
-  price: 600
+  price: 250
   description: 주인공이 선 성벽 병사가 더 빨리 쏜다
   slot: 2
   consumable: 0

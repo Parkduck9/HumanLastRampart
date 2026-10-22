@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: item_messenger_horn
   displayName: 전령 나팔
-  price: 300
+  price: 150
   description: 전령이 더 빨리 달린다
   slot: 1
   consumable: 0

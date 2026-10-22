@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: item_telescope_lens
   displayName: 망원경 렌즈
-  price: 400
+  price: 200
   description: 망원경 반경이 넓어진다
   slot: 1
   consumable: 0

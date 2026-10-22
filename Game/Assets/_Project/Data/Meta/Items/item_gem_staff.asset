@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: item_gem_staff
   displayName: 보석 지팡이
-  price: 600
+  price: 300
   description: 폭발 마법 피해와 반경이 커진다
   slot: 3
   consumable: 0

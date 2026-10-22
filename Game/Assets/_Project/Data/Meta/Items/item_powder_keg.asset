@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: item_powder_keg
   displayName: 화약 통
-  price: 250
+  price: 125
   description: 다음 전투 한 번, 총병 피해가 커진다
   slot: 0
   consumable: 1

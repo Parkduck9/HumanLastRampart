@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: item_hourglass_charm
   displayName: 모래시계 부적
-  price: 700
+  price: 350
   description: 마법을 더 자주 쓴다
   slot: 4
   consumable: 0

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: item_loud_whistle
   displayName: 큰 목청 호루라기
-  price: 250
+  price: 150
   description: 외침을 잘못 듣는 일이 줄어든다
   slot: 2
   consumable: 0

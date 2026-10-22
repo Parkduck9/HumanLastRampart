@@ -16,7 +16,7 @@ MonoBehaviour:
   displayName: 대포 운용병 3단계
   unitDefId: unit_cannon_crew
   level: 3
-  price: 2500
+  price: 750
   description: 대포 피해
   effects:
   - Stat: 9

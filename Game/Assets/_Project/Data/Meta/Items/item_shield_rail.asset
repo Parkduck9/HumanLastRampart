@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: item_shield_rail
   displayName: 방패 난간
-  price: 500
+  price: 250
   description: 그 성벽 위로 올라온 적의 피해를 막는다
   slot: 0
   consumable: 0

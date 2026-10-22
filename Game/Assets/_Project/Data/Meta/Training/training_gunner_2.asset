@@ -16,7 +16,7 @@ MonoBehaviour:
   displayName: 총병 2단계
   unitDefId: unit_gunner
   level: 2
-  price: 900
+  price: 350
   description: 총 피해
   effects:
   - Stat: 9

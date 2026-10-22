@@ -16,7 +16,7 @@ MonoBehaviour:
   displayName: 총병 1단계
   unitDefId: unit_gunner
   level: 1
-  price: 300
+  price: 200
   description: 먼 거리 명중
   effects:
   - Stat: 14

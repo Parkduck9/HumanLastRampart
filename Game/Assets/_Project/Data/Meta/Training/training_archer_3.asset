@@ -16,7 +16,7 @@ MonoBehaviour:
   displayName: 궁수 3단계
   unitDefId: unit_archer
   level: 3
-  price: 2500
+  price: 750
   description: 화살 피해
   effects:
   - Stat: 9
