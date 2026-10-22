@@ -1,0 +1,431 @@
+﻿{
+    "base":  "base.png",
+    "card":  "K-091-v2",
+    "method":  "image_gen edit followed by fixed crop/nearest resample/region replacement packing",
+    "entries":  [
+                    {
+                        "canvas":  [
+                                       256,
+                                       256
+                                   ],
+                        "file":  "patches/north_healthy.png",
+                        "side":  "north",
+                        "replace_rect":  [
+                                             52,
+                                             8,
+                                             152,
+                                             52
+                                         ],
+                        "pivot":  [
+                                      128,
+                                      128
+                                  ],
+                        "label":  "정상",
+                        "state":  "healthy",
+                        "sha256":  "35EFE484335852D2A85899340B4BA34C48693EC248B74E75CE393C955774F9A6"
+                    },
+                    {
+                        "canvas":  [
+                                       256,
+                                       256
+                                   ],
+                        "file":  "patches/east_healthy.png",
+                        "side":  "east",
+                        "replace_rect":  [
+                                             196,
+                                             52,
+                                             52,
+                                             152
+                                         ],
+                        "pivot":  [
+                                      128,
+                                      128
+                                  ],
+                        "label":  "정상",
+                        "state":  "healthy",
+                        "sha256":  "9892B555F2B7B6779ACC1C664D04B0D482E4A9AFD15F173EE38FA6A93D0F8F7C"
+                    },
+                    {
+                        "canvas":  [
+                                       256,
+                                       256
+                                   ],
+                        "file":  "patches/south_healthy.png",
+                        "side":  "south",
+                        "replace_rect":  [
+                                             52,
+                                             196,
+                                             152,
+                                             52
+                                         ],
+                        "pivot":  [
+                                      128,
+                                      128
+                                  ],
+                        "label":  "정상",
+                        "state":  "healthy",
+                        "sha256":  "88D8953BA1DB34A183250FC43BE8DB2AC0BB64D4E7B223EEF305EF38B742E9CD"
+                    },
+                    {
+                        "canvas":  [
+                                       256,
+                                       256
+                                   ],
+                        "file":  "patches/west_healthy.png",
+                        "side":  "west",
+                        "replace_rect":  [
+                                             8,
+                                             52,
+                                             52,
+                                             152
+                                         ],
+                        "pivot":  [
+                                      128,
+                                      128
+                                  ],
+                        "label":  "정상",
+                        "state":  "healthy",
+                        "sha256":  "8FA3F8B251654D4F8942E06B819B2F2F31F838E427358842BE2C74E258F4A29E"
+                    },
+                    {
+                        "canvas":  [
+                                       256,
+                                       256
+                                   ],
+                        "file":  "patches/north_damaged.png",
+                        "side":  "north",
+                        "replace_rect":  [
+                                             52,
+                                             8,
+                                             152,
+                                             52
+                                         ],
+                        "pivot":  [
+                                      128,
+                                      128
+                                  ],
+                        "label":  "금감",
+                        "state":  "damaged",
+                        "sha256":  "8AFA5ED5D3C48D2D9F019F15EE795E3B9107B131BC609834FD0083B303301B3C"
+                    },
+                    {
+                        "canvas":  [
+                                       256,
+                                       256
+                                   ],
+                        "file":  "patches/east_damaged.png",
+                        "side":  "east",
+                        "replace_rect":  [
+                                             196,
+                                             52,
+                                             52,
+                                             152
+                                         ],
+                        "pivot":  [
+                                      128,
+                                      128
+                                  ],
+                        "label":  "금감",
+                        "state":  "damaged",
+                        "sha256":  "2CC9C164A8073A597825594D06CDB8D0A5FC4AC3587280C800FA3954F35BD471"
+                    },
+                    {
+                        "canvas":  [
+                                       256,
+                                       256
+                                   ],
+                        "file":  "patches/south_damaged.png",
+                        "side":  "south",
+                        "replace_rect":  [
+                                             52,
+                                             196,
+                                             152,
+                                             52
+                                         ],
+                        "pivot":  [
+                                      128,
+                                      128
+                                  ],
+                        "label":  "금감",
+                        "state":  "damaged",
+                        "sha256":  "343561C6D9FF6BB6A954777E3F97B23C9F2100817117D16B4A0DCF5911173136"
+                    },
+                    {
+                        "canvas":  [
+                                       256,
+                                       256
+                                   ],
+                        "file":  "patches/west_damaged.png",
+                        "side":  "west",
+                        "replace_rect":  [
+                                             8,
+                                             52,
+                                             52,
+                                             152
+                                         ],
+                        "pivot":  [
+                                      128,
+                                      128
+                                  ],
+                        "label":  "금감",
+                        "state":  "damaged",
+                        "sha256":  "E9384B25742DB6CDB11A87EFD7918CE58463F6C7B17C04C3F45D4A96AB222EC7"
+                    },
+                    {
+                        "canvas":  [
+                                       256,
+                                       256
+                                   ],
+                        "file":  "patches/north_badly_damaged.png",
+                        "side":  "north",
+                        "replace_rect":  [
+                                             52,
+                                             8,
+                                             152,
+                                             52
+                                         ],
+                        "pivot":  [
+                                      128,
+                                      128
+                                  ],
+                        "label":  "심한 손상",
+                        "state":  "badly_damaged",
+                        "sha256":  "FF961E2485FEE7FC5E46D91FF43DE1C3ABA1E0DAB2EC3B5CD0B816031FB38DBB"
+                    },
+                    {
+                        "canvas":  [
+                                       256,
+                                       256
+                                   ],
+                        "file":  "patches/east_badly_damaged.png",
+                        "side":  "east",
+                        "replace_rect":  [
+                                             196,
+                                             52,
+                                             52,
+                                             152
+                                         ],
+                        "pivot":  [
+                                      128,
+                                      128
+                                  ],
+                        "label":  "심한 손상",
+                        "state":  "badly_damaged",
+                        "sha256":  "62392D1EED5ECE82D426587CE95636C0D7A51EDDE4B68A8793A94AE99BF24EF3"
+                    },
+                    {
+                        "canvas":  [
+                                       256,
+                                       256
+                                   ],
+                        "file":  "patches/south_badly_damaged.png",
+                        "side":  "south",
+                        "replace_rect":  [
+                                             52,
+                                             196,
+                                             152,
+                                             52
+                                         ],
+                        "pivot":  [
+                                      128,
+                                      128
+                                  ],
+                        "label":  "심한 손상",
+                        "state":  "badly_damaged",
+                        "sha256":  "5D2D478084389FA650948B8A0D5F1C67DD4E654C5ACA5F981AFEC48711B83C2E"
+                    },
+                    {
+                        "canvas":  [
+                                       256,
+                                       256
+                                   ],
+                        "file":  "patches/west_badly_damaged.png",
+                        "side":  "west",
+                        "replace_rect":  [
+                                             8,
+                                             52,
+                                             52,
+                                             152
+                                         ],
+                        "pivot":  [
+                                      128,
+                                      128
+                                  ],
+                        "label":  "심한 손상",
+                        "state":  "badly_damaged",
+                        "sha256":  "4660ACB2DA50E2D5C82DB261D25EB2F842369C096768657AA71B9C53503AFF6F"
+                    },
+                    {
+                        "canvas":  [
+                                       256,
+                                       256
+                                   ],
+                        "file":  "patches/north_breached.png",
+                        "side":  "north",
+                        "replace_rect":  [
+                                             52,
+                                             8,
+                                             152,
+                                             52
+                                         ],
+                        "pivot":  [
+                                      128,
+                                      128
+                                  ],
+                        "label":  "붕괴",
+                        "state":  "breached",
+                        "sha256":  "8F682BB1F63E2FD12C12FD20A73ED67FB69CC54B01578E030C4DF16B4EBD883C"
+                    },
+                    {
+                        "canvas":  [
+                                       256,
+                                       256
+                                   ],
+                        "file":  "patches/east_breached.png",
+                        "side":  "east",
+                        "replace_rect":  [
+                                             196,
+                                             52,
+                                             52,
+                                             152
+                                         ],
+                        "pivot":  [
+                                      128,
+                                      128
+                                  ],
+                        "label":  "붕괴",
+                        "state":  "breached",
+                        "sha256":  "D543D58802C0BA7EBF9F8E06C38F6C1E4D6AC1E31B8E9E08EC20BE77D0DE754A"
+                    },
+                    {
+                        "canvas":  [
+                                       256,
+                                       256
+                                   ],
+                        "file":  "patches/south_breached.png",
+                        "side":  "south",
+                        "replace_rect":  [
+                                             52,
+                                             196,
+                                             152,
+                                             52
+                                         ],
+                        "pivot":  [
+                                      128,
+                                      128
+                                  ],
+                        "label":  "붕괴",
+                        "state":  "breached",
+                        "sha256":  "D3E1E28EEAD21D0C157BBBC7AC15CA1366DD7D36B16810E705DC1D48A89C370B"
+                    },
+                    {
+                        "canvas":  [
+                                       256,
+                                       256
+                                   ],
+                        "file":  "patches/west_breached.png",
+                        "side":  "west",
+                        "replace_rect":  [
+                                             8,
+                                             52,
+                                             52,
+                                             152
+                                         ],
+                        "pivot":  [
+                                      128,
+                                      128
+                                  ],
+                        "label":  "붕괴",
+                        "state":  "breached",
+                        "sha256":  "0FCE71DEFC473A305F25BFDE5C9DE5523EE979C9314C0C2631849E2318A6E189"
+                    },
+                    {
+                        "canvas":  [
+                                       256,
+                                       256
+                                   ],
+                        "file":  "patches/north_repairing.png",
+                        "side":  "north",
+                        "replace_rect":  [
+                                             52,
+                                             8,
+                                             152,
+                                             52
+                                         ],
+                        "pivot":  [
+                                      128,
+                                      128
+                                  ],
+                        "label":  "수리 중",
+                        "state":  "repairing",
+                        "sha256":  "921E81F48B6C53728F0B3C4534DA6F7315D237AA27A043F93E1FFC0CA475E978"
+                    },
+                    {
+                        "canvas":  [
+                                       256,
+                                       256
+                                   ],
+                        "file":  "patches/east_repairing.png",
+                        "side":  "east",
+                        "replace_rect":  [
+                                             196,
+                                             52,
+                                             52,
+                                             152
+                                         ],
+                        "pivot":  [
+                                      128,
+                                      128
+                                  ],
+                        "label":  "수리 중",
+                        "state":  "repairing",
+                        "sha256":  "D0329BDFE4690C127AF7DB3471FFED61E0544071570C8A06682E2BEB57DE39B1"
+                    },
+                    {
+                        "canvas":  [
+                                       256,
+                                       256
+                                   ],
+                        "file":  "patches/south_repairing.png",
+                        "side":  "south",
+                        "replace_rect":  [
+                                             52,
+                                             196,
+                                             152,
+                                             52
+                                         ],
+                        "pivot":  [
+                                      128,
+                                      128
+                                  ],
+                        "label":  "수리 중",
+                        "state":  "repairing",
+                        "sha256":  "7F8ED6B93FE030608F29993FD020A69F1FFBC88A38A73E77F50F1047B219D61F"
+                    },
+                    {
+                        "canvas":  [
+                                       256,
+                                       256
+                                   ],
+                        "file":  "patches/west_repairing.png",
+                        "side":  "west",
+                        "replace_rect":  [
+                                             8,
+                                             52,
+                                             52,
+                                             152
+                                         ],
+                        "pivot":  [
+                                      128,
+                                      128
+                                  ],
+                        "label":  "수리 중",
+                        "state":  "repairing",
+                        "sha256":  "0B9A1ED47032296361A6C35DAE78AF6B68CE44C07689A977C06E1A71702A789E"
+                    }
+                ],
+    "source_game":  "Game/Assets/_Project/Art/UI/Resources/TrapMap/castle_perimeter.png",
+    "user_approved":  false,
+    "game_modified":  false,
+    "composition":  "Draw base; for each side clear replace_rect then source-over draw its full-canvas patch. Never source-over onto uncleared base because breached alpha must remove stones."
+}
