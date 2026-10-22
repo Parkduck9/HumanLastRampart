@@ -50,4 +50,22 @@ void HlrAccumulate(float3 posWS, float3 n, float3 viewDir, float specPower, bool
     }
 }
 
+// 등대 빛줄기 (HlrBeam.cs가 채운다): 한 점이 부채꼴 안에서 받는 세기 0~strength. BeamCone 셰이더와 같은 모양 (성벽 너머 어두운 띠 -> 켜짐 -> 완만히 줄어듦, 부드러운 가장자리)
+float4 _HlrBeamA;      // x,y 방향(xz 단위), z 반폭(라디안), w 세기 (0 = 끔)
+float4 _HlrBeamB;      // x 성벽 모서리+띠, y 켜지는 구간, z 가장자리 부드러움(라디안), w 줄어드는 길이
+half4 _HlrBeamColor;
+
+float HlrBeamFactor(float2 xz)
+{
+    if (_HlrBeamA.w <= 0.0) return 0.0;
+    float r = max(length(xz), 1e-3);
+    float a = acos(saturate(dot(xz / r, _HlrBeamA.xy)));
+    float edge = 1.0 - smoothstep(_HlrBeamA.z - _HlrBeamB.z, _HlrBeamA.z + _HlrBeamB.z * 0.5, a);
+    float t = dot(xz, _HlrBeamA.xy) - _HlrBeamB.x;
+    float ramp = smoothstep(0.0, _HlrBeamB.y, t);
+    float core = 0.25 + 0.75 * pow(saturate(1.0 - a / max(_HlrBeamA.z, 1e-3)), 0.8);   // 가운데 축이 가장 밝다
+    return edge * core * ramp * exp(-max(t, 0.0) / _HlrBeamB.w) * _HlrBeamA.w;
+}
+
 #endif
+

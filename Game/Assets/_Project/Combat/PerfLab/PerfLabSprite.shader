@@ -387,7 +387,8 @@ float4 _MainTex_TexelSize;
                     moonRim = (half3)(mainLight.color * (edgeM * 0.45 * saturate(md * 2.0)));
                 }
 
-                half3 lit = albedo * ((sun + ambient) * nightGain + moonFill + extra + extraBounce) + specColor + rim + moonRim;
+                half3 beamLight = _HlrBeamColor.rgb * (half)(HlrBeamFactor(input.positionWS.xz) * 1.1);   // 등대 빛줄기 안의 적·소품은 따뜻하게 밝아진다 (W15)
+                half3 lit = albedo * ((sun + ambient) * nightGain + moonFill + extra + extraBounce + beamLight) + specColor + rim + moonRim;
                 lit = lerp(lit, albedo * 2.4h, glowMask);
                 return half4(MixFog(lit, input.fogFactor), 1.0h);
             }
@@ -456,6 +457,7 @@ float4 _MainTex_TexelSize;
         }
     }
 }
+
 
 
 
