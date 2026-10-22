@@ -173,7 +173,7 @@
                       "kind":  "coder",
                       "folder":  "",
                       "agent":  "a892985a11dfc06e3",
-                      "stage":  2
+                      "stage":  5
                   },
                   {
                       "id":  "W11",
@@ -209,7 +209,16 @@
                       "kind":  "coder",
                       "folder":  "",
                       "agent":  "affa335db42cb7cdd",
-                      "stage":  2
+                      "stage":  5
+                  },
+                  {
+                      "id":  "W14",
+                      "name":  "검토 지적 수정 (전투 입력 밖)",
+                      "who":  "",
+                      "kind":  "coder",
+                      "folder":  "C:\\Unity\\1\\HLR-work\\W14",
+                      "agent":  "a18a886f5c4f0efff",
+                      "stage":  1
                   }
               ]
 }
