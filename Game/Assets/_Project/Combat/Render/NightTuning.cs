@@ -31,11 +31,8 @@ namespace HumanLastRampart.Combat.Render
         public const float TowerLightRange = 9f;
         public const float TowerLightIntensity = 3.2f;
         public static readonly Color TowerLightColor = new Color(1f, 0.74f, 0.4f);
-        // 휴대폰은 추가 조명 한도(개체당 4개)가 빠듯해 탑 불빛을 켜지 않는다 — 탑 뒤 빛 번쩍 그림은 그대로 (S6)
-        public static bool TowerLightAllowed => !Application.isMobilePlatform;
+        // 휴대폰에서도 탑 불빛을 켤지 (사용자 2026-10-22 결정: 켠다). 셰이더 빛 목록 6칸 중 맨 앞 1칸을 쓴다. 끄려면 false
+        public static bool TowerLightOnMobile = true;
+        public static bool TowerLightAllowed => TowerLightOnMobile || !Application.isMobilePlatform;
     }
 }
-
-
-
-

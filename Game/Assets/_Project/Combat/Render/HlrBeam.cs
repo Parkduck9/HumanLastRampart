@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace HumanLastRampart.Combat.Render
 {
@@ -30,5 +30,3 @@ namespace HumanLastRampart.Combat.Render
         public static void Clear() => Shader.SetGlobalVector(AId, Vector4.zero);
     }
 }
-
-

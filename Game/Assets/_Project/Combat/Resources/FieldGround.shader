@@ -1,4 +1,4 @@
-﻿// 들판 땅 (W15, 사용자 2026-10-22 "너무 하얗고 완전 평면"): 풀·흙 질감 위에 큰 무늬(흙 맨땅·진흙·명암 얼룩)와 잔 자갈·풀포기를 더하고,
+// 들판 땅 (W15, 사용자 2026-10-22 "너무 하얗고 완전 평면"): 풀·흙 질감 위에 큰 무늬(흙 맨땅·진흙·명암 얼룩)와 잔 자갈·풀포기를 더하고,
 // 눈에 안 띄게 낮게 출렁이는 높이(시뮬레이션은 평지 그대로 — 눈에만 보임)와 노멀맵으로 빛이 스치게 한다.
 // - 높이는 0 이하(땅이 꺼지는 쪽)라 발이 묻히지 않는다. 성벽에서 멀수록 커진다
 // - 달·해 빛(그림자 받음) + 장면 점광원 목록(HlrLights: 횃불·불바다·폭발의 확산·반사·번짐) + 주변광. 모바일(_HlrQuality 0)은 반사·잔 무늬를 줄인다
@@ -56,6 +56,14 @@ Shader "HumanLastRampart/FieldGround"
             float fade = smoothstep(5.0, 22.0, fromWall);
             return -h * _Relief * fade;
         }
+        // 눈에만 보이는 높이의 기울기 법선 (그리기·깊이 패스가 같게 쓴다). 기울기를 크게 과장 — 빛이 스치는 느낌만 키운다
+        float3 GroundNormal(float2 xz, float h)
+        {
+            float e = 1.2;
+            float hx = GroundHeight(xz + float2(e, 0.0));
+            float hz = GroundHeight(xz + float2(0.0, e));
+            return normalize(float3(-(hx - h) / e * 14.0, 1.0, -(hz - h) / e * 14.0));
+        }
         ENDHLSL
 
         Pass
@@ -77,10 +85,10 @@ Shader "HumanLastRampart/FieldGround"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
             #include "Assets/_Project/Combat/Render/HlrLights.hlsl"
 
-            TEXTURE2D(_GrassTex); SAMPLER(sampler_GrassTex);
-            TEXTURE2D(_GrassNrm); SAMPLER(sampler_GrassNrm);
-            TEXTURE2D(_DirtTex); SAMPLER(sampler_DirtTex);
-            TEXTURE2D(_DirtNrm); SAMPLER(sampler_DirtNrm);
+            TEXTURE2D(_GrassTex); 
+            TEXTURE2D(_GrassNrm); 
+            TEXTURE2D(_DirtTex); 
+            TEXTURE2D(_DirtNrm); 
 
             struct Attributes { float3 positionOS : POSITION; };
             struct Varyings
@@ -97,13 +105,9 @@ Shader "HumanLastRampart/FieldGround"
                 float3 world = TransformObjectToWorld(input.positionOS);
                 float h = GroundHeight(world.xz);
                 // 기울기(큰 출렁임의 방향)는 꼭짓점에서 한 번만 잰다 — 그림자·빛이 완만한 언덕을 스치게
-                float e = 1.2;
-                float hx = GroundHeight(world.xz + float2(e, 0.0));
-                float hz = GroundHeight(world.xz + float2(0.0, e));
-                float3 n = normalize(float3(-(hx - h) / e * 14.0, 1.0, -(hz - h) / e * 14.0));   // 기울기를 크게 과장 — 빛이 스치는 느낌만 키운다
                 world.y += h;
                 output.positionWS = world;
-                output.normalWS = n;
+                output.normalWS = GroundNormal(world.xz, h);
                 output.positionCS = TransformWorldToHClip(world);
                 output.fogFactor = ComputeFogFactor(output.positionCS.z);
                 return output;
@@ -117,22 +121,22 @@ Shader "HumanLastRampart/FieldGround"
                 // 큰 무늬: 흙 맨땅·진흙·명암 얼룩
                 float n1 = Stretch(VNoise(xz / 12.0 + 11.0) * 0.7 + VNoise(xz / 27.0) * 0.3);
                 float n2 = Stretch(VNoise(xz / 5.5 + 3.0));
-                float n3 = Stretch(VNoise(xz / 2.2 + 9.0));
+                float n3 = high ? Stretch(VNoise(xz / 2.2 + 9.0)) : n2;   // 저사양: 잔 잡음 한 번 생략
                 float dirtMask = smoothstep(0.4, 0.58, n1 * 0.7 + n2 * 0.3);
                 float mudMask = smoothstep(0.5, 0.66, Stretch(VNoise(xz / 7.5 + 50.0)) * 0.7 + n3 * 0.3) * (1.0 - dirtMask * 0.4);
 
                 float2 uvG = xz / _TileMeters;
                 float2 uvD = xz / _TileMeters + float2(0.37, 0.61);
-                half3 grass = SAMPLE_TEXTURE2D(_GrassTex, sampler_GrassTex, uvG).rgb;
-                half3 dirt = SAMPLE_TEXTURE2D(_DirtTex, sampler_DirtTex, uvD).rgb;
+                half3 grass = SAMPLE_TEXTURE2D(_GrassTex, sampler_PointRepeat, uvG).rgb;
+                half3 dirt = SAMPLE_TEXTURE2D(_DirtTex, sampler_PointRepeat, uvD).rgb;
                 half3 albedo = lerp(grass, dirt, (half)dirtMask);
                 albedo = lerp(albedo, albedo * albedo * 1.15h, (half)_Darken);   // 너무 하얗지 않게: 중간 밝기를 눌러 대비를 키운다
                 albedo *= lerp(half3(0.3h, 0.24h, 0.18h), half3(1, 1, 1), (half)(1.0 - mudMask));
                 albedo *= (half)lerp(0.55, 1.3, n2 * 0.55 + n3 * 0.45);
 
                 // 노멀: 질감 노멀 + 잔 자갈·풀포기
-                half3 tg = UnpackNormal(SAMPLE_TEXTURE2D(_GrassNrm, sampler_GrassNrm, uvG));
-                half3 td = UnpackNormal(SAMPLE_TEXTURE2D(_DirtNrm, sampler_DirtNrm, uvD));
+                half3 tg = UnpackNormal(SAMPLE_TEXTURE2D(_GrassNrm, sampler_PointRepeat, uvG));
+                half3 td = UnpackNormal(SAMPLE_TEXTURE2D(_DirtNrm, sampler_PointRepeat, uvD));
                 half3 tn = lerp(tg, td, (half)dirtMask);
                 float2 bump = tn.xy * _NormalGain;
 
@@ -210,28 +214,46 @@ Shader "HumanLastRampart/FieldGround"
             half4 DepthFrag(DVaryings input) : SV_Target { return 0; }
             ENDHLSL
         }
+
+        // 깊이·노멀 사전 패스 (화면 공간 차폐 그림자용): 같은 높이 출렁임·법선으로 그린다
+        Pass
+        {
+            Name "DepthNormals"
+            Tags { "LightMode" = "DepthNormals" }
+            ZWrite On
+
+            HLSLPROGRAM
+            #pragma vertex DNVert
+            #pragma fragment DNFrag
+            #pragma target 3.5
+            #pragma multi_compile_fragment _ _GBUFFER_NORMALS_OCT
+
+            struct NAttributes { float3 positionOS : POSITION; };
+            struct NVaryings { float4 positionCS : SV_POSITION; float3 normalWS : TEXCOORD0; };
+
+            NVaryings DNVert(NAttributes input)
+            {
+                NVaryings output;
+                float3 world = TransformObjectToWorld(input.positionOS);
+                float h = GroundHeight(world.xz);
+                world.y += h;
+                output.normalWS = GroundNormal(world.xz, h);
+                output.positionCS = TransformWorldToHClip(world);
+                return output;
+            }
+
+            half4 DNFrag(NVaryings input) : SV_Target
+            {
+                float3 n = normalize(input.normalWS);
+            #if defined(_GBUFFER_NORMALS_OCT)
+                float2 oct = PackNormalOctQuadEncode(n);
+                float2 packed = oct * 0.5 + 0.5;
+                return half4(PackFloat2To888(packed), 0.0);
+            #else
+                return half4(n, 0.0);
+            #endif
+            }
+            ENDHLSL
+        }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

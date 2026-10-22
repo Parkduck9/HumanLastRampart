@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.Rendering;
 
 namespace HumanLastRampart.Combat.Render
@@ -49,6 +49,7 @@ namespace HumanLastRampart.Combat.Render
         {
             count = 0;
             max = Low ? 6 : 14;
+            GroundGlow.RefreshCap();
         }
 
         // radius = 빛이 닿는 거리(m), color = 빛 색 × 세기, bounce = 바닥 반사광(번짐) 세기 0~1 (불바다·폭발처럼 큰 빛만)
@@ -78,4 +79,3 @@ namespace HumanLastRampart.Combat.Render
         }
     }
 }
-

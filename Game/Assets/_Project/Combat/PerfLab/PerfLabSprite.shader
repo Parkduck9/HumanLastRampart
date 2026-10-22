@@ -1,4 +1,4 @@
-﻿// 성능 시제품용 스프라이트 셰이더 (PERF_PROTOTYPE.md 4장) + 옥토패스식 빛·그림자 (D-062 2단계)
+// 성능 시제품용 스프라이트 셰이더 (PERF_PROTOTYPE.md 4장) + 옥토패스식 빛·그림자 (D-062 2단계)
 // - 개체 데이터는 StructuredBuffer로 받고 SV_InstanceID로 읽는다 (DrawMeshInstancedProcedural)
 // - 세로로 선 빌보드: 카메라 좌우 방향으로만 돌린다 (2.5D)
 // - 시트는 열×행 격자. 프레임 번호 = 행 × 열 수 + 열 (왼쪽 위부터). 음수면 좌우 뒤집기 (-번호-1)
@@ -457,11 +457,3 @@ float4 _MainTex_TexelSize;
         }
     }
 }
-
-
-
-
-
-
-
-

@@ -356,7 +356,3 @@ namespace HumanLastRampart.Combat.Battle
         }
     }
 }
-
-
-
-

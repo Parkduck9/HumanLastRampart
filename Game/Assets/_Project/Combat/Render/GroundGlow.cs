@@ -24,8 +24,14 @@ namespace HumanLastRampart.Combat.Render
         static bool failed;
         static readonly Bounds bounds = new Bounds(Vector3.zero, new Vector3(2000f, 20f, 2000f));
 
-        public static int Max => HlrLights.Low ? 24 : 96;
-        public static bool Full => count >= Max;
+        // 저사양 여부는 한 번 확인해 두고(Flush 때 갱신), 추가할 때마다 다시 보지 않는다
+        static int max = 96;
+        public static int Max => max;
+        public static bool Full => count >= max;
+        public static int Count => count;
+
+        // 프레임 시작(또는 시험)에서 상한을 다시 정한다
+        public static void RefreshCap() { max = HlrLights.Low ? 24 : 96; }
 
         // 땅 위 웅덩이 하나. radius = 반지름(m), intensity = 색에 곱할 세기 (불 조각 0.3 안팎: 겹치면 더해진다)
         public static void Add(Vector3 position, float radius, Color color, float intensity)

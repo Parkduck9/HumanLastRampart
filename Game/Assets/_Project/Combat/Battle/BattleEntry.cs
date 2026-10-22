@@ -947,4 +947,3 @@ namespace HumanLastRampart.Combat.Battle
         }
     }
 }
-

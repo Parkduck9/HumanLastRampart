@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace HumanLastRampart.Combat.Render
@@ -19,7 +19,6 @@ namespace HumanLastRampart.Combat.Render
             var dirt = Resources.Load<Texture2D>("BattleArt/World/field_dirt_albedo");
             var grassN = Resources.Load<Texture2D>("BattleArt/World/field_grass_normal");
             var dirtN = Resources.Load<Texture2D>("BattleArt/World/field_dirt_normal");
-            Point(grass); Point(dirt); Point(grassN); Point(dirtN);
 
             var material = new Material(shader) { name = "FieldGround (runtime)" };
             material.SetTexture("_GrassTex", grass);
@@ -55,18 +54,12 @@ namespace HumanLastRampart.Combat.Render
             builtMaterial = null;
         }
 
-        static void Point(Texture2D t)
-        {
-            if (t == null) return;
-            t.filterMode = FilterMode.Point;
-            t.wrapMode = TextureWrapMode.Repeat;
-        }
-
         // 가운데 ±inner는 InnerStep 간격, 그 바깥은 OuterStep 몇 칸으로 halfExtent까지
         static Mesh BuildGrid(float halfExtent, float inner)
         {
             var axis = new List<float>();
-            for (float c = -inner; c <= inner + 0.01f; c += InnerStep) axis.Add(c);
+            float step = HlrLights.Low ? InnerStep * 1.6f : InnerStep;   // 저사양: 격자를 성기게 (꼭짓점 수 약 40%)
+            for (float c = -inner; c <= inner + 0.01f; c += step) axis.Add(c);
             for (float c = inner + OuterStep; c < halfExtent; c += OuterStep) { axis.Insert(0, -c); axis.Add(c); }
             axis.Insert(0, -halfExtent);
             axis.Add(halfExtent);
@@ -97,4 +90,3 @@ namespace HumanLastRampart.Combat.Render
         }
     }
 }
-

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using HumanLastRampart.Combat.PerfLab;
 using HumanLastRampart.Core.CombatContracts;
@@ -554,6 +554,3 @@ namespace HumanLastRampart.Combat.Battle
         }
     }
 }
-
-
-

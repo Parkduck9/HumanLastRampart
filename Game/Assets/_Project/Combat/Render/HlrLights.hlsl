@@ -1,4 +1,4 @@
-﻿// 장면 점광원 목록 (HlrLights.cs가 채운다). 들판·그림 셰이더가 같이 쓴다.
+// 장면 점광원 목록 (HlrLights.cs가 채운다). 들판·그림 셰이더가 같이 쓴다.
 #ifndef HLR_LIGHTS_INCLUDED
 #define HLR_LIGHTS_INCLUDED
 
@@ -68,4 +68,3 @@ float HlrBeamFactor(float2 xz)
 }
 
 #endif
-

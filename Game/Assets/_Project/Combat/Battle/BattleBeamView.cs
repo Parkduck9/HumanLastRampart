@@ -1,4 +1,4 @@
-﻿using HumanLastRampart.Combat.Render;
+using HumanLastRampart.Combat.Render;
 using HumanLastRampart.Core.CombatContracts;
 using UnityEngine;
 
@@ -67,6 +67,13 @@ namespace HumanLastRampart.Combat.Battle
             float yardReach = castle - 2f;
             float yardHeight = BattleSim.WallHeight - 0.1f + YardLift;
 
+            // 등불이 꺼졌으면(세기 0) 부채꼴을 그리지 않는다
+            if (strength <= 0.001f)
+            {
+                HlrBeam.Clear();
+                return;
+            }
+
             Draw(fieldNow, 0f, sim.BeamAngleDegrees, fieldReach, FieldHeight, strength, castle);
             Draw(yardNow, 1f, sim.BeamAngleDegrees, yardReach, yardHeight, strength, castle);
             if (sim.BeamRotating)
@@ -116,6 +123,3 @@ namespace HumanLastRampart.Combat.Battle
         }
     }
 }
-
-
-

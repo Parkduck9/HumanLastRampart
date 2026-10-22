@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using HumanLastRampart.Combat.Render;
 using UnityEngine;
@@ -24,6 +24,13 @@ namespace HumanLastRampart.Combat.Battle
         static readonly Comparison<(float score, Vector3 pos, float radius, Color color, float intensity, float bounce)> CompareFlash =
             (a, b) => b.score.CompareTo(a.score);
         static readonly Comparison<(float distance, Light light)> CompareTorch = (a, b) => a.distance.CompareTo(b.distance);
+
+        // 빛 목록 칸 나누기: 탑(이미 넣은 칸) -> 횃불 몫(max/3, 최소 2) -> 나머지는 번쩍·불바다·폭발. 시험도 이 함수를 쓴다
+        public static void SplitSlots(int max, int usedByTower, bool torchesOn, out int torchReserve, out int flashSlots)
+        {
+            torchReserve = torchesOn ? Mathf.Max(2, max / 3) : 0;
+            flashSlots = Mathf.Max(0, max - torchReserve - usedByTower);
+        }
 
         void GatherShaderLights()
         {
@@ -52,7 +59,7 @@ namespace HumanLastRampart.Combat.Battle
 
                 flashCandidates.Add((score, pos, f.range, f.color, f.intensity, big ? 1f : 0.25f));
                 if (big)   // 폭발·큰 불: 땅 웅덩이 (그림 쪽 빛과 따로)
-                    GroundGlow.Add(f.transform.position, Mathf.Min(f.range * 0.35f, 7f), f.color, Mathf.Min(f.intensity * 0.03f, 0.8f));
+                    GroundGlow.Add(new Vector3(f.transform.position.x, 0f, f.transform.position.z), Mathf.Min(f.range * 0.35f, 7f), f.color, Mathf.Min(f.intensity * 0.03f, 0.8f));
             }
 
             flashCandidates.Sort(CompareFlash);
@@ -62,8 +69,7 @@ namespace HumanLastRampart.Combat.Battle
                 HlrLights.Add(towerLight.transform.position, towerLight.range * 1.3f, towerLight.color, towerLight.intensity, 0f);
 
             // 횃불 몫을 남겨 둔다 (벽 위 병사가 늘 빛을 받게)
-            int torchReserve = torchesOn ? Mathf.Max(2, max / 3) : 0;
-            int flashSlots = max - torchReserve - HlrLights.Count;
+            SplitSlots(max, HlrLights.Count, torchesOn, out _, out int flashSlots);
             for (int i = 0; i < flashCandidates.Count && i < flashSlots; i++)
             {
                 var c = flashCandidates[i];
@@ -91,7 +97,3 @@ namespace HumanLastRampart.Combat.Battle
         }
     }
 }
-
-
-
-

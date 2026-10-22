@@ -1,4 +1,4 @@
-﻿// 등대 빛줄기 (W15, 사용자 2026-10-22): 탑 꼭대기에서 성벽 너머로 뻗는 부채꼴 빛. 사진기 뒤·위의 탑에서 쏘므로
+// 등대 빛줄기 (W15, 사용자 2026-10-22): 탑 꼭대기에서 성벽 너머로 뻗는 부채꼴 빛. 사진기 뒤·위의 탑에서 쏘므로
 // 땅 위 빛은 성벽 바로 너머에서 (난간 그림자 같은) 짧은 어두운 띠 뒤에 시작해 바깥으로 갈수록 넓어지고, 가장자리는 부드럽다.
 // - 부채꼴 모양은 시뮬레이션 그대로(탑 가운데에서 각도·폭) — 폭·느려짐·피해 숫자는 건드리지 않는다. 눈에 보이는 빛만 그린다
 // - 덧셈 블렌드(빛 웅덩이), 깊이 기록 없음. 모든 값은 재질/블록 속성 (현재 방향·목표 방향 두 장을 따로 그린다)
@@ -32,6 +32,7 @@ Shader "HumanLastRampart/BeamCone"
             #pragma vertex Vert
             #pragma fragment Frag
             #pragma target 3.5
+            #pragma multi_compile_fog
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
             float _Mode;
@@ -41,13 +42,14 @@ Shader "HumanLastRampart/BeamCone"
             half4 _Color;
 
             struct Attributes { float3 positionOS : POSITION; };
-            struct Varyings { float4 positionCS : SV_POSITION; float3 positionWS : TEXCOORD0; };
+            struct Varyings { float4 positionCS : SV_POSITION; float3 positionWS : TEXCOORD0; float fogFactor : TEXCOORD1; };
 
             Varyings Vert(Attributes input)
             {
                 Varyings output;
                 output.positionWS = TransformObjectToWorld(input.positionOS);
                 output.positionCS = TransformWorldToHClip(output.positionWS);
+                output.fogFactor = ComputeFogFactor(output.positionCS.z);
                 return output;
             }
 
@@ -65,7 +67,7 @@ Shader "HumanLastRampart/BeamCone"
                 if (_Mode < 0.5)
                 {
                     float ramp = smoothstep(_Profile.x, _Profile.x + _Profile.y, t);   // 어두운 띠 뒤에서 켜진다
-                    float fall = exp(-max(t, 0.0) / _Profile.z);
+                    float fall = exp(-max(t - _Profile.x, 0.0) / _Profile.z);   // 그림 셰이더(HlrBeamFactor)와 같은 기준점: 성벽 모서리 + 띠
                     profile = ramp * fall;
                 }
                 else
@@ -73,11 +75,10 @@ Shader "HumanLastRampart/BeamCone"
                     profile = smoothstep(1.0, 9.0, r) * (1.0 - smoothstep(_Half.w - 4.0, _Half.w - 1.0, r)) * 0.55;   // 마당: 탑 곁은 비우고 성벽 가까이서 사라짐
                 }
 
-                half3 color = _Color.rgb * (half)(edge * core * profile * _Half.z);
+                half3 color = _Color.rgb * (half)(edge * core * profile * _Half.z * ComputeFogIntensity(input.fogFactor));   // 비·안개 날 멀리서는 흐려진다
                 return half4(color, 1.0h);
             }
             ENDHLSL
         }
     }
 }
-
