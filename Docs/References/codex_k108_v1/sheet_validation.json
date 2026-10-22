@@ -1,0 +1,11 @@
+﻿{
+    "native_to_game_exact_nearest_3x":  true,
+    "native_foot_rows":  "119,119,119,119",
+    "game_foot_rows":  "359,359,359,359",
+    "story_foot_rows":  "351,351,351,351",
+    "neutral_preview_exact_4x":  true,
+    "determined_preview_exact_4x":  true,
+    "alarmed_preview_exact_4x":  true,
+    "tired_preview_exact_4x":  true,
+    "comparison_preview_exact_4x":  true
+}

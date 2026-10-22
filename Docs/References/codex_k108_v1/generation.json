@@ -1,0 +1,18 @@
+{
+  "tool": "built-in image_gen",
+  "transparent_background": true,
+  "neutral": {
+    "reference_images": [
+      "Game/Assets/_Project/Story/Resources/StoryArt/portrait_archer_neutral.png",
+      "Game/Assets/_Project/Story/Resources/StoryArt/portrait_wizard_neutral.png",
+      "Game/Assets/_Project/Story/Resources/StoryArt/portrait_hero_neutral.png"
+    ],
+    "prompt": "Use case: stylized-concept. Create ONE transparent full body pixel art story portrait of HAGEN, male veteran army adjutant age 48, matching the provided existing game portraits exactly in pixel size, art style, framing and muted palette. Reference images are style and framing only, not edit targets. Full body head to big brown boots, front facing with slight three-quarter turn, centered, ample empty transparent margins, head about 1/3 figure height, short sturdy body. Short cropped dark grey hair with silver temples, weathered square face, visible grey stubble, crow's feet, small healed cheek scar, unmistakably middle aged and older than reference characters. Calm protective neutral expression, blue eyes with white highlight, subtle dry half-smile. Practical worn muted blue field coat with simple steel shoulder plates and cuirass, leather belt and gloves, patched hem, small brass lamp-shaped expedition badge on chest. No fancy officer regalia, no gold trim or epaulettes, no large weapon, no hat. Match reference thick dark pixel outline, chunky clearly square pixels and three shade levels per material. Target composition is 256x384 portrait canvas, feet ground line y352, head top around y56, body center x128. Authentic low resolution pixel sprite enlarged nearest neighbor; no gradients, no soft antialiasing, no cast shadow, no background, no text."
+  },
+  "expression_edits": {
+    "reference_image": "sources/hagen_neutral_generated.png",
+    "determined": "Use case: identity-preserve. Edit this Hagen portrait to create his DETERMINED expression. Change only eyebrows, eyes and mouth: eyebrows lowered inward, steady focused blue eyes with white highlights, closed firm mouth. Keep middle aged 48-year-old weathered face, grey hair and stubble, cheek scar. Preserve EXACT full-body pose, head size, position, silhouette, armor, muted blue coat, badge, belt, gloves and boots. Same chunky pixel art dark outline, three shade levels. Genuinely transparent background, no glow or shadow, no text. One full body character only.",
+    "alarmed": "Use case: identity-preserve. Edit this Hagen portrait to create his ALARMED expression. Change only eyebrows eyes and mouth: raised tense eyebrows, wide clear blue eyes with whites visible and tiny white highlights, mouth slightly open issuing an urgent protective warning. Still a competent veteran, not comical screaming. Preserve EXACT identity, age48 grey hair and stubble scar, full-body pose, head size and position, silhouette, armor muted blue coat badge belt gloves boots. Same pixel art treatment chunky pixels dark outline three shade levels. Genuinely transparent background, no glow no shadow no text. One full body character only.",
+    "tired": "Use case: identity-preserve. Edit this Hagen portrait to create his TIRED expression after a long watch. Change only eyebrows eyes and mouth: lowered heavy upper eyelids half-open blue eyes still tiny highlights, subtly worried brow, small downturned closed mouth, tired undereye lines. Stoic exhausted veteran, not asleep. Preserve EXACT identity age48 grey hair and stubble scar, full-body pose head size and position silhouette armor muted blue coat badge belt gloves boots. Same chunky pixel art dark outlines three shade levels. Genuinely transparent background no glow no shadow no text. One full body character only."
+  }
+}

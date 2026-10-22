@@ -1,0 +1,165 @@
+{
+  "card": "K-108",
+  "character": "hagen",
+  "generation": "built-in image_gen",
+  "frame_order": [
+    "neutral",
+    "determined",
+    "alarmed",
+    "tired"
+  ],
+  "coordinate_system": "top-left pixels; pivots on the exclusive lower edge of the last visible foot row",
+  "primary": {
+    "type": "story portraits; K-108 exact-match exception to battle-sheet canvas",
+    "canvas": [
+      256,
+      384
+    ],
+    "foot_pivot": [
+      128,
+      352
+    ],
+    "foot_pivot_normalized_bottom_left": [
+      0.5,
+      0.08333333333333333
+    ],
+    "files": [
+      "portrait_hagen_neutral.png",
+      "portrait_hagen_determined.png",
+      "portrait_hagen_alarmed.png",
+      "portrait_hagen_tired.png"
+    ],
+    "sheet": "hagen_expressions_story_256x384.png",
+    "sheet_size": [
+      1024,
+      384
+    ],
+    "scale_from_logical": 4,
+    "logical_cell": [
+      64,
+      96
+    ]
+  },
+  "companions": {
+    "native": {
+      "file": "hagen_expressions_native_96x128.png",
+      "cell": [
+        96,
+        128
+      ],
+      "sheet": [
+        384,
+        128
+      ],
+      "pivot": [
+        48,
+        120
+      ]
+    },
+    "game": {
+      "file": "hagen_expressions_game_288x384.png",
+      "cell": [
+        288,
+        384
+      ],
+      "sheet": [
+        1152,
+        384
+      ],
+      "pivot": [
+        144,
+        360
+      ],
+      "scale": 3,
+      "filter": "nearest-neighbor"
+    },
+    "figure_height_native": 74
+  },
+  "previews": {
+    "scale": 4,
+    "filter": "nearest-neighbor",
+    "portraits": [
+      "portrait_hagen_neutral_4x.png",
+      "portrait_hagen_determined_4x.png",
+      "portrait_hagen_alarmed_4x.png",
+      "portrait_hagen_tired_4x.png"
+    ],
+    "comparison": "comparison_hagen_wizard_archer_4x.png"
+  },
+  "comparison": {
+    "file": "comparison_hagen_wizard_archer.png",
+    "size": [
+      768,
+      384
+    ],
+    "order": [
+      "hagen_neutral",
+      "wizard_neutral",
+      "archer_neutral"
+    ],
+    "existing_sources": [
+      "Game/Assets/_Project/Story/Resources/StoryArt/portrait_wizard_neutral.png",
+      "Game/Assets/_Project/Story/Resources/StoryArt/portrait_archer_neutral.png"
+    ]
+  },
+  "processing": {
+    "source_alpha": "preserved in sources/",
+    "delivery_alpha": "binary threshold 128, transparent RGB zeroed",
+    "sampling": "nearest neighbor, alpha bounds normalized to native height 74; centered x48, foot edge y120",
+    "body_variation": "generated expressions retain minor clothing/hand pixel differences"
+  },
+  "verification": {
+    "neutral": {
+      "width": 256,
+      "height": 384,
+      "bbox": [
+        60,
+        56,
+        195,
+        351
+      ],
+      "partial_alpha_pixels": 0,
+      "components_8_connected": 1,
+      "smallest_component": 26976
+    },
+    "determined": {
+      "width": 256,
+      "height": 384,
+      "bbox": [
+        60,
+        56,
+        195,
+        351
+      ],
+      "partial_alpha_pixels": 0,
+      "components_8_connected": 1,
+      "smallest_component": 26800
+    },
+    "alarmed": {
+      "width": 256,
+      "height": 384,
+      "bbox": [
+        60,
+        56,
+        195,
+        351
+      ],
+      "partial_alpha_pixels": 0,
+      "components_8_connected": 1,
+      "smallest_component": 27120
+    },
+    "tired": {
+      "width": 256,
+      "height": 384,
+      "bbox": [
+        64,
+        56,
+        195,
+        351
+      ],
+      "partial_alpha_pixels": 0,
+      "components_8_connected": 1,
+      "smallest_component": 25936
+    }
+  }
+}
