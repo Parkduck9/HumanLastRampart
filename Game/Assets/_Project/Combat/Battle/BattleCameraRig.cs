@@ -314,7 +314,9 @@ namespace HumanLastRampart.Combat.Battle
             else
             {
                 yaw = Mathf.MoveTowardsAngle(yaw, targetYaw, TurnDegreesPerSecond * dt);
-                smoothedFeet = Vector3.Lerp(smoothedFeet, feet, 1f - Mathf.Exp(-FollowSharpness * dt));
+                // 계단을 오르내리는 동안(W17)에는 주인공이 빠르게(초속 10m 넘게) 움직여 부드럽게 따라가면 화면 아래로 벗어난다 -> 발을 그대로 따라간다
+                if (towerBlend > 0f) smoothedFeet = feet;
+                else smoothedFeet = Vector3.Lerp(smoothedFeet, feet, 1f - Mathf.Exp(-FollowSharpness * dt));
             }
 
             Quaternion heading = Quaternion.Euler(0f, yaw, 0f);

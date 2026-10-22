@@ -97,7 +97,7 @@ namespace HumanLastRampart.Combat.Battle
         {
             Image panel = Ui.Panel(root.transform, "Beam Order Board", UiPanel.Wood);
             beamOrderBoard = panel.gameObject;
-            Ui.Place(panel.rectTransform, new Vector2(0.5f, 0f), new Vector2(0f, Edge + 56f), new Vector2(640f, 0f), new Vector2(0.5f, 0f));
+            Ui.Place(panel.rectTransform, new Vector2(0.5f, 0f), new Vector2(0f, BottomClear), new Vector2(640f, 0f), new Vector2(0.5f, 0f));
             var column = panel.gameObject.AddComponent<VerticalLayoutGroup>();
             column.padding = new RectOffset(24, 24, 16, 24);
             column.spacing = UiTokens.S8;
@@ -156,7 +156,7 @@ namespace HumanLastRampart.Combat.Battle
             towerPrompt = null;
             if (key == null) return;
             towerPrompt = Ui.KeyHint(root.transform, key, text);
-            Ui.Place(towerPrompt, new Vector2(0.5f, 0f), new Vector2(0f, Edge + 8f), new Vector2(520f, 40f), new Vector2(0.5f, 0f));   // N6: 글 앞뒤 공백 없음
+            Ui.Place(towerPrompt, new Vector2(0.5f, 0f), new Vector2(0f, BottomClear), new Vector2(520f, 40f), new Vector2(0.5f, 0f));   // N6: 글 앞뒤 공백 없음
             towerPrompt.gameObject.AddComponent<ContentSizeFitter>().horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
         }
     }
