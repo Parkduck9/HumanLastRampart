@@ -1,0 +1,54 @@
+﻿{
+    "neutral":  {
+                    "width":  256,
+                    "height":  384,
+                    "bbox":  [
+                                 60,
+                                 56,
+                                 195,
+                                 351
+                             ],
+                    "partial_alpha_pixels":  0,
+                    "components_8_connected":  1,
+                    "smallest_component":  26976
+                },
+    "determined":  {
+                       "width":  256,
+                       "height":  384,
+                       "bbox":  [
+                                    60,
+                                    56,
+                                    195,
+                                    351
+                                ],
+                       "partial_alpha_pixels":  0,
+                       "components_8_connected":  1,
+                       "smallest_component":  26800
+                   },
+    "alarmed":  {
+                    "width":  256,
+                    "height":  384,
+                    "bbox":  [
+                                 60,
+                                 56,
+                                 195,
+                                 351
+                             ],
+                    "partial_alpha_pixels":  0,
+                    "components_8_connected":  1,
+                    "smallest_component":  27120
+                },
+    "tired":  {
+                  "width":  256,
+                  "height":  384,
+                  "bbox":  [
+                               64,
+                               56,
+                               195,
+                               351
+                           ],
+                  "partial_alpha_pixels":  0,
+                  "components_8_connected":  1,
+                  "smallest_component":  25936
+              }
+}
