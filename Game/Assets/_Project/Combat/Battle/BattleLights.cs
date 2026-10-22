@@ -134,6 +134,7 @@ namespace HumanLastRampart.Combat.Battle
                 for (int i = 0; i < flashes.Count; i++) flashes[i].enabled = false;
                 TrackTraps(Time.deltaTime);
                 AgeTimed(Time.deltaTime);
+                UpdateTowerLight(true);
                 return;
             }
 
@@ -156,6 +157,35 @@ namespace HumanLastRampart.Combat.Battle
             if (torchesOn) FlickerTorches();
             TrackTraps(Time.deltaTime);
             UpdateFlashes();
+            UpdateTowerLight(false);
+        }
+
+        // 마당 가운데 등대 탑 불빛 (W9): 밤에 탑 꼭대기에서 마당을 비춘다. 세기는 등불 밝기(약·보통·강)를 따르고, 점화의 밤이면 더 환하다. 낮·지도에서는 끈다
+        const float TowerLightRange = 9f;
+        const float TowerLightIntensity = 3.2f;
+        static readonly Color TowerLightColor = new Color(1f, 0.74f, 0.4f);
+        Light towerLight;
+
+        void UpdateTowerLight(bool mapMode)
+        {
+            bool on = !mapMode && sim.TimeOfDay == TimeOfDay.Night;
+            if (!on)
+            {
+                if (towerLight != null) towerLight.enabled = false;
+                return;
+            }
+
+            if (towerLight == null)
+            {
+                towerLight = NewLight("Beacon Tower", new Vector3(0f, BattleSim.WallHeight + BattleBeaconView.BowlHeight + 0.25f, 0f));
+                towerLight.color = TowerLightColor;
+                towerLight.range = TowerLightRange;
+            }
+
+            float level = sim.Lamp == LampBrightness.High ? 1.5f : sim.Lamp == LampBrightness.Low ? 0.6f : 1f;
+            float flicker = 0.9f + 0.1f * Mathf.PerlinNoise(Time.time * 4f, 7.3f);
+            towerLight.intensity = TowerLightIntensity * level * flicker * (sim.IsIgnitionNight ? 1.3f : 1f) * (sim.IsRaining ? RainTorchMultiplier : 1f);
+            towerLight.enabled = true;
         }
 
         void SetTorches(bool on, float intensity)
@@ -321,6 +351,7 @@ namespace HumanLastRampart.Combat.Battle
             flames.Clear();
             if (flameMaterial != null) Object.Destroy(flameMaterial);
             flashes.Clear();
+            towerLight = null;
             trapBlasts.Clear();
         }
     }

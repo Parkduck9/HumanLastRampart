@@ -126,7 +126,9 @@ namespace HumanLastRampart.Combat.Battle
                 hud.WallCommandChosen += OnMapWallCommand;
                 hud.BattleStartChosen += StartBattle;
                 hud.LampChosen += b => sim?.SetLamp(b);     // 등불 밝기 (빛줄기 폭·효과만 바뀜)
-                hud.BeamChosen += side => sim?.RotateBeam(side);   // 빛줄기 방향 (3초에 걸쳐 돎)
+                hud.BeamChosen += OnBeamChosen;           // 빛줄기 방향 (탑 명령 판에서만, 일꾼이 BeamRotateSeconds에 걸쳐 돌림)
+                hud.TowerLeaveChosen += LeaveTower;
+                hud.BeamOrderClosed += CloseBeamOrder;
                 hud.GroupDestinationChosen += side => OrderGroupMove(selectedGroup, side);
                 hud.WallGroupsDestinationChosen += side => OrderWallMove(selectedGroup, side);
 
@@ -146,7 +148,7 @@ namespace HumanLastRampart.Combat.Battle
             BattleSim.GroupInfo info = sim.GetGroup(group);
             if (info.Side < 0 || info.Side == targetSide) return;
             if (preparing) sim.IssueGroupMove(group, targetSide, true);
-            else if (rig == null || rig.Side == info.Side) sim.IssueGroupMove(group, targetSide, false);
+            else if (CommanderAt(info.Side)) sim.IssueGroupMove(group, targetSide, false);
             else sim.IssueGroupMoveByMessenger(rig.Side, rig.Along, group, targetSide);
             SquadOrders++;
             selectedGroup = -1;
@@ -161,7 +163,7 @@ namespace HumanLastRampart.Combat.Battle
             int side = sim.GetCannon(cannon).Side;
             if (side == targetSide) return;
             if (preparing) sim.IssueCannonMove(cannon, targetSide, true);
-            else if (rig == null || rig.Side == side) sim.IssueCannonMove(cannon, targetSide, false);
+            else if (CommanderAt(side)) sim.IssueCannonMove(cannon, targetSide, false);
             else sim.IssueCannonMoveByMessenger(rig.Side, rig.Along, cannon, targetSide);
             selectedCannon = -1;
         }
@@ -179,7 +181,7 @@ namespace HumanLastRampart.Combat.Battle
             if (sim == null || maxGroups <= 0 || wall > 3 || targetSide < 0 || targetSide > 3) return;
             if (wall < 0 || wall == targetSide) return;
             if (preparing) sim.IssueWallMove(wall, targetSide, true, maxGroups);
-            else if (rig == null || rig.Side == wall) sim.IssueWallMove(wall, targetSide, false, maxGroups);
+            else if (CommanderAt(wall)) sim.IssueWallMove(wall, targetSide, false, maxGroups);
             else sim.IssueWallMoveByMessenger(rig.Side, rig.Along, wall, targetSide, maxGroups);
             SquadOrders++;
             selectedGroup = -1;
@@ -268,11 +270,76 @@ namespace HumanLastRampart.Combat.Battle
         void OnMapWallCommand(int side, TargetPriority priority)
         {
             if (sim == null) return;
-            if (preparing || rig == null || side == rig.Side) sim.IssueDirect(side, priority);
+            if (preparing || CommanderAt(side)) sim.IssueDirect(side, priority);
             else sim.IssueMessenger(rig.Side, rig.Along, side, priority);
         }
 
         public bool Preparing => preparing;
+
+        // 주인공이 그 성벽을 지키고 있는가 (W9: 계단으로 내려가 등대 탑에 있으면 어느 성벽에도 없다 → 명령은 전령이 전한다)
+        bool CommanderAt(int side) => rig == null || (rig.OnWall && rig.Side == side);
+
+        // ── 등대 탑 (W9, Concept_Beacon_v1 9.7 4차 결정) ──
+        // 북쪽 성벽 통로 가운데 안쪽 끝(계단)에서 E → 마당 가운데 탑으로 내려간다. 탑에서 E → 빛줄기 명령 (지도가 떠서 방향 단추 + 지금 방향).
+        // 방향을 고르면 일꾼이 돌리기 시작하고, 지도는 BeamMapStaySeconds 뒤 저절로 접혀 일꾼 모습을 보게 한다 (쉬움은 지도가 열린 동안 시간이 멈추므로).
+        // 탑에서 Q 또는 [성벽으로 올라가기] → 계단으로 돌아간다. 탑에 있는 동안은 OnWall = false (지휘 휘장·같은 성벽 발견 알림·직접 명령이 없다)
+        public float BeamMapStaySeconds = 0.8f;
+        bool beamOrderMode;
+        float beamMapCloseAt = -1f;
+
+        public bool BeamOrderMode => beamOrderMode;
+        public bool AtTower => rig != null && rig.AtTower;
+
+        // E 키가 하는 일. 일어난 일이 있으면 true
+        public bool Interact()
+        {
+            if (sim == null || rig == null || sim.Ended || preparing || rig.InTransition) return false;
+            if (beamOrderMode) { CloseBeamOrder(); return true; }
+            if (mapOpen) return false;
+            if (rig.AtTower) { OpenBeamOrder(); return true; }
+            return rig.OnWall && rig.GoDown();
+        }
+
+        public void OpenBeamOrder()
+        {
+            if (sim == null || rig == null || !rig.AtTower || beamOrderMode) return;
+            if (!mapOpen) ToggleMap();
+            mapCamera.SetLevel(BattleMapCamera.Level.Full);   // 들판 전체 — 지금 비추는 부채꼴이 한눈에 보인다
+            beamOrderMode = true;
+            beamMapCloseAt = -1f;
+            hud.SetBeamOrder(true);
+        }
+
+        public void CloseBeamOrder()
+        {
+            if (!beamOrderMode) return;
+            beamOrderMode = false;
+            beamMapCloseAt = -1f;
+            hud?.SetBeamOrder(false);
+            if (mapOpen) ToggleMap();
+        }
+
+        public void LeaveTower()
+        {
+            CloseBeamOrder();
+            rig?.GoUp();
+        }
+
+        void OnBeamChosen(int side)
+        {
+            if (sim == null || !beamOrderMode) return;
+            sim.RotateBeam(side);   // 일꾼이 BeamRotateSeconds에 걸쳐 돌린다
+            beamMapCloseAt = Time.unscaledTime + BeamMapStaySeconds;
+        }
+
+        void UpdateTowerPrompt()
+        {
+            if (hud == null || rig == null) return;
+            if (mapOpen || sim == null || sim.Ended || preparing || rig.InTransition) hud.SetTowerPrompt(null, null);
+            else if (rig.AtTower) hud.SetTowerPrompt("E", "등대 일꾼에게 빛줄기 명령   (Q 성벽으로 올라가기)");
+            else if (rig.OnWall && rig.NearStairs) hud.SetTowerPrompt("E", "계단으로 내려가 등대로");
+            else hud.SetTowerPrompt(null, null);
+        }
 
         public void StartBattle()
         {
@@ -386,7 +453,11 @@ namespace HumanLastRampart.Combat.Battle
             if (cancelSquad) CancelSquadSelection();
             if (mouse != null && !sim.Ended && !mapOpen)
             {
-                if (mouse.middleButton.wasPressedThisFrame) hud.ToggleMenu(rig != null ? rig.Side : 0);
+                if (mouse.middleButton.wasPressedThisFrame)
+                {
+                    if (rig == null || rig.OnWall) hud.ToggleMenu(rig != null ? rig.Side : 0);
+                    else hud.PushNotice("성벽을 비운 동안에는 명령 메뉴를 쓸 수 없습니다 (지도에서 전령으로 명령)");
+                }
                 if (mouse.rightButton.wasPressedThisFrame) hud.CloseMenu();
             }
 
@@ -401,7 +472,16 @@ namespace HumanLastRampart.Combat.Battle
                     if (preparing) StartBattle();
                     else ToggleMap();
                 }
+
+                // 등대 탑 (W9): E 계단 내려가기·탑 명령, Q 올라가기 (Q는 지도에서 마법 키라 지도가 닫혀 있을 때만)
+                if (!toggle && !hud.MenuOpen && !cancelSquad)
+                {
+                    if (keyboard.eKey.wasPressedThisFrame) Interact();
+                    if (keyboard.qKey.wasPressedThisFrame && !mapOpen && rig != null && rig.AtTower) LeaveTower();
+                }
             }
+
+            if (beamOrderMode && beamMapCloseAt > 0f && Time.unscaledTime >= beamMapCloseAt) CloseBeamOrder();
 
             if (keyboard != null)
             {
@@ -587,7 +667,7 @@ namespace HumanLastRampart.Combat.Battle
 
             // 큰 프레임 지연에도 한 번에 너무 멀리 가지 않게 자른다
             float dt = Mathf.Min(Time.deltaTime, 1f / 20f) * speed * TutorialTimeScale;
-            if (rig != null) sim.SetCommander(rig.Side, rig.Along);   // 발견 전령이 찾아갈 지휘관 위치 (D-053)
+            if (rig != null) sim.SetCommander(rig.Side, rig.Along, rig.OnWall);   // 발견 전령이 찾아갈 지휘관 위치 (D-053). 탑에 있으면 성벽에 없음 (W9)
             sim.BeginFrame(dt);
             if (sim.Ended)
             {
@@ -613,6 +693,7 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             DrawHero();
+            UpdateTowerPrompt();
             // 명령 메뉴는 주인공 가슴 높이 오른쪽에 붙는다 (D-072)
             if (hud.MenuOpen && rig != null && !mapOpen)
             {
@@ -744,6 +825,13 @@ namespace HumanLastRampart.Combat.Battle
             }
             else
             {
+                if (beamOrderMode)
+                {
+                    beamOrderMode = false;   // 지도를 닫으면 탑 명령도 끝 (CloseBeamOrder가 부른 경우 이미 false)
+                    beamMapCloseAt = -1f;
+                    hud?.SetBeamOrder(false);
+                }
+
                 battleCamera.orthographic = false;
                 battleCamera.fieldOfView = 40f;
                 battleCamera.nearClipPlane = BattleCameraRig.NearClip;

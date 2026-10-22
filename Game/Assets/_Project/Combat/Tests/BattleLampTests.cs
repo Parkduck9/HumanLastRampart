@@ -168,23 +168,27 @@ namespace HumanLastRampart.Combat.Tests
             }
         }
         [Test]
-        public void RotateBeam_TakesThreeSeconds()
+        public void RotateBeam_TakesSixSeconds()
         {
+            Assert.AreEqual(6f, BattleSim.BeamRotateSeconds, "W9: 일꾼이 돌리는 속도 6초 (조정 가능한 상수)");
             using (var sim = NewSim(LampBrightness.Normal, 0))
             {
                 Assert.AreEqual(90f, sim.BeamAngleDegrees, 1e-3f);
                 float time = 0f;
                 sim.RotateBeam(1);   // 북 → 동 (90° → 0°)
                 Assert.IsTrue(sim.BeamRotating);
-                for (int i = 0; i < 30; i++) Step(sim, ref time);   // 1.5초
+                Assert.AreEqual(0f, sim.BeamTargetDegrees, 1e-3f, "도착할 각도");
+                for (int i = 0; i < 60; i++) Step(sim, ref time);   // 3초
                 Assert.IsTrue(sim.BeamRotating);
                 Assert.AreEqual(45f, sim.BeamAngleDegrees, 1.5f, "도는 중에는 중간 각도");
-                for (int i = 0; i < 29; i++) Step(sim, ref time);   // 2.95초
-                Assert.IsTrue(sim.BeamRotating, "3초 전에는 아직");
+                Assert.AreEqual(0.5f, sim.BeamRotateProgress, 0.03f);
+                for (int i = 0; i < 59; i++) Step(sim, ref time);   // 5.95초
+                Assert.IsTrue(sim.BeamRotating, "6초 전에는 아직");
                 for (int i = 0; i < 2; i++) Step(sim, ref time);
                 Assert.IsFalse(sim.BeamRotating);
                 Assert.AreEqual(0f, sim.BeamAngleDegrees, 1e-3f);
                 Assert.AreEqual(1, sim.BeamSide);
+                Assert.AreEqual(sim.BeamAngleDegrees, sim.BeamTargetDegrees, 1e-3f, "서 있으면 목표 = 지금");
             }
         }
 

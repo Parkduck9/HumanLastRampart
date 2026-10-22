@@ -52,6 +52,12 @@ namespace HumanLastRampart.Meta
             yard.AddStation("병영", 1300f, new Color(0.42f, 0.30f, 0.24f), () => recruit.onClick.Invoke());
             yard.AddStation("함정 공방", 2100f, new Color(0.30f, 0.30f, 0.36f), () => trapButton.onClick.Invoke());
             yard.AddStation("상점", 2550f, new Color(0.46f, 0.36f, 0.22f), () => shop.onClick.Invoke());   // K-058 보급 상인 (간판 그림은 Codex 요청)
+            // W9: 가운데 등대 — 다음 밤 빛줄기 방향 명령 + 등대 수리. 탑 그림은 복구 정도로 꺼짐·예열·점화 (K-102)
+            yard.AddStation("등대", 1920f, new Color(0.45f, 0.40f, 0.30f), () => yard.OpenModal(parent =>
+                BeaconYardPanel.Build(parent, context, () => PreparationPanel.RefreshSummary(repair, context, session), yard.CloseModal)));
+            string beaconState = campaign.BeaconRepair >= HumanLastRampart.Core.Campaign.BeaconRules.RepairMax ? "lit" : campaign.BeaconRepair > 0f ? "warming" : "dead";
+            yard.AddBeaconTower(Resources.Load<Texture2D>("BattleArt/Beacon/tower_" + beaconState),
+                beaconState == "dead" ? null : Resources.Load<Texture2D>("BattleArt/Beacon/flame_" + beaconState), 1920f, 900f);
             yard.AddStation("성벽 계단", 3000f, new Color(0.40f, 0.38f, 0.30f), () => yard.AskNextBattle(() => ready.onClick.Invoke()));
             var lifetime = repair.GetComponentInParent<UnityEngine.Canvas>().gameObject.AddComponent<PreparationSessionLifetime>();
             lifetime.Session = session; lifetime.Traps = traps;

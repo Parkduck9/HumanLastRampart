@@ -212,6 +212,7 @@ namespace HumanLastRampart.Core.Campaign
             campaign.NightNumber = 1;
             campaign.BeaconRepair = 0f;
             campaign.PlannedLamp = LampBrightness.Normal;
+            campaign.PlannedBeamSide = 0;
             foreach (WallSegmentState wall in campaign.Wall) wall.Hp = wall.MaxHp;
             campaign.Traps.Clear();
             campaign.TerrainWorks.Clear();

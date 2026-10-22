@@ -35,6 +35,7 @@ namespace HumanLastRampart.Core.Campaign
         public float BeaconRepair;                   // 등대 복구 0~100 (BeaconRules)
         public int ConsecutiveNightLosses;           // 연속으로 진 밤 수. 이기면 0, 2가 되면 패배 엔딩
         public LampBrightness PlannedLamp;           // 다음 밤 등불 밝기 (정비 화면에서 고른다)
+        public int PlannedBeamSide;                  // 다음 밤 처음 빛줄기 방향 (0 북·1 동·2 남·3 서, 정비 마당 등대에서 명령). 예전 저장에 없으면 0 = 북
         public List<GarrisonState> Garrisons = new List<GarrisonState>();   // 점화한 요새에 남긴 수비대
         public string LastNightRunId;                // 마지막으로 반영한 이긴 밤의 전투 실행 ID (두 번 반영 방지)
         public int LastNightFortress;                // 그 밤이 속한 요새·밤 번호 (결과 화면 제목용 — 반영 뒤 FortressNumber·NightNumber는 이미 넘어갔다)

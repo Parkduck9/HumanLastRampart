@@ -51,7 +51,62 @@ namespace HumanLastRampart.Meta
         public Vector2 HeroPixel => PrepYardProjection.Project(ground);
         public Camera WorldCamera => yardCamera;
         public int ObstacleCount => obstacles.Count;
-        public bool CanMove => confirm == null && (blocker == null || blocker.interactable)
+        // 등대 명령 판처럼 마당 위에 뜬 창 (W9). 떠 있는 동안 걷지 못한다
+        GameObject modal;
+        public bool ModalOpen => modal != null;
+
+        public void OpenModal(Func<Transform, GameObject> build)
+        {
+            if (modal != null || confirm != null) return;
+            modal = build(transform.parent);
+        }
+
+        public void CloseModal()
+        {
+            if (modal != null) Destroy(modal);
+            modal = null;
+        }
+
+        // 가운데 등대 탑 그림 (W9, Codex K-102): 걷는 사람이 탑 앞이면 탑 아래, 뒤면 탑 위에 그린다 (가림 그림과 같은 규칙)
+        readonly List<RawImage> beaconAbove = new List<RawImage>();
+        readonly List<RawImage> beaconFlames = new List<RawImage>();
+        float beaconRow;
+        int beaconFlameFrames = 6;
+
+        public void AddBeaconTower(Texture2D tower, Texture2D flame, float footX, float footY)
+        {
+            if (tower == null) return;
+            beaconRow = footY;
+            int below = 1;
+            for (int pass = 0; pass < 2; pass++)
+            {
+                foreach (Texture2D tex in new[] { tower, flame })
+                {
+                    if (tex == null) continue;
+                    var obj = new GameObject(pass == 0 ? "Beacon Below" : "Beacon Above", typeof(RectTransform), typeof(RawImage));
+                    obj.transform.SetParent(strip, false);
+                    var image = obj.GetComponent<RawImage>();
+                    image.texture = tex; image.raycastTarget = false;
+                    var rect = image.rectTransform;
+                    rect.anchorMin = rect.anchorMax = Vector2.zero;
+                    rect.pivot = new Vector2(0.5f, 24f / 384f);
+                    rect.sizeDelta = new Vector2(288f, 384f);
+                    rect.anchoredPosition = new Vector2(footX, 1080f - footY);
+                    if (tex == flame)
+                    {
+                        image.uvRect = new Rect(0f, 0f, 1f / beaconFlameFrames, 1f);
+                        beaconFlames.Add(image);
+                    }
+                    if (pass == 0) obj.transform.SetSiblingIndex(below++);   // 배경(0) 위, 걷는 사람 렌더 텍스처 판(1) 아래
+                    else beaconAbove.Add(image);
+                }
+            }
+            prompt.SetAsLastSibling();
+        }
+
+        public bool BeaconAboveVisible => beaconAbove.Count > 0 && beaconAbove[0].enabled;
+
+        public bool CanMove => confirm == null && modal == null && (blocker == null || blocker.interactable)
             && (screenInput == null || screenInput.interactable);
         public bool IsOccluderVisible(string id) => overlays.Exists(o => o.data.id == id && o.image.enabled);
 
@@ -296,6 +351,9 @@ namespace HumanLastRampart.Meta
             strip.anchoredPosition = new Vector2(Mathf.Clamp(width / 2f - pixel.x, Mathf.Min(0f, width - 3840f), 0f) * scale, 0f);
             body.transform.localPosition = new Vector3(ground.x, 0f, ground.y);
             foreach (var o in overlays) o.image.enabled = pixel.y <= o.data.row;
+            foreach (var a in beaconAbove) a.enabled = pixel.y <= beaconRow;
+            int flameFrame = (int)(Time.unscaledTime * 8f) % beaconFlameFrames;
+            foreach (var f in beaconFlames) f.uvRect = new Rect(flameFrame / (float)beaconFlameFrames, 0f, 1f / beaconFlameFrames, 1f);
             Station near = Nearest(); prompt.gameObject.SetActive(CanMove && near != null);
             if (near != null) prompt.anchoredPosition = new Vector2(near.X, 1080f - near.Place.y + 90f);
             Texture2D texture = heroSheet;

@@ -28,7 +28,7 @@ public sealed partial class PlayProbe
             yield return WaitScreen(ScreenId.Result, 900); yield return Press("다음", 300);
             yield return WaitScreen(ScreenId.Prep, 900);
             var yard = Object.FindAnyObjectByType<PrepYard>();
-            Assert.IsNotNull(yard); Assert.AreEqual(5, yard.StationCount); Assert.AreEqual(4, yard.ObstacleCount);
+            Assert.IsNotNull(yard); Assert.AreEqual(6, yard.StationCount); Assert.AreEqual(4, yard.ObstacleCount);
             for (int i = 0; i < 15; i++) yield return null;
             Assert.IsTrue(yard.CanMove, "마당이 열린 뒤 입력 허용");
             foreach (Vector2 pixel in new[] { new Vector2(1920, 990), new Vector2(1920, 550) })
