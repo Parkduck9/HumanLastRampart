@@ -6,6 +6,7 @@ using HumanLastRampart.App.Flow;
 using HumanLastRampart.Core.Campaign;
 using HumanLastRampart.Core.Flow;
 using HumanLastRampart.Meta;
+using HumanLastRampart.UI;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -70,7 +71,17 @@ public sealed partial class PlayProbe
                 var image = piece.GetComponent<Image>();
                 Color tint = RepairWallLook.Tint(expect[i]);
                 Assert.IsTrue(image.sprite != null || Approx(image.color, tint), $"{WallIds.All[i]} 체력 색 단계 {expect[i]}");
+                // K-096 + K-091 v2 그림이 실제로 읽혔는지 (조각 그림·외곽선·성 그림)
+                Assert.IsNotNull(image.sprite, $"{WallIds.All[i]} {expect[i]} 성벽 그림 로드");
+                Assert.IsNotNull(Resources.Load<Texture2D>("HudArt/" + RepairWallLook.WallSlot(WallIds.All[i], expect[i])), "성벽 패치 파일");
             }
+            foreach (string id in WallIds.All)
+                foreach (RepairWallState s in new[] { RepairWallState.Normal, RepairWallState.Cracked, RepairWallState.Heavy, RepairWallState.Breach })
+                    Assert.IsNotNull(Resources.Load<Texture2D>("HudArt/" + RepairWallLook.WallSlot(id, s)), $"패치 {id} {s}");
+            Assert.IsNotNull(UiArt.Hud(RepairWallLook.KeepSlot), "성 전체 그림");
+            Assert.IsNotNull(UiArt.Hud(RepairWallLook.OutlineSlot(WallIds.North, true)), "선택 외곽선");
+            Assert.IsNotNull(UiArt.Hud(RepairWallLook.BarSlot), "체력 막대 프레임");
+            Assert.IsNotNull(GameObject.Find("Outline:selected:" + WallIds.North), "외곽선 층");
 
             // 사진: 동쪽(금 간 성벽)을 골라 지도·막대·수리 뒤 그림자가 한 장에
             yield return Click("성벽맵:" + WallIds.East, 60);

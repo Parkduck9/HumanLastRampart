@@ -66,6 +66,25 @@ public sealed partial class PlayProbe
             Assert.IsTrue(sim.TryGetPhaseWarning(out _) || sim.FinalAssaultStarted, "촬영 순간에도 예고 중");
             Assert.IsTrue(warned, "120초 안에 단계 예고");
             Note($"예고 {sim.Elapsed:0.0}초 · 단계 {sim.CurrentPhase}");
+
+            // K-100 그림이 실제로 읽혀 띠에 붙었는지 (띠·상징·방향 표식)
+            Assert.IsNotNull(HumanLastRampart.UI.UiArt.Hud("Phase/phase_banner"), "띠 그림 파일");
+            GameObject bandRoot = GameObject.Find("Phase Banner Band");
+            Assert.IsNotNull(bandRoot, "예고 띠 오브젝트");
+            var bandImage = bandRoot.transform.Find("Band").GetComponent<UnityEngine.UI.Image>();
+            Assert.IsNotNull(bandImage.sprite, "띠 9-slice 그림이 붙음");
+            Assert.IsTrue(bandImage.enabled, "띠 그림 표시");
+            Assert.AreEqual(UnityEngine.UI.Image.Type.Sliced, bandImage.type);
+            var emblemImage = bandRoot.transform.Find("Emblem").GetComponent<UnityEngine.UI.Image>();
+            Assert.IsNotNull(emblemImage.sprite, "단계 상징 그림이 붙음");
+            if (sim.TryGetPhaseWarning(out HumanLastRampart.Combat.Battle.BattleSim.PhaseWarning pw))
+            {
+                GameObject icon = GameObject.Find("Phase Warning Icon");
+                Assert.IsNotNull(icon, "방향 경고 표식");
+                Assert.IsNotNull(icon.GetComponent<UnityEngine.UI.Image>().sprite, "방향 경고 그림이 붙음");
+                Assert.IsNotNull(HumanLastRampart.Combat.Battle.BattleHud.PhasePulseFrame(
+                    $"Phase/warning_{HumanLastRampart.Combat.Battle.BattleHud.PhaseKey(pw.Phase)}_{"NESW"[pw.Side]}_pulse", 1), "맥동 시트 칸");
+            }
             yield return Capture("phase_banner");
         }
         finally
