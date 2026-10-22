@@ -375,6 +375,7 @@ float4 _MainTex_TexelSize;
                 half3 specColor = spec * specStrength * lerp(half3(1, 1, 1), saturate(albedo * 2.0h), 0.5h);
                 // 밤: 달빛·주변광을 조금만 키운다 (형체가 읽힐 정도. 밝기는 빛 웅덩이에서 온다)
                 half nightGain = 1.0h + (half)_HlrNight * 0.8h;
+                half3 moonFill = half3(0.22h, 0.28h, 0.45h) * (half)_HlrNight;   // 달빛 바닥: 빛 못 받는 적도 색 있는 차가운 형체로 남는다
 
                 // 달 테두리빛 (PC): 달 쪽 한 면의 가장자리 화소에만 차가운 윤곽 — 어두운 무리도 실루엣이 읽힌다
                 half3 moonRim = 0;
@@ -386,7 +387,7 @@ float4 _MainTex_TexelSize;
                     moonRim = (half3)(mainLight.color * (edgeM * 0.45 * saturate(md * 2.0)));
                 }
 
-                half3 lit = albedo * ((sun + ambient) * nightGain + extra + extraBounce) + specColor + rim + moonRim;
+                half3 lit = albedo * ((sun + ambient) * nightGain + moonFill + extra + extraBounce) + specColor + rim + moonRim;
                 lit = lerp(lit, albedo * 2.4h, glowMask);
                 return half4(MixFog(lit, input.fogFactor), 1.0h);
             }
@@ -455,6 +456,8 @@ float4 _MainTex_TexelSize;
         }
     }
 }
+
+
 
 
 
