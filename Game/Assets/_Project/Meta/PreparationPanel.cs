@@ -32,6 +32,7 @@ namespace HumanLastRampart.Meta
         RepairChoice repairChoice = RepairChoice.Hundred;
         PreparationTransactions.Quote quote;
         string reason;
+        string reinforceArmed;   // W11: 성벽 보강을 한 번 눌러 확인 중인 성벽 (한 번 더 눌러야 골드를 쓴다)
         string done;   // 방금 확정한 결과 (다시 고르기 전까지 같은 견적은 확정할 수 없다)
 
         // 병영 안 탭 (K-058): PrepEntry가 [병종 훈련]·[용병 고용] 여는 길을 넣어 둔다
@@ -267,6 +268,32 @@ namespace HumanLastRampart.Meta
             Button commit = Ui.Button(right.transform, "확정 수리", "수리", Commit, UiButtonKind.Primary);
             Ui.Size(commit, -1f, 64f);
             commit.interactable = quote != null;
+
+            // W11 골드 쓸 곳: 성벽 보강 — 이 성벽의 최대 체력을 올린다 (값은 살 때마다 오름, 규칙 데이터)
+            var ruleList = context.Definitions.All<BattleRulesDef>();
+            if (ruleList.Count > 0 && ruleList[0].WallReinforceHp > 0)
+            {
+                BattleRulesDef rules = ruleList[0];
+                bool maxed = wall.Reinforced >= rules.WallReinforceMaxPerWall;
+                int price = rules.WallReinforcePrice(wall.Reinforced);
+                bool armed = reinforceArmed == wallId && !maxed;
+                string text = maxed ? "성벽 보강 끝 (더 못 함)"
+                    : armed ? $"정말 보강할까요? 다시 누르면 {price:N0}골드를 씁니다"
+                    : $"성벽 보강 +{rules.WallReinforceHp:N0} 최대 체력 · {price:N0}골드 ({wall.Reinforced}/{rules.WallReinforceMaxPerWall})";
+                Button reinforce = Ui.Button(right.transform, "성벽 보강", text, () =>
+                {
+                    // 수리·모집처럼 확인 한 번: 첫 누름은 확인 상태로 바꾸기만 한다
+                    if (reinforceArmed != wallId) { reinforceArmed = wallId; session.CancelQuote(); quote = null; done = null; Render(); return; }
+                    reinforceArmed = null;
+                    if (BeaconRules.TryReinforceWall(campaign, wallId, rules, out string why)) { done = "보강 완료"; reason = null; }
+                    else { done = null; reason = why; }
+                    session.CancelQuote();
+                    quote = null;
+                    Render();
+                }, UiButtonKind.Normal);
+                Ui.Size(reinforce, -1f, 56f);
+                reinforce.interactable = !maxed && campaign.Gold >= price;
+            }
         }
 
         bool TryRepair(RepairChoice choice, string wallId, out PreparationTransactions.Quote q, out string why, out bool error)
@@ -322,7 +349,7 @@ namespace HumanLastRampart.Meta
             Render();
         }
 
-        void Changed() { quote = null; done = null; session.CancelQuote(); Render(); }
+        void Changed() { quote = null; done = null; reinforceArmed = null; session.CancelQuote(); Render(); }
 
         void DataError(string why)
         {

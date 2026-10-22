@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using HumanLastRampart.Core.CombatContracts;
+using HumanLastRampart.Core.Definitions;
 
 namespace HumanLastRampart.Core.Campaign
 {
@@ -182,6 +183,7 @@ namespace HumanLastRampart.Core.Campaign
             int support = GarrisonSoldiers(campaign) * SupportGoldPerSoldier;
             campaign.Gold += support;
             campaign.LastSupportGold = support;
+            campaign.BeaconRepairBoughtToday = 0;   // W11: 새 낮 = 등대 수리 하루 한도 새로
             return support;
         }
 
@@ -193,13 +195,15 @@ namespace HumanLastRampart.Core.Campaign
         }
 
         // 낮 '등대 수리': 골드를 쓰고 복구를 더한다 (100에서 멈춤). 실패하면 이유
-        public static bool TryBuyRepair(CampaignState campaign, out string reason)
+        public static bool TryBuyRepair(CampaignState campaign, out string reason, int maxPerDay)   // W11: 하루 한도는 꼭 넘긴다 (규칙 데이터 BattleRulesDef.BeaconRepairsPerDay). 0 이하 = 제한 없음은 시험에서만 명시적으로
         {
             reason = null;
+            if (maxPerDay > 0 && campaign.BeaconRepairBoughtToday >= maxPerDay) { reason = "오늘은 이미 등대를 수리했습니다"; return false; }
             if (campaign.BeaconRepair >= RepairMax) { reason = "등대가 이미 모두 복구됐습니다"; return false; }
             if (campaign.Gold < DayRepairGold) { reason = $"골드 부족: 필요 {DayRepairGold:N0}, 보유 {campaign.Gold:N0}"; return false; }
             campaign.Gold -= DayRepairGold;
             campaign.BeaconRepair = Math.Min(RepairMax, campaign.BeaconRepair + DayRepairAmount);
+            campaign.BeaconRepairBoughtToday++;
             return true;
         }
 
@@ -239,6 +243,41 @@ namespace HumanLastRampart.Core.Campaign
             campaign.BeaconRepair = (float)Math.Floor(campaign.BeaconRepair / 2f);
             campaign.ConsecutiveNightLosses++;
             return campaign.ConsecutiveNightLosses >= MaxConsecutiveLosses;
+        }
+
+        // 성벽 보강 (W11, 골드 쓸 곳): 값(보강 횟수에 따라 오름)을 내고 그 성벽 최대 체력을 올린다. 늘어난 만큼 현재 체력도 함께 오른다
+        public static bool TryReinforceWall(CampaignState campaign, string wallId, BattleRulesDef rules, out string reason)
+        {
+            reason = null;
+            WallSegmentState wall = campaign?.FindWall(wallId);
+            if (wall == null || rules == null) { reason = "성벽 정보가 없습니다"; return false; }
+            if (rules.WallReinforceHp <= 0) { reason = "성벽 보강이 꺼져 있습니다"; return false; }
+            if (wall.Reinforced >= rules.WallReinforceMaxPerWall) { reason = "이 성벽은 더 보강할 수 없습니다"; return false; }
+            int price = rules.WallReinforcePrice(wall.Reinforced);
+            if (campaign.Gold < price) { reason = $"골드 부족: 필요 {price:N0}, 보유 {campaign.Gold:N0}"; return false; }
+            campaign.Gold -= price;
+            wall.MaxHp += rules.WallReinforceHp;
+            wall.Hp += rules.WallReinforceHp;
+            wall.Reinforced++;
+            return true;
+        }
+
+        // 진 밤 다음 낮 시작 (W11): 무너졌거나 심하게 상한 성벽을 최대 체력의 percent%까지 되돌린다 (이미 그 이상이면 그대로).
+        // percent는 전투 규칙 데이터(BattleRulesDef.LostNightWallFloorPercent)에서 온다. 바뀐 성벽 수를 돌려준다
+        public static int RaiseWallFloor(CampaignState campaign, int percent)
+        {
+            if (campaign?.Wall == null || percent <= 0) return 0;
+            int changed = 0;
+            foreach (WallSegmentState wall in campaign.Wall)
+            {
+                if (wall == null || wall.MaxHp <= 0) continue;
+                int floor = (int)(((long)wall.MaxHp * Math.Min(100, percent) + 99) / 100);
+                if (wall.Hp >= floor) continue;
+                wall.Hp = floor;
+                changed++;
+            }
+
+            return changed;
         }
 
         // 지금 진 밤이 연속 한도에 닿는가 (반영 전 판단용)

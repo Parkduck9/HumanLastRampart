@@ -29,6 +29,7 @@ namespace HumanLastRampart.Combat.Tests
             BattleSetup setup = BattleSetupFactory.Create(campaign, lookup, "run_lamp_test", out string error);
             Assert.IsNull(error);
             setup.LampBrightness = lamp;
+            setup.LampCountMultiplier = lookup.All<BattleRulesDef>()[0].LampCountMultiplierFor((int)lamp);   // 팩토리는 계획된 밝기로 채우므로 시험이 바꾼 밝기에 맞춘다 (W11 데이터 값)
             setup.BeamSide = beamSide;
             setup.EnemyTier = tier;
             return new BattleSim(setup, lookup);
@@ -81,7 +82,7 @@ namespace HumanLastRampart.Combat.Tests
             using (var sim = NewSim(LampBrightness.High)) high = sim.TotalEnemies;
             Assert.Greater(normal, 50);
             Assert.AreEqual(normal * 0.8f, low, normal * 0.02f + 1f, "약 ×0.8");
-            Assert.AreEqual(normal * 1.3f, high, normal * 0.02f + 1f, "강 ×1.3");
+            Assert.AreEqual(normal * 1.15f, high, normal * 0.02f + 1f, "강 ×1.15");
         }
 
         [Test]

@@ -839,6 +839,256 @@ public sealed class SimProbe
         File.WriteAllText(Environment.GetEnvironmentVariable("HLR_PROBE_OUT") ?? "probe.txt", log.ToString(), new UTF8Encoding(false));
     }
 
+    // 빛을 잇는 자들 1회차 (W11): 요새 1(밤 2) + 요새 2(밤 3)를 실제 흐름(GameFlow·FlowRouter)과 같은 순서로 끝까지.
+    // 난이도 × 등불 밝기 × 정비 정책(강화 없이 / 강화 먼저 / 정원 60%까지 모집 먼저 뒤 강화) × 3판(같은 시드, 전투 실행 ID 끝 번호만 다름).
+    // 규칙은 BeaconRules·BattleResultApplier(진 밤 반영 포함)·BattleSetupFactory·PreparationTransactions를 그대로 쓰고, 정비 정책만 시험용이다
+    [Test, Timeout(3600000)]
+    public void BeaconRun()
+    {
+        var catalogs = new List<DefinitionCatalog>();
+        foreach (string guid in AssetDatabase.FindAssets("t:DefinitionCatalog"))
+            catalogs.Add(AssetDatabase.LoadAssetAtPath<DefinitionCatalog>(AssetDatabase.GUIDToAssetPath(guid)));
+        Assert.Greater(catalogs.Count, 0, "정의 묶음 에셋을 못 찾음");
+        DefinitionLookup lookup = DefinitionLookup.Build(catalogs);
+        const int Reps = 3;
+        var body = new StringBuilder();
+        var rows = new List<string>();
+        var configs = new List<(Difficulty difficulty, LampBrightness lamp, int policy, bool rush)>();
+        foreach (Difficulty difficulty in new[] { Difficulty.Easy, Difficulty.Realistic })
+            foreach (LampBrightness lamp in new[] { LampBrightness.Normal, LampBrightness.High })
+                for (int policy = 0; policy < 3; policy++)
+                    configs.Add((difficulty, lamp, policy, false));
+        foreach (Difficulty difficulty in new[] { Difficulty.Easy, Difficulty.Realistic })   // 덤: 골드로 점화선을 바로 채우는 극단 플레이
+            configs.Add((difficulty, LampBrightness.Normal, 0, true));
+
+        string[] policyNames = { "강화 없이", "강화 먼저", "정원60% 모집 뒤 강화" };
+        foreach (var (difficulty, lamp, policy, rush) in configs)
+        {
+            string title = $"{(rush ? "[골드 점화 서두름] " : "")}{difficulty} · 등불 {lamp} · {policyNames[policy]}";
+            body.AppendLine($"== {title}");
+            int complete = 0, winsTotal = 0;
+            var fails = new List<string>();
+            for (int rep = 1; rep <= Reps; rep++)
+            {
+                body.AppendLine($"-- {rep}회째");
+                (bool done, int wins, string failedAt) = RunBeacon(lookup, difficulty, lamp, policy, rep, body, rush);
+                if (done) complete++;
+                winsTotal += wins;
+                fails.Add(done ? "완료" : failedAt);
+            }
+
+            rows.Add($"| {title} | {complete}/{Reps} | {winsTotal / (float)Reps:0.0} | {string.Join(" / ", fails)} |");
+        }
+
+        var log = new StringBuilder();
+        log.AppendLine($"소스 {Environment.GetEnvironmentVariable("HLR_HEAD")} · dt 0.05s · 진행 시드 판마다 1234+977k · 모집 순서 판마다 다름(정면 먼저/고르게/정면 마지막) · 가격 A(정비 거래 규칙 그대로) · 정면 1/3 옮기기 · 보조 · 빛줄기 가장 위험한 벽으로 돌리기");
+        log.AppendLine("정비: 낮 시작 지원금 → 성벽 낮은 순 수리 → 등대 수리(점화선까지, 예정 마지막 밤부터만. 서두름은 처음부터) → [정원 60% 모집] → [강화] → 남은 골드 정원(전체 2000·벽 500·지점 160)까지 모집(궁수·기존 총수 분대, 정면 먼저). 진 밤은 결과(병력·성벽 피해)를 반영하고 복구 절반·지원금.");
+        log.AppendLine();
+        log.AppendLine("## 요약 (한 줄 = 설정 하나, 3판)");
+        log.AppendLine("| 설정 | 완주 | 평균 승리 밤 | 3판 결과(실패한 밤) |");
+        log.AppendLine("|---|---|---|---|");
+        foreach (string row in rows) log.AppendLine(row);
+        log.AppendLine();
+        log.AppendLine("## 상세");
+        log.Append(body);
+        File.WriteAllText(Environment.GetEnvironmentVariable("HLR_PROBE_OUT") ?? "probe.txt", log.ToString(), new UTF8Encoding(false));
+    }
+
+    // 정비 거래(PreparationTransactions)로 실제 정원까지 모집한다: 전체 limitTotal·성벽 500·지점 160. 기존 분대는 같은 병종으로, 빈 지점은 궁수로.
+    // 정면(북) 지점부터, 그다음 사람 적은 성벽 순으로 25명씩 돌려 채운다. 모집한 수를 돌려준다
+    static int HireToCaps(CampaignState c, DefinitionLookup lookup, int limitTotal, int order = 0)
+    {
+        var tx = new PreparationTransactions(c, lookup);
+        var rules = tx.Rules;
+        List<PostDef> posts = lookup.All<PostDef>().Where(p => p.Kind == PostKind.Squad).ToList();
+        int hired = 0;
+        while (true)
+        {
+            bool progress = false;
+            foreach (PostDef post in posts.OrderBy(p => order == 1 ? tx.WallCount(p.WallId) : order == 2 ? (p.Wall == WallSide.North ? int.MaxValue : tx.WallCount(p.WallId)) : (p.Wall == WallSide.North ? -1 : tx.WallCount(p.WallId))))
+            {
+                int total = tx.TotalCount();
+                int limit = Math.Min(rules.GlobalCapacity, limitTotal) - total;
+                if (limit <= 0) return hired;
+                SquadState existing = c.Squads.Find(s => s.PostId == post.Id);
+                string unitId = existing?.UnitDefId ?? "unit_archer";
+                int room = Math.Min(rules.SquadPostCapacity - (existing?.Count ?? 0), rules.WallCapacity - tx.WallCount(post.WallId));
+                int n = Math.Min(Math.Min(room, limit), 25);
+                if (n <= 0) continue;
+                UnitKind kind = lookup.Get<UnitDef>(unitId).Kind;
+                while (n > 0 && !(HumanLastRampart.Core.Economy.PreparationEconomyRules.TryQuoteRecruit(rules, kind, total, n, out int cost, out _) && cost <= c.Gold)) n--;
+                if (n <= 0) continue;
+                if (tx.TryRecruit(post.Id, unitId, n, out var quote, out _, out _) && tx.TryCommit(quote, out _, out _)) { hired += n; progress = true; }
+            }
+
+            if (!progress) return hired;
+        }
+    }
+
+    // 병력이 더 들어갈 자리가 없는가 (전체·성벽·지점 정원). 정비 첫머리마다 새로 계산한다
+    static bool TroopsFull(CampaignState c, DefinitionLookup lookup)
+    {
+        var tx = new PreparationTransactions(c, lookup);
+        if (tx.TotalCount() >= tx.Rules.GlobalCapacity) return true;
+        foreach (PostDef post in lookup.All<PostDef>().Where(p => p.Kind == PostKind.Squad))
+        {
+            int have = c.Squads.Where(s => s.PostId == post.Id).Sum(s => s.Count);
+            if (have < tx.Rules.SquadPostCapacity && tx.WallCount(post.WallId) < tx.Rules.WallCapacity) return false;
+        }
+
+        return true;
+    }
+
+    // 전투 중 빛줄기를 가장 위험한 벽(붙은 적·오르는 적·성벽 위 적 가중)으로 돌린다. 지금 방향보다 1.3배 넘게 위험할 때만 (플레이어 흉내)
+    static void SteerBeam(BattleSim sim)
+    {
+        float Threat(int side)
+        {
+            var s = sim.Sides[side];
+            return s.AtWall + s.Climbing * 1.5f + s.OnWall * 3f + s.InField * 0.1f;
+        }
+
+        int best = sim.BeamSide;
+        for (int side = 0; side < 4; side++) if (Threat(side) > Threat(best)) best = side;
+        if (best != sim.BeamSide && Threat(best) > Threat(sim.BeamSide) * 1.3f + 1f) sim.RotateBeam(best);
+    }
+
+    // 한 판 (1회차). policy 0 = 강화 없이, 1 = 강화 먼저, 2 = 정원 60%까지 모집한 뒤 강화
+    static (bool complete, int wins, string failedAt) RunBeacon(DefinitionLookup lookup, Difficulty difficulty, LampBrightness lamp, int policy, int rep, StringBuilder log, bool rush = false)
+    {
+        int hireOrder = (rep - 1) % 3;   // 0 정면(북) 먼저, 1 사람 적은 성벽부터 고르게, 2 정면 마지막
+        CampaignState c = CampaignFactory.Create(lookup, new NewGameOptions(difficulty), 1234 + (rep - 1) * 977);   // 판마다 다른 진행 시드 (지형·예보)
+        Assert.IsNotNull(c, $"새 게임 진행 데이터를 못 만듦 (시작 설정 {lookup.All<CampaignStartDef>().Count}개)");
+        bool firstNight = true, ended = false, complete = false;
+        int won = 0, lostCount = 0, battles = 0;
+        string failedAt = "-";
+        c.PlannedLamp = lamp;
+        int globalCap = lookup.All<PreparationEconomyDef>()[0].GlobalCapacity;
+        BattleRulesDef rules = lookup.All<BattleRulesDef>()[0];
+
+        while (!ended && !complete && battles < 12)
+        {
+            battles++;
+            // ── 낮 (첫 밤은 이야기 뒤 바로 전투 — FlowRouter Story→PrepareBattle)
+            string prep = "";
+            if (!firstNight)
+            {
+                // 성벽: 낮은 쪽부터 수리 (정비 거래 그대로, 모자라면 살 수 있는 만큼)
+                var tx = new PreparationTransactions(c, lookup);
+                int wallGold = 0;
+                foreach (WallSegmentState w in c.Wall.OrderBy(w => w.Hp / (double)w.MaxHp).ToList())
+                {
+                    int missing = w.MaxHp - w.Hp;
+                    if (missing <= 0) continue;
+                    int ask = Math.Min(missing, c.Gold * tx.Rules.RepairHpPerGold);
+                    if (ask <= 0) continue;
+                    int before = c.Gold;
+                    if (tx.TryRepair(w.SegmentId, ask, false, out var quote, out _, out _) && tx.TryCommit(quote, out _, out _)) wallGold += before - c.Gold;
+                }
+
+                // 등대 수리: 기본은 예정된 마지막 밤부터만 부족분을 채운다 (rush는 처음부터 — 골드로 밤 건너뛰기 확인용)
+                int beaconBuys = 0;
+                if (rush || c.NightNumber >= BeaconRules.NightsIn(c.FortressNumber))
+                    while (!BeaconRules.RepairReady(c) && BeaconRules.TryBuyRepair(c, out _, rules.BeaconRepairsPerDay)) beaconBuys++;
+                prep = $"수리 {wallGold}골드·등대수리 {beaconBuys}회";
+
+                int hired = 0;
+                if (policy == 2) hired += HireToCaps(c, lookup, globalCap * 6 / 10, hireOrder);
+                if (policy >= 1) prep += SpendOnUpgrades(c, lookup, TroopsFull(c, lookup));   // 정비마다 새로 계산 (어제 값을 끌고 가지 않는다)
+                hired += HireToCaps(c, lookup, globalCap, hireOrder);
+                prep += $" 모집 +{hired}";
+                // 남은 골드는 성벽 보강 (W11): 보강 횟수가 적은 성벽부터, 같으면 정면(북) 먼저
+                int reinforced = 0;
+                while (true)
+                {
+                    WallSegmentState target = c.Wall.Where(w => w.Reinforced < rules.WallReinforceMaxPerWall).OrderBy(w => w.Reinforced).ThenBy(w => w.SegmentId == WallIds.North ? 0 : 1).FirstOrDefault();
+                    if (target == null || !BeaconRules.TryReinforceWall(c, target.SegmentId, rules, out _)) break;
+                    reinforced++;
+                }
+
+                if (reinforced > 0) prep += $" 성벽보강 {reinforced}회";
+            }
+
+            // ── 밤 (PrepareBattle: 급료 → 준비 정보)
+            c.LastBattle = null;
+            c.PlannedLamp = lamp;
+            foreach (string note in HumanLastRampart.Core.Upgrades.UpgradeRules.PayWages(c, lookup)) log.Append($" ({note})");
+            BattleSetup setup = CreateFitted(c, lookup, $"beacon_{difficulty}_{lamp}_{policy}_{rush}_{battles}_r{rep}", out string error, log);
+            if (setup == null) { log.AppendLine($"  밤 준비 오류: {error}"); return (false, won, "준비 오류"); }
+            c.ActiveBattleSetup = setup;
+            string label = BeaconRules.NightLabel(c.FortressNumber, c.NightNumber);
+            int enemyTotal = BattleSim.ScaledGroupCounts(lookup.Get<WaveDef>(setup.WaveDefId).Groups.ToList(), setup.EnemyCountMultiplier * (setup.LampCountMultiplier > 0f ? setup.LampCountMultiplier : BattleSim.LampCountMul(setup.LampBrightness))).Sum();
+            int gold0 = c.Gold, troops0 = c.Squads.Sum(s => s.Count), garrison0 = BeaconRules.GarrisonSoldiers(c);
+            string walls0 = string.Join("/", c.Wall.Select(w => (int)Math.Round(w.Hp * 100.0 / w.MaxHp)));
+            string head = $"  {label} | 자리 {setup.BattleNumber} 단계 {setup.EnemyTier} 등불 {setup.LampBrightness} 적 {enemyTotal}{(setup.IsIgnitionNight ? " ★점화의 밤" : "")} | 시작 골드 {gold0} 병력 {troops0} 수비대 {garrison0} 등대 {c.BeaconRepair:0}% 성벽% {walls0} | 정비 {(firstNight ? "-" : prep.Trim())}";
+
+            BattleResult r; float elapsed;
+            bool timedOut;
+            int rotations = 0;
+            using (var sim = new BattleSim(setup, lookup))
+            {
+                Reinforce(sim, 0.34f, new StringBuilder());   // D-075 기준 플레이
+                float nextAssist = 0f;
+                while (!sim.Ended && sim.Elapsed < 1500f)
+                {
+                    if (sim.Elapsed >= nextAssist)
+                    {
+                        Assist(sim);
+                        int sideBefore = sim.BeamSide;
+                        SteerBeam(sim);
+                        if (sim.BeamSide != sideBefore) rotations++;
+                        nextAssist = sim.Elapsed + 5f;
+                    }
+
+                    sim.BeginFrame(0.05f); if (sim.Ended) break; sim.Schedule(0.05f, sim.Elapsed); sim.Complete();
+                }
+
+                timedOut = !sim.Ended;
+                r = sim.BuildResult(); elapsed = sim.Elapsed;
+            }
+
+            firstNight = false;
+            int lost = r.SquadLosses.Sum(l => l.LostCount);
+            bool victory = !timedOut && r.Outcome == BattleOutcome.Victory;
+            string outcomeText = timedOut ? "시간초과(패배로 침)" : $"{r.Outcome}{(r.Outcome == BattleOutcome.Defeat ? " " + r.DefeatReason + " " + r.DefeatWallId : "")}";
+            log.Append($"{head}\n      → [{outcomeText}] {elapsed:0}s 처치 {r.DefeatedEnemyCount} 보상 {r.EarnedGold} 잃은병사 {lost} 빛 돌림 {rotations}회");
+
+            if (!victory)
+            {
+                lostCount++;
+                if (failedAt == "-") failedAt = label;
+                float before = c.BeaconRepair;
+                // FlowRouter: 첫 패배 = 결과 반영(병력·성벽 피해 남김) → 복구 절반·지원금, 연속 두 번째 = 패배 엔딩
+                if (BeaconRules.LossEndsRun(c)) { ended = true; log.AppendLine($" | 연속 두 번째 패배 → 엔딩 (등대 {before:0}%)"); break; }
+                c.LastBattle = r;
+                if (timedOut) { log.AppendLine(" | 시간초과는 결과 반영 불가 → 엔딩으로 침"); ended = true; break; }
+                if (!BattleResultApplier.TryApply(c, out string lossError, lookup.Get<TerrainDef>(setup.TerrainId), true)) { log.AppendLine($" | 패배 반영 오류 {lossError}"); return (false, won, "패배 반영 오류"); }
+                BeaconRules.ApplyLoss(c);
+                BeaconRules.RaiseWallFloor(c, lookup.All<BattleRulesDef>()[0].LostNightWallFloorPercent);   // GameFlow와 같은 순서: 복구 절반 → 성벽 최소 비율 → 지원금
+                int support = BeaconRules.BeginDay(c);
+                log.AppendLine($" | 패배(반영) → 병력 {c.Squads.Sum(s => s.Count)} 성벽% {string.Join("/", c.Wall.Select(w => (int)Math.Round(w.Hp * 100.0 / w.MaxHp)))} 등대 {before:0}→{c.BeaconRepair:0}% 지원금 +{support}");
+                continue;
+            }
+
+            won++;
+            bool ignition = setup.IsIgnitionNight;
+            TerrainDef terrain = lookup.Get<TerrainDef>(setup.TerrainId);
+            c.LastBattle = r;
+            c.BattleNumber++;   // FlowRouter win.AdvanceBattle
+            if (!BattleResultApplier.TryApply(c, out string applyError, terrain)) { log.AppendLine($" | 반영 오류 {applyError}"); return (false, won, "반영 오류"); }
+            BeaconRules.ApplyWin(c, c.ActiveBattleSetup, r);   // ResultEntry
+            string repairText = ignition ? "점화 성공" : $"등대 +{c.LastNightGain:0.#}";
+            log.AppendLine($" | 승리 → {repairText}(등대 {c.BeaconRepair:0}%) 골드 {c.Gold} 병력 {c.Squads.Sum(s => s.Count)} 수비대 남김 {c.LastNightGarrison} 성벽% {string.Join("/", c.Wall.Select(w => (int)Math.Round(w.Hp * 100.0 / w.MaxHp)))}");
+            if (c.NextStory != null && c.NextStory.Kind == StoryKind.RunComplete) { complete = true; break; }
+            BeaconRules.BeginDay(c);   // Result → Prep
+        }
+
+        if (!complete && !ended) log.AppendLine("  (밤 12번을 넘겨 중단)");
+        log.AppendLine($"  ★ {(complete ? "1회차 완료" : ended ? "패배 엔딩" : "중단")} · 승 {won} 패 {lostCount} · 첫 패배 {failedAt}");
+        return (complete, won, failedAt);
+    }
+
+
     // 강화 사용 정책 (시험 전용): 마법사 → 주인공 휘장 → 소모품 → 시설 → 궁수 훈련(골드 절반 안) → 정원이 차면 북쪽 용병. 남은 골드는 궁수 모집에
     static string SpendOnUpgrades(CampaignState c, DefinitionLookup lookup, bool troopsFull)
     {

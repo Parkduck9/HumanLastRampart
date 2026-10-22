@@ -10,7 +10,8 @@ namespace HumanLastRampart.Meta
     public static class BattleResultApplier
     {
         // 성공(이미 반영된 결과 포함)은 true. 실패 시 Campaign은 그대로다.
-        public static bool TryApply(CampaignState campaign, out string error, TerrainDef terrain = null)
+        // lostNight (W11, 사용자 규칙): 진 밤의 결과도 반영한다 — 병력 손실·성벽 피해·영웅·함정·소모품은 남고, 보상 골드는 없다. 번호는 올리지 않는 밤이라 번호 검사만 다르다
+        public static bool TryApply(CampaignState campaign, out string error, TerrainDef terrain = null, bool lostNight = false)
         {
             error = null;
             try
@@ -22,8 +23,8 @@ namespace HumanLastRampart.Meta
                 Require(!string.IsNullOrWhiteSpace(result.BattleRunId) && result.BattleRunId == setup.BattleRunId,
                     "이번 전투의 실행 ID와 결과가 다릅니다");
                 Require(result.BattleNumber > 0 && result.BattleNumber == setup.BattleNumber &&
-                    (long)campaign.BattleNumber >= (long)result.BattleNumber + 1, "끝난 전투 번호가 맞지 않습니다");   // W8: 결과 번호는 전투 자리(1~4), 진행 번호는 밤 번호라 5번째 밤부터 더 클 수 있다
-                Require(result.Outcome == BattleOutcome.Victory, "승리 결과가 아닙니다");
+                    (long)campaign.BattleNumber >= (long)result.BattleNumber + (lostNight ? 0 : 1), "끝난 전투 번호가 맞지 않습니다");   // W8: 결과 번호는 전투 자리(1~4), 진행 번호는 밤 번호라 5번째 밤부터 더 클 수 있다
+                Require(result.Outcome == (lostNight ? BattleOutcome.Defeat : BattleOutcome.Victory), lostNight ? "패배 결과가 아닙니다" : "승리 결과가 아닙니다");
 
                 // 이미 적용한 뒤에는 시작 상태와 다를 수 있다. 상태 검사보다 먼저 반환한다.
                 if (campaign.LastAppliedBattleRunId == result.BattleRunId) return true;
@@ -31,9 +32,9 @@ namespace HumanLastRampart.Meta
                 Require(campaign.Gold >= 0 && result.EarnedGold >= 0, "골드가 음수입니다");
                 Require(result.DefeatedEnemyCount >= 0 && result.DefeatedSpecialCount >= 0 &&
                     result.DefeatedSpecialCount <= result.DefeatedEnemyCount, "처치 수가 올바르지 않습니다");
-                Require(result.DefeatReason == DefeatReason.None && string.IsNullOrEmpty(result.DefeatWallId),
+                Require(lostNight || (result.DefeatReason == DefeatReason.None && string.IsNullOrEmpty(result.DefeatWallId)),
                     "승리 결과에 패배 정보가 있습니다");
-                long gold = (long)campaign.Gold + result.EarnedGold;
+                long gold = (long)campaign.Gold + (lostNight ? 0 : result.EarnedGold);
                 Require(gold <= int.MaxValue, "골드가 저장 범위를 넘습니다");
 
                 var startHeroes = Index(setup.Heroes, h => h.InstanceId, "시작 영웅");

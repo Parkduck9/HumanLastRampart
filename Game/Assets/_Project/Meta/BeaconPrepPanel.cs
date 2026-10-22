@@ -1,6 +1,7 @@
 ﻿using System;
 using HumanLastRampart.Core.Campaign;
 using HumanLastRampart.Core.CombatContracts;
+using HumanLastRampart.Core.Definitions;
 using HumanLastRampart.Core.Flow;
 using HumanLastRampart.UI;
 using UnityEngine;
@@ -17,6 +18,8 @@ namespace HumanLastRampart.Meta
         public static void Build(RectTransform line1, RectTransform line2, RectTransform line3, IScreenContext context, Action refreshGold)
         {
             CampaignState campaign = context.Campaign;
+            var ruleList = context.Definitions.All<BattleRulesDef>();
+            int repairsPerDay = ruleList.Count > 0 ? ruleList[0].BeaconRepairsPerDay : 0;   // W11: 하루 한도 (규칙 데이터)
 
             // 줄 3 (W12): 밤 사이 한마디 (Story_Beacon_v1 3장). 어젯밤 결과·점화 준비 상태에 맞는 부관/주인공의 한두 줄
             Text dayLine = null;   // line3가 null이면 한마디 줄이 없는 날
@@ -68,7 +71,7 @@ namespace HumanLastRampart.Meta
 
             buy = Ui.Button(row2.transform, "등대 수리", $"등대 수리 +{BeaconRules.DayRepairAmount:0} ({BeaconRules.DayRepairGold:N0}골드)", () =>
             {
-                BeaconRules.TryBuyRepair(campaign, out _);
+                BeaconRules.TryBuyRepair(campaign, out _, repairsPerDay);
                 refreshGold?.Invoke();
                 Refresh();
             }, UiButtonKind.Normal);
@@ -92,7 +95,9 @@ namespace HumanLastRampart.Meta
 
                 support.text = $"수비대 지원금 +{campaign.LastSupportGold:N0}";
                 for (int i = 0; i < 3; i++) Ui.SetOn(lampButtons[i], campaign.PlannedLamp == order[i]);
-                buy.interactable = campaign.BeaconRepair < BeaconRules.RepairMax && campaign.Gold >= BeaconRules.DayRepairGold;
+                bool usedToday = repairsPerDay > 0 && campaign.BeaconRepairBoughtToday >= repairsPerDay;
+                Ui.LabelOf(buy).text = usedToday ? "오늘 수리함 (내일 다시)" : $"등대 수리 +{BeaconRules.DayRepairAmount:0} ({BeaconRules.DayRepairGold:N0}골드)";   // W11: 하루 한 번
+                buy.interactable = !usedToday && campaign.BeaconRepair < BeaconRules.RepairMax && campaign.Gold >= BeaconRules.DayRepairGold;
             }
 
             Refresh();
@@ -126,7 +131,7 @@ namespace HumanLastRampart.Meta
             string Stamp()
             {
                 var b = new System.Text.StringBuilder();
-                b.Append(campaign.Gold).Append('|').Append(campaign.BeaconRepair).Append('|').Append((int)campaign.PlannedLamp);
+                b.Append(campaign.Gold).Append('|').Append(campaign.BeaconRepair).Append('|').Append((int)campaign.PlannedLamp).Append('|').Append(campaign.BeaconRepairBoughtToday);
                 foreach (WallSegmentState wall in campaign.Wall) b.Append('|').Append(wall?.Hp);
                 return b.ToString();
             }

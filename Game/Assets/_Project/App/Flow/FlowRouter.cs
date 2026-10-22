@@ -39,7 +39,8 @@ namespace HumanLastRampart.App.Flow
         public bool HasNextBattle;                  // 다음 전투 번호에 웨이브가 있는가
         public bool LastBattleWasPractice;          // 연습 전투가 끝남 (D-063, C-005 v1.5 초안)
         public bool LossCanRetry;                   // W8: 진 밤이 연속 한도에 닿지 않아 같은 요새 다음 낮으로 간다 (기본 false = 패배 엔딩)
-        public bool StoryIsRunComplete;             // W8: 1회차 완료 이야기 (끝나면 메인)
+        public bool ResultWasLostNight;             // W11: 방금 결과 화면은 진 밤의 보고였다 → 뒤에 복구 절반·지원금과 함께 같은 요새의 다음 낮
+        public bool StoryIsRunComplete;            // W8: 1회차 완료 이야기 (끝나면 메인)
         public bool RunComplete;                    // W8: 결과 화면 뒤 1회차 완료 이야기로 간다
         public bool ResultStory;                    // W12: 봉화선 지도 뒤 점화 이야기로 간다 (요새 점화, 마지막 요새 제외)
         public bool StoryChainNext;                 // W12: 이 이야기 뒤에 이어 볼 이야기가 있다 (이야기 화면을 다시 연다)
@@ -107,11 +108,9 @@ namespace HumanLastRampart.App.Flow
 
                     if (state.LossCanRetry)
                     {
-                        // W8: 첫 패배는 등대 복구가 절반으로 줄고 같은 요새의 다음 낮으로 (연속 두 번이면 아래 패배 엔딩)
-                        FlowStep retry = FlowStep.Open(ScreenId.Prep);
-                        retry.ApplyNightLoss = true;
-                        retry.BeginDay = true;
-                        return retry;
+                        // W8: 첫 패배는 등대 복구가 절반으로 줄고 같은 요새의 다음 낮으로 (연속 두 번이면 아래 패배 엔딩).
+                        // W11: 잃은 병력을 보여 주려고 결과 화면(4번)을 먼저 거친다. 번호는 올리지 않는다 (같은 밤을 다시)
+                        return FlowStep.Open(ScreenId.Result);
                     }
 
                     FlowStep lose = FlowStep.Open(ScreenId.Story);   // 결과 화면 건너뜀
@@ -120,6 +119,14 @@ namespace HumanLastRampart.App.Flow
 
                 case ScreenId.Result:
                     if (outcome != ScreenOutcome.Done) return FlowStep.Stay();
+                    if (state.ResultWasLostNight)
+                    {
+                        FlowStep retry = FlowStep.Open(ScreenId.Prep);
+                        retry.ApplyNightLoss = true;
+                        retry.BeginDay = true;
+                        return retry;
+                    }
+
                     // W10: 요새를 점화한 밤 뒤(마지막 요새 포함)에는 봉화선 지도를 먼저 본다. 그 뒤는 지도에서 정한다
                     if (state.RunComplete || state.RelitFortress) return FlowStep.Open(ScreenId.BeaconMap);
                     return StartDay();

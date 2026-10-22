@@ -298,7 +298,7 @@ namespace HumanLastRampart.Combat.Battle
                     valid.Add(group);
                 }
 
-                int[] counts = ScaledGroupCounts(valid, setup.EnemyCountMultiplier * LampCountMul(setup.LampBrightness));   // 등불 밝기 (시작 때만)
+                int[] counts = ScaledGroupCounts(valid, setup.EnemyCountMultiplier * LampCountFactor);   // 등불 밝기 (시작 때만)
                 for (int g = 0; g < valid.Count; g++)
                 {
                     WaveGroup group = valid[g];

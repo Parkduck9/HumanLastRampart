@@ -227,6 +227,7 @@ namespace HumanLastRampart.App.Flow
             {
                 state.RunComplete = Campaign.NextStory != null && Campaign.NextStory.Kind == StoryKind.RunComplete;   // W8: 마지막 요새 점화
                 state.RelitFortress = Campaign.LastNightRelit;   // W10: 점화한 밤이면 결과 뒤 봉화선 지도
+                state.ResultWasLostNight = Campaign.LastBattle != null && Campaign.LastBattle.Outcome == BattleOutcome.Defeat;   // W11: 진 밤의 보고
             }
             else if (context.Screen == ScreenId.BeaconMap && Campaign != null)
             {
@@ -353,8 +354,11 @@ namespace HumanLastRampart.App.Flow
 
             if (step.ApplyNightLoss)
             {
-                // W8: 진 밤 — 복구 절반·연속 패배 +1. 전투 결과(병력·성벽)는 반영하지 않으므로 밤 시작 때 그대로 낮으로 돌아간다
+                // W11 (사용자 규칙): 진 밤의 결과(병력 손실·성벽 피해, 보상 골드 없음)는 결과 화면(ResultEntry)이 이미 반영했다.
+                // 여기서는 복구 절반·연속 패배 +1, 그리고 무너진 성벽을 규칙 데이터의 최소 비율까지 되돌린다
                 BeaconRules.ApplyLoss(Campaign);   // LastBattle·ActiveBattleSetup은 다음 전투 준비(PrepareBattle) 때 갱신된다
+                IReadOnlyList<BattleRulesDef> ruleList = lookup.All<BattleRulesDef>();
+                if (ruleList.Count > 0) BeaconRules.RaiseWallFloor(Campaign, ruleList[0].LostNightWallFloorPercent);
             }
 
             if (step.BeginDay)

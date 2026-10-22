@@ -919,19 +919,17 @@ namespace HumanLastRampart.Combat.Battle
             };
 
             BattleResultHelper.AddUnchangedHeroes(setup, result);
-            if (outcome == BattleOutcome.Victory)
+            // W11: 진 밤의 결과도 반영되므로 패배 시험 결과에도 손실·성벽 피해를 넣는다 (결과 반영 경로 시험)
+            SquadState squad = setup.Squads.Find(s => s.Count > 0);
+            if (squad != null)
             {
-                SquadState squad = setup.Squads.Find(s => s.Count > 0);
-                if (squad != null)
-                {
-                    result.SquadLosses.Add(new SquadLoss { SquadId = squad.SquadId, LostCount = 1 });
-                }
+                result.SquadLosses.Add(new SquadLoss { SquadId = squad.SquadId, LostCount = 1 });
+            }
 
-                WallSegmentState north = setup.Wall.Find(w => w.SegmentId == WallIds.North);
-                if (north != null)
-                {
-                    result.WallOutcomes.Add(new WallOutcome { SegmentId = north.SegmentId, HpAfter = Mathf.Max(0, north.Hp - 50) });
-                }
+            WallSegmentState north = setup.Wall.Find(w => w.SegmentId == WallIds.North);
+            if (north != null)
+            {
+                result.WallOutcomes.Add(new WallOutcome { SegmentId = north.SegmentId, HpAfter = Mathf.Max(0, north.Hp - 50) });
             }
 
             campaign.LastBattle = result;

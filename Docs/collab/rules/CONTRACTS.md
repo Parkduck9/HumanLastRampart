@@ -1406,3 +1406,5 @@ public interface IScreenContext
 - **K-061 할당 줄이기** (흐름장 배열 재사용): Combat 내부 → 계약 변경 없음
 - **K-047 화면 다시 만들기** (`UI/Kit`): 공용 UI 부품이 늘었지만 화면 전환·데이터 약속은 그대로 → 계약 변경 없음. 공용 UI 부품 목록은 `Docs/GDD/MAINTENANCE.md`에 적는다
 - 아직 승인 대기인 초안 (변동 없음): C-003 v1.4, C-004 v1.4·v1.5·v1.6, C-005 v1.5·v1.6·v1.7, C-006 v1.3, C-009 r0, C-010 v1.8~v1.11
+
+- **W11 초안 (계약 변경, 승인 대기):** C-004에 CampaignState.BeaconRepairBoughtToday(낮마다 0), WallSegmentState.Reinforced(성벽 보강 횟수, 보강은 MaxHp에 바로 더함) · C-005에 BattleSetup.LampCountMultiplier(0이면 BattleSim 기본표 사용) · C-007에 BattleResultApplier.TryApply(..., lostNight)(진 밤 결과 반영, 보상 골드 없음, 번호 검사 >= 슬롯). 규칙 데이터는 BattleRulesDef(lostNightWallFloorPercent·lampCountMultipliers·eaconRepairsPerDay·wallReinforce*). BattleResultApplier는 App이 부르도록 Core 어셈블리로 옮겼고 이름공간은 HumanLastRampart.Meta 그대로다(옮긴 이유: HLR.App이 HLR.Meta를 참조할 수 없음).
