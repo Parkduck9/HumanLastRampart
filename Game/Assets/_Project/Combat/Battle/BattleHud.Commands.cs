@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using HumanLastRampart.Core.Campaign;
 using HumanLastRampart.UI;
@@ -9,7 +9,8 @@ namespace HumanLastRampart.Combat.Battle
 {
     // 명령 메뉴 (Battle.md 3.1-1, D-028·D-072): 휠 버튼으로 열고, 마우스나 숫자 키로 고르고, 휠·오른쪽 버튼으로 닫는다.
     // 열려 있어도 시간은 흐른다 (D-029 R2). 순서: ① 명령하기 → 명령어 / ② 전령 부르기·③ 소리 지르기 → 명령어 → 받을 성벽
-    // 알림 (K-011 → K-047): 보통 알림은 전령 쪽지(최대 3장), 위급 알림은 위 가운데 붉은 띠 + 화면 가장자리 붉은 빛 (S-23·S-27)
+    // 알림 (K-011 → K-047 → W17): 모든 알림은 오른쪽 위 목록(킬피드)에 한 줄씩. 새 줄이 맨 아래, 최대 5줄, 몇 초 뒤 흐려지며 사라진다.
+    // 위급 알림은 같은 목록에 붉은 줄 + 화면 가장자리 붉은 빛 (S-23·S-27). 가운데에는 아무것도 쌓지 않는다.
     public sealed partial class BattleHud
     {
         enum MenuStep { Closed, Root, Words, Target }
@@ -19,9 +20,15 @@ namespace HumanLastRampart.Combat.Battle
         // 알림 종류. 숫자가 작을수록 중요 — 쪽지가 넘치면 덜 중요한 것부터 밀어낸다
         enum NoticeKind { Danger, MagicTrap, Command, Weather, Other }
 
-        const int SlipMax = 3;
-        const float NoticeRepeatWindow = 3f;   // 이 안에 같은 문장이 다시 오면 새 쪽지 대신 ×2, ×3
-        static readonly float[] NoticeSeconds = { 7f, 5f, 4f, 4f, 3f };
+        const int SlipMax = 5;
+        const float FeedWidth = 480f;          // 목록 한 줄의 최대 너비 (가운데 단계 띠와 겹치지 않는 폭)
+        const float FeedLineHeight = 40f;
+        const float FeedGap = UiTokens.S8;      // 목록 줄 간격 (BuildNotices의 Column 간격과 같은 값)
+        const int MapFeedMax = 3;              // 지도에서는 3줄만 (대포 판이 낮은 화면에서도 들어가도록)
+        const float FeedReserve = Edge + (MapFeedMax + 1) * (FeedLineHeight + FeedGap) + UiTokens.S16;   // 지도에서 목록이 쓰는 위쪽 높이(사라지는 한 줄 여유 포함): 대포 판은 이 밑에서 시작
+        int feedMax = SlipMax;
+        const float NoticeRepeatWindow = 3f;   // 이 안에 같은 문장이 다시 오면 새 줄 대신 ×2, ×3
+        static readonly float[] NoticeSeconds = { 6f, 5f, 4f, 4f, 3f };
 
         // 전투 코드의 알림 문장은 그대로 받고 낱말로 종류를 가른다. 위험 → 마법·함정 → 날씨 → 명령 순으로 먼저 맞는 것
         static readonly string[] DangerWords = { "잃었습니다", "돌아옵니다", "병사가 없습니다", "듣지 못했습니다", "남았습니다", "무너", "뚫", "위험", "전멸" };
@@ -50,10 +57,7 @@ namespace HumanLastRampart.Combat.Battle
         int currentSide;
 
         RectTransform slipColumn;
-        GameObject dangerBanner;
-        Text dangerText;
-        float dangerUntil;
-        Text notices;   // 시험 기록용 (이름 "Notices", 화면에는 그리지 않는다)
+        Text notices;  // 시험 기록용 (이름 "Notices", 화면에는 그리지 않는다)
         readonly List<NoticeLine> noticeLines = new List<NoticeLine>();
         readonly System.Text.StringBuilder noticeText = new System.Text.StringBuilder(512);
         bool noticesDirty;
@@ -315,40 +319,44 @@ namespace HumanLastRampart.Combat.Battle
         // ── 알림 ──
         void BuildNotices()
         {
-            VerticalLayoutGroup column = Ui.Column(root.transform, "Notice Slips", UiTokens.S8);
+            VerticalLayoutGroup column = Ui.Column(root.transform, "Notice Slips", FeedGap);
             column.childForceExpandWidth = false;
+            column.childAlignment = TextAnchor.UpperRight;
             slipColumn = (RectTransform)column.transform;
             slipColumn.gameObject.AddComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
             PlaceNotices(false);
-
-            Image banner = Ui.Panel(root.transform, "Danger Banner", UiPanel.SlipDanger);
-            banner.raycastTarget = false;
-            dangerBanner = banner.gameObject;
-            HorizontalLayoutGroup row = banner.gameObject.AddComponent<HorizontalLayoutGroup>();
-            row.padding = new RectOffset(32, 32, 12, 12);
-            row.spacing = UiTokens.S16;
-            row.childAlignment = TextAnchor.MiddleLeft;
-            row.childControlWidth = row.childControlHeight = true;
-            row.childForceExpandWidth = row.childForceExpandHeight = false;
-            banner.gameObject.AddComponent<ContentSizeFitter>().horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
-            Ui.Icon(banner.transform, "Warn", UiArt.IconWarn, 1f, UiTokens.Danger);
-            dangerText = Ui.Label(banner.transform, "Notice Line", "", UiTokens.Text, UiTokens.Ink);
-            dangerText.horizontalOverflow = HorizontalWrapMode.Overflow;
-            dangerBanner.SetActive(false);
 
             notices = Ui.Label(root.transform, "Notices", "", UiTokens.Small, UiTokens.Body);
             notices.enabled = false;
         }
 
-        // 전투 중 = 오른쪽 위 (전령이 건네는 쪽지), 지도 = 아래 가운데 (양쪽 판을 가리지 않게)
+        // 전투·지도 모두 오른쪽 위 한 곳. 지도의 대포 판은 FeedReserve 아래에서 시작해 겹치지 않는다
         void PlaceNotices(bool map)
         {
-            var column = slipColumn.GetComponent<VerticalLayoutGroup>();
-            column.childAlignment = map ? TextAnchor.LowerCenter : TextAnchor.UpperRight;
-            if (map) Ui.Place(slipColumn, new Vector2(0.5f, 0f), new Vector2(0f, Edge + 33f + UiTokens.S24), new Vector2(720f, 0f), new Vector2(0.5f, 0f));
-            else Ui.Place(slipColumn, new Vector2(1f, 1f), new Vector2(-Edge, -Edge), new Vector2(720f, 0f), new Vector2(1f, 1f));
-            if (dangerBanner != null)
-                Ui.Place((RectTransform)dangerBanner.transform, new Vector2(0.5f, 1f), new Vector2(0f, preparing ? -(Edge + 64f + UiTokens.S16) : -(Edge + BandHeight + UiTokens.S16)), new Vector2(0f, 64f), new Vector2(0.5f, 1f));
+            Ui.Place(slipColumn, new Vector2(1f, 1f), new Vector2(-Edge, -Edge), new Vector2(FeedWidth, 0f), new Vector2(1f, 1f));
+            feedMax = map ? MapFeedMax : SlipMax;
+            TrimNotices();
+        }
+
+        // 사라지는 줄은 배치에서 바로 빼서 (제자리에서 흐려짐) 남은 줄과 아래 판이 밀리거나 겹치지 않게 한다
+        static void FoldSlip(GameObject slip)
+        {
+            if (!slip.TryGetComponent(out LayoutElement element)) element = slip.AddComponent<LayoutElement>();
+            element.ignoreLayout = true;
+            slip.transform.SetAsFirstSibling();
+            UiAppear.Hide(slip, true);
+        }
+
+        // 줄이 넘치면 덜 중요한 것부터 접는다
+        void TrimNotices()
+        {
+            while (noticeLines.Count > feedMax)
+            {
+                int drop = LeastImportantSlip();
+                if (drop < 0) break;
+                FoldSlip(noticeLines[drop].Slip);
+                noticeLines.RemoveAt(drop);
+            }
         }
 
         public void PushNotice(string text)
@@ -366,8 +374,12 @@ namespace HumanLastRampart.Combat.Battle
                     line.Count++;
                     line.Last = now;
                     line.Until = now + NoticeSeconds[(int)kind];
-                    if (line.Label != null) line.Label.text = text + " ×" + line.Count;
-                    if (kind == NoticeKind.Danger) ShowDanger(text + " ×" + line.Count, line.Until);
+                    if (line.Label != null)
+                    {
+                        FitSlip(line.Slip, line.Label, text + " ×" + line.Count);
+                    }
+
+                    if (kind == NoticeKind.Danger) ShowDanger();
                     noticesDirty = true;
                     RefreshNotices();
                     return;
@@ -376,48 +388,57 @@ namespace HumanLastRampart.Combat.Battle
 
             var added = new NoticeLine { Text = text, Kind = kind, Count = 1, Last = now, Until = now + NoticeSeconds[(int)kind] };
             noticeLines.Add(added);
-            if (kind == NoticeKind.Danger) ShowDanger(text, added.Until);
-            else
-            {
-                added.Slip = NewSlip(text, out added.Label);
-                int slips = 0;
-                foreach (NoticeLine l in noticeLines) if (l.Slip != null) slips++;
-                while (slips > SlipMax)
-                {
-                    int drop = LeastImportantSlip();
-                    if (drop < 0) break;
-                    UiAppear.Hide(noticeLines[drop].Slip, true);
-                    noticeLines.RemoveAt(drop);
-                    slips--;
-                }
-            }
+            added.Slip = NewSlip(text, kind == NoticeKind.Danger, out added.Label);
+            if (kind == NoticeKind.Danger) ShowDanger();
+            TrimNotices();
 
             noticesDirty = true;
             RefreshNotices();
         }
 
-        GameObject NewSlip(string text, out Text label)
+        // 한 줄: 짧은 쪽지. 새 줄이 맨 아래 (킬피드)
+        GameObject NewSlip(string text, bool danger, out Text label)
         {
-            Image slip = Ui.Panel(slipColumn, "Slip", UiPanel.Slip);
+            Image slip = Ui.Panel(slipColumn, "Slip", danger ? UiPanel.SlipDanger : UiPanel.Slip);
             slip.raycastTarget = false;
-            slip.transform.SetAsFirstSibling();   // 새 쪽지가 맨 위
-            label = Ui.Label(slip.transform, "Notice Line", text, UiTokens.Text, UiTokens.Ink, TextAnchor.MiddleLeft);
+            slip.transform.SetAsLastSibling();
+            label = Ui.Label(slip.transform, "Notice Line", text, UiTokens.Small, UiTokens.Ink, TextAnchor.MiddleLeft);
             label.horizontalOverflow = HorizontalWrapMode.Overflow;
             Ui.Stretch(label.rectTransform);
-            label.rectTransform.offsetMin = new Vector2(UiTokens.S24, 0f);
-            label.rectTransform.offsetMax = new Vector2(-UiTokens.S24, 0f);
-            Ui.Size(slip, Mathf.Min(720f, label.preferredWidth + 64f), 52f);
+            float left = UiTokens.S16;
+            if (danger)
+            {
+                // 색을 못 가려도 구분되도록 경고 그림을 붙인다
+                Image warn = Ui.Icon(slip.transform, "Warn", UiArt.IconWarn, 1f, UiTokens.Danger);
+                Anchor(warn.rectTransform, new Vector2(0f, 0.5f), new Vector2(UiTokens.S8, 0f), warn.rectTransform.sizeDelta, new Vector2(0f, 0.5f));
+                left = UiTokens.S8 + warn.rectTransform.sizeDelta.x + UiTokens.S8;
+            }
+
+            label.rectTransform.offsetMin = new Vector2(left, 0f);
+            label.rectTransform.offsetMax = new Vector2(-UiTokens.S16, 0f);
+            FitSlip(slip.gameObject, label, text);
             UiAppear.Show(slip.gameObject);
             return slip.gameObject;
         }
 
-        void ShowDanger(string text, float until)
+        // 글이 길면 말줄임표로 자른다 (전체 문장은 시험용 숨은 기록 "Notices"에 남는다)
+        static void FitSlip(GameObject slip, Text label, string full)
         {
-            dangerText.text = text;
-            Ui.Size(dangerText, dangerText.preferredWidth + 2f, 36f);
-            dangerUntil = until;
-            PlaceNotices(mapMode);
-            UiAppear.Show(dangerBanner, new Vector2(0f, UiTokens.S16));
+            float pad = label.rectTransform.offsetMin.x - label.rectTransform.offsetMax.x;
+            float room = FeedWidth - pad;
+            label.text = full;
+            string shown = full;
+            while (label.preferredWidth > room && shown.Length > 1)
+            {
+                shown = shown.Substring(0, shown.Length - 1);
+                label.text = shown.TrimEnd() + "…";
+            }
+
+            Ui.Size((RectTransform)slip.transform, label.preferredWidth + pad, FeedLineHeight);
+        }
+
+        void ShowDanger()
+        {
             vignette.gameObject.SetActive(true);
             UiPulse.Play(vignette, 2.4f, 0.55f);
         }
@@ -458,12 +479,11 @@ namespace HumanLastRampart.Combat.Battle
             for (int i = noticeLines.Count - 1; i >= 0; i--)
             {
                 if (noticeLines[i].Until >= now) continue;
-                if (noticeLines[i].Slip != null) UiAppear.Hide(noticeLines[i].Slip, true);
+                if (noticeLines[i].Slip != null) FoldSlip(noticeLines[i].Slip);
                 noticeLines.RemoveAt(i);
                 noticesDirty = true;
             }
 
-            if (dangerBanner.activeSelf && now > dangerUntil) UiAppear.Toggle(dangerBanner, false);
             if (!noticesDirty) return;
             noticesDirty = false;
             noticeText.Clear();
