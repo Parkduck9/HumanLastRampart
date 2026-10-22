@@ -63,7 +63,7 @@ public sealed partial class PlayProbe
             yield return Press("×1", 120);
             yield return FreshHud();
             sim.Complete();
-            Assert.IsTrue(sim.TryGetPhaseWarning(out _) || sim.FinalAssaultStarted, "촬영 순간에도 예고 중");
+            Assert.IsTrue(sim.TryGetPhaseWarning(out _), "촬영 순간에도 예고 중 (최후 돌격은 예고가 아니다)");
             Assert.IsTrue(warned, "120초 안에 단계 예고");
             Note($"예고 {sim.Elapsed:0.0}초 · 단계 {sim.CurrentPhase}");
 

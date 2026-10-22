@@ -23,8 +23,12 @@ namespace HumanLastRampart.Story
             }
             else if (kind == StoryKind.RunComplete)
             {
-                script.Id = "story_run1_complete";   // 임시 한 줄 — 실제 글은 조정 담당(W8)
-                Add(scene, "", StorySide.None, null, "두 번째 등대에도 불이 켜졌다. 어둠 속에서 빛이 이어지기 시작했다.", StoryEffect.FadeBlack);
+                script.Id = "story_run1_complete";   // 에셋이 없을 때만 쓰는 대비용 (Story_Beacon_v1 6장 요약)
+                Add(scene, "", StorySide.None, null, "두 번째 빛기둥이 솟았다. 두 등대 사이로 가는 빛의 길이 이어졌다.", StoryEffect.FadeBlack);
+                Add(scene, "하겐", StorySide.Right, null, "봉화선이 다시 이어졌습니다. 몇십 년 만에.", StoryEffect.None);
+                Add(scene, "루멘", StorySide.Left, null, "아직 두 개뿐이에요. 대륙 끝까지 이으려면 한참 남았죠.", StoryEffect.None);
+                Add(scene, "이그나", StorySide.Right, null, "그럼 계속 가요. 불은 제가 지킬게요.", StoryEffect.None);
+                Add(scene, "", StorySide.None, null, "빛을 잇는 자들의 원정은 이제 시작이다.", StoryEffect.None);
             }
             else
             {

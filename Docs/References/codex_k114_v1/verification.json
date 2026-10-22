@@ -1,0 +1,243 @@
+{
+  "checks": [
+    {
+      "file": "night_courtyard_1920x1080.png",
+      "sourceSize": [
+        1672,
+        941
+      ],
+      "size": [
+        1920,
+        1080
+      ],
+      "alphaRange": [
+        255,
+        255
+      ],
+      "resample": "nearest-neighbor",
+      "detailCrop": [
+        1440,
+        320,
+        480,
+        270
+      ]
+    },
+    {
+      "file": "night_capstan_1920x1080.png",
+      "sourceSize": [
+        1672,
+        941
+      ],
+      "size": [
+        1920,
+        1080
+      ],
+      "alphaRange": [
+        255,
+        255
+      ],
+      "resample": "nearest-neighbor",
+      "detailCrop": [
+        480,
+        470,
+        480,
+        270
+      ]
+    },
+    {
+      "file": "day_prep_1920x1080.png",
+      "sourceSize": [
+        1672,
+        941
+      ],
+      "size": [
+        1920,
+        1080
+      ],
+      "alphaRange": [
+        255,
+        255
+      ],
+      "resample": "nearest-neighbor",
+      "detailCrop": [
+        640,
+        210,
+        480,
+        270
+      ]
+    }
+  ],
+  "files": [
+    {
+      "file": "day_prep_1920x1080.png",
+      "width": 1920,
+      "height": 1080,
+      "decoded": true
+    },
+    {
+      "file": "day_prep_detail_4x.png",
+      "width": 1920,
+      "height": 1080,
+      "decoded": true
+    },
+    {
+      "file": "day_prep_generated.png",
+      "width": 1672,
+      "height": 941,
+      "decoded": true
+    },
+    {
+      "file": "night_capstan_1920x1080.png",
+      "width": 1920,
+      "height": 1080,
+      "decoded": true
+    },
+    {
+      "file": "night_capstan_detail_4x.png",
+      "width": 1920,
+      "height": 1080,
+      "decoded": true
+    },
+    {
+      "file": "night_capstan_generated.png",
+      "width": 1672,
+      "height": 941,
+      "decoded": true
+    },
+    {
+      "file": "night_courtyard_1920x1080.png",
+      "width": 1920,
+      "height": 1080,
+      "decoded": true
+    },
+    {
+      "file": "night_courtyard_detail_4x.png",
+      "width": 1920,
+      "height": 1080,
+      "decoded": true
+    },
+    {
+      "file": "night_courtyard_generated.png",
+      "width": 1672,
+      "height": 941,
+      "decoded": true
+    }
+  ],
+  "html": {
+    "file": "C:/Unity/1/HLR-cards/K-114/_HTML/6_그림_화면/codex_K-114_탑과일꾼_참고_v1.html",
+    "embeddedImages": [
+      {
+        "index": 1,
+        "width": 1920,
+        "height": 1080,
+        "decoded": true
+      },
+      {
+        "index": 2,
+        "width": 3840,
+        "height": 1080,
+        "decoded": true
+      },
+      {
+        "index": 3,
+        "width": 1920,
+        "height": 1080,
+        "decoded": true
+      },
+      {
+        "index": 4,
+        "width": 1920,
+        "height": 1080,
+        "decoded": true
+      },
+      {
+        "index": 5,
+        "width": 3840,
+        "height": 1080,
+        "decoded": true
+      },
+      {
+        "index": 6,
+        "width": 1920,
+        "height": 1080,
+        "decoded": true
+      },
+      {
+        "index": 7,
+        "width": 1920,
+        "height": 1080,
+        "decoded": true
+      },
+      {
+        "index": 8,
+        "width": 3840,
+        "height": 1080,
+        "decoded": true
+      },
+      {
+        "index": 9,
+        "width": 1920,
+        "height": 1080,
+        "decoded": true
+      },
+      {
+        "index": 10,
+        "width": 1920,
+        "height": 1080,
+        "decoded": true
+      },
+      {
+        "index": 11,
+        "width": 1600,
+        "height": 900,
+        "decoded": true
+      },
+      {
+        "index": 12,
+        "width": 1920,
+        "height": 1080,
+        "decoded": true
+      },
+      {
+        "index": 13,
+        "width": 4608,
+        "height": 2048,
+        "decoded": true
+      }
+    ],
+    "anchors": [
+      {
+        "target": "scene1",
+        "exists": true
+      },
+      {
+        "target": "scene2",
+        "exists": true
+      },
+      {
+        "target": "scene3",
+        "exists": true
+      },
+      {
+        "target": "sources",
+        "exists": true
+      }
+    ],
+    "externalImageDependencies": 0,
+    "browserRenderTest": "not performed; browser inventory empty"
+  },
+  "visualReview": {
+    "performed": true,
+    "method": "generated output inspected; final normalized detail crops inspected separately",
+    "observed": "stair route, crown light, Lumen mouth/command gesture, workers/capstan, daylight scaffold",
+    "limitations": "concept interpretation; no deterministic single pixel grid; no mechanical feasibility simulation"
+  },
+  "spriteChecks": {
+    "baseline": "not applicable: static full scenes",
+    "footPivot": "not applicable",
+    "strayAlphaPixels": "no transparency; alpha 255 throughout deliverables",
+    "animationJitter": "not applicable"
+  },
+  "unity": "not opened",
+  "gitWrites": "none"
+}

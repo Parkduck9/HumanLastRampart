@@ -136,6 +136,7 @@ namespace HumanLastRampart.Combat.Tests
                 Assert.AreEqual(sim.AttackPlan[siege].Side, warning.Side);
                 Assert.That(warning.SecondsLeft, Is.EqualTo(4.9f).Within(0.01f));
                 SetElapsed(sim, first + 0.1f);
+                sim.BeginFrame(0.05f);   // 실제로 나와야 공성 단계가 된다
                 Assert.IsFalse(sim.TryGetPhaseWarning(out _), "나온 뒤에는 예고가 없다");
                 Assert.AreEqual(WavePhase.Siege, sim.CurrentPhase);
             }
@@ -227,6 +228,71 @@ namespace HumanLastRampart.Combat.Tests
                 Assert.AreEqual(0, sim.FlankReports);
                 Assert.AreEqual(0, sim.RunnerPairsActive);
                 Assert.IsFalse(notices.Any(n => n.Contains("돌아옵니다") || n.Contains("발견")), "면이 바뀐 적으로 우회 발견 알림이 뜨지 않는다");
+            }
+        }
+
+        [Test]
+        public void FinalAssault_FlankGroupAlreadyOnFieldIsStillDiscovered()
+        {
+            DefinitionLookup lookup = LoadAll();
+            using (var sim = new BattleSim(Setup(lookup, 4, "run_phase_final_flank_field"), lookup))
+            {
+                int flank = -1;
+                for (int g = 0; g < sim.AttackPlan.Count; g++)
+                    if (sim.AttackPlan[g].Flank && (flank < 0 || sim.AttackPlan[g].SpawnAt < sim.AttackPlan[flank].SpawnAt)) flank = g;
+                Assert.GreaterOrEqual(flank, 0, "우회 무리가 있는 판");
+                BattleSim.GroupPlan plan = sim.AttackPlan[flank];
+
+                // 우회 무리가 나온 뒤: 한 마리를 성벽 가까이 두고 발견 표시를 되돌려 최후 돌격 때의 상태를 만든다
+                SetElapsed(sim, plan.SpawnAt + 1f);
+                sim.BeginFrame(0.05f);
+                NativeArray<int> groups = Groups(sim);
+                var states = (NativeArray<byte>)typeof(BattleSim).GetField("eState", Private).GetValue(sim);
+                var positions = (NativeArray<Unity.Mathematics.float3>)typeof(BattleSim).GetField("ePos", Private).GetValue(sim);
+                int slot = -1;
+                for (int e = 0; e < sim.TotalEnemies && slot < 0; e++)
+                    if (groups[e] == flank && EnemyState.IsAlive(states[e])) slot = e;
+                Assert.GreaterOrEqual(slot, 0, "우회 무리의 적이 나와 있다");
+                positions[slot] = WallGeometry.Outward(plan.Side) * (sim.CastleHalf + 5f);
+                var discovered = (bool[])typeof(BattleSim).GetField("groupDiscovered", Private).GetValue(sim);
+                discovered[flank] = false;
+
+                SetKills(sim, (int)(sim.TotalEnemies * 0.85f));
+                sim.BeginFrame(0.05f);
+                Assert.IsTrue(sim.FinalAssaultStarted);
+                sim.BeginFrame(0.05f);
+                Assert.IsTrue(discovered[flank], "나와 있던 우회 무리는 최후 돌격 뒤에도 발견된다");
+                Assert.IsTrue(sim.FlankReports > 0 || sim.RunnerPairsActive > 0, "발견이 보고(알림 또는 전령)로 이어진다 — 통째로 발견 처리돼 묻히지 않는다");
+            }
+        }
+
+        [Test]
+        public void SiegePhase_FollowsActualFirstSpawn_NotPlannedTime()
+        {
+            DefinitionLookup lookup = LoadAll();
+            BattleSetup capped = Setup(lookup, 4, "run_phase_siege_actual");
+            capped.MaxConcurrentEnemies = 20;   // 동시 출현 상한을 작게 — 공성 무리의 출현이 계획보다 늦어진다
+            using (var sim = new BattleSim(capped, lookup))
+            {
+                int siege = -1;
+                for (int g = 0; g < sim.AttackPlan.Count; g++)
+                    if (sim.GroupPhaseOf(g) == WavePhase.Siege && (siege < 0 || sim.GroupFirstSpawn(g) < sim.GroupFirstSpawn(siege))) siege = g;
+                Assert.GreaterOrEqual(siege, 0);
+                Assert.GreaterOrEqual(sim.GroupFirstSpawn(siege), 60f, "초반 사다리 무리는 본대 단계 (설계 문서: 공성은 90초 무렵부터)");
+                // 계획 시각은 지났어도 실제로 나오기 전에는 공성 단계가 아니다 (동시 출현 상한으로 늦어지는 경우)
+                SetElapsed(sim, sim.GroupFirstSpawn(siege) + 0.5f);
+                sim.BeginFrame(0.0001f);   // 상한(20마리)이 이미 찬 채 계획 시각이 지난다
+                Assert.Less(sim.Spawned, 25, "상한이 실제로 출현을 막고 있다");
+                Assert.AreNotEqual(WavePhase.Siege, sim.CurrentPhase, "안 나왔으면 공성 단계가 아니다");
+                Assert.IsTrue(sim.TryGetPhaseWarning(out BattleSim.PhaseWarning w), "늦어지는 동안 예고가 유지된다");
+                Assert.AreEqual(WavePhase.Siege, w.Phase);
+                Assert.AreEqual(0f, w.SecondsLeft, "\"곧\" (0초)");
+
+                // 상한을 풀면 실제로 나온 뒤 공성 단계가 되고 예고는 사라진다
+                typeof(BattleSim).GetField("maxConcurrent", Private).SetValue(sim, int.MaxValue);
+                sim.BeginFrame(0.0001f);
+                Assert.AreEqual(WavePhase.Siege, sim.CurrentPhase);
+                Assert.IsFalse(sim.TryGetPhaseWarning(out BattleSim.PhaseWarning after) && after.Phase == WavePhase.Siege);
             }
         }
 

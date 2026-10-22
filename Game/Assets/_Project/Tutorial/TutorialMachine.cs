@@ -15,6 +15,7 @@ namespace HumanLastRampart.Tutorial
         int SpellCasts { get; }             // 마법을 쓴 횟수
         int TrapCount { get; }              // 설치된 함정 수
         bool IsAvailable(TutorialStep step);   // false면 이 단계는 할 수 없으므로 건너뛴다 (예: 마법사 없음)
+        bool CanPerform(TutorialStep step);    // false면 직접 해 보는 단계를 설명만 하는 [다음] 단계로 바꾼다 (예: 함정을 살 골드가 없음 — 플레이어를 가두지 않는다)
         bool TryGetTargetScreen(TutorialStep step, out Vector2 screen);   // 고리로 가리킬 화면 자리(화소)
         void SetTimeScale(float scale);     // 전투 시간 배율 (0 = 멈춤)
     }
@@ -29,6 +30,7 @@ namespace HumanLastRampart.Tutorial
         float stepTime;
         float baseWalk;
         int baseSquad, baseSpell, baseTrap;
+        bool mapWasClosed;   // 이 단계가 시작된 뒤 지도가 닫혀 있던 적이 있는가 (닫힘 → 열림 변화만 센다)
         float appliedScale = -1f;
 
         public TutorialStep Current { get; private set; }
@@ -37,6 +39,8 @@ namespace HumanLastRampart.Tutorial
         public float StepTime => stepTime;
         public TutorialState State => state;
         public TutorialStepInfo Info => TutorialSteps.Get(Current);
+        // 설명만 하는 단계인가: 자료상 설명 단계이거나, 직접 해 볼 수 없는 상황이라 설명으로 바꾼 단계
+        public bool ExplainOnly => Info.ExplainOnly || !src.CanPerform(Current);
 
         public event Action<TutorialStep> StepEntered;
         public event Action<TutorialStep, bool> StepCompleted;   // (단계, 건너뜀 여부 — 할 수 없는 단계였는가)
@@ -58,11 +62,13 @@ namespace HumanLastRampart.Tutorial
             baseSquad = src.SquadSends;
             baseSpell = src.SpellCasts;
             baseTrap = src.TrapCount;
+            mapWasClosed = !src.MapOpen;
+            state.SaveStep(Current);   // 중간에 나가도 이 단계부터 이어 하게 매 단계 저장
             StepEntered?.Invoke(Current);
         }
 
         // 전투 시간 배율: 설명 단계와 새 단계의 읽는 시간은 멈춤, 직접 해 보는 동안은 천천히, 끝나면 정상
-        public float TimeScale => Finished ? 1f : Info.ExplainOnly || stepTime < TutorialSteps.ReadSeconds ? 0f : TutorialSteps.ActionTimeScale;
+        public float TimeScale => Finished ? 1f : ExplainOnly || stepTime < TutorialSteps.ReadSeconds ? 0f : TutorialSteps.ActionTimeScale;
 
         public void Update(float dt)
         {
@@ -70,7 +76,8 @@ namespace HumanLastRampart.Tutorial
             src.Tick(dt);
             stepTime += dt;
             if (!src.IsAvailable(Current)) { Complete(true); Apply(); return; }
-            if (!Info.ExplainOnly && Detected()) Complete(false);
+            if (!src.MapOpen) mapWasClosed = true;
+            if (!ExplainOnly && Detected()) Complete(false);
             Apply();
         }
 
@@ -79,7 +86,7 @@ namespace HumanLastRampart.Tutorial
             switch (Current)
             {
                 case TutorialStep.Walk: return src.WalkedMeters - baseWalk >= TutorialSteps.WalkMeters;
-                case TutorialStep.Map: return src.MapOpen;
+                case TutorialStep.Map: return src.MapOpen && mapWasClosed;   // 이미 열려 있던 지도로는 넘어가지 않는다
                 case TutorialStep.Squad: return src.SquadSends > baseSquad;
                 case TutorialStep.Magic: return src.SpellCasts > baseSpell;
                 case TutorialStep.Trap: return src.TrapCount > baseTrap;
@@ -90,7 +97,7 @@ namespace HumanLastRampart.Tutorial
         // [다음] 단추: 설명만 하는 단계에서만 통한다. 직접 해야 하는 단계는 눌러도 넘어가지 않는다
         public bool Next()
         {
-            if (Finished || !Info.ExplainOnly) return false;
+            if (Finished || !ExplainOnly) return false;
             Complete(false);
             Apply();
             return true;

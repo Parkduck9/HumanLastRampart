@@ -8,6 +8,7 @@ namespace HumanLastRampart.Tutorial
         public string Title;
         public string Body;
         public bool ExplainOnly;      // true = [다음] 단추로 넘어간다 (설명만). false = 플레이어가 직접 해야 넘어간다
+        public string ExplainBody;    // 직접 해 볼 수 없는 상황(예: 함정 살 골드 없음)에서 대신 보여 주는 설명 글. 없으면 Body 그대로
         public int Expression;        // 장교 표정 칸: 0 기본 / 1 설명(손들기) / 2 긴급 / 3 만족
         public Chip[] Chips;          // 조작 표시
         public bool Pointer;          // 가리킬 자리가 있으면 고리·화살표를 그린다
@@ -67,6 +68,7 @@ namespace HumanLastRampart.Tutorial
             {
                 Title = "함정 놓기", Expression = 1,
                 Body = "함정 공방에서 함정을 사서 지도 위에 하나 놓아 보십시오.\n다음 전투에서 적이 지나갈 길목이 좋습니다.",
+                ExplainBody = "함정 공방에서는 함정을 사서 지도 위에 놓을 수 있습니다.\n지금은 살 돈이 모자라니 말씀만 드리겠습니다. 적이 지나갈 길목이 좋습니다.",
                 Chips = new[] { new TutorialStepInfo.Chip(3, "함정 공방") },
             },
             new TutorialStepInfo
