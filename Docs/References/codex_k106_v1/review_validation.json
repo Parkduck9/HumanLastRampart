@@ -1,0 +1,23 @@
+{
+  "images_loaded": true,
+  "backgrounds_loaded": [
+    true,
+    true,
+    true
+  ],
+  "animations_advance": true,
+  "pause_works": true,
+  "width_selections": [
+    true,
+    true,
+    true
+  ],
+  "rotating_status": "방향 전환 중 · 3초",
+  "controls_locked": true,
+  "still_rotating_at_2700ms": true,
+  "completed_after_3100ms": true,
+  "final_angle": "rotate(90deg)",
+  "mobile_overflow": false,
+  "errors": [],
+  "passed": true
+}

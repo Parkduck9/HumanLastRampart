@@ -1,0 +1,14 @@
+{
+  "asset_count": 60,
+  "dimensions": true,
+  "rgba": true,
+  "transparent_rgb_zero": true,
+  "nearest_3x": true,
+  "ground_support": true,
+  "fixed_pivots": true,
+  "shimmer_six_distinct_frames": true,
+  "no_unintended_islands": true,
+  "sources_unchanged": true,
+  "foot_baseline": "해당 없음: 신규 인물 시트가 아닌 지면·렌즈·UI 에셋",
+  "unity_run": false
+}
