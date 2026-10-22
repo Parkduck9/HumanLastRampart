@@ -1,0 +1,1185 @@
+{
+  "card": "K-103",
+  "version": 1,
+  "status": "assets_only_integration_pending",
+  "generation": "built-in image_gen; raw sources preserved; deterministic crop, alpha cleanup, fixed-base assembly, nearest-neighbor scaling and fog edge conditioning",
+  "coordinates": "top-left pixels; pivot_px uses top-left origin; Unity normalized brazier pivot is (0.5,0.0625)",
+  "native_cell": [
+    96,
+    128
+  ],
+  "game_cell": [
+    288,
+    384
+  ],
+  "foot_native": [
+    48,
+    120
+  ],
+  "foot_game": [
+    144,
+    360
+  ],
+  "scale": 3,
+  "brazier_dimensions": {
+    "bowl_width_native": 48,
+    "unlit_height_native": 44,
+    "relative_to_human_73px": "unlit 60%; high flame included approximately 80px"
+  },
+  "assembly": {
+    "brazier": "Use either complete brazier loop, OR unlit plus flame overlay. Do not use both flames.",
+    "glow": "SrcAlpha One; alpha is intensity, straight RGB; attach glow centre to brazier native (48,72), game (144,216). Glows never obscure enemies.",
+    "hud": "Three exported toggle states are static visual states. Claude supplies input and state handling. 9-slice borders left/bottom/right/top = 8px. Icons available at exact 32 and 48 px."
+  },
+  "fog": {
+    "native_band_cell": [
+      512,
+      128
+    ],
+    "native_corner_cell": [
+      128,
+      128
+    ],
+    "game_band_cell": [
+      1536,
+      384
+    ],
+    "game_corner_cell": [
+      384,
+      384
+    ],
+    "corner": "NW; top/left are outer field; rotate clockwise 90/180/270 for NE/SE/SW. Right edge joins band x=0; bottom edge joins the same band rotated.",
+    "clear_margin": "Entire fog geometry, including wisps and falloff, must be outside 45m from the wall. Place band clear edge at >=45m. Do not stretch over the playable inner field. Assets alone cannot enforce world metres.",
+    "band_orientation": "top opaque outer field, bottom transparent inner field; horizontal repeat; wrap U Repeat / V Clamp; disable mipmaps or add atlas extrusion",
+    "wisps": "4 frames left-to-right, 2 fps; native 96x128; game 288x384; place entirely beyond 45m; can scroll U slowly; no gameplay code delivered",
+    "night": "mockup uses RGB * 0.65 before VFX; runtime exposure/sorting remains integration test"
+  },
+  "references": [
+    "Docs/References/codex_k085_v1/battle_before.png",
+    "Game/Assets/_Project/Art/Battle/Resources/BattleArt/World/wall_stone_albedo.png",
+    "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/torch_mount_off.png",
+    "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Effects/torch_flame.png",
+    "Game/Assets/_Project/Art/UI/Resources/HudArt/Repair/hp_frame.png"
+  ],
+  "assets": [
+    {
+      "file": "native/brazier_unlit.png",
+      "size": [
+        96,
+        128
+      ],
+      "mode": "RGBA",
+      "cell": [
+        96,
+        128
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "center_x": 48,
+      "blend": "alpha",
+      "filter": "Point"
+    },
+    {
+      "file": "game/brazier_unlit.png",
+      "size": [
+        288,
+        384
+      ],
+      "mode": "RGBA",
+      "cell": [
+        288,
+        384
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "center_x": 144,
+      "blend": "alpha",
+      "filter": "Point"
+    },
+    {
+      "file": "previews/brazier_unlit_4x.png",
+      "size": [
+        384,
+        512
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/brazier_low.png",
+      "size": [
+        576,
+        128
+      ],
+      "mode": "RGBA",
+      "cell": [
+        96,
+        128
+      ],
+      "frames": 6,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "center_x": 48,
+      "blend": "alpha",
+      "filter": "Point",
+      "fps": 8,
+      "loop": true
+    },
+    {
+      "file": "game/brazier_low.png",
+      "size": [
+        1728,
+        384
+      ],
+      "mode": "RGBA",
+      "cell": [
+        288,
+        384
+      ],
+      "frames": 6,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "center_x": 144,
+      "blend": "alpha",
+      "filter": "Point",
+      "fps": 8,
+      "loop": true
+    },
+    {
+      "file": "previews/brazier_low_4x.png",
+      "size": [
+        2304,
+        512
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/flame_low.png",
+      "size": [
+        576,
+        128
+      ],
+      "mode": "RGBA",
+      "cell": [
+        96,
+        128
+      ],
+      "frames": 6,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": null,
+      "center_x": 48,
+      "blend": "alpha",
+      "filter": "Point",
+      "anchor_px": [
+        48,
+        82
+      ],
+      "fps": 8,
+      "loop": true,
+      "role": "flame_overlay"
+    },
+    {
+      "file": "game/flame_low.png",
+      "size": [
+        1728,
+        384
+      ],
+      "mode": "RGBA",
+      "cell": [
+        288,
+        384
+      ],
+      "frames": 6,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": null,
+      "center_x": 144,
+      "blend": "alpha",
+      "filter": "Point",
+      "anchor_px": [
+        144,
+        246
+      ],
+      "fps": 8,
+      "loop": true,
+      "role": "flame_overlay"
+    },
+    {
+      "file": "previews/flame_low_4x.png",
+      "size": [
+        2304,
+        512
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/glow_low.png",
+      "size": [
+        192,
+        192
+      ],
+      "mode": "RGBA",
+      "role": "additive_glow",
+      "cell": [
+        192,
+        192
+      ],
+      "frames": 1,
+      "pivot_px": [
+        96,
+        96
+      ],
+      "blend": "SrcAlpha One",
+      "attach_native_px": [
+        48,
+        72
+      ],
+      "filter": "Bilinear"
+    },
+    {
+      "file": "game/glow_low.png",
+      "size": [
+        576,
+        576
+      ],
+      "mode": "RGBA",
+      "role": "additive_glow",
+      "cell": [
+        576,
+        576
+      ],
+      "frames": 1,
+      "pivot_px": [
+        288,
+        288
+      ],
+      "blend": "SrcAlpha One",
+      "attach_game_px": [
+        144,
+        216
+      ],
+      "filter": "Bilinear"
+    },
+    {
+      "file": "previews/glow_low_4x.png",
+      "size": [
+        768,
+        768
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/brazier_normal.png",
+      "size": [
+        576,
+        128
+      ],
+      "mode": "RGBA",
+      "cell": [
+        96,
+        128
+      ],
+      "frames": 6,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "center_x": 48,
+      "blend": "alpha",
+      "filter": "Point",
+      "fps": 8,
+      "loop": true
+    },
+    {
+      "file": "game/brazier_normal.png",
+      "size": [
+        1728,
+        384
+      ],
+      "mode": "RGBA",
+      "cell": [
+        288,
+        384
+      ],
+      "frames": 6,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "center_x": 144,
+      "blend": "alpha",
+      "filter": "Point",
+      "fps": 8,
+      "loop": true
+    },
+    {
+      "file": "previews/brazier_normal_4x.png",
+      "size": [
+        2304,
+        512
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/flame_normal.png",
+      "size": [
+        576,
+        128
+      ],
+      "mode": "RGBA",
+      "cell": [
+        96,
+        128
+      ],
+      "frames": 6,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": null,
+      "center_x": 48,
+      "blend": "alpha",
+      "filter": "Point",
+      "anchor_px": [
+        48,
+        82
+      ],
+      "fps": 8,
+      "loop": true,
+      "role": "flame_overlay"
+    },
+    {
+      "file": "game/flame_normal.png",
+      "size": [
+        1728,
+        384
+      ],
+      "mode": "RGBA",
+      "cell": [
+        288,
+        384
+      ],
+      "frames": 6,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": null,
+      "center_x": 144,
+      "blend": "alpha",
+      "filter": "Point",
+      "anchor_px": [
+        144,
+        246
+      ],
+      "fps": 8,
+      "loop": true,
+      "role": "flame_overlay"
+    },
+    {
+      "file": "previews/flame_normal_4x.png",
+      "size": [
+        2304,
+        512
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/glow_normal.png",
+      "size": [
+        192,
+        192
+      ],
+      "mode": "RGBA",
+      "role": "additive_glow",
+      "cell": [
+        192,
+        192
+      ],
+      "frames": 1,
+      "pivot_px": [
+        96,
+        96
+      ],
+      "blend": "SrcAlpha One",
+      "attach_native_px": [
+        48,
+        72
+      ],
+      "filter": "Bilinear"
+    },
+    {
+      "file": "game/glow_normal.png",
+      "size": [
+        576,
+        576
+      ],
+      "mode": "RGBA",
+      "role": "additive_glow",
+      "cell": [
+        576,
+        576
+      ],
+      "frames": 1,
+      "pivot_px": [
+        288,
+        288
+      ],
+      "blend": "SrcAlpha One",
+      "attach_game_px": [
+        144,
+        216
+      ],
+      "filter": "Bilinear"
+    },
+    {
+      "file": "previews/glow_normal_4x.png",
+      "size": [
+        768,
+        768
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/brazier_high.png",
+      "size": [
+        576,
+        128
+      ],
+      "mode": "RGBA",
+      "cell": [
+        96,
+        128
+      ],
+      "frames": 6,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "center_x": 48,
+      "blend": "alpha",
+      "filter": "Point",
+      "fps": 8,
+      "loop": true
+    },
+    {
+      "file": "game/brazier_high.png",
+      "size": [
+        1728,
+        384
+      ],
+      "mode": "RGBA",
+      "cell": [
+        288,
+        384
+      ],
+      "frames": 6,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "center_x": 144,
+      "blend": "alpha",
+      "filter": "Point",
+      "fps": 8,
+      "loop": true
+    },
+    {
+      "file": "previews/brazier_high_4x.png",
+      "size": [
+        2304,
+        512
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/flame_high.png",
+      "size": [
+        576,
+        128
+      ],
+      "mode": "RGBA",
+      "cell": [
+        96,
+        128
+      ],
+      "frames": 6,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": null,
+      "center_x": 48,
+      "blend": "alpha",
+      "filter": "Point",
+      "anchor_px": [
+        48,
+        82
+      ],
+      "fps": 8,
+      "loop": true,
+      "role": "flame_overlay"
+    },
+    {
+      "file": "game/flame_high.png",
+      "size": [
+        1728,
+        384
+      ],
+      "mode": "RGBA",
+      "cell": [
+        288,
+        384
+      ],
+      "frames": 6,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": null,
+      "center_x": 144,
+      "blend": "alpha",
+      "filter": "Point",
+      "anchor_px": [
+        144,
+        246
+      ],
+      "fps": 8,
+      "loop": true,
+      "role": "flame_overlay"
+    },
+    {
+      "file": "previews/flame_high_4x.png",
+      "size": [
+        2304,
+        512
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/glow_high.png",
+      "size": [
+        192,
+        192
+      ],
+      "mode": "RGBA",
+      "role": "additive_glow",
+      "cell": [
+        192,
+        192
+      ],
+      "frames": 1,
+      "pivot_px": [
+        96,
+        96
+      ],
+      "blend": "SrcAlpha One",
+      "attach_native_px": [
+        48,
+        72
+      ],
+      "filter": "Bilinear"
+    },
+    {
+      "file": "game/glow_high.png",
+      "size": [
+        576,
+        576
+      ],
+      "mode": "RGBA",
+      "role": "additive_glow",
+      "cell": [
+        576,
+        576
+      ],
+      "frames": 1,
+      "pivot_px": [
+        288,
+        288
+      ],
+      "blend": "SrcAlpha One",
+      "attach_game_px": [
+        144,
+        216
+      ],
+      "filter": "Bilinear"
+    },
+    {
+      "file": "previews/glow_high_4x.png",
+      "size": [
+        768,
+        768
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/fog_band.png",
+      "size": [
+        512,
+        128
+      ],
+      "mode": "RGBA",
+      "cell": [
+        512,
+        128
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "role": "fog_edge",
+      "blend": "alpha",
+      "filter": "Bilinear",
+      "tile_axis": "x"
+    },
+    {
+      "file": "game/fog_band.png",
+      "size": [
+        1536,
+        384
+      ],
+      "mode": "RGBA",
+      "cell": [
+        1536,
+        384
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "role": "fog_edge",
+      "blend": "alpha",
+      "filter": "Bilinear",
+      "tile_axis": "x"
+    },
+    {
+      "file": "previews/fog_band_4x.png",
+      "size": [
+        2048,
+        512
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/fog_corner_nw.png",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA",
+      "cell": [
+        128,
+        128
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "role": "fog_edge",
+      "blend": "alpha",
+      "filter": "Bilinear",
+      "tile_axis": null
+    },
+    {
+      "file": "game/fog_corner_nw.png",
+      "size": [
+        384,
+        384
+      ],
+      "mode": "RGBA",
+      "cell": [
+        384,
+        384
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "role": "fog_edge",
+      "blend": "alpha",
+      "filter": "Bilinear",
+      "tile_axis": null
+    },
+    {
+      "file": "previews/fog_corner_nw_4x.png",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/fog_wisp.png",
+      "size": [
+        384,
+        128
+      ],
+      "mode": "RGBA",
+      "cell": [
+        96,
+        128
+      ],
+      "frames": 4,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "role": "wisp_overlay",
+      "fps": 2,
+      "loop": true,
+      "pivot_px": [
+        48,
+        64
+      ],
+      "blend": "alpha",
+      "filter": "Bilinear"
+    },
+    {
+      "file": "game/fog_wisp.png",
+      "size": [
+        1152,
+        384
+      ],
+      "mode": "RGBA",
+      "cell": [
+        288,
+        384
+      ],
+      "frames": 4,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "role": "wisp_overlay",
+      "fps": 2,
+      "loop": true,
+      "pivot_px": [
+        144,
+        192
+      ],
+      "blend": "alpha",
+      "filter": "Bilinear"
+    },
+    {
+      "file": "previews/fog_wisp_4x.png",
+      "size": [
+        1536,
+        512
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "icons/lamp_low_32.png",
+      "size": [
+        32,
+        32
+      ],
+      "mode": "RGBA",
+      "role": "hud_icon",
+      "brightness": "low",
+      "cell": [
+        32,
+        32
+      ],
+      "frames": 1,
+      "filter": "Point"
+    },
+    {
+      "file": "previews/lamp_low_32_4x.png",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "icons/lamp_low_48.png",
+      "size": [
+        48,
+        48
+      ],
+      "mode": "RGBA",
+      "role": "hud_icon",
+      "brightness": "low",
+      "cell": [
+        48,
+        48
+      ],
+      "frames": 1,
+      "filter": "Point"
+    },
+    {
+      "file": "previews/lamp_low_48_4x.png",
+      "size": [
+        192,
+        192
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "icons/lamp_normal_32.png",
+      "size": [
+        32,
+        32
+      ],
+      "mode": "RGBA",
+      "role": "hud_icon",
+      "brightness": "normal",
+      "cell": [
+        32,
+        32
+      ],
+      "frames": 1,
+      "filter": "Point"
+    },
+    {
+      "file": "previews/lamp_normal_32_4x.png",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "icons/lamp_normal_48.png",
+      "size": [
+        48,
+        48
+      ],
+      "mode": "RGBA",
+      "role": "hud_icon",
+      "brightness": "normal",
+      "cell": [
+        48,
+        48
+      ],
+      "frames": 1,
+      "filter": "Point"
+    },
+    {
+      "file": "previews/lamp_normal_48_4x.png",
+      "size": [
+        192,
+        192
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "icons/lamp_high_32.png",
+      "size": [
+        32,
+        32
+      ],
+      "mode": "RGBA",
+      "role": "hud_icon",
+      "brightness": "high",
+      "cell": [
+        32,
+        32
+      ],
+      "frames": 1,
+      "filter": "Point"
+    },
+    {
+      "file": "previews/lamp_high_32_4x.png",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "icons/lamp_high_48.png",
+      "size": [
+        48,
+        48
+      ],
+      "mode": "RGBA",
+      "role": "hud_icon",
+      "brightness": "high",
+      "cell": [
+        48,
+        48
+      ],
+      "frames": 1,
+      "filter": "Point"
+    },
+    {
+      "file": "previews/lamp_high_48_4x.png",
+      "size": [
+        192,
+        192
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "hud/lamp_frame_9slice.png",
+      "size": [
+        32,
+        32
+      ],
+      "mode": "RGBA",
+      "role": "nine_slice",
+      "border_lbrt": [
+        8,
+        8,
+        8,
+        8
+      ],
+      "minimum_size": [
+        32,
+        32
+      ],
+      "filter": "Point"
+    },
+    {
+      "file": "hud/lamp_toggle_low.png",
+      "size": [
+        288,
+        80
+      ],
+      "mode": "RGBA",
+      "role": "toggle_state",
+      "selected": "low",
+      "cell": [
+        288,
+        80
+      ],
+      "frames": 1
+    },
+    {
+      "file": "previews/lamp_toggle_low_4x.png",
+      "size": [
+        1152,
+        320
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "hud/lamp_toggle_normal.png",
+      "size": [
+        288,
+        80
+      ],
+      "mode": "RGBA",
+      "role": "toggle_state",
+      "selected": "normal",
+      "cell": [
+        288,
+        80
+      ],
+      "frames": 1
+    },
+    {
+      "file": "previews/lamp_toggle_normal_4x.png",
+      "size": [
+        1152,
+        320
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "hud/lamp_toggle_high.png",
+      "size": [
+        288,
+        80
+      ],
+      "mode": "RGBA",
+      "role": "toggle_state",
+      "selected": "high",
+      "cell": [
+        288,
+        80
+      ],
+      "frames": 1
+    },
+    {
+      "file": "previews/lamp_toggle_high_4x.png",
+      "size": [
+        1152,
+        320
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "mockup_north_wall_high_1920x1080.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "mode": "RGBA",
+      "role": "concept_mockup",
+      "background_brightness": 0.65,
+      "source": "Docs/References/codex_k085_v1/battle_before.png"
+    },
+    {
+      "file": "previews/fog_clear_field_proof.png",
+      "size": [
+        768,
+        320
+      ],
+      "mode": "RGBA",
+      "role": "placement_proof",
+      "clear_region": "y>=128; illustrative 45m inner field, not calibrated screen metres"
+    },
+    {
+      "file": "previews/scale_comparison.png",
+      "size": [
+        480,
+        256
+      ],
+      "mode": "RGBA",
+      "role": "reference_comparison"
+    }
+  ]
+}
