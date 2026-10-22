@@ -1,0 +1,341 @@
+{
+  "pass": true,
+  "frames": [
+    {
+      "variant": "a",
+      "pose": "front",
+      "bbox": [
+        31,
+        47,
+        66,
+        120
+      ],
+      "height": 73,
+      "last_opaque_row": 119,
+      "boot_axis_x": 48.5,
+      "binary_alpha": true,
+      "transparent_cell_border": true,
+      "component_sizes": [
+        1742
+      ],
+      "pass": true
+    },
+    {
+      "variant": "a",
+      "pose": "side",
+      "bbox": [
+        33,
+        47,
+        65,
+        120
+      ],
+      "height": 73,
+      "last_opaque_row": 119,
+      "boot_axis_x": 47.5,
+      "binary_alpha": true,
+      "transparent_cell_border": true,
+      "component_sizes": [
+        1405
+      ],
+      "pass": true
+    },
+    {
+      "variant": "a",
+      "pose": "back",
+      "bbox": [
+        31,
+        47,
+        65,
+        120
+      ],
+      "height": 73,
+      "last_opaque_row": 119,
+      "boot_axis_x": 47.5,
+      "binary_alpha": true,
+      "transparent_cell_border": true,
+      "component_sizes": [
+        1737
+      ],
+      "pass": true
+    },
+    {
+      "variant": "a",
+      "pose": "command",
+      "bbox": [
+        31,
+        47,
+        79,
+        120
+      ],
+      "height": 73,
+      "last_opaque_row": 119,
+      "boot_axis_x": 48.0,
+      "binary_alpha": true,
+      "transparent_cell_border": true,
+      "component_sizes": [
+        1863
+      ],
+      "pass": true
+    },
+    {
+      "variant": "b",
+      "pose": "front",
+      "bbox": [
+        29,
+        47,
+        70,
+        120
+      ],
+      "height": 73,
+      "last_opaque_row": 119,
+      "boot_axis_x": 47.5,
+      "binary_alpha": true,
+      "transparent_cell_border": true,
+      "component_sizes": [
+        1964
+      ],
+      "pass": true
+    },
+    {
+      "variant": "b",
+      "pose": "side",
+      "bbox": [
+        32,
+        47,
+        68,
+        120
+      ],
+      "height": 73,
+      "last_opaque_row": 119,
+      "boot_axis_x": 48.0,
+      "binary_alpha": true,
+      "transparent_cell_border": true,
+      "component_sizes": [
+        1644
+      ],
+      "pass": true
+    },
+    {
+      "variant": "b",
+      "pose": "back",
+      "bbox": [
+        30,
+        47,
+        68,
+        120
+      ],
+      "height": 73,
+      "last_opaque_row": 119,
+      "boot_axis_x": 48.5,
+      "binary_alpha": true,
+      "transparent_cell_border": true,
+      "component_sizes": [
+        1944
+      ],
+      "pass": true
+    },
+    {
+      "variant": "b",
+      "pose": "command",
+      "bbox": [
+        30,
+        47,
+        80,
+        120
+      ],
+      "height": 73,
+      "last_opaque_row": 119,
+      "boot_axis_x": 48.5,
+      "binary_alpha": true,
+      "transparent_cell_border": true,
+      "component_sizes": [
+        2079
+      ],
+      "pass": true
+    },
+    {
+      "variant": "c",
+      "pose": "front",
+      "bbox": [
+        30,
+        47,
+        66,
+        120
+      ],
+      "height": 73,
+      "last_opaque_row": 119,
+      "boot_axis_x": 48.0,
+      "binary_alpha": true,
+      "transparent_cell_border": true,
+      "component_sizes": [
+        1844
+      ],
+      "pass": true
+    },
+    {
+      "variant": "c",
+      "pose": "side",
+      "bbox": [
+        33,
+        47,
+        66,
+        120
+      ],
+      "height": 73,
+      "last_opaque_row": 119,
+      "boot_axis_x": 48.5,
+      "binary_alpha": true,
+      "transparent_cell_border": true,
+      "component_sizes": [
+        1477
+      ],
+      "pass": true
+    },
+    {
+      "variant": "c",
+      "pose": "back",
+      "bbox": [
+        30,
+        47,
+        66,
+        120
+      ],
+      "height": 73,
+      "last_opaque_row": 119,
+      "boot_axis_x": 48.0,
+      "binary_alpha": true,
+      "transparent_cell_border": true,
+      "component_sizes": [
+        1862
+      ],
+      "pass": true
+    },
+    {
+      "variant": "c",
+      "pose": "command",
+      "bbox": [
+        31,
+        47,
+        80,
+        120
+      ],
+      "height": 73,
+      "last_opaque_row": 119,
+      "boot_axis_x": 49.0,
+      "binary_alpha": true,
+      "transparent_cell_border": true,
+      "component_sizes": [
+        1986
+      ],
+      "pass": true
+    }
+  ],
+  "nearest_scaling": [
+    {
+      "file": "variant_a_turnaround_game.png",
+      "exact_nearest_multiplier_from_native": 3,
+      "pass": true
+    },
+    {
+      "file": "variant_a_turnaround_native_4x.png",
+      "exact_nearest_multiplier_from_native": 4,
+      "pass": true
+    },
+    {
+      "file": "variant_a_turnaround_game_4x.png",
+      "exact_nearest_multiplier_from_native": 12,
+      "pass": true
+    },
+    {
+      "file": "variant_b_turnaround_game.png",
+      "exact_nearest_multiplier_from_native": 3,
+      "pass": true
+    },
+    {
+      "file": "variant_b_turnaround_native_4x.png",
+      "exact_nearest_multiplier_from_native": 4,
+      "pass": true
+    },
+    {
+      "file": "variant_b_turnaround_game_4x.png",
+      "exact_nearest_multiplier_from_native": 12,
+      "pass": true
+    },
+    {
+      "file": "variant_c_turnaround_game.png",
+      "exact_nearest_multiplier_from_native": 3,
+      "pass": true
+    },
+    {
+      "file": "variant_c_turnaround_native_4x.png",
+      "exact_nearest_multiplier_from_native": 4,
+      "pass": true
+    },
+    {
+      "file": "variant_c_turnaround_game_4x.png",
+      "exact_nearest_multiplier_from_native": 12,
+      "pass": true
+    }
+  ],
+  "portraits": {
+    "count": 3,
+    "canvas": [
+      256,
+      384
+    ],
+    "binary_alpha": true,
+    "exact_4x": true
+  },
+  "protected_trees": {
+    "roots": [
+      "Game",
+      "Docs/collab"
+    ],
+    "file_count": 1671,
+    "before_and_after_aggregate_sha256": "90f6e086da3a18caac7d032857c77a03c2d317815f0f0bbd09c46780a56b64a8",
+    "unchanged": true
+  },
+  "browser": {
+    "loaded": true,
+    "imageCount": 8,
+    "allCanvasNonempty": true,
+    "scaleDimensions": [
+      [
+        96,
+        128
+      ],
+      [
+        384,
+        512
+      ],
+      [
+        288,
+        384
+      ]
+    ],
+    "commandLabels": [
+      "지휘",
+      "지휘",
+      "지휘"
+    ],
+    "poseCycleAdvanced": true,
+    "mobilePageOverflow": false,
+    "pageErrors": [],
+    "externalNetworkRequests": [],
+    "pass": true
+  },
+  "not_tested": [
+    "Unity Play",
+    "actual game camera/lighting",
+    "walking/running rig integration or motion jitter",
+    "full animation frames"
+  ],
+  "visual_review": [
+    "all generated turnarounds and portraits",
+    "normalized turnaround previews",
+    "night back lineup",
+    "desktop page",
+    "variant A page section",
+    "mobile page"
+  ]
+}
