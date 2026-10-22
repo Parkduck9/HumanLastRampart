@@ -4,6 +4,7 @@
     "references": [
         "HLR.Core",
         "HLR.UI",
+        "HLR.Tutorial",
         "Unity.Burst",
         "Unity.Collections",
         "Unity.Mathematics",
