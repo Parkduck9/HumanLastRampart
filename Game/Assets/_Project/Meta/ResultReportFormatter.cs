@@ -59,7 +59,7 @@ namespace HumanLastRampart.Meta
             }
             return new Report
             {
-                Summary = $"전투 {result.BattleNumber} 종료 · 처치 {result.DefeatedEnemyCount:N0}\n" +
+                Summary = $"밤 종료 · 처치 {result.DefeatedEnemyCount:N0}\n" +
                     $"획득 골드 {result.EarnedGold:N0} · 병력 손실 {totalLoss:N0}명\n성벽 피해 합계 {totalDamage:N0}",
                 Walls = walls.ToString(),
                 Squads = squads.Length == 0 ? "참가 분대 없음" : squads.ToString(),

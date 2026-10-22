@@ -31,6 +31,10 @@ namespace HumanLastRampart.Core.Definitions
         public string WaveFor(int battleNumber) =>
             battleNumber >= 1 && battleNumber <= waveByBattle.Count ? waveByBattle[battleNumber - 1] : null;
 
+        // 밤 번호(이긴 밤 수 + 1) → 웨이브·지형. BeaconRules.BattleSlot으로 기존 전투 1~4번 자리에 대응 (W8)
+        public string WaveForNight(int night) => night < 1 ? null : WaveFor(BeaconRules.BattleSlot(night, waveByBattle.Count));
+        public string TerrainForNight(int night) => night < 1 ? null : TerrainFor(BeaconRules.BattleSlot(night, waveByBattle.Count));
+
         public string TerrainFor(int battleNumber) =>
             terrainOrder.Count == 0 || battleNumber < 1 ? null : terrainOrder[(battleNumber - 1) % terrainOrder.Count];
     }

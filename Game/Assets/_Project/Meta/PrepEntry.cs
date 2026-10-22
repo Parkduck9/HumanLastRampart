@@ -41,9 +41,11 @@ namespace HumanLastRampart.Meta
             foreach (Button b in new[] { repair, recruit, trapButton, shop, training, mercenary, ready }) ScreenView.HideButton(b);
 
             // D-076 정비 마당 + K-047: 위쪽은 황동 계기 띠 한 줄 — 1순위 골드, 그다음 병력·다음 전투 (S-20)
-            view.DockTop(1040f, 80f);
-            BuildSummary(view.AddArea("Summary", 48f), campaign.BattleNumber);
+            view.DockTop(1560f, 80f + 2 * 56f);   // W8: 등대 줄 두 개가 늘어난 높이
+            BuildSummary(view.AddArea("Summary", 48f), campaign);
             PreparationPanel.RefreshSummary(repair, context, session);
+            BeaconPrepPanel.Build(view.AddArea("Beacon Line 1", 48f), view.AddArea("Beacon Line 2", 48f), context,
+                () => PreparationPanel.RefreshSummary(repair, context, session));   // W8: 요새·밤, 등대 복구, 성벽 조건, 밝기 선택, 등대 수리, 수비대 지원금
 
             PrepYard yard = PrepYard.Build(view, HeroUnit(context));   // K-089 배경·3D 바닥·가림을 마당이 함께 소유한다.
             yard.AddStation("성벽 수리", 500f, new Color(0.45f, 0.42f, 0.38f), () => repair.onClick.Invoke());
@@ -57,14 +59,14 @@ namespace HumanLastRampart.Meta
             return view;
         }
 
-        // [정비 마당]  전투 2 앞            [골드] 1,240   [병력] 520/1,200
-        static void BuildSummary(RectTransform area, int battle)
+        // [정비 마당]  요새 1 · 밤 2 앞          [골드] 1,240   [병력] 520/1,200
+        static void BuildSummary(RectTransform area, HumanLastRampart.Core.Campaign.CampaignState campaign)
         {
             HorizontalLayoutGroup row = Ui.Row(area, "Summary Row", UiTokens.S16);
             Ui.Stretch((RectTransform)row.transform);
             Text title = Ui.Label(row.transform, "Title", "정비 마당", UiTokens.H2, UiTokens.Brass, TextAnchor.MiddleLeft, true);
             Ui.Size(title, title.preferredWidth + 8f, 48f);
-            Text next = Ui.Label(row.transform, "Next Battle", $"전투 {battle} 앞", UiTokens.Text, UiTokens.BodyDim);
+            Text next = Ui.Label(row.transform, "Next Battle", HumanLastRampart.Core.Campaign.BeaconRules.NightLabel(campaign.FortressNumber, campaign.NightNumber) + " 앞", UiTokens.Text, UiTokens.BodyDim);
             Ui.Size(next, next.preferredWidth + 8f, 48f);
             RectTransform spacer = Ui.Rect(row.transform, "Spacer");
             Ui.Size(spacer, 0f, 48f, true);

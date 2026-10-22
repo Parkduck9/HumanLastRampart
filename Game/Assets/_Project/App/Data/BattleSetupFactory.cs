@@ -24,7 +24,10 @@ namespace HumanLastRampart.App.Data
 
             CampaignStartDef start = starts[0];
             BattleRulesDef rules = rulesList[0];
-            string waveId = start.WaveFor(campaign.BattleNumber);
+            // 빛을 잇는 자들 (W8): 밤 번호(BattleNumber)를 기존 전투 1~4번 자리로 옮겨 웨이브·지형·적 수를 정한다 (BeaconRules.BattleSlot).
+            // 전투가 읽는 BattleSetup.BattleNumber도 이 자리 번호다
+            int slot = BeaconRules.BattleSlot(campaign.BattleNumber, start.BattleCount);
+            string waveId = start.WaveForNight(campaign.BattleNumber);
             if (waveId == null)
             {
                 error = $"전투 {campaign.BattleNumber}의 웨이브가 없습니다";
@@ -32,17 +35,24 @@ namespace HumanLastRampart.App.Data
             }
 
             bool easy = campaign.Difficulty == Difficulty.Easy;
+            bool ignition = BeaconRules.IsIgnitionNight(campaign);
             var setup = new BattleSetup
             {
                 BattleRunId = runId,
-                BattleNumber = campaign.BattleNumber,
+                BattleNumber = slot,
                 WaveDefId = waveId,
-                TerrainId = start.TerrainFor(campaign.BattleNumber),
+                TerrainId = start.TerrainForNight(campaign.BattleNumber),
                 Difficulty = campaign.Difficulty,
-                EnemyCountMultiplier = easy ? rules.EasyEnemyMultiplierFor(campaign.BattleNumber) : rules.RealisticEnemyMultiplierFor(campaign.BattleNumber),
+                EnemyCountMultiplier = easy ? rules.EasyEnemyMultiplierFor(slot) : rules.RealisticEnemyMultiplierFor(slot),
                 MaxConcurrentEnemies = easy ? rules.MaxConcurrentEnemiesEasy : rules.MaxConcurrentEnemiesRealistic,
-                Forecast = BattleForecast.Get(campaign.RngSeed, campaign.BattleNumber, rules),
+                Forecast = BattleForecast.Get(campaign.RngSeed, campaign.BattleNumber, rules),   // 예보 방식은 다른 작업이 바꾼다
                 InitialTargeting = (campaign.Targeting ?? TargetingSettings.CreateDefault()).Clone(),
+                LampBrightness = campaign.PlannedLamp,
+                BeamSide = 0,
+                EnemyTier = BeaconRules.EnemyTier(campaign.FortressNumber, ignition),
+                IsIgnitionNight = ignition,
+                FortressNumber = campaign.FortressNumber,
+                NightNumber = campaign.NightNumber,
             };
 
             // 참가 영웅 (C-005 v1.3, D-044 M7): 살아 있고 배치됐거나, 주인공·마법사는 배치 지점 없이도 참가

@@ -270,6 +270,18 @@ public sealed partial class PlayProbe
             story.Skip();
             yield return WaitScreen(ScreenId.Battle, 900);   // 준비 단계는 WaitScreen이 바로 넘긴다
             yield return Press(LoopKeys.TestLoseWall, 300);
+
+            // W8: 첫 패배는 엔딩이 아니다 — 등대 복구 절반·연속 패배 1, 같은 요새의 다음 낮. 한 번 더 지면 패배 엔딩
+            yield return WaitScreen(ScreenId.Prep, 900);
+            Assert.AreEqual(1, GameFlow.Instance.Campaign.ConsecutiveNightLosses, "첫 패배: 연속 패배 1");
+            Assert.AreEqual(1, GameFlow.Instance.Campaign.BattleNumber, "진 밤은 밤 번호가 오르지 않는다");
+            var lossYard = Object.FindAnyObjectByType<HumanLastRampart.Meta.PrepYard>();
+            Assert.IsNotNull(lossYard, "정비 마당");
+            Assert.IsTrue(lossYard.Use(LoopKeys.Stairs), "계단 장소");
+            for (int i = 0; i < 3; i++) yield return null;
+            yield return Press(LoopKeys.StartNextBattle, 60);
+            yield return WaitScreen(ScreenId.Battle, 900);
+            yield return Press(LoopKeys.TestLoseWall, 300);
             yield return WaitScreen(ScreenId.Story, 900);
             Assert.AreEqual(StoryKind.DefeatEnding, GameFlow.Instance.Campaign.NextStory.Kind, "패배 뒤 패배 엔딩 (결과 화면 건너뜀)");
             HumanLastRampart.Story.StoryPlayer ending = null;
