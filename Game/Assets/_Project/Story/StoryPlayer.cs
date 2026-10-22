@@ -120,7 +120,8 @@ namespace HumanLastRampart.Story
             tail.rectTransform.localScale = new Vector3(1f, -1f, 1f);
             tail.gameObject.SetActive(false);
             body = Ui.Label(box, "Story Text", "", UiTokens.H2, UiTokens.Ink, TextAnchor.UpperLeft);
-            body.font = font != null ? font : UiFonts.Body;
+            body.font = font != null ? font : UiFonts.Story;
+            body.fontSize = UiTokens.H2;   // Label이 갈무리용으로 맞춘 크기를 되돌림 (고운바탕은 11 배수 필요 없음)
             body.rectTransform.anchorMin = Vector2.zero;
             body.rectTransform.anchorMax = Vector2.one;
             body.rectTransform.offsetMin = new Vector2(64f, UiTokens.S48);
