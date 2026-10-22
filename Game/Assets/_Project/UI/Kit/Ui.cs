@@ -118,7 +118,7 @@ namespace HumanLastRampart.UI
             go.transform.SetParent(parent, false);
             var label = go.GetComponent<Text>();
             label.font = display ? UiFonts.Display : UiFonts.Body;
-            label.fontSize = size;
+            label.fontSize = display ? size : UiFonts.SnapPixel(size);   // 갈무리는 11의 배수 크기에서 또렷 (W16)
             label.text = text ?? "";
             label.color = color;
             label.alignment = anchor;
@@ -131,9 +131,11 @@ namespace HumanLastRampart.UI
             bool onPaper = color == UiTokens.Ink || color == UiTokens.InkSoft || color == UiTokens.DangerInk || color == UiTokens.GoodInk;
             if (onPaper && size <= UiTokens.Text)
             {
-                label.font = UiFonts.Body;
-                label.fontStyle = FontStyle.Bold;
+                label.font = UiFonts.BodyBold;   // 굵은 글꼴 파일 사용 (가짜 굵기 X)
+                label.fontSize = UiFonts.SnapPixel(size);
             }
+            else if (!display && size >= UiTokens.Text && size < UiTokens.H2)
+                UiFonts.Bold(label);   // W16: Text(24)와 Small(20)이 같은 22가 되므로 위계는 굵기로 (Text = Bold)
 
             return label;
         }
@@ -241,7 +243,7 @@ namespace HumanLastRampart.UI
                 }
 
                 Text text = Label(content, "Label", label, UiTokens.Text, ink, icon != null ? TextAnchor.MiddleLeft : TextAnchor.MiddleCenter, brass);
-                if (brass) { text.font = UiFonts.Body; text.fontStyle = FontStyle.Bold; }   // 황동 위 글은 또렷한 본문 글꼴 굵게 (명조 작은 글은 번졌다)
+                if (brass) { text.font = UiFonts.BodyBold; text.fontSize = UiFonts.SnapPixel(UiTokens.Text); text.fontStyle = FontStyle.Normal; }   // 황동 위 글은 또렷한 본문 글꼴 굵게 (명조 작은 글은 번졌다)
                 text.horizontalOverflow = HorizontalWrapMode.Overflow;
                 Stretch(text.rectTransform);
                 text.rectTransform.offsetMin = new Vector2(icon != null ? left : UiTokens.S16, 0f);
@@ -299,7 +301,7 @@ namespace HumanLastRampart.UI
             cap.sprite = UiArt.Get(UiArt.KeyCap);
             cap.type = UnityEngine.UI.Image.Type.Sliced;
             Text keyText = Label(cap.transform, "Key", key, UiTokens.Small, UiTokens.Ink, TextAnchor.MiddleCenter);
-            keyText.fontStyle = FontStyle.Bold;
+            HumanLastRampart.UI.UiFonts.Bold(keyText);
             keyText.horizontalOverflow = HorizontalWrapMode.Overflow;
             Stretch(keyText.rectTransform);
             keyText.rectTransform.offsetMin = new Vector2(0f, UiTokens.Dot);   // 키 아래 두께만큼 위로

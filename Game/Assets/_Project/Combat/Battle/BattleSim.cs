@@ -408,6 +408,7 @@ namespace HumanLastRampart.Combat.Battle
 
                 groupPhase.Add(wavePhase);
                 groupFirstTime.Add(firstTime);
+                groupFirstSpawned.Add(float.MaxValue);
             }
 
             entries.Sort((a, b) => a.Time.CompareTo(b.Time));
@@ -761,6 +762,8 @@ namespace HumanLastRampart.Combat.Battle
                 ePos[entry.Slot] = n * entry.Depth + right * entry.Lateral;
                 eVel[entry.Slot] = -n * eSpeed[entry.Slot];
                 eState[entry.Slot] = EnemyState.Walking;
+                int spawnedGroup = eGroup[entry.Slot];
+                if (groupFirstSpawned[spawnedGroup] == float.MaxValue) groupFirstSpawned[spawnedGroup] = Elapsed;   // 실제로 나온 첫 시각 (공성 단계 기준)
                 alive++;
             }
         }
@@ -940,7 +943,7 @@ namespace HumanLastRampart.Combat.Battle
                 RetryInterval = RetryInterval,
                 FrameSeed = seed ^ (frameNumber * 2654435761u),
                 IntervalMultiplier = IntervalMultiplier,
-                HeroSide = Boost.HeroWallIntervalMul != 1f ? commanderSide : -1,   // 지휘 휘장 (K-058)
+                HeroSide = Boost.HeroWallIntervalMul != 1f && commanderOnWall ? commanderSide : -1,   // 지휘 휘장 (K-058)
                 HeroSideIntervalMultiplier = Boost.HeroWallIntervalMul,
                 FarAccuracyMultiplier = FarAccuracyMultiplier,
                 FrontArc = (byte)(FrontArcOnly ? 1 : 0),

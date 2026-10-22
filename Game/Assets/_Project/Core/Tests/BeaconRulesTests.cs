@@ -36,6 +36,7 @@ namespace HumanLastRampart.Core.Tests
             Assert.AreEqual(0f, c.BeaconRepair);
             Assert.AreEqual(0, c.ConsecutiveNightLosses);
             Assert.AreEqual(LampBrightness.Normal, c.PlannedLamp);
+            Assert.AreEqual(0, c.PlannedBeamSide, "W9: 처음 빛줄기 방향 = 북");
             Assert.IsNotNull(c.Garrisons);
             Assert.AreEqual(0, c.Garrisons.Count);
         }
@@ -52,6 +53,7 @@ namespace HumanLastRampart.Core.Tests
                 original.BeaconRepair = 40f;
                 original.ConsecutiveNightLosses = 1;
                 original.PlannedLamp = LampBrightness.High;
+                original.PlannedBeamSide = 2;
                 original.Garrisons.Add(new GarrisonState { FortressNumber = 1, Count = 12 });
                 Assert.IsTrue(CampaignSave.Save(original, ScreenId.Prep, out string error), error);
 
@@ -62,6 +64,7 @@ namespace HumanLastRampart.Core.Tests
                 Assert.AreEqual(40f, loaded.BeaconRepair);
                 Assert.AreEqual(1, loaded.ConsecutiveNightLosses);
                 Assert.AreEqual(LampBrightness.High, loaded.PlannedLamp);
+                Assert.AreEqual(2, loaded.PlannedBeamSide, "다음 밤 빛줄기 방향이 저장·불러오기를 거친다 (W9)");
                 Assert.AreEqual(12, loaded.Garrisons[0].Count);
                 Assert.IsTrue(CampaignSave.TryPeek(out CampaignSave.Summary summary));
                 Assert.AreEqual(2, summary.FortressNumber);
@@ -69,7 +72,7 @@ namespace HumanLastRampart.Core.Tests
 
                 // 예전 파일 흉내: 새 필드 이름을 모두 지운다
                 string text = File.ReadAllText(CampaignSave.SlotPath);
-                foreach (string name in new[] { "FortressNumber", "NightNumber", "BeaconRepair", "ConsecutiveNightLosses", "PlannedLamp", "Garrisons", "LastNightRunId", "LastSupportGold" })
+                foreach (string name in new[] { "FortressNumber", "NightNumber", "BeaconRepair", "ConsecutiveNightLosses", "PlannedLamp", "PlannedBeamSide", "Garrisons", "LastNightRunId", "LastSupportGold" })
                     text = text.Replace($"\\\"{name}\\\"", $"\\\"Removed_{name}\\\"");
                 File.WriteAllText(CampaignSave.SlotPath, text);
                 Assert.IsTrue(CampaignSave.TryLoad(out CampaignState old, out _, out error), error);
@@ -78,6 +81,7 @@ namespace HumanLastRampart.Core.Tests
                 Assert.AreEqual(0f, old.BeaconRepair, "예전 저장 = 복구 0");
                 Assert.AreEqual(0, old.ConsecutiveNightLosses);
                 Assert.AreEqual(LampBrightness.Normal, old.PlannedLamp);
+                Assert.AreEqual(0, old.PlannedBeamSide, "예전 저장 = 북쪽");
                 Assert.AreEqual(0, old.Garrisons.Count);
                 Assert.AreEqual(1000, old.Gold, "다른 값은 그대로");
             }
@@ -320,6 +324,7 @@ namespace HumanLastRampart.Core.Tests
             c.TerrainWorks.Add(new TerrainWork { TerrainId = "terrain_1", CellId = "cell_0_0_0", Kind = TerrainWorkKind.EarthWall });
             c.TrapStock.Add(new TrapStockEntry { TrapDefId = "trap_bomb", Count = 2 });
             c.PlannedLamp = LampBrightness.High;
+            c.PlannedBeamSide = 2;
             int seed = c.RngSeed;
 
             BeaconRules.ApplyWin(c, new BattleSetup { IsIgnitionNight = true }, Result("ign"));
@@ -335,6 +340,7 @@ namespace HumanLastRampart.Core.Tests
             Assert.AreEqual(1, c.NightNumber);
             Assert.AreEqual(0f, c.BeaconRepair);
             Assert.AreEqual(LampBrightness.Normal, c.PlannedLamp);
+            Assert.AreEqual(0, c.PlannedBeamSide, "새 요새는 빛줄기 방향도 북쪽으로");
             Assert.IsTrue(c.Wall.All(w => w.Hp == w.MaxHp), "새 요새는 성벽 가득");
             Assert.AreEqual(0, c.Traps.Count, "설치 함정은 옛 요새에 남는다");
             Assert.AreEqual(0, c.TerrainWorks.Count);
@@ -342,7 +348,8 @@ namespace HumanLastRampart.Core.Tests
             Assert.AreNotEqual(seed, c.RngSeed, "새 지형 씨앗");
             Assert.AreEqual(1, c.LastNightFortress);
             Assert.AreEqual(2, c.LastNightIndex);
-            Assert.IsNull(c.NextStory, "마지막 요새가 아니므로 1회차 완료 이야기 없음");
+            Assert.AreEqual(StoryKind.Normal, c.NextStory.Kind, "마지막 요새가 아니므로 1회차 완료가 아니라 점화 이야기 (W12)");
+            Assert.AreEqual("story_fortress1_relit", c.NextStory.StoryId);
 
             // 낮이 열리면 수비대 지원금
             int gold = c.Gold;

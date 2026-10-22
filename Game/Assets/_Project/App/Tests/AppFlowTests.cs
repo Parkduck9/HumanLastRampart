@@ -145,6 +145,13 @@ namespace HumanLastRampart.App.Tests
             Assert.AreEqual(1, first.FortressNumber);
             Assert.AreEqual(1, first.NightNumber);
 
+            campaign.PlannedBeamSide = 3;   // W9: 정비 마당 등대에서 명령한 방향이 전투 처음 방향이 된다
+            Assert.AreEqual(3, BattleSetupFactory.Create(campaign, lookup, "run_beam", out error).BeamSide);
+            campaign.PlannedBeamSide = -1;
+            Assert.AreEqual(3, BattleSetupFactory.Create(campaign, lookup, "run_beam2", out error).BeamSide, "범위 밖 값은 0~3으로 맞춘다 (-1 = 서)");
+            campaign.PlannedBeamSide = 7;
+            Assert.AreEqual(3, BattleSetupFactory.Create(campaign, lookup, "run_beam3", out error).BeamSide);
+            campaign.PlannedBeamSide = 0;
             campaign.PlannedLamp = LampBrightness.High;
             campaign.BeaconRepair = 50f;   // 요새 1의 점화 선, 성벽은 가득
             BattleSetup ignition = BattleSetupFactory.Create(campaign, lookup, "run_2", out error);

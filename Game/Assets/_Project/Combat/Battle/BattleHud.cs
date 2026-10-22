@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Text;
 using HumanLastRampart.UI;
 using UnityEngine;
@@ -7,7 +7,8 @@ using UnityEngine.UI;
 namespace HumanLastRampart.Combat.Battle
 {
     // 전투 HUD (K-047, Docs/GDD/UI_NoSlop.md). 전투 HUD는 Combat 안에 둔다 (C-002). 부품은 HumanLastRampart.UI.Ui 한 벌만 쓴다.
-    // 화면 구역: 위 왼쪽 황동 계기 띠(지금 성벽 체력 막대가 1순위) · 아래 왼쪽 키 안내 3개 · 오른쪽 위 전령 쪽지.
+    // 화면 구역 (W17): 아래 왼쪽 황동 계기 띠(지금 성벽 체력 막대가 1순위) · 계기 띠 위 키 안내 3개 · 오른쪽 위 알림 목록(킬피드).
+    // 위쪽은 들판을 보는 자리라 비워 둔다.
     // 나머지 조작은 F1 조작 판, 시험 단추·내부 정보는 F12 개발 표시에서만 보인다 (S-15·S-16)
     public sealed partial class BattleHud : IDisposable
     {
@@ -16,6 +17,7 @@ namespace HumanLastRampart.Combat.Battle
 
         const float Edge = UiTokens.S32;      // 판과 화면 끝 (S-04)
         const float BandHeight = 80f;
+        const float BottomClear = Edge + BandHeight + UiTokens.S16;   // 아래 계기 띠 위쪽: 그 위로 판·안내를 올린다
 
         readonly GameObject root;
         readonly string battleLine;
@@ -80,12 +82,12 @@ namespace HumanLastRampart.Combat.Battle
             LayoutStatus();
         }
 
-        // ── 위 계기 띠: [북] [성벽 막대·숫자] [병사] [처치] [골드] [시간] [날씨·밤낮] [상태] [속도 ▶ ▶▶ ▶▶▶] ──
+        // ── 아래 계기 띠: [북] [성벽 막대·숫자] [병사] [처치] [골드] [시간] [날씨·밤낮] [상태] [속도 ▶ ▶▶ ▶▶▶] ──
         void BuildBand(Action<int> onSpeed)
         {
             Image panel = Ui.Panel(root.transform, "Status Band", UiPanel.Band);
             band = panel.rectTransform;
-            Ui.Place(band, new Vector2(0f, 1f), new Vector2(Edge, -Edge), new Vector2(900f, BandHeight), new Vector2(0f, 1f));
+            Ui.Place(band, Vector2.zero, new Vector2(Edge, Edge), new Vector2(900f, BandHeight), Vector2.zero);
             var row = panel.gameObject.AddComponent<HorizontalLayoutGroup>();
             row.padding = new RectOffset(24, 24, 16, 16);
             row.spacing = UiTokens.S16;
@@ -148,7 +150,7 @@ namespace HumanLastRampart.Combat.Battle
         {
             Image panel = Ui.Panel(root.transform, "Status Detail", UiPanel.Wood);
             detailBoard = panel.gameObject;
-            Ui.Place(panel.rectTransform, new Vector2(0f, 1f), new Vector2(Edge, -(Edge + BandHeight + UiTokens.S16)), new Vector2(640f, 0f), new Vector2(0f, 1f));
+            Ui.Place(panel.rectTransform, Vector2.zero, new Vector2(Edge, BottomClear + 33f + UiTokens.S8), new Vector2(640f, 0f), Vector2.zero);   // 키 안내 줄 위
             var column = panel.gameObject.AddComponent<VerticalLayoutGroup>();
             column.padding = new RectOffset(24, 24, 24, 24);
             column.spacing = UiTokens.S8;
@@ -176,12 +178,13 @@ namespace HumanLastRampart.Combat.Battle
             detailBoard.SetActive(false);
         }
 
-        // ── 아래 왼쪽: 지금 할 수 있는 핵심 행동 3개만 (S-15) ──
+        // ── 계기 띠 바로 위 왼쪽: 지금 할 수 있는 핵심 행동 3개만 (S-15) ──
         void BuildHints()
         {
             HorizontalLayoutGroup row = Ui.Row(root.transform, "Key Hints", UiTokens.S24);
             hints = (RectTransform)row.transform;
-            Ui.Place(hints, Vector2.zero, new Vector2(Edge, Edge), new Vector2(800f, 33f), Vector2.zero);
+            row.childAlignment = TextAnchor.MiddleRight;
+            Ui.Place(hints, Vector2.zero, new Vector2(Edge, BottomClear), new Vector2(800f, 33f), Vector2.zero);   // 띠 바로 위 왼쪽 (어떤 화면 비율에서도 띠와 겹치지 않는다)
             row.gameObject.AddComponent<ContentSizeFitter>().horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
         }
 
@@ -227,6 +230,7 @@ namespace HumanLastRampart.Combat.Battle
             {
                 "휠 버튼", "명령 메뉴", "A · D", "성벽 따라 달리기", "W · S", "통로 앞뒤로", "Tab", "지도 펼치기",
                 "C", "카메라 바꾸기", "1 · 2 · 3", "빠르기", "P", "멈춤", "H", "4면 자세히", "G", "화면 효과",
+                "E", "계단 내려가기 · 탑 빛줄기 명령", "Q", "탑에서 올라가기",
             });
             HelpColumn(sections.transform, "지도", new[]
             {
@@ -363,7 +367,7 @@ namespace HumanLastRampart.Combat.Battle
             RefreshStatusIcons(sim);
 
             bool detail = statusDetail && !mapMode;
-            if (detailBoard.activeSelf != detail) UiAppear.Toggle(detailBoard, detail, new Vector2(0f, UiTokens.S16));
+            if (detailBoard.activeSelf != detail) UiAppear.Toggle(detailBoard, detail, new Vector2(0f, -UiTokens.S16));
             if (detail) RefreshDetail(sim, watched);
 
             WriteProbeText(sim, watched, minutes, seconds, speed, paused);

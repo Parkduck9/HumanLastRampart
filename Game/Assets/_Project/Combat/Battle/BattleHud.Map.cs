@@ -102,7 +102,7 @@ namespace HumanLastRampart.Combat.Battle
 
         void BuildCommandBoard()
         {
-            Image panel = Board("Command Board", new Vector2(0f, 1f), new Vector2(Edge, -(Edge + BandHeight + UiTokens.S16)), 416f, "병사 명령", out _, out commandBody);
+            Image panel = Board("Command Board", new Vector2(0f, 1f), new Vector2(Edge, -Edge), 416f, "병사 명령", out _, out commandBody);
             commandBoard = panel.gameObject;
 
             HorizontalLayoutGroup tabs = Ui.Row(commandBody.transform, "Targets", UiTokens.S8);
@@ -163,7 +163,7 @@ namespace HumanLastRampart.Combat.Battle
 
         void BuildFireBoard()
         {
-            Image panel = Board("Fire Board", new Vector2(1f, 1f), new Vector2(-Edge, -(Edge + BandHeight + UiTokens.S16)), 400f, "대포", out cannonTitle, out fireBody);
+            Image panel = Board("Fire Board", new Vector2(1f, 1f), new Vector2(-Edge, -FeedReserve), 400f, "대포", out cannonTitle, out fireBody);
             fireBoard = panel.gameObject;
 
             for (int i = 0; i < 4; i++)
@@ -291,7 +291,7 @@ namespace HumanLastRampart.Combat.Battle
                     }
 
                     Text numberLabel = Ui.Outlined(Ui.Label(content, "Number", "", UiTokens.Small, UiTokens.Body, TextAnchor.LowerRight, true));
-                    numberLabel.fontStyle = FontStyle.Bold;
+                    HumanLastRampart.UI.UiFonts.Bold(numberLabel);
                     Ui.Stretch(numberLabel.rectTransform, UiTokens.Dot);
                     button.transform.SetAsFirstSibling();
                     cannonMarkers.Add(button);
@@ -453,7 +453,7 @@ namespace HumanLastRampart.Combat.Battle
             marker.Count = count.GetComponent<Text>();
             marker.Count.font = UiFonts.Body;
             marker.Count.fontSize = 10;
-            marker.Count.fontStyle = FontStyle.Bold;
+            HumanLastRampart.UI.UiFonts.Bold(marker.Count);
             marker.Count.alignment = TextAnchor.MiddleCenter;
             marker.Count.color = UiTokens.Body;
             marker.Count.raycastTarget = false;
@@ -584,7 +584,7 @@ namespace HumanLastRampart.Combat.Battle
                 if (compass[side] == null)
                 {
                     Text t = Ui.Outlined(Ui.Label(root.transform, "Compass " + SideNames[side], SideNames[side], UiTokens.H2, UiTokens.Brass, TextAnchor.MiddleCenter, true));
-                    t.fontStyle = FontStyle.Bold;
+                    HumanLastRampart.UI.UiFonts.Bold(t);
                     t.rectTransform.sizeDelta = new Vector2(80f, 56f);
                     t.transform.SetAsFirstSibling();   // 판들보다 뒤
                     compass[side] = t;
@@ -651,7 +651,7 @@ namespace HumanLastRampart.Combat.Battle
             {
                 Image panel = Ui.Panel(root.transform, "Group Popup", UiPanel.Wood);
                 groupPopup = panel.gameObject;
-                Anchor(panel.rectTransform, new Vector2(0.5f, 1f), new Vector2(0f, -(Edge + BandHeight + UiTokens.S16)), new Vector2(560f, 0f), new Vector2(0.5f, 1f));
+                Anchor(panel.rectTransform, new Vector2(0.5f, 1f), new Vector2(0f, -(Edge + 64f + UiTokens.S16)), new Vector2(560f, 0f), new Vector2(0.5f, 1f));
                 var column = panel.gameObject.AddComponent<VerticalLayoutGroup>();
                 column.padding = new RectOffset(24, 24, 16, 24);
                 column.spacing = UiTokens.S8;

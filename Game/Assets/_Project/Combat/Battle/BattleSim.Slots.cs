@@ -182,7 +182,7 @@ namespace HumanLastRampart.Combat.Battle
                 }
             }
             foreach (Messenger messenger in messengers)
-                if (sSlot[messenger.Soldier] >= 0 && sSlot[messenger.Soldier] / SlotStride == side) messenger.Home = HomeSpot(messenger.Soldier);
+                if (messenger.Soldier >= 0 && sSlot[messenger.Soldier] >= 0 && sSlot[messenger.Soldier] / SlotStride == side) messenger.Home = HomeSpot(messenger.Soldier);
             foreach (RunnerPair pair in runners)
                 if (pair != null)
                     for (int k = 0; k < pair.Soldiers.Length; k++)

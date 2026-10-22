@@ -1,4 +1,4 @@
-using HumanLastRampart.Core.Flow;
+﻿using HumanLastRampart.Core.Flow;
 using HumanLastRampart.UI;
 using System;
 using UnityEngine;
@@ -41,27 +41,55 @@ namespace HumanLastRampart.Meta
             foreach (Button b in new[] { repair, recruit, trapButton, shop, training, mercenary, ready }) ScreenView.HideButton(b);
 
             // D-076 정비 마당 + K-047: 위쪽은 황동 계기 띠 한 줄 — 1순위 골드, 그다음 병력·다음 전투 (S-20)
-            view.DockTop(1560f, 80f + 2 * 56f);   // W8: 등대 줄 두 개가 늘어난 높이
+            view.DockTop(1560f, 80f + 2 * 72f);   // W8: 등대 줄 두 개. W16: 줄마다 높이 48 + 간격 24라 72씩. 밤 사이 한마디(W12)는 띠 밖 아래쪽 띠로 옮겼다 (마당 간판을 가리지 않게)
             Button mapButton = BuildSummary(view.AddArea("Summary", 48f), campaign,
                 () => { session.Close(); traps.Close(); Complete(ScreenOutcome.OpenBeaconMap); });   // W10: 봉화선 지도 보기 (보기 전용, 닫으면 정비로)
             PreparationPanel.RefreshSummary(repair, context, session);
-            BeaconPrepPanel.Build(view.AddArea("Beacon Line 1", 48f), view.AddArea("Beacon Line 2", 48f), context,
-                () => PreparationPanel.RefreshSummary(repair, context, session));   // W8: 요새·밤, 등대 복구, 성벽 조건, 밝기 선택, 등대 수리, 수비대 지원금
-
+            Action refreshTowerLater = null;   // 마당(탑 그림)은 아래에서 만든다 — 수리를 사면 탑 불꽃도 바로 새로 그린다 (S5)
+            BeaconPrepPanel.Build(view.AddArea("Beacon Line 1", 48f), view.AddArea("Beacon Line 2", 48f), null, context,
+                () => { PreparationPanel.RefreshSummary(repair, context, session); refreshTowerLater?.Invoke(); });   // W8: 요새·밤, 등대 복구, 성벽 조건, 밝기 선택, 등대 수리, 수비대 지원금
+            BuildDayLineStrip(repair.GetComponentInParent<UnityEngine.Canvas>().transform, campaign);   // W12 밤 사이 한마디: 화면 아래 가운데 작은 띠 (없으면 만들지 않음)
             PrepYard yard = PrepYard.Build(view, HeroUnit(context));   // K-089 배경·3D 바닥·가림을 마당이 함께 소유한다.
             yard.AddStation("성벽 수리", 500f, new Color(0.45f, 0.42f, 0.38f), () => repair.onClick.Invoke());
             yard.AddStation("병영", 1300f, new Color(0.42f, 0.30f, 0.24f), () => recruit.onClick.Invoke());
             yard.AddStation("함정 공방", 2100f, new Color(0.30f, 0.30f, 0.36f), () => trapButton.onClick.Invoke());
             yard.AddStation("상점", 2550f, new Color(0.46f, 0.36f, 0.22f), () => shop.onClick.Invoke());   // K-058 보급 상인 (간판 그림은 Codex 요청)
+            // W9: 가운데 등대 — 다음 밤 빛줄기 방향 명령. 탑 그림은 전투 화면과 같은 규칙(꺼짐 없음, 불꽃 세기 = 복구, 점화의 밤 앞이면 완전 점화, K-110 탑 + K-102 불꽃)
+            Action refreshTower = () =>
+            {
+                bool lit = HumanLastRampart.Core.Campaign.BeaconRules.IsIgnitionNight(campaign);
+                yard.SetBeaconFlame(Resources.Load<Texture2D>(lit ? "BattleArt/Beacon/flame_lit" : "BattleArt/Beacon/flame_warming"),
+                    HumanLastRampart.Core.Campaign.BeaconRules.TowerFlameStrength(campaign.BeaconRepair, lit));
+            };
+            refreshTowerLater = refreshTower;
+            yard.AddStation("등대", 1745f, new Color(0.45f, 0.40f, 0.30f), () => yard.OpenModal(parent =>
+                BeaconYardPanel.Build(parent, context, refreshTower, yard.CloseModal)), new Vector2(1560f, 640f));   // W16: 간판은 탑 왼쪽 위 (탑 뒤에 가리지 않게)
+            bool beaconLit = HumanLastRampart.Core.Campaign.BeaconRules.IsIgnitionNight(campaign);
+            yard.AddBeaconTower(Resources.Load<Texture2D>("BattleArt/Beacon/tower_base"),
+                Resources.Load<Texture2D>(beaconLit ? "BattleArt/Beacon/flame_lit" : "BattleArt/Beacon/flame_warming"),
+                HumanLastRampart.Core.Campaign.BeaconRules.TowerFlameStrength(campaign.BeaconRepair, beaconLit), 1920f, 930f);
             yard.AddStation("성벽 계단", 3000f, new Color(0.40f, 0.38f, 0.30f), () => yard.AskNextBattle(() => ready.onClick.Invoke()));
             var lifetime = repair.GetComponentInParent<UnityEngine.Canvas>().gameObject.AddComponent<PreparationSessionLifetime>();
             lifetime.Session = session; lifetime.Traps = traps;
-            var tutorial = HumanLastRampart.Tutorial.PrepTutorialSource.TryBegin(transform, campaign);   // 첫 전투 뒤 정비 튜토리얼 (W2): 함정 놓기 → 망원경 업그레이드 설명
-            // W10: 튜토리얼이 도는 동안은 지도 단추를 잠근다 (지도를 보고 오면 정비 튜토리얼이 처음부터 다시 시작되므로)
+            var tutorial = HumanLastRampart.Tutorial.PrepTutorialSource.TryBegin(transform, campaign, context.Definitions);   // 첫 전투 뒤 정비 튜토리얼 (W2): 함정 놓기 → 망원경 업그레이드 설명
+            // W10: 튜토리얼이 도는 동안은 지도 단추를 잠근다 (단계는 저장돼 이어 하지만, 지도로 나가면 정비 화면이 다시 만들어져 안내가 끊기므로)
             if (tutorial != null) mapButton.gameObject.AddComponent<MapButtonGate>().Init(mapButton, tutorial);
             return view;
         }
 
+        // 밤 사이 한마디 띠 (W12 내용, W16 자리): 화면 아래 가운데, 어두운 반투명 판 + 갈무리 글. 한마디가 없는 날은 만들지 않는다
+        static void BuildDayLineStrip(Transform canvas, HumanLastRampart.Core.Campaign.CampaignState campaign)
+        {
+            var lines = HumanLastRampart.Core.Campaign.BeaconRules.DayLines(campaign);
+            if (lines == null || lines.Count == 0) return;
+            Image plate = Ui.Image(canvas, "Day Line Strip", UiTokens.Alpha(UiTokens.Outline, 0.72f));
+            plate.raycastTarget = false;
+            Ui.Place(plate.rectTransform, new Vector2(0.5f, 0f), new Vector2(0f, 96f), new Vector2(1320f, 64f), new Vector2(0.5f, 0f));
+            Text text = Ui.Label(plate.transform, "Day Line", string.Join("   ·   ", lines.ConvertAll(l => $"{l.speaker}: \"{l.text}\"")), UiTokens.Small, UiTokens.Body, TextAnchor.MiddleCenter);
+            Ui.Stretch(text.rectTransform);
+            text.rectTransform.offsetMin = new Vector2(UiTokens.S24, 0f);
+            text.rectTransform.offsetMax = new Vector2(-UiTokens.S24, 0f);
+        }
         sealed class MapButtonGate : MonoBehaviour
         {
             Button button;

@@ -22,6 +22,7 @@ namespace HumanLastRampart.Tutorial
         readonly GameObject boxObject;
         public readonly Button NextButton, SkipButton;
         int shownStep = -1;
+        bool shownExplain;
         bool disposed;
 
         static Texture2D Tex(string name)
@@ -96,7 +97,7 @@ namespace HumanLastRampart.Tutorial
             icon = Sheet(panel.transform, "Step Icon", Tex("step_icons_24"), new Vector2(60f, 60f));
             Ui.Place(icon.rectTransform, new Vector2(0f, 1f), new Vector2(34f, -30f), new Vector2(60f, 60f), new Vector2(0f, 1f));
             title = Ui.Label(panel.transform, "Title", "", 30, UiTokens.Ink, TextAnchor.MiddleLeft);
-            title.fontStyle = FontStyle.Bold;
+            HumanLastRampart.UI.UiFonts.Bold(title);
             Ui.Place(title.rectTransform, new Vector2(0f, 1f), new Vector2(106f, -26f), new Vector2(520f, 44f), new Vector2(0f, 1f));
             body = Ui.Label(panel.transform, "Body", "", UiTokens.Text, UiTokens.Ink, TextAnchor.UpperLeft);
             Ui.Place(body.rectTransform, new Vector2(0f, 1f), new Vector2(34f, -82f), new Vector2(880f, 96f), new Vector2(0f, 1f));
@@ -122,18 +123,21 @@ namespace HumanLastRampart.Tutorial
 
             TutorialStepInfo info = machine.Info;
             int step = (int)machine.Current;
-            if (step != shownStep)
+            bool explain = machine.ExplainOnly;   // 직접 해 볼 수 없어 설명으로 바뀐 단계도 포함
+            if (step != shownStep || explain != shownExplain)
             {
+                bool stepChanged = step != shownStep;
                 shownStep = step;
+                shownExplain = explain;
                 title.text = info.Title;
-                body.text = info.Body;
+                body.text = explain && !string.IsNullOrEmpty(info.ExplainBody) ? info.ExplainBody : info.Body;
                 Cell(bust, info.Expression, 4);
                 Cell(icon, step, 8);
-                NextButton.gameObject.SetActive(info.ExplainOnly);
-                BuildChips(info);
+                NextButton.gameObject.SetActive(explain);
+                if (stepChanged) BuildChips(info);
+                // 진행 표시는 단계가 바뀔 때만 다시 맞춘다 (매 프레임 uvRect를 다시 쓰지 않는다)
+                for (int i = 0; i < pips.Length; i++) Cell(pips[i], i * 3 + (i < step ? 2 : i == step ? 1 : 0), 24);
             }
-
-            for (int i = 0; i < pips.Length; i++) Cell(pips[i], i * 3 + (i < step ? 2 : i == step ? 1 : 0), 24);
 
             // 목표 화면 좌표(화소)를 화면 비율로 바꿔 앵커에 건다 — 캔버스 배율·피벗과 무관하다 (BattleHud.Viewport와 같은 방식)
             bool target = false;
@@ -182,7 +186,7 @@ namespace HumanLastRampart.Tutorial
 
                 // 칩 글: 본문 크기(24) 굵게, 밝은 글자에 짙은 외곽선 — 칩이 어두운 갈색이라 작은 글이 묻히지 않게
                 Text label = Ui.Label(back.transform, "Chip Text", chip.Text, UiTokens.Text, Color.white, TextAnchor.MiddleCenter);
-                label.fontStyle = FontStyle.Bold;
+                HumanLastRampart.UI.UiFonts.Bold(label);
                 label.horizontalOverflow = HorizontalWrapMode.Overflow;
                 Ui.Outlined(label);
                 Ui.Size(label, Mathf.Ceil(label.preferredWidth) + 8f, 42f);

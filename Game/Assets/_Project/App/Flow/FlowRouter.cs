@@ -42,6 +42,10 @@ namespace HumanLastRampart.App.Flow
         public bool ResultWasLostNight;             // W11: 방금 결과 화면은 진 밤의 보고였다 → 뒤에 복구 절반·지원금과 함께 같은 요새의 다음 낮
         public bool StoryIsRunComplete;            // W8: 1회차 완료 이야기 (끝나면 메인)
         public bool RunComplete;                    // W8: 결과 화면 뒤 1회차 완료 이야기로 간다
+        public bool ResultStory;                    // W12: 봉화선 지도 뒤 점화 이야기로 간다 (요새 점화, 마지막 요새 제외)
+        public bool StoryChainNext;                 // W12: 이 이야기 뒤에 이어 볼 이야기가 있다 (이야기 화면을 다시 연다)
+        public bool StoryToDay;                     // W12: 이 이야기가 끝나면 전투 대신 낮(정비)으로 간다
+        public bool ResumeStory;                    // W12: 이어하기: 저장 때 못 본 이야기(점화·1회차 완료)가 남아 있다 → 정비 대신 그 이야기부터
         public bool RelitFortress;                  // W10: 방금 밤에 요새를 점화했다 → 결과 뒤 봉화선 지도를 먼저 보여 준다
         public bool MapIsPreview;                   // W10: 봉화선 지도가 정비에서 열린 보기 전용이다
     }
@@ -70,7 +74,7 @@ namespace HumanLastRampart.App.Flow
                     if (outcome == ScreenOutcome.ContinueGame)
                     {
                         // 이어하기 (K-062): 저장은 정비 화면에 들어올 때만 하므로 정비부터
-                        FlowStep resume = FlowStep.Open(ScreenId.Prep);
+                        FlowStep resume = FlowStep.Open(state.ResumeStory ? ScreenId.Story : ScreenId.Prep);   // W12: 못 본 이야기가 있으면 먼저 다시 본다
                         resume.LoadSave = true;
                         return resume;
                     }
@@ -80,6 +84,14 @@ namespace HumanLastRampart.App.Flow
                 case ScreenId.Story:
                     if (outcome != ScreenOutcome.Done) return FlowStep.Stay();
                     if (state.StoryIsDefeatEnding || state.StoryIsRunComplete) return EndOfRun();   // 패배 엔딩·1회차 완료 → 처음부터 (저장 지움)
+                    if (state.StoryChainNext) return FlowStep.Open(ScreenId.Story);   // W12: 다음 이야기 (App이 NextStory를 바꿔 둔다)
+                    if (state.StoryToDay)
+                    {
+                        FlowStep toDay = FlowStep.Open(ScreenId.Prep);   // W12: 새 요새 도착 이야기 뒤 첫 낮
+                        toDay.BeginDay = true;
+                        return toDay;
+                    }
+
                     return PrepareBattle();
 
                 case ScreenId.Battle:
@@ -122,7 +134,7 @@ namespace HumanLastRampart.App.Flow
                 case ScreenId.BeaconMap:
                     if (outcome != ScreenOutcome.Done) return FlowStep.Stay();
                     if (state.MapIsPreview) return FlowStep.Open(ScreenId.Prep);   // 정비에서 열어 본 것 → 정비로 (낮 지원금은 이미 받았다)
-                    if (state.RunComplete) return FlowStep.Open(ScreenId.Story);   // W8: 마지막 요새 점화 → 1회차 완료 이야기
+                    if (state.RunComplete || state.ResultStory) return FlowStep.Open(ScreenId.Story);   // W8: 마지막 요새 점화 → 1회차 완료 이야기 / W12: 요새 점화 이야기 (지도 다음)
                     return StartDay();                                              // 다음 요새의 첫 낮
 
                 case ScreenId.Prep:

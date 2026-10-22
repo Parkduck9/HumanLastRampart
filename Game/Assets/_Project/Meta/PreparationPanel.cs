@@ -155,7 +155,7 @@ namespace HumanLastRampart.Meta
                 Button cell = Ui.Button(grid.transform, "지점:" + p.Id, cellText, () => { if (postIndex == index) return; postIndex = index; unitIndex = 0; count = 1; Changed(); }, UiButtonKind.Tab);
                 Text label = Ui.LabelOf(cell);
                 label.alignment = TextAnchor.MiddleLeft;
-                label.fontSize = UiTokens.Small;
+                label.fontSize = UiFonts.SnapPixel(UiTokens.Small);
                 Text fill = Ui.Label(cell.transform.Find("Content"), "Count", $"{squadAt?.Count ?? 0}/{capAt}", UiTokens.Small, UiTokens.BodyDim, TextAnchor.MiddleRight);
                 Ui.Stretch(fill.rectTransform);
                 fill.rectTransform.offsetMax = new Vector2(-UiTokens.S16, 0f);
