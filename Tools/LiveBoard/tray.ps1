@@ -142,6 +142,7 @@ $brass = [System.Drawing.Color]::FromArgb(212, 166, 74)
 $dim = [System.Drawing.Color]::FromArgb(168, 151, 124)
 $warn = [System.Drawing.Color]::FromArgb(224, 164, 88)
 $track = [System.Drawing.Color]::FromArgb(18, 14, 10)
+$red = [System.Drawing.Color]::FromArgb(226, 88, 76)   # 사용 불가 칸
 # 깜빡임 없애기 (사용자 2026-10-22): 줄을 한 번 만들고 글과 막대 길이만 바꾼다. 줄 모양이 바뀔 때만 다시 만든다.
 # 막대는 윈도우 기본 진행 막대 대신 직접 그린 판이라 0부터 차오르는 움직임이 없다.
 $script:shape = ''
@@ -155,7 +156,10 @@ $small = New-Object System.Drawing.Font('Malgun Gothic', 9)
 
 function Rows($d) {
     $R = New-Object System.Collections.ArrayList
-    function Row($kind, $left, $right, $pct) { [void]$R.Add([pscustomobject]@{ Kind = $kind; Left = $left; Right = $right; Pct = $pct }) }
+    # 사용량 한도(이번 주 또는 5시간)가 100%면 그 칸 전체를 빨간색으로, 제목에 '(사용 불가)' (사용자 2026-10-22)
+    $blocked = $false
+    function Row($kind, $left, $right, $pct) { [void]$R.Add([pscustomobject]@{ Kind = $kind; Left = $left; Right = $right; Pct = $pct; Red = $blocked }) }
+    function Full($u) { return [bool]($u -and ([double]$u.week -ge 100 -or [double]$u.five -ge 100)) }
     function Usage($u, $note) {
         if ($u) {
             Row 'meter' '이번 주' ("{0}%" -f [int]$u.week) $u.week
@@ -172,17 +176,20 @@ function Rows($d) {
     }
 
     $claudeAt = if ($d.claude) { "확인 $($d.claude.checked.Substring(6))" } else { '' }
-    Row 'title' '클로드' $claudeAt $null
+    $blocked = Full $d.claude
+    Row 'title' $(if ($blocked) { '클로드 (사용 불가)' } else { '클로드' }) $claudeAt $null
     Usage $d.claude '사용량 기록 없음'
     $mine = @($d.items | Where-Object { $_.kind -ne 'card' })
     if ($d.unity.running) { Row 'task' '유니티 시험' ("{0}분째" -f [int]$d.unity.minutes) $d.unity.pct }
     if ($d.unity.running -and -not $mine) { } else { Tasks $mine '진행 중인 작업 없음' }
     Row 'gap' '' '' $null
 
+    $blocked = Full $d.codex
     $codexAt = if ($d.codex) { "초기화 {0} · 5시간 {1}" -f $d.codex.weekReset, $d.codex.fiveReset.Substring(6) } else { '' }
-    Row 'title' '코덱스' $codexAt $null
+    Row 'title' $(if ($blocked) { '코덱스 (사용 불가)' } else { '코덱스' }) $codexAt $null
     Usage $d.codex '사용량을 읽지 못함'
     Tasks @($d.items | Where-Object { $_.kind -eq 'card' }) '진행 중인 그림 없음'
+    $blocked = $false
     Row 'gap' '' '' $null
     Row 'note' ('갱신 ' + $d.updated.Substring(11)) '' $null
     # 읽기에 실패하면 멈춘 화면을 그대로 두지 않고 알린다 (2026-10-22: 4시 22분에 멈춘 채로 보였음)
@@ -239,7 +246,15 @@ function Render($d) {
         $r = $rows[$i]; $a = $script:slots[$i][0]; $b = $script:slots[$i][1]; $fill = $script:slots[$i][2]; $barW = $script:slots[$i][3]
         if ($a -and $a.Text -ne $r.Left) { $a.Text = $r.Left }
         if ($b -and $b.Text -ne $r.Right) { $b.Text = $r.Right }
+        # 색: 평소 색 또는 한도 다 찬 칸이면 빨강
+        $ca = switch ($r.Kind) { 'title' { $brass } 'task' { $form.ForeColor } default { $dim } }
+        $cb = switch ($r.Kind) { 'meter' { $form.ForeColor } default { $dim } }
+        if ($r.Red) { $ca = $red; $cb = $red }
+        if ($a -and $a.ForeColor -ne $ca) { $a.ForeColor = $ca }
+        if ($b -and $b.ForeColor -ne $cb) { $b.ForeColor = $cb }
         if ($fill) {
+            $cf = if ($r.Red) { $red } else { $brass }
+            if ($fill.BackColor -ne $cf) { $fill.BackColor = $cf }
             $w = [int]($barW * [Math]::Max(0, [Math]::Min(100, [double]$r.Pct)) / 100)
             if ($fill.Width -ne $w) { $fill.Width = $w }
         }
