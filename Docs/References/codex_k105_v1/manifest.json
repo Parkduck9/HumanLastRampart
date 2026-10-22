@@ -1,0 +1,273 @@
+{
+  "card": "K-105",
+  "title": "빛을 잇는 자들",
+  "generator": "built-in image_gen",
+  "assets": [
+    {
+      "file": "main_menu_dark_1920x1080.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "role": "menu_background",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "safe_dialogue_rect_px": null
+    },
+    {
+      "file": "previews/main_menu_dark_1920x1080_4x.png",
+      "size": [
+        7680,
+        4320
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "role": "preview_4x",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "file": "story_fog_tide_1920x1080.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "role": "story_background",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "safe_dialogue_rect_px": [
+        0,
+        720,
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "previews/story_fog_tide_1920x1080_4x.png",
+      "size": [
+        7680,
+        4320
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "role": "preview_4x",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "file": "story_dead_beacon_1920x1080.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "role": "story_background",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "safe_dialogue_rect_px": [
+        0,
+        720,
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "previews/story_dead_beacon_1920x1080_4x.png",
+      "size": [
+        7680,
+        4320
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "role": "preview_4x",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "file": "story_relit_beacon_1920x1080.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "role": "story_background",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "safe_dialogue_rect_px": [
+        0,
+        720,
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "previews/story_relit_beacon_1920x1080_4x.png",
+      "size": [
+        7680,
+        4320
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "role": "preview_4x",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "file": "title_logo_1600x560.png",
+      "size": [
+        1600,
+        560
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "role": "title_logo",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "text": "빛을 잇는 자들"
+    },
+    {
+      "file": "title_logo_800x280.png",
+      "size": [
+        800,
+        280
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "role": "title_logo",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "text": "빛을 잇는 자들"
+    },
+    {
+      "file": "previews/title_logo_4x.png",
+      "size": [
+        3200,
+        1120
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "role": "preview_4x",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ]
+    }
+  ],
+  "scale_method": "nearest_neighbor",
+  "static_backgrounds": true,
+  "sprite_sheet_contract_applicable": false,
+  "foot_baseline": null,
+  "notes_ko": [
+    "정지 배경과 제목 로고만 제작. 캐릭터 시트의 발 기준선·셀 규칙은 적용 대상 아님.",
+    "원안은 sources/, 완성 배경은 1920×1080. 확대 미리보기는 완성본의 4배 최근접 확대.",
+    "게임 적용은 Claude 담당. 초상·병사·적·성벽 수정 없음."
+  ],
+  "current_comparison": {
+    "file": "Game/Assets/_Project/Art/UI/Resources/ScreenArt/main.png",
+    "sha256": "a33f22a9e7ddde69912f8c12b72a96e23f6e1f12301da80a53840f8ca0ee52ce"
+  },
+  "review": "_HTML/6_그림_화면/codex_K-105_제목과이야기배경_v1.html"
+}

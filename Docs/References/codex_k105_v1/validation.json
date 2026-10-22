@@ -1,0 +1,168 @@
+{
+  "assets": [
+    {
+      "file": "main_menu_dark_1920x1080.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "size_matches": true,
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "sha256": "aa310debc24627d77dd5bf14c8ef2ba84bee66344be99707ba55723665eba6e8",
+      "fully_opaque": true,
+      "dialogue_lower_third_mean_luminance_0_255": 19.69
+    },
+    {
+      "file": "previews/main_menu_dark_1920x1080_4x.png",
+      "size": [
+        7680,
+        4320
+      ],
+      "size_matches": true,
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "sha256": "d15061501a3c040b7551e267042465485c6f29cd8cc82a5f159a27061d7c9630"
+    },
+    {
+      "file": "story_fog_tide_1920x1080.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "size_matches": true,
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "sha256": "0ce4761bb317a8173f3e134e504ad3e0d1fad80dbe52149e880791b563fa2a58",
+      "fully_opaque": true,
+      "dialogue_lower_third_mean_luminance_0_255": 31.93
+    },
+    {
+      "file": "previews/story_fog_tide_1920x1080_4x.png",
+      "size": [
+        7680,
+        4320
+      ],
+      "size_matches": true,
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "sha256": "9abf7d1bd5e7926aac1621d49ba849c565ce5638016638540a10ed89af5328e4"
+    },
+    {
+      "file": "story_dead_beacon_1920x1080.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "size_matches": true,
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "sha256": "431da7387963c6b9d0c3ed9d3eb9d6f8611df62a867f15cd75fe74bce5c5173d",
+      "fully_opaque": true,
+      "dialogue_lower_third_mean_luminance_0_255": 27.09
+    },
+    {
+      "file": "previews/story_dead_beacon_1920x1080_4x.png",
+      "size": [
+        7680,
+        4320
+      ],
+      "size_matches": true,
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "sha256": "944be34ea3998e3ce2c3e763f1a2ab02cf94a28354cf174a9d219b09db6dc9d6"
+    },
+    {
+      "file": "story_relit_beacon_1920x1080.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "size_matches": true,
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "sha256": "e6901882b677bebfa851c74995871c2835ec9d233b81af06a3ffb08a7ad1933b",
+      "fully_opaque": true,
+      "dialogue_lower_third_mean_luminance_0_255": 24.45
+    },
+    {
+      "file": "previews/story_relit_beacon_1920x1080_4x.png",
+      "size": [
+        7680,
+        4320
+      ],
+      "size_matches": true,
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "sha256": "4c226570cf9ce1141f3a6ce582217a9e6efdb5016beab6b28b918ccffaf468c2"
+    },
+    {
+      "file": "title_logo_1600x560.png",
+      "size": [
+        1600,
+        560
+      ],
+      "size_matches": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "21bbab67eb8ecf9cedcdf184e419f3270d46499d532b665ace60b3b0a35d8b51",
+      "transparent_border": true,
+      "has_transparency": true,
+      "isolated_visible_pixels": 0
+    },
+    {
+      "file": "title_logo_800x280.png",
+      "size": [
+        800,
+        280
+      ],
+      "size_matches": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "9ff3d9056c31437a929a39db6917e4488b9dac31858a1a39af6bae09ccac0833",
+      "transparent_border": true,
+      "has_transparency": true,
+      "isolated_visible_pixels": 0
+    },
+    {
+      "file": "previews/title_logo_4x.png",
+      "size": [
+        3200,
+        1120
+      ],
+      "size_matches": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "0f7b091a513d357fcda0d8907f75b92b207608334f6ef4b3e57f23c738586e16"
+    }
+  ],
+  "foot_baseline": "not applicable: static backgrounds and logo",
+  "visual_review": [
+    "Korean logo text checked: 빛을 잇는 자들",
+    "No recognizable hero in newly generated images",
+    "No visible stray marks in inspected backgrounds; tiny anonymous expedition only",
+    "Lower third calm; fortress framing retained before/after relighting"
+  ]
+}
