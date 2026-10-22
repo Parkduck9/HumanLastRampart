@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using HumanLastRampart.Combat.Render;
 using UnityEngine;
@@ -51,6 +51,8 @@ namespace HumanLastRampart.Combat.Battle
                 }
 
                 flashCandidates.Add((score, pos, f.range, f.color, f.intensity, big ? 1f : 0.25f));
+                if (big)   // 폭발·큰 불: 땅 웅덩이 (그림 쪽 빛과 따로)
+                    GroundGlow.Add(f.transform.position, Mathf.Min(f.range * 0.35f, 7f), f.color, Mathf.Min(f.intensity * 0.03f, 0.8f));
             }
 
             flashCandidates.Sort(CompareFlash);
@@ -78,9 +80,13 @@ namespace HumanLastRampart.Combat.Battle
             {
                 Light t = torchCandidates[i].light;
                 if (!HlrLights.Add(t.transform.position, t.range * TorchShaderRange, t.color, t.intensity, 0.15f)) break;
+                if (i < 6) GroundGlow.Add(new Vector3(t.transform.position.x, BattleSim.WallHeight, t.transform.position.z), t.range * 1.1f, GroundGlow.Torch, 0.18f);   // 가까운 횃불 몇 개: 통로 위 작은 웅덩이
             }
 
             HlrLights.Upload(torchNight);
         }
     }
 }
+
+
+

@@ -52,6 +52,8 @@ public sealed partial class PlayProbe
 
             Note($"밤 밝기 {HumanLastRampart.Combat.Render.NightTuning.Level:0.00} · 빛줄기 {sim.BeamAngleDegrees:0}도 폭 {sim.BeamWidth:0}");
             yield return Capture("night_beam_normal", 1920, 1080, true);
+            for (int i = 0; i < 3; i++) yield return null;
+            sim.Complete();
             sim.SetLamp(LampBrightness.High);
             for (int i = 0; i < 4; i++) yield return null;
             sim.Complete();

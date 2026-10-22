@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using HumanLastRampart.Combat.PerfLab;
 using HumanLastRampart.Core.Definitions;
@@ -829,6 +829,7 @@ namespace HumanLastRampart.Combat.Battle
             RenderSettings.fog = battle.LowVisibility || battle.IsRaining;
             RenderSettings.fogMode = FogMode.Linear;
             RenderSettings.fogColor = sky;
+            if (night) RenderSettings.fogColor = sky * 0.3f;   // W15: 밤 안개가 들판을 하늘색으로 덮어 평평하고 밝게 만들었다 - 어둡게
             float visible = Mathf.Min(battle.VisibleDistance, battle.IsRaining ? 140f : 10000f);
             RenderSettings.fogStartDistance = 8f;
             RenderSettings.fogEndDistance = visible + 40f;
@@ -1208,3 +1209,4 @@ namespace HumanLastRampart.Combat.Battle
         }
     }
 }
+

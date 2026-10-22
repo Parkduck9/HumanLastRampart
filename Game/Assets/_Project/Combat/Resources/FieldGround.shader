@@ -175,6 +175,9 @@ Shader "HumanLastRampart/FieldGround"
 
                 half3 color = albedo * (sun * 1.6h + ambient * 0.6h + diffuse + bounce);   // 주변광은 줄이고 달빛 비중을 키워 요철·무늬가 읽히게
                 color += spec * (half)(0.02 * (1.0 - dirtMask * 0.4)) * (half3)lerp(half3(0.6, 0.55, 0.5), albedo * 2.0h, 0.4h);   // 은은한 반사 (젖은 흙이 빛을 머금는 정도)
+                // 밤: 들판 바닥은 어둡고 덜 선명하게 (빛 안 받는 곳 휘도 약 40 목표) — 밝기는 불 웅덩이에서 온다
+                half lumaG = dot(color, half3(0.3h, 0.55h, 0.15h));
+                color = lerp(color, lumaG.xxx, (half)(_HlrNight * 0.45)) * (half)lerp(1.0, 0.3, _HlrNight);
                 return half4(MixFog(color, input.fogFactor), 1.0h);
             }
             ENDHLSL
@@ -209,6 +212,9 @@ Shader "HumanLastRampart/FieldGround"
         }
     }
 }
+
+
+
 
 
 
