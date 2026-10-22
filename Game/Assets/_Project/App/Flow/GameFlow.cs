@@ -188,6 +188,7 @@ namespace HumanLastRampart.App.Flow
                 }
 
                 Campaign = loaded;
+                state.ResumeStory = BeaconRules.IsPendingStory(Campaign.NextStory);   // W12: 점화·1회차 완료 이야기를 못 보고 닫았다면 다시 보여 준다
             }
             else if (context.Screen == ScreenId.Story && Campaign != null)
             {
@@ -225,7 +226,13 @@ namespace HumanLastRampart.App.Flow
             else if (context.Screen == ScreenId.Result && Campaign != null)
             {
                 state.RunComplete = Campaign.NextStory != null && Campaign.NextStory.Kind == StoryKind.RunComplete;   // W8: 마지막 요새 점화
-                state.ResultStory = BeaconRules.IsRelitStory(Campaign.NextStory?.StoryId);   // W12: 요새 점화 이야기
+                state.RelitFortress = Campaign.LastNightRelit;   // W10: 점화한 밤이면 결과 뒤 봉화선 지도
+            }
+            else if (context.Screen == ScreenId.BeaconMap && Campaign != null)
+            {
+                state.MapIsPreview = Campaign.BeaconMapPreview;
+                state.RunComplete = Campaign.NextStory != null && Campaign.NextStory.Kind == StoryKind.RunComplete;
+                state.ResultStory = !state.MapIsPreview && BeaconRules.IsRelitStory(Campaign.NextStory?.StoryId);   // W12: 지도 다음에 점화 이야기
             }
             else if (context.Screen == ScreenId.Prep && Campaign != null)
             {
@@ -274,7 +281,9 @@ namespace HumanLastRampart.App.Flow
             }
 
             // 진행 자동 저장 (K-062): 정비 화면에 들어올 때 슬롯 1개. 실패해도 게임은 계속 (경고만)
-            if (step.Screen == ScreenId.Prep && Campaign != null && !CampaignSave.Save(Campaign, ScreenId.Prep, out string saveError))
+            // W12: 점화한 밤의 결과 화면을 지나면 지도·이야기를 보는 도중에 닫아도 점화 밤부터 다시 하지 않도록 저장한다 (이어하기는 못 본 이야기부터)
+            bool afterRelit = from != null && from.Screen == ScreenId.Result && (step.Screen == ScreenId.BeaconMap || step.Screen == ScreenId.Story);
+            if ((step.Screen == ScreenId.Prep || afterRelit) && Campaign != null && !CampaignSave.Save(Campaign, ScreenId.Prep, out string saveError))
             {
                 Debug.LogWarning("[저장] 진행을 저장하지 못했습니다: " + saveError);
             }
@@ -316,6 +325,11 @@ namespace HumanLastRampart.App.Flow
             if (Campaign == null)
             {
                 return;
+            }
+
+            if (step.Screen == ScreenId.BeaconMap)
+            {
+                Campaign.BeaconMapPreview = step.MapPreview;   // W10: 정비에서 연 보기 전용인지 지도 화면이 읽는다
             }
 
             if (step.AdvanceBattle)

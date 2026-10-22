@@ -94,7 +94,20 @@ namespace HumanLastRampart.Story.Tests
             FlowStep day = FlowRouter.Next(ScreenId.Story, ScreenOutcome.Done, new FlowState { StoryToDay = true });
             Assert.AreEqual(ScreenId.Prep, day.Screen);
             Assert.IsTrue(day.BeginDay);
-            Assert.AreEqual(ScreenId.Story, FlowRouter.Next(ScreenId.Result, ScreenOutcome.Done, new FlowState { ResultStory = true }).Screen);
+            // 점화 뒤 순서: 결과 → 봉화선 지도 → 점화 이야기 (→ 도착 이야기 → 낮)
+            Assert.AreEqual(ScreenId.BeaconMap, FlowRouter.Next(ScreenId.Result, ScreenOutcome.Done, new FlowState { RelitFortress = true }).Screen);
+            Assert.AreEqual(ScreenId.Story, FlowRouter.Next(ScreenId.BeaconMap, ScreenOutcome.Done, new FlowState { ResultStory = true }).Screen);
+            FlowStep mapDay = FlowRouter.Next(ScreenId.BeaconMap, ScreenOutcome.Done, default);
+            Assert.AreEqual(ScreenId.Prep, mapDay.Screen);
+            Assert.AreEqual(ScreenId.Prep, FlowRouter.Next(ScreenId.BeaconMap, ScreenOutcome.Done, new FlowState { MapIsPreview = true }).Screen, "정비에서 연 지도는 이야기 없이 정비로");
+
+            // 이어하기: 못 본 이야기가 있으면 정비 대신 이야기부터
+            Assert.AreEqual(ScreenId.Story, FlowRouter.Next(ScreenId.MainMenu, ScreenOutcome.ContinueGame, new FlowState { ResumeStory = true }).Screen);
+            Assert.AreEqual(ScreenId.Prep, FlowRouter.Next(ScreenId.MainMenu, ScreenOutcome.ContinueGame, default).Screen);
+            Assert.IsTrue(BeaconRules.IsPendingStory(new StoryRequest { Kind = StoryKind.Normal, StoryId = "story_fortress1_relit" }));
+            Assert.IsTrue(BeaconRules.IsPendingStory(new StoryRequest { Kind = StoryKind.RunComplete, StoryId = "story_run1_complete" }));
+            Assert.IsFalse(BeaconRules.IsPendingStory(new StoryRequest { Kind = StoryKind.Normal, StoryId = "story_intro" }), "옛 저장의 첫 이야기 찌꺼기는 무시");
+            Assert.IsFalse(BeaconRules.IsPendingStory(null));
         }
 
         [Test]

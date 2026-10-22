@@ -19,10 +19,14 @@ namespace HumanLastRampart.Meta
             CampaignState campaign = context.Campaign;
 
             // 줄 3 (W12): 밤 사이 한마디 (Story_Beacon_v1 3장). 어젯밤 결과·점화 준비 상태에 맞는 부관/주인공의 한두 줄
-            HorizontalLayoutGroup row3 = Ui.Row(line3, "Beacon Row 3", UiTokens.S16);
-            Ui.Stretch((RectTransform)row3.transform);
-            Text dayLine = Ui.Label(row3.transform, "Beacon Day Line", "", UiTokens.Small, UiTokens.BodyDim, TextAnchor.MiddleLeft, true);
-            Ui.Size(dayLine, 1500f, 48f, true);
+            Text dayLine = null;   // line3가 null이면 한마디 줄이 없는 날
+            if (line3 != null)
+            {
+                HorizontalLayoutGroup row3 = Ui.Row(line3, "Beacon Row 3", UiTokens.S16);
+                Ui.Stretch((RectTransform)row3.transform);
+                dayLine = Ui.Label(row3.transform, "Beacon Day Line", "", UiTokens.Small, UiTokens.BodyDim, TextAnchor.MiddleLeft, true);
+                Ui.Size(dayLine, 1500f, 48f, true);
+            }
 
             HorizontalLayoutGroup row1 = Ui.Row(line1, "Beacon Row 1", UiTokens.S16);
             Ui.Stretch((RectTransform)row1.transform);
@@ -81,8 +85,8 @@ namespace HumanLastRampart.Meta
                 walls.text = $"성벽 최저 {Mathf.FloorToInt(low * 100f)}% (90% 필요)  ·  " + (missing ?? "다음 밤은 점화의 밤");
                 walls.color = missing == null ? UiTokens.Good : (wallsOk ? UiTokens.Body : UiTokens.DangerLight);
 
-                var dayLines = BeaconRules.DayLines(campaign);
-                dayLine.text = string.Join("   ·   ", dayLines.ConvertAll(l => $"{l.speaker}: \"{l.text}\""));
+                if (dayLine != null)
+                    dayLine.text = string.Join("   ·   ", BeaconRules.DayLines(campaign).ConvertAll(l => $"{l.speaker}: \"{l.text}\""));
 
                 support.text = $"수비대 지원금 +{campaign.LastSupportGold:N0}";
                 for (int i = 0; i < 3; i++) Ui.SetOn(lampButtons[i], campaign.PlannedLamp == order[i]);

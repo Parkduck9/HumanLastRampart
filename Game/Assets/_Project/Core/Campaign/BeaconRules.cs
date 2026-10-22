@@ -29,6 +29,10 @@ namespace HumanLastRampart.Core.Campaign
             return null;
         }
 
+        // 이어하기 때 다시 보여 줄 이야기인가: 점화 이야기·요새 도착(낮으로 가는 것)·1회차 완료. 첫 이야기 같은 옛 저장의 찌꺼기는 제외
+        public static bool IsPendingStory(StoryRequest request) =>
+            request != null && (request.Kind == StoryKind.RunComplete || IsRelitStory(request.StoryId) || StoryLeadsToDay(request.StoryId));
+
         // 점화 이야기인가 (결과 화면 뒤에 열린다)
         public static bool IsRelitStory(string storyId)
         {

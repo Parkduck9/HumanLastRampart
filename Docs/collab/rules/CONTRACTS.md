@@ -1357,6 +1357,17 @@ public interface IScreenContext
   - 패배 엔딩 스토리가 끝나 메인으로 갈 때, 마지막 전투 뒤 정비를 마쳐 메인으로 갈 때 지운다.
   - 도중에 '메인으로'(BackToMainMenu)를 고르면 저장을 남긴다(이어하기 가능).
 
+## C-003 v1.5 초안 — 봉화선 지도 화면과 '지도 보기' 신호 (W10)
+- 상태: **초안 — 사용자 승인 필요** (2026-10-22, 작업 W10, 작성 Claude)
+- `ScreenId`에 `BeaconMap`을, `ScreenOutcome`에 `OpenBeaconMap`을 각각 **맨 뒤에** 붙인다. 기존 값·이름은 그대로(C-003 변경 규칙). 씬 이름은 `BeaconMap`(`Scenes/BeaconMap.unity`)이고 진입 컴포넌트는 `HumanLastRampart.BeaconMap.BeaconMapEntry` 하나다.
+- 받을 수 있는 신호: 정비(Prep)만 `OpenBeaconMap`을 보낼 수 있다(`FlowRouter.IsAllowed`). 지도 화면은 `Done`만 보낸다.
+- App 순서표 (`FlowRouter`):
+  - 결과(Result) + Done: 그 밤에 요새를 점화했으면(`FlowState.RelitFortress`, 마지막 요새 포함) → **지도(BeaconMap)**. 점화가 아닌 밤은 예전처럼 곧장 정비(낮 시작 지원금).
+  - 지도 + Done: 1회차 완료면(`FlowState.RunComplete`) → **스토리**(1회차 완료 이야기). 아니면 → **정비** + `BeginDay`(다음 요새 첫 낮 지원금).
+  - 정비 + `OpenBeaconMap` → **지도(보기 전용)** (`FlowStep.MapPreview`). 지도 + Done → **정비**, `BeginDay` 없음(낮 지원금을 또 받지 않는다).
+- `CampaignState.BeaconMapPreview` (`[NonSerialized]`, 저장 안 함): 지도가 정비에서 열린 보기 전용인지. App(`GameFlow`)이 지도를 열 때 `FlowStep.MapPreview` 값으로 정하고, 지도 화면이 읽는다. 다른 필드는 바꾸지 않는다.
+- 지도 화면은 진행 데이터를 **읽기만** 한다(`FortressNumber`, `NightNumber`, `Garrisons`, `NextStory`). 정비의 지도 단추는 정비 튜토리얼이 도는 동안 잠긴다(지도에서 돌아오면 정비가 새로 열려 튜토리얼이 다시 시작되기 때문).
+
 ## C-004 v1.5 초안 — 진행 저장 파일 (K-062)
 - 상태: **초안 — 사용자 승인 필요** (2026-10-19, K-062, 작성 Claude · Core 소유 Claude). CampaignState 필드는 바꾸지 않는다.
 - **언제·어디:**

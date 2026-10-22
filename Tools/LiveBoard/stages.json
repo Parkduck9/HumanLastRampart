@@ -128,7 +128,7 @@
                       "kind":  "card",
                       "folder":  "C:\\Unity\\1\\HLR-cards\\K-112",
                       "agent":  "",
-                      "stage":  1
+                      "stage":  5
                   },
                   {
                       "id":  "K-113",
@@ -137,7 +137,7 @@
                       "kind":  "card",
                       "folder":  "C:\\Unity\\1\\HLR-cards\\K-113",
                       "agent":  "",
-                      "stage":  1
+                      "stage":  5
                   },
                   {
                       "id":  "K-114",
@@ -146,7 +146,7 @@
                       "kind":  "card",
                       "folder":  "C:\\Unity\\1\\HLR-cards\\K-114",
                       "agent":  "",
-                      "stage":  1
+                      "stage":  5
                   },
                   {
                       "id":  "W9",
@@ -164,6 +164,60 @@
                       "kind":  "coder",
                       "folder":  "C:\\Unity\\1\\HLR-work\\W10",
                       "agent":  "af94c9985fb600964",
+                      "stage":  1
+                  },
+                  {
+                      "id":  "R1",
+                      "name":  "검토: 합친 세 작업",
+                      "who":  "",
+                      "kind":  "coder",
+                      "folder":  "",
+                      "agent":  "a892985a11dfc06e3",
+                      "stage":  5
+                  },
+                  {
+                      "id":  "W11",
+                      "name":  "새 구조 난이도 측정",
+                      "who":  "",
+                      "kind":  "coder",
+                      "folder":  "C:\\Unity\\1\\HLR-work\\W11",
+                      "agent":  "ae77dfe55803b1ef6",
+                      "stage":  1
+                  },
+                  {
+                      "id":  "W12",
+                      "name":  "이야기 대사 넣기",
+                      "who":  "",
+                      "kind":  "coder",
+                      "folder":  "C:\\Unity\\1\\HLR-work\\W12",
+                      "agent":  "a138968ffe49bbe7f",
+                      "stage":  1
+                  },
+                  {
+                      "id":  "H1",
+                      "name":  "목록 갱신 · 그림 연결 점검",
+                      "who":  "",
+                      "kind":  "coder",
+                      "folder":  "",
+                      "agent":  "a6a97a96a2bacfd1e",
+                      "stage":  5
+                  },
+                  {
+                      "id":  "R2",
+                      "name":  "검토: 오늘 앞선 작업들",
+                      "who":  "",
+                      "kind":  "coder",
+                      "folder":  "",
+                      "agent":  "affa335db42cb7cdd",
+                      "stage":  5
+                  },
+                  {
+                      "id":  "W14",
+                      "name":  "검토 지적 수정 (전투 입력 밖)",
+                      "who":  "",
+                      "kind":  "coder",
+                      "folder":  "C:\\Unity\\1\\HLR-work\\W14",
+                      "agent":  "a18a886f5c4f0efff",
                       "stage":  1
                   }
               ]
