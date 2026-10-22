@@ -42,5 +42,6 @@ Get-ChildItem env: | Where-Object { $_.Name -like 'CLAUDE_CODE_*' -or $_.Name -l
 & $exe.FullName -p $prompt --model $Model --allowedTools Read Grep Glob --add-dir $Worktree --add-dir $outDir |
     Out-File $out -Encoding utf8
 $first = Get-Content $out -Encoding utf8 -TotalCount 1
-if ($first -notmatch '^VERDICT:') { throw "검토 실패: $first" }
+# 검토자가 프로젝트 지침(한글 답장)을 따라 '판정:'으로 쓸 때도 있다
+if ($first -notmatch '^(VERDICT|판정):') { throw "검토 실패: $first" }
 $first

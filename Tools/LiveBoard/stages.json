@@ -1,4 +1,4 @@
-{
+﻿{
     "note":  "Claude가 단계가 바뀔 때만 고친다. stage: 0 대기, 1 코딩, 2 검토, 3 합침, 4 시험, 5 끝",
     "items":  [
                   {
@@ -101,7 +101,7 @@
                       "kind":  "card",
                       "folder":  "C:\\Unity\\1\\HLR-cards\\K-109",
                       "agent":  "",
-                      "stage":  1
+                      "stage":  5
                   },
                   {
                       "id":  "K-110",
@@ -110,7 +110,7 @@
                       "kind":  "card",
                       "folder":  "C:\\Unity\\1\\HLR-cards\\K-110",
                       "agent":  "",
-                      "stage":  0
+                      "stage":  5
                   },
                   {
                       "id":  "K-111",
@@ -155,7 +155,7 @@
                       "kind":  "coder",
                       "folder":  "C:\\Unity\\1\\HLR-work\\W9",
                       "agent":  "a17310474f37a0950",
-                      "stage":  1
+                      "stage":  5
                   },
                   {
                       "id":  "W10",
@@ -164,7 +164,7 @@
                       "kind":  "coder",
                       "folder":  "C:\\Unity\\1\\HLR-work\\W10",
                       "agent":  "af94c9985fb600964",
-                      "stage":  1
+                      "stage":  5
                   },
                   {
                       "id":  "R1",
@@ -177,21 +177,21 @@
                   },
                   {
                       "id":  "W11",
-                      "name":  "새 구조 난이도 측정",
+                      "name":  "난이도 (규칙 3가지 + 다시 재기)",
                       "who":  "",
                       "kind":  "coder",
                       "folder":  "C:\\Unity\\1\\HLR-work\\W11",
                       "agent":  "ae77dfe55803b1ef6",
-                      "stage":  1
+                      "stage":  4
                   },
                   {
                       "id":  "W12",
-                      "name":  "이야기 대사 넣기",
+                      "name":  "이야기 대사",
                       "who":  "",
                       "kind":  "coder",
                       "folder":  "C:\\Unity\\1\\HLR-work\\W12",
                       "agent":  "a138968ffe49bbe7f",
-                      "stage":  1
+                      "stage":  5
                   },
                   {
                       "id":  "H1",
@@ -213,11 +213,101 @@
                   },
                   {
                       "id":  "W14",
-                      "name":  "검토 지적 수정 (전투 입력 밖)",
+                      "name":  "검토 지적 수정",
                       "who":  "",
                       "kind":  "coder",
                       "folder":  "C:\\Unity\\1\\HLR-work\\W14",
                       "agent":  "a18a886f5c4f0efff",
+                      "stage":  5
+                  },
+                  {
+                      "id":  "R3",
+                      "name":  "검토: 입체 봉화선 지도",
+                      "who":  "",
+                      "kind":  "coder",
+                      "folder":  "",
+                      "agent":  "ad978242947543bb6",
+                      "stage":  5
+                  },
+                  {
+                      "id":  "R4",
+                      "name":  "검토: 현황판 실행 파일",
+                      "who":  "",
+                      "kind":  "coder",
+                      "folder":  "",
+                      "agent":  "a0ebc83b9a9e5e403",
+                      "stage":  5
+                  },
+                  {
+                      "id":  "W15",
+                      "name":  "밤과 빛 (검토 지적 반영)",
+                      "who":  "",
+                      "kind":  "coder",
+                      "folder":  "C:\\Unity\\1\\HLR-work\\W15",
+                      "agent":  "a0683af312761cb86",
+                      "stage":  5
+                  },
+                  {
+                      "id":  "F1",
+                      "name":  "한글 글꼴 찾기",
+                      "who":  "",
+                      "kind":  "coder",
+                      "folder":  "",
+                      "agent":  "abc21ae1dd1776e90",
+                      "stage":  5
+                  },
+                  {
+                      "id":  "R5",
+                      "name":  "검토: 등대 탑 · 계단 · 일꾼",
+                      "who":  "",
+                      "kind":  "coder",
+                      "folder":  "",
+                      "agent":  "a708a5dd749b14ef7",
+                      "stage":  5
+                  },
+                  {
+                      "id":  "W16",
+                      "name":  "한글 글꼴",
+                      "who":  "",
+                      "kind":  "coder",
+                      "folder":  "C:\\Unity\\1\\HLR-work\\W16",
+                      "agent":  "ae2fd789e87507600",
+                      "stage":  5
+                  },
+                  {
+                      "id":  "W17",
+                      "name":  "전투 화면 배치",
+                      "who":  "",
+                      "kind":  "coder",
+                      "folder":  "C:\\Unity\\1\\HLR-work\\W17",
+                      "agent":  "a4d8f7f401eee25af",
+                      "stage":  5
+                  },
+                  {
+                      "id":  "W18",
+                      "name":  "가끔 실패하는 시험 고치기",
+                      "who":  "",
+                      "kind":  "coder",
+                      "folder":  "C:\\Unity\\1\\HLR-work\\W18",
+                      "agent":  "ad96d146e9ebefe82",
+                      "stage":  5
+                  },
+                  {
+                      "id":  "W19",
+                      "name":  "안마당 · 계단 임시 채우기",
+                      "who":  "",
+                      "kind":  "coder",
+                      "folder":  "C:\\Unity\\1\\HLR-work\\W19",
+                      "agent":  "aa58186804b084a4f",
+                      "stage":  5
+                  },
+                  {
+                      "id":  "W20",
+                      "name":  "웅장한 등대 탑 (성벽 3배, 임시 돌탑)",
+                      "who":  "",
+                      "kind":  "coder",
+                      "folder":  "C:\\Unity\\1\\HLR-work\\W20",
+                      "agent":  "a54e7635b67ce9594",
                       "stage":  1
                   }
               ]
