@@ -73,3 +73,4 @@ Desktop.ini
 # 코덱스 코드 작업 기록 (Tools/CodexCode/run-code.ps1)
 /.codex-code/
 /_HTML/live/board_data.js
+/Tools/LiveBoard/claude_usage.json

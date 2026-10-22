@@ -1,3 +1,2 @@
 @echo off
-start "HLR watch" /min powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0watch.ps1"
-start "" "%~dp0..\..\_HTML\live\board.html"
+start "" powershell -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File "%~dp0tray.ps1"
