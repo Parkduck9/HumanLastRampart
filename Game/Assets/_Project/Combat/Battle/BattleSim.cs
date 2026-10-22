@@ -384,7 +384,7 @@ namespace HumanLastRampart.Combat.Battle
                     int tier = EnemyTierRules.Clamp(setup.EnemyTier);   // 오우거·사다리 고블린 포함 전부 같은 규칙 (9.5)
                     eTier[slot] = (byte)tier;
                     eTierShown[slot] = (byte)tier;
-            eTierHpOn[slot] = eTierSpeedOn[slot] = true;
+                    eTierHpOn[slot] = eTierSpeedOn[slot] = true;
                     eMaxHp[slot] = Mathf.Max(1, Mathf.RoundToInt(Mathf.Max(1, def.MaxHp) * EnemyTierRules.HpMultiplier(tier)));
                     eHp[slot] = eMaxHp[slot];
                     eSpeed[slot] = def.MoveSpeed * EnemyTierRules.SpeedMultiplier(tier) * random.NextFloat(0.85f, 1.15f);

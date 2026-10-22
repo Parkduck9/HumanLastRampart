@@ -248,7 +248,7 @@ public sealed partial class PlayProbe
         }
     }
 
-    // 패배 경로: 전투 패배 → (결과 화면 건너뜀) 패배 엔딩 스토리 → 메인, 진행 데이터 폐기
+    // 패배 경로: 전투 패배 → 결과 화면 → 패배 엔딩 스토리 → 메인, 진행 데이터 폐기
     [UnityTest]
     public IEnumerator FullLoopDefeat()
     {
@@ -302,9 +302,14 @@ public sealed partial class PlayProbe
             yield return WaitScreen(ScreenId.Result, 900);
             yield return WaitPressable(LoopKeys.ResultNext, 300);
             Assert.AreEqual(soldiersBeforeSecond - lossCampaign.LastBattle.SquadLosses.Sum(l => l.LostCount), lossCampaign.Squads.Sum(s => s.Count), "엔딩 밤의 손실도 결과 화면에서 반영·표시");
+            System.DateTime saveBefore = File.GetLastWriteTimeUtc(HumanLastRampart.Core.Save.CampaignSave.SlotPath);
             yield return Press(LoopKeys.ResultNext, 300);
             yield return WaitScreen(ScreenId.Story, 900);
-            Assert.AreEqual(StoryKind.DefeatEnding, GameFlow.Instance.Campaign.NextStory.Kind, "패배 뒤 패배 엔딩 (결과 화면 건너뜀)");
+            // W11: 엔딩 예약으로 이야기에 가는 넘어감은 저장하지 않는다 (저장하면 이어하기가 정비로 가서 판이 계속된다)
+            Assert.AreEqual(saveBefore, File.GetLastWriteTimeUtc(HumanLastRampart.Core.Save.CampaignSave.SlotPath), "패배 엔딩 이야기 진입 때 저장하지 않음");
+            if (HumanLastRampart.Core.Save.CampaignSave.TryLoad(out CampaignState savedCampaign, out _, out _))
+                Assert.AreNotEqual(StoryKind.DefeatEnding, savedCampaign.NextStory?.Kind, "저장에 패배 엔딩이 예약돼 있지 않음");
+            Assert.AreEqual(StoryKind.DefeatEnding, GameFlow.Instance.Campaign.NextStory.Kind, "패배 뒤 패배 엔딩 (결과 화면 뒤)");
             HumanLastRampart.Story.StoryPlayer ending = null;
             for (int i = 0; i < 300 && (ending == null || ending == story); i++) { ending = Object.FindAnyObjectByType<HumanLastRampart.Story.StoryPlayer>(); if (ending == null) yield return null; }
             Assert.IsNotNull(ending, "패배 엔딩 재생기");

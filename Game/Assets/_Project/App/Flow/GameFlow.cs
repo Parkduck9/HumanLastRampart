@@ -298,7 +298,8 @@ namespace HumanLastRampart.App.Flow
 
             // 진행 자동 저장 (K-062): 정비 화면에 들어올 때 슬롯 1개. 실패해도 게임은 계속 (경고만)
             // W12: 점화한 밤의 결과 화면을 지나면 지도·이야기를 보는 도중에 닫아도 점화 밤부터 다시 하지 않도록 저장한다 (이어하기는 못 본 이야기부터)
-            bool afterRelit = from != null && from.Screen == ScreenId.Result && (step.Screen == ScreenId.BeaconMap || step.Screen == ScreenId.Story);
+            // W11: 연속 두 번째 패배(패배 엔딩 예약)로 이야기 화면에 가는 넘어감은 저장하지 않는다 — 저장하면 이어하기가 정비로 가서 엔딩을 보고도 판이 계속된다
+            bool afterRelit = from != null && from.Screen == ScreenId.Result && !step.QueueDefeatEnding && (step.Screen == ScreenId.BeaconMap || step.Screen == ScreenId.Story);
             if ((step.Screen == ScreenId.Prep || afterRelit) && Campaign != null && !CampaignSave.Save(Campaign, ScreenId.Prep, out string saveError))
             {
                 Debug.LogWarning("[저장] 진행을 저장하지 못했습니다: " + saveError);

@@ -35,8 +35,8 @@ namespace HumanLastRampart.Combat.Battle
         public bool IsIgnitionNight => setup != null && setup.IsIgnitionNight;   // 점화의 밤: 등대 탑이 완전히 켜진 모습
         public float BeamWidth => BeamWidthDegrees[(int)Lamp];
         // 지금 밝기의 빛줄기가 변형 체력·속도 보너스를 없애는가: 준비 정보(규칙 데이터)가 있으면 그것, 없으면 기본 (보통 = 체력, 강 = 체력+속도, 약 = 없음)
-        public bool BeamRemovesTierHp => setup.BeamRemovesTierHp != null && setup.BeamRemovesTierHp.Length == 3 ? setup.BeamRemovesTierHp[(int)Lamp] : Lamp != LampBrightness.Low;
-        public bool BeamRemovesTierSpeed => setup.BeamRemovesTierSpeed != null && setup.BeamRemovesTierSpeed.Length == 3 ? setup.BeamRemovesTierSpeed[(int)Lamp] : Lamp == LampBrightness.High;
+        public bool BeamRemovesTierHp => setup != null && setup.BeamRemovesTierHp != null && setup.BeamRemovesTierHp.Length == 3 ? setup.BeamRemovesTierHp[(int)Lamp] : Lamp != LampBrightness.Low;
+        public bool BeamRemovesTierSpeed => setup != null && setup.BeamRemovesTierSpeed != null && setup.BeamRemovesTierSpeed.Length == 3 ? setup.BeamRemovesTierSpeed[(int)Lamp] : Lamp == LampBrightness.High;
         public bool BeamSuppressesTiers => BeamRemovesTierHp || BeamRemovesTierSpeed;   // 강 밝기 빛 안에서는 변형 단계 효과를 끈다 (9.4·9.5, UpdateTierBeam)
 
         readonly float[] lampSeconds = new float[3];

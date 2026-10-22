@@ -47,7 +47,8 @@ namespace HumanLastRampart.Combat.Battle
                 eTierSpeedOn[slot] = speedActive;
             }
 
-            eTierShown[slot] = (byte)(hpActive || speedActive ? tier : 0);
+            byte shown = (byte)(hpActive || speedActive ? tier : 0);   // 표시 단계는 값이 바뀔 때만 쓴다
+            if (eTierShown[slot] != shown) eTierShown[slot] = shown;
         }
 
         public bool TierHpActive(int slot) => eTier[slot] > 0 && eTierHpOn[slot];
