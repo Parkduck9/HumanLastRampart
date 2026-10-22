@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.IO;
 using System.Text;
 using HumanLastRampart.App.Flow;
@@ -28,7 +28,7 @@ public sealed partial class PlayProbe
             yield return WaitScreen(ScreenId.Result, 900); yield return Press("다음", 300);
             yield return WaitScreen(ScreenId.Prep, 900);
             var yard = Object.FindAnyObjectByType<PrepYard>();
-            Assert.IsNotNull(yard); Assert.AreEqual(5, yard.StationCount); Assert.AreEqual(4, yard.ObstacleCount);
+            Assert.IsNotNull(yard); Assert.AreEqual(6, yard.StationCount); Assert.AreEqual(5, yard.ObstacleCount);   // 가림 4 + 등대 탑 (W9)
             for (int i = 0; i < 15; i++) yield return null;
             Assert.IsTrue(yard.CanMove, "마당이 열린 뒤 입력 허용");
             foreach (Vector2 pixel in new[] { new Vector2(1920, 990), new Vector2(1920, 550) })
@@ -79,6 +79,20 @@ public sealed partial class PlayProbe
                 }
                 Assert.IsNotNull(yard.Nearest(), "두 축 이동으로 장소 도달");
             }
+            // 등대 탑(W9): 마당 한가운데 장애물, 곁에 서면 장소로 잡히고 창이 열리며 Esc로 닫힌다
+            Assert.IsTrue(yard.SetGround(PrepYardProjection.Ground(new Vector2(1745, 960))), "등대 곁 바닥은 걸을 수 있다");
+            Assert.AreEqual("등대", yard.Nearest()?.Name, "탑 곁에서 등대 장소");
+            Assert.IsTrue(yard.SetGround(PrepYardProjection.Ground(new Vector2(1920, 1010))));
+            for (int i = 0; i < 400; i++) yard.Move(Vector2.up, 0.02f);   // 탑을 향해 계속 걷는다
+            Assert.Greater(yard.HeroPixel.y, 925f, "탑 몸체 앞에서 막힌다 (뒤로 지나가지 못한다)");
+            yield return Capture("yard_04_beacon_tower", 1920, 1080);
+            Assert.IsTrue(yard.Use("등대"));
+            for (int i = 0; i < 4; i++) yield return null;
+            Assert.IsTrue(yard.ModalOpen);
+            yield return Capture("yard_05_beacon_panel", 1920, 1080);
+            yard.CloseModal();
+            for (int i = 0; i < 4; i++) yield return null;
+            Assert.IsFalse(yard.ModalOpen);
             foreach (string place in new[] { "성벽 수리", "병영", "함정 공방", "상점" })
             {
                 Assert.IsTrue(yard.Use(place), "도달 가능한 장소: " + place);

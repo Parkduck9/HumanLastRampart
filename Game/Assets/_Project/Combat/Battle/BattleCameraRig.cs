@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace HumanLastRampart.Combat.Battle
@@ -46,7 +46,60 @@ namespace HumanLastRampart.Combat.Battle
         public float WalkInput { get; set; }    // 키보드 대신 좌우 입력(-1~1) — 시험·나중 패드용
         public float DepthInput { get; set; }   // 키보드 대신 앞뒤 입력(+1 바깥쪽, -1 안쪽)
 
-        public Vector3 HeroFeet => FeetAt(Side, along, inset);
+        // 가운데 등대 탑 (W9, Concept_Beacon_v1 9.7 4차 결정): 계단은 북쪽 성벽 통로 가운데의 안쪽 끝 (마당이 성벽 윗면과 같은 높이라 '내려간다'는 이음 연출).
+        // 이유: 주인공 이동 모델은 (성벽 번호, 따라 along, 통로 안쪽 inset)뿐이라, 정면(북쪽)의 가운데 한 점이 가장 단순하고 모든 전투 지도에 있다.
+        // 내려가는 동안 발 위치를 성벽에서 탑 앞까지 부드럽게 옮기고(TowerSeconds), 탑에 있는 동안은 성벽을 비운 것 (OnWall = false)
+        public const int StairsSide = 0;
+        public const float StairsReach = 3f;            // 계단 가운데에서 이 거리(m) 안이고
+        public const float StairsInsetMin = InsetMax - 0.5f;   // 통로 안쪽 끝 가까이면 E로 내려갈 수 있다
+        public const float TowerSeconds = 1.6f;         // 계단을 오르내리는 시간
+        public const float TowerHeroBack = 0.8f;        // 탑 앞에서 서는 자리: 탑 가운데에서 남쪽(사진기 쪽)으로
+
+        float towerBlend;       // 0 = 성벽 위, 1 = 탑 앞
+        bool towerTarget;       // 가려는 곳 (true = 탑)
+
+        public bool TowerTarget => towerTarget;
+        public bool AtTower => towerTarget && towerBlend >= 1f;
+        public bool InTransition => towerTarget ? towerBlend < 1f : towerBlend > 0f;
+        public bool OnWall => !towerTarget && towerBlend <= 0f;        // 성벽을 지키고 있는가. 내려가려는 순간부터 오르는 걸 마칠 때까지 false
+        public float TowerBlend => towerBlend;
+        public Vector3 TowerFeet => new Vector3(0f, wallHeight, -TowerHeroBack);
+        public bool NearStairs => Side == StairsSide && Mathf.Abs(along) <= StairsReach && inset >= StairsInsetMin;
+
+        // E: 계단 가까이서 탑으로 내려가기. 가까이 있지 않으면 false
+        public bool GoDown()
+        {
+            if (towerTarget || towerBlend > 0f || !NearStairs) return false;
+            towerTarget = true;
+            runDir = 0;
+            return true;
+        }
+
+        // 탑 오르내리는 시간 진행 (전투 시간 기준 — BattleEntry가 멈춤·지도 중에도 부른다: 지도를 열어도 내려가는 중에 얼어붙지 않는다). 움직였으면 true
+        public bool TickTower(float dt)
+        {
+            float before = towerBlend;
+            towerBlend = Mathf.MoveTowards(towerBlend, towerTarget ? 1f : 0f, dt / TowerSeconds);
+            return !Mathf.Approximately(before, towerBlend);
+        }
+
+        // 탑에서 성벽으로 올라가기. 내려가는 중이면 그 자리에서 되돌아 올라간다 (성벽에 닿을 때까지 OnWall은 false)
+        public bool GoUp()
+        {
+            if (!towerTarget) return false;
+            towerTarget = false;
+            return true;
+        }
+
+        public Vector3 HeroFeet
+        {
+            get
+            {
+                Vector3 wall = FeetAt(Side, along, inset);
+                return towerBlend <= 0f ? wall : Vector3.Lerp(wall, TowerFeet, Mathf.SmoothStep(0f, 1f, towerBlend));
+            }
+        }
+
         public float Inset => inset;
 
         // 옆 성벽 가운데까지 자동으로 달린다 (D-046). 키 연결은 D-069로 없앴고 시험 도구만 부른다. A/D를 누르면 멈춘다
@@ -108,7 +161,8 @@ namespace HumanLastRampart.Combat.Battle
         // 주인공이 갈 수 있는 성벽 따라 끝: 모서리 안쪽 점에서 옆 성벽과 이어진다
         float Limit => castleHalf - inset;
 
-        public void Update(float unscaledDt)
+        // towerDt = 탑 오르내리기에 쓰는 전투 시간(배속 반영, 멈춤·지도 시간 멈춤이면 0). 생략하면 unscaledDt (시험)
+        public void Update(float unscaledDt, float towerDt = -1f)
         {
             var keyboard = Keyboard.current;
             float pan = 0f, depth = 0f;
@@ -119,6 +173,17 @@ namespace HumanLastRampart.Combat.Battle
                 if (keyboard.dKey.isPressed || keyboard.rightArrowKey.isPressed) pan += 1f;
                 if (keyboard.wKey.isPressed || keyboard.upArrowKey.isPressed) depth += 1f;
                 if (keyboard.sKey.isPressed || keyboard.downArrowKey.isPressed) depth -= 1f;
+            }
+
+            // 탑으로 내려가는 중·탑 앞·올라오는 중에는 성벽 이동 입력을 받지 않는다 (W9)
+            bool walking = TickTower(towerDt >= 0f ? towerDt : unscaledDt);
+            if (towerTarget || towerBlend > 0f)
+            {
+                runDir = 0;
+                Pose = walking ? HeroPose.Walk : HeroPose.Idle;
+                FacingFront = walking && towerTarget;   // 내려갈 때는 사진기 쪽으로 걸어오는 앞모습, 올라갈 때는 뒷모습
+                Step(walking, unscaledDt);
+                return;
             }
 
             if (pan == 0f) pan = Mathf.Clamp(WalkInput, -1f, 1f);
@@ -230,6 +295,8 @@ namespace HumanLastRampart.Combat.Battle
             inset = HeroInset;
             overview = false;
             runDir = 0;
+            towerTarget = false;
+            towerBlend = 0f;
             snap = true;
             Apply(0f);
         }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using HumanLastRampart.Core.Campaign;
 using HumanLastRampart.Core.Flow;
@@ -38,6 +38,7 @@ namespace HumanLastRampart.Core.CombatContracts
         public LampBrightness LampBrightness;        // 밤을 시작할 때 등불 밝기 (적 수는 이 값으로 정한다. 전투 중 바꾸면 빛줄기만 바뀜)
         public int BeamSide;                         // 처음 빛줄기 방향 (WallGeometry 면 번호, 0 = 북)
         public int EnemyTier;                        // 적 변형 단계 0 홀림 · 1 물듦 · 2 변형 (9.5)
+        public float BeaconRepair;                   // 이 밤 시작 때 등대 복구 0~100 (탑 불씨 세기 — 전투 화면과 정비 마당이 같은 규칙, W9)
         public bool IsIgnitionNight;                 // 점화의 밤 — 요새의 마지막 밤 (9.3)
         public int FortressNumber;                   // W8: 화면 표시용 요새·밤 번호. 0 = 정보 없음 (BattleNumber는 전투 1~4번 자리라 밤 번호가 아니다)
         public int NightNumber;

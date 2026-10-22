@@ -57,9 +57,13 @@ namespace HumanLastRampart.Combat.Battle
 
             flashCandidates.Sort(CompareFlash);
 
+            // 등대 탑 불빛 (W9): URP Light라 병사·들판에는 닿지 않으므로 셰이더 목록에 맨 먼저 넣는다 (한 칸 고정)
+            if (towerLight != null && towerLight.enabled && max > 0)
+                HlrLights.Add(towerLight.transform.position, towerLight.range * 1.3f, towerLight.color, towerLight.intensity, 0f);
+
             // 횃불 몫을 남겨 둔다 (벽 위 병사가 늘 빛을 받게)
             int torchReserve = torchesOn ? Mathf.Max(2, max / 3) : 0;
-            int flashSlots = max - torchReserve;
+            int flashSlots = max - torchReserve - HlrLights.Count;
             for (int i = 0; i < flashCandidates.Count && i < flashSlots; i++)
             {
                 var c = flashCandidates[i];
@@ -87,6 +91,7 @@ namespace HumanLastRampart.Combat.Battle
         }
     }
 }
+
 
 
 

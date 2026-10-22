@@ -77,6 +77,8 @@ namespace HumanLastRampart.Combat.Battle
         readonly HumanLastRampart.Combat.Render.ContactShadows shadows;   // 발밑 접촉 그림자 (W3)
         public HumanLastRampart.Combat.Render.ContactShadows Shadows => shadows;
         readonly BattlePropView props;          // 성벽 난간·대포 그림
+        readonly BattleBeaconView beacon;       // 마당 가운데 등대 탑·일꾼·빛 번쩍 (W9)
+        public BattleBeaconView Beacon => beacon;
         readonly BattleWorldView world;         // 성벽·포탑 3D 목업 (K-001)
         readonly BattleLights lights;           // 밤 횃불·폭발 빛 (K-010)
         readonly BattleEffectsView effectArt;   // 마법·함정 폭발, 불바다, 맞음 불꽃, 횃불 불꽃 그림 (K-015)
@@ -374,6 +376,7 @@ namespace HumanLastRampart.Combat.Battle
             root.transform.SetParent(parent, false);
             props = new BattlePropView(sim, material, quad, bounds);
             props.RegisterShadows(shadows);
+            beacon = new BattleBeaconView(sim, material, quad, bounds);
             world = new BattleWorldView(sim, root.transform);
             lights = new BattleLights(sim, root.transform);   // 밤 횃불·폭발 빛 (K-010, D-062 4단계)
             effectArt = new BattleEffectsView(sim, material, quad, bounds);   // 효과 도트 그림 (K-015)
@@ -711,6 +714,7 @@ namespace HumanLastRampart.Combat.Battle
             if (!mapMode)
             {
                 props.Draw();
+                beacon.Draw();
                 shotBuffer.SetData(sim.ShotInstances);
                 float shotShade = sim.Brightness;
                 foreach (var (block, art, area) in shotDraws)
@@ -1191,6 +1195,7 @@ namespace HumanLastRampart.Combat.Battle
             flameBuffer?.Release();
             runnerBuffer?.Release();
             props?.Dispose();
+            beacon?.Dispose();
             shadows?.Dispose();
             world?.Dispose();
             lights?.Dispose();

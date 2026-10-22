@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using HumanLastRampart.Core.Campaign;
 using HumanLastRampart.Core.CombatContracts;
@@ -39,6 +39,7 @@ namespace HumanLastRampart.Combat.Battle
             public float Distance;
             public float Travelled;
             public bool Returning;
+            public bool Assigned;       // 탑 명령: 전령에게 맡겨졌는가 (아니면 줄 서 있다)
             public float3 Home;
             public int MoveGroup = -1;     // D-072: 명령 대신 '이 묶음을 MoveTarget 성벽으로' 전하러 간다. -2 = 그 성벽 묶음 한 번에(MoveWallGroups)
             public int MoveTarget;
@@ -161,9 +162,134 @@ namespace HumanLastRampart.Combat.Battle
             RunOrQueue(() => StartMessenger(fromSide, fromAlong, targetSide, priority, issuedAt));
         }
 
+        // 주인공이 성벽에 없을 때(등대 탑, W9) 전령이 떠나는 곳. 어느 성벽이든 탑에서 출발하는 전령이 닿아야 명령이 적용된다
+        public const int TowerOrigin = -1;
+
+        // 탑 대기 전령 (W9, 사용자 결정): 주인공이 성벽에 없는 동안 모든 성벽 명령(북쪽 포함)은 탑에 대기 중인 전령 3명이 나른다.
+        // 한 명이 명령 하나를 들고 탑에서 그 성벽 가운데까지 달려가 전하고(눈에 보인다) 탑으로 돌아와야 다시 쓸 수 있다.
+        // 셋 다 나가 있으면 명령은 줄을 서고 알림이 뜬다. 전령은 기본으로 죽지 않는다 (병사가 아니라 탑 소속 — 아래 TowerMessengersMortal)
+        public const int TowerCourierCount = 3;
+        public const bool TowerMessengersMortal = false;   // 켜면(나중에 결정) 적이 닿는 성벽에서 잃을 수 있게 할 자리. 지금은 쓰이지 않는다
+
+        public struct TowerCourierInfo
+        {
+            public bool Busy;
+            public bool Returning;
+            public int TargetSide;
+            public Vector3 Position;    // 지금 발 위치 (대기 중이면 탑 곁 자리)
+            public Vector3 Direction;   // 달리는 방향 (대기 중이면 0)
+        }
+
+        sealed class TowerCourier
+        {
+            public Messenger Order;     // 들고 가는 명령 (돌아오는 길에는 null)
+            public bool Busy;
+            public bool Returning;
+            public int TargetSide;
+            public float Travelled;
+        }
+
+        readonly TowerCourier[] towerCouriers = { new TowerCourier(), new TowerCourier(), new TowerCourier() };
+        static readonly Vector3[] TowerStandby = { new Vector3(-1.15f, 0f, -0.35f), new Vector3(-1.4f, 0f, 0.1f), new Vector3(1.3f, 0f, -0.2f) };
+
+        // 탑에서 그 성벽 병력 가운데 안쪽까지 직선 (마당 윗면 높이)
+        Vector3 TowerRoute(int side)
+        {
+            float3 n = WallGeometry.Outward(side);
+            return new Vector3(n.x, 0f, n.z) * (CastleHalf - 2f);
+        }
+
+        public float TowerRouteSeconds(int side) => TowerRoute(side).magnitude / (MessengerSpeed() * Boost.MessengerSpeedMul);
+        public int TowerCouriersFree { get { int n = 0; foreach (TowerCourier c in towerCouriers) if (!c.Busy) n++; return n; } }
+        public int TowerOrdersQueued { get { int n = 0; foreach (Messenger m in messengers) if (m.Soldier < 0 && !m.Assigned) n++; return n; } }
+
+        public TowerCourierInfo GetTowerCourier(int i)
+        {
+            TowerCourier c = towerCouriers[i];
+            var info = new TowerCourierInfo { Busy = c.Busy, Returning = c.Returning, TargetSide = c.TargetSide };
+            Vector3 home = new Vector3(0f, WallHeight, 0f) + TowerStandby[i];
+            if (!c.Busy) { info.Position = home; return info; }
+            Vector3 route = TowerRoute(c.TargetSide);
+            float length = Mathf.Max(0.01f, route.magnitude);
+            float t = Mathf.Clamp01(c.Travelled / length);
+            Vector3 start = new Vector3(0f, WallHeight, 0f);
+            info.Position = start + route * (c.Returning ? 1f - t : t);
+            info.Direction = c.Returning ? -route.normalized : route.normalized;
+            return info;
+        }
+
+        // 탑 전령 진행: 달려가 전하고, 돌아오면 쉬는 전령이 된다. 줄 선 명령을 쉬는 전령에게 맡긴다
+        void UpdateTowerCouriers(float dt)
+        {
+            float speed = MessengerSpeed() * Boost.MessengerSpeedMul;
+            foreach (TowerCourier c in towerCouriers)
+            {
+                if (!c.Busy) continue;
+                float length = TowerRoute(c.TargetSide).magnitude;
+                c.Travelled += speed * dt;
+                if (c.Travelled < length) continue;
+                if (!c.Returning)
+                {
+                    Messenger order = c.Order;
+                    c.Order = null;
+                    if (order != null)
+                    {
+                        Deliver(order);
+                        messengers.Remove(order);
+                    }
+
+                    c.Returning = true;
+                    c.Travelled = 0f;
+                }
+                else c.Busy = false;
+            }
+
+            for (int i = 0; i < messengers.Count; i++)
+            {
+                Messenger m = messengers[i];
+                if (m.Soldier >= 0 || m.Assigned) continue;
+                TowerCourier free = null;
+                foreach (TowerCourier c in towerCouriers) if (!c.Busy) { free = c; break; }
+                if (free == null) break;
+                AssignCourier(free, m);
+            }
+        }
+
+        void AssignCourier(TowerCourier c, Messenger m)
+        {
+            m.Assigned = true;
+            c.Busy = true;
+            c.Returning = false;
+            c.Order = m;
+            c.TargetSide = m.TargetSide;
+            c.Travelled = 0f;
+            Notice?.Invoke($"등대 전령이 {SideNames[m.TargetSide]}으로 달려갑니다 · 약 {TowerRouteSeconds(m.TargetSide):0}초");
+        }
+
+        // 분대·대포 이동 명령을 전령이 실제로 출발시켰을 때 (BattleEntry가 SquadOrders를 센다)
+        public event Action SquadOrderStarted;
+
         bool StartMessenger(int fromSide, float fromAlong, int targetSide, TargetPriority priority, float issuedAt)
         {
-            if (Ended || fromSide == targetSide) return false;
+            if (Ended) return false;
+            if (fromSide == TowerOrigin)
+            {
+                // 탑 대기 전령 (병사가 아님, Soldier = -1): 쉬는 전령이 있으면 바로 출발, 없으면 줄을 선다
+                var order = new Messenger { Soldier = -1, TargetSide = targetSide, Priority = priority, IssuedAt = issuedAt, Direction = 1f };
+                messengers.Add(order);
+                TowerCourier free = null;
+                foreach (TowerCourier c in towerCouriers) if (!c.Busy) { free = c; break; }
+                if (free != null) AssignCourier(free, order);
+                else Notice?.Invoke($"등대 전령 {TowerCourierCount}명이 모두 나가 있습니다 — 명령이 줄을 섭니다 (대기 {TowerOrdersQueued}번째)");
+                return true;
+            }
+
+            if (fromSide == targetSide)
+            {
+                Notice?.Invoke($"{SideNames[targetSide]}에는 이미 주인공이 있습니다");
+                return false;
+            }
+
             int soldier = NearestFreeSoldier(fromSide, fromAlong);
             if (soldier < 0)
             {
@@ -207,6 +333,7 @@ namespace HumanLastRampart.Combat.Battle
                     Messenger m = messengers[messengers.Count - 1];
                     m.MoveGroup = group;
                     m.MoveTarget = targetSide;
+                    SquadOrderStarted?.Invoke();
                 }
             });
         }
@@ -223,6 +350,7 @@ namespace HumanLastRampart.Combat.Battle
                     m.MoveGroup = -2;
                     m.MoveTarget = targetSide;
                     m.MoveCount = maxGroups;
+                    SquadOrderStarted?.Invoke();
                 }
             });
         }
@@ -239,9 +367,12 @@ namespace HumanLastRampart.Combat.Battle
 
         void UpdateMessengers(float dt)
         {
+            UpdateTowerCouriers(dt);
             for (int i = messengers.Count - 1; i >= 0; i--)
             {
                 Messenger m = messengers[i];
+                if (m.Soldier < 0) continue;   // 탑 명령은 UpdateTowerCouriers가 맡는다
+
                 if (sAlive[m.Soldier] == 0)
                 {
                     // 원래 성벽에서 병사를 잃을 때 전령이 뽑혔다 (C16-2: 전령도 원래 성벽 병력)
@@ -262,10 +393,7 @@ namespace HumanLastRampart.Combat.Battle
                 if (m.Travelled < m.Distance) continue;
                 if (!m.Returning)
                 {
-                    if (m.MoveCannon >= 0) MoveCannon(m.MoveCannon, m.MoveTarget, false);   // 전령이 닿으면 대포가 출발 (K-060)
-                    else if (m.MoveGroup >= 0) MoveGroup(m.MoveGroup, m.MoveTarget, false);   // 전령이 닿으면 묶음이 출발
-                    else if (m.MoveGroup == -2) MoveWallGroups(m.TargetSide, m.MoveTarget, false, m.MoveCount);   // 한 번에 옮기기
-                    else Apply(m.TargetSide, m.Priority, m.IssuedAt, CommandVia.Messenger);
+                    Deliver(m);
                     m.Returning = true;
                     m.Travelled = 0f;
                 }
@@ -277,6 +405,15 @@ namespace HumanLastRampart.Combat.Battle
                     messengers.RemoveAt(i);
                 }
             }
+        }
+
+        // 전령이 목표 성벽에 닿았을 때 전하는 일
+        void Deliver(Messenger m)
+        {
+            if (m.MoveCannon >= 0) MoveCannon(m.MoveCannon, m.MoveTarget, false);   // 전령이 닿으면 대포가 출발 (K-060)
+            else if (m.MoveGroup >= 0) MoveGroup(m.MoveGroup, m.MoveTarget, false);   // 전령이 닿으면 묶음이 출발
+            else if (m.MoveGroup == -2) MoveWallGroups(m.TargetSide, m.MoveTarget, false, m.MoveCount);   // 한 번에 옮기기
+            else Apply(m.TargetSide, m.Priority, m.IssuedAt, CommandVia.Messenger);
         }
 
         // 나중에 내린 명령만 적용 (D-039 C16-1·C16-4)

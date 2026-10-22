@@ -135,6 +135,7 @@ namespace HumanLastRampart.Combat.Battle
                 TrackTraps(Time.deltaTime);
                 AgeTimed(Time.deltaTime);
                 HumanLastRampart.Combat.Render.HlrLights.Clear();
+                UpdateTowerLight(true);
                 return;
             }
 
@@ -157,7 +158,33 @@ namespace HumanLastRampart.Combat.Battle
             if (torchesOn) FlickerTorches();
             TrackTraps(Time.deltaTime);
             UpdateFlashes();
-            GatherShaderLights();   // 셰이더 점광원 목록 (BattleLights.Hlr.cs)
+            UpdateTowerLight(false);
+            GatherShaderLights();   // 셰이더 점광원 목록 (BattleLights.Hlr.cs) — 탑 불빛 포함
+        }
+
+        // 마당 가운데 등대 탑 불빛 (W9): 밤에 탑 꼭대기에서 마당을 비춘다. 세기는 등불 밝기(약·보통·강)를 따르고, 점화의 밤이면 더 환하다. 낮·지도에서는 끈다
+        Light towerLight;
+
+        void UpdateTowerLight(bool mapMode)
+        {
+            bool on = !mapMode && sim.TimeOfDay == TimeOfDay.Night && HumanLastRampart.Combat.Render.NightTuning.TowerLightAllowed;
+            if (!on)
+            {
+                if (towerLight != null) towerLight.enabled = false;
+                return;
+            }
+
+            if (towerLight == null)
+            {
+                towerLight = NewLight("Beacon Tower", new Vector3(0f, BattleSim.WallHeight + BattleBeaconView.BowlHeight + 0.25f, 0f));
+                towerLight.color = HumanLastRampart.Combat.Render.NightTuning.TowerLightColor;
+                towerLight.range = HumanLastRampart.Combat.Render.NightTuning.TowerLightRange;
+            }
+
+            float level = BattleSim.GlowLevel(sim.Lamp);
+            float flicker = 0.9f + 0.1f * Mathf.PerlinNoise(Time.time * 4f, 7.3f);
+            towerLight.intensity = HumanLastRampart.Combat.Render.NightTuning.TowerLightIntensity * level * flicker * (sim.IsIgnitionNight ? 1.3f : 1f) * (sim.IsRaining ? RainTorchMultiplier : 1f);
+            towerLight.enabled = true;
         }
 
         void SetTorches(bool on, float intensity)
@@ -324,10 +351,12 @@ namespace HumanLastRampart.Combat.Battle
             flames.Clear();
             if (flameMaterial != null) Object.Destroy(flameMaterial);
             flashes.Clear();
+            towerLight = null;
             trapBlasts.Clear();
         }
     }
 }
+
 
 
 
