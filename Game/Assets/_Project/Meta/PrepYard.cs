@@ -123,6 +123,13 @@ namespace HumanLastRampart.Meta
             var collider = blocker.GetComponent<MeshCollider>();
             collider.sharedMesh = Own(ObstacleMesh(polygon));
             obstacles.Add(collider);
+            // W16: 주인공이 탑 뒤(몸체에 가려짐)에서 시작하지 않게 탑 앞 빈 땅으로 옮긴다
+            foreach (Vector2 pixel in new[] { new Vector2(footX, footY + 80f), new Vector2(footX - 300f, footY + 80f), new Vector2(footX - 300f, footY + 30f) })
+            {
+                Vector2 candidate = PrepYardProjection.Ground(pixel);
+                if (CanStand(candidate)) { ground = candidate; break; }
+            }
+            PlaceHero();
             prompt.SetAsLastSibling();
         }
 
@@ -282,7 +289,7 @@ namespace HumanLastRampart.Meta
             return mesh;
         }
 
-        public void AddStation(string name, float x, Color color, Action use)
+        public void AddStation(string name, float x, Color color, Action use, Vector2? signAt = null)
         {
             var data = Array.Find(layout.stations, p => p.name == name);
             if (data == null) throw new InvalidOperationException("정비 장소 좌표 없음: " + name);
@@ -295,7 +302,7 @@ namespace HumanLastRampart.Meta
             station.Trigger.center = new Vector3((a.x + b.x) / 2f, 0.85f, (a.y + b.y) / 2f);
             station.Trigger.size = new Vector3(Mathf.Abs(b.x - a.x), 1.7f, Mathf.Abs(b.y - a.y));
             Image plate = Ui.Panel(strip, "Place " + name, UiPanel.Plate); plate.raycastTarget = false;
-            Ui.Place(plate.rectTransform, Vector2.zero, new Vector2(data.x, 1080f - data.y + 180f), new Vector2(240f, 52f), new Vector2(0.5f, 0.5f));
+            Ui.Place(plate.rectTransform, Vector2.zero, signAt.HasValue ? new Vector2(signAt.Value.x, 1080f - signAt.Value.y) : new Vector2(data.x, 1080f - data.y + 180f), new Vector2(240f, 52f), new Vector2(0.5f, 0.5f));
             Text sign = Ui.Label(plate.transform, "Name", name, UiTokens.H2, UiTokens.BrassLight, TextAnchor.MiddleCenter, true);
             Ui.Stretch(sign.rectTransform); station.Sign = plate.rectTransform; stations.Add(station);
             prompt.SetAsLastSibling();

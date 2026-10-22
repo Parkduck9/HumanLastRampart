@@ -20,7 +20,7 @@ namespace HumanLastRampart.Story
             var view = new ScreenView(transform, "", "");
             view.HidePanel();   // K-047: 빈 양피지 판이 재생기 뒤에 비치지 않게
             var root = (RectTransform)view.PanelGroup.transform.parent;   // 화면 캔버스 (입력 막기 CanvasGroup이 있는 곳)
-            StoryPlayer player = StoryPlayer.Create(root, script, ScreenView.UiFont);
+            StoryPlayer player = StoryPlayer.Create(root, script, UiFonts.Story);   // W16: 대사는 고운바탕
             player.Finished += () => Complete(ScreenOutcome.Done);
             return view;
         }

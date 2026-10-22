@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace HumanLastRampart.UI
 {
@@ -49,25 +49,69 @@ namespace HumanLastRampart.UI
         static Color Hex(int rgb) => new Color(((rgb >> 16) & 0xff) / 255f, ((rgb >> 8) & 0xff) / 255f, (rgb & 0xff) / 255f, 1f);
     }
 
-    // 글꼴 두 벌 (S-06): 제목·이름·큰 숫자 = 세계 글꼴(명조 계열), 본문 = 읽기 글꼴.
-    // Codex 글꼴 파일이 오면 Resources/UiKit/Fonts/display·body 에 넣는 것만으로 바뀐다 (UiArt.FontDisplay·FontBody)
+    // 글꼴 (W16, 사용자 확정 · 전부 SIL OFL 1.1, 라이선스는 StreamingAssets/Licenses 에 같이 배포):
+    //  본문·숫자·단추 = 갈무리11 (도트, 11의 배수 크기에서 또렷), 대사 = 고운바탕, 제목 = 함렛 Black.
+    // 전부 동적 글꼴이라 한글 전체가 나오고 큰 글자판(아틀라스)을 저장소에 두지 않는다.
     public static class UiFonts
     {
-        static Font display, body;
+        const string GalmuriRegular = "Fonts/Galmuri/Galmuri11";
+        const string GalmuriBold = "Fonts/Galmuri/Galmuri11-Bold";
+        const string GowunRegular = "Fonts/GowunBatang/GowunBatang-Regular";
+        const string HahmletBlack = "Fonts/Hahmlet/Hahmlet-Black";
 
-        public static Font Display => display != null ? display : (display = Load(UiArt.FontDisplay,
-            new[] { "Batang", "바탕", "BatangChe", "Gungsuh", "궁서", "Noto Serif CJK KR", "AppleMyungjo", "Malgun Gothic" }));
+        // 갈무리 원래 픽셀 크기 (이 배수로 그리면 점이 깨끗하다)
+        public const int GalmuriPixel = 11;
 
-        public static Font Body => body != null ? body : (body = Load(UiArt.FontBody,
-            new[] { "Malgun Gothic", "맑은 고딕", "Apple SD Gothic Neo", "Noto Sans CJK KR", "Arial" }));
+        static Font display, body, bodyBold, story;
 
-        static Font Load(string resource, string[] system)
+        // 제목·이름·큰 숫자 (함렛 Black)
+        public static Font Display => display != null ? display : (display = Load(HahmletBlack, false));
+        // 본문·숫자 (갈무리11 Regular)
+        public static Font Body => body != null ? body : (body = Load(GalmuriRegular, true));
+        // 굵은 본문 (갈무리11 Bold 파일 — 가짜 굵기를 쓰지 않는다. 이 글꼴은 FontStyle.Normal 로 쓴다)
+        public static Font BodyBold => bodyBold != null ? bodyBold : (bodyBold = Load(GalmuriBold, true));
+        // 이야기 대사 (고운바탕)
+        public static Font Story => story != null ? story : (story = Load(GowunRegular, false));
+        // 굵은 고운바탕 파일은 용량 때문에 뺐다 (가짜 굵기도 쓰지 않는다) — 보통 굵기로 대신
+        public static Font StoryBold => Story;
+
+        // 갈무리용 크기: 11의 가장 가까운 배수 (20→22, 24→22, 32→33, 48→44). 다른 글꼴은 그대로.
+        // 본문(Text 24)과 보조(Small 20)는 둘 다 22가 되므로 위계는 굵기로 나눈다 (Ui.Label: Text 이상은 Bold 파일). 읽기 최소는 22 (직접 16 미만을 부른 곳만 11).
+        // 한계: 캔버스 배율이 정수(1080p·2160p)일 때만 점이 정확히 맞는다 — CanvasScaler 배율이 소수면 조금 부드러워진다
+        public static int SnapPixel(int size) => size < 16 ? GalmuriPixel : Mathf.Max(2 * GalmuriPixel, Mathf.RoundToInt(size / (float)GalmuriPixel) * GalmuriPixel);
+
+        // 굵게: 갈무리는 Bold 파일(가짜 굵기 X), 함렛·고운바탕은 굵기 없음(이미 Black / 보통)
+        public static void Bold(UnityEngine.UI.Text text)
+        {
+            text.fontStyle = FontStyle.Normal;
+            if (text.font == Display || text.font == Story) return;
+            text.font = BodyBold;
+            text.fontSize = SnapPixel(text.fontSize);
+        }
+
+        static Font Load(string resource, bool pixel)
         {
             var font = Resources.Load<Font>(resource);
-            if (font != null) return font;
-            // D-033 F1: 설치된 시스템 글꼴을 임시 사용. 글꼴 파일을 복사·배포하지 않는다
-            font = Font.CreateDynamicFontFromOSFont(system, 32);
-            return font != null ? font : Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            if (font == null)
+            {
+                // 글꼴 파일이 없으면(옮기다 빠진 경우) 시스템 글꼴로 대신해 화면이 비지 않게 한다
+                font = Font.CreateDynamicFontFromOSFont(new[] { "Malgun Gothic", "맑은 고딕", "Apple SD Gothic Neo", "Noto Sans CJK KR", "Arial" }, 32);
+                return font != null ? font : Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            }
+
+            if (pixel)
+            {
+                // 도트 글꼴은 글자판을 점 단위로 뽑아야 흐려지지 않는다
+                Font own = font;
+                void Point(Font f)
+                {
+                    if (f == own && own.material != null && own.material.mainTexture != null)
+                        own.material.mainTexture.filterMode = FilterMode.Point;
+                }
+                Font.textureRebuilt += Point;
+                Point(font);
+            }
+            return font;
         }
     }
 }

@@ -435,9 +435,12 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
         Assert.IsFalse(FreeTrapTestSupport.BuyButton().interactable, "설치된 위치는 다시 못 고른다");
         Note($"설치: {placed.TrapId} {placed.TerrainId} {cellId} ({placed.ActualX:0.0},{placed.ActualZ:0.0}) 골드 {gold0}→{c.Gold}");
         yield return Click("닫기", 60);
+        // W18: 2번째 밤이 점화의 밤이면 결과 뒤 길(지도·이야기·새 요새)과 함정 정리가 달라진다 — 이 시험은 함정 보충을 보므로 복구를 0으로 두어 늘 평범한 밤
+        c.BeaconRepair = 0f;
         yield return Click("전투 준비 완료", 300);
         yield return WaitScreen(ScreenId.Battle, 900);
         BattleSetup setup = GameFlow.Instance.Campaign.ActiveBattleSetup;
+        Assert.IsFalse(setup.IsIgnitionNight, "2번째 밤은 점화의 밤이 아니다");
         Assert.IsTrue(setup.Traps.Any(t => t.TrapId == placed.TrapId), "다음 전투 준비에 함정");
 
         var entry = UnityEngine.Object.FindObjectsByType<HumanLastRampart.Combat.Battle.BattleEntry>(FindObjectsSortMode.None)[0];
@@ -457,7 +460,7 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
         BattleResult result = sim.BuildResult();
         Note($"전투 2 끝: {result.Outcome}, 터진 함정 {string.Join(",", result.ConsumedTrapIds)}, 함정 상태 {sim.GetTrap(0).State}");
         yield return Click("결과로", 60);
-        if (result.Outcome == BattleOutcome.Victory)
+        Assert.AreEqual(BattleOutcome.Victory, result.Outcome, "전투 2 승리");
         {
             yield return WaitScreen(ScreenId.Result, 900);
             yield return WaitReady("다음", 300);
@@ -465,6 +468,7 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
             Assert.AreEqual(!exploded, c.Traps.Any(t => t.TrapId == placed.TrapId), "터졌으면 사라지고, 불발이면 남는다");
             Note($"결과 반영: 함정 {(exploded ? "사라짐" : "남음(불발)")} · 남은 함정 {c.Traps.Count}");
             yield return Click("다음", 300);
+            Assert.IsFalse(c.LastNightRelit, "평범한 밤이라 지도 없이 정비로");
             yield return WaitScreen(ScreenId.Prep, 900);
             var shop2 = c.TrapShop.First(s => s.TrapDefId == "trap_bomb");
             Note($"두 번째 정비: 상점 재고 {shop2.Count} (11 + 6 = 17 기대), 보충 기록 {c.TrapShopRestockedForBattle}");
@@ -1556,22 +1560,39 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
         // 북쪽은 선봉이 곧바로 사거리에 들어오므로, 첫 무리가 오지 않는 남쪽 대포로 '대기'를 확인한다
         for (int i = 0; i < 10; i++) yield return null;
         entry.ToggleMap();
-        entry.SelectCannonSide(2);
-        yield return null;
-        entry.SelectCannon(4);
-        HumanLastRampart.Combat.Battle.BattleSim.CannonInfo four = default;
-        for (int c = 0; c < sim.CannonCount; c++) { var ci = sim.GetCannon(c); if (ci.Side == 2 && ci.Number == 4) four = ci; }
-        Assert.IsTrue(entry.AimSelectedCannonAt(new Vector3(four.Position.x, 0f, -(sim.CastleHalf + 5f))), "남쪽 성벽 바로 앞 조준");
+        // 같은 프레임에 4면의 4번 대포가 각자 성벽 바로 앞을 노린다. 어느 한 면에는 선봉이 일찍 닿을 수 있다 (게임 안 시계가 실행마다 조금 달라 어느 면인지 정해져 있지 않다)
+        // → 하나라도 '대기'면 통과. 적이 오는 길을 노린 대포는 대기가 아니므로 이 시험이 느슨해지지 않는다 (면마다 따로 조준)
+        var sideOf4 = new int[4];
+        var dirs = new[] { new Vector2(0f, 1f), new Vector2(1f, 0f), new Vector2(0f, -1f), new Vector2(-1f, 0f) };   // 북·동·남·서
+        foreach (int side in new[] { 2, 1, 3, 0 })
+        {
+            entry.SelectCannonSide(side);
+            yield return null;
+            entry.SelectCannon(4);
+            int index = -1;
+            for (int c = 0; c < sim.CannonCount; c++) { var ci = sim.GetCannon(c); if (ci.Side == side && ci.Number == 4) index = c; }
+            Assert.GreaterOrEqual(index, 0, $"{side}면 4번 대포");
+            sideOf4[side] = index;
+            Vector2 p = new Vector2(sim.GetCannon(index).Position.x, sim.GetCannon(index).Position.z), d = dirs[side];
+            Vector2 aim2 = p - d * Vector2.Dot(p, d) + d * (sim.CastleHalf + 5f);
+            Assert.IsTrue(entry.AimSelectedCannonAt(new Vector3(aim2.x, 0f, aim2.y)), $"{side}면 성벽 바로 앞 조준");
+        }
         // '대기'는 대포가 장전을 마치고 조준점을 한 번 살펴본 뒤에야 정해진다 → 최대 100프레임(약 5초) 기다린다
-        System.Collections.Generic.List<Text> early = null;
-        for (int i = 0; i < 100; i++)
+        int idleSide = -1;
+        var trace = new StringBuilder();
+        for (int i = 0; i < 100 && idleSide < 0; i++)
         {
             yield return null;
-            early = UnityEngine.Object.FindObjectsByType<Text>(FindObjectsSortMode.None).Where(t => t.name == "Cannon 4 State" && t.gameObject.activeInHierarchy).ToList();
-            if (i >= 20 && early.Any(t => t.text == "대기")) break;
+            sim.Complete();
+            if (i % 20 == 0) trace.Append($"[{i}:{sim.Elapsed:0.0}s " + string.Join("", new[] { 0, 1, 2, 3 }.Select(s => sim.GetCannon(sideOf4[s]).Idle ? "I" : "F")) + "] ");
+            if (i >= 20) foreach (int side in new[] { 2, 1, 3, 0 }) if (idleSide < 0 && sim.GetCannon(sideOf4[side]).Idle) idleSide = side;
         }
-        Note($"초반 4번 대포: {string.Join(",", early.Select(t => t.text))} (게임 {sim.Elapsed:0}초)");
-        Assert.IsTrue(early.Any(t => t.text == "대기"), "적 없는 곳을 노린 대포는 대기");
+        Note($"초반 4번 대포 대기: {idleSide}면 (게임 {sim.Elapsed:0}초) {trace}");
+        Assert.GreaterOrEqual(idleSide, 0, "적 없는 곳을 노린 대포는 대기");
+        entry.SelectCannonSide(idleSide);
+        yield return null;
+        var early = UnityEngine.Object.FindObjectsByType<Text>(FindObjectsSortMode.None).Where(t => t.name == "Cannon 4 State" && t.gameObject.activeInHierarchy).ToList();
+        Assert.IsTrue(early.Any(t => t.text == "대기"), "화면에도 대기로 보인다");
         entry.ToggleMap();
         yield return Click("×4", 300);
 

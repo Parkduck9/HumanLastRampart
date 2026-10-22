@@ -67,7 +67,7 @@ namespace HumanLastRampart.Combat.Battle
         void BuildPhaseBanner()
         {
             var rootRect = Ui.Rect(root.transform, "Phase Banner Band");
-            Ui.Place(rootRect, new Vector2(0.5f, 1f), new Vector2(0f, -(Edge + BandHeight + UiTokens.S16)), new Vector2(760f, 64f), new Vector2(0.5f, 1f));
+            Ui.Place(rootRect, new Vector2(0.5f, 1f), new Vector2(0f, -Edge), new Vector2(760f, 64f), new Vector2(0.5f, 1f));
             phaseBannerRoot = rootRect;
 
             Sprite band = UiArt.Hud("Phase/phase_banner", PhaseBandBorder);
@@ -137,13 +137,13 @@ namespace HumanLastRampart.Combat.Battle
 
             // 북·동·남·서 = 위·오른쪽·아래·왼쪽 가장자리 (화면 방향과 성벽 방향이 같다고 본다)
             Vector2 size = new Vector2(32f, 32f) * PhaseArtScale;
-            float top = Edge + BandHeight + UiTokens.S16 + 64f + UiTokens.S8;   // 위쪽은 띠 아래
+            float top = Edge + 64f + UiTokens.S8;   // 위쪽은 단계 띠 아래
             RectTransform r = phaseWarningIcon.rectTransform;
             switch (side)
             {
                 case 0: Ui.Place(r, new Vector2(0.5f, 1f), new Vector2(0f, -top), size, new Vector2(0.5f, 1f)); break;
                 case 1: Ui.Place(r, new Vector2(1f, 0.5f), new Vector2(-Edge, 0f), size, new Vector2(1f, 0.5f)); break;
-                case 2: Ui.Place(r, new Vector2(0.5f, 0f), new Vector2(0f, Edge + BandHeight + UiTokens.S16), size, new Vector2(0.5f, 0f)); break;
+                case 2: Ui.Place(r, new Vector2(0.5f, 0f), new Vector2(0f, BottomClear), size, new Vector2(0.5f, 0f)); break;
                 default: Ui.Place(r, new Vector2(0f, 0.5f), new Vector2(Edge, 0f), size, new Vector2(0f, 0.5f)); break;
             }
         }

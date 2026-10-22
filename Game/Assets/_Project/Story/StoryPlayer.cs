@@ -120,7 +120,8 @@ namespace HumanLastRampart.Story
             tail.rectTransform.localScale = new Vector3(1f, -1f, 1f);
             tail.gameObject.SetActive(false);
             body = Ui.Label(box, "Story Text", "", UiTokens.H2, UiTokens.Ink, TextAnchor.UpperLeft);
-            body.font = font != null ? font : UiFonts.Body;
+            body.font = font != null ? font : UiFonts.Story;
+            body.fontSize = UiTokens.H2;   // Label이 갈무리용으로 맞춘 크기를 되돌림 (고운바탕은 11 배수 필요 없음)
             body.rectTransform.anchorMin = Vector2.zero;
             body.rectTransform.anchorMax = Vector2.one;
             body.rectTransform.offsetMin = new Vector2(64f, UiTokens.S48);
@@ -139,7 +140,7 @@ namespace HumanLastRampart.Story
             speaker = Ui.Label(nameplate, "Story Speaker", "", UiTokens.Text, UiTokens.BrassLight, TextAnchor.MiddleCenter, true);
             speaker.horizontalOverflow = HorizontalWrapMode.Overflow;
             Stretch(speaker.rectTransform);
-            speaker.fontStyle = FontStyle.Bold;
+            HumanLastRampart.UI.UiFonts.Bold(speaker);
 
             // 넘김 표시: 도트 아이콘(아래 화살), 다 나오면 한 점씩 까딱
             Image mark = Ui.Icon(box, "Story Next", UiArt.IconDown, 1f, UiTokens.Ink);

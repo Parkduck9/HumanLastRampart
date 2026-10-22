@@ -255,7 +255,21 @@ namespace HumanLastRampart.App.Flow
             return starts.Count > 0 && starts[0].WaveForNight(Campaign.BattleNumber) != null;
         }
 
-        static int NewSeed() => System.Environment.TickCount ^ System.Guid.NewGuid().GetHashCode();
+        // W18: 시험이 새 게임 씨앗을 고정하는 자리 (0 = 평소처럼 무작위). 시험마다 지형·웨이브가 달라 들쑥날쑥하던 것을 막는다
+#if UNITY_INCLUDE_TESTS
+        public static int TestSeedOverride;
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        static void ResetTestSeedOverride() => TestSeedOverride = 0;   // 도메인 리로드를 꺼 둔 에디터에서 취소된 시험이 값을 남기지 않게
+#endif
+
+        static int NewSeed()
+        {
+#if UNITY_INCLUDE_TESTS
+            if (TestSeedOverride != 0) return TestSeedOverride;
+#endif
+            return System.Environment.TickCount ^ System.Guid.NewGuid().GetHashCode();
+        }
 
         // ── 전환 ─────────────────────────────────────────────────────────
 
