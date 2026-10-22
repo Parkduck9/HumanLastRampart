@@ -46,17 +46,22 @@ public sealed partial class PlayProbe
         Time.captureDeltaTime = 0.0005f;
 
         ContactShadows shadows = view.Shadows;
-        Assert.IsNotNull(shadows, "접촉 그림자 객체");
-        Assert.IsTrue(shadows.Available, "그림자 셰이더·타원 그림 (Resources) 연결");
-        Assert.Greater(shadows.KindCount, 0, "등록된 개체 버퍼");
 
-        rig.ShowSide(0);
-        rig.SetPreset(0);
         bool oldPaused = (bool)pause.GetValue(entry);
         Vector3 oldPosition = camera.transform.position;
         Quaternion oldRotation = camera.transform.rotation;
         try
         {
+            // 확인은 모두 try 안에서 — 실패해도 finally가 시간 간격·그림자·사진기를 되돌리고 기록을 남긴다
+            Assert.IsNotNull(shadows, "접촉 그림자 객체");
+            Assert.IsTrue(shadows.Available, "그림자 셰이더·타원 그림 (Resources) 연결");
+            Assert.Greater(shadows.KindCount, 0, "등록된 개체 버퍼");
+            int specBound = CountSpecBoundBlocks(view);
+            Note($"반사 마스크가 붙은 그리기 블록 {specBound}개");
+            Assert.Greater(specBound, 0, "반사 마스크가 실제로 붙었다 (_HasSpec = 1인 그리기 블록이 하나 이상)");
+
+            rig.ShowSide(0);
+            rig.SetPreset(0);
             foreach (var (time, name) in new[] { (TimeOfDay.Day, "day"), (TimeOfDay.Night, "night") })
             {
                 var f = setup.Forecast; f.InitialWeather = Weather.Clear; f.TimeOfDay = time; f.Changes = false; setup.Forecast = f;
@@ -101,9 +106,29 @@ public sealed partial class PlayProbe
             ContactShadows.Enabled = true;
             camera.transform.SetPositionAndRotation(oldPosition, oldRotation);
             pause.SetValue(entry, oldPaused);
+            File.WriteAllText(Path.Combine(Out, "gloss.txt"), log.ToString(), new UTF8Encoding(false));
+            Time.captureDeltaTime = 0f;
+        }
+    }
+
+    // BattleView의 그리기 블록(적·병사·동작 시트) 가운데 _HasSpec이 1인 것의 수 (반사 마스크가 실제로 묶였는지)
+    static int CountSpecBoundBlocks(BattleView view)
+    {
+        const BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic;
+        int count = 0;
+        foreach (string name in new[] { "enemyDraws", "soldierDraws", "runnerDraws", "enemyPoseDraws", "soldierPoseDraws" })
+        {
+            var list = typeof(BattleView).GetField(name, flags)?.GetValue(view) as System.Collections.IEnumerable;
+            if (list == null) continue;
+            foreach (object item in list)
+            {
+                var tuple = item as System.Runtime.CompilerServices.ITuple;
+                if (tuple == null) continue;
+                for (int i = 0; i < tuple.Length; i++)
+                    if (tuple[i] is MaterialPropertyBlock block && !block.isEmpty && block.GetFloat("_HasSpec") > 0.5f) { count++; break; }
+            }
         }
 
-        File.WriteAllText(Path.Combine(Out, "gloss.txt"), log.ToString(), new UTF8Encoding(false));
-        Time.captureDeltaTime = 0f;
+        return count;
     }
 }

@@ -15,6 +15,7 @@ namespace HumanLastRampart.Tutorial.Tests
             public int Spells { get; set; }
             public int Traps { get; set; }
             public bool WizardOk = true;
+            public bool TrapOk = true;
             public float Scale = -1f;
             public void Tick(float dt) { }
             public float WalkedMeters => Walked;
@@ -23,6 +24,7 @@ namespace HumanLastRampart.Tutorial.Tests
             public int SpellCasts => Spells;
             public int TrapCount => Traps;
             public bool IsAvailable(TutorialStep step) => step != TutorialStep.Magic || WizardOk;
+            public bool CanPerform(TutorialStep step) => step != TutorialStep.Trap || TrapOk;
             public bool TryGetTargetScreen(TutorialStep step, out Vector2 screen) { screen = default; return false; }
             public void SetTimeScale(float scale) => Scale = scale;
         }
@@ -189,13 +191,72 @@ namespace HumanLastRampart.Tutorial.Tests
             Assert.IsTrue(TutorialState.ShouldStartBattle(1), "전투 구간을 못 마쳤으면 다시");
             Assert.IsTrue(TutorialState.ShouldStartPrep(2), "전투를 마치고 정비에 오면 정비 구간으로");
             store.TryLoad(out int progress);
-            Assert.AreEqual(TutorialState.BattleSteps, progress);
+            Assert.AreEqual(3, progress, "확인만 하면 저장 값은 바뀌지 않는다");
+            Assert.IsTrue(TutorialState.ShouldStartBattle(1), "확인만으로 전투 구간이 끝난 것이 되지 않는다");
+            var m = new TutorialMachine(new Fake(), new TutorialState(), TutorialState.ResumeStep(TutorialStep.Trap, TutorialStep.Lens), TutorialStep.Lens);
+            Assert.AreEqual(TutorialStep.Trap, m.Current, "정비 구간은 함정부터");
+            store.TryLoad(out progress);
+            Assert.AreEqual(TutorialState.BattleSteps, progress, "정비 구간을 시작하면 그 번호를 저장");
             Assert.IsFalse(TutorialState.ShouldStartBattle(1), "전투 구간을 마쳤으면 다시 안 한다");
             TutorialState.Suppressed = true;
             Assert.IsFalse(TutorialState.ShouldStartPrep(2));
             TutorialState.Suppressed = false;
             TutorialState.Reset();
             Assert.IsTrue(TutorialState.ShouldStartBattle(1), "다시 보기");
+        }
+
+        [Test]
+        public void MapStep_NeedsClosedToOpenChangeSinceStepStarted()
+        {
+            var f = new Fake { Map = true };   // 단계가 시작될 때 이미 열려 있음
+            TutorialMachine m = Battle(f);
+            f.Walked = 10f; m.Update(0.1f); m.Next();
+            Assert.AreEqual(TutorialStep.Map, m.Current);
+            m.Update(0.1f);
+            Assert.AreEqual(TutorialStep.Map, m.Current, "이미 열려 있던 지도로는 안 넘어간다");
+            f.Map = false; m.Update(0.1f);
+            Assert.AreEqual(TutorialStep.Map, m.Current, "닫기만 해도 안 넘어간다");
+            f.Map = true; m.Update(0.1f);
+            Assert.AreEqual(TutorialStep.Squad, m.Current, "닫혔다가 열리면 넘어간다");
+        }
+
+        [Test]
+        public void EnteringEachStep_SavesIt_AndResumeContinuesThere()
+        {
+            var f = new Fake();
+            TutorialMachine m = Battle(f);
+            Assert.IsTrue(store.TryLoad(out int progress));
+            Assert.AreEqual(0, progress);
+            f.Walked = 10f; m.Update(0.1f);
+            store.TryLoad(out progress);
+            Assert.AreEqual((int)TutorialStep.Telescope, progress, "단계에 들어갈 때마다 저장");
+            m.Next();
+            store.TryLoad(out progress);
+            Assert.AreEqual((int)TutorialStep.Map, progress);
+            Assert.AreEqual(TutorialStep.Map, TutorialState.ResumeStep(TutorialStep.Walk, TutorialStep.Magic), "다시 시작하면 하던 단계부터");
+            Assert.AreEqual(TutorialStep.Trap, TutorialState.ResumeStep(TutorialStep.Trap, TutorialStep.Lens), "구간 밖 번호는 구간 안으로");
+            new TutorialState().SaveStep(TutorialStep.Walk);
+            store.TryLoad(out progress);
+            Assert.AreEqual((int)TutorialStep.Map, progress, "저장 값을 낮추지 않는다");
+        }
+
+        [Test]
+        public void TrapStep_WhenNotAffordable_BecomesExplainOnlyWithNext()
+        {
+            var f = new Fake { TrapOk = false };
+            var m = new TutorialMachine(f, new TutorialState(), TutorialStep.Trap, TutorialStep.Lens);
+            Assert.IsTrue(m.ExplainOnly, "살 수 없으면 설명만");
+            f.Traps = 1; m.Update(0.1f);
+            Assert.AreEqual(TutorialStep.Trap, m.Current, "설명 단계는 상태로 안 넘어간다");
+            Assert.AreEqual(0f, f.Scale, "설명 단계는 시간 멈춤");
+            Assert.IsTrue(m.Next(), "[다음]으로 넘어간다 — 플레이어가 갇히지 않는다");
+            Assert.AreEqual(TutorialStep.Lens, m.Current);
+
+            var g = new Fake();
+            var n = new TutorialMachine(g, new TutorialState(), TutorialStep.Trap, TutorialStep.Lens);
+            Assert.IsFalse(n.ExplainOnly);
+            Assert.IsFalse(n.Next());
+            Assert.IsFalse(string.IsNullOrEmpty(TutorialSteps.Get(TutorialStep.Trap).ExplainBody));
         }
 
         [Test]

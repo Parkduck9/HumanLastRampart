@@ -1,4 +1,5 @@
 using HumanLastRampart.Core.Campaign;
+using HumanLastRampart.Core.Definitions;
 using UnityEngine;
 
 namespace HumanLastRampart.Tutorial
@@ -9,13 +10,32 @@ namespace HumanLastRampart.Tutorial
         readonly CampaignState campaign;
         readonly Transform owner;
 
-        PrepTutorialSource(CampaignState campaign, Transform owner) { this.campaign = campaign; this.owner = owner; }
+        readonly IDefinitionLookup definitions;
+
+        PrepTutorialSource(CampaignState campaign, Transform owner, IDefinitionLookup definitions) { this.campaign = campaign; this.owner = owner; this.definitions = definitions; }
 
         // 정비 입구(PrepEntry)에서 한 줄로 부른다. 튜토리얼 대상이 아니면 아무것도 하지 않는다
-        public static TutorialDirector TryBegin(Transform owner, CampaignState campaign)
+        public static TutorialDirector TryBegin(Transform owner, CampaignState campaign, IDefinitionLookup definitions)
         {
             if (campaign == null || !TutorialState.ShouldStartPrep(campaign.BattleNumber)) return null;
-            return TutorialDirector.Begin(owner, new PrepTutorialSource(campaign, owner), TutorialStep.Trap, TutorialStep.Lens);
+            return TutorialDirector.Begin(owner, new PrepTutorialSource(campaign, owner, definitions), TutorialStep.Trap, TutorialStep.Lens);
+        }
+
+        // 함정 놓기는 하나라도 놓을 수 있을 때만 시킨다: 보관품이 있거나, 상점 재고를 지금 골드로 살 수 있을 때. 아니면 설명만 한다
+        public bool CanPerform(TutorialStep step)
+        {
+            if (step != TutorialStep.Trap) return true;
+            if (campaign.TrapStock != null)
+                foreach (TrapStockEntry e in campaign.TrapStock) if (e != null && e.Count > 0) return true;
+            if (campaign.TrapShop != null && definitions != null)
+                foreach (TrapStockEntry e in campaign.TrapShop)
+                {
+                    if (e == null || e.Count <= 0) continue;
+                    TrapDef def = definitions.Get<TrapDef>(e.TrapDefId);
+                    if (def != null && def.Price <= campaign.Gold) return true;
+                }
+
+            return false;
         }
 
         public bool Alive => owner != null && campaign != null;

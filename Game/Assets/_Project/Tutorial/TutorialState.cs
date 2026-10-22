@@ -15,7 +15,8 @@ namespace HumanLastRampart.Tutorial
 
     public sealed class PlayerPrefsTutorialStore : ITutorialStore
     {
-        public const string Key = "HLR.Tutorial.v1";   // 값: 0~7 = 그 단계를 하던 중, 8 = 끝(건너뛴 것 포함)
+        // 값: 0~7 = 그 단계를 하던 중 (단계에 들어갈 때마다 저장), 8 = 끝(건너뛴 것 포함). 플레이어 단위 전역 키 (튜토리얼은 플레이어마다 한 번)
+        public const string Key = "HLR.Tutorial.v1";
 
         public bool TryLoad(out int progress)
         {
@@ -54,13 +55,19 @@ namespace HumanLastRampart.Tutorial
             return !Store.TryLoad(out int progress) || progress < BattleSteps;
         }
 
-        // 1번째 전투를 마치고 정비에 들어왔을 때. 전투 구간을 다 못 했더라도 정비 구간부터 이어 간다
+        // 1번째 전투를 마치고 정비에 들어왔을 때. 전투 구간을 다 못 했더라도 정비 구간부터 이어 간다.
+        // 확인만 하며 저장 값은 바꾸지 않는다 (정비 구간 번호는 단계 기계가 시작할 때 저장한다)
         public static bool ShouldStartPrep(int battleNumber)
         {
             if (Suppressed || battleNumber != 2) return false;
-            if (!Store.TryLoad(out int progress) || progress >= Total) return false;
-            if (progress < BattleSteps) Store.Save(BattleSteps);
-            return true;
+            return Store.TryLoad(out int progress) && progress < Total;
+        }
+
+        // 구간 [first, last] 안에서 이어 할 단계: 저장된 번호를 구간 안으로 맞춘다 (없으면 first)
+        public static TutorialStep ResumeStep(TutorialStep first, TutorialStep last)
+        {
+            if (!Store.TryLoad(out int progress)) return first;
+            return (TutorialStep)Mathf.Clamp(progress, (int)first, (int)last);
         }
 
         public static bool Completed => Store.TryLoad(out int progress) && progress >= Total;
@@ -79,6 +86,13 @@ namespace HumanLastRampart.Tutorial
         {
             Skipped = true;
             Store.Save(Total);
+        }
+
+        // 단계에 들어갈 때마다: 이 단계를 하던 중이라고 저장 (뒤로는 가지 않는다 — 이미 더 나아간 저장 값을 낮추지 않게)
+        public void SaveStep(TutorialStep step)
+        {
+            if (Store.TryLoad(out int progress) && progress >= (int)step) return;
+            Store.Save((int)step);
         }
 
         // 구간을 끝냈을 때: 다음에 이어 할 번호를 저장한다 (정비 구간까지 끝나면 8)

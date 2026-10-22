@@ -21,7 +21,8 @@ namespace HumanLastRampart.Tutorial
             go.transform.SetParent(parent, false);
             var director = go.AddComponent<TutorialDirector>();
             director.source = source;
-            director.machine = new TutorialMachine(source, new TutorialState(), first, last);
+            // 저장된 번호가 있으면 그 단계부터 이어 한다 (전투를 다시 시작해도 하던 곳에서)
+            director.machine = new TutorialMachine(source, new TutorialState(), TutorialState.ResumeStep(first, last), last);
             director.view = new TutorialView(go.transform, () => director.machine.Next(), () => director.machine.Skip());
             return director;
         }
