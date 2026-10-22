@@ -197,6 +197,7 @@ namespace HumanLastRampart.Combat.Battle
             Text heading = Ui.Label(spells.transform, "Heading", "마법사", UiTokens.Text, UiTokens.Brass, TextAnchor.MiddleLeft, true);
             Ui.Size(heading, -1f, 32f);
             Ui.Row(spells.transform, "Spells", UiTokens.S8);
+            BuildLampSection(fireBody.transform);   // 등불 밝기·빛줄기 방향 (BattleHud.Lamp.cs)
             fireBoard.SetActive(false);
         }
 

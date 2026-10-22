@@ -19,6 +19,7 @@ namespace HumanLastRampart.Combat.Battle
         Camera battleCamera;
         BattleSim sim;
         BattleView view;
+        BattleBeamView beamView;   // 등대 빛줄기 임시 그림
         BattleCameraRig rig;
         BattleHud hud;
         BattleMapCamera mapCamera;
@@ -94,6 +95,7 @@ namespace HumanLastRampart.Combat.Battle
                 rig = new BattleCameraRig(battleCamera, sim.CastleHalf, BattleSim.WallHeight);
                 mapCamera = new BattleMapCamera(battleCamera, sim.CastleHalf, sim.FieldSize);
                 easy = setup.Difficulty == Difficulty.Easy;
+                beamView = new BattleBeamView(sim);
             }
             else if (setup != null && spriteShader == null)
             {
@@ -123,6 +125,8 @@ namespace HumanLastRampart.Combat.Battle
                 hud.CannonClearChosen += () => { if (selectedCannon >= 0) sim.ClearCannonAim(selectedCannon); };
                 hud.WallCommandChosen += OnMapWallCommand;
                 hud.BattleStartChosen += StartBattle;
+                hud.LampChosen += b => sim?.SetLamp(b);     // 등불 밝기 (빛줄기 폭·효과만 바뀜)
+                hud.BeamChosen += side => sim?.RotateBeam(side);   // 빛줄기 방향 (3초에 걸쳐 돎)
                 hud.GroupDestinationChosen += side => OrderGroupMove(selectedGroup, side);
                 hud.WallGroupsDestinationChosen += side => OrderWallMove(selectedGroup, side);
 
@@ -356,6 +360,8 @@ namespace HumanLastRampart.Combat.Battle
             sim?.Complete();
             view?.Dispose();
             view = null;
+            beamView?.Dispose();
+            beamView = null;
             sim?.Dispose();
             sim = null;
             hud?.Dispose();
@@ -614,6 +620,7 @@ namespace HumanLastRampart.Combat.Battle
                 if (screen.z > 0f) hud.PlaceMenu(new Vector2(screen.x, screen.y));
             }
             view.Draw(mapOpen, mapOpen ? mapCamera.DotWorldSize : 0f);
+            beamView?.Draw();
             if (mapOpen)
             {
                 view.SetSpellPreview(selectedSpell, selectedSpell >= 0 && Mouse.current != null ? battleCamera.ScreenToWorldPoint(new Vector3(Mouse.current.position.ReadValue().x, Mouse.current.position.ReadValue().y, battleCamera.nearClipPlane)) : (Vector3?)null);   // 마법 범위 미리 보기 (K-036)
@@ -630,6 +637,7 @@ namespace HumanLastRampart.Combat.Battle
                 Mouse dragMouse = Mouse.current;
                 hud?.RefreshGroupMarkers(sim, battleCamera, selectedGroup, dragging && dragMouse != null ? dragMouse.position.ReadValue() : (Vector2?)null);
                 hud?.RefreshCannons(sim, cannonSide, selectedCannon);
+                hud?.RefreshLamp(sim);
                 hud?.RefreshCannonMarkers(sim, battleCamera, selectedCannon);
                 hud?.RefreshSpells(sim, selectedSpell);
             }
