@@ -1,0 +1,663 @@
+{
+  "card": "K-107",
+  "stage": "design_proposals_only",
+  "hero": "Lumen Pharos",
+  "age": 20,
+  "gender": "male",
+  "game_modified": false,
+  "unity_executed": false,
+  "generation_tool": "image_gen.imagegen built-in",
+  "source_art": [
+    {
+      "path": "Docs/References/codex_hero_octopath_review_v6/generated.png",
+      "sha256": "0026367083018c4a484e769d2d04e0d9f2faee675d62098b2def0db63bebfc68"
+    },
+    {
+      "path": "Docs/References/codex_k070_v1/hero_native_96x128_4x.png",
+      "sha256": "fb4eae6490c5b9dcf3ba4d127d166131bc8a0fba932c59b45fe5fd5d26d41e2b"
+    },
+    {
+      "path": "Docs/GDD/Concept_Beacon_v1.md",
+      "sha256": "a4ba7a2a13d45bd6c382bb0aaa490ba52ba9be9640e849e6a3c896a96902674f"
+    },
+    {
+      "path": "Game/Assets/_Project/Art/Characters/Hero/hero_walk_run_grid.png",
+      "sha256": "5587d9d2e62d69b2e7a24de3015e0635d54264a3d9c669e2878a72d517d82fd6"
+    },
+    {
+      "path": "Game/Assets/_Project/Art/Characters/Hero/hero_back_idle.png",
+      "sha256": "1bda81fed1caf6598540eab6c02a6fe2d24264a884afd2ff6ec7903b039ffa94"
+    },
+    {
+      "path": "Game/Assets/_Project/Art/Characters/Hero/hero_command.png",
+      "sha256": "e7997c7b3c4a9c7ac6c34130a47d0eab9ff8bcca378809ceea5812387a615fc8"
+    },
+    {
+      "path": "Game/Assets/_Project/Story/Resources/StoryArt/portrait_hero_neutral.png",
+      "sha256": "04a39504d7b5928d09ff1a9527e975001fa95adb13f6795baa41b2f669fa993a"
+    },
+    {
+      "path": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/wall_a.png",
+      "sha256": "28d8a5cb07975c7dc2558b99865d0707eba4e2ed3f5b8ac52201d01905dae1b3"
+    }
+  ],
+  "native": {
+    "cell": [
+      96,
+      128
+    ],
+    "body_axis_x": 48,
+    "foot_pivot_top_left": [
+      48,
+      120
+    ],
+    "last_opaque_y": 119,
+    "figure_height": 73
+  },
+  "game": {
+    "cell": [
+      288,
+      384
+    ],
+    "foot_pivot_top_left": [
+      144,
+      360
+    ],
+    "unity_normalized_bottom_left_pivot": [
+      0.5,
+      0.0625
+    ],
+    "last_opaque_y": 359,
+    "scale": 3,
+    "filter": "nearest"
+  },
+  "frame_order": [
+    "front",
+    "left_side",
+    "back",
+    "back_command_right_arm_raised"
+  ],
+  "frame_count": 4,
+  "note": "Four static design poses, NOT an animation sheet. No original walk/run frames replaced. Rig/animation compatibility remains for K-108.",
+  "portrait": {
+    "canvas": [
+      256,
+      384
+    ],
+    "working_grid": [
+      64,
+      96
+    ],
+    "working_scale": 4,
+    "expression": "neutral",
+    "framing": "bust, centered; existing reference is full body so face scale is intentionally different"
+  },
+  "comparison": {
+    "canvas_game": [
+      1152,
+      512
+    ],
+    "order": [
+      "old",
+      "A",
+      "B",
+      "C"
+    ],
+    "rgb_multiplier": 0.65,
+    "alpha_modified": false,
+    "background": "read-only wall_a.png composited on dark blue; no Unity lighting/camera simulation",
+    "native_comparison_size": [
+      384,
+      171
+    ],
+    "native_comparison_note": "512/3 rounds to 171 for the comparison board; sprite cells remain exactly 96x128."
+  },
+  "variants": {
+    "A": {
+      "hair": "chestnut asymmetrical fringe",
+      "uniform": "petrol teal",
+      "mantle": "ivory"
+    },
+    "B": {
+      "hair": "navy-black parted fringe",
+      "uniform": "ivory",
+      "mantle": "teal asymmetrical"
+    },
+    "C": {
+      "hair": "sandy blond parted open forehead",
+      "uniform": "muted plum",
+      "mantle": "slate blue"
+    }
+  },
+  "all_variants_props": [
+    "small belt lantern",
+    "collapsed brass telescope",
+    "subtle lighthouse/flame insignia"
+  ],
+  "processing": [
+    "alpha threshold 128",
+    "uniform nearest-neighbor downscale to 73px figure",
+    "body axis determined by boot midpoint",
+    "disconnected components smaller than 4 native pixels removed",
+    "restricted material palette, approximately 3 shades each",
+    "exact 3x game and 4x previews"
+  ],
+  "placement": "placement.json",
+  "palette": "palette.json",
+  "prompts": "prompts.json",
+  "review_page": "_HTML/6_그림_화면/codex_K-107_주인공새디자인_시안_v1.html",
+  "user_choice_pending": true,
+  "assets": [
+    {
+      "file": "comparison_back_night065_game.png",
+      "size": [
+        1152,
+        512
+      ],
+      "mode": "RGBA",
+      "sha256": "7ce6c221461c07108f0bd791da93a849807460bb62215804ffbb7cd9cd828c4f",
+      "kind": "comparison"
+    },
+    {
+      "file": "comparison_back_night065_game_4x.png",
+      "size": [
+        4608,
+        2048
+      ],
+      "mode": "RGBA",
+      "sha256": "b4a783f1cb57786340f0f00bddd763e8ad67dbdfb36c2645c75ca7c210b15230",
+      "kind": "comparison"
+    },
+    {
+      "file": "comparison_back_night065_native.png",
+      "size": [
+        384,
+        171
+      ],
+      "mode": "RGBA",
+      "sha256": "88035c8812bb1a00c6873bc6985fd5810ad1ed105d16140db53f550e9f5e3ea1",
+      "kind": "comparison"
+    },
+    {
+      "file": "comparison_command_night065_game.png",
+      "size": [
+        1152,
+        512
+      ],
+      "mode": "RGBA",
+      "sha256": "95c4479bd0a868fcd0f578f8d06b80de9294a268ce2835d91d43a652ee508f06",
+      "kind": "comparison"
+    },
+    {
+      "file": "comparison_command_night065_game_4x.png",
+      "size": [
+        4608,
+        2048
+      ],
+      "mode": "RGBA",
+      "sha256": "0565de15c9a8ddade4aba912d8b1f45f6b16debdba29b275739a011530111b89",
+      "kind": "comparison"
+    },
+    {
+      "file": "comparison_command_night065_native.png",
+      "size": [
+        384,
+        171
+      ],
+      "mode": "RGBA",
+      "sha256": "d3143ff597da44b7c50d2ed9aca3d7a95fbaf1336d702616bcaa83f0a5aa68a2",
+      "kind": "comparison"
+    },
+    {
+      "file": "comparison_front_night065_game.png",
+      "size": [
+        1152,
+        512
+      ],
+      "mode": "RGBA",
+      "sha256": "5aa7cc6660da0167f9690fabcbc159a040945a3bc73e2dc0b294bd7f2984f40d",
+      "kind": "comparison"
+    },
+    {
+      "file": "comparison_front_night065_game_4x.png",
+      "size": [
+        4608,
+        2048
+      ],
+      "mode": "RGBA",
+      "sha256": "bf617807adc06f45840a168584a1a0ef679b18ff5cf0f134b0f88a250702bb39",
+      "kind": "comparison"
+    },
+    {
+      "file": "comparison_front_night065_native.png",
+      "size": [
+        384,
+        171
+      ],
+      "mode": "RGBA",
+      "sha256": "30e050e6f270d67fce56112a84334c7458a8e12cbe4ca22d9525cfa0d87f2474",
+      "kind": "comparison"
+    },
+    {
+      "file": "old_hero_turnaround_game.png",
+      "size": [
+        1152,
+        384
+      ],
+      "mode": "RGBA",
+      "sha256": "30b9ea2041ce8c142f126fcfe0514435be31e4af6fb622a0f99b76e750824f3d",
+      "kind": "design_or_reference"
+    },
+    {
+      "file": "old_hero_turnaround_native.png",
+      "size": [
+        384,
+        128
+      ],
+      "mode": "RGBA",
+      "sha256": "b2629a73a8ac33680e4835cf3de138e9955f9158bd1fd532289b7fceff64bbe8",
+      "kind": "design_or_reference"
+    },
+    {
+      "file": "review_4x.png",
+      "size": [
+        1440,
+        1080
+      ],
+      "mode": "RGB",
+      "sha256": "97b63c10b81163e143186c161dae76a8f6ed198d813fa6e95870916a3f6af283",
+      "kind": "review_capture"
+    },
+    {
+      "file": "review_desktop.png",
+      "size": [
+        1440,
+        1080
+      ],
+      "mode": "RGB",
+      "sha256": "b6c692ca2037663188c20ad2747f43cc144cd3cb7137a5e69686b33b964f6b89",
+      "kind": "review_capture"
+    },
+    {
+      "file": "review_mobile.png",
+      "size": [
+        390,
+        844
+      ],
+      "mode": "RGB",
+      "sha256": "32185ad113a91bc3878ddc5c18ba0b5fc3348d59728778ee7c8ac1b6ea78d309",
+      "kind": "review_capture"
+    },
+    {
+      "file": "review_variant_a.png",
+      "size": [
+        1440,
+        1080
+      ],
+      "mode": "RGB",
+      "sha256": "10ecbd4f05fe65bb19db715639c77300b8006aaee1113a5648a35daf97b4b7c6",
+      "kind": "review_capture"
+    },
+    {
+      "file": "variant_a_back_native.png",
+      "size": [
+        96,
+        128
+      ],
+      "mode": "RGBA",
+      "sha256": "9a781e86bc1a5776512209ec34a1a28e900a44d1707800912ad30870ec9bca46",
+      "kind": "design_or_reference"
+    },
+    {
+      "file": "variant_a_command_native.png",
+      "size": [
+        96,
+        128
+      ],
+      "mode": "RGBA",
+      "sha256": "7edaff2b5065abf99664f60038885c1efc54b567995bf62329f80e07f6783a7f",
+      "kind": "design_or_reference"
+    },
+    {
+      "file": "variant_a_front_native.png",
+      "size": [
+        96,
+        128
+      ],
+      "mode": "RGBA",
+      "sha256": "dcc26af59388ed5aeb8f32e1c84b0001b4aea8e850a60799963425651e8a7926",
+      "kind": "design_or_reference"
+    },
+    {
+      "file": "variant_a_generated.png",
+      "size": [
+        1881,
+        836
+      ],
+      "mode": "RGBA",
+      "sha256": "48595c0ece11f6e0ca1729e2846b09c891b2bf115974df549d7075566ed057c8",
+      "kind": "generated_source"
+    },
+    {
+      "file": "variant_a_portrait.png",
+      "size": [
+        256,
+        384
+      ],
+      "mode": "RGBA",
+      "sha256": "feca5e2e3a33f7bc2836d8dac0a829b0d6547a18820b65141e8b48e02f2f3c2f",
+      "kind": "design_or_reference"
+    },
+    {
+      "file": "variant_a_portrait_4x.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "sha256": "5206f307723b51a350121c68204ac81377c1ca4ea5f9d6b357d5c4c69c959712",
+      "kind": "preview"
+    },
+    {
+      "file": "variant_a_portrait_generated.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "sha256": "9ec354855dfa643053f13643d79e91a87bdd3050af596e9d6185d21f01d87ebe",
+      "kind": "generated_source"
+    },
+    {
+      "file": "variant_a_side_native.png",
+      "size": [
+        96,
+        128
+      ],
+      "mode": "RGBA",
+      "sha256": "e931711295fa724e10b4507adc315b9a93a18cec0d2aeaaba18a9e35fbd230a5",
+      "kind": "design_or_reference"
+    },
+    {
+      "file": "variant_a_turnaround_game.png",
+      "size": [
+        1152,
+        384
+      ],
+      "mode": "RGBA",
+      "sha256": "7474a163c06e591f4b1062c64847eaf06f6b7d4fc1f6e616e602813ddd06238f",
+      "kind": "design_or_reference"
+    },
+    {
+      "file": "variant_a_turnaround_game_4x.png",
+      "size": [
+        4608,
+        1536
+      ],
+      "mode": "RGBA",
+      "sha256": "19b512e68febd98f93cda5d3f7ab0216b2c84b41c49789e8e9d98d3ccf940d11",
+      "kind": "preview"
+    },
+    {
+      "file": "variant_a_turnaround_native.png",
+      "size": [
+        384,
+        128
+      ],
+      "mode": "RGBA",
+      "sha256": "6c882c8e3ab50b60d72d6a701109668aab8cbf250fd229717cba27d9792d24ab",
+      "kind": "design_or_reference"
+    },
+    {
+      "file": "variant_a_turnaround_native_4x.png",
+      "size": [
+        1536,
+        512
+      ],
+      "mode": "RGBA",
+      "sha256": "3bd85ad28a31bce9577f13f38bc584d57ab4489182377ac8c4ef7ae0631b865f",
+      "kind": "preview"
+    },
+    {
+      "file": "variant_b_back_native.png",
+      "size": [
+        96,
+        128
+      ],
+      "mode": "RGBA",
+      "sha256": "d748fc2453e6cb6604e8e0e97da2354dfdbc5a9f1988ed4d55585f4c4885b30f",
+      "kind": "design_or_reference"
+    },
+    {
+      "file": "variant_b_command_native.png",
+      "size": [
+        96,
+        128
+      ],
+      "mode": "RGBA",
+      "sha256": "c670dfdfc9e9e86990309c825315eca22da2e233a1158238c8e0c4aa3503a8dd",
+      "kind": "design_or_reference"
+    },
+    {
+      "file": "variant_b_front_native.png",
+      "size": [
+        96,
+        128
+      ],
+      "mode": "RGBA",
+      "sha256": "459603dea09696ada336805aeb1aa86b2bf72a34f580266b4911de6a028af4da",
+      "kind": "design_or_reference"
+    },
+    {
+      "file": "variant_b_generated.png",
+      "size": [
+        1882,
+        836
+      ],
+      "mode": "RGBA",
+      "sha256": "466f0b153b67bc23302bcb586abd405f400f958baae6238f46960c284e586c30",
+      "kind": "generated_source"
+    },
+    {
+      "file": "variant_b_portrait.png",
+      "size": [
+        256,
+        384
+      ],
+      "mode": "RGBA",
+      "sha256": "bce58a080b886ccd87b6f19c303995befe60efc8cbfeb11e59b79ed838653959",
+      "kind": "design_or_reference"
+    },
+    {
+      "file": "variant_b_portrait_4x.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "sha256": "efd2f1ec6ddb6a537e203f2c578d42cb2bb8e815a704cd53df024ef0a0a6ee41",
+      "kind": "preview"
+    },
+    {
+      "file": "variant_b_portrait_generated.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "sha256": "5edd936fc95522e41fb755812e2e930fab1ae3e888264e4923b144a75532bd42",
+      "kind": "generated_source"
+    },
+    {
+      "file": "variant_b_side_native.png",
+      "size": [
+        96,
+        128
+      ],
+      "mode": "RGBA",
+      "sha256": "1573d76784d67dd825c3ff8c303d9598dba6f0b7ad528d20e43dbdc0952bd04e",
+      "kind": "design_or_reference"
+    },
+    {
+      "file": "variant_b_turnaround_game.png",
+      "size": [
+        1152,
+        384
+      ],
+      "mode": "RGBA",
+      "sha256": "ebfe46a0b4c310e66016ea6f67af66508ab709783af56e7d6ca6c96dc51aadb2",
+      "kind": "design_or_reference"
+    },
+    {
+      "file": "variant_b_turnaround_game_4x.png",
+      "size": [
+        4608,
+        1536
+      ],
+      "mode": "RGBA",
+      "sha256": "7471b20c82f4b901ab62ee8dd07b9ca8df67cd743945fb829f9e92f3d655024d",
+      "kind": "preview"
+    },
+    {
+      "file": "variant_b_turnaround_native.png",
+      "size": [
+        384,
+        128
+      ],
+      "mode": "RGBA",
+      "sha256": "f2f759e6a691792f42c58c911c2c33311f8782312f371651c31857014fc048af",
+      "kind": "design_or_reference"
+    },
+    {
+      "file": "variant_b_turnaround_native_4x.png",
+      "size": [
+        1536,
+        512
+      ],
+      "mode": "RGBA",
+      "sha256": "93c077f1e982b17afdfc6e30edaf6dcf44c2dcb5d62199476095fccf2e12d724",
+      "kind": "preview"
+    },
+    {
+      "file": "variant_c_back_native.png",
+      "size": [
+        96,
+        128
+      ],
+      "mode": "RGBA",
+      "sha256": "27c2533aaffa8a9e6f2f56117a6e90d38e7e66c975659118a02b7ae440c456f5",
+      "kind": "design_or_reference"
+    },
+    {
+      "file": "variant_c_command_native.png",
+      "size": [
+        96,
+        128
+      ],
+      "mode": "RGBA",
+      "sha256": "e949aa5676385a6f87d37b1140c2676dc8809a18a8156eeec6f3d12e353cb945",
+      "kind": "design_or_reference"
+    },
+    {
+      "file": "variant_c_front_native.png",
+      "size": [
+        96,
+        128
+      ],
+      "mode": "RGBA",
+      "sha256": "c20bba2f8a7fb227859b89a3a980040f25d2f757b0383676c2d347f86581bc3a",
+      "kind": "design_or_reference"
+    },
+    {
+      "file": "variant_c_generated.png",
+      "size": [
+        1882,
+        836
+      ],
+      "mode": "RGBA",
+      "sha256": "a65d370e2cad455e9de7317c0370b824c3021b11e45b47d414577065a7ab8738",
+      "kind": "generated_source"
+    },
+    {
+      "file": "variant_c_portrait.png",
+      "size": [
+        256,
+        384
+      ],
+      "mode": "RGBA",
+      "sha256": "f2b531a934e6f48c14d1307089475b9d84412b1422432111e29682e9489d2b21",
+      "kind": "design_or_reference"
+    },
+    {
+      "file": "variant_c_portrait_4x.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "sha256": "0668468496a513f2bd58724abcd114c27ff40b39d6c45fb8349ba613bac43a6e",
+      "kind": "preview"
+    },
+    {
+      "file": "variant_c_portrait_generated.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "sha256": "ef6382670d82dffefd3f99acfe5c9ea87c5c32d8e2585f7282f48085c4d297d3",
+      "kind": "generated_source"
+    },
+    {
+      "file": "variant_c_side_native.png",
+      "size": [
+        96,
+        128
+      ],
+      "mode": "RGBA",
+      "sha256": "b0d427ed0db827b732684962eaa1b42ea9b0635407312be26e8eb294eabd5866",
+      "kind": "design_or_reference"
+    },
+    {
+      "file": "variant_c_turnaround_game.png",
+      "size": [
+        1152,
+        384
+      ],
+      "mode": "RGBA",
+      "sha256": "abcfacb94737b19bfdb375147345cb1204118d82b3c7fe84e6621b54320ca75a",
+      "kind": "design_or_reference"
+    },
+    {
+      "file": "variant_c_turnaround_game_4x.png",
+      "size": [
+        4608,
+        1536
+      ],
+      "mode": "RGBA",
+      "sha256": "4d89c61c03e9a028de8d6292e71a5d920a61c01dbc68c0654370dd88a0a5fc7f",
+      "kind": "preview"
+    },
+    {
+      "file": "variant_c_turnaround_native.png",
+      "size": [
+        384,
+        128
+      ],
+      "mode": "RGBA",
+      "sha256": "9d5fa762818f0310c51ce95cd819f5ebbf8fc55e74f0b6d4d03bfa62114f443f",
+      "kind": "design_or_reference"
+    },
+    {
+      "file": "variant_c_turnaround_native_4x.png",
+      "size": [
+        1536,
+        512
+      ],
+      "mode": "RGBA",
+      "sha256": "1b10e3c22c1ebcda8113c9e207833b562cb665ca56cfd767cc035ee64f029f25",
+      "kind": "preview"
+    }
+  ],
+  "verification": "validation.json"
+}
