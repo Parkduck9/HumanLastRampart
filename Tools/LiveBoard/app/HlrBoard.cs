@@ -120,6 +120,7 @@ namespace HlrBoard
         public int FloatY = -1;
         public bool ShowClaude = true;
         public bool ShowCodex = true;
+        public bool ShowCharacters = true;   // 숫자 아이콘 옆에 캐릭터 아이콘도 띄우기
         public bool HoverOpen = false;   // 마우스를 올리면 창 열기 (기본 꺼짐: 눌러서 연다)
 
         public static Settings Load(string exeDir)
@@ -153,6 +154,7 @@ namespace HlrBoard
                 if (J.G(o, "floatY") != null) s.FloatY = (int)J.D(J.G(o, "floatY"), -1);
                 if (J.G(o, "showClaude") is bool) s.ShowClaude = (bool)J.G(o, "showClaude");
                 if (J.G(o, "showCodex") is bool) s.ShowCodex = (bool)J.G(o, "showCodex");
+                if (J.G(o, "showCharacters") is bool) s.ShowCharacters = (bool)J.G(o, "showCharacters");
                 if (J.G(o, "hoverOpen") is bool) s.HoverOpen = (bool)J.G(o, "hoverOpen");
             }
             catch (Exception ex) { Log.W("설정 읽기 실패: " + ex.Message); }
@@ -181,6 +183,7 @@ namespace HlrBoard
                 b.AppendLine("  \"floatY\": " + FloatY + ",");
                 b.AppendLine("  \"showClaude\": " + (ShowClaude ? "true" : "false") + ",");
                 b.AppendLine("  \"showCodex\": " + (ShowCodex ? "true" : "false") + ",");
+                b.AppendLine("  \"showCharacters\": " + (ShowCharacters ? "true" : "false") + ",");
                 b.AppendLine("  \"hoverOpen\": " + (HoverOpen ? "true" : "false"));
                 b.AppendLine("}");
                 File.WriteAllText(FilePath, b.ToString(), new UTF8Encoding(true));
@@ -854,6 +857,34 @@ namespace HlrBoard
             }
             return bmp;
         }
+        // 8x8 도트 캐릭터 (직접 그린 것, 공식 로고 아님). 정수 배로 키워 또렷하게
+        static readonly string[] ClaudeArt = new string[] { ".O....O.", ".OO..OO.", "OOOOOOOO", "OODOODOO", "OOOOOOOO", "OOOOOOOO", ".OO..OO.", "........" };
+        static readonly string[] CodexArt = new string[] { "...T....", "..TTTT..", ".TTTTTT.", "TTDTTDTT", ".TTTTTT.", ".TTTTTT.", "..T..T..", ".TT..TT." };
+        public static Bitmap Mascot(bool claude, int size)
+        {
+            string[] art = claude ? ClaudeArt : CodexArt;
+            Color body = claude ? Color.FromArgb(235, 132, 62) : Color.FromArgb(46, 192, 172);
+            Color dark = claude ? Color.FromArgb(70, 34, 16) : Color.FromArgb(8, 48, 48);
+            using (Bitmap src = new Bitmap(8, 8, PixelFormat.Format32bppArgb))
+            {
+                for (int y = 0; y < 8; y++)
+                    for (int x = 0; x < 8; x++)
+                    {
+                        char c = art[y][x];
+                        src.SetPixel(x, y, c == 'O' || c == 'T' ? body : (c == 'D' ? dark : Color.Transparent));
+                    }
+                Bitmap bmp = new Bitmap(size, size, PixelFormat.Format32bppArgb);
+                using (Graphics g = Graphics.FromImage(bmp))
+                {
+                    g.Clear(Color.Transparent);
+                    g.InterpolationMode = InterpolationMode.NearestNeighbor;
+                    g.PixelOffsetMode = PixelOffsetMode.Half;
+                    g.DrawImage(src, new Rectangle(0, 0, size, size), 0, 0, 8, 8, GraphicsUnit.Pixel);
+                }
+                return bmp;
+            }
+        }
+
         static GraphicsPath Round(RectangleF r, float rad)
         {
             GraphicsPath p = new GraphicsPath();
@@ -882,19 +913,23 @@ namespace HlrBoard
     {
         public string Name;        // "클로드" / "코덱스"
         public NotifyIcon Ni = new NotifyIcon();
+        public NotifyIcon Ch;      // 캐릭터 아이콘 (숫자 아이콘 바로 앞에 놓인다)
+        Icon chIcon;
         string lastKey = "";
         Icon cur;
 
-        public Rectangle Rect()
+        public Rectangle Rect() { return RectOf(Ni); }
+        public Rectangle RectOf(NotifyIcon ni)
         {
+            if (ni == null) return Rectangle.Empty;
             try
             {
                 FieldInfo wf = typeof(NotifyIcon).GetField("window", BindingFlags.NonPublic | BindingFlags.Instance);
                 FieldInfo idf = typeof(NotifyIcon).GetField("id", BindingFlags.NonPublic | BindingFlags.Instance);
-                NativeWindow w = (NativeWindow)wf.GetValue(Ni);
+                NativeWindow w = (NativeWindow)wf.GetValue(ni);
                 Native.NOTIFYICONIDENTIFIER id = new Native.NOTIFYICONIDENTIFIER();
                 id.cbSize = Marshal.SizeOf(typeof(Native.NOTIFYICONIDENTIFIER));
-                id.hWnd = w.Handle; id.uID = (uint)(int)idf.GetValue(Ni);
+                id.hWnd = w.Handle; id.uID = (uint)(int)idf.GetValue(ni);
                 Native.RECT r;
                 if (Native.Shell_NotifyIconGetRect(ref id, out r) == 0)
                     return Rectangle.FromLTRB(r.left, r.top, r.right, r.bottom);
@@ -903,8 +938,20 @@ namespace HlrBoard
             return Rectangle.Empty;
         }
 
+        public void MakeChar(bool claude)
+        {
+            int size = 16;
+            using (Graphics g = Graphics.FromHwnd(IntPtr.Zero)) size = (int)Math.Round(16 * g.DpiX / 96f);
+            if (size < 16) size = 16;
+            Ch = new NotifyIcon();
+            using (Bitmap b = IconArt.Mascot(claude, size)) chIcon = IconArt.ToIcon(b);
+            Ch.Icon = chIcon;
+            Ch.Text = Name;
+        }
+
         public void Update(Usage u, string tip)
         {
+            if (Ch != null) Ch.Text = tip.Length > 63 ? tip.Substring(0, 63) : tip;
             string txt = (u != null && u.Known) ? u.RemFive.ToString() : "--";
             bool blocked = u != null && u.Blocked;
             string key = txt + "|" + blocked;
@@ -965,7 +1012,7 @@ namespace HlrBoard
             if (st.ShowClaude) claudeIcon = MakeIcon("클로드");
             if (st.ShowCodex) codexIcon = MakeIcon("코덱스");
             if (claudeIcon == null && codexIcon == null) codexIcon = MakeIcon("코덱스");   // 아이콘이 하나도 없으면 길이 막히므로
-            Log.W("시작: 아이콘 " + ((claudeIcon != null ? 1 : 0) + (codexIcon != null ? 1 : 0)) + "개 등록");
+            Log.W("시작: 아이콘 " + ((claudeIcon != null ? 1 : 0) + (codexIcon != null ? 1 : 0)) * (st.ShowCharacters ? 2 : 1) + "개 등록");
 
             // 두 번째 실행이 보내는 신호를 받는다
             Thread t = new Thread(delegate()
@@ -992,16 +1039,18 @@ namespace HlrBoard
         {
             TrayItem t = new TrayItem();
             t.Name = name;
+            if (st.ShowCharacters) t.MakeChar(name == "클로드");
             t.Update(null, name + " 읽는 중");
             t.Ni.ContextMenuStrip = menu;
+            if (t.Ch != null) t.Ch.ContextMenuStrip = menu;
             // 기본: 마우스를 올리면 윈도우 기본 말풍선만. 창은 왼쪽 누름으로 연다 (hoverOpen 켜면 올려도 열림)
-            t.Ni.MouseMove += delegate
+            MouseEventHandler move = delegate
             {
                 if (!st.HoverOpen) return;
                 lastHover = DateTime.Now; hoverIcon = t;
                 if (!hoverStart.HasValue) hoverStart = DateTime.Now;
             };
-            t.Ni.MouseClick += delegate(object s, MouseEventArgs e)
+            MouseEventHandler click = delegate(object s, MouseEventArgs e)
             {
                 if (e.Button != MouseButtons.Left) return;
                 // 바깥 누름으로 막 닫힌 직후의 같은 누름이면 다시 열지 않는다 (아이콘을 눌러 닫는 동작)
@@ -1010,6 +1059,8 @@ namespace HlrBoard
                 else if (popup.Visible) { pinned = true; }
                 else ShowPopup(t, true);
             };
+            t.Ni.MouseMove += move; t.Ni.MouseClick += click;
+            if (t.Ch != null) { t.Ch.MouseMove += move; t.Ch.MouseClick += click; t.Ch.Visible = true; }   // 캐릭터가 먼저 만들어져 숫자 앞에 놓인다
             t.Ni.Visible = true;
             return t;
         }
@@ -1057,8 +1108,8 @@ namespace HlrBoard
         void Quit()
         {
             refreshTimer.Stop(); pollTimer.Stop();
-            if (claudeIcon != null) { claudeIcon.Ni.Visible = false; claudeIcon.Ni.Dispose(); }
-            if (codexIcon != null) { codexIcon.Ni.Visible = false; codexIcon.Ni.Dispose(); }
+            if (claudeIcon != null) { claudeIcon.Ni.Visible = false; claudeIcon.Ni.Dispose(); if (claudeIcon.Ch != null) { claudeIcon.Ch.Visible = false; claudeIcon.Ch.Dispose(); } }
+            if (codexIcon != null) { codexIcon.Ni.Visible = false; codexIcon.Ni.Dispose(); if (codexIcon.Ch != null) { codexIcon.Ch.Visible = false; codexIcon.Ch.Dispose(); } }
             ExitThread();
             Environment.Exit(0);
         }
@@ -1129,8 +1180,9 @@ namespace HlrBoard
             foreach (TrayItem t in arr)
             {
                 if (t == null) continue;
-                Rectangle r = t.Rect();
+                Rectangle r = t.Rect(), r2 = t.RectOf(t.Ch);
                 if (!r.IsEmpty && r.Contains(p)) return true;
+                if (!r2.IsEmpty && r2.Contains(p)) return true;
             }
             return false;
         }
@@ -1240,22 +1292,19 @@ namespace HlrBoard
 
         static void SnapshotIcons(string png)
         {
-            // 위: 실제 크기(32) 정상·사용 불가·알 수 없음·100, 아래: 4배 확대
-            string[] txt = new string[] { "31", "0", "--", "100" };
-            bool[] bl = new bool[] { false, true, false, false };
+            // 위: 실제 크기(32) — 클로드 캐릭터, 남은 %, 코덱스 캐릭터, 남은 %. 아래: 4배 확대
             using (Bitmap bmp = new Bitmap(4 * 148 + 16, 32 + 24 + 128 + 16))
             using (Graphics g = Graphics.FromImage(bmp))
             {
-                g.Clear(Color.FromArgb(70, 70, 76));
+                g.Clear(Color.FromArgb(40, 40, 46));
                 g.InterpolationMode = InterpolationMode.NearestNeighbor;
                 g.PixelOffsetMode = PixelOffsetMode.Half;
+                Bitmap[] ics = new Bitmap[] { IconArt.Mascot(true, 32), IconArt.Draw("40", false, 32), IconArt.Mascot(false, 32), IconArt.Draw("31", false, 32) };
                 for (int i = 0; i < 4; i++)
                 {
-                    using (Bitmap ic = IconArt.Draw(txt[i], bl[i], 32))
-                    {
-                        g.DrawImage(ic, 8 + i * 148, 8, 32, 32);
-                        g.DrawImage(ic, 8 + i * 148, 8 + 32 + 16, 128, 128);
-                    }
+                    g.DrawImage(ics[i], 8 + i * 148, 8, 32, 32);
+                    g.DrawImage(ics[i], 8 + i * 148, 8 + 32 + 16, 128, 128);
+                    ics[i].Dispose();
                 }
                 bmp.Save(png, ImageFormat.Png);
             }

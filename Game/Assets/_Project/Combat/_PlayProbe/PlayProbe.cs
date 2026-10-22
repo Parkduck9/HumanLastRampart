@@ -162,8 +162,10 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
             Assert.AreEqual(r.BattleRunId, c.LastAppliedBattleRunId, "반영 표시 기록");
             int lost = r.SquadLosses.Sum(l => l.LostCount);
             Assert.AreEqual(soldiers0 - lost - c.LastNightGarrison, c.Squads.Sum(s => s.Count), "잃은 병사 반영 (점화한 밤은 수비대로 남긴 인원도 빠진다)");
+            // 요새를 점화하고 다음 요새로 넘어가면 성벽이 가득 채워진다 (BeaconRules.Relight) — 마지막 요새는 그대로
+            bool wallsRestored = c.LastNightRelit && !(c.NextStory != null && c.NextStory.Kind == StoryKind.RunComplete);
             foreach (WallOutcome w in r.WallOutcomes)
-                Assert.AreEqual(w.HpAfter, c.Wall.First(x => x.SegmentId == w.SegmentId).Hp, "성벽 피해 반영");
+                if (!wallsRestored) Assert.AreEqual(w.HpAfter, c.Wall.First(x => x.SegmentId == w.SegmentId).Hp, "성벽 피해 반영");
             Note($"결과 반영 확인: 골드 {gold0}→{c.Gold}, 병사 {soldiers0}→{c.Squads.Sum(s => s.Count)}, 성벽 {string.Join("/", c.Wall.Select(w => w.Hp))}, 다음 번호 {c.BattleNumber}");
             yield return Capture($"{tag}_result{number}");
             // D-076 결과 그림판: 성벽·병력·영웅 세 칸이 한 화면에 있다 (예전 상세 버튼·팝업 없음)
