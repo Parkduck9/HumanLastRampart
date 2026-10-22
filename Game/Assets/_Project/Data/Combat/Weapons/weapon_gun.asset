@@ -16,12 +16,12 @@ MonoBehaviour:
   displayName: 총
   kind: 2
   trajectory: 1
-  damage: 25
-  range: 30
-  interval: 2.5
+  damage: 30
+  range: 40
+  interval: 2
   areaRadius: 0
   projectileSpeed: 120
   accuracyNear: 0.98
-  accuracyMid: 0.7
-  accuracyFar: 0.25
+  accuracyMid: 0.8
+  accuracyFar: 0.45
   spreadFar: 4

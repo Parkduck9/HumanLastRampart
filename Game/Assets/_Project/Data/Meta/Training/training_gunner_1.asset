@@ -17,8 +17,8 @@ MonoBehaviour:
   unitDefId: unit_gunner
   level: 1
   price: 300
-  description: 가까운 거리 명중
+  description: 먼 거리 명중
   effects:
-  - Stat: 13
+  - Stat: 14
     Value: 0.1
     UnitDefId: unit_gunner

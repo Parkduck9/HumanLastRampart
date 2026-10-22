@@ -114,7 +114,8 @@ namespace HumanLastRampart.Combat.Battle
             int frames = sFireFrames[i];
             int w = sWeapon[i];
             if (frames == 0 || w < 0) return true;
-            float interval = weapons[w].Interval * IntervalMultiplier;
+            float interval = weapons[w].Interval * IntervalMultiplier
+                * (sSide[i] == commanderSide ? Boost.HeroWallIntervalMul : 1f);
             float fps = math.max(FireFps, frames / math.max(interval, 0.05f));
             float since = Elapsed - sFireTime[i];
             float lead = FireReleaseFrame / fps;
