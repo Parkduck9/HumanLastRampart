@@ -83,8 +83,8 @@ namespace HumanLastRampart.Combat.Tests
                     int slot = (int)type.GetField("Slot").GetValue(entry);
                     float depth = (float)type.GetField("Depth").GetValue(entry);
                     float time = (float)type.GetField("Time").GetValue(entry);
-                    if (groups[slot] == 0)
-                    {
+                    if (sim.IsVanguard(slot))
+                    {   // 나안: 2초 안에 가까이 나오는 것은 첫 무리에서 뗀 선봉뿐 (나머지 첫 무리는 본대로 멀리서 흘러온다)
                         first++;
                         Assert.That(time, Is.InRange(0f, 2f));
                         Assert.That(depth - sim.CastleHalf, Is.InRange(60f, 70f));
@@ -96,6 +96,7 @@ namespace HumanLastRampart.Combat.Tests
                     }
                 }
                 Assert.Greater(first, 0);
+                Assert.AreEqual(sim.VanguardCount, first, "선봉 수만큼만 가까이 나온다");
                 for (int step = 1; step <= 100; step++)
                 {
                     sim.BeginFrame(0.05f);
