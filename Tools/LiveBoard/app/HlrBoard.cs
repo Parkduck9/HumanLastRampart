@@ -29,6 +29,25 @@ namespace HlrBoard
         [DllImport("user32.dll")] public static extern bool ReleaseCapture();
         [DllImport("user32.dll")] public static extern IntPtr SendMessage(IntPtr h, int msg, IntPtr w, IntPtr l);
 
+        [DllImport("user32.dll")] public static extern IntPtr WindowFromPoint(Point p);
+        [DllImport("user32.dll")] public static extern IntPtr GetAncestor(IntPtr h, uint flags);
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)] public static extern int GetClassName(IntPtr h, StringBuilder sb, int max);
+
+        // 커서 아래 최상위 창의 클래스 이름 (넘침 창 판별용)
+        public static string ClassAt(Point p)
+        {
+            try
+            {
+                IntPtr h = WindowFromPoint(p);
+                if (h == IntPtr.Zero) return "";
+                IntPtr root = GetAncestor(h, 2);
+                StringBuilder sb = new StringBuilder(256);
+                GetClassName(root == IntPtr.Zero ? h : root, sb, 256);
+                return sb.ToString();
+            }
+            catch { return ""; }
+        }
+
         [StructLayout(LayoutKind.Sequential)]
         public struct NOTIFYICONIDENTIFIER { public int cbSize; public IntPtr hWnd; public uint uID; public Guid guidItem; }
         [StructLayout(LayoutKind.Sequential)]
@@ -44,6 +63,12 @@ namespace HlrBoard
             s.MaxJsonLength = int.MaxValue;
             s.RecursionLimit = 200;
             return s;
+        }
+        // 다른 프로그램이 쓰는 중이어도 읽는다
+        public static string ReadText(string path)
+        {
+            using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete))
+            using (StreamReader sr = new StreamReader(fs, Encoding.UTF8, true)) return sr.ReadToEnd();
         }
         public static object G(object o, string k)
         {
@@ -95,6 +120,7 @@ namespace HlrBoard
         public int FloatY = -1;
         public bool ShowClaude = true;
         public bool ShowCodex = true;
+        public bool HoverOpen = false;   // 마우스를 올리면 창 열기 (기본 꺼짐: 눌러서 연다)
 
         public static Settings Load(string exeDir)
         {
@@ -102,19 +128,20 @@ namespace HlrBoard
             s.ExeDir = exeDir;
             s.FilePath = Path.Combine(exeDir, "settings.json");
             bool exists = File.Exists(s.FilePath);
+            // 아무 자료 파일도 없으면 친구 모드(클로드 숨김) — 설정 파일이 깨져 있어도 이 기본값은 유지
+            if (!File.Exists(Path.Combine(exeDir, "stages.json")) && !File.Exists(Path.Combine(exeDir, "claude_usage.json")))
+                s.ShowClaude = false;
             if (!exists)
             {
-                // 처음 실행: 저장소 안이면 웹 자료 경로를 잡고, 아무 자료 파일도 없으면 친구 모드(클로드 숨김)
+                // 처음 실행: 저장소 안이면 웹 자료 경로를 잡는다
                 string live = Path.GetFullPath(Path.Combine(exeDir, @"..\..\_HTML\live"));
                 if (Directory.Exists(live)) s.BoardDataFile = Path.Combine(live, "board_data.js");
-                if (!File.Exists(Path.Combine(exeDir, "stages.json")) && !File.Exists(Path.Combine(exeDir, "claude_usage.json")))
-                    s.ShowClaude = false;
                 s.Save();
                 return s;
             }
             try
             {
-                object o = J.Ser().DeserializeObject(File.ReadAllText(s.FilePath, Encoding.UTF8));
+                object o = J.Ser().DeserializeObject(J.ReadText(s.FilePath));
                 if (J.G(o, "stagesFile") != null) s.StagesFile = J.S(J.G(o, "stagesFile"));
                 if (J.G(o, "claudeUsageFile") != null) s.ClaudeUsageFile = J.S(J.G(o, "claudeUsageFile"));
                 if (J.G(o, "boardDataFile") != null) s.BoardDataFile = J.S(J.G(o, "boardDataFile"));
@@ -126,6 +153,7 @@ namespace HlrBoard
                 if (J.G(o, "floatY") != null) s.FloatY = (int)J.D(J.G(o, "floatY"), -1);
                 if (J.G(o, "showClaude") is bool) s.ShowClaude = (bool)J.G(o, "showClaude");
                 if (J.G(o, "showCodex") is bool) s.ShowCodex = (bool)J.G(o, "showCodex");
+                if (J.G(o, "hoverOpen") is bool) s.HoverOpen = (bool)J.G(o, "hoverOpen");
             }
             catch (Exception ex) { Log.W("설정 읽기 실패: " + ex.Message); }
             if (s.RefreshSeconds < 1) s.RefreshSeconds = 1;
@@ -152,7 +180,8 @@ namespace HlrBoard
                 b.AppendLine("  \"floatX\": " + FloatX + ",");
                 b.AppendLine("  \"floatY\": " + FloatY + ",");
                 b.AppendLine("  \"showClaude\": " + (ShowClaude ? "true" : "false") + ",");
-                b.AppendLine("  \"showCodex\": " + (ShowCodex ? "true" : "false"));
+                b.AppendLine("  \"showCodex\": " + (ShowCodex ? "true" : "false") + ",");
+                b.AppendLine("  \"hoverOpen\": " + (HoverOpen ? "true" : "false"));
                 b.AppendLine("}");
                 File.WriteAllText(FilePath, b.ToString(), new UTF8Encoding(true));
             }
@@ -179,6 +208,8 @@ namespace HlrBoard
         public double Five, Week;
         public string FiveReset = "", WeekReset = "", Checked = "";
         public int AgeMin;
+        public int RemFive { get { return (int)Math.Max(0, Math.Min(100, Math.Round(100 - Five))); } }
+        public int RemWeek { get { return (int)Math.Max(0, Math.Min(100, Math.Round(100 - Week))); } }
         public bool Blocked { get { return Known && (Five >= 100 || Week >= 100); } }
     }
     class TaskRow
@@ -209,6 +240,7 @@ namespace HlrBoard
         List<string> codexFiles = new List<string>();
         DateTime codexScanAt = DateTime.MinValue;
         Snapshot last;
+        public bool WriteWeb = true;
 
         public Collector(Settings s) { st = s; }
 
@@ -290,6 +322,15 @@ namespace HlrBoard
             return new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(unix).ToLocalTime().ToString("MM-dd HH:mm");
         }
 
+        // resets_at 이 없던 옛 기록은 resets_in_seconds + 파일 기록 시각으로 계산한다 (없으면 0 = 모름)
+        static long EffReset(object o, long fileUnix)
+        {
+            long ra = (long)J.D(J.G(o, "resets_at"), 0);
+            if (ra > 0) return ra;
+            long rin = (long)J.D(J.G(o, "resets_in_seconds"), 0);
+            return rin > 0 ? fileUnix + rin : 0;
+        }
+
         Usage ReadCodex(DateTime now)
         {
             string root = Path.Combine(st.CodexRoot(), "sessions");
@@ -326,13 +367,15 @@ namespace HlrBoard
                         if (p == null || s == null) continue;
                         Usage u = new Usage();
                         u.Known = true;
-                        long pr = (long)J.D(J.G(p, "resets_at"), 0), sr = (long)J.D(J.G(s, "resets_at"), 0);
-                        // 코덱스가 일할 때만 값이 새로 기록된다 — 초기화 시각이 지났으면 0%로 본다
-                        u.Five = pr <= nowUnix ? 0 : J.D(J.G(p, "used_percent"), 0);
-                        u.Week = sr <= nowUnix ? 0 : J.D(J.G(s, "used_percent"), 0);
-                        u.FiveReset = When(pr);
-                        u.WeekReset = When(sr);
-                        u.AgeMin = (int)(now - File.GetLastWriteTime(file)).TotalMinutes;
+                        DateTime fw = File.GetLastWriteTime(file);
+                        long fwUnix = (long)(fw.ToUniversalTime() - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds;
+                        long pr = EffReset(p, fwUnix), sr = EffReset(s, fwUnix);
+                        // 코덱스가 일할 때만 값이 새로 기록된다 — 초기화 시각을 알고 그것이 지났을 때만 0%로 본다
+                        u.Five = (pr > 0 && pr <= nowUnix) ? 0 : J.D(J.G(p, "used_percent"), 0);
+                        u.Week = (sr > 0 && sr <= nowUnix) ? 0 : J.D(J.G(s, "used_percent"), 0);
+                        u.FiveReset = pr > 0 ? When(pr) : "";
+                        u.WeekReset = sr > 0 ? When(sr) : "";
+                        u.AgeMin = (int)(now - fw).TotalMinutes;
                         return u;
                     }
                 }
@@ -346,7 +389,7 @@ namespace HlrBoard
             raw = null;
             string path = st.Resolve(st.ClaudeUsageFile);
             if (path == "" || !File.Exists(path)) return null;
-            object o = J.Ser().DeserializeObject(File.ReadAllText(path, Encoding.UTF8));
+            object o = J.Ser().DeserializeObject(J.ReadText(path));
             raw = o as Dictionary<string, object>;
             if (raw == null) return null;
             Usage u = new Usage();
@@ -379,7 +422,7 @@ namespace HlrBoard
         {
             List<TaskRow> rows = new List<TaskRow>();
             string path = st.Resolve(st.StagesFile);
-            object cfg = J.Ser().DeserializeObject(File.ReadAllText(path, Encoding.UTF8));
+            object cfg = J.Ser().DeserializeObject(J.ReadText(path));
             IEnumerable items = J.G(cfg, "items") as IEnumerable;
             if (items == null) return rows;
             string codexModel = CodexModel();
@@ -466,7 +509,7 @@ namespace HlrBoard
                 if (ps.Length > 0)
                 {
                     DateTime first = DateTime.MaxValue;
-                    foreach (Process p in ps) { try { if (p.StartTime < first) first = p.StartTime; } catch { } }
+                    foreach (Process p in ps) { try { if (p.StartTime < first) first = p.StartTime; } catch { } p.Dispose(); }
                     if (first != DateTime.MaxValue)
                     {
                         s.UnityRunning = true;
@@ -490,6 +533,7 @@ namespace HlrBoard
         // 웹 페이지(board.html)용 자료를 tray.ps1 과 같은 모양으로 쓴다
         void WriteBoardData(Snapshot s, Dictionary<string, object> claudeRaw, DateTime now)
         {
+            if (!WriteWeb) return;
             string path = st.Resolve(st.BoardDataFile);
             if (path == "" || !Directory.Exists(Path.GetDirectoryName(path))) return;
             try
@@ -544,6 +588,17 @@ namespace HlrBoard
         public static Font Bold = new Font("Malgun Gothic", 10, FontStyle.Bold);
         public static Font Head = new Font("Malgun Gothic", 12, FontStyle.Bold);
         public static Font Small = new Font("Malgun Gothic", 9);
+        static int dpi = 0;
+        // 화면 배율에 맞춘 픽셀 값 (글꼴은 포인트라 자동으로 맞는다)
+        public static int Sc(int v)
+        {
+            if (dpi == 0)
+            {
+                try { using (Graphics g = Graphics.FromHwnd(IntPtr.Zero)) dpi = (int)g.DpiX; } catch { dpi = 96; }
+                if (dpi < 96) dpi = 96;
+            }
+            return (int)Math.Round(v * dpi / 96.0);
+        }
     }
 
     static class RowBuilder
@@ -552,8 +607,8 @@ namespace HlrBoard
         {
             if (u != null && u.Known)
             {
-                R.Add(new RowInfo("meter", "이번 주", ((int)u.Week) + "%", u.Week, red));
-                R.Add(new RowInfo("meter", "5시간", ((int)u.Five) + "%", u.Five, red));
+                R.Add(new RowInfo("meter", "이번 주", "남음 " + u.RemWeek + "%", u.RemWeek, red));
+                R.Add(new RowInfo("meter", "5시간", "남음 " + u.RemFive + "%", u.RemFive, red));
             }
             else R.Add(new RowInfo("note", note, "", 0, false));
         }
@@ -582,8 +637,7 @@ namespace HlrBoard
                 if (d.HasStages)
                 {
                     List<TaskRow> mine = d.Tasks.FindAll(delegate(TaskRow t) { return t.Kind != "card"; });
-                    if (d.UnityRunning) R.Add(new RowInfo("task", "유니티 시험", ((int)d.UnityMin) + "분째", d.UnityPct, false));
-                    if (!(d.UnityRunning && mine.Count == 0)) Tasks(R, mine, "진행 중인 작업 없음");
+                    Tasks(R, mine, "진행 중인 작업 없음");
                 }
                 first = false;
             }
@@ -592,7 +646,11 @@ namespace HlrBoard
                 if (!first) R.Add(new RowInfo("gap", "", "", 0, false));
                 bool blocked = d.Codex != null && d.Codex.Blocked;
                 string at = "";
-                if (d.Codex != null) at = "초기화 " + d.Codex.WeekReset + " · 5시간 " + (d.Codex.FiveReset.Length > 6 ? d.Codex.FiveReset.Substring(6) : d.Codex.FiveReset);
+                if (d.Codex != null)
+                {
+                    if (d.Codex.WeekReset != "") at = "초기화 " + d.Codex.WeekReset;
+                    if (d.Codex.FiveReset.Length > 6) at += (at != "" ? " · " : "") + "5시간 " + d.Codex.FiveReset.Substring(6);
+                }
                 R.Add(new RowInfo("title", blocked ? "코덱스 (사용 불가)" : "코덱스", at, 0, blocked));
                 Usage(R, d.Codex, "사용량을 읽지 못함", blocked);
                 if (d.HasStages) Tasks(R, d.Tasks.FindAll(delegate(TaskRow t) { return t.Kind == "card"; }), "진행 중인 그림 없음");
@@ -615,19 +673,20 @@ namespace HlrBoard
 
     class BoardView : DBPanel
     {
-        public const int W = 470;
+        public static int W { get { return Theme.Sc(470); } }
         string shape = "";
         List<Slot> slots = new List<Slot>();
         public bool Draggable;
         public ContextMenuStrip Menu;
 
-        public BoardView() { BackColor = Theme.Back; ForeColor = Theme.Fore; Font = Theme.Normal; }
+        bool selfHooked;
+        public BoardView() { BackColor = Theme.Back; ForeColor = Theme.Fore; Font = Theme.Normal; AutoScroll = true; }
 
         Label NewLabel(Font f, Color c, int x, int y, int w, ContentAlignment al)
         {
             Label l = new Label();
             l.AutoSize = false; l.Font = f; l.ForeColor = c; l.Text = "";
-            l.Location = new Point(x, y); l.Size = new Size(w, 22); l.TextAlign = al;
+            l.Location = new Point(Theme.Sc(x), Theme.Sc(y)); l.Size = new Size(w, Theme.Sc(22)); l.TextAlign = al;
             l.AutoEllipsis = true; l.UseMnemonic = false;
             return l;
         }
@@ -650,35 +709,35 @@ namespace HlrBoard
             StringBuilder sb = new StringBuilder();
             foreach (RowInfo r in rows) { sb.Append(r.Kind); sb.Append(';'); }
             string sh = sb.ToString();
-            int total = 20;
+            int total = Theme.Sc(20);
             if (sh != shape)
             {
                 // 줄 모양이 바뀔 때만 다시 만든다 (깜빡임 없음)
                 SuspendLayout();
-                Controls.Clear();
+                while (Controls.Count > 0) Controls[0].Dispose();   // 지우기만 하면 핸들이 샌다
                 slots.Clear();
-                int y = 10;
+                int y = Theme.Sc(10);
                 foreach (RowInfo r in rows)
                 {
                     Panel p = new DBPanel();
-                    p.Location = new Point(10, y); p.Width = W; p.BackColor = Theme.Back;
+                    p.Location = new Point(Theme.Sc(10), y); p.Width = W; p.BackColor = Theme.Back;
                     Label a = null, b = null; Panel fill = null; int barW = 0;
                     switch (r.Kind)
                     {
                         case "title":
-                            p.Height = 34; a = NewLabel(Theme.Head, Theme.Brass, 0, 6, 200, ContentAlignment.MiddleLeft);
-                            b = NewLabel(Theme.Small, Theme.Dim, 200, 8, W - 200, ContentAlignment.MiddleRight); break;
+                            p.Height = Theme.Sc(34); a = NewLabel(Theme.Head, Theme.Brass, 0, 6, Theme.Sc(200), ContentAlignment.MiddleLeft);
+                            b = NewLabel(Theme.Small, Theme.Dim, 200, 8, W - Theme.Sc(200), ContentAlignment.MiddleRight); break;
                         case "meter":
-                            p.Height = 24; a = NewLabel(Theme.Normal, Theme.Dim, 0, 1, 70, ContentAlignment.MiddleLeft);
-                            b = NewLabel(Theme.Bold, Theme.Fore, W - 60, 1, 60, ContentAlignment.MiddleRight);
-                            barW = W - 140; fill = MakeBar(p, 72, 8, barW, 8); break;
+                            p.Height = Theme.Sc(24); a = NewLabel(Theme.Normal, Theme.Dim, 0, 1, Theme.Sc(70), ContentAlignment.MiddleLeft);
+                            b = NewLabel(Theme.Bold, Theme.Fore, 0, 1, Theme.Sc(84), ContentAlignment.MiddleRight); b.Left = W - Theme.Sc(84);
+                            barW = W - Theme.Sc(170); fill = MakeBar(p, Theme.Sc(72), Theme.Sc(8), barW, Theme.Sc(8)); break;
                         case "task":
-                            p.Height = 32; a = NewLabel(Theme.Normal, Theme.Fore, 0, 0, 250, ContentAlignment.MiddleLeft);
-                            b = NewLabel(Theme.Small, Theme.Dim, 250, 0, W - 250, ContentAlignment.MiddleRight);
-                            barW = W; fill = MakeBar(p, 0, 24, W, 3); break;
+                            p.Height = Theme.Sc(32); a = NewLabel(Theme.Normal, Theme.Fore, 0, 0, Theme.Sc(250), ContentAlignment.MiddleLeft);
+                            b = NewLabel(Theme.Small, Theme.Dim, 250, 0, W - Theme.Sc(250), ContentAlignment.MiddleRight);
+                            barW = W; fill = MakeBar(p, 0, Theme.Sc(24), W, Math.Max(2, Theme.Sc(3))); break;
                         case "note":
-                            p.Height = 24; a = NewLabel(Theme.Small, Theme.Dim, 0, 0, W, ContentAlignment.MiddleLeft); break;
-                        default: p.Height = 12; break;
+                            p.Height = Theme.Sc(24); a = NewLabel(Theme.Small, Theme.Dim, 0, 0, W, ContentAlignment.MiddleLeft); break;
+                        default: p.Height = Theme.Sc(12); break;
                     }
                     if (a != null) p.Controls.Add(a);
                     if (b != null) p.Controls.Add(b);
@@ -690,7 +749,7 @@ namespace HlrBoard
                 }
                 ResumeLayout();
                 shape = sh;
-                Hook(this);
+                if (!selfHooked) { Hook(this); selfHooked = true; }
             }
             for (int i = 0; i < rows.Count; i++)
             {
@@ -712,13 +771,13 @@ namespace HlrBoard
                 }
                 total += (i < rows.Count) ? RowHeight(r.Kind) : 0;
             }
-            Size = new Size(W + 20, total);
+            Size = new Size(W + Theme.Sc(20), total);
             return total;
         }
 
         static int RowHeight(string k)
         {
-            switch (k) { case "title": return 34; case "meter": return 24; case "task": return 32; case "note": return 24; default: return 12; }
+            switch (k) { case "title": return Theme.Sc(34); case "meter": return Theme.Sc(24); case "task": return Theme.Sc(32); case "note": return Theme.Sc(24); default: return Theme.Sc(12); }
         }
 
         Panel MakeBar(Panel parent, int x, int y, int w, int h)
@@ -748,12 +807,19 @@ namespace HlrBoard
         protected override bool ShowWithoutActivation { get { return true; } }
         protected override CreateParams CreateParams
         {
-            get { CreateParams cp = base.CreateParams; cp.ExStyle |= 0x80 | 0x08000000; return cp; }   // TOOLWINDOW | NOACTIVATE
+            get { CreateParams cp = base.CreateParams; cp.ExStyle |= 0x80 | 0x08000000 | 0x8; return cp; }   // TOOLWINDOW | NOACTIVATE | TOPMOST
         }
-        public void Fit(List<RowInfo> rows)
+        // 눌러도 절대 활성화(키보드 포커스 가져오기)하지 않는다
+        protected override void WndProc(ref Message m)
+        {
+            if (m.Msg == 0x21) { m.Result = (IntPtr)3; return; }   // WM_MOUSEACTIVATE -> MA_NOACTIVATE
+            base.WndProc(ref m);
+        }
+        public void Fit(List<RowInfo> rows, int maxH)
         {
             int h = View.Render(rows);
-            ClientSize = new Size(BoardView.W + 20 + 2, h + 2);
+            if (maxH > 0 && h + 2 > maxH) h = maxH - 2;   // 너무 길면 줄이고 스크롤
+            ClientSize = new Size(BoardView.W + Theme.Sc(20) + 2, h + 2);
         }
     }
 
@@ -839,7 +905,7 @@ namespace HlrBoard
 
         public void Update(Usage u, string tip)
         {
-            string txt = (u != null && u.Known) ? ((int)Math.Max(0, Math.Min(100, Math.Round(100 - u.Five)))).ToString() : "--";
+            string txt = (u != null && u.Known) ? u.RemFive.ToString() : "--";
             bool blocked = u != null && u.Blocked;
             string key = txt + "|" + blocked;
             if (key != lastKey)
@@ -863,7 +929,7 @@ namespace HlrBoard
     {
         Settings st;
         Collector collector;
-        Form host;                          // 보이지 않는 창 (다른 스레드에서 화면 쪽으로 넘기는 용도)
+        Control host;                       // 보이지 않는 컨트롤 (다른 스레드에서 화면 쪽으로 넘기는 용도, 창이 아니라 포커스와 무관)
         ContextMenuStrip menu = new ContextMenuStrip();
         ToolStripMenuItem miFloat, miAuto;
         TrayItem claudeIcon, codexIcon;
@@ -874,7 +940,10 @@ namespace HlrBoard
         bool busy;
         bool pinned;
         DateTime lastHover = DateTime.MinValue;
-        Point lastHoverPos;
+        DateTime? hoverStart;
+        TrayItem hoverIcon;
+        DateTime lastOutsideHide = DateTime.MinValue;
+        bool mouseWasDown;
         DateTime? outsideSince;
         EventWaitHandle showEvent;
         const string RunKey = @"Software\Microsoft\Windows\CurrentVersion\Run";
@@ -885,9 +954,7 @@ namespace HlrBoard
             st = Settings.Load(AppDomain.CurrentDomain.BaseDirectory);
             collector = new Collector(st);
 
-            host = new Form();
-            host.ShowInTaskbar = false; host.FormBorderStyle = FormBorderStyle.None; host.Opacity = 0;
-            host.StartPosition = FormStartPosition.Manual; host.Location = new Point(-32000, -32000); host.Size = new Size(1, 1);
+            host = new Control();
             IntPtr hh = host.Handle;
 
             BuildMenu();
@@ -905,7 +972,7 @@ namespace HlrBoard
             {
                 while (true)
                 {
-                    try { showEvent.WaitOne(); host.BeginInvoke((MethodInvoker)delegate { ShowPopup(true); }); }
+                    try { showEvent.WaitOne(); host.BeginInvoke((MethodInvoker)delegate { ShowPopup(null, true); }); }
                     catch { return; }
                 }
             });
@@ -927,12 +994,21 @@ namespace HlrBoard
             t.Name = name;
             t.Update(null, name + " 읽는 중");
             t.Ni.ContextMenuStrip = menu;
-            t.Ni.MouseMove += delegate { lastHover = DateTime.Now; lastHoverPos = Cursor.Position; if (!popup.Visible) ShowPopup(false); };
+            // 기본: 마우스를 올리면 윈도우 기본 말풍선만. 창은 왼쪽 누름으로 연다 (hoverOpen 켜면 올려도 열림)
+            t.Ni.MouseMove += delegate
+            {
+                if (!st.HoverOpen) return;
+                lastHover = DateTime.Now; hoverIcon = t;
+                if (!hoverStart.HasValue) hoverStart = DateTime.Now;
+            };
             t.Ni.MouseClick += delegate(object s, MouseEventArgs e)
             {
                 if (e.Button != MouseButtons.Left) return;
-                if (pinned) { pinned = false; popup.Hide(); }
-                else { pinned = true; ShowPopup(false); }
+                // 바깥 누름으로 막 닫힌 직후의 같은 누름이면 다시 열지 않는다 (아이콘을 눌러 닫는 동작)
+                if ((DateTime.Now - lastOutsideHide).TotalMilliseconds < 500) return;
+                if (popup.Visible && pinned) { pinned = false; popup.Hide(); }
+                else if (popup.Visible) { pinned = true; }
+                else ShowPopup(t, true);
             };
             t.Ni.Visible = true;
             return t;
@@ -941,7 +1017,7 @@ namespace HlrBoard
         void BuildMenu()
         {
             ToolStripMenuItem open = new ToolStripMenuItem("열기");
-            open.Click += delegate { ShowPopup(true); };
+            open.Click += delegate { ShowPopup(null, true); };
             miFloat = new ToolStripMenuItem("떠 있는 창으로 보기");
             miFloat.Click += delegate { ShowFloat(!st.Floating); };
             miAuto = new ToolStripMenuItem("윈도우 시작 시 자동 실행");
@@ -961,7 +1037,7 @@ namespace HlrBoard
 
         bool IsAutoRun()
         {
-            try { using (Microsoft.Win32.RegistryKey k = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RunKey)) { return k != null && k.GetValue("HlrBoard") != null; } }
+            try { using (Microsoft.Win32.RegistryKey k = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RunKey)) { return k != null && string.Equals(Convert.ToString(k.GetValue("HlrBoard")), "\"" + Application.ExecutablePath + "\"", StringComparison.OrdinalIgnoreCase); } }
             catch { return false; }
         }
         void SetAutoRun(bool on)
@@ -1006,7 +1082,7 @@ namespace HlrBoard
         {
             if (u == null || !u.Known) return name + " 기록 없음";
             string head = u.Blocked ? name + " 사용 불가 · " : name + " ";
-            return head + "5시간 남음 " + (int)Math.Max(0, 100 - u.Five) + "% · 이번 주 사용 " + (int)u.Week + "%";
+            return head + "5시간 " + u.RemFive + "% 남음 · 이번 주 " + u.RemWeek + "% 남음";
         }
 
         void Apply(Snapshot s)
@@ -1015,31 +1091,35 @@ namespace HlrBoard
             if (claudeIcon != null) claudeIcon.Update(s.Claude, Tip("클로드", s.Claude));
             if (codexIcon != null) codexIcon.Update(s.Codex, Tip("코덱스", s.Codex));
             List<RowInfo> rows = RowBuilder.Build(s, st);
+            int maxH = (int)(Screen.PrimaryScreen.WorkingArea.Height * 0.8);
             int oldH = popup.Height;
-            popup.Fit(rows);
+            popup.Fit(rows, maxH);
             if (popup.Visible && popup.Height != oldH) popup.Top += oldH - popup.Height;   // 아래쪽 기준 유지
-            floatWin.Fit(rows);
+            floatWin.Fit(rows, maxH);
+            if (floatWin.Visible) ClampFloat();
         }
 
-        // ── 마우스 올림 창 ──
-        void ShowPopup(bool pin)
+        // ── 현황 창: 아이콘 근처(작업 표시줄 바로 위)에 띄운다. 포커스는 절대 가져오지 않는다 ──
+        void ShowPopup(TrayItem from, bool pin)
         {
             if (snap == null) return;
             if (pin) pinned = true;
             Point c = Cursor.Position;
-            Rectangle wa = Screen.FromPoint(c).WorkingArea;
-            Rectangle bounds = Screen.FromPoint(c).Bounds;
+            Rectangle ir = from != null ? from.Rect() : Rectangle.Empty;
+            Point anchor = ir.IsEmpty ? c : new Point(ir.Left + ir.Width / 2, ir.Top + ir.Height / 2);
+            Screen scr = Screen.FromPoint(anchor);
+            Rectangle wa = scr.WorkingArea, bounds = scr.Bounds;
             int w = popup.Width, h = popup.Height;
-            int x = c.X - w / 2;
+            int x = anchor.X - w / 2;
             int y;
-            if (c.Y > bounds.Top + bounds.Height / 2) y = wa.Bottom - h - 6;   // 작업 표시줄이 아래: 바로 위에
-            else y = wa.Top + 6;                                               // 위에 있으면 바로 아래에
+            if (anchor.Y > bounds.Top + bounds.Height / 2) y = Math.Min(wa.Bottom, ir.IsEmpty ? wa.Bottom : ir.Top) - h - 6;   // 작업 표시줄이 아래: 바로 위에
+            else y = Math.Max(wa.Top, ir.IsEmpty ? wa.Top : ir.Bottom) + 6;                                                   // 위에 있으면 바로 아래에
             if (x + w > wa.Right - 6) x = wa.Right - w - 6;
             if (x < wa.Left + 6) x = wa.Left + 6;
+            if (y < wa.Top + 6) y = wa.Top + 6;
             popup.Location = new Point(x, y);
             outsideSince = null;
-            if (!popup.Visible) popup.Show();
-            popup.TopMost = true;
+            if (!popup.Visible) popup.Show();   // ShowWithoutActivation, TopMost는 만들 때부터 (다시 건드리지 않는다)
         }
 
         bool OverIcon(Point p)
@@ -1055,19 +1135,53 @@ namespace HlrBoard
             return false;
         }
 
+        static bool InOverflow(Point p)
+        {
+            return Native.ClassAt(p).IndexOf("Overflow", StringComparison.OrdinalIgnoreCase) >= 0;
+        }
+
+        // 마우스 단추만 읽는다 (키보드는 건드리지 않는다). 바깥을 누르면 창을 닫는다.
+        bool MousePressedEdge()
+        {
+            bool down = (Native.GetAsyncKeyState(0x01) & 0x8000) != 0 || (Native.GetAsyncKeyState(0x02) & 0x8000) != 0 || (Native.GetAsyncKeyState(0x04) & 0x8000) != 0;
+            bool edge = down && !mouseWasDown;
+            mouseWasDown = down;
+            return edge;
+        }
+
         void Poll()
         {
-            if (!popup.Visible) { outsideSince = null; return; }
-            if (pinned)
+            bool edge = MousePressedEdge();
+            Point p = Cursor.Position;
+            if (!popup.Visible)
             {
-                if ((Native.GetAsyncKeyState(0x1B) & 0x8000) != 0) { pinned = false; popup.Hide(); }   // Esc
+                outsideSince = null;
+                // hoverOpen: 아이콘 위에 600ms 머물면 연다. 넘침 창 안에서는 열지 않는다
+                if (st.HoverOpen && hoverStart.HasValue)
+                {
+                    if ((DateTime.Now - lastHover).TotalMilliseconds > 400) hoverStart = null;
+                    else if ((DateTime.Now - hoverStart.Value).TotalMilliseconds >= 600 && !InOverflow(p)) { hoverStart = null; ShowPopup(hoverIcon, false); }
+                }
                 return;
             }
-            Point p = Cursor.Position;
+            if (edge && !popup.Bounds.Contains(p) && !OverIcon(p))
+            {
+                pinned = false; popup.Hide(); lastOutsideHide = DateTime.Now; return;
+            }
+            if (pinned) return;
             bool inside = popup.Bounds.Contains(p) || OverIcon(p);
             if (inside) { outsideSince = null; return; }
             if (!outsideSince.HasValue) { outsideSince = DateTime.Now; return; }
             if ((DateTime.Now - outsideSince.Value).TotalMilliseconds >= 1000) { popup.Hide(); outsideSince = null; }
+        }
+
+        // 떠 있는 창이 화면 밖으로 나가지 않게 한다
+        void ClampFloat()
+        {
+            Rectangle wa = Screen.FromPoint(new Point(floatWin.Left + 20, floatWin.Top + 20)).WorkingArea;
+            int x = Math.Max(wa.Left, Math.Min(floatWin.Left, wa.Right - floatWin.Width));
+            int y = Math.Max(wa.Top, Math.Min(floatWin.Top, wa.Bottom - floatWin.Height));
+            if (x != floatWin.Left || y != floatWin.Top) floatWin.Location = new Point(x, y);
         }
 
         // ── 떠 있는 창 ──
@@ -1087,6 +1201,7 @@ namespace HlrBoard
                 }
                 if (!ok) pt = new Point(wa.Right - floatWin.Width - 20, wa.Bottom - floatWin.Height - 20);
                 floatWin.Location = pt;
+                ClampFloat();
                 if (!floatWin.Visible) floatWin.Show();
                 st.FloatX = floatWin.Left; st.FloatY = floatWin.Top;
             }
@@ -1108,10 +1223,11 @@ namespace HlrBoard
         static void SnapshotPanel(Settings st, string png)
         {
             Collector c = new Collector(st);
+            c.WriteWeb = false;
             Snapshot s = c.Collect();
             BoardForm f = new BoardForm(false, null);
             f.Location = new Point(-20000, -20000);
-            f.Fit(RowBuilder.Build(s, st));
+            f.Fit(RowBuilder.Build(s, st), 0);
             f.Show();
             Application.DoEvents();
             using (Bitmap bmp = new Bitmap(f.Width, f.Height))
