@@ -24,6 +24,8 @@ namespace HumanLastRampart.Combat.Battle
         static readonly int PivotId = Shader.PropertyToID("_Pivot");
         static readonly int AspectId = Shader.PropertyToID("_Aspect");
         static readonly int FixedRightId = Shader.PropertyToID("_FixedRight");
+        static readonly int SpecTexId = Shader.PropertyToID("_SpecTex");
+        static readonly int HasSpecId = Shader.PropertyToID("_HasSpec");
 
         const float ModuleWidth = 2.7f;                       // 난간 한 판 폭(m) — 병사(0.35m)가 허리 높이 돌출부 뒤에 서는 크기
         const float WallPivotY = (512f - 182f) / 512f;        // 그림 속 통로 윗면 줄 = 성벽 윗면
@@ -248,6 +250,15 @@ namespace HumanLastRampart.Combat.Battle
             }
         }
 
+        // 접촉 그림자 (W3): 설치 대포 버퍼를 그대로 등록. 끄는 중·부서진 대포는 크기 0이라 그림자도 없다
+        public void RegisterShadows(HumanLastRampart.Combat.Render.ContactShadows shadows)
+        {
+            if (cannonBuffer == null || shadows == null) return;
+            float size = recoilArt ? RecoilCannonSize : CannonSize;
+            float width = recoilArt ? InstalledCannonVisibleWidth * HumanLastRampart.Combat.Render.ContactShadows.CannonWidthScale : 0.75f;
+            shadows.Add(cannonBuffer, cannonInstances.Length, width / size, 0.4f);
+        }
+
         // 확인용 (K-060): 이번 프레임 그린 끄는 대포 수
         public int HaulDrawCount => haulChassis != null ? haulChassis.Count : 0;
 
@@ -267,6 +278,10 @@ namespace HumanLastRampart.Combat.Battle
             block.SetVector(GridId, layout.Grid);
             block.SetVector(PivotId, layout.Pivot);
             block.SetFloat(AspectId, layout.Aspect);
+            // 반사 마스크 (W3, K-098): 대포·끌기 그림. 마스크가 없는 그림(성벽 난간·연기)은 _HasSpec 0
+            Texture2D spec = PerfLabArt.SpecFor(texture);
+            if (spec != null) block.SetTexture(SpecTexId, spec);
+            block.SetFloat(HasSpecId, spec != null ? 1f : 0f);
         }
 
         // 작업이 끝난 뒤(sim.Complete 후), 지도 모드가 아닐 때
