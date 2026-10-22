@@ -75,8 +75,19 @@ namespace HumanLastRampart.UI
         // 굵은 고운바탕 파일은 용량 때문에 뺐다 (가짜 굵기도 쓰지 않는다) — 보통 굵기로 대신
         public static Font StoryBold => Story;
 
-        // 갈무리용 크기: 11의 가장 가까운 배수 (20→22, 24→22, 32→33, 48→44). 다른 글꼴은 그대로
-        public static int SnapPixel(int size) => Mathf.Max(GalmuriPixel, Mathf.RoundToInt(size / (float)GalmuriPixel) * GalmuriPixel);
+        // 갈무리용 크기: 11의 가장 가까운 배수 (20→22, 24→22, 32→33, 48→44). 다른 글꼴은 그대로.
+        // 본문(Text 24)과 보조(Small 20)는 둘 다 22가 되므로 위계는 굵기로 나눈다 (Ui.Label: Text 이상은 Bold 파일). 읽기 최소는 22 (직접 16 미만을 부른 곳만 11).
+        // 한계: 캔버스 배율이 정수(1080p·2160p)일 때만 점이 정확히 맞는다 — CanvasScaler 배율이 소수면 조금 부드러워진다
+        public static int SnapPixel(int size) => size < 16 ? GalmuriPixel : Mathf.Max(2 * GalmuriPixel, Mathf.RoundToInt(size / (float)GalmuriPixel) * GalmuriPixel);
+
+        // 굵게: 갈무리는 Bold 파일(가짜 굵기 X), 함렛·고운바탕은 굵기 없음(이미 Black / 보통)
+        public static void Bold(UnityEngine.UI.Text text)
+        {
+            text.fontStyle = FontStyle.Normal;
+            if (text.font == Display || text.font == Story) return;
+            text.font = BodyBold;
+            text.fontSize = SnapPixel(text.fontSize);
+        }
 
         static Font Load(string resource, bool pixel)
         {

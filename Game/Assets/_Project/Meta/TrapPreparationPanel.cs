@@ -153,7 +153,7 @@ namespace HumanLastRampart.Meta
             for (int s = 0; s < 4; s++)
             {
                 Text letter = Ui.Outlined(Ui.Label(map, "Side " + names[s], names[s], UiTokens.H2, UiTokens.Brass, TextAnchor.MiddleCenter, true));
-                letter.fontStyle = FontStyle.Bold;
+                HumanLastRampart.UI.UiFonts.Bold(letter);
                 Ui.Place(letter.rectTransform, new Vector2(0.5f, 0.5f), dirs[s] * (MapPx * 0.5f - 24f), new Vector2(48f, 40f));
             }
 

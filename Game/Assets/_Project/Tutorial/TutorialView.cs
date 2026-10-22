@@ -97,7 +97,7 @@ namespace HumanLastRampart.Tutorial
             icon = Sheet(panel.transform, "Step Icon", Tex("step_icons_24"), new Vector2(60f, 60f));
             Ui.Place(icon.rectTransform, new Vector2(0f, 1f), new Vector2(34f, -30f), new Vector2(60f, 60f), new Vector2(0f, 1f));
             title = Ui.Label(panel.transform, "Title", "", 30, UiTokens.Ink, TextAnchor.MiddleLeft);
-            title.fontStyle = FontStyle.Bold;
+            HumanLastRampart.UI.UiFonts.Bold(title);
             Ui.Place(title.rectTransform, new Vector2(0f, 1f), new Vector2(106f, -26f), new Vector2(520f, 44f), new Vector2(0f, 1f));
             body = Ui.Label(panel.transform, "Body", "", UiTokens.Text, UiTokens.Ink, TextAnchor.UpperLeft);
             Ui.Place(body.rectTransform, new Vector2(0f, 1f), new Vector2(34f, -82f), new Vector2(880f, 96f), new Vector2(0f, 1f));
@@ -186,7 +186,7 @@ namespace HumanLastRampart.Tutorial
 
                 // 칩 글: 본문 크기(24) 굵게, 밝은 글자에 짙은 외곽선 — 칩이 어두운 갈색이라 작은 글이 묻히지 않게
                 Text label = Ui.Label(back.transform, "Chip Text", chip.Text, UiTokens.Text, Color.white, TextAnchor.MiddleCenter);
-                label.fontStyle = FontStyle.Bold;
+                HumanLastRampart.UI.UiFonts.Bold(label);
                 label.horizontalOverflow = HorizontalWrapMode.Overflow;
                 Ui.Outlined(label);
                 Ui.Size(label, Mathf.Ceil(label.preferredWidth) + 8f, 42f);

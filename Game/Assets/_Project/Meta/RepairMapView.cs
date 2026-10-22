@@ -175,7 +175,7 @@ namespace HumanLastRampart.Meta
                 {
                     // 성벽 그림 위에 글을 얹으면 돌 무늬에 묻힌다 → 마당 쪽으로 당겨 테두리 글로 쓴다 (누르기는 조각이 받는다)
                     Text inner = Ui.Label(map, "Text:" + id, caption, UiTokens.Text, UiTokens.Ink, TextAnchor.MiddleCenter, true);
-                    inner.fontStyle = FontStyle.Bold;
+                    HumanLastRampart.UI.UiFonts.Bold(inner);
                     inner.horizontalOverflow = HorizontalWrapMode.Overflow;
                     inner.raycastTarget = false;
                     Ui.Place(inner.rectTransform, center, pos * 0.62f, new Vector2(120f, 44f));
@@ -183,7 +183,7 @@ namespace HumanLastRampart.Meta
                 else
                 {
                     Text text = Ui.Label(go.transform, "Text", caption, UiTokens.Small, UiTokens.Ink, TextAnchor.MiddleCenter);
-                    text.fontStyle = FontStyle.Bold;
+                    HumanLastRampart.UI.UiFonts.Bold(text);
                     text.horizontalOverflow = HorizontalWrapMode.Overflow;
                     Ui.Stretch(text.rectTransform);
                 }

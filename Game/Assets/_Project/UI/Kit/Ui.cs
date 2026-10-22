@@ -134,6 +134,8 @@ namespace HumanLastRampart.UI
                 label.font = UiFonts.BodyBold;   // 굵은 글꼴 파일 사용 (가짜 굵기 X)
                 label.fontSize = UiFonts.SnapPixel(size);
             }
+            else if (!display && size >= UiTokens.Text && size < UiTokens.H2)
+                UiFonts.Bold(label);   // W16: Text(24)와 Small(20)이 같은 22가 되므로 위계는 굵기로 (Text = Bold)
 
             return label;
         }
@@ -299,7 +301,7 @@ namespace HumanLastRampart.UI
             cap.sprite = UiArt.Get(UiArt.KeyCap);
             cap.type = UnityEngine.UI.Image.Type.Sliced;
             Text keyText = Label(cap.transform, "Key", key, UiTokens.Small, UiTokens.Ink, TextAnchor.MiddleCenter);
-            keyText.fontStyle = FontStyle.Bold;
+            HumanLastRampart.UI.UiFonts.Bold(keyText);
             keyText.horizontalOverflow = HorizontalWrapMode.Overflow;
             Stretch(keyText.rectTransform);
             keyText.rectTransform.offsetMin = new Vector2(0f, UiTokens.Dot);   // 키 아래 두께만큼 위로

@@ -10,7 +10,8 @@ TrueTypeFontImporter:
   includeFontData: 1
   fontNames:
   - Hahmlet
-  fallbackFontReferences: []
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: be05d3c943906e74789507851862cd3b, type: 3}
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1

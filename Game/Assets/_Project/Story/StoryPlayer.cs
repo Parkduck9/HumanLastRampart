@@ -140,7 +140,7 @@ namespace HumanLastRampart.Story
             speaker = Ui.Label(nameplate, "Story Speaker", "", UiTokens.Text, UiTokens.BrassLight, TextAnchor.MiddleCenter, true);
             speaker.horizontalOverflow = HorizontalWrapMode.Overflow;
             Stretch(speaker.rectTransform);
-            speaker.fontStyle = FontStyle.Bold;
+            HumanLastRampart.UI.UiFonts.Bold(speaker);
 
             // 넘김 표시: 도트 아이콘(아래 화살), 다 나오면 한 점씩 까딱
             Image mark = Ui.Icon(box, "Story Next", UiArt.IconDown, 1f, UiTokens.Ink);
