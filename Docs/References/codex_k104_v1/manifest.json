@@ -1,0 +1,651 @@
+﻿{
+    "card":  "K-104",
+    "version":  1,
+    "purpose":  "봉화선 지도 화면 에셋",
+    "assets_only":  true,
+    "game_modified":  false,
+    "unity_run":  false,
+    "user_approved":  false,
+    "coordinates":  "좌상단 원점, 픽셀 경계 기준. Unity pivot은 별도 하단 원점 정규화 값 사용. 프레임은 왼쪽에서 오른쪽.",
+    "character_contract":  "인물 없는 지도 UI 전용. D-081의 96×128 인물 셀·발 기준선·3배 게임 시트는 해당 없음. 마커는 요청한 64·96픽셀, 경로는 96×24픽셀.",
+    "background_note":  "생성 원안 1672×941을 1920×1080으로 최근접 리샘플. 생성 원안은 source/에 보존. 지도 자체에는 글자·마커·경로가 없음.",
+    "references":  [
+                       {
+                           "path":  "Game/Assets/_Project/Art/UI/Resources/TrapMap/castle_perimeter.png",
+                           "sha256":  "7B1CDD1280E6D330C85517D72F0E92CD1E3DCFDC8A4B74DF866E08A7344FD887",
+                           "usage":  "현재 게임 지도 아트 읽기 전용 비교"
+                       },
+                       {
+                           "path":  "Docs/References/codex_k096_v1/buttons/repair_wide_normal.png",
+                           "sha256":  "BB69E27D92D95636CCA5AF9C1CB3425499638C338E0F16652EF5289230C40066",
+                           "usage":  "동일 원본 프레임을 9분할하여 버튼 340×52·제목 640×96으로 크기 변경"
+                       },
+                       {
+                           "usage":  "K-091-v2 자료는 K-096에 보존된 원본 설명으로 확인",
+                           "path":  "Docs/References/codex_k096_v1/reference/k091_manifest.json"
+                       }
+                   ],
+    "generation":  {
+                       "sources":  [
+                                       "source/generated_map.png",
+                                       "source/generated_markers.png"
+                                   ],
+                       "prompts":  "PROMPTS.md",
+                       "processing":  "마커는 동일 폭 3분할, 최근접 축소, 알파 40 미만 및 주 연결 성분 밖 제거, 바닥 정렬. 단순 경로·방패·선택 링은 정확한 픽셀 도형. 목업은 납품 에셋 합성.",
+                       "mode":  "내장 image_gen"
+                   },
+    "entries":  [
+                    {
+                        "file":  "beacon_button_frame_340x52.png",
+                        "size":  [
+                                     340,
+                                     52
+                                 ],
+                        "cell_size":  [
+                                          340,
+                                          52
+                                      ],
+                        "frame_count":  1,
+                        "frame_order":  [
+                                            "기본"
+                                        ],
+                        "pivot_top_left_px":  [
+                                                  170,
+                                                  26
+                                              ],
+                        "pivot_unity_bottom_left_normalized":  [
+                                                                   0.5,
+                                                                   0.5
+                                                               ],
+                        "alpha":  "RGBA",
+                        "filter":  "Point",
+                        "wrap":  "Clamp",
+                        "slice_border_unity_lbrt":  [
+                                                        16,
+                                                        16,
+                                                        16,
+                                                        16
+                                                    ],
+                        "minimum_size":  [
+                                             48,
+                                             40
+                                         ]
+                    },
+                    {
+                        "file":  "beacon_map_1920x1080.png",
+                        "size":  [
+                                     1920,
+                                     1080
+                                 ],
+                        "cell_size":  [
+                                          1920,
+                                          1080
+                                      ],
+                        "frame_count":  1,
+                        "frame_order":  [
+                                            "기본"
+                                        ],
+                        "pivot_top_left_px":  [
+                                                  960,
+                                                  540
+                                              ],
+                        "pivot_unity_bottom_left_normalized":  [
+                                                                   0.5,
+                                                                   0.5
+                                                               ],
+                        "alpha":  "불투명 RGBA",
+                        "filter":  "Bilinear",
+                        "wrap":  "Clamp"
+                    },
+                    {
+                        "file":  "beacon_route_mockup_1920x1080.png",
+                        "size":  [
+                                     1920,
+                                     1080
+                                 ],
+                        "cell_size":  [
+                                          1920,
+                                          1080
+                                      ],
+                        "frame_count":  1,
+                        "frame_order":  [
+                                            "기본"
+                                        ],
+                        "pivot_top_left_px":  [
+                                                  960,
+                                                  540
+                                              ],
+                        "pivot_unity_bottom_left_normalized":  [
+                                                                   0.5,
+                                                                   0.5
+                                                               ],
+                        "alpha":  "불투명 RGBA",
+                        "filter":  "Bilinear",
+                        "wrap":  "Clamp"
+                    },
+                    {
+                        "file":  "beacon_title_frame_640x96.png",
+                        "size":  [
+                                     640,
+                                     96
+                                 ],
+                        "cell_size":  [
+                                          640,
+                                          96
+                                      ],
+                        "frame_count":  1,
+                        "frame_order":  [
+                                            "기본"
+                                        ],
+                        "pivot_top_left_px":  [
+                                                  320,
+                                                  48
+                                              ],
+                        "pivot_unity_bottom_left_normalized":  [
+                                                                   0.5,
+                                                                   0.5
+                                                               ],
+                        "alpha":  "RGBA",
+                        "filter":  "Point",
+                        "wrap":  "Clamp",
+                        "slice_border_unity_lbrt":  [
+                                                        16,
+                                                        16,
+                                                        16,
+                                                        16
+                                                    ],
+                        "minimum_size":  [
+                                             48,
+                                             40
+                                         ]
+                    },
+                    {
+                        "file":  "current_fortress_ring_128.png",
+                        "size":  [
+                                     128,
+                                     128
+                                 ],
+                        "cell_size":  [
+                                          128,
+                                          128
+                                      ],
+                        "frame_count":  1,
+                        "frame_order":  [
+                                            "기본"
+                                        ],
+                        "pivot_top_left_px":  [
+                                                  64,
+                                                  64
+                                              ],
+                        "pivot_unity_bottom_left_normalized":  [
+                                                                   0.5,
+                                                                   0.5
+                                                               ],
+                        "alpha":  "RGBA",
+                        "filter":  "Point",
+                        "wrap":  "Clamp"
+                    },
+                    {
+                        "file":  "fortress_dead_64.png",
+                        "size":  [
+                                     64,
+                                     64
+                                 ],
+                        "cell_size":  [
+                                          64,
+                                          64
+                                      ],
+                        "frame_count":  1,
+                        "frame_order":  [
+                                            "기본"
+                                        ],
+                        "pivot_top_left_px":  [
+                                                  32,
+                                                  58
+                                              ],
+                        "pivot_unity_bottom_left_normalized":  [
+                                                                   0.5,
+                                                                   0.09375
+                                                               ],
+                        "alpha":  "RGBA",
+                        "filter":  "Point",
+                        "wrap":  "Clamp",
+                        "baseline_boundary_y":  58
+                    },
+                    {
+                        "file":  "fortress_dead_96.png",
+                        "size":  [
+                                     96,
+                                     96
+                                 ],
+                        "cell_size":  [
+                                          96,
+                                          96
+                                      ],
+                        "frame_count":  1,
+                        "frame_order":  [
+                                            "기본"
+                                        ],
+                        "pivot_top_left_px":  [
+                                                  48,
+                                                  90
+                                              ],
+                        "pivot_unity_bottom_left_normalized":  [
+                                                                   0.5,
+                                                                   0.0625
+                                                               ],
+                        "alpha":  "RGBA",
+                        "filter":  "Point",
+                        "wrap":  "Clamp",
+                        "baseline_boundary_y":  90
+                    },
+                    {
+                        "file":  "fortress_fogged_64.png",
+                        "size":  [
+                                     64,
+                                     64
+                                 ],
+                        "cell_size":  [
+                                          64,
+                                          64
+                                      ],
+                        "frame_count":  1,
+                        "frame_order":  [
+                                            "기본"
+                                        ],
+                        "pivot_top_left_px":  [
+                                                  32,
+                                                  58
+                                              ],
+                        "pivot_unity_bottom_left_normalized":  [
+                                                                   0.5,
+                                                                   0.09375
+                                                               ],
+                        "alpha":  "RGBA",
+                        "filter":  "Point",
+                        "wrap":  "Clamp",
+                        "baseline_boundary_y":  58
+                    },
+                    {
+                        "file":  "fortress_fogged_96.png",
+                        "size":  [
+                                     96,
+                                     96
+                                 ],
+                        "cell_size":  [
+                                          96,
+                                          96
+                                      ],
+                        "frame_count":  1,
+                        "frame_order":  [
+                                            "기본"
+                                        ],
+                        "pivot_top_left_px":  [
+                                                  48,
+                                                  90
+                                              ],
+                        "pivot_unity_bottom_left_normalized":  [
+                                                                   0.5,
+                                                                   0.0625
+                                                               ],
+                        "alpha":  "RGBA",
+                        "filter":  "Point",
+                        "wrap":  "Clamp",
+                        "baseline_boundary_y":  90
+                    },
+                    {
+                        "file":  "fortress_lit_64.png",
+                        "size":  [
+                                     64,
+                                     64
+                                 ],
+                        "cell_size":  [
+                                          64,
+                                          64
+                                      ],
+                        "frame_count":  1,
+                        "frame_order":  [
+                                            "기본"
+                                        ],
+                        "pivot_top_left_px":  [
+                                                  32,
+                                                  58
+                                              ],
+                        "pivot_unity_bottom_left_normalized":  [
+                                                                   0.5,
+                                                                   0.09375
+                                                               ],
+                        "alpha":  "RGBA",
+                        "filter":  "Point",
+                        "wrap":  "Clamp",
+                        "baseline_boundary_y":  58
+                    },
+                    {
+                        "file":  "fortress_lit_96.png",
+                        "size":  [
+                                     96,
+                                     96
+                                 ],
+                        "cell_size":  [
+                                          96,
+                                          96
+                                      ],
+                        "frame_count":  1,
+                        "frame_order":  [
+                                            "기본"
+                                        ],
+                        "pivot_top_left_px":  [
+                                                  48,
+                                                  90
+                                              ],
+                        "pivot_unity_bottom_left_normalized":  [
+                                                                   0.5,
+                                                                   0.0625
+                                                               ],
+                        "alpha":  "RGBA",
+                        "filter":  "Point",
+                        "wrap":  "Clamp",
+                        "baseline_boundary_y":  90
+                    },
+                    {
+                        "file":  "fortress_states_64_sheet.png",
+                        "size":  [
+                                     192,
+                                     64
+                                 ],
+                        "cell_size":  [
+                                          64,
+                                          64
+                                      ],
+                        "frame_count":  3,
+                        "frame_order":  [
+                                            "미발견",
+                                            "발견·꺼짐",
+                                            "점화"
+                                        ],
+                        "pivot_top_left_px":  [
+                                                  32,
+                                                  58
+                                              ],
+                        "pivot_unity_bottom_left_normalized":  [
+                                                                   0.5,
+                                                                   0.09375
+                                                               ],
+                        "alpha":  "RGBA",
+                        "filter":  "Point",
+                        "wrap":  "Clamp",
+                        "baseline_boundary_y":  58
+                    },
+                    {
+                        "file":  "fortress_states_96_sheet.png",
+                        "size":  [
+                                     288,
+                                     96
+                                 ],
+                        "cell_size":  [
+                                          96,
+                                          96
+                                      ],
+                        "frame_count":  3,
+                        "frame_order":  [
+                                            "미발견",
+                                            "발견·꺼짐",
+                                            "점화"
+                                        ],
+                        "pivot_top_left_px":  [
+                                                  48,
+                                                  90
+                                              ],
+                        "pivot_unity_bottom_left_normalized":  [
+                                                                   0.5,
+                                                                   0.0625
+                                                               ],
+                        "alpha":  "RGBA",
+                        "filter":  "Point",
+                        "wrap":  "Clamp",
+                        "baseline_boundary_y":  90
+                    },
+                    {
+                        "file":  "garrison_count_frame_112x40.png",
+                        "size":  [
+                                     112,
+                                     40
+                                 ],
+                        "cell_size":  [
+                                          112,
+                                          40
+                                      ],
+                        "frame_count":  1,
+                        "frame_order":  [
+                                            "기본"
+                                        ],
+                        "pivot_top_left_px":  [
+                                                  56,
+                                                  20
+                                              ],
+                        "pivot_unity_bottom_left_normalized":  [
+                                                                   0.5,
+                                                                   0.5
+                                                               ],
+                        "alpha":  "RGBA",
+                        "filter":  "Point",
+                        "wrap":  "Clamp",
+                        "resize":  "고정 112×40. 방패 포함 배지는 9분할하지 않음."
+                    },
+                    {
+                        "file":  "garrison_shield_32.png",
+                        "size":  [
+                                     32,
+                                     32
+                                 ],
+                        "cell_size":  [
+                                          32,
+                                          32
+                                      ],
+                        "frame_count":  1,
+                        "frame_order":  [
+                                            "기본"
+                                        ],
+                        "pivot_top_left_px":  [
+                                                  16,
+                                                  16
+                                              ],
+                        "pivot_unity_bottom_left_normalized":  [
+                                                                   0.5,
+                                                                   0.5
+                                                               ],
+                        "alpha":  "RGBA",
+                        "filter":  "Point",
+                        "wrap":  "Clamp"
+                    },
+                    {
+                        "file":  "light_route_dim_96x24.png",
+                        "size":  [
+                                     96,
+                                     24
+                                 ],
+                        "cell_size":  [
+                                          96,
+                                          24
+                                      ],
+                        "frame_count":  1,
+                        "frame_order":  [
+                                            "기본"
+                                        ],
+                        "pivot_top_left_px":  [
+                                                  48,
+                                                  12
+                                              ],
+                        "pivot_unity_bottom_left_normalized":  [
+                                                                   0.5,
+                                                                   0.5
+                                                               ],
+                        "alpha":  "RGBA",
+                        "filter":  "Point",
+                        "wrap":  "Repeat X / Clamp Y",
+                        "dot_period_px":  16,
+                        "repeat_length_px":  96
+                    },
+                    {
+                        "file":  "light_route_lit_96x24.png",
+                        "size":  [
+                                     96,
+                                     24
+                                 ],
+                        "cell_size":  [
+                                          96,
+                                          24
+                                      ],
+                        "frame_count":  1,
+                        "frame_order":  [
+                                            "기본"
+                                        ],
+                        "pivot_top_left_px":  [
+                                                  48,
+                                                  12
+                                              ],
+                        "pivot_unity_bottom_left_normalized":  [
+                                                                   0.5,
+                                                                   0.5
+                                                               ],
+                        "alpha":  "RGBA",
+                        "filter":  "Point",
+                        "wrap":  "Repeat X / Clamp Y",
+                        "dot_period_px":  16,
+                        "repeat_length_px":  96
+                    },
+                    {
+                        "file":  "light_travels_6f_96x24_sheet.png",
+                        "size":  [
+                                     576,
+                                     24
+                                 ],
+                        "cell_size":  [
+                                          96,
+                                          24
+                                      ],
+                        "frame_count":  6,
+                        "frame_order":  [
+                                            0,
+                                            1,
+                                            2,
+                                            3,
+                                            4,
+                                            5
+                                        ],
+                        "pivot_top_left_px":  [
+                                                  48,
+                                                  12
+                                              ],
+                        "pivot_unity_bottom_left_normalized":  [
+                                                                   0.5,
+                                                                   0.5
+                                                               ],
+                        "alpha":  "RGBA",
+                        "filter":  "Point",
+                        "wrap":  "Clamp",
+                        "frame_duration_ms":  120,
+                        "loop":  true,
+                        "slice_before_tiling":  true,
+                        "motion":  "왼쪽에서 오른쪽으로 한 프레임당 16픽셀, 여섯 프레임 순환",
+                        "dot_centers_x":  [
+                                              8,
+                                              24,
+                                              40,
+                                              56,
+                                              72,
+                                              88
+                                          ]
+                    },
+                    {
+                        "file":  "route_arrow_32x24.png",
+                        "size":  [
+                                     32,
+                                     24
+                                 ],
+                        "cell_size":  [
+                                          32,
+                                          24
+                                      ],
+                        "frame_count":  1,
+                        "frame_order":  [
+                                            "기본"
+                                        ],
+                        "pivot_top_left_px":  [
+                                                  16,
+                                                  12
+                                              ],
+                        "pivot_unity_bottom_left_normalized":  [
+                                                                   0.5,
+                                                                   0.5
+                                                               ],
+                        "alpha":  "RGBA",
+                        "filter":  "Point",
+                        "wrap":  "Clamp"
+                    }
+                ],
+    "text_safe_rects_xywh":  {
+                                 "title":  [
+                                               32,
+                                               20,
+                                               576,
+                                               56
+                                           ],
+                                 "garrison_count":  [
+                                                        42,
+                                                        8,
+                                                        62,
+                                                        24
+                                                    ],
+                                 "button":  [
+                                                24,
+                                                12,
+                                                292,
+                                                28
+                                            ]
+                             },
+    "garrison_rule":  "32픽셀 방패는 별도. 112×40 배지의 숫자 영역에 런타임 숫자를 별도로 표시. 120·86은 목업 예시이며 게임 규칙을 확정하지 않음.",
+    "mockup":  {
+                   "fortress_anchor_top_left_px":  [
+                                                       [
+                                                           365,
+                                                           700
+                                                       ],
+                                                       [
+                                                           768,
+                                                           505
+                                                       ],
+                                                       [
+                                                           1190,
+                                                           650
+                                                       ],
+                                                       [
+                                                           1574,
+                                                           395
+                                                       ]
+                                                   ],
+                   "spare_points":  "별도 마커 없는 배경이므로 5~6곳 배치 가능",
+                   "text":  "모든 문구는 목업에만 합성. 납품 프레임은 글자 없음.",
+                   "route":  "1→2 점화, 2→3 현재 목적지로 화살표, 3→4 희미한 예정 경로",
+                   "canvas":  [
+                                  1920,
+                                  1080
+                              ],
+                   "garrison_examples":  [
+                                             120,
+                                             86
+                                         ],
+                   "states":  [
+                                  "lit",
+                                  "lit",
+                                  "dead/current",
+                                  "fogged"
+                              ]
+               },
+    "previews":  "previews/*_4x.png는 소형 UI의 최근접 4배 확대 검토본. 배경·전체 목업은 원본 해상도로 검토.",
+    "integration_leftovers":  [
+                                  "Claude가 실제 화면 전환·수비대 숫자·글자·선택 링·경로 회전을 연결",
+                                  "Unity 임포트·Play·실제 화면 캡처는 미수행",
+                                  "원본 기획의 제안 수치나 게임 규칙을 이 카드에서 확정하지 않음"
+                              ]
+}
