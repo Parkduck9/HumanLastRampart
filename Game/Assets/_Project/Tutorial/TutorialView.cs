@@ -104,7 +104,7 @@ namespace HumanLastRampart.Tutorial
             chipTex = Tex("input_chips_32");
             HorizontalLayoutGroup row = Ui.Row(panel.transform, "Chips", 12f);
             chipRow = (RectTransform)row.transform;
-            Ui.Place(chipRow, new Vector2(0f, 0f), new Vector2(34f, 22f), new Vector2(560f, 54f), new Vector2(0f, 0f));
+            Ui.Place(chipRow, new Vector2(0f, 0f), new Vector2(34f, 22f), new Vector2(640f, 54f), new Vector2(0f, 0f));
 
             NextButton = Ui.Button(panel.transform, "튜토리얼 다음", "다음", onNext, UiButtonKind.Primary);
             Ui.Place((RectTransform)NextButton.transform, new Vector2(1f, 0f), new Vector2(-34f, 22f), new Vector2(200f, 56f), new Vector2(1f, 0f));
@@ -135,18 +135,23 @@ namespace HumanLastRampart.Tutorial
 
             for (int i = 0; i < pips.Length; i++) Cell(pips[i], i * 3 + (i < step ? 2 : i == step ? 1 : 0), 24);
 
+            // 목표 화면 좌표(화소)를 화면 비율로 바꿔 앵커에 건다 — 캔버스 배율·피벗과 무관하다 (BattleHud.Viewport와 같은 방식)
             bool target = false;
-            Vector2 local = Vector2.zero;
-            if (info.Pointer && source.TryGetTargetScreen(machine.Current, out Vector2 screen))
-                target = RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, screen, null, out local) && ringTex != null;
+            Vector2 screen = Vector2.zero;
+            if (info.Pointer && ringTex != null && source.TryGetTargetScreen(machine.Current, out screen))
+                target = Screen.width > 0 && Screen.height > 0;
             ring.gameObject.SetActive(target);
             pointer.gameObject.SetActive(target && pointerTex[2] != null);
             if (target)
             {
                 float t = Time.unscaledTime;
                 Cell(ring, (int)(t * 8f) % 6, 6);
-                ring.rectTransform.anchoredPosition = canvasRect.rect.center + local;
-                pointer.rectTransform.anchoredPosition = canvasRect.rect.center + local + new Vector2(0f, 150f);
+                var viewport = new Vector2(screen.x / Screen.width, screen.y / Screen.height);
+                RectTransform ringRect = ring.rectTransform, pointerRect = pointer.rectTransform;
+                ringRect.anchorMin = ringRect.anchorMax = viewport;
+                ringRect.anchoredPosition = Vector2.zero;
+                pointerRect.anchorMin = pointerRect.anchorMax = viewport;
+                pointerRect.anchoredPosition = new Vector2(0f, 150f);
                 Cell(pointer, (int)(t * 6f) % 4, 4);
             }
         }
@@ -175,9 +180,12 @@ namespace HumanLastRampart.Tutorial
                     Ui.Size(picture, 42f, 42f);
                 }
 
-                Text label = Ui.Label(back.transform, "Chip Text", chip.Text, UiTokens.Small, UiTokens.Body, TextAnchor.MiddleCenter);
+                // 칩 글: 본문 크기(24) 굵게, 밝은 글자에 짙은 외곽선 — 칩이 어두운 갈색이라 작은 글이 묻히지 않게
+                Text label = Ui.Label(back.transform, "Chip Text", chip.Text, UiTokens.Text, Color.white, TextAnchor.MiddleCenter);
+                label.fontStyle = FontStyle.Bold;
                 label.horizontalOverflow = HorizontalWrapMode.Overflow;
-                Ui.Size(label, label.preferredWidth + 4f, 42f);
+                Ui.Outlined(label);
+                Ui.Size(label, Mathf.Ceil(label.preferredWidth) + 8f, 42f);
             }
         }
 
