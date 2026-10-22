@@ -14,7 +14,11 @@ Shader "HLR/PerfLabSprite"
         _MainTex ("Sheet", 2D) = "white" {}
         _NormalTex ("Normal sheet (같은 칸)", 2D) = "bump" {}
         _HasNormal ("Has normal sheet", Float) = 0
-        _Grid ("Grid (columns, rows)", Vector) = (4, 1, 0, 0)
+        // 반사 마스크 (K-092·K-098, W3): R = 반사 강도, G = 매끄러움, 같은 칸. _HasSpec = 0이면 아무 계산·읽기도 안 한다 (균일 값 분기)
+        _SpecTex ("Spec mask (R strength, G smoothness)", 2D) = "black" {}
+        _HasSpec ("Has spec mask", Float) = 0
+        _SpecGain ("Specular gain", Float) = 0.6
+        _Grid("Grid (columns, rows)", Vector) = (4, 1, 0, 0)
         _Pivot ("Pivot (x, y in cell 0..1, from bottom-left)", Vector) = (0.5, 0, 0, 0)
         _Aspect ("Cell width / height", Float) = 1
         _Cutoff ("Alpha Cutoff", Range(0, 1)) = 0.5
@@ -65,6 +69,10 @@ Shader "HLR/PerfLabSprite"
         TEXTURE2D(_NormalTex);
         SAMPLER(sampler_NormalTex);
         float _HasNormal;
+        TEXTURE2D(_SpecTex);
+        SAMPLER(sampler_SpecTex);
+        float _HasSpec;
+        float _SpecGain;
         float4 _Grid;
         float4 _Pivot;
         float _Aspect;
@@ -222,6 +230,14 @@ Shader "HLR/PerfLabSprite"
                 return light.color * (wrap * light.distanceAttenuation * 0.85);
             }
 
+            // 반사광 한 줄기 (Blinn-Phong, W3): 빛 색(해·달은 밝기·그림자 포함, 횃불은 거리 감쇠 포함) × (n·h)^power × 앞면 감쇠
+            half3 SpecTerm(half3 lightColor, float3 lightDir, float3 n, float3 viewDir, float power)
+            {
+                float nh = saturate(dot(n, normalize(lightDir + viewDir)));
+                float nl = saturate(dot(n, lightDir) * 2.0);   // 빛이 등 뒤에서 오면 번쩍이지 않게
+                return lightColor * (pow(nh, power) * nl);
+            }
+
             Varyings Vert(Attributes input)
             {
                 PerfLabInstance data = _Instances[input.instanceID];
@@ -308,6 +324,21 @@ Shader "HLR/PerfLabSprite"
                 half3 sun = mainLight.color * (wrap * mainLight.shadowAttenuation * 0.85);
                 half3 ambient = SampleSH(n) * 0.75;
 
+                // 반사 (W3): 마스크가 없으면(_HasSpec 0, 균일 값) 이 블록·아래 반사 항 모두 건너뛴다
+                bool specOn = _HasSpec > 0.5;
+                half3 spec = 0;
+                float specStrength = 0.0;
+                float specPower = 1.0;
+                float3 viewDir = float3(0.0, 0.0, 1.0);
+                [branch] if (specOn)
+                {
+                    half2 mask = SAMPLE_TEXTURE2D(_SpecTex, sampler_SpecTex, input.uv).rg;
+                    specStrength = mask.r * _SpecGain;
+                    specPower = exp2(8.0 * mask.g + 1.0);   // 매끄러움 0 → 2(넓은 번짐), 1 → 512(좁은 점)
+                    viewDir = normalize(_WorldSpaceCameraPos - input.positionWS);
+                    spec += SpecTerm(mainLight.color * mainLight.shadowAttenuation, mainLight.direction, n, viewDir, specPower);
+                }
+
                 // 추가 조명 (횃불·폭발): 포워드 플러스면 화면 칸 목록, 아니면 개체별 목록을 돈다
                 half3 extra = 0;
                 #if defined(_ADDITIONAL_LIGHTS)
@@ -320,15 +351,21 @@ Shader "HLR/PerfLabSprite"
                         [loop] for (uint lightIndex = 0; lightIndex < min(URP_FP_DIRECTIONAL_LIGHTS_COUNT, MAX_VISIBLE_LIGHTS); lightIndex++)
                         {
                             CLUSTER_LIGHT_LOOP_SUBTRACTIVE_LIGHT_CHECK
-                            extra += WrapAdditional(GetAdditionalLight(lightIndex, input.positionWS), n);
+                            Light dirLight = GetAdditionalLight(lightIndex, input.positionWS);
+                            extra += WrapAdditional(dirLight, n);
+                            [branch] if (specOn) spec += SpecTerm(dirLight.color * dirLight.distanceAttenuation, dirLight.direction, n, viewDir, specPower);
                         }
                     #endif
                     LIGHT_LOOP_BEGIN(lightsCount)
-                        extra += WrapAdditional(GetAdditionalLight(lightIndex, input.positionWS), n);
+                        Light addLight = GetAdditionalLight(lightIndex, input.positionWS);
+                        extra += WrapAdditional(addLight, n);
+                        [branch] if (specOn) spec += SpecTerm(addLight.color * addLight.distanceAttenuation, addLight.direction, n, viewDir, specPower);
                     LIGHT_LOOP_END
                 #endif
 
-                return half4(MixFog(albedo * (sun + ambient + extra), input.fogFactor), 1.0h);
+                // 반사 색: 흰빛에 그림 색을 반쯤 섞는다 (금·구리는 금빛, 철은 흰빛). 해·달 색(밤 푸른빛·NightTuning.SunScale)과 횃불 색이 이미 spec에 들어 있다
+                half3 specColor = spec * specStrength * lerp(half3(1, 1, 1), saturate(albedo * 2.0h), 0.5h);
+                return half4(MixFog(albedo * (sun + ambient + extra) + specColor, input.fogFactor), 1.0h);
             }
             ENDHLSL
         }

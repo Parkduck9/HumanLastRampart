@@ -122,6 +122,24 @@ namespace HumanLastRampart.Combat.PerfLab
         public static readonly SheetLayout LadderLayout = SheetLayout.Make(1, 1, 0.5f, (1536f - 1472f) / 1536f, 256f / 1536f);
         public const float LadderDrawSize = 1536f / 1152f * 4.3f;
 
+        // 반사 마스크 (K-092 인물·K-098 소품·대포, W3): 색 시트 이름 + "_spec" 파일을 Resources/BattleArt/Spec에서 찾는다.
+        // R = 반사 강도, G = 매끄러움, 알파 = 원본 알파. 색 시트와 크기가 다르면 칸이 어긋나므로 쓰지 않는다 (노멀맵 짝 맞추기와 같은 규칙)
+        public const string SpecFolder = "BattleArt/Spec/";
+        public const string SpecSuffix = "_spec";
+        static readonly System.Collections.Generic.Dictionary<string, Texture2D> specCache = new System.Collections.Generic.Dictionary<string, Texture2D>();
+
+        public static Texture2D SpecFor(Texture sheet)
+        {
+            if (sheet == null || string.IsNullOrEmpty(sheet.name)) return null;
+            if (!specCache.TryGetValue(sheet.name, out Texture2D mask))
+            {
+                mask = Resources.Load<Texture2D>(SpecFolder + sheet.name + SpecSuffix);
+                specCache[sheet.name] = mask;
+            }
+
+            return mask != null && mask.width == sheet.width && mask.height == sheet.height ? mask : null;
+        }
+
         // 발이 원점, 높이 1인 사각형. 가로·발 위치·크기는 셰이더가 정한다.
         public static Mesh CreateQuad()
         {

@@ -27,6 +27,8 @@ namespace HumanLastRampart.Combat.Battle
         static readonly int MinWorldSizeId = Shader.PropertyToID("_MinWorldSize");
         static readonly int NormalTexId = Shader.PropertyToID("_NormalTex");
         static readonly int HasNormalId = Shader.PropertyToID("_HasNormal");
+        static readonly int SpecTexId = Shader.PropertyToID("_SpecTex");
+        static readonly int HasSpecId = Shader.PropertyToID("_HasSpec");
         static readonly int FrameWindowId = Shader.PropertyToID("_FrameWindow");
         static readonly int ShotModeId = Shader.PropertyToID("_ShotMode");
         static readonly int ShotColorId = Shader.PropertyToID("_ShotColor");
@@ -71,6 +73,8 @@ namespace HumanLastRampart.Combat.Battle
         bool soldierMapStale = true;            // 지도 점 버퍼(soldierBuffer·runnerBuffer)를 다시 올려야 함 (K-061)
         readonly float[] wallRatioShown = { -1f, -1f, -1f, -1f };   // 마지막으로 칠한 성벽 체력 비율 (K-061)
         readonly MaterialPropertyBlock mapRunnerBlock;
+        readonly HumanLastRampart.Combat.Render.ContactShadows shadows;   // 발밑 접촉 그림자 (W3)
+        public HumanLastRampart.Combat.Render.ContactShadows Shadows => shadows;
         readonly BattlePropView props;          // 성벽 난간·대포 그림
         readonly BattleWorldView world;         // 성벽·포탑 3D 목업 (K-001)
         readonly BattleLights lights;           // 밤 횃불·폭발 빛 (K-010)
@@ -169,6 +173,7 @@ namespace HumanLastRampart.Combat.Battle
             }
             float extent = sim.FieldSize + 20f;
             bounds = new Bounds(Vector3.zero, new Vector3(extent * 2f, 200f, extent * 2f));
+            shadows = new HumanLastRampart.Combat.Render.ContactShadows(quad, bounds);   // 발밑 접촉 그림자 (W3) — 아래에서 개체 버퍼를 등록
 
             foreach (var (def, start, count) in sim.EnemyGroups)
             {
@@ -188,6 +193,8 @@ namespace HumanLastRampart.Combat.Battle
                 block.SetBuffer(InstancesId, buffer);
                 block.SetVector(FrameWindowId, PerfLabArt.Window(0));
                 enemyDraws.Add((buffer, block, start, count));
+                shadows.Add(buffer, count, def.IsSpecial ? HumanLastRampart.Combat.Render.ContactShadows.OgreWidthPerSize : HumanLastRampart.Combat.Render.ContactShadows.GoblinWidthPerSize,
+                    0.5f, 0f, HumanLastRampart.Combat.Render.ContactShadows.LadderFadeHeight);
                 if (def.Sheet != null)
                 {
                     // 공격·세우기·오르기·쓰러짐 시트 (K-032). 칸 번호 구간은 WriteBattleEnemyInstancesJob
@@ -241,6 +248,7 @@ namespace HumanLastRampart.Combat.Battle
                 block.SetBuffer(InstancesId, buffer);
                 block.SetVector(FrameWindowId, PerfLabArt.Window(0));
                 soldierDraws.Add((buffer, block, start, count));
+                shadows.Add(buffer, count, HumanLastRampart.Combat.Render.ContactShadows.SoldierWidthPerSize);
                 if (unit != null && unit.Sheet != null)
                 {
                     // 사격·쓰러짐 시트 (K-032). 칸 번호 구간은 BattleSim.SoldierPose
@@ -264,6 +272,7 @@ namespace HumanLastRampart.Combat.Battle
                     var runBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, PerfLabInstance.Stride);
                     runBlock.SetBuffer(InstancesId, runBuffer);
                     runnerDraws.Add((runBuffer, runBlock, start, count));
+                    shadows.Add(runBuffer, count, HumanLastRampart.Combat.Render.ContactShadows.SoldierWidthPerSize);
                 }
             }
 
@@ -313,6 +322,7 @@ namespace HumanLastRampart.Combat.Battle
 
             heroBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, 1, PerfLabInstance.Stride);
             heroBlock.SetBuffer(InstancesId, heroBuffer);
+            shadows.Add(heroBuffer, 1, HumanLastRampart.Combat.Render.ContactShadows.SoldierWidthPerSize);
             heroSheetOriginal = heroSheet;            // 3등신 시험 그림에서 되돌릴 원래 그림 (K-057)
             heroIdleOriginal = heroIdleSheet;
             heroNormalOriginal = heroNormalSheet;
@@ -330,6 +340,7 @@ namespace HumanLastRampart.Combat.Battle
                 ApplyFigure(wizardBlock, sim.WizardUnit.Sheet, sim.WizardUnit.NormalSheet);   // 정적 뒷모습 1×1
                 wizardBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, 1, PerfLabInstance.Stride);
                 wizardBlock.SetBuffer(InstancesId, wizardBuffer);
+                shadows.Add(wizardBuffer, 1, HumanLastRampart.Combat.Render.ContactShadows.SoldierWidthPerSize);
                 wizardLastFeet = sim.WizardFeet;
                 if (sim.WizardUnit.RunSheet != null)
                 {
@@ -356,6 +367,7 @@ namespace HumanLastRampart.Combat.Battle
             root = new GameObject("Battlefield");
             root.transform.SetParent(parent, false);
             props = new BattlePropView(sim, material, quad, bounds);
+            props.RegisterShadows(shadows);
             world = new BattleWorldView(sim, root.transform);
             lights = new BattleLights(sim, root.transform);   // 밤 횃불·폭발 빛 (K-010, D-062 4단계)
             effectArt = new BattleEffectsView(sim, material, quad, bounds);   // 효과 도트 그림 (K-015)
@@ -374,6 +386,10 @@ namespace HumanLastRampart.Combat.Battle
             block.SetFloat(AspectId, layout.Aspect);
             if (normal != null) block.SetTexture(NormalTexId, normal);
             block.SetFloat(HasNormalId, normal != null ? 1f : 0f);
+            // 반사 마스크 (W3): 같은 칸 배치의 Resources/BattleArt/Spec/<시트>_spec. 없으면 _HasSpec 0 (셰이더가 아무것도 안 함)
+            Texture2D spec = PerfLabArt.SpecFor(texture);
+            if (spec != null) block.SetTexture(SpecTexId, spec);
+            block.SetFloat(HasSpecId, spec != null ? 1f : 0f);
             block.SetFloat(SheetScaleId, sheetScale);
             block.SetFloat(ViewStretchId, figure ? 1f : 0f);
         }
@@ -693,6 +709,10 @@ namespace HumanLastRampart.Combat.Battle
                     wizardBuffer.SetData(wizardInstance);
                     Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, 1, wizardDraw);
                 }
+
+                // 발밑 접촉 그림자 (W3): 위에서 올린 개체 버퍼를 그대로 읽는다
+                shadows.SetVisible(heroBuffer, heroVisible);
+                shadows.Draw();
             }
 
             if (Time.unscaledTime >= nextPileRefresh)
@@ -1116,6 +1136,7 @@ namespace HumanLastRampart.Combat.Battle
             flameBuffer?.Release();
             runnerBuffer?.Release();
             props?.Dispose();
+            shadows?.Dispose();
             world?.Dispose();
             lights?.Dispose();
             effectArt?.Dispose();
