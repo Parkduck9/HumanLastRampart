@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using HumanLastRampart.App.Data;
 using HumanLastRampart.Combat.Battle;
 using HumanLastRampart.Core.Campaign;
@@ -43,6 +43,45 @@ namespace HumanLastRampart.Combat.Tests
                         maxY = Mathf.Max(maxY, f.transform.TransformPoint(f.sharedMesh.bounds.max).y);
                     Assert.AreEqual(BattleSim.WallHeight + BattleTowerView.Height, maxY, 0.05f, "꼭대기 = 마당 윗면 + 탑 키");
                     Assert.AreEqual(view.LampWorld.y, BattleBeamView.OriginHeight, 1e-4f);
+                }
+            }
+            finally { Object.DestroyImmediate(parent); }
+        }
+
+        [Test]
+        public void HeroPath_StairsToDoor_NeverEntersTowerBody()
+        {
+            var camera = new GameObject("Tower Path Camera", typeof(Camera));
+            try
+            {
+                var rig = new BattleCameraRig(camera.GetComponent<Camera>(), 60f, BattleSim.WallHeight);
+                float limit = BattleTowerView.BaseHalf + 0.25f;   // 몸체 + 받침(0.15m) 바깥
+                foreach (float x in new[] { -3f, -1f, -0.01f, 0f, 1f, 3f })
+                    for (int i = 0; i <= 200; i++)
+                    {
+                        Vector3 p = rig.TowerPath(new Vector3(x, BattleSim.WallHeight, 58f), i / 200f);
+                        Assert.IsTrue(Mathf.Abs(p.x) > limit || Mathf.Abs(p.z) > limit, $"시작 x={x}, t={i / 200f:0.000}: 발 ({p.x:0.00}, {p.z:0.00})이 탑 몸체 안");
+                        Assert.AreEqual(BattleSim.WallHeight, p.y, 1e-4f);
+                    }
+
+                Vector3 end = rig.TowerPath(new Vector3(0f, BattleSim.WallHeight, 58f), 1f);
+                Assert.Less((end - rig.TowerFeet).magnitude, 1e-4f, "끝은 문 앞");
+            }
+            finally { Object.DestroyImmediate(camera); }
+        }
+
+        [Test]
+        public void Mesh_HasDownFaces_SoOverhangsAreNotHollow()
+        {
+            var parent = new GameObject("Tower Down Faces");
+            try
+            {
+                using (new BattleTowerView(parent.transform))
+                {
+                    int down = 0;
+                    foreach (var f in parent.GetComponentsInChildren<MeshFilter>())
+                        foreach (Vector3 n in f.sharedMesh.normals) if (n.y < -0.99f) down++;
+                    Assert.Greater(down, 20, "받침·띠·둘레길·지붕 테에 아랫면이 있다");
                 }
             }
             finally { Object.DestroyImmediate(parent); }

@@ -63,6 +63,18 @@ namespace HumanLastRampart.Combat.Battle
         public bool InTransition => towerTarget ? towerBlend < 1f : towerBlend > 0f;
         public bool OnWall => !towerTarget && towerBlend <= 0f;        // 성벽을 지키고 있는가. 내려가려는 순간부터 오르는 걸 마칠 때까지 false
         public float TowerBlend => towerBlend;
+        // 성벽(계단)에서 탑 문 앞까지 가는 길 (W20): 탑 몸체를 뚫지 않게 탑 옆(x = ±SideLane)을 돌아 문 앞 줄로 들어간다. t = 0..1 (성벽 → 문 앞)
+        public const float SideLane = 2.2f;   // BattleTowerView.BaseHalf(1.1) + 1.1
+        public Vector3 TowerPath(Vector3 wall, float t)
+        {
+            Vector3 end = TowerFeet;
+            float sx = wall.x >= 0f ? 1f : -1f;
+            Vector3 corner = new Vector3(sx * SideLane, wall.y, end.z);   // 탑 옆 · 문 앞 줄
+            float a = Vector3.Distance(wall, corner), b = Vector3.Distance(corner, end);
+            float d = Mathf.Clamp01(t) * (a + b);
+            return d <= a ? Vector3.Lerp(wall, corner, a > 1e-4f ? d / a : 1f) : Vector3.Lerp(corner, end, b > 1e-4f ? (d - a) / b : 1f);
+        }
+
         public Vector3 TowerFeet => new Vector3(0f, wallHeight, -TowerHeroBack);
         public bool NearStairs => Side == StairsSide && Mathf.Abs(along) <= StairsReach && inset >= StairsInsetMin;
 
@@ -96,7 +108,7 @@ namespace HumanLastRampart.Combat.Battle
             get
             {
                 Vector3 wall = FeetAt(Side, along, inset);
-                return towerBlend <= 0f ? wall : Vector3.Lerp(wall, TowerFeet, Mathf.SmoothStep(0f, 1f, towerBlend));
+                return towerBlend <= 0f ? wall : TowerPath(wall, Mathf.SmoothStep(0f, 1f, towerBlend));
             }
         }
 

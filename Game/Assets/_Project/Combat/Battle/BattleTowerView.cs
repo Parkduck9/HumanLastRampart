@@ -54,7 +54,7 @@ namespace HumanLastRampart.Combat.Battle
             if (HasStoneArt)
             {
                 var t = stone.Get(surface).mainTexture;
-                tile = new Vector2(t.width / 32f, t.height / 32f);   // 성벽·계단과 같은 돌 크기
+                tile = new Vector2(t.width / BattleWorldMaterials.PixelsPerMeter, t.height / BattleWorldMaterials.PixelsPerMeter);   // 성벽·계단과 같은 돌 크기
             }
 
             // 몸체 (돌)
@@ -198,6 +198,7 @@ namespace HumanLastRampart.Combat.Battle
                 Quad(new Vector3(max.x, min.y, max.z), new Vector3(max.x, min.y, min.z), new Vector3(max.x, max.y, min.z), new Vector3(max.x, max.y, max.z), Vector3.right, s.z, s.y);
                 Quad(new Vector3(min.x, min.y, min.z), new Vector3(min.x, min.y, max.z), new Vector3(min.x, max.y, max.z), new Vector3(min.x, max.y, min.z), Vector3.left, s.z, s.y);
                 Quad(new Vector3(min.x, max.y, max.z), new Vector3(max.x, max.y, max.z), new Vector3(max.x, max.y, min.z), new Vector3(min.x, max.y, min.z), Vector3.up, s.x, s.z);
+                Quad(new Vector3(min.x, min.y, min.z), new Vector3(max.x, min.y, min.z), new Vector3(max.x, min.y, max.z), new Vector3(min.x, min.y, max.z), Vector3.down, s.x, s.z);   // 아랫면 (둘레길·띠·지붕 테를 아래에서 볼 때)
             }
 
             // 안쪽을 보는 상자 (불방 속): 바깥에서는 뒷면이라 가까운 쪽 면은 안 보이고 먼 쪽 면만 보인다

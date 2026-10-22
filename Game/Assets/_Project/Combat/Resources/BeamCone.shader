@@ -66,7 +66,7 @@ Shader "HumanLastRampart/BeamCone"
                 float profile;
                 if (_Mode > 1.5)
                 {
-                    profile = (1.0 - smoothstep(0.0, _Half.w + 8.0, r)) * 0.8;   // 모드 2 (W20): 꼭대기 불방에서 내려오는 연한 판 — 탑에서 멀수록 옅어진다
+                    profile = (1.0 - smoothstep(0.0, _Half.w + 8.0, r)) * (1.0 - smoothstep(_Half.w - 14.0, _Half.w - 6.0, r)) * 0.8;   // 모드 2 (W20): 성벽 통로 6~14m 앞부터 옅어져 통로(사진기 높이)에서는 사라진다. : 꼭대기 불방에서 내려오는 연한 판 — 탑에서 멀수록 옅어진다
                 }
                 else if (_Mode < 0.5)
                 {

@@ -190,7 +190,7 @@ namespace HumanLastRampart.Combat.Battle
         }
 
         readonly TowerCourier[] towerCouriers = { new TowerCourier(), new TowerCourier(), new TowerCourier() };
-        static readonly Vector3[] TowerStandby = { new Vector3(-1.7f, 0f, -0.9f), new Vector3(1.7f, 0f, -0.9f), new Vector3(-1.25f, 0f, -1.75f) };
+        static readonly Vector3[] TowerStandby = { new Vector3(-2.1f, 0f, -0.5f), new Vector3(2.3f, 0f, -0.6f), new Vector3(-1.6f, 0f, -2.0f) };
 
         // 탑에서 그 성벽 병력 가운데 안쪽까지 직선 (마당 윗면 높이)
         Vector3 TowerRoute(int side)
@@ -215,7 +215,10 @@ namespace HumanLastRampart.Combat.Battle
             Vector3 start = new Vector3(0f, WallHeight, 0f);
             // 높은 탑(W20) 몸체 밖(1.5m)에서 달려 나가고 돌아온다 (탑 속을 지나지 않게)
             float out0 = Mathf.Min(1.5f, length);
-            info.Position = start + route.normalized * (out0 + (length - out0) * (c.Returning ? 1f - t : t));
+            float progress = c.Returning ? 1f - t : t;
+            // 출발·도착 가까이에서는 옆으로 비껴 선다 (남쪽 성벽 전령이 문 앞 주인공 자리에서 출발하지 않게)
+            Vector3 side = Vector3.Cross(Vector3.up, route.normalized) * (0.9f * (1f - progress));
+            info.Position = start + route.normalized * (out0 + (length - out0) * progress) + side;
             info.Direction = c.Returning ? -route.normalized : route.normalized;
             return info;
         }
