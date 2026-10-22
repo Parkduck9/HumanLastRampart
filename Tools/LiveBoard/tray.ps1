@@ -147,70 +147,98 @@ $track = [System.Drawing.Color]::FromArgb(18, 14, 10)
 $script:shape = ''
 $script:slots = @()
 
-function Lines($d) {
-    $L = New-Object System.Collections.ArrayList
-    function Line($text, $f, $color, $pct) { [void]$L.Add([pscustomobject]@{ Text = $text; Font = $f; Color = $color; Pct = $pct }) }
-    function Item($it) {
-        # 움직임 시각은 보이지 않는다 (사용자 2026-10-22). 대신 무엇을 하는지 한 줄(desc)
-        $m = if ($it.model) { "  · $($it.model)" } else { '' }
-        Line ("{0}  [{1}]  {2}%{3}" -f $it.name, $it.stage, $it.pct, $m) $bold $null $null
-        if ($it.desc) { Line $it.desc $font $null $null }
-        Line ($it.who + ' · ' + $it.detail) $font $dim $it.pct
-    }
-    Line ('갱신 ' + $d.updated) $font $dim $null
+# 화면 2판 (사용자 2026-10-22: 꾸밈 줄·도구 사용 수·바뀐 파일 수 같은 쓸모없는 정보 빼고, 사용량은 꼭 보이게)
+# 한 칸 = 제목 줄(이름 + 오른쪽 확인 시각) → 사용량 두 줄(이번 주 · 5시간, 막대 + 숫자) → 작업 줄(이름 + 오른쪽 단계·%·모델, 얇은 막대)
+$W = 470
+$head = New-Object System.Drawing.Font('Malgun Gothic', 12, [System.Drawing.FontStyle]::Bold)
+$small = New-Object System.Drawing.Font('Malgun Gothic', 9)
 
-    # 클로드와 코덱스를 칸으로 나눈다 (사용자 2026-10-22: 섞여 있어 보기 힘듦)
-    Line '━━ 클로드 ━━' $bold $brass $null
-    if ($d.claude) { Line ("사용량 이번 주 {0}% · 5시간 {1}%  (확인 {2})" -f $d.claude.week, $d.claude.five, $d.claude.checked) $font $null $d.claude.week }
-    else { Line '사용량: 아직 기록 없음 (Claude가 확인할 때 채워짐)' $font $dim $null }
-    if ($d.unity.running) { Line ("유니티 시험 실행 중 · {0}분째 (약 {1}%)" -f $d.unity.minutes, $d.unity.pct) $font $null $d.unity.pct }
+function Rows($d) {
+    $R = New-Object System.Collections.ArrayList
+    function Row($kind, $left, $right, $pct) { [void]$R.Add([pscustomobject]@{ Kind = $kind; Left = $left; Right = $right; Pct = $pct }) }
+    function Usage($u, $note) {
+        if ($u) {
+            Row 'meter' '이번 주' ("{0}%" -f [int]$u.week) $u.week
+            Row 'meter' '5시간' ("{0}%" -f [int]$u.five) $u.five
+        } else { Row 'note' $note '' $null }
+    }
+    function Tasks($list, $empty) {
+        if (-not $list) { Row 'note' $empty '' $null; return }
+        foreach ($it in $list) {
+            $right = "{0}  {1}%" -f $it.stage, $it.pct
+            if ($it.model) { $right += "  ·  $($it.model)" }
+            Row 'task' $it.name $right $it.pct
+        }
+    }
+
+    $claudeAt = if ($d.claude) { "확인 $($d.claude.checked.Substring(6))" } else { '' }
+    Row 'title' '클로드' $claudeAt $null
+    Usage $d.claude '사용량 기록 없음'
     $mine = @($d.items | Where-Object { $_.kind -ne 'card' })
-    foreach ($it in $mine) { Item $it }
-    if (-not $mine -and -not $d.unity.running) { Line '진행 중인 작업이 없습니다' $font $dim $null }
+    if ($d.unity.running) { Row 'task' '유니티 시험' ("{0}분째" -f [int]$d.unity.minutes) $d.unity.pct }
+    if ($d.unity.running -and -not $mine) { } else { Tasks $mine '진행 중인 작업 없음' }
+    Row 'gap' '' '' $null
 
-    Line '━━ 코덱스 ━━' $bold $brass $null
-    if ($d.codex) {
-        # '초기화'가 두 번 나와 읽기 힘듦 (사용자 2026-10-22) → 사용량 한 줄, 초기화 시각 한 줄
-        Line ("사용량 이번 주 {0}% · 5시간 {1}% · {2}분 전 값" -f $d.codex.week, $d.codex.five, $d.codex.age) $font $null $d.codex.week
-        Line ("초기화: 이번 주 {0} · 5시간 {1}" -f $d.codex.weekReset, $d.codex.fiveReset) $font $dim $null
-    }
-    else { Line '사용량: 한도 정보를 읽지 못함' $font $dim $null }
-    $cards = @($d.items | Where-Object { $_.kind -eq 'card' })
-    foreach ($it in $cards) { Item $it }
-    if (-not $cards) { Line '진행 중인 카드가 없습니다' $font $dim $null }
-    return $L
+    $codexAt = if ($d.codex) { "초기화 {0} · 5시간 {1}" -f $d.codex.weekReset, $d.codex.fiveReset.Substring(6) } else { '' }
+    Row 'title' '코덱스' $codexAt $null
+    Usage $d.codex '사용량을 읽지 못함'
+    Tasks @($d.items | Where-Object { $_.kind -eq 'card' }) '진행 중인 그림 없음'
+    Row 'gap' '' '' $null
+    Row 'note' ('갱신 ' + $d.updated.Substring(11)) '' $null
+    return $R
+}
+
+function NewLabel($text, $f, $color, $x, $y, $w, $align) {
+    $l = New-Object System.Windows.Forms.Label
+    $l.AutoSize = $false; $l.Font = $f; $l.ForeColor = $color; $l.Text = $text
+    $l.Location = New-Object System.Drawing.Point($x, $y); $l.Size = New-Object System.Drawing.Size($w, 22); $l.TextAlign = $align
+    return $l
 }
 
 function Render($d) {
-    $lines = Lines $d
-    $shape = ($lines | ForEach-Object { "$($_.Font.Style)|$($null -ne $_.Pct)" }) -join ';'
+    $rows = Rows $d
+    $shape = ($rows | ForEach-Object { $_.Kind }) -join ';'
     if ($shape -ne $script:shape) {
-        # 줄 모양이 바뀌었을 때만 다시 만든다
+        # 줄 모양이 바뀌었을 때만 다시 만든다 (깜빡임 없음)
         $panel.SuspendLayout(); $panel.Controls.Clear(); $script:slots = @()
-        foreach ($ln in $lines) {
-            $l = New-Object System.Windows.Forms.Label
-            $l.AutoSize = $true; $l.MaximumSize = New-Object System.Drawing.Size(470, 0); $l.Font = $ln.Font
-            $panel.Controls.Add($l)
-            $fill = $null
-            if ($null -ne $ln.Pct) {
-                $bar = New-Object System.Windows.Forms.Panel
-                $bar.Width = 470; $bar.Height = 12; $bar.BackColor = $track; $bar.Margin = New-Object System.Windows.Forms.Padding(3, 2, 3, 8)
-                $fill = New-Object System.Windows.Forms.Panel
-                $fill.Height = 12; $fill.Left = 0; $fill.Top = 0; $fill.BackColor = $brass
-                $bar.Controls.Add($fill); $panel.Controls.Add($bar)
+        foreach ($r in $rows) {
+            $p = New-Object System.Windows.Forms.Panel
+            $p.Width = $W; $p.Margin = New-Object System.Windows.Forms.Padding(0)
+            $a = $null; $b = $null; $fill = $null; $barW = 0
+            switch ($r.Kind) {
+                'title' { $p.Height = 34; $a = NewLabel '' $head $brass 0 6 200 'MiddleLeft'; $b = NewLabel '' $small $dim 200 8 ($W - 200) 'MiddleRight' }
+                'meter' {
+                    $p.Height = 24; $a = NewLabel '' $font $dim 0 1 70 'MiddleLeft'; $b = NewLabel '' $bold $form.ForeColor ($W - 60) 1 60 'MiddleRight'
+                    $barW = $W - 140
+                    $bar = New-Object System.Windows.Forms.Panel; $bar.BackColor = $track; $bar.Location = New-Object System.Drawing.Point(72, 8); $bar.Size = New-Object System.Drawing.Size($barW, 8)
+                    $fill = New-Object System.Windows.Forms.Panel; $fill.BackColor = $brass; $fill.Height = 8; $bar.Controls.Add($fill); $p.Controls.Add($bar)
+                }
+                'task' {
+                    $p.Height = 32; $a = NewLabel '' $font $form.ForeColor 0 0 250 'MiddleLeft'; $b = NewLabel '' $small $dim 250 0 ($W - 250) 'MiddleRight'
+                    $barW = $W
+                    $bar = New-Object System.Windows.Forms.Panel; $bar.BackColor = $track; $bar.Location = New-Object System.Drawing.Point(0, 24); $bar.Size = New-Object System.Drawing.Size($W, 3)
+                    $fill = New-Object System.Windows.Forms.Panel; $fill.BackColor = $brass; $fill.Height = 3; $bar.Controls.Add($fill); $p.Controls.Add($bar)
+                }
+                'note' { $p.Height = 24; $a = NewLabel '' $small $dim 0 0 $W 'MiddleLeft' }
+                default { $p.Height = 12 }
             }
-            $script:slots += , @($l, $fill)
+            if ($a) { $p.Controls.Add($a) }; if ($b) { $p.Controls.Add($b) }
+            $panel.Controls.Add($p)
+            $script:slots += , @($a, $b, $fill, $barW)
         }
         $panel.ResumeLayout()
         $script:shape = $shape
+        # 창 높이를 내용에 맞춘다 (오른쪽 아래에 붙여 둔다)
+        $h = 20; foreach ($c in $panel.Controls) { $h += $c.Height }
+        $form.ClientSize = New-Object System.Drawing.Size($form.ClientSize.Width, [Math]::Min(900, $h))
+        $form.Top = $area.Bottom - $form.Height - 20
     }
-    for ($i = 0; $i -lt $lines.Count; $i++) {
-        $ln = $lines[$i]; $l = $script:slots[$i][0]; $fill = $script:slots[$i][1]
-        if ($l.Text -ne $ln.Text) { $l.Text = $ln.Text }
-        $color = if ($ln.Color) { $ln.Color } else { $form.ForeColor }
-        if ($l.ForeColor -ne $color) { $l.ForeColor = $color }
+    for ($i = 0; $i -lt $rows.Count; $i++) {
+        $r = $rows[$i]; $a = $script:slots[$i][0]; $b = $script:slots[$i][1]; $fill = $script:slots[$i][2]; $barW = $script:slots[$i][3]
+        if ($a -and $a.Text -ne $r.Left) { $a.Text = $r.Left }
+        if ($b -and $b.Text -ne $r.Right) { $b.Text = $r.Right }
         if ($fill) {
-            $w = [int](470 * [Math]::Max(0, [Math]::Min(100, [double]$ln.Pct)) / 100)
+            $w = [int]($barW * [Math]::Max(0, [Math]::Min(100, [double]$r.Pct)) / 100)
             if ($fill.Width -ne $w) { $fill.Width = $w }
         }
     }
