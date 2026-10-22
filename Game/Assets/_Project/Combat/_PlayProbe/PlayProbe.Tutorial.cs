@@ -8,6 +8,7 @@ using HumanLastRampart.Tutorial;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using UnityEngine.TestTools;
 
 public sealed partial class PlayProbe
@@ -83,6 +84,14 @@ public sealed partial class PlayProbe
             Assert.IsFalse(entry.Preparing, "튜토리얼은 성벽 위에서 시작");
             Assert.IsFalse(entry.MapOpen, "걷기 단계는 지도가 닫혀 있다");
             Assert.AreEqual(0f, entry.TutorialTimeScale, "읽는 동안 전투 시간 멈춤");
+            // 고리가 주인공 위에 있어야 한다 (화면 좌표 80px 안). 고리 위치는 오버레이 캔버스라 RectTransform 월드 좌표 = 화면 화소
+            RawImage walkRing = null;
+            foreach (var image in Object.FindObjectsByType<RawImage>(FindObjectsSortMode.None))
+                if (image.name == "Ring" && image.gameObject.activeInHierarchy) walkRing = image;
+            Assert.IsNotNull(walkRing, "걷기 단계 강조 고리");
+            Vector3 heroScreen = entry.BattleCamera.WorldToScreenPoint(entry.Rig.HeroFeet + Vector3.up * 1.2f);
+            Vector3 ringScreen = walkRing.rectTransform.position;
+            Assert.Less(Vector2.Distance(heroScreen, ringScreen), 80f, $"고리가 주인공 위에 있음 (주인공 {heroScreen}, 고리 {ringScreen})");
             yield return Capture("tutorial_1_walk");
 
             // 1 걷기: 좌우 입력으로 실제로 걸어야 넘어간다
