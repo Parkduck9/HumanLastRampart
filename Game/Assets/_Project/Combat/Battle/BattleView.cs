@@ -498,7 +498,10 @@ namespace HumanLastRampart.Combat.Battle
             ground.transform.localScale = new Vector3((field + 20f) * 4f / 10f, 1f, (field + 20f) * 4f / 10f);
             Tint(ground.GetComponent<Renderer>(), new Color(0.42f, 0.5f, 0.3f));
             // 들판 풀 질감 (BattleArt/World/field_grass) — 예전에는 단색만 칠해져 있었다 (사용자 '밋밋하다' 2026-10-20). 그림이 없으면 단색 그대로
-            world?.DressGround(ground.GetComponent<Renderer>(), new Vector2(ground.transform.localScale.x * 10f, ground.transform.localScale.z * 10f));
+            var groundScale = ground.transform.localScale;
+            // W15 (사용자 2026-10-22 '너무 하얗고 평면'): 큰 무늬·잔 자갈·낮은 출렁임·노멀맵·점광원 목록을 받는 들판 땅. 못 쓰면 예전 질감 그대로
+            if (!HumanLastRampart.Combat.Render.FieldGround.Dress(ground, groundScale.x * 5f, field + 40f, half))
+                world?.DressGround(ground.GetComponent<Renderer>(), new Vector2(groundScale.x * 10f, groundScale.z * 10f));
 
             var yard = GameObject.CreatePrimitive(PrimitiveType.Cube);
             yard.name = "Castle Yard";

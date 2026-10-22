@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.IO;
 using System.Text;
 using HumanLastRampart.App.Flow;
@@ -60,12 +60,53 @@ public sealed partial class PlayProbe
             for (int i = 0; i < 4; i++) yield return null;
             sim.Complete();
             yield return Capture("night_beam_low", 1920, 1080, true);
+
+            // 불바다·폭발 가까이 (북쪽 성벽 앞 10~14m): 불빛이 땅·적에 번지는지, 모바일 약식 경로도 한 장
+            sim.SetLamp(LampBrightness.Normal);
+            int fire = -1, blast = -1;
+            for (int s = 0; s < sim.SpellCount; s++)
+            {
+                if (sim.GetSpell(s).IsFire) { if (fire < 0) fire = s; }
+                else if (blast < 0) blast = s;
+            }
+
+            var at = new Vector3(0f, 0f, sim.CastleHalf + 9f);
+            bool fireOk = fire >= 0 && sim.CastSpell(fire, at + new Vector3(-5f, 0f, 2f));
+            sim.Complete();
+            for (int i = 0; i < 24; i++) yield return null;
+            sim.Complete();
+            bool blastOk = blast >= 0 && sim.CastSpell(blast, at + new Vector3(7f, 0f, -2f));
+            sim.Complete();
+            for (int i = 0; i < 22; i++) yield return null;
+            sim.Complete();
+            Note($"마법: 불바다 {fireOk}, 폭발 {blastOk}");
+            yield return Capture("night_fire_close", 1920, 1080, true);
+            HumanLastRampart.Combat.Render.HlrLights.ForceLow = true;
+            for (int i = 0; i < 3; i++) yield return null;
+            sim.Complete();
+            yield return Capture("night_fire_mobile", 1920, 1080, true);
+            HumanLastRampart.Combat.Render.HlrLights.ForceLow = false;
+
+            // 적 무리가 성벽 앞까지 온 뒤 (약 70초): 불바다 곁 적·횃불 빛 확인
+            yield return Press("×4", 120);
+            for (int i = 0; i < 9000 && sim.Elapsed < 70f && !sim.Ended; i++) yield return null;
+            yield return Press("×1", 120);
+            sim.Complete();
+            bool lateFire = fire >= 0 && sim.CastSpell(fire, at + new Vector3(3f, 0f, 0f));
+            sim.Complete();
+            for (int i = 0; i < 30; i++) yield return null;
+            sim.Complete();
+            Note($"늦은 불바다 {lateFire}, 시간 {sim.Elapsed:0}초");
+            yield return Capture("night_enemies_fire", 1920, 1080, true);
         }
         finally
         {
+            HumanLastRampart.Combat.Render.HlrLights.ForceLow = false;
             KeepPreparation = false;
             File.WriteAllText(Path.Combine(Out, "night_beam.txt"), log.ToString(), new UTF8Encoding(false));
             Time.captureDeltaTime = 0f;
         }
     }
 }
+
+

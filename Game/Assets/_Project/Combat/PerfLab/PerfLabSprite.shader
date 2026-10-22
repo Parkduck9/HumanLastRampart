@@ -1,4 +1,4 @@
-// 성능 시제품용 스프라이트 셰이더 (PERF_PROTOTYPE.md 4장) + 옥토패스식 빛·그림자 (D-062 2단계)
+﻿// 성능 시제품용 스프라이트 셰이더 (PERF_PROTOTYPE.md 4장) + 옥토패스식 빛·그림자 (D-062 2단계)
 // - 개체 데이터는 StructuredBuffer로 받고 SV_InstanceID로 읽는다 (DrawMeshInstancedProcedural)
 // - 세로로 선 빌보드: 카메라 좌우 방향으로만 돌린다 (2.5D)
 // - 시트는 열×행 격자. 프레임 번호 = 행 × 열 수 + 열 (왼쪽 위부터). 음수면 좌우 뒤집기 (-번호-1)
@@ -221,6 +221,7 @@ Shader "HLR/PerfLabSprite"
             #pragma multi_compile_fog
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+            #include "Assets/_Project/Combat/Render/HlrLights.hlsl"
 
             struct Varyings
             {
@@ -352,33 +353,45 @@ Shader "HLR/PerfLabSprite"
                     spec += SpecTerm(mainLight.color * mainLight.shadowAttenuation, mainLight.direction, n, viewDir, specPower);
                 }
 
-                // 추가 조명 (횃불·폭발): 포워드 플러스면 화면 칸 목록, 아니면 개체별 목록을 돈다
-                half3 extra = 0;
-                #if defined(_ADDITIONAL_LIGHTS)
-                    InputData inputData = (InputData)0;   // LIGHT_LOOP_BEGIN(포워드 플러스)이 이 이름으로 읽는다
-                    inputData.positionWS = input.positionWS;
-                    inputData.normalizedScreenSpaceUV = GetNormalizedScreenSpaceUV(input.positionCS);
-                    uint lightsCount = GetAdditionalLightsCount();
-                    #if USE_CLUSTER_LIGHT_LOOP
-                        // 포워드 플러스: 추가 방향 빛은 칸 목록 밖에 따로 있다
-                        [loop] for (uint lightIndex = 0; lightIndex < min(URP_FP_DIRECTIONAL_LIGHTS_COUNT, MAX_VISIBLE_LIGHTS); lightIndex++)
-                        {
-                            CLUSTER_LIGHT_LOOP_SUBTRACTIVE_LIGHT_CHECK
-                            Light dirLight = GetAdditionalLight(lightIndex, input.positionWS);
-                            extra += WrapAdditional(dirLight, n);
-                            [branch] if (specOn) spec += SpecTerm(dirLight.color * dirLight.distanceAttenuation, dirLight.direction, n, viewDir, specPower);
-                        }
-                    #endif
-                    LIGHT_LOOP_BEGIN(lightsCount)
-                        Light addLight = GetAdditionalLight(lightIndex, input.positionWS);
-                        extra += WrapAdditional(addLight, n);
-                        [branch] if (specOn) spec += SpecTerm(addLight.color * addLight.distanceAttenuation, addLight.direction, n, viewDir, specPower);
-                    LIGHT_LOOP_END
-                #endif
+                // 추가 조명 (횃불·불바다·폭발, W15): 유니티 기본 추가 조명은 개체(그림 묶음) 하나당 4개뿐이라 흩어진 적이 빛을 못 받았다.
+                // 대신 장면 점광원 목록(HlrLights)을 돌며 면별 확산·반사·바닥 번짐을 받는다. 목록은 PC 14·모바일 6개로 제한
+                half3 extra = 0, extraSpec = 0, extraBounce = 0;
+                HlrAccumulate(input.positionWS, n, normalize(_WorldSpaceCameraPos - input.positionWS), specOn ? specPower : 24.0, extra, extraSpec, extraBounce);
+                [branch] if (specOn) spec += extraSpec;
+
+                // 테두리빛 (PC): 가까운 빛 쪽 가장자리 화소(빛 쪽 이웃이 투명)에 은은한 윤곽을 더한다
+                half3 rim = 0;
+                [branch] if (_HlrQuality > 0.5 && _HlrLightCount > 0.5)
+                {
+                    float3 rimLight = 0;
+                    float rimDir = 0;
+                    int rimCount = min((int)_HlrLightCount, HLR_MAX_LIGHTS);
+                    float best = 0;
+                    [loop] for (int r = 0; r < rimCount; r++)
+                    {
+                        float3 toL = _HlrLightPos[r].xyz - input.positionWS;
+                        float d2 = dot(toL, toL);
+                        float rad = _HlrLightPos[r].w;
+                        float w = saturate(1.0 - d2 / (rad * rad)) / (d2 + 1.0) * dot(_HlrLightCol[r].rgb, float3(0.3, 0.5, 0.2));
+                        if (w > best) { best = w; rimLight = _HlrLightCol[r].rgb; rimDir = dot(toL, input.faceRight) / sqrt(max(d2, 1e-4)); }
+                    }
+                    if (best > 0.002)
+                    {
+                        float2 texel = float2(1.0 / (_Grid.x * 128.0), 1.0 / (_Grid.y * 128.0));   // 칸 크기 근사: 칸 하나 약 128화소
+                        float2 rimStep = float2(sign(rimDir) * min(abs(rimDir) * 2.0, 1.0), 0.6) * texel * 2.0;
+                        float edge = saturate(color.a - SAMPLE_TEXTURE2D_LOD(_MainTex, sampler_MainTex, input.uv + rimStep, 0).a);
+                        rim = (half3)(rimLight * (saturate(best * 1.6) * edge * 0.35));
+                    }
+                }
+
+                // 밤에 스스로 빛나는 눈 (노란 점): 빛 계산을 받지 않고 1 넘는 색으로 — 빛번짐이 걸린다
+                half glowMask = (half)(_HlrNight * smoothstep(0.7, 0.9, color.g) * step(0.82, color.r) * (1.0 - smoothstep(0.25, 0.45, color.b)));
 
                 // 반사 색: 흰빛에 그림 색을 반쯤 섞는다 (금·구리는 금빛, 철은 흰빛). 해·달 색(밤 푸른빛·NightTuning.SunScale)과 횃불 색이 이미 spec에 들어 있다
                 half3 specColor = spec * specStrength * lerp(half3(1, 1, 1), saturate(albedo * 2.0h), 0.5h);
-                return half4(MixFog(albedo * (sun + ambient + extra) + specColor, input.fogFactor), 1.0h);
+                half3 lit = albedo * (sun + ambient + extra + extraBounce) + specColor + rim;
+                lit = lerp(lit, albedo * 2.4h, glowMask);
+                return half4(MixFog(lit, input.fogFactor), 1.0h);
             }
             ENDHLSL
         }
@@ -445,3 +458,5 @@ Shader "HLR/PerfLabSprite"
         }
     }
 }
+
+

@@ -10,7 +10,7 @@ namespace HumanLastRampart.Combat.Battle
     // - 폭발 빛: 마법 폭발(0.4초 번쩍)·불바다(지속 중 흔들리는 주황빛)·함정 폭발(터지는 순간 0.4초) 자리에 잠깐 밝은 빛
     // - 폭발 빛은 풀에서 다시 쓴다 (동시에 최대 FlashCapacity개). 지도 모드면 모두 끈다
     // 캐릭터(PerfLabSprite)는 추가 조명을 감싸는 빛으로 받고, 성벽·땅(기본 Lit)도 함께 밝아진다
-    public sealed class BattleLights
+    public sealed partial class BattleLights
     {
         public const float TorchSpacing = 3f;          // 성벽 따라 간격 (m). 가까운 사진기에 보이는 성벽 폭이 몇 m뿐이라 8m 간격이면 한 개도 안 잡혔다
         // 성벽 바깥 모서리에서 안쪽으로 — 난간(두께 0.3m) 바로 뒤. 자리는 간격마다 가장 가까운 돌출부 뒤(BattleSim.TorchSpots, K-045):
@@ -28,8 +28,8 @@ namespace HumanLastRampart.Combat.Battle
         // 쏠 때·터질 때 빛 (2026-10-20)
         public const float CannonImpactIntensity = 14f;
         const float MuzzleSeconds = 0.12f;
-        const float CannonMuzzleIntensity = 4f;
-        const float GunMuzzleIntensity = 0.7f;   // 사용자 '총구 빛은 조금 약하게' (2026-10-20)
+        const float CannonMuzzleIntensity = 3f;
+        const float GunMuzzleIntensity = 0.45f;   // 사용자 '총구 빛은 조금 약하게' (2026-10-20)
         const int GunFlashMax = 6;
         const float CastSeconds = 0.8f;
         const float CastIntensity = 1.5f;
@@ -134,6 +134,7 @@ namespace HumanLastRampart.Combat.Battle
                 for (int i = 0; i < flashes.Count; i++) flashes[i].enabled = false;
                 TrackTraps(Time.deltaTime);
                 AgeTimed(Time.deltaTime);
+                HumanLastRampart.Combat.Render.HlrLights.Clear();
                 return;
             }
 
@@ -156,6 +157,7 @@ namespace HumanLastRampart.Combat.Battle
             if (torchesOn) FlickerTorches();
             TrackTraps(Time.deltaTime);
             UpdateFlashes();
+            GatherShaderLights();   // 셰이더 점광원 목록 (BattleLights.Hlr.cs)
         }
 
         void SetTorches(bool on, float intensity)
@@ -317,6 +319,7 @@ namespace HumanLastRampart.Combat.Battle
         public void Dispose()
         {
             if (root != null) Object.Destroy(root);
+            HumanLastRampart.Combat.Render.HlrLights.Clear();
             torches.Clear();
             flames.Clear();
             if (flameMaterial != null) Object.Destroy(flameMaterial);
@@ -325,4 +328,6 @@ namespace HumanLastRampart.Combat.Battle
         }
     }
 }
+
+
 
