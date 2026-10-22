@@ -1,0 +1,1709 @@
+{
+    "card":  "K-097",
+    "version":  1,
+    "coordinate_origin":  "top_left",
+    "alpha":  "RGBA binary 0/255",
+    "filter":  "Point",
+    "compression":  "None",
+    "mipmaps":  false,
+    "native_to_game_scale":  3,
+    "preview_scale":  4,
+    "figure_contract_note_ko":  "전부 화면 안내 부품과 흉상이다. D-081 전신 96×128 및 발 y=120은 해당하지 않는다. 흉상은 K-093과 같은 48×48, 중앙 피벗 (24,24), 밑선 y=46.",
+    "integration_ko":  "게임 연결·Sprite Editor 설정·Unity 확인은 Claude 담당. 기존 게임용 파일 교체 없음.",
+    "step_order":  [
+                       "걷기",
+                       "망원경",
+                       "지도",
+                       "분대",
+                       "대포",
+                       "마법",
+                       "함정",
+                       "망원경 업그레이드"
+                   ],
+    "assets":  [
+                   {
+                       "id":  "instruction_box_9slice",
+                       "label_ko":  "명령서 판",
+                       "native_file":  "instruction_box_9slice_native.png",
+                       "game_file":  "instruction_box_9slice.png",
+                       "preview_4x_file":  "instruction_box_9slice_4x.png",
+                       "native_cell":  [
+                                           96,
+                                           48
+                                       ],
+                       "game_cell":  [
+                                         288,
+                                         144
+                                     ],
+                       "native_sheet":  [
+                                            96,
+                                            48
+                                        ],
+                       "game_sheet":  [
+                                          288,
+                                          144
+                                      ],
+                       "columns":  1,
+                       "rows":  1,
+                       "frame_count":  1,
+                       "frame_order":  [
+                                           "기본"
+                                       ],
+                       "pivot_top_left_native":  [
+                                                     48,
+                                                     24
+                                                 ],
+                       "pivot_top_left_game":  [
+                                                   144,
+                                                   72
+                                               ],
+                       "unity_pivot_normalized":  [
+                                                      0.5,
+                                                      0.5
+                                                  ],
+                       "fps":  0,
+                       "loop":  false,
+                       "frames":  [
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          0,
+                                                                          0,
+                                                                          95,
+                                                                          47
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   4433
+                                                               ]
+                                      }
+                                  ],
+                       "nine_slice_border_native":  {
+                                                        "left":  8,
+                                                        "bottom":  8,
+                                                        "right":  8,
+                                                        "top":  8
+                                                    },
+                       "nine_slice_border_game":  {
+                                                      "left":  24,
+                                                      "bottom":  24,
+                                                      "right":  24,
+                                                      "top":  24
+                                                  },
+                       "unity_image_type":  "Sliced",
+                       "center_mode":  "stretch",
+                       "edge_mode":  "stretch",
+                       "minimum_native_size":  [
+                                                   17,
+                                                   17
+                                               ],
+                       "text_safe_inset_native":  [
+                                                      10,
+                                                      9,
+                                                      10,
+                                                      9
+                                                  ]
+                   },
+                   {
+                       "id":  "hint_chip_9slice",
+                       "label_ko":  "힌트 판",
+                       "native_file":  "hint_chip_9slice_native.png",
+                       "game_file":  "hint_chip_9slice.png",
+                       "preview_4x_file":  "hint_chip_9slice_4x.png",
+                       "native_cell":  [
+                                           48,
+                                           24
+                                       ],
+                       "game_cell":  [
+                                         144,
+                                         72
+                                     ],
+                       "native_sheet":  [
+                                            48,
+                                            24
+                                        ],
+                       "game_sheet":  [
+                                          144,
+                                          72
+                                      ],
+                       "columns":  1,
+                       "rows":  1,
+                       "frame_count":  1,
+                       "frame_order":  [
+                                           "기본"
+                                       ],
+                       "pivot_top_left_native":  [
+                                                     24,
+                                                     12
+                                                 ],
+                       "pivot_top_left_game":  [
+                                                   72,
+                                                   36
+                                               ],
+                       "unity_pivot_normalized":  [
+                                                      0.5,
+                                                      0.5
+                                                  ],
+                       "fps":  0,
+                       "loop":  false,
+                       "frames":  [
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          0,
+                                                                          0,
+                                                                          47,
+                                                                          23
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   1049
+                                                               ]
+                                      }
+                                  ],
+                       "nine_slice_border_native":  {
+                                                        "left":  8,
+                                                        "bottom":  8,
+                                                        "right":  8,
+                                                        "top":  8
+                                                    },
+                       "nine_slice_border_game":  {
+                                                      "left":  24,
+                                                      "bottom":  24,
+                                                      "right":  24,
+                                                      "top":  24
+                                                  },
+                       "unity_image_type":  "Sliced",
+                       "center_mode":  "stretch",
+                       "edge_mode":  "stretch",
+                       "minimum_native_size":  [
+                                                   17,
+                                                   17
+                                               ],
+                       "text_safe_inset_native":  [
+                                                      10,
+                                                      9,
+                                                      10,
+                                                      9
+                                                  ]
+                   },
+                   {
+                       "id":  "officer_expressions",
+                       "label_ko":  "장교 표정",
+                       "native_file":  "officer_expressions_native.png",
+                       "game_file":  "officer_expressions.png",
+                       "preview_4x_file":  "officer_expressions_4x.png",
+                       "native_cell":  [
+                                           48,
+                                           48
+                                       ],
+                       "game_cell":  [
+                                         144,
+                                         144
+                                     ],
+                       "native_sheet":  [
+                                            192,
+                                            48
+                                        ],
+                       "game_sheet":  [
+                                          576,
+                                          144
+                                      ],
+                       "columns":  4,
+                       "rows":  1,
+                       "frame_count":  4,
+                       "frame_order":  [
+                                           "기본",
+                                           "설명 · 손들기",
+                                           "긴급",
+                                           "만족"
+                                       ],
+                       "pivot_top_left_native":  [
+                                                     24,
+                                                     24
+                                                 ],
+                       "pivot_top_left_game":  [
+                                                   72,
+                                                   72
+                                               ],
+                       "unity_pivot_normalized":  [
+                                                      0.5,
+                                                      0.5
+                                                  ],
+                       "fps":  1,
+                       "loop":  true,
+                       "frames":  [
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          5,
+                                                                          2,
+                                                                          43,
+                                                                          46
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   1176
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          4,
+                                                                          2,
+                                                                          43,
+                                                                          46
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   1236
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          5,
+                                                                          2,
+                                                                          44,
+                                                                          46
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   1193
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          5,
+                                                                          2,
+                                                                          44,
+                                                                          46
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   1191
+                                                               ]
+                                      }
+                                  ],
+                       "bust_bottom_y_exclusive_native":  46,
+                       "figure_foot_baseline":  null
+                   },
+                   {
+                       "id":  "highlight_ring_pulse",
+                       "label_ko":  "강조 고리",
+                       "native_file":  "highlight_ring_pulse_native.png",
+                       "game_file":  "highlight_ring_pulse.png",
+                       "preview_4x_file":  "highlight_ring_pulse_4x.png",
+                       "native_cell":  [
+                                           64,
+                                           64
+                                       ],
+                       "game_cell":  [
+                                         192,
+                                         192
+                                     ],
+                       "native_sheet":  [
+                                            384,
+                                            64
+                                        ],
+                       "game_sheet":  [
+                                          1152,
+                                          192
+                                      ],
+                       "columns":  6,
+                       "rows":  1,
+                       "frame_count":  6,
+                       "frame_order":  [
+                                           "수축",
+                                           "확장 1",
+                                           "확장 2",
+                                           "최대",
+                                           "수축 2",
+                                           "수축 1"
+                                       ],
+                       "pivot_top_left_native":  [
+                                                     32,
+                                                     32
+                                                 ],
+                       "pivot_top_left_game":  [
+                                                   96,
+                                                   96
+                                               ],
+                       "unity_pivot_normalized":  [
+                                                      0.5,
+                                                      0.5
+                                                  ],
+                       "fps":  8,
+                       "loop":  true,
+                       "frames":  [
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          9,
+                                                                          9,
+                                                                          55,
+                                                                          55
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   540
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          8,
+                                                                          8,
+                                                                          56,
+                                                                          56
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   540
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          7,
+                                                                          7,
+                                                                          57,
+                                                                          57
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   580
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          6,
+                                                                          6,
+                                                                          58,
+                                                                          58
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   600
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          7,
+                                                                          7,
+                                                                          57,
+                                                                          57
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   580
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          8,
+                                                                          8,
+                                                                          56,
+                                                                          56
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   540
+                                                               ]
+                                      }
+                                  ],
+                       "reused_from":  "codex_k093_v1/highlight_ring_native.png"
+                   },
+                   {
+                       "id":  "pointer_bounce_up",
+                       "label_ko":  "위 포인터",
+                       "native_file":  "pointer_bounce_up_native.png",
+                       "game_file":  "pointer_bounce_up.png",
+                       "preview_4x_file":  "pointer_bounce_up_4x.png",
+                       "native_cell":  [
+                                           32,
+                                           32
+                                       ],
+                       "game_cell":  [
+                                         96,
+                                         96
+                                     ],
+                       "native_sheet":  [
+                                            128,
+                                            32
+                                        ],
+                       "game_sheet":  [
+                                          384,
+                                          96
+                                      ],
+                       "columns":  4,
+                       "rows":  1,
+                       "frame_count":  4,
+                       "frame_order":  [
+                                           "기준",
+                                           "접근",
+                                           "최대 접근",
+                                           "복귀"
+                                       ],
+                       "pivot_top_left_native":  [
+                                                     16,
+                                                     16
+                                                 ],
+                       "pivot_top_left_game":  [
+                                                   48,
+                                                   48
+                                               ],
+                       "unity_pivot_normalized":  [
+                                                      0.5,
+                                                      0.5
+                                                  ],
+                       "fps":  6,
+                       "loop":  true,
+                       "frames":  [
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          7,
+                                                                          4,
+                                                                          25,
+                                                                          26
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   203
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          7,
+                                                                          6,
+                                                                          25,
+                                                                          28
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   203
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          7,
+                                                                          7,
+                                                                          25,
+                                                                          29
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   203
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          7,
+                                                                          6,
+                                                                          25,
+                                                                          28
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   203
+                                                               ]
+                                      }
+                                  ]
+                   },
+                   {
+                       "id":  "pointer_bounce_right",
+                       "label_ko":  "오른쪽 포인터",
+                       "native_file":  "pointer_bounce_right_native.png",
+                       "game_file":  "pointer_bounce_right.png",
+                       "preview_4x_file":  "pointer_bounce_right_4x.png",
+                       "native_cell":  [
+                                           32,
+                                           32
+                                       ],
+                       "game_cell":  [
+                                         96,
+                                         96
+                                     ],
+                       "native_sheet":  [
+                                            128,
+                                            32
+                                        ],
+                       "game_sheet":  [
+                                          384,
+                                          96
+                                      ],
+                       "columns":  4,
+                       "rows":  1,
+                       "frame_count":  4,
+                       "frame_order":  [
+                                           "기준",
+                                           "접근",
+                                           "최대 접근",
+                                           "복귀"
+                                       ],
+                       "pivot_top_left_native":  [
+                                                     16,
+                                                     16
+                                                 ],
+                       "pivot_top_left_game":  [
+                                                   48,
+                                                   48
+                                               ],
+                       "unity_pivot_normalized":  [
+                                                      0.5,
+                                                      0.5
+                                                  ],
+                       "fps":  6,
+                       "loop":  true,
+                       "frames":  [
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          6,
+                                                                          7,
+                                                                          28,
+                                                                          25
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   203
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          4,
+                                                                          7,
+                                                                          26,
+                                                                          25
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   203
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          3,
+                                                                          7,
+                                                                          25,
+                                                                          25
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   203
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          4,
+                                                                          7,
+                                                                          26,
+                                                                          25
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   203
+                                                               ]
+                                      }
+                                  ]
+                   },
+                   {
+                       "id":  "pointer_bounce_down",
+                       "label_ko":  "아래 포인터",
+                       "native_file":  "pointer_bounce_down_native.png",
+                       "game_file":  "pointer_bounce_down.png",
+                       "preview_4x_file":  "pointer_bounce_down_4x.png",
+                       "native_cell":  [
+                                           32,
+                                           32
+                                       ],
+                       "game_cell":  [
+                                         96,
+                                         96
+                                     ],
+                       "native_sheet":  [
+                                            128,
+                                            32
+                                        ],
+                       "game_sheet":  [
+                                          384,
+                                          96
+                                      ],
+                       "columns":  4,
+                       "rows":  1,
+                       "frame_count":  4,
+                       "frame_order":  [
+                                           "기준",
+                                           "접근",
+                                           "최대 접근",
+                                           "복귀"
+                                       ],
+                       "pivot_top_left_native":  [
+                                                     16,
+                                                     16
+                                                 ],
+                       "pivot_top_left_game":  [
+                                                   48,
+                                                   48
+                                               ],
+                       "unity_pivot_normalized":  [
+                                                      0.5,
+                                                      0.5
+                                                  ],
+                       "fps":  6,
+                       "loop":  true,
+                       "frames":  [
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          7,
+                                                                          6,
+                                                                          25,
+                                                                          28
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   203
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          7,
+                                                                          4,
+                                                                          25,
+                                                                          26
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   203
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          7,
+                                                                          3,
+                                                                          25,
+                                                                          25
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   203
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          7,
+                                                                          4,
+                                                                          25,
+                                                                          26
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   203
+                                                               ]
+                                      }
+                                  ]
+                   },
+                   {
+                       "id":  "pointer_bounce_left",
+                       "label_ko":  "왼쪽 포인터",
+                       "native_file":  "pointer_bounce_left_native.png",
+                       "game_file":  "pointer_bounce_left.png",
+                       "preview_4x_file":  "pointer_bounce_left_4x.png",
+                       "native_cell":  [
+                                           32,
+                                           32
+                                       ],
+                       "game_cell":  [
+                                         96,
+                                         96
+                                     ],
+                       "native_sheet":  [
+                                            128,
+                                            32
+                                        ],
+                       "game_sheet":  [
+                                          384,
+                                          96
+                                      ],
+                       "columns":  4,
+                       "rows":  1,
+                       "frame_count":  4,
+                       "frame_order":  [
+                                           "기준",
+                                           "접근",
+                                           "최대 접근",
+                                           "복귀"
+                                       ],
+                       "pivot_top_left_native":  [
+                                                     16,
+                                                     16
+                                                 ],
+                       "pivot_top_left_game":  [
+                                                   48,
+                                                   48
+                                               ],
+                       "unity_pivot_normalized":  [
+                                                      0.5,
+                                                      0.5
+                                                  ],
+                       "fps":  6,
+                       "loop":  true,
+                       "frames":  [
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          4,
+                                                                          7,
+                                                                          26,
+                                                                          25
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   203
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          6,
+                                                                          7,
+                                                                          28,
+                                                                          25
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   203
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          7,
+                                                                          7,
+                                                                          29,
+                                                                          25
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   203
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          6,
+                                                                          7,
+                                                                          28,
+                                                                          25
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   203
+                                                               ]
+                                      }
+                                  ]
+                   },
+                   {
+                       "id":  "input_chips_24",
+                       "label_ko":  "입력 칩 24px",
+                       "native_file":  "input_chips_24_native.png",
+                       "game_file":  "input_chips_24.png",
+                       "preview_4x_file":  "input_chips_24_4x.png",
+                       "native_cell":  [
+                                           24,
+                                           24
+                                       ],
+                       "game_cell":  [
+                                         72,
+                                         72
+                                     ],
+                       "native_sheet":  [
+                                            120,
+                                            24
+                                        ],
+                       "game_sheet":  [
+                                          360,
+                                          72
+                                      ],
+                       "columns":  5,
+                       "rows":  1,
+                       "frame_count":  5,
+                       "frame_order":  [
+                                           "Shift + 끌기",
+                                           "오른쪽 클릭",
+                                           "마우스 휠",
+                                           "E",
+                                           "Esc"
+                                       ],
+                       "pivot_top_left_native":  [
+                                                     12,
+                                                     12
+                                                 ],
+                       "pivot_top_left_game":  [
+                                                   36,
+                                                   36
+                                               ],
+                       "unity_pivot_normalized":  [
+                                                      0.5,
+                                                      0.5
+                                                  ],
+                       "fps":  0,
+                       "loop":  false,
+                       "frames":  [
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          1,
+                                                                          1,
+                                                                          23,
+                                                                          23
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   468
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          1,
+                                                                          1,
+                                                                          23,
+                                                                          23
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   468
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          1,
+                                                                          1,
+                                                                          23,
+                                                                          23
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   468
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          1,
+                                                                          1,
+                                                                          23,
+                                                                          23
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   468
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          1,
+                                                                          1,
+                                                                          23,
+                                                                          23
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   468
+                                                               ]
+                                      }
+                                  ]
+                   },
+                   {
+                       "id":  "input_chips_32",
+                       "label_ko":  "입력 칩 32px",
+                       "native_file":  "input_chips_32_native.png",
+                       "game_file":  "input_chips_32.png",
+                       "preview_4x_file":  "input_chips_32_4x.png",
+                       "native_cell":  [
+                                           32,
+                                           32
+                                       ],
+                       "game_cell":  [
+                                         96,
+                                         96
+                                     ],
+                       "native_sheet":  [
+                                            160,
+                                            32
+                                        ],
+                       "game_sheet":  [
+                                          480,
+                                          96
+                                      ],
+                       "columns":  5,
+                       "rows":  1,
+                       "frame_count":  5,
+                       "frame_order":  [
+                                           "Shift + 끌기",
+                                           "오른쪽 클릭",
+                                           "마우스 휠",
+                                           "E",
+                                           "Esc"
+                                       ],
+                       "pivot_top_left_native":  [
+                                                     16,
+                                                     16
+                                                 ],
+                       "pivot_top_left_game":  [
+                                                   48,
+                                                   48
+                                               ],
+                       "unity_pivot_normalized":  [
+                                                      0.5,
+                                                      0.5
+                                                  ],
+                       "fps":  0,
+                       "loop":  false,
+                       "frames":  [
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          1,
+                                                                          1,
+                                                                          31,
+                                                                          31
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   884
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          1,
+                                                                          1,
+                                                                          31,
+                                                                          31
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   884
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          1,
+                                                                          1,
+                                                                          31,
+                                                                          31
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   884
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          1,
+                                                                          1,
+                                                                          31,
+                                                                          31
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   884
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          1,
+                                                                          1,
+                                                                          31,
+                                                                          31
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   884
+                                                               ]
+                                      }
+                                  ]
+                   },
+                   {
+                       "id":  "step_icons_24",
+                       "label_ko":  "단계 아이콘",
+                       "native_file":  "step_icons_24_native.png",
+                       "game_file":  "step_icons_24.png",
+                       "preview_4x_file":  "step_icons_24_4x.png",
+                       "native_cell":  [
+                                           24,
+                                           24
+                                       ],
+                       "game_cell":  [
+                                         72,
+                                         72
+                                     ],
+                       "native_sheet":  [
+                                            192,
+                                            24
+                                        ],
+                       "game_sheet":  [
+                                          576,
+                                          72
+                                      ],
+                       "columns":  8,
+                       "rows":  1,
+                       "frame_count":  8,
+                       "frame_order":  [
+                                           "걷기",
+                                           "망원경",
+                                           "지도",
+                                           "분대",
+                                           "대포",
+                                           "마법",
+                                           "함정",
+                                           "망원경 업그레이드"
+                                       ],
+                       "pivot_top_left_native":  [
+                                                     12,
+                                                     12
+                                                 ],
+                       "pivot_top_left_game":  [
+                                                   36,
+                                                   36
+                                               ],
+                       "unity_pivot_normalized":  [
+                                                      0.5,
+                                                      0.5
+                                                  ],
+                       "fps":  0,
+                       "loop":  false,
+                       "frames":  [
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          2,
+                                                                          4,
+                                                                          20,
+                                                                          20
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   157
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          3,
+                                                                          6,
+                                                                          20,
+                                                                          22
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   152
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          2,
+                                                                          3,
+                                                                          22,
+                                                                          22
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   338
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          3,
+                                                                          4,
+                                                                          22,
+                                                                          20
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   65,
+                                                                   65,
+                                                                   65
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          4,
+                                                                          3,
+                                                                          21,
+                                                                          22
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   217
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          4,
+                                                                          2,
+                                                                          21,
+                                                                          22
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   208
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          3,
+                                                                          6,
+                                                                          23,
+                                                                          20
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   182
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          3,
+                                                                          2,
+                                                                          22,
+                                                                          22
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   183
+                                                               ]
+                                      }
+                                  ]
+                   },
+                   {
+                       "id":  "step_pips",
+                       "label_ko":  "단계 표시 부품",
+                       "native_file":  "step_pips_native.png",
+                       "game_file":  "step_pips.png",
+                       "preview_4x_file":  "step_pips_4x.png",
+                       "native_cell":  [
+                                           32,
+                                           32
+                                       ],
+                       "game_cell":  [
+                                         96,
+                                         96
+                                     ],
+                       "native_sheet":  [
+                                            768,
+                                            32
+                                        ],
+                       "game_sheet":  [
+                                          2304,
+                                          96
+                                      ],
+                       "columns":  24,
+                       "rows":  1,
+                       "frame_count":  24,
+                       "frame_order":  [
+                                           "걷기 · 대기",
+                                           "걷기 · 현재",
+                                           "걷기 · 완료",
+                                           "망원경 · 대기",
+                                           "망원경 · 현재",
+                                           "망원경 · 완료",
+                                           "지도 · 대기",
+                                           "지도 · 현재",
+                                           "지도 · 완료",
+                                           "분대 · 대기",
+                                           "분대 · 현재",
+                                           "분대 · 완료",
+                                           "대포 · 대기",
+                                           "대포 · 현재",
+                                           "대포 · 완료",
+                                           "마법 · 대기",
+                                           "마법 · 현재",
+                                           "마법 · 완료",
+                                           "함정 · 대기",
+                                           "함정 · 현재",
+                                           "함정 · 완료",
+                                           "망원경 업그레이드 · 대기",
+                                           "망원경 업그레이드 · 현재",
+                                           "망원경 업그레이드 · 완료"
+                                       ],
+                       "pivot_top_left_native":  [
+                                                     16,
+                                                     16
+                                                 ],
+                       "pivot_top_left_game":  [
+                                                   48,
+                                                   48
+                                               ],
+                       "unity_pivot_normalized":  [
+                                                      0.5,
+                                                      0.5
+                                                  ],
+                       "fps":  0,
+                       "loop":  false,
+                       "frames":  [
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          0,
+                                                                          0,
+                                                                          31,
+                                                                          31
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   911
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          0,
+                                                                          0,
+                                                                          31,
+                                                                          32
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   917
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          0,
+                                                                          0,
+                                                                          31,
+                                                                          31
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   921
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          0,
+                                                                          0,
+                                                                          31,
+                                                                          31
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   911
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          0,
+                                                                          0,
+                                                                          31,
+                                                                          32
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   917
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          0,
+                                                                          0,
+                                                                          31,
+                                                                          31
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   921
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          0,
+                                                                          0,
+                                                                          31,
+                                                                          31
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   911
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          0,
+                                                                          0,
+                                                                          31,
+                                                                          32
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   917
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          0,
+                                                                          0,
+                                                                          31,
+                                                                          31
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   921
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          0,
+                                                                          0,
+                                                                          31,
+                                                                          31
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   911
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          0,
+                                                                          0,
+                                                                          31,
+                                                                          32
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   917
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          0,
+                                                                          0,
+                                                                          31,
+                                                                          31
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   921
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          0,
+                                                                          0,
+                                                                          31,
+                                                                          31
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   911
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          0,
+                                                                          0,
+                                                                          31,
+                                                                          32
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   917
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          0,
+                                                                          0,
+                                                                          31,
+                                                                          31
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   921
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          0,
+                                                                          0,
+                                                                          31,
+                                                                          31
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   911
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          0,
+                                                                          0,
+                                                                          31,
+                                                                          32
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   917
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          0,
+                                                                          0,
+                                                                          31,
+                                                                          31
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   921
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          0,
+                                                                          0,
+                                                                          31,
+                                                                          31
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   911
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          0,
+                                                                          0,
+                                                                          31,
+                                                                          32
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   917
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          0,
+                                                                          0,
+                                                                          31,
+                                                                          31
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   921
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          0,
+                                                                          0,
+                                                                          31,
+                                                                          31
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   911
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          0,
+                                                                          0,
+                                                                          31,
+                                                                          32
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   917
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          0,
+                                                                          0,
+                                                                          31,
+                                                                          31
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   921
+                                                               ]
+                                      }
+                                  ],
+                       "index_formula":  "stepIndex * 3 + stateIndex",
+                       "state_order":  [
+                                           "empty",
+                                           "current",
+                                           "done"
+                                       ],
+                       "icon_size_native":  [
+                                                24,
+                                                24
+                                            ]
+                   },
+                   {
+                       "id":  "step_progress_strip",
+                       "label_ko":  "8단계 진행 띠",
+                       "native_file":  "step_progress_strip_native.png",
+                       "game_file":  "step_progress_strip.png",
+                       "preview_4x_file":  "step_progress_strip_4x.png",
+                       "native_cell":  [
+                                           256,
+                                           32
+                                       ],
+                       "game_cell":  [
+                                         768,
+                                         96
+                                     ],
+                       "native_sheet":  [
+                                            2304,
+                                            32
+                                        ],
+                       "game_sheet":  [
+                                          6912,
+                                          96
+                                      ],
+                       "columns":  9,
+                       "rows":  1,
+                       "frame_count":  9,
+                       "frame_order":  [
+                                           "걷기",
+                                           "망원경",
+                                           "지도",
+                                           "분대",
+                                           "대포",
+                                           "마법",
+                                           "함정",
+                                           "망원경 업그레이드",
+                                           "모두 완료"
+                                       ],
+                       "pivot_top_left_native":  [
+                                                     128,
+                                                     16
+                                                 ],
+                       "pivot_top_left_game":  [
+                                                   384,
+                                                   48
+                                               ],
+                       "unity_pivot_normalized":  [
+                                                      0.5,
+                                                      0.5
+                                                  ],
+                       "fps":  0,
+                       "loop":  false,
+                       "frames":  [
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          0,
+                                                                          0,
+                                                                          255,
+                                                                          32
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   917,
+                                                                   911,
+                                                                   911,
+                                                                   911,
+                                                                   911,
+                                                                   911,
+                                                                   911,
+                                                                   911
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          0,
+                                                                          0,
+                                                                          255,
+                                                                          32
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   921,
+                                                                   917,
+                                                                   911,
+                                                                   911,
+                                                                   911,
+                                                                   911,
+                                                                   911,
+                                                                   911
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          0,
+                                                                          0,
+                                                                          255,
+                                                                          32
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   921,
+                                                                   921,
+                                                                   917,
+                                                                   911,
+                                                                   911,
+                                                                   911,
+                                                                   911,
+                                                                   911
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          0,
+                                                                          0,
+                                                                          255,
+                                                                          32
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   921,
+                                                                   921,
+                                                                   921,
+                                                                   917,
+                                                                   911,
+                                                                   911,
+                                                                   911,
+                                                                   911
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          0,
+                                                                          0,
+                                                                          255,
+                                                                          32
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   921,
+                                                                   921,
+                                                                   921,
+                                                                   921,
+                                                                   917,
+                                                                   911,
+                                                                   911,
+                                                                   911
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          0,
+                                                                          0,
+                                                                          255,
+                                                                          32
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   921,
+                                                                   921,
+                                                                   921,
+                                                                   921,
+                                                                   921,
+                                                                   917,
+                                                                   911,
+                                                                   911
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          0,
+                                                                          0,
+                                                                          255,
+                                                                          32
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   921,
+                                                                   921,
+                                                                   921,
+                                                                   921,
+                                                                   921,
+                                                                   921,
+                                                                   917,
+                                                                   911
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          0,
+                                                                          0,
+                                                                          255,
+                                                                          32
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   921,
+                                                                   921,
+                                                                   921,
+                                                                   921,
+                                                                   921,
+                                                                   921,
+                                                                   921,
+                                                                   917
+                                                               ]
+                                      },
+                                      {
+                                          "bbox_top_left_exclusive":  [
+                                                                          0,
+                                                                          0,
+                                                                          255,
+                                                                          31
+                                                                      ],
+                                          "component_pixels":  [
+                                                                   921,
+                                                                   921,
+                                                                   921,
+                                                                   921,
+                                                                   921,
+                                                                   921,
+                                                                   921,
+                                                                   921
+                                                               ]
+                                      }
+                                  ]
+                   }
+               ],
+    "sources":  [
+                    {
+                        "sha256":  "0026367083018C4A484E769D2D04E0D9F2FAEE675D62098B2DEF0DB63BEBFC68",
+                        "path":  "Docs/References/codex_hero_octopath_review_v6/generated.png"
+                    },
+                    {
+                        "sha256":  "E7997C7B3C4A9C7AC6C34130A47D0EAB9FF8BCCA378809CEEA5812387A615FC8",
+                        "path":  "Game/Assets/_Project/Art/Characters/Hero/hero_command.png"
+                    },
+                    {
+                        "sha256":  "81C07F0118CFFE367309680688493766D43588144358F2DFAE49538FA0EEFCEE",
+                        "path":  "Docs/References/codex_k093_v1/build.ps1"
+                    },
+                    {
+                        "sha256":  "0D8C9C3FCF1BE6454F7AB5972DA58C777FD2AB5EBB9347D5358E2F85E832D593",
+                        "path":  "Docs/References/codex_k093_v1/officer_bust_native.png"
+                    },
+                    {
+                        "sha256":  "DD27730F652164BA2BAD421EE2033A362E12CEB3B0B9612256285A813880DEBF",
+                        "path":  "Docs/References/codex_k093_v1/highlight_ring_native.png"
+                    },
+                    {
+                        "sha256":  "BF1B7B07A67B4AF0B935AF882F805E96386B1AD5186717F783F02033161B7B55",
+                        "path":  "Docs/References/codex_k093_v1/input_chips_24_native.png"
+                    },
+                    {
+                        "sha256":  "A4DD68E6FDFEE50D17AAFF3786D5486D55CD1083B7BB024C0E7A06A4A16314F5",
+                        "path":  "Docs/References/codex_k093_v1/input_chips_32_native.png"
+                    }
+                ],
+    "generation":  {
+                       "postprocess_ko":  "동일 축척 최근접 축소·머리 중심 정렬·알파 이진화·17단위 색 양자화·4점 미만 고립 영역 제거",
+                       "source_file":  "officer_expressions_generated.png",
+                       "mode":  "built-in imagegen",
+                       "prompt_file":  "generation_prompt.json"
+                   }
+}
