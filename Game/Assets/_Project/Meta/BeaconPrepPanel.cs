@@ -24,7 +24,7 @@ namespace HumanLastRampart.Meta
             {
                 HorizontalLayoutGroup row3 = Ui.Row(line3, "Beacon Row 3", UiTokens.S16);
                 Ui.Stretch((RectTransform)row3.transform);
-                dayLine = Ui.Label(row3.transform, "Beacon Day Line", "", UiTokens.Small, UiTokens.BodyDim, TextAnchor.MiddleLeft)   // W16: 긴 글줄은 Black 대신 갈무리;
+                dayLine = Ui.Label(row3.transform, "Beacon Day Line", "", UiTokens.Small, UiTokens.BodyDim, TextAnchor.MiddleLeft);   // W16: 긴 글줄은 Black 대신 갈무리
                 Ui.Size(dayLine, 1500f, 48f, true);
             }
 
