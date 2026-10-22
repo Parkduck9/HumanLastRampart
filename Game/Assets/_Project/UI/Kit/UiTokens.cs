@@ -57,13 +57,12 @@ namespace HumanLastRampart.UI
         const string GalmuriRegular = "Fonts/Galmuri/Galmuri11";
         const string GalmuriBold = "Fonts/Galmuri/Galmuri11-Bold";
         const string GowunRegular = "Fonts/GowunBatang/GowunBatang-Regular";
-        const string GowunBold = "Fonts/GowunBatang/GowunBatang-Bold";
         const string HahmletBlack = "Fonts/Hahmlet/Hahmlet-Black";
 
         // 갈무리 원래 픽셀 크기 (이 배수로 그리면 점이 깨끗하다)
         public const int GalmuriPixel = 11;
 
-        static Font display, body, bodyBold, story, storyBold;
+        static Font display, body, bodyBold, story;
 
         // 제목·이름·큰 숫자 (함렛 Black)
         public static Font Display => display != null ? display : (display = Load(HahmletBlack, false));
@@ -73,7 +72,8 @@ namespace HumanLastRampart.UI
         public static Font BodyBold => bodyBold != null ? bodyBold : (bodyBold = Load(GalmuriBold, true));
         // 이야기 대사 (고운바탕)
         public static Font Story => story != null ? story : (story = Load(GowunRegular, false));
-        public static Font StoryBold => storyBold != null ? storyBold : (storyBold = Load(GowunBold, false));
+        // 굵은 고운바탕 파일은 용량 때문에 뺐다 (가짜 굵기도 쓰지 않는다) — 보통 굵기로 대신
+        public static Font StoryBold => Story;
 
         // 갈무리용 크기: 11의 가장 가까운 배수 (20→22, 24→22, 32→33, 48→44). 다른 글꼴은 그대로
         public static int SnapPixel(int size) => Mathf.Max(GalmuriPixel, Mathf.RoundToInt(size / (float)GalmuriPixel) * GalmuriPixel);
