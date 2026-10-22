@@ -42,7 +42,7 @@ namespace HumanLastRampart.Meta
 
             // D-076 정비 마당 + K-047: 위쪽은 황동 계기 띠 한 줄 — 1순위 골드, 그다음 병력·다음 전투 (S-20)
             bool dayLine = HumanLastRampart.Core.Campaign.BeaconRules.DayLines(campaign).Count > 0;   // W12: 밤 사이 한마디가 있는 날만 줄을 둔다
-            view.DockTop(1560f, 80f + (dayLine ? 3 : 2) * 56f);   // W8: 등대 줄 두 개 (+ W12: 한마디 줄)
+            view.DockTop(1560f, 80f + (dayLine ? 3 : 2) * 72f);   // W8: 등대 줄 두 개 (+ W12: 한마디 줄). W16: 줄마다 높이 48 + 간격 24라 72씩 (56이면 아래 줄이 판 밖으로 나갔다)
             Button mapButton = BuildSummary(view.AddArea("Summary", 48f), campaign,
                 () => { session.Close(); traps.Close(); Complete(ScreenOutcome.OpenBeaconMap); });   // W10: 봉화선 지도 보기 (보기 전용, 닫으면 정비로)
             PreparationPanel.RefreshSummary(repair, context, session);

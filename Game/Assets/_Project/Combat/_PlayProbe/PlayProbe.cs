@@ -465,6 +465,12 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
             Assert.AreEqual(!exploded, c.Traps.Any(t => t.TrapId == placed.TrapId), "터졌으면 사라지고, 불발이면 남는다");
             Note($"결과 반영: 함정 {(exploded ? "사라짐" : "남음(불발)")} · 남은 함정 {c.Traps.Count}");
             yield return Click("다음", 300);
+            if (c.LastNightRelit)
+            {
+                // W10: 점화한 밤 뒤에는 봉화선 지도가 먼저 (전투 결과가 프레임 타이밍에 따라 달라질 수 있다)
+                yield return WaitScreen(ScreenId.BeaconMap, 900);
+                yield return Click("계속", 300);
+            }
             yield return WaitScreen(ScreenId.Prep, 900);
             var shop2 = c.TrapShop.First(s => s.TrapDefId == "trap_bomb");
             Note($"두 번째 정비: 상점 재고 {shop2.Count} (11 + 6 = 17 기대), 보충 기록 {c.TrapShopRestockedForBattle}");
