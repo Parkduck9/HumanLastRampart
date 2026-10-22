@@ -381,7 +381,7 @@ namespace HumanLastRampart.Combat.Battle
                     eStop[slot] = CastleHalf + 1.5f + phase * 6f;   // 성벽 앞에 여러 줄로
                     eSide[slot] = (byte)plan.Side;
                     bool isVanguard = j < vanguard;
-                    float depth = isVanguard ? CastleHalf + random.NextFloat(60f, 70f) : random.NextFloat(FieldSize - FieldBand, FieldSize);
+                    float depth = isVanguard ? CastleHalf + random.NextFloat(VanguardNear, VanguardFar) : random.NextFloat(FieldSize - FieldBand, FieldSize);
                     float halfWidth = funnelBase + (depth - CastleHalf) * funnelSlope;   // D-065: 들판에서는 넓게
                     // 선봉은 0~2초에 한꺼번에, 나머지는 무리 시작 시각부터 초당 rate마리씩 차례로 (약간의 흔들림)
                     float time = isVanguard

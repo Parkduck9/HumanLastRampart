@@ -45,8 +45,8 @@ public sealed partial class PlayProbe
             sim.WeatherDirty = true;
             entry.StartBattle();
 
-            // 선봉: 6초쯤 성벽 앞에 몇십 마리만 보여야 한다 (60~70m에서 나와 다가오는 중)
-            for (int i = 0; i < 3000 && sim.Elapsed < 6f && !sim.Ended; i++) yield return null;
+            // 선봉: 3초에 성벽 앞에 몇십 마리만 보여야 한다 (45~55m에서 나와 다가오는 중, 사용자 2026-10-22)
+            for (int i = 0; i < 3000 && sim.Elapsed < 3f && !sim.Ended; i++) yield return null;
             yield return FreshHud();
             sim.Complete();
             Note($"선봉 {sim.VanguardCount}마리 · 전체 {sim.TotalEnemies} · {sim.Elapsed:0.0}초");

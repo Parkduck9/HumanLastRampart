@@ -12,6 +12,8 @@ namespace HumanLastRampart.Combat.Battle
     public sealed partial class BattleSim
     {
         const float VanguardSpawnSeconds = 2f;       // 선봉이 나오는 데 걸리는 시간
+        // 선봉 출현 거리 (성벽 앞, 사용자 2026-10-22: 3초 안에 보이게). 성벽 위 화면은 약 45m까지 보이고 고블린은 초당 4m
+        public const float VanguardNear = 45f, VanguardFar = 55f;
         const int VanguardMinCount = 10;             // 난이도 배율을 곱한 뒤에도 이만큼은 나온다
         static readonly int[] VanguardByBattle = { 20, 30, 45, 60 };   // 자료에 값이 없을 때 전투 1~4번
         const float DefaultStreamPerSecond = 15f;    // 규칙·무리에 속도가 없을 때

@@ -87,7 +87,7 @@ namespace HumanLastRampart.Combat.Tests
                     {   // 나안: 2초 안에 가까이 나오는 것은 첫 무리에서 뗀 선봉뿐 (나머지 첫 무리는 본대로 멀리서 흘러온다)
                         first++;
                         Assert.That(time, Is.InRange(0f, 2f));
-                        Assert.That(depth - sim.CastleHalf, Is.InRange(60f, 70f));
+                        Assert.That(depth - sim.CastleHalf, Is.InRange(BattleSim.VanguardNear, BattleSim.VanguardFar));
                     }
                     else
                     {
