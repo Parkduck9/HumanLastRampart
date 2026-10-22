@@ -446,6 +446,8 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
         yield return Click("닫기", 60);
         // W18: 2번째 밤이 점화의 밤이면 결과 뒤 길(지도·이야기·새 요새)과 함정 정리가 달라진다 — 이 시험은 함정 보충을 보므로 복구를 0으로 두어 늘 평범한 밤
         c.BeaconRepair = 0f;
+        // W11: 전투가 무작위(실행 번호)라 시작 병력만으로는 가끔 진다 — 이 시험은 승리 뒤 함정 반영을 보므로 시험용으로 궁수 분대를 정원까지 채워 둔다 (정비에서 모집한 것과 같은 상태)
+        foreach (SquadState archers in c.Squads) if (archers.UnitDefId == "unit_archer") archers.Count = 160;
         yield return Click("전투 준비 완료", 300);
         yield return WaitScreen(ScreenId.Battle, 900);
         BattleSetup setup = GameFlow.Instance.Campaign.ActiveBattleSetup;

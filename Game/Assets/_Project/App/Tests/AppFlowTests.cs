@@ -35,13 +35,16 @@ namespace HumanLastRampart.App.Tests
         }
 
         [Test]
-        public void BattleVictory_GoesToResult_DefeatSkipsResult()   // D-014 C4
+        public void BattleVictory_GoesToResult_DefeatAlsoGoesToResultThenEnding()   // D-014 C4, W11: 진 밤도 결과 화면(잃은 병력)을 거친다
         {
             FlowStep win = FlowRouter.Next(ScreenId.Battle, ScreenOutcome.Done, new FlowState { LastBattleOutcome = BattleOutcome.Victory });
             Assert.AreEqual(ScreenId.Result, win.Screen);
             Assert.IsTrue(win.AdvanceBattle);
 
-            FlowStep lose = FlowRouter.Next(ScreenId.Battle, ScreenOutcome.Done, new FlowState { LastBattleOutcome = BattleOutcome.Defeat });
+            FlowStep report = FlowRouter.Next(ScreenId.Battle, ScreenOutcome.Done, new FlowState { LastBattleOutcome = BattleOutcome.Defeat });
+            Assert.AreEqual(ScreenId.Result, report.Screen, "패배도 결과 화면 먼저 (W11 사용자 결정)");
+            Assert.IsFalse(report.AdvanceBattle);
+            FlowStep lose = FlowRouter.Next(ScreenId.Result, ScreenOutcome.Done, new FlowState { ResultWasLostNight = true, ResultEndsRun = true });
             Assert.AreEqual(ScreenId.Story, lose.Screen);
             Assert.IsTrue(lose.QueueDefeatEnding);
             Assert.IsFalse(lose.AdvanceBattle);
