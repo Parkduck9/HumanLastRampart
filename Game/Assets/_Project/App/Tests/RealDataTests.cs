@@ -78,8 +78,8 @@ namespace HumanLastRampart.App.Tests
             Assert.AreEqual(0.75f, rules.EasyEnemyMultiplierFor(1), 0.0001f, "D-065 적 1.5배");
             Assert.AreEqual(0.75f, rules.EasyEnemyMultiplierFor(3), 0.0001f);
             Assert.AreEqual(0.45f, rules.EasyEnemyMultiplierFor(4), 0.0001f, "W11: 쉬움 4번(변형 2단계 밤) 0.6 ×0.75");
-            Assert.AreEqual(1.5f, rules.RealisticEnemyMultiplierFor(3), 0.0001f, "D-065 현실 1.5배");
-            Assert.AreEqual(1.2f, rules.RealisticEnemyMultiplierFor(4), 0.0001f, "W11: 현실 4번 ≈ 3번의 2배 (기본 적 수 20000 × 1.2 = 24000)");
+            Assert.AreEqual(1.3f, rules.RealisticEnemyMultiplierFor(3), 0.0001f, "W11: 현실 요새 2 첫 밤(3번 자리) 1.5 → 1.3 (사용자 결정: 보통 등불 현실도 강화로 깰 수 있게)");
+            Assert.AreEqual(0.9f, rules.RealisticEnemyMultiplierFor(4), 0.0001f, "W11: 현실 4번 1.2 → 0.9 (기본 적 수 20000 × 0.9 = 18000, 3번 자리의 약 1.4배)");
             Assert.AreEqual(1.15f, rules.LampCountMultiplierFor((int)LampBrightness.High), 0.0001f, "W11: 강 밝기 적 수 ×1.15");
             Assert.IsTrue(rules.BeamRemovesTierHpFor(0) && !rules.BeamRemovesTierSpeedFor(0), "W11: 보통 빛 = 변형 체력만 없앰");
             Assert.IsTrue(rules.BeamRemovesTierHpFor(2) && rules.BeamRemovesTierSpeedFor(2), "W11: 강한 빛 = 체력+속도");
