@@ -216,6 +216,12 @@ namespace HumanLastRampart.App.Flow
             else if (context.Screen == ScreenId.Result && Campaign != null)
             {
                 state.RunComplete = Campaign.NextStory != null && Campaign.NextStory.Kind == StoryKind.RunComplete;   // W8: 마지막 요새 점화
+                state.RelitFortress = Campaign.LastNightRelit;   // W10: 점화한 밤이면 결과 뒤 봉화선 지도
+            }
+            else if (context.Screen == ScreenId.BeaconMap && Campaign != null)
+            {
+                state.MapIsPreview = Campaign.BeaconMapPreview;
+                state.RunComplete = Campaign.NextStory != null && Campaign.NextStory.Kind == StoryKind.RunComplete;
             }
             else if (context.Screen == ScreenId.Prep && Campaign != null)
             {
@@ -306,6 +312,11 @@ namespace HumanLastRampart.App.Flow
             if (Campaign == null)
             {
                 return;
+            }
+
+            if (step.Screen == ScreenId.BeaconMap)
+            {
+                Campaign.BeaconMapPreview = step.MapPreview;   // W10: 정비에서 연 보기 전용인지 지도 화면이 읽는다
             }
 
             if (step.AdvanceBattle)

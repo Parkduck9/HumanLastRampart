@@ -78,13 +78,51 @@ namespace HumanLastRampart.App.Tests
             Assert.AreEqual(ScreenId.Prep, day.Screen);
             Assert.IsTrue(day.BeginDay, "낮 시작 = 수비대 지원금");
 
-            FlowStep done = FlowRouter.Next(ScreenId.Result, ScreenOutcome.Done, new FlowState { RunComplete = true });
+            // W10: 마지막 요새 점화 → 봉화선 지도 → 1회차 완료 이야기
+            FlowStep map = FlowRouter.Next(ScreenId.Result, ScreenOutcome.Done, new FlowState { RunComplete = true, RelitFortress = true });
+            Assert.AreEqual(ScreenId.BeaconMap, map.Screen);
+            Assert.IsFalse(map.BeginDay);
+            Assert.IsFalse(map.MapPreview);
+            FlowStep done = FlowRouter.Next(ScreenId.BeaconMap, ScreenOutcome.Done, new FlowState { RunComplete = true });
             Assert.AreEqual(ScreenId.Story, done.Screen);
             Assert.IsFalse(done.BeginDay);
 
             FlowStep toMain = FlowRouter.Next(ScreenId.Story, ScreenOutcome.Done, new FlowState { StoryIsRunComplete = true });
             Assert.AreEqual(ScreenId.MainMenu, toMain.Screen);
             Assert.IsTrue(toMain.DeleteSave, "1회차를 마치면 저장을 지운다");
+        }
+
+        [Test]
+        public void FortressRelit_ShowsBeaconMapBeforeNextPrep()   // W10
+        {
+            FlowStep map = FlowRouter.Next(ScreenId.Result, ScreenOutcome.Done, new FlowState { RelitFortress = true });
+            Assert.AreEqual(ScreenId.BeaconMap, map.Screen, "점화한 밤 뒤에는 지도를 먼저");
+            Assert.IsFalse(map.BeginDay, "낮 시작은 지도 다음에");
+
+            FlowStep prep = FlowRouter.Next(ScreenId.BeaconMap, ScreenOutcome.Done, default);
+            Assert.AreEqual(ScreenId.Prep, prep.Screen);
+            Assert.IsTrue(prep.BeginDay, "다음 요새 첫 낮 = 수비대 지원금");
+
+            FlowStep plain = FlowRouter.Next(ScreenId.Result, ScreenOutcome.Done, default);
+            Assert.AreEqual(ScreenId.Prep, plain.Screen, "점화가 아닌 밤은 지도 없이 정비로");
+        }
+
+        [Test]
+        public void PrepMapButton_OpensPreviewAndReturnsToPrepWithoutNewDay()   // W10
+        {
+            Assert.IsTrue(FlowRouter.IsAllowed(ScreenId.Prep, ScreenOutcome.OpenBeaconMap, false));
+            Assert.IsFalse(FlowRouter.IsAllowed(ScreenId.Result, ScreenOutcome.OpenBeaconMap, false), "정비에서만 열 수 있다");
+            Assert.IsTrue(FlowRouter.IsAllowed(ScreenId.BeaconMap, ScreenOutcome.Done, false));
+
+            FlowStep open = FlowRouter.Next(ScreenId.Prep, ScreenOutcome.OpenBeaconMap, default);
+            Assert.AreEqual(ScreenId.BeaconMap, open.Screen);
+            Assert.IsTrue(open.MapPreview);
+            Assert.IsFalse(open.PrepareBattle);
+
+            FlowStep back = FlowRouter.Next(ScreenId.BeaconMap, ScreenOutcome.Done, new FlowState { MapIsPreview = true });
+            Assert.AreEqual(ScreenId.Prep, back.Screen);
+            Assert.IsFalse(back.BeginDay, "보기만 했으니 낮 지원금을 또 받지 않는다");
+            Assert.IsFalse(back.MapPreview);
         }
 
         [Test]
