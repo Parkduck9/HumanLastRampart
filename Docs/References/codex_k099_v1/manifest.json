@@ -1,0 +1,776 @@
+{
+  "card": "K-099",
+  "version": 1,
+  "coordinates": "PNG top-left, pixel edges; row-major frame order",
+  "contract_override": "Exact 1/2 and 1/4 of current frames as required by K-099; LOD derivatives, not full-resolution D-081 replacements.",
+  "sampling": {
+    "filter": "point",
+    "mipmaps": false,
+    "wrap": "clamp",
+    "normal_maps": false
+  },
+  "distance_m": {
+    "half": [
+      60,
+      110
+    ],
+    "quarter": [
+      110,
+      160
+    ],
+    "status": "suggested; runtime integration and measurement pending"
+  },
+  "processing": {
+    "half": "premultiplied BOX; RGB unsharp radius 0.8, percent125, threshold3; RGB lift 1.07x+3; alpha threshold96",
+    "quarter": "same downsample; five material families with three shades; alpha threshold96; remove isolated components <=2 pixels",
+    "alignment": "fixed pivot and source positions, no recentering"
+  },
+  "sources": [
+    {
+      "id": "goblin",
+      "path": "Game/Assets/_Project/Art/Characters/Goblin/goblin_walk_attack4.png",
+      "sha256": "a58b0ffb89e69d65747bddc6c6487f38ba3317685f7acc06cd33af7d596aa7ef",
+      "size": [
+        1152,
+        768
+      ],
+      "frame_size": [
+        288,
+        384
+      ],
+      "grid": [
+        4,
+        2
+      ],
+      "pivot_top_left": [
+        144.0,
+        360
+      ]
+    },
+    {
+      "id": "ladder_goblin",
+      "path": "Game/Assets/_Project/Art/Characters/Walk/ladder_goblin_walk.png",
+      "sha256": "6e2771e9f84b279250225e885d5d44b9c8e191389690636e0336994bd25372fb",
+      "size": [
+        1152,
+        384
+      ],
+      "frame_size": [
+        288,
+        384
+      ],
+      "grid": [
+        4,
+        1
+      ],
+      "pivot_top_left": [
+        144.0,
+        360
+      ]
+    },
+    {
+      "id": "ladder_carry",
+      "path": "Game/Assets/_Project/Art/Characters/Ladder/ladder_goblin_carry_run4.png",
+      "sha256": "228ba937b69248bd153d7c485fc407247b6f8d51b6eaab9cdc7636af87824a74",
+      "size": [
+        1152,
+        384
+      ],
+      "frame_size": [
+        288,
+        384
+      ],
+      "grid": [
+        4,
+        1
+      ],
+      "pivot_top_left": [
+        144.0,
+        360
+      ]
+    },
+    {
+      "id": "ogre",
+      "path": "Game/Assets/_Project/Art/Characters/Walk/ogre_walk.png",
+      "sha256": "5eaabb2f9a89e59996778a27a3cfe592d81e0c039c19a3f825af608ecb38e3a8",
+      "size": [
+        1024,
+        384
+      ],
+      "frame_size": [
+        256,
+        384
+      ],
+      "grid": [
+        4,
+        1
+      ],
+      "pivot_top_left": [
+        128.0,
+        352
+      ]
+    }
+  ],
+  "sheets": [
+    {
+      "id": "goblin_half",
+      "species": "goblin",
+      "file": "goblin_half.png",
+      "preview_4x": "goblin_half_4x.png",
+      "tier": "half",
+      "scale_of_source": 0.5,
+      "size": [
+        576,
+        384
+      ],
+      "frame_size": [
+        144,
+        192
+      ],
+      "grid": [
+        4,
+        2
+      ],
+      "frame_count": 8,
+      "frame_order_source_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "actions": {
+        "walk": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "attack": [
+          4,
+          5,
+          6,
+          7
+        ]
+      },
+      "pivot_top_left": [
+        72.0,
+        180.0
+      ],
+      "pivot_bottom_left": [
+        72.0,
+        12.0
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.0625
+      ],
+      "opaque_bounds_per_frame": [
+        [
+          36,
+          96,
+          104,
+          180
+        ],
+        [
+          37,
+          96,
+          104,
+          180
+        ],
+        [
+          30,
+          96,
+          96,
+          180
+        ],
+        [
+          40,
+          96,
+          108,
+          180
+        ],
+        [
+          31,
+          94,
+          102,
+          180
+        ],
+        [
+          34,
+          82,
+          104,
+          180
+        ],
+        [
+          36,
+          115,
+          113,
+          180
+        ],
+        [
+          28,
+          96,
+          98,
+          180
+        ]
+      ],
+      "atlas_rect_top_left": [
+        4,
+        4,
+        576,
+        384
+      ],
+      "atlas_rect_bottom_left": [
+        4,
+        636,
+        576,
+        384
+      ]
+    },
+    {
+      "id": "goblin_quarter",
+      "species": "goblin",
+      "file": "goblin_quarter.png",
+      "preview_4x": "goblin_quarter_4x.png",
+      "tier": "quarter",
+      "scale_of_source": 0.25,
+      "size": [
+        144,
+        96
+      ],
+      "frame_size": [
+        72,
+        96
+      ],
+      "grid": [
+        2,
+        1
+      ],
+      "frame_count": 2,
+      "frame_order_source_indices": [
+        0,
+        2
+      ],
+      "actions": {
+        "walk": [
+          0,
+          1
+        ]
+      },
+      "pivot_top_left": [
+        36.0,
+        90.0
+      ],
+      "pivot_bottom_left": [
+        36.0,
+        6.0
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.0625
+      ],
+      "opaque_bounds_per_frame": [
+        [
+          18,
+          48,
+          52,
+          90
+        ],
+        [
+          15,
+          48,
+          48,
+          90
+        ]
+      ],
+      "atlas_rect_top_left": [
+        588,
+        4,
+        144,
+        96
+      ],
+      "atlas_rect_bottom_left": [
+        588,
+        924,
+        144,
+        96
+      ]
+    },
+    {
+      "id": "ladder_goblin_half",
+      "species": "ladder_goblin",
+      "file": "ladder_goblin_half.png",
+      "preview_4x": "ladder_goblin_half_4x.png",
+      "tier": "half",
+      "scale_of_source": 0.5,
+      "size": [
+        576,
+        192
+      ],
+      "frame_size": [
+        144,
+        192
+      ],
+      "grid": [
+        4,
+        1
+      ],
+      "frame_count": 4,
+      "frame_order_source_indices": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "actions": {
+        "walk": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "pivot_top_left": [
+        72.0,
+        180.0
+      ],
+      "pivot_bottom_left": [
+        72.0,
+        12.0
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.0625
+      ],
+      "opaque_bounds_per_frame": [
+        [
+          48,
+          90,
+          102,
+          180
+        ],
+        [
+          48,
+          90,
+          102,
+          180
+        ],
+        [
+          46,
+          90,
+          104,
+          180
+        ],
+        [
+          48,
+          90,
+          99,
+          180
+        ]
+      ],
+      "atlas_rect_top_left": [
+        4,
+        396,
+        576,
+        192
+      ],
+      "atlas_rect_bottom_left": [
+        4,
+        436,
+        576,
+        192
+      ]
+    },
+    {
+      "id": "ladder_goblin_quarter",
+      "species": "ladder_goblin",
+      "file": "ladder_goblin_quarter.png",
+      "preview_4x": "ladder_goblin_quarter_4x.png",
+      "tier": "quarter",
+      "scale_of_source": 0.25,
+      "size": [
+        144,
+        96
+      ],
+      "frame_size": [
+        72,
+        96
+      ],
+      "grid": [
+        2,
+        1
+      ],
+      "frame_count": 2,
+      "frame_order_source_indices": [
+        0,
+        2
+      ],
+      "actions": {
+        "walk": [
+          0,
+          1
+        ]
+      },
+      "pivot_top_left": [
+        36.0,
+        90.0
+      ],
+      "pivot_bottom_left": [
+        36.0,
+        6.0
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.0625
+      ],
+      "opaque_bounds_per_frame": [
+        [
+          24,
+          45,
+          51,
+          90
+        ],
+        [
+          23,
+          45,
+          52,
+          90
+        ]
+      ],
+      "atlas_rect_top_left": [
+        588,
+        396,
+        144,
+        96
+      ],
+      "atlas_rect_bottom_left": [
+        588,
+        532,
+        144,
+        96
+      ]
+    },
+    {
+      "id": "ladder_carry_half",
+      "species": "ladder_carry",
+      "file": "ladder_carry_half.png",
+      "preview_4x": "ladder_carry_half_4x.png",
+      "tier": "half",
+      "scale_of_source": 0.5,
+      "size": [
+        576,
+        192
+      ],
+      "frame_size": [
+        144,
+        192
+      ],
+      "grid": [
+        4,
+        1
+      ],
+      "frame_count": 4,
+      "frame_order_source_indices": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "actions": {
+        "walk": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "pivot_top_left": [
+        72.0,
+        180.0
+      ],
+      "pivot_bottom_left": [
+        72.0,
+        12.0
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.0625
+      ],
+      "opaque_bounds_per_frame": [
+        [
+          45,
+          96,
+          92,
+          180
+        ],
+        [
+          40,
+          96,
+          92,
+          180
+        ],
+        [
+          43,
+          96,
+          92,
+          180
+        ],
+        [
+          42,
+          96,
+          93,
+          180
+        ]
+      ],
+      "atlas_rect_top_left": [
+        4,
+        596,
+        576,
+        192
+      ],
+      "atlas_rect_bottom_left": [
+        4,
+        236,
+        576,
+        192
+      ]
+    },
+    {
+      "id": "ladder_carry_quarter",
+      "species": "ladder_carry",
+      "file": "ladder_carry_quarter.png",
+      "preview_4x": "ladder_carry_quarter_4x.png",
+      "tier": "quarter",
+      "scale_of_source": 0.25,
+      "size": [
+        144,
+        96
+      ],
+      "frame_size": [
+        72,
+        96
+      ],
+      "grid": [
+        2,
+        1
+      ],
+      "frame_count": 2,
+      "frame_order_source_indices": [
+        0,
+        1
+      ],
+      "actions": {
+        "walk": [
+          0,
+          1
+        ]
+      },
+      "pivot_top_left": [
+        36.0,
+        90.0
+      ],
+      "pivot_bottom_left": [
+        36.0,
+        6.0
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.0625
+      ],
+      "opaque_bounds_per_frame": [
+        [
+          22,
+          48,
+          46,
+          90
+        ],
+        [
+          20,
+          48,
+          46,
+          90
+        ]
+      ],
+      "atlas_rect_top_left": [
+        588,
+        596,
+        144,
+        96
+      ],
+      "atlas_rect_bottom_left": [
+        588,
+        332,
+        144,
+        96
+      ]
+    },
+    {
+      "id": "ogre_half",
+      "species": "ogre",
+      "file": "ogre_half.png",
+      "preview_4x": "ogre_half_4x.png",
+      "tier": "half",
+      "scale_of_source": 0.5,
+      "size": [
+        512,
+        192
+      ],
+      "frame_size": [
+        128,
+        192
+      ],
+      "grid": [
+        4,
+        1
+      ],
+      "frame_count": 4,
+      "frame_order_source_indices": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "actions": {
+        "walk": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "pivot_top_left": [
+        64.0,
+        176.0
+      ],
+      "pivot_bottom_left": [
+        64.0,
+        16.0
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.08333333333333333
+      ],
+      "opaque_bounds_per_frame": [
+        [
+          6,
+          56,
+          113,
+          176
+        ],
+        [
+          6,
+          56,
+          113,
+          176
+        ],
+        [
+          4,
+          56,
+          114,
+          176
+        ],
+        [
+          6,
+          56,
+          113,
+          176
+        ]
+      ],
+      "atlas_rect_top_left": [
+        4,
+        796,
+        512,
+        192
+      ],
+      "atlas_rect_bottom_left": [
+        4,
+        36,
+        512,
+        192
+      ]
+    },
+    {
+      "id": "ogre_quarter",
+      "species": "ogre",
+      "file": "ogre_quarter.png",
+      "preview_4x": "ogre_quarter_4x.png",
+      "tier": "quarter",
+      "scale_of_source": 0.25,
+      "size": [
+        128,
+        96
+      ],
+      "frame_size": [
+        64,
+        96
+      ],
+      "grid": [
+        2,
+        1
+      ],
+      "frame_count": 2,
+      "frame_order_source_indices": [
+        0,
+        2
+      ],
+      "actions": {
+        "walk": [
+          0,
+          1
+        ]
+      },
+      "pivot_top_left": [
+        32.0,
+        88.0
+      ],
+      "pivot_bottom_left": [
+        32.0,
+        8.0
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.08333333333333333
+      ],
+      "opaque_bounds_per_frame": [
+        [
+          3,
+          28,
+          57,
+          88
+        ],
+        [
+          2,
+          28,
+          57,
+          88
+        ]
+      ],
+      "atlas_rect_top_left": [
+        524,
+        796,
+        128,
+        96
+      ],
+      "atlas_rect_bottom_left": [
+        524,
+        132,
+        128,
+        96
+      ]
+    }
+  ],
+  "atlas": {
+    "file": "far_atlas.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "padding_min_px": 4,
+    "edge_extrusion": false,
+    "sampling": "point; clamp UV to frame; mipmaps off"
+  }
+}
