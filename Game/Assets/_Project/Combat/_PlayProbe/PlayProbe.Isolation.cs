@@ -27,6 +27,7 @@ public sealed partial class PlayProbe
     {
         ResetTimeAndFlags();
         if (isolationPreviousSaveFolder != null) HumanLastRampart.Core.Save.CampaignSave.Folder = isolationPreviousSaveFolder;
+        HumanLastRampart.Core.Settings.GameSettings.Load();
         try { if (isolationSaveFolder != null && Directory.Exists(isolationSaveFolder)) Directory.Delete(isolationSaveFolder, true); }
         catch (IOException) { }
         isolationPreviousSaveFolder = isolationSaveFolder = null;
