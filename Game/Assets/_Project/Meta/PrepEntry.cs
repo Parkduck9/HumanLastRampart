@@ -41,11 +41,12 @@ namespace HumanLastRampart.Meta
             foreach (Button b in new[] { repair, recruit, trapButton, shop, training, mercenary, ready }) ScreenView.HideButton(b);
 
             // D-076 정비 마당 + K-047: 위쪽은 황동 계기 띠 한 줄 — 1순위 골드, 그다음 병력·다음 전투 (S-20)
-            view.DockTop(1560f, 80f + 2 * 56f);   // W8: 등대 줄 두 개가 늘어난 높이
+            bool dayLine = HumanLastRampart.Core.Campaign.BeaconRules.DayLines(campaign).Count > 0;   // W12: 밤 사이 한마디가 있는 날만 줄을 둔다
+            view.DockTop(1560f, 80f + (dayLine ? 3 : 2) * 56f);   // W8: 등대 줄 두 개 (+ W12: 한마디 줄)
             Button mapButton = BuildSummary(view.AddArea("Summary", 48f), campaign,
                 () => { session.Close(); traps.Close(); Complete(ScreenOutcome.OpenBeaconMap); });   // W10: 봉화선 지도 보기 (보기 전용, 닫으면 정비로)
             PreparationPanel.RefreshSummary(repair, context, session);
-            BeaconPrepPanel.Build(view.AddArea("Beacon Line 1", 48f), view.AddArea("Beacon Line 2", 48f), context,
+            BeaconPrepPanel.Build(view.AddArea("Beacon Line 1", 48f), view.AddArea("Beacon Line 2", 48f), dayLine ? view.AddArea("Beacon Line 3", 48f) : null, context,
                 () => PreparationPanel.RefreshSummary(repair, context, session));   // W8: 요새·밤, 등대 복구, 성벽 조건, 밝기 선택, 등대 수리, 수비대 지원금
 
             PrepYard yard = PrepYard.Build(view, HeroUnit(context));   // K-089 배경·3D 바닥·가림을 마당이 함께 소유한다.
