@@ -13,7 +13,7 @@ Shader "HumanLastRampart/FieldGround"
         _TileMeters ("Texture tile (m)", Float) = 8
         _Darken ("Albedo darken (0..1)", Float) = 0.5
         _Relief ("Height undulation (m)", Float) = 0.14
-        _NormalGain ("Normal gain", Float) = 3.0
+        _NormalGain ("Normal gain", Float) = 5.0
         _CastleHalf ("Castle half size", Float) = 20
     }
 
@@ -100,7 +100,7 @@ Shader "HumanLastRampart/FieldGround"
                 float e = 1.2;
                 float hx = GroundHeight(world.xz + float2(e, 0.0));
                 float hz = GroundHeight(world.xz + float2(0.0, e));
-                float3 n = normalize(float3(-(hx - h) / e * 7.0, 1.0, -(hz - h) / e * 7.0));   // 기울기를 크게 과장 — 빛이 스치는 느낌만 키운다
+                float3 n = normalize(float3(-(hx - h) / e * 14.0, 1.0, -(hz - h) / e * 14.0));   // 기울기를 크게 과장 — 빛이 스치는 느낌만 키운다
                 world.y += h;
                 output.positionWS = world;
                 output.normalWS = n;
@@ -208,6 +208,7 @@ Shader "HumanLastRampart/FieldGround"
         }
     }
 }
+
 
 
 

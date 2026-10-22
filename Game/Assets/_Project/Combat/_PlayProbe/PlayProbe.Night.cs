@@ -63,6 +63,14 @@ public sealed partial class PlayProbe
 
             // 불바다·폭발 가까이 (북쪽 성벽 앞 10~14m): 불빛이 땅·적에 번지는지, 모바일 약식 경로도 한 장
             sim.SetLamp(LampBrightness.Normal);
+            // 적 무리가 들판에 퍼진 뒤(약 50초) 성벽 앞 20~28m 무리 한가운데에 던진다
+            yield return Press("×4", 120);
+            for (int i = 0; i < 9000 && sim.Elapsed < 50f && !sim.Ended; i++) yield return null;
+            yield return Press("×1", 120);
+            sim.Complete();
+            for (int i = 0; i < 6; i++) yield return null;
+            sim.Complete();
+            yield return Capture("night_enemies_plain", 1920, 1080, true);
             int fire = -1, blast = -1;
             for (int s = 0; s < sim.SpellCount; s++)
             {
@@ -70,7 +78,7 @@ public sealed partial class PlayProbe
                 else if (blast < 0) blast = s;
             }
 
-            var at = new Vector3(0f, 0f, sim.CastleHalf + 9f);
+            var at = new Vector3(0f, 0f, sim.CastleHalf + 24f);
             bool fireOk = fire >= 0 && sim.CastSpell(fire, at + new Vector3(-5f, 0f, 2f));
             sim.Complete();
             for (int i = 0; i < 24; i++) yield return null;
@@ -86,18 +94,6 @@ public sealed partial class PlayProbe
             sim.Complete();
             yield return Capture("night_fire_mobile", 1920, 1080, true);
             HumanLastRampart.Combat.Render.HlrLights.ForceLow = false;
-
-            // 적 무리가 성벽 앞까지 온 뒤 (약 70초): 불바다 곁 적·횃불 빛 확인
-            yield return Press("×4", 120);
-            for (int i = 0; i < 9000 && sim.Elapsed < 70f && !sim.Ended; i++) yield return null;
-            yield return Press("×1", 120);
-            sim.Complete();
-            bool lateFire = fire >= 0 && sim.CastSpell(fire, at + new Vector3(3f, 0f, 0f));
-            sim.Complete();
-            for (int i = 0; i < 30; i++) yield return null;
-            sim.Complete();
-            Note($"늦은 불바다 {lateFire}, 시간 {sim.Elapsed:0}초");
-            yield return Capture("night_enemies_fire", 1920, 1080, true);
         }
         finally
         {

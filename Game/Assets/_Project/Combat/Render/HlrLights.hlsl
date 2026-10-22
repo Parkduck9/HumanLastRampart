@@ -1,4 +1,4 @@
-// 장면 점광원 목록 (HlrLights.cs가 채운다). 들판·그림 셰이더가 같이 쓴다.
+﻿// 장면 점광원 목록 (HlrLights.cs가 채운다). 들판·그림 셰이더가 같이 쓴다.
 #ifndef HLR_LIGHTS_INCLUDED
 #define HLR_LIGHTS_INCLUDED
 
@@ -38,8 +38,9 @@ void HlrAccumulate(float3 posWS, float3 n, float3 viewDir, float specPower,
 
         // 번짐: 큰 불 가까이는 땅이 불빛을 되쏘아 사방이 따뜻하게 물든다 (방향 없이 넓게, 약하게)
         float wide = saturate(1.0 - d2 / (r2 * 2.5));
-        bounce += c * (HlrBounceTint * (_HlrLightCol[i].a * wide * wide * 0.09));
+        bounce += c * (HlrBounceTint * (_HlrLightCol[i].a * wide * wide * 0.22));
     }
 }
 
 #endif
+

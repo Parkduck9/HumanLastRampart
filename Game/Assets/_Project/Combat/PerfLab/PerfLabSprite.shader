@@ -389,7 +389,21 @@ Shader "HLR/PerfLabSprite"
 
                 // 반사 색: 흰빛에 그림 색을 반쯤 섞는다 (금·구리는 금빛, 철은 흰빛). 해·달 색(밤 푸른빛·NightTuning.SunScale)과 횃불 색이 이미 spec에 들어 있다
                 half3 specColor = spec * specStrength * lerp(half3(1, 1, 1), saturate(albedo * 2.0h), 0.5h);
-                half3 lit = albedo * (sun + ambient + extra + extraBounce) + specColor + rim;
+                // 밤: 들판 땅과 같은 비율로 달빛·주변광을 키워 적이 검은 덩어리가 아니라 색(차갑게 눌린 고블린 색)으로 읽히게 한다 (W15)
+                half nightGain = 1.0h + (half)_HlrNight * 3.2h;
+
+                // 달 테두리빛 (PC): 달 쪽 가장자리 화소에 차가운 윤곽 — 어두운 무리도 실루엣이 읽힌다
+                half3 moonRim = 0;
+                [branch] if (_HlrNight > 0.5 && _HlrQuality > 0.5)
+                {
+                    float md = dot(mainLight.direction, input.faceRight);
+                    float2 texelM = float2(1.0 / (_Grid.x * 128.0), 1.0 / (_Grid.y * 128.0));
+                    float2 stepM = float2(clamp(md * 3.0, -1.0, 1.0), 0.8) * texelM * 2.0;
+                    float edgeM = saturate(color.a - SAMPLE_TEXTURE2D_LOD(_MainTex, sampler_MainTex, input.uv + stepM, 0).a);
+                    moonRim = (half3)(mainLight.color * edgeM * 1.6);
+                }
+
+                half3 lit = albedo * ((sun + ambient) * nightGain + extra + extraBounce) + specColor + rim + moonRim;
                 lit = lerp(lit, albedo * 2.4h, glowMask);
                 return half4(MixFog(lit, input.fogFactor), 1.0h);
             }
@@ -458,5 +472,6 @@ Shader "HLR/PerfLabSprite"
         }
     }
 }
+
 
 
