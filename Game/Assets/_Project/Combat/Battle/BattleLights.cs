@@ -28,8 +28,8 @@ namespace HumanLastRampart.Combat.Battle
         // 쏠 때·터질 때 빛 (2026-10-20)
         public const float CannonImpactIntensity = 14f;
         const float MuzzleSeconds = 0.12f;
-        const float CannonMuzzleIntensity = 8f;
-        const float GunMuzzleIntensity = 1.6f;   // 사용자 '총구 빛은 조금 약하게' (2026-10-20)
+        const float CannonMuzzleIntensity = 4f;
+        const float GunMuzzleIntensity = 0.7f;   // 사용자 '총구 빛은 조금 약하게' (2026-10-20)
         const int GunFlashMax = 6;
         const float CastSeconds = 0.8f;
         const float CastIntensity = 1.5f;
@@ -250,14 +250,14 @@ namespace HumanLastRampart.Combat.Battle
                 float age = sim.CannonFireAge(i);
                 if (age >= MuzzleSeconds * 1.5f) continue;
                 float k = 1f - Mathf.Clamp01(age / (MuzzleSeconds * 1.5f));
-                Use(used++, sim.CannonMuzzle(i), 1f, MuzzleColor, CannonMuzzleIntensity * flashDay * k * k, 0.1f, 6f);   // 포구 바로 위 (사용자 2026-10-20 '포탑 총구에서')
+                Use(used++, sim.CannonMuzzle(i), 1f, MuzzleColor, CannonMuzzleIntensity * flashDay * k * k, 0.1f, 4f);   // 포구 바로 위 (사용자 2026-10-20 '포탑 총구에서')
             }
 
             // 총 쏘기: 주인공 가까운 총병 몇 명만 (수백 명 모두 빛을 켜면 무겁다)
             gunFlashes.Clear();
             sim.RecentGunshots(gunFlashes, MuzzleSeconds, ViewPosition, GunFlashMax);
             for (int i = 0; i < gunFlashes.Count && used < FlashCapacity; i++)
-                Use(used++, gunFlashes[i], 0.5f, MuzzleColor, GunMuzzleIntensity * flashDay, 0.02f, 1.6f);   // 총구 자리 (RecentGunshots가 총구 좌표를 준다), 대포보다 약하게
+                Use(used++, gunFlashes[i], 0.5f, MuzzleColor, GunMuzzleIntensity * flashDay, 0.02f, 1.1f);   // 총구 자리 (RecentGunshots가 총구 좌표를 준다), 대포보다 약하게
 
             // 마법 쓰기: 마법사 지팡이에 푸른 빛이 차올랐다 사라진다
             float cast = sim.WizardCastAge;
@@ -325,3 +325,4 @@ namespace HumanLastRampart.Combat.Battle
         }
     }
 }
+
