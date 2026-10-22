@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>빛을 잇는 자들 컨셉 설계 1판</title>
+<style>
+:root { --bg:#f6f4ef; --surface:#fff; --surface-2:#efece4; --text:#22201c; --muted:#6b665c; --line:#ddd8cc; --accent:#8a5a2b; --warn-soft:#f6dfd9; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg:#171614; --surface:#211f1c; --surface-2:#2a2824; --text:#ece8df; --muted:#a39d91; --line:#3a3732; --accent:#d9a066; --warn-soft:#3d2420; } }
+:root[data-theme="dark"] { --bg:#171614; --surface:#211f1c; --surface-2:#2a2824; --text:#ece8df; --muted:#a39d91; --line:#3a3732; --accent:#d9a066; --warn-soft:#3d2420; }
+body { margin:0; background:var(--bg); color:var(--text); font:15px/1.65 "Malgun Gothic","Apple SD Gothic Neo",sans-serif; }
+main { max-width:980px; margin:0 auto; padding:24px 16px 64px; }
+h1 { font-size:26px; margin:8px 0 12px; }
+h2 { font-size:20px; margin:36px 0 10px; padding-top:12px; border-top:2px solid var(--line); color:var(--accent); }
+h3 { font-size:16px; margin:20px 0 6px; }
+nav { display:flex; flex-wrap:wrap; gap:6px; margin:12px 0 8px; }
+nav a { background:var(--surface); border:1px solid var(--line); border-radius:999px; padding:3px 11px; color:var(--text); text-decoration:none; font-size:13px; }
+code { background:var(--surface-2); padding:1px 5px; border-radius:4px; font-size:13px; word-break:break-all; }
+pre { background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:10px 12px; overflow-x:auto; }
+pre code { background:none; padding:0; }
+.tw { overflow-x:auto; margin:8px 0; }
+table { border-collapse:collapse; width:100%; background:var(--surface); font-size:14px; }
+th, td { border:1px solid var(--line); padding:6px 9px; text-align:left; vertical-align:top; }
+th { background:var(--surface-2); }
+ul, ol { padding-left:22px; margin:6px 0; }
+</style></head>
+<body><main>
+<h1>『빛을 잇는 자들』(가제) 컨셉 설계 1판</h1>
+<nav><a href="#s1">1. 한눈에 보기</a><a href="#s2">2. 받은 안에서 걸리는 네 가지와 추천안</a><a href="#s3">3. 화면별로 바뀌는 것</a><a href="#s4">4. 낮·밤과 날씨</a><a href="#s5">5. 새 그림 (코덱스 카드 4장 예상)</a><a href="#s6">6. 작업 순서 (결정 뒤)</a><a href="#s7">7. 결정 질문</a></nav>
+
+<ul>
+<li>날짜: 2026-10-22</li>
+<li>상태: <strong>제안 (사용자 결정 대기)</strong> — 결정 전에는 코드·그림을 바꾸지 않는다</li>
+<li>바탕: 사용자가 가져온 안 <code>beacon_defense_story_and_system_design.md</code> + Claude 추천안</li>
+<li>목표: 웹툰과 비슷한 설정(고향 영지를 지키는 귀환 장교)에서 벗어나되, <strong>지금 만든 게임을 최대한 그대로 살린다</strong></li>
+</ul>
+<h2 id="s1">1. 한눈에 보기</h2>
+<div class="tw"><table><tr><th>구분</th><th>지금</th><th>바뀐 뒤</th></tr>
+<tr><td>주인공</td><td>장교 훈련 뒤 고향에 돌아온 영지 주인</td><td>장교 출신 <strong>등불 개척단 대장</strong> (장교 옷 그대로)</td></tr>
+<tr><td>싸우는 이유</td><td>내 영지를 지킨다</td><td>꺼진 옛 등대 요새를 되살려 <strong>빛의 봉화선</strong>을 다시 잇는다</td></tr>
+<tr><td>4면에서 오는 이유</td><td>그냥 사방에서 온다</td><td>가운데 등불의 빛이 사방으로 퍼져 안개 괴물을 끌어들인다</td></tr>
+<tr><td>한 판</td><td>같은 성에서 전투 1~4번</td><td><strong>요새 1~4곳</strong>, 요새마다 밤 한 번</td></tr>
+<tr><td>이기는 조건</td><td>웨이브를 다 막음</td><td>밤을 버티면 등불 완전 점화 (지금 승리 판정과 같음)</td></tr>
+<tr><td>전투 사이</td><td>같은 성 정비</td><td>다음 요새로 이동, 그 요새 마당에서 정비</td></tr>
+</table></div>
+<h2 id="s2">2. 받은 안에서 걸리는 네 가지와 추천안</h2>
+<h3>2.1 규모 — 추천: 지금 숫자 그대로</h3>
+<div class="tw"><table><tr><th>안</th><th>내용</th><th>좋은 점</th><th>걱정</th></tr>
+<tr><td><strong>A 지금 규모 유지</strong> (추천)</td><td>병사 수백~2,000명, 적 수천~3만. 받은 안의 '4명 → 12명'은 <strong>비율</strong>로만 쓴다</td><td>성능·전투·밸런스 작업을 버리지 않음. "1000마리 막기" 처음 목표와 맞음</td><td>받은 안의 '소수 정예' 느낌은 줄어듦</td></tr>
+<tr><td>B 소수 정예로 바꿈</td><td>병사 수십 명, 적 수백</td><td>한 명 한 명이 소중함</td><td>전투 규칙·그림 배치·밸런스를 거의 다시 짜야 함</td></tr>
+</table></div>
+<h3>2.2 한 요새의 진행 — 추천: 요새 하나 = 지금 전투 한 번</h3>
+<div class="tw"><table><tr><th>안</th><th>내용</th><th>좋은 점</th><th>걱정</th></tr>
+<tr><td><strong>A 요새 하나 = 낮 정비 + 밤 전투 한 번</strong> (추천)</td><td>도착 → 낮(수리·모집·함정·망원경 정찰) → 밤 전투 → 이기면 점화·다음 요새</td><td>지금 흐름(정비 → 전투 → 결과)과 똑같아 고칠 곳이 적다</td><td>'여러 밤을 버티는' 긴 맛은 없음</td></tr>
+<tr><td>B 요새 하나 = 낮·밤 여러 번</td><td>성벽을 100% 고칠 때까지 며칠</td><td>받은 안 그대로</td><td>전투 흐름·저장·결과 화면을 크게 손봄, 한 판이 길어짐</td></tr>
+</table></div>
+<ul>
+<li>받은 안의 '성벽 100% 복구가 승리 조건'은 <strong>보너스</strong>로 바꾼다: 이겼을 때 4면이 모두 일정 이상(예: 80%)이면 '완전 점화' 연출 + 보상 더.</li>
+</ul>
+<h3>2.3 새 규칙 — 추천: 1회차엔 등불 밝기 하나만</h3>
+<div class="tw"><table><tr><th>규칙</th><th>1회차</th><th>이유</th></tr>
+<tr><td><strong>등불 밝기 조절</strong></td><td>넣음</td><td>컨셉의 중심. 밤·횃불·시야 코드가 이미 있다</td></tr>
+<tr><td>횃불 줄여 적 끌기(면마다)</td><td>2회차</td><td>적 길찾기에 새 판단이 필요, 밸런스 큼</td></tr>
+<tr><td>생존자 합류</td><td>2회차</td><td>지형 안 숨은 곳·망원경 찾기 규칙이 새로 필요</td></tr>
+</table></div>
+<p>등불 밝기 (전투 전 고르고, 전투 중 바꿀 수 있음 — 수치는 측정 뒤 확정):</p>
+<div class="tw"><table><tr><th>밝기</th><th>아군</th><th>적</th><th>보상</th></tr>
+<tr><td>약</td><td>시야 좁음, 사거리 −10%</td><td>적 수 −20%</td><td>−30%</td></tr>
+<tr><td>보통</td><td>지금과 같음</td><td>지금과 같음</td><td>지금과 같음</td></tr>
+<tr><td>강</td><td>시야 넓음, 사거리 +10%</td><td>적 수 +30%</td><td>+50%</td></tr>
+</table></div>
+<h3>2.4 수비대 남기기 — 추천: 이긴 요새에 병력 일부 남김 + 다음 판 지원금</h3>
+<div class="tw"><table><tr><th>안</th><th>내용</th><th>좋은 점</th><th>걱정</th></tr>
+<tr><td><strong>A 비율로 남김</strong> (추천)</td><td>이기면 살아남은 병력의 <strong>20%</strong>가 그 요새 수비대로 남음. 수비대가 있는 요새 하나당 다음 정비 때 <strong>지원금</strong>(예: 수비대 1명당 2골드)</td><td>병력이 끝없이 불지 않음, 남긴 병력이 돈으로 돌아와 아깝지 않음</td><td>지금 난이도 수치를 다시 맞춰야 함</td></tr>
+<tr><td>B 남기지 않음</td><td>이야기에서만 '남겼다'고 함</td><td>작업 없음</td><td>받은 안의 큰 장점이 사라짐</td></tr>
+<tr><td>C 출발 정원 제한</td><td>받은 안 그대로: 데려갈 수 있는 최대 인원이 판마다 늘고 넘치면 남김</td><td>성장 체감</td><td>지금 정원(2,000) 규칙과 겹쳐 복잡</td></tr>
+</table></div>
+<ul>
+<li>강화(훈련·품목)는 개척단 전체에 붙어 다닌다 — 남긴 병사에게는 상관없음.</li>
+<li>남은 강화 값 조정(현실 4번)은 이 규칙을 넣은 뒤 다시 잰다.</li>
+</ul>
+<h2 id="s3">3. 화면별로 바뀌는 것</h2>
+<div class="tw"><table><tr><th>화면</th><th>바뀌는 것</th><th>양</th></tr>
+<tr><td>0 메인</td><td>제목·배경 글</td><td>작음</td></tr>
+<tr><td>5 스토리</td><td>대사 전체 새로 씀(인트로 안개 해일, 요새마다 짧은 장면). 초상은 그대로</td><td>중간 (글)</td></tr>
+<tr><td>1·2 전투</td><td>가운데 등불 탑, 등불 밝기 단추, 안개 테두리. 밤 위주</td><td>중간</td></tr>
+<tr><td>4 결과</td><td>'점화 성공' 연출, 수비대 남김 표시</td><td>작음</td></tr>
+<tr><td>3 정비</td><td>이름만 '낮'. 망원경 정찰은 지금 전투 망원경을 정비 때도 쓰게</td><td>작음~중간</td></tr>
+<tr><td>새: 봉화선 지도</td><td>요새 1~4 점, 켜진 요새·수비대 아이콘, 다음 요새로 점선</td><td>중간 (새 화면 하나)</td></tr>
+<tr><td>튜토리얼</td><td>문구만 새 설정에 맞게</td><td>작음</td></tr>
+</table></div>
+<h2 id="s4">4. 낮·밤과 날씨</h2>
+<ul>
+<li>지금은 전투 날씨가 무작위(맑음·비·안개, 낮·밤)다.</li>
+<li>추천: <strong>전투는 해 질 녘~밤으로 고정</strong>, 비·안개는 그대로 무작위(안개는 '검은 안개'로 이름만 바꿈). 낮 전투 그림은 정비(낮) 화면에서 쓴다.</li>
+</ul>
+<h2 id="s5">5. 새 그림 (코덱스 카드 4장 예상)</h2>
+<div class="tw"><table><tr><th>카드</th><th>내용</th></tr>
+<tr><td>1</td><td>가운데 등불 탑: 꺼짐 → 예열 → 완전 점화(빛기둥) 3단계</td></tr>
+<tr><td>2</td><td>성벽 화로(밝기 3단계)와 안개 테두리</td></tr>
+<tr><td>3</td><td>봉화선 지도 화면(배경, 요새 아이콘 꺼짐/켜짐, 수비대 아이콘, 빛 점선)</td></tr>
+<tr><td>4</td><td>메인 화면 제목 그림, 스토리 배경 2~3장(안개 해일, 폐허 요새)</td></tr>
+</table></div>
+<ul>
+<li>병사·적·성벽·지형·마당·초상은 그대로 쓴다. 코덱스 이번 주 사용량이 약 85%라 카드는 다음 주 초기화 뒤 맡기는 것을 추천.</li>
+</ul>
+<h2 id="s6">6. 작업 순서 (결정 뒤)</h2>
+<ol>
+<li>처음 읽는 문서(FirstRead)의 주인공·세계관 문장 고침 안 → 사용자 확인</li>
+<li>이야기 대사 1판(인트로 + 요새 4곳) → 사용자 확인</li>
+<li>코드: 요새 이동 흐름(이름·문구), 등불 밝기, 수비대 남기기, 봉화선 지도(임시 도형)</li>
+<li>측정: 난이도 다시 재고 강화 값까지 맞춤</li>
+<li>코덱스 그림 카드 4장 → 붙이기 → 사진으로 확인</li>
+</ol>
+<h2 id="s7">7. 결정 질문</h2>
+<div class="tw"><table><tr><th>ID</th><th>질문</th><th>추천</th></tr>
+<tr><td>B1</td><td>이 방향(빛을 잇는 자들)으로 확정하는가</td><td>예</td></tr>
+<tr><td>B2</td><td>규모</td><td>A 지금 숫자 유지</td></tr>
+<tr><td>B3</td><td>요새 하나의 진행</td><td>A 낮 정비 + 밤 전투 한 번, 성벽 복구는 보너스</td></tr>
+<tr><td>B4</td><td>1회차 새 규칙</td><td>등불 밝기 하나만</td></tr>
+<tr><td>B5</td><td>수비대</td><td>A 살아남은 병력 20% 남김 + 지원금</td></tr>
+<tr><td>B6</td><td>전투 시간대</td><td>해 질 녘~밤 고정, 비·안개는 무작위</td></tr>
+<tr><td>B7</td><td>주인공</td><td>장교 출신 개척단 대장, 장교 옷 그대로, 이름·배경은 사용자가 정함</td></tr>
+<tr><td>B8</td><td>처음 읽는 문서 고치기</td><td>Claude가 고친 안을 보여 드리고 사용자가 확정</td></tr>
+<tr><td>B9</td><td>게임 제목</td><td>'빛을 잇는 자들'(가제) 그대로 쓸지</td></tr>
+</table></div>
+
+</main></body></html>
