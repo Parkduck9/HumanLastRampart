@@ -22,6 +22,7 @@ namespace HumanLastRampart.Tutorial
         readonly GameObject boxObject;
         public readonly Button NextButton, SkipButton;
         int shownStep = -1;
+        bool shownExplain;
         bool disposed;
 
         static Texture2D Tex(string name)
@@ -122,18 +123,21 @@ namespace HumanLastRampart.Tutorial
 
             TutorialStepInfo info = machine.Info;
             int step = (int)machine.Current;
-            if (step != shownStep)
+            bool explain = machine.ExplainOnly;   // 직접 해 볼 수 없어 설명으로 바뀐 단계도 포함
+            if (step != shownStep || explain != shownExplain)
             {
+                bool stepChanged = step != shownStep;
                 shownStep = step;
+                shownExplain = explain;
                 title.text = info.Title;
-                body.text = info.Body;
+                body.text = explain && !string.IsNullOrEmpty(info.ExplainBody) ? info.ExplainBody : info.Body;
                 Cell(bust, info.Expression, 4);
                 Cell(icon, step, 8);
-                NextButton.gameObject.SetActive(info.ExplainOnly);
-                BuildChips(info);
+                NextButton.gameObject.SetActive(explain);
+                if (stepChanged) BuildChips(info);
+                // 진행 표시는 단계가 바뀔 때만 다시 맞춘다 (매 프레임 uvRect를 다시 쓰지 않는다)
+                for (int i = 0; i < pips.Length; i++) Cell(pips[i], i * 3 + (i < step ? 2 : i == step ? 1 : 0), 24);
             }
-
-            for (int i = 0; i < pips.Length; i++) Cell(pips[i], i * 3 + (i < step ? 2 : i == step ? 1 : 0), 24);
 
             // 목표 화면 좌표(화소)를 화면 비율로 바꿔 앵커에 건다 — 캔버스 배율·피벗과 무관하다 (BattleHud.Viewport와 같은 방식)
             bool target = false;

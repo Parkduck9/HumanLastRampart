@@ -56,8 +56,8 @@ namespace HumanLastRampart.Meta
             yard.AddStation("성벽 계단", 3000f, new Color(0.40f, 0.38f, 0.30f), () => yard.AskNextBattle(() => ready.onClick.Invoke()));
             var lifetime = repair.GetComponentInParent<UnityEngine.Canvas>().gameObject.AddComponent<PreparationSessionLifetime>();
             lifetime.Session = session; lifetime.Traps = traps;
-            var tutorial = HumanLastRampart.Tutorial.PrepTutorialSource.TryBegin(transform, campaign);   // 첫 전투 뒤 정비 튜토리얼 (W2): 함정 놓기 → 망원경 업그레이드 설명
-            // W10: 튜토리얼이 도는 동안은 지도 단추를 잠근다 (지도를 보고 오면 정비 튜토리얼이 처음부터 다시 시작되므로)
+            var tutorial = HumanLastRampart.Tutorial.PrepTutorialSource.TryBegin(transform, campaign, context.Definitions);   // 첫 전투 뒤 정비 튜토리얼 (W2): 함정 놓기 → 망원경 업그레이드 설명
+            // W10: 튜토리얼이 도는 동안은 지도 단추를 잠근다 (단계는 저장돼 이어 하지만, 지도로 나가면 정비 화면이 다시 만들어져 안내가 끊기므로)
             if (tutorial != null) mapButton.gameObject.AddComponent<MapButtonGate>().Init(mapButton, tutorial);
             return view;
         }
