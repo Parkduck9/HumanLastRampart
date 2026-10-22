@@ -109,6 +109,7 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
             CampaignState c = GameFlow.Instance.Campaign;
             int gold0 = c.Gold;
             int number = c.BattleNumber;
+            int lossesBefore = c.ConsecutiveNightLosses;   // W8: 진 밤이 연속 두 번째면 패배 엔딩
             int soldiers0 = c.Squads.Sum(s => s.Count);
             Note($"-- 전투 {number} 시작: 골드 {gold0}, 병사 {soldiers0}, 성벽 {string.Join("/", c.Wall.Select(w => w.Hp))}, 적 배율 {c.ActiveBattleSetup.EnemyCountMultiplier}");
             yield return Click("×4", 300);
@@ -130,6 +131,18 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
             // C-005 v1.3 (M7): 배치 지점 없는 주인공·마법사도 참가 → 영웅 결과 2개
             Assert.AreEqual(2, c.ActiveBattleSetup?.ParticipatingHeroIds.Count ?? r.HeroOutcomes.Count, "참가 영웅 2명");
             Assert.AreEqual(2, r.HeroOutcomes.Count, "영웅 결과 2개 (주인공·마법사)");
+
+            if (r.Outcome == BattleOutcome.Defeat && lossesBefore == 0)
+            {
+                // W8: 첫 패배는 엔딩이 아니라 같은 요새의 다음 낮 (등대 복구 절반). 정비를 거쳐 같은 밤을 다시 치른다
+                yield return WaitScreen(ScreenId.Prep, 900);
+                Note($"첫 패배 → 낮 (복구 {c.BeaconRepair}, 연속 패배 {c.ConsecutiveNightLosses})");
+                Assert.AreEqual(1, c.ConsecutiveNightLosses, "연속 패배 +1");
+                yield return Click("전투 준비 완료", 300);
+                yield return null;
+                yield return null;
+                continue;
+            }
 
             if (r.Outcome == BattleOutcome.Defeat)
             {
@@ -158,6 +171,15 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
                 Assert.IsNotNull(GameObject.Find(column), $"결과 그림판 {column} 칸");
             Note($"결과 그림판 세 칸 확인 (전투 {number})");
             yield return Click("다음", 300);
+            if (c.NextStory != null && c.NextStory.Kind == StoryKind.RunComplete)
+            {
+                // W8: 마지막 요새 점화 → 1회차 완료 이야기 → 메인
+                yield return WaitScreen(ScreenId.Story, 900);
+                yield return Click("넘기기", 600);
+                yield return WaitScreen(ScreenId.MainMenu, 900);
+                Note("1회차 완료 이야기 뒤 메인 복귀");
+                break;
+            }
             yield return WaitScreen(ScreenId.Prep, 900);
             yield return Click("전투 준비 완료", 300);
             yield return null;

@@ -39,6 +39,8 @@ namespace HumanLastRampart.Core.Save
             public string Contract;
             public string SavedAtUtc;
             public int BattleNumber;          // 미리 보기용 (메인에서 '몇 번째 전투 앞' 표시)
+            public int FortressNumber;        // W8: 미리 보기용 요새·밤 (예전 파일에는 없어 0)
+            public int NightNumber;
             public Difficulty Difficulty;
             public ScreenId ResumeScreen;     // 이어할 화면 — 1판은 늘 정비(Prep)
             public List<string> NullFields = new List<string>();
@@ -48,6 +50,8 @@ namespace HumanLastRampart.Core.Save
         public struct Summary
         {
             public int BattleNumber;
+            public int FortressNumber;   // W8: 0이면 예전 저장 (요새·밤 정보 없음)
+            public int NightNumber;
             public Difficulty Difficulty;
             public string SavedAtUtc;
         }
@@ -64,6 +68,8 @@ namespace HumanLastRampart.Core.Save
                     Contract = ContractVersion,
                     SavedAtUtc = DateTime.UtcNow.ToString("o"),
                     BattleNumber = campaign.BattleNumber,
+                    FortressNumber = campaign.FortressNumber,
+                    NightNumber = campaign.NightNumber,
                     Difficulty = campaign.Difficulty,
                     ResumeScreen = resume,
                     Campaign = JsonUtility.ToJson(campaign),
@@ -111,7 +117,7 @@ namespace HumanLastRampart.Core.Save
         {
             summary = default;
             if (!TryReadFile(out SaveFile file, out _)) return false;
-            summary = new Summary { BattleNumber = file.BattleNumber, Difficulty = file.Difficulty, SavedAtUtc = file.SavedAtUtc };
+            summary = new Summary { BattleNumber = file.BattleNumber, FortressNumber = file.FortressNumber, NightNumber = file.NightNumber, Difficulty = file.Difficulty, SavedAtUtc = file.SavedAtUtc };
             return true;
         }
 

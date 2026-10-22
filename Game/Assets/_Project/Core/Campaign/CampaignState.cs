@@ -11,7 +11,7 @@ namespace HumanLastRampart.Core.Campaign
     [Serializable]
     public sealed class CampaignState
     {
-        public int BattleNumber = 1;                 // 다음(또는 진행 중) 전투 번호. 1부터
+        public int BattleNumber = 1;                 // 다음(또는 진행 중) 전투 번호. 1부터. 빛을 잇는 자들: 이긴 밤 수 + 1(총 밤 번호). 난이도 자리는 BeaconRules.BattleSlot
         public int Gold;                             // 화폐 — 1회차는 골드 하나 (D-015 D2)
         public Difficulty Difficulty;                // v1.3: App이 새 게임 때 한 번 설정, 판 도중 변경 불가
         public int RngSeed;                          // v1.2: 새 게임 때 App이 정함. 전투·회수·날씨 무작위의 기준
@@ -28,6 +28,21 @@ namespace HumanLastRampart.Core.Campaign
         public List<OwnedItem> Items = new List<OwnedItem>();
         public List<TrainingState> Training = new List<TrainingState>();
         public List<MercenaryContract> Mercenaries = new List<MercenaryContract>();
+
+        // v1.9 초안 (빛을 잇는 자들 Concept_Beacon_v1 9.3, W8): 요새×밤 구조. 예전 저장에 없으면 요새 1 · 밤 1 · 복구 0 (필드 기본값)
+        public int FortressNumber = 1;               // 지금 지키는 요새 (1회차 1~2)
+        public int NightNumber = 1;                  // 이 요새의 몇 번째 밤인가 (이긴 밤마다 +1, 졌을 때는 그대로)
+        public float BeaconRepair;                   // 등대 복구 0~100 (BeaconRules)
+        public int ConsecutiveNightLosses;           // 연속으로 진 밤 수. 이기면 0, 2가 되면 패배 엔딩
+        public LampBrightness PlannedLamp;           // 다음 밤 등불 밝기 (정비 화면에서 고른다)
+        public List<GarrisonState> Garrisons = new List<GarrisonState>();   // 점화한 요새에 남긴 수비대
+        public string LastNightRunId;                // 마지막으로 반영한 이긴 밤의 전투 실행 ID (두 번 반영 방지)
+        public int LastNightFortress;                // 그 밤이 속한 요새·밤 번호 (결과 화면 제목용 — 반영 뒤 FortressNumber·NightNumber는 이미 넘어갔다)
+        public int LastNightIndex;
+        public float LastNightGain;                 // 그 밤에 늘어난 등대 복구 (결과 화면 표시용)
+        public bool LastNightRelit;                  // 그 밤에 요새를 점화했는가
+        public int LastNightGarrison;                // 점화로 남긴 수비대 수 (결과 화면 표시용)
+        public int LastSupportGold;                  // 오늘 낮 받은 수비대 지원금 (정비 화면 표시용)
 
         public TargetingSettings Targeting = TargetingSettings.CreateDefault();
         public StoryRequest NextStory;
@@ -88,6 +103,17 @@ namespace HumanLastRampart.Core.Campaign
     {
         Normal,
         DefeatEnding,
+        RunComplete,   // 1회차 마지막 요새 점화 뒤 (W8)
+    }
+
+    // 점화한 요새에 남은 수비대 (W8, Concept_Beacon_v1 2.4). 낮마다 인원당 지원금
+    [Serializable]
+    public sealed class GarrisonState
+    {
+        public int FortressNumber;
+        public int Count;
+
+        public GarrisonState Clone() => (GarrisonState)MemberwiseClone();
     }
 
     [Serializable]

@@ -22,6 +22,8 @@ namespace HumanLastRampart.App.Flow
         public bool QueueDefeatEnding;  // 패배: 패배 엔딩 스토리 요청 (D-014)
         public bool LoadSave;           // 이어하기: 저장한 진행을 불러온 뒤 연다 (K-062)
         public bool DeleteSave;         // 판이 끝남(패배 엔딩·마지막 전투 뒤): 저장 지움 (K-062)
+        public bool ApplyNightLoss;     // 밤에 졌지만 엔딩 아님: 등대 복구 절반·연속 패배 +1 (W8)
+        public bool BeginDay;           // 낮이 시작됨: 수비대 지원금 (W8). 이어하기로 들어올 때는 켜지 않는다
 
         public static FlowStep Open(ScreenId screen) => new FlowStep { Action = FlowAction.OpenScreen, Screen = screen };
         public static FlowStep ToMainMenu() => new FlowStep { Action = FlowAction.OpenScreen, Screen = ScreenId.MainMenu, DiscardCampaign = true };
@@ -35,6 +37,9 @@ namespace HumanLastRampart.App.Flow
         public BattleOutcome? LastBattleOutcome;   // 검증을 통과한 결과만
         public bool HasNextBattle;                  // 다음 전투 번호에 웨이브가 있는가
         public bool LastBattleWasPractice;          // 연습 전투가 끝남 (D-063, C-005 v1.5 초안)
+        public bool LossCanRetry;                   // W8: 진 밤이 연속 한도에 닿지 않아 같은 요새 다음 낮으로 간다 (기본 false = 패배 엔딩)
+        public bool StoryIsRunComplete;             // W8: 1회차 완료 이야기 (끝나면 메인)
+        public bool RunComplete;                    // W8: 결과 화면 뒤 1회차 완료 이야기로 간다
     }
 
     // 다음 화면 순서표 — App 한 곳에서만 정한다 (C-003 4, D-014, D-017 E3, D-022 I5)
@@ -70,7 +75,7 @@ namespace HumanLastRampart.App.Flow
 
                 case ScreenId.Story:
                     if (outcome != ScreenOutcome.Done) return FlowStep.Stay();
-                    if (state.StoryIsDefeatEnding) return EndOfRun();   // 패배 엔딩 → 처음부터 (저장 지움)
+                    if (state.StoryIsDefeatEnding || state.StoryIsRunComplete) return EndOfRun();   // 패배 엔딩·1회차 완료 → 처음부터 (저장 지움)
                     return PrepareBattle();
 
                 case ScreenId.Battle:
@@ -85,12 +90,25 @@ namespace HumanLastRampart.App.Flow
                         return win;
                     }
 
+                    if (state.LossCanRetry)
+                    {
+                        // W8: 첫 패배는 등대 복구가 절반으로 줄고 같은 요새의 다음 낮으로 (연속 두 번이면 아래 패배 엔딩)
+                        FlowStep retry = FlowStep.Open(ScreenId.Prep);
+                        retry.ApplyNightLoss = true;
+                        retry.BeginDay = true;
+                        return retry;
+                    }
+
                     FlowStep lose = FlowStep.Open(ScreenId.Story);   // 결과 화면 건너뜀
                     lose.QueueDefeatEnding = true;
                     return lose;
 
                 case ScreenId.Result:
-                    return outcome == ScreenOutcome.Done ? FlowStep.Open(ScreenId.Prep) : FlowStep.Stay();
+                    if (outcome != ScreenOutcome.Done) return FlowStep.Stay();
+                    if (state.RunComplete) return FlowStep.Open(ScreenId.Story);   // W8: 마지막 요새 점화 → 1회차 완료 이야기
+                    FlowStep day = FlowStep.Open(ScreenId.Prep);
+                    day.BeginDay = true;
+                    return day;
 
                 case ScreenId.Prep:
                     if (outcome != ScreenOutcome.Done) return FlowStep.Stay();

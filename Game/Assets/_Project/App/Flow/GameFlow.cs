@@ -192,6 +192,7 @@ namespace HumanLastRampart.App.Flow
             else if (context.Screen == ScreenId.Story && Campaign != null)
             {
                 state.StoryIsDefeatEnding = Campaign.NextStory != null && Campaign.NextStory.Kind == StoryKind.DefeatEnding;
+                state.StoryIsRunComplete = Campaign.NextStory != null && Campaign.NextStory.Kind == StoryKind.RunComplete;
             }
             else if (context.Screen == ScreenId.Battle && outcome == ScreenOutcome.Done && Campaign?.ActiveBattleSetup != null && Campaign.ActiveBattleSetup.IsPractice)
             {
@@ -210,6 +211,11 @@ namespace HumanLastRampart.App.Flow
                 }
 
                 state.LastBattleOutcome = Campaign.LastBattle.Outcome;
+                state.LossCanRetry = Campaign.LastBattle.Outcome == BattleOutcome.Defeat && !BeaconRules.LossEndsRun(Campaign);   // W8: 연속 두 번째 패배만 엔딩
+            }
+            else if (context.Screen == ScreenId.Result && Campaign != null)
+            {
+                state.RunComplete = Campaign.NextStory != null && Campaign.NextStory.Kind == StoryKind.RunComplete;   // W8: 마지막 요새 점화
             }
             else if (context.Screen == ScreenId.Prep && Campaign != null)
             {
@@ -229,7 +235,7 @@ namespace HumanLastRampart.App.Flow
         bool NextBattleExists()
         {
             IReadOnlyList<CampaignStartDef> starts = lookup.All<CampaignStartDef>();
-            return starts.Count > 0 && starts[0].WaveFor(Campaign.BattleNumber) != null;
+            return starts.Count > 0 && starts[0].WaveForNight(Campaign.BattleNumber) != null;
         }
 
         static int NewSeed() => System.Environment.TickCount ^ System.Guid.NewGuid().GetHashCode();
@@ -304,7 +310,18 @@ namespace HumanLastRampart.App.Flow
 
             if (step.AdvanceBattle)
             {
-                Campaign.BattleNumber = Campaign.LastBattle.BattleNumber + 1;   // C-006: App이 한 번 증가
+                Campaign.BattleNumber++;   // C-006: App이 한 번 증가 (W8: 결과의 번호는 전투 자리라 밤 번호 자체를 올린다)
+            }
+
+            if (step.ApplyNightLoss)
+            {
+                // W8: 진 밤 — 복구 절반·연속 패배 +1. 전투 결과(병력·성벽)는 반영하지 않으므로 밤 시작 때 그대로 낮으로 돌아간다
+                BeaconRules.ApplyLoss(Campaign);   // LastBattle·ActiveBattleSetup은 다음 전투 준비(PrepareBattle) 때 갱신된다
+            }
+
+            if (step.BeginDay)
+            {
+                BeaconRules.BeginDay(Campaign);   // W8: 낮 시작 수비대 지원금
             }
 
             if (step.QueueDefeatEnding)
@@ -508,7 +525,7 @@ namespace HumanLastRampart.App.Flow
                     {
                         // 임시 승리 결과로 결과 화면 열기 (P2-C06)
                         Campaign.LastBattle = DevPlaceholderScreen.MakeTestResult(Campaign.ActiveBattleSetup, BattleOutcome.Victory, DefeatReason.None);
-                        Campaign.BattleNumber = Campaign.LastBattle.BattleNumber + 1;
+                        Campaign.BattleNumber++;
                     }
                 }
             }

@@ -14,7 +14,7 @@ namespace HumanLastRampart.Story.Editor
         const string Folder = "Assets/_Project/Story/Resources/Stories";
         static readonly string[] SideNames = { "내레이션", "왼쪽", "오른쪽" };
         static readonly string[] EffectNames = { "없음", "흔들림", "암전" };
-        static readonly string[] KindNames = { "보통 이야기", "패배 엔딩" };
+        static readonly string[] KindNames = { "보통 이야기", "패배 엔딩", "1회차 완료" };
 
         StoryScript script;
         int sceneIndex, lineIndex;

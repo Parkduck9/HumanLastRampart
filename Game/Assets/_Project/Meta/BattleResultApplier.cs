@@ -22,7 +22,7 @@ namespace HumanLastRampart.Meta
                 Require(!string.IsNullOrWhiteSpace(result.BattleRunId) && result.BattleRunId == setup.BattleRunId,
                     "이번 전투의 실행 ID와 결과가 다릅니다");
                 Require(result.BattleNumber > 0 && result.BattleNumber == setup.BattleNumber &&
-                    (long)campaign.BattleNumber == (long)result.BattleNumber + 1, "끝난 전투 번호가 맞지 않습니다");
+                    (long)campaign.BattleNumber >= (long)result.BattleNumber + 1, "끝난 전투 번호가 맞지 않습니다");   // W8: 결과 번호는 전투 자리(1~4), 진행 번호는 밤 번호라 5번째 밤부터 더 클 수 있다
                 Require(result.Outcome == BattleOutcome.Victory, "승리 결과가 아닙니다");
 
                 // 이미 적용한 뒤에는 시작 상태와 다를 수 있다. 상태 검사보다 먼저 반환한다.

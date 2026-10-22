@@ -39,6 +39,8 @@ namespace HumanLastRampart.Core.CombatContracts
         public int BeamSide;                         // 처음 빛줄기 방향 (WallGeometry 면 번호, 0 = 북)
         public int EnemyTier;                        // 적 변형 단계 0 홀림 · 1 물듦 · 2 변형 (9.5)
         public bool IsIgnitionNight;                 // 점화의 밤 — 요새의 마지막 밤 (9.3)
+        public int FortressNumber;                   // W8: 화면 표시용 요새·밤 번호. 0 = 정보 없음 (BattleNumber는 전투 1~4번 자리라 밤 번호가 아니다)
+        public int NightNumber;
     }
 
     // 등불 밝기 (9.4). 저장 하위 호환을 위해 보통이 0

@@ -35,9 +35,9 @@ namespace HumanLastRampart.Meta
             var starts = definitions.All<CampaignStartDef>();
             if (starts == null || starts.Count != 1 || starts[0] == null) throw new ArgumentException("시작 정의가 정확히 하나여야 합니다");
             start = starts[0];
-            if (campaign.BattleNumber > 0 && !string.IsNullOrEmpty(start.WaveFor(campaign.BattleNumber)))
+            if (campaign.BattleNumber > 0 && !string.IsNullOrEmpty(start.WaveForNight(campaign.BattleNumber)))
             {
-                terrain = definitions.Get<TerrainDef>(start.TerrainFor(campaign.BattleNumber));
+                terrain = definitions.Get<TerrainDef>(start.TerrainForNight(campaign.BattleNumber));
                 if (terrain == null) throw new ArgumentException("다음 전투 지형 정의가 없습니다");
             }
             if (!Validate(out var reason)) throw new ArgumentException(reason);
@@ -213,7 +213,7 @@ namespace HumanLastRampart.Meta
             if (campaign.Gold < 0 || campaign.NextInstanceNumber < 0 || campaign.BattleNumber < 1 ||
                 campaign.TrapShopRestockedForBattle < 0 || campaign.Traps == null || campaign.TrapShop == null || campaign.TrapStock == null)
             { reason = "함정 진행 데이터가 잘못됐습니다"; return false; }
-            if (HasNextBattle && (!ReferenceEquals(definitions.Get<TerrainDef>(terrain.Id), terrain) || start.TerrainFor(campaign.BattleNumber) != terrain.Id || string.IsNullOrEmpty(start.WaveFor(campaign.BattleNumber))))
+            if (HasNextBattle && (!ReferenceEquals(definitions.Get<TerrainDef>(terrain.Id), terrain) || start.TerrainForNight(campaign.BattleNumber) != terrain.Id || string.IsNullOrEmpty(start.WaveForNight(campaign.BattleNumber))))
             { reason = "다음 전투가 변경됐습니다"; return false; }
             var defs = definitions.All<TrapDef>();
             if (defs == null || defs.Count == 0) { reason = "함정 정의가 없습니다"; return false; }

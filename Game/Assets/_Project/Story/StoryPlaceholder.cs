@@ -21,6 +21,11 @@ namespace HumanLastRampart.Story
                 Add(scene, "", StorySide.None, null, "성벽이 무너지고, 횃불이 하나둘 꺼져 갔다.", StoryEffect.FadeBlack);
                 Add(scene, "장교", StorySide.Left, null, "……다음에는, 반드시 지켜 내겠다.", StoryEffect.None);
             }
+            else if (kind == StoryKind.RunComplete)
+            {
+                script.Id = "story_run1_complete";   // 임시 한 줄 — 실제 글은 조정 담당(W8)
+                Add(scene, "", StorySide.None, null, "두 번째 등대에도 불이 켜졌다. 어둠 속에서 빛이 이어지기 시작했다.", StoryEffect.FadeBlack);
+            }
             else
             {
                 script.Id = "story_intro";

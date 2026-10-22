@@ -57,6 +57,82 @@ namespace HumanLastRampart.App.Tests
         }
 
         [Test]
+        public void NightLoss_FirstRetriesSameFortress_SecondIsDefeatEnding()   // W8, Concept_Beacon_v1 9.3
+        {
+            FlowStep retry = FlowRouter.Next(ScreenId.Battle, ScreenOutcome.Done, new FlowState { LastBattleOutcome = BattleOutcome.Defeat, LossCanRetry = true });
+            Assert.AreEqual(ScreenId.Prep, retry.Screen, "첫 패배는 다음 낮으로");
+            Assert.IsTrue(retry.ApplyNightLoss);
+            Assert.IsTrue(retry.BeginDay);
+            Assert.IsFalse(retry.QueueDefeatEnding);
+            Assert.IsFalse(retry.AdvanceBattle);
+
+            FlowStep end = FlowRouter.Next(ScreenId.Battle, ScreenOutcome.Done, new FlowState { LastBattleOutcome = BattleOutcome.Defeat, LossCanRetry = false });
+            Assert.AreEqual(ScreenId.Story, end.Screen);
+            Assert.IsTrue(end.QueueDefeatEnding, "연속 두 번째 패배는 패배 엔딩");
+        }
+
+        [Test]
+        public void ResultDone_OpensDayWithSupport_OrRunCompleteStory()   // W8
+        {
+            FlowStep day = FlowRouter.Next(ScreenId.Result, ScreenOutcome.Done, default);
+            Assert.AreEqual(ScreenId.Prep, day.Screen);
+            Assert.IsTrue(day.BeginDay, "낮 시작 = 수비대 지원금");
+
+            FlowStep done = FlowRouter.Next(ScreenId.Result, ScreenOutcome.Done, new FlowState { RunComplete = true });
+            Assert.AreEqual(ScreenId.Story, done.Screen);
+            Assert.IsFalse(done.BeginDay);
+
+            FlowStep toMain = FlowRouter.Next(ScreenId.Story, ScreenOutcome.Done, new FlowState { StoryIsRunComplete = true });
+            Assert.AreEqual(ScreenId.MainMenu, toMain.Screen);
+            Assert.IsTrue(toMain.DeleteSave, "1회차를 마치면 저장을 지운다");
+        }
+
+        [Test]
+        public void BattleSetup_BeaconFields_LampTierIgnitionAndSlot()   // W8
+        {
+            DefinitionLookup lookup = DefinitionLookup.Build(new[] { AppTestData.Catalog(AppTestData.ValidSet()) });
+            CampaignState campaign = CampaignFactory.Create(lookup, new NewGameOptions(Difficulty.Realistic), 7);
+
+            BattleSetup first = BattleSetupFactory.Create(campaign, lookup, "run_1", out string error);
+            Assert.IsNull(error);
+            Assert.AreEqual(LampBrightness.Normal, first.LampBrightness);
+            Assert.AreEqual(0, first.EnemyTier, "요새 1 = 홀림");
+            Assert.IsFalse(first.IsIgnitionNight);
+            Assert.AreEqual(0, first.BeamSide);
+            Assert.AreEqual(1, first.FortressNumber);
+            Assert.AreEqual(1, first.NightNumber);
+
+            campaign.PlannedLamp = LampBrightness.High;
+            campaign.BeaconRepair = 50f;   // 요새 1의 점화 선, 성벽은 가득
+            BattleSetup ignition = BattleSetupFactory.Create(campaign, lookup, "run_2", out error);
+            Assert.AreEqual(LampBrightness.High, ignition.LampBrightness);
+            Assert.IsTrue(ignition.IsIgnitionNight);
+            Assert.AreEqual(0, ignition.EnemyTier);
+
+            campaign.Wall[0].Hp = 800;   // 성벽 80% → 복구가 차도 보통 밤
+            Assert.IsFalse(BattleSetupFactory.Create(campaign, lookup, "run_3", out error).IsIgnitionNight);
+
+            campaign.Wall[0].Hp = campaign.Wall[0].MaxHp;
+            campaign.FortressNumber = 2;
+            campaign.BeaconRepair = 10f;
+            BattleSetup f2 = BattleSetupFactory.Create(campaign, lookup, "run_4", out error);
+            Assert.AreEqual(1, f2.EnemyTier, "요새 2 보통 밤 = 물듦");
+            Assert.IsFalse(f2.IsIgnitionNight);
+
+            campaign.BeaconRepair = 70f;   // 요새 2의 점화 선 66.7 이상
+            BattleSetup f2Ignition = BattleSetupFactory.Create(campaign, lookup, "run_5", out error);
+            Assert.AreEqual(2, f2Ignition.EnemyTier, "요새 2 점화의 밤 = 변형");
+            Assert.IsTrue(f2Ignition.IsIgnitionNight);
+
+            // 밤 번호가 웨이브 수(시험 묶음은 2개)를 넘어도 마지막 전투 자리를 쓴다
+            campaign.BattleNumber = 5;
+            BattleSetup late = BattleSetupFactory.Create(campaign, lookup, "run_6", out error);
+            Assert.IsNull(error);
+            Assert.AreEqual(2, late.BattleNumber, "BattleSetup.BattleNumber는 전투 자리");
+            Assert.AreEqual("wave_2", late.WaveDefId);
+        }
+
+        [Test]
         public void AllowedOutcomes_FollowC003()   // C-003 3-1, v1.2
         {
             Assert.IsTrue(FlowRouter.IsAllowed(ScreenId.MainMenu, ScreenOutcome.StartNewGame, true));

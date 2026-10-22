@@ -834,7 +834,8 @@ namespace HumanLastRampart.Combat.Battle
         {
             // 날씨가 언제 바뀌는지는 보여 주지 않는다 (전투 중 무작위 변화, Battle.md 6장)
             string difficulty = setup.Difficulty == Difficulty.Easy ? "쉬움" : "현실";
-            return $"전투 {setup.BattleNumber} · {setup.TerrainId} · {difficulty} (적 ×{setup.EnemyCountMultiplier:0.##})";
+            string night = setup.FortressNumber > 0 ? $"요새 {setup.FortressNumber} · 밤 {setup.NightNumber}" : $"전투 {setup.BattleNumber}";   // W8
+            return $"{night}{(setup.IsIgnitionNight ? " (점화의 밤)" : "")} · {setup.TerrainId} · {difficulty} (적 ×{setup.EnemyCountMultiplier:0.##})";
         }
     }
 }

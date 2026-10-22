@@ -1,3 +1,4 @@
+using HumanLastRampart.Core.Campaign;
 using HumanLastRampart.Core.Flow;
 using HumanLastRampart.Core.Save;
 using HumanLastRampart.UI;
@@ -29,7 +30,7 @@ namespace HumanLastRampart.Frontend
             if (canContinue)
             {
                 string difficulty = save.Difficulty == Difficulty.Easy ? "쉬움" : "현실";
-                Button cont = Ui.Button(view.AddArea("Continue", 64f), "이어하기", $"이어하기 · 전투 {save.BattleNumber} 앞 · {difficulty}", () => Complete(ScreenOutcome.ContinueGame), UiButtonKind.Primary);
+                Button cont = Ui.Button(view.AddArea("Continue", 64f), "이어하기", $"이어하기 · {(save.FortressNumber > 0 ? BeaconRules.NightLabel(save.FortressNumber, save.NightNumber) : "전투 " + save.BattleNumber)} 앞 · {difficulty}", () => Complete(ScreenOutcome.ContinueGame), UiButtonKind.Primary);
                 Ui.Stretch((RectTransform)cont.transform);
                 view.SetFirst(cont);
             }
