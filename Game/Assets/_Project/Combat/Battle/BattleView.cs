@@ -35,6 +35,7 @@ namespace HumanLastRampart.Combat.Battle
         static readonly int ScreenUprightId = Shader.PropertyToID("_ScreenUpright");
         static readonly int SheetScaleId = Shader.PropertyToID("_SheetScale");
         static readonly int ViewStretchId = Shader.PropertyToID("_ViewStretch");
+        static readonly int LodBandId = Shader.PropertyToID("_LodBand");
 
         // 2번 지도 모드 점 색 (BattleMap.md 2장)
         static readonly Color MapEnemyColor = new Color(1f, 0.72f, 0.2f, 1f);
@@ -95,6 +96,10 @@ namespace HumanLastRampart.Combat.Battle
         // 동작 그림 (K-032 미리 연결, 사용자 검토 전): 같은 개체 버퍼를 시트마다 한 번 더 그린다 (_FrameWindow 구간)
         readonly List<(MaterialPropertyBlock block, int count)> enemyPoseDraws = new List<(MaterialPropertyBlock, int)>();
         readonly List<(MaterialPropertyBlock block, int count)> soldierPoseDraws = new List<(MaterialPropertyBlock, int)>();
+        // 먼 적 저비용 그림 (W4b, K-099): 같은 개체 버퍼를 절반·1/4 시트로 한 번씩 더. near = 원래 그림 블록(꺼지면 거리 띠를 푼다)
+        readonly List<(MaterialPropertyBlock near, MaterialPropertyBlock half, MaterialPropertyBlock quarter, int count)> enemyFarDraws =
+            new List<(MaterialPropertyBlock, MaterialPropertyBlock, MaterialPropertyBlock, int)>();
+        bool farApplied;   // 지금 먼 그림이 켜져 있는가 (FarSprites.Enabled가 바뀌면 한 번만 블록을 고친다)
         sealed class LadderDraw
         {
             public GraphicsBuffer buffer, sideBuffer;
@@ -202,6 +207,7 @@ namespace HumanLastRampart.Combat.Battle
                     AddPose(enemyPoseDraws, buffer, count, def.DeploySheet, PerfLabArt.DeployFrame0, enemyFigurePx, def.NormalFor(def.DeploySheet));
                     AddPose(enemyPoseDraws, buffer, count, def.ClimbSheet, PerfLabArt.ClimbFrame0, enemyFigurePx, def.NormalFor(def.ClimbSheet));
                     AddPose(enemyPoseDraws, buffer, count, def.DeathSheet, PerfLabArt.FallFrame0, enemyFigurePx, def.NormalFor(def.DeathSheet));
+                    AddFar(block, buffer, count, def.MovingSheet, enemyFigurePx);
                 }
 
                 if (def.CarriesLadder && def.LadderSheet != null && count > 0)
@@ -410,6 +416,36 @@ namespace HumanLastRampart.Combat.Battle
             draws.Add((block, count));
         }
 
+        // 먼 적 그림 (W4b, K-099): 이동 시트에 맞는 절반·1/4 시트가 둘 다 있고 크기가 맞을 때만 블록 두 개를 더 만든다.
+        // 크기 배율·발 위치·가로세로비는 원래 블록과 같게 (월드 크기 그대로), 노멀·반사 마스크는 없다(_HasNormal/_HasSpec 0)
+        void AddFar(MaterialPropertyBlock near, GraphicsBuffer buffer, int count, Texture2D movingSheet, float referencePx)
+        {
+            if (count <= 0 || movingSheet == null || !PerfLabArt.TryFarSheets(movingSheet, out Texture2D half, out Texture2D quarter)) return;
+            float scale = PerfLabArt.SheetScale(movingSheet, referencePx);
+            var halfBlock = new MaterialPropertyBlock();
+            Apply(halfBlock, half, PerfLabArt.FarLayout(movingSheet, false), null, scale, true);
+            var quarterBlock = new MaterialPropertyBlock();
+            Apply(quarterBlock, quarter, PerfLabArt.FarLayout(movingSheet, true), null, scale, true);
+            foreach (var block in new[] { halfBlock, quarterBlock })
+            {
+                block.SetVector(FrameWindowId, PerfLabArt.Window(0));
+                block.SetBuffer(InstancesId, buffer);
+            }
+
+            halfBlock.SetVector(LodBandId, HumanLastRampart.Combat.Render.FarSprites.HalfBand);
+            quarterBlock.SetVector(LodBandId, HumanLastRampart.Combat.Render.FarSprites.QuarterBand);
+            enemyFarDraws.Add((near, halfBlock, quarterBlock, count));
+            farApplied = false;   // 첫 Draw에서 현재 Enabled 값으로 맞춘다
+        }
+
+        // FarSprites.Enabled 변화 반영: 켜면 원래 그림에 거리 띠(가까운 쪽만), 끄면 띠 없음 = 예전과 똑같이 한 번만 그린다
+        void ApplyFarState(bool on)
+        {
+            foreach (var (near, _, _, _) in enemyFarDraws)
+                near.SetVector(LodBandId, on ? HumanLastRampart.Combat.Render.FarSprites.NearBand : HumanLastRampart.Combat.Render.FarSprites.Off);
+            farApplied = on;
+        }
+
         // 주인공 명령 손짓 (K-032): 휠 메뉴를 열 때 SetHero의 command 칸으로 그린다. 시트가 없으면 예전 그대로
         public void SetHeroCommandArt(Texture2D sheet, Texture2D normal = null)
         {
@@ -553,6 +589,8 @@ namespace HumanLastRampart.Combat.Battle
             if (viewCamera != null) BattleLights.ViewPosition = viewCamera.transform.position;
             lights?.Update(mapMode);
             if (viewCamera != null) world?.UpdateView(viewCamera.transform.position, mapMode);   // 모서리 탑이 사진기를 가리면 숨김
+            if (enemyFarDraws.Count > 0 && HumanLastRampart.Combat.Render.FarSprites.Enabled != farApplied)
+                ApplyFarState(HumanLastRampart.Combat.Render.FarSprites.Enabled);   // 먼 적 그림 켬/끔 (W4b)
             foreach (var (buffer, block, start, count) in enemyDraws)
             {
                 if (count <= 0) continue;
@@ -562,6 +600,14 @@ namespace HumanLastRampart.Combat.Battle
 
             if (!mapMode)
             {
+                // 먼 적 그림 (W4b): 위에서 올린 같은 버퍼를 절반(60~110m)·1/4(110m~) 시트로. 그림자는 안 낸다(그림자 거리 50m 밖)
+                if (farApplied)
+                    foreach (var (_, halfBlock, quarterBlock, count) in enemyFarDraws)
+                    {
+                        Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, count, halfBlock, UnityEngine.Rendering.ShadowCastingMode.Off);
+                        Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, count, quarterBlock, UnityEngine.Rendering.ShadowCastingMode.Off);
+                    }
+
                 // 공격·세우기·오르기·쓰러짐 (K-032) — 위에서 올린 같은 버퍼
                 foreach (var (block, count) in enemyPoseDraws)
                     Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, count, block);

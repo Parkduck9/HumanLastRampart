@@ -47,6 +47,8 @@ Shader "HLR/PerfLabSprite"
         _GroundPlane ("Ground plane (0/1)", Float) = 0
         // 스스로 빛나는 그림 (K-041 불·폭발): 1이면 해·달 빛을 받지 않고 개체 색(1 넘는 밝은 색)을 그대로 — 빛번짐(Bloom)이 걸린다
         _Emissive ("Self-lit (0/1)", Float) = 0
+        // 먼 적 저비용 그림 (W4b, K-099): (가장 가까운 거리, 가장 먼 거리, 1/4 칸 바꾸기, 켬). w = 0이면 거리 띠 없음(기본, 아무것도 안 함)
+        _LodBand ("LOD band (min m, max m, quarter frames, on)", Vector) = (0, 0, 0, 0)
     }
 
     SubShader
@@ -94,6 +96,7 @@ Shader "HLR/PerfLabSprite"
         float _ScreenUpright;
         float _GroundPlane;
         float _Emissive;
+        float4 _LodBand;
 
         struct Attributes
         {
@@ -113,6 +116,15 @@ Shader "HLR/PerfLabSprite"
         {
             float frame = RawFrame(data);
             return frame > _FrameWindow.x - 0.5 && frame < _FrameWindow.y - 0.5;
+        }
+
+        // 먼 적 저비용 그림 거리 띠 (W4b): 카메라에서 이 개체까지 거리가 [min, max) 안인가. _LodBand.w = 0이면 항상 참
+        bool InLodBand(PerfLabInstance data)
+        {
+            if (_LodBand.w < 0.5) return true;
+            float3 toCamera = data.posFrame.xyz - _WorldSpaceCameraPos;
+            float distanceSq = dot(toCamera, toCamera);
+            return distanceSq >= _LodBand.x * _LodBand.x && distanceSq < _LodBand.y * _LodBand.y;
         }
 
         // 그리는 크기 = 개체 크기 × 시트 배율 (K-034)
@@ -140,6 +152,7 @@ Shader "HLR/PerfLabSprite"
             float size = DrawSize(data);
             bool flip = data.posFrame.w < 0.0;
             float frame = max(RawFrame(data) - _FrameWindow.x, 0.0);
+            if (_LodBand.z > 0.5) frame = fmod(frame, 4.0) >= 2.0 ? 1.0 : 0.0;   // 1/4 시트: 걷기 4칸 → 두 자세 (FarSprites.QuarterFrame)
             float pivotX = flip ? 1.0 - _Pivot.x : _Pivot.x;
             float localX = (input.positionOS.x + 0.5 - pivotX) * _Aspect * size;
             float localY = (input.positionOS.y - _Pivot.y) * size * stretch;
@@ -243,9 +256,9 @@ Shader "HLR/PerfLabSprite"
                 PerfLabInstance data = _Instances[input.instanceID];
                 float size = data.tintSize.a;
                 Varyings output = (Varyings)0;
-                if (!InWindow(data))
+                if (!InWindow(data) || !InLodBand(data))
                 {
-                    output.positionCS = float4(0.0, 0.0, -2.0, 1.0);   // 다른 시트 구간 칸 (잘려 나감)
+                    output.positionCS = float4(0.0, 0.0, -2.0, 1.0);   // 다른 시트 구간 칸 또는 이 그림의 거리 띠 밖 (잘려 나감)
                     return output;
                 }
 
