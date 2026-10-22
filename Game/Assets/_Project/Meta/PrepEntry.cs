@@ -42,7 +42,8 @@ namespace HumanLastRampart.Meta
 
             // D-076 정비 마당 + K-047: 위쪽은 황동 계기 띠 한 줄 — 1순위 골드, 그다음 병력·다음 전투 (S-20)
             view.DockTop(1560f, 80f + 2 * 56f);   // W8: 등대 줄 두 개가 늘어난 높이
-            BuildSummary(view.AddArea("Summary", 48f), campaign);
+            BuildSummary(view.AddArea("Summary", 48f), campaign,
+                () => { session.Close(); traps.Close(); Complete(ScreenOutcome.OpenBeaconMap); });   // W10: 봉화선 지도 보기 (보기 전용, 닫으면 정비로)
             PreparationPanel.RefreshSummary(repair, context, session);
             BeaconPrepPanel.Build(view.AddArea("Beacon Line 1", 48f), view.AddArea("Beacon Line 2", 48f), context,
                 () => PreparationPanel.RefreshSummary(repair, context, session));   // W8: 요새·밤, 등대 복구, 성벽 조건, 밝기 선택, 등대 수리, 수비대 지원금
@@ -60,7 +61,7 @@ namespace HumanLastRampart.Meta
         }
 
         // [정비 마당]  요새 1 · 밤 2 앞          [골드] 1,240   [병력] 520/1,200
-        static void BuildSummary(RectTransform area, HumanLastRampart.Core.Campaign.CampaignState campaign)
+        static void BuildSummary(RectTransform area, HumanLastRampart.Core.Campaign.CampaignState campaign, Action openMap)
         {
             HorizontalLayoutGroup row = Ui.Row(area, "Summary Row", UiTokens.S16);
             Ui.Stretch((RectTransform)row.transform);
@@ -68,6 +69,8 @@ namespace HumanLastRampart.Meta
             Ui.Size(title, title.preferredWidth + 8f, 48f);
             Text next = Ui.Label(row.transform, "Next Battle", HumanLastRampart.Core.Campaign.BeaconRules.NightLabel(campaign.FortressNumber, campaign.NightNumber) + " 앞", UiTokens.Text, UiTokens.BodyDim);
             Ui.Size(next, next.preferredWidth + 8f, 48f);
+            Button map = Ui.Button(row.transform, "봉화선 지도", "봉화선 지도", openMap);   // W10: 작은 단추
+            Ui.Size(map, 176f, 48f);
             RectTransform spacer = Ui.Rect(row.transform, "Spacer");
             Ui.Size(spacer, 0f, 48f, true);
             Image gold = Ui.HudIcon(row.transform, "Gold Icon", "Icons/stat_gold", 32f);
