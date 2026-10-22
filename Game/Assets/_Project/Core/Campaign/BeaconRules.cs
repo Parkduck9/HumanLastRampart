@@ -137,7 +137,7 @@ namespace HumanLastRampart.Core.Campaign
         }
 
         // 낮 '등대 수리': 골드를 쓰고 복구를 더한다 (100에서 멈춤). 실패하면 이유
-        public static bool TryBuyRepair(CampaignState campaign, out string reason, int maxPerDay = 0)   // maxPerDay <= 0 이면 제한 없음 (W11: 규칙 데이터 BeaconRepairsPerDay)
+        public static bool TryBuyRepair(CampaignState campaign, out string reason, int maxPerDay)   // W11: 하루 한도는 꼭 넘긴다 (규칙 데이터 BattleRulesDef.BeaconRepairsPerDay). 0 이하 = 제한 없음은 시험에서만 명시적으로
         {
             reason = null;
             if (maxPerDay > 0 && campaign.BeaconRepairBoughtToday >= maxPerDay) { reason = "오늘은 이미 등대를 수리했습니다"; return false; }

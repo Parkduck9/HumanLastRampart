@@ -196,8 +196,8 @@ namespace HumanLastRampart.Core.Tests
             BeaconRules.ApplyWin(c, new BattleSetup(), Result("n1", new float[] { 0f, 0f, 100f }));   // 강 한 밤: 50 × 100/105
             Assert.AreEqual(100f * 50f / 105f, c.BeaconRepair, 0.01f);
             Assert.IsFalse(BeaconRules.IsIgnitionNight(c), "47.6은 선(66.7) 아래");
-            Assert.IsTrue(BeaconRules.TryBuyRepair(c, out _));
-            Assert.IsTrue(BeaconRules.TryBuyRepair(c, out _));
+            Assert.IsTrue(BeaconRules.TryBuyRepair(c, out _, 0));
+            Assert.IsTrue(BeaconRules.TryBuyRepair(c, out _, 0));
             Assert.AreEqual(20f + 100f * 50f / 105f, c.BeaconRepair, 0.01f);
             Assert.IsTrue(BeaconRules.IsIgnitionNight(c), "낮 수리로 선을 넘으면 밤 2가 점화의 밤");
             Assert.AreEqual(2, c.NightNumber);
@@ -208,19 +208,19 @@ namespace HumanLastRampart.Core.Tests
         {
             var c = NewCampaign();
             c.Gold = 450;
-            Assert.IsTrue(BeaconRules.TryBuyRepair(c, out _));
-            Assert.IsTrue(BeaconRules.TryBuyRepair(c, out _));
+            Assert.IsTrue(BeaconRules.TryBuyRepair(c, out _, 0));
+            Assert.IsTrue(BeaconRules.TryBuyRepair(c, out _, 0));
             Assert.AreEqual(50, c.Gold);
             Assert.AreEqual(20f, c.BeaconRepair);
-            Assert.IsFalse(BeaconRules.TryBuyRepair(c, out string reason));
+            Assert.IsFalse(BeaconRules.TryBuyRepair(c, out string reason, 0));
             StringAssert.Contains("골드", reason);
             Assert.AreEqual(50, c.Gold, "실패하면 골드 그대로");
 
             c.Gold = 1000;
             c.BeaconRepair = 95f;
-            Assert.IsTrue(BeaconRules.TryBuyRepair(c, out _));
+            Assert.IsTrue(BeaconRules.TryBuyRepair(c, out _, 0));
             Assert.AreEqual(100f, c.BeaconRepair);
-            Assert.IsFalse(BeaconRules.TryBuyRepair(c, out _), "이미 가득");
+            Assert.IsFalse(BeaconRules.TryBuyRepair(c, out _, 0), "이미 가득");
         }
 
         // ── 수비대 ──

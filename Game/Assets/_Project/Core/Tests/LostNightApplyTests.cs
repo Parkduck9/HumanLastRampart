@@ -94,9 +94,26 @@ namespace HumanLastRampart.Core.Tests
             }
         }
 
+        // 군의관 천막이 있어도 점화의 밤 병사 수가 맞아야 한다 (잃은 병사 일부가 돌아온 뒤 수비대 20%)
         [Test]
-        public void BeaconRepair_LimitedPerDay_ResetsWhenDayBegins()
+        public void IgnitionNightWin_WithSurgeonTent_CountsRecoveredSoldiers()
         {
+            CampaignState c = Prepared(BattleOutcome.Victory, out BattleResult result);
+            c.ActiveBattleSetup.Boosts.RecoverLostRatio = 0.5f;
+            c.ActiveBattleSetup.IsIgnitionNight = true;
+            c.FortressNumber = 1;
+            c.NightNumber = 2;
+            c.BattleNumber = 4;
+            int before = c.Squads.Sum(s => s.Count);   // 100명, 30명 잃음 → 15명 돌아옴
+            Assert.IsTrue(BattleResultApplier.TryApply(c, out string error), error);
+            Assert.AreEqual(before - 30 + 15, c.Squads.Sum(s => s.Count));
+            BeaconRules.ApplyWin(c, c.ActiveBattleSetup, result);
+            Assert.AreEqual(before - 30 + 15 - c.LastNightGarrison, c.Squads.Sum(s => s.Count));
+            Assert.Greater(c.LastNightGarrison, 0);
+        }
+
+        [Test]
+        public void BeaconRepair_LimitedPerDay_ResetsWhenDayBegins()        {
             CampaignState c = Prepared(BattleOutcome.Defeat, out _);
             c.Gold = 1000;
             Assert.IsTrue(BeaconRules.TryBuyRepair(c, out _, 1));
@@ -134,7 +151,8 @@ namespace HumanLastRampart.Core.Tests
         }
 
         [Test]
-        public void LostNight_RejectsVictoryResult_AndNormalRejectsDefeat()        {
+        public void LostNight_RejectsVictoryResult_AndNormalRejectsDefeat()
+        {
             CampaignState win = Prepared(BattleOutcome.Victory, out _);
             Assert.IsFalse(BattleResultApplier.TryApply(win, out _, null, true));
             CampaignState loss = Prepared(BattleOutcome.Defeat, out _);

@@ -12,6 +12,17 @@ namespace HumanLastRampart.Meta
     {
         public override ScreenId Id => ScreenId.Result;
 
+        // 진 밤 줄: 복구 절반(둘 다 내림), 성벽 안내는 최소 비율 밑으로 떨어진 성벽이 있을 때만
+        static string LostNightLine(CampaignState campaign, IScreenContext context)
+        {
+            int now = Mathf.FloorToInt(campaign.BeaconRepair), half = Mathf.FloorToInt(campaign.BeaconRepair / 2f);
+            string line = now > 0 ? $"등대 복구가 절반으로: {now}% → {half}%" : "등대 복구 0%";
+            int floor = FloorPercent(context);
+            bool low = false;
+            foreach (WallSegmentState wall in campaign.Wall) if (wall != null && wall.MaxHp > 0 && wall.Hp * 100L < (long)wall.MaxHp * floor) low = true;
+            return low ? line + $"  · 무너진 성벽은 낮에 최소 {floor}%까지 되돌려집니다" : line;
+        }
+
         static int FloorPercent(IScreenContext context)
         {
             var rules = context.Definitions.All<BattleRulesDef>();
@@ -61,7 +72,7 @@ namespace HumanLastRampart.Meta
                 // W8: 등대 복구 / 점화 (자리만 잡은 한 줄)
                 RectTransform beacon = view.AddArea("Beacon Line", 40f);
                 string line = lost
-                    ? $"등대 복구가 절반으로: {Mathf.RoundToInt(campaign.BeaconRepair)}% → {Mathf.FloorToInt(campaign.BeaconRepair / 2f)}%  · 무너진 성벽은 낮에 최소 {FloorPercent(context)}%까지 되돌려집니다"
+                    ? LostNightLine(campaign, context)
                     : campaign.LastNightRelit
                     ? $"요새 점화! 수비대 {campaign.LastNightGarrison:N0}명 남음"
                     : $"등대 복구 +{Mathf.RoundToInt(campaign.LastNightGain)}  (현재 {Mathf.RoundToInt(campaign.BeaconRepair)}%)";

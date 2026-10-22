@@ -1017,7 +1017,7 @@ public sealed class SimProbe
             if (setup == null) { log.AppendLine($"  밤 준비 오류: {error}"); return (false, won, "준비 오류"); }
             c.ActiveBattleSetup = setup;
             string label = BeaconRules.NightLabel(c.FortressNumber, c.NightNumber);
-            int enemyTotal = BattleSim.ScaledGroupCounts(lookup.Get<WaveDef>(setup.WaveDefId).Groups.ToList(), setup.EnemyCountMultiplier * BattleSim.LampCountMul(setup.LampBrightness)).Sum();
+            int enemyTotal = BattleSim.ScaledGroupCounts(lookup.Get<WaveDef>(setup.WaveDefId).Groups.ToList(), setup.EnemyCountMultiplier * (setup.LampCountMultiplier > 0f ? setup.LampCountMultiplier : BattleSim.LampCountMul(setup.LampBrightness))).Sum();
             int gold0 = c.Gold, troops0 = c.Squads.Sum(s => s.Count), garrison0 = BeaconRules.GarrisonSoldiers(c);
             string walls0 = string.Join("/", c.Wall.Select(w => (int)Math.Round(w.Hp * 100.0 / w.MaxHp)));
             string head = $"  {label} | 자리 {setup.BattleNumber} 단계 {setup.EnemyTier} 등불 {setup.LampBrightness} 적 {enemyTotal}{(setup.IsIgnitionNight ? " ★점화의 밤" : "")} | 시작 골드 {gold0} 병력 {troops0} 수비대 {garrison0} 등대 {c.BeaconRepair:0}% 성벽% {walls0} | 정비 {(firstNight ? "-" : prep.Trim())}";
