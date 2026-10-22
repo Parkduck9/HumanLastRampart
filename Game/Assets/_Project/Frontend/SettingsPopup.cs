@@ -121,7 +121,7 @@ namespace HumanLastRampart.Frontend
             obj.transform.SetParent(parent, false);
             var label = obj.GetComponent<Text>();
             label.font = ScreenView.UiFont;
-            label.fontSize = size;
+            label.fontSize = UiFonts.SnapPixel(size);
             label.text = text;
             label.color = color;
             label.alignment = TextAnchor.MiddleCenter;

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using HumanLastRampart.Core.Campaign;
 using HumanLastRampart.Core.CombatContracts;
 using HumanLastRampart.Core.Flow;
@@ -24,7 +24,7 @@ namespace HumanLastRampart.Meta
             {
                 HorizontalLayoutGroup row3 = Ui.Row(line3, "Beacon Row 3", UiTokens.S16);
                 Ui.Stretch((RectTransform)row3.transform);
-                dayLine = Ui.Label(row3.transform, "Beacon Day Line", "", UiTokens.Small, UiTokens.BodyDim, TextAnchor.MiddleLeft, true);
+                dayLine = Ui.Label(row3.transform, "Beacon Day Line", "", UiTokens.Small, UiTokens.BodyDim, TextAnchor.MiddleLeft);   // W16: 긴 글줄은 Black 대신 갈무리
                 Ui.Size(dayLine, 1500f, 48f, true);
             }
 
@@ -33,7 +33,8 @@ namespace HumanLastRampart.Meta
             Text night = Ui.Label(row1.transform, "Beacon Night", "", UiTokens.Text, UiTokens.Brass, TextAnchor.MiddleLeft, true);
             Ui.Size(night, 260f, 48f);
             Text repairWord = Ui.Label(row1.transform, "Beacon Repair Word", "등대 복구", UiTokens.Small, UiTokens.BodyDim);
-            Ui.Size(repairWord, 96f, 48f);
+            Ui.Size(repairWord, 140f, 48f);   // W16: 갈무리는 폭이 넓어 두 줄로 꺾였다
+            repairWord.horizontalOverflow = HorizontalWrapMode.Overflow;
             UiBar bar = Ui.Bar(row1.transform, "Beacon Repair Bar", 260f, 24f, false);
             bar.FixedColor = UiTokens.Brass;
             Text percent = Ui.Label(row1.transform, "Beacon Repair Value", "", UiTokens.Text, UiTokens.Body);
@@ -44,11 +45,12 @@ namespace HumanLastRampart.Meta
             HorizontalLayoutGroup row2 = Ui.Row(line2, "Beacon Row 2", UiTokens.S16);
             Ui.Stretch((RectTransform)row2.transform);
             Text support = Ui.Label(row2.transform, "Beacon Support", "", UiTokens.Small, UiTokens.Body);
-            Ui.Size(support, 300f, 48f);
+            Ui.Size(support, 320f, 48f);
             RectTransform spacer = Ui.Rect(row2.transform, "Spacer");
             Ui.Size(spacer, 0f, 48f, true);
             Text lampWord = Ui.Label(row2.transform, "Beacon Lamp Word", "오늘 밤 등불 밝기", UiTokens.Small, UiTokens.BodyDim);
-            Ui.Size(lampWord, 190f, 48f);
+            Ui.Size(lampWord, 240f, 48f);   // W16: 갈무리 폭에 맞춤
+            lampWord.horizontalOverflow = HorizontalWrapMode.Overflow;
             Button buy = null;   // Refresh가 쓰므로 먼저 선언
             var lampButtons = new Button[3];
             LampBrightness[] order = { LampBrightness.Low, LampBrightness.Normal, LampBrightness.High };
@@ -70,7 +72,7 @@ namespace HumanLastRampart.Meta
                 refreshGold?.Invoke();
                 Refresh();
             }, UiButtonKind.Normal);
-            Ui.Size(buy, 330f, 48f);
+            Ui.Size(buy, 400f, 48f);   // W16: 갈무리 폭에 맞춤
 
             void Refresh()
             {

@@ -291,7 +291,7 @@ namespace HumanLastRampart.Combat.Battle
                     }
 
                     Text numberLabel = Ui.Outlined(Ui.Label(content, "Number", "", UiTokens.Small, UiTokens.Body, TextAnchor.LowerRight, true));
-                    numberLabel.fontStyle = FontStyle.Bold;
+                    HumanLastRampart.UI.UiFonts.Bold(numberLabel);
                     Ui.Stretch(numberLabel.rectTransform, UiTokens.Dot);
                     button.transform.SetAsFirstSibling();
                     cannonMarkers.Add(button);
@@ -453,7 +453,7 @@ namespace HumanLastRampart.Combat.Battle
             marker.Count = count.GetComponent<Text>();
             marker.Count.font = UiFonts.Body;
             marker.Count.fontSize = 10;
-            marker.Count.fontStyle = FontStyle.Bold;
+            HumanLastRampart.UI.UiFonts.Bold(marker.Count);
             marker.Count.alignment = TextAnchor.MiddleCenter;
             marker.Count.color = UiTokens.Body;
             marker.Count.raycastTarget = false;
@@ -584,7 +584,7 @@ namespace HumanLastRampart.Combat.Battle
                 if (compass[side] == null)
                 {
                     Text t = Ui.Outlined(Ui.Label(root.transform, "Compass " + SideNames[side], SideNames[side], UiTokens.H2, UiTokens.Brass, TextAnchor.MiddleCenter, true));
-                    t.fontStyle = FontStyle.Bold;
+                    HumanLastRampart.UI.UiFonts.Bold(t);
                     t.rectTransform.sizeDelta = new Vector2(80f, 56f);
                     t.transform.SetAsFirstSibling();   // 판들보다 뒤
                     compass[side] = t;
