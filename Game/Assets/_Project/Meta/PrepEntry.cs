@@ -53,6 +53,7 @@ namespace HumanLastRampart.Meta
             yard.AddStation("성벽 계단", 3000f, new Color(0.40f, 0.38f, 0.30f), () => yard.AskNextBattle(() => ready.onClick.Invoke()));
             var lifetime = repair.GetComponentInParent<UnityEngine.Canvas>().gameObject.AddComponent<PreparationSessionLifetime>();
             lifetime.Session = session; lifetime.Traps = traps;
+            HumanLastRampart.Tutorial.PrepTutorialSource.TryBegin(transform, campaign);   // 첫 전투 뒤 정비 튜토리얼 (W2): 함정 놓기 → 망원경 업그레이드 설명
             return view;
         }
 

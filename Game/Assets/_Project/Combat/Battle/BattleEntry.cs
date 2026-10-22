@@ -48,6 +48,15 @@ namespace HumanLastRampart.Combat.Battle
 
         public ScreenId Id => ScreenId.Battle;
 
+        // 튜토리얼(W2)이 읽는 공개 상태 — BattleTutorialSource. TutorialTimeScale: 0 = 전투 시간 멈춤, 1 = 보통
+        public BattleSim Sim => sim;
+        public BattleCameraRig Rig => rig;
+        public Camera BattleCamera => battleCamera;
+        public bool TelescopeActive => lens.HasValue;
+        public float TutorialTimeScale { get; set; } = 1f;
+        public int SquadOrders { get; private set; }   // 분대 이동 명령을 실제로 낸 횟수 (우선순위·대포 전령은 세지 않는다)
+        public bool IsPracticeSetup => context?.Campaign?.ActiveBattleSetup != null && context.Campaign.ActiveBattleSetup.IsPractice;
+
         void Awake()
         {
             // 화면 씬마다 카메라·AudioListener 하나 (C-003 3-2). 1번 화면은 원근 낮은 카메라 (D-025)
@@ -122,6 +131,7 @@ namespace HumanLastRampart.Combat.Battle
                 ToggleMap();
                 mapCamera.OpenCastle();
                 hud.SetPreparing(true);
+                if (!setup.IsPractice) BattleTutorialSource.TryBegin(this, transform, setup.BattleNumber);   // 1번째 전투 튜토리얼 (W2). 대상이 아니면 아무것도 안 한다
             }
         }
 
@@ -134,6 +144,7 @@ namespace HumanLastRampart.Combat.Battle
             if (preparing) sim.IssueGroupMove(group, targetSide, true);
             else if (rig == null || rig.Side == info.Side) sim.IssueGroupMove(group, targetSide, false);
             else sim.IssueGroupMoveByMessenger(rig.Side, rig.Along, group, targetSide);
+            SquadOrders++;
             selectedGroup = -1;
         }
 
@@ -166,6 +177,7 @@ namespace HumanLastRampart.Combat.Battle
             if (preparing) sim.IssueWallMove(wall, targetSide, true, maxGroups);
             else if (rig == null || rig.Side == wall) sim.IssueWallMove(wall, targetSide, false, maxGroups);
             else sim.IssueWallMoveByMessenger(rig.Side, rig.Along, wall, targetSide, maxGroups);
+            SquadOrders++;
             selectedGroup = -1;
         }
 
@@ -562,13 +574,13 @@ namespace HumanLastRampart.Combat.Battle
             else rig?.Update(Time.unscaledDeltaTime);
 
             // 쉬움: 지도가 열린 동안 전투 시간 정지 (확정 B4). 멈춘 동안 내린 명령은 바로 적용된다(작업이 돌지 않음, D-044 M8)
-            if (paused || MapFreezesTime)
+            if (paused || MapFreezesTime || TutorialTimeScale <= 0f)
             {
                 return;
             }
 
             // 큰 프레임 지연에도 한 번에 너무 멀리 가지 않게 자른다
-            float dt = Mathf.Min(Time.deltaTime, 1f / 20f) * speed;
+            float dt = Mathf.Min(Time.deltaTime, 1f / 20f) * speed * TutorialTimeScale;
             if (rig != null) sim.SetCommander(rig.Side, rig.Along);   // 발견 전령이 찾아갈 지휘관 위치 (D-053)
             sim.BeginFrame(dt);
             if (sim.Ended)
@@ -622,7 +634,7 @@ namespace HumanLastRampart.Combat.Battle
                 hud?.RefreshSpells(sim, selectedSpell);
             }
             hud?.SetMapMode(mapOpen, MapFreezesTime);
-            hud?.Refresh(sim, rig, speed, paused || MapFreezesTime);
+            hud?.Refresh(sim, rig, speed, paused || MapFreezesTime || TutorialTimeScale <= 0f);
         }
 
         // 지도에서 누른 곳 가까이(표시 반경 + 점 크기)에 있는 묻힌 함정 표시 하나를 점화. 없으면 false

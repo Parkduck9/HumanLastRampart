@@ -4,6 +4,7 @@
   "references": [
     "HLR.Core",
     "HLR.UI",
+    "HLR.Tutorial",
     "UnityEngine.UI",
     "Unity.InputSystem"
   ],
