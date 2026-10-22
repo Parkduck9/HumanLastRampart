@@ -79,8 +79,9 @@ namespace HumanLastRampart.Meta
             Button close = Ui.IconButton(head.transform, "닫기", UiArt.IconClose, Close, 48f);
 
             // 성벽 탭: 이름 + 남은 체력 막대
-            HorizontalLayoutGroup tabs = Ui.Row(sheet.transform, "Walls", UiTokens.S8);
-            for (int i = 0; i < 4; i++)
+            // (수리 장부는 아래 수리 지도에서 성벽을 직접 누른다 — 탭은 병영 장부에만)
+            HorizontalLayoutGroup tabs = recruit ? Ui.Row(sheet.transform, "Walls", UiTokens.S8) : null;
+            for (int i = 0; i < 4 && recruit; i++)
             {
                 int index = i;
                 Button tab = Ui.Button(tabs.transform, "성벽:" + WallIds.All[i], PreparationTransactions.WallName(WallIds.All[i]), () =>
@@ -110,6 +111,7 @@ namespace HumanLastRampart.Meta
             gold.text = campaign.Gold.ToString("N0");
             for (int i = 0; i < 4; i++)
             {
+                if (wallTabs[i] == null) continue;   // 수리 장부는 탭이 없다 (수리 지도)
                 var w = campaign.FindWall(WallIds.All[i]);
                 if (w != null) wallBars[i].Set(w.MaxHp > 0 ? (float)w.Hp / w.MaxHp : 1f);
                 Ui.SetOn(wallTabs[i], i == wallIndex);
@@ -212,11 +214,8 @@ namespace HumanLastRampart.Meta
         {
             var campaign = context.Campaign;
             var wall = campaign.FindWall(wallId);
-            Text state = Ui.Label(body, "Wall", $"{PreparationTransactions.WallName(wallId)} 성벽 {wall.Hp:N0} / {wall.MaxHp:N0}", UiTokens.Text, UiTokens.Ink, TextAnchor.MiddleLeft, true);
-            Ui.Size(state, -1f, 32f);
-            HorizontalLayoutGroup options = Ui.Row(body, "Options", UiTokens.S16);
             string[] keys = { "수리:100", "수리:최대", "수리:전체" };
-            string[] names = { $"+{session.Rules.DefaultRepairHp}", "이 성벽 모두", "네 성벽 모두" };
+            string[] names = { $"+{session.Rules.DefaultRepairHp}", "이 성벽 전부", "모든 성벽 전부" };
             int[] costs = new int[3];
             string[] whyNot = new string[3];
             for (int i = 0; i < 3; i++)
@@ -226,27 +225,46 @@ namespace HumanLastRampart.Meta
                 costs[i] = ok ? q.Cost : -1;
             }
 
-            for (int i = 0; i < 3; i++)
-            {
-                var choice = (RepairChoice)i;
-                Button card = Ui.Button(options.transform, keys[i], names[i], () => { if (repairChoice == choice) return; repairChoice = choice; Changed(); }, UiButtonKind.Tab);
-                Ui.Size(card, 328f, 96f);
-                Text label = Ui.LabelOf(card);
-                label.alignment = TextAnchor.UpperCenter;
-                label.rectTransform.offsetMax = new Vector2(-UiTokens.S16, -UiTokens.S16);
-                string costText = costs[i] >= 0 ? $"{costs[i]:N0}골드" : Short(whyNot[i]);
-                Text cost = Ui.Label(card.transform.Find("Content"), "Cost", costText, UiTokens.Small, costs[i] >= 0 ? UiTokens.BrassLight : UiTokens.BodyDim, TextAnchor.LowerCenter);
-                Ui.Stretch(cost.rectTransform, UiTokens.S16);
-                Ui.SetOn(card, choice == repairChoice);
-            }
-
             // 마지막에 고른 쪽으로 다시 견적 — 확정은 이 견적 하나 (견적은 하나만 살아 있다)
             bool can = TryRepair(repairChoice, wallId, out quote, out reason, out bool failed);
             if (failed) { DataError(reason); return; }
             if (!can) quote = null;
 
-            Price(body);
-            Button commit = Ui.Button(body, "확정 수리", "수리", Commit, UiButtonKind.Primary);
+            // 왼쪽 성 지도 / 오른쪽 이름·체력 막대(수리 뒤 옅은 그림자)·세 가지 수리·값·확정
+            HorizontalLayoutGroup split = Ui.Row(body, "Split", UiTokens.S24, TextAnchor.UpperLeft);
+            RepairMapView.Build(split.transform, wallIndex, i =>
+            {
+                var w = campaign.FindWall(WallIds.All[i]);
+                return w != null ? (w.Hp, w.MaxHp) : (0, 1);
+            }, index => { if (wallIndex == index) return; wallIndex = index; postIndex = unitIndex = 0; count = 1; Changed(); });
+
+            VerticalLayoutGroup right = Ui.Column(split.transform, "Order", UiTokens.S8);
+            Ui.Size(right, 500f, -1f);
+            RepairWallState wallState = RepairWallLook.StateOf(wall.Hp, wall.MaxHp);
+            Text title = Ui.Label(right.transform, "Wall", $"{PreparationTransactions.WallName(wallId)} 성벽 · {RepairWallLook.StateName(wallState)}", UiTokens.H2, UiTokens.Ink, TextAnchor.MiddleLeft, true);
+            Ui.Size(title, -1f, 44f);
+            int after = quote == null ? wall.Hp : repairChoice == RepairChoice.Hundred ? (int)Math.Min((long)wall.MaxHp, (long)wall.Hp + session.Rules.DefaultRepairHp) : wall.MaxHp;
+            RepairMapView.HpBar(right.transform, 500f, 24f, wall.Hp, wall.MaxHp, after);
+            string hpLine = after > wall.Hp ? $"{wall.Hp:N0} / {wall.MaxHp:N0}  →  수리 뒤 {after:N0}" : $"{wall.Hp:N0} / {wall.MaxHp:N0}";
+            Text hpText = Ui.Label(right.transform, "Hp", hpLine, UiTokens.Text, UiTokens.InkSoft);
+            Ui.Size(hpText, -1f, 32f);
+
+            for (int i = 0; i < 3; i++)
+            {
+                var choice = (RepairChoice)i;
+                Button card = Ui.Button(right.transform, keys[i], names[i], () => { if (repairChoice == choice) return; repairChoice = choice; Changed(); }, UiButtonKind.Tab);
+                Ui.Size(card, 500f, 56f);
+                card.interactable = costs[i] >= 0;   // 골드가 모자라거나 이미 가득이면 누를 수 없다
+                Text label = Ui.LabelOf(card);
+                label.alignment = TextAnchor.MiddleLeft;
+                string costText = costs[i] >= 0 ? $"{costs[i]:N0}골드" : Short(whyNot[i]);
+                Text cost = Ui.Label(card.transform.Find("Content"), "Cost", costText, UiTokens.Small, costs[i] >= 0 ? UiTokens.BrassLight : UiTokens.BodyDim, TextAnchor.MiddleRight);
+                Ui.Stretch(cost.rectTransform, UiTokens.S16);
+                Ui.SetOn(card, choice == repairChoice);
+            }
+
+            Price(right.transform, 440f);
+            Button commit = Ui.Button(right.transform, "확정 수리", "수리", Commit, UiButtonKind.Primary);
             Ui.Size(commit, -1f, 64f);
             commit.interactable = quote != null;
         }
@@ -258,7 +276,7 @@ namespace HumanLastRampart.Meta
         }
 
         // 값 줄: [골드] 55 → 남는 골드 1,185 / 안 되면 이유 한 줄 (붉게) / 방금 확정했으면 도장 글
-        void Price(Transform parent)
+        void Price(Transform parent, float reasonWidth = 900f)
         {
             HorizontalLayoutGroup line = Ui.Row(parent, "Price", UiTokens.S8);
             Ui.Size(line, -1f, 40f);
@@ -267,13 +285,14 @@ namespace HumanLastRampart.Meta
             {
                 Ui.Icon(line.transform, "Done", UiArt.IconCheck, 1f, UiTokens.Good);
                 Text text = Ui.Label(line.transform, "Text", done, UiTokens.Text, UiTokens.Ink);
-                Ui.Size(text, 160f, 40f);
+                Ui.Size(text, reasonWidth < 900f ? 110f : 160f, 40f);
             }
 
             if (quote == null)
             {
                 Text why = Ui.Label(line.transform, "Reason", Short(reason), UiTokens.Text, UiTokens.DangerInk);
-                Ui.Size(why, 900f, 40f);
+                // 확정 도장 글이 앞에 있으면 좁은 칸을 넘지 않게 그만큼 줄인다
+                Ui.Size(why, done != null && reasonWidth < 900f ? reasonWidth - 150f : reasonWidth, 40f);
                 return;
             }
 
@@ -281,7 +300,7 @@ namespace HumanLastRampart.Meta
             Text cost = Ui.Label(line.transform, "Cost", quote.Cost.ToString("N0"), UiTokens.H2, UiTokens.Ink, TextAnchor.MiddleLeft, true);
             Ui.Size(cost, cost.preferredWidth + 8f, 40f);
             Text left = Ui.Label(line.transform, "Left", $"남는 골드 {context.Campaign.Gold - quote.Cost:N0}", UiTokens.Text, UiTokens.InkSoft);
-            Ui.Size(left, 320f, 40f);
+            Ui.Size(left, reasonWidth < 900f ? 230f : 320f, 40f);
         }
 
         // 거래 쪽 이유 문장을 한 줄로 (콜론 뒤 숫자 덩어리는 값 줄이 이미 보여 준다)
