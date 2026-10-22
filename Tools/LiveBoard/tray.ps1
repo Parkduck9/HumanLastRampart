@@ -73,11 +73,22 @@ function Get-Board {
         $line = Get-Content $s.FullName -Tail 300 | Select-String '"rate_limits"' | Select-Object -Last 1
         if ($line) {
             $j = $line.Line | ConvertFrom-Json; $r = $j.payload.rate_limits; if (-not $r) { $r = $j.rate_limits }
-            if ($r) { $codex = [ordered]@{ five = [double]$r.primary.used_percent; fiveReset = (When $r.primary.resets_at); week = [double]$r.secondary.used_percent; weekReset = (When $r.secondary.resets_at) } }
+            if ($r) {
+                # 코덱스가 일할 때만 값이 새로 기록된다 — 초기화 시각이 지났으면 0%로 본다 (사용자 2026-10-22: 눌러야만 바뀌는 문제)
+                $nowUnix = [DateTimeOffset]::Now.ToUnixTimeSeconds()
+                $five = if ([long]$r.primary.resets_at -le $nowUnix) { 0 } else { [double]$r.primary.used_percent }
+                $week = if ([long]$r.secondary.resets_at -le $nowUnix) { 0 } else { [double]$r.secondary.used_percent }
+                $codex = [ordered]@{ five = $five; fiveReset = (When $r.primary.resets_at); week = $week; weekReset = (When $r.secondary.resets_at); age = [int]($now - $s.LastWriteTime).TotalMinutes }
+            }
         }
     }
     $claude = $null
-    if (Test-Path $claudeFile) { $claude = Get-Content -Raw -Encoding UTF8 $claudeFile | ConvertFrom-Json }
+    if (Test-Path $claudeFile) {
+        $claude = Get-Content -Raw -Encoding UTF8 $claudeFile | ConvertFrom-Json
+        # 클로드 값은 Claude가 확인할 때만 적힌다 — 초기화 시각(fiveResetAt·weekResetAt, 있을 때)이 지났으면 0%
+        if ($claude.fiveResetAt -and [DateTime]$claude.fiveResetAt -le $now) { $claude.five = 0 }
+        if ($claude.weekResetAt -and [DateTime]$claude.weekResetAt -le $now) { $claude.week = 0 }
+    }
 
     $data = [ordered]@{ updated = $now.ToString('yyyy-MM-dd HH:mm:ss'); items = $rows; unity = $unityRow; codex = $codex; claude = $claude }
     [IO.File]::WriteAllText($outFile, 'window.BOARD = ' + ($data | ConvertTo-Json -Depth 5 -Compress) + ';', (New-Object Text.UTF8Encoding $false))
@@ -120,7 +131,7 @@ function Lines($d) {
     Line '── 토큰 사용량 ──' $bold $brass $null
     if ($d.claude) { Line ("클로드 이번 주 {0}% · 5시간 {1}%  (확인 {2})" -f $d.claude.week, $d.claude.five, $d.claude.checked) $font $null $d.claude.week }
     else { Line '클로드: 아직 기록 없음 (Claude가 확인할 때 채워짐)' $font $dim $null }
-    if ($d.codex) { Line ("코덱스 이번 주 {0}% (초기화 {1}) · 5시간 {2}% (초기화 {3})" -f $d.codex.week, $d.codex.weekReset, $d.codex.five, $d.codex.fiveReset) $font $null $d.codex.week }
+    if ($d.codex) { Line ("코덱스 이번 주 {0}% (초기화 {1}) · 5시간 {2}% (초기화 {3}) · {4}분 전 값" -f $d.codex.week, $d.codex.weekReset, $d.codex.five, $d.codex.fiveReset, $d.codex.age) $font $null $d.codex.week }
     else { Line '코덱스: 한도 정보를 읽지 못함' $font $dim $null }
     Line '── 진행 중인 작업 ──' $bold $brass $null
     if ($d.unity.running) { Line ("유니티 시험 실행 중 · {0}분째 (약 {1}%)" -f $d.unity.minutes, $d.unity.pct) $font $null $d.unity.pct }
