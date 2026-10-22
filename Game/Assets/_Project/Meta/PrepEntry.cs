@@ -41,14 +41,14 @@ namespace HumanLastRampart.Meta
             foreach (Button b in new[] { repair, recruit, trapButton, shop, training, mercenary, ready }) ScreenView.HideButton(b);
 
             // D-076 정비 마당 + K-047: 위쪽은 황동 계기 띠 한 줄 — 1순위 골드, 그다음 병력·다음 전투 (S-20)
-            bool dayLine = HumanLastRampart.Core.Campaign.BeaconRules.DayLines(campaign).Count > 0;   // W12: 밤 사이 한마디가 있는 날만 줄을 둔다
-            view.DockTop(1560f, 80f + (dayLine ? 3 : 2) * 72f);   // W8: 등대 줄 두 개 (+ W12: 한마디 줄). W16: 줄마다 높이 48 + 간격 24라 72씩 (56이면 아래 줄이 판 밖으로 나갔다)
+            view.DockTop(1560f, 80f + 2 * 72f);   // W8: 등대 줄 두 개. W16: 줄마다 높이 48 + 간격 24라 72씩. 밤 사이 한마디(W12)는 띠 밖 아래쪽 띠로 옮겼다 (마당 간판을 가리지 않게)
             Button mapButton = BuildSummary(view.AddArea("Summary", 48f), campaign,
                 () => { session.Close(); traps.Close(); Complete(ScreenOutcome.OpenBeaconMap); });   // W10: 봉화선 지도 보기 (보기 전용, 닫으면 정비로)
             PreparationPanel.RefreshSummary(repair, context, session);
             Action refreshTowerLater = null;   // 마당(탑 그림)은 아래에서 만든다 — 수리를 사면 탑 불꽃도 바로 새로 그린다 (S5)
-            BeaconPrepPanel.Build(view.AddArea("Beacon Line 1", 48f), view.AddArea("Beacon Line 2", 48f), dayLine ? view.AddArea("Beacon Line 3", 48f) : null, context,
+            BeaconPrepPanel.Build(view.AddArea("Beacon Line 1", 48f), view.AddArea("Beacon Line 2", 48f), null, context,
                 () => { PreparationPanel.RefreshSummary(repair, context, session); refreshTowerLater?.Invoke(); });   // W8: 요새·밤, 등대 복구, 성벽 조건, 밝기 선택, 등대 수리, 수비대 지원금
+            BuildDayLineStrip(repair.GetComponentInParent<UnityEngine.Canvas>().transform, campaign);   // W12 밤 사이 한마디: 화면 아래 가운데 작은 띠 (없으면 만들지 않음)
             PrepYard yard = PrepYard.Build(view, HeroUnit(context));   // K-089 배경·3D 바닥·가림을 마당이 함께 소유한다.
             yard.AddStation("성벽 수리", 500f, new Color(0.45f, 0.42f, 0.38f), () => repair.onClick.Invoke());
             yard.AddStation("병영", 1300f, new Color(0.42f, 0.30f, 0.24f), () => recruit.onClick.Invoke());
@@ -63,7 +63,7 @@ namespace HumanLastRampart.Meta
             };
             refreshTowerLater = refreshTower;
             yard.AddStation("등대", 1745f, new Color(0.45f, 0.40f, 0.30f), () => yard.OpenModal(parent =>
-                BeaconYardPanel.Build(parent, context, refreshTower, yard.CloseModal)));
+                BeaconYardPanel.Build(parent, context, refreshTower, yard.CloseModal)), new Vector2(1560f, 640f));   // W16: 간판은 탑 왼쪽 위 (탑 뒤에 가리지 않게)
             bool beaconLit = HumanLastRampart.Core.Campaign.BeaconRules.IsIgnitionNight(campaign);
             yard.AddBeaconTower(Resources.Load<Texture2D>("BattleArt/Beacon/tower_base"),
                 Resources.Load<Texture2D>(beaconLit ? "BattleArt/Beacon/flame_lit" : "BattleArt/Beacon/flame_warming"),
@@ -77,6 +77,19 @@ namespace HumanLastRampart.Meta
             return view;
         }
 
+        // 밤 사이 한마디 띠 (W12 내용, W16 자리): 화면 아래 가운데, 어두운 반투명 판 + 갈무리 글. 한마디가 없는 날은 만들지 않는다
+        static void BuildDayLineStrip(Transform canvas, HumanLastRampart.Core.Campaign.CampaignState campaign)
+        {
+            var lines = HumanLastRampart.Core.Campaign.BeaconRules.DayLines(campaign);
+            if (lines == null || lines.Count == 0) return;
+            Image plate = Ui.Image(canvas, "Day Line Strip", UiTokens.Alpha(UiTokens.Outline, 0.72f));
+            plate.raycastTarget = false;
+            Ui.Place(plate.rectTransform, new Vector2(0.5f, 0f), new Vector2(0f, 96f), new Vector2(1320f, 64f), new Vector2(0.5f, 0f));
+            Text text = Ui.Label(plate.transform, "Day Line", string.Join("   ·   ", lines.ConvertAll(l => $"{l.speaker}: \"{l.text}\"")), UiTokens.Small, UiTokens.Body, TextAnchor.MiddleCenter);
+            Ui.Stretch(text.rectTransform);
+            text.rectTransform.offsetMin = new Vector2(UiTokens.S24, 0f);
+            text.rectTransform.offsetMax = new Vector2(-UiTokens.S24, 0f);
+        }
         sealed class MapButtonGate : MonoBehaviour
         {
             Button button;
