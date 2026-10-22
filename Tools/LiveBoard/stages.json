@@ -1,9 +1,9 @@
 {
     "note":  "Claude가 단계가 바뀔 때만 고친다. stage: 0 대기, 1 코딩, 2 검토, 3 합침, 4 시험, 5 끝",
     "items":  [
-                  { "id": "K-102", "name": "컨셉: 등불 탑", "who": "코덱스", "kind": "card", "folder": "C:\\Unity\\1\\HLR-cards\\K-102", "stage": 1 },
-                  { "id": "K-103", "name": "컨셉: 성벽 화로와 안개", "who": "코덱스", "kind": "card", "folder": "C:\\Unity\\1\\HLR-cards\\K-103", "stage": 0 },
-                  { "id": "K-104", "name": "컨셉: 봉화선 지도", "who": "코덱스", "kind": "card", "folder": "C:\\Unity\\1\\HLR-cards\\K-104", "stage": 0 },
+                  { "id": "K-102", "name": "컨셉: 등불 탑", "who": "코덱스", "kind": "card", "folder": "C:\\Unity\\1\\HLR-cards\\K-102", "stage": 5 },
+                  { "id": "K-103", "name": "컨셉: 성벽 화로와 안개", "who": "코덱스", "kind": "card", "folder": "C:\\Unity\\1\\HLR-cards\\K-103", "stage": 5 },
+                  { "id": "K-104", "name": "컨셉: 봉화선 지도", "who": "코덱스", "kind": "card", "folder": "C:\\Unity\\1\\HLR-cards\\K-104", "stage": 1 },
                   { "id": "K-105", "name": "컨셉: 제목과 이야기 배경", "who": "코덱스", "kind": "card", "folder": "C:\\Unity\\1\\HLR-cards\\K-105", "stage": 0 }
               ]
 }
