@@ -964,6 +964,7 @@ public sealed class SimProbe
         string failedAt = "-";
         c.PlannedLamp = lamp;
         int globalCap = lookup.All<PreparationEconomyDef>()[0].GlobalCapacity;
+        BattleRulesDef rules = lookup.All<BattleRulesDef>()[0];
 
         while (!ended && !complete && battles < 12)
         {
@@ -988,7 +989,7 @@ public sealed class SimProbe
                 // 등대 수리: 기본은 예정된 마지막 밤부터만 부족분을 채운다 (rush는 처음부터 — 골드로 밤 건너뛰기 확인용)
                 int beaconBuys = 0;
                 if (rush || c.NightNumber >= BeaconRules.NightsIn(c.FortressNumber))
-                    while (!BeaconRules.RepairReady(c) && BeaconRules.TryBuyRepair(c, out _)) beaconBuys++;
+                    while (!BeaconRules.RepairReady(c) && BeaconRules.TryBuyRepair(c, out _, rules.BeaconRepairsPerDay)) beaconBuys++;
                 prep = $"수리 {wallGold}골드·등대수리 {beaconBuys}회";
 
                 int hired = 0;
@@ -996,6 +997,16 @@ public sealed class SimProbe
                 if (policy >= 1) prep += SpendOnUpgrades(c, lookup, TroopsFull(c, lookup));   // 정비마다 새로 계산 (어제 값을 끌고 가지 않는다)
                 hired += HireToCaps(c, lookup, globalCap, hireOrder);
                 prep += $" 모집 +{hired}";
+                // 남은 골드는 성벽 보강 (W11): 보강 횟수가 적은 성벽부터, 같으면 정면(북) 먼저
+                int reinforced = 0;
+                while (true)
+                {
+                    WallSegmentState target = c.Wall.Where(w => w.Reinforced < rules.WallReinforceMaxPerWall).OrderBy(w => w.Reinforced).ThenBy(w => w.SegmentId == WallIds.North ? 0 : 1).FirstOrDefault();
+                    if (target == null || !BeaconRules.TryReinforceWall(c, target.SegmentId, rules, out _)) break;
+                    reinforced++;
+                }
+
+                if (reinforced > 0) prep += $" 성벽보강 {reinforced}회";
             }
 
             // ── 밤 (PrepareBattle: 급료 → 준비 정보)

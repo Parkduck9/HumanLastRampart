@@ -17,7 +17,7 @@ namespace HumanLastRampart.Combat.Battle
         public static readonly float[] BeamWidthDegrees = { 60f, 40f, 80f };      // 인덱스 = (int)LampBrightness (보통·약·강)
         public static readonly float[] BeamSlowAmount = { 0.25f, 0.15f, 0.35f };   // 이동 감소
         public static readonly float[] BeamDamageBonus = { 0.20f, 0.10f, 0.30f };  // 받는 피해 증가
-        public static readonly float[] LampCountMultiplier = { 1f, 0.8f, 1.3f };   // 전체 적 수 (시작 때만)
+        public static readonly float[] LampCountMultiplier = { 1f, 0.8f, 1.15f };   // 전체 적 수 (시작 때만)
 
         public LampBrightness Lamp { get; private set; }
         public int BeamSide { get; private set; }
@@ -30,6 +30,9 @@ namespace HumanLastRampart.Combat.Battle
         float beamFrom, beamTo, beamRotateLeft;
 
         public float GetLampSeconds(LampBrightness b) => lampSeconds[(int)b];
+
+        // 이 전투의 등불 적 수 배율: 준비 정보에 데이터 값이 있으면 그것, 없으면 기본표 (W11)
+        float LampCountFactor => setup.LampCountMultiplier > 0f ? setup.LampCountMultiplier : LampCountMul(setup.LampBrightness);
 
         public static float LampCountMul(LampBrightness b) => LampCountMultiplier[Mathf.Clamp((int)b, 0, 2)];
 

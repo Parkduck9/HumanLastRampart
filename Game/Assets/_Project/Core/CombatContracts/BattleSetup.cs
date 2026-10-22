@@ -37,6 +37,7 @@ namespace HumanLastRampart.Core.CombatContracts
         // v1.8 초안 (빛을 잇는 자들, Concept_Beacon_v1 9장): 저장에 이 값이 없으면 0 = 보통 밝기·북쪽·1단계·보통 밤
         public LampBrightness LampBrightness;        // 밤을 시작할 때 등불 밝기 (적 수는 이 값으로 정한다. 전투 중 바꾸면 빛줄기만 바뀜)
         public int BeamSide;                         // 처음 빛줄기 방향 (WallGeometry 면 번호, 0 = 북)
+        public float LampCountMultiplier;           // W11: 이 밤 등불 밝기의 적 수 배율 (전투 규칙 데이터에서 App이 채운다). 0 = 값이 없음 → BattleSim 기본표
         public int EnemyTier;                        // 적 변형 단계 0 홀림 · 1 물듦 · 2 변형 (9.5)
         public bool IsIgnitionNight;                 // 점화의 밤 — 요새의 마지막 밤 (9.3)
         public int FortressNumber;                   // W8: 화면 표시용 요새·밤 번호. 0 = 정보 없음 (BattleNumber는 전투 1~4번 자리라 밤 번호가 아니다)

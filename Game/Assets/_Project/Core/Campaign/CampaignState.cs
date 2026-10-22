@@ -42,6 +42,7 @@ namespace HumanLastRampart.Core.Campaign
         public float LastNightGain;                 // 그 밤에 늘어난 등대 복구 (결과 화면 표시용)
         public bool LastNightRelit;                  // 그 밤에 요새를 점화했는가
         public int LastNightGarrison;                // 점화로 남긴 수비대 수 (결과 화면 표시용)
+        public int BeaconRepairBoughtToday;          // W11: 오늘 낮 산 등대 수리 횟수 (하루 한도, 낮이 시작될 때 0으로 돌린다)
         public int LastSupportGold;                  // 오늘 낮 받은 수비대 지원금 (정비 화면 표시용)
         [NonSerialized] public bool BeaconMapPreview;   // W10: 봉화선 지도가 정비에서 열린 '보기만' 모드 (App이 화면을 열 때 정한다. 저장하지 않는다)
 
@@ -73,6 +74,7 @@ namespace HumanLastRampart.Core.Campaign
         public string SegmentId;   // v1.3: WallIds 중 하나
         public int MaxHp;
         public int Hp;
+        public int Reinforced;     // W11: 성벽 보강으로 산 횟수 (값이 사 갈수록 오른다). 보강은 MaxHp에 바로 더해 저장한다
 
         public WallSegmentState Clone() => (WallSegmentState)MemberwiseClone();
     }

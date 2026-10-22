@@ -18,6 +18,17 @@ namespace HumanLastRampart.Core.Definitions
         [SerializeField] int maxConcurrentEnemiesEasy = 25000;
         [Tooltip("진 밤 다음 낮이 시작될 때, 이 비율(%)보다 체력이 낮은 성벽을 최대 체력의 이 비율까지 되돌린다 (W11, 사용자가 바꿀 수 있는 기본값). 0이면 끔")]
         [Range(0, 100)] [SerializeField] int lostNightWallFloorPercent = 30;
+        [Tooltip("등불 밝기별 전체 적 수 배율 (W11, 사용자 결정). 순서 = LampBrightness: 보통·약·강")]
+        [SerializeField] float[] lampCountMultipliers = { 1f, 0.8f, 1.15f };
+        [Tooltip("하루(낮)에 살 수 있는 등대 수리 횟수 (W11). 0 이하면 제한 없음")]
+        [SerializeField] int beaconRepairsPerDay = 1;
+        [Tooltip("성벽 보강 한 번에 늘어나는 최대 체력 (W11 골드 쓸 곳)")]
+        [SerializeField] int wallReinforceHp = 500;
+        [Tooltip("성벽 보강 첫 값(골드). 그 성벽에서 한 번 살 때마다 값이 아래 증가분만큼 오른다")]
+        [SerializeField] int wallReinforceBasePrice = 2000;
+        [SerializeField] int wallReinforcePriceStep = 1000;
+        [Tooltip("한 성벽에서 살 수 있는 성벽 보강 횟수")]
+        [SerializeField] int wallReinforceMaxPerWall = 10;
 
         [Header("날씨 (D-027 Q4, D-028 C5)")]
         [SerializeField] float weatherChangeChance = 0.15f;
@@ -74,6 +85,17 @@ namespace HumanLastRampart.Core.Definitions
         public int MaxConcurrentEnemiesRealistic => maxConcurrentEnemiesRealistic;
         public int MaxConcurrentEnemiesEasy => maxConcurrentEnemiesEasy;
         public int LostNightWallFloorPercent => lostNightWallFloorPercent;
+        public int BeaconRepairsPerDay => beaconRepairsPerDay;
+        public int WallReinforceHp => wallReinforceHp;
+        public int WallReinforceMaxPerWall => wallReinforceMaxPerWall;
+
+        // 등불 밝기별 적 수 배율 (데이터가 비었거나 짧으면 1)
+        public float LampCountMultiplierFor(int brightnessIndex) =>
+            lampCountMultipliers != null && brightnessIndex >= 0 && brightnessIndex < lampCountMultipliers.Length && lampCountMultipliers[brightnessIndex] > 0f
+                ? lampCountMultipliers[brightnessIndex] : 1f;
+
+        // 이 성벽에서 alreadyBought번 보강했을 때 다음 보강 값
+        public int WallReinforcePrice(int alreadyBought) => wallReinforceBasePrice + wallReinforcePriceStep * Mathf.Max(0, alreadyBought);
         public float WeatherChangeChance => weatherChangeChance;
         public float ShowerStopChance => showerStopChance;
         public float RevertChance => revertChance;

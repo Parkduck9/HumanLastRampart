@@ -95,7 +95,7 @@ namespace HumanLastRampart.Combat.Battle
             int baseCount = wave.VanguardCount > 0
                 ? wave.VanguardCount
                 : VanguardByBattle[Mathf.Clamp(setup.BattleNumber - 1, 0, VanguardByBattle.Length - 1)];
-            return Mathf.Max(VanguardMinCount, Mathf.RoundToInt(baseCount * setup.EnemyCountMultiplier * LampCountMul(setup.LampBrightness)));
+            return Mathf.Max(VanguardMinCount, Mathf.RoundToInt(baseCount * setup.EnemyCountMultiplier * LampCountFactor));
         }
 
         // 단계가 Auto면 적 종류로: 사다리 고블린·오우거 → 공성, 나머지 → 본대. 선봉·최후는 무리 전체의 단계가 아니라(선봉은 첫 무리에서 떼어 낸다) 본대로 본다

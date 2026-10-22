@@ -77,8 +77,11 @@ namespace HumanLastRampart.App.Tests
             BattleRulesDef rules = lookup.All<BattleRulesDef>()[0];
             Assert.AreEqual(0.75f, rules.EasyEnemyMultiplierFor(1), 0.0001f, "D-065 적 1.5배");
             Assert.AreEqual(0.75f, rules.EasyEnemyMultiplierFor(3), 0.0001f);
-            Assert.AreEqual(0.6f, rules.EasyEnemyMultiplierFor(4), 0.0001f);
+            Assert.AreEqual(0.45f, rules.EasyEnemyMultiplierFor(4), 0.0001f, "W11: 쉬움 4번(변형 2단계 밤) 0.6 ×0.75");
             Assert.AreEqual(1.5f, rules.RealisticEnemyMultiplierFor(3), 0.0001f, "D-065 현실 1.5배");
+            Assert.AreEqual(1.2f, rules.RealisticEnemyMultiplierFor(4), 0.0001f, "W11: 현실 4번 ≈ 3번의 2배 (기본 적 수 20000 × 1.2 = 24000)");
+            Assert.AreEqual(1.15f, rules.LampCountMultiplierFor((int)LampBrightness.High), 0.0001f, "W11: 강 밝기 적 수 ×1.15");
+            Assert.AreEqual(1, rules.BeaconRepairsPerDay, "W11: 등대 수리 하루 한 번");
             Assert.AreEqual(0.75f, rules.EasyEnemyMultiplierFor(9), 0.0001f, "칸이 없으면 기본값");
         }
     }

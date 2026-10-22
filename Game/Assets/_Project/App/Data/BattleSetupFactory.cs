@@ -48,6 +48,7 @@ namespace HumanLastRampart.App.Data
                 Forecast = BattleForecast.Get(campaign.RngSeed, campaign.BattleNumber, rules),   // 예보 방식은 다른 작업이 바꾼다
                 InitialTargeting = (campaign.Targeting ?? TargetingSettings.CreateDefault()).Clone(),
                 LampBrightness = campaign.PlannedLamp,
+                LampCountMultiplier = rules.LampCountMultiplierFor((int)campaign.PlannedLamp),   // W11: 데이터 (battle_rules.asset)
                 BeamSide = 0,
                 EnemyTier = BeaconRules.EnemyTier(campaign.FortressNumber, ignition),
                 IsIgnitionNight = ignition,

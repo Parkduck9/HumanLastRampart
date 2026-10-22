@@ -267,6 +267,23 @@ namespace HumanLastRampart.Meta
             Button commit = Ui.Button(right.transform, "확정 수리", "수리", Commit, UiButtonKind.Primary);
             Ui.Size(commit, -1f, 64f);
             commit.interactable = quote != null;
+
+            // W11 골드 쓸 곳: 성벽 보강 — 이 성벽의 최대 체력을 올린다 (값은 살 때마다 오름, 규칙 데이터)
+            var ruleList = context.Definitions.All<BattleRulesDef>();
+            if (ruleList.Count > 0 && ruleList[0].WallReinforceHp > 0)
+            {
+                BattleRulesDef rules = ruleList[0];
+                bool maxed = wall.Reinforced >= rules.WallReinforceMaxPerWall;
+                int price = rules.WallReinforcePrice(wall.Reinforced);
+                string text = maxed ? "성벽 보강 끝 (더 못 함)" : $"성벽 보강 +{rules.WallReinforceHp:N0} 최대 체력 · {price:N0}골드 ({wall.Reinforced}/{rules.WallReinforceMaxPerWall})";
+                Button reinforce = Ui.Button(right.transform, "성벽 보강", text, () =>
+                {
+                    if (BeaconRules.TryReinforceWall(campaign, wallId, rules, out string why)) { done = "보강 완료"; session.CancelQuote(); quote = null; Render(); }
+                    else { reason = why; }
+                }, UiButtonKind.Normal);
+                Ui.Size(reinforce, -1f, 56f);
+                reinforce.interactable = !maxed && campaign.Gold >= price;
+            }
         }
 
         bool TryRepair(RepairChoice choice, string wallId, out PreparationTransactions.Quote q, out string why, out bool error)
