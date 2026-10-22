@@ -140,6 +140,44 @@ namespace HumanLastRampart.Combat.PerfLab
             return mask != null && mask.width == sheet.width && mask.height == sheet.height ? mask : null;
         }
 
+        // 먼 적 저비용 그림 (W4b, K-099): Resources/BattleArt/Far/<종>_half · <종>_quarter. 원래 이동 시트와 크기가 안 맞거나 없으면 null (예전 그대로 그린다).
+        // 절반 = 원래의 정확히 1/2, 1/4 = 걷기 두 칸(가로 2칸 1행) 칸 크기 1/4
+        static readonly System.Collections.Generic.Dictionary<string, Texture2D> farCache = new System.Collections.Generic.Dictionary<string, Texture2D>();
+
+        public static bool TryFarSheets(Texture nearSheet, out Texture2D half, out Texture2D quarter)
+        {
+            half = quarter = null;
+            string species = HumanLastRampart.Combat.Render.FarSprites.SpeciesOf(nearSheet);
+            if (species == null) return false;
+            SheetLayout layout = FromSheet(nearSheet);
+            int columns = Mathf.Max(1, (int)layout.Grid.x), rows = Mathf.Max(1, (int)layout.Grid.y);
+            int cellW = nearSheet.width / columns, cellH = nearSheet.height / rows;
+            half = LoadFar(species + HumanLastRampart.Combat.Render.FarSprites.HalfSuffix, nearSheet.width / 2, nearSheet.height / 2);
+            quarter = LoadFar(species + HumanLastRampart.Combat.Render.FarSprites.QuarterSuffix,
+                cellW / 4 * HumanLastRampart.Combat.Render.FarSprites.QuarterColumns, cellH / 4);
+            if (half == null || quarter == null) { half = quarter = null; return false; }
+            return true;
+        }
+
+        static Texture2D LoadFar(string name, int width, int height)
+        {
+            if (!farCache.TryGetValue(name, out Texture2D texture))
+            {
+                texture = Resources.Load<Texture2D>(HumanLastRampart.Combat.Render.FarSprites.Folder + name);
+                farCache[name] = texture;
+            }
+
+            return texture != null && texture.width == width && texture.height == height ? texture : null;
+        }
+
+        // 먼 그림 시트 규격: 절반은 원래와 같은 열·행, 1/4은 2×1. 발 위치·가로세로비는 원래와 같다 (정확히 비례)
+        public static SheetLayout FarLayout(Texture nearSheet, bool quarter)
+        {
+            SheetLayout layout = FromSheet(nearSheet);
+            if (quarter) layout.Grid = new Vector4(HumanLastRampart.Combat.Render.FarSprites.QuarterColumns, 1f, 0f, 0f);
+            return layout;
+        }
+
         // 발이 원점, 높이 1인 사각형. 가로·발 위치·크기는 셰이더가 정한다.
         public static Mesh CreateQuad()
         {

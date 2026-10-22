@@ -212,6 +212,14 @@ public sealed partial class PlayProbe
             yield return MeasureWindow("③ 75초 중반 (성벽에 몰림, 효과 켬)", sim, recorders);
             yield return Capture("timing_3_mid");
 
+            // 먼 적 저비용 그림 끔 (W4b, K-099) — 위 ③과 같은 장면 비교 한 줄
+            bool farBefore = HumanLastRampart.Combat.Render.FarSprites.Enabled;
+            HumanLastRampart.Combat.Render.FarSprites.Enabled = false;
+            for (int i = 0; i < 5; i++) yield return null;
+            yield return MeasureWindow("③ 75초대 · 먼 적 그림 끔 (원래 크기만)", sim, recorders);
+            HumanLastRampart.Combat.Render.FarSprites.Enabled = farBefore;
+            for (int i = 0; i < 5; i++) yield return null;
+
             // 같은 장면을 640×480으로 (지난 측정 해상도와 비교)
             if (batch) { renderTimer.Width = 640; renderTimer.Height = 480; }
             else Screen.SetResolution(640, 480, FullScreenMode.Windowed);
@@ -268,6 +276,7 @@ public sealed partial class PlayProbe
             crowdedTerrain?.Dispose();
             KeepPreparation = false;
             HumanLastRampart.Combat.Render.BattleLook.Enabled = look0;
+            HumanLastRampart.Combat.Render.FarSprites.Enabled = true;
             recorders.Dispose();
             if (renderTimer != null) Object.Destroy(renderTimer.gameObject);
             renderTimer = null;
