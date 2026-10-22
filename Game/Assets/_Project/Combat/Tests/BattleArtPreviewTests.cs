@@ -49,6 +49,11 @@ namespace HumanLastRampart.Combat.Tests
             Assert.AreEqual(4, PerfLab.PerfLabArt.FrameCount(lookup.Get<EnemyDef>("enemy_goblin_ladder").Sheet), "사다리 고블린 걷기 4칸");
             using (BattleSim sim = NewSim(lookup, 3))
             {
+                // 나안(2026-10-22)부터 사다리·오우거는 공성 단계(90초 안팎)에 나온다. 조작 없는 시험 전투가 그 전에 지지 않게 버티게 한다
+                var flags = System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance;
+                typeof(BattleSim).GetField("garrisonLossRatio", flags).SetValue(sim, float.MaxValue);
+                var wallHp = (float[])typeof(BattleSim).GetField("wallHp", flags).GetValue(sim);
+                for (int w = 0; w < wallHp.Length; w++) wallHp[w] = 1e9f;
                 float time = 0f;
                 var seen = new HashSet<int>();
                 int checkedEnemies = 0;
