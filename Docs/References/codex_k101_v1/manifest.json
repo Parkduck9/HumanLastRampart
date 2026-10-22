@@ -1,0 +1,1177 @@
+{
+  "card": "K-101",
+  "channels": {
+    "R": "반사 강도, 선형 0~255",
+    "G": "매끄러움, 선형 0~255",
+    "B": "항상 0",
+    "A": "현재 게임 시트 알파 바이트 그대로"
+  },
+  "import": {
+    "sRGB": false,
+    "filter": "Point",
+    "mipmaps": false,
+    "compression": "None",
+    "wrap": "Clamp",
+    "texture_type": "Default"
+  },
+  "materials": {
+    "matte": {
+      "label": "천·피부·머리·흙·나무",
+      "rg": [
+        13,
+        26
+      ]
+    },
+    "leather": {
+      "label": "가죽 장화·장갑·허리띠",
+      "rg": [
+        77,
+        64
+      ]
+    },
+    "iron": {
+      "label": "거친 철·포신·바퀴 테",
+      "rg": [
+        242,
+        140
+      ]
+    },
+    "polished": {
+      "label": "총열·금속 고리·밝은 철",
+      "rg": [
+        255,
+        191
+      ]
+    },
+    "gold": {
+      "label": "금색 금속 장식·버클",
+      "rg": [
+        255,
+        217
+      ]
+    },
+    "effect": {
+      "label": "섬광·연기·발광 궤적",
+      "rg": [
+        0,
+        0
+      ]
+    },
+    "gem": {
+      "label": "지팡이 보석",
+      "rg": [
+        255,
+        230
+      ]
+    }
+  },
+  "materials_note": "기본값은 K-092와 동일. 보석 본체는 별도 높은 반사값. 발광 효과는 반사 제외.",
+  "baseline_note": "기준 피벗 y=360. 원본 프레임의 실제 알파 경계는 이동 없이 그대로 보존. 점화 시트의 잔여 알파도 보존.",
+  "ignite_contract": "K-086 v5 원본과 동일: 432×384칸, 6칸, 피벗 (288,360). 288폭 9칸으로 해석하지 않음.",
+  "all_pass": true,
+  "sheet_count": 7,
+  "frames_verified": 32,
+  "sheets": [
+    {
+      "name": "hero_back_idle",
+      "source": "Game/Assets/_Project/Art/Characters/Hero/hero_back_idle.png",
+      "source_sha256": "1bda81fed1caf6598540eab6c02a6fe2d24264a884afd2ff6ec7903b039ffa94",
+      "mask": "hero_back_idle_spec.png",
+      "mask_sha256": "65e22b353a1dd4f96f5ec809c2d9afbb6e7a63aa7fb9133fd01bce6fac5364fe",
+      "size": [
+        288,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "grid": [
+        1,
+        1
+      ],
+      "frame_count": 1,
+      "frame_order": "행 우선, 각 행 왼쪽에서 오른쪽",
+      "motions": [
+        "후면 대기"
+      ],
+      "pivot_top_left": [
+        144,
+        360
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.0625
+      ],
+      "native_mask": "native/hero_back_idle_spec.png",
+      "native_size": [
+        96,
+        128
+      ],
+      "native_cell": [
+        96,
+        128
+      ],
+      "native_pivot_top_left": [
+        48,
+        120
+      ],
+      "scale_to_game": 3,
+      "preview_4x": "previews/hero_back_idle_spec_4x.png",
+      "material_preview": "materials/hero_back_idle_materials.png",
+      "material_pixels_native": {
+        "matte": 1758,
+        "leather": 78,
+        "iron": 0,
+        "polished": 0,
+        "gold": 175,
+        "effect": 0,
+        "gem": 0
+      },
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "motion": "후면 대기",
+          "alpha_bounds": [
+            84,
+            141,
+            198,
+            360
+          ],
+          "cutout_bounds": [
+            84,
+            141,
+            198,
+            360
+          ],
+          "cutout_bottom_y_exclusive": 360
+        }
+      ],
+      "verification": {
+        "size_exact": true,
+        "alpha_exact": true,
+        "blue_zero": true,
+        "transparent_rgb_zero": true,
+        "native_3x_roundtrip_exact": true,
+        "preview_4x_size_exact": true,
+        "no_new_alpha_pixels": true,
+        "frame_alpha_bounds_and_foot_line_exact": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "hero_command",
+      "source": "Game/Assets/_Project/Art/Characters/Hero/hero_command.png",
+      "source_sha256": "e7997c7b3c4a9c7ac6c34130a47d0eab9ff8bcca378809ceea5812387a615fc8",
+      "mask": "hero_command_spec.png",
+      "mask_sha256": "97c37be23abc8d43426c4463a5c5559b039848d89dc3a9314b57b5847166e01d",
+      "size": [
+        864,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "grid": [
+        3,
+        1
+      ],
+      "frame_count": 3,
+      "frame_order": "행 우선, 각 행 왼쪽에서 오른쪽",
+      "motions": [
+        "지휘"
+      ],
+      "pivot_top_left": [
+        144,
+        360
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.0625
+      ],
+      "native_mask": "native/hero_command_spec.png",
+      "native_size": [
+        288,
+        128
+      ],
+      "native_cell": [
+        96,
+        128
+      ],
+      "native_pivot_top_left": [
+        48,
+        120
+      ],
+      "scale_to_game": 3,
+      "preview_4x": "previews/hero_command_spec_4x.png",
+      "material_preview": "materials/hero_command_materials.png",
+      "material_pixels_native": {
+        "matte": 5291,
+        "leather": 213,
+        "iron": 0,
+        "polished": 0,
+        "gold": 558,
+        "effect": 0,
+        "gem": 0
+      },
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "motion": "지휘",
+          "alpha_bounds": [
+            84,
+            141,
+            198,
+            360
+          ],
+          "cutout_bounds": [
+            84,
+            141,
+            198,
+            360
+          ],
+          "cutout_bottom_y_exclusive": 360
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "column": 1,
+          "motion": "지휘",
+          "alpha_bounds": [
+            81,
+            141,
+            210,
+            360
+          ],
+          "cutout_bounds": [
+            81,
+            141,
+            210,
+            360
+          ],
+          "cutout_bottom_y_exclusive": 360
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "column": 2,
+          "motion": "지휘",
+          "alpha_bounds": [
+            63,
+            141,
+            219,
+            360
+          ],
+          "cutout_bounds": [
+            63,
+            141,
+            219,
+            360
+          ],
+          "cutout_bottom_y_exclusive": 360
+        }
+      ],
+      "verification": {
+        "size_exact": true,
+        "alpha_exact": true,
+        "blue_zero": true,
+        "transparent_rgb_zero": true,
+        "native_3x_roundtrip_exact": true,
+        "preview_4x_size_exact": true,
+        "no_new_alpha_pixels": true,
+        "frame_alpha_bounds_and_foot_line_exact": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "hero_walk_run_grid",
+      "source": "Game/Assets/_Project/Art/Characters/Hero/hero_walk_run_grid.png",
+      "source_sha256": "5587d9d2e62d69b2e7a24de3015e0635d54264a3d9c669e2878a72d517d82fd6",
+      "mask": "hero_walk_run_grid_spec.png",
+      "mask_sha256": "670ebcdb7e0a2ebc8e5c068257ddf9bcd21c3f1e9f4c38df254d71bc090d5806",
+      "size": [
+        1152,
+        1536
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "grid": [
+        4,
+        4
+      ],
+      "frame_count": 16,
+      "frame_order": "행 우선, 각 행 왼쪽에서 오른쪽",
+      "motions": [
+        "후면 걷기",
+        "왼쪽 걷기",
+        "왼쪽 달리기",
+        "정면 걷기"
+      ],
+      "pivot_top_left": [
+        144,
+        360
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.0625
+      ],
+      "native_mask": "native/hero_walk_run_grid_spec.png",
+      "native_size": [
+        384,
+        512
+      ],
+      "native_cell": [
+        96,
+        128
+      ],
+      "native_pivot_top_left": [
+        48,
+        120
+      ],
+      "scale_to_game": 3,
+      "preview_4x": "previews/hero_walk_run_grid_spec_4x.png",
+      "material_preview": "materials/hero_walk_run_grid_materials.png",
+      "material_pixels_native": {
+        "matte": 27138,
+        "leather": 1606,
+        "iron": 0,
+        "polished": 0,
+        "gold": 3291,
+        "effect": 0,
+        "gem": 0
+      },
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "motion": "후면 걷기",
+          "alpha_bounds": [
+            87,
+            141,
+            210,
+            360
+          ],
+          "cutout_bounds": [
+            87,
+            141,
+            210,
+            360
+          ],
+          "cutout_bottom_y_exclusive": 360
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "column": 1,
+          "motion": "후면 걷기",
+          "alpha_bounds": [
+            87,
+            141,
+            201,
+            360
+          ],
+          "cutout_bounds": [
+            87,
+            141,
+            201,
+            360
+          ],
+          "cutout_bottom_y_exclusive": 360
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "column": 2,
+          "motion": "후면 걷기",
+          "alpha_bounds": [
+            81,
+            141,
+            201,
+            360
+          ],
+          "cutout_bounds": [
+            81,
+            141,
+            201,
+            360
+          ],
+          "cutout_bottom_y_exclusive": 360
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "column": 3,
+          "motion": "후면 걷기",
+          "alpha_bounds": [
+            87,
+            141,
+            201,
+            360
+          ],
+          "cutout_bounds": [
+            87,
+            141,
+            201,
+            360
+          ],
+          "cutout_bottom_y_exclusive": 360
+        },
+        {
+          "index": 4,
+          "row": 1,
+          "column": 0,
+          "motion": "왼쪽 걷기",
+          "alpha_bounds": [
+            81,
+            141,
+            198,
+            360
+          ],
+          "cutout_bounds": [
+            81,
+            141,
+            198,
+            360
+          ],
+          "cutout_bottom_y_exclusive": 360
+        },
+        {
+          "index": 5,
+          "row": 1,
+          "column": 1,
+          "motion": "왼쪽 걷기",
+          "alpha_bounds": [
+            87,
+            141,
+            198,
+            360
+          ],
+          "cutout_bounds": [
+            87,
+            141,
+            198,
+            360
+          ],
+          "cutout_bottom_y_exclusive": 360
+        },
+        {
+          "index": 6,
+          "row": 1,
+          "column": 2,
+          "motion": "왼쪽 걷기",
+          "alpha_bounds": [
+            81,
+            141,
+            198,
+            360
+          ],
+          "cutout_bounds": [
+            81,
+            141,
+            198,
+            360
+          ],
+          "cutout_bottom_y_exclusive": 360
+        },
+        {
+          "index": 7,
+          "row": 1,
+          "column": 3,
+          "motion": "왼쪽 걷기",
+          "alpha_bounds": [
+            87,
+            141,
+            198,
+            360
+          ],
+          "cutout_bounds": [
+            87,
+            141,
+            198,
+            360
+          ],
+          "cutout_bottom_y_exclusive": 360
+        },
+        {
+          "index": 8,
+          "row": 2,
+          "column": 0,
+          "motion": "왼쪽 달리기",
+          "alpha_bounds": [
+            84,
+            141,
+            246,
+            360
+          ],
+          "cutout_bounds": [
+            84,
+            141,
+            246,
+            360
+          ],
+          "cutout_bottom_y_exclusive": 360
+        },
+        {
+          "index": 9,
+          "row": 2,
+          "column": 1,
+          "motion": "왼쪽 달리기",
+          "alpha_bounds": [
+            84,
+            141,
+            258,
+            360
+          ],
+          "cutout_bounds": [
+            84,
+            141,
+            258,
+            360
+          ],
+          "cutout_bottom_y_exclusive": 360
+        },
+        {
+          "index": 10,
+          "row": 2,
+          "column": 2,
+          "motion": "왼쪽 달리기",
+          "alpha_bounds": [
+            81,
+            141,
+            255,
+            360
+          ],
+          "cutout_bounds": [
+            81,
+            141,
+            255,
+            360
+          ],
+          "cutout_bottom_y_exclusive": 360
+        },
+        {
+          "index": 11,
+          "row": 2,
+          "column": 3,
+          "motion": "왼쪽 달리기",
+          "alpha_bounds": [
+            84,
+            141,
+            234,
+            360
+          ],
+          "cutout_bounds": [
+            84,
+            141,
+            234,
+            360
+          ],
+          "cutout_bottom_y_exclusive": 360
+        },
+        {
+          "index": 12,
+          "row": 3,
+          "column": 0,
+          "motion": "정면 걷기",
+          "alpha_bounds": [
+            87,
+            141,
+            201,
+            360
+          ],
+          "cutout_bounds": [
+            87,
+            141,
+            201,
+            360
+          ],
+          "cutout_bottom_y_exclusive": 360
+        },
+        {
+          "index": 13,
+          "row": 3,
+          "column": 1,
+          "motion": "정면 걷기",
+          "alpha_bounds": [
+            87,
+            141,
+            201,
+            360
+          ],
+          "cutout_bounds": [
+            87,
+            141,
+            201,
+            360
+          ],
+          "cutout_bottom_y_exclusive": 360
+        },
+        {
+          "index": 14,
+          "row": 3,
+          "column": 2,
+          "motion": "정면 걷기",
+          "alpha_bounds": [
+            84,
+            141,
+            201,
+            360
+          ],
+          "cutout_bounds": [
+            84,
+            141,
+            201,
+            360
+          ],
+          "cutout_bottom_y_exclusive": 360
+        },
+        {
+          "index": 15,
+          "row": 3,
+          "column": 3,
+          "motion": "정면 걷기",
+          "alpha_bounds": [
+            87,
+            141,
+            201,
+            360
+          ],
+          "cutout_bounds": [
+            87,
+            141,
+            201,
+            360
+          ],
+          "cutout_bottom_y_exclusive": 360
+        }
+      ],
+      "verification": {
+        "size_exact": true,
+        "alpha_exact": true,
+        "blue_zero": true,
+        "transparent_rgb_zero": true,
+        "native_3x_roundtrip_exact": true,
+        "preview_4x_size_exact": true,
+        "no_new_alpha_pixels": true,
+        "frame_alpha_bounds_and_foot_line_exact": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "wizard_back_static",
+      "source": "Game/Assets/_Project/Art/Characters/Static/wizard_back_static.png",
+      "source_sha256": "3f96cd668def6932e33d1339c2c8c2d9d4516f9e02b16c159717623fcd993aa3",
+      "mask": "wizard_back_static_spec.png",
+      "mask_sha256": "6a2ac6abad3f6ea254bf023677709d40e11b7e7b359dfd3ce83bb453edc4788d",
+      "size": [
+        288,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "grid": [
+        1,
+        1
+      ],
+      "frame_count": 1,
+      "frame_order": "행 우선, 각 행 왼쪽에서 오른쪽",
+      "motions": [
+        "후면 대기"
+      ],
+      "pivot_top_left": [
+        144,
+        360
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.0625
+      ],
+      "native_mask": "native/wizard_back_static_spec.png",
+      "native_size": [
+        96,
+        128
+      ],
+      "native_cell": [
+        96,
+        128
+      ],
+      "native_pivot_top_left": [
+        48,
+        120
+      ],
+      "scale_to_game": 3,
+      "preview_4x": "previews/wizard_back_static_spec_4x.png",
+      "material_preview": "materials/wizard_back_static_materials.png",
+      "material_pixels_native": {
+        "matte": 1966,
+        "leather": 247,
+        "iron": 0,
+        "polished": 0,
+        "gold": 158,
+        "effect": 0,
+        "gem": 53
+      },
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "motion": "후면 대기",
+          "alpha_bounds": [
+            54,
+            135,
+            213,
+            360
+          ],
+          "cutout_bounds": [
+            54,
+            135,
+            213,
+            360
+          ],
+          "cutout_bottom_y_exclusive": 360
+        }
+      ],
+      "verification": {
+        "size_exact": true,
+        "alpha_exact": true,
+        "blue_zero": true,
+        "transparent_rgb_zero": true,
+        "native_3x_roundtrip_exact": true,
+        "preview_4x_size_exact": true,
+        "no_new_alpha_pixels": true,
+        "frame_alpha_bounds_and_foot_line_exact": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "wizard_static",
+      "source": "Game/Assets/_Project/Art/Characters/Static/wizard_static.png",
+      "source_sha256": "97523b2c8eac6c0ddd70b11fefee47516396b5d0167a939f301f16d7769facd7",
+      "mask": "wizard_static_spec.png",
+      "mask_sha256": "3a587de9b21a579c4a7b4c7d01a0b46c6ae75dbf4a8e93e7481fd9c4e2447f45",
+      "size": [
+        288,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "grid": [
+        1,
+        1
+      ],
+      "frame_count": 1,
+      "frame_order": "행 우선, 각 행 왼쪽에서 오른쪽",
+      "motions": [
+        "정면 대기"
+      ],
+      "pivot_top_left": [
+        144,
+        360
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.0625
+      ],
+      "native_mask": "native/wizard_static_spec.png",
+      "native_size": [
+        96,
+        128
+      ],
+      "native_cell": [
+        96,
+        128
+      ],
+      "native_pivot_top_left": [
+        48,
+        120
+      ],
+      "scale_to_game": 3,
+      "preview_4x": "previews/wizard_static_spec_4x.png",
+      "material_preview": "materials/wizard_static_materials.png",
+      "material_pixels_native": {
+        "matte": 1909,
+        "leather": 254,
+        "iron": 0,
+        "polished": 0,
+        "gold": 214,
+        "effect": 0,
+        "gem": 49
+      },
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "motion": "정면 대기",
+          "alpha_bounds": [
+            54,
+            135,
+            210,
+            360
+          ],
+          "cutout_bounds": [
+            54,
+            135,
+            210,
+            360
+          ],
+          "cutout_bottom_y_exclusive": 360
+        }
+      ],
+      "verification": {
+        "size_exact": true,
+        "alpha_exact": true,
+        "blue_zero": true,
+        "transparent_rgb_zero": true,
+        "native_3x_roundtrip_exact": true,
+        "preview_4x_size_exact": true,
+        "no_new_alpha_pixels": true,
+        "frame_alpha_bounds_and_foot_line_exact": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "wizard_cast",
+      "source": "Game/Assets/_Project/Art/Characters/Static/wizard_cast.png",
+      "source_sha256": "2780e400d9e2183cab0444a9b413c05af2a0c2b87d0592825579cf5ea3c2ec2a",
+      "mask": "wizard_cast_spec.png",
+      "mask_sha256": "b0077984043a5142626c0910442f68a4280d0a3d15ad9e2e925e464fe8cbb2ef",
+      "size": [
+        1152,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "grid": [
+        4,
+        1
+      ],
+      "frame_count": 4,
+      "frame_order": "행 우선, 각 행 왼쪽에서 오른쪽",
+      "motions": [
+        "마법 시전"
+      ],
+      "pivot_top_left": [
+        144,
+        360
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.0625
+      ],
+      "native_mask": "native/wizard_cast_spec.png",
+      "native_size": [
+        384,
+        128
+      ],
+      "native_cell": [
+        96,
+        128
+      ],
+      "native_pivot_top_left": [
+        48,
+        120
+      ],
+      "scale_to_game": 3,
+      "preview_4x": "previews/wizard_cast_spec_4x.png",
+      "material_preview": "materials/wizard_cast_materials.png",
+      "material_pixels_native": {
+        "matte": 7865,
+        "leather": 848,
+        "iron": 0,
+        "polished": 0,
+        "gold": 700,
+        "effect": 799,
+        "gem": 240
+      },
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "motion": "마법 시전",
+          "alpha_bounds": [
+            48,
+            135,
+            225,
+            360
+          ],
+          "cutout_bounds": [
+            48,
+            135,
+            225,
+            360
+          ],
+          "cutout_bottom_y_exclusive": 360
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "column": 1,
+          "motion": "마법 시전",
+          "alpha_bounds": [
+            51,
+            96,
+            237,
+            360
+          ],
+          "cutout_bounds": [
+            51,
+            96,
+            237,
+            360
+          ],
+          "cutout_bottom_y_exclusive": 360
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "column": 2,
+          "motion": "마법 시전",
+          "alpha_bounds": [
+            57,
+            66,
+            243,
+            360
+          ],
+          "cutout_bounds": [
+            57,
+            66,
+            243,
+            360
+          ],
+          "cutout_bottom_y_exclusive": 360
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "column": 3,
+          "motion": "마법 시전",
+          "alpha_bounds": [
+            75,
+            135,
+            237,
+            360
+          ],
+          "cutout_bounds": [
+            75,
+            135,
+            237,
+            360
+          ],
+          "cutout_bottom_y_exclusive": 360
+        }
+      ],
+      "verification": {
+        "size_exact": true,
+        "alpha_exact": true,
+        "blue_zero": true,
+        "transparent_rgb_zero": true,
+        "native_3x_roundtrip_exact": true,
+        "preview_4x_size_exact": true,
+        "no_new_alpha_pixels": true,
+        "frame_alpha_bounds_and_foot_line_exact": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "cannon_crew_ignite6",
+      "source": "Game/Assets/_Project/Art/Characters/Fire/cannon_crew_ignite6.png",
+      "source_sha256": "5132d551a86960a7f95884e804534c79244847f260c2c8bd047866f0da4496e9",
+      "mask": "cannon_crew_ignite6_spec.png",
+      "mask_sha256": "e864fd84e036ae4f0167a264477a57f52cdcd972ccbabc95a2a457d2a2304638",
+      "size": [
+        2592,
+        384
+      ],
+      "cell": [
+        432,
+        384
+      ],
+      "grid": [
+        6,
+        1
+      ],
+      "frame_count": 6,
+      "frame_order": "행 우선, 각 행 왼쪽에서 오른쪽",
+      "motions": [
+        "점화"
+      ],
+      "pivot_top_left": [
+        288,
+        360
+      ],
+      "pivot_normalized_bottom_left": [
+        0.6666666666666666,
+        0.0625
+      ],
+      "native_mask": "native/cannon_crew_ignite6_spec.png",
+      "native_size": [
+        864,
+        128
+      ],
+      "native_cell": [
+        144,
+        128
+      ],
+      "native_pivot_top_left": [
+        96,
+        120
+      ],
+      "scale_to_game": 3,
+      "preview_4x": "previews/cannon_crew_ignite6_spec_4x.png",
+      "material_preview": "materials/cannon_crew_ignite6_materials.png",
+      "material_pixels_native": {
+        "matte": 12671,
+        "leather": 1740,
+        "iron": 0,
+        "polished": 0,
+        "gold": 129,
+        "effect": 1229,
+        "gem": 0
+      },
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "motion": "점화",
+          "alpha_bounds": [
+            138,
+            108,
+            348,
+            360
+          ],
+          "cutout_bounds": [
+            168,
+            108,
+            345,
+            360
+          ],
+          "cutout_bottom_y_exclusive": 360
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "column": 1,
+          "motion": "점화",
+          "alpha_bounds": [
+            141,
+            102,
+            384,
+            366
+          ],
+          "cutout_bounds": [
+            147,
+            144,
+            354,
+            360
+          ],
+          "cutout_bottom_y_exclusive": 360
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "column": 2,
+          "motion": "점화",
+          "alpha_bounds": [
+            111,
+            114,
+            351,
+            360
+          ],
+          "cutout_bounds": [
+            117,
+            153,
+            348,
+            360
+          ],
+          "cutout_bottom_y_exclusive": 360
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "column": 3,
+          "motion": "점화",
+          "alpha_bounds": [
+            9,
+            138,
+            363,
+            378
+          ],
+          "cutout_bounds": [
+            9,
+            141,
+            363,
+            360
+          ],
+          "cutout_bottom_y_exclusive": 360
+        },
+        {
+          "index": 4,
+          "row": 0,
+          "column": 4,
+          "motion": "점화",
+          "alpha_bounds": [
+            120,
+            135,
+            369,
+            378
+          ],
+          "cutout_bounds": [
+            126,
+            156,
+            354,
+            360
+          ],
+          "cutout_bottom_y_exclusive": 360
+        },
+        {
+          "index": 5,
+          "row": 0,
+          "column": 5,
+          "motion": "점화",
+          "alpha_bounds": [
+            138,
+            108,
+            348,
+            360
+          ],
+          "cutout_bounds": [
+            168,
+            108,
+            345,
+            360
+          ],
+          "cutout_bottom_y_exclusive": 360
+        }
+      ],
+      "verification": {
+        "size_exact": true,
+        "alpha_exact": true,
+        "blue_zero": true,
+        "transparent_rgb_zero": true,
+        "native_3x_roundtrip_exact": true,
+        "preview_4x_size_exact": true,
+        "no_new_alpha_pixels": true,
+        "frame_alpha_bounds_and_foot_line_exact": true,
+        "source_unchanged": true
+      }
+    }
+  ]
+}
