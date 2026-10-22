@@ -1,0 +1,100 @@
+{
+  "passed": true,
+  "initial": {
+    "state": "complete",
+    "verification": {
+      "assetCount": 49,
+      "decoded": 49,
+      "errors": [],
+      "canvas": [
+        256,
+        256
+      ],
+      "status": "passed"
+    },
+    "images": [
+      {
+        "ok": true,
+        "alt": "네 성벽의 체력 상태와 오른쪽 수리 패널을 배치한 전체 화면 시안"
+      },
+      {
+        "ok": true,
+        "alt": "동전 1배"
+      },
+      {
+        "ok": true,
+        "alt": "동전 4배"
+      },
+      {
+        "ok": true,
+        "alt": "망치 1배"
+      },
+      {
+        "ok": true,
+        "alt": "망치 4배"
+      },
+      {
+        "ok": true,
+        "alt": "동전 1배"
+      },
+      {
+        "ok": true,
+        "alt": "동전 4배"
+      },
+      {
+        "ok": true,
+        "alt": "망치 1배"
+      },
+      {
+        "ok": true,
+        "alt": "망치 4배"
+      },
+      {
+        "ok": true,
+        "alt": "북 동 남 서 가리킴과 선택 테두리 시트"
+      },
+      {
+        "ok": true,
+        "alt": "24픽셀 동전과 망치 4배 확대"
+      },
+      {
+        "ok": true,
+        "alt": "32픽셀 동전과 망치 4배 확대"
+      },
+      {
+        "ok": true,
+        "alt": "작은 버튼 네 상태 4배 확대"
+      },
+      {
+        "ok": true,
+        "alt": "체력 막대 프레임과 네 채움 4배 확대"
+      }
+    ]
+  },
+  "interaction_checks": {
+    "walls": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "hoverMode": true,
+    "zeroFillHidden": true,
+    "repairClamped": true,
+    "widths": [
+      {
+        "requested": 160,
+        "actual": 160,
+        "border": "16 28 fill"
+      },
+      {
+        "requested": 700,
+        "actual": 700,
+        "border": "16 28 fill"
+      }
+    ],
+    "disabledVariants": true,
+    "animationAdvanced": true
+  },
+  "note": "로컬 파일을 Chromium에서 열어 이미지 읽기·네 방향 선택·자동 순환·체력 0/상한·버튼 늘리기를 확인. Unity 검증은 수행하지 않음."
+}
