@@ -15,6 +15,7 @@ $outFile = Join-Path $repo '_HTML\live\board_data.js'
 $git = 'C:\Users\User\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\git\cmd\git.exe'
 $agents = Join-Path $env:USERPROFILE '.claude\projects\C--Unity-1-HumanLastRampart'
 $stageNames = @('대기', '코딩', '검토', '합침', '시험', '끝')
+$cardStageNames = @('대기', '그리는 중', '검토', '합침', '확인', '끝')   # 코덱스는 그림만 그린다 (사용자 2026-10-22)
 $band = @(@(0, 0), @(5, 60), @(60, 75), @(75, 85), @(85, 99), @(100, 100))
 $script:countCache = @{}
 
@@ -52,7 +53,7 @@ function Get-Board {
             if (Test-Path -LiteralPath $log) {
                 $done = Count-Matches $log '"item.completed"'
                 $inner = [Math]::Min(1.0, $done / 60.0); $last = (Get-Item -LiteralPath $log).LastWriteTime
-                $detail = "코덱스 작업 단계 ${done}개"
+                $detail = "그림 작업 단계 ${done}개"
                 if (Test-Path -LiteralPath (Join-Path $it.folder 'CARD_RESULT.md')) { if ($stage -lt 3) { $stage = 3 }; $detail += ' · 결과 보고 나옴' }
             }
             else { $detail = '시작 전 (차례 기다림)' }
@@ -60,7 +61,8 @@ function Get-Board {
         $lo = $band[$stage][0]; $hi = $band[$stage][1]
         $pct = if ($stage -eq 1) { [int]($lo + ($hi - $lo) * $inner) } else { $lo }
         $idle = if ($last) { [int]($now - $last).TotalSeconds } else { -1 }
-        $rows += [ordered]@{ id = $it.id; name = $it.name; who = $it.who; kind = $it.kind; stage = $stageNames[$stage]; pct = $pct; detail = $detail; idle = $idle }
+        $names = if ($it.kind -eq 'card') { $cardStageNames } else { $stageNames }
+        $rows += [ordered]@{ id = $it.id; name = $it.name; who = $it.who; kind = $it.kind; desc = $it.desc; stage = $names[$stage]; pct = $pct; detail = $detail; idle = $idle }
     }
 
     $unity = Get-Process Unity -ErrorAction SilentlyContinue | Sort-Object StartTime | Select-Object -First 1
@@ -128,10 +130,10 @@ function Lines($d) {
     $L = New-Object System.Collections.ArrayList
     function Line($text, $f, $color, $pct) { [void]$L.Add([pscustomobject]@{ Text = $text; Font = $f; Color = $color; Pct = $pct }) }
     function Item($it) {
+        # 움직임 시각은 보이지 않는다 (사용자 2026-10-22). 대신 무엇을 하는지 한 줄(desc)
         Line ("{0}  [{1}]  {2}%" -f $it.name, $it.stage, $it.pct) $bold $null $null
-        $stale = $it.idle -gt 180 -and $it.pct -lt 100
-        $tail = if ($stale) { " · {0}분째 움직임 없음" -f [int]($it.idle / 60) } elseif ($it.idle -ge 0) { " · $($it.idle)초 전 움직임" } else { '' }
-        Line ($it.who + ' · ' + $it.detail + $tail) $font $(if ($stale) { $warn } else { $dim }) $it.pct
+        if ($it.desc) { Line $it.desc $font $null $null }
+        Line ($it.who + ' · ' + $it.detail) $font $dim $it.pct
     }
     Line ('갱신 ' + $d.updated) $font $dim $null
 
