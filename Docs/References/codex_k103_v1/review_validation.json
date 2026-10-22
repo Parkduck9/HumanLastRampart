@@ -1,0 +1,39 @@
+{
+  "loaded": true,
+  "backgrounds": [
+    {
+      "w": 576,
+      "h": 128
+    },
+    {
+      "w": 576,
+      "h": 128
+    },
+    {
+      "w": 576,
+      "h": 128
+    },
+    {
+      "w": 1536,
+      "h": 256
+    },
+    {
+      "w": 512,
+      "h": 128
+    },
+    {
+      "w": 384,
+      "h": 128
+    }
+  ],
+  "animated": true,
+  "stopped": true,
+  "selections": [
+    true,
+    true,
+    true
+  ],
+  "mobileOverflow": false,
+  "errors": [],
+  "passed": true
+}
