@@ -62,7 +62,7 @@
                       "kind":  "coder",
                       "folder":  "C:\\Unity\\1\\HLR-work\\W6",
                       "agent":  "a3b00a71b5a8c8508",
-                      "stage":  4,
+                      "stage":  5,
                       "desc":  "전투: 등불 밝기 3단계, 빛줄기 안 적 느려지고 더 아프게 맞음, 지도 단추"
                   },
                   {
@@ -72,7 +72,7 @@
                       "kind":  "coder",
                       "folder":  "C:\\Unity\\1\\HLR-work\\W7",
                       "agent":  "ad49fdfcab2f5ee13",
-                      "stage":  4,
+                      "stage":  5,
                       "desc":  "전투: 적 변형 3단계(체력 · 색 · 덩치), 전투 밤 고정, 측정 시험 값 새는 문제"
                   },
                   {
@@ -82,7 +82,7 @@
                       "kind":  "coder",
                       "folder":  "C:\\Unity\\1\\HLR-work\\W8",
                       "agent":  "a34168910d357a744",
-                      "stage":  4,
+                      "stage":  5,
                       "desc":  "진행: 요새 2곳 · 여러 밤, 등대 복구, 점화의 밤, 수비대 20%와 지원금"
                   },
                   {
@@ -93,6 +93,78 @@
                       "folder":  "C:\\Unity\\1\\HLR-cards\\K-108",
                       "stage":  5,
                       "desc":  "부관 하겐 이야기 초상 4표정 (보통 · 결연 · 놀람 · 지침)"
+                  },
+                  {
+                      "id":  "K-109",
+                      "name":  "주인공 루멘 A 전체 그림",
+                      "who":  "",
+                      "kind":  "card",
+                      "folder":  "C:\\Unity\\1\\HLR-cards\\K-109",
+                      "agent":  "",
+                      "stage":  1
+                  },
+                  {
+                      "id":  "K-110",
+                      "name":  "등대 일꾼과 탑 아래",
+                      "who":  "",
+                      "kind":  "card",
+                      "folder":  "C:\\Unity\\1\\HLR-cards\\K-110",
+                      "agent":  "",
+                      "stage":  0
+                  },
+                  {
+                      "id":  "K-111",
+                      "name":  "하겐 입 · 화로 어둡게 · 이야기 배경",
+                      "who":  "",
+                      "kind":  "card",
+                      "folder":  "C:\\Unity\\1\\HLR-cards\\K-111",
+                      "agent":  "",
+                      "stage":  0
+                  },
+                  {
+                      "id":  "K-112",
+                      "name":  "참고: 등대 출력 성장",
+                      "who":  "",
+                      "kind":  "card",
+                      "folder":  "C:\\Unity\\1\\HLR-cards\\K-112",
+                      "agent":  "",
+                      "stage":  1
+                  },
+                  {
+                      "id":  "K-113",
+                      "name":  "참고: 빛 모으기",
+                      "who":  "",
+                      "kind":  "card",
+                      "folder":  "C:\\Unity\\1\\HLR-cards\\K-113",
+                      "agent":  "",
+                      "stage":  1
+                  },
+                  {
+                      "id":  "K-114",
+                      "name":  "참고: 탑 · 계단 · 일꾼",
+                      "who":  "",
+                      "kind":  "card",
+                      "folder":  "C:\\Unity\\1\\HLR-cards\\K-114",
+                      "agent":  "",
+                      "stage":  1
+                  },
+                  {
+                      "id":  "W9",
+                      "name":  "등대 탑 · 계단 · 일꾼 명령",
+                      "who":  "",
+                      "kind":  "coder",
+                      "folder":  "C:\\Unity\\1\\HLR-work\\W9",
+                      "agent":  "a17310474f37a0950",
+                      "stage":  1
+                  },
+                  {
+                      "id":  "W10",
+                      "name":  "입체 봉화선 지도",
+                      "who":  "",
+                      "kind":  "coder",
+                      "folder":  "C:\\Unity\\1\\HLR-work\\W10",
+                      "agent":  "af94c9985fb600964",
+                      "stage":  1
                   }
               ]
 }
