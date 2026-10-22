@@ -24,6 +24,7 @@ namespace HumanLastRampart.App.Flow
         public bool DeleteSave;         // 판이 끝남(패배 엔딩·마지막 전투 뒤): 저장 지움 (K-062)
         public bool ApplyNightLoss;     // 밤에 졌지만 엔딩 아님: 등대 복구 절반·연속 패배 +1 (W8)
         public bool BeginDay;           // 낮이 시작됨: 수비대 지원금 (W8). 이어하기로 들어올 때는 켜지 않는다
+        public bool MapPreview;         // 봉화선 지도를 정비에서 '보기만' 연다 (W10) — 닫으면 정비로 돌아오고 낮 시작은 다시 하지 않는다
 
         public static FlowStep Open(ScreenId screen) => new FlowStep { Action = FlowAction.OpenScreen, Screen = screen };
         public static FlowStep ToMainMenu() => new FlowStep { Action = FlowAction.OpenScreen, Screen = ScreenId.MainMenu, DiscardCampaign = true };
@@ -40,6 +41,8 @@ namespace HumanLastRampart.App.Flow
         public bool LossCanRetry;                   // W8: 진 밤이 연속 한도에 닿지 않아 같은 요새 다음 낮으로 간다 (기본 false = 패배 엔딩)
         public bool StoryIsRunComplete;             // W8: 1회차 완료 이야기 (끝나면 메인)
         public bool RunComplete;                    // W8: 결과 화면 뒤 1회차 완료 이야기로 간다
+        public bool RelitFortress;                  // W10: 방금 밤에 요새를 점화했다 → 결과 뒤 봉화선 지도를 먼저 보여 준다
+        public bool MapIsPreview;                   // W10: 봉화선 지도가 정비에서 열린 보기 전용이다
     }
 
     // 다음 화면 순서표 — App 한 곳에서만 정한다 (C-003 4, D-014, D-017 E3, D-022 I5)
@@ -105,12 +108,24 @@ namespace HumanLastRampart.App.Flow
 
                 case ScreenId.Result:
                     if (outcome != ScreenOutcome.Done) return FlowStep.Stay();
+                    // W10: 요새를 점화한 밤 뒤(마지막 요새 포함)에는 봉화선 지도를 먼저 본다. 그 뒤는 지도에서 정한다
+                    if (state.RunComplete || state.RelitFortress) return FlowStep.Open(ScreenId.BeaconMap);
+                    return StartDay();
+
+                case ScreenId.BeaconMap:
+                    if (outcome != ScreenOutcome.Done) return FlowStep.Stay();
+                    if (state.MapIsPreview) return FlowStep.Open(ScreenId.Prep);   // 정비에서 열어 본 것 → 정비로 (낮 지원금은 이미 받았다)
                     if (state.RunComplete) return FlowStep.Open(ScreenId.Story);   // W8: 마지막 요새 점화 → 1회차 완료 이야기
-                    FlowStep day = FlowStep.Open(ScreenId.Prep);
-                    day.BeginDay = true;
-                    return day;
+                    return StartDay();                                              // 다음 요새의 첫 낮
 
                 case ScreenId.Prep:
+                    if (outcome == ScreenOutcome.OpenBeaconMap)
+                    {
+                        FlowStep view = FlowStep.Open(ScreenId.BeaconMap);
+                        view.MapPreview = true;
+                        return view;
+                    }
+
                     if (outcome != ScreenOutcome.Done) return FlowStep.Stay();
                     return state.HasNextBattle ? PrepareBattle() : EndOfRun();   // 4번째 뒤 메인 (저장 지움)
 
@@ -127,7 +142,16 @@ namespace HumanLastRampart.App.Flow
                 return viaNewGame ? outcome == ScreenOutcome.StartNewGame : outcome == ScreenOutcome.QuitGame || outcome == ScreenOutcome.ContinueGame;
             }
 
+            if (screen == ScreenId.Prep && outcome == ScreenOutcome.OpenBeaconMap) return !viaNewGame;   // W10: 정비에서만 지도 보기
             return !viaNewGame && (outcome == ScreenOutcome.Done || outcome == ScreenOutcome.BackToMainMenu);
+        }
+
+        // 낮이 시작되는 정비 (수비대 지원금)
+        static FlowStep StartDay()
+        {
+            FlowStep day = FlowStep.Open(ScreenId.Prep);
+            day.BeginDay = true;
+            return day;
         }
 
         // 한 판이 끝남: 메인으로, 진행 버리고 저장도 지운다 (K-062)

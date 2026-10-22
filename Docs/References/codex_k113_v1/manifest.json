@@ -1,0 +1,136 @@
+{
+  "card": "K-113",
+  "version": 1,
+  "type": "concept_paintovers",
+  "renderer": "built-in image_gen",
+  "canvas": {
+    "width": 1920,
+    "height": 1080
+  },
+  "preview": {
+    "scale": 4,
+    "method": "nearest-neighbor",
+    "width": 7680,
+    "height": 4320
+  },
+  "alpha": "opaque full-scene PNGs; no transparent cutouts",
+  "sprite_contract": {
+    "applicable": false,
+    "reason": "Static scene references, no sprite sheet, cell, frame order, or foot pivot."
+  },
+  "focus": {
+    "total_power": "constant",
+    "narrow": {
+      "angle_degrees": 30,
+      "intensity_multiplier": 2
+    },
+    "normal": {
+      "angle_degrees": 60,
+      "intensity_multiplier": 1
+    },
+    "wide": {
+      "angle_degrees": 90,
+      "intensity_multiplier": 0.67
+    }
+  },
+  "brightness": {
+    "focus_degrees": 60,
+    "high": "more enemies attracted; stronger light; enemies in light slightly weaker",
+    "low": "fewer enemies attracted; dimmer light"
+  },
+  "sources": [
+    "../beacon_game_20261022/05_pf_night_clean.png",
+    "../beacon_game_20261022/07_pf_map_full.png"
+  ],
+  "limitations": [
+    "AI paint-overs preserve scene composition but not pixel-identical UI, markers, or soldiers.",
+    "Intensity multipliers are design labels, not measured linear-light photometry.",
+    "Battle view is perspective; exact aperture is specified by design labels.",
+    "Brightness panel visible illumination footprint also changes with falloff; intended aperture is 60 degrees in both."
+  ],
+  "assets": [
+    {
+      "file": "01_battle_narrow_30.png",
+      "preview": "01_battle_narrow_30_4x.png",
+      "width": 1920,
+      "height": 1080,
+      "title": "좁게 · 30° · 2배",
+      "frame_count": 1,
+      "cell": null,
+      "pivot": null,
+      "source": "05_pf_night_clean.png",
+      "prompt": "Edit target: first reference, the actual 1920x1080 Human Last Rampart game screenshot. Produce one 1920x1080 concept paint-over, full frame. Preserve EXACT camera, foreground blue crenellated wall and all packed orange-haired pixel soldiers, grass texture, distant rocks and pond. Do not invent a fortress, landscape or new viewpoint. Change lighting and add enemy demonstration only. Night: unlit field deep dark navy, still readable, no grey fog. A warm ivory searchlight originates from just behind the center of the north-facing wall at bottom center (x960,y690), projects away from viewer NORTH toward top center. NARROW FOCUS 30 degrees, intensity 2x, very bright concentrated ground illumination with sharp boundaries, moderate falloff, directional shadows extending north from enemies, minimal bloom. Render beam as illumination of grass, not an opaque white triangle; preserve ground texture. In front of wall place several crisp chunky pixel goblins (~60 screen px nearby), thick dark outlines, distinct eyes and mouths, short sturdy bodies and brown leather. Inside the narrow beam 3 goblins visibly exposed: original olive-green skin and earthy clothes restored, no glowing eyes, pale warm scorched rim and a few small yellow sparks. Outside beam other goblins remain almost black with small amber glowing eyes. Enemy placements should be reusable across focus variants. Existing distant left fire stays in its original location, subdued to avoid dominating beam. Restrained HD-2D lighting, warm light against dark night, no neon teal/purple, no airbrush haze, no glossy plastic or decorative clutter. Add only a compact opaque dark caption at upper left in clear Korean: \"좁게 · 30°\" and beneath \"같은 출력 · 빛 세기 2배\". Small Korean note at upper right: \"강한 빛 안: 변색 해제\". No other text. Mood reference second image only; do not copy its scene."
+    },
+    {
+      "file": "02_battle_normal_60.png",
+      "preview": "02_battle_normal_60_4x.png",
+      "width": 1920,
+      "height": 1080,
+      "title": "보통 · 60° · 1배",
+      "frame_count": 1,
+      "cell": null,
+      "pivot": null,
+      "source": "05_pf_night_clean.png",
+      "prompt": "Use case lighting-weather. Edit this Human Last Rampart screenshot paint-over into the NORMAL focus variant. Single full-frame 1920x1080 image. Keep exact camera, blue wall, packed pixel soldiers, field grass, pond, fire, and EVERY enemy's location and scale identical. Change ONLY central north-facing searchlight cone, its ground lighting, enemy light response, and Korean labels. Beam starts bottom center beyond wall, points NORTH top center. Normal full angular aperture 60° vs prior 30°, same TOTAL power, HALF previous local intensity (1x relative). Make wider fan, with legible moderately defined edges and no haze; illuminate grass texture, not a solid overlay. Light fades by distance. All three central goblins remain dark-tinted olive with AMBER glowing eyes: do NOT strip transformation at this intensity; retain readable mouths and outlines. Other goblins newly in beam slightly more readable but still transformed. Dark readable night outside cone, warm ivory, no fog/bloom soup, directional shadows. Upper-left black label exact Korean \"보통 · 60°\" then \"같은 출력 · 빛 세기 1배\". Upper-right \"빛 안: 약화 · 변색 유지\". No other text."
+    },
+    {
+      "file": "03_battle_wide_90.png",
+      "preview": "03_battle_wide_90_4x.png",
+      "width": 1920,
+      "height": 1080,
+      "title": "넓게 · 90° · 0.67배",
+      "frame_count": 1,
+      "cell": null,
+      "pivot": null,
+      "source": "05_pf_night_clean.png",
+      "prompt": "Targeted lighting correction ONLY to this wide-beam Human Last Rampart concept image. Keep entire image geometry, ALL Korean labels, ALL units, exact wall, grass, fire, shadows and goblin locations. Output 1920x1080. The central ground and three central goblins are MUCH TOO BRIGHT for wide 90° 0.67x. Reduce entire WIDE beam's grass illumination by 55 percent, retaining its broad coverage and soft readable boundary. Remove the white/yellow hotspot just beyond central crenellation, leaving a small restrained warm lamp source. Preserve night darkness, do not lower exposure of soldiers or other background. Three central goblins must be dark charcoal-olive with clearly visible tiny AMBER glowing eyes and readable mouths; their original green skin is NOT restored. Strong warm highlights and restored green are ONLY for the 30° narrow reference, not this wide one. Broad warm light should be noticeably dim and modest, ground textured, no blur, no fog, no bloom. Upper-left labels unchanged \"넓게 · 90°\" / \"같은 출력 · 빛 세기 0.67배\", upper-right \"넓은 범위 · 변색 유지\"."
+    },
+    {
+      "file": "04_map_narrow_30.png",
+      "preview": "04_map_narrow_30_4x.png",
+      "width": 1920,
+      "height": 1080,
+      "title": "지도 · 좁게 30°",
+      "frame_count": 1,
+      "cell": null,
+      "pivot": null,
+      "source": "07_pf_map_full.png",
+      "prompt": "Use case precise-object-edit. Edit the supplied ACTUAL Human Last Rampart top-down map screenshot. Output a 1920x1080 reference paint-over. Preserve the entire screenshot faithfully: SAME square gray courtyard in center, FOUR walls and blue unit markers, same north east south west Korean badges, exact same HUD left and right panels with existing Korean labels and position, same grass and rocks. NO new terrain, fantasy fortress or perspective. Only revise the beam overlay currently pointing north: replace it with ONE crisp narrow warm gold 30° sector pointing exactly NORTH/up. Sector origin is centered in courtyard at screenshot coordinate x960,y540. Draw sector over courtyard but BELOW unit markers, then continue beyond north wall into field, radius 460 screen pixels so far arc at y80 under top HUD. Precise 30° full angle = rays at ±15° from vertical: endpoint left approx (841,96), endpoint right approx(1079,96). Thin sharp golden outline rays and arc, transparent subtly yellow fill, NO bloom, no glow soup. A dashed central north axis and small angle arc at origin. Existing dotted white attack rings can stay subtle. Darken field for night modestly but preserve UI readability. Put a compact Korean comparison caption in unused bottom-left grass (x40,y800), below the left panel: \"좁게 · 30°\" / \"같은 출력 · 빛 세기 2배\" / \"북쪽 집중 · 변색 해제\". The existing right panel is source UI only; do not add new controls. This is a concept overlay, not actual runtime screenshot. No extra text."
+    },
+    {
+      "file": "05_map_wide_90.png",
+      "preview": "05_map_wide_90_4x.png",
+      "width": 1920,
+      "height": 1080,
+      "title": "지도 · 넓게 90°",
+      "frame_count": 1,
+      "cell": null,
+      "pivot": null,
+      "source": "07_pf_map_full.png",
+      "prompt": "Precise edit of supplied Human Last Rampart original map screenshot. Produce 1920x1080 full-frame concept paint-over matching original UI layout exactly. Preserve all four walls, unit flags, courtyard, north badge, left/right HUD, top bar, environment. Slight night darkening to field but UI readable. Replace original north light overlay with a clean technical sector: origin (960,540) at courtyard center, FULL ANGLE 90 degrees, rays ±45° from vertical north, radius 460px, ends approximately (635,215) and (1285,215). A broad circular arc connecting them, thin muted ochre outline, SUBTLE low opacity warm yellow fill, NO GLOW. It is three times the angular coverage of 30° at same radius, one third its intensity. Sector continues over courtyard then north wall and field, leave blue unit markers and direction badges readable over overlay. Dashed vertical north axis. Small central angle arc labeled \"90°\" in yellow around (960,430). Suppress old pale cone to avoid overlapping wedges. No terrain redesign, decorative clutter or new controls. Add bottom-left caption below left panel in unused grass \"넓게 · 90°\" then \"같은 출력 · 빛 세기 0.67배\" then \"넓은 범위 · 변색 유지\". Labels in crisp Korean. Keep screenshot original geometry, not a fantasy repaint."
+    },
+    {
+      "file": "06_brightness_high_low.png",
+      "preview": "06_brightness_high_low_4x.png",
+      "width": 1920,
+      "height": 1080,
+      "title": "밝기 강 / 약 · 유인 비교",
+      "frame_count": 1,
+      "cell": null,
+      "pivot": null,
+      "source": "05_pf_night_clean.png",
+      "prompt": "Use case lighting-weather/compositing. Create ONE 1920x1080 comparison concept paint-over with TWO EQUAL PANELS side by side, LEFT HIGH lamp brightness and RIGHT LOW brightness. Source image 1 is ACTUAL Human Last Rampart battle screenshot; image 2 is ONLY a previously approved north beam lighting example. Both panels must use the same camera and scene from image 1: blue crenellated wall with packed orange-haired pixel soldiers at bottom, grass field, distant left fire and upper-right pond. Fit the SAME full-width scene into each panel at equal scale with letterbox if necessary; do not crop to different scenes or invent architecture. Dark readable navy night, chunky crisp pixel characters. Keep focus fixed NORMAL 60° in BOTH panels, same cone direction NORTH away from wall and same reach/coverage. LEFT brighter warm ivory textured ground illumination, strong directional shadows, 18-24 black tinted goblins with small amber glowing eyes visible around FAR FIELD EDGE in small uneven approaching groups; central enemies within light visibly weakened (slouched, modest warm rim, still dark tint). RIGHT dimmer warm ground illumination, same 60° bounds but weak, only 4-6 scattered goblins on far edge, strong surrounding darkness yet ground and silhouettes readable. Intensity contrast clearly obvious. This is BRIGHTNESS not aperture comparison: EXACT SAME cone width. Do not add invented numeric percentages, no red skull icons, no arrows across divider. Minimal bloom at source only, no grey fog, no teal/purple neon, no glossy sprites. Thin dark center divider. Korean title at top of left \"밝기 강 · 유인 많음\", right \"밝기 약 · 유인 적음\". Shared bottom Korean caption \"모으기 보통 60° 고정 · 밝을수록 빛 안의 적은 조금 더 약해짐\". All text crisp Korean."
+    }
+  ],
+  "review": "../../../_HTML/6_그림_화면/codex_K-113_빛모으기_참고_v1.html",
+  "source_sha256": [
+    {
+      "file": "../beacon_game_20261022/05_pf_night_clean.png",
+      "sha256": "8233352f29cfd95d16c493727a3b3afb95c5ecddb8a74c18e3b76f6f03cebb6b"
+    },
+    {
+      "file": "../beacon_game_20261022/07_pf_map_full.png",
+      "sha256": "f4683125f6a158a0b02af32b112828190f3f79fdc3832d7dc60732f65eae5f19"
+    }
+  ]
+}
