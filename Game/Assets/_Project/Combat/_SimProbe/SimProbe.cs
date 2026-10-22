@@ -355,6 +355,74 @@ public sealed class SimProbe
         File.WriteAllText(Environment.GetEnvironmentVariable("HLR_PROBE_OUT") ?? "probe.txt", log.ToString(), new UTF8Encoding(false));
     }
 
+    // 성벽 한 면이 실제로 받는 병사 수 (BattleSim.Slots: 보통 자리와 최소 간격 자리 중 큰 쪽). 대포 사격구 때문에 대포 분대를
+    // 그대로 두고 나머지 분대·용병을 1명씩으로 줄인 임시 전투를 만들어 자리표 크기를 읽는다 (규칙은 건드리지 않고 반사로 읽기만)
+    static int[] WallCapacities(BattleSetup setup, DefinitionLookup lookup)
+    {
+        var saved = new List<(SquadState squad, int count)>();
+        foreach (SquadState s in setup.Squads.Concat(setup.Mercenaries))
+        {
+            saved.Add((s, s.Count));
+            if (s.Count > 0 && !IsCannonSquad(s, lookup)) s.Count = 1;
+        }
+
+        try
+        {
+            using (var sim = new BattleSim(setup, lookup))
+            {
+                var wallSlots = (Array)typeof(BattleSim).GetField("wallSlots", F).GetValue(sim);
+                var denseSlots = (Array)typeof(BattleSim).GetField("denseSlots", F).GetValue(sim);
+                var caps = new int[4];
+                for (int side = 0; side < 4; side++)
+                    caps[side] = Math.Max(((System.Collections.ICollection)wallSlots.GetValue(side)).Count, ((System.Collections.ICollection)denseSlots.GetValue(side)).Count);
+                return caps;
+            }
+        }
+        finally
+        {
+            foreach (var (squad, count) in saved) squad.Count = count;
+        }
+    }
+
+    static bool IsCannonSquad(SquadState s, DefinitionLookup lookup)
+    {
+        UnitDef unit = lookup.Get<UnitDef>(s.UnitDefId);
+        WeaponDef weapon = unit != null ? lookup.Get<WeaponDef>(unit.DefaultWeaponId) : null;
+        return weapon != null && weapon.AreaRadius > 0f;
+    }
+
+    // 전투 준비를 만들되, 정비 정책이 성벽 실제 정원을 넘겨 모집했으면 가장 큰 분대부터 줄여 정원에 맞춘다 (진행 데이터의 분대를 줄이므로
+    // 결과 반영기와도 맞는다). 용병은 줄이지 않는다. 정원 규칙 자체는 바꾸지 않는다 — 시험 설정만 규칙에 맞춘다
+    static BattleSetup CreateFitted(CampaignState c, DefinitionLookup lookup, string runId, out string error, StringBuilder log)
+    {
+        BattleSetup setup = BattleSetupFactory.Create(c, lookup, runId, out error);
+        if (setup == null) return null;
+        int[] caps = WallCapacities(setup, lookup);
+        bool trimmed = false;
+        for (int side = 0; side < 4; side++)
+        {
+            Func<SquadState, bool> onWall = s => s.Count > 0 && s.PostId != null && (int)lookup.Get<PostDef>(s.PostId).Wall == side && !IsCannonSquad(s, lookup);
+            int total = c.Squads.Where(onWall).Sum(s => s.Count) + setup.Mercenaries.Where(onWall).Sum(s => s.Count);
+            int excess = total - caps[side];
+            if (excess <= 0) continue;
+            int cut = 0;
+            while (excess > 0)
+            {
+                SquadState biggest = c.Squads.Where(s => onWall(s) && s.Count > 1).OrderByDescending(s => s.Count).FirstOrDefault();
+                if (biggest == null) break;
+                int take = Math.Min(excess, Math.Max(1, biggest.Count / 20));
+                biggest.Count -= take;
+                excess -= take;
+                cut += take;
+            }
+
+            log.Append($"(정원 보정 {side}면 -{cut}명, 정원 {caps[side]}) ");
+            trimmed = true;
+        }
+
+        return trimmed ? BattleSetupFactory.Create(c, lookup, runId, out error) : setup;
+    }
+
     static void RunCampaign(DefinitionLookup lookup, Difficulty difficulty, string economy, StringBuilder log)
     {
         CampaignState c = CampaignFactory.Create(lookup, new NewGameOptions(difficulty), 1234);
@@ -362,7 +430,7 @@ public sealed class SimProbe
         {
             c.BattleNumber = battle;
             c.LastBattle = null;
-            BattleSetup setup = BattleSetupFactory.Create(c, lookup, $"camp_{difficulty}_{economy.Substring(0, 2)}_{battle}", out string error);
+            BattleSetup setup = CreateFitted(c, lookup, $"camp_{difficulty}_{economy.Substring(0, 2)}_{battle}", out string error, log);
             if (setup == null) { log.AppendLine($"  전투{battle}: 준비 오류 {error}"); return; }
             c.ActiveBattleSetup = setup;
             string wallsBefore = string.Join("/", c.Wall.Select(w => w.Hp));
@@ -794,7 +862,7 @@ public sealed class SimProbe
             c.LastBattle = null;
             if (upgrades)   // App과 같이 전투 준비 직전 용병 급료 (K-058)
                 foreach (string note in HumanLastRampart.Core.Upgrades.UpgradeRules.PayWages(c, lookup)) log.Append($" ({note})");
-            BattleSetup setup = BattleSetupFactory.Create(c, lookup, $"price_{difficulty}_{seed}_{battle}", out string error);
+            BattleSetup setup = CreateFitted(c, lookup, $"price_{difficulty}_{seed}_{battle}", out string error, log);
             if (setup == null) { log.AppendLine($"  전투{battle}: 준비 오류 {error}"); return; }
             c.ActiveBattleSetup = setup;
             int enemyTotal = 0;

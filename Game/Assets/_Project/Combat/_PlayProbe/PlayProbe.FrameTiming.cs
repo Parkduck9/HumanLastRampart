@@ -61,10 +61,26 @@ public sealed partial class PlayProbe
                 }
 
                 double avg = sum / n;
+                if (name == "GPU Frame Time" && max <= 0) { sb.Append($"{name} 사용 불가(원시 계수 0) · "); continue; }   // 0을 값으로 적지 않는다
                 sb.Append(ns ? $"{name} {avg / 1e6:0.00}ms(최대 {max / 1e6:0.0}) · " : $"{name} {avg:0} (최대 {max:0}) · ");
             }
 
             return sb.ToString().TrimEnd(' ', '·');
+        }
+
+        // GPU 원시 계수 평균(ms). 계수기가 없거나 0뿐이면 -1 = 사용 불가
+        public double GpuMs(int frames)
+        {
+            foreach (var (name, recorder, _) in list)
+            {
+                if (name != "GPU Frame Time" || !recorder.Valid || recorder.Count == 0) continue;
+                int n = Mathf.Min(frames, recorder.Count);
+                double sum = 0;
+                for (int i = recorder.Count - n; i < recorder.Count; i++) sum += recorder.GetSample(i).Value;
+                return sum > 0 ? sum / n / 1e6 : -1;
+            }
+
+            return -1;
         }
 
         public void Dispose() { foreach (var (_, recorder, _) in list) recorder.Dispose(); }
@@ -168,50 +184,60 @@ public sealed partial class PlayProbe
                  $"그래픽 {SystemInfo.graphicsDeviceType} {SystemInfo.graphicsDeviceName}, 프레임 통계 기능 {FrameTimingManager.IsFeatureEnabled()}, " +
                  (batch ? $"배치 실행 — 카메라 직접 그리기 {renderTimer.Width}×{renderTimer.Height}로 그리기 시간 측정" : "창 실행 — 실제 화면 그리기 포함"));
             AssertCrowdedProbe(sim);
+            // 시험 전용: 90초(공성 단계) 넘어 75초 중반·마법까지 닿도록 패배 조건을 풀고 성벽 체력을 매우 크게 한다
+            // (BattleArtPreviewTests와 같은 반사 방식. 게임 규칙·데이터는 그대로, 이 시뮬레이션 개체에서만)
+            var simFlags = System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance;
+            typeof(HumanLastRampart.Combat.Battle.BattleSim).GetField("garrisonLossRatio", simFlags).SetValue(sim, float.MaxValue);
+            var simWallHp = (float[])typeof(HumanLastRampart.Combat.Battle.BattleSim).GetField("wallHp", simFlags).GetValue(sim);
+            for (int w = 0; w < simWallHp.Length; w++) simWallHp[w] = 1e9f;
+            Note("시험 전용: 병력 손실·성벽 파괴 패배 해제 (이 측정 개체만) — 90초 이후 단계까지 살아남기 위함");
             entry.StartBattle();
             for (int i = 0; i < 30; i++) yield return null;
 
-            // ① 초반
-            yield return MeasureWindow("① 초반 (맑은 낮, 효과 켬)", sim, recorders);
-            yield return Capture("timing_1_early");
+            // ① 10초 (초반·선봉 단계)
+            yield return AdvanceTo(sim, 10f);
+            if (EndedEarly(sim, "10초")) yield break;
+            yield return MeasureWindow("① 10초 (맑은 낮, 효과 켬)", sim, recorders);
+            yield return Capture("timing_1_10s");
 
-            // ② 적이 성벽에 몰린 중반: 게임 시간 75초까지 (×4)
-            yield return Press("×4", 120);
-            for (int i = 0; i < 6000 && sim.Elapsed < 75f && !sim.Ended; i++) yield return null;
-            if (sim.Ended)
-            {
-                Note($"중반·마법 측정 보류: 전투가 {sim.Elapsed:0.0}초에 끝나 75초 조건에 도달하지 못함. 종료 화면을 전투 성능으로 집계하지 않음.");
-                yield break;
-            }
-            yield return Press("×1", 120);
-            yield return MeasureWindow("② 중반 (성벽에 몰림, 효과 켬)", sim, recorders);
-            yield return Capture("timing_2_mid");
+            // ② 45초
+            yield return AdvanceTo(sim, 45f);
+            if (EndedEarly(sim, "45초")) yield break;
+            yield return MeasureWindow("② 45초", sim, recorders);
+            yield return Capture("timing_2_45s");
+
+            // ③ 적이 성벽에 몰린 중반: 게임 시간 75초
+            yield return AdvanceTo(sim, 75f);
+            if (EndedEarly(sim, "75초")) yield break;
+            yield return MeasureWindow("③ 75초 중반 (성벽에 몰림, 효과 켬)", sim, recorders);
+            yield return Capture("timing_3_mid");
 
             // 같은 장면을 640×480으로 (지난 측정 해상도와 비교)
             if (batch) { renderTimer.Width = 640; renderTimer.Height = 480; }
             else Screen.SetResolution(640, 480, FullScreenMode.Windowed);
-            yield return MeasureWindow("② 중반 · 640×480", sim, recorders);
+            yield return MeasureWindow("③ 75초대 · 640×480", sim, recorders);
             if (batch) { renderTimer.Width = 1920; renderTimer.Height = 1080; }
             else Screen.SetResolution(1920, 1080, FullScreenMode.Windowed);
 
             HumanLastRampart.Combat.Render.BattleLook.Enabled = false;
             for (int i = 0; i < 5; i++) yield return null;
-            yield return MeasureWindow("② 중반 · 화면 효과 끔 (빛 받기·그림자도 꺼짐)", sim, recorders);
+            yield return MeasureWindow("③ 75초대 · 화면 효과 끔 (빛 받기·그림자도 꺼짐)", sim, recorders);
             yield return Capture("timing_2_mid_look_off");
             HumanLastRampart.Combat.Render.BattleLook.Enabled = true;
 
             f = setup.Forecast; f.InitialWeather = Weather.Fog; setup.Forecast = f; sim.WeatherDirty = true;
             for (int i = 0; i < 5; i++) yield return null;
-            yield return MeasureWindow("② 중반 · 안개 켬", sim, recorders);
+            yield return MeasureWindow("③ 75초대 · 안개 켬", sim, recorders);
             yield return Capture("timing_2_mid_fog");
             f = setup.Forecast; f.InitialWeather = Weather.Clear; f.TimeOfDay = TimeOfDay.Night; setup.Forecast = f; sim.WeatherDirty = true;
             for (int i = 0; i < 5; i++) yield return null;
-            yield return MeasureWindow("② 중반 · 밤 (횃불 켬)", sim, recorders);
+            yield return MeasureWindow("③ 75초대 · 밤 (횃불 켬)", sim, recorders);
             yield return Capture("timing_2_mid_night");
             f = setup.Forecast; f.TimeOfDay = TimeOfDay.Day; setup.Forecast = f; sim.WeatherDirty = true;
             for (int i = 0; i < 5; i++) yield return null;
 
-            // ③ 불바다 + 폭발 동시: 정면 성벽 앞 20m에 둘 다
+            // ④ 마법 시전 중: 불바다 + 폭발 동시, 정면 성벽 앞 20m에 둘 다 (전투 입력과 같은 BattleSim.CastSpell).
+            // 마법사가 다른 성벽에 있으면 걸어가 도착해야 효과가 생기므로(이동 중엔 다음 시전 거절) 효과가 시작될 때까지 기다린다
             sim.Complete();
             var at = new Vector3(0f, 0f, sim.CastleHalf + 20f);
             int fire = -1, blast = -1;
@@ -221,12 +247,21 @@ public sealed partial class PlayProbe
                 else if (blast < 0) blast = s;
             }
 
+            int started0 = sim.EffectsStarted;
             bool fireOk = fire >= 0 && sim.CastSpell(fire, at);
-            bool blastOk = blast >= 0 && sim.CastSpell(blast, at + new Vector3(6f, 0f, 0f));
-            Note($"마법: 불바다 {(fireOk ? "시전" : "실패")}, 폭발 {(blastOk ? "시전" : "실패")} (마법사 {(sim.WizardPresent ? "있음" : "없음")})");
-            for (int i = 0; i < 10; i++) yield return null;   // 폭발은 1초 뒤 — 터지는 순간이 구간 안에 들게 0.5초만 기다림
-            yield return MeasureWindow("③ 불바다+폭발", sim, recorders, 60);
-            yield return Capture("timing_3_fire_blast");
+            for (int i = 0; i < 900 && fireOk && sim.EffectsStarted <= started0 && !sim.Ended; i++) yield return null;   // 마법사 도착·불바다 시작 (최대 45초)
+            bool blastOk = blast >= 0 && !sim.Ended && sim.CastSpell(blast, at + new Vector3(6f, 0f, 0f));
+            for (int i = 0; i < 900 && blastOk && sim.EffectsStarted <= started0 + 1 && !sim.Ended; i++) yield return null;
+            Note($"마법: 불바다 {(fireOk ? "시전" : "실패")}, 폭발 {(blastOk ? "시전" : "실패")} (마법사 {(sim.WizardPresent ? "있음" : "없음")}), 시작된 효과 {sim.EffectsStarted - started0}개, 동시 효과 {sim.Effects.Count}개");
+            for (int i = 0; i < 10; i++) yield return null;   // 폭발은 시작 1초 뒤 — 터지는 순간이 구간 안에 들게 0.5초만 기다림
+            yield return MeasureWindow("④ 마법 시전 중 (불바다+폭발)", sim, recorders, 60);
+            yield return Capture("timing_4_fire_blast");
+
+            // ⑤ 95초 이후 (공성 단계 — 사다리·오우거가 나오는 때)
+            yield return AdvanceTo(sim, 95f);
+            if (EndedEarly(sim, "95초")) yield break;
+            yield return MeasureWindow("⑤ 95초 이후 (공성 단계)", sim, recorders);
+            yield return Capture("timing_5_siege");
         }
         finally
         {
@@ -236,9 +271,43 @@ public sealed partial class PlayProbe
             recorders.Dispose();
             if (renderTimer != null) Object.Destroy(renderTimer.gameObject);
             renderTimer = null;
-            File.WriteAllText(Path.Combine(Out, "frame_timing.txt"), log.ToString(), new UTF8Encoding(false));
+            File.WriteAllText(Path.Combine(Out, "frame_timing.txt"), log.ToString() + TimingTable(), new UTF8Encoding(false));
+            timingRows.Clear();
             Time.captureDeltaTime = 0f;
         }
+    }
+
+    // 구간별 결과 표 (측정이 끝나면 frame_timing.txt 맨 아래에 붙인다)
+    readonly List<string> timingRows = new List<string>();
+
+    static double Percentile(List<double> sorted, double q) => sorted[Mathf.Clamp(Mathf.CeilToInt((float)(q * sorted.Count)) - 1, 0, sorted.Count - 1)];
+
+    string TimingTable()
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine();
+        sb.AppendLine("== 구간별 프레임 시간 표 (ms, 낮을수록 좋음; 게임초 = 구간 끝 시각; 적 = 살아 있는 수; 직접 그리기 = 배치 실행만)");
+        sb.AppendLine("| 구간 | 게임초 | 평균 | p50 | p95 | p99 | 최대 | GPU ms (출처) | 직접 그리기 평균 | 적 | 병사 |");
+        sb.AppendLine("|---|---|---|---|---|---|---|---|---|---|---|");
+        foreach (string row in timingRows) sb.AppendLine(row);
+        return sb.ToString();
+    }
+
+    // 게임 시간이 seconds초가 될 때까지 ×4로 돌린 뒤 ×1로 되돌린다 (이미 지났으면 그대로)
+    IEnumerator AdvanceTo(HumanLastRampart.Combat.Battle.BattleSim sim, float seconds)
+    {
+        if (sim.Elapsed >= seconds || sim.Ended) yield break;
+        yield return Press("×4", 120);
+        for (int i = 0; i < 6000 && sim.Elapsed < seconds && !sim.Ended; i++) yield return null;
+        yield return Press("×1", 120);
+    }
+
+    // 전투가 먼저 끝났으면 이유를 적고 true (종료 화면을 전투 성능으로 집계하지 않는다)
+    bool EndedEarly(HumanLastRampart.Combat.Battle.BattleSim sim, string stage)
+    {
+        if (!sim.Ended) return false;
+        Note($"{stage} 측정 보류: 전투가 {sim.Elapsed:0.0}초에 끝남 ({sim.Outcome}, {sim.DefeatReason}). 이후 구간은 측정하지 못함.");
+        return true;
     }
 
     // frames 프레임 동안 실제 프레임 시간(스톱워치)과 계수기 평균
@@ -270,9 +339,17 @@ public sealed partial class PlayProbe
         double avg = times.Average();
         double top1 = times.Skip(Mathf.Max(0, times.Count - Mathf.Max(1, times.Count / 100))).Average();
         sim.Complete();
-        Note($"{title}: 프레임 평균 {avg:0.00}ms (약 {1000.0 / avg:0}fps) · 상위 1% {top1:0.0}ms · 최대 {times[times.Count - 1]:0.0}ms · 게임 {sim.Elapsed:0}초 · 처치 {sim.Kills}");
+        double p50 = Percentile(times, 0.50), p95 = Percentile(times, 0.95), p99 = Percentile(times, 0.99);
+        Note($"{title}: 프레임 평균 {avg:0.00}ms (약 {1000.0 / avg:0}fps) · p50 {p50:0.00} · p95 {p95:0.00} · p99 {p99:0.00} · 상위 1% {top1:0.0}ms · 최대 {times[times.Count - 1]:0.0}ms · 게임 {sim.Elapsed:0}초 · 처치 {sim.Kills}");
         Note($"    계수기: {recorders.Summary(frames)}");
-        Note(timingCount > 0 ? $"    FrameTimingManager: 메인 {cpuSum / timingCount:0.00}ms · GPU {gpuSum / timingCount:0.00}ms" : "    FrameTimingManager: 값 없음 (프로젝트 설정 Frame Timing Stats 꺼짐 또는 배치 실행)");
+        double gpuRaw = recorders.GpuMs(frames);
+        double gpuFtm = timingCount > 0 && gpuSum > 0 ? gpuSum / timingCount : -1;
+        string gpuText = gpuRaw > 0 ? $"{gpuRaw:0.00} (원시 계수)" : gpuFtm > 0 ? $"{gpuFtm:0.00} (FrameTimingManager)" : "사용 불가";
+        Note(timingCount > 0 ? $"    FrameTimingManager: 메인 {cpuSum / timingCount:0.00}ms · GPU {(gpuFtm > 0 ? gpuFtm.ToString("0.00") + "ms" : "사용 불가(0)")}" : "    FrameTimingManager: 값 없음 (프로젝트 설정 Frame Timing Stats 꺼짐 또는 배치 실행)");
+        Note($"    GPU 시간: {gpuText}");
+        string drawText = "없음";
+        if (renderTimer != null && renderTimer.Samples.Count > 0) drawText = $"{renderTimer.Samples.Average():0.00}";
+        timingRows.Add($"| {title} | {sim.Elapsed:0} | {avg:0.00} | {p50:0.00} | {p95:0.00} | {p99:0.00} | {times[times.Count - 1]:0.0} | {gpuText} | {drawText} | {sim.Spawned - sim.Kills} | {sim.SoldierCount} |");
         if (Application.isBatchMode)
         {
             Assert.IsNotNull(renderTimer, "배치 그리기 측정기는 장면 전환 뒤에도 살아 있어야 함");
