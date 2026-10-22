@@ -194,10 +194,13 @@ $form.Add_FormClosing({ param($s, $e) if ($e.CloseReason -eq [System.Windows.For
 $timer = New-Object System.Windows.Forms.Timer
 $timer.Interval = 5000
 $timer.Add_Tick({
-    $d = Get-Board
-    if ($form.Visible) { Render $d }
-    $active = @($d.items | Where-Object { $_.pct -lt 100 }).Count
-    $icon.Text = ("HLR · 진행 {0}개" -f $active)
+    # 목록 파일을 고치는 순간 읽으면 오류가 날 수 있다 — 그 한 번만 건너뛰고 계속 돈다 (2026-10-22 프로그램이 꺼진 일)
+    try {
+        $d = Get-Board
+        if ($form.Visible) { Render $d }
+        $active = @($d.items | Where-Object { $_.pct -lt 100 }).Count
+        $icon.Text = ("HLR · 진행 {0}개" -f $active)
+    } catch { }
 })
 $timer.Start()
 $null = Get-Board
