@@ -15,7 +15,7 @@ $src = Join-Path $Main 'Game\Library'
 $dst = Join-Path $dest 'Game\Library'
 if (Test-Path $src) {
     # 제외: 스크립트 어셈블리/Bee/ScriptMapper/MonoManager(복사하면 DefinitionCatalog 로딩이 깨짐), 잠금 파일
-    robocopy $src $dst /E /MT:16 /NFL /NDL /NJH /NJS /NP /XD ScriptAssemblies Bee /XF ScriptMapper MonoManager.asset *lock* UnityLockfile *.lock | Out-Null
+    robocopy $src $dst /E /MT:16 /NFL /NDL /NJH /NJS /NP /XD ScriptAssemblies Bee /XF ScriptMapper MonoManager.asset UnityLockfile *.lock | Out-Null
     if ($LASTEXITCODE -ge 8) { Write-Output "Library 복사 실패 (robocopy $LASTEXITCODE)"; exit 1 }
 }
 $sw.Stop()
