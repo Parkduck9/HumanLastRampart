@@ -14,20 +14,29 @@ MonoBehaviour:
   m_EditorClassIdentifier:
   id: wave_1
   displayName: 전투 1 웨이브
+  vanguardCount: 20
   groups:
   - Side: 0
     EnemyDefId: enemy_goblin
     Count: 400
     SpawnAtSeconds: 0
+    Phase: 0
+    StreamPerSecond: 0
   - Side: 1
     EnemyDefId: enemy_goblin
     Count: 200
     SpawnAtSeconds: 20
+    Phase: 0
+    StreamPerSecond: 0
   - Side: 2
     EnemyDefId: enemy_goblin
     Count: 200
     SpawnAtSeconds: 40
+    Phase: 0
+    StreamPerSecond: 0
   - Side: 3
     EnemyDefId: enemy_goblin
     Count: 200
     SpawnAtSeconds: 60
+    Phase: 0
+    StreamPerSecond: 0

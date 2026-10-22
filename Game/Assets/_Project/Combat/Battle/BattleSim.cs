@@ -46,7 +46,6 @@ namespace HumanLastRampart.Combat.Battle
         readonly List<(UnitDef unit, int start, int count)> soldierGroups = new List<(UnitDef, int, int)>();
         public IReadOnlyList<(UnitDef unit, int start, int count)> SoldierGroups => soldierGroups;
         const float RetryInterval = 0.25f;
-        const float SpawnSpreadSeconds = 12f;   // 한 무리가 나오는 데 걸리는 시간
         const float FieldBand = 40f;            // 들판 끝에서 이만큼 안쪽까지 흩어져 나온다
         const float SoldierHpFallback = 10f;
         const float PileBinWidth = 2f;          // 시체 더미 칸 폭
@@ -355,16 +354,18 @@ namespace HumanLastRampart.Combat.Battle
             var cursor = (int[])kindStart.Clone();
             float funnelBase = FunnelBase, funnelSlope = FunnelSlope;
             int groupIndex = -1;
+            int vanguardTotal = ResolveVanguardCount(wave);   // 선봉: 첫 무리에서 떼어 가까이 낸다 (BattleSim.Phases.cs)
             foreach (var (group, count) in groups)
             {
                 groupIndex++;
                 EnemyDef def = defs.Get<EnemyDef>(group.EnemyDefId);
                 int k = kindIndex[def.Id];
                 GroupPlan plan = attackPlan[groupIndex];
-                // 무리가 나오는 데 걸리는 시간: 규칙에 속도가 있으면 수에 맞춰 길게 (작은 무리는 최소 12초)
-                float spread = rules != null && rules.SpawnPerSecond > 0f ? Mathf.Max(SpawnSpreadSeconds, count / rules.SpawnPerSecond) : SpawnSpreadSeconds;
-                bool firstGroup = groupIndex == 0;   // 첫 무리는 성벽 가까이서 2초 안에 나오고, 뒤 무리의 출현 규칙은 유지한다
-                if (firstGroup) spread = 2f;
+                WavePhase wavePhase = ResolvePhase(group, def);
+                float rate = ResolveStreamRate(group);   // 나머지는 이 속도로 흘러나온다
+                int vanguard = groupIndex == 0 ? Mathf.Min(count, vanguardTotal) : 0;
+                if (vanguard > 0) { vanguardStart = cursor[k]; vanguardSpawned = vanguard; }
+                float firstTime = float.MaxValue;
                 waveGroups.Add((plan.Side, def.IsSpecial));
                 groupSlots.Add((cursor[k], count));   // 한 무리의 슬롯은 이어져 있다 (발견 판정용)
                 for (int j = 0; j < count; j++)
@@ -379,17 +380,26 @@ namespace HumanLastRampart.Combat.Battle
                     eAnim[slot] = phase;
                     eStop[slot] = CastleHalf + 1.5f + phase * 6f;   // 성벽 앞에 여러 줄로
                     eSide[slot] = (byte)plan.Side;
-                    float depth = firstGroup ? CastleHalf + random.NextFloat(60f, 70f) : random.NextFloat(FieldSize - FieldBand, FieldSize);
+                    bool isVanguard = j < vanguard;
+                    float depth = isVanguard ? CastleHalf + random.NextFloat(60f, 70f) : random.NextFloat(FieldSize - FieldBand, FieldSize);
                     float halfWidth = funnelBase + (depth - CastleHalf) * funnelSlope;   // D-065: 들판에서는 넓게
+                    // 선봉은 0~2초에 한꺼번에, 나머지는 무리 시작 시각부터 초당 rate마리씩 차례로 (약간의 흔들림)
+                    float time = isVanguard
+                        ? random.NextFloat(0f, VanguardSpawnSeconds)
+                        : plan.SpawnAt + (j - vanguard + 0.5f + random.NextFloat(-0.4f, 0.4f)) / rate;
+                    firstTime = Mathf.Min(firstTime, time);
                     entries.Add(new SpawnEntry
                     {
                         Slot = slot,
-                        Time = (firstGroup ? 0f : plan.SpawnAt) + random.NextFloat(0f, spread),
+                        Time = time,
                         Side = plan.Side,
                         Lateral = random.NextFloat(-halfWidth, halfWidth),
                         Depth = depth,
                     });
                 }
+
+                groupPhase.Add(wavePhase);
+                groupFirstTime.Add(firstTime);
             }
 
             entries.Sort((a, b) => a.Time.CompareTo(b.Time));
@@ -719,6 +729,7 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             ApplyArrowBurns();   // 불화살 화상 (K-058, BattleSim.Boosts.cs)
+            UpdatePhases();      // 최후 돌격 검사 (BattleSim.Phases.cs)
             Spawn();
             UpdateMessengers(dt);
             UpdateGroupMoves(dt);

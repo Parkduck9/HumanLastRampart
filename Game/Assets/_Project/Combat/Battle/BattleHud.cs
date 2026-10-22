@@ -368,6 +368,7 @@ namespace HumanLastRampart.Combat.Battle
 
             WriteProbeText(sim, watched, minutes, seconds, speed, paused);
             RefreshNotices();
+            RefreshPhaseBanner(sim);   // 단계 예고 띠 (BattleHud.Phase.cs)
             RefreshGlobalStatus(sim);
             RefreshHints();
             devLine.text = battleLine + "\n투사체 " + sim.ActiveShots;

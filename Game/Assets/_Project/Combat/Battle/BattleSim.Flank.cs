@@ -7,7 +7,7 @@ namespace HumanLastRampart.Combat.Battle
 {
     // 정면 공격·우회하는 적·발견 전령 (D-053, BattleFlank.md)
     // - 정면 = 북쪽(지도 위). 지휘관은 북쪽 가운데에서 시작한다
-    // - 정면 비율은 맵마다 50~100% 무작위(1번 전투는 100%). 우회 무리는 0~150초 사이에 옆·뒤 면에 나타난다
+    // - 정면 비율은 80%(1번 전투는 100%). 우회 무리는 60~150초 사이에 옆·뒤 면에 나타난다 (나안: 선봉·본대 뒤)
     //   옆 면은 2번 전투부터, 뒷면은 3번 전투부터, 4번 전투는 완전 무작위 (1~3번은 배우는 단계)
     // - 우회 무리의 첫 적이 성벽에서 120m(안개·밤이면 시야) 안에 들어오면 그 면 병사가 '발견'
     // - 지휘관이 같은 성벽이면 알림만. 다른 성벽이면 병사 2명이 양쪽으로 한 바퀴 달리며 먼저 만난 쪽이 보고
@@ -15,8 +15,9 @@ namespace HumanLastRampart.Combat.Battle
     public sealed partial class BattleSim
     {
         public const int FrontSide = 0;           // 북쪽 (W1)
-        const float FlankMinFront = 0.5f;         // 정면 비율 아래 끝 (W2)
-        const float FlankLatestSeconds = 150f;    // 우회 무리가 나오는 시각 0~150초 (W2)
+        const float FlankFrontShare = 0.8f;       // 2번 전투부터 정면:우회 = 80:20 (BattleFlank.md, 나안)
+        const float FlankEarliestSeconds = 60f;   // 우회 무리가 나오는 시각 60~150초 (본대 중반부터, 나안)
+        const float FlankLatestSeconds = 150f;
         const float DetectDistance = 120f;        // 성벽에서 (W4)
         const float RunnerMeetDistance = 3f;      // 지휘관과 이만큼 가까우면 보고
 
@@ -68,7 +69,7 @@ namespace HumanLastRampart.Combat.Battle
         {
             var random = new Unity.Mathematics.Random(seed ^ 0x2545F491u);
             int stage = setup.BattleNumber;
-            FrontShare = stage <= 1 ? 1f : random.NextFloat(FlankMinFront, 1f);
+            FrontShare = stage <= 1 ? 1f : FlankFrontShare;
             var flankSides = new List<int>();
             if (stage >= 2) { flankSides.Add(1); flankSides.Add(3); }   // 옆 (동·서)
             if (stage >= 3) flankSides.Add(2);                           // 뒤 (남)
@@ -99,7 +100,7 @@ namespace HumanLastRampart.Combat.Battle
             for (int g = 0; g < groups.Count; g++)
             {
                 attackPlan.Add(flank[g]
-                    ? new GroupPlan { Side = flankSides[random.NextInt(0, flankSides.Count)], SpawnAt = random.NextFloat(0f, FlankLatestSeconds), Flank = true, Count = groups[g].count }
+                    ? new GroupPlan { Side = flankSides[random.NextInt(0, flankSides.Count)], SpawnAt = random.NextFloat(FlankEarliestSeconds, FlankLatestSeconds), Flank = true, Count = groups[g].count }
                     : new GroupPlan { Side = FrontSide, SpawnAt = g == 0 ? 0f : groups[g].group.SpawnAtSeconds, Flank = false, Count = groups[g].count });
             }
 
@@ -120,7 +121,7 @@ namespace HumanLastRampart.Combat.Battle
                 bool seen = false;
                 for (int e = start; e < start + count; e++)
                 {
-                    if (!EnemyState.IsAlive(eState[e])) continue;
+                    if (!EnemyState.IsAlive(eState[e]) || eSide[e] != side) continue;   // 최후 돌격으로 면이 바뀐 적은 제외
                     alive++;
                     if (math.dot(ePos[e], n) - CastleHalf <= detect) seen = true;
                 }

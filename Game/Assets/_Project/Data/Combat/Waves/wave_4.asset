@@ -14,40 +14,59 @@ MonoBehaviour:
   m_EditorClassIdentifier:
   id: wave_4
   displayName: 전투 4 웨이브
+  vanguardCount: 60
   groups:
   - Side: 0
     EnemyDefId: enemy_goblin
     Count: 5000
     SpawnAtSeconds: 0
+    Phase: 0
+    StreamPerSecond: 40
   - Side: 0
     EnemyDefId: enemy_goblin_ladder
     Count: 1000
     SpawnAtSeconds: 40
+    Phase: 0
+    StreamPerSecond: 0
   - Side: 1
     EnemyDefId: enemy_goblin
     Count: 3000
     SpawnAtSeconds: 10
+    Phase: 0
+    StreamPerSecond: 40
   - Side: 1
     EnemyDefId: enemy_goblin_ladder
     Count: 1000
     SpawnAtSeconds: 60
+    Phase: 0
+    StreamPerSecond: 0
   - Side: 2
     EnemyDefId: enemy_goblin
     Count: 4000
     SpawnAtSeconds: 20
+    Phase: 0
+    StreamPerSecond: 40
   - Side: 3
     EnemyDefId: enemy_goblin
     Count: 5400
     SpawnAtSeconds: 30
+    Phase: 0
+    StreamPerSecond: 40
   - Side: 0
     EnemyDefId: enemy_ogre
     Count: 200
     SpawnAtSeconds: 90
+    Phase: 0
+    StreamPerSecond: 0
   - Side: 1
     EnemyDefId: enemy_ogre
     Count: 200
     SpawnAtSeconds: 120
+    Phase: 0
+    StreamPerSecond: 0
   - Side: 3
     EnemyDefId: enemy_ogre
     Count: 200
     SpawnAtSeconds: 150
+    Phase: 0
+    StreamPerSecond: 0

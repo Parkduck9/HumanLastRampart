@@ -14,28 +14,41 @@ MonoBehaviour:
   m_EditorClassIdentifier:
   id: wave_2
   displayName: 전투 2 웨이브
+  vanguardCount: 30
   groups:
   - Side: 0
     EnemyDefId: enemy_goblin
     Count: 700
     SpawnAtSeconds: 0
+    Phase: 0
+    StreamPerSecond: 0
   - Side: 0
     EnemyDefId: enemy_goblin_ladder
     Count: 200
     SpawnAtSeconds: 30
+    Phase: 0
+    StreamPerSecond: 0
   - Side: 1
     EnemyDefId: enemy_goblin
     Count: 600
     SpawnAtSeconds: 15
+    Phase: 0
+    StreamPerSecond: 0
   - Side: 2
     EnemyDefId: enemy_goblin
     Count: 800
     SpawnAtSeconds: 30
+    Phase: 0
+    StreamPerSecond: 0
   - Side: 3
     EnemyDefId: enemy_goblin
     Count: 699
     SpawnAtSeconds: 45
+    Phase: 0
+    StreamPerSecond: 0
   - Side: 3
     EnemyDefId: enemy_ogre
     Count: 1
     SpawnAtSeconds: 90
+    Phase: 0
+    StreamPerSecond: 0

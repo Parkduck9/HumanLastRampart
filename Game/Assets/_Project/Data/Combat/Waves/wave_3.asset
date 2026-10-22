@@ -14,36 +14,53 @@ MonoBehaviour:
   m_EditorClassIdentifier:
   id: wave_3
   displayName: 전투 3 웨이브
+  vanguardCount: 45
   groups:
   - Side: 0
     EnemyDefId: enemy_goblin
     Count: 2000
     SpawnAtSeconds: 0
+    Phase: 0
+    StreamPerSecond: 0
   - Side: 0
     EnemyDefId: enemy_goblin_ladder
     Count: 500
     SpawnAtSeconds: 40
+    Phase: 0
+    StreamPerSecond: 0
   - Side: 1
     EnemyDefId: enemy_goblin
     Count: 1500
     SpawnAtSeconds: 20
+    Phase: 0
+    StreamPerSecond: 0
   - Side: 2
     EnemyDefId: enemy_goblin
     Count: 1200
     SpawnAtSeconds: 30
+    Phase: 0
+    StreamPerSecond: 0
   - Side: 2
     EnemyDefId: enemy_goblin_ladder
     Count: 300
     SpawnAtSeconds: 70
+    Phase: 0
+    StreamPerSecond: 0
   - Side: 3
     EnemyDefId: enemy_goblin
     Count: 2497
     SpawnAtSeconds: 10
+    Phase: 0
+    StreamPerSecond: 0
   - Side: 0
     EnemyDefId: enemy_ogre
     Count: 1
     SpawnAtSeconds: 80
+    Phase: 0
+    StreamPerSecond: 0
   - Side: 3
     EnemyDefId: enemy_ogre
     Count: 2
     SpawnAtSeconds: 120
+    Phase: 0
+    StreamPerSecond: 0
