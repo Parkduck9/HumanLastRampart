@@ -1,4 +1,4 @@
-using HumanLastRampart.Combat.Render;
+﻿using HumanLastRampart.Combat.Render;
 using HumanLastRampart.Core.CombatContracts;
 using UnityEngine;
 
@@ -19,6 +19,10 @@ namespace HumanLastRampart.Combat.Battle
         const float DayStrength = 0.06f;    // 낮에는 아주 연하게 (햇빛에 묻힌다)
         const float MapStrength = 0.12f;     // 지도(밝은 화면)에서는 연하게
 
+        // W20: 빛줄기는 높은 탑 꼭대기 불방에서 나간다. 땅 위 부채꼴(시뮬레이션 각도·폭)은 그대로, 불방에서 땅 부채꼴 시작 쪽으로 내려오는 연한 빛 판(모드 2)을 더한다
+        public static float OriginHeight => BattleSim.WallHeight + BattleTowerView.LampHeight;
+        const float RayStrength = 0.3f;
+
         static readonly int ModeId = Shader.PropertyToID("_Mode");
         static readonly int DirId = Shader.PropertyToID("_Dir");
         static readonly int HalfId = Shader.PropertyToID("_Half");
@@ -35,12 +39,12 @@ namespace HumanLastRampart.Combat.Battle
 
         readonly BattleSim sim;
         readonly Material material;
-        readonly Wedge fieldNow = new Wedge(), yardNow = new Wedge(), fieldTarget = new Wedge(), yardTarget = new Wedge();
+        readonly Wedge fieldNow = new Wedge(), yardNow = new Wedge(), fieldTarget = new Wedge(), yardTarget = new Wedge(), ray = new Wedge();
 
         public BattleBeamView(BattleSim sim)
         {
             this.sim = sim;
-            foreach (Wedge w in new[] { fieldNow, yardNow, fieldTarget, yardTarget })
+            foreach (Wedge w in new[] { fieldNow, yardNow, fieldTarget, yardTarget, ray })
             {
                 w.Mesh = new Mesh { name = "등대 빛줄기 (runtime)" };
                 w.Mesh.MarkDynamic();
@@ -76,6 +80,7 @@ namespace HumanLastRampart.Combat.Battle
 
             Draw(fieldNow, 0f, sim.BeamAngleDegrees, fieldReach, FieldHeight, strength, castle);
             Draw(yardNow, 1f, sim.BeamAngleDegrees, yardReach, yardHeight, strength, castle);
+            if (!mapMode) Draw(ray, 2f, sim.BeamAngleDegrees, castle + RayReachBeyondWall, FieldHeight + 0.02f, strength * RayStrength, castle, OriginHeight);
             if (sim.BeamRotating)
             {
                 // 목표 방향: 연한 부채꼴 (도는 동안만)
@@ -88,13 +93,17 @@ namespace HumanLastRampart.Combat.Battle
             else HlrBeam.Clear();
         }
 
-        void Draw(Wedge w, float mode, float centerDegrees, float radius, float height, float strength, float castle)
+        const float RayReachBeyondWall = 8f;
+
+        // apexHeight: 부채꼴 꼭짓점(탑 가운데) 높이. 생략하면 땅 부채꼴처럼 height와 같다 (모드 2는 꼭대기 불방에서 땅으로 비스듬히 내려온다)
+        void Draw(Wedge w, float mode, float centerDegrees, float radius, float height, float strength, float castle, float apexHeight = float.NaN)
         {
+            float apex = float.IsNaN(apexHeight) ? height : apexHeight;
             float halfRad = sim.BeamWidth * 0.5f * Mathf.Deg2Rad;
             float soft = HlrBeam.SoftRadians(halfRad);
             float pad = (halfRad + soft * 1.5f) * Mathf.Rad2Deg * 2f;   // 부드러운 가장자리까지 덮는 각도 폭
             float center = centerDegrees;
-            w.Vertices[0] = new Vector3(0f, height, 0f);
+            w.Vertices[0] = new Vector3(0f, apex, 0f);
             for (int i = 0; i <= Segments; i++)
             {
                 float a = (center - pad * 0.5f + pad * i / Segments) * Mathf.Deg2Rad;
@@ -104,7 +113,7 @@ namespace HumanLastRampart.Combat.Battle
             w.Mesh.Clear();
             w.Mesh.vertices = w.Vertices;
             w.Mesh.triangles = w.Triangles;
-            w.Mesh.bounds = new Bounds(new Vector3(0f, height, 0f), new Vector3(radius * 2f, 2f, radius * 2f));
+            w.Mesh.bounds = new Bounds(new Vector3(0f, (height + apex) * 0.5f, 0f), new Vector3(radius * 2f, Mathf.Abs(apex - height) + 2f, radius * 2f));
 
             float rad = centerDegrees * Mathf.Deg2Rad;
             w.Block.SetFloat(ModeId, mode);
@@ -118,7 +127,7 @@ namespace HumanLastRampart.Combat.Battle
         public void Dispose()
         {
             HlrBeam.Clear();
-            foreach (Wedge w in new[] { fieldNow, yardNow, fieldTarget, yardTarget }) if (w.Mesh != null) Object.Destroy(w.Mesh);
+            foreach (Wedge w in new[] { fieldNow, yardNow, fieldTarget, yardTarget, ray }) if (w.Mesh != null) Object.Destroy(w.Mesh);
             if (material != null) Object.Destroy(material);
         }
     }

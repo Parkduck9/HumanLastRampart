@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -117,7 +117,7 @@ namespace HumanLastRampart.Combat.Battle
             if (stone.HasArt(surface))
             {
                 var t = stone.Get(surface).mainTexture;
-                tile = new Vector2(t.width / 32f, t.height / 32f);
+                tile = new Vector2(t.width / BattleWorldMaterials.PixelsPerMeter, t.height / BattleWorldMaterials.PixelsPerMeter);
             }
 
             var b = new MeshBuilder(tile);

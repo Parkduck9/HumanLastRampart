@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -34,7 +34,7 @@ namespace HumanLastRampart.Combat.Battle
 
         const string ShaderName = "Universal Render Pipeline/Lit";
         const string ResourceFolder = "BattleArt/World/";
-        const float PixelsPerMeter = 32f;
+        public const float PixelsPerMeter = 32f;
         const float NormalStrength = 0.45f;   // Codex material.json 권장값 (normalStrengthSuggestion)
 
         // Codex 질감 폴더 이름과 같게 (wall_stone 등)

@@ -53,7 +53,7 @@ namespace HumanLastRampart.Combat.Battle
         public const float StairsReach = 3f;            // 계단 가운데에서 이 거리(m) 안이고
         public const float StairsInsetMin = InsetMax - 0.5f;   // 통로 안쪽 끝 가까이면 E로 내려갈 수 있다
         public const float TowerSeconds = 1.6f;         // 계단을 오르내리는 시간
-        public const float TowerHeroBack = 0.8f;        // 탑 앞에서 서는 자리: 탑 가운데에서 남쪽(사진기 쪽)으로
+        public const float TowerHeroBack = 1.45f;       // 탑 앞(문 앞)에서 서는 자리: 탑 가운데에서 남쪽(사진기 쪽)으로. 높은 탑(W20)의 아래 반폭 1.1m 밖
 
         float towerBlend;       // 0 = 성벽 위, 1 = 탑 앞
         bool towerTarget;       // 가려는 곳 (true = 탑)
@@ -63,6 +63,18 @@ namespace HumanLastRampart.Combat.Battle
         public bool InTransition => towerTarget ? towerBlend < 1f : towerBlend > 0f;
         public bool OnWall => !towerTarget && towerBlend <= 0f;        // 성벽을 지키고 있는가. 내려가려는 순간부터 오르는 걸 마칠 때까지 false
         public float TowerBlend => towerBlend;
+        // 성벽(계단)에서 탑 문 앞까지 가는 길 (W20): 탑 몸체를 뚫지 않게 탑 옆(x = ±SideLane)을 돌아 문 앞 줄로 들어간다. t = 0..1 (성벽 → 문 앞)
+        public const float SideLane = 2.2f;   // BattleTowerView.BaseHalf(1.1) + 1.1
+        public Vector3 TowerPath(Vector3 wall, float t)
+        {
+            Vector3 end = TowerFeet;
+            float sx = wall.x >= 0f ? 1f : -1f;
+            Vector3 corner = new Vector3(sx * SideLane, wall.y, end.z);   // 탑 옆 · 문 앞 줄
+            float a = Vector3.Distance(wall, corner), b = Vector3.Distance(corner, end);
+            float d = Mathf.Clamp01(t) * (a + b);
+            return d <= a ? Vector3.Lerp(wall, corner, a > 1e-4f ? d / a : 1f) : Vector3.Lerp(corner, end, b > 1e-4f ? (d - a) / b : 1f);
+        }
+
         public Vector3 TowerFeet => new Vector3(0f, wallHeight, -TowerHeroBack);
         public bool NearStairs => Side == StairsSide && Mathf.Abs(along) <= StairsReach && inset >= StairsInsetMin;
 
@@ -96,7 +108,7 @@ namespace HumanLastRampart.Combat.Battle
             get
             {
                 Vector3 wall = FeetAt(Side, along, inset);
-                return towerBlend <= 0f ? wall : Vector3.Lerp(wall, TowerFeet, Mathf.SmoothStep(0f, 1f, towerBlend));
+                return towerBlend <= 0f ? wall : TowerPath(wall, Mathf.SmoothStep(0f, 1f, towerBlend));
             }
         }
 
