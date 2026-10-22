@@ -40,6 +40,9 @@ namespace HumanLastRampart.App.Flow
         public bool LossCanRetry;                   // W8: 진 밤이 연속 한도에 닿지 않아 같은 요새 다음 낮으로 간다 (기본 false = 패배 엔딩)
         public bool StoryIsRunComplete;             // W8: 1회차 완료 이야기 (끝나면 메인)
         public bool RunComplete;                    // W8: 결과 화면 뒤 1회차 완료 이야기로 간다
+        public bool ResultStory;                    // W12: 결과 화면 뒤 점화 이야기로 간다 (요새 점화, 마지막 요새 제외)
+        public bool StoryChainNext;                 // W12: 이 이야기 뒤에 이어 볼 이야기가 있다 (이야기 화면을 다시 연다)
+        public bool StoryToDay;                     // W12: 이 이야기가 끝나면 전투 대신 낮(정비)으로 간다
     }
 
     // 다음 화면 순서표 — App 한 곳에서만 정한다 (C-003 4, D-014, D-017 E3, D-022 I5)
@@ -76,6 +79,14 @@ namespace HumanLastRampart.App.Flow
                 case ScreenId.Story:
                     if (outcome != ScreenOutcome.Done) return FlowStep.Stay();
                     if (state.StoryIsDefeatEnding || state.StoryIsRunComplete) return EndOfRun();   // 패배 엔딩·1회차 완료 → 처음부터 (저장 지움)
+                    if (state.StoryChainNext) return FlowStep.Open(ScreenId.Story);   // W12: 다음 이야기 (App이 NextStory를 바꿔 둔다)
+                    if (state.StoryToDay)
+                    {
+                        FlowStep toDay = FlowStep.Open(ScreenId.Prep);   // W12: 새 요새 도착 이야기 뒤 첫 낮
+                        toDay.BeginDay = true;
+                        return toDay;
+                    }
+
                     return PrepareBattle();
 
                 case ScreenId.Battle:
@@ -105,7 +116,7 @@ namespace HumanLastRampart.App.Flow
 
                 case ScreenId.Result:
                     if (outcome != ScreenOutcome.Done) return FlowStep.Stay();
-                    if (state.RunComplete) return FlowStep.Open(ScreenId.Story);   // W8: 마지막 요새 점화 → 1회차 완료 이야기
+                    if (state.RunComplete || state.ResultStory) return FlowStep.Open(ScreenId.Story);   // W8: 마지막 요새 점화 → 1회차 완료 이야기 / W12: 요새 점화 이야기
                     FlowStep day = FlowStep.Open(ScreenId.Prep);
                     day.BeginDay = true;
                     return day;

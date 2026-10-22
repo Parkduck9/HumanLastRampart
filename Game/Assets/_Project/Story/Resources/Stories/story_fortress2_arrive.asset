@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0268e8913dd84207865c3fdbe8b9fdeb, type: 3}
+  m_Name: story_fortress2_arrive
+  m_EditorClassIdentifier: 
+  id: story_fortress2_arrive
+  title: "요새 2 도착"
+  kind: 0
+  note: "Story_Beacon_v1 5장. TODO: 하겐 초상은 임시(궁수 초상). 새 그림이 오면 StoryArt/portrait_hagen_neutral.png 파일만 덮어쓴다."
+  scenes:
+  - name: "더 짙은 안개"
+    background: {fileID: 2800000, guid: ea34bdf54f354c1f87d397e4582080d9, type: 3}
+    lines:
+    - speaker: ""
+      side: 0
+      portrait: {fileID: 0}
+      cell: 0
+      text: "뒤쪽 지평선에 첫 번째 등대의 불빛이 점처럼 보였다. 앞에는 더 짙은 안개."
+      background: {fileID: 0}
+      effect: 2
+    - speaker: "하겐"
+      side: 2
+      portrait: {fileID: 2800000, guid: c6ff621d6fae4e329156fbdb88091de1, type: 3}
+      cell: 0
+      text: "이쪽 놈들은 다릅니다. 눈이…… 빛나고 있습니다."
+      background: {fileID: 0}
+      effect: 0
+    - speaker: "이그나"
+      side: 2
+      portrait: {fileID: 2800000, guid: 7fe0bfc0b6d84809b17818291c3b986e, type: 3}
+      cell: 0
+      text: "안개에 오래 물든 거예요. 더 단단하고, 더 사나워요."
+      background: {fileID: 0}
+      effect: 0
+    - speaker: "루멘"
+      side: 1
+      portrait: {fileID: 2800000, guid: 7250f7a6eb1c4e14893d87ceb074d5e3, type: 3}
+      cell: 0
+      text: "등대 빛을 그쪽으로 돌릴게요. 빛 안에서는 놈들도 약해져요."
+      background: {fileID: 0}
+      effect: 0

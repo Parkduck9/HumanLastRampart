@@ -13,45 +13,80 @@ MonoBehaviour:
   m_Name: story_intro
   m_EditorClassIdentifier: 
   id: story_intro
-  title: "첫 이야기 (임시)"
+  title: "처음 (새 게임)"
   kind: 0
-  note: "임시 이야기 — K-050 자리 표시. 사용자가 제작 도구로 다시 쓴다."
+  note: "Story_Beacon_v1 1장. TODO: 하겐 초상은 임시(궁수 초상). 새 그림이 오면 StoryArt/portrait_hagen_neutral.png 파일만 덮어쓴다."
   scenes:
-  - name: "고향 성벽"
+  - name: "사관학교 · 황실의 부름"
     background: {fileID: 2800000, guid: 8f310959e7db469794f7ecda50d16bf3, type: 3}
     lines:
     - speaker: ""
       side: 0
       portrait: {fileID: 0}
       cell: 0
-      text: "장교 훈련을 마치고 삼 년. 나는 장교 옷을 입은 채 고향 성벽으로 돌아왔다."
+      text: "수십 년 전, 빛을 삼키는 검은 안개가 대륙을 덮었다."
       background: {fileID: 0}
       effect: 2
-    - speaker: "궁수"
+    - speaker: ""
+      side: 0
+      portrait: {fileID: 0}
+      cell: 0
+      text: "안개는 가장 먼저 등불지기들을 노렸다. 꺼진 빛을 다시 켤 수 있는 유일한 사람들이었으니까."
+      background: {fileID: 0}
+      effect: 0
+    - speaker: ""
+      side: 0
+      portrait: {fileID: 0}
+      cell: 0
+      text: "그리고 황도의 사관학교. 갓 졸업한 생도 하나가 황실의 부름을 받았다."
+      background: {fileID: 0}
+      effect: 0
+    - speaker: "하겐"
       side: 2
-      portrait: {fileID: 2800000, guid: 134c3c35574c4e1ab53647ea05e38e74, type: 3}
+      portrait: {fileID: 2800000, guid: c6ff621d6fae4e329156fbdb88091de1, type: 3}
       cell: 0
-      text: "장교님! 정말 돌아오셨군요. 북쪽 들판에 놈들이 보입니다!"
+      text: "루멘 생도. 아니, 이제는 루멘 파로스 님이시군요."
       background: {fileID: 0}
       effect: 0
-    - speaker: "장교"
+    - speaker: "루멘"
       side: 1
-      portrait: {fileID: 2800000, guid: 7250f7a6eb1c4e14893d87ceb074d5e3, type: 3}
+      portrait: {fileID: 2800000, guid: 43e31f4d8bff444fa20e3025d471ce9c, type: 3}
       cell: 0
-      text: "옷깃을 여밀 틈도 없겠군. 모두 성벽 위로 올라라."
+      text: "파로스……? 저 성도 없는 고아예요. 뭔가 잘못 아신 것 같은데요."
       background: {fileID: 0}
       effect: 0
-    - speaker: "마법사"
+    - speaker: "하겐"
+      side: 2
+      portrait: {fileID: 2800000, guid: c6ff621d6fae4e329156fbdb88091de1, type: 3}
+      cell: 0
+      text: "황실 등불지기 가문의 마지막 핏줄. 명부가 그렇게 말합니다. 다른 분들은…… 안개가 먼저 데려갔습니다."
+      background: {fileID: 0}
+      effect: 0
+    - speaker: "루멘"
+      side: 1
+      portrait: {fileID: 2800000, guid: 9d9ce593b1ca4fc3b655b0e5ffc0b85f, type: 3}
+      cell: 0
+      text: "……"
+      background: {fileID: 0}
+      effect: 0
+    - speaker: "하겐"
+      side: 2
+      portrait: {fileID: 2800000, guid: c6ff621d6fae4e329156fbdb88091de1, type: 3}
+      cell: 0
+      text: "꺼진 등대는 그 핏줄의 손으로만 다시 켜집니다. 장군들도 거의 남지 않았습니다. 원정대를 이끌어 주셔야 합니다."
+      background: {fileID: 0}
+      effect: 0
+    - speaker: "이그나"
       side: 2
       portrait: {fileID: 2800000, guid: 7fe0bfc0b6d84809b17818291c3b986e, type: 3}
       cell: 0
-      text: "제 불꽃도 준비됐어요. 지시만 내려 주세요."
+      text: "불은 제가 지켜 드릴게요. 대신 불을 켜는 건 당신 몫이에요."
       background: {fileID: 0}
       effect: 0
-    - speaker: "장교"
+    - speaker: "루멘"
       side: 1
       portrait: {fileID: 2800000, guid: 7250f7a6eb1c4e14893d87ceb074d5e3, type: 3}
       cell: 0
-      text: "이곳이 우리의 마지막 성벽이다. 한 걸음도 물러서지 마라!"
+      text: "제가 배운 건 성벽 위에서 버티는 법뿐이에요. ……그거라면, 해 볼게요."
       background: {fileID: 0}
-      effect: 1
+      effect: 0

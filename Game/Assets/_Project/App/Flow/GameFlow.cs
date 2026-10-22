@@ -193,6 +193,15 @@ namespace HumanLastRampart.App.Flow
             {
                 state.StoryIsDefeatEnding = Campaign.NextStory != null && Campaign.NextStory.Kind == StoryKind.DefeatEnding;
                 state.StoryIsRunComplete = Campaign.NextStory != null && Campaign.NextStory.Kind == StoryKind.RunComplete;
+                if (outcome == ScreenOutcome.Done)
+                {
+                    // W12: 이야기 사슬 (첫 이야기 → 요새 1 도착, 점화 → 다음 요새 도착). 끝난 이야기는 비운다
+                    string playedId = Campaign.NextStory?.StoryId;
+                    string chain = Campaign.NextStory != null && Campaign.NextStory.Kind == StoryKind.Normal ? BeaconRules.NextStoryAfter(playedId) : null;
+                    state.StoryChainNext = chain != null;
+                    state.StoryToDay = BeaconRules.StoryLeadsToDay(playedId);
+                    Campaign.NextStory = chain != null ? new StoryRequest { Kind = StoryKind.Normal, StoryId = chain } : null;
+                }
             }
             else if (context.Screen == ScreenId.Battle && outcome == ScreenOutcome.Done && Campaign?.ActiveBattleSetup != null && Campaign.ActiveBattleSetup.IsPractice)
             {
@@ -216,6 +225,7 @@ namespace HumanLastRampart.App.Flow
             else if (context.Screen == ScreenId.Result && Campaign != null)
             {
                 state.RunComplete = Campaign.NextStory != null && Campaign.NextStory.Kind == StoryKind.RunComplete;   // W8: 마지막 요새 점화
+                state.ResultStory = BeaconRules.IsRelitStory(Campaign.NextStory?.StoryId);   // W12: 요새 점화 이야기
             }
             else if (context.Screen == ScreenId.Prep && Campaign != null)
             {

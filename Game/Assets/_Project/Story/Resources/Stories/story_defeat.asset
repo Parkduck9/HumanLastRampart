@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: story_defeat
   m_EditorClassIdentifier: 
   id: story_defeat
-  title: "패배 엔딩 (임시)"
+  title: "패배 엔딩"
   kind: 1
-  note: "임시 이야기 — K-050 자리 표시. 사용자가 제작 도구로 다시 쓴다."
+  note: "Story_Beacon_v1 7장. TODO: 하겐 초상은 임시(궁수 초상). 새 그림이 오면 StoryArt/portrait_hagen_neutral.png 파일만 덮어쓴다."
   scenes:
   - name: "무너진 성벽"
     background: {fileID: 2800000, guid: d9ffdbbaf4844a98bbf84fb36b4e0bab, type: 3}
@@ -24,13 +24,20 @@ MonoBehaviour:
       side: 0
       portrait: {fileID: 0}
       cell: 0
-      text: "성벽이 무너지고, 횃불이 하나둘 꺼져 갔다."
+      text: "성벽이 무너지고, 등불이 하나둘 꺼져 갔다."
       background: {fileID: 0}
       effect: 2
-    - speaker: "장교"
-      side: 1
-      portrait: {fileID: 2800000, guid: 7250f7a6eb1c4e14893d87ceb074d5e3, type: 3}
+    - speaker: "하겐"
+      side: 2
+      portrait: {fileID: 2800000, guid: c6ff621d6fae4e329156fbdb88091de1, type: 3}
       cell: 0
-      text: "……다음에는, 반드시 지켜 내겠다."
+      text: "대장님, 물러나야 합니다! 불빛이 남은 곳으로!"
+      background: {fileID: 0}
+      effect: 1
+    - speaker: "루멘"
+      side: 1
+      portrait: {fileID: 2800000, guid: 9d9ce593b1ca4fc3b655b0e5ffc0b85f, type: 3}
+      cell: 0
+      text: "……다음엔, 꼭 켜 낼게요."
       background: {fileID: 0}
       effect: 0

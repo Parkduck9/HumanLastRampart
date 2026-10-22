@@ -62,16 +62,23 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
             if (GameFlow.Instance.CurrentScreen != ScreenId.Story) break;
             if (lines == 0) yield return Capture("story_0_typing");
             string partial = StoryText();
+            advance = FindAdvance() ?? advance;   // W12: 이야기가 이어지면 화면이 다시 열려 단추가 새로 생긴다
             advance.onClick.Invoke();   // 나오는 중이면 끝까지
             presses++;
             yield return null;
             string full = StoryText();
             for (int i = 0; i < 4; i++) yield return null;
-            Assert.AreEqual(full, StoryText(), "누른 뒤에는 글이 더 늘지 않는다 (끝까지 보임)");
-            Assert.IsTrue(full.StartsWith(partial), "한 자씩 나오던 글의 앞부분");
+            // W12: "……"처럼 짧은 줄은 이미 다 나온 상태라 누르면 다음 줄로 넘어간다 (글이 비었다가 새로 나온다) — 그때는 확인하지 않는다
+            bool nextLineStarted = full.Length < partial.Length || !full.StartsWith(partial) || full.Length < 2;
+            if (!nextLineStarted)
+            {
+                Assert.AreEqual(full, StoryText(), "누른 뒤에는 글이 더 늘지 않는다 (끝까지 보임)");
+                Assert.IsTrue(full.StartsWith(partial), "한 자씩 나오던 글의 앞부분");
+            }
             if (full != last) { lines++; last = full; Note($"스토리 {lines}줄: {SpeakerText()} — {full}"); }
             if (!sawSpeaker && SpeakerText().Length > 0) { sawSpeaker = true; yield return Capture("story_1_speaker"); }
-            advance.onClick.Invoke();   // 다음 줄 (마지막 줄이면 끝 → 전투)
+            advance = FindAdvance() ?? advance;
+            advance.onClick.Invoke();   // 다음 줄 (마지막 줄이면 끝 → 다음 이야기 또는 전투)
             presses++;
             yield return null;
         }
@@ -84,6 +91,7 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
         Time.captureDeltaTime = 0f;
     }
 
+    static Button FindAdvance() => UnityEngine.Object.FindObjectsByType<Button>(FindObjectsSortMode.None).FirstOrDefault(b => b.name == "Story Advance" && b.isActiveAndEnabled);
     static string StoryText() => UnityEngine.Object.FindObjectsByType<Text>(FindObjectsSortMode.None).FirstOrDefault(t => t.name == "Story Text")?.text ?? "";
     static string SpeakerText() => UnityEngine.Object.FindObjectsByType<Text>(FindObjectsSortMode.None).FirstOrDefault(t => t.name == "Story Speaker" && t.gameObject.activeInHierarchy)?.text ?? "";
 
@@ -1707,7 +1715,14 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
 
     static IEnumerator WaitScreen(ScreenId screen, int frames)
     {
-        for (int i = 0; i < frames && (GameFlow.Instance == null || GameFlow.Instance.CurrentScreen != screen || !InputOpen()); i++) yield return null;
+        for (int i = 0; i < frames && (GameFlow.Instance == null || GameFlow.Instance.CurrentScreen != screen || !InputOpen()); i++)
+        {
+            // W12: 이야기가 사슬로 이어진다 (첫 이야기 → 요새 도착, 점화 → 도착). 이야기 아닌 화면을 기다리는 중이면 이야기는 건너뛴다
+            if (screen != ScreenId.Story && GameFlow.Instance != null && GameFlow.Instance.CurrentScreen == ScreenId.Story && InputOpen())
+                UnityEngine.Object.FindAnyObjectByType<HumanLastRampart.Story.StoryPlayer>()?.Skip();
+            yield return null;
+        }
+
         Assert.AreEqual(screen, GameFlow.Instance.CurrentScreen, "화면 전환");
         for (int i = 0; i < 5; i++) yield return null;
         // 전투 준비(D-071) 지도는 기본으로 바로 넘긴다 — 준비 화면 자체는 PrepPhase에서 찍는다
