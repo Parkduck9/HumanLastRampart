@@ -87,9 +87,17 @@ public sealed partial class PlayProbe
 
             // 1 걷기: 좌우 입력으로 실제로 걸어야 넘어간다
             var rig = entry.Rig;
+            // 주인공은 실제 시간(unscaled)으로 걷는다 — 다른 시험처럼 실제 시간으로 최대 15초 기다린다
             rig.WalkInput = 1f;
-            yield return TutorialAdvance(TutorialStep.Walk, 600);
+            var walkWatch = System.Diagnostics.Stopwatch.StartNew();
+            while (walkWatch.Elapsed.TotalSeconds < 15)
+            {
+                var d = Object.FindAnyObjectByType<TutorialDirector>();
+                if (d == null || d.Finished || d.Current != TutorialStep.Walk) break;
+                yield return null;
+            }
             rig.WalkInput = 0f;
+            Assert.AreNotEqual(TutorialStep.Walk, Object.FindAnyObjectByType<TutorialDirector>()?.Current, "15초 걸었는데 걷기 단계가 끝나지 않음");
             yield return WaitTutorialStep(TutorialStep.Telescope, 5);
 
             // 2 망원경(설명): [다음]

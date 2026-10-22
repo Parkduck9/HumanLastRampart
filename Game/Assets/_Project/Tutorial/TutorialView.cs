@@ -82,7 +82,7 @@ namespace HumanLastRampart.Tutorial
             boxObject.transform.SetParent(root.transform, false);
             var box = (RectTransform)boxObject.transform;
             // 아래 가운데, 왼쪽 아래 키 안내·맨 아래 띠보다 위
-            Ui.Place(box, new Vector2(0.5f, 0f), new Vector2(0f, 140f), new Vector2(1100f, 230f), new Vector2(0.5f, 0f));
+            Ui.Place(box, new Vector2(0.5f, 0f), new Vector2(0f, 16f), new Vector2(1100f, 230f), new Vector2(0.5f, 0f));
 
             bust = Sheet(box, "Officer", Tex("officer_expressions"), new Vector2(144f, 144f));
             Ui.Place(bust.rectTransform, new Vector2(0f, 0f), new Vector2(0f, 0f), new Vector2(144f, 144f), new Vector2(0f, 0f));
@@ -138,7 +138,7 @@ namespace HumanLastRampart.Tutorial
             bool target = false;
             Vector2 local = Vector2.zero;
             if (info.Pointer && source.TryGetTargetScreen(machine.Current, out Vector2 screen))
-                target = RectTransformUtility.ScreenPointToLocalPoint(canvasRect, screen, null, out local) && ringTex != null;
+                target = RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, screen, null, out local) && ringTex != null;
             ring.gameObject.SetActive(target);
             pointer.gameObject.SetActive(target && pointerTex[2] != null);
             if (target)

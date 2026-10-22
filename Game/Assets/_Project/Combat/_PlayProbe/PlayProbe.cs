@@ -1514,14 +1514,15 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
 
         // 선봉이 45~55m에서 나와(2026-10-22) 4배속이면 확인 전에 성벽 앞에 닿는다 → '대기' 확인은 보통 속도로 먼저, 4배속은 그다음
         // '대기' 확인은 적이 성벽에 닿기 전에 (사용자 2026-10-20 #10: 성 안마당은 이제 칠 수 없어 성벽 바로 앞을 노린다)
+        // 북쪽은 선봉이 곧바로 사거리에 들어오므로, 첫 무리가 오지 않는 남쪽 대포로 '대기'를 확인한다
         for (int i = 0; i < 10; i++) yield return null;
         entry.ToggleMap();
-        entry.SelectCannonSide(0);
+        entry.SelectCannonSide(2);
         yield return null;
         entry.SelectCannon(4);
         HumanLastRampart.Combat.Battle.BattleSim.CannonInfo four = default;
-        for (int c = 0; c < sim.CannonCount; c++) { var ci = sim.GetCannon(c); if (ci.Side == 0 && ci.Number == 4) four = ci; }
-        Assert.IsTrue(entry.AimSelectedCannonAt(new Vector3(four.Position.x, 0f, sim.CastleHalf + 5f)), "성벽 바로 앞 조준");
+        for (int c = 0; c < sim.CannonCount; c++) { var ci = sim.GetCannon(c); if (ci.Side == 2 && ci.Number == 4) four = ci; }
+        Assert.IsTrue(entry.AimSelectedCannonAt(new Vector3(four.Position.x, 0f, -(sim.CastleHalf + 5f))), "남쪽 성벽 바로 앞 조준");
         for (int i = 0; i < 20; i++) yield return null;
         var early = UnityEngine.Object.FindObjectsByType<Text>(FindObjectsSortMode.None).Where(t => t.name == "Cannon 4 State" && t.gameObject.activeInHierarchy).ToList();
         Note($"초반 4번 대포: {string.Join(",", early.Select(t => t.text))} (게임 {sim.Elapsed:0}초)");
