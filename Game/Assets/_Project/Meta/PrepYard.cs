@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using HumanLastRampart.Core.Definitions;
 using HumanLastRampart.UI;
@@ -67,43 +67,80 @@ namespace HumanLastRampart.Meta
             modal = null;
         }
 
-        // 가운데 등대 탑 그림 (W9, Codex K-102): 걷는 사람이 탑 앞이면 탑 아래, 뒤면 탑 위에 그린다 (가림 그림과 같은 규칙)
+        // 가운데 등대 탑 그림 (W9, Codex K-110 탑 몸체 + K-102 불꽃): 걷는 사람이 탑 앞이면 탑 아래, 뒤면 탑 위에 그린다 (가림 그림과 같은 규칙).
+        // 탑 자리는 걸을 수 없는 장애물이다. 전투 화면과 같은 규칙 — 어느 쪽에서도 꺼짐이 없고, 불꽃 세기는 등대 복구, 점화의 밤 앞이면 완전 점화 (S4)
+        const float BeaconScale = 0.7f;   // 게임 1점 = 정비 마당 0.7점 (주인공 키에 맞춘다)
+        const float FlameArtScale = 2.2f;
         readonly List<RawImage> beaconAbove = new List<RawImage>();
         readonly List<RawImage> beaconFlames = new List<RawImage>();
+        RawImage characterPicture;
         float beaconRow;
         int beaconFlameFrames = 6;
 
-        public void AddBeaconTower(Texture2D tower, Texture2D flame, float footX, float footY)
+        public void AddBeaconTower(Texture2D tower, Texture2D flameSheet, float strength, float footX, float footY)
         {
             if (tower == null) return;
             beaconRow = footY;
-            int below = 1;
+            const float S = BeaconScale;
             for (int pass = 0; pass < 2; pass++)
             {
-                foreach (Texture2D tex in new[] { tower, flame })
+                foreach (Texture2D tex in new[] { tower, flameSheet })
                 {
                     if (tex == null) continue;
+                    bool isFlame = tex == flameSheet;
                     var obj = new GameObject(pass == 0 ? "Beacon Below" : "Beacon Above", typeof(RectTransform), typeof(RawImage));
                     obj.transform.SetParent(strip, false);
                     var image = obj.GetComponent<RawImage>();
                     image.texture = tex; image.raycastTarget = false;
                     var rect = image.rectTransform;
                     rect.anchorMin = rect.anchorMax = Vector2.zero;
-                    rect.pivot = new Vector2(0.5f, 24f / 384f);
-                    rect.sizeDelta = new Vector2(288f, 384f);
-                    rect.anchoredPosition = new Vector2(footX, 1080f - footY);
-                    if (tex == flame)
+                    if (isFlame)
                     {
                         image.uvRect = new Rect(0f, 0f, 1f / beaconFlameFrames, 1f);
                         beaconFlames.Add(image);
                     }
-                    if (pass == 0) obj.transform.SetSiblingIndex(below++);   // 배경(0) 위, 걷는 사람 렌더 텍스처 판(1) 아래
+                    else
+                    {
+                        rect.pivot = new Vector2(720f / 1152f, 96f / 960f);   // K-110 탑 칸 1152×960, 발 (720, 864)
+                        rect.sizeDelta = new Vector2(1152f * S, 960f * S);
+                        rect.anchoredPosition = new Vector2(footX, 1080f - footY);
+                    }
+                    // 걷는 사람 판(characterPicture) 바로 앞에 끼운다 — 위치를 숫자로 가정하지 않는다 (N5)
+                    if (pass == 0) obj.transform.SetSiblingIndex(characterPicture != null ? characterPicture.transform.GetSiblingIndex() : 1);
                     else beaconAbove.Add(image);
                 }
             }
+
+            SetBeaconFlame(flameSheet, strength, footX, footY);
+            // 탑 몸체 바닥 자리를 막는다 (탑 그림 가로 -170..+370, 앞쪽 줄 폭 약 60점)
+            var polygon = new[]
+            {
+                new Vector2(footX - 170f * S, footY - 54f * S), new Vector2(footX + 370f * S, footY - 54f * S),
+                new Vector2(footX + 370f * S, footY + 6f * S), new Vector2(footX - 170f * S, footY + 6f * S),
+            };
+            var blocker = new GameObject("Obstacle beacon", typeof(MeshCollider));
+            blocker.transform.SetParent(world.transform, false);
+            var collider = blocker.GetComponent<MeshCollider>();
+            collider.sharedMesh = Own(ObstacleMesh(polygon));
+            obstacles.Add(collider);
             prompt.SetAsLastSibling();
         }
 
+        // 불꽃 그림·세기 바꾸기 (처음 만들 때와 등대 수리 뒤). sheet = flame_warming / flame_lit 시트(6칸)
+        public void SetBeaconFlame(Texture2D sheet, float strength, float footX = 1920f, float footY = 930f)
+        {
+            if (sheet == null) return;
+            const float S = BeaconScale;
+            float size = 384f * S * FlameArtScale * Mathf.Lerp(0.55f, 1f, strength);
+            foreach (var image in beaconFlames)
+            {
+                image.texture = sheet;
+                var rect = image.rectTransform;
+                rect.pivot = new Vector2(0.5f, (384f - 126f) / 384f);   // K-102 불꽃 기준점 (144, 126)
+                rect.sizeDelta = new Vector2(size * 0.75f, size);
+                rect.anchoredPosition = new Vector2(footX + 42f * S, 1080f - footY + 649f * S);   // 화로 가운데
+            }
+        }
         public bool BeaconAboveVisible => beaconAbove.Count > 0 && beaconAbove[0].enabled;
 
         public bool CanMove => confirm == null && modal == null && (blocker == null || blocker.interactable)
@@ -170,7 +207,7 @@ namespace HumanLastRampart.Meta
                 3840f / 1080f, 0.1f, 100f);
             projection.m12 = 2f * 455.294118f / 1080f - 1f;
             yardCamera.projectionMatrix = projection;
-            Picture("World Character And Shadow", target);
+            characterPicture = Picture("World Character And Shadow", target);
 
             var floor = new GameObject("Walkable Ground", typeof(BoxCollider));
             floor.transform.SetParent(world.transform, false);
@@ -274,6 +311,7 @@ namespace HumanLastRampart.Meta
                 if (keyboard.wKey.isPressed || keyboard.upArrowKey.isPressed) input.y += 1f;
                 if (keyboard.sKey.isPressed || keyboard.downArrowKey.isPressed) input.y -= 1f;
             }
+            if (modal != null && keyboard != null && keyboard.escapeKey.wasPressedThisFrame) CloseModal();   // Esc로 등대 창 닫기 (S5)
             walking = Move(input, Time.unscaledDeltaTime);
             if (CanMove && keyboard != null && (keyboard.eKey.wasPressedThisFrame || keyboard.spaceKey.wasPressedThisFrame)) Nearest()?.Use?.Invoke();
             PlaceHero();

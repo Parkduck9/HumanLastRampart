@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using HumanLastRampart.Core.CombatContracts;
 
@@ -98,6 +98,10 @@ namespace HumanLastRampart.Core.Campaign
         }
 
         // 다음 밤이 점화의 밤인가: 복구가 선을 넘고 성벽도 90% 이상일 때만
+        // 등대 탑 불꽃 세기 0~1 (전투 화면·정비 마당이 같이 쓴다, W9 S4). 탑은 어느 쪽에서도 꺼짐이 없다 — 복구가 세기를 정하고 점화의 밤이면 완전 점화
+        public static float TowerFlameStrength(float repair, bool ignitionNight) =>
+            ignitionNight ? 1f : 0.35f + 0.5f * Math.Max(0f, Math.Min(1f, repair / RepairMax));
+
         public static bool IsIgnitionNight(CampaignState campaign) => RepairReady(campaign) && WallsReady(campaign);
 
         // 점화에 모자란 것을 알림으로 (정비 화면). 둘 다 되면 null

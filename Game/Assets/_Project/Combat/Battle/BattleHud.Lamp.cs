@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using HumanLastRampart.Core.CombatContracts;
 using HumanLastRampart.UI;
 using UnityEngine;
@@ -17,6 +17,8 @@ namespace HumanLastRampart.Combat.Battle
         public event Action BeamOrderClosed;              // 명령 판의 [닫기]
         readonly Button[] lampButtons = new Button[3];
         Text beamStatus;
+        int statusKey = -1;
+        string statusText, statusPanelText;
         static readonly LampBrightness[] LampOrder = { LampBrightness.Low, LampBrightness.Normal, LampBrightness.High };
         static readonly string[] LampLabels = { "약", "보통", "강" };
 
@@ -46,9 +48,19 @@ namespace HumanLastRampart.Combat.Battle
         {
             if (sim == null || lampButtons[0] == null) return;
             for (int i = 0; i < lampButtons.Length; i++) Ui.SetOn(lampButtons[i], LampOrder[i] == sim.Lamp);
-            string status = BeamStatusText(sim);
-            if (beamStatus != null) beamStatus.text = status + "\n방향은 가운데 등대 탑에서 명령 (E)";
-            RefreshBeamOrder(sim, status);
+            // 글은 바뀔 때만 새로 만든다 (매 프레임 문자열 할당 방지)
+            int nowSide = NearestSide(sim.BeamAngleDegrees);
+            int leftSeconds = sim.BeamRotating ? Mathf.CeilToInt(sim.BeamSecondsLeft) : 0;
+            int key = (nowSide * 8 + (sim.BeamRotating ? 1 + sim.BeamSide : 0)) * 1000 + leftSeconds;
+            if (key != statusKey)
+            {
+                statusKey = key;
+                statusText = BeamStatusText(sim);
+                statusPanelText = statusText + "\n방향은 가운데 등대 탑에서 명령 (E)";
+            }
+
+            if (beamStatus != null && beamStatus.text != statusPanelText) beamStatus.text = statusPanelText;
+            RefreshBeamOrder(sim, statusText);
         }
 
         // "빛줄기 북쪽" / "빛줄기 북쪽 → 동쪽 (도는 중, 4초 남음)"
@@ -56,8 +68,8 @@ namespace HumanLastRampart.Combat.Battle
         {
             string now = SideFull[NearestSide(sim.BeamAngleDegrees)];
             if (!sim.BeamRotating) return "빛줄기 " + now;
-            float left = BattleSim.BeamRotateSeconds * (1f - sim.BeamRotateProgress);
-            return $"빛줄기 {SideFull[sim.BeamSide]}으로 도는 중 ({left:0}초 남음)";
+            int left = Mathf.Max(1, Mathf.CeilToInt(sim.BeamSecondsLeft));   // 올림 — 0초 남음이 보이지 않게
+            return $"빛줄기 {SideFull[sim.BeamSide]}으로 도는 중 ({left}초 남음)";
         }
 
         static int NearestSide(float degrees)
@@ -127,7 +139,7 @@ namespace HumanLastRampart.Combat.Battle
         void RefreshBeamOrder(BattleSim sim, string status)
         {
             if (beamOrderBoard == null || !beamOrderBoard.activeSelf) return;
-            beamOrderStatus.text = status;
+            if (beamOrderStatus.text != status) beamOrderStatus.text = status;
             for (int side = 0; side < 4; side++) Ui.SetOn(beamOrderButtons[side], side == sim.BeamSide);
         }
 
@@ -144,7 +156,7 @@ namespace HumanLastRampart.Combat.Battle
             towerPrompt = null;
             if (key == null) return;
             towerPrompt = Ui.KeyHint(root.transform, key, text);
-            Ui.Place(towerPrompt, new Vector2(0.5f, 0f), new Vector2(0f, Edge + 8f), new Vector2(520f, 40f), new Vector2(0.5f, 0f));
+            Ui.Place(towerPrompt, new Vector2(0.5f, 0f), new Vector2(0f, Edge + 8f), new Vector2(520f, 40f), new Vector2(0.5f, 0f));   // N6: 글 앞뒤 공백 없음
             towerPrompt.gameObject.AddComponent<ContentSizeFitter>().horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
         }
     }

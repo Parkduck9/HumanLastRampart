@@ -1,4 +1,4 @@
-using HumanLastRampart.Core.Campaign;
+﻿using HumanLastRampart.Core.Campaign;
 using HumanLastRampart.Core.CombatContracts;
 using HumanLastRampart.Core.Definitions;
 using HumanLastRampart.Core.Flow;
@@ -116,6 +116,7 @@ namespace HumanLastRampart.Combat.Battle
             {
                 // 명령 (CY2-C3): 적용될 때 진행 데이터의 표적 설정에도 기록 (C-011 — 다음 전투에도 유지)
                 sim.Notice += hud.PushNotice;
+                sim.SquadOrderStarted += () => SquadOrders++;
                 sim.WallCommandApplied += (side, priority) => Targeting()?.SetWall(WallIds.Of((WallSide)side), priority);
                 sim.GlobalCommandApplied += priority => Targeting()?.SetGlobal(priority);
                 hud.CommandChosen += OnCommandChosen;
@@ -147,10 +148,12 @@ namespace HumanLastRampart.Combat.Battle
             if (sim == null || group < 0 || group >= sim.GroupCount) return;
             BattleSim.GroupInfo info = sim.GetGroup(group);
             if (info.Side < 0 || info.Side == targetSide) return;
-            if (preparing) sim.IssueGroupMove(group, targetSide, true);
-            else if (CommanderAt(info.Side)) sim.IssueGroupMove(group, targetSide, false);
-            else sim.IssueGroupMoveByMessenger(rig.Side, rig.Along, group, targetSide);
-            SquadOrders++;
+            if (preparing || CommanderAt(info.Side))
+            {
+                sim.IssueGroupMove(group, targetSide, preparing);
+                SquadOrders++;
+            }
+            else sim.IssueGroupMoveByMessenger(MessengerFrom, rig.Along, group, targetSide);   // 실제로 출발하면 SquadOrderStarted가 센다 (W9)
             selectedGroup = -1;
         }
 
@@ -164,7 +167,7 @@ namespace HumanLastRampart.Combat.Battle
             if (side == targetSide) return;
             if (preparing) sim.IssueCannonMove(cannon, targetSide, true);
             else if (CommanderAt(side)) sim.IssueCannonMove(cannon, targetSide, false);
-            else sim.IssueCannonMoveByMessenger(rig.Side, rig.Along, cannon, targetSide);
+            else sim.IssueCannonMoveByMessenger(MessengerFrom, rig.Along, cannon, targetSide);
             selectedCannon = -1;
         }
 
@@ -180,10 +183,12 @@ namespace HumanLastRampart.Combat.Battle
         {
             if (sim == null || maxGroups <= 0 || wall > 3 || targetSide < 0 || targetSide > 3) return;
             if (wall < 0 || wall == targetSide) return;
-            if (preparing) sim.IssueWallMove(wall, targetSide, true, maxGroups);
-            else if (CommanderAt(wall)) sim.IssueWallMove(wall, targetSide, false, maxGroups);
-            else sim.IssueWallMoveByMessenger(rig.Side, rig.Along, wall, targetSide, maxGroups);
-            SquadOrders++;
+            if (preparing || CommanderAt(wall))
+            {
+                sim.IssueWallMove(wall, targetSide, preparing, maxGroups);
+                SquadOrders++;
+            }
+            else sim.IssueWallMoveByMessenger(MessengerFrom, rig.Along, wall, targetSide, maxGroups);
             selectedGroup = -1;
         }
 
@@ -271,13 +276,15 @@ namespace HumanLastRampart.Combat.Battle
         {
             if (sim == null) return;
             if (preparing || CommanderAt(side)) sim.IssueDirect(side, priority);
-            else sim.IssueMessenger(rig.Side, rig.Along, side, priority);
+            else sim.IssueMessenger(MessengerFrom, rig.Along, side, priority);
         }
 
         public bool Preparing => preparing;
 
         // 주인공이 그 성벽을 지키고 있는가 (W9: 계단으로 내려가 등대 탑에 있으면 어느 성벽에도 없다 → 명령은 전령이 전한다)
         bool CommanderAt(int side) => rig == null || (rig.OnWall && rig.Side == side);
+        // 전령이 떠나는 곳: 성벽 위면 주인공 곁, 탑에 있으면 등대 탑 (어느 성벽이든 탑 전령이 닿아야 한다 — 북쪽도)
+        int MessengerFrom => rig != null && rig.OnWall ? rig.Side : BattleSim.TowerOrigin;
 
         // ── 등대 탑 (W9, Concept_Beacon_v1 9.7 4차 결정) ──
         // 북쪽 성벽 통로 가운데 안쪽 끝(계단)에서 E → 마당 가운데 탑으로 내려간다. 탑에서 E → 빛줄기 명령 (지도가 떠서 방향 단추 + 지금 방향).
@@ -291,11 +298,14 @@ namespace HumanLastRampart.Combat.Battle
         public bool AtTower => rig != null && rig.AtTower;
 
         // E 키가 하는 일. 일어난 일이 있으면 true
+        // 탑 오르내리기에 쓰는 전투 시간: 멈춤·지도 시간 멈춤·튜토리얼 정지면 0, 아니면 배속 반영 (S1)
+        float TowerDelta() => paused || MapFreezesTime || TutorialTimeScale <= 0f ? 0f : Mathf.Min(Time.deltaTime, 1f / 20f) * speed * TutorialTimeScale;
+
         public bool Interact()
         {
             if (sim == null || rig == null || sim.Ended || preparing || rig.InTransition) return false;
             if (beamOrderMode) { CloseBeamOrder(); return true; }
-            if (mapOpen) return false;
+            if (mapOpen || paused || TutorialTimeScale <= 0f) return false;   // 멈춘 동안은 계단·탑을 쓰지 않는다
             if (rig.AtTower) { OpenBeamOrder(); return true; }
             return rig.OnWall && rig.GoDown();
         }
@@ -336,7 +346,7 @@ namespace HumanLastRampart.Combat.Battle
         {
             if (hud == null || rig == null) return;
             if (mapOpen || sim == null || sim.Ended || preparing || rig.InTransition) hud.SetTowerPrompt(null, null);
-            else if (rig.AtTower) hud.SetTowerPrompt("E", "등대 일꾼에게 빛줄기 명령   (Q 성벽으로 올라가기)");
+            else if (rig.AtTower) hud.SetTowerPrompt("E", "등대 일꾼에게 빛줄기 명령 (Q 성벽으로 올라가기)");
             else if (rig.OnWall && rig.NearStairs) hud.SetTowerPrompt("E", "계단으로 내려가 등대로");
             else hud.SetTowerPrompt(null, null);
         }
@@ -525,6 +535,7 @@ namespace HumanLastRampart.Combat.Battle
 
             if (mapOpen)
             {
+                rig?.TickTower(TowerDelta());   // 지도가 열려 있어도 탑 오르내리기는 전투 시간대로 이어진다
                 mapCamera.Update(Time.unscaledDeltaTime);
                 // 대포를 고른 상태에서 들판(UI 바깥)을 왼쪽 클릭 → 조준점
                 // 아무것도 고르지 않았으면 내 함정 표시를 눌러 점화 (D-050)
@@ -657,7 +668,7 @@ namespace HumanLastRampart.Combat.Battle
                     UseTelescope(world);
                 }
             }
-            else rig?.Update(Time.unscaledDeltaTime);
+            else rig?.Update(Time.unscaledDeltaTime, TowerDelta());
 
             // 쉬움: 지도가 열린 동안 전투 시간 정지 (확정 B4). 멈춘 동안 내린 명령은 바로 적용된다(작업이 돌지 않음, D-044 M8)
             if (paused || MapFreezesTime || TutorialTimeScale <= 0f)
@@ -849,6 +860,7 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             endShown = true;
+            CloseBeamOrder();   // 전투가 끝나면 탑 명령 판도 접는다 (N1)
             bool victory = sim.Outcome == BattleOutcome.Victory;
             string line;
             if (victory)

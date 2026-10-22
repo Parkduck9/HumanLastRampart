@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace HumanLastRampart.Combat.Battle
@@ -75,7 +75,15 @@ namespace HumanLastRampart.Combat.Battle
             return true;
         }
 
-        // 탑에서 성벽으로 올라가기 (내려가는 중에도 되돌릴 수 있다)
+        // 탑 오르내리는 시간 진행 (전투 시간 기준 — BattleEntry가 멈춤·지도 중에도 부른다: 지도를 열어도 내려가는 중에 얼어붙지 않는다). 움직였으면 true
+        public bool TickTower(float dt)
+        {
+            float before = towerBlend;
+            towerBlend = Mathf.MoveTowards(towerBlend, towerTarget ? 1f : 0f, dt / TowerSeconds);
+            return !Mathf.Approximately(before, towerBlend);
+        }
+
+        // 탑에서 성벽으로 올라가기. 내려가는 중이면 그 자리에서 되돌아 올라간다 (성벽에 닿을 때까지 OnWall은 false)
         public bool GoUp()
         {
             if (!towerTarget) return false;
@@ -153,7 +161,8 @@ namespace HumanLastRampart.Combat.Battle
         // 주인공이 갈 수 있는 성벽 따라 끝: 모서리 안쪽 점에서 옆 성벽과 이어진다
         float Limit => castleHalf - inset;
 
-        public void Update(float unscaledDt)
+        // towerDt = 탑 오르내리기에 쓰는 전투 시간(배속 반영, 멈춤·지도 시간 멈춤이면 0). 생략하면 unscaledDt (시험)
+        public void Update(float unscaledDt, float towerDt = -1f)
         {
             var keyboard = Keyboard.current;
             float pan = 0f, depth = 0f;
@@ -167,12 +176,10 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             // 탑으로 내려가는 중·탑 앞·올라오는 중에는 성벽 이동 입력을 받지 않는다 (W9)
-            float towerBefore = towerBlend;
-            towerBlend = Mathf.MoveTowards(towerBlend, towerTarget ? 1f : 0f, unscaledDt / TowerSeconds);
+            bool walking = TickTower(towerDt >= 0f ? towerDt : unscaledDt);
             if (towerTarget || towerBlend > 0f)
             {
                 runDir = 0;
-                bool walking = !Mathf.Approximately(towerBefore, towerBlend);
                 Pose = walking ? HeroPose.Walk : HeroPose.Idle;
                 FacingFront = walking && towerTarget;   // 내려갈 때는 사진기 쪽으로 걸어오는 앞모습, 올라갈 때는 뒷모습
                 Step(walking, unscaledDt);

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using HumanLastRampart.App.Data;
 using HumanLastRampart.Combat.Battle;
 using HumanLastRampart.Core.Campaign;
@@ -135,13 +135,96 @@ namespace HumanLastRampart.Combat.Tests
         }
 
         [Test]
-        public void Beacon_TowerSizeMatchesK102Figure()
+        public void Beacon_TowerSizeMatchesK110Art()
         {
-            // K-102: 사람 73점 = 주인공 키, 칸 384점 → 칸 높이 약 0.66m, 화로는 발에서 약 0.40m 위
-            Assert.AreEqual(BattleView.HeroDrawSize * 384f / 219f, BattleBeaconView.CellMeters, 1e-4f);
-            Assert.AreEqual(0.40f, BattleBeaconView.BowlHeight, 0.02f);
+            // K-110: 탑 그림 칸 크기와 불그릇 높이는 W9 2차에서 새 그림(탑 키 약 3m)에 맞춘다
+            Assert.Greater(BattleBeaconView.TowerCellMeters, 1.2f);
+            Assert.Greater(BattleBeaconView.BowlHeight, 0.8f);
+            Assert.Less(BattleBeaconView.BowlHeight, BattleBeaconView.TowerCellMeters);
         }
 
+        [Test]
+        public void TowerFlameStrength_IgnitionNightFullElseFromRepair()
+        {
+            Assert.AreEqual(1f, BeaconRules.TowerFlameStrength(0f, true), 1e-4f);
+            Assert.AreEqual(0.35f, BeaconRules.TowerFlameStrength(0f, false), 1e-4f);
+            Assert.AreEqual(0.85f, BeaconRules.TowerFlameStrength(BeaconRules.RepairMax, false), 1e-4f);
+            Assert.Greater(BeaconRules.TowerFlameStrength(50f, false), BeaconRules.TowerFlameStrength(10f, false));
+        }
+
+        static void Step(BattleSim sim, ref float time)
+        {
+            const float dt = 0.05f;
+            sim.BeginFrame(dt);
+            if (sim.Ended) return;
+            time += dt;
+            sim.Schedule(dt, time);
+            sim.Complete();
+        }
+
+        static BattleSim NewSim()
+        {
+            DefinitionLookup lookup = Lookup();
+            CampaignState campaign = CampaignFactory.Create(lookup, new NewGameOptions(Difficulty.Easy), 11);
+            BattleSetup setup = BattleSetupFactory.Create(campaign, lookup, "run_tower_courier", out string error);
+            Assert.IsNull(error);
+            return new BattleSim(setup, lookup);
+        }
+
+        [Test]
+        public void Rotate_SameSideIgnored_And180Takes12Seconds()
+        {
+            using (var sim = NewSim())
+            {
+                float time = 0f;
+                sim.RotateBeam(sim.BeamSide);
+                Assert.IsFalse(sim.BeamRotating, "같은 방향 명령은 무시");
+                int far = (sim.BeamSide + 2) % 4;
+                sim.RotateBeam(far);
+                Assert.IsTrue(sim.BeamRotating);
+                Assert.AreEqual(12f, sim.BeamSecondsLeft, 0.01f, "180도 = 12초");
+                for (int i = 0; i < 230; i++) Step(sim, ref time);   // 11.5초
+                Assert.IsTrue(sim.BeamRotating);
+                for (int i = 0; i < 20; i++) Step(sim, ref time);
+                Assert.IsFalse(sim.BeamRotating);
+            }
+        }
+
+        [Test]
+        public void TowerCouriers_ThreeStandby_RunToWall_ForthQueues()
+        {
+            using (var sim = NewSim())
+            {
+                float time = 0f;
+                int started = 0;
+                var notices = new List<string>();
+                sim.SquadOrderStarted += () => started++;
+                sim.Notice += n => notices.Add(n);
+                Assert.AreEqual(3, sim.TowerCouriersFree);
+
+                sim.IssueMessenger(BattleSim.TowerOrigin, 0f, 1, TargetPriority.HighestHpRatio);
+                sim.IssueMessenger(BattleSim.TowerOrigin, 0f, 2, TargetPriority.HighestHpRatio);
+                sim.IssueMessenger(BattleSim.TowerOrigin, 0f, 3, TargetPriority.HighestHpRatio);
+                Step(sim, ref time);
+                Assert.AreEqual(0, sim.TowerCouriersFree);
+                Assert.AreEqual(0, started, "빛·우선순위 명령은 분대 명령 수에 세지 않는다");
+
+                sim.IssueMessenger(BattleSim.TowerOrigin, 0f, 1, TargetPriority.Nearest);
+                Step(sim, ref time);
+                Assert.AreEqual(1, sim.TowerOrdersQueued, "네 번째 명령은 줄을 선다");
+                Assert.IsTrue(notices.Exists(n => n.Contains("줄을 섭니다")), "줄 섰다고 알린다");
+                Assert.IsTrue(sim.GetTowerCourier(0).Busy);
+
+                float limit = 0f;
+                for (int s = 0; s < 4; s++) limit = Mathf.Max(limit, sim.TowerRouteSeconds(s));
+                for (int i = 0; i < (int)(limit * 2f / 0.05f) + 200; i++) Step(sim, ref time);
+                Assert.AreEqual(0, sim.TowerOrdersQueued);
+                Assert.AreEqual(TargetPriority.Nearest, sim.PriorityOf(1), "줄 선 명령도 결국 성벽에 적용 — 조용히 사라지지 않는다");
+
+                for (int i = 0; i < (int)(limit * 3f / 0.05f); i++) Step(sim, ref time);
+                Assert.AreEqual(3, sim.TowerCouriersFree, "전령은 탑으로 돌아와 다시 대기");
+            }
+        }
         static DefinitionLookup Lookup()
         {
             var catalogs = new List<DefinitionCatalog>();

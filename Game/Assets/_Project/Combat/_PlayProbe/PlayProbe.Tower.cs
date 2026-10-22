@@ -10,15 +10,16 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 
-// 등대 탑 (W9): 주인공이 북쪽 성벽 계단으로 내려가 탑에서 동쪽 빛줄기를 명령하고, 일꾼이 6초 동안 돌리고, 다시 올라온다.
+// 등대 탑 (W9): 주인공이 북쪽 성벽 계단으로 내려가 탑에서 동쪽 빛줄기를 명령하고, 일꾼이 6초 동안 돌리고, 탑 전령이 성벽으로 달려 나가고, 다시 올라온다.
 // 사진 1920×1080: 탑 앞 주인공·일꾼, 명령 지도(지금 방향), 도는 중 지도(목표 방향), 일꾼이 미는 모습, 도착 뒤. 결과: HLR_PLAY_OUT/NN_tower_*.png, tower_probe.txt
 public sealed partial class PlayProbe
 {
-    // 주인공 이동·계단은 실제 시간(unscaledDeltaTime)으로 움직이므로 프레임 수가 아니라 실제 초로 기다린다
+    // 주인공 이동·계단은 전투 시간(S1: 멈추면 멈춘다)을 따르므로 프레임 수(프레임당 0.05초)로 기다린다
     static IEnumerator WaitFor(System.Func<bool> condition, float seconds)
     {
+        // 걷기 입력은 실제 시간, 계단은 전투 시간(프레임당 0.05초)이라 둘 다 지나야 포기한다
         var watch = System.Diagnostics.Stopwatch.StartNew();
-        while (!condition() && watch.Elapsed.TotalSeconds < seconds) yield return null;
+        for (int i = 0; !condition() && (i < (int)(seconds * 20f) || watch.Elapsed.TotalSeconds < seconds); i++) yield return null;
     }
 
     [UnityTest]
@@ -58,7 +59,6 @@ public sealed partial class PlayProbe
             Assert.IsTrue(view.Beacon.HasArt, "탑 그림 연결");
             Assert.AreEqual(0, sim.BeamSide, "처음 빛줄기 = 북");
 
-            entry.TutorialTimeScale = 0f;   // 걷는 동안 전투 시간을 멈춘다 (주인공 이동은 실제 시간이라 전투가 끝나 버린다)
             // 1) 성벽 위: 통로 안쪽 끝(계단)으로 걸어가 E
             Assert.IsTrue(rig.OnWall);
             Assert.IsFalse(entry.Interact(), "계단에서 멀면 E는 아무 일도 없다");
@@ -68,17 +68,19 @@ public sealed partial class PlayProbe
             Assert.IsTrue(rig.NearStairs, $"통로 안쪽 끝에서 계단 (면 {rig.Side}, along {rig.Along:0.0}, inset {rig.Inset:0.00}, 지도 {entry.MapOpen}, 준비 {entry.Preparing})");
             yield return Capture("tower_00_stairs", PfWidth, PfHeight);
             Assert.IsTrue(entry.Interact(), "E: 탑으로 내려가기");
-            entry.TutorialTimeScale = 1f;
             for (int i = 0; i < 4; i++) yield return null;
             Assert.IsFalse(sim.CommanderOnWall, "내려가는 순간 성벽은 지휘관 없음");
-            entry.TutorialTimeScale = 0f;
             yield return WaitFor(() => rig.AtTower, 8f);
             Assert.IsTrue(rig.AtTower, "탑 앞 도착");
             for (int i = 0; i < 20; i++) yield return null;
+            // 카메라는 실제 시간으로 따라온다: 사진 기다리는 동안만 전투를 멈춰 둔다 (계단 걷기 자체는 전투 시간이다)
+            entry.TutorialTimeScale = 0f;
+            yield return new WaitForSecondsRealtime(1.5f);
+            entry.TutorialTimeScale = 1f;
+            for (int i = 0; i < 2; i++) yield return null;
             Note($"탑 도착: 발 ({rig.HeroFeet.x:0.00}, {rig.HeroFeet.y:0.00}, {rig.HeroFeet.z:0.00}), 지휘관 성벽 위 {sim.CommanderOnWall}");
             yield return Capture("tower_01_idle", PfWidth, PfHeight);
 
-            entry.TutorialTimeScale = 1f;
             // 2) 탑에서 E: 명령 지도
             entry.BeamMapStaySeconds = 99f;   // 사진 찍는 동안 지도를 닫지 않는다
             Assert.IsTrue(entry.Interact(), "E: 빛줄기 명령");
@@ -116,12 +118,24 @@ public sealed partial class PlayProbe
             for (int i = 0; i < 6; i++) yield return null;
             yield return Capture("tower_06_done", PfWidth, PfHeight);
 
+            // 4-b) 탑 전령 3명: 명령 4개 -> 3명이 달려 나가고 하나는 줄을 선다 (B1)
+            var notices = new System.Collections.Generic.List<string>();
+            sim.Notice += n => notices.Add(n);
+            for (int s = 0; s < 3; s++) sim.IssueMessenger(BattleSim.TowerOrigin, 0f, new[] { 0, 2, 3 }[s], HumanLastRampart.Core.Campaign.TargetPriority.HighestHpRatio);
+            sim.IssueMessenger(BattleSim.TowerOrigin, 0f, 0, HumanLastRampart.Core.Campaign.TargetPriority.Nearest);
+            for (int i = 0; i < 40; i++) yield return null;   // 약 2초
+            Assert.AreEqual(0, sim.TowerCouriersFree, "전령 3명 모두 출발");
+            Assert.AreEqual(1, sim.TowerOrdersQueued, "네 번째는 줄");
+            Assert.IsTrue(notices.Exists(n => n.Contains("줄을 섭니다")));
+            Assert.IsTrue(sim.GetTowerCourier(0).Busy);
+            yield return Capture("tower_07_couriers_running", PfWidth, PfHeight);
+            for (int i = 0; i < 60; i++) yield return null;
+            yield return Capture("tower_08_couriers_running_later", PfWidth, PfHeight);
+
             // 5) 올라가기
-            entry.TutorialTimeScale = 0f;
             entry.LeaveTower();
             yield return WaitFor(() => rig.OnWall, 8f);
             Assert.IsTrue(rig.OnWall, "성벽으로 복귀");
-            entry.TutorialTimeScale = 1f;
             for (int i = 0; i < 4; i++) yield return null;
             Assert.IsTrue(sim.CommanderOnWall, "복귀하면 다시 성벽 지휘관");
             Note("계단 내려가기 → 탑 명령 → 6초 회전 → 올라오기 통과");
