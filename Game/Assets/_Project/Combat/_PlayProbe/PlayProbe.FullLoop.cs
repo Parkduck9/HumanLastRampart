@@ -248,7 +248,7 @@ public sealed partial class PlayProbe
         }
     }
 
-    // 패배 경로: 전투 패배 → (결과 화면 건너뜀) 패배 엔딩 스토리 → 메인, 진행 데이터 폐기
+    // 패배 경로: 전투 패배 → 결과 화면 → 패배 엔딩 스토리 → 메인, 진행 데이터 폐기
     [UnityTest]
     public IEnumerator FullLoopDefeat()
     {
@@ -269,7 +269,22 @@ public sealed partial class PlayProbe
             Assert.IsNotNull(story, "스토리 재생기");
             story.Skip();
             yield return WaitScreen(ScreenId.Battle, 900);   // 준비 단계는 WaitScreen이 바로 넘긴다
+            var lossCampaign = GameFlow.Instance.Campaign;
+            int soldiersBeforeLoss = lossCampaign.Squads.Sum(s => s.Count), northBeforeLoss = lossCampaign.Wall.First(w => w.SegmentId == WallIds.North).Hp, goldBeforeLoss = lossCampaign.Gold;
             yield return Press(LoopKeys.TestLoseWall, 300);
+
+            // W11: 첫 패배도 결과 화면(4번)을 거친다 — 결과(병력 손실·성벽 피해)가 한 번 반영되고 보상 골드는 없다
+            yield return WaitScreen(ScreenId.Result, 900);
+            yield return WaitPressable(LoopKeys.ResultNext, 300);
+            BattleResult lossResult = lossCampaign.LastBattle;
+            Assert.AreEqual(BattleOutcome.Defeat, lossResult.Outcome);
+            Assert.AreEqual(lossResult.BattleRunId, lossCampaign.LastAppliedBattleRunId, "진 밤의 결과가 반영됨 (LastAppliedBattleRunId)");
+            Assert.AreEqual(soldiersBeforeLoss - lossResult.SquadLosses.Sum(l => l.LostCount), lossCampaign.Squads.Sum(s => s.Count), "잃은 병사 반영");
+            Assert.Greater(lossResult.SquadLosses.Sum(l => l.LostCount), 0, "시험 패배 결과에 분대 손실이 들어 있다");
+            Assert.AreEqual(Mathf.Max(0, northBeforeLoss - 50), lossCampaign.Wall.First(w => w.SegmentId == WallIds.North).Hp, "성벽 피해 반영");
+            Assert.AreEqual(goldBeforeLoss, lossCampaign.Gold, "진 밤은 보상 골드가 없다");
+            Assert.AreEqual(0, lossCampaign.ConsecutiveNightLosses, "복구 절반·연속 패배는 결과 화면을 닫은 뒤");
+            yield return Press(LoopKeys.ResultNext, 300);
 
             // W8: 첫 패배는 엔딩이 아니다 — 등대 복구 절반·연속 패배 1, 같은 요새의 다음 낮. 한 번 더 지면 패배 엔딩
             yield return WaitScreen(ScreenId.Prep, 900);
@@ -281,9 +296,20 @@ public sealed partial class PlayProbe
             for (int i = 0; i < 3; i++) yield return null;
             yield return Press(LoopKeys.StartNextBattle, 60);
             yield return WaitScreen(ScreenId.Battle, 900);
+            int soldiersBeforeSecond = lossCampaign.Squads.Sum(s => s.Count);
             yield return Press(LoopKeys.TestLoseWall, 300);
+            // W11: 연속 두 번째 패배(엔딩)도 결과 화면에서 그 밤의 손실을 보여 준 뒤 패배 엔딩으로 간다
+            yield return WaitScreen(ScreenId.Result, 900);
+            yield return WaitPressable(LoopKeys.ResultNext, 300);
+            Assert.AreEqual(soldiersBeforeSecond - lossCampaign.LastBattle.SquadLosses.Sum(l => l.LostCount), lossCampaign.Squads.Sum(s => s.Count), "엔딩 밤의 손실도 결과 화면에서 반영·표시");
+            System.DateTime saveBefore = File.GetLastWriteTimeUtc(HumanLastRampart.Core.Save.CampaignSave.SlotPath);
+            yield return Press(LoopKeys.ResultNext, 300);
             yield return WaitScreen(ScreenId.Story, 900);
-            Assert.AreEqual(StoryKind.DefeatEnding, GameFlow.Instance.Campaign.NextStory.Kind, "패배 뒤 패배 엔딩 (결과 화면 건너뜀)");
+            // W11: 엔딩 예약으로 이야기에 가는 넘어감은 저장하지 않는다 (저장하면 이어하기가 정비로 가서 판이 계속된다)
+            Assert.AreEqual(saveBefore, File.GetLastWriteTimeUtc(HumanLastRampart.Core.Save.CampaignSave.SlotPath), "패배 엔딩 이야기 진입 때 저장하지 않음");
+            if (HumanLastRampart.Core.Save.CampaignSave.TryLoad(out CampaignState savedCampaign, out _, out _))
+                Assert.AreNotEqual(StoryKind.DefeatEnding, savedCampaign.NextStory?.Kind, "저장에 패배 엔딩이 예약돼 있지 않음");
+            Assert.AreEqual(StoryKind.DefeatEnding, GameFlow.Instance.Campaign.NextStory.Kind, "패배 뒤 패배 엔딩 (결과 화면 뒤)");
             HumanLastRampart.Story.StoryPlayer ending = null;
             for (int i = 0; i < 300 && (ending == null || ending == story); i++) { ending = Object.FindAnyObjectByType<HumanLastRampart.Story.StoryPlayer>(); if (ending == null) yield return null; }
             Assert.IsNotNull(ending, "패배 엔딩 재생기");

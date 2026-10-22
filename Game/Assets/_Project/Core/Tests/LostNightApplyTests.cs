@@ -112,6 +112,38 @@ namespace HumanLastRampart.Core.Tests
             Assert.Greater(c.LastNightGarrison, 0);
         }
 
+        // W11: 성벽 보강은 새 요새로 넘어가지 않는다 (점화 → 다음 요새: 최대 체력·보강 횟수가 기본으로)
+        [Test]
+        public void IgnitionToNextFortress_ResetsWallReinforcement()
+        {
+            var rules = UnityEngine.ScriptableObject.CreateInstance<HumanLastRampart.Core.Definitions.BattleRulesDef>();
+            try
+            {
+                CampaignState c = Prepared(BattleOutcome.Victory, out BattleResult result);
+                c.Gold = 100000;
+                Assert.IsTrue(BeaconRules.TryReinforceWall(c, WallIds.North, rules, out string why), why);
+                Assert.IsTrue(BeaconRules.TryReinforceWall(c, WallIds.North, rules, out why), why);
+                Assert.AreEqual(1000 + 2 * rules.WallReinforceHp, c.FindWall(WallIds.North).MaxHp);
+                c.ActiveBattleSetup.IsIgnitionNight = true;
+                c.FortressNumber = 1;
+                c.NightNumber = 2;
+                c.BattleNumber = 4;
+                c.ActiveBattleSetup.Wall.Clear();
+                foreach (WallSegmentState w in c.Wall) c.ActiveBattleSetup.Wall.Add(w.Clone());
+                result.WallOutcomes.Clear();
+                foreach (WallSegmentState w in c.Wall) result.WallOutcomes.Add(new WallOutcome { SegmentId = w.SegmentId, HpAfter = w.Hp });
+                Assert.IsTrue(BattleResultApplier.TryApply(c, out string error), error);
+                BeaconRules.ApplyWin(c, c.ActiveBattleSetup, result);
+                Assert.AreEqual(2, c.FortressNumber, "다음 요새");
+                WallSegmentState north = c.FindWall(WallIds.North);
+                Assert.AreEqual(1000, north.MaxHp, "최대 체력은 기본으로");
+                Assert.AreEqual(1000, north.Hp);
+                Assert.AreEqual(0, north.Reinforced, "보강 횟수 초기화 (값도 처음부터)");
+                Assert.AreEqual(0, north.BonusMaxHp);
+            }
+            finally { UnityEngine.Object.DestroyImmediate(rules); }
+        }
+
         [Test]
         public void BeaconRepair_LimitedPerDay_ResetsWhenDayBegins()        {
             CampaignState c = Prepared(BattleOutcome.Defeat, out _);

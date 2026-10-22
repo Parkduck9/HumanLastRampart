@@ -147,6 +147,7 @@ namespace HumanLastRampart.Combat.Battle
         NativeArray<float> eAnim;
         NativeArray<int> eGroup;            // 웨이브 무리 번호 (망원경, MAP-5)
         NativeArray<byte> eTier;            // 변형 단계 (setup.EnemyTier, 9.5). 등대 빛줄기가 끌 때를 위해 원래 값을 남긴다
+        bool[] eTierHpOn, eTierSpeedOn;   // W11: 변형 체력·속도 보너스가 각각 켜져 있는가 (빛줄기 밝기마다 끄는 것이 다르다)
         NativeArray<byte> eTierShown;       // 지금 적용 중인 단계 (보너스 꺼지면 0). 그리기 작업이 읽는다
         NativeArray<EnemyKind> kinds;
         NativeArray<PerfLabInstance> enemyInstances;
@@ -347,6 +348,8 @@ namespace HumanLastRampart.Combat.Battle
             eGroup = new NativeArray<int>(n, p);
             eTier = new NativeArray<byte>(n, p);
             eTierShown = new NativeArray<byte>(n, p);
+            eTierHpOn = new bool[n];
+            eTierSpeedOn = new bool[n];
             enemyInstances = new NativeArray<PerfLabInstance>(n, p);
             kinds = new NativeArray<EnemyKind>(Mathf.Max(1, kindList.Count), p);
             for (int k = 0; k < kindList.Count; k++)
@@ -381,6 +384,7 @@ namespace HumanLastRampart.Combat.Battle
                     int tier = EnemyTierRules.Clamp(setup.EnemyTier);   // 오우거·사다리 고블린 포함 전부 같은 규칙 (9.5)
                     eTier[slot] = (byte)tier;
                     eTierShown[slot] = (byte)tier;
+                    eTierHpOn[slot] = eTierSpeedOn[slot] = true;
                     eMaxHp[slot] = Mathf.Max(1, Mathf.RoundToInt(Mathf.Max(1, def.MaxHp) * EnemyTierRules.HpMultiplier(tier)));
                     eHp[slot] = eMaxHp[slot];
                     eSpeed[slot] = def.MoveSpeed * EnemyTierRules.SpeedMultiplier(tier) * random.NextFloat(0.85f, 1.15f);

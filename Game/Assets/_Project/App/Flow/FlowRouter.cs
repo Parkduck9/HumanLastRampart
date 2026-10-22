@@ -39,6 +39,7 @@ namespace HumanLastRampart.App.Flow
         public bool HasNextBattle;                  // 다음 전투 번호에 웨이브가 있는가
         public bool LastBattleWasPractice;          // 연습 전투가 끝남 (D-063, C-005 v1.5 초안)
         public bool LossCanRetry;                   // W8: 진 밤이 연속 한도에 닿지 않아 같은 요새 다음 낮으로 간다 (기본 false = 패배 엔딩)
+        public bool ResultEndsRun;                  // W11: 그 진 밤이 연속 두 번째 패배다 → 결과 화면 뒤 패배 엔딩
         public bool ResultWasLostNight;             // W11: 방금 결과 화면은 진 밤의 보고였다 → 뒤에 복구 절반·지원금과 함께 같은 요새의 다음 낮
         public bool StoryIsRunComplete;            // W8: 1회차 완료 이야기 (끝나면 메인)
         public bool RunComplete;                    // W8: 결과 화면 뒤 1회차 완료 이야기로 간다
@@ -106,19 +107,19 @@ namespace HumanLastRampart.App.Flow
                         return win;
                     }
 
-                    if (state.LossCanRetry)
-                    {
-                        // W8: 첫 패배는 등대 복구가 절반으로 줄고 같은 요새의 다음 낮으로 (연속 두 번이면 아래 패배 엔딩).
-                        // W11: 잃은 병력을 보여 주려고 결과 화면(4번)을 먼저 거친다. 번호는 올리지 않는다 (같은 밤을 다시)
-                        return FlowStep.Open(ScreenId.Result);
-                    }
-
-                    FlowStep lose = FlowStep.Open(ScreenId.Story);   // 결과 화면 건너뜀
-                    lose.QueueDefeatEnding = true;
-                    return lose;
+                    // W8: 첫 패배는 등대 복구가 절반으로 줄고 같은 요새의 다음 낮으로, 연속 두 번째는 패배 엔딩.
+                    // W11: 어느 쪽이든 결과 화면(4번)에서 그 밤에 잃은 병력을 먼저 보여 준다 (번호는 올리지 않는다). 갈 곳은 결과 화면 뒤 (아래 Result)
+                    return FlowStep.Open(ScreenId.Result);
 
                 case ScreenId.Result:
                     if (outcome != ScreenOutcome.Done) return FlowStep.Stay();
+                    if (state.ResultWasLostNight && state.ResultEndsRun)
+                    {
+                        FlowStep lose = FlowStep.Open(ScreenId.Story);   // W11: 보고를 본 뒤 패배 엔딩 이야기
+                        lose.QueueDefeatEnding = true;
+                        return lose;
+                    }
+
                     if (state.ResultWasLostNight)
                     {
                         FlowStep retry = FlowStep.Open(ScreenId.Prep);

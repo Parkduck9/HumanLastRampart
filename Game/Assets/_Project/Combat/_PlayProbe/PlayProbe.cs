@@ -143,6 +143,10 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
             if (r.Outcome == BattleOutcome.Defeat && lossesBefore == 0)
             {
                 // W8: 첫 패배는 엔딩이 아니라 같은 요새의 다음 낮 (등대 복구 절반). 정비를 거쳐 같은 밤을 다시 치른다
+                yield return WaitScreen(ScreenId.Result, 900);   // W11: 첫 패배도 결과 화면(잃은 병력 보고)을 거친다
+                yield return WaitReady("다음", 300);
+                Assert.AreEqual(r.BattleRunId, c.LastAppliedBattleRunId, "진 밤의 결과 반영");
+                yield return Click("다음", 60);
                 yield return WaitScreen(ScreenId.Prep, 900);
                 Note($"첫 패배 → 낮 (복구 {c.BeaconRepair}, 연속 패배 {c.ConsecutiveNightLosses})");
                 Assert.AreEqual(1, c.ConsecutiveNightLosses, "연속 패배 +1");
@@ -154,9 +158,12 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
 
             if (r.Outcome == BattleOutcome.Defeat)
             {
+                yield return WaitScreen(ScreenId.Result, 900);   // W11: 연속 두 번째 패배도 결과 화면 뒤에 엔딩
+                yield return WaitReady("다음", 300);
+                yield return Click("다음", 60);
                 yield return WaitScreen(ScreenId.Story, 900);
                 Assert.AreEqual(StoryKind.DefeatEnding, GameFlow.Instance.Campaign.NextStory.Kind, "패배 뒤 패배 엔딩");
-                Note("패배 엔딩 화면 (결과 화면 건너뜀)");
+                Note("패배 엔딩 화면 (결과 화면을 거친 뒤)");
                 yield return Click("넘기기", 600);   // K-050 스토리 화면: 패배 엔딩도 [넘기기]
                 yield return WaitScreen(ScreenId.MainMenu, 900);
                 Assert.IsNull(GameFlow.Instance.Campaign, "메인 복귀 시 진행 데이터 폐기");
@@ -169,7 +176,9 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
             Assert.AreEqual(gold0 + r.EarnedGold, c.Gold, "결과 화면에서 골드 한 번 반영");
             Assert.AreEqual(r.BattleRunId, c.LastAppliedBattleRunId, "반영 표시 기록");
             int lost = r.SquadLosses.Sum(l => l.LostCount);
-            Assert.AreEqual(soldiers0 - lost - c.LastNightGarrison, c.Squads.Sum(s => s.Count), "잃은 병사 반영 (점화한 밤은 수비대로 남긴 인원도 빠진다)");
+            float recoverRatio = c.ActiveBattleSetup.Boosts != null ? Mathf.Clamp01(c.ActiveBattleSetup.Boosts.RecoverLostRatio) : 0f;   // 군의관 천막: 잃은 병사 일부가 돌아온다
+            int recovered = r.SquadLosses.Sum(l => Mathf.FloorToInt(l.LostCount * recoverRatio + 0.5f));
+            Assert.AreEqual(soldiers0 - lost + recovered - c.LastNightGarrison, c.Squads.Sum(s => s.Count), "잃은 병사 반영 (돌아온 병사 포함, 점화한 밤은 수비대로 남긴 인원도 빠진다)");
             // 요새를 점화하고 다음 요새로 넘어가면 성벽이 가득 채워진다 (BeaconRules.Relight) — 마지막 요새는 그대로
             bool wallsRestored = c.LastNightRelit && !(c.NextStory != null && c.NextStory.Kind == StoryKind.RunComplete);
             foreach (WallOutcome w in r.WallOutcomes)
@@ -437,6 +446,9 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
         yield return Click("닫기", 60);
         // W18: 2번째 밤이 점화의 밤이면 결과 뒤 길(지도·이야기·새 요새)과 함정 정리가 달라진다 — 이 시험은 함정 보충을 보므로 복구를 0으로 두어 늘 평범한 밤
         c.BeaconRepair = 0f;
+        // W11: 전투가 무작위(실행 번호)라 시작 병력만으로는 가끔 진다 — 이 시험은 승리 뒤 함정 반영을 보므로 시험용으로 궁수 분대를 정원까지 채워 둔다 (정비에서 모집한 것과 같은 상태)
+        int postCap = GameFlow.Instance.Definitions.All<HumanLastRampart.Core.Definitions.PreparationEconomyDef>()[0].SquadPostCapacity;   // 정원은 데이터에서 읽는다
+        foreach (SquadState archers in c.Squads) if (archers.UnitDefId == "unit_archer") archers.Count = postCap;
         yield return Click("전투 준비 완료", 300);
         yield return WaitScreen(ScreenId.Battle, 900);
         BattleSetup setup = GameFlow.Instance.Campaign.ActiveBattleSetup;

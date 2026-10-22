@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using HumanLastRampart.Core.CombatContracts;
 using HumanLastRampart.Core.Definitions;
@@ -258,6 +258,7 @@ namespace HumanLastRampart.Core.Campaign
             campaign.Gold -= price;
             wall.MaxHp += rules.WallReinforceHp;
             wall.Hp += rules.WallReinforceHp;
+            wall.BonusMaxHp += rules.WallReinforceHp;
             wall.Reinforced++;
             return true;
         }
@@ -312,7 +313,13 @@ namespace HumanLastRampart.Core.Campaign
             campaign.BeaconRepair = 0f;
             campaign.PlannedLamp = LampBrightness.Normal;
             campaign.PlannedBeamSide = 0;
-            foreach (WallSegmentState wall in campaign.Wall) wall.Hp = wall.MaxHp;
+            foreach (WallSegmentState wall in campaign.Wall)
+            {
+                wall.MaxHp -= wall.BonusMaxHp;   // W11: 성벽 보강은 새 요새로 넘어가지 않는다 — 기본 성벽·보강 횟수로 되돌린다
+                wall.BonusMaxHp = 0;
+                wall.Reinforced = 0;
+                wall.Hp = wall.MaxHp;
+            }
             campaign.Traps.Clear();
             campaign.TerrainWorks.Clear();
             campaign.RngSeed = unchecked(campaign.RngSeed * 1103515245 + 12345 + campaign.FortressNumber * 7919);

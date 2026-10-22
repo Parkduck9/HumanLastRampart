@@ -22,25 +22,36 @@ namespace HumanLastRampart.Combat.Battle
 
         // 보너스 켜기·끄기. 끄면 체력(현재 비율 유지)·속도·크기·색이 홀림 수준으로, 다시 켜면 원래대로.
         // 그리기 작업이 끝난 뒤(Complete 후) 부른다.
-        public void SetTierBonusActive(int slot, bool active)
+        public void SetTierBonusActive(int slot, bool active) => SetTierBonus(slot, active, active);
+
+        // 체력·속도 보너스를 따로 켜고 끈다 (W11: 보통 빛은 체력만, 강한 빛은 둘 다 없앤다). 크기·색은 둘 중 하나라도 켜져 있으면 그대로
+        public void SetTierBonus(int slot, bool hpActive, bool speedActive)
         {
             int tier = eTier[slot];
-            if (tier <= 0 || (eTierShown[slot] > 0) == active) return;
+            if (tier <= 0) return;
 
-            float hpFactor = EnemyTierRules.HpMultiplier(tier);
-            float speedFactor = EnemyTierRules.SpeedMultiplier(tier);
-            if (!active)
+            if (eTierHpOn[slot] != hpActive)
             {
-                hpFactor = 1f / hpFactor;
-                speedFactor = 1f / speedFactor;
+                float hpFactor = EnemyTierRules.HpMultiplier(tier);
+                if (!hpActive) hpFactor = 1f / hpFactor;
+                int newMax = Mathf.Max(1, Mathf.RoundToInt(eMaxHp[slot] * hpFactor));
+                if (eHp[slot] > 0) eHp[slot] = Mathf.Clamp(Mathf.RoundToInt(eHp[slot] * hpFactor), 1, newMax);
+                eMaxHp[slot] = newMax;
+                eTierHpOn[slot] = hpActive;
             }
 
-            int oldMax = eMaxHp[slot];
-            int newMax = Mathf.Max(1, Mathf.RoundToInt(oldMax * hpFactor));
-            if (eHp[slot] > 0) eHp[slot] = Mathf.Clamp(Mathf.RoundToInt(eHp[slot] * hpFactor), 1, newMax);
-            eMaxHp[slot] = newMax;
-            eSpeed[slot] *= speedFactor;
-            eTierShown[slot] = (byte)(active ? tier : 0);
+            if (eTierSpeedOn[slot] != speedActive)
+            {
+                float speedFactor = EnemyTierRules.SpeedMultiplier(tier);
+                eSpeed[slot] *= speedActive ? speedFactor : 1f / speedFactor;
+                eTierSpeedOn[slot] = speedActive;
+            }
+
+            byte shown = (byte)(hpActive || speedActive ? tier : 0);   // 표시 단계는 값이 바뀔 때만 쓴다
+            if (eTierShown[slot] != shown) eTierShown[slot] = shown;
         }
+
+        public bool TierHpActive(int slot) => eTier[slot] > 0 && eTierHpOn[slot];
+        public bool TierSpeedActive(int slot) => eTier[slot] > 0 && eTierSpeedOn[slot];
     }
 }

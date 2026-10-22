@@ -50,6 +50,7 @@ namespace HumanLastRampart.Combat.Tests
                 sim.DebugPlaceEnemy(b, new float3(0f, 0f, -100f));    // 빛 밖 (정남)
                 sim.Complete();
                 Assert.IsFalse(sim.TierBonusActive(a), "강 빛 안: 변형 꺼짐");
+                Assert.IsFalse(sim.TierHpActive(a) || sim.TierSpeedActive(a), "강 빛 안: 체력·속도 보너스 모두 없어짐");
                 Assert.IsTrue(sim.TierBonusActive(b), "빛 밖: 변형 그대로");
 
                 sim.DebugPlaceEnemy(a, new float3(0f, 0f, -100f));
@@ -59,7 +60,14 @@ namespace HumanLastRampart.Combat.Tests
                 sim.SetLamp(LampBrightness.Normal);
                 sim.DebugPlaceEnemy(a, new float3(0f, 0f, 100f));
                 sim.Complete();
-                Assert.IsTrue(sim.TierBonusActive(a), "보통 밝기는 변형을 끄지 않음");
+                Assert.IsTrue(sim.TierBonusActive(a), "보통 빛은 변형 전체를 끄지 않음 (속도·크기·색은 그대로)");
+                Assert.IsFalse(sim.TierHpActive(a), "W11: 보통 빛 안: 변형 체력 보너스는 없어짐");
+                Assert.IsTrue(sim.TierSpeedActive(a), "W11: 보통 빛 안: 속도 보너스는 그대로");
+                Assert.IsTrue(sim.TierHpActive(b), "빛 밖은 체력 보너스 그대로");
+
+                sim.SetLamp(LampBrightness.Low);
+                sim.Complete();
+                Assert.IsTrue(sim.TierHpActive(a) && sim.TierSpeedActive(a), "약한 빛은 아무것도 없애지 않음 (체력 보너스 다시 켜짐)");
             }
         }
 

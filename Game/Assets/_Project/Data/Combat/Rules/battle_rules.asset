@@ -24,14 +24,22 @@ MonoBehaviour:
   realisticEnemyMultiplierByBattle:
   - 1.5
   - 1.5
-  - 1.5
-  - 1.2
+  - 1.3
+  - 0.9
   spawnPerSecond: 15
   lostNightWallFloorPercent: 30
   lampCountMultipliers:
   - 1
   - 0.8
   - 1.15
+  beamRemovesTierHp:
+  - 1
+  - 0
+  - 1
+  beamRemovesTierSpeed:
+  - 0
+  - 0
+  - 1
   beaconRepairsPerDay: 1
   wallReinforceHp: 500
   wallReinforceBasePrice: 2000

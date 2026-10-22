@@ -15,6 +15,7 @@ namespace HumanLastRampart.Meta
         // 진 밤 줄: 복구 절반(둘 다 내림), 성벽 안내는 최소 비율 밑으로 떨어진 성벽이 있을 때만
         static string LostNightLine(CampaignState campaign, IScreenContext context)
         {
+            if (BeaconRules.LossEndsRun(campaign)) return "연속 두 번째 패배 — 등대를 지키지 못했습니다";
             int now = Mathf.FloorToInt(campaign.BeaconRepair), half = Mathf.FloorToInt(campaign.BeaconRepair / 2f);
             string line = now > 0 ? $"등대 복구가 절반으로: {now}% → {half}%" : "등대 복구 0%";
             int floor = FloorPercent(context);

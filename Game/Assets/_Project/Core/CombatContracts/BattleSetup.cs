@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using HumanLastRampart.Core.Campaign;
 using HumanLastRampart.Core.Flow;
@@ -38,6 +38,8 @@ namespace HumanLastRampart.Core.CombatContracts
         public LampBrightness LampBrightness;        // 밤을 시작할 때 등불 밝기 (적 수는 이 값으로 정한다. 전투 중 바꾸면 빛줄기만 바뀜)
         public int BeamSide;                         // 처음 빛줄기 방향 (WallGeometry 면 번호, 0 = 북)
         public float LampCountMultiplier;           // W11: 이 밤 등불 밝기의 적 수 배율 (전투 규칙 데이터에서 App이 채운다). 0 = 값이 없음 → BattleSim 기본표
+        public bool[] BeamRemovesTierHp;            // W11: 밝기별(보통·약·강) 빛줄기 안 변형 체력 보너스를 없애는가 (규칙 데이터). null = BattleSim 기본
+        public bool[] BeamRemovesTierSpeed;         // W11: 속도 보너스
         public int EnemyTier;                        // 적 변형 단계 0 홀림 · 1 물듦 · 2 변형 (9.5)
         public float BeaconRepair;                   // 이 밤 시작 때 등대 복구 0~100 (탑 불씨 세기 — 전투 화면과 정비 마당이 같은 규칙, W9)
         public bool IsIgnitionNight;                 // 점화의 밤 — 요새의 마지막 밤 (9.3)
