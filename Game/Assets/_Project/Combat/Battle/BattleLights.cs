@@ -10,7 +10,7 @@ namespace HumanLastRampart.Combat.Battle
     // - 폭발 빛: 마법 폭발(0.4초 번쩍)·불바다(지속 중 흔들리는 주황빛)·함정 폭발(터지는 순간 0.4초) 자리에 잠깐 밝은 빛
     // - 폭발 빛은 풀에서 다시 쓴다 (동시에 최대 FlashCapacity개). 지도 모드면 모두 끈다
     // 캐릭터(PerfLabSprite)는 추가 조명을 감싸는 빛으로 받고, 성벽·땅(기본 Lit)도 함께 밝아진다
-    public sealed class BattleLights
+    public sealed partial class BattleLights
     {
         public const float TorchSpacing = 3f;          // 성벽 따라 간격 (m). 가까운 사진기에 보이는 성벽 폭이 몇 m뿐이라 8m 간격이면 한 개도 안 잡혔다
         // 성벽 바깥 모서리에서 안쪽으로 — 난간(두께 0.3m) 바로 뒤. 자리는 간격마다 가장 가까운 돌출부 뒤(BattleSim.TorchSpots, K-045):
@@ -28,8 +28,8 @@ namespace HumanLastRampart.Combat.Battle
         // 쏠 때·터질 때 빛 (2026-10-20)
         public const float CannonImpactIntensity = 14f;
         const float MuzzleSeconds = 0.12f;
-        const float CannonMuzzleIntensity = 8f;
-        const float GunMuzzleIntensity = 1.6f;   // 사용자 '총구 빛은 조금 약하게' (2026-10-20)
+        const float CannonMuzzleIntensity = 3f;
+        const float GunMuzzleIntensity = 0.45f;   // 사용자 '총구 빛은 조금 약하게' (2026-10-20)
         const int GunFlashMax = 6;
         const float CastSeconds = 0.8f;
         const float CastIntensity = 1.5f;
@@ -134,6 +134,7 @@ namespace HumanLastRampart.Combat.Battle
                 for (int i = 0; i < flashes.Count; i++) flashes[i].enabled = false;
                 TrackTraps(Time.deltaTime);
                 AgeTimed(Time.deltaTime);
+                HumanLastRampart.Combat.Render.HlrLights.Clear();
                 UpdateTowerLight(true);
                 return;
             }
@@ -158,6 +159,7 @@ namespace HumanLastRampart.Combat.Battle
             TrackTraps(Time.deltaTime);
             UpdateFlashes();
             UpdateTowerLight(false);
+            GatherShaderLights();   // 셰이더 점광원 목록 (BattleLights.Hlr.cs) — 탑 불빛 포함
         }
 
         // 마당 가운데 등대 탑 불빛 (W9): 밤에 탑 꼭대기에서 마당을 비춘다. 세기는 등불 밝기(약·보통·강)를 따르고, 점화의 밤이면 더 환하다. 낮·지도에서는 끈다
@@ -277,14 +279,14 @@ namespace HumanLastRampart.Combat.Battle
                 float age = sim.CannonFireAge(i);
                 if (age >= MuzzleSeconds * 1.5f) continue;
                 float k = 1f - Mathf.Clamp01(age / (MuzzleSeconds * 1.5f));
-                Use(used++, sim.CannonMuzzle(i), 1f, MuzzleColor, CannonMuzzleIntensity * flashDay * k * k, 0.1f, 6f);   // 포구 바로 위 (사용자 2026-10-20 '포탑 총구에서')
+                Use(used++, sim.CannonMuzzle(i), 1f, MuzzleColor, CannonMuzzleIntensity * flashDay * k * k, 0.1f, 4f);   // 포구 바로 위 (사용자 2026-10-20 '포탑 총구에서')
             }
 
             // 총 쏘기: 주인공 가까운 총병 몇 명만 (수백 명 모두 빛을 켜면 무겁다)
             gunFlashes.Clear();
             sim.RecentGunshots(gunFlashes, MuzzleSeconds, ViewPosition, GunFlashMax);
             for (int i = 0; i < gunFlashes.Count && used < FlashCapacity; i++)
-                Use(used++, gunFlashes[i], 0.5f, MuzzleColor, GunMuzzleIntensity * flashDay, 0.02f, 1.6f);   // 총구 자리 (RecentGunshots가 총구 좌표를 준다), 대포보다 약하게
+                Use(used++, gunFlashes[i], 0.5f, MuzzleColor, GunMuzzleIntensity * flashDay, 0.02f, 1.1f);   // 총구 자리 (RecentGunshots가 총구 좌표를 준다), 대포보다 약하게
 
             // 마법 쓰기: 마법사 지팡이에 푸른 빛이 차올랐다 사라진다
             float cast = sim.WizardCastAge;
@@ -344,6 +346,7 @@ namespace HumanLastRampart.Combat.Battle
         public void Dispose()
         {
             if (root != null) Object.Destroy(root);
+            HumanLastRampart.Combat.Render.HlrLights.Clear();
             torches.Clear();
             flames.Clear();
             if (flameMaterial != null) Object.Destroy(flameMaterial);

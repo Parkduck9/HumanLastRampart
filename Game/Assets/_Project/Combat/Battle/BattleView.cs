@@ -390,6 +390,8 @@ namespace HumanLastRampart.Combat.Battle
             float sheetScale = 1f, bool figure = false)
         {
             block.SetTexture(MainTexId, texture);
+            // 빛·달 테두리가 쓰는 화소 크기를 직접 넣는다 (속성 블록이 자동으로 채워 준다는 보장에 기대지 않는다)
+            if (texture != null) block.SetVector("_MainTex_TexelSize", new Vector4(1f / texture.width, 1f / texture.height, texture.width, texture.height));
             block.SetVector(GridId, layout.Grid);
             block.SetVector(PivotId, layout.Pivot);
             block.SetFloat(AspectId, layout.Aspect);
@@ -401,7 +403,12 @@ namespace HumanLastRampart.Combat.Battle
             block.SetFloat(HasSpecId, spec != null ? 1f : 0f);
             block.SetFloat(SheetScaleId, sheetScale);
             block.SetFloat(ViewStretchId, figure ? 1f : 0f);
+            // 밤 눈 빛은 적 시트만 (주인공 금장식·마법사 금테가 빛나지 않게)
+            string sheetName = texture != null ? texture.name : string.Empty;
+            block.SetFloat(EyeGlowId, sheetName.Contains("goblin") || sheetName.Contains("ogre") ? 1f : 0f);
         }
+
+        static readonly int EyeGlowId = Shader.PropertyToID("_EyeGlow");
 
         // 캐릭터 시트 (칸 256×384): 시트별 인물 키를 기준 키에 맞춘다 (K-034). referencePx = 그 개체의 기준 인물 키
         static void ApplyFigure(MaterialPropertyBlock block, Texture sheet, Texture normal = null, float referencePx = PerfLabArt.FigureReferencePx) =>
@@ -501,7 +508,13 @@ namespace HumanLastRampart.Combat.Battle
             ground.transform.localScale = new Vector3((field + 20f) * 4f / 10f, 1f, (field + 20f) * 4f / 10f);
             Tint(ground.GetComponent<Renderer>(), new Color(0.42f, 0.5f, 0.3f));
             // 들판 풀 질감 (BattleArt/World/field_grass) — 예전에는 단색만 칠해져 있었다 (사용자 '밋밋하다' 2026-10-20). 그림이 없으면 단색 그대로
-            world?.DressGround(ground.GetComponent<Renderer>(), new Vector2(ground.transform.localScale.x * 10f, ground.transform.localScale.z * 10f));
+            var groundScale = ground.transform.localScale;
+            // W15 (사용자 2026-10-22 '너무 하얗고 평면'): 큰 무늬·잔 자갈·낮은 출렁임·노멀맵·점광원 목록을 받는 들판 땅. 못 쓰면 예전 질감 그대로
+            var tintedCopy = ground.GetComponent<Renderer>().sharedMaterial;   // Tint가 만든 재질 사본
+            if (HumanLastRampart.Combat.Render.FieldGround.Dress(ground, groundScale.x * 5f, field + 40f, half))
+                UnityEngine.Object.Destroy(tintedCopy);   // 새 땅 재질로 바뀌었으니 사본은 버린다 (전투마다 새는 것 방지)
+            else
+                world?.DressGround(ground.GetComponent<Renderer>(), new Vector2(groundScale.x * 10f, groundScale.z * 10f));
 
             var yard = GameObject.CreatePrimitive(PrimitiveType.Cube);
             yard.name = "Castle Yard";
@@ -825,6 +838,7 @@ namespace HumanLastRampart.Combat.Battle
             RenderSettings.fog = battle.LowVisibility || battle.IsRaining;
             RenderSettings.fogMode = FogMode.Linear;
             RenderSettings.fogColor = sky;
+            if (night) RenderSettings.fogColor = sky * 0.3f;   // W15: 밤 안개가 들판을 하늘색으로 덮어 평평하고 밝게 만들었다 - 어둡게
             float visible = Mathf.Min(battle.VisibleDistance, battle.IsRaining ? 140f : 10000f);
             RenderSettings.fogStartDistance = 8f;
             RenderSettings.fogEndDistance = visible + 40f;
@@ -1190,6 +1204,7 @@ namespace HumanLastRampart.Combat.Battle
             shadows?.Dispose();
             world?.Dispose();
             lights?.Dispose();
+            HumanLastRampart.Combat.Render.FieldGround.Release();   // 들판 땅 재질·격자 (W15)
             effectArt?.Dispose();
             soldierBuffer?.Release();
             shotBuffer?.Release();

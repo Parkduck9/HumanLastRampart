@@ -193,7 +193,7 @@ namespace HumanLastRampart.Combat.Battle
             clock += dt;
             Track(dt);
             fieldArt?.Draw(mapMode);
-            if (mapMode) return;
+            if (mapMode) { HumanLastRampart.Combat.Render.GroundGlow.Flush(true, false); return; }
 
             bool night = sim.TimeOfDay == TimeOfDay.Night;
 
@@ -252,6 +252,8 @@ namespace HumanLastRampart.Combat.Battle
 
                 if (mount.Count > 0) Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, mount.Count, mount.Block);
             }
+
+            HumanLastRampart.Combat.Render.GroundGlow.Flush(false, night);   // 불 밑 땅 웅덩이 (W15) — 이번 프레임 Add한 것을 한 번에
         }
 
         // 터지는 순간 찾기·재생 시간 진행 (지도 모드에서도)
@@ -445,6 +447,7 @@ namespace HumanLastRampart.Combat.Battle
                 if (age < 0f || fire.Count >= fire.Instances.Length) continue;
                 float fade = 1f - Mathf.Clamp01(age / EmberSeconds);
                 fire.Instances[fire.Count++] = Instance(position, LoopFrame(position.x * 1.3f), size * Mathf.Lerp(0.4f, 1f, fade), FireGlow);
+                HumanLastRampart.Combat.Render.GroundGlow.Add(position, size * Mathf.Lerp(0.4f, 1f, fade) * 1.4f + 0.3f, HumanLastRampart.Combat.Render.GroundGlow.Fire, 0.3f * fade);   // 잔불 작은 웅덩이
             }
         }
 
@@ -510,6 +513,7 @@ namespace HumanLastRampart.Combat.Battle
                 float a = k * 2.39996f + seed;
                 var p = new Vector3(e.Position.x + Mathf.Cos(a) * r, e.Position.y, e.Position.z + Mathf.Sin(a) * r);
                 fire.Instances[fire.Count++] = Instance(p, LoopFrame(seed + k * 1.7f), pieceSize * fade, glow);
+                HumanLastRampart.Combat.Render.GroundGlow.Add(p, pieceSize * fade * 1.5f, HumanLastRampart.Combat.Render.GroundGlow.Fire, 0.14f * fade);   // 불 조각마다 땅 웅덩이 (불 크기의 2~3배 지름)
             }
         }
 
@@ -531,6 +535,7 @@ namespace HumanLastRampart.Combat.Battle
 
         public void Dispose()
         {
+            HumanLastRampart.Combat.Render.GroundGlow.Release();
             magic?.Buffer.Release();
             fire?.Buffer.Release();
             trap?.Buffer.Release();

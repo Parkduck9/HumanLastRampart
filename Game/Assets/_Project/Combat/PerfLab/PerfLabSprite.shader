@@ -14,6 +14,7 @@ Shader "HLR/PerfLabSprite"
         _MainTex ("Sheet", 2D) = "white" {}
         _NormalTex ("Normal sheet (같은 칸)", 2D) = "bump" {}
         _HasNormal ("Has normal sheet", Float) = 0
+        _EyeGlow ("Night eye glow (0/1)", Float) = 0
         // 반사 마스크 (K-092·K-098, W3): R = 반사 강도, G = 매끄러움, 같은 칸. _HasSpec = 0이면 아무 계산·읽기도 안 한다 (균일 값 분기)
         _SpecTex ("Spec mask (R strength, G smoothness)", 2D) = "black" {}
         _HasSpec ("Has spec mask", Float) = 0
@@ -74,6 +75,8 @@ Shader "HLR/PerfLabSprite"
         TEXTURE2D(_SpecTex);
         SAMPLER(sampler_SpecTex);
         float _HasSpec;
+float _EyeGlow;                 // 1 = 밤에 노란 눈 빛 (적 시트만)
+float4 _MainTex_TexelSize;
         float _SpecGain;
         float4 _Grid;
         float4 _Pivot;
@@ -214,13 +217,11 @@ Shader "HLR/PerfLabSprite"
             #pragma target 4.5
             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
             #pragma multi_compile_fragment _ _SHADOWS_SOFT
-            // 추가 조명 (횃불·폭발 빛, D-062 4단계). 포워드 플러스는 6.1부터 _CLUSTER_LIGHT_LOOP (예전 _FORWARD_PLUS)
-            #pragma multi_compile _ _ADDITIONAL_LIGHTS
-            #pragma multi_compile _ _CLUSTER_LIGHT_LOOP
             // 안개 (K-041): 예전에는 그림이 안개를 받지 않아 안개 날에도 적이 또렷했다
             #pragma multi_compile_fog
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+            #include "Assets/_Project/Combat/Render/HlrLights.hlsl"
 
             struct Varyings
             {
@@ -235,13 +236,6 @@ Shader "HLR/PerfLabSprite"
                 float fogFactor : TEXCOORD7;      // 안개 (지도 점은 안 받는다 — fogOn 0)
                 float fogOn : TEXCOORD8;
             };
-
-            // 추가 조명 하나: 해·달과 같은 감싸는 빛 × 거리 감쇠. 그림자는 받지 않는다 (주 조명만)
-            half3 WrapAdditional(Light light, float3 n)
-            {
-                float wrap = saturate((dot(n, light.direction) + 0.6) / 1.6);
-                return light.color * (wrap * light.distanceAttenuation * 0.85);
-            }
 
             // 반사광 한 줄기 (Blinn-Phong, W3): 빛 색(해·달은 밝기·그림자 포함, 횃불은 거리 감쇠 포함) × (n·h)^power × 앞면 감쇠
             half3 SpecTerm(half3 lightColor, float3 lightDir, float3 n, float3 viewDir, float power)
@@ -321,7 +315,11 @@ Shader "HLR/PerfLabSprite"
                 half4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv);
                 clip(color.a - _Cutoff);
                 half3 albedo = color.rgb * input.tint;
-                if (input.lit < 0.5) return half4(input.fogOn > 0.5 ? MixFog(albedo, input.fogFactor) : albedo, 1.0h);
+                if (input.lit < 0.5)
+                {
+                    albedo *= 1.0h + (half)_HlrNight * 0.7h;   // 밤: 불·불티 그림을 더 밝게(HDR) — 빛번짐이 더 크게 걸린다 (W15)
+                    return half4(input.fogOn > 0.5 ? MixFog(albedo, input.fogFactor) : albedo, 1.0h);
+                }
 
                 // 표면 방향: 노멀맵이 있으면 그 방향, 없으면 카메라 쪽에서 조금 위로 (감싸는 빛)
                 float3 up = float3(0.0, 1.0, 0.0);
@@ -352,33 +350,47 @@ Shader "HLR/PerfLabSprite"
                     spec += SpecTerm(mainLight.color * mainLight.shadowAttenuation, mainLight.direction, n, viewDir, specPower);
                 }
 
-                // 추가 조명 (횃불·폭발): 포워드 플러스면 화면 칸 목록, 아니면 개체별 목록을 돈다
-                half3 extra = 0;
-                #if defined(_ADDITIONAL_LIGHTS)
-                    InputData inputData = (InputData)0;   // LIGHT_LOOP_BEGIN(포워드 플러스)이 이 이름으로 읽는다
-                    inputData.positionWS = input.positionWS;
-                    inputData.normalizedScreenSpaceUV = GetNormalizedScreenSpaceUV(input.positionCS);
-                    uint lightsCount = GetAdditionalLightsCount();
-                    #if USE_CLUSTER_LIGHT_LOOP
-                        // 포워드 플러스: 추가 방향 빛은 칸 목록 밖에 따로 있다
-                        [loop] for (uint lightIndex = 0; lightIndex < min(URP_FP_DIRECTIONAL_LIGHTS_COUNT, MAX_VISIBLE_LIGHTS); lightIndex++)
-                        {
-                            CLUSTER_LIGHT_LOOP_SUBTRACTIVE_LIGHT_CHECK
-                            Light dirLight = GetAdditionalLight(lightIndex, input.positionWS);
-                            extra += WrapAdditional(dirLight, n);
-                            [branch] if (specOn) spec += SpecTerm(dirLight.color * dirLight.distanceAttenuation, dirLight.direction, n, viewDir, specPower);
-                        }
-                    #endif
-                    LIGHT_LOOP_BEGIN(lightsCount)
-                        Light addLight = GetAdditionalLight(lightIndex, input.positionWS);
-                        extra += WrapAdditional(addLight, n);
-                        [branch] if (specOn) spec += SpecTerm(addLight.color * addLight.distanceAttenuation, addLight.direction, n, viewDir, specPower);
-                    LIGHT_LOOP_END
-                #endif
+                // 추가 조명 (횃불·불바다·폭발, W15): 유니티 기본 추가 조명은 개체(그림 묶음) 하나당 4개뿐이라 흩어진 적이 빛을 못 받았다.
+                // 대신 장면 점광원 목록(HlrLights)을 돌며 면별 확산·반사·바닥 번짐·가장 센 빛 쪽 테두리빛을 한 번에 받는다. 목록은 PC 14·모바일 6개로 제한
+                half3 extra, extraSpec, extraBounce;
+                float3 rimLight; float rimWeight, rimSide;
+                HlrAccumulate(input.positionWS, n, normalize(_WorldSpaceCameraPos - input.positionWS), specOn ? specPower : 24.0, specOn, input.faceRight,
+                              extra, extraSpec, extraBounce, rimLight, rimWeight, rimSide);
+                [branch] if (specOn) spec += extraSpec;
+
+                // 테두리빛 (PC): 빛 쪽 가장자리 화소(빛 쪽 이웃이 투명)에 은은한 윤곽
+                half3 rim = 0;
+                float2 texel = _MainTex_TexelSize.xy;
+                [branch] if (rimWeight > 0.002)
+                {
+                    float2 rimStep = float2(sign(rimSide) * min(abs(rimSide) * 2.0, 1.0), 0.6) * texel * 2.0;
+                    float edge = saturate(color.a - SAMPLE_TEXTURE2D_LOD(_MainTex, sampler_MainTex, input.uv + rimStep, 0).a);
+                    rim = (half3)(rimLight * (saturate(rimWeight * 1.6) * edge * 0.35));
+                }
+
+                // 밤에 스스로 빛나는 눈 (노란 점): 종류 플래그(_EyeGlow, 적 시트만)가 켜진 그림에서만. 빛 계산 없이 1 넘는 색으로 — 빛번짐이 걸린다
+                half glowMask = (half)(_EyeGlow * _HlrNight * smoothstep(0.7, 0.9, color.g) * step(0.82, color.r) * (1.0 - smoothstep(0.25, 0.45, color.b)));
 
                 // 반사 색: 흰빛에 그림 색을 반쯤 섞는다 (금·구리는 금빛, 철은 흰빛). 해·달 색(밤 푸른빛·NightTuning.SunScale)과 횃불 색이 이미 spec에 들어 있다
                 half3 specColor = spec * specStrength * lerp(half3(1, 1, 1), saturate(albedo * 2.0h), 0.5h);
-                return half4(MixFog(albedo * (sun + ambient + extra) + specColor, input.fogFactor), 1.0h);
+                // 밤: 달빛·주변광을 조금만 키운다 (형체가 읽힐 정도. 밝기는 빛 웅덩이에서 온다)
+                half nightGain = 1.0h + (half)_HlrNight * 0.8h;
+                half3 moonFill = half3(0.22h, 0.28h, 0.45h) * (half)_HlrNight;   // 달빛 바닥: 빛 못 받는 적도 색 있는 차가운 형체로 남는다
+
+                // 달 테두리빛 (PC): 달 쪽 한 면의 가장자리 화소에만 차가운 윤곽 — 어두운 무리도 실루엣이 읽힌다
+                half3 moonRim = 0;
+                [branch] if (_HlrNight > 0.5 && _HlrQuality > 0.5)
+                {
+                    float md = dot(mainLight.direction, input.faceRight);
+                    float2 stepM = float2(clamp(md * 3.0, -1.0, 1.0), 0.8) * texel * 2.0;
+                    float edgeM = saturate(color.a - SAMPLE_TEXTURE2D_LOD(_MainTex, sampler_MainTex, input.uv + stepM, 0).a);
+                    moonRim = (half3)(mainLight.color * (edgeM * 0.45 * saturate(md * 2.0)));
+                }
+
+                half3 beamLight = _HlrBeamColor.rgb * (half)(HlrBeamFactor(input.positionWS.xz) * 1.1);   // 등대 빛줄기 안의 적·소품은 따뜻하게 밝아진다 (W15)
+                half3 lit = albedo * ((sun + ambient) * nightGain + moonFill + extra + extraBounce + beamLight) + specColor + rim + moonRim;
+                lit = lerp(lit, albedo * 2.4h, glowMask);
+                return half4(MixFog(lit, input.fogFactor), 1.0h);
             }
             ENDHLSL
         }

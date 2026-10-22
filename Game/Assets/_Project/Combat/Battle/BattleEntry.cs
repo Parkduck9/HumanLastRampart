@@ -712,7 +712,7 @@ namespace HumanLastRampart.Combat.Battle
                 if (screen.z > 0f) hud.PlaceMenu(new Vector2(screen.x, screen.y));
             }
             view.Draw(mapOpen, mapOpen ? mapCamera.DotWorldSize : 0f);
-            beamView?.Draw();
+            beamView?.Draw(mapOpen);
             if (mapOpen)
             {
                 view.SetSpellPreview(selectedSpell, selectedSpell >= 0 && Mouse.current != null ? battleCamera.ScreenToWorldPoint(new Vector3(Mouse.current.position.ReadValue().x, Mouse.current.position.ReadValue().y, battleCamera.nearClipPlane)) : (Vector3?)null);   // 마법 범위 미리 보기 (K-036)
