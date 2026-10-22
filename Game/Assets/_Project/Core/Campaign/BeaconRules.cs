@@ -183,6 +183,24 @@ namespace HumanLastRampart.Core.Campaign
             return campaign.ConsecutiveNightLosses >= MaxConsecutiveLosses;
         }
 
+        // 진 밤 다음 낮 시작 (W11): 무너졌거나 심하게 상한 성벽을 최대 체력의 percent%까지 되돌린다 (이미 그 이상이면 그대로).
+        // percent는 전투 규칙 데이터(BattleRulesDef.LostNightWallFloorPercent)에서 온다. 바뀐 성벽 수를 돌려준다
+        public static int RaiseWallFloor(CampaignState campaign, int percent)
+        {
+            if (campaign?.Wall == null || percent <= 0) return 0;
+            int changed = 0;
+            foreach (WallSegmentState wall in campaign.Wall)
+            {
+                if (wall == null || wall.MaxHp <= 0) continue;
+                int floor = (int)(((long)wall.MaxHp * Math.Min(100, percent) + 99) / 100);
+                if (wall.Hp >= floor) continue;
+                wall.Hp = floor;
+                changed++;
+            }
+
+            return changed;
+        }
+
         // 지금 진 밤이 연속 한도에 닿는가 (반영 전 판단용)
         public static bool LossEndsRun(CampaignState campaign) => campaign.ConsecutiveNightLosses + 1 >= MaxConsecutiveLosses;
 

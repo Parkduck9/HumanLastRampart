@@ -881,7 +881,7 @@ public sealed class SimProbe
         }
 
         var log = new StringBuilder();
-        log.AppendLine($"소스 {Environment.GetEnvironmentVariable("HLR_HEAD")} · dt 0.05s · 시드 1234(전투 실행 ID 끝 번호만 달리 3판) · 가격 A(정비 거래 규칙 그대로) · 정면 1/3 옮기기 · 보조 · 빛줄기 가장 위험한 벽으로 돌리기");
+        log.AppendLine($"소스 {Environment.GetEnvironmentVariable("HLR_HEAD")} · dt 0.05s · 진행 시드 판마다 1234+977k · 모집 순서 판마다 다름(정면 먼저/고르게/정면 마지막) · 가격 A(정비 거래 규칙 그대로) · 정면 1/3 옮기기 · 보조 · 빛줄기 가장 위험한 벽으로 돌리기");
         log.AppendLine("정비: 낮 시작 지원금 → 성벽 낮은 순 수리 → 등대 수리(점화선까지, 예정 마지막 밤부터만. 서두름은 처음부터) → [정원 60% 모집] → [강화] → 남은 골드 정원(전체 2000·벽 500·지점 160)까지 모집(궁수·기존 총수 분대, 정면 먼저). 진 밤은 결과(병력·성벽 피해)를 반영하고 복구 절반·지원금.");
         log.AppendLine();
         log.AppendLine("## 요약 (한 줄 = 설정 하나, 3판)");
@@ -896,7 +896,7 @@ public sealed class SimProbe
 
     // 정비 거래(PreparationTransactions)로 실제 정원까지 모집한다: 전체 limitTotal·성벽 500·지점 160. 기존 분대는 같은 병종으로, 빈 지점은 궁수로.
     // 정면(북) 지점부터, 그다음 사람 적은 성벽 순으로 25명씩 돌려 채운다. 모집한 수를 돌려준다
-    static int HireToCaps(CampaignState c, DefinitionLookup lookup, int limitTotal)
+    static int HireToCaps(CampaignState c, DefinitionLookup lookup, int limitTotal, int order = 0)
     {
         var tx = new PreparationTransactions(c, lookup);
         var rules = tx.Rules;
@@ -905,7 +905,7 @@ public sealed class SimProbe
         while (true)
         {
             bool progress = false;
-            foreach (PostDef post in posts.OrderBy(p => p.Wall == WallSide.North ? -1 : tx.WallCount(p.WallId)))
+            foreach (PostDef post in posts.OrderBy(p => order == 1 ? tx.WallCount(p.WallId) : order == 2 ? (p.Wall == WallSide.North ? int.MaxValue : tx.WallCount(p.WallId)) : (p.Wall == WallSide.North ? -1 : tx.WallCount(p.WallId))))
             {
                 int total = tx.TotalCount();
                 int limit = Math.Min(rules.GlobalCapacity, limitTotal) - total;
@@ -956,7 +956,8 @@ public sealed class SimProbe
     // 한 판 (1회차). policy 0 = 강화 없이, 1 = 강화 먼저, 2 = 정원 60%까지 모집한 뒤 강화
     static (bool complete, int wins, string failedAt) RunBeacon(DefinitionLookup lookup, Difficulty difficulty, LampBrightness lamp, int policy, int rep, StringBuilder log, bool rush = false)
     {
-        CampaignState c = CampaignFactory.Create(lookup, new NewGameOptions(difficulty), 1234);
+        int hireOrder = (rep - 1) % 3;   // 0 정면(북) 먼저, 1 사람 적은 성벽부터 고르게, 2 정면 마지막
+        CampaignState c = CampaignFactory.Create(lookup, new NewGameOptions(difficulty), 1234 + (rep - 1) * 977);   // 판마다 다른 진행 시드 (지형·예보)
         Assert.IsNotNull(c, $"새 게임 진행 데이터를 못 만듦 (시작 설정 {lookup.All<CampaignStartDef>().Count}개)");
         bool firstNight = true, ended = false, complete = false;
         int won = 0, lostCount = 0, battles = 0;
@@ -991,9 +992,9 @@ public sealed class SimProbe
                 prep = $"수리 {wallGold}골드·등대수리 {beaconBuys}회";
 
                 int hired = 0;
-                if (policy == 2) hired += HireToCaps(c, lookup, globalCap * 6 / 10);
+                if (policy == 2) hired += HireToCaps(c, lookup, globalCap * 6 / 10, hireOrder);
                 if (policy >= 1) prep += SpendOnUpgrades(c, lookup, TroopsFull(c, lookup));   // 정비마다 새로 계산 (어제 값을 끌고 가지 않는다)
-                hired += HireToCaps(c, lookup, globalCap);
+                hired += HireToCaps(c, lookup, globalCap, hireOrder);
                 prep += $" 모집 +{hired}";
             }
 
@@ -1052,6 +1053,7 @@ public sealed class SimProbe
                 if (timedOut) { log.AppendLine(" | 시간초과는 결과 반영 불가 → 엔딩으로 침"); ended = true; break; }
                 if (!BattleResultApplier.TryApply(c, out string lossError, lookup.Get<TerrainDef>(setup.TerrainId), true)) { log.AppendLine($" | 패배 반영 오류 {lossError}"); return (false, won, "패배 반영 오류"); }
                 BeaconRules.ApplyLoss(c);
+                BeaconRules.RaiseWallFloor(c, lookup.All<BattleRulesDef>()[0].LostNightWallFloorPercent);   // GameFlow와 같은 순서: 복구 절반 → 성벽 최소 비율 → 지원금
                 int support = BeaconRules.BeginDay(c);
                 log.AppendLine($" | 패배(반영) → 병력 {c.Squads.Sum(s => s.Count)} 성벽% {string.Join("/", c.Wall.Select(w => (int)Math.Round(w.Hp * 100.0 / w.MaxHp)))} 등대 {before:0}→{c.BeaconRepair:0}% 지원금 +{support}");
                 continue;

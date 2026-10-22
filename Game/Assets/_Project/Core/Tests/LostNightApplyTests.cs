@@ -45,6 +45,20 @@ namespace HumanLastRampart.Core.Tests
         }
 
         [Test]
+        public void WallFloor_RaisesOnlyLowWalls_ToPercentOfMax()
+        {
+            CampaignState c = Prepared(BattleOutcome.Defeat, out _);
+            Assert.IsTrue(BattleResultApplier.TryApply(c, out string error, null, true), error);   // 북 0, 나머지 400/1000
+            Assert.AreEqual(4, BeaconRules.RaiseWallFloor(c, 50), "50% 미만인 네 성벽 모두 500으로");
+            Assert.IsTrue(c.Wall.All(w => w.Hp == 500));
+            Assert.AreEqual(0, BeaconRules.RaiseWallFloor(c, 30), "이미 그 이상이면 그대로");
+            c.Wall[0].Hp = 0;
+            Assert.AreEqual(1, BeaconRules.RaiseWallFloor(c, 30));
+            Assert.AreEqual(300, c.Wall[0].Hp, "최대 체력의 30%");
+            Assert.AreEqual(0, BeaconRules.RaiseWallFloor(c, 0), "0이면 끔");
+        }
+
+        [Test]
         public void LostNight_RejectsVictoryResult_AndNormalRejectsDefeat()
         {
             CampaignState win = Prepared(BattleOutcome.Victory, out _);

@@ -59,11 +59,16 @@ namespace HumanLastRampart.App.Tests
         [Test]
         public void NightLoss_FirstRetriesSameFortress_SecondIsDefeatEnding()   // W8, Concept_Beacon_v1 9.3
         {
-            FlowStep retry = FlowRouter.Next(ScreenId.Battle, ScreenOutcome.Done, new FlowState { LastBattleOutcome = BattleOutcome.Defeat, LossCanRetry = true });
-            Assert.AreEqual(ScreenId.Prep, retry.Screen, "첫 패배는 다음 낮으로");
+            // W11: 첫 패배도 결과 화면(4번)을 거쳐 잃은 병력을 보여 준다. 번호는 올리지 않고, 결과 화면이 끝나면 복구 절반·지원금과 함께 다음 낮
+            FlowStep report = FlowRouter.Next(ScreenId.Battle, ScreenOutcome.Done, new FlowState { LastBattleOutcome = BattleOutcome.Defeat, LossCanRetry = true });
+            Assert.AreEqual(ScreenId.Result, report.Screen, "첫 패배는 결과 화면으로");
+            Assert.IsFalse(report.AdvanceBattle);
+            Assert.IsFalse(report.ApplyNightLoss, "복구 절반은 결과 화면 뒤");
+            Assert.IsFalse(report.QueueDefeatEnding);
+            FlowStep retry = FlowRouter.Next(ScreenId.Result, ScreenOutcome.Done, new FlowState { ResultWasLostNight = true, RelitFortress = true });
+            Assert.AreEqual(ScreenId.Prep, retry.Screen, "진 밤의 보고가 끝나면 다음 낮");
             Assert.IsTrue(retry.ApplyNightLoss);
             Assert.IsTrue(retry.BeginDay);
-            Assert.IsFalse(retry.QueueDefeatEnding);
             Assert.IsFalse(retry.AdvanceBattle);
 
             FlowStep end = FlowRouter.Next(ScreenId.Battle, ScreenOutcome.Done, new FlowState { LastBattleOutcome = BattleOutcome.Defeat, LossCanRetry = false });

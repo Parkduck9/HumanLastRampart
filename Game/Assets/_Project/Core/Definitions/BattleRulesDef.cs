@@ -16,6 +16,8 @@ namespace HumanLastRampart.Core.Definitions
         [SerializeField] float spawnPerSecond = 0f;
         [SerializeField] int maxConcurrentEnemiesRealistic = 50000;
         [SerializeField] int maxConcurrentEnemiesEasy = 25000;
+        [Tooltip("진 밤 다음 낮이 시작될 때, 이 비율(%)보다 체력이 낮은 성벽을 최대 체력의 이 비율까지 되돌린다 (W11, 사용자가 바꿀 수 있는 기본값). 0이면 끔")]
+        [Range(0, 100)] [SerializeField] int lostNightWallFloorPercent = 30;
 
         [Header("날씨 (D-027 Q4, D-028 C5)")]
         [SerializeField] float weatherChangeChance = 0.15f;
@@ -71,6 +73,7 @@ namespace HumanLastRampart.Core.Definitions
         }
         public int MaxConcurrentEnemiesRealistic => maxConcurrentEnemiesRealistic;
         public int MaxConcurrentEnemiesEasy => maxConcurrentEnemiesEasy;
+        public int LostNightWallFloorPercent => lostNightWallFloorPercent;
         public float WeatherChangeChance => weatherChangeChance;
         public float ShowerStopChance => showerStopChance;
         public float RevertChance => revertChance;
