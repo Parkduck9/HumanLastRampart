@@ -60,7 +60,7 @@ function Get-Board {
         $lo = $band[$stage][0]; $hi = $band[$stage][1]
         $pct = if ($stage -eq 1) { [int]($lo + ($hi - $lo) * $inner) } else { $lo }
         $idle = if ($last) { [int]($now - $last).TotalSeconds } else { -1 }
-        $rows += [ordered]@{ id = $it.id; name = $it.name; who = $it.who; stage = $stageNames[$stage]; pct = $pct; detail = $detail; idle = $idle }
+        $rows += [ordered]@{ id = $it.id; name = $it.name; who = $it.who; kind = $it.kind; stage = $stageNames[$stage]; pct = $pct; detail = $detail; idle = $idle }
     }
 
     $unity = Get-Process Unity -ErrorAction SilentlyContinue | Sort-Object StartTime | Select-Object -First 1
@@ -127,21 +127,29 @@ $script:slots = @()
 function Lines($d) {
     $L = New-Object System.Collections.ArrayList
     function Line($text, $f, $color, $pct) { [void]$L.Add([pscustomobject]@{ Text = $text; Font = $f; Color = $color; Pct = $pct }) }
-    Line ('갱신 ' + $d.updated) $font $dim $null
-    Line '── 토큰 사용량 ──' $bold $brass $null
-    if ($d.claude) { Line ("클로드 이번 주 {0}% · 5시간 {1}%  (확인 {2})" -f $d.claude.week, $d.claude.five, $d.claude.checked) $font $null $d.claude.week }
-    else { Line '클로드: 아직 기록 없음 (Claude가 확인할 때 채워짐)' $font $dim $null }
-    if ($d.codex) { Line ("코덱스 이번 주 {0}% (초기화 {1}) · 5시간 {2}% (초기화 {3}) · {4}분 전 값" -f $d.codex.week, $d.codex.weekReset, $d.codex.five, $d.codex.fiveReset, $d.codex.age) $font $null $d.codex.week }
-    else { Line '코덱스: 한도 정보를 읽지 못함' $font $dim $null }
-    Line '── 진행 중인 작업 ──' $bold $brass $null
-    if ($d.unity.running) { Line ("유니티 시험 실행 중 · {0}분째 (약 {1}%)" -f $d.unity.minutes, $d.unity.pct) $font $null $d.unity.pct }
-    foreach ($it in $d.items) {
+    function Item($it) {
         Line ("{0}  [{1}]  {2}%" -f $it.name, $it.stage, $it.pct) $bold $null $null
         $stale = $it.idle -gt 180 -and $it.pct -lt 100
         $tail = if ($stale) { " · {0}분째 움직임 없음" -f [int]($it.idle / 60) } elseif ($it.idle -ge 0) { " · $($it.idle)초 전 움직임" } else { '' }
         Line ($it.who + ' · ' + $it.detail + $tail) $font $(if ($stale) { $warn } else { $dim }) $it.pct
     }
-    if (-not $d.items) { Line '진행 중인 작업이 없습니다' $font $dim $null }
+    Line ('갱신 ' + $d.updated) $font $dim $null
+
+    # 클로드와 코덱스를 칸으로 나눈다 (사용자 2026-10-22: 섞여 있어 보기 힘듦)
+    Line '━━ 클로드 ━━' $bold $brass $null
+    if ($d.claude) { Line ("사용량 이번 주 {0}% · 5시간 {1}%  (확인 {2})" -f $d.claude.week, $d.claude.five, $d.claude.checked) $font $null $d.claude.week }
+    else { Line '사용량: 아직 기록 없음 (Claude가 확인할 때 채워짐)' $font $dim $null }
+    if ($d.unity.running) { Line ("유니티 시험 실행 중 · {0}분째 (약 {1}%)" -f $d.unity.minutes, $d.unity.pct) $font $null $d.unity.pct }
+    $mine = @($d.items | Where-Object { $_.kind -ne 'card' })
+    foreach ($it in $mine) { Item $it }
+    if (-not $mine -and -not $d.unity.running) { Line '진행 중인 작업이 없습니다' $font $dim $null }
+
+    Line '━━ 코덱스 ━━' $bold $brass $null
+    if ($d.codex) { Line ("사용량 이번 주 {0}% (초기화 {1}) · 5시간 {2}% (초기화 {3}) · {4}분 전 값" -f $d.codex.week, $d.codex.weekReset, $d.codex.five, $d.codex.fiveReset, $d.codex.age) $font $null $d.codex.week }
+    else { Line '사용량: 한도 정보를 읽지 못함' $font $dim $null }
+    $cards = @($d.items | Where-Object { $_.kind -eq 'card' })
+    foreach ($it in $cards) { Item $it }
+    if (-not $cards) { Line '진행 중인 카드가 없습니다' $font $dim $null }
     return $L
 }
 
