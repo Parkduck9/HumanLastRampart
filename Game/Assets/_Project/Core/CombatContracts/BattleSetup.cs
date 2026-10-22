@@ -33,5 +33,19 @@ namespace HumanLastRampart.Core.CombatContracts
         public List<SquadState> Mercenaries = new List<SquadState>();
         public List<string> ConsumedItemIds = new List<string>();
         public TargetingSettings InitialTargeting = TargetingSettings.CreateDefault();
+
+        // v1.8 초안 (빛을 잇는 자들, Concept_Beacon_v1 9장): 저장에 이 값이 없으면 0 = 보통 밝기·북쪽·1단계·보통 밤
+        public LampBrightness LampBrightness;        // 밤을 시작할 때 등불 밝기 (적 수는 이 값으로 정한다. 전투 중 바꾸면 빛줄기만 바뀜)
+        public int BeamSide;                         // 처음 빛줄기 방향 (WallGeometry 면 번호, 0 = 북)
+        public int EnemyTier;                        // 적 변형 단계 0 홀림 · 1 물듦 · 2 변형 (9.5)
+        public bool IsIgnitionNight;                 // 점화의 밤 — 요새의 마지막 밤 (9.3)
+    }
+
+    // 등불 밝기 (9.4). 저장 하위 호환을 위해 보통이 0
+    public enum LampBrightness
+    {
+        Normal,
+        Low,
+        High,
     }
 }

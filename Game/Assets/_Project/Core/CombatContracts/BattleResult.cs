@@ -37,6 +37,7 @@ namespace HumanLastRampart.Core.CombatContracts
         public List<string> ConsumedTrapIds = new List<string>();
         public List<TrapMove> TrapMoves = new List<TrapMove>();             // v1.1 (P1-C14)
         public List<SquadLoss> MercenaryLosses = new List<SquadLoss>();     // v1.3 초안 (K-058): 용병 손실 — SquadId = 계약 ID. 분대 손실과 따로
+        public float[] LampSeconds = new float[3];   // v1.4 초안 (Concept_Beacon_v1 9.3): 밝기별로 켜 둔 초 — 인덱스 = (int)LampBrightness. 등대 복구 계산에 쓴다
     }
 
     [Serializable]
