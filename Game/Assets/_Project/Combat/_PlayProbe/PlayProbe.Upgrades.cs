@@ -64,7 +64,11 @@ public sealed partial class PlayProbe
             Assert.IsNotNull(lens, "렌즈를 샀다");
             Assert.IsFalse(string.IsNullOrEmpty(lens.EquippedBy), "주인공 소지품 칸에 끼움");
             Assert.AreEqual(1, c.Items.Where(i => i.ItemId == "item_fire_arrows").Sum(i => i.Count), "불화살 1개");
-            Assert.AreEqual(gold0 - 400 - 200, c.Gold, "값만큼 골드");
+            // 값은 데이터에서 읽는다 (2026-10-22 강화 값 내림 뒤 고정 숫자 400·200이 틀렸음)
+            var defs = GameFlow.Instance.Definitions;
+            int lensPrice = defs.Get<HumanLastRampart.Core.Definitions.ItemDef>("item_telescope_lens").Price;
+            int arrowsPrice = defs.Get<HumanLastRampart.Core.Definitions.ItemDef>("item_fire_arrows").Price;
+            Assert.AreEqual(gold0 - lensPrice - arrowsPrice, c.Gold, "값만큼 골드");
             yield return Capture("upgrade_01_shop_bought");
             yield return Press(LoopKeys.Close, 60);
 
