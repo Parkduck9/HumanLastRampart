@@ -75,6 +75,14 @@
                       "folder":  "C:\\Unity\\1\\HLR-work\\W8",
                       "agent":  "a34168910d357a744",
                       "stage":  1
+                  },
+                  {
+                      "id":  "K-108",
+                      "name":  "부관 하겐 초상",
+                      "who":  "코덱스",
+                      "kind":  "card",
+                      "folder":  "C:\\Unity\\1\\HLR-cards\\K-108",
+                      "stage":  1
                   }
               ]
 }
