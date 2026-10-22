@@ -36,6 +36,7 @@ function Get-Board {
     $cfg = Get-Content -Raw -Encoding UTF8 $stagesFile | ConvertFrom-Json
     $rows = @()
     foreach ($it in $cfg.items) {
+        if ([int]$it.stage -ge 5) { continue }   # 끝난 작업은 보이지 않는다 (사용자 2026-10-22)
         $stage = [int]$it.stage; $detail = ''; $inner = 0.0; $last = $null
         if ($it.kind -eq 'coder') {
             $log = Get-ChildItem -Path $agents -Recurse -Filter "agent-$($it.agent).jsonl" | Select-Object -First 1

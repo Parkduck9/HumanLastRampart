@@ -84,11 +84,13 @@ namespace HumanLastRampart.Combat.Tests
             for (int run = 0; run < 40; run++)
             {
                 BattleSetup setup = Setup(lookup, 2, $"run_runner_{run}");
+                // 예보는 캠페인 씨앗·전투 번호로만 정해져 실행 ID를 바꿔도 같다 → 맑은 낮으로 고정 (예전엔 40번 모두 안개·밤이라 매번 미완료)
+                var forecast = setup.Forecast;
+                forecast.InitialWeather = Weather.Clear; forecast.TimeOfDay = TimeOfDay.Day; forecast.Changes = false;
+                setup.Forecast = forecast;
                 using (var sim = new BattleSim(setup, lookup))
                 {
                     if (!sim.AttackPlan.Any(g => g.Flank)) continue;
-                    if (setup.Forecast.InitialWeather == Weather.Fog || setup.Forecast.TimeOfDay == TimeOfDay.Night ||
-                        (setup.Forecast.Changes && setup.Forecast.ChangedWeather == Weather.Fog)) continue;
                     var notices = new List<string>();
                     sim.Notice += notices.Add;
                     sim.SetCommander(BattleSim.FrontSide, 0f);
