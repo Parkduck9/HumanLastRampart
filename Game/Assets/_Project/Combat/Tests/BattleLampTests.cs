@@ -22,7 +22,7 @@ namespace HumanLastRampart.Combat.Tests
             return DefinitionLookup.Build(catalogs);
         }
 
-        static BattleSim NewSim(LampBrightness lamp, int beamSide = 0)
+        static BattleSim NewSim(LampBrightness lamp, int beamSide = 0, int tier = 0)
         {
             DefinitionLookup lookup = Lookup();
             CampaignState campaign = CampaignFactory.Create(lookup, new NewGameOptions(Difficulty.Easy), 11);
@@ -30,7 +30,36 @@ namespace HumanLastRampart.Combat.Tests
             Assert.IsNull(error);
             setup.LampBrightness = lamp;
             setup.BeamSide = beamSide;
+            setup.EnemyTier = tier;
             return new BattleSim(setup, lookup);
+        }
+
+        // 강 밝기 빛 안의 변형 적은 변형 효과가 꺼지고, 빛을 벗어나면 다시 켜진다. 보통 밝기에서는 꺼지지 않는다 (9.4·9.5)
+        [Test]
+        public void HighBeam_SuppressesTierBonusInsideOnly()
+        {
+            using (var sim = NewSim(LampBrightness.High, 0, 2))
+            {
+                float time = 0f;
+                for (int i = 0; i < 400 && AliveList(sim, 2).Count < 2; i++) Step(sim, ref time);
+                List<int> alive = AliveList(sim, 2);
+                Assert.AreEqual(2, alive.Count);
+                int a = alive[0], b = alive[1];
+                sim.DebugPlaceEnemy(a, new float3(0f, 0f, 100f));     // 빛 안 (정북)
+                sim.DebugPlaceEnemy(b, new float3(0f, 0f, -100f));    // 빛 밖 (정남)
+                sim.Complete();
+                Assert.IsFalse(sim.TierBonusActive(a), "강 빛 안: 변형 꺼짐");
+                Assert.IsTrue(sim.TierBonusActive(b), "빛 밖: 변형 그대로");
+
+                sim.DebugPlaceEnemy(a, new float3(0f, 0f, -100f));
+                sim.Complete();
+                Assert.IsTrue(sim.TierBonusActive(a), "빛을 벗어나면 다시 켜짐");
+
+                sim.SetLamp(LampBrightness.Normal);
+                sim.DebugPlaceEnemy(a, new float3(0f, 0f, 100f));
+                sim.Complete();
+                Assert.IsTrue(sim.TierBonusActive(a), "보통 밝기는 변형을 끄지 않음");
+            }
         }
 
         static void Step(BattleSim sim, ref float time)

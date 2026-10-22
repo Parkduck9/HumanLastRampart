@@ -1070,6 +1070,8 @@ namespace HumanLastRampart.Combat.Battle
                 frameJob.Complete();
                 scheduled = false;
             }
+
+            UpdateTierBeam();   // 강 밝기 빛 안에서는 변형 단계 효과를 끈다 (작업이 끝난 뒤에만 바꿀 수 있음)
         }
 
         public void RefreshSoldierInstances()

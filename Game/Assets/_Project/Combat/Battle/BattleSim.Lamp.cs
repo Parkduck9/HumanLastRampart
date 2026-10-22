@@ -24,7 +24,7 @@ namespace HumanLastRampart.Combat.Battle
         public bool BeamRotating => beamRotateLeft > 0f;
         public float BeamAngleDegrees { get; private set; }   // 수평 각도: +x = 0°, +z(북) = 90°
         public float BeamWidth => BeamWidthDegrees[(int)Lamp];
-        public bool BeamSuppressesTiers => Lamp == LampBrightness.High;   // 훅: 강 밝기 빛 안에서는 변형 단계 효과를 끈다 (9.5, 아직 구현 안 함)
+        public bool BeamSuppressesTiers => Lamp == LampBrightness.High;   // 강 밝기 빛 안에서는 변형 단계 효과를 끈다 (9.4·9.5, UpdateTierBeam)
 
         readonly float[] lampSeconds = new float[3];
         float beamFrom, beamTo, beamRotateLeft;
@@ -120,6 +120,20 @@ namespace HumanLastRampart.Combat.Battle
         public void DebugHit(int enemyIndex, int damage)
         {
             hitQueue.Enqueue(new HitEvent { Enemy = new EnemyHandle { Index = enemyIndex, Generation = eGen[enemyIndex] }, Damage = damage });
+        }
+
+        // Complete 뒤 매 프레임: 변형된 적이 강 밝기 빛 안이면 변형 효과(체력·속도·크기·색)를 끄고, 빛을 벗어나면 다시 켠다.
+        // 변형 없는 전투(1단계)에서는 아무것도 하지 않는다
+        void UpdateTierBeam()
+        {
+            if (EnemyTier <= 0) return;
+            bool suppress = BeamSuppressesTiers;
+            BeamField beam = CurrentBeam();
+            for (int i = 0; i < enemyCount; i++)
+            {
+                if (!EnemyState.IsAlive(eState[i])) continue;
+                SetTierBonusActive(i, !(suppress && beam.Contains(ePos[i])));
+            }
         }
 
         void CopyLampSeconds(BattleResult result)
