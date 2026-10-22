@@ -9,6 +9,7 @@ using HumanLastRampart.Core.Definitions;
 using HumanLastRampart.Core.Flow;
 using HumanLastRampart.Core.Save;
 using HumanLastRampart.Core.Settings;
+using HumanLastRampart.Meta;   // BattleResultApplier (W11: Core 어셈블리로 옮김, 이름 공간은 그대로)
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.UI;
@@ -315,7 +316,9 @@ namespace HumanLastRampart.App.Flow
 
             if (step.ApplyNightLoss)
             {
-                // W8: 진 밤 — 복구 절반·연속 패배 +1. 전투 결과(병력·성벽)는 반영하지 않으므로 밤 시작 때 그대로 낮으로 돌아간다
+                // W11 (사용자 규칙): 진 밤도 결과를 반영한다 — 병력 손실·성벽 피해는 남고(보상 골드 없음), 이어서 복구 절반·연속 패배 +1
+                if (!BattleResultApplier.TryApply(Campaign, out string lossError, lookup.Get<TerrainDef>(Campaign.ActiveBattleSetup?.TerrainId), true))
+                    Debug.LogWarning("[패배 반영] 진 밤의 결과를 반영하지 못했습니다: " + lossError);
                 BeaconRules.ApplyLoss(Campaign);   // LastBattle·ActiveBattleSetup은 다음 전투 준비(PrepareBattle) 때 갱신된다
             }
 
