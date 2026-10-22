@@ -182,7 +182,7 @@
                       "kind":  "coder",
                       "folder":  "C:\\Unity\\1\\HLR-work\\W11",
                       "agent":  "ae77dfe55803b1ef6",
-                      "stage":  4
+                      "stage":  5
                   },
                   {
                       "id":  "W12",
@@ -308,7 +308,8 @@
                       "kind":  "coder",
                       "folder":  "C:\\Unity\\1\\HLR-work\\W20",
                       "agent":  "a54e7635b67ce9594",
-                      "stage":  1
+                      "stage":  5
                   }
               ]
 }
+
