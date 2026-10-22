@@ -47,12 +47,19 @@ namespace HumanLastRampart.BeaconMap.Tests
             Assert.AreEqual(FortressMapState.Dead, first.Nodes[0].State, "지금 지키는 요새는 아직 꺼져 있다");
             Assert.AreEqual(FortressMapState.Fogged, first.Nodes[1].State);
             Assert.AreEqual("요새 1 · 다음: 요새 2", first.Subtitle);
+            Assert.AreEqual(1, first.Nodes[0].Night, "지키는 요새는 밤 진행");
+            Assert.AreEqual(BeaconRules.NightsIn(1), first.Nodes[0].Nights);
 
             BeaconMapModel second = BeaconMapModel.Build(Campaign(2, false, (1, 7)), true);
             Assert.AreEqual(FortressMapState.Lit, second.Nodes[0].State);
             Assert.AreEqual(FortressMapState.Dead, second.Nodes[1].State);
-            Assert.AreEqual("요새 2 · 다음: 요새 3", second.Subtitle);
+            Assert.AreEqual("요새 2 · 마지막 요새", second.Subtitle, "마지막 요새는 다음이 없다");
             Assert.IsTrue(second.Preview);
+            CampaignState f2 = Campaign(2, false, (1, 7)); f2.NightNumber = 9;
+            FortressNode defended = BeaconMapModel.Build(f2, true).Nodes[1];
+            Assert.AreEqual(BeaconRules.NightsIn(2), defended.Night, "밤 번호는 전체 밤 수를 넘지 않는다");
+            Assert.AreEqual(3, defended.Nights);
+            Assert.AreEqual(0, BeaconMapModel.Build(Campaign(2, false, (1, 7)), true).Nodes[0].Nights, "점화한 요새는 밤 진행이 없다");
         }
 
         [Test]
@@ -91,6 +98,25 @@ namespace HumanLastRampart.BeaconMap.Tests
                 for (float z = -10f; z <= 14f; z += 1f) max = Mathf.Max(max, BeaconDiorama.Height(x, z));
             Assert.Less(max, 1.5f, "언덕은 낮게");
             Assert.Greater(max, 0.3f, "언덕이 있어야 한다");
+        }
+
+        [Test]
+        public void Diorama_Release_RestoresRenderSettingsAndTilt()
+        {
+            Color ambient = RenderSettings.ambientLight;
+            var mode = RenderSettings.ambientMode;
+            float tilt = HumanLastRampart.Combat.Render.TiltShiftFeature.Strength;
+            float radius = HumanLastRampart.Combat.Render.TiltShiftFeature.MaxRadiusPixels;
+            var camera = new GameObject("Test Camera", typeof(Camera)).GetComponent<Camera>();
+            BeaconDiorama diorama = BeaconDiorama.Create(null, camera, BeaconMapModel.Build(Campaign(2, false, (1, 5)), false));
+            Assert.AreNotEqual(ambient, RenderSettings.ambientLight, "지도가 열린 동안 밤 조명");
+            diorama.Release();
+            Object.DestroyImmediate(diorama.gameObject);
+            Object.DestroyImmediate(camera.gameObject);
+            Assert.AreEqual(ambient, RenderSettings.ambientLight);
+            Assert.AreEqual(mode, RenderSettings.ambientMode);
+            Assert.AreEqual(tilt, HumanLastRampart.Combat.Render.TiltShiftFeature.Strength);
+            Assert.AreEqual(radius, HumanLastRampart.Combat.Render.TiltShiftFeature.MaxRadiusPixels);
         }
 
         [Test]

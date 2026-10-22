@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using HumanLastRampart.Combat.Render;
+using HumanLastRampart.Core.Settings;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -156,8 +157,13 @@ namespace HumanLastRampart.BeaconMap
         Material stoneLit, stoneDead, stoneFog;
         Vector2 stoneNormalTile;
         float elapsed;
-        float tiltBefore;
-        bool cameraReady, released;
+        (float strength, float top, float bottom, float radius, float bottomScale, Color shafts) tiltBefore;
+        bool tiltApplied, released, renderSettingsSaved;
+        VolumeProfile profile;
+        Material skyboxBefore;
+        AmbientMode ambientModeBefore;
+        Color ambientBefore;
+        bool fogBefore;
 
         public static BeaconDiorama Create(Transform parent, Camera camera, BeaconMapModel model)
         {
@@ -184,6 +190,12 @@ namespace HumanLastRampart.BeaconMap
         // ── 바탕·달빛·화면 효과 ──────────────────────────────────────────
         void BuildAtmosphere()
         {
+            // 화면이 닫힐 때 되돌릴 수 있게 지금 값을 적어 둔다
+            skyboxBefore = RenderSettings.skybox;
+            ambientModeBefore = RenderSettings.ambientMode;
+            ambientBefore = RenderSettings.ambientLight;
+            fogBefore = RenderSettings.fog;
+            renderSettingsSaved = true;
             RenderSettings.skybox = null;
             RenderSettings.ambientMode = AmbientMode.Flat;
             RenderSettings.ambientLight = Ambient;
@@ -220,9 +232,8 @@ namespace HumanLastRampart.BeaconMap
             var volume = host.AddComponent<Volume>();
             volume.isGlobal = true;
             volume.priority = 20f;
-            var profile = ScriptableObject.CreateInstance<VolumeProfile>();
+            profile = ScriptableObject.CreateInstance<VolumeProfile>();
             profile.name = "Beacon Look (runtime)";
-            owned.Add(profile);
             volume.sharedProfile = profile;
 
             var bloom = profile.Add<Bloom>(true);
@@ -242,13 +253,15 @@ namespace HumanLastRampart.BeaconMap
             color.saturation.Override(6f);
 
             // 미니어처 흐림: 위·아래 띠만 아주 약하게 (전투 화면과 같은 장치)
-            tiltBefore = TiltShiftFeature.Strength;
+            // 사용자가 정한 흐림 세기(설정)를 따른다 — 0이면 꺼진다. 끝날 때 값을 모두 되돌린다
+            tiltBefore = (TiltShiftFeature.Strength, TiltShiftFeature.TopStart, TiltShiftFeature.BottomEnd, TiltShiftFeature.MaxRadiusPixels, TiltShiftFeature.BottomScale, TiltShiftFeature.ShaftColor);
             TiltShiftFeature.TopStart = 0.78f;
             TiltShiftFeature.BottomEnd = 0.14f;
             TiltShiftFeature.MaxRadiusPixels = 4f;
             TiltShiftFeature.BottomScale = 0.8f;
             TiltShiftFeature.ShaftColor = Color.clear;
-            TiltShiftFeature.Strength = TiltStrength;
+            TiltShiftFeature.Strength = TiltStrength * GameSettings.TiltStrength;
+            tiltApplied = true;
         }
 
         // ── 땅 ───────────────────────────────────────────────────────────
@@ -297,7 +310,6 @@ namespace HumanLastRampart.BeaconMap
             if (grass != null)
             {
                 // 풀 그림이 있으면 어두운 색을 곱해 깐다 (그림이 밝아 그대로 쓰면 밤이 아니게 된다)
-                grass.wrapMode = TextureWrapMode.Repeat;
                 material.SetTexture("_BaseMap", grass);
                 material.mainTexture = grass;
                 var tint = new Color(GroundColor.r * 1.5f, GroundColor.g * 1.5f, GroundColor.b * 1.5f, 1f);
@@ -310,6 +322,7 @@ namespace HumanLastRampart.BeaconMap
             renderer.receiveShadows = true;
         }
 
+        // 공유 Resources 그림은 읽기만 한다 (반복 설정은 가져오기 설정이 이미 Repeat라 건드리지 않는다)
         void BuildMaterials()
         {
             Texture2D albedo = Resources.Load<Texture2D>("BattleArt/World/wall_stone_albedo");
@@ -333,12 +346,10 @@ namespace HumanLastRampart.BeaconMap
             Material m = MakeLit(tint, 0.14f);
             if (albedo != null)
             {
-                albedo.wrapMode = TextureWrapMode.Repeat;
                 m.SetTexture("_BaseMap", albedo);
                 m.mainTexture = albedo;
                 if (normal != null && m.HasProperty("_BumpMap"))
                 {
-                    normal.wrapMode = TextureWrapMode.Repeat;
                     m.SetTexture("_BumpMap", normal);
                     if (m.HasProperty("_BumpScale")) m.SetFloat("_BumpScale", 0.45f);
                     m.EnableKeyword("_NORMALMAP");
@@ -505,27 +516,35 @@ namespace HumanLastRampart.BeaconMap
         void SetFlameFrame(Flame flame, int frame)
         {
             flame.Frame = frame;
-            if (flameTexture == null)
+            flame.Mesh.uv = flameTexture == null ? FlameFallbackUv : FlameUv[frame % FlameFrames];   // 미리 만든 배열 (프레임마다 새로 만들지 않는다)
+        }
+
+        const int FlameFrames = 6;
+        static readonly Vector2[] FlameFallbackUv = { new Vector2(0f, 0f), new Vector2(1f, 0f), new Vector2(1f, 1f), new Vector2(0f, 1f) };
+        static readonly Vector2[][] FlameUv = MakeFlameUv();
+
+        static Vector2[][] MakeFlameUv()
+        {
+            var frames = new Vector2[FlameFrames][];
+            for (int i = 0; i < FlameFrames; i++)
             {
-                flame.Mesh.uv = new[] { new Vector2(0f, 0f), new Vector2(1f, 0f), new Vector2(1f, 1f), new Vector2(0f, 1f) };
-                return;
+                float u0 = i / (float)FlameFrames, u1 = (i + 1) / (float)FlameFrames;
+                frames[i] = new[] { new Vector2(u0, 0f), new Vector2(u1, 0f), new Vector2(u1, 1f), new Vector2(u0, 1f) };
             }
 
-            float u0 = frame / 6f, u1 = (frame + 1) / 6f;
-            flame.Mesh.uv = new[] { new Vector2(u0, 0f), new Vector2(u1, 0f), new Vector2(u1, 1f), new Vector2(u0, 1f) };
+            return frames;
         }
 
         // ── 길 ───────────────────────────────────────────────────────────
         void BuildRoute(BeaconMapModel model)
         {
-            var points = new List<Vector3>();
-            var colors = new List<Color>();
             float along = 0f;
             for (int i = 0; i + 1 < model.Nodes.Count; i++)
             {
                 FortressNode a = model.Nodes[i], b = model.Nodes[i + 1];
                 bool bothLit = a.State == FortressMapState.Lit && b.State == FortressMapState.Lit;
-                bool towardNext = a.State == FortressMapState.Lit && !bothLit;   // 마지막 점화 요새에서 다음 쪽으로
+                // 마지막 점화 요새에서 다음 쪽으로 (1회차를 마치면 3번 요새 쪽 길은 그리지 않는다)
+                bool towardNext = a.State == FortressMapState.Lit && !bothLit && !model.RunComplete;
                 if (!bothLit && !towardNext) continue;
                 float fraction = bothLit ? 1f : b.State == FortressMapState.Dead ? 1f : 0.45f;
                 AddSegment(a.Site, b.Site, fraction, bothLit ? 1f : 0.5f, ref along);
@@ -686,7 +705,6 @@ namespace HumanLastRampart.BeaconMap
             Quaternion rotation = Quaternion.Euler(pitch, yaw, 0f);
             Cam.transform.rotation = rotation;
             Cam.transform.position = target - rotation * Vector3.forward * distance;
-            cameraReady = true;
         }
 
         void LateUpdate()
@@ -730,7 +748,33 @@ namespace HumanLastRampart.BeaconMap
         {
             if (released) return;
             released = true;
-            if (cameraReady) TiltShiftFeature.Strength = tiltBefore;
+            if (tiltApplied)
+            {
+                TiltShiftFeature.Strength = tiltBefore.strength;
+                TiltShiftFeature.TopStart = tiltBefore.top;
+                TiltShiftFeature.BottomEnd = tiltBefore.bottom;
+                TiltShiftFeature.MaxRadiusPixels = tiltBefore.radius;
+                TiltShiftFeature.BottomScale = tiltBefore.bottomScale;
+                TiltShiftFeature.ShaftColor = tiltBefore.shafts;
+            }
+
+            if (renderSettingsSaved)
+            {
+                RenderSettings.skybox = skyboxBefore;
+                RenderSettings.ambientMode = ambientModeBefore;
+                RenderSettings.ambientLight = ambientBefore;
+                RenderSettings.fog = fogBefore;
+            }
+
+            // 볼륨 효과 항목은 프로필과 따로 만들어진 개체라 하나씩 먼저 지운다
+            if (profile != null)
+            {
+                foreach (VolumeComponent component in profile.components) Kill(component);
+                profile.components.Clear();
+                Kill(profile);
+                profile = null;
+            }
+
             foreach (Object o in owned) Kill(o);
             owned.Clear();
         }

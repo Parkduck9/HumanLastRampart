@@ -5,7 +5,8 @@
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
         "HLR.Core",
-        "HLR.BeaconMap"
+        "HLR.BeaconMap",
+        "HLR.Combat"
     ],
     "includePlatforms": [
         "Editor"

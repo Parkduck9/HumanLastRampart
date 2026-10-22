@@ -49,7 +49,7 @@ namespace HumanLastRampart.BeaconMap
         static void BuildHeader(RectTransform root, BeaconMapModel model)
         {
             RectTransform box = Ui.Rect(root, "Map Header");
-            Ui.Place(box, new Vector2(0f, 1f), new Vector2(UiTokens.S48 * 2f, -UiTokens.S48), new Vector2(900f, 150f), new Vector2(0f, 1f));
+            Ui.Place(box, new Vector2(0f, 1f), new Vector2(UiTokens.S48 * 2f, -UiTokens.S48), new Vector2(900f, 120f), new Vector2(0f, 1f));   // 제목 64 + 간격 4 + 부제 44 = 112 (넘치지 않게)
             var column = box.gameObject.AddComponent<VerticalLayoutGroup>();
             column.childControlWidth = column.childControlHeight = true;
             column.childForceExpandWidth = true;
@@ -60,8 +60,6 @@ namespace HumanLastRampart.BeaconMap
             Ui.Size(title, -1f, 64f);
             Text sub = Ui.Outlined(Ui.Label(box, "Subtitle", model.Subtitle, UiTokens.H2, UiTokens.Body, TextAnchor.MiddleLeft, true));
             Ui.Size(sub, -1f, 44f);
-            Text note = Ui.Outlined(Ui.Label(box, "Note", model.Note, UiTokens.Text, UiTokens.BodyDim, TextAnchor.MiddleLeft));
-            Ui.Size(note, -1f, 36f);
         }
 
         void BuildLabels(RectTransform root, BeaconMapModel model)
@@ -74,6 +72,7 @@ namespace HumanLastRampart.BeaconMap
                 bool lit = node.State == FortressMapState.Lit;
                 string text = $"요새 {node.Number}";
                 if (lit && node.Garrison > 0) text += $"\n수비대 {node.Garrison:N0}";
+                else if (node.Nights > 0) text += $"\n밤 {node.Night}/{node.Nights}";   // 지키는 요새는 밤 진행
                 else if (!lit) text += "\n불 꺼진 요새";
 
                 RectTransform rect = Ui.Rect(root, $"Fortress Label {node.Number}");

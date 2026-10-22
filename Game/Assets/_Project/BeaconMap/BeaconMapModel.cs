@@ -17,6 +17,7 @@ namespace HumanLastRampart.BeaconMap
         public Vector2 Site;            // 모형 위 자리 (x, z 미터)
         public FortressMapState State;
         public int Garrison;            // 남은 수비대 (점화한 요새만)
+        public int Night, Nights;       // 지금 지키는 요새의 밤 진행 (Night/Nights). 지키는 요새가 아니면 0
     }
 
     // 봉화선 지도에 보여 줄 것 (W10, Concept_Beacon_v1 9.3·9.7). 진행 데이터 → 요새별 상태. 순수 계산이라 자동 시험으로 확인한다.
@@ -38,7 +39,6 @@ namespace HumanLastRampart.BeaconMap
         public bool Preview;            // 정비에서 열어 본 보기 전용
         public string Title;            // "빛의 봉화선"
         public string Subtitle;         // "요새 1 · 다음: 요새 2"
-        public string Note;             // 한 줄 안내
 
         public static BeaconMapModel Build(CampaignState campaign, bool preview)
         {
@@ -58,27 +58,24 @@ namespace HumanLastRampart.BeaconMap
                 FortressMapState state = number <= lit ? FortressMapState.Lit
                     : number == lit + 1 && number <= BeaconRules.FortressCount ? FortressMapState.Dead
                     : FortressMapState.Fogged;
+                bool defended = state == FortressMapState.Dead && number == fortressNow && !complete;
+                int nights = BeaconRules.NightsIn(number);
                 model.Nodes.Add(new FortressNode
                 {
                     Number = number,
                     Site = Sites[i],
                     State = state,
                     Garrison = state == FortressMapState.Lit ? GarrisonOf(campaign, number) : 0,
+                    Night = defended ? Mathf.Clamp(campaign != null ? campaign.NightNumber : 1, 1, nights) : 0,
+                    Nights = defended ? nights : 0,
                 });
             }
 
             // 머리글: 방금 불을 켠 요새(보기 전용이면 지금 지키는 요새)와 다음 요새
             int focus = complete ? fortressNow : preview ? fortressNow : Mathf.Max(1, fortressNow - 1);
-            if (complete)
-            {
-                model.Subtitle = $"요새 {focus} · 1회차 완료";
-                model.Note = "모든 요새에 불이 켜졌다";
-            }
-            else
-            {
-                model.Subtitle = $"요새 {focus} · 다음: 요새 {focus + 1}";
-                model.Note = preview ? "지금까지 이은 빛" : $"요새 {focus}에 불이 켜졌다";
-            }
+            if (complete) model.Subtitle = $"요새 {focus} · 1회차 완료";
+            else if (focus >= BeaconRules.FortressCount) model.Subtitle = $"요새 {focus} · 마지막 요새";   // 다음 요새가 없다
+            else model.Subtitle = $"요새 {focus} · 다음: 요새 {focus + 1}";
 
             return model;
         }

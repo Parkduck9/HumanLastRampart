@@ -42,7 +42,7 @@ namespace HumanLastRampart.Meta
 
             // D-076 정비 마당 + K-047: 위쪽은 황동 계기 띠 한 줄 — 1순위 골드, 그다음 병력·다음 전투 (S-20)
             view.DockTop(1560f, 80f + 2 * 56f);   // W8: 등대 줄 두 개가 늘어난 높이
-            BuildSummary(view.AddArea("Summary", 48f), campaign,
+            Button mapButton = BuildSummary(view.AddArea("Summary", 48f), campaign,
                 () => { session.Close(); traps.Close(); Complete(ScreenOutcome.OpenBeaconMap); });   // W10: 봉화선 지도 보기 (보기 전용, 닫으면 정비로)
             PreparationPanel.RefreshSummary(repair, context, session);
             BeaconPrepPanel.Build(view.AddArea("Beacon Line 1", 48f), view.AddArea("Beacon Line 2", 48f), context,
@@ -56,12 +56,30 @@ namespace HumanLastRampart.Meta
             yard.AddStation("성벽 계단", 3000f, new Color(0.40f, 0.38f, 0.30f), () => yard.AskNextBattle(() => ready.onClick.Invoke()));
             var lifetime = repair.GetComponentInParent<UnityEngine.Canvas>().gameObject.AddComponent<PreparationSessionLifetime>();
             lifetime.Session = session; lifetime.Traps = traps;
-            HumanLastRampart.Tutorial.PrepTutorialSource.TryBegin(transform, campaign);   // 첫 전투 뒤 정비 튜토리얼 (W2): 함정 놓기 → 망원경 업그레이드 설명
+            var tutorial = HumanLastRampart.Tutorial.PrepTutorialSource.TryBegin(transform, campaign);   // 첫 전투 뒤 정비 튜토리얼 (W2): 함정 놓기 → 망원경 업그레이드 설명
+            // W10: 튜토리얼이 도는 동안은 지도 단추를 잠근다 (지도를 보고 오면 정비 튜토리얼이 처음부터 다시 시작되므로)
+            if (tutorial != null) mapButton.gameObject.AddComponent<MapButtonGate>().Init(mapButton, tutorial);
             return view;
         }
 
+        sealed class MapButtonGate : MonoBehaviour
+        {
+            Button button;
+            HumanLastRampart.Tutorial.TutorialDirector director;
+
+            public void Init(Button target, HumanLastRampart.Tutorial.TutorialDirector tutorial)
+            {
+                button = target; director = tutorial;
+                Refresh();
+            }
+
+            void Update() { Refresh(); }
+
+            void Refresh() { if (button != null) button.interactable = director == null || director.Finished; }
+        }
+
         // [정비 마당]  요새 1 · 밤 2 앞          [골드] 1,240   [병력] 520/1,200
-        static void BuildSummary(RectTransform area, HumanLastRampart.Core.Campaign.CampaignState campaign, Action openMap)
+        static Button BuildSummary(RectTransform area, HumanLastRampart.Core.Campaign.CampaignState campaign, Action openMap)
         {
             HorizontalLayoutGroup row = Ui.Row(area, "Summary Row", UiTokens.S16);
             Ui.Stretch((RectTransform)row.transform);
@@ -81,6 +99,7 @@ namespace HumanLastRampart.Meta
             if (troops == null) Ui.Size(Ui.Label(row.transform, "Troops Word", "병력", UiTokens.Small, UiTokens.BodyDim), 44f, 48f);
             Text troopsValue = Ui.Label(row.transform, "Troops Value", "", UiTokens.Text, UiTokens.Body);
             Ui.Size(troopsValue, 136f, 48f);
+            return map;
         }
 
         // 마당을 걷는 주인공 그림: 참가 영웅 중 주인공(UnitKind.Hero)
