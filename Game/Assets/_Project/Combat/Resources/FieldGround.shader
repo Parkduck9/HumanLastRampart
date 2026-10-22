@@ -170,9 +170,10 @@ Shader "HumanLastRampart/FieldGround"
                 half3 ambient = SampleSH(n);
                 float3 viewDir = normalize(_WorldSpaceCameraPos - input.positionWS);
                 half3 diffuse, spec, bounce;
-                HlrAccumulate(input.positionWS, n, viewDir, lerp(10.0, 30.0, saturate(dirtMask + 0.2)), diffuse, spec, bounce);
+                float3 rimC; float rimW, rimS;
+                HlrAccumulate(input.positionWS, n, viewDir, lerp(10.0, 30.0, saturate(dirtMask + 0.2)), true, float3(1, 0, 0), diffuse, spec, bounce, rimC, rimW, rimS);
 
-                half3 color = albedo * (sun * 5.5h + ambient * 1.0h + diffuse + bounce);   // 주변광은 줄이고 달빛 비중을 키워 요철·무늬가 읽히게
+                half3 color = albedo * (sun * 1.6h + ambient * 0.6h + diffuse + bounce);   // 주변광은 줄이고 달빛 비중을 키워 요철·무늬가 읽히게
                 color += spec * (half)(0.02 * (1.0 - dirtMask * 0.4)) * (half3)lerp(half3(0.6, 0.55, 0.5), albedo * 2.0h, 0.4h);   // 은은한 반사 (젖은 흙이 빛을 머금는 정도)
                 return half4(MixFog(color, input.fogFactor), 1.0h);
             }
@@ -208,6 +209,7 @@ Shader "HumanLastRampart/FieldGround"
         }
     }
 }
+
 
 
 

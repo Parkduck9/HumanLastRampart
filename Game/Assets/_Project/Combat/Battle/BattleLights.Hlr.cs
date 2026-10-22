@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using HumanLastRampart.Combat.Render;
 using UnityEngine;
@@ -11,14 +12,18 @@ namespace HumanLastRampart.Combat.Battle
     {
         const float TorchShaderRange = 1.6f;   // 셰이더가 보는 횃불 닿는 거리 = Light 범위 × 이 값 (작은 따뜻한 섬)
         const float BigLightIntensity = 5f;    // 이 이상은 큰 불·폭발 — 바닥 번짐을 준다
+        const float BigLightPull = 0.5f;       // 큰 불 빛 위치를 사진기 쪽으로 반경 × 이 값 당긴다 (불 그림 앞 땅에 웅덩이가 보이게)
+        const float BigLightPullMax = 8f;
+        const float BigLightHeight = 0.4f;
+
         readonly List<(float score, Vector3 pos, float radius, Color color, float intensity, float bounce)> flashCandidates =
             new List<(float, Vector3, float, Color, float, float)>();
         readonly List<(float distance, Light light)> torchCandidates = new List<(float, Light)>();
 
-        static int CompareFlash((float score, Vector3 pos, float radius, Color color, float intensity, float bounce) a,
-                                (float score, Vector3 pos, float radius, Color color, float intensity, float bounce) b) => b.score.CompareTo(a.score);
-
-        static int CompareTorch((float distance, Light light) a, (float distance, Light light) b) => a.distance.CompareTo(b.distance);
+        // 비교 대리자는 한 번만 만든다 (메서드 그룹을 Sort에 넘기면 프레임마다 새로 만든다)
+        static readonly Comparison<(float score, Vector3 pos, float radius, Color color, float intensity, float bounce)> CompareFlash =
+            (a, b) => b.score.CompareTo(a.score);
+        static readonly Comparison<(float distance, Light light)> CompareTorch = (a, b) => a.distance.CompareTo(b.distance);
 
         void GatherShaderLights()
         {
@@ -31,10 +36,23 @@ namespace HumanLastRampart.Combat.Battle
             {
                 Light f = flashes[i];
                 if (!f.enabled || f.intensity < 0.05f) continue;
-                float d = Vector3.Distance(f.transform.position, view);
+                Vector3 pos = f.transform.position;
+                float d = Vector3.Distance(pos, view);
                 float score = f.intensity * f.range / (1f + d * 0.1f);
-                flashCandidates.Add((score, f.transform.position, f.range, f.color, f.intensity, f.intensity >= BigLightIntensity ? 1f : 0.25f));
+                bool big = f.intensity >= BigLightIntensity;
+                if (big)
+                {
+                    // 불 그림(세로 판)이 불 바로 밑 땅을 가리므로, 셰이더용 빛은 사진기 쪽으로 당기고 낮춰 불 앞 땅에 주황 웅덩이가 생기게 한다
+                    Vector3 toView = view - pos;
+                    toView.y = 0f;
+                    if (toView.sqrMagnitude > 1e-4f)
+                        pos += toView.normalized * Mathf.Min(f.range * BigLightPull, BigLightPullMax);
+                    pos.y = BigLightHeight;
+                }
+
+                flashCandidates.Add((score, pos, f.range, f.color, f.intensity, big ? 1f : 0.25f));
             }
+
             flashCandidates.Sort(CompareFlash);
 
             // 횃불 몫을 남겨 둔다 (벽 위 병사가 늘 빛을 받게)
@@ -54,6 +72,7 @@ namespace HumanLastRampart.Combat.Battle
                 if (!t.enabled) continue;
                 torchCandidates.Add(((t.transform.position - view).sqrMagnitude, t));
             }
+
             torchCandidates.Sort(CompareTorch);
             for (int i = 0; i < torchCandidates.Count; i++)
             {

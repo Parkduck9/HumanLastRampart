@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Rendering;
 
 namespace HumanLastRampart.Combat.Render
@@ -28,14 +28,28 @@ namespace HumanLastRampart.Combat.Render
             {
                 if (ForceLow || Application.isMobilePlatform) return true;
                 RenderPipelineAsset asset = GraphicsSettings.currentRenderPipeline;
-                return asset != null && asset.name.Contains("Mobile");
+                if (asset != checkedAsset)
+                {
+                    checkedAsset = asset;   // 파이프라인 에셋이 바뀔 때만 이름을 본다 (프레임마다 문자열을 만들지 않게)
+                    assetIsMobile = asset != null && asset.name.Contains("Mobile");
+                }
+
+                return assetIsMobile;
             }
         }
 
-        public static int Max => Low ? 6 : 14;
+        static RenderPipelineAsset checkedAsset;
+        static bool assetIsMobile;
+        static int max = 14;
+
+        public static int Max => max;
         public static int Count => count;
 
-        public static void Begin() => count = 0;
+        public static void Begin()
+        {
+            count = 0;
+            max = Low ? 6 : 14;
+        }
 
         // radius = 빛이 닿는 거리(m), color = 빛 색 × 세기, bounce = 바닥 반사광(번짐) 세기 0~1 (불바다·폭발처럼 큰 빛만)
         public static bool Add(Vector3 position, float radius, Color color, float intensity, float bounce)
@@ -64,3 +78,4 @@ namespace HumanLastRampart.Combat.Render
         }
     }
 }
+

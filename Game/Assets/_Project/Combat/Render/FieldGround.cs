@@ -32,13 +32,27 @@ namespace HumanLastRampart.Combat.Render
             var filter = ground.GetComponent<MeshFilter>();
             var renderer = ground.GetComponent<MeshRenderer>();
             if (filter == null || renderer == null) return false;
-            filter.sharedMesh = BuildGrid(halfExtent, inner);
+            Release();
+            builtMesh = BuildGrid(halfExtent, inner);
+            builtMaterial = material;
+            filter.sharedMesh = builtMesh;
             renderer.sharedMaterial = material;
-            Debug.Log("[FieldGround] 들판 땅 셰이더 적용");
             ground.transform.localScale = Vector3.one;
             var oldCollider = ground.GetComponent<Collider>();
             if (oldCollider != null) Object.Destroy(oldCollider);
             return true;
+        }
+
+        static Mesh builtMesh;
+        static Material builtMaterial;
+
+        // 전투가 끝나면 격자·재질을 지운다 (전투마다 새로 만들므로)
+        public static void Release()
+        {
+            if (builtMesh != null) Object.Destroy(builtMesh);
+            if (builtMaterial != null) Object.Destroy(builtMaterial);
+            builtMesh = null;
+            builtMaterial = null;
         }
 
         static void Point(Texture2D t)

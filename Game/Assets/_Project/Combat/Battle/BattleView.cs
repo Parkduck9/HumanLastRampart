@@ -398,7 +398,12 @@ namespace HumanLastRampart.Combat.Battle
             block.SetFloat(HasSpecId, spec != null ? 1f : 0f);
             block.SetFloat(SheetScaleId, sheetScale);
             block.SetFloat(ViewStretchId, figure ? 1f : 0f);
+            // 밤 눈 빛은 적 시트만 (주인공 금장식·마법사 금테가 빛나지 않게)
+            string sheetName = texture != null ? texture.name : string.Empty;
+            block.SetFloat(EyeGlowId, sheetName.Contains("goblin") || sheetName.Contains("ogre") ? 1f : 0f);
         }
+
+        static readonly int EyeGlowId = Shader.PropertyToID("_EyeGlow");
 
         // 캐릭터 시트 (칸 256×384): 시트별 인물 키를 기준 키에 맞춘다 (K-034). referencePx = 그 개체의 기준 인물 키
         static void ApplyFigure(MaterialPropertyBlock block, Texture sheet, Texture normal = null, float referencePx = PerfLabArt.FigureReferencePx) =>
@@ -1188,6 +1193,7 @@ namespace HumanLastRampart.Combat.Battle
             shadows?.Dispose();
             world?.Dispose();
             lights?.Dispose();
+            HumanLastRampart.Combat.Render.FieldGround.Release();   // 들판 땅 재질·격자 (W15)
             effectArt?.Dispose();
             soldierBuffer?.Release();
             shotBuffer?.Release();
