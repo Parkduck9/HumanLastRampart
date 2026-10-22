@@ -17,47 +17,63 @@ namespace HumanLastRampart.Combat.Battle
         const float WallThickness = 2f;
         const float CobbleTileMeters = 2.8f;     // 돌바닥 그림 한 장이 덮는 미터 (돌 하나가 병사 키(0.35m)와 비슷한 크기)
 
-        // 계단 크기 (병사 키 0.35m, 주인공 0.375m 기준으로 낮게)
+        // 계단 크기 (병사 키 0.35m, 주인공 0.375m 기준으로 아주 낮게)
+        // 층계참은 성벽 바깥 모서리에서 1.5m보다 안쪽(통로 안쪽 0.45m)에서 끝난다 — 처음 서는 자리(1m)·병사 이동 길(1.4m)을 덮지 않게 (W19 검토)
         public const float StairHalfWidth = 1.0f;
-        public const float LandingDepth = 0.8f;     // 통로 안쪽 끝(성벽 안쪽 가장자리)에서 바깥쪽으로 층계참 깊이
-        public const float LandingHeight = 0.24f;
-        public const int StepCount = 6;             // 층계참 → 마당 (마지막 한 단은 마당 바닥)
-        public const float TreadDepth = 0.2f;
+        public const float LandingDepth = 0.45f;    // 통로 안쪽 끝(성벽 안쪽 가장자리)에서 바깥쪽으로 층계참 깊이
+        public const float LandingHeight = 0.1f;
+        public const int StepCount = 5;             // 층계참 → 마당 (마지막 한 단은 마당 바닥)
+        public const float TreadDepth = 0.25f;
+        const float EdgeRamp = 0.15f;               // 높이 보정이 상자 모서리 안쪽에서 서서히 0이 되는 폭 (모서리에서 정확히 0)
 
         readonly GameObject root;
         readonly List<Material> ownedMaterials = new List<Material>();
         readonly List<Mesh> ownedMeshes = new List<Mesh>();
         BattleWorldMaterials stone;
+        bool ownsStone;
 
-        public BattleCourtyard(float half, Transform parent)
+        // 옛 마당 상자 윗면이 새 바닥에 덮였는가 (BattleView가 헛그리기를 끈다)
+        public bool HasFloor { get; }
+
+        public BattleCourtyard(float half, Transform parent, BattleWorldMaterials sharedStone = null)
         {
             root = new GameObject("Courtyard (W19 임시)");
             root.transform.SetParent(parent, false);
             float top = BattleSim.WallHeight;
 
             BuildFloor(half, top);
-            BuildStairs(half, top);
+            HasFloor = true;
+            BuildStairs(half, top, sharedStone);
             BuildProps(half, top);
+        }
+
+        // 계단 쪽 성벽의 바깥 방향·오른쪽 (BattleCameraRig.StairsSide에서 — 하드코딩 없음)
+        static void StairFrame(out Vector3 n, out Vector3 r)
+        {
+            var o = WallGeometry.Outward(BattleCameraRig.StairsSide);
+            var rr = WallGeometry.Right(BattleCameraRig.StairsSide);
+            n = new Vector3(o.x, 0f, o.z);
+            r = new Vector3(rr.x, 0f, rr.z);
         }
 
         // 주인공 그림 높이 보정 (m, 발 위치 기준). 계단·층계참 위에서만 0보다 크다
         public static float HeroLift(Vector3 feet, float half)
         {
-            float z0 = half - WallThickness;                 // 성벽 안쪽 가장자리
-            float landingEnd = z0 + LandingDepth;
-            float ax = Mathf.Abs(feet.x);
-            float wx = 1f - Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(StairHalfWidth - 0.2f, StairHalfWidth + 0.1f, ax));
+            StairFrame(out Vector3 n, out Vector3 r);
+            Vector3 d = new Vector3(feet.x, 0f, feet.z) - n * (half - WallThickness);   // 성벽 안쪽 가장자리 가운데에서
+            float lz = Vector3.Dot(d, n);   // + = 통로 쪽(바깥), - = 마당 쪽
+            float lx = Mathf.Abs(Vector3.Dot(d, r));
+            float wx = 1f - Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(StairHalfWidth - EdgeRamp, StairHalfWidth, lx));
             if (wx <= 0f) return 0f;
-            float z = feet.z;
             float lift;
-            if (z >= z0)
+            if (lz >= 0f)
             {
-                // 층계참 (바깥 끝은 부드럽게 내려온다 — 통로를 따라 달릴 때 튀지 않게)
-                lift = LandingHeight * (1f - Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(landingEnd - 0.1f, landingEnd + 0.1f, z)));
+                if (lz >= LandingDepth) return 0f;
+                lift = LandingHeight * (1f - Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(LandingDepth - EdgeRamp, LandingDepth, lz)));
             }
             else
             {
-                int k = Mathf.FloorToInt((z0 - z) / TreadDepth);
+                int k = Mathf.FloorToInt(-lz / TreadDepth);
                 lift = k >= StepCount - 1 ? 0f : TreadTop(k);
             }
 
@@ -92,9 +108,10 @@ namespace HumanLastRampart.Combat.Battle
         }
 
         // ── 계단 ──
-        void BuildStairs(float half, float top)
+        void BuildStairs(float half, float top, BattleWorldMaterials sharedStone)
         {
-            stone = new BattleWorldMaterials();
+            ownsStone = sharedStone == null;
+            stone = sharedStone ?? new BattleWorldMaterials();   // 성벽 쪽 재질 묶음을 넘겨받아 같은 재질을 두 벌 만들지 않는다
             var surface = BattleWorldMaterials.Surface.WallStone;
             Vector2 tile = new Vector2(1f, 1f);
             if (stone.HasArt(surface))
@@ -104,14 +121,15 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             var b = new MeshBuilder(tile);
-            float z0 = half - WallThickness;
-            // 층계참: 통로 안쪽 끝
-            b.Box(new Vector3(-StairHalfWidth, top, z0), new Vector3(StairHalfWidth, top + LandingHeight, z0 + LandingDepth));
+            // 계단 쪽 성벽 안쪽 가장자리를 원점으로 한 자기 좌표 (z + = 통로 쪽, x = 성벽 따라 오른쪽, y = 통로 윗면 위로)
+            b.Box(new Vector3(-StairHalfWidth, 0f, 0f), new Vector3(StairHalfWidth, LandingHeight, LandingDepth));   // 층계참
             for (int k = 0; k < StepCount - 1; k++)
-                b.Box(new Vector3(-StairHalfWidth, top, z0 - (k + 1) * TreadDepth), new Vector3(StairHalfWidth, top + TreadTop(k), z0 - k * TreadDepth));
+                b.Box(new Vector3(-StairHalfWidth, 0f, -(k + 1) * TreadDepth), new Vector3(StairHalfWidth, TreadTop(k), -k * TreadDepth));
 
+            StairFrame(out Vector3 n, out _);
             var go = new GameObject("Courtyard Stairs");
             go.transform.SetParent(root.transform, false);
+            go.transform.SetLocalPositionAndRotation(n * (half - WallThickness) + Vector3.up * top, Quaternion.LookRotation(n));
             var mesh = b.ToMesh("Courtyard Stairs");
             ownedMeshes.Add(mesh);
             go.AddComponent<MeshFilter>().sharedMesh = mesh;
@@ -124,24 +142,25 @@ namespace HumanLastRampart.Combat.Battle
             var crateTex = Resources.Load<Texture2D>(Folder + "crate_wood");
             var barrelTex = Resources.Load<Texture2D>(Folder + "barrel_wood");
             float y = top + SkinLift;
-            float zN = half - 2.6f;       // 북쪽 성벽 안쪽 줄
+            StairFrame(out Vector3 sn, out Vector3 sr);   // 계단 쪽 성벽 기준 (dz = 성벽 안쪽 가장자리에서 마당 쪽으로)
+            Vector3 At(float x, float dz, float lift = 0f) => sn * (half - WallThickness - dz) + sr * x + Vector3.up * (y + lift);
             float edge = half - 4f;
 
             var crates = new MeshBuilder(Vector2.one);
             // (가운데 x=0 줄은 비움: 계단·탑으로 가는 길)
-            AddCrate(crates, new Vector3(-3.4f, y, zN), 0.34f, 0.3f, 12f);
-            AddCrate(crates, new Vector3(-3.0f, y, zN - 0.5f), 0.26f, 0.24f, -20f);
-            AddCrate(crates, new Vector3(-3.4f, y + 0.3f, zN), 0.24f, 0.22f, 30f);
-            AddCrate(crates, new Vector3(-edge, y, zN - 0.2f), 0.34f, 0.3f, -8f);
+            AddCrate(crates, At(-3.4f, 0.6f), 0.34f, 0.3f, 12f);
+            AddCrate(crates, At(-3.0f, 1.1f), 0.26f, 0.24f, -20f);
+            AddCrate(crates, At(-3.4f, 0.6f, 0.3f), 0.24f, 0.22f, 30f);
+            AddCrate(crates, At(-edge, 0.8f), 0.34f, 0.3f, -8f);
             AddCrate(crates, new Vector3(6.2f, y, 2.4f), 0.3f, 0.28f, 15f);
             // 무기 걸이: 기둥 둘 + 가로대 + 세운 자루 넷
-            AddRack(crates, new Vector3(edge, y, zN - 0.1f));
+            AddRack(crates, At(edge, 0.7f));
 
             var barrels = new MeshBuilder(Vector2.one);
-            AddBarrel(barrels, new Vector3(3.5f, y, zN), 0.15f, 0.34f);
-            AddBarrel(barrels, new Vector3(3.9f, y, zN - 0.45f), 0.13f, 0.3f);
+            AddBarrel(barrels, At(3.5f, 0.6f), 0.15f, 0.34f);
+            AddBarrel(barrels, At(3.9f, 1.05f), 0.13f, 0.3f);
             AddBarrel(barrels, new Vector3(-6.4f, y, 1.2f), 0.15f, 0.34f);
-            AddBarrel(barrels, new Vector3(-edge + 0.8f, y, zN - 0.9f), 0.14f, 0.32f);
+            AddBarrel(barrels, At(-edge + 0.8f, 1.5f), 0.14f, 0.32f);
 
             Spawn("Courtyard Crates", crates, MakeLit(crateTex, new Color(0.6f, 0.52f, 0.45f), 0.1f));
             Spawn("Courtyard Barrels", barrels, MakeLit(barrelTex, new Color(0.6f, 0.52f, 0.45f), 0.1f));
@@ -183,8 +202,6 @@ namespace HumanLastRampart.Combat.Battle
             if (m.HasProperty("_Metallic")) m.SetFloat("_Metallic", 0f);
             if (texture != null)
             {
-                texture.filterMode = FilterMode.Point;
-                texture.wrapMode = TextureWrapMode.Repeat;
                 if (m.HasProperty("_BaseMap")) m.SetTexture("_BaseMap", texture);
                 m.mainTexture = texture;
             }
@@ -200,7 +217,7 @@ namespace HumanLastRampart.Combat.Battle
             foreach (Mesh m in ownedMeshes) if (m != null) UnityEngine.Object.Destroy(m);
             ownedMaterials.Clear();
             ownedMeshes.Clear();
-            stone?.Dispose();
+            if (ownsStone) stone?.Dispose();
         }
 
         // 상자·원통을 한 메시로 합친다. uvTile = 그림 한 장이 덮는 미터 (돌 질감은 면 크기에 맞춰 반복, 나무는 면마다 한 장)

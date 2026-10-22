@@ -60,6 +60,9 @@ namespace HumanLastRampart.Combat.Battle
 
         public int PieceCount { get; private set; }
 
+        // 마당 계단 등이 같은 돌 재질을 나눠 쓴다 (W19). 3D 목업이 꺼져 있으면 null
+        public BattleWorldMaterials Materials => materials;
+
         // 들판 바닥 판에 풀 질감 (반복 크기는 재질 공용 코드의 그림 한 장 미터)
         public void DressGround(Renderer ground, Vector2 sizeMeters)
         {

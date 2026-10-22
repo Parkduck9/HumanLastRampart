@@ -66,6 +66,9 @@ public sealed partial class PlayProbe
             sim.WeatherDirty = true;
             entry.StartBattle();
             for (int i = 0; i < 20; i++) yield return null;
+            // 0) 전투 시작 기본 사진기 자리 (처음 서는 자리 — 층계참이 발을 가리지 않아야 한다)
+            Assert.AreEqual(0f, BattleCourtyard.HeroLift(rig.HeroFeet, sim.CastleHalf), 1e-4f, "처음 서는 자리는 층계참 밖");
+            yield return Capture($"courtyard_{label}_0_battle_start_default", PfWidth, PfHeight);
 
             // 1) 통로 안쪽 끝(계단 위)으로 걸어가 선다
             rig.DepthInput = -1f;
@@ -97,21 +100,25 @@ public sealed partial class PlayProbe
             // 2) 내려가는 중 (계단 위): 흐름이 계단 구간 안에서 멈추게 전투 시간을 멈춘다
             Assert.IsTrue(entry.Interact(), "E: 탑으로 내려가기");
             int guard = 0;
-            while (rig.TowerBlend < 0.11f && guard++ < 60) yield return null;
+            while (rig.TowerBlend < 0.08f && guard++ < 60) yield return null;
             entry.TutorialTimeScale = 0f;
             yield return new WaitForSecondsRealtime(1.2f);
             Vector3 feet = rig.HeroFeet;
             Note($"내려가는 중: blend {rig.TowerBlend:0.000} 발 ({feet.x:0.00}, {feet.y:0.00}, {feet.z:0.00}) 그림 높이 보정 {BattleCourtyard.HeroLift(feet, half):0.000} m (층계참 0.24, 마당 0)");
+            float liftC = BattleCourtyard.HeroLift(feet, half);
+            Assert.Greater(liftC, 0f, "내려가는 중(c): 주인공이 계단 위");
             yield return Capture($"courtyard_{label}_c_mid_descent", PfWidth, PfHeight);
 
-            // 한 단 더 내려간 모습 (blend 약 0.14)
+            // 한 단 더 내려간 모습 (blend 약 0.12)
             entry.TutorialTimeScale = 1f;
             int g2 = 0;
-            while (rig.TowerBlend < 0.14f && g2++ < 20) yield return null;
+            while (rig.TowerBlend < 0.12f && g2++ < 20) yield return null;
             entry.TutorialTimeScale = 0f;
             yield return new WaitForSecondsRealtime(1.2f);
             feet = rig.HeroFeet;
             Note($"조금 더 내려감: blend {rig.TowerBlend:0.000} 발 z {feet.z:0.00} 보정 {BattleCourtyard.HeroLift(feet, half):0.000} m");
+            float liftD = BattleCourtyard.HeroLift(feet, half);
+            Assert.Less(liftD, liftC, "더 내려가면(d) 보정이 줄어든다");
             yield return Capture($"courtyard_{label}_d_mid_descent_lower", PfWidth, PfHeight);
             entry.TutorialTimeScale = 1f;
 
