@@ -1,0 +1,78 @@
+{
+  "card": "K-112",
+  "kind": "lighting_reference_stills",
+  "generator": "built-in image_gen",
+  "source_render_size": [
+    1672,
+    941
+  ],
+  "final_size": [
+    1920,
+    1080
+  ],
+  "resize": "nearest-neighbor; no crop",
+  "alpha": "opaque",
+  "frame_count": 1,
+  "frame_order": null,
+  "pivot": null,
+  "foot_baseline": null,
+  "sprite_contract_applicable": false,
+  "beam_design": {
+    "direction": "north / upper-right in battle camera",
+    "opening_degrees": 60,
+    "lantern_brightness": "fixed intent; concept values not photometric"
+  },
+  "inputs": [
+    "Docs/References/beacon_game_20261022/05_pf_night_clean.png",
+    "Docs/References/beacon_game_20261022/06_pf_night_hud.png",
+    "Docs/References/beacon_game_20261022/07_pf_map_full.png"
+  ],
+  "mood_reference_only": [
+    "C:/Unity/1/HumanLastRampart/Docs/References/beacon_refs/octopath_5.jpg",
+    "C:/Unity/1/HumanLastRampart/Docs/References/beacon_refs/frostpunk_3.jpg",
+    "C:/Unity/1/HumanLastRampart/Docs/References/beacon_refs/alanwake_3.jpg"
+  ],
+  "images": [
+    {
+      "file": "beacon_40_f1_night1.png",
+      "output": 0.4,
+      "fortress": 1,
+      "night": "first"
+    },
+    {
+      "file": "beacon_70_f1_ignition.png",
+      "output": 0.7,
+      "fortress": 1,
+      "night": "ignition"
+    },
+    {
+      "file": "beacon_100_f2_ignition.png",
+      "output": 1,
+      "fortress": 2,
+      "night": "ignition"
+    },
+    {
+      "file": "beacon_growth_strip.png",
+      "size": [
+        1440,
+        270
+      ],
+      "order": [
+        0.4,
+        0.7,
+        1
+      ]
+    }
+  ],
+  "limitations": [
+    "Courtyard and tower not visible in supplied battle camera; tower-top burst and courtyard lighting still need a real courtyard screenshot.",
+    "Flicker cannot be validated in stills.",
+    "Generative paintovers preserve composition but do not guarantee pixel-identical sprite geometry.",
+    "Three goblins added for lighting comparison; existing fire attenuated."
+  ],
+  "generation_prompts": {
+    "p40": "Use case: lighting-weather. Make a 1920x1080 landscape lighting paint-over of the FIRST input, the REAL HumanLastRampart north wall night screenshot. This is a fixed-camera game lighting reference, not a fantasy illustration. Preserve exact camera, terrain, long horizontal blue stone battlements at y~575, all rows of orange-haired dark-blue-uniform pixel soldiers and center white-haired officer, sprite sizes, wall tiles and all object positions. Do not redesign the battlefield. Second input is its HUD counterpart only for orientation. Third is the actual tactical map showing that the beacon sits in the courtyard BEHIND this north wall, behind/below camera. Do NOT turn the tactical map into the rendered scene. Do NOT put a new tower out in the enemy field. The tower itself is off camera: show its warm beam originating behind/below camera and passing over the wall toward upper-center/right field. Add just a few tiny existing-style goblin enemy silhouettes in that lit path to demonstrate lighting and cast long shadows away from the source. Keep these same enemies in every version. Original large fire area upper-left remains present but subordinate, reduced to a dull red localized warm fire; don't let it dominate. Dark charcoal/slate night, strongly reduce current flat grey field ambient; preserve crisp chunky pixel edges and texture. Warm amber-ivory directional beam, localized spill and real shadows; restrained bloom only at source. No grey mist blanket, no teal/purple neon, no airbrushing, no smooth plastic, no sparks or decorative clutter, no new buildings. Output one full-frame image without lettering, borders or panels. Fix beam opening nominally 60 degrees and direction upper-center/right in all stages, fix wall lantern brightness. Only beacon OUTPUT changes. Stage 1: Fortress 1 night 1, output 40 percent. Weak incomplete wavering beam edge (a still snapshot of flicker), visibly short reach ending around mid-field y~300; far field nearly black. Very dim courtyard-side spill at lower edge. Soldiers retain dim readable outlines, bright only beside the original two warm wall lamps. Few mid-field goblins barely outlined, distant enemies invisible. This must look substantially darker and weaker than stages 2/3.",
+    "p70": "Use case: lighting-weather. Make a 1920x1080 landscape lighting paint-over of the FIRST input, the REAL HumanLastRampart north wall night screenshot. This is a fixed-camera game lighting reference, not a fantasy illustration. Preserve exact camera, terrain, long horizontal blue stone battlements at y~575, all rows of orange-haired dark-blue-uniform pixel soldiers and center white-haired officer, sprite sizes, wall tiles and all object positions. Do not redesign the battlefield. Second input is its HUD counterpart only for orientation. Third is the actual tactical map showing that the beacon sits in the courtyard BEHIND this north wall, behind/below camera. Do NOT turn the tactical map into the rendered scene. Do NOT put a new tower out in the enemy field. The tower itself is off camera: show its warm beam originating behind/below camera and passing over the wall toward upper-center/right field. Add just a few tiny existing-style goblin enemy silhouettes in that lit path to demonstrate lighting and cast long shadows away from the source. Keep these same enemies in every version. Original large fire area upper-left remains present but subordinate, reduced to a dull red localized warm fire; don't let it dominate. Dark charcoal/slate night, strongly reduce current flat grey field ambient; preserve crisp chunky pixel edges and texture. Warm amber-ivory directional beam, localized spill and real shadows; restrained bloom only at source. No grey mist blanket, no teal/purple neon, no airbrushing, no smooth plastic, no sparks or decorative clutter, no new buildings. Output one full-frame image without lettering, borders or panels. Fix beam opening nominally 60 degrees and direction upper-center/right in all stages, fix wall lantern brightness. Only beacon OUTPUT changes. Stage 2 Fortress 1 ignition night, output 70 percent. Use the FOURTH image (completed 40 percent paintover) as the exact geometry and lighting continuity base: same soldiers, same three goblins at identical coordinates, same lamps and fire. Increase ONLY beacon output: longer coherent warm directional beam reaches to y~100, larger surface illumination range, modest stronger core, three goblins readable with longer dark shadows pointing up/right away from courtyard source. Keep far left/right dark; no global exposure lift. No visible tower because off camera. Keep exactly the stage 1 beam opening/direction.",
+    "p100": "Use case: lighting-weather. Make a 1920x1080 landscape lighting paint-over of the FIRST input, the REAL HumanLastRampart north wall night screenshot. This is a fixed-camera game lighting reference, not a fantasy illustration. Preserve exact camera, terrain, long horizontal blue stone battlements at y~575, all rows of orange-haired dark-blue-uniform pixel soldiers and center white-haired officer, sprite sizes, wall tiles and all object positions. Do not redesign the battlefield. Second input is its HUD counterpart only for orientation. Third is the actual tactical map showing that the beacon sits in the courtyard BEHIND this north wall, behind/below camera. Do NOT turn the tactical map into the rendered scene. Do NOT put a new tower out in the enemy field. The tower itself is off camera: show its warm beam originating behind/below camera and passing over the wall toward upper-center/right field. Add just a few tiny existing-style goblin enemy silhouettes in that lit path to demonstrate lighting and cast long shadows away from the source. Keep these same enemies in every version. Original large fire area upper-left remains present but subordinate, reduced to a dull red localized warm fire; don't let it dominate. Dark charcoal/slate night, strongly reduce current flat grey field ambient; preserve crisp chunky pixel edges and texture. Warm amber-ivory directional beam, localized spill and real shadows; restrained bloom only at source. No grey mist blanket, no teal/purple neon, no airbrushing, no smooth plastic, no sparks or decorative clutter, no new buildings. Output one full-frame image without lettering, borders or panels. Fix beam opening nominally 60 degrees and direction upper-center/right in all stages, fix wall lantern brightness. Only beacon OUTPUT changes. Stage 3 Fortress 2 ignition night, output 100 percent. FOURTH image is 70 percent stage, preserve it almost exactly, all geometry/three goblins/fire/lamps. Raise beacon output to maximum: strong CRISP warm ivory shaft traveling from behind lower center camera over the wall and toward upper-right field edge, clearly visible as directional rays above ground (thin suspended dust only INSIDE beam; outside pure dark night). Lit path reaches the top edge of field. Three goblins vividly picked out in ivory/amber rim light with very long sharp shadows pointing away up/right. Bright tight burst entering frame from the lower center edge BEHIND the soldier ranks implies offscreen tower-top ignition; do NOT add a tower out in the field, and do NOT cover central officer or flood the whole wall. Beam must read as a projected lighthouse shaft, not merely a soft ground spotlight. Keep nominal opening and direction same as earlier. Surrounding field dark, no global bloom or exposure increase. 1920x1080."
+  }
+}
