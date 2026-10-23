@@ -41,21 +41,35 @@ namespace HumanLastRampart.Meta
             foreach (Button b in new[] { repair, recruit, trapButton, shop, training, mercenary, ready }) ScreenView.HideButton(b);
 
             // D-076 정비 마당 + K-047: 위쪽은 황동 계기 띠 한 줄 — 1순위 골드, 그다음 병력·다음 전투 (S-20)
-            view.DockTop(1560f, 80f + 2 * 72f);   // W8: 등대 줄 두 개. W16: 줄마다 높이 48 + 간격 24라 72씩. 밤 사이 한마디(W12)는 띠 밖 아래쪽 띠로 옮겼다 (마당 간판을 가리지 않게)
+            view.DockTop(1720f, 80f);   // W36: 한 줄짜리 얇은 띠 (등대 등실이 가려지지 않게). 등대 줄 두 개는 [등대 세부] 칸으로 옮겼다. 밤 사이 한마디(W12)는 띠 밖 아래쪽 띠
+            GameObject detail = null;   // [등대 세부] 칸 (아래에서 만든다)
             Button mapButton = BuildSummary(view.AddArea("Summary", 48f), campaign,
-                () => { session.Close(); traps.Close(); Complete(ScreenOutcome.OpenBeaconMap); });   // W10: 봉화선 지도 보기 (보기 전용, 닫으면 정비로)
+                () => { session.Close(); traps.Close(); Complete(ScreenOutcome.OpenBeaconMap); },
+                () => { if (detail != null) detail.SetActive(!detail.activeSelf); }, out Text beaconBrief);   // W10: 봉화선 지도 보기 (보기 전용, 닫으면 정비로)
             PreparationPanel.RefreshSummary(repair, context, session);
-            BeaconPrepPanel.Build(view.AddArea("Beacon Line 1", 48f), view.AddArea("Beacon Line 2", 48f), null, context,
-                () => PreparationPanel.RefreshSummary(repair, context, session));   // W8: 요새·밤, 등대 복구, 성벽 조건, 밝기 선택, 등대 수리, 수비대 지원금
+            PrepYard yard = null;   // 등대 수리 단추가 마당 불빛을 새로 칠하도록 먼저 선언 (마당은 아래에서 만든다)
+            // W36: 밝기 선택·등대 수리·성벽 조건은 띠 아래 접이식 칸. 닫혀 있어도 한 줄 요약(beaconBrief)은 늘 보인다
+            Image detailPlate = Ui.Panel(repair.GetComponentInParent<UnityEngine.Canvas>().transform, "Beacon Detail", UiPanel.Band);
+            Ui.Place(detailPlate.rectTransform, new Vector2(0.5f, 1f), new Vector2(0f, -(UiTokens.S32 + 80f + 8f)), new Vector2(1720f, 144f), new Vector2(0.5f, 1f));
+            var detailColumn = detailPlate.gameObject.AddComponent<VerticalLayoutGroup>();
+            detailColumn.padding = new RectOffset(32, 32, 16, 16); detailColumn.spacing = 16f;
+            detailColumn.childControlWidth = detailColumn.childControlHeight = true;
+            detailColumn.childForceExpandWidth = true; detailColumn.childForceExpandHeight = false;
+            RectTransform line1 = Ui.Rect(detailPlate.transform, "Beacon Line 1"), line2 = Ui.Rect(detailPlate.transform, "Beacon Line 2");
+            Ui.Size(line1, -1f, 48f); Ui.Size(line2, -1f, 48f);
+            BeaconPrepPanel.Build(line1, line2, null, context,
+                () => { PreparationPanel.RefreshSummary(repair, context, session); if (yard != null) yard.RefreshTower(); }, beaconBrief);
+            detail = detailPlate.gameObject; detail.SetActive(false);   // W8: 요새·밤, 등대 복구, 성벽 조건, 밝기 선택, 등대 수리, 수비대 지원금. W36: 수리하면 탑 불빛도 바로
             BuildDayLineStrip(repair.GetComponentInParent<UnityEngine.Canvas>().transform, campaign);   // W12 밤 사이 한마디: 화면 아래 가운데 작은 띠 (없으면 만들지 않음)
-            PrepYard yard = PrepYard.Build(view, HeroUnit(context));   // K-089 배경·3D 바닥·가림을 마당이 함께 소유한다.
+            yard = PrepYard.Build(view, HeroUnit(context));   // K-089 배경·3D 바닥·가림을 마당이 함께 소유한다.
+            yard.BindBeacon(campaign);   // W36: 등실 불빛 덧그림이 복구·점화의 밤을 따라간다
             yard.AddStation("성벽 수리", 1095f, new Color(0.45f, 0.42f, 0.38f), () => repair.onClick.Invoke());
             yard.AddStation("병영", 3045f, new Color(0.42f, 0.30f, 0.24f), () => recruit.onClick.Invoke());
             yard.AddStation("함정 공방", 525f, new Color(0.30f, 0.30f, 0.36f), () => trapButton.onClick.Invoke());
             yard.AddStation("상점", 3165f, new Color(0.46f, 0.36f, 0.22f), () => shop.onClick.Invoke());   // K-058 보급 상인 (간판 그림은 Codex 요청)
             // W9 → K-120: 가운데 등대 — 다음 밤 빛줄기 방향 명령. 탑은 정비 마당 그림에 이미 있어 따로 그리지 않는다 (탑 자리는 마당 장애물이 막는다)
             yard.AddStation("등대", 1917f, new Color(0.45f, 0.40f, 0.30f), () => yard.OpenModal(parent =>
-                BeaconYardPanel.Build(parent, context, null, yard.CloseModal)));   // null = 탑 불꽃 새로 그리기 호출 없음 (그림 고정). 간판 자리는 layout.json (탑 왼쪽 위, 탑 뒤에 가리지 않게)
+                BeaconYardPanel.Build(parent, context, yard.RefreshTower, yard.CloseModal)));   // W36: 탑 불빛 새로 칠하기. 간판 자리는 layout.json (탑 왼쪽 위, 탑 뒤에 가리지 않게)
             yard.AddStation("성벽 계단", 1755f, new Color(0.40f, 0.38f, 0.30f), () => yard.AskNextBattle(() => ready.onClick.Invoke()));
             var lifetime = repair.GetComponentInParent<UnityEngine.Canvas>().gameObject.AddComponent<PreparationSessionLifetime>();
             lifetime.Session = session; lifetime.Traps = traps;
@@ -78,6 +92,19 @@ namespace HumanLastRampart.Meta
             text.rectTransform.offsetMin = new Vector2(UiTokens.S24, 0f);
             text.rectTransform.offsetMax = new Vector2(-UiTokens.S24, 0f);
         }
+        // B 키로 [등대 세부] 칸 열고 닫기 (마우스 단추와 같은 길). 마당 창이 떠 있을 때는 건드리지 않는다
+        sealed class DetailKey : MonoBehaviour
+        {
+            Action toggle;
+            public void Init(Action action) { toggle = action; }
+            void Update()
+            {
+                var keyboard = UnityEngine.InputSystem.Keyboard.current;
+                if (keyboard == null || !keyboard.bKey.wasPressedThisFrame) return;
+                var yard = UnityEngine.Object.FindAnyObjectByType<PrepYard>();
+                if (yard == null || !yard.ModalOpen) toggle?.Invoke();
+            }
+        }
         sealed class MapButtonGate : MonoBehaviour
         {
             Button button;
@@ -95,7 +122,7 @@ namespace HumanLastRampart.Meta
         }
 
         // [정비 마당]  요새 1 · 밤 2 앞          [골드] 1,240   [병력] 520/1,200
-        static Button BuildSummary(RectTransform area, HumanLastRampart.Core.Campaign.CampaignState campaign, Action openMap)
+        static Button BuildSummary(RectTransform area, HumanLastRampart.Core.Campaign.CampaignState campaign, Action openMap, Action toggleDetail, out Text brief)
         {
             HorizontalLayoutGroup row = Ui.Row(area, "Summary Row", UiTokens.S16);
             Ui.Stretch((RectTransform)row.transform);
@@ -107,14 +134,19 @@ namespace HumanLastRampart.Meta
             Ui.Size(map, 176f, 48f);
             RectTransform spacer = Ui.Rect(row.transform, "Spacer");
             Ui.Size(spacer, 0f, 48f, true);
+            brief = Ui.Label(row.transform, "Beacon Brief", "", UiTokens.Small, UiTokens.Body, TextAnchor.MiddleRight);   // W36: 등대 복구 % + 점화 준비 한 줄
+            Ui.Size(brief, 440f, 48f);
+            Button detailButton = Ui.Button(row.transform, "등대 세부", "등대 세부 (B)", toggleDetail);
+            Ui.Size(detailButton, 168f, 48f);
+            detailButton.gameObject.AddComponent<DetailKey>().Init(toggleDetail);
             Image gold = Ui.HudIcon(row.transform, "Gold Icon", "Icons/stat_gold", 32f);
             if (gold == null) Ui.Size(Ui.Label(row.transform, "Gold Word", "골드", UiTokens.Small, UiTokens.BodyDim), 44f, 48f);
             Text goldValue = Ui.Label(row.transform, "Gold Value", "", UiTokens.H2, UiTokens.Body, TextAnchor.MiddleLeft, true);
-            Ui.Size(goldValue, 136f, 48f);
+            Ui.Size(goldValue, 128f, 48f);
             Image troops = Ui.HudIcon(row.transform, "Troops Icon", "Icons/stat_troops", 24f);
             if (troops == null) Ui.Size(Ui.Label(row.transform, "Troops Word", "병력", UiTokens.Small, UiTokens.BodyDim), 44f, 48f);
             Text troopsValue = Ui.Label(row.transform, "Troops Value", "", UiTokens.Text, UiTokens.Body);
-            Ui.Size(troopsValue, 136f, 48f);
+            Ui.Size(troopsValue, 128f, 48f);
             return map;
         }
 

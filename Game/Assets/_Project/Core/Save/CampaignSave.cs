@@ -25,8 +25,36 @@ namespace HumanLastRampart.Core.Save
         static string folder;
         public static string Folder
         {
-            get => folder ?? (folder = Path.Combine(Application.persistentDataPath, "save"));
+            get
+            {
+                if (folder != null) return folder;
+                folder = Path.Combine(Application.persistentDataPath, "save");
+                // W36: 제품 이름이 HumanLastRampart → Lightbearers로 바뀌어 저장 위치도 옮겨졌다. 예전 위치의 저장을 처음 한 번 가져온다
+                string parent = Path.GetDirectoryName(Application.persistentDataPath);
+                if (!string.IsNullOrEmpty(parent)) MigrateLegacy(Path.Combine(parent, LegacyProductName, "save"), folder);
+                return folder;
+            }
             set => folder = value;
+        }
+
+        public const string LegacyProductName = "HumanLastRampart";
+
+        // 예전 저장 폴더의 슬롯 파일을 새 폴더로 복사한다. 새 폴더에 이미 저장이 있으면 건드리지 않는다 (복사만 하고 예전 파일은 남긴다). 가져왔으면 true
+        public static bool MigrateLegacy(string legacyFolder, string newFolder)
+        {
+            try
+            {
+                string from = Path.Combine(legacyFolder, FileName), to = Path.Combine(newFolder, FileName);
+                if (!File.Exists(from) || File.Exists(to)) return false;
+                Directory.CreateDirectory(newFolder);
+                File.Copy(from, to, false);
+                return true;
+            }
+            catch (Exception exception)
+            {
+                Debug.LogWarning("[저장] 예전 위치의 저장을 가져오지 못했습니다: " + exception.Message);
+                return false;
+            }
         }
 
         public static string SlotPath => Path.Combine(Folder, FileName);

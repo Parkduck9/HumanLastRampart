@@ -14,7 +14,7 @@ namespace HumanLastRampart.App.Editor
     public static class BuildScripts
     {
         const string OutputDir = @"C:\Unity\1\HLR-builds\win";
-        const string ExeName = "HumanLastRampart.exe";
+        const string ExeName = "Lightbearers.exe";
 
         public static void BuildWindows() => Run(false);
 

@@ -15,7 +15,7 @@ namespace HumanLastRampart.Meta
     // 진행 데이터를 직접 바꾸는 것은 밝기 선택(PlannedLamp)과 등대 수리(골드→복구)뿐이다.
     public static class BeaconPrepPanel
     {
-        public static void Build(RectTransform line1, RectTransform line2, RectTransform line3, IScreenContext context, Action refreshGold)
+        public static void Build(RectTransform line1, RectTransform line2, RectTransform line3, IScreenContext context, Action refreshGold, Text brief = null)
         {
             CampaignState campaign = context.Campaign;
             var ruleList = context.Definitions.All<BattleRulesDef>();
@@ -89,6 +89,12 @@ namespace HumanLastRampart.Meta
                 string missing = BeaconRules.MissingForIgnition(campaign);
                 walls.text = $"성벽 최저 {Mathf.FloorToInt(low * 100f)}% (90% 필요)  ·  " + (missing ?? "다음 밤은 점화의 밤");
                 walls.color = missing == null ? UiTokens.Good : (wallsOk ? UiTokens.Body : UiTokens.DangerLight);
+
+                if (brief != null)   // W36: 얇은 위쪽 줄에 보이는 한 줄 요약 (자세한 것은 [등대 세부] 칸)
+                {
+                    brief.text = $"등대 {Mathf.FloorToInt(campaign.BeaconRepair)}% · " + (missing ?? "다음 밤은 점화의 밤");
+                    brief.color = missing == null ? UiTokens.Good : UiTokens.Body;
+                }
 
                 if (dayLine != null)
                     dayLine.text = string.Join("   ·   ", BeaconRules.DayLines(campaign).ConvertAll(l => $"{l.speaker}: \"{l.text}\""));

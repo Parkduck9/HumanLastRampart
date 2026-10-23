@@ -26,7 +26,7 @@ namespace HumanLastRampart.Frontend
             if (MenuParallax.Build(view.BackdropRoot) != null || view.SetBackdrop("main")) view.DockLeft(624f, height);
             else view.SetPanelSize(624f, height);
             RectTransform sub = view.AddArea("Subtitle", 32f);
-            Text english = Ui.Label(sub, "English", "HUMAN LAST RAMPART", UiTokens.Text, UiTokens.InkSoft, TextAnchor.MiddleLeft);
+            Text english = Ui.Label(sub, "English", "LIGHTBEARERS", UiTokens.Text, UiTokens.InkSoft, TextAnchor.MiddleLeft);
             Ui.Stretch(english.rectTransform);
             if (canContinue)
             {

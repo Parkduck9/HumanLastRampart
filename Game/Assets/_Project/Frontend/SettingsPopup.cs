@@ -64,6 +64,8 @@ namespace HumanLastRampart.Frontend
                 () => GameSettings.SetTiltStrength(GameSettings.NextStep(GameSettings.TiltSteps, GameSettings.TiltStrength)));
             Row(panel.transform, () => "카메라 흔들림: " + (GameSettings.CameraShake ? "켬" : "끔"),
                 () => GameSettings.SetCameraShake(!GameSettings.CameraShake));
+            Row(panel.transform, () => "움직임 줄이기: " + (GameSettings.ReduceMotion ? "켬" : "끔"),
+                () => GameSettings.SetReduceMotion(!GameSettings.ReduceMotion));
             Row(panel.transform, () => "화면: " + (GameSettings.Fullscreen ? "전체 화면" : "창"),
                 () => GameSettings.SetFullscreen(!GameSettings.Fullscreen));
             Row(panel.transform, () => "글자 크기: " + FontName(GameSettings.FontScale),
