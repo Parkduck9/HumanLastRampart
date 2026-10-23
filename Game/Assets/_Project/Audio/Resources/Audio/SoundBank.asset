@@ -236,13 +236,10 @@ MonoBehaviour:
     Loop: 0
   - Id: sfx_wave_horn
     Clips:
-    - {fileID: 8300000, guid: 7fa06dadf7adae6488adf4b28fe87f1b, type: 3}
-    - {fileID: 8300000, guid: 356d83119ecd6e6418e8f017761b8993, type: 3}
-    - {fileID: 8300000, guid: 6261b1aa6e824b14aaa7e51b44f40bd4, type: 3}
-    - {fileID: 8300000, guid: 7e62b3a6f18196d45a20c4e98fa87449, type: 3}
-    - {fileID: 8300000, guid: d5e85cc7967d5ff499f78bb42b100b39, type: 3}
+    - {fileID: 8300000, guid: b062f0d4eb77c8645ba5b922a5067a68, type: 3}
+    - {fileID: 8300000, guid: ef0b537eaf9e6484686f2a7e5788a6cd, type: 3}
     Volume: 0.9
-    PitchRange: {x: 0.45, y: 0.6}
+    PitchRange: {x: 0.9, y: 1}
     MaxVoices: 1
     Cooldown: 2
     Spatial3D: 0
@@ -420,7 +417,8 @@ MonoBehaviour:
     Bus: 1
     Loop: 1
   - Id: amb_wind
-    Clips: []
+    Clips:
+    - {fileID: 8300000, guid: 177633fe0377a234c91797886aaf0112, type: 3}
     Volume: 0.5
     PitchRange: {x: 1, y: 1}
     MaxVoices: 1
@@ -431,7 +429,8 @@ MonoBehaviour:
     Bus: 4
     Loop: 1
   - Id: amb_crickets
-    Clips: []
+    Clips:
+    - {fileID: 8300000, guid: a66453795dd72434e9ac6d1e4a54058e, type: 3}
     Volume: 0.5
     PitchRange: {x: 1, y: 1}
     MaxVoices: 1
@@ -442,7 +441,8 @@ MonoBehaviour:
     Bus: 4
     Loop: 1
   - Id: amb_crowd_roar
-    Clips: []
+    Clips:
+    - {fileID: 8300000, guid: 3c7047ffe4ada824d880f809dc269850, type: 3}
     Volume: 0.6
     PitchRange: {x: 1, y: 1}
     MaxVoices: 1

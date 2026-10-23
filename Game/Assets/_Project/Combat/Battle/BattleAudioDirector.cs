@@ -23,6 +23,7 @@ namespace HumanLastRampart.Combat.Battle
         readonly float[] wallHitAt = new float[4];   // 면마다 마지막 성벽 맞음 소리 시각
         int couriersFree = int.MaxValue;
         LampBrightness lamp = (LampBrightness)(-1);
+        bool beamTurning;
         bool started;
         float nextRefresh;
 
@@ -56,6 +57,10 @@ namespace HumanLastRampart.Combat.Battle
                 wallHp[side] = hp;
             }
 
+            bool turning = !Mathf.Approximately(sim.BeamAngleDegrees, sim.BeamTargetDegrees);   // 일꾼들이 윈치로 빛줄기를 돌리는 중
+            if (turning && !beamTurning) Sound.PlayAt(AudioCues.BeaconBeamTurn, listener);
+            beamTurning = turning;
+
             int free = sim.TowerCouriersFree;
             if (free < couriersFree) Sound.Report(AudioCues.CourierRun, 1, listener);
             couriersFree = free;
@@ -79,6 +84,7 @@ namespace HumanLastRampart.Combat.Battle
             for (int side = 0; side < 4; side++) wallHp[side] = sim.Sides[side].WallHp;
             kills = sim.Kills;
             couriersFree = sim.TowerCouriersFree;
+            beamTurning = !Mathf.Approximately(sim.BeamAngleDegrees, sim.BeamTargetDegrees);
             lamp = sim.Lamp;
             bool night = sim.TimeOfDay == TimeOfDay.Night;
             Sound.Music(night ? AudioCues.MusicNight : AudioCues.MusicBattle);

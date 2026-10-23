@@ -59,12 +59,10 @@
 | Sfx/impactMining_002.ogg | https://kenney.nl/assets/impact-sounds | Kenney | CC0 |
 | Sfx/impactMining_003.ogg | https://kenney.nl/assets/impact-sounds | Kenney | CC0 |
 | Sfx/impactMining_004.ogg | https://kenney.nl/assets/impact-sounds | Kenney | CC0 |
-| Sfx/impactBell_heavy_000.ogg | https://kenney.nl/assets/impact-sounds | Kenney | CC0 |
-| Sfx/impactBell_heavy_001.ogg | https://kenney.nl/assets/impact-sounds | Kenney | CC0 |
-| Sfx/impactBell_heavy_002.ogg | https://kenney.nl/assets/impact-sounds | Kenney | CC0 |
-| Sfx/impactBell_heavy_003.ogg | https://kenney.nl/assets/impact-sounds | Kenney | CC0 |
-| Sfx/impactBell_heavy_004.ogg | https://kenney.nl/assets/impact-sounds | Kenney | CC0 |
+| Sfx/theircoming_0.ogg | https://opengameart.org/content/their-coming-generic-horn-sound | 쪽 참고 | CC0 |
+| Sfx/theircoming3_0.ogg | https://opengameart.org/content/their-coming-generic-horn-sound | 쪽 참고 | CC0 |
 | Sfx/bong_001.ogg | https://kenney.nl/assets/interface-sounds | Kenney | CC0 |
+| Sfx/impactBell_heavy_000.ogg | https://kenney.nl/assets/impact-sounds | Kenney | CC0 |
 | Sfx/creak1.ogg | https://kenney.nl/assets/rpg-audio | Kenney | CC0 |
 | Sfx/creak2.ogg | https://kenney.nl/assets/rpg-audio | Kenney | CC0 |
 | Sfx/creak3.ogg | https://kenney.nl/assets/rpg-audio | Kenney | CC0 |
@@ -83,6 +81,9 @@
 | Sfx/tick_001.ogg | https://kenney.nl/assets/interface-sounds | Kenney | CC0 |
 | Sfx/tick_002.ogg | https://kenney.nl/assets/interface-sounds | Kenney | CC0 |
 | Sfx/tick_004.ogg | https://kenney.nl/assets/interface-sounds | Kenney | CC0 |
+| Sfx/wind_woosh_loop.ogg | https://opengameart.org/content/wind-whoosh-loop | 쪽 참고 | CC0 |
+| Sfx/crickets_1.mp3 | https://opengameart.org/content/crickets-ambient-noise-loopable | 쪽 참고 | CC0 |
+| Sfx/crowd_shouting_0.ogg | https://opengameart.org/content/crowd-shoutingspeaking-ambience | 쪽 참고 | CC0 |
 | Music/day_old_tower_inn.mp3 | https://opengameart.org/content/medieval-the-old-tower-inn | RandomMind | CC0 |
 | Music/night_prepare_to_fight.mp3 | https://opengameart.org/content/prepare-to-fight | basil | CC0 |
 | Music/battle_theme_a.mp3 | https://opengameart.org/content/battle-theme-a | cynicmusic | CC0 |
