@@ -288,6 +288,64 @@ namespace HumanLastRampart.Combat.Tests
                         }
 
                         Assert.AreEqual(before, view.CapstanDegrees, 0.01f, "시간이 안 흐르면(dt 0) 돌림대는 그대로");
+
+                        // 전투 시간이 흐르면 돈다: 초당 PushDegreesPerSecond, 도는 방향은 빛줄기 방향(faceLeft)과 맞는다
+                        float start = view.CapstanDegrees;
+                        for (int step = 1; step <= 10; step++)
+                        {
+                            sim.BeginFrame(0.05f); sim.Schedule(0.05f, step * 0.05f); sim.Complete();
+                            view.Draw();
+                        }
+
+                        float turned = Mathf.DeltaAngle(start, view.CapstanDegrees);
+                        Assert.AreEqual((view.FacingLeft ? 1f : -1f) * BattleTowerInterior.PushDegreesPerSecond * 0.5f, turned, 0.5f, "0.5초 동안 28도/초로 돈다");
+                        // 한 번에 큰 시간이 흘러도(멈춤 뒤 등) 0.25초어치까지만 센다
+                        float before2 = view.CapstanDegrees;
+                        sim.BeginFrame(5f); sim.Schedule(5f, 5.5f); sim.Complete();
+                        view.Draw();
+                        Assert.LessOrEqual(Mathf.Abs(Mathf.DeltaAngle(before2, view.CapstanDegrees)), BattleTowerInterior.PushDegreesPerSecond * 0.25f + 0.01f, "한 프레임 최대 0.25초");
+                    }
+                    finally { view.Dispose(); }
+                }
+                finally { Object.DestroyImmediate(quadObj); Object.DestroyImmediate(mat); }
+            }
+        }
+
+        [Test]
+        public void Climber_WalksBackToCapstan_WithoutTeleporting_WhenBeamStartsTurning()
+        {
+            using (var sim = MakeSim())
+            {
+                var quadObj = GameObject.CreatePrimitive(PrimitiveType.Quad);
+                var mat = new Material(Shader.Find("Sprites/Default"));
+                try
+                {
+                    var view = new BattleBeaconView(sim, mat, quadObj.GetComponent<MeshFilter>().sharedMesh, new Bounds(Vector3.zero, Vector3.one * 2000f));
+                    try
+                    {
+                        float t = 0f;
+                        int guard = 0;
+                        view.Draw();
+                        // 쉬는 동안 계단 중간까지 오른다 (기다림 5초 + 걸음 2초 + 계단 2초)
+                        while ((view.WorkerFeet(2).y - BattleSim.WallHeight) < 1.0f && guard++ < 400)
+                        {
+                            t += 0.05f; sim.BeginFrame(0.05f); sim.Schedule(0.05f, t); sim.Complete(); view.Draw();
+                        }
+
+                        Assert.Less(guard, 400, "일꾼이 계단을 오른다");
+                        sim.RotateBeam(1);
+                        Vector3 last = view.WorkerFeet(2);
+                        float maxJump = 0f;
+                        for (int i = 0; i < 120; i++)
+                        {
+                            t += 0.05f; sim.BeginFrame(0.05f); sim.Schedule(0.05f, t); sim.Complete(); view.Draw();
+                            maxJump = Mathf.Max(maxJump, (view.WorkerFeet(2) - last).magnitude);
+                            last = view.WorkerFeet(2);
+                        }
+
+                        Assert.Less(maxJump, 0.3f, "한 프레임(0.05초)에 0.3m 넘게 튀지 않는다");
+                        Assert.IsTrue(view.WorkerVisible(2));
+                        AssertInsideRoom(last, "돌아온 일꾼");
                     }
                     finally { view.Dispose(); }
                 }

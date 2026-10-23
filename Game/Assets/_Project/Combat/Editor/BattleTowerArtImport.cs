@@ -16,12 +16,12 @@ namespace HumanLastRampart.Combat.Editor
         const string CourtyardFolder = "/Resources/BattleArt/Courtyard/";
 
         static readonly string[] BothRepeat = { "tower_wall_albedo", "tower_roof_albedo", "courtyard_cobble_512", "road_paving" };
-        static readonly string[] RepeatX = { "tower_trim_albedo", "stair_flank_128x64", "barrel_side_100x32" };
+        static readonly string[] RepeatX = { "tower_trim_albedo", "stair_flank_128x64" };
         static readonly string[] Readable = { "door_dead", "door_lit", "decal_dirt", "decal_puddle", "decal_straw", "decal_cracked", "weapon_rack", "cart", "arrow_bundles" };
         static readonly string[] K116Names =
         {
             "courtyard_cobble_512", "road_paving", "decal_dirt", "decal_puddle", "decal_straw", "decal_cracked", "props_box_atlas",
-            "barrel_side_100x32", "weapon_rack", "cart", "arrow_bundles", "stair_step_atlas_64x16", "stair_flank_128x64",
+            "weapon_rack", "cart", "arrow_bundles", "stair_step_atlas_64x16", "stair_flank_128x64",
         };
 
         void OnPreprocessTexture()

@@ -155,8 +155,8 @@ namespace HumanLastRampart.Combat.Battle
             var atlasKit = new MeshKit();
             var darkKit = new MeshKit();
             BattleTowerInterior.BuildProps(atlasKit, darkKit);
-            if (atlasTex != null) SpawnKit("Tower Interior Props", atlasKit, MakeLit("Tower Props (runtime)", atlasTex, 0.1f));
-            SpawnKit("Tower Interior Dark", darkKit, MakeLit("Tower Dark Props (runtime)", null, 0.05f, new Color(0.1f, 0.09f, 0.08f)));
+            if (atlasTex != null) Spawn("Tower Interior Props", atlasKit, MakeLit("Tower Props (runtime)", atlasTex, 0.1f));
+            Spawn("Tower Interior Dark", darkKit, MakeLit("Tower Dark Props (runtime)", null, 0.05f, new Color(0.1f, 0.09f, 0.08f)));
 
             // ── 불방 속: 안쪽을 보는 상자 + 따뜻한 번짐 (K-115 lamp_interior_glow, 반투명) ──
             var glowTex = Resources.Load<Texture2D>("BattleArt/Tower/lamp_interior_glow");
@@ -343,8 +343,6 @@ namespace HumanLastRampart.Combat.Battle
             return r;
         }
 
-        void SpawnKit(string name, MeshKit kit, Material material) => Spawn(name, kit, material);
-
         Material MakeUnlit(string name, Color color)
         {
             Shader shader = Shader.Find("Universal Render Pipeline/Unlit");
@@ -378,13 +376,18 @@ namespace HumanLastRampart.Combat.Battle
         // 빛 없는 그림 + 투명 부분 자르기 (창틀의 빈 칸·문 구멍·아치 바깥). 그림 가장자리는 완전 투명이라 0.5 기준으로 끊어도 된다
         Material MakeClip(string name, Texture2D texture)
         {
-            Shader shader = Shader.Find("Universal Render Pipeline/Unlit");
-            var m = new Material(shader != null ? shader : Shader.Find("Sprites/Default")) { name = name };
+            var m = ClipMaterials.UnlitCopy(name);   // 빌드에서 키워드가 빠지지 않게 견본 재질을 복사한다
+            if (m == null)
+            {
+                Shader shader = Shader.Find("Universal Render Pipeline/Unlit");
+                m = new Material(shader != null ? shader : Shader.Find("Sprites/Default")) { name = name };
+                if (m.HasProperty(AlphaClipId)) m.SetFloat(AlphaClipId, 1f);
+                if (m.HasProperty(CutoffId)) m.SetFloat(CutoffId, 0.5f);
+                m.EnableKeyword("_ALPHATEST_ON");
+            }
+
             SetTexture(m, texture);
             m.SetColor(BaseColorId, Color.white);
-            if (m.HasProperty(AlphaClipId)) m.SetFloat(AlphaClipId, 1f);
-            if (m.HasProperty(CutoffId)) m.SetFloat(CutoffId, 0.5f);
-            m.EnableKeyword("_ALPHATEST_ON");
             m.renderQueue = (int)RenderQueue.AlphaTest;
             ownedMaterials.Add(m);
             return m;

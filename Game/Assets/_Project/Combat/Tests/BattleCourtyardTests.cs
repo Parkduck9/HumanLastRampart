@@ -129,7 +129,7 @@ namespace HumanLastRampart.Combat.Tests
                         c.y = 0f;
                         Assert.GreaterOrEqual(c.magnitude, BattleRoad.PlazaRimRadius + 1.2f - 1e-3f, "탑 광장 밖");
                         if (Vector3.Dot(c, n) > 0f) Assert.GreaterOrEqual(Mathf.Abs(Vector3.Dot(c, r)), BattleRoad.HalfWidth + BattleRoad.KerbWidth + 2.2f - 1e-3f, "돌길·계단 줄 밖");
-                        Assert.Less(Mathf.Abs(v[i].y - (BattleSim.WallHeight + 0.0142f)), 1e-3f, "바닥 위 4mm: 길(2cm)보다 낮다");
+                        Assert.Less(Mathf.Abs(v[i].y - (BattleSim.WallHeight + 0.02f)), 1e-3f, "바닥 위 1cm (먼 곳에서 깜박이지 않게)");
                     }
 
                     // 세운 그림: 원본 칸 비율 그대로 (무기 걸이 72×80)

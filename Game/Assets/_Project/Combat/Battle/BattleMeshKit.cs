@@ -7,6 +7,20 @@ namespace HumanLastRampart.Combat.Battle
     // - 면 하나 = 정점 4개, 그림 칸(Rect, 0~1, 왼쪽 아래 원점)을 그대로 입힌다 — 늘어나지 않게 면 크기에 맞는 칸을 고른다
     // - 사각형 순서: 바깥에서 볼 때 시계 방향 (왼아래 → 왼위 → 오른위 → 오른아래) — 유니티 앞면 규칙
     // - 한 메시 = 그리기 1번. 만드는 시점에만 쓰고 프레임마다 쓰지 않는다
+    // 투명 자르기(_ALPHATEST_ON)를 켠 재질 견본 (Resources/BattleArt/Materials). 이 키워드는 재질 파일이 켜 둔 경우에만 빌드에 남으므로
+    // 실행 중에 EnableKeyword로 켜지 않고 견본을 복사해 쓴다. 견본을 못 찾으면 null — 부르는 쪽이 예전 방식으로 만든다
+    internal static class ClipMaterials
+    {
+        public static Material LitCopy(string name) => Copy("BattleArt/Materials/ClipLit", name);
+        public static Material UnlitCopy(string name) => Copy("BattleArt/Materials/ClipUnlit", name);
+
+        static Material Copy(string path, string name)
+        {
+            var template = Resources.Load<Material>(path);
+            return template != null ? new Material(template) { name = name } : null;
+        }
+    }
+
     internal sealed class MeshKit
     {
         readonly List<Vector3> verts = new List<Vector3>();

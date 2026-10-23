@@ -22,7 +22,7 @@ namespace HumanLastRampart.Combat.Battle
         const float CobbleTile512Meters = 2.6f;  // K-116 바닥 한 장(512화소, 설명서 16m)이 덮는 미터 — 돌 하나 약 0.18m
         public const float PropScale = 0.3f / 32f;   // K-116 소품·데칼 한 화소 = m (설명서 32화소 = 1m 의 0.3배 — 상자 한 변 0.3m)
         const int DecalCount = 16;
-        const float DecalLift = 0.004f;          // 바닥(+1cm) 위 4mm: 길 윗면(+2cm)보다 낮아 길을 덮지 않는다
+        const float DecalLift = 0.01f;           // 바닥(+1cm) 위 1cm (먼 전체 보기에서 깜박이지 않게). 데칼은 길·광장을 피해 놓으므로 길 윗면(+2cm)과 겹치지 않는다
         static readonly string[] SpriteNames = { "decal_dirt", "decal_puddle", "decal_straw", "decal_cracked", "weapon_rack", "cart", "arrow_bundles" };
         const int SpriteDirt = 0, SpritePuddle = 1, SpriteStraw = 2, SpriteCracked = 3, SpriteRack = 4, SpriteCart = 5, SpriteArrows = 6;
         static readonly Vector2 FlankTile = new Vector2(1.2f, 0.6f);   // 옆돌 그림(4×2m)의 0.3배
@@ -343,16 +343,28 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             var atlas = new Texture2D(2, 2, TextureFormat.RGBA32, false) { name = "Courtyard Sprites (runtime)" };
-            Rect[] rects = atlas.PackTextures(sources, 2, 1024, false);
+            Rect[] rects = atlas.PackTextures(sources, 2, 1024, true);   // 합친 뒤 시스템 메모리 사본은 버린다
             atlas.filterMode = FilterMode.Point;
             atlas.wrapMode = TextureWrapMode.Clamp;
             ownedObjects.Add(atlas);
-            Material material = MakeLit(atlas, Color.gray, 0.05f);
-            material.name = "Courtyard Sprites (runtime)";
-            if (material.HasProperty("_AlphaClip")) material.SetFloat("_AlphaClip", 1f);
-            if (material.HasProperty("_Cutoff")) material.SetFloat("_Cutoff", 0.5f);
-            if (material.HasProperty("_Cull")) material.SetFloat("_Cull", 0f);   // 세운 그림은 양면
-            material.EnableKeyword("_ALPHATEST_ON");
+            // 투명 자르기 견본 재질(빌드에서 키워드가 빠지지 않는다)을 복사. 없으면 실행 중에 키워드를 켠다
+            Material material = ClipMaterials.LitCopy("Courtyard Sprites (runtime)");
+            if (material != null)
+            {
+                if (material.HasProperty("_BaseMap")) material.SetTexture("_BaseMap", atlas);
+                material.mainTexture = atlas;
+                ownedMaterials.Add(material);
+            }
+            else
+            {
+                material = MakeLit(atlas, Color.gray, 0.05f);
+                material.name = "Courtyard Sprites (runtime)";
+                if (material.HasProperty("_AlphaClip")) material.SetFloat("_AlphaClip", 1f);
+                if (material.HasProperty("_Cutoff")) material.SetFloat("_Cutoff", 0.5f);
+                if (material.HasProperty("_Cull")) material.SetFloat("_Cull", 0f);   // 세운 그림은 양면
+                material.EnableKeyword("_ALPHATEST_ON");
+            }
+
             material.renderQueue = (int)UnityEngine.Rendering.RenderQueue.AlphaTest;
 
             // 데칼: 깨끗한 가운데(탑 둘레 광장·돌길·계단)를 피해 듬성듬성. 같은 걸음으로 격자 배치하지 않는다

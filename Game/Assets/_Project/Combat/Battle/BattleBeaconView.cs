@@ -194,6 +194,51 @@ namespace HumanLastRampart.Combat.Battle
             }
         }
 
+        // 계단 오르던 일꾼이 돌림대로 돌아오는 길 (빛줄기가 돌기 시작할 때). 0 = 계단을 걸어 내려옴, 1 = 바닥을 걸어 돌림대 자리로
+        bool returning;
+        int returnStage;
+        float returnS;
+        Vector3 returnPos;
+        const float ReturnStairSeconds = 3f, ReturnWalkSpeed = 0.9f;
+
+        void BeginReturn()
+        {
+            int c = BattleTowerInterior.ClimberIndex;
+            Vector3 last = workerWorld[c] - baseFeet;
+            bool inLamp = last.y > BattleTowerView.LampBase - 0.2f;
+            bool onStair = last.y > BattleTowerInterior.FloorY + 0.2f;
+            if (!workerVisible[c] || inLamp) { returning = true; returnStage = 0; returnS = 1f; }   // 벽 속·불방 → 계단 맨 위에서 내려온다
+            else if (onStair) { returning = true; returnStage = 0; returnS = Mathf.Clamp01((last.y - BattleTowerInterior.FloorY) / (BattleTowerInterior.StairTopY - BattleTowerInterior.FloorY)); }
+            else if ((last - BattleTowerInterior.WorkerStation(c, capstanDegrees)).sqrMagnitude > 0.0025f) { returning = true; returnStage = 1; returnPos = last; }
+            else return;
+            returnPos = returnStage == 0 ? BattleTowerInterior.StairPoint(returnS) : returnPos;
+        }
+
+        Vector3 AdvanceReturn(float dt, out Vector3 moveDir)
+        {
+            moveDir = Vector3.zero;
+            if (returnStage == 0)
+            {
+                returnS -= dt / ReturnStairSeconds;
+                Vector3 now = BattleTowerInterior.StairPoint(Mathf.Max(0f, returnS));
+                moveDir = BattleTowerInterior.StairPoint(Mathf.Max(0f, returnS - 0.03f)) - now;
+                moveDir.y = 0f;
+                returnPos = now;
+                if (returnS <= 0f) returnStage = 1;
+                return returnPos;
+            }
+
+            Vector3 target = BattleTowerInterior.WorkerStation(BattleTowerInterior.ClimberIndex, capstanDegrees);
+            Vector3 to = target - returnPos;
+            to.y = 0f;
+            float step = ReturnWalkSpeed * dt;
+            returnPos.y = Mathf.MoveTowards(returnPos.y, BattleTowerInterior.FloorY, 0.6f * dt);
+            if (to.magnitude <= step) { returning = false; returnPos = target; return target; }
+            moveDir = to;
+            returnPos += to.normalized * step;
+            return returnPos;
+        }
+
         // 등대 복구·점화의 밤은 전투 중에도 바뀔 수 있다 (시험·사진) — 그릴 때마다 읽는다
         void RefreshState()
         {
@@ -237,6 +282,7 @@ namespace HumanLastRampart.Combat.Battle
             // 일꾼: 상태는 전투 시간으로 (미는 중 → 쉬기 → 서기)
             bool pushing = sim.BeamRotating;
             WorkersPushing = pushing;
+            if (pushing && !wasPushing && !returning) BeginReturn();
             if (pushing)
             {
                 faceLeft = Mathf.DeltaAngle(sim.BeamAngleDegrees, sim.BeamTargetDegrees) < 0f;
@@ -262,7 +308,14 @@ namespace HumanLastRampart.Combat.Battle
                 int wstate = state;
                 Vector3 moveDir = Vector3.zero;   // 걷는 방향 (탑 로컬, 그림이 보는 쪽을 정한다)
                 bool visible = true;
-                if (state == Push)
+                if (returning && i == BattleTowerInterior.ClimberIndex)
+                {
+                    // 계단·불방에 있던 일꾼은 빛줄기가 돌기 시작해도 튀지 않고 걸어 내려와 돌림대로 돌아온다
+                    wstate = Push;
+                    local = AdvanceReturn(dt, out moveDir);
+                    idleSince = time;
+                }
+                else if (state == Push)
                 {
                     // 돌림대 둘레 원의 접선 방향으로 간다 (각도가 늘면 (-sin, cos))
                     float a = (capstanDegrees + 60f + i * 120f) * Mathf.Deg2Rad;
