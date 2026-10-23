@@ -55,7 +55,7 @@ namespace HumanLastRampart.Meta
             yard.AddStation("상점", 3165f, new Color(0.46f, 0.36f, 0.22f), () => shop.onClick.Invoke());   // K-058 보급 상인 (간판 그림은 Codex 요청)
             // W9 → K-120: 가운데 등대 — 다음 밤 빛줄기 방향 명령. 탑은 정비 마당 그림에 이미 있어 따로 그리지 않는다 (탑 자리는 마당 장애물이 막는다)
             yard.AddStation("등대", 1917f, new Color(0.45f, 0.40f, 0.30f), () => yard.OpenModal(parent =>
-                BeaconYardPanel.Build(parent, context, null, yard.CloseModal)));   // 간판 자리는 layout.json (탑 왼쪽 위, 탑 뒤에 가리지 않게)
+                BeaconYardPanel.Build(parent, context, null, yard.CloseModal)));   // null = 탑 불꽃 새로 그리기 호출 없음 (그림 고정). 간판 자리는 layout.json (탑 왼쪽 위, 탑 뒤에 가리지 않게)
             yard.AddStation("성벽 계단", 1755f, new Color(0.40f, 0.38f, 0.30f), () => yard.AskNextBattle(() => ready.onClick.Invoke()));
             var lifetime = repair.GetComponentInParent<UnityEngine.Canvas>().gameObject.AddComponent<PreparationSessionLifetime>();
             lifetime.Session = session; lifetime.Traps = traps;

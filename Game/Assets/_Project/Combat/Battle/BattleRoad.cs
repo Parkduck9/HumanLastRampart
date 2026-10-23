@@ -204,7 +204,7 @@ namespace HumanLastRampart.Combat.Battle
             {
                 nightShown = night;
                 for (int i = 0; i < lampRenderers.Count; i++)
-                    lampRenderers[i].sharedMaterial = night ? lampNightMaterials[i & 1] : lampDayMaterial;
+                    lampRenderers[i].sharedMaterial = night ? lampNightMaterials[(i >> 1) & 1] : lampDayMaterial;
             }
 
             float time = Time.time;
@@ -233,8 +233,6 @@ namespace HumanLastRampart.Combat.Battle
         // 가로로 이어 붙인 칸 그림 재질: 한 칸이 판 전체에 보이도록 칸 폭만큼 줄이고 offset으로 칸을 고른다. 투명 자르기 견본 복사 (빌드에서 키워드가 빠지지 않게)
         Material MakeSheet(string name, Texture2D art, int frames, bool lit)
         {
-            art.filterMode = FilterMode.Point;
-            art.wrapMode = TextureWrapMode.Clamp;
             Material m = lit ? ClipMaterials.LitCopy(name) : ClipMaterials.UnlitCopy(name);
             if (m == null)
             {

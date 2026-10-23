@@ -182,7 +182,14 @@ namespace HumanLastRampart.Meta
             var hints = Ui.Row(layer, "Key Hints", UiTokens.S24);
             Ui.Place((RectTransform)hints.transform, Vector2.zero, new Vector2(32f, 32f), new Vector2(650f, 40f), Vector2.zero);
             Ui.KeyHint(hints.transform, "W A S D · 방향키", "이동");
-            ground = PrepYardProjection.Ground(new Vector2(1920f, 850f));
+            // 처음 서는 자리: 어느 장소 칸에도 걸리지 않는 탑 앞 빈 땅 (시작하자마자 E 안내가 뜨지 않게)
+            ground = PrepYardProjection.Ground(new Vector2(1920f, 920f));
+            foreach (Vector2 pixel in new[] { new Vector2(1920f, 920f), new Vector2(1920f, 960f), new Vector2(1500f, 900f), new Vector2(2300f, 900f) })
+            {
+                Vector2 candidate = PrepYardProjection.Ground(pixel);
+                bool inStation = Array.Exists(layout.stations, s => new Rect(s.rect[0], s.rect[1], s.rect[2], s.rect[3]).Contains(pixel));
+                if (!inStation && CanStand(candidate)) { ground = candidate; break; }
+            }
             PlaceHero();
         }
 

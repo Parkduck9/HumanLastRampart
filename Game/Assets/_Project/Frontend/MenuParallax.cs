@@ -1,4 +1,4 @@
-using HumanLastRampart.Core.Settings;
+﻿using HumanLastRampart.Core.Settings;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,6 +16,7 @@ namespace HumanLastRampart.Frontend
 
         RectTransform[] holders;
         float clock;
+        bool settled;
 
         public int LayerCount => holders == null ? 0 : holders.Length;
 
@@ -37,11 +38,15 @@ namespace HumanLastRampart.Frontend
             parallax.holders = new RectTransform[Layers.Length];
             for (int i = 0; i < Layers.Length; i++)
             {
-                var holder = new GameObject("Layer " + Layers[i], typeof(RectTransform), typeof(CanvasRenderer), typeof(RawImage), typeof(AspectRatioFitter));
-                holder.transform.SetParent(root.transform, false);
-                var rect = (RectTransform)holder.transform;
+                // 움직이는 쪽(옮김·확대)과 그림 맞춤 쪽(AspectRatioFitter)을 나눈다 — 맞춤이 위치를 되돌려 덮어쓰지 않게
+                var mover = new GameObject("Layer " + Layers[i], typeof(RectTransform));
+                mover.transform.SetParent(root.transform, false);
+                var rect = (RectTransform)mover.transform;
                 Stretch(rect);
                 rect.localScale = new Vector3(Zoom, Zoom, 1f);
+                var holder = new GameObject("Art", typeof(RectTransform), typeof(CanvasRenderer), typeof(RawImage), typeof(AspectRatioFitter));
+                holder.transform.SetParent(mover.transform, false);
+                Stretch((RectTransform)holder.transform);
                 var image = holder.GetComponent<RawImage>();
                 image.texture = textures[i];
                 image.raycastTarget = false;
@@ -78,6 +83,8 @@ namespace HumanLastRampart.Frontend
         void Apply()
         {
             if (holders == null) return;
+            if (!GameSettings.CameraShake && settled) return;   // 움직임을 끄면 한 번 제자리로 놓은 뒤 건드리지 않는다
+            settled = !GameSettings.CameraShake;
             for (int i = 0; i < holders.Length; i++)
                 if (holders[i] != null) holders[i].anchoredPosition = OffsetOf(i);
         }

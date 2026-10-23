@@ -142,6 +142,7 @@ namespace HumanLastRampart.Combat.Tests
         public void LampSprites_SwapToNightFlameFrames_AndBannersFlap()
         {
             var parent = new GameObject("Road Sprite Test");
+            int lightsBefore = HlrLights.Count;
             try
             {
                 using (var road = new BattleRoad(Half, parent.transform))
@@ -155,7 +156,7 @@ namespace HumanLastRampart.Combat.Tests
                     Assert.AreEqual(1f / 4f, banner.sharedMaterial.mainTextureScale.x, 1e-4f, "깃발은 네 칸 판에서 한 칸");
                     road.Tick(false, 1f);
                     Assert.IsTrue(lamp.sharedMaterial.name.Contains("Lamp Day"), "낮에는 다시 꺼진 기둥");
-                    Assert.AreEqual(0, HlrLights.Count, "그림 기둥은 셰이더 빛 칸을 쓰지 않는다");
+                    Assert.AreEqual(lightsBefore, HlrLights.Count, "그림 기둥은 셰이더 빛 칸을 등록하지 않는다");
                 }
             }
             finally { Object.DestroyImmediate(parent); }
