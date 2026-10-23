@@ -29,8 +29,8 @@ namespace HumanLastRampart.Combat.Tests
             int count = BattleRoad.LampCount(Half);
             int perRoad = count / BattleRoad.RoadCount;
             Assert.AreEqual(count, perRoad * BattleRoad.RoadCount, "네 길이 같은 수");
-            Assert.GreaterOrEqual(perRoad, 6, "길 하나에 세 쌍 이상 (반폭 60m)");
-            Assert.LessOrEqual(count, 32, "W35: 네 길 합쳐도 예전(길 하나 26개)과 비슷하게 — 그리는 수·땅 번짐 상한 안");
+            Assert.GreaterOrEqual(perRoad, 10, "길 하나에 다섯 쌍 이상 (반폭 60m, 간격 10m)");
+            Assert.LessOrEqual(perRoad, 12, "길 하나에 여섯 쌍 이하");
             var perRoadCount = new int[BattleRoad.RoadCount];
             for (int i = 0; i < count; i += 2)
             {
@@ -90,6 +90,20 @@ namespace HumanLastRampart.Combat.Tests
                     Frame(BattleRoad.LampRoad(i), out _, out Vector3 r);
                     Assert.Greater(Mathf.Abs(Vector3.Dot(lamp, r)), 0.9f + 0.4f, $"기둥 {i}가 전령 길 위");
                 }
+
+                // 깃발(문 곁 둘 + 길마다 한 쌍)도 주인공 길에서 1m 이상 (주인공 그림이 깃발에 겹치지 않게)
+                var banners = new System.Collections.Generic.List<Vector3>();
+                foreach (Vector2 spot in BattleRoad.BannerSpots) banners.Add(new Vector3(spot.x, 0f, spot.y));
+                for (int road = 0; road < BattleRoad.RoadCount; road++)
+                    foreach (int s in new[] { -1, 1 }) banners.Add(BattleRoad.RoadBannerBase(road, s));
+                foreach (Vector3 banner in banners)
+                    for (int side = 0; side < 4; side++)
+                        foreach (float x in new[] { -3f, 0f, 3f })
+                            for (int k = 0; k <= 400; k++)
+                            {
+                                Vector3 p = rig.TowerPath(side, rig.WallFeet(side, x, 2f), k / 400f);
+                                Assert.Greater(Vector2.Distance(new Vector2(p.x, p.z), new Vector2(banner.x, banner.z)), 1f, $"깃발 ({banner.x:0.0}, {banner.z:0.0})이 성벽 {side} 주인공 길 위 (along {x}, t {k / 400f:0.00})");
+                            }
             }
             finally { Object.DestroyImmediate(camera); }
         }
@@ -209,6 +223,7 @@ namespace HumanLastRampart.Combat.Tests
             BattleLights.EmitCourtyard(true, 1f, false, Vector3.zero, 0f);   // 마당 웅덩이 2개 먼저
             int low = BattleLights.EmitRoad(true, 1f, view, Half);
             Assert.AreEqual(Mathf.Min(BattleLights.RoadPoolsLow, InReach(10f)), low, "모바일: 닿는 범위(10m) 안 기둥, 상한 4개까지");
+            Assert.GreaterOrEqual(low, 1, "모바일에서도 계단 가까이 성벽 위에서 보이는 땅 번짐이 하나 이상 (W35: 간격 10m)");
             Assert.AreEqual(0, HlrLights.Count);
             Assert.LessOrEqual(GroundGlow.Count + 6, GroundGlow.Max, "마당 + 돌길 웅덩이 뒤에도 횃불 웅덩이 6개 자리가 남는다");
         }

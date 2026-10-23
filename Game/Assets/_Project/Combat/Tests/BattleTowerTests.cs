@@ -14,10 +14,12 @@ namespace HumanLastRampart.Combat.Tests
     // 등대 탑 계단 (W9, W35 네 성벽): 통로 가운데 안쪽 끝에서 내려가고 탑에서 W·A·S·D 성벽으로 올라오기, 거리 ÷ 속도 시간, 탑에 있는 동안 '성벽에 없음'
     public sealed class BattleTowerTests
     {
-        static BattleCameraRig NewRig(out GameObject camera)
+        const float Half = 60f;   // 시험 성 반폭 (길이 길어 한쪽 5초 상한에 걸린다)
+
+        static BattleCameraRig NewRig(out GameObject camera, float half = Half)
         {
             camera = new GameObject("Tower Test Camera", typeof(Camera));
-            return new BattleCameraRig(camera.GetComponent<Camera>(), 60f, BattleSim.WallHeight);
+            return new BattleCameraRig(camera.GetComponent<Camera>(), half, BattleSim.WallHeight);
         }
 
         static void Run(BattleCameraRig rig, float seconds)
@@ -199,11 +201,11 @@ namespace HumanLastRampart.Combat.Tests
             finally { Object.DestroyImmediate(camera); }
         }
 
-        // 거리 ÷ 속도: 평지는 성벽 달리기 속도, 계단은 걷기 속도 — 예전처럼 어디서든 1.6초가 아니다
+        // 거리 ÷ 속도: 평지는 성벽 달리기 속도, 계단은 걷기 속도 — 예전처럼 어디서든 1.6초가 아니다. 길어서 5초를 넘으면 속도만 같은 비율로 올려 5초에 맞춘다
         [Test]
-        public void TravelTime_IsDistanceOverSpeed_NotFixed()
+        public void TravelTime_IsDistanceOverSpeed_CappedAtFiveSeconds([Values(20f, 60f)] float half)
         {
-            var rig = NewRig(out GameObject camera);
+            var rig = NewRig(out GameObject camera, half);
             try
             {
                 foreach (int side in new[] { 0, 1, 2, 3 })
@@ -230,15 +232,76 @@ namespace HumanLastRampart.Combat.Tests
                         prev = now;
                     }
 
+                    float scale = rig.PathSpeedScale;
                     Assert.AreEqual(planned, elapsed, 0.1f, $"성벽 {side}: 걸린 시간 = 계획한 시간");
-                    Assert.Greater(elapsed, 5f, $"성벽 {side}: 고정 1.6초가 아니라 길이에 따라 (반폭 60m)");
-                    Assert.LessOrEqual(maxSpeed, BattleSim.HeroSpeed + 0.01f, "평지는 성벽 달리기 속도를 넘지 않는다");
-                    Assert.AreEqual(BattleSim.HeroWalkSpeed, minSpeed, 0.05f, "계단 구간은 걷기 속도");
-                    float stair = (60f - rig.Inset) - (60f - BattleCourtyard.WallThickness - BattleCourtyard.StepCount * BattleCourtyard.TreadDepth);   // 통로 안쪽 끝에서 계단 맨 아래까지
-                    float expected = (length - stair) / BattleSim.HeroSpeed + stair / BattleSim.HeroWalkSpeed;
-                    Assert.AreEqual(expected, elapsed, 0.3f, $"성벽 {side}: 시간 ≈ 평지 거리 / {BattleSim.HeroSpeed} + 계단 거리 / {BattleSim.HeroWalkSpeed}");
+                    Assert.LessOrEqual(elapsed, BattleCameraRig.TripSecondsMax + 0.1f, $"성벽 {side}: 한쪽 5초 상한");
+                    Assert.Greater(elapsed, 2.5f, $"성벽 {side}: 고정 1.6초가 아니라 길이에 따라");
+                    if (half >= 60f) Assert.Greater(scale, 2f, "긴 길은 속도를 올려 5초에 맞춘다");
+                    Assert.LessOrEqual(maxSpeed, BattleSim.HeroSpeed * scale + 0.01f, "평지는 (올린) 달리기 속도를 넘지 않는다");
+                    Assert.AreEqual(BattleSim.HeroWalkSpeed * scale, minSpeed, 0.05f * scale, "계단 구간은 걷기 속도 (같은 비율로 올림)");
+                    float stair = (half - rig.Inset) - (half - BattleCourtyard.WallThickness - BattleCourtyard.StepCount * BattleCourtyard.TreadDepth);   // 통로 안쪽 끝에서 계단 맨 아래까지
+                    float expected = ((length - stair) / BattleSim.HeroSpeed + stair / BattleSim.HeroWalkSpeed) / scale;
+                    Assert.AreEqual(expected, elapsed, 0.3f, $"성벽 {side}: 시간 ≈ (평지 거리 / {BattleSim.HeroSpeed} + 계단 거리 / {BattleSim.HeroWalkSpeed}) / 속도 비율");
                     rig.GoUp();
                     RunUntilArrived(rig, () => rig.OnWall);
+                }
+            }
+            finally { Object.DestroyImmediate(camera); }
+        }
+
+        // 올라갈 때 내려온 성벽의 키를 누르면 떠난 자리 그대로 (단추와 같다), 다른 성벽 키는 그 성벽 가운데
+        [Test]
+        public void GoUp_WithTheCameFromWall_ReturnsToTheExactSpot()
+        {
+            var rig = NewRig(out GameObject camera);
+            try
+            {
+                rig.ShowSide(1);
+                GoToStairs(rig);
+                rig.WalkInput = 1f;
+                Run(rig, 0.3f);   // 가운데에서 조금 옆
+                rig.WalkInput = 0f;
+                float along = rig.Along;
+                Vector3 spot = rig.HeroFeet;
+                Assert.IsTrue(rig.GoDown());
+                RunUntilArrived(rig, () => rig.AtTower);
+                Assert.IsTrue(rig.GoUp(1));
+                RunUntilArrived(rig, () => rig.OnWall);
+                Assert.IsTrue(rig.OnWall);
+                Assert.AreEqual(along, rig.Along, 1e-4f);
+                Assert.Less((rig.HeroFeet - spot).magnitude, 1e-3f, "떠난 자리 그대로");
+            }
+            finally { Object.DestroyImmediate(camera); }
+        }
+
+        // 길을 오르내리는 동안 사진기가 탑 몸체(반폭 1.1 + 받침 0.15) 안에 들어가지 않는다 (특히 북쪽 광장 가까이)
+        [Test]
+        public void Camera_NeverEntersTowerBody_OnAnyRoad([Values(20f, 60f)] float half)
+        {
+            var rig = NewRig(out GameObject camera, half);
+            float limit = BattleTowerView.BaseHalf + 0.15f;
+            try
+            {
+                foreach (int side in new[] { 0, 1, 2, 3 })
+                {
+                    rig.ShowSide(side);
+                    GoToStairs(rig);
+                    Assert.IsTrue(rig.GoDown());
+                    for (int i = 0; i < 400 && !rig.AtTower; i++)
+                    {
+                        rig.Update(0.05f);
+                        Vector3 c = camera.transform.position;
+                        Assert.IsFalse(Mathf.Abs(c.x) < limit && Mathf.Abs(c.z) < limit, $"성벽 {side} 내려가기 {i}: 사진기 ({c.x:0.0}, {c.z:0.0})가 탑 몸체 안");
+                    }
+
+                    Run(rig, 1f);
+                    Assert.IsTrue(rig.GoUp((side + 1) % 4));
+                    for (int i = 0; i < 400 && !rig.OnWall; i++)
+                    {
+                        rig.Update(0.05f);
+                        Vector3 c = camera.transform.position;
+                        Assert.IsFalse(Mathf.Abs(c.x) < limit && Mathf.Abs(c.z) < limit, $"성벽 {side} 올라가기 {i}: 사진기 ({c.x:0.0}, {c.z:0.0})가 탑 몸체 안");
+                    }
                 }
             }
             finally { Object.DestroyImmediate(camera); }

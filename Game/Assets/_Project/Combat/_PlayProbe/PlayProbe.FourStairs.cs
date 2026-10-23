@@ -82,6 +82,24 @@ public sealed partial class PlayProbe
             Object.Destroy(pin);
             yield return null;
 
+            if (time == TimeOfDay.Day)
+            {
+                // 북쪽 성벽 → 광장 가까이 (사진기가 탑 몸체 안에 들어가지 않는지 본다)
+                rig.ShowSide(0);
+                for (int i = 0; i < 6; i++) yield return null;
+                rig.DepthInput = -1f;
+                yield return WaitFor(() => rig.NearStairs, 6f);
+                rig.DepthInput = 0f;
+                Assert.IsTrue(entry.Interact(), "E: 북쪽 계단으로 내려가기");
+                yield return FreezeAtBlend(entry, rig, 0.8f);
+                Note($"북쪽 광장 가까이: blend {rig.TowerBlend:0.00} 발 ({rig.HeroFeet.x:0.0}, {rig.HeroFeet.z:0.0}) 사진기 ({cam.transform.position.x:0.0}, {cam.transform.position.z:0.0}) 방향 {rig.Yaw:0}도");
+                yield return Capture("w35_day_n_north_near_plaza", PfWidth, PfHeight);
+                entry.TutorialTimeScale = 1f;
+                yield return WaitFor(() => rig.AtTower, 40f);
+                Assert.IsTrue(entry.TowerUp(0), "탑에서 W: 북쪽 성벽으로");
+                yield return WaitFor(() => rig.OnWall, 40f);
+            }
+
             // 동쪽 성벽 → 계단 → 길 (낮에만 이동 사진을 찍는다)
             rig.ShowSide(1);
             for (int i = 0; i < 6; i++) yield return null;
@@ -99,7 +117,8 @@ public sealed partial class PlayProbe
             {
                 yield return FreezeAtBlend(entry, rig, 0.4f);
                 Note($"동쪽 내려가는 중: blend {rig.TowerBlend:0.00} 발 ({rig.HeroFeet.x:0.0}, {rig.HeroFeet.z:0.0}) 포즈 {rig.Pose} 앞모습 {rig.FacingFront} 사진기 방향 {rig.Yaw:0}도");
-                yield return Capture("w35_day_d_east_mid_descent", PfWidth, PfHeight);
+                yield return FreshHud();
+                yield return Capture("w35_day_d_east_mid_descent", PfWidth, PfHeight);   // 아래에 "E 되돌아가기" 안내와 단추
                 entry.TutorialTimeScale = 1f;
             }
 

@@ -145,19 +145,62 @@ namespace HumanLastRampart.Combat.Battle
 
         // ── 아래 가운데 한 줄 안내 (E 계단·탑 상호작용). key가 null이면 숨김 ──
         RectTransform towerPrompt;
-        string towerPromptKey, towerPromptText;
+        string towerPromptKey, towerPromptText, towerPromptKey2, towerPromptText2;
 
-        public void SetTowerPrompt(string key, string text)
+        // 칩 하나(key text) 또는 둘(+ key2 text2). W35: 탑 앞은 "E 빛줄기 명령" + "WASD 성벽으로"
+        public void SetTowerPrompt(string key, string text, string key2 = null, string text2 = null)
         {
-            if (key == towerPromptKey && text == towerPromptText) return;
+            if (key == towerPromptKey && text == towerPromptText && key2 == towerPromptKey2 && text2 == towerPromptText2) return;
             towerPromptKey = key;
             towerPromptText = text;
+            towerPromptKey2 = key2;
+            towerPromptText2 = text2;
             if (towerPrompt != null) UnityEngine.Object.Destroy(towerPrompt.gameObject);
             towerPrompt = null;
             if (key == null) return;
-            towerPrompt = Ui.KeyHint(root.transform, key, text);
+            HorizontalLayoutGroup row = Ui.Row(root.transform, "Tower Prompt", UiTokens.S24, TextAnchor.MiddleCenter);
+            towerPrompt = (RectTransform)row.transform;
+            Ui.KeyHint(row.transform, key, text);
+            if (key2 != null) Ui.KeyHint(row.transform, key2, text2);
             Ui.Place(towerPrompt, new Vector2(0.5f, 0f), new Vector2(0f, BottomClear), new Vector2(520f, 40f), new Vector2(0.5f, 0f));   // N6: 글 앞뒤 공백 없음
             towerPrompt.gameObject.AddComponent<ContentSizeFitter>().horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+        }
+
+        // ── 탑 앞 단추 (W35, 터치·마우스): 북·서·동·남 성벽으로 올라가기 / 내려가는 중에는 되돌아가기 ──
+        public event Action<int> TowerGoChosen;   // 0 북 · 1 동 · 2 남 · 3 서
+        RectTransform towerGoRow, towerBackRow;
+        int towerButtonMode;
+
+        // 0 숨김 · 1 네 방향 단추 · 2 되돌아가기 단추
+        public void SetTowerButtons(int mode)
+        {
+            if (mode == towerButtonMode) return;
+            towerButtonMode = mode;
+            if (towerGoRow == null) BuildTowerButtons();
+            towerGoRow.gameObject.SetActive(mode == 1);
+            towerBackRow.gameObject.SetActive(mode == 2);
+        }
+
+        void BuildTowerButtons()
+        {
+            string[] labels = { "북", "동", "남", "서" };
+            HorizontalLayoutGroup go = Ui.Row(root.transform, "Tower Go", UiTokens.S8, TextAnchor.MiddleCenter);
+            towerGoRow = (RectTransform)go.transform;
+            foreach (int s in new[] { 0, 3, 1, 2 })   // 북 서 동 남
+            {
+                int side = s;
+                Button b = Ui.Button(go.transform, "탑 " + labels[side], labels[side], () => TowerGoChosen?.Invoke(side), UiButtonKind.Tab);
+                Ui.Size(b, 84f, 44f);
+            }
+
+            Ui.Place(towerGoRow, new Vector2(0.5f, 0f), new Vector2(0f, BottomClear + 48f), new Vector2(4f * 84f + 3f * UiTokens.S8, 44f), new Vector2(0.5f, 0f));
+            HorizontalLayoutGroup back = Ui.Row(root.transform, "Tower Back", UiTokens.S8, TextAnchor.MiddleCenter);
+            towerBackRow = (RectTransform)back.transform;
+            Button turn = Ui.Button(back.transform, "탑 되돌아가기", "되돌아가기", () => TowerLeaveChosen?.Invoke());
+            Ui.Size(turn, 180f, 44f);
+            Ui.Place(towerBackRow, new Vector2(0.5f, 0f), new Vector2(0f, BottomClear + 48f), new Vector2(180f, 44f), new Vector2(0.5f, 0f));
+            towerGoRow.gameObject.SetActive(false);
+            towerBackRow.gameObject.SetActive(false);
         }
     }
 }

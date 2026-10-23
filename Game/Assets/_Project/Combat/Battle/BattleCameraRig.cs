@@ -54,12 +54,16 @@ namespace HumanLastRampart.Combat.Battle
         public const float StairsReach = 3f;            // 계단 가운데에서 이 거리(m) 안이고
         public const float StairsInsetMin = InsetMax - 0.5f;   // 통로 안쪽 끝 가까이면 E로 내려갈 수 있다
         public const float TowerHeroBack = 1.45f;       // 탑 앞(문 앞)에서 서는 자리: 탑 가운데에서 남쪽(문 쪽)으로. 높은 탑(W20)의 아래 반폭 1.1m 밖
-        public const float TowerYawRadius = 9f;         // 탑에서 이만큼(m) 안에서는 사진기가 북쪽(문 쪽)을 본다. 밖에서는 길이 닿는 성벽의 바깥을 본다 (사진기가 탑 몸체에 들어가지 않게)
+        public const float TripSecondsMax = 5f;         // 한쪽 길(성벽 ↔ 탑)은 길어도 이 시간(게임 시간) 안에 — 걷기·계단 모습은 그대로 두고 속도만 올린다 (사용자 2026-10-23)
+        public const float NorthLaneZ = 1.6f;           // 북쪽 길: 이보다 북쪽이면 사진기가 남쪽을 봐 탑 몸체 안에 들어가지 않는다 (탑 쪽이면 북쪽)
+        public const float TowerYawRadius = 9f;        // 탑에서 이만큼(m) 안에서는 사진기가 북쪽(문 쪽)을 본다. 밖에서는 길이 닿는 성벽의 바깥을 본다 (사진기가 탑 몸체에 들어가지 않게)
         const float TowerFollowSharpness = 30f;         // 길을 오르내릴 때 카메라가 발을 따라붙는 빠르기 (평소 14)
 
         // 길 위 상태: 성벽에서 탑 앞까지 걸어야 하는 시간(pathTotal) 중 얼마나 걸었나(pathTime). 0 = 성벽 위, pathTotal = 탑 앞
         float pathTime;
         float pathTotal;
+        float pathScale = 1f;         // 길이 길면 속도를 이만큼 곱해 TripSecondsMax 안에 닿는다
+        bool waitRelease;             // 올라온 뒤 누르고 있던 이동 키는 뗄 때까지 무시
         int pathSide;                 // 지금 길이 닿는 성벽
         bool arriveMiddle;            // 올라가면 그 성벽 가운데에 선다 (false = 내려온 자리 그대로)
         bool towerTarget;             // 가려는 곳 (true = 탑)
@@ -143,7 +147,18 @@ namespace HumanLastRampart.Combat.Battle
             return SamplePath(pts, spd, count, Mathf.Clamp01(t) * total);
         }
 
-        public float TowerPathSeconds(int side, Vector3 wall) => BuildPath(side, wall, new Vector3[PathMax], new float[PathMax], out _);
+        // 걸리는 시간(초, TripSecondsMax로 자른 값)
+        public float TowerPathSeconds(int side, Vector3 wall) => Mathf.Min(TripSecondsMax, BuildPath(side, wall, new Vector3[PathMax], new float[PathMax], out _));
+
+        // 길을 새로 짜서 instance 배열에 담고, 걸리는 시간(자른 값)을 돌려준다. 원래 시간이 길면 pathScale이 1보다 커져 같은 길을 더 빨리 걷는다
+        float Plan(int side, Vector3 wall)
+        {
+            float raw = BuildPath(side, wall, pathPts, pathSpeeds, out pathCount);
+            pathScale = Mathf.Max(1f, raw / TripSecondsMax);
+            return raw / pathScale;
+        }
+
+        public float PathSpeedScale => pathScale;
 
         // side 성벽의 (along, inset) 발 자리 (시험·확인용)
         public Vector3 WallFeet(int side, float alongAt, float insetAt) => FeetAt(side, alongAt, insetAt);
@@ -156,7 +171,7 @@ namespace HumanLastRampart.Combat.Battle
         {
             if (towerTarget || pathTime > 0f || !NearStairs) return false;
             pathSide = Side;
-            pathTotal = BuildPath(pathSide, FeetAt(Side, along, inset), pathPts, pathSpeeds, out pathCount);
+            pathTotal = Plan(pathSide, FeetAt(Side, along, inset));
             pathTime = 0f;
             arriveMiddle = false;
             towerTarget = true;
@@ -178,6 +193,7 @@ namespace HumanLastRampart.Combat.Battle
                 arriveMiddle = false;
             }
 
+            if (!towerTarget && before > 0f && pathTime <= 0f) waitRelease = true;   // 누르고 있던 이동 키는 뗄 때까지 무시
             return !Mathf.Approximately(before, pathTime);
         }
 
@@ -193,10 +209,12 @@ namespace HumanLastRampart.Combat.Battle
                 return true;
             }
 
+            // 내려온 성벽의 키면 떠난 자리 그대로(단추와 같다), 다른 성벽이면 그 성벽 가운데
+            bool back = side == Side;
             pathSide = side;
-            pathTotal = BuildPath(side, FeetAt(side, 0f, HeroInset), pathPts, pathSpeeds, out pathCount);
+            pathTotal = Plan(side, back ? FeetAt(Side, along, inset) : FeetAt(side, 0f, HeroInset));
             pathTime = pathTotal;
-            arriveMiddle = true;
+            arriveMiddle = !back;
             towerTarget = false;
             return true;
         }
@@ -208,7 +226,7 @@ namespace HumanLastRampart.Combat.Battle
             if (pathTime >= pathTotal)
             {
                 pathSide = Side;
-                pathTotal = BuildPath(Side, FeetAt(Side, along, inset), pathPts, pathSpeeds, out pathCount);
+                pathTotal = Plan(Side, FeetAt(Side, along, inset));
                 pathTime = pathTotal;
                 arriveMiddle = false;
             }
@@ -222,7 +240,7 @@ namespace HumanLastRampart.Combat.Battle
             get
             {
                 if (!towerTarget && pathTime <= 0f) return FeetAt(Side, along, inset);
-                return SamplePath(pathPts, pathSpeeds, pathCount, pathTime);
+                return SamplePath(pathPts, pathSpeeds, pathCount, pathTime * pathScale);
             }
         }
 
@@ -312,6 +330,12 @@ namespace HumanLastRampart.Combat.Battle
                 return;
             }
 
+            if (waitRelease)
+            {
+                if (pan == 0f && depth == 0f) waitRelease = false;   // 탑에서 누른 키를 뗐다
+                else pan = depth = 0f;
+            }
+
             if (pan == 0f) pan = Mathf.Clamp(WalkInput, -1f, 1f);
             if (depth == 0f) depth = Mathf.Clamp(DepthInput, -1f, 1f);
             if (pan != 0f || depth != 0f) runDir = 0;
@@ -381,6 +405,13 @@ namespace HumanLastRampart.Combat.Battle
         {
             if (!towerTarget && pathTime <= 0f) return SideYaw(Side);
             if (AtTower) return 0f;
+            if (pathSide == 0)
+            {
+                // 북쪽 길: 사진기가 늘 주인공 남쪽(탑 쪽)에 있으면 광장 가까이에서 탑 몸체 안에 들어간다 → 길 위(탑에서 9m 안)에서는 남쪽을 봐 사진기가 북쪽에 선다
+                if (feet.x * feet.x + feet.z * feet.z > TowerYawRadius * TowerYawRadius) return 0f;
+                return feet.z > NorthLaneZ ? 180f : 0f;
+            }
+
             return feet.x * feet.x + feet.z * feet.z > TowerYawRadius * TowerYawRadius ? SideYaw(pathSide) : 0f;
         }
 
@@ -476,6 +507,8 @@ namespace HumanLastRampart.Combat.Battle
             }
             else
             {
+                // 북쪽 길의 180도 돌기는 탑 몸체 옆(바깥쪽)으로 돈다: 안쪽으로 돌면 사진기가 탑을 지나간다
+                if ((towerTarget || pathTime > 0f) && pathSide == 0 && Mathf.Abs(Mathf.DeltaAngle(yaw, targetYaw)) > 100f) targetYaw = feet.x >= 0f ? 270f : 90f;
                 yaw = Mathf.MoveTowardsAngle(yaw, targetYaw, TurnDegreesPerSecond * dt);
                 // 길을 오르내리는 동안(W35)은 거리에 맞춘 속도(초속 5m 안팎)라 발을 그대로 따라갈 필요는 없고, 조금 더 바짝 따라붙기만 한다
                 float sharpness = towerTarget || pathTime > 0f ? TowerFollowSharpness : FollowSharpness;

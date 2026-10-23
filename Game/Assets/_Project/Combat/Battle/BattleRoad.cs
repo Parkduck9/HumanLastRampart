@@ -25,7 +25,7 @@ namespace HumanLastRampart.Combat.Battle
         public const float PlazaRimRadius = 3.5f;         // 낮은 아랫단
         public const float PlazaLift = 0.025f, PlazaRimLift = 0.015f;   // GroundGlow 판(바닥 +3cm)보다 낮게 — 탑·문 앞 웅덩이가 광장에 안 묻힌다 (돌길 윗면 2cm와도 다르게)
         public const int RoadCount = 4;                   // W35: 네 성벽 가운데에서 광장으로 뻗은 십자 길
-        public const float LampSpacing = 18f;             // 길이 네 갈래라 길 하나당 기둥은 드물게 (전체 개수·땅 번짐·그리는 수를 예전(길 하나 4m 간격)과 비슷하게)
+        public const float LampSpacing = 10f;             // 길 하나당 기둥 5~6쌍 (사용자 2026-10-23). 땅 번짐은 PC 14·모바일 4개 상한이라 사진기에 닿는 기둥만 쓴다
         public const float RoadBannerDistance = PlazaRimRadius + 1.2f;   // 길마다 광장 가장자리 바로 앞에 깃발 한 쌍
         public const float LampOffset = HalfWidth + KerbWidth + 0.3f;   // 길 가운데에서 기둥까지 (연석 바깥)
         public const float LampPostHeight = 0.9f;            // K-122 등불 기둥 보이는 높이 (그림 51화소 = 0.9m, 병사 키 0.35m의 약 2.5배)
@@ -39,7 +39,7 @@ namespace HumanLastRampart.Combat.Battle
         const float RoadCobbleTileMeters = 1.7f;           // 돌길 그림 한 장이 덮는 미터 (마당 바닥 2.6m보다 촘촘하게)
 
         // 깃발 자리 (탑 문 곁, 몸체 받침 바깥 · 주인공 서는 줄(z = -TowerHeroBack)에서 비껴)
-        public static readonly Vector2[] BannerSpots = { new Vector2(-2.05f, BattleTowerView.DoorZ + 0.1f), new Vector2(2.05f, BattleTowerView.DoorZ + 0.1f) };
+        public static readonly Vector2[] BannerSpots = { new Vector2(-3.3f, BattleTowerView.DoorZ - 1.3f), new Vector2(3.3f, BattleTowerView.DoorZ - 1.3f) };   // W35: 주인공 길(문 앞 줄 ±2.2, 동·서 비스듬한 길)에서 1m 이상 비껴 문 앞 좌우
 
         static readonly int BaseColorId = Shader.PropertyToID("_BaseColor");
         static readonly int ColorId = Shader.PropertyToID("_Color");

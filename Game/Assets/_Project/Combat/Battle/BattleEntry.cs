@@ -130,6 +130,7 @@ namespace HumanLastRampart.Combat.Battle
                 hud.LampChosen += b => sim?.SetLamp(b);     // 등불 밝기 (빛줄기 폭·효과만 바뀜)
                 hud.BeamChosen += OnBeamChosen;           // 빛줄기 방향 (탑 명령 판에서만, 일꾼이 BeamRotateSeconds에 걸쳐 돌림)
                 hud.TowerLeaveChosen += LeaveTower;
+                hud.TowerGoChosen += side => TowerUp(side);   // 탑 앞 북·서·동·남 단추 (W35)
                 hud.BeamOrderClosed += CloseBeamOrder;
                 hud.GroupDestinationChosen += side => OrderGroupMove(selectedGroup, side);
                 hud.WallGroupsDestinationChosen += side => OrderWallMove(selectedGroup, side);
@@ -304,7 +305,8 @@ namespace HumanLastRampart.Combat.Battle
 
         public bool Interact()
         {
-            if (sim == null || rig == null || sim.Ended || preparing || rig.InTransition) return false;
+            if (sim == null || rig == null || sim.Ended || preparing) return false;
+            if (rig.InTransition) return TurnBack();   // W35: 내려가는 중 E = 되돌아가기
             if (beamOrderMode) { CloseBeamOrder(); return true; }
             if (mapOpen || paused || TutorialTimeScale <= 0f) return false;   // 멈춘 동안은 계단·탑을 쓰지 않는다
             if (rig.AtTower) { OpenBeamOrder(); return true; }
@@ -337,6 +339,14 @@ namespace HumanLastRampart.Combat.Battle
             rig?.GoUp();
         }
 
+        // W35: 계단·길을 내려가는 중(아직 탑 앞이 아님)에 E 또는 내려오던 성벽 키 → 그 자리에서 돌아 그 성벽으로 올라간다
+        public bool TurnBack()
+        {
+            if (sim == null || rig == null || sim.Ended || preparing || mapOpen || paused || TutorialTimeScale <= 0f) return false;
+            if (!rig.TowerTarget || !rig.InTransition) return false;
+            return rig.GoUp(rig.PathSide);
+        }
+
         // W35: 탑 앞에서 W 북(0) · D 동(1) · S 남(2) · A 서(3) 성벽 가운데로 올라가기. 탑 앞에 도착해 있을 때만 (지도·명령 판이 열려 있으면 먼저 닫는다)
         public bool TowerUp(int side)
         {
@@ -356,10 +366,14 @@ namespace HumanLastRampart.Combat.Battle
         void UpdateTowerPrompt()
         {
             if (hud == null || rig == null) return;
-            if (mapOpen || sim == null || sim.Ended || preparing || rig.InTransition) hud.SetTowerPrompt(null, null);
-            else if (rig.AtTower) hud.SetTowerPrompt("E", "빛줄기 명령 · W 북 · A 서 · D 동 · S 남 성벽으로");
+            int buttons = 0;
+            if (mapOpen || sim == null || sim.Ended || preparing) hud.SetTowerPrompt(null, null);
+            else if (rig.InTransition && rig.TowerTarget) { hud.SetTowerPrompt("E", "되돌아가기"); buttons = 2; }   // 내려가는 중 (W35)
+            else if (rig.InTransition) hud.SetTowerPrompt(null, null);
+            else if (rig.AtTower) { hud.SetTowerPrompt("E", "빛줄기 명령", "WASD", "성벽으로"); buttons = 1; }
             else if (rig.OnWall && rig.NearStairs) hud.SetTowerPrompt("E", "계단으로 내려가 등대로");
             else hud.SetTowerPrompt(null, null);
+            hud.SetTowerButtons(buttons);
         }
 
         public void StartBattle()
@@ -507,12 +521,19 @@ namespace HumanLastRampart.Combat.Battle
                 if (!toggle && !hud.MenuOpen && !cancelSquad)
                 {
                     if (keyboard.eKey.wasPressedThisFrame) Interact();
-                    if (!mapOpen && rig != null && rig.AtTower)
+                    if (!mapOpen && rig != null && (rig.AtTower || (rig.InTransition && rig.TowerTarget)))
                     {
-                        if (keyboard.wKey.wasPressedThisFrame) TowerUp(0);
-                        else if (keyboard.dKey.wasPressedThisFrame) TowerUp(1);
-                        else if (keyboard.sKey.wasPressedThisFrame) TowerUp(2);
-                        else if (keyboard.aKey.wasPressedThisFrame) TowerUp(3);
+                        // 방향 키(W·A·S·D와 화살표): 0 북 · 1 동 · 2 남 · 3 서. 내려가는 중에는 내려오던 성벽의 키가 되돌아가기
+                        int dir = -1;
+                        if (keyboard.wKey.wasPressedThisFrame || keyboard.upArrowKey.wasPressedThisFrame) dir = 0;
+                        else if (keyboard.dKey.wasPressedThisFrame || keyboard.rightArrowKey.wasPressedThisFrame) dir = 1;
+                        else if (keyboard.sKey.wasPressedThisFrame || keyboard.downArrowKey.wasPressedThisFrame) dir = 2;
+                        else if (keyboard.aKey.wasPressedThisFrame || keyboard.leftArrowKey.wasPressedThisFrame) dir = 3;
+                        if (dir >= 0)
+                        {
+                            if (rig.AtTower) TowerUp(dir);
+                            else if (dir == rig.PathSide) TurnBack();
+                        }
                     }
                 }
             }
