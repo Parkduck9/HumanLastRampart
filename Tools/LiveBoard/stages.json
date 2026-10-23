@@ -404,7 +404,7 @@
                       "id":  "W27",
                       "name":  "등대 탑 · 안마당 그림 붙이기 + 일꾼은 탑 안에서 일하기",
                       "agent":  "a43414ad3049d3fda",
-                      "stage":  4,
+                      "stage":  5,
                       "kind":  "coder",
                       "folder":  "C:\\Unity\\1\\HLR-work\\W27",
                       "who":  ""
@@ -425,6 +425,69 @@
                       "stage":  5,
                       "kind":  "coder",
                       "folder":  "",
+                      "who":  ""
+                  },
+                  {
+                      "id":  "K-117",
+                      "name":  "이야기 배경 다시 (큰 등대 탑)",
+                      "agent":  "",
+                      "stage":  5,
+                      "kind":  "card",
+                      "folder":  "C:\\Unity\\1\\HLR-cards\\K-117",
+                      "who":  "코덱스 (그림)"
+                  },
+                  {
+                      "id":  "K-118",
+                      "name":  "안마당 건물 그림",
+                      "agent":  "",
+                      "stage":  5,
+                      "kind":  "card",
+                      "folder":  "C:\\Unity\\1\\HLR-cards\\K-118",
+                      "who":  "코덱스 (그림)"
+                  },
+                  {
+                      "id":  "K-119",
+                      "name":  "일꾼 걷기 · 계단 오르기 그림",
+                      "agent":  "",
+                      "stage":  5,
+                      "kind":  "card",
+                      "folder":  "C:\\Unity\\1\\HLR-cards\\K-119",
+                      "who":  "코덱스 (그림)"
+                  },
+                  {
+                      "id":  "W29",
+                      "name":  "컴퓨터용 실행 파일 + 편집기 밖 시험",
+                      "agent":  "a5b6236a24f5cf5bc",
+                      "stage":  5,
+                      "kind":  "coder",
+                      "folder":  "C:\\Unity\\1\\HLR-work\\W29",
+                      "who":  ""
+                  },
+                  {
+                      "id":  "W30",
+                      "name":  "사진 비교 시험",
+                      "agent":  "aaa5e84c883bc621b",
+                      "stage":  5,
+                      "kind":  "coder",
+                      "folder":  "C:\\Unity\\1\\HLR-work\\W30",
+                      "who":  ""
+                  },
+                  {
+                      "id":  "W31",
+                      "name":  "안마당 건물 그림 + 일꾼 걷기·계단 붙이기",
+                      "agent":  "a543dfc15635f7403",
+                      "stage":  1,
+                      "kind":  "coder",
+                      "folder":  "C:\\Unity\\1\\HLR-work\\W31",
+                      "who":  ""
+                  },
+                  {
+                      "id":  "W32",
+                      "name":  "이야기 배경 (큰 등대 탑) 붙이기",
+                      "agent":  "a27735b3bc4bf5df3",
+                      "stage":  1,
+                      "kind":  "coder",
+                      "folder":  "C:\\Unity\\1\\HLR-work\\W32",
                       "who":  ""
                   }
               ]
