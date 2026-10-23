@@ -24,9 +24,52 @@ namespace HumanLastRampart.Combat.Editor
             "weapon_rack", "cart", "arrow_bundles", "stair_step_atlas_64x16", "stair_flank_128x64",
         };
 
+        // W31: Codex K-118 안마당 건물 반복 재질(8m 한 장, 미터 기준 UV, 양방향 Repeat) · K-119 일꾼 걷기·계단·화로·운반 시트 (옛 idle·push·rest는 건드리지 않는다)
+        const string BuildingsFolder = "/Resources/BattleArt/Buildings/";
+        const string BeaconFolder = "/Resources/BattleArt/Beacon/";
+        static readonly string[] BuildingTiles = { "plaster_timber", "rough_stone", "plank_wall", "clay_tiles", "slate_roof", "thatch", "wood_shingles" };
+
+        static bool IsK119Sheet(string name) =>
+            name.StartsWith("worker_") && (name.Contains("_walk_") || name.Contains("_climb_") || name.Contains("_tend_") || name.Contains("_carry_"));
+
+        // 건물 그림·일꾼 시트: 점 필터, 가장자리 고정, 압축 없음, 밉맵 끔. 건물 앞면·소품은 실행 중 한 장으로 합치므로 읽기 가능
+        void PreprocessW31(string path)
+        {
+            string name = System.IO.Path.GetFileNameWithoutExtension(path);
+            var importer = (TextureImporter)assetImporter;
+            importer.textureType = TextureImporterType.Default;
+            importer.sRGBTexture = true;
+            importer.alphaSource = TextureImporterAlphaSource.FromInput;
+            importer.alphaIsTransparency = true;
+            importer.textureCompression = TextureImporterCompression.Uncompressed;
+            importer.npotScale = TextureImporterNPOTScale.None;
+            importer.maxTextureSize = 2048;
+            importer.filterMode = FilterMode.Point;
+            importer.wrapMode = TextureWrapMode.Clamp;
+            importer.mipmapEnabled = false;
+            importer.isReadable = false;
+            if (path.Contains(BuildingsFolder))
+            {
+                if (System.Array.IndexOf(BuildingTiles, name) >= 0)
+                {
+                    importer.wrapMode = TextureWrapMode.Repeat;   // 256px 한 장 = 8m, 미터 기준 UV로 반복
+                    importer.mipmapEnabled = true;                // 먼 곳에서 지글거리지 않게
+                    importer.alphaSource = TextureImporterAlphaSource.None;
+                    importer.alphaIsTransparency = false;
+                }
+                else importer.isReadable = true;
+            }
+        }
+
         void OnPreprocessTexture()
         {
             string path = assetPath.Replace('\\', '/');
+            if (path.Contains(BuildingsFolder) || (path.Contains(BeaconFolder) && IsK119Sheet(System.IO.Path.GetFileNameWithoutExtension(path))))
+            {
+                PreprocessW31(path);
+                return;
+            }
+
             bool tower = path.Contains(TowerFolder);
             bool courtyard = path.Contains(CourtyardFolder);
             if (!tower && !courtyard) return;
