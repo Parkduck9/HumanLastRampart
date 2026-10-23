@@ -1,0 +1,15 @@
+{
+  "decoded_pngs": 102,
+  "nearest_neighbor_pixel_checks": 75399168,
+  "embedded_animation_images": 36,
+  "html_img_elements": 35,
+  "canvases": 68,
+  "image_decode_errors": [],
+  "page_errors": [],
+  "animation_advanced": true,
+  "single_frame_step": true,
+  "variant_motion_filter": true,
+  "mobile_no_horizontal_overflow": true,
+  "browser": "installed Chrome headless",
+  "unity_run": false
+}
