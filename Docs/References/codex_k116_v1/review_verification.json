@@ -1,0 +1,11 @@
+﻿{
+    "image_decode_errors":  [
+
+                            ],
+    "browser_render":  "not performed: no browser connected",
+    "html_bytes":  23675294,
+    "embedded_png_occurrences":  22,
+    "png_files":  39,
+    "inline_script_syntax":  "passed",
+    "unresolved_placeholders":  0
+}
