@@ -40,7 +40,7 @@ namespace HumanLastRampart.Frontend
             var panel = Ui.Panel(root.transform, "Settings", UiPanel.Parchment);   // K-047 양피지 판
             var rect = panel.rectTransform;
             rect.anchorMin = rect.anchorMax = new Vector2(0.5f, 0.5f);
-            rect.sizeDelta = new Vector2(820, 860);
+            rect.sizeDelta = new Vector2(820, 980);
             var layout = panel.gameObject.AddComponent<VerticalLayoutGroup>();
             layout.padding = new RectOffset(56, 56, 36, 36);
             layout.spacing = 14;
@@ -52,8 +52,12 @@ namespace HumanLastRampart.Frontend
             Label(panel.transform, "설정", UiTokens.H1, 72, UiTokens.Ink);
             Label(panel.transform, "누를 때마다 값이 바뀝니다 · 바로 저장", UiTokens.Small, 36, UiTokens.InkSoft);
 
-            Row(panel.transform, () => $"소리 크기: {Mathf.RoundToInt(GameSettings.MasterVolume * 100f)}%  (소리는 아직 없음)",
+            Row(panel.transform, () => $"소리 크기: {Mathf.RoundToInt(GameSettings.MasterVolume * 100f)}%",
                 () => GameSettings.SetMasterVolume(GameSettings.NextStep(GameSettings.VolumeSteps, GameSettings.MasterVolume)));
+            Row(panel.transform, () => $"음악 크기: {Mathf.RoundToInt(GameSettings.MusicVolume * 100f)}%",
+                () => GameSettings.SetMusicVolume(GameSettings.NextStep(GameSettings.VolumeSteps, GameSettings.MusicVolume)));
+            Row(panel.transform, () => $"효과음 크기: {Mathf.RoundToInt(GameSettings.SfxVolume * 100f)}%",
+                () => GameSettings.SetSfxVolume(GameSettings.NextStep(GameSettings.VolumeSteps, GameSettings.SfxVolume)));
             Row(panel.transform, () => "화면 효과: " + (GameSettings.ScreenEffects ? "켬" : "끔"),
                 () => GameSettings.SetScreenEffects(!GameSettings.ScreenEffects));
             Row(panel.transform, () => "미니어처 흐림: " + TiltName(GameSettings.TiltStrength),

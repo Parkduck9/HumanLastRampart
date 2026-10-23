@@ -1,6 +1,7 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using HumanLastRampart.Combat.PerfLab;
+using HumanLastRampart.Core.Audio;
 using HumanLastRampart.Core.CombatContracts;
 using Unity.Collections;
 using Unity.Mathematics;
@@ -294,6 +295,7 @@ namespace HumanLastRampart.Combat.Battle
                 if (was < 0) continue;
                 pendingBefore.RemoveAt(was);
                 StartMagicBurst(e.Position, e.Radius);
+                AudioService.PlayAtPoint(AudioCues.MagicExplosion, e.Position);   // 소리 (W24, 표현 전용)
             }
 
             pendingBefore.Clear();
@@ -311,6 +313,7 @@ namespace HumanLastRampart.Combat.Battle
                     if (trap != null && trapPlays.Count < BurstCapacity) trapPlays.Add((info.Position + Vector3.down * trapSize * MagicBurstSink, trapSize, 0f));
                     AddSmokePlay(info.Position, info.DamageRadius * 1.2f, -0.3f, 2f, info.DamageRadius * 0.6f, 0.4f);   // 흙먼지 섞인 검은 연기 (K-041)
                     BattleCameraRig.Shake(TrapShake, info.Position);
+                    AudioService.PlayAtPoint(AudioCues.TrapBurst, info.Position);
                 }
 
                 trapStates[i] = info.State;
@@ -318,6 +321,8 @@ namespace HumanLastRampart.Combat.Battle
 
             // 맞음 불꽃: 화살·총알 그림 크기가 0으로 바뀐 칸 = 이번 프레임 착지 (빗나간 화살도 땅에 닿은 자리에 난다)
             if (shotSizes == null) return;
+            int landedHits = 0;                   // 이번 프레임 맞음 수 — 한 소리로 묶어 알린다 (W24)
+            Vector3 landedSum = Vector3.zero;
             NativeArray<PerfLabInstance> shots = sim.ShotInstances;
             int slots = Mathf.Min(shotSizes.Length, shots.Length);
             for (int i = 0; i < slots; i++)
@@ -332,6 +337,7 @@ namespace HumanLastRampart.Combat.Battle
                 // 대포알이 떨어진 자리: 함정 폭발 그림을 범위보다 작게 한 번 (K-036). 땅 높이에서
                 if (before > CannonShotSize)
                 {
+                    AudioService.PlayAtPoint(AudioCues.CannonImpact, new Vector3(shot.PosFrame.x, 0f, shot.PosFrame.z));
                     if (trap == null || trapPlays.Count >= BurstCapacity) continue;
                     float radius = sim.WeaponAreaRadius(shotWeapons[i]);
                     var landed = new Vector3(shot.PosFrame.x, 0f, shot.PosFrame.z);
@@ -341,9 +347,13 @@ namespace HumanLastRampart.Combat.Battle
                     continue;
                 }
 
+                landedHits++;
+                landedSum += new Vector3(shot.PosFrame.x, shot.PosFrame.y, shot.PosFrame.z);
                 if (hit == null || hitPlays.Count >= HitCapacity) continue;
                 hitPlays.Add((new Vector3(shot.PosFrame.x, shot.PosFrame.y, shot.PosFrame.z), 0f));
             }
+
+            if (landedHits > 0) AudioService.Report(AudioCues.ArrowHit, landedHits, landedSum / landedHits);
         }
 
         static void Age(List<(Vector3 position, float size, float age)> plays, float dt, float life = OneShotSeconds)
@@ -361,7 +371,11 @@ namespace HumanLastRampart.Combat.Battle
         void TrackFireSmoke(float dt)
         {
             IReadOnlyList<BattleSim.SpellEffect> effects = sim.Effects;
-            while (fireSmokeClock.Count < effects.Count) fireSmokeClock.Add(Range(0f, FireSmokeEvery));
+            while (fireSmokeClock.Count < effects.Count)
+            {
+                if (effects[fireSmokeClock.Count].Fire) AudioService.PlayAtPoint(AudioCues.FirePool, effects[fireSmokeClock.Count].Position);   // 새 불바다 (W24)
+                fireSmokeClock.Add(Range(0f, FireSmokeEvery));
+            }
             for (int i = 0; i < effects.Count; i++)
             {
                 BattleSim.SpellEffect e = effects[i];
@@ -376,7 +390,6 @@ namespace HumanLastRampart.Combat.Battle
         // 대포를 쏘면 포구 연기(BattlePropView) 뒤로 옅은 연기가 위로 피어오른다
         void TrackCannonSmoke()
         {
-            if (smoke == null) return;
             int count = Mathf.Min(cannonAges.Length, sim.CannonCount);
             for (int i = 0; i < count; i++)
             {
@@ -385,6 +398,8 @@ namespace HumanLastRampart.Combat.Battle
                 cannonAges[i] = age;
                 if (!fired) continue;
                 BattleSim.CannonInfo c = sim.GetCannon(i);
+                AudioService.PlayAtPoint(AudioCues.CannonFire, c.Position);   // 소리 (W24)
+                if (smoke == null) continue;
                 float3 n = WallGeometry.Outward(c.Side);
                 AddSmokePlay(c.Position + new Vector3(n.x, 0f, n.z) * 0.6f + Vector3.up * 0.15f, 0.9f, 0.25f, 1.8f, 1.2f, 0.8f);
             }
