@@ -15,6 +15,7 @@ namespace HumanLastRampart.Combat.Battle
         const float BigLightPull = 0.5f;       // 큰 불 빛 위치를 사진기 쪽으로 반경 × 이 값 당긴다 (불 그림 앞 땅에 웅덩이가 보이게)
         const float BigLightPullMax = 8f;
         const float BigLightHeight = 0.4f;
+        static readonly Color TowerLightPool = new Color(1f, 0.6f, 0.3f);   // 탑 둘레 웅덩이 색 (W21)
 
         readonly List<(float score, Vector3 pos, float radius, Color color, float intensity, float bounce)> flashCandidates =
             new List<(float, Vector3, float, Color, float, float)>();
@@ -67,6 +68,17 @@ namespace HumanLastRampart.Combat.Battle
             // 등대 탑 불빛 (W9): URP Light라 병사·들판에는 닿지 않으므로 셰이더 목록에 맨 먼저 넣는다 (한 칸 고정)
             if (towerLight != null && towerLight.enabled && max > 0)
                 HlrLights.Add(towerLight.transform.position, towerLight.range * 1.3f, towerLight.color, towerLight.intensity, 0f);
+
+            // 마당 빛 (W21): 탑 둘레·문 앞 따뜻한 웅덩이(모바일 포함), 문등은 PC에서만 칸 하나 (밑동 병사·일꾼이 보이게)
+            if (towerLight != null && towerLight.enabled)
+            {
+                float level = towerLight.intensity > 0f ? doorLanternLevel : 0f;
+                GroundGlow.Add(new Vector3(0f, BattleSim.WallHeight, 0f), CourtyardPoolRadius, TowerLightPool, 0.34f * Mathf.Max(0.5f, level));
+                Vector3 door = new Vector3(0f, BattleSim.WallHeight, BattleTowerView.DoorZ - DoorLanternOut - 0.2f);
+                GroundGlow.Add(door, DoorPoolRadius, GroundGlow.Torch, 0.4f * level);
+                if (doorLantern != null && doorLantern.enabled && DoorLanternUsesSlot(HlrLights.Low))
+                    HlrLights.Add(doorLantern.transform.position, DoorLanternRange * TorchShaderRange, doorLantern.color, doorLantern.intensity, 0.15f);
+            }
 
             // 횃불 몫을 남겨 둔다 (벽 위 병사가 늘 빛을 받게)
             SplitSlots(max, HlrLights.Count, torchesOn, out _, out int flashSlots);

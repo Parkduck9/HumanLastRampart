@@ -61,6 +61,35 @@ namespace HumanLastRampart.Combat.Tests
         }
 
         [Test]
+        public void DoorLantern_TakesSlotOnPcOnly_AndStillFitsSplit()
+        {
+            Assert.IsTrue(BattleLights.DoorLanternUsesSlot(false), "PC: 문등이 칸 하나");
+            Assert.IsFalse(BattleLights.DoorLanternUsesSlot(true), "모바일: 땅 웅덩이만 (6칸을 아낀다)");
+
+            // PC: 탑 1 + 문등 1 + 횃불 4 + 번쩍 8 = 14
+            BattleLights.SplitSlots(14, 2, true, out int torch, out int flash);
+            Assert.AreEqual(4, torch);
+            Assert.AreEqual(8, flash);
+            Assert.AreEqual(14, 2 + torch + flash);
+
+            // 모바일은 탑 1칸만 그대로: 번쩍 3칸 유지
+            BattleLights.SplitSlots(6, 1, true, out torch, out flash);
+            Assert.AreEqual(3, flash);
+        }
+
+        [Test]
+        public void CourtyardPools_FitGroundGlowCapOnMobile()
+        {
+            HlrLights.ForceLow = true;
+            HlrLights.Begin();
+            GroundGlow.Add(Vector3.zero, BattleLights.CourtyardPoolRadius, Color.white, 0.3f);
+            GroundGlow.Add(Vector3.zero, BattleLights.DoorPoolRadius, Color.white, 0.3f);
+            Assert.AreEqual(2, GroundGlow.Count);
+            Assert.Less(GroundGlow.Count, GroundGlow.Max);
+            Assert.Greater(BattleLights.CourtyardPoolRadius, BattleTowerView.BaseHalf * 3f, "마당 웅덩이는 탑 밑동보다 훨씬 넓다");
+        }
+
+        [Test]
         public void TowerLight_OnMobileFlagDefaultsOn()
         {
             Assert.IsTrue(NightTuning.TowerLightOnMobile, "사용자 결정 2026-10-22: 휴대폰에서도 탑 불빛을 켠다");
