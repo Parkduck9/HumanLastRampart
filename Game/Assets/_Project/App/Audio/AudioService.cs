@@ -1,23 +1,26 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using HumanLastRampart.Core.Audio;
 using HumanLastRampart.Core.Flow;
 using HumanLastRampart.Core.Settings;
 using UnityEngine;
 
-namespace HumanLastRampart.Core.Audio
+namespace HumanLastRampart.App.Audio
 {
-    // 소리 서비스 (표현 전용): 시뮬레이션·결정적 난수와 무관하다 (자체 가벼운 난수 사용). 화면 쪽 코드가 부른다.
+    // 소리 서비스 (표현 전용, App 소속): 시뮬레이션·결정적 난수와 무관하다 (자체 가벼운 난수 사용).
+    // 화면 코드는 Core의 정적 입구 Sound만 부르고, 이 서비스가 부팅 때 Sound.Sink로 등록된다.
     // - 소리 은행(SoundBank)에서 열쇠로 찾고, 풀링한 AudioSource 몇 개만 돌려 쓴다 (PC 24 / 모바일 12, 할당 없음)
     // - 소리마다 쿨다운·동시 수, 전체 동시 수 제한 (AudioVoiceLimiter)
     // - Report: 한 프레임에 쌓인 같은 소리(화살 맞음·죽음)를 개수만 세어 LateUpdate에서 한 번, 개수만큼 크게
     // - 음악은 두 칸으로 교차 페이드, 주변 소리는 열쇠마다 반복 재생하며 크기만 맞춘다
     // - 은행이 비었거나 파일이 없으면 아무것도 하지 않고 경고도 내지 않는다
-    public sealed class AudioService : MonoBehaviour
+    public sealed class AudioService : MonoBehaviour, IAudioSink
     {
         public const int DesktopVoices = 24, MobileVoices = 12;
         const int AmbienceSlots = 3;
         const float MusicFadeSeconds = 1.5f, AmbienceFadeSeconds = 1.0f;
 
         static AudioService instance;
+        static bool quitting;
 
         SoundBank bank;
         readonly Dictionary<string, int> index = new Dictionary<string, int>();
@@ -26,9 +29,8 @@ namespace HumanLastRampart.Core.Audio
         AudioAggregator aggregator;
         AudioSource[] voices;
         AudioSource[] musicSources;
-        int musicActive;                     // 지금 커지는 쪽 칸 (-1 = 음악 없음)
+        int musicActive = -1;                // 지금 커지는 쪽 칸 (-1 = 음악 없음)
         string musicCue;
-        float musicFade = 1f;
         readonly AudioSource[] ambSources = new AudioSource[AmbienceSlots];
         readonly string[] ambCue = new string[AmbienceSlots];
         readonly float[] ambTarget = new float[AmbienceSlots];
@@ -37,6 +39,7 @@ namespace HumanLastRampart.Core.Audio
         uint rng = 2463534242u;
         bool anyPending;
         bool ready;
+        bool mapMode;
 
         // 시험·진단용
         public int StartedCount { get; private set; }
@@ -44,49 +47,54 @@ namespace HumanLastRampart.Core.Audio
         public int VoiceCapacity => voices != null ? voices.Length : 0;
         public bool HasAnySound { get; private set; }
         public string CurrentMusic => musicCue;
+        public void ResetCounters() { StartedCount = 0; DroppedCount = 0; }
 
-        // ── 정적 진입점 (화면 코드는 여기만 부른다. 놀이 중이 아니면 아무 일도 안 한다) ──
+        // ── 만들기·등록 ──
 
-        public static AudioService Instance => Get();
+        // 지금 있는 서비스 (없으면 null, 만들지 않는다)
+        public static AudioService Current => instance;
 
-        static AudioService Get()
+        // 놀이 중이면 서비스를 만들고(없을 때만) Sound.Sink로 등록한다. 끄는 중이면 null
+        public static AudioService Ensure()
         {
             if (instance != null) return instance;
-            if (!Application.isPlaying) return null;
+            if (!Application.isPlaying || quitting) return null;
             var go = new GameObject("AudioService");
             DontDestroyOnLoad(go);
-            instance = go.AddComponent<AudioService>();
-            instance.Init(Resources.Load<SoundBank>(SoundBank.ResourcePath), Application.isMobilePlatform ? MobileVoices : DesktopVoices);
-            return instance;
+            var service = go.AddComponent<AudioService>();
+            service.Init(Resources.Load<SoundBank>(SoundBank.ResourcePath), Application.isMobilePlatform ? MobileVoices : DesktopVoices);
+            return service;
         }
 
-        public static void Play(string cue) => Get()?.PlayAt(cue, Vector3.zero, 1f, false);
-        public static void PlayAtPoint(string cue, Vector3 position, float gain = 1f) => Get()?.PlayAt(cue, position, gain, true);
-        public static void Report(string cue, int count, Vector3 position) => Get()?.ReportCue(cue, count, position);
-        public static void Music(string cue) => Get()?.SetMusic(cue);
-        public static void Ambience(string cue, float level) => Get()?.SetAmbience(cue, level);
-
         // 화면 바뀔 때 음악 (GameFlow). 전투는 BattleAudioDirector가 낮·밤으로 직접 정한다
-        public static void OnScreen(ScreenId screen)
+        public void OnScreen(ScreenId screen, bool victory)
         {
-            var service = Get();
-            if (service == null) return;
+            mapMode = false;
             switch (screen)
             {
-                case ScreenId.Story: service.SetMusic(AudioCues.MusicStory); break;
+                case ScreenId.Story: SetMusic(AudioCues.MusicStory); break;
                 case ScreenId.Battle: break;
-                case ScreenId.Result: service.SetMusic(null); service.PlayAt(AudioCues.ResultStinger, Vector3.zero, 1f, false); break;
-                default: service.SetMusic(AudioCues.MusicDay); break;
+                case ScreenId.Result:
+                    SetMusic(null);
+                    PlayAt(victory ? AudioCues.ResultStinger : AudioCues.ResultDefeat, Vector3.zero, 1f, false);
+                    break;
+                default: SetMusic(AudioCues.MusicDay); break;
             }
 
-            if (screen != ScreenId.Battle) { service.SetAmbience(AudioCues.AmbCrowd, 0f); service.SetAmbience(AudioCues.AmbCrickets, 0f); }
+            if (screen != ScreenId.Battle) StopAmbience();
         }
 
         // ── 준비 ──
 
-        // 은행을 받아 풀을 만든다. null이면 빈 은행(조용함). 시험에서 직접 부른다
+        // 은행을 받아 풀을 만든다. null이면 빈 은행(조용함). 다시 불러도 된다(이전 소리 부품은 지운다). 시험에서 직접 부른다
         public void Init(SoundBank soundBank, int voiceCount)
         {
+            ready = false;
+            for (int c = transform.childCount - 1; c >= 0; c--)
+            {
+                if (Application.isPlaying) Destroy(transform.GetChild(c).gameObject);
+                else DestroyImmediate(transform.GetChild(c).gameObject);
+            }
             bank = soundBank != null ? soundBank : ScriptableObject.CreateInstance<SoundBank>();
             index.Clear();
             int count = bank.Entries.Count;
@@ -106,9 +114,13 @@ namespace HumanLastRampart.Core.Audio
             voices = new AudioSource[Mathf.Max(1, voiceCount)];
             for (int i = 0; i < voices.Length; i++) voices[i] = MakeSource("Voice " + i);
             musicSources = new[] { MakeSource("Music A"), MakeSource("Music B") };
-            for (int i = 0; i < AmbienceSlots; i++) ambSources[i] = MakeSource("Ambience " + i);
+            for (int i = 0; i < AmbienceSlots; i++) { ambSources[i] = MakeSource("Ambience " + i); ambCue[i] = null; ambNow[i] = ambTarget[i] = 0f; }
             musicActive = -1;
+            musicCue = null;
+            anyPending = false;
+            StartedCount = DroppedCount = 0;
             ready = true;
+            if (Application.isPlaying) { instance = this; Sound.Sink = this; }
         }
 
         AudioSource MakeSource(string sourceName)
@@ -118,17 +130,31 @@ namespace HumanLastRampart.Core.Audio
             var source = go.AddComponent<AudioSource>();
             source.playOnAwake = false;
             source.spatialBlend = 0f;
+            source.dopplerLevel = 0f;   // 카메라 이동으로 높낮이가 흔들리지 않게
             return source;
         }
 
-        void Awake()
-        {
-            if (instance == null) instance = this;
-        }
+        void OnApplicationQuit() { quitting = true; }
 
         void OnDestroy()
         {
             if (instance == this) instance = null;
+            if (Sound.Sink == (IAudioSink)this) Sound.Sink = null;
+        }
+
+        // ── IAudioSink ──
+
+        public void Play(string cue) => PlayAt(cue, Vector3.zero, 1f, false);
+        public void PlayAt(string cue, Vector3 position, float gain) => PlayAt(cue, position, gain, true);
+        public void Report(string cue, int count, Vector3 position) => ReportCue(cue, count, position);
+        public void Music(string cue) => SetMusic(cue);
+        public void Ambience(string cue, float level) => SetAmbience(cue, level);
+        public void SetMapMode(bool on) { mapMode = on; }
+
+        // 주변 소리 모두 서서히 끔 (전투가 아닌 화면)
+        public void StopAmbience()
+        {
+            for (int s = 0; s < AmbienceSlots; s++) ambTarget[s] = 0f;
         }
 
         // ── 한 번 소리 ──
@@ -153,7 +179,7 @@ namespace HumanLastRampart.Core.Audio
             AudioSource source = FreeVoice();
             if (source == null) { DroppedCount++; return false; }
             Configure(source, e);
-            bool spatial = e.Spatial3D && at3D;
+            bool spatial = e.Spatial3D && at3D && !mapMode;   // 지도에서는 카메라가 하늘 높이 올라가므로 거리 감쇠 없이
             source.spatialBlend = spatial ? 1f : 0f;
             if (spatial) source.transform.position = position;
             source.clip = clip;
@@ -219,16 +245,16 @@ namespace HumanLastRampart.Core.Audio
         {
             if (!ready || cue == musicCue) return;
             musicCue = cue;
-            int next = 1 - Mathf.Max(0, musicActive);
             if (string.IsNullOrEmpty(cue) || !index.TryGetValue(cue, out int i) || !playable[i])
             {
                 musicActive = -1;
                 return;
             }
 
-            SoundBank.Entry e = bank.Entries[i];
-            AudioClip clip = PickClip(e);
+            AudioClip clip = PickClip(bank.Entries[i]);
             if (clip == null) { musicActive = -1; return; }
+            // 쉬고 있는 칸을 쓰고, 둘 다 돌고 있으면 줄어드는 쪽을 가져온다
+            int next = !musicSources[0].isPlaying ? 0 : !musicSources[1].isPlaying ? 1 : 1 - Mathf.Max(0, musicActive);
             AudioSource source = musicSources[next];
             source.clip = clip;
             source.loop = true;
@@ -238,7 +264,6 @@ namespace HumanLastRampart.Core.Audio
             source.outputAudioMixerGroup = bank.GroupOf(AudioBus.Music);
             source.Play();
             musicActive = next;
-            musicFade = 0f;
         }
 
         // 주변 소리: 열쇠마다 반복. level 0이면 서서히 꺼진다
@@ -250,7 +275,9 @@ namespace HumanLastRampart.Core.Audio
             if (slot < 0)
             {
                 if (level <= 0.001f) return;
-                for (int s = 0; s < AmbienceSlots; s++) if (ambCue[s] == null || ambNow[s] <= 0.001f) { slot = s; break; }
+                // 빈 칸, 또는 목표도 지금도 0인 칸만 다시 쓴다 (방금 켜서 아직 커지기 전인 칸을 뺏지 않는다)
+                for (int s = 0; s < AmbienceSlots; s++)
+                    if (ambCue[s] == null || (ambNow[s] <= 0.001f && ambTarget[s] <= 0.001f)) { slot = s; break; }
                 if (slot < 0) return;
                 AudioClip clip = PickClip(bank.Entries[i]);
                 if (clip == null) return;
@@ -267,6 +294,13 @@ namespace HumanLastRampart.Core.Audio
             }
 
             ambTarget[slot] = Mathf.Clamp01(level);
+        }
+
+        // 시험용: 주변 소리 칸 상태
+        public bool IsAmbienceActive(string cue)
+        {
+            for (int s = 0; s < AmbienceSlots; s++) if (ambCue[s] == cue) return true;
+            return false;
         }
 
         // ── 매 프레임 ──
@@ -286,13 +320,11 @@ namespace HumanLastRampart.Core.Audio
             if (anyPending) Flush();
 
             float musicBus = BusVolume(AudioBus.Music);
-            musicFade = Mathf.Min(1f, musicFade + dt / MusicFadeSeconds);
             for (int k = 0; k < musicSources.Length; k++)
             {
                 AudioSource source = musicSources[k];
                 if (!source.isPlaying) continue;
-                float entryVolume = MusicEntryVolume();
-                float target = k == musicActive ? entryVolume * musicBus : 0f;
+                float target = k == musicActive ? MusicEntryVolume() * musicBus : 0f;
                 source.volume = Mathf.MoveTowards(source.volume, target, dt / MusicFadeSeconds);
                 if (k != musicActive && source.volume <= 0.001f) source.Stop();
             }

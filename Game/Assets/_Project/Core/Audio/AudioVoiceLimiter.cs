@@ -125,13 +125,5 @@ namespace HumanLastRampart.Core.Audio
             if (enemies <= 0) return 0f;
             return Mathf.Clamp01(Mathf.Log10(enemies + 1f) / 3.7f);
         }
-
-        // 거리 감쇠 (선형): min 안은 1, max 밖은 0
-        public static float Attenuation(float distance, float min, float max)
-        {
-            if (distance <= min) return 1f;
-            if (distance >= max || max <= min) return 0f;
-            return 1f - (distance - min) / (max - min);
-        }
     }
 }

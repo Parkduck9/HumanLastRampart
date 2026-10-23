@@ -1,9 +1,10 @@
+using HumanLastRampart.App.Audio;
 using HumanLastRampart.Core.Audio;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-namespace HumanLastRampart.Core.Tests
+namespace HumanLastRampart.App.Tests
 {
     // 소리 (W24): 동시 수 제한, 쿨다운, 묶음, 은행이 비었을 때의 침묵
     public sealed class AudioTests
@@ -58,14 +59,11 @@ namespace HumanLastRampart.Core.Tests
         }
 
         [Test]
-        public void Math_CrowdAndAttenuation()
+        public void Math_Crowd()
         {
             Assert.AreEqual(0f, AudioMath.CrowdLevel(0));
             Assert.Greater(AudioMath.CrowdLevel(5000), AudioMath.CrowdLevel(50));
             Assert.LessOrEqual(AudioMath.CrowdLevel(24000), 1f);
-            Assert.AreEqual(1f, AudioMath.Attenuation(3f, 8f, 80f));
-            Assert.AreEqual(0f, AudioMath.Attenuation(100f, 8f, 80f));
-            Assert.AreEqual(0.5f, AudioMath.Attenuation(44f, 8f, 80f), 0.001f);
         }
 
         [Test]
@@ -142,6 +140,37 @@ namespace HumanLastRampart.Core.Tests
                 service.ReportCue(AudioCues.ArrowHit, 3, Vector3.zero);
                 service.Tick(0.016f);
                 Assert.AreEqual(before + 2, service.StartedCount, "쿨다운 뒤에는 다시");
+            }
+            finally { Object.DestroyImmediate(go); Object.DestroyImmediate(bank); Object.DestroyImmediate(clip); }
+        }
+
+        [Test]
+        public void CueList_AllConstantsListed()
+        {
+            var listed = new System.Collections.Generic.HashSet<string>();
+            foreach (AudioCues.Info info in AudioCues.All) listed.Add(info.Id);
+            foreach (var field in typeof(AudioCues).GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static))
+                if (field.IsLiteral && field.FieldType == typeof(string)) Assert.IsTrue(listed.Contains((string)field.GetRawConstantValue()), "전체 목록에 없음: " + field.Name);
+        }
+
+        [Test]
+        public void Service_TwoAmbienceInOneFrameBothKeepTheirSlots_AndStopAmbienceFadesAll()
+        {
+            AudioClip clip = AudioClip.Create("t", 44100, 1, 44100, false);
+            var bank = ScriptableObject.CreateInstance<SoundBank>();
+            bank.Entries.Add(new SoundBank.Entry { Id = AudioCues.AmbWind, Clips = new[] { clip }, Loop = true });
+            bank.Entries.Add(new SoundBank.Entry { Id = AudioCues.AmbCrickets, Clips = new[] { clip }, Loop = true });
+            AudioService service = MakeService(bank, 4, out GameObject go);
+            try
+            {
+                service.SetAmbience(AudioCues.AmbWind, 0.5f);
+                service.SetAmbience(AudioCues.AmbCrickets, 0.6f);
+                Assert.IsTrue(service.IsAmbienceActive(AudioCues.AmbWind), "바람이 칸을 뺏기지 않는다");
+                Assert.IsTrue(service.IsAmbienceActive(AudioCues.AmbCrickets));
+                service.StopAmbience();
+                service.Tick(2f);
+                Assert.IsFalse(service.IsAmbienceActive(AudioCues.AmbWind), "끄면 서서히 사라진다");
+                Assert.IsFalse(service.IsAmbienceActive(AudioCues.AmbCrickets));
             }
             finally { Object.DestroyImmediate(go); Object.DestroyImmediate(bank); Object.DestroyImmediate(clip); }
         }

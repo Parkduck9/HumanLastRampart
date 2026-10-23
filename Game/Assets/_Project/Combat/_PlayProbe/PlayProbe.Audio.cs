@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using HumanLastRampart.App.Flow;
-using HumanLastRampart.Core.Audio;
-using HumanLastRampart.Core.Campaign;
+using System.Collections;
+using HumanLastRampart.App.Audio;
 using HumanLastRampart.Core.Flow;
 using NUnit.Framework;
 using UnityEngine;
@@ -14,6 +12,18 @@ public sealed partial class PlayProbe
     [UnityTest]
     public IEnumerator AudioEmptyBank()
     {
+        yield return AudioBattle(false);
+    }
+
+    // 실제 소리 은행: 전투 20초 동안 오류 없이 소리가 실제로 시작된다 (StartedCount > 0)
+    [UnityTest]
+    public IEnumerator AudioRealBank()
+    {
+        yield return AudioBattle(true);
+    }
+
+    IEnumerator AudioBattle(bool realBank)
+    {
         Time.captureDeltaTime = 1f / 20f;
         try
         {
@@ -21,6 +31,13 @@ public sealed partial class PlayProbe
             yield return null;
             yield return null;
             yield return WaitScreen(ScreenId.MainMenu, 900);
+
+            // 시험마다 서비스를 처음 상태로 다시 준비한다 (씬을 넘어 살아남는 서비스의 셈이 섞이지 않게)
+            AudioService service = AudioService.Ensure();
+            Assert.IsNotNull(service, "소리 서비스");
+            service.Init(realBank ? Resources.Load<SoundBank>(SoundBank.ResourcePath) : null, AudioService.DesktopVoices);
+            if (realBank) Assert.IsTrue(service.HasAnySound, "실제 은행에 소리 파일이 있다");
+
             yield return Press("게임 시작", 600);
             yield return Press("쉬움", 300);
             yield return WaitScreen(ScreenId.Story, 600);
@@ -38,11 +55,9 @@ public sealed partial class PlayProbe
             yield return Press("×4", 120);
             for (int i = 0; i < 6000 && sim.Elapsed < 20f && !sim.Ended; i++) yield return null;
 
-            AudioService service = AudioService.Instance;
-            Assert.IsNotNull(service, "소리 서비스가 만들어짐");
-            Assert.IsFalse(service.HasAnySound, "은행이 비어 있다");
-            Assert.AreEqual(0, service.StartedCount, "은행이 비면 아무 소리도 시작하지 않는다");
-            LogAssert.NoUnexpectedReceived();
+            if (realBank) Assert.Greater(service.StartedCount, 0, "실제 은행이면 소리가 시작된다 (뿔나팔·일제 사격 등)");
+            else Assert.AreEqual(0, service.StartedCount, "은행이 비면 아무 소리도 시작하지 않는다");
+            // 오류 로그가 있으면 시험이 자동으로 실패한다 (화면 전환 틈의 엔진 안내 '오디오 리스너 없음'은 오류가 아니라 허용)
         }
         finally
         {

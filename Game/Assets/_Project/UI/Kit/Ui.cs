@@ -255,7 +255,7 @@ namespace HumanLastRampart.UI
             return button;
         }
 
-        static void PlayClickSound() => HumanLastRampart.Core.Audio.AudioService.Play(HumanLastRampart.Core.Audio.AudioCues.UiClick);
+        static void PlayClickSound() => HumanLastRampart.Core.Audio.Sound.Play(HumanLastRampart.Core.Audio.AudioCues.UiClick);
 
         public static Button IconButton(Transform parent, string key, string icon, Action onClick, float size = 48f)
         {

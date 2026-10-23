@@ -723,7 +723,7 @@ namespace HumanLastRampart.Combat.Battle
             }
             view.Draw(mapOpen, mapOpen ? mapCamera.DotWorldSize : 0f);
             beamView?.Draw(mapOpen);
-            if (!preparing) audioDirector.Tick(sim, battleCamera != null ? battleCamera.transform.position : Vector3.zero);
+            if (!preparing) audioDirector.Tick(sim, battleCamera != null ? battleCamera.transform.position : Vector3.zero, mapOpen);
             if (mapOpen)
             {
                 view.SetSpellPreview(selectedSpell, selectedSpell >= 0 && Mouse.current != null ? battleCamera.ScreenToWorldPoint(new Vector3(Mouse.current.position.ReadValue().x, Mouse.current.position.ReadValue().y, battleCamera.nearClipPlane)) : (Vector3?)null);   // 마법 범위 미리 보기 (K-036)

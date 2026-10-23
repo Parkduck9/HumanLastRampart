@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
+using HumanLastRampart.Core.Audio;
 using UnityEngine;
 using UnityEngine.Audio;
 
-namespace HumanLastRampart.Core.Audio
+namespace HumanLastRampart.App.Audio
 {
     // 소리 은행 (자료 주도): 열쇠 → 소리 파일들·크기·높낮이 범위·동시 소리 수·다시 울리기까지 시간·2D/3D·갈래.
     // Resources/Audio/SoundBank 에 두면 AudioService가 읽는다. 항목이 비었거나 파일이 없으면 조용히 건너뛴다(경고 없음).

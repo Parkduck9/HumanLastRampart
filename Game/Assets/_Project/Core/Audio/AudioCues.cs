@@ -30,7 +30,8 @@ namespace HumanLastRampart.Core.Audio
         public const string BeaconIgnite = "sfx_beacon_ignite";
         public const string BeaconBeamTurn = "sfx_beacon_beam_turn";
         public const string CourierRun = "sfx_courier_run";
-        public const string ResultStinger = "sfx_result_stinger";
+        public const string ResultStinger = "sfx_result_stinger";   // 승리
+        public const string ResultDefeat = "sfx_result_defeat";     // 패배
         // UI
         public const string UiClick = "ui_click";
         public const string UiConfirm = "ui_confirm";
@@ -81,7 +82,8 @@ namespace HumanLastRampart.Core.Audio
             new Info(BeaconIgnite, AudioBus.Sfx, false, 2.5f, "봉화 점화"),
             new Info(BeaconBeamTurn, AudioBus.Sfx, true, 2.0f, "봉화 빛줄기 돌리는 윈치 소리 (반복 가능)"),
             new Info(CourierRun, AudioBus.Sfx, false, 0.8f, "전령이 뛰어가는 발소리"),
-            new Info(ResultStinger, AudioBus.Sfx, false, 4.0f, "결과 화면 짧은 곡 (승리·패배)"),
+            new Info(ResultStinger, AudioBus.Music, false, 4.0f, "결과 화면 짧은 곡 (승리)"),
+            new Info(ResultDefeat, AudioBus.Music, false, 8.0f, "결과 화면 짧은 곡 (패배)"),
             new Info(UiClick, AudioBus.Ui, false, 0.15f, "단추 누름"),
             new Info(UiConfirm, AudioBus.Ui, false, 0.4f, "확인·결정"),
             new Info(UiCancel, AudioBus.Ui, false, 0.3f, "취소·닫기"),
