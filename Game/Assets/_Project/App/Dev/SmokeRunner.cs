@@ -107,7 +107,9 @@ namespace HumanLastRampart.App.Dev
             yield return Step("튜토리얼·준비 넘기기", OptionalPress("튜토리얼 건너뛰기", 3f));
             yield return Step("전투 시작(있을 때만)", OptionalPress("전투 시작", 3f));
             yield return Step("배속 ×4", PressRoutine("×4", 15f));
+            CheckShaders();
             yield return BattleLoop();
+            CheckRenderers();
             yield return Shot("02_battle");
 
             yield return Step("강제 승리", PressRoutine("[시험] 승리", 15f));
@@ -158,6 +160,48 @@ namespace HumanLastRampart.App.Dev
             StopAllCoroutines();
             Note($"실패: {reason} (화면 {GameFlow.Instance?.CurrentScreen}, 지금 단추: {PressableList()})");
             Finish();
+        }
+
+        // 켜진 렌더러 중 오류 셰이더(마젠타)·미지원 셰이더를 쓰는 것이 있으면 오류로 센다
+        void CheckRenderers()
+        {
+            int bad = 0;
+            foreach (Renderer r in FindObjectsByType<Renderer>(FindObjectsSortMode.None))
+            {
+                if (!r.enabled || !r.gameObject.activeInHierarchy) continue;
+                foreach (Material m in r.sharedMaterials)
+                {
+                    if (m != null && m.shader != null && !m.shader.isSupported)
+                    {
+                        bad++;
+                        if (bad <= 10) { Note($"미지원 셰이더: {r.name} / {m.name} / {m.shader.name}"); firstErrors.Add($"[셰이더] 렌더러 {r.name}의 {m.shader.name} 미지원"); }
+                    }
+                }
+            }
+
+            errorCount += bad;
+            Note($"렌더러 셰이더 검사: 미지원 {bad}개");
+        }
+
+        // 코드가 Shader.Find로 찾는 셰이더가 빌드에 들어 있는지 (null이면 오류)
+        void CheckShaders()
+        {
+            string[] names =
+            {
+                "HLR/PerfLabSprite", "HLR/TiltShift", "Universal Render Pipeline/Lit", "Universal Render Pipeline/Unlit", "Sprites/Default",
+                "r:FieldGround", "r:ContactShadow", "r:BeamCone", "r:GroundGlow", "r:BeaconGlow", "r:LensAfterimage",   // r: = Resources.Load<Shader> (Shader.Find가 아니라 Resources 폴더에서 읽는 것)
+            };
+            foreach (string n in names)
+            {
+                Shader s = n.StartsWith("r:") ? Resources.Load<Shader>(n.Substring(2)) : Shader.Find(n);
+                bool ok = s != null && s.isSupported;
+                Note($"셰이더 {n}: {(ok ? "있음" : "없음/미지원")}");
+                if (!ok)
+                {
+                    errorCount++;
+                    firstErrors.Add($"[셰이더] {n} 없음/미지원");
+                }
+            }
         }
 
         IEnumerator BattleLoop()
@@ -344,9 +388,75 @@ namespace HumanLastRampart.App.Dev
             yield return new WaitForEndOfFrame();
             string path = Path.Combine(outDir, $"smoke_{tag}.png");
             ScreenCapture.CaptureScreenshot(path);
-            yield return null;
-            yield return null;
+            float wait = Time.unscaledTime + 5f;
+            while (Time.unscaledTime < wait && !File.Exists(path)) yield return null;   // 파일은 프레임 끝에 비동기로 써진다
+            for (int i = 0; i < 10; i++) yield return null;
             Note($"사진: {path}");
+            ScanMagenta(path, tag);
+        }
+
+        // 빌드에서 셰이더가 빠지면 마젠타(분홍)로 칠해진다: 사진에서 마젠타 비율을 재고, 많으면 오류로 센다.
+        // 어느 물체인지 찾도록 마젠타 상자와 겹치는 렌더러의 재질·셰이더 이름도 적는다.
+        void ScanMagenta(string path, string tag)
+        {
+            try
+            {
+                var tex = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+                tex.LoadImage(File.ReadAllBytes(path));
+                Color32[] px = tex.GetPixels32();
+                int n = 0, minX = int.MaxValue, minY = int.MaxValue, maxX = -1, maxY = -1;
+                for (int i = 0; i < px.Length; i++)
+                {
+                    Color32 c = px[i];
+                    if (c.r > 150 && c.g < 60 && c.b > 150)
+                    {
+                        n++;
+                        int x = i % tex.width, y = i / tex.width;
+                        if (x < minX) minX = x;
+                        if (x > maxX) maxX = x;
+                        if (y < minY) minY = y;
+                        if (y > maxY) maxY = y;
+                    }
+                }
+
+                float ratio = px.Length > 0 ? (float)n / px.Length : 0f;
+                Note($"마젠타 검사 {tag}: {ratio * 100f:F2}% ({n}픽셀)" + (n > 0 ? $", 상자 x{minX}-{maxX} y{minY}-{maxY} (아래가 0)" : ""));
+                if (n > 0) ListRenderersIn(new Rect(minX, minY, maxX - minX, maxY - minY), tex.width, tex.height);
+                if (ratio > 0.005f)
+                {
+                    errorCount++;
+                    firstErrors.Add($"[마젠타] {tag}: 사진의 {ratio * 100f:F2}%가 마젠타 (셰이더 누락 의심)");
+                }
+
+                Destroy(tex);
+            }
+            catch (Exception e)
+            {
+                Note("마젠타 검사 실패: " + e.Message);
+            }
+        }
+
+        void ListRenderersIn(Rect box, int width, int height)
+        {
+            Camera cam = null;
+            foreach (Camera c in Camera.allCameras)
+            {
+                if (c.enabled && (cam == null || c.depth >= cam.depth)) cam = c;
+            }
+
+            if (cam == null) return;
+            int listed = 0;
+            foreach (Renderer r in FindObjectsByType<Renderer>(FindObjectsSortMode.None))
+            {
+                if (!r.enabled || !r.gameObject.activeInHierarchy || listed >= 12) continue;
+                Vector3 s = cam.WorldToScreenPoint(r.bounds.center);
+                if (s.z <= 0f) continue;
+                float sx = s.x * width / cam.pixelWidth, sy = s.y * height / cam.pixelHeight;
+                if (!box.Contains(new Vector2(sx, sy))) continue;
+                Material m = r.sharedMaterial;
+                Note($"  겹치는 렌더러: {r.name} / 재질 {(m != null ? m.name : "(없음)")} / 셰이더 {(m != null && m.shader != null ? m.shader.name : "(없음)")} / 지원 {(m != null && m.shader != null && m.shader.isSupported)} / 키워드 {(m != null ? string.Join(",", m.shaderKeywords) : "")}");
+                listed++;
+            }
         }
     }
 }

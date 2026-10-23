@@ -544,6 +544,7 @@ namespace HumanLastRampart.Combat.Battle
                 wall.transform.localRotation = Quaternion.LookRotation(n);
                 wall.transform.localScale = new Vector3(half * 2f + 2f, BattleSim.WallHeight, 2f);
                 walls[side] = wall.GetComponent<Renderer>();
+                EnsureSupportedMaterial(walls[side]);
             }
 
             // 언덕 (함정을 놓을 수 없는 곳, D-050) — 낮고 넓은 둔덕. 적은 그냥 지나간다(1회차는 통행 영향 없음)
@@ -571,7 +572,17 @@ namespace HumanLastRampart.Combat.Battle
 
         static void Tint(Renderer renderer, Color color)
         {
+            EnsureSupportedMaterial(renderer);
             renderer.material.color = color;
+        }
+
+        // 빌드에서는 CreatePrimitive의 기본 재질 셰이더가 빠져 마젠타(오류 셰이더)가 된다 (W29): 지원되지 않으면 URP Lit 재질로 바꾼다
+        static void EnsureSupportedMaterial(Renderer renderer)
+        {
+            Material current = renderer.sharedMaterial;
+            if (current != null && current.shader != null && current.shader.isSupported) return;
+            Shader lit = Shader.Find("Universal Render Pipeline/Lit");
+            if (lit != null) renderer.sharedMaterial = new Material(lit) { name = "Primitive (runtime)" };
         }
 
         static Vector3 ToVector(Unity.Mathematics.float3 v) => new Vector3(v.x, v.y, v.z);
