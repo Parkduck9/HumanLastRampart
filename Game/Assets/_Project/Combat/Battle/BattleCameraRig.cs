@@ -65,14 +65,34 @@ namespace HumanLastRampart.Combat.Battle
         public float TowerBlend => towerBlend;
         // 성벽(계단)에서 탑 문 앞까지 가는 길 (W20): 탑 몸체를 뚫지 않게 탑 옆(x = ±SideLane)을 돌아 문 앞 줄로 들어간다. t = 0..1 (성벽 → 문 앞)
         public const float SideLane = 2.2f;   // BattleTowerView.BaseHalf(1.1) + 1.1
+        // W26: 길은 의식 돌길(BattleRoad)을 따라간다 — 성벽 위에서 길 가운데로 옆걸음 → 계단·돌길 직진 → 광장 북쪽 → 탑 옆을 돌아 문 앞.
+        // 꼭짓점은 모두 탑 몸체(반폭 1.1 + 받침 0.15) 밖이고 선분도 몸체를 지나지 않는다
+        public const float PlazaEntryZ = 2.7f;   // 광장 위쪽 가장자리 안 (탑 가운데에서 북쪽으로)
+        public const float PlazaWalkZ = 2.3f;
+        static readonly Vector3[] pathPoints = new Vector3[6];   // 매 프레임 불리므로 한 번만 만든다 (메인 스레드 전용)
         public Vector3 TowerPath(Vector3 wall, float t)
         {
             Vector3 end = TowerFeet;
             float sx = wall.x >= 0f ? 1f : -1f;
-            Vector3 corner = new Vector3(sx * SideLane, wall.y, end.z);   // 탑 옆 · 문 앞 줄
-            float a = Vector3.Distance(wall, corner), b = Vector3.Distance(corner, end);
-            float d = Mathf.Clamp01(t) * (a + b);
-            return d <= a ? Vector3.Lerp(wall, corner, a > 1e-4f ? d / a : 1f) : Vector3.Lerp(corner, end, b > 1e-4f ? (d - a) / b : 1f);
+            float y = wall.y;
+            Vector3[] pts = pathPoints;
+            pts[0] = wall;
+            pts[1] = new Vector3(0f, y, wall.z);                    // 계단 가운데 줄로 옆걸음
+            pts[2] = new Vector3(0f, y, PlazaEntryZ);               // 계단·돌길을 곧장 내려와 광장 북쪽
+            pts[3] = new Vector3(sx * SideLane, y, PlazaWalkZ);     // 광장에서 탑 옆으로 돌기
+            pts[4] = new Vector3(sx * SideLane, y, end.z);          // 탑 옆 · 문 앞 줄
+            pts[5] = end;
+            float total = 0f;
+            for (int i = 1; i < pts.Length; i++) total += Vector3.Distance(pts[i - 1], pts[i]);
+            float d = Mathf.Clamp01(t) * total;
+            for (int i = 1; i < pts.Length; i++)
+            {
+                float seg = Vector3.Distance(pts[i - 1], pts[i]);
+                if (d <= seg || i == pts.Length - 1) return Vector3.Lerp(pts[i - 1], pts[i], seg > 1e-4f ? Mathf.Clamp01(d / seg) : 1f);
+                d -= seg;
+            }
+
+            return end;
         }
 
         public Vector3 TowerFeet => new Vector3(0f, wallHeight, -TowerHeroBack);

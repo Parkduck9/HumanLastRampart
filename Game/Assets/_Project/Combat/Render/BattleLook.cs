@@ -126,7 +126,7 @@ namespace HumanLastRampart.Combat.Render
             if (night)
             {
                 temperature = TemperatureNight + (temperature - TemperatureDay) * 0.5f;
-                saturation -= 10f;
+                saturation -= 3f;   // W26: 밤 색을 덜 죽인다 — 회색 안개가 아니라 푸른 달밤으로 (예전 -10)
             }
 
             color.postExposure.Override(night ? NightTuning.Exposure : ExposureDay);

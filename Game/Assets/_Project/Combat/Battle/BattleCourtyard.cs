@@ -19,7 +19,9 @@ namespace HumanLastRampart.Combat.Battle
 
         // 계단 크기 (병사 키 0.35m, 주인공 0.375m 기준으로 아주 낮게)
         // 층계참은 성벽 바깥 모서리에서 1.5m보다 안쪽(통로 안쪽 0.45m)에서 끝난다 — 처음 서는 자리(1m)·병사 이동 길(1.4m)을 덮지 않게 (W19 검토)
-        public const float StairHalfWidth = 1.0f;
+        public const float StairHalfWidth = 1.5f;   // W26: 의식 길(반폭 1.1 + 연석)보다 넓게 — 계단이 진짜 계단처럼 읽히게
+        const float StairWallWidth = 0.2f;          // 계단 양옆 낮은 돌담 두께
+        const float StairWallRise = 0.2f;           // 돌담이 각 단 윗면 위로 솟는 높이
         public const float LandingDepth = 0.45f;    // 통로 안쪽 끝(성벽 안쪽 가장자리)에서 바깥쪽으로 층계참 깊이
         public const float LandingHeight = 0.1f;
         public const int StepCount = 5;             // 층계참 → 마당 (마지막 한 단은 마당 바닥)
@@ -48,7 +50,7 @@ namespace HumanLastRampart.Combat.Battle
         }
 
         // 계단 쪽 성벽의 바깥 방향·오른쪽 (BattleCameraRig.StairsSide에서 — 하드코딩 없음)
-        static void StairFrame(out Vector3 n, out Vector3 r)
+        public static void StairFrame(out Vector3 n, out Vector3 r)
         {
             var o = WallGeometry.Outward(BattleCameraRig.StairsSide);
             var rr = WallGeometry.Right(BattleCameraRig.StairsSide);
@@ -125,6 +127,17 @@ namespace HumanLastRampart.Combat.Battle
             b.Box(new Vector3(-StairHalfWidth, 0f, 0f), new Vector3(StairHalfWidth, LandingHeight, LandingDepth));   // 층계참
             for (int k = 0; k < StepCount - 1; k++)
                 b.Box(new Vector3(-StairHalfWidth, 0f, -(k + 1) * TreadDepth), new Vector3(StairHalfWidth, TreadTop(k), -k * TreadDepth));
+
+            // 양옆 낮은 돌담 (W26): 각 단을 따라 한 단씩 낮아지고, 맨 아래는 마당에 닿는 기둥으로 끝난다 — 높이 계산(HeroLift)은 그대로, 다만 계단 폭이 1.5로 넓어져 높이 보정 구간도 같이 넓어진다 (의도)
+            foreach (float s in new[] { -1f, 1f })
+            {
+                float x0 = s * StairHalfWidth, x1 = s * (StairHalfWidth + StairWallWidth);
+                float xa = Mathf.Min(x0, x1), xb = Mathf.Max(x0, x1);
+                // (층계참 옆에는 담을 세우지 않는다 — 통로 안쪽 끝을 걷는 주인공 발이 돌에 묻히지 않게)
+                for (int k = 0; k < StepCount; k++)
+                    b.Box(new Vector3(xa, 0f, -(k + 1) * TreadDepth), new Vector3(xb, (k < StepCount - 1 ? TreadTop(k) : 0f) + StairWallRise, -k * TreadDepth));
+                b.Box(new Vector3(xa - 0.04f, 0f, -StepCount * TreadDepth - 0.06f), new Vector3(xb + 0.04f, StairWallRise + 0.08f, -(StepCount - 1) * TreadDepth - 0.06f));   // 맨 아래 기둥
+            }
 
             StairFrame(out Vector3 n, out _);
             var go = new GameObject("Courtyard Stairs");
@@ -221,7 +234,7 @@ namespace HumanLastRampart.Combat.Battle
         }
 
         // 상자·원통을 한 메시로 합친다. uvTile = 그림 한 장이 덮는 미터 (돌 질감은 면 크기에 맞춰 반복, 나무는 면마다 한 장)
-        sealed class MeshBuilder
+        internal sealed class MeshBuilder
         {
             readonly List<Vector3> verts = new List<Vector3>();
             readonly List<Vector3> normals = new List<Vector3>();
@@ -256,6 +269,35 @@ namespace HumanLastRampart.Combat.Battle
                 {
                     verts[i] = q * verts[i] + baseCenter;
                     normals[i] = q * normals[i];
+                }
+            }
+
+            // 낮은 원판 (W26 광장): 바닥 높이 y0에서 y1까지, 윗면 + 옆면. 윗면 그림은 위에서 본 미터 좌표대로 깐다
+            public void Disc(Vector3 center, float radius, float y0, float y1, int segments)
+            {
+                float tu = meters ? 1f / tile.x : 1f, tv = meters ? 1f / tile.y : 1f;
+                int c = verts.Count;
+                verts.Add(new Vector3(center.x, y1, center.z)); normals.Add(Vector3.up); uvs.Add(new Vector2(center.x * tu, center.z * tv));
+                for (int i = 0; i <= segments; i++)
+                {
+                    float a = i * Mathf.PI * 2f / segments;
+                    var p = new Vector3(center.x + Mathf.Cos(a) * radius, y1, center.z + Mathf.Sin(a) * radius);
+                    verts.Add(p); normals.Add(Vector3.up); uvs.Add(new Vector2(p.x * tu, p.z * tv));
+                }
+
+                for (int i = 0; i < segments; i++) tris.AddRange(new[] { c, c + 2 + i, c + 1 + i });
+
+                for (int i = 0; i < segments; i++)
+                {
+                    float a0 = i * Mathf.PI * 2f / segments, a1 = (i + 1) * Mathf.PI * 2f / segments;
+                    Vector3 d0 = new Vector3(Mathf.Cos(a0), 0f, Mathf.Sin(a0)), d1 = new Vector3(Mathf.Cos(a1), 0f, Mathf.Sin(a1));
+                    int s = verts.Count;
+                    verts.Add(center + d0 * radius + Vector3.up * y0); verts.Add(center + d1 * radius + Vector3.up * y0);
+                    verts.Add(center + d1 * radius + Vector3.up * y1); verts.Add(center + d0 * radius + Vector3.up * y1);
+                    normals.Add(d0); normals.Add(d1); normals.Add(d1); normals.Add(d0);
+                    float u = (a0 * radius) * tu, w = (a1 * radius) * tu, v = (y1 - y0) * tv;
+                    uvs.Add(new Vector2(u, 0f)); uvs.Add(new Vector2(w, 0f)); uvs.Add(new Vector2(w, v)); uvs.Add(new Vector2(u, v));
+                    tris.AddRange(new[] { s, s + 2, s + 1, s, s + 3, s + 2 });   // 바깥쪽에서 볼 때 시계 방향
                 }
             }
 
