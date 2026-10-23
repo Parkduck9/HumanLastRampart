@@ -273,6 +273,18 @@ namespace HumanLastRampart.App.Flow
             return System.Environment.TickCount ^ System.Guid.NewGuid().GetHashCode();
         }
 
+        // W22: 전투 모의의 씨앗은 전투 실행 ID에서 나온다(BattleSim). 매번 Guid면 시험마다 첫 장전 시각·명중이 달라 화면 시험이 들쑥날쑥했다
+        // → 시험이 씨앗을 고정한 동안은 씨앗·전투 번호로 만든 같은 ID를 쓴다. 평소 플레이는 그대로 무작위
+        int testRunCounter;   // 같은 흐름 안에서 다시 하기마다 ID가 달라지게 (이 흐름이 새로 만들어질 때 0부터라 시험 간 결과는 같다)
+
+        string NewBattleRunId()
+        {
+#if UNITY_INCLUDE_TESTS
+            if (TestSeedOverride != 0) return "run_test_" + TestSeedOverride + "_" + Campaign.BattleNumber + "_" + (testRunCounter++);
+#endif
+            return BattleSetupFactory.NewRunId();
+        }
+
         // ── 전환 ─────────────────────────────────────────────────────────
 
         IEnumerator Transition(FlowStep step, ScreenContext from)
@@ -379,7 +391,7 @@ namespace HumanLastRampart.App.Flow
             Campaign.LastBattle = null;   // 이전 결과 재사용 방지 (C-004 r2)
             // 용병 급료 (K-058, D-079 U8): 전투 시작 전에 빠지고, 못 주면 그 계약은 떠난다
             foreach (string note in HumanLastRampart.Core.Upgrades.UpgradeRules.PayWages(Campaign, lookup)) Debug.Log("[용병] " + note);
-            BattleSetup setup = BattleSetupFactory.Create(Campaign, lookup, BattleSetupFactory.NewRunId(), out string error);
+            BattleSetup setup = BattleSetupFactory.Create(Campaign, lookup, NewBattleRunId(), out string error);
             if (setup == null)
             {
                 ShowDataError(error);
@@ -450,6 +462,7 @@ namespace HumanLastRampart.App.Flow
             currentEntry = entry;
             CurrentScreen = screen;
             currentContext = new ScreenContext(this, screen);
+            HumanLastRampart.App.Audio.AudioService.Ensure()?.OnScreen(screen, Campaign?.LastBattle != null && Campaign.LastBattle.Outcome == BattleOutcome.Victory);   // 화면별 음악 (W24, 소리 은행이 비면 조용)
             if (scene.IsValid())
             {
                 SceneManager.SetActiveScene(scene);
@@ -458,6 +471,7 @@ namespace HumanLastRampart.App.Flow
             try
             {
                 entry.OnEnter(currentContext);
+                HumanLastRampart.App.Audio.AudioService.Current?.AdoptSceneListeners();   // 화면 카메라의 리스너를 서비스 하나로 모음 (W24)
             }
             catch (System.Exception exception)
             {

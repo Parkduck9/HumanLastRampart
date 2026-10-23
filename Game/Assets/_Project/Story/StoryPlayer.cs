@@ -43,6 +43,7 @@ namespace HumanLastRampart.Story
 
         int index = -1;
         string fullText = "";
+        int lastTick;   // 글자 소리 (W24): 마지막으로 소리 낸 글자 수
         float typeStart;
         bool typing, auto, finished;
         float shownAt;
@@ -249,6 +250,7 @@ namespace HumanLastRampart.Story
         void BeginTyping()
         {
             typing = true;
+            lastTick = 0;
             typeStart = Time.unscaledTime;
             body.text = "";
         }
@@ -318,6 +320,7 @@ namespace HumanLastRampart.Story
             {
                 int visible = Mathf.Min(fullText.Length, Mathf.FloorToInt((now - typeStart) * CharsPerSecond));
                 body.text = fullText.Substring(0, visible);
+                if (visible >= lastTick + 3) { lastTick = visible; HumanLastRampart.Core.Audio.Sound.Play(HumanLastRampart.Core.Audio.AudioCues.StoryTick); }
                 if (visible >= fullText.Length) ShowAll();
             }
 

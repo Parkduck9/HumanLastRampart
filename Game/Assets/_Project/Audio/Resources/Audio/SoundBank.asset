@@ -1,0 +1,455 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e17af434df33884d8bf19556f9ef006, type: 3}
+  m_Name: SoundBank
+  m_EditorClassIdentifier: HLR.App::HumanLastRampart.App.Audio.SoundBank
+  Entries:
+  - Id: sfx_bow_volley
+    Clips:
+    - {fileID: 8300000, guid: 588695d861181bb419d5fb6425120f8f, type: 3}
+    - {fileID: 8300000, guid: 28210a79d9c4eb443ba8155ed6e730e1, type: 3}
+    - {fileID: 8300000, guid: 3e1978901f1110c44a08dfb6a85bba24, type: 3}
+    - {fileID: 8300000, guid: 607bcc8f1e6da794ea031886045737c6, type: 3}
+    - {fileID: 8300000, guid: 440b6a423e16c1d469b0fea58425a370, type: 3}
+    Volume: 0.7
+    PitchRange: {x: 1.1, y: 1.4}
+    MaxVoices: 4
+    Cooldown: 0.08
+    Spatial3D: 1
+    MinDistance: 10
+    MaxDistance: 120
+    Bus: 2
+    Loop: 0
+  - Id: sfx_crossbow_volley
+    Clips:
+    - {fileID: 8300000, guid: 8f94c376d0b848d40bd9bb69261d3975, type: 3}
+    - {fileID: 8300000, guid: 4c681059c3604434a988db0c7ea33f37, type: 3}
+    - {fileID: 8300000, guid: ed6622a6757444049a9774276a3d57cf, type: 3}
+    - {fileID: 8300000, guid: 075c252a0209e9b408a6c521a540e88a, type: 3}
+    Volume: 0.7
+    PitchRange: {x: 1.1, y: 1.4}
+    MaxVoices: 3
+    Cooldown: 0.1
+    Spatial3D: 1
+    MinDistance: 10
+    MaxDistance: 120
+    Bus: 2
+    Loop: 0
+  - Id: sfx_musket_volley
+    Clips:
+    - {fileID: 8300000, guid: 8f7088e8ecd323d41948714e69593ab8, type: 3}
+    - {fileID: 8300000, guid: 39aad99d0b3ede74992890bfe6c4b199, type: 3}
+    - {fileID: 8300000, guid: 39bd9dd5c8457e149a90315b002f685d, type: 3}
+    - {fileID: 8300000, guid: b74d90db60abbb74188ae8840a970e67, type: 3}
+    Volume: 0.8
+    PitchRange: {x: 1.4, y: 1.8}
+    MaxVoices: 3
+    Cooldown: 0.12
+    Spatial3D: 1
+    MinDistance: 10
+    MaxDistance: 120
+    Bus: 2
+    Loop: 0
+  - Id: sfx_cannon_fire
+    Clips:
+    - {fileID: 8300000, guid: a648d1260fec6b0419b6c836e28b3b0f, type: 3}
+    - {fileID: 8300000, guid: 9fdb8d5946d2cb84b87c3f8a89a9ef68, type: 3}
+    - {fileID: 8300000, guid: 94c71e4b9ffd6024c8aba4f59c6bc454, type: 3}
+    - {fileID: 8300000, guid: 7224266c27aa1974abc77330e82c4825, type: 3}
+    - {fileID: 8300000, guid: 826e44e06fddcf24eab549b21112c993, type: 3}
+    - {fileID: 8300000, guid: 8e7c003760ba7394a869e0d96212e673, type: 3}
+    Volume: 1
+    PitchRange: {x: 0.35, y: 0.5}
+    MaxVoices: 3
+    Cooldown: 0.1
+    Spatial3D: 1
+    MinDistance: 10
+    MaxDistance: 200
+    Bus: 2
+    Loop: 0
+  - Id: sfx_cannon_impact
+    Clips:
+    - {fileID: 8300000, guid: 242569e8628625f409336d755fc420f5, type: 3}
+    - {fileID: 8300000, guid: e18c49b14943fa2429e72a67da8e8d88, type: 3}
+    - {fileID: 8300000, guid: 2dce2ea2b64c6ab4f83f8cfa5aa1e26a, type: 3}
+    - {fileID: 8300000, guid: ca11827578fff7f41bf92054a4b40765, type: 3}
+    - {fileID: 8300000, guid: 1ad0898a5ce8d9f47b8a7a08016d2828, type: 3}
+    Volume: 1
+    PitchRange: {x: 0.45, y: 0.65}
+    MaxVoices: 4
+    Cooldown: 0.08
+    Spatial3D: 1
+    MinDistance: 10
+    MaxDistance: 200
+    Bus: 2
+    Loop: 0
+  - Id: sfx_magic_cast
+    Clips:
+    - {fileID: 8300000, guid: 66e476f0c79412b4dad7d7123983befb, type: 3}
+    - {fileID: 8300000, guid: 94a23114252bf8045b98a3c1aad5f29b, type: 3}
+    - {fileID: 8300000, guid: 883abfe676c87e0478bf3a33fdcc6344, type: 3}
+    Volume: 0.6
+    PitchRange: {x: 0.8, y: 1}
+    MaxVoices: 2
+    Cooldown: 0.15
+    Spatial3D: 1
+    MinDistance: 10
+    MaxDistance: 120
+    Bus: 2
+    Loop: 0
+  - Id: sfx_magic_explosion
+    Clips:
+    - {fileID: 8300000, guid: 4286b2008a055d440acc6bf6d1a3595e, type: 3}
+    - {fileID: 8300000, guid: 329b8e40dbf49f64ab6451aefeeef905, type: 3}
+    - {fileID: 8300000, guid: 75dac0ae9c43365428c08c36eaf79e38, type: 3}
+    - {fileID: 8300000, guid: 1f2303d6917eb8f41b7d2c009b1b969e, type: 3}
+    - {fileID: 8300000, guid: 0feab114826fd844bb67cd80857d049f, type: 3}
+    Volume: 0.9
+    PitchRange: {x: 0.5, y: 0.7}
+    MaxVoices: 3
+    Cooldown: 0.1
+    Spatial3D: 1
+    MinDistance: 10
+    MaxDistance: 200
+    Bus: 2
+    Loop: 0
+  - Id: sfx_trap_burst
+    Clips:
+    - {fileID: 8300000, guid: 107bd80c65dc67047a12a52523eca736, type: 3}
+    - {fileID: 8300000, guid: b0898c66f821ea74e97308bf256c43c3, type: 3}
+    - {fileID: 8300000, guid: 3178536880332d345bfe122b44ca7a9b, type: 3}
+    - {fileID: 8300000, guid: 387a0417b7fef334db36ba18c4e8b833, type: 3}
+    - {fileID: 8300000, guid: 4473d99c53254bf4e9b947b73d9d35e3, type: 3}
+    Volume: 0.9
+    PitchRange: {x: 0.5, y: 0.7}
+    MaxVoices: 3
+    Cooldown: 0.1
+    Spatial3D: 1
+    MinDistance: 10
+    MaxDistance: 160
+    Bus: 2
+    Loop: 0
+  - Id: sfx_fire_pool
+    Clips:
+    - {fileID: 8300000, guid: 242569e8628625f409336d755fc420f5, type: 3}
+    - {fileID: 8300000, guid: e18c49b14943fa2429e72a67da8e8d88, type: 3}
+    - {fileID: 8300000, guid: 2dce2ea2b64c6ab4f83f8cfa5aa1e26a, type: 3}
+    - {fileID: 8300000, guid: ca11827578fff7f41bf92054a4b40765, type: 3}
+    - {fileID: 8300000, guid: 1ad0898a5ce8d9f47b8a7a08016d2828, type: 3}
+    Volume: 0.7
+    PitchRange: {x: 0.3, y: 0.45}
+    MaxVoices: 2
+    Cooldown: 0.3
+    Spatial3D: 1
+    MinDistance: 10
+    MaxDistance: 120
+    Bus: 2
+    Loop: 0
+  - Id: sfx_arrow_hit
+    Clips:
+    - {fileID: 8300000, guid: 8f94c376d0b848d40bd9bb69261d3975, type: 3}
+    - {fileID: 8300000, guid: 4c681059c3604434a988db0c7ea33f37, type: 3}
+    - {fileID: 8300000, guid: ed6622a6757444049a9774276a3d57cf, type: 3}
+    - {fileID: 8300000, guid: 82243b0a33db8c1469709ad110f2a7d3, type: 3}
+    - {fileID: 8300000, guid: 668284a6fa5f6e146921b6ba8c319e62, type: 3}
+    Volume: 0.5
+    PitchRange: {x: 1.1, y: 1.5}
+    MaxVoices: 4
+    Cooldown: 0.05
+    Spatial3D: 1
+    MinDistance: 10
+    MaxDistance: 120
+    Bus: 2
+    Loop: 0
+  - Id: sfx_enemy_hit
+    Clips:
+    - {fileID: 8300000, guid: 88e360446103acd40b07533ce625578d, type: 3}
+    - {fileID: 8300000, guid: 09e93f8d9626049479c0267e69529b73, type: 3}
+    - {fileID: 8300000, guid: 0c018c82fdbd919479ddd710f783b097, type: 3}
+    - {fileID: 8300000, guid: bed12cba69cbac44e846c9b110030d83, type: 3}
+    - {fileID: 8300000, guid: 157302487a1743441b3f3b186c3b5a17, type: 3}
+    Volume: 0.5
+    PitchRange: {x: 0.8, y: 1.1}
+    MaxVoices: 3
+    Cooldown: 0.08
+    Spatial3D: 1
+    MinDistance: 10
+    MaxDistance: 120
+    Bus: 2
+    Loop: 0
+  - Id: sfx_enemy_death
+    Clips:
+    - {fileID: 8300000, guid: 950514e5e8e8d2f4b89ca75ddc3e8fa3, type: 3}
+    - {fileID: 8300000, guid: 067f4072b6fe7b04db135d982e700904, type: 3}
+    - {fileID: 8300000, guid: 215d3091ded37014ca3e4e55d2ad58f8, type: 3}
+    - {fileID: 8300000, guid: 12eba716f68487842b879dfe686d3219, type: 3}
+    - {fileID: 8300000, guid: d2d33f914a101ae498f4209f35b812cb, type: 3}
+    Volume: 0.7
+    PitchRange: {x: 0.6, y: 0.9}
+    MaxVoices: 4
+    Cooldown: 0.08
+    Spatial3D: 1
+    MinDistance: 10
+    MaxDistance: 120
+    Bus: 2
+    Loop: 0
+  - Id: sfx_wall_hit
+    Clips:
+    - {fileID: 8300000, guid: d238b26a46263ae4bac1120beeb741b8, type: 3}
+    - {fileID: 8300000, guid: e1768ec06e92faf40af68a29bb6ff815, type: 3}
+    - {fileID: 8300000, guid: 9074de9fb342a174495686914f66059f, type: 3}
+    - {fileID: 8300000, guid: b2093eb96ccf64c4e8ba0d26ca5a61c9, type: 3}
+    - {fileID: 8300000, guid: 4f3be35fed52653469b4a25775b36282, type: 3}
+    Volume: 0.8
+    PitchRange: {x: 0.6, y: 0.8}
+    MaxVoices: 3
+    Cooldown: 0.15
+    Spatial3D: 1
+    MinDistance: 10
+    MaxDistance: 120
+    Bus: 2
+    Loop: 0
+  - Id: sfx_wall_breach
+    Clips:
+    - {fileID: 8300000, guid: 107bd80c65dc67047a12a52523eca736, type: 3}
+    - {fileID: 8300000, guid: b0898c66f821ea74e97308bf256c43c3, type: 3}
+    - {fileID: 8300000, guid: 3178536880332d345bfe122b44ca7a9b, type: 3}
+    - {fileID: 8300000, guid: 387a0417b7fef334db36ba18c4e8b833, type: 3}
+    - {fileID: 8300000, guid: 4473d99c53254bf4e9b947b73d9d35e3, type: 3}
+    Volume: 1
+    PitchRange: {x: 0.3, y: 0.45}
+    MaxVoices: 2
+    Cooldown: 0.5
+    Spatial3D: 1
+    MinDistance: 10
+    MaxDistance: 200
+    Bus: 2
+    Loop: 0
+  - Id: sfx_wave_horn
+    Clips:
+    - {fileID: 8300000, guid: b062f0d4eb77c8645ba5b922a5067a68, type: 3}
+    - {fileID: 8300000, guid: ef0b537eaf9e6484686f2a7e5788a6cd, type: 3}
+    Volume: 0.9
+    PitchRange: {x: 0.9, y: 1}
+    MaxVoices: 1
+    Cooldown: 2
+    Spatial3D: 0
+    MinDistance: 10
+    MaxDistance: 120
+    Bus: 2
+    Loop: 0
+  - Id: sfx_beacon_ignite
+    Clips:
+    - {fileID: 8300000, guid: cea22ec8d54e66740bede6af4b16252b, type: 3}
+    - {fileID: 8300000, guid: 7fa06dadf7adae6488adf4b28fe87f1b, type: 3}
+    Volume: 0.8
+    PitchRange: {x: 0.9, y: 1}
+    MaxVoices: 1
+    Cooldown: 1
+    Spatial3D: 0
+    MinDistance: 10
+    MaxDistance: 120
+    Bus: 2
+    Loop: 0
+  - Id: sfx_beacon_beam_turn
+    Clips:
+    - {fileID: 8300000, guid: c50b4bb99a1aa9741afe23fa0258d827, type: 3}
+    - {fileID: 8300000, guid: 2a8942d1f4a58b641aab0c4a8cd0afbc, type: 3}
+    - {fileID: 8300000, guid: 0125b8dd62a0d59458eee36ee0115484, type: 3}
+    Volume: 0.6
+    PitchRange: {x: 0.8, y: 1}
+    MaxVoices: 2
+    Cooldown: 0.5
+    Spatial3D: 0
+    MinDistance: 10
+    MaxDistance: 120
+    Bus: 2
+    Loop: 0
+  - Id: sfx_courier_run
+    Clips:
+    - {fileID: 8300000, guid: 3e9c57f8856476d4fa61ea17f28de063, type: 3}
+    - {fileID: 8300000, guid: cbce791d385458a4d973326e913456bb, type: 3}
+    - {fileID: 8300000, guid: 5f51c81a7890c6145af1e9632bec037c, type: 3}
+    - {fileID: 8300000, guid: f3c425633519577428aac88fe1f9362a, type: 3}
+    - {fileID: 8300000, guid: b0e2812e81f67a34a93f4153e57986a8, type: 3}
+    Volume: 0.6
+    PitchRange: {x: 0.9, y: 1.1}
+    MaxVoices: 3
+    Cooldown: 0.15
+    Spatial3D: 1
+    MinDistance: 10
+    MaxDistance: 120
+    Bus: 2
+    Loop: 0
+  - Id: ui_click
+    Clips:
+    - {fileID: 8300000, guid: 3183b22055c1b5e4a9741f837a861cc6, type: 3}
+    - {fileID: 8300000, guid: ab40570e58b590b40b9314b4c4adcc58, type: 3}
+    - {fileID: 8300000, guid: 9bbd97336c2864a4884244af61cd295d, type: 3}
+    Volume: 0.6
+    PitchRange: {x: 0.95, y: 1.05}
+    MaxVoices: 4
+    Cooldown: 0.03
+    Spatial3D: 0
+    MinDistance: 10
+    MaxDistance: 50
+    Bus: 3
+    Loop: 0
+  - Id: ui_confirm
+    Clips:
+    - {fileID: 8300000, guid: 25cffda517ac55d4ea296e15caaff4a7, type: 3}
+    - {fileID: 8300000, guid: c5275020ab903b04ca720c6e44c7ecea, type: 3}
+    Volume: 0.6
+    PitchRange: {x: 1, y: 1}
+    MaxVoices: 2
+    Cooldown: 0.1
+    Spatial3D: 0
+    MinDistance: 10
+    MaxDistance: 50
+    Bus: 3
+    Loop: 0
+  - Id: ui_cancel
+    Clips:
+    - {fileID: 8300000, guid: 1c8d64aa2631f504da2716c01cde8824, type: 3}
+    - {fileID: 8300000, guid: 776197d0a69275d4a966b600784d4006, type: 3}
+    Volume: 0.6
+    PitchRange: {x: 1, y: 1}
+    MaxVoices: 2
+    Cooldown: 0.1
+    Spatial3D: 0
+    MinDistance: 10
+    MaxDistance: 50
+    Bus: 3
+    Loop: 0
+  - Id: ui_story_tick
+    Clips:
+    - {fileID: 8300000, guid: 8027b69d19ecc964c8db303f02a9f0bd, type: 3}
+    - {fileID: 8300000, guid: a4326ec743cac7f4fb870d0bbe03ffbd, type: 3}
+    - {fileID: 8300000, guid: 1d61b787199b10846b6d773560472e38, type: 3}
+    Volume: 0.3
+    PitchRange: {x: 1, y: 1.3}
+    MaxVoices: 2
+    Cooldown: 0.04
+    Spatial3D: 0
+    MinDistance: 10
+    MaxDistance: 50
+    Bus: 3
+    Loop: 0
+  - Id: sfx_result_stinger
+    Clips:
+    - {fileID: 8300000, guid: 778030172e58a5041a2867073e763b00, type: 3}
+    Volume: 0.9
+    PitchRange: {x: 1, y: 1}
+    MaxVoices: 1
+    Cooldown: 1
+    Spatial3D: 0
+    MinDistance: 10
+    MaxDistance: 50
+    Bus: 1
+    Loop: 0
+  - Id: sfx_result_defeat
+    Clips:
+    - {fileID: 8300000, guid: bb8e363d31e5119478e2eb8195198c7b, type: 3}
+    Volume: 0.9
+    PitchRange: {x: 1, y: 1}
+    MaxVoices: 1
+    Cooldown: 1
+    Spatial3D: 0
+    MinDistance: 10
+    MaxDistance: 50
+    Bus: 1
+    Loop: 0
+  - Id: music_day
+    Clips:
+    - {fileID: 8300000, guid: 80d9619b2acf41b45af14fc84b0acb14, type: 3}
+    Volume: 0.6
+    PitchRange: {x: 1, y: 1}
+    MaxVoices: 1
+    Cooldown: 0
+    Spatial3D: 0
+    MinDistance: 10
+    MaxDistance: 120
+    Bus: 1
+    Loop: 1
+  - Id: music_night
+    Clips:
+    - {fileID: 8300000, guid: e3dc63d0f4a01294ab823c62401d2986, type: 3}
+    Volume: 0.6
+    PitchRange: {x: 1, y: 1}
+    MaxVoices: 1
+    Cooldown: 0
+    Spatial3D: 0
+    MinDistance: 10
+    MaxDistance: 120
+    Bus: 1
+    Loop: 1
+  - Id: music_battle
+    Clips:
+    - {fileID: 8300000, guid: e13b402637206724daed7f9e5bb88f6b, type: 3}
+    Volume: 0.6
+    PitchRange: {x: 1, y: 1}
+    MaxVoices: 1
+    Cooldown: 0
+    Spatial3D: 0
+    MinDistance: 10
+    MaxDistance: 120
+    Bus: 1
+    Loop: 1
+  - Id: music_story
+    Clips:
+    - {fileID: 8300000, guid: 96ef6939a5d619d44a5b7f882e7fa935, type: 3}
+    Volume: 0.6
+    PitchRange: {x: 1, y: 1}
+    MaxVoices: 1
+    Cooldown: 0
+    Spatial3D: 0
+    MinDistance: 10
+    MaxDistance: 120
+    Bus: 1
+    Loop: 1
+  - Id: amb_wind
+    Clips:
+    - {fileID: 8300000, guid: 177633fe0377a234c91797886aaf0112, type: 3}
+    Volume: 0.5
+    PitchRange: {x: 1, y: 1}
+    MaxVoices: 1
+    Cooldown: 0
+    Spatial3D: 0
+    MinDistance: 10
+    MaxDistance: 120
+    Bus: 4
+    Loop: 1
+  - Id: amb_crickets
+    Clips:
+    - {fileID: 8300000, guid: a66453795dd72434e9ac6d1e4a54058e, type: 3}
+    Volume: 0.5
+    PitchRange: {x: 1, y: 1}
+    MaxVoices: 1
+    Cooldown: 0
+    Spatial3D: 0
+    MinDistance: 10
+    MaxDistance: 120
+    Bus: 4
+    Loop: 1
+  - Id: amb_crowd_roar
+    Clips:
+    - {fileID: 8300000, guid: 3c7047ffe4ada824d880f809dc269850, type: 3}
+    Volume: 0.6
+    PitchRange: {x: 1, y: 1}
+    MaxVoices: 1
+    Cooldown: 0
+    Spatial3D: 0
+    MinDistance: 10
+    MaxDistance: 120
+    Bus: 4
+    Loop: 1
+  Routes: []

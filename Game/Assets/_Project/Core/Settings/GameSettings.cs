@@ -5,7 +5,7 @@ namespace HumanLastRampart.Core.Settings
 {
     // 설정 (K-062, 0번 메인 설정 창 P3-X02) — 진행 데이터와 따로, 이 컴퓨터에 한 벌(PlayerPrefs).
     // 화면들은 값을 읽기만 하고, 바꾸는 곳은 설정 창 하나. 바뀌면 Changed를 알린다.
-    // - 소리 크기: App이 AudioListener.volume에 적용 (소리가 아직 없어 자리만)
+    // - 소리 크기: App이 AudioListener.volume에 적용 (전체). 음악·효과 크기는 Core/Audio AudioService가 읽는다 (W24)
     // - 화면 효과·미니어처 흐림 세기: Combat BattleLook이 매 프레임 읽는다 (G 키 비교 끄기와 함께)
     // - 카메라 흔들림: Combat BattleCameraRig.Shake가 읽는다
     // - 전체 화면/창: App이 Screen.fullScreenMode에 적용 (한 번도 바꾸지 않았으면 손대지 않음)
@@ -18,7 +18,9 @@ namespace HumanLastRampart.Core.Settings
         public static event Action Changed;
 
         public static float MasterVolume { get; private set; } = 1f;     // 0~1
-        public static bool ScreenEffects { get; private set; } = true;   // 빛번짐·색 보정·미니어처 흐림 등 (K-044)
+        public static float MusicVolume { get; private set; } = 1f;      // 음악 0~1 (AudioService, W24)
+        public static float SfxVolume { get; private set; } = 1f;        // 효과·UI·주변 소리 0~1 (AudioService, W24)
+        public static bool ScreenEffects { get; private set; } = true;  // 빛번짐·색 보정·미니어처 흐림 등 (K-044)
         public static float TiltStrength { get; private set; } = 1f;     // 미니어처 흐림 세기 0(끔)~1(기본)
         public static bool CameraShake { get; private set; } = true;
         public static bool Fullscreen { get; private set; } = true;
@@ -35,6 +37,8 @@ namespace HumanLastRampart.Core.Settings
         {
             loaded = true;
             MasterVolume = Mathf.Clamp01(PlayerPrefs.GetFloat(Prefix + "volume", 1f));
+            MusicVolume = Mathf.Clamp01(PlayerPrefs.GetFloat(Prefix + "music", 1f));
+            SfxVolume = Mathf.Clamp01(PlayerPrefs.GetFloat(Prefix + "sfx", 1f));
             ScreenEffects = PlayerPrefs.GetInt(Prefix + "effects", 1) != 0;
             TiltStrength = Mathf.Clamp01(PlayerPrefs.GetFloat(Prefix + "tilt", 1f));
             CameraShake = PlayerPrefs.GetInt(Prefix + "shake", 1) != 0;
@@ -46,6 +50,8 @@ namespace HumanLastRampart.Core.Settings
         public static void EnsureLoaded() { if (!loaded) Load(); }
 
         public static void SetMasterVolume(float value) { MasterVolume = Mathf.Clamp01(value); PlayerPrefs.SetFloat(Prefix + "volume", MasterVolume); Save(); }
+        public static void SetMusicVolume(float value) { MusicVolume = Mathf.Clamp01(value); PlayerPrefs.SetFloat(Prefix + "music", MusicVolume); Save(); }
+        public static void SetSfxVolume(float value) { SfxVolume = Mathf.Clamp01(value); PlayerPrefs.SetFloat(Prefix + "sfx", SfxVolume); Save(); }
         public static void SetScreenEffects(bool on) { ScreenEffects = on; PlayerPrefs.SetInt(Prefix + "effects", on ? 1 : 0); Save(); }
         public static void SetTiltStrength(float value) { TiltStrength = Mathf.Clamp01(value); PlayerPrefs.SetFloat(Prefix + "tilt", TiltStrength); Save(); }
         public static void SetCameraShake(bool on) { CameraShake = on; PlayerPrefs.SetInt(Prefix + "shake", on ? 1 : 0); Save(); }
@@ -55,7 +61,7 @@ namespace HumanLastRampart.Core.Settings
         // 처음 값으로 (설정 창 '기본값으로')
         public static void ResetToDefaults()
         {
-            foreach (string key in new[] { "volume", "effects", "tilt", "shake", "fullscreen", "font" }) PlayerPrefs.DeleteKey(Prefix + key);
+            foreach (string key in new[] { "volume", "music", "sfx", "effects", "tilt", "shake", "fullscreen", "font" }) PlayerPrefs.DeleteKey(Prefix + key);
             PlayerPrefs.Save();
             Load();
             Changed?.Invoke();

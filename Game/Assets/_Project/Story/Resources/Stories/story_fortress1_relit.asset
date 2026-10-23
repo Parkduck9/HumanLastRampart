@@ -37,7 +37,7 @@ MonoBehaviour:
     - speaker: "하겐"
       side: 2
       portrait: {fileID: 2800000, guid: c6ff621d6fae4e329156fbdb88091de1, type: 3}
-      cell: 0
+      cell: 1
       text: "수비대를 남기겠습니다. 이 불은 우리가 지킵니다. 대장님은 다음 등대로."
       background: {fileID: 0}
       effect: 0

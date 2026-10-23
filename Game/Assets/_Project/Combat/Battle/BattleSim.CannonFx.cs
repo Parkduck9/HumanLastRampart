@@ -24,6 +24,10 @@ namespace HumanLastRampart.Combat.Battle
         }
 
         // 무기 번호의 범위 피해 반경(m). 범위 무기가 아니면 0 (대포알 떨어진 자리 폭발 크기)
+        // 무기 번호의 종류 (소리 고르기용, W24). 모르면 활
+        readonly System.Collections.Generic.List<HumanLastRampart.Core.Definitions.WeaponKind> weaponKinds = new System.Collections.Generic.List<HumanLastRampart.Core.Definitions.WeaponKind>();
+        public HumanLastRampart.Core.Definitions.WeaponKind WeaponKindOf(int weapon) => weapon >= 0 && weapon < weaponKinds.Count ? weaponKinds[weapon] : HumanLastRampart.Core.Definitions.WeaponKind.Bow;
+
         public float WeaponAreaRadius(int weapon) => weapon >= 0 && weapon < weapons.Length ? weapons[weapon].AreaRadius : 0f;
     }
 }
