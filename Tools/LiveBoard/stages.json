@@ -577,8 +577,8 @@
                       "who":  "클로드 (소넷 작업자)",
                       "kind":  "work",
                       "folder":  "C:\\Unity\\1\\HLR-work\\W36",
-                      "stage":  1,
-                      "desc":  "정비 마당 등대 불빛이 수리 정도에 따라 바뀌게, 움직임 줄이기 설정 따로, 영어 이름 Lightbearers(부제·창·실행 파일)"
+                      "stage":  2,
+                      "desc":  "멈춤(사용자 지시, 사용량 부족) — 검토 고침 도중. 이어할 것은 live/claude/tasks.md 맨 아래"
                   },
                   {
                       "id":  "W37",
@@ -586,7 +586,7 @@
                       "who":  "클로드 (소넷 작업자)",
                       "kind":  "work",
                       "folder":  "C:\\Unity\\1\\HLR-work\\W37",
-                      "stage":  1,
+                      "stage":  4,
                       "desc":  "1·2·4배 단추가 거의 같아 보이는 문제 → 삼각형 1·2·3개로"
                   }
               ]
