@@ -1,0 +1,150 @@
+{
+  "card": "K-120",
+  "version": 1,
+  "assets_only": true,
+  "game_files_modified": false,
+  "character_motion_sheets_replaced": false,
+  "frames": 1,
+  "frame_order": [
+    "day_lit"
+  ],
+  "native_size_px": [
+    1280,
+    360
+  ],
+  "game_size_px": [
+    3840,
+    1080
+  ],
+  "preview_size_px": [
+    5120,
+    1440
+  ],
+  "assets": [
+    {
+      "file": "prep_yard_native.png",
+      "size_px": [
+        1280,
+        360
+      ],
+      "role": "native_background",
+      "alpha": "opaque"
+    },
+    {
+      "file": "prep_yard.png",
+      "size_px": [
+        3840,
+        1080
+      ],
+      "role": "game_background",
+      "scale": 3,
+      "filter": "Point",
+      "alpha": "opaque",
+      "pivot_normalized_bottom_left": [
+        0,
+        0
+      ]
+    },
+    {
+      "file": "prep_yard_preview4x.png",
+      "size_px": [
+        5120,
+        1440
+      ],
+      "role": "native_preview_4x",
+      "scale": 4,
+      "alpha": "opaque"
+    }
+  ],
+  "replacement_target": "Game/Assets/_Project/Meta/Resources/PrepYard/prep_yard.png",
+  "display_contract": {
+    "size_px": [
+      3840,
+      1080
+    ],
+    "scroll": "horizontal; 1920px viewport crops a half-panorama at 1080px height",
+    "pivot": "bottom-left",
+    "source_camera": "frontal, mildly elevated perspective; existing prep panorama reference",
+    "ground_projection_source": "Game/Assets/_Project/Meta/PrepYardProjection.cs",
+    "ground_projection": {
+      "depth": 8,
+      "pixels_per_metre": 128.8235294117647,
+      "q": "1 + ground_y / 8",
+      "x": "1920 + (219/1.7) * ground_x / q",
+      "y": "-60 + 1080 / q"
+    },
+    "calibration_ko": "기존 화면 크기·정면 구도와 바닥 원근을 기준으로 그린 배경입니다. 실제 메시를 기존 카메라로 재투영한 렌더가 아니므로 미터 단위 건물 투영과 기존 충돌·보행 영역의 일치는 검증하지 않았습니다.",
+    "foot_baseline": "Not a character sprite sheet. Building door ground points are listed individually in hotspots.json."
+  },
+  "layout": {
+    "tower": {
+      "shape": "square masonry lighthouse",
+      "design_height_m": 12,
+      "reference": "K-115"
+    },
+    "building_count": 10,
+    "west": [
+      "성벽 수리",
+      "대장간"
+    ],
+    "east": [
+      "병영",
+      "마구간"
+    ],
+    "north": [
+      "예배당",
+      "곡물창고",
+      "창고"
+    ],
+    "south": [
+      "함정 공방",
+      "상점",
+      "작은 집"
+    ],
+    "road": "north wall stair to round tower plaza, iron lamp posts",
+    "props": [
+      "우물",
+      "건초",
+      "장작더미"
+    ]
+  },
+  "beacon_state": {
+    "background_switch_present_in_current_code": false,
+    "dead_variant_delivered": false,
+    "reason_ko": "PrepYard.BuildScene은 prep_yard 한 장을 고정 로드합니다. 상태별 배경 전환이 없으므로 조건부 소등 변형은 생략했습니다. 현재 별도 탑·불꽃 오버레이는 Claude가 중복되지 않게 조정해야 합니다."
+  },
+  "integration_required_ko": [
+    "기존 등대 오버레이 중복 표시 조정",
+    "기존 layout.json 장소·가림 그림·충돌 영역과 walkable_mask 재검토",
+    "hotspots.json 건물 경계와 문 앞 제안 영역을 기준으로 이동·상호작용 연결",
+    "실제 화면에서 좌우 스크롤·인물 크기·가림·등대 상태 확인"
+  ],
+  "references": [
+    "Game/Assets/_Project/Meta/Resources/PrepYard/prep_yard.png",
+    "Game/Assets/_Project/Meta/PrepYard.cs",
+    "Game/Assets/_Project/Meta/PrepYardProjection.cs",
+    "Docs/References/codex_k118_v1/mockup_day.png",
+    "Docs/References/codex_k115_v1/mockup_day.png",
+    "Docs/References/courtyard_20261023/01_bldg_day_0_overview.png",
+    "Docs/References/courtyard_20261023/02_bldg_day_1_topdown.png",
+    "Docs/References/courtyard_20261023/03_bldg_day_wall_north.png"
+  ],
+  "read_only_source_hashes": [
+    {
+      "path": "Game/Assets/_Project/Meta/PrepYard.cs",
+      "sha256": "45BB6DA693ABCCAE11E5ABFC4D8970C2E35BED0E808EE1048140CAEF57993E98"
+    },
+    {
+      "path": "Game/Assets/_Project/Meta/PrepYardProjection.cs",
+      "sha256": "30E7F09FBC38B1A1B7F5BAFA11897B7C1B4F03C0F19D7C4BA46DFEAC71A39B76"
+    },
+    {
+      "path": "Game/Assets/_Project/Meta/Resources/PrepYard/prep_yard.png",
+      "sha256": "269CCB13A63069757DDDB6D7D709EFE70C574F083FA8C3BCDFCBDEB0D8C70ED9"
+    },
+    {
+      "path": "Game/Assets/_Project/Meta/Resources/PrepYard/layout.json",
+      "sha256": "7FE4D0BA0AD72817A5FE5F1EDFC9543BCB0B9DA1C7E330F8C33C656D0EE1B8CB"
+    }
+  ]
+}
