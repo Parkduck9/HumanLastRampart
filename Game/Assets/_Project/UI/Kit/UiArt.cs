@@ -17,22 +17,46 @@ namespace HumanLastRampart.UI
         public const string Bubble = "bubble";                   // 손그림 말풍선 틀 (스토리 대사)
         public const string BubbleTail = "bubble_tail";
         public const string Plate = "plate";                     // 마당 간판 나무판
-        // ── 단추 ──
+        // ── 단추 (K-123: 나무·황동 × 보통/올림/눌림/꺼짐/켜짐, 탭 꺼짐/켜짐, 아이콘 단추 틀) ──
         public const string ButtonWood = "button_wood";
+        public const string ButtonWoodHover = "button_wood_hover";
         public const string ButtonWoodDown = "button_wood_down";
+        public const string ButtonWoodDisabled = "button_wood_disabled";
+        public const string ButtonWoodOn = "button_wood_on";
         public const string ButtonBrass = "button_brass";
+        public const string ButtonBrassHover = "button_brass_hover";
         public const string ButtonBrassDown = "button_brass_down";
+        public const string ButtonBrassDisabled = "button_brass_disabled";
+        public const string ButtonBrassOn = "button_brass_on";
+        public const string TabOff = "tab_off";
+        public const string TabOn = "tab_on";
+        public const string IconButtonFrame = "icon_button_frame";   // 네 모서리 리벳 (48점 이상 아이콘 단추)
+        public const string ConfirmFrame = "confirm_frame";
         public const string Glow = "frame_glow";                 // 올림·고름 빛 테두리 (가운데 투명)
         public const string KeyCap = "keycap";                   // 키 표시 (E, Tab …)
         public const string BarTrack = "bar_track";              // 막대 홈
+        public const string BarTrackSmall = "bar_track_small", BarTrackLarge = "bar_track_large";   // 작은 것 48×15, 큰 것 48×24 (그림 점 ×3)
+        public const string MapGroupPlate = "map_group_plate";   // 지도 무리 숫자판
+        public const string DragSelection = "drag_selection_frame";   // 끌어 고르기 테두리
+        public const string FortressCourtyard = "fortress_courtyard", FortressTower = "fortress_tower";
         public const string Seal = "seal";                       // 결과 도장
         public const string Vignette = "vignette";               // 화면 가장자리 빛 (위급 붉은 빛·판 뒤 어둠) — 부드러운 것은 빛만
-        // ── 아이콘 (안쪽 9점 + 바깥 1점 외곽선) ──
+        // ── 아이콘 (K-123 24점 + 48점 짝. 이름 + "_48"이 큰 것) ──
         public const string IconClose = "icon_close", IconUp = "icon_up", IconDown = "icon_down", IconPlay = "icon_play",
             IconPause = "icon_pause", IconSpeed1 = "icon_speed1", IconSpeed2 = "icon_speed2", IconSpeed4 = "icon_speed4",
             IconHero = "icon_hero", IconNorth = "icon_north", IconCheck = "icon_check", IconFlag = "icon_flag",
             IconAuto = "icon_auto", IconIdle = "icon_idle", IconSpecial = "icon_special", IconMinus = "icon_minus",
             IconPlus = "icon_plus", IconRight = "icon_right", IconWarn = "icon_warn";
+
+        // 막대 채움 이름 ("bar_fill_<종류>_<small|large>"). 종류: good · danger · brass · lag
+        public static string BarFill(string kind, bool large) => "bar_fill_" + kind + (large ? "_large" : "_small");
+
+        // 성벽 도식: 면(north·east·south·west) × 체력 단계(intact·damaged·critical·broken). 비율 → 단계
+        public static string FortressWall(string side, float ratio) =>
+            "fortress_wall_" + side + "_" + (ratio >= 0.7f ? "intact" : ratio >= 0.35f ? "damaged" : ratio > 0f ? "critical" : "broken");
+
+        // 큰 아이콘 이름 (없으면 보통 크기 이름)
+        public static string Big(string icon) => Get(icon + "_48") != null ? icon + "_48" : icon;
         // ── 글꼴 (UiFonts) ──
         public const string FontDisplay = "UiKit/Fonts/display", FontBody = "UiKit/Fonts/body";
 
@@ -47,25 +71,72 @@ namespace HumanLastRampart.UI
             { Glow, new Vector4(4, 4, 4, 4) }, { KeyCap, new Vector4(3, 4, 3, 3) }, { BarTrack, new Vector4(3, 3, 3, 3) },
         };
 
+        // K-123 3배 그림의 9칸 경계 (왼쪽, 아래, 오른쪽, 위 — 화면 px, manifest game.nine_slice_lbrt_px). 여기 없는 그림은 늘이지 않는다
+        public static readonly Dictionary<string, Vector4> Border3x = BuildBorder3x();
+
+        static Dictionary<string, Vector4> BuildBorder3x()
+        {
+            var b = new Dictionary<string, Vector4>
+            {
+                { PanelParchment, new Vector4(18, 18, 18, 18) }, { PanelWood, new Vector4(18, 18, 18, 18) }, { PanelBand, new Vector4(18, 18, 18, 18) },
+                { Slip, new Vector4(12, 12, 18, 18) }, { SlipDanger, new Vector4(18, 12, 18, 18) }, { Bubble, new Vector4(24, 24, 24, 24) },
+                { Plate, new Vector4(15, 15, 15, 15) }, { ConfirmFrame, new Vector4(33, 18, 18, 39) },
+                { IconButtonFrame, new Vector4(12, 12, 12, 12) }, { Glow, new Vector4(12, 12, 12, 12) }, { KeyCap, new Vector4(9, 12, 9, 9) },
+                { BarTrack, new Vector4(9, 9, 9, 9) }, { BarTrackSmall, new Vector4(6, 6, 6, 6) }, { BarTrackLarge, new Vector4(6, 6, 6, 6) },
+                { MapGroupPlate, new Vector4(9, 9, 9, 9) }, { DragSelection, new Vector4(15, 15, 15, 15) },
+                { TabOff, new Vector4(12, 12, 12, 12) }, { TabOn, new Vector4(12, 12, 12, 12) },
+            };
+            foreach (string state in new[] { "", "_hover", "_down", "_disabled", "_on" })
+            {
+                b["button_wood" + state] = new Vector4(12, 12, 12, 12);
+                b["button_brass" + state] = new Vector4(12, 12, 12, 12);
+            }
+
+            foreach (string kind in new[] { "good", "danger", "brass", "lag" })
+            {
+                b[BarFill(kind, false)] = new Vector4(3, 3, 3, 3);
+                b[BarFill(kind, true)] = new Vector4(3, 3, 3, 3);
+            }
+
+            return b;
+        }
+
         static readonly Dictionary<string, Sprite> cache = new Dictionary<string, Sprite>();
+        static readonly HashSet<string> native3x = new HashSet<string>();   // 3배 그림으로 만든 스프라이트 이름 (Size가 다시 3배 하지 않게)
 
         public static Sprite Get(string name)
         {
             if (cache.TryGetValue(name, out Sprite cached) && cached != null) return cached;
-            Borders.TryGetValue(name, out Vector4 border);
+            Sprite sprite;
             var texture = Resources.Load<Texture2D>("UiKit/" + name);
-            if (texture != null) texture.filterMode = FilterMode.Point;
-            else texture = Draw(name);
-            if (texture == null) return null;
-            var sprite = Sprite.Create(texture, new Rect(0f, 0f, texture.width, texture.height), new Vector2(0.5f, 0.5f),
-                100f / UiTokens.Dot, 0, SpriteMeshType.FullRect, border);
+            if (texture != null)
+            {
+                // K-123 3배 그림: 한 점 = 화면 1px (PPU 100), 9칸 경계는 manifest 값
+                texture.filterMode = FilterMode.Point;
+                texture.wrapMode = TextureWrapMode.Clamp;
+                Border3x.TryGetValue(name, out Vector4 border3);
+                sprite = Sprite.Create(texture, new Rect(0f, 0f, texture.width, texture.height), new Vector2(0.5f, 0.5f),
+                    100f, 0, SpriteMeshType.FullRect, border3);
+                native3x.Add(name);
+            }
+            else
+            {
+                // 그림 파일이 없으면 코드로 그린 임시 도트 (1배 그림 → 화면 3배)
+                native3x.Remove(name);
+                Borders.TryGetValue(name, out Vector4 border);
+                texture = Draw(name);
+                if (texture == null) return null;
+                sprite = Sprite.Create(texture, new Rect(0f, 0f, texture.width, texture.height), new Vector2(0.5f, 0.5f),
+                    100f / UiTokens.Dot, 0, SpriteMeshType.FullRect, border);
+            }
+
             sprite.name = name;
             sprite.hideFlags = HideFlags.HideAndDontSave;
             cache[name] = sprite;
             return sprite;
         }
 
-        public static bool IsSliced(string name) => Borders.ContainsKey(name);
+        public static bool IsSliced(string name) => Border3x.ContainsKey(name) || Borders.ContainsKey(name);
 
         // Codex HudArt 그림 (Resources/HudArt/<경로>) — 전투 HUD·정비가 같이 쓴다. 없으면 null (부르는 쪽이 대신 모양을 그린다)
         static readonly Dictionary<string, Sprite> hud = new Dictionary<string, Sprite>();
@@ -93,8 +164,12 @@ namespace HumanLastRampart.UI
         }
 
         // 화면에 놓을 크기 (그림 점 수 × 3px × 배율)
-        public static Vector2 Size(Sprite sprite, float scale = 1f) =>
-            sprite == null ? Vector2.zero : new Vector2(sprite.rect.width, sprite.rect.height) * UiTokens.Dot * scale;
+        public static Vector2 Size(Sprite sprite, float scale = 1f)
+        {
+            if (sprite == null) return Vector2.zero;
+            float dots = native3x.Contains(sprite.name) ? 1f : UiTokens.Dot;   // K-123 3배 그림은 이미 화면 크기
+            return new Vector2(sprite.rect.width, sprite.rect.height) * dots * scale;
+        }
 
         // ── 코드로 그린 임시 그림 (Codex 그림이 오기 전) ──
         static Texture2D Draw(string name)

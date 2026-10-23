@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text;
 using HumanLastRampart.UI;
 using UnityEngine;
@@ -311,7 +311,7 @@ namespace HumanLastRampart.Combat.Battle
             endTitle.text = victory ? "승리" : "패배";
             endLine.text = line;
             Color mark = victory ? UiTokens.Good : UiTokens.Danger;
-            endSeal.color = mark;
+            endSeal.color = Color.white;   // K-123 도장은 황동 고리 그림 — 승패 색은 글자에만
             endSealText.color = mark;
             endSealText.text = victory ? "승" : "패";
             CloseMenu();

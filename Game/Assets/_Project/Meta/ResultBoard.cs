@@ -21,8 +21,7 @@ namespace HumanLastRampart.Meta
             bool victory = result.Outcome == BattleOutcome.Victory;
             HorizontalLayoutGroup row = Ui.Row(area, "Head Row", UiTokens.S24);
             Ui.Stretch((RectTransform)row.transform);
-            Color mark = victory ? UiTokens.Good : UiTokens.Danger;
-            Image seal = Ui.Icon(row.transform, "Seal", UiArt.Seal, 1f, mark);
+            Image seal = Ui.Icon(row.transform, "Seal", UiArt.Seal, 1f, Color.white);   // K-123 도장: 황동 고리 그림 (승패 색은 글자에)
             Text sealText = Ui.Label(seal.transform, "Mark", victory ? "승" : "패", UiTokens.H2, victory ? UiTokens.GoodInk : UiTokens.DangerInk, TextAnchor.MiddleCenter, true);
             Ui.Stretch(sealText.rectTransform);
             Text outcome = Ui.Label(row.transform, "Outcome", victory ? "승리" : "패배", UiTokens.H1, victory ? UiTokens.GoodInk : UiTokens.DangerInk, TextAnchor.MiddleLeft, true);
@@ -69,16 +68,20 @@ namespace HumanLastRampart.Meta
             DrawHeroes(heroes, setup, result, unit);
         }
 
-        // ── 성벽: 성을 위에서 본 네모, 4면 막대 색 = 남은 체력 비율, 옆에 이번 피해 (멀쩡한 면은 글 없이 흐리게) ──
+        // ── 성벽: 성을 위에서 본 도식 (K-123 그림: 마당 + 4면 × 체력 4단계 + 등대 탑), 옆에 이번 피해 (멀쩡한 면은 글 없이 흐리게) ──
         static void DrawWalls(RectTransform box, BattleSetup setup, BattleResult result)
         {
             var after = new Dictionary<string, int>();
             foreach (WallOutcome w in result.WallOutcomes) after[w.SegmentId] = w.HpAfter;
-            const float size = 216f, thick = 24f;
+            Sprite courtyard = UiArt.Get(UiArt.FortressCourtyard);
+            bool art = courtyard != null;
+            float size = art ? 192f : 216f, thick = 24f;
             var center = new Vector2(0f, -24f);
-            Rect(box, "Yard", center, new Vector2(size - thick * 2f, size - thick * 2f), UiTokens.Alpha(UiTokens.PaperShade, 0.6f));
+            if (art) Picture(box, "Yard", courtyard, center);
+            else Rect(box, "Yard", center, new Vector2(size - thick * 2f, size - thick * 2f), UiTokens.Alpha(UiTokens.PaperShade, 0.6f));
             string[] ids = { WallIds.North, WallIds.East, WallIds.South, WallIds.West };
             string[] names = { "북", "동", "남", "서" };
+            string[] artSides = { "north", "east", "south", "west" };
             Vector2[] offsets = { new Vector2(0f, (size - thick) / 2f), new Vector2((size - thick) / 2f, 0f), new Vector2(0f, -(size - thick) / 2f), new Vector2(-(size - thick) / 2f, 0f) };
             Vector2[] sizes = { new Vector2(size, thick), new Vector2(thick, size), new Vector2(size, thick), new Vector2(thick, size) };
             Vector2[] labelOffsets = { new Vector2(0f, size / 2f + 32f), new Vector2(size / 2f + 72f, 0f), new Vector2(0f, -size / 2f - 32f), new Vector2(-size / 2f - 72f, 0f) };
@@ -88,15 +91,34 @@ namespace HumanLastRampart.Meta
                 if (start == null) continue;
                 int hpAfter = after.TryGetValue(ids[i], out int a) ? a : start.Hp;
                 float ratio = start.MaxHp > 0 ? Mathf.Clamp01((float)hpAfter / start.MaxHp) : 1f;
-                Rect(box, "Wall " + names[i], center + offsets[i], sizes[i], RatioColor(ratio));
-                Rect(box, "Wall Edge " + names[i], center + offsets[i], sizes[i] + new Vector2(UiTokens.Dot * 2f, UiTokens.Dot * 2f), UiTokens.Ink).SetAsFirstSibling();
+                Sprite wall = art ? UiArt.Get(UiArt.FortressWall(artSides[i], ratio)) : null;
+                if (wall != null) Picture(box, "Wall " + names[i], wall, center);   // 면마다 192×192 투명 판 — 같은 자리에 겹친다
+                else
+                {
+                    Rect(box, "Wall " + names[i], center + offsets[i], sizes[i], RatioColor(ratio));
+                    Rect(box, "Wall Edge " + names[i], center + offsets[i], sizes[i] + new Vector2(UiTokens.Dot * 2f, UiTokens.Dot * 2f), UiTokens.Ink).SetAsFirstSibling();
+                }
+
                 int damage = start.Hp - hpAfter;
                 Text label = Text(box, damage > 0 ? $"{names[i]} −{damage:N0}" : names[i], center + labelOffsets[i], UiTokens.Text,
                     UiTokens.Ink, new Vector2(136f, 32f), TextAnchor.MiddleCenter, true);
                 if (damage > 0 && ratio < 0.35f) label.color = UiTokens.DangerInk;
             }
+
+            Sprite tower = art ? UiArt.Get(UiArt.FortressTower) : null;
+            if (tower != null) Picture(box, "Tower", tower, center + new Vector2(0f, 6f));
         }
 
+        // K-123 그림 한 장 (원래 크기, 가운데 기준)
+        static void Picture(RectTransform parent, string name, Sprite sprite, Vector2 at)
+        {
+            Image image = Ui.Image(parent, name, Color.white);
+            image.sprite = sprite;
+            var rect = image.rectTransform;
+            rect.anchorMin = rect.anchorMax = new Vector2(0.5f, 0.5f);
+            rect.anchoredPosition = at;
+            rect.sizeDelta = UiArt.Size(sprite);
+        }
         // ── 병력: 병종마다 한 줄 — 그림 + 남은/잃은 막대 + 숫자 ──
         static void DrawSquads(RectTransform box, BattleSetup setup, BattleResult result, Func<string, UnitDef> unit)
         {
@@ -124,11 +146,20 @@ namespace HumanLastRampart.Meta
                 Portrait(box, def, new Vector2(-half + 48f, y), rowHeight * 0.95f);
                 int total = start[order[i]], gone = Mathf.Min(lost[order[i]], total);
                 float left = -half + 104f + barWidth / 2f;
-                Rect(box, "Track", new Vector2(left, y - 12f), new Vector2(barWidth, 18f), UiTokens.Ink);
                 float keep = total > 0 ? (float)(total - gone) / total : 1f;
-                float inner = barWidth - UiTokens.Dot * 2f;
-                Rect(box, "Kept", new Vector2(left - inner / 2f + inner * keep / 2f, y - 12f), new Vector2(inner * keep, 12f), UiTokens.Good);
-                if (gone > 0) Rect(box, "Lost", new Vector2(left - inner / 2f + inner * keep + inner * (1f - keep) / 2f, y - 12f), new Vector2(inner * (1f - keep), 12f), UiTokens.Danger);
+                if (!BarArt(box, new Vector2(left, y - 12f), barWidth, 0f, 1f, UiArt.BarTrackSmall, null))
+                {
+                    Rect(box, "Track", new Vector2(left, y - 12f), new Vector2(barWidth, 18f), UiTokens.Ink);
+                    float inner = barWidth - UiTokens.Dot * 2f;
+                    Rect(box, "Kept", new Vector2(left - inner / 2f + inner * keep / 2f, y - 12f), new Vector2(inner * keep, 12f), UiTokens.Good);
+                    if (gone > 0) Rect(box, "Lost", new Vector2(left - inner / 2f + inner * keep + inner * (1f - keep) / 2f, y - 12f), new Vector2(inner * (1f - keep), 12f), UiTokens.Danger);
+                }
+                else
+                {
+                    // K-123 막대: 남은 부분 = 좋음(초록), 잃은 부분 = 위험(붉음)
+                    BarArt(box, new Vector2(left, y - 12f), barWidth, 0f, keep, UiArt.BarFill("good", false), "Kept");
+                    if (gone > 0) BarArt(box, new Vector2(left, y - 12f), barWidth, keep, 1f, UiArt.BarFill("danger", false), "Lost");
+                }
                 string name = def != null && !string.IsNullOrEmpty(def.DisplayName) ? def.DisplayName : order[i];
                 Text(box, gone > 0 ? $"{name}  {total - gone:N0}/{total:N0}  −{gone:N0}" : $"{name}  {total:N0}",
                     new Vector2(left, y + 16f), UiTokens.Text, UiTokens.Ink, new Vector2(barWidth, 32f), TextAnchor.MiddleLeft);
@@ -156,9 +187,17 @@ namespace HumanLastRampart.Meta
                 Portrait(box, def, new Vector2(-half + 52f, y), rowHeight * 0.95f, alive ? Color.white : new Color(0.35f, 0.3f, 0.28f));
                 float left = -half + 112f + barWidth / 2f;
                 float ratio = Mathf.Clamp01((float)hp / max);
-                float inner = barWidth - UiTokens.Dot * 2f;
-                Rect(box, "Track", new Vector2(left, y - 12f), new Vector2(barWidth, 18f), UiTokens.Ink);
-                Rect(box, "Hp", new Vector2(left - inner / 2f + inner * ratio / 2f, y - 12f), new Vector2(inner * ratio, 12f), alive ? RatioColor(ratio) : UiTokens.Danger);
+                if (!BarArt(box, new Vector2(left, y - 12f), barWidth, 0f, 1f, UiArt.BarTrackSmall, null))
+                {
+                    float inner = barWidth - UiTokens.Dot * 2f;
+                    Rect(box, "Track", new Vector2(left, y - 12f), new Vector2(barWidth, 18f), UiTokens.Ink);
+                    Rect(box, "Hp", new Vector2(left - inner / 2f + inner * ratio / 2f, y - 12f), new Vector2(inner * ratio, 12f), alive ? RatioColor(ratio) : UiTokens.Danger);
+                }
+                else
+                {
+                    string kind = !alive || ratio < 0.35f ? "danger" : ratio < 0.7f ? "brass" : "good";
+                    BarArt(box, new Vector2(left, y - 12f), barWidth, 0f, ratio, UiArt.BarFill(kind, false), "Hp");
+                }
                 string name = def != null && !string.IsNullOrEmpty(def.DisplayName) ? def.DisplayName : start.UnitDefId;
                 Text(box, alive ? $"{name}  {hp:N0}/{max:N0}" : $"{name}  쓰러짐", new Vector2(left, y + 16f), UiTokens.Text,
                     alive ? UiTokens.Ink : UiTokens.DangerInk, new Vector2(barWidth, 32f), TextAnchor.MiddleLeft);
@@ -208,6 +247,20 @@ namespace HumanLastRampart.Meta
             return content;
         }
 
+        // K-123 막대 조각 한 장: 가운데 center, 전체 너비 width 중 [from, to] 구간을 9칸 늘이기로 채운다 (name이 null이면 홈 그림). 그림이 없으면 false
+        static bool BarArt(RectTransform parent, Vector2 center, float width, float from, float to, string art, string name)
+        {
+            Sprite sprite = UiArt.Get(art);
+            if (sprite == null || to <= from) return sprite != null;
+            Image image = Ui.Image(parent, name ?? "Track", Color.white);
+            image.sprite = sprite;
+            image.type = UnityEngine.UI.Image.Type.Sliced;
+            var rect = image.rectTransform;
+            rect.anchorMin = rect.anchorMax = new Vector2(0.5f, 0.5f);
+            rect.anchoredPosition = new Vector2(center.x - width / 2f + width * (from + to) / 2f, center.y);
+            rect.sizeDelta = new Vector2(width * (to - from), UiArt.Size(sprite).y);
+            return true;
+        }
         static RectTransform Rect(RectTransform parent, string name, Vector2 at, Vector2 size, Color color)
         {
             Image image = Ui.Image(parent, name, color);

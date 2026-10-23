@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using HumanLastRampart.Core.Settings;
 using HumanLastRampart.UI;
@@ -42,15 +42,15 @@ namespace HumanLastRampart.Frontend
             rect.anchorMin = rect.anchorMax = new Vector2(0.5f, 0.5f);
             rect.sizeDelta = new Vector2(820, 960);
             var layout = panel.gameObject.AddComponent<VerticalLayoutGroup>();
-            layout.padding = new RectOffset(56, 56, 36, 36);
-            layout.spacing = 14;
+            layout.padding = new RectOffset((int)(UiTokens.S48 + UiTokens.S8), (int)(UiTokens.S48 + UiTokens.S8), (int)UiTokens.S32, (int)UiTokens.S32);
+            layout.spacing = UiTokens.S16;
             layout.childAlignment = TextAnchor.UpperCenter;
             layout.childControlWidth = layout.childControlHeight = true;
             layout.childForceExpandWidth = true;
             layout.childForceExpandHeight = false;
 
-            Label(panel.transform, "설정", UiTokens.H1, 72, UiTokens.Ink);
-            Label(panel.transform, "누를 때마다 값이 바뀝니다 · 바로 저장", UiTokens.Small, 36, UiTokens.InkSoft);
+            Label(panel.transform, "설정", UiTokens.H1, UiTokens.S48 + UiTokens.S24, UiTokens.Ink);
+            Label(panel.transform, "누를 때마다 값이 바뀝니다 · 바로 저장", UiTokens.Small, UiTokens.S32, UiTokens.InkSoft);
 
             Row(panel.transform, () => $"소리 크기: {Mathf.RoundToInt(GameSettings.MasterVolume * 100f)}%",
                 () => GameSettings.SetMasterVolume(GameSettings.NextStep(GameSettings.VolumeSteps, GameSettings.MasterVolume)));

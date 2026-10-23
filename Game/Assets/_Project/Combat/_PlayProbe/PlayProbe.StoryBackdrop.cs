@@ -48,7 +48,7 @@ public sealed partial class PlayProbe
                 for (int i = 0; i < 120 && !player.LineFullyShown; i++)
                 {
                     if (i > 30) player.Advance();   // 암전이 끝난 뒤에도 글이 나오는 중이면 끝까지
-                    yield return null;
+                    yield return new WaitForSecondsRealtime(0.03f);   // 재생기 연출은 실제 시간이라, 프레임이 빠른 기계에서도 끝나게 (W34)
                 }
                 for (int i = 0; i < 4; i++) yield return null;
                 if (!player.LineFullyShown) continue;
