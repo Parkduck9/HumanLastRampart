@@ -1,0 +1,318 @@
+﻿{
+    "unity_executed":  false,
+    "result":  "pass",
+    "assets":  [
+                   {
+                       "pass":  true,
+                       "file":  "textures/clay_tiles.png",
+                       "checks":  {
+                                      "width":  256,
+                                      "height":  256,
+                                      "opaque":  65536,
+                                      "transparent":  0,
+                                      "partial_alpha":  0,
+                                      "last_opaque_row":  255,
+                                      "min_component_pixels":  0
+                                  }
+                   },
+                   {
+                       "pass":  true,
+                       "file":  "textures/plank_wall.png",
+                       "checks":  {
+                                      "width":  256,
+                                      "height":  256,
+                                      "opaque":  65536,
+                                      "transparent":  0,
+                                      "partial_alpha":  0,
+                                      "last_opaque_row":  255,
+                                      "min_component_pixels":  0
+                                  }
+                   },
+                   {
+                       "pass":  true,
+                       "file":  "textures/plaster_timber.png",
+                       "checks":  {
+                                      "width":  256,
+                                      "height":  256,
+                                      "opaque":  65536,
+                                      "transparent":  0,
+                                      "partial_alpha":  0,
+                                      "last_opaque_row":  255,
+                                      "min_component_pixels":  0
+                                  }
+                   },
+                   {
+                       "pass":  true,
+                       "file":  "textures/rough_stone.png",
+                       "checks":  {
+                                      "width":  256,
+                                      "height":  256,
+                                      "opaque":  65536,
+                                      "transparent":  0,
+                                      "partial_alpha":  0,
+                                      "last_opaque_row":  255,
+                                      "min_component_pixels":  0
+                                  }
+                   },
+                   {
+                       "pass":  true,
+                       "file":  "textures/slate_roof.png",
+                       "checks":  {
+                                      "width":  256,
+                                      "height":  256,
+                                      "opaque":  65536,
+                                      "transparent":  0,
+                                      "partial_alpha":  0,
+                                      "last_opaque_row":  255,
+                                      "min_component_pixels":  0
+                                  }
+                   },
+                   {
+                       "pass":  true,
+                       "file":  "textures/thatch.png",
+                       "checks":  {
+                                      "width":  256,
+                                      "height":  256,
+                                      "opaque":  65536,
+                                      "transparent":  0,
+                                      "partial_alpha":  0,
+                                      "last_opaque_row":  255,
+                                      "min_component_pixels":  0
+                                  }
+                   },
+                   {
+                       "pass":  true,
+                       "file":  "textures/wood_shingles.png",
+                       "checks":  {
+                                      "width":  256,
+                                      "height":  256,
+                                      "opaque":  65536,
+                                      "transparent":  0,
+                                      "partial_alpha":  0,
+                                      "last_opaque_row":  255,
+                                      "min_component_pixels":  0
+                                  }
+                   },
+                   {
+                       "pass":  true,
+                       "file":  "decals/barracks_day.png",
+                       "checks":  {
+                                      "width":  144,
+                                      "height":  64,
+                                      "opaque":  2225,
+                                      "transparent":  6991,
+                                      "partial_alpha":  0,
+                                      "last_opaque_row":  60,
+                                      "min_component_pixels":  251
+                                  }
+                   },
+                   {
+                       "pass":  true,
+                       "file":  "decals/barracks_night.png",
+                       "checks":  {
+                                      "width":  144,
+                                      "height":  64,
+                                      "opaque":  2225,
+                                      "transparent":  6991,
+                                      "partial_alpha":  0,
+                                      "last_opaque_row":  60,
+                                      "min_component_pixels":  251
+                                  }
+                   },
+                   {
+                       "pass":  true,
+                       "file":  "decals/repair_day.png",
+                       "checks":  {
+                                      "width":  144,
+                                      "height":  64,
+                                      "opaque":  2298,
+                                      "transparent":  6918,
+                                      "partial_alpha":  0,
+                                      "last_opaque_row":  60,
+                                      "min_component_pixels":  2298
+                                  }
+                   },
+                   {
+                       "pass":  true,
+                       "file":  "decals/repair_night.png",
+                       "checks":  {
+                                      "width":  144,
+                                      "height":  64,
+                                      "opaque":  2298,
+                                      "transparent":  6918,
+                                      "partial_alpha":  0,
+                                      "last_opaque_row":  60,
+                                      "min_component_pixels":  2298
+                                  }
+                   },
+                   {
+                       "pass":  true,
+                       "file":  "decals/shop_day.png",
+                       "checks":  {
+                                      "width":  144,
+                                      "height":  64,
+                                      "opaque":  2793,
+                                      "transparent":  6423,
+                                      "partial_alpha":  0,
+                                      "last_opaque_row":  60,
+                                      "min_component_pixels":  2793
+                                  }
+                   },
+                   {
+                       "pass":  true,
+                       "file":  "decals/shop_night.png",
+                       "checks":  {
+                                      "width":  144,
+                                      "height":  64,
+                                      "opaque":  2793,
+                                      "transparent":  6423,
+                                      "partial_alpha":  0,
+                                      "last_opaque_row":  60,
+                                      "min_component_pixels":  2793
+                                  }
+                   },
+                   {
+                       "pass":  true,
+                       "file":  "decals/trap_workshop_day.png",
+                       "checks":  {
+                                      "width":  144,
+                                      "height":  64,
+                                      "opaque":  2224,
+                                      "transparent":  6992,
+                                      "partial_alpha":  0,
+                                      "last_opaque_row":  60,
+                                      "min_component_pixels":  2224
+                                  }
+                   },
+                   {
+                       "pass":  true,
+                       "file":  "decals/trap_workshop_night.png",
+                       "checks":  {
+                                      "width":  144,
+                                      "height":  64,
+                                      "opaque":  2224,
+                                      "transparent":  6992,
+                                      "partial_alpha":  0,
+                                      "last_opaque_row":  60,
+                                      "min_component_pixels":  2224
+                                  }
+                   },
+                   {
+                       "pass":  true,
+                       "file":  "props/beacon_banner.png",
+                       "checks":  {
+                                      "width":  24,
+                                      "height":  40,
+                                      "opaque":  279,
+                                      "transparent":  681,
+                                      "partial_alpha":  0,
+                                      "last_opaque_row":  36,
+                                      "min_component_pixels":  279
+                                  }
+                   },
+                   {
+                       "pass":  true,
+                       "file":  "props/belfry.png",
+                       "checks":  {
+                                      "width":  36,
+                                      "height":  40,
+                                      "opaque":  639,
+                                      "transparent":  801,
+                                      "partial_alpha":  0,
+                                      "last_opaque_row":  36,
+                                      "min_component_pixels":  639
+                                  }
+                   },
+                   {
+                       "pass":  true,
+                       "file":  "props/chimney.png",
+                       "checks":  {
+                                      "width":  24,
+                                      "height":  48,
+                                      "opaque":  450,
+                                      "transparent":  702,
+                                      "partial_alpha":  0,
+                                      "last_opaque_row":  44,
+                                      "min_component_pixels":  450
+                                  }
+                   },
+                   {
+                       "pass":  true,
+                       "file":  "props/fence.png",
+                       "checks":  {
+                                      "width":  64,
+                                      "height":  24,
+                                      "opaque":  430,
+                                      "transparent":  1106,
+                                      "partial_alpha":  0,
+                                      "last_opaque_row":  20,
+                                      "min_component_pixels":  430
+                                  }
+                   },
+                   {
+                       "pass":  true,
+                       "file":  "props/hay.png",
+                       "checks":  {
+                                      "width":  48,
+                                      "height":  28,
+                                      "opaque":  510,
+                                      "transparent":  834,
+                                      "partial_alpha":  0,
+                                      "last_opaque_row":  24,
+                                      "min_component_pixels":  510
+                                  }
+                   },
+                   {
+                       "pass":  true,
+                       "file":  "props/trough.png",
+                       "checks":  {
+                                      "width":  48,
+                                      "height":  20,
+                                      "opaque":  484,
+                                      "transparent":  476,
+                                      "partial_alpha":  0,
+                                      "last_opaque_row":  16,
+                                      "min_component_pixels":  484
+                                  }
+                   },
+                   {
+                       "pass":  true,
+                       "file":  "props/well.png",
+                       "checks":  {
+                                      "width":  48,
+                                      "height":  56,
+                                      "opaque":  1387,
+                                      "transparent":  1301,
+                                      "partial_alpha":  0,
+                                      "last_opaque_row":  52,
+                                      "min_component_pixels":  1387
+                                  }
+                   },
+                   {
+                       "pass":  true,
+                       "file":  "props/woodpile.png",
+                       "checks":  {
+                                      "width":  52,
+                                      "height":  28,
+                                      "opaque":  602,
+                                      "transparent":  854,
+                                      "partial_alpha":  0,
+                                      "last_opaque_row":  24,
+                                      "min_component_pixels":  602
+                                  }
+                   }
+               ],
+    "protected_pixels_changed":  {
+                                     "night":  0,
+                                     "day":  0
+                                 },
+    "git_writes":  false,
+    "baseline_convention":  "baseline is the lower edge after the last opaque row; three transparent rows follow",
+    "game_exact_nearest_3x_count":  16,
+    "window_only_changed_pixels":  {
+                                       "shop":  82,
+                                       "barracks":  84,
+                                       "repair":  77,
+                                       "trap_workshop":  82
+                                   }
+}
