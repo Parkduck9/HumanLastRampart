@@ -10,13 +10,56 @@ namespace HumanLastRampart.Combat.Tests
         const float Half = 20f;
 
         // 계단 쪽 성벽 안쪽 가장자리 가운데에서 (lz: 통로 쪽 +, lx: 성벽 따라) 떨어진 발 위치
-        static Vector3 At(float lz, float lx)
+        static Vector3 At(float lz, float lx, int side = BattleCameraRig.StairsSide)
         {
-            var n = WallGeometry.Outward(BattleCameraRig.StairsSide);
-            var r = WallGeometry.Right(BattleCameraRig.StairsSide);
+            var n = WallGeometry.Outward(side);
+            var r = WallGeometry.Right(side);
             var nv = new Vector3(n.x, 0f, n.z);
             var rv = new Vector3(r.x, 0f, r.z);
             return nv * (Half - 2f + lz) + rv * lx + Vector3.up * BattleSim.WallHeight;
+        }
+
+        // W35: 계단은 네 성벽 모두에 같은 모양 — 같은 자리는 어느 성벽이든 같은 높이
+        [Test]
+        public void AllFourWalls_HaveTheSameStairHeights()
+        {
+            for (int side = 0; side < 4; side++)
+            {
+                Assert.AreEqual(BattleCourtyard.LandingHeight, BattleCourtyard.HeroLift(At(0.1f, 0f, side), Half), 1e-4f, $"성벽 {side} 층계참");
+                for (int k = 0; k < BattleCourtyard.StepCount - 1; k++)
+                {
+                    float expected = BattleCourtyard.LandingHeight * (1f - (k + 1f) / BattleCourtyard.StepCount);
+                    Assert.AreEqual(expected, BattleCourtyard.HeroLift(At(-(k + 0.5f) * BattleCourtyard.TreadDepth, 0f, side), Half), 1e-4f, $"성벽 {side} {k}번째 단");
+                }
+
+                Assert.AreEqual(0f, BattleCourtyard.HeroLift(At(BattleCourtyard.LandingDepth + 0.3f, 0f, side), Half), 1e-4f, $"성벽 {side}: 층계참 바깥");
+            }
+        }
+
+        [Test]
+        public void Stairs_AreOneMergedMeshPerKind_AcrossFourWalls()
+        {
+            var parent = new GameObject("Courtyard Four Stairs Test");
+            try
+            {
+                using (new BattleCourtyard(Half, parent.transform))
+                {
+                    var mesh = parent.transform.Find("Courtyard (W27)/Courtyard Stairs").GetComponent<MeshFilter>().sharedMesh;
+                    var seen = new bool[4];
+                    foreach (Vector3 v in mesh.vertices)
+                    {
+                        Vector3 c = new Vector3(v.x, 0f, v.z);
+                        for (int side = 0; side < 4; side++)
+                        {
+                            BattleCourtyard.StairFrame(side, out Vector3 n, out Vector3 r);
+                            if (Vector3.Dot(c, n) > Half - 3.5f && Mathf.Abs(Vector3.Dot(c, r)) < 1.6f) seen[side] = true;
+                        }
+                    }
+
+                    for (int side = 0; side < 4; side++) Assert.IsTrue(seen[side], $"성벽 {side} 계단 모양이 합친 메시에 있다");
+                }
+            }
+            finally { Object.DestroyImmediate(parent); }
         }
 
         [Test]
@@ -47,12 +90,11 @@ namespace HumanLastRampart.Combat.Tests
             Assert.AreEqual(0f, BattleCourtyard.HeroLift(At(BattleCourtyard.LandingDepth + 0.3f, 0f), Half), 1e-4f, "층계참보다 바깥(처음 서는 자리·병사 길)");
             Assert.AreEqual(0f, BattleCourtyard.HeroLift(At(0.1f, BattleCourtyard.StairHalfWidth + 0.2f), Half), 1e-4f, "계단 폭 밖");
             Assert.AreEqual(0f, BattleCourtyard.HeroLift(new Vector3(0f, BattleSim.WallHeight, 0f), Half), 1e-4f, "탑 앞");
-            for (int side = 0; side < 4; side++)
+            for (int side = 0; side < 4; side++)   // W35: 모든 성벽에 계단이 있으니 같은 규칙이 네 성벽에 모두 맞다
             {
-                if (side == BattleCameraRig.StairsSide) continue;
-                var n = WallGeometry.Outward(side);
-                var feet = new Vector3(n.x, 0f, n.z) * (Half - 1.8f) + Vector3.up * BattleSim.WallHeight;
-                Assert.AreEqual(0f, BattleCourtyard.HeroLift(feet, Half), 1e-4f, $"성벽 {side} 가운데");
+                Assert.AreEqual(0f, BattleCourtyard.HeroLift(At(BattleCourtyard.LandingDepth + 0.3f, 0f, side), Half), 1e-4f, $"성벽 {side}: 층계참보다 바깥(처음 서는 자리·병사 길)");
+                Assert.AreEqual(0f, BattleCourtyard.HeroLift(At(0.1f, BattleCourtyard.StairHalfWidth + 0.2f, side), Half), 1e-4f, $"성벽 {side}: 계단 폭 밖");
+                Assert.AreEqual(0f, BattleCourtyard.HeroLift(At(-(BattleCourtyard.StepCount + 3f) * BattleCourtyard.TreadDepth, 0f, side), Half), 1e-4f, $"성벽 {side}: 마당");
             }
         }
 
@@ -128,7 +170,7 @@ namespace HumanLastRampart.Combat.Tests
                         Vector3 c = (v[i] + v[i + 1] + v[i + 2] + v[i + 3]) * 0.25f;
                         c.y = 0f;
                         Assert.GreaterOrEqual(c.magnitude, BattleRoad.PlazaRimRadius + 1.2f - 1e-3f, "탑 광장 밖");
-                        if (Vector3.Dot(c, n) > 0f) Assert.GreaterOrEqual(Mathf.Abs(Vector3.Dot(c, r)), BattleRoad.HalfWidth + BattleRoad.KerbWidth + 2.2f - 1e-3f, "돌길·계단 줄 밖");
+                        Assert.IsFalse(BattleCourtyard.OnAnyRoad(c, BattleRoad.HalfWidth + BattleRoad.KerbWidth + 2.2f - 1e-3f), "네 돌길·계단 줄 밖 (W35)");
                         Assert.Less(Mathf.Abs(v[i].y - (BattleSim.WallHeight + 0.02f)), 1e-3f, "바닥 위 1cm (먼 곳에서 깜박이지 않게)");
                     }
 

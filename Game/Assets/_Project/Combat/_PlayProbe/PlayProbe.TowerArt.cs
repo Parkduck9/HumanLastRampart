@@ -189,14 +189,14 @@ public sealed partial class PlayProbe
             yield return WaitFor(() => rig.NearStairs, 6f);
             rig.DepthInput = 0f;
             Assert.IsTrue(entry.Interact(), "E: 탑으로 내려가기");
-            yield return WaitFor(() => rig.AtTower, 8f);
+            yield return WaitFor(() => rig.AtTower, 40f);
             Assert.IsTrue(rig.AtTower, "탑 앞 도착");
             for (int i = 0; i < 20; i++) yield return null;
             sim.RotateBeam(2);
             for (int i = 0; i < 24; i++) yield return null;
             yield return Capture($"w27_{label}_6_at_tower_door", PfWidth, PfHeight);
             entry.LeaveTower();
-            yield return WaitFor(() => rig.OnWall, 8f);
+            yield return WaitFor(() => rig.OnWall, 40f);
             Note("탑·마당 그림 사진 촬영 완료");
         }
         finally

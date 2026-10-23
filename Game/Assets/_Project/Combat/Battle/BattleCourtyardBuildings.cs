@@ -5,9 +5,9 @@ using UnityEngine;
 namespace HumanLastRampart.Combat.Battle
 {
     // 정비 화면(낮) 건물을 마당에 세운 3D 건물 (W28 블록아웃 → W31 Codex K-118 그림 입힘)
-    // - 기능 건물: 성벽 수리 · 병영 · 함정 공방 · 상점 (PrepEntry의 정비 장소). 등대는 가운데 탑, 성벽 계단은 북쪽 층계(BattleCourtyard)가 이미 맡는다
+    // - 기능 건물: 성벽 수리 · 병영 · 함정 공방 · 상점 (PrepEntry의 정비 장소). 등대는 가운데 탑, 성벽 계단은 네 성벽 층계(BattleCourtyard)가 이미 맡는다
     // - 장식 건물(기능 없음): 대장간(굴뚝) · 마구간(울타리) · 예배당(작은 종탑) · 곡물창고 · 작은 집·창고, 우물·건초·장작더미
-    // - 탑이 한눈에 보이도록 작게(키 2.6m 이하, 굴뚝·종탑 3.0m 이하) 성벽 안쪽 면에 낮게 모아 짓는다. 탑 둘레·북쪽 길·계단은 비워 둔다
+    // - 탑이 한눈에 보이도록 작게(키 2.6m 이하, 굴뚝·종탑 3.0m 이하) 성벽 안쪽 면에 낮게 모아 짓는다. 탑 둘레·네 길·계단은 비워 둔다
     // - W31 그림: 벽(회벽·석조·판벽)·지붕(슬레이트·기와)은 256px=8m 반복 재질을 미터 기준 UV로 입힌다 (늘리지 않는다).
     //   기능 건물 앞면 데칼(문·간판)과 소품(굴뚝·종탑·울타리·건초·장작·우물·물통)은 한 장으로 합친 판 그림 → 한 메시, 밤에는 창문만 켜진다
     // - 그리는 수: 벽 3 + 지붕 2 + 그림판 1 = 6번 (재질마다 합친 메시), 밤에는 켜진 창 1번 더. 매 프레임 일은 없음 (소품 정면만 사진기 방향이 바뀔 때)
@@ -15,7 +15,7 @@ namespace HumanLastRampart.Combat.Battle
     public sealed class BattleCourtyardBuildings : IDisposable
     {
         public const float TowerRing = 5f;        // 탑 둘레 비움 반지름 (병사 전령이 곁에 서는 자리 포함)
-        public const float RoadHalfWidth = 3f;    // 계단에서 탑으로 가는 길 (너비 6m)
+        public const float RoadHalfWidth = 3f;    // 네 성벽 계단에서 탑으로 가는 길 (십자, 너비 6m). W35: 병영·대장간을 이 띠 밖으로 옮겼다
         public const float MaxBuildingHeight = 2.6f;   // 건물(지붕 끝까지)
         public const float MaxPieceHeight = 3.0f;      // 굴뚝·종탑
         public const float TextureMeters = 8f;         // 반복 재질 한 장 = 8m (256px, 32px=1m)
@@ -86,11 +86,11 @@ namespace HumanLastRampart.Combat.Battle
         {
             // 기능 건물 (정비 장소)
             new Plot("성벽 수리", 3, -6f, 5f, 3f, 1.9f, true, WallKind.Stone, RoofKind.Slate, Facade.Repair),
-            new Plot("병영", 1, 6f, 6.5f, 3.5f, 2.0f, true, WallKind.Timber, RoofKind.Tile, Facade.Barracks),
+            new Plot("병영", 1, 6.5f, 6.5f, 3.5f, 2.0f, true, WallKind.Timber, RoofKind.Tile, Facade.Barracks),
             new Plot("함정 공방", 2, 8f, 4.5f, 3f, 1.8f, false, WallKind.Stone, RoofKind.Slate, Facade.Trap),
             new Plot("상점", 2, -8f, 4.5f, 3f, 1.9f, true, WallKind.Timber, RoofKind.Tile, Facade.Shop),
             // 장식 건물 (기능 없음)
-            new Plot("대장간", 3, 5f, 4f, 3f, 1.8f, true, WallKind.Stone, RoofKind.Slate),
+            new Plot("대장간", 3, 5.3f, 4f, 3f, 1.8f, true, WallKind.Stone, RoofKind.Slate),
             new Plot("마구간", 1, -6f, 5f, 3f, 1.7f, true, WallKind.Plank, RoofKind.Tile),
             new Plot("예배당", 0, 8f, 4f, 3f, 1.9f, true, WallKind.Stone, RoofKind.Slate),
             new Plot("곡물창고", 0, -8.5f, 4.5f, 3f, 1.8f, true, WallKind.Plank, RoofKind.Tile),
@@ -100,7 +100,7 @@ namespace HumanLastRampart.Combat.Battle
 
         public static readonly Piece[] Pieces =
         {
-            new Piece("대장간 굴뚝", 3, 5.9f, 0.3f, 0.5f, 0.5f, 1.4f, 1.5f, PieceKind.Stone, true, PropArt.Chimney),
+            new Piece("대장간 굴뚝", 3, 6.2f, 0.3f, 0.5f, 0.5f, 1.4f, 1.5f, PieceKind.Stone, true, PropArt.Chimney),
             new Piece("종탑", 0, 8f, 1.0f, 0.9f, 0.9f, 1.9f, 1.1f, PieceKind.Timber, true, PropArt.Belfry),
             new Piece("마구간 울타리 앞", 1, -6f, 4.9f, 5.4f, 0.1f, 0f, 0.6f, PieceKind.Timber, false, PropArt.Fence),
             new Piece("마구간 울타리 왼", 1, -3.4f, 3.3f, 0.1f, 1.6f, 0f, 0.6f, PieceKind.Timber, false, PropArt.Fence),

@@ -8,7 +8,7 @@ namespace HumanLastRampart.Combat.Battle
     // - 바닥: K-116 courtyard_cobble_512(이음새 없는 둥근 돌)를 점 필터로 반복해 네 성벽 안쪽에만 깐다 (조명은 다른 땅과 같은 Lit 셰이더). 그림이 없으면 예전 courtyard_cobble
     //   게임 속 세계는 병사 키 0.35m라 Codex 설명서의 '1m'보다 작다 — 돌 하나가 병사 발 크기쯤이 되게 한 장을 CobbleTile512Meters로 줄여 깐다 (모든 소품은 같은 비율 PropScale)
     // - 데칼: 흙·짚·깨진 돌·물웅덩이 투명 그림을 길·계단·탑 둘레를 피해 듬성듬성 (한 장 그림으로 합쳐 그리기 1번)
-    // - 계단: 북쪽 성벽(StairsSide) 통로 안쪽 끝 가운데. 마당과 성벽 윗면이 같은 높이(테스트가 약속)라 진짜로 내려가지는 못하므로
+    // - 계단: 네 성벽 모두(W35) 통로 안쪽 끝 가운데 (네 벌을 한 메시로 합쳐 그리는 수는 그대로). 마당과 성벽 윗면이 같은 높이(테스트가 약속)라 진짜로 내려가지는 못하므로
     //   '통로 끝 약간 솟은 층계참 + 낮아지는 계단 5단'을 짓고, 주인공 그림만 그 높이를 따라 오르내리게 한다(HeroLift). 그림 높이 말고는 아무것도 안 바뀐다
     //   K-116 계단 윗면·앞면(stair_step_atlas)과 옆돌(stair_flank)을 면마다 맞는 칸으로 입힌다 (면 크기에 맞춰 늘리지 않고 칸 그대로)
     // - 소품: 상자·통은 K-116 props_box_atlas 면 칸, 무기 걸이·수레·화살 묶음은 사진기를 보는 세운 그림(CourtyardBillboard). 길(탑으로 가는 가운데 줄)은 비워 둔다
@@ -17,7 +17,7 @@ namespace HumanLastRampart.Combat.Battle
     {
         const string Folder = "BattleArt/Courtyard/";
         const float SkinLift = 0.01f;            // 통로 덮는 판과 같은 높이 (BattleWorldView.SkinLift)
-        const float WallThickness = 2f;
+        public const float WallThickness = 2f;
         const float CobbleTileMeters = 2.8f;     // (옛 그림) 돌바닥 그림 한 장이 덮는 미터 (돌 하나가 병사 키(0.35m)와 비슷한 크기)
         const float CobbleTile512Meters = 2.6f;  // K-116 바닥 한 장(512화소, 설명서 16m)이 덮는 미터 — 돌 하나 약 0.18m
         public const float PropScale = 0.3f / 32f;   // K-116 소품·데칼 한 화소 = m (설명서 32화소 = 1m 의 0.3배 — 상자 한 변 0.3m)
@@ -71,19 +71,29 @@ namespace HumanLastRampart.Combat.Battle
             BuildSprites(half, top);
         }
 
-        // 계단 쪽 성벽의 바깥 방향·오른쪽 (BattleCameraRig.StairsSide에서 — 하드코딩 없음)
-        public static void StairFrame(out Vector3 n, out Vector3 r)
+        // 기준 성벽(북, BattleCameraRig.StairsSide)의 바깥 방향·오른쪽 (하드코딩 없음)
+        public static void StairFrame(out Vector3 n, out Vector3 r) => StairFrame(BattleCameraRig.StairsSide, out n, out r);
+
+        // side 성벽의 바깥 방향·오른쪽 (W35: 계단은 네 성벽 모두에 있다)
+        public static void StairFrame(int side, out Vector3 n, out Vector3 r)
         {
-            var o = WallGeometry.Outward(BattleCameraRig.StairsSide);
-            var rr = WallGeometry.Right(BattleCameraRig.StairsSide);
+            var o = WallGeometry.Outward(side);
+            var rr = WallGeometry.Right(side);
             n = new Vector3(o.x, 0f, o.z);
             r = new Vector3(rr.x, 0f, rr.z);
         }
 
-        // 주인공 그림 높이 보정 (m, 발 위치 기준). 계단·층계참 위에서만 0보다 크다
+        // 주인공 그림 높이 보정 (m, 발 위치 기준). 네 계단·층계참 위에서만 0보다 크다
         public static float HeroLift(Vector3 feet, float half)
         {
-            StairFrame(out Vector3 n, out Vector3 r);
+            float best = 0f;
+            for (int side = 0; side < 4; side++) best = Mathf.Max(best, HeroLift(side, feet, half));
+            return best;
+        }
+
+        public static float HeroLift(int side, Vector3 feet, float half)
+        {
+            StairFrame(side, out Vector3 n, out Vector3 r);
             Vector3 d = new Vector3(feet.x, 0f, feet.z) - n * (half - WallThickness);   // 성벽 안쪽 가장자리 가운데에서
             float lz = Vector3.Dot(d, n);   // + = 통로 쪽(바깥), - = 마당 쪽
             float lx = Mathf.Abs(Vector3.Dot(d, r));
@@ -181,15 +191,33 @@ namespace HumanLastRampart.Combat.Battle
                 b.Box(new Vector3(xa - 0.04f, 0f, -StepCount * TreadDepth - 0.06f), new Vector3(xb + 0.04f, StairWallRise + 0.08f, -(StepCount - 1) * TreadDepth - 0.06f));   // 맨 아래 기둥
             }
 
-            StairFrame(out Vector3 n, out _);
             var go = new GameObject("Courtyard Stairs");
             go.transform.SetParent(root.transform, false);
-            go.transform.SetLocalPositionAndRotation(n * (half - WallThickness) + Vector3.up * top, Quaternion.LookRotation(n));
-            var mesh = b.ToMesh("Courtyard Stairs");
-            ownedMeshes.Add(mesh);
+            var mesh = AroundWalls(b.ToMesh("Courtyard Stairs"), "Courtyard Stairs", half, top);
             go.AddComponent<MeshFilter>().sharedMesh = mesh;
             go.AddComponent<MeshRenderer>().sharedMaterial = stone.Get(surface);
             RendererCount++;
+        }
+
+        // 계단 한 벌(성벽 안쪽 가장자리 가운데 기준 자기 좌표)을 네 성벽 가운데에 돌려 놓고 한 메시로 합친다 (W35: 그리는 수는 그대로)
+        Mesh AroundWalls(Mesh local, string name, float half, float top)
+        {
+            var parts = new CombineInstance[4];
+            for (int side = 0; side < 4; side++)
+            {
+                StairFrame(side, out Vector3 n, out _);
+                parts[side] = new CombineInstance
+                {
+                    mesh = local,
+                    transform = Matrix4x4.TRS(n * (half - WallThickness) + Vector3.up * top, Quaternion.LookRotation(n), Vector3.one),
+                };
+            }
+
+            var mesh = new Mesh { name = name };
+            mesh.CombineMeshes(parts, true, true);
+            Kill(local);
+            ownedMeshes.Add(mesh);
+            return mesh;
         }
 
         // ── 계단 (K-116): 윗면·앞면은 한 장 칸 그림(stair_step_atlas)의 윗면·앞면 칸, 옆돌은 stair_flank (가로 반복, 위쪽 덮개돌 줄이 위로 오게) ──
@@ -228,10 +256,8 @@ namespace HumanLastRampart.Combat.Battle
                 WallBlock(steps, sides, xa - 0.04f, xb + 0.04f, -StepCount * TreadDepth - 0.06f, -(StepCount - 1) * TreadDepth - 0.06f, StairWallRise + 0.08f, tread);   // 맨 아래 기둥
             }
 
-            StairFrame(out Vector3 n, out _);
-            Vector3 pos = n * (half - WallThickness) + Vector3.up * top;
-            SpawnAt("Courtyard Stairs", steps, MakeLit(stepAtlas, Color.gray, 0.08f), pos, Quaternion.LookRotation(n));
-            SpawnAt("Courtyard Stair Walls", sides, MakeLit(flank, Color.gray, 0.08f), pos, Quaternion.LookRotation(n));
+            SpawnMesh("Courtyard Stairs", AroundWalls(steps.ToMesh("Courtyard Stairs"), "Courtyard Stairs", half, top), MakeLit(stepAtlas, Color.gray, 0.08f));
+            SpawnMesh("Courtyard Stair Walls", AroundWalls(sides.ToMesh("Courtyard Stair Walls"), "Courtyard Stair Walls", half, top), MakeLit(flank, Color.gray, 0.08f));
         }
 
         // 윗면: 가로로는 한 장(칸 전체), 세로(z)는 칸 그대로
@@ -291,14 +317,14 @@ namespace HumanLastRampart.Combat.Battle
             AddCrate(crates, At(-3.0f, 1.1f), 0.26f, 0.24f, -20f);
             AddCrate(crates, At(-3.4f, 0.6f, 0.3f), 0.24f, 0.22f, 30f);
             AddCrate(crates, At(-edge, 0.8f), 0.34f, 0.3f, -8f);
-            AddCrate(crates, new Vector3(6.2f, y, 2.4f), 0.3f, 0.28f, 15f);
+            AddCrate(crates, new Vector3(6.2f, y, 4.6f), 0.3f, 0.28f, 15f);   // (W35: 동쪽 길(z = 0 줄)에서 비껴)
             // 무기 걸이: 기둥 둘 + 가로대 + 세운 자루 넷
             AddRack(crates, At(edge, 0.7f));
 
             var barrels = new MeshBuilder(Vector2.one);
             AddBarrel(barrels, At(3.5f, 0.6f), 0.15f, 0.34f);
             AddBarrel(barrels, At(3.9f, 1.05f), 0.13f, 0.3f);
-            AddBarrel(barrels, new Vector3(-6.4f, y, 1.2f), 0.15f, 0.34f);
+            AddBarrel(barrels, new Vector3(-6.4f, y, 3.9f), 0.15f, 0.34f);   // (W35: 서쪽 길에서 비껴)
             AddBarrel(barrels, At(-edge + 0.8f, 1.5f), 0.14f, 0.32f);
 
             Spawn("Courtyard Crates", crates, MakeLit(crateTex, new Color(0.6f, 0.52f, 0.45f), 0.1f));
@@ -320,10 +346,10 @@ namespace HumanLastRampart.Combat.Battle
             AddCrateK116(kit, At(-3.0f, 1.1f), 0.26f, -20f);
             AddCrateK116(kit, At(-3.4f, 0.6f, 0.34f), 0.24f, 30f);
             AddCrateK116(kit, At(-edge, 0.8f), 0.34f, -8f);
-            AddCrateK116(kit, new Vector3(6.2f, y, 2.4f), 0.3f, 15f);
+            AddCrateK116(kit, new Vector3(6.2f, y, 4.6f), 0.3f, 15f);   // (W35: 동쪽 길(z = 0 줄)에서 비껴)
             kit.Barrel(At(3.5f, 0.6f), 0.15f, 0.34f, 10, BattleTowerInterior.Atlas.BarrelSide, BattleTowerInterior.Atlas.BarrelTop);
             kit.Barrel(At(3.9f, 1.05f), 0.13f, 0.3f, 10, BattleTowerInterior.Atlas.BarrelSide, BattleTowerInterior.Atlas.BarrelTop);
-            kit.Barrel(new Vector3(-6.4f, y, 1.2f), 0.15f, 0.34f, 10, BattleTowerInterior.Atlas.BarrelSide, BattleTowerInterior.Atlas.BarrelTop);
+            kit.Barrel(new Vector3(-6.4f, y, 3.9f), 0.15f, 0.34f, 10, BattleTowerInterior.Atlas.BarrelSide, BattleTowerInterior.Atlas.BarrelTop);
             kit.Barrel(At(-edge + 0.8f, 1.5f), 0.14f, 0.32f, 10, BattleTowerInterior.Atlas.BarrelSide, BattleTowerInterior.Atlas.BarrelTop);
             SpawnAt("Courtyard Props", kit, MakeLit(atlas, Color.gray, 0.1f), Vector3.zero, Quaternion.identity);
         }
@@ -370,6 +396,7 @@ namespace HumanLastRampart.Combat.Battle
             // 데칼: 깨끗한 가운데(탑 둘레 광장·돌길·계단)를 피해 듬성듬성. 같은 걸음으로 격자 배치하지 않는다
             StairFrame(out Vector3 n, out Vector3 r);
             var decals = new MeshKit();
+            float roadClear = BattleRoad.HalfWidth + BattleRoad.KerbWidth + 2.2f;   // 길·등불 기둥·계단 줄 (네 성벽 모두)
             var rng = new System.Random(20261023);
             float limit = half - WallThickness - 0.8f;
             float y = top + SkinLift + DecalLift;
@@ -379,9 +406,8 @@ namespace HumanLastRampart.Combat.Battle
             {
                 float x = ((float)rng.NextDouble() * 2f - 1f) * limit, z = ((float)rng.NextDouble() * 2f - 1f) * limit;
                 var p = new Vector3(x, 0f, z);
-                float along = Vector3.Dot(p, n), lateral = Vector3.Dot(p, r);
                 if (p.magnitude < BattleRoad.PlazaRimRadius + 1.2f) continue;                        // 탑 광장
-                if (along > 0f && Mathf.Abs(lateral) < BattleRoad.HalfWidth + BattleRoad.KerbWidth + 2.2f) continue;   // 돌길·등불 기둥·계단
+                if (OnAnyRoad(p, roadClear)) continue;                                               // 돌길·등불 기둥·계단 (십자)
                 int kind = kinds[placed % kinds.Length];
                 if (kind == SpritePuddle && Mathf.Max(Mathf.Abs(x), Mathf.Abs(z)) < limit - 5f) continue;   // 물웅덩이는 가장자리 낮은 곳에만
                 Texture2D src = sources[kind];
@@ -400,6 +426,18 @@ namespace HumanLastRampart.Combat.Battle
             AddBillboard("Courtyard Cart", material, sources[SpriteCart], rects[SpriteCart], At(-edge + 2.4f, 1.5f));
         }
 
+        // 가운데에서 네 성벽으로 뻗은 길 띠(가운데에서 옆으로 clear 안, 성벽 쪽)에 드는가
+        public static bool OnAnyRoad(Vector3 p, float clear)
+        {
+            for (int side = 0; side < 4; side++)
+            {
+                StairFrame(side, out Vector3 n, out Vector3 r);
+                if (Vector3.Dot(p, n) > 0f && Mathf.Abs(Vector3.Dot(p, r)) < clear) return true;
+            }
+
+            return false;
+        }
+
         void AddBillboard(string name, Material material, Texture2D src, Rect uv, Vector3 feet)
         {
             var kit = new MeshKit();
@@ -407,6 +445,15 @@ namespace HumanLastRampart.Combat.Battle
             var go = SpawnAt(name, kit, material, feet + Vector3.down * (2f * PropScale), Quaternion.identity);
             go.AddComponent<CourtyardBillboard>();
             BillboardCount++;
+        }
+
+        void SpawnMesh(string name, Mesh mesh, Material material)
+        {
+            var go = new GameObject(name);
+            go.transform.SetParent(root.transform, false);
+            go.AddComponent<MeshFilter>().sharedMesh = mesh;
+            go.AddComponent<MeshRenderer>().sharedMaterial = material;
+            RendererCount++;
         }
 
         GameObject SpawnAt(string name, MeshKit kit, Material material, Vector3 localPosition, Quaternion localRotation)

@@ -4,14 +4,14 @@ using UnityEngine;
 
 namespace HumanLastRampart.Combat.Battle
 {
-    // 계단 → 등대 탑 의식용 돌길 (W26, 사용자 2026-10-23 "등대로 가는 길이 너무 초라하다").
+    // 계단 → 등대 탑 의식용 돌길 (W26, 사용자 2026-10-23 "등대로 가는 길이 너무 초라하다"). W35: 네 성벽 모두 계단과 길이 있어 십자 모양으로 광장에 모인다
     // - 돌길: 계단 아래에서 탑 광장까지 조금 밝은 다듬은 돌 길 + 양쪽 연석(작은 돌 덩이를 틈 두고 줄 세움)
     // - 광장: 탑 밑동을 두른 둥근 돌바닥 + 낮은 돌 단 하나
     // - 등불 기둥 (K-122): 길 양쪽 4m마다 사진기를 보는 세운 그림. 낮엔 꺼진 쇠 기둥, 밤엔 불꽃 여섯 칸 그림. 땅 번짐(GroundGlow)만 쓴다 — 셰이더 빛 칸은 쓰지 않는다 (PC 14·모바일 6 상한 그대로)
     // - 깃발 (K-122): 탑 문 곁에 등불지기 깃발 두 개, 네 칸 펄럭임 그림
     // 전부 눈에 보이는 것만 — 발 높이·병사 길·전령 길·사진기는 건드리지 않는다 (돌길 윗면 +2cm, 광장 +2.5cm로 아주 낮게)
     // 그림: Resources/BattleArt/Courtyard/road_paving 이 있으면 그것을, 없으면 통로 돌(walkway_stone)을 밝게 쓴다 (Codex K-116이 오면 그림만 바꾼다)
-    // 그리는 수: 돌길 1 + 연석·광장 단 1 + 등불 기둥 하나당 1 + 깃발 하나당 1 (재질은 낮 1·밤 2·깃발 2로 나눠 쓴다)
+    // 그리는 수: 돌길(네 갈래 합침) 1 + 연석·광장 단 1 + 등불 기둥 하나당 1 + 깃발 하나당 1 (재질은 낮 1·밤 2·깃발 2로 나눠 쓴다)
     public sealed class BattleRoad : IDisposable
     {
         const string Folder = "BattleArt/Courtyard/";
@@ -24,7 +24,9 @@ namespace HumanLastRampart.Combat.Battle
         public const float PlazaRadius = 3.0f;            // 탑 둘레 광장 윗단 반지름 (탑 받침 1.25m 밖)
         public const float PlazaRimRadius = 3.5f;         // 낮은 아랫단
         public const float PlazaLift = 0.025f, PlazaRimLift = 0.015f;   // GroundGlow 판(바닥 +3cm)보다 낮게 — 탑·문 앞 웅덩이가 광장에 안 묻힌다 (돌길 윗면 2cm와도 다르게)
-        public const float LampSpacing = 4f;
+        public const int RoadCount = 4;                   // W35: 네 성벽 가운데에서 광장으로 뻗은 십자 길
+        public const float LampSpacing = 10f;             // 길 하나당 기둥 5~6쌍 (사용자 2026-10-23). 땅 번짐은 PC 14·모바일 4개 상한이라 사진기에 닿는 기둥만 쓴다
+        public const float RoadBannerDistance = PlazaRimRadius + 1.2f;   // 길마다 광장 가장자리 바로 앞에 깃발 한 쌍
         public const float LampOffset = HalfWidth + KerbWidth + 0.3f;   // 길 가운데에서 기둥까지 (연석 바깥)
         public const float LampPostHeight = 0.9f;            // K-122 등불 기둥 보이는 높이 (그림 51화소 = 0.9m, 병사 키 0.35m의 약 2.5배)
         const string RoadFolder = "BattleArt/Road/";         // K-122 기둥·깃발 그림 (96×128 칸 ×3배, 발 (144,360))
@@ -37,7 +39,7 @@ namespace HumanLastRampart.Combat.Battle
         const float RoadCobbleTileMeters = 1.7f;           // 돌길 그림 한 장이 덮는 미터 (마당 바닥 2.6m보다 촘촘하게)
 
         // 깃발 자리 (탑 문 곁, 몸체 받침 바깥 · 주인공 서는 줄(z = -TowerHeroBack)에서 비껴)
-        public static readonly Vector2[] BannerSpots = { new Vector2(-2.05f, BattleTowerView.DoorZ + 0.1f), new Vector2(2.05f, BattleTowerView.DoorZ + 0.1f) };
+        public static readonly Vector2[] BannerSpots = { new Vector2(-3.3f, BattleTowerView.DoorZ - 1.3f), new Vector2(3.3f, BattleTowerView.DoorZ - 1.3f) };   // W35: 주인공 길(문 앞 줄 ±2.2, 동·서 비스듬한 길)에서 1m 이상 비껴 문 앞 좌우
 
         static readonly int BaseColorId = Shader.PropertyToID("_BaseColor");
         static readonly int ColorId = Shader.PropertyToID("_Color");
@@ -57,32 +59,43 @@ namespace HumanLastRampart.Combat.Battle
         public bool HasPavingArt { get; private set; }
 
         // ── 배치 (순수 계산: 시험·빛 번짐이 같이 쓴다) ──
-        // 계단 쪽 성벽 안쪽에서 계단 아래까지 거리: 길이 시작되는 곳 (탑 가운데에서 계단 바깥 방향으로 잰 거리)
+        // 성벽 안쪽에서 계단 아래까지 거리: 길이 시작되는 곳 (탑 가운데에서 그 성벽 바깥 방향으로 잰 거리). 네 길 모두 같다
         public static float RoadStart(float half) => half - 2f - BattleCourtyard.StepCount * BattleCourtyard.TreadDepth;
 
-        // 등불 기둥 한 쌍의 수 (길 위쪽 끝에서 2m 떨어져 시작, 4m마다, 광장 가장자리 0.8m 앞까지)
+        // 길 하나의 등불 기둥 한 쌍의 수 (길 위쪽 끝에서 2m 떨어져 시작, LampSpacing마다, 광장 가장자리 0.8m 앞까지)
         public static int LampPairs(float half)
         {
             float first = RoadStart(half) - 2f, last = PlazaRimRadius + 0.8f;
             return first < last ? 0 : Mathf.FloorToInt((first - last) / LampSpacing) + 1;
         }
 
-        public static int LampCount(float half) => LampPairs(half) * 2;
+        // 네 길 모두의 기둥 수
+        public static int LampCount(float half) => LampPairs(half) * 2 * RoadCount;
 
-        // i번째 등불 기둥 발 위치 (마당 윗면 높이). 짝수 = 한쪽, 홀수 = 반대쪽
+        // 기둥 i가 선 길 (0 북 · 1 동 · 2 남 · 3 서)
+        public static int LampRoad(int i) => (i >> 1) % RoadCount;
+
+        // i번째 등불 기둥 발 위치 (마당 윗면 높이). i = (짝 번호 × 4 + 길) × 2 + 쪽 — 바깥 짝부터 네 길을 한 바퀴씩 (땅 번짐이 닿는 범위 안의 기둥을 고르는 순서)
         public static Vector3 LampBase(float half, int i)
         {
-            BattleCourtyard.StairFrame(out Vector3 n, out Vector3 r);
-            float dist = RoadStart(half) - 2f - (i / 2) * LampSpacing;
+            BattleCourtyard.StairFrame(LampRoad(i), out Vector3 n, out Vector3 r);
+            float dist = RoadStart(half) - 2f - ((i >> 1) / RoadCount) * LampSpacing;
             float side = (i & 1) == 0 ? -1f : 1f;
             return n * dist + r * (side * LampOffset) + Vector3.up * BattleSim.WallHeight;
         }
 
-        // 길 가운데 선 위 점 (dist = 탑 가운데에서 계단 쪽으로 거리)
-        public static Vector3 CenterAt(float dist)
+        // 길 가운데 선 위 점 (dist = 탑 가운데에서 그 성벽 쪽으로 거리)
+        public static Vector3 CenterAt(float dist, int side = BattleCameraRig.StairsSide)
         {
-            BattleCourtyard.StairFrame(out Vector3 n, out _);
+            BattleCourtyard.StairFrame(side, out Vector3 n, out _);
             return n * dist + Vector3.up * BattleSim.WallHeight;
+        }
+
+        // 길 road의 광장 앞 깃발 (쪽 -1·+1)
+        public static Vector3 RoadBannerBase(int road, int sideSign)
+        {
+            BattleCourtyard.StairFrame(road, out Vector3 n, out Vector3 r);
+            return n * RoadBannerDistance + r * (sideSign * LampOffset) + Vector3.up * BattleSim.WallHeight;
         }
 
         public BattleRoad(float half, Transform parent, BattleWorldMaterials sharedStone = null)
@@ -96,32 +109,35 @@ namespace HumanLastRampart.Combat.Battle
             Vector2 walkTile = TileOf(BattleWorldMaterials.Surface.WalkwayStone);
             Vector2 wallTile = TileOf(BattleWorldMaterials.Surface.WallStone);
 
-            BattleCourtyard.StairFrame(out Vector3 n, out Vector3 r);
-            float yaw = Mathf.Atan2(n.x, n.z) * Mathf.Rad2Deg;
             float start = RoadStart(half);
             float end = PlazaRadius - 0.3f;   // 광장 밑으로 살짝 파고든다
             float length = start - end;
-            Vector3 mid = n * ((start + end) * 0.5f);
-
-            // 돌길 (밝은 다듬은 돌) — 한 상자. K-116 둥근 돌 그림을 더 촘촘하게 깔면 바닥과 구분되는 길이 된다
-            Vector2 pavingTile = PavingArt() != null ? new Vector2(RoadCobbleTileMeters, RoadCobbleTileMeters) : walkTile;
-            var paving = new BattleCourtyard.MeshBuilder(pavingTile);
-            if (length >= KerbBlock)   // 아주 작은 성은 길 없이 광장만
-                paving.BoxYaw(mid + Vector3.up * (top - 0.004f), new Vector3(HalfWidth * 2f, PavingLift - SkinLift + 0.004f, length), yaw);
-            Spawn("Road Paving", paving, MakePaving(walkTile));
-            HasPavingArt = PavingArt() != null;
-
-            // 연석 + 광장 단 (성벽 돌)
-            var kerbs = new BattleCourtyard.MeshBuilder(wallTile);
             float kerbLength = start - PlazaRimRadius;   // 연석은 광장 아랫단 가장자리에서 끝난다 (광장 위로 삐져나오지 않게)
             int blocks = kerbLength >= KerbBlock ? Mathf.Max(1, Mathf.FloorToInt((kerbLength + KerbGap) / (KerbBlock + KerbGap))) : 0;
             float pitch = (kerbLength - KerbBlock) / Mathf.Max(1, blocks - 1);
-            for (int i = 0; i < blocks; i++)
+
+            // 돌길 (밝은 다듬은 돌) — 네 길을 한 메시에. K-116 둥근 돌 그림을 더 촘촘하게 깔면 바닥과 구분되는 길이 된다
+            Vector2 pavingTile = PavingArt() != null ? new Vector2(RoadCobbleTileMeters, RoadCobbleTileMeters) : walkTile;
+            var paving = new BattleCourtyard.MeshBuilder(pavingTile);
+            var kerbs = new BattleCourtyard.MeshBuilder(wallTile);   // 연석 + 광장 단 (성벽 돌)
+            for (int road = 0; road < RoadCount; road++)
             {
-                float d = start - KerbBlock * 0.5f - (blocks > 1 ? i * pitch : 0f);
-                foreach (float side in new[] { -1f, 1f })
-                    kerbs.BoxYaw(n * d + r * (side * (HalfWidth + KerbWidth * 0.5f)) + Vector3.up * top, new Vector3(KerbWidth, KerbLift - SkinLift, KerbBlock), yaw);
+                BattleCourtyard.StairFrame(road, out Vector3 n, out Vector3 r);
+                float yaw = Mathf.Atan2(n.x, n.z) * Mathf.Rad2Deg;
+                Vector3 mid = n * ((start + end) * 0.5f);
+                if (length >= KerbBlock)   // 아주 작은 성은 길 없이 광장만
+                    paving.BoxYaw(mid + Vector3.up * (top - 0.004f), new Vector3(HalfWidth * 2f, PavingLift - SkinLift + 0.004f, length), yaw);
+
+                for (int i = 0; i < blocks; i++)
+                {
+                    float d = start - KerbBlock * 0.5f - (blocks > 1 ? i * pitch : 0f);
+                    foreach (float side in new[] { -1f, 1f })
+                        kerbs.BoxYaw(n * d + r * (side * (HalfWidth + KerbWidth * 0.5f)) + Vector3.up * top, new Vector3(KerbWidth, KerbLift - SkinLift, KerbBlock), yaw);
+                }
             }
+
+            Spawn("Road Paving", paving, MakePaving(walkTile));
+            HasPavingArt = PavingArt() != null;
 
             kerbs.Disc(Vector3.zero, PlazaRimRadius, top - 0.004f, BattleSim.WallHeight + PlazaRimLift, 28);
             kerbs.Disc(Vector3.zero, PlazaRadius, top - 0.004f, BattleSim.WallHeight + PlazaLift, 28);
@@ -156,6 +172,15 @@ namespace HumanLastRampart.Combat.Battle
                     bannerMaterials.Add(m);
                     Billboard("Road Banner", bannerMesh, m, new Vector3(spot.x, top, spot.y), pm);
                 }
+
+                // 길마다 광장 가장자리 앞 깃발 한 쌍 (W35). 재질은 문 곁 깃발 둘을 나눠 쓴다 (펄럭임 박자만 엇갈리게)
+                for (int road = 0; road < RoadCount; road++)
+                    for (int s = 0; s < 2; s++)
+                    {
+                        Vector3 b = RoadBannerBase(road, s == 0 ? -1 : 1);
+                        b.y = top;
+                        Billboard("Road Banner", bannerMesh, bannerMaterials[s], b, pm);
+                    }
             }
         }
 

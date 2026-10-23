@@ -35,21 +35,70 @@ namespace HumanLastRampart.Combat.Tests
         [Test]
         public void Buildings_KeepTowerRingAndRoadClear()
         {
-            var o = WallGeometry.Outward(BattleCameraRig.StairsSide);
-            var n = new Vector2(o.x, o.z);
-            var right = new Vector2(n.y, -n.x);
             foreach (var (name, r, _, _) in All())
             {
                 // 탑 둘레: 사각형에서 원점까지 가장 가까운 거리
                 float dx = Mathf.Max(r.xMin, 0f, -r.xMax), dz = Mathf.Max(r.yMin, 0f, -r.yMax);
                 Assert.Greater(Mathf.Sqrt(dx * dx + dz * dz), BattleCourtyardBuildings.TowerRing, name + " 탑 둘레");
-                // 길: 계단 쪽 성벽 방향 띠 (너비 6m)
-                Vector2[] corners = { new Vector2(r.xMin, r.yMin), new Vector2(r.xMax, r.yMin), new Vector2(r.xMin, r.yMax), new Vector2(r.xMax, r.yMax) };
-                float lo = float.MaxValue, hi = float.MinValue, along = float.MinValue;
-                foreach (var c in corners) { float s = Vector2.Dot(c, right); lo = Mathf.Min(lo, s); hi = Mathf.Max(hi, s); along = Mathf.Max(along, Vector2.Dot(c, n)); }
-                bool crossesStrip = lo < BattleCourtyardBuildings.RoadHalfWidth && hi > -BattleCourtyardBuildings.RoadHalfWidth && along > 0f;
-                Assert.IsFalse(crossesStrip, name + " 북쪽 길");
+                // 길: 네 성벽 방향 띠 (W35 십자, 너비 6m)
+                for (int side = 0; side < 4; side++)
+                {
+                    var o = WallGeometry.Outward(side);
+                    var n = new Vector2(o.x, o.z);
+                    var right = new Vector2(n.y, -n.x);
+                    Vector2[] corners = { new Vector2(r.xMin, r.yMin), new Vector2(r.xMax, r.yMin), new Vector2(r.xMin, r.yMax), new Vector2(r.xMax, r.yMax) };
+                    float lo = float.MaxValue, hi = float.MinValue, along = float.MinValue;
+                    foreach (var c in corners) { float s = Vector2.Dot(c, right); lo = Mathf.Min(lo, s); hi = Mathf.Max(hi, s); along = Mathf.Max(along, Vector2.Dot(c, n)); }
+                    bool crossesStrip = lo < BattleCourtyardBuildings.RoadHalfWidth && hi > -BattleCourtyardBuildings.RoadHalfWidth && along > 0f;
+                    Assert.IsFalse(crossesStrip, name + " 성벽 " + side + " 길");
+                }
             }
+        }
+
+        // 기능 건물은 예전 성벽에 그대로 (병영 동 · 성벽 수리 서 · 함정 공방·상점 남) — 길만 비켜 서 있다
+        [Test]
+        public void FunctionalBuildings_KeepTheirWalls_AndStayClearOfAllFourStairs()
+        {
+            var expected = new Dictionary<string, int> { { "성벽 수리", 3 }, { "병영", 1 }, { "함정 공방", 2 }, { "상점", 2 } };
+            int found = 0;
+            foreach (var p in BattleCourtyardBuildings.Plots)
+            {
+                if (!expected.TryGetValue(p.Name, out int side)) continue;
+                found++;
+                Assert.AreEqual(side, p.Side, p.Name + " 성벽");
+                Assert.AreNotEqual(BattleCourtyardBuildings.Facade.None, p.Front, p.Name + " 기능 건물 앞면");
+                Rect fr = BattleCourtyardBuildings.Footprint(p, Half);
+                for (int s = 0; s < 4; s++)   // 층계(폭 3.4m 안쪽 계단 + 돌담)와도 안 겹친다
+                {
+                    BattleCourtyard.StairFrame(s, out Vector3 n, out Vector3 r);
+                    Vector3 c = n * (Half - BattleCourtyard.WallThickness - 0.6f);   // 계단 가운데 (층계참~맨 아래 단 사이)
+                    float ex = Mathf.Abs(r.x) * 1.8f + Mathf.Abs(n.x) * 1.4f, ez = Mathf.Abs(r.z) * 1.8f + Mathf.Abs(n.z) * 1.4f;   // 폭 1.5 + 돌담 0.2 (+0.1), 깊이 1.7
+                    Assert.IsFalse(fr.Overlaps(Rect.MinMaxRect(c.x - ex, c.z - ez, c.x + ex, c.z + ez)), p.Name + " 이 성벽 " + s + " 계단과 겹침");
+                }
+            }
+
+            Assert.AreEqual(4, found);
+        }
+
+        // 영웅이 걷는 길(네 성벽 → 탑 문 앞)이 어떤 건물 땅도 지나지 않는다
+        [Test]
+        public void HeroPaths_NeverCrossABuildingFootprint()
+        {
+            var camera = new GameObject("Buildings Path Camera", typeof(Camera));
+            try
+            {
+                var rig = new BattleCameraRig(camera.GetComponent<Camera>(), Half, BattleSim.WallHeight);
+                var all = All();
+                for (int side = 0; side < 4; side++)
+                    foreach (float along in new[] { -3f, 0f, 3f })
+                        for (int k = 0; k <= 400; k++)
+                        {
+                            Vector3 p = rig.TowerPath(side, rig.WallFeet(side, along, 2f), k / 400f);
+                            foreach (var (name, rect, _, _) in all)
+                                Assert.IsFalse(rect.Contains(new Vector2(p.x, p.z)), $"성벽 {side} along {along} t {k / 400f:0.00}: 발이 {name} 땅 안");
+                        }
+            }
+            finally { Object.DestroyImmediate(camera); }
         }
 
         [Test]

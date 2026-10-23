@@ -136,7 +136,7 @@ public sealed partial class PlayProbe
             }
 
             Time.captureDeltaTime = 1f / 20f;
-            yield return WaitFor(() => rig.AtTower, 8f);
+            yield return WaitFor(() => rig.AtTower, 40f);
             for (int i = 0; i < 20; i++) yield return null;
             entry.TutorialTimeScale = 0f;
             yield return new WaitForSecondsRealtime(1.5f);

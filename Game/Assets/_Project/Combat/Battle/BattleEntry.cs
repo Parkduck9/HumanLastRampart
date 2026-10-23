@@ -130,6 +130,7 @@ namespace HumanLastRampart.Combat.Battle
                 hud.LampChosen += b => sim?.SetLamp(b);     // 등불 밝기 (빛줄기 폭·효과만 바뀜)
                 hud.BeamChosen += OnBeamChosen;           // 빛줄기 방향 (탑 명령 판에서만, 일꾼이 BeamRotateSeconds에 걸쳐 돌림)
                 hud.TowerLeaveChosen += LeaveTower;
+                hud.TowerGoChosen += side => TowerUp(side);   // 탑 앞 북·서·동·남 단추 (W35)
                 hud.BeamOrderClosed += CloseBeamOrder;
                 hud.GroupDestinationChosen += side => OrderGroupMove(selectedGroup, side);
                 hud.WallGroupsDestinationChosen += side => OrderWallMove(selectedGroup, side);
@@ -288,9 +289,9 @@ namespace HumanLastRampart.Combat.Battle
         int MessengerFrom => rig != null && rig.OnWall ? rig.Side : BattleSim.TowerOrigin;
 
         // ── 등대 탑 (W9, Concept_Beacon_v1 9.7 4차 결정) ──
-        // 북쪽 성벽 통로 가운데 안쪽 끝(계단)에서 E → 마당 가운데 탑으로 내려간다. 탑에서 E → 빛줄기 명령 (지도가 떠서 방향 단추 + 지금 방향).
+        // 네 성벽 어디서든 통로 가운데 안쪽 끝(계단)에서 E → 마당 가운데 탑으로 내려간다 (W35). 탑에서 E → 빛줄기 명령 (지도가 떠서 방향 단추 + 지금 방향).
         // 방향을 고르면 일꾼이 돌리기 시작하고, 지도는 BeamMapStaySeconds 뒤 저절로 접혀 일꾼 모습을 보게 한다 (쉬움은 지도가 열린 동안 시간이 멈추므로).
-        // 탑에서 Q 또는 [성벽으로 올라가기] → 계단으로 돌아간다. 탑에 있는 동안은 OnWall = false (지휘 휘장·같은 성벽 발견 알림·직접 명령이 없다)
+        // 탑에서 W 북 · A 서 · D 동 · S 남 → 그 성벽 가운데로 올라간다. [성벽으로 올라가기] 단추는 내려온 성벽으로. 탑에 있는 동안은 OnWall = false (지휘 휘장·같은 성벽 발견 알림·직접 명령이 없다)
         public float BeamMapStaySeconds = 0.8f;
         bool beamOrderMode;
         float beamMapCloseAt = -1f;
@@ -304,7 +305,8 @@ namespace HumanLastRampart.Combat.Battle
 
         public bool Interact()
         {
-            if (sim == null || rig == null || sim.Ended || preparing || rig.InTransition) return false;
+            if (sim == null || rig == null || sim.Ended || preparing) return false;
+            if (rig.InTransition) return TurnBack();   // W35: 내려가는 중 E = 되돌아가기
             if (beamOrderMode) { CloseBeamOrder(); return true; }
             if (mapOpen || paused || TutorialTimeScale <= 0f) return false;   // 멈춘 동안은 계단·탑을 쓰지 않는다
             if (rig.AtTower) { OpenBeamOrder(); return true; }
@@ -330,10 +332,28 @@ namespace HumanLastRampart.Combat.Battle
             if (mapOpen) ToggleMap();
         }
 
+        // 내려온 성벽으로 올라가기 (명령 판 단추·시험)
         public void LeaveTower()
         {
             CloseBeamOrder();
             rig?.GoUp();
+        }
+
+        // W35: 계단·길을 내려가는 중(아직 탑 앞이 아님)에 E 또는 내려오던 성벽 키 → 그 자리에서 돌아 그 성벽으로 올라간다
+        public bool TurnBack()
+        {
+            if (sim == null || rig == null || sim.Ended || preparing || mapOpen || paused || TutorialTimeScale <= 0f) return false;
+            if (!rig.TowerTarget || !rig.InTransition) return false;
+            return rig.GoUp(rig.PathSide);
+        }
+
+        // W35: 탑 앞에서 W 북(0) · D 동(1) · S 남(2) · A 서(3) 성벽 가운데로 올라가기. 탑 앞에 도착해 있을 때만 (지도·명령 판이 열려 있으면 먼저 닫는다)
+        public bool TowerUp(int side)
+        {
+            if (sim == null || rig == null || sim.Ended || preparing || !rig.AtTower) return false;
+            if (paused || TutorialTimeScale <= 0f) return false;
+            CloseBeamOrder();
+            return rig.GoUp(side);
         }
 
         void OnBeamChosen(int side)
@@ -346,10 +366,14 @@ namespace HumanLastRampart.Combat.Battle
         void UpdateTowerPrompt()
         {
             if (hud == null || rig == null) return;
-            if (mapOpen || sim == null || sim.Ended || preparing || rig.InTransition) hud.SetTowerPrompt(null, null);
-            else if (rig.AtTower) hud.SetTowerPrompt("E", "등대 일꾼에게 빛줄기 명령 (Q 성벽으로 올라가기)");
+            int buttons = 0;
+            if (mapOpen || sim == null || sim.Ended || preparing) hud.SetTowerPrompt(null, null);
+            else if (rig.InTransition && rig.TowerTarget) { hud.SetTowerPrompt("E", "되돌아가기"); buttons = 2; }   // 내려가는 중 (W35)
+            else if (rig.InTransition) hud.SetTowerPrompt(null, null);
+            else if (rig.AtTower) { hud.SetTowerPrompt("E", "빛줄기 명령", "WASD", "성벽으로"); buttons = 1; }
             else if (rig.OnWall && rig.NearStairs) hud.SetTowerPrompt("E", "계단으로 내려가 등대로");
             else hud.SetTowerPrompt(null, null);
+            hud.SetTowerButtons(buttons);
         }
 
         public void StartBattle()
@@ -493,11 +517,24 @@ namespace HumanLastRampart.Combat.Battle
                     else ToggleMap();
                 }
 
-                // 등대 탑 (W9): E 계단 내려가기·탑 명령, Q 올라가기 (Q는 지도에서 마법 키라 지도가 닫혀 있을 때만)
+                // 등대 탑 (W9·W35): E 계단 내려가기·탑 명령, 탑 앞에서 W 북 · A 서 · S 남 · D 동 성벽으로 올라가기 (W·A·S·D는 지도에서 지도 이동·마법 키라 지도가 닫혀 있을 때만)
                 if (!toggle && !hud.MenuOpen && !cancelSquad)
                 {
                     if (keyboard.eKey.wasPressedThisFrame) Interact();
-                    if (keyboard.qKey.wasPressedThisFrame && !mapOpen && rig != null && rig.AtTower) LeaveTower();
+                    if (!mapOpen && rig != null && (rig.AtTower || (rig.InTransition && rig.TowerTarget)))
+                    {
+                        // 방향 키(W·A·S·D와 화살표): 0 북 · 1 동 · 2 남 · 3 서. 내려가는 중에는 내려오던 성벽의 키가 되돌아가기
+                        int dir = -1;
+                        if (keyboard.wKey.wasPressedThisFrame || keyboard.upArrowKey.wasPressedThisFrame) dir = 0;
+                        else if (keyboard.dKey.wasPressedThisFrame || keyboard.rightArrowKey.wasPressedThisFrame) dir = 1;
+                        else if (keyboard.sKey.wasPressedThisFrame || keyboard.downArrowKey.wasPressedThisFrame) dir = 2;
+                        else if (keyboard.aKey.wasPressedThisFrame || keyboard.leftArrowKey.wasPressedThisFrame) dir = 3;
+                        if (dir >= 0)
+                        {
+                            if (rig.AtTower) TowerUp(dir);
+                            else if (dir == rig.PathSide) TurnBack();
+                        }
+                    }
                 }
             }
 
