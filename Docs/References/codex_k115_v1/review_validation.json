@@ -1,0 +1,39 @@
+{
+  "images": 27,
+  "images_loaded": true,
+  "images_embedded": true,
+  "motion_backgrounds": [
+    {
+      "loaded": true,
+      "w": 576,
+      "h": 128
+    },
+    {
+      "loaded": true,
+      "w": 576,
+      "h": 128
+    },
+    {
+      "loaded": true,
+      "w": 576,
+      "h": 128
+    },
+    {
+      "loaded": true,
+      "w": 1728,
+      "h": 384
+    },
+    {
+      "loaded": true,
+      "w": 1728,
+      "h": 384
+    }
+  ],
+  "animated": true,
+  "paused": true,
+  "stepped": true,
+  "scene_tabs": true,
+  "zoom_dialog": true,
+  "mobileOverflow": false,
+  "errors": []
+}
