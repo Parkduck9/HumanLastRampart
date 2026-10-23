@@ -1,0 +1,511 @@
+{
+  "card": "K-121",
+  "generator": "built-in image_gen",
+  "assets": [
+    {
+      "file": "layers/0_sky_640x360.png",
+      "width": 640,
+      "height": 360,
+      "role": "native_parallax",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "foot_baseline": null,
+      "alpha_range": [
+        255,
+        255
+      ],
+      "draw_order": 0,
+      "max_translation_1920_px": 2
+    },
+    {
+      "file": "layers/0_sky_1920x1080.png",
+      "width": 1920,
+      "height": 1080,
+      "role": "parallax",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "foot_baseline": null,
+      "alpha_range": [
+        255,
+        255
+      ],
+      "draw_order": 0
+    },
+    {
+      "file": "layers/0_sky_2560x1440.png",
+      "width": 2560,
+      "height": 1440,
+      "role": "parallax",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "foot_baseline": null,
+      "alpha_range": [
+        255,
+        255
+      ],
+      "draw_order": 0
+    },
+    {
+      "file": "layers/1_field_640x360.png",
+      "width": 640,
+      "height": 360,
+      "role": "native_parallax",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "foot_baseline": null,
+      "alpha_range": [
+        0,
+        255
+      ],
+      "draw_order": 1,
+      "max_translation_1920_px": 4
+    },
+    {
+      "file": "layers/1_field_1920x1080.png",
+      "width": 1920,
+      "height": 1080,
+      "role": "parallax",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "foot_baseline": null,
+      "alpha_range": [
+        0,
+        255
+      ],
+      "draw_order": 1
+    },
+    {
+      "file": "layers/1_field_2560x1440.png",
+      "width": 2560,
+      "height": 1440,
+      "role": "parallax",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "foot_baseline": null,
+      "alpha_range": [
+        0,
+        255
+      ],
+      "draw_order": 1
+    },
+    {
+      "file": "layers/2_fortress_640x360.png",
+      "width": 640,
+      "height": 360,
+      "role": "native_parallax",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "foot_baseline": null,
+      "alpha_range": [
+        0,
+        255
+      ],
+      "draw_order": 2,
+      "max_translation_1920_px": 6
+    },
+    {
+      "file": "layers/2_fortress_1920x1080.png",
+      "width": 1920,
+      "height": 1080,
+      "role": "parallax",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "foot_baseline": null,
+      "alpha_range": [
+        0,
+        255
+      ],
+      "draw_order": 2
+    },
+    {
+      "file": "layers/2_fortress_2560x1440.png",
+      "width": 2560,
+      "height": 1440,
+      "role": "parallax",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "foot_baseline": null,
+      "alpha_range": [
+        0,
+        255
+      ],
+      "draw_order": 2
+    },
+    {
+      "file": "layers/3_foreground_640x360.png",
+      "width": 640,
+      "height": 360,
+      "role": "native_parallax",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "foot_baseline": null,
+      "alpha_range": [
+        0,
+        255
+      ],
+      "draw_order": 3,
+      "max_translation_1920_px": 10
+    },
+    {
+      "file": "layers/3_foreground_1920x1080.png",
+      "width": 1920,
+      "height": 1080,
+      "role": "parallax",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "foot_baseline": null,
+      "alpha_range": [
+        0,
+        255
+      ],
+      "draw_order": 3
+    },
+    {
+      "file": "layers/3_foreground_2560x1440.png",
+      "width": 2560,
+      "height": 1440,
+      "role": "parallax",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "foot_baseline": null,
+      "alpha_range": [
+        0,
+        255
+      ],
+      "draw_order": 3
+    },
+    {
+      "file": "main_menu_1920x1080.png",
+      "width": 1920,
+      "height": 1080,
+      "role": "menu_composite",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "foot_baseline": null,
+      "alpha_range": [
+        255,
+        255
+      ],
+      "replaces": "Game/Assets/_Project/Art/UI/Resources/ScreenArt/main.png",
+      "menu_safe_rect": [
+        96,
+        250,
+        670,
+        580
+      ]
+    },
+    {
+      "file": "main_menu_2560x1440.png",
+      "width": 2560,
+      "height": 1440,
+      "role": "menu_composite",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "foot_baseline": null,
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "file": "icons/lamp_foreground_128.png",
+      "width": 128,
+      "height": 128,
+      "role": "icon_native_foreground",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "foot_baseline": null,
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "icons/app_icon_1024.png",
+      "width": 1024,
+      "height": 1024,
+      "role": "app_icon",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "foot_baseline": null,
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "file": "icons/app_icon_512.png",
+      "width": 512,
+      "height": 512,
+      "role": "app_icon",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "foot_baseline": null,
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "file": "icons/app_icon_256.png",
+      "width": 256,
+      "height": 256,
+      "role": "app_icon",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "foot_baseline": null,
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "file": "icons/app_icon_192.png",
+      "width": 192,
+      "height": 192,
+      "role": "app_icon",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "foot_baseline": null,
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "file": "icons/app_icon_128.png",
+      "width": 128,
+      "height": 128,
+      "role": "app_icon",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "foot_baseline": null,
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "file": "icons/app_icon_48.png",
+      "width": 48,
+      "height": 48,
+      "role": "app_icon",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "foot_baseline": null,
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "file": "icons/adaptive_foreground_432.png",
+      "width": 432,
+      "height": 432,
+      "role": "adaptive_foreground",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "foot_baseline": null,
+      "alpha_range": [
+        0,
+        255
+      ],
+      "safe_circle": {
+        "center": [
+          216,
+          216
+        ],
+        "radius": 132
+      },
+      "content_box": [
+        120,
+        120,
+        192,
+        192
+      ]
+    },
+    {
+      "file": "icons/adaptive_background_432.png",
+      "width": 432,
+      "height": 432,
+      "role": "adaptive_background",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "foot_baseline": null,
+      "alpha_range": [
+        255,
+        255
+      ]
+    }
+  ],
+  "layer_order": [
+    "sky",
+    "field",
+    "fortress",
+    "foreground"
+  ],
+  "sampling": "nearest",
+  "parallax": {
+    "center": [
+      0.5,
+      0.5
+    ],
+    "overscan_scale": 1.035,
+    "max_translation_1920_px": [
+      2,
+      4,
+      6,
+      10
+    ],
+    "max_vertical_translation_1920_px": 3,
+    "beam": "baked_into_fortress",
+    "continuous_beam_rotation": false
+  },
+  "sprite_contract_applicable": false,
+  "notes": [
+    "정지 배경·아이콘이므로 인물 셀·발 기준선은 적용하지 않습니다.",
+    "전체 배경은 분리 레이어를 순서대로 합성한 결과입니다.",
+    "2560판은 640×360 논리 원본의 정확한 4배, 1920판은 3배입니다.",
+    "글자는 그림에 없으며 검토 화면에서 함렛 Black으로 표시합니다.",
+    "하늘·들판·요새·전경을 생성 편집으로 분리하고 정리한 그림입니다.",
+    "실제 게임 캡처가 아닌 메뉴용 그림입니다."
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "field": {
+    "removed_isolated_pixels": 0,
+    "min_component_area": 3,
+    "alpha_below_32_removed": true
+  },
+  "fortress": {
+    "removed_isolated_pixels": 0,
+    "min_component_area": 3,
+    "alpha_below_32_removed": true
+  },
+  "foreground": {
+    "removed_isolated_pixels": 0,
+    "min_component_area": 3,
+    "alpha_below_32_removed": true
+  },
+  "icon": {
+    "removed_isolated_pixels": 0,
+    "min_component_area": 3,
+    "alpha_below_32_removed": true
+  }
+}
