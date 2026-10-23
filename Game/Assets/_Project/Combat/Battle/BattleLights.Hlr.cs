@@ -28,7 +28,7 @@ namespace HumanLastRampart.Combat.Battle
                 HlrLights.Add(lanternPos, DoorLanternRange * TorchShaderRange, DoorLanternColor, lanternIntensity, 0.15f);
         }
 
-        // 돌길 등불 기둥 땅 번짐 (W26): 셰이더 빛 칸은 쓰지 않고 GroundGlow 웅덩이만. 사진기에서 가까운 기둥만 (PC 14개·모바일 4개 상한 — 웅덩이 상한 96/24 안에서 횃불·불바다 몫을 남긴다)
+        // 돌길 등불 기둥 땅 번짐 (W26): 셰이더 빛 칸은 쓰지 않고 GroundGlow 웅덩이만. 사진기에서 닿는 범위(PC 30m·모바일 10m) 안의 기둥을 길 위쪽 끝부터 (PC 14개·모바일 4개 상한 — 웅덩이 상한 96/24 안에서 횃불·불바다 몫을 남긴다)
         public const int RoadPoolsPc = 14, RoadPoolsLow = 4;
         const float RoadPoolReachPc = 30f, RoadPoolReachLow = 10f;
 

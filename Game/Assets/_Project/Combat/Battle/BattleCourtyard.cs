@@ -128,12 +128,12 @@ namespace HumanLastRampart.Combat.Battle
             for (int k = 0; k < StepCount - 1; k++)
                 b.Box(new Vector3(-StairHalfWidth, 0f, -(k + 1) * TreadDepth), new Vector3(StairHalfWidth, TreadTop(k), -k * TreadDepth));
 
-            // 양옆 낮은 돌담 (W26): 층계참·각 단을 따라 한 단씩 낮아지고, 맨 아래는 마당에 닿는 기둥으로 끝난다 — 주인공 발 높이(HeroLift)는 그대로 (그림만 크게)
+            // 양옆 낮은 돌담 (W26): 각 단을 따라 한 단씩 낮아지고, 맨 아래는 마당에 닿는 기둥으로 끝난다 — 높이 계산(HeroLift)은 그대로, 다만 계단 폭이 1.5로 넓어져 높이 보정 구간도 같이 넓어진다 (의도)
             foreach (float s in new[] { -1f, 1f })
             {
                 float x0 = s * StairHalfWidth, x1 = s * (StairHalfWidth + StairWallWidth);
                 float xa = Mathf.Min(x0, x1), xb = Mathf.Max(x0, x1);
-                b.Box(new Vector3(xa, 0f, 0f), new Vector3(xb, LandingHeight + StairWallRise, LandingDepth));
+                // (층계참 옆에는 담을 세우지 않는다 — 통로 안쪽 끝을 걷는 주인공 발이 돌에 묻히지 않게)
                 for (int k = 0; k < StepCount; k++)
                     b.Box(new Vector3(xa, 0f, -(k + 1) * TreadDepth), new Vector3(xb, (k < StepCount - 1 ? TreadTop(k) : 0f) + StairWallRise, -k * TreadDepth));
                 b.Box(new Vector3(xa - 0.04f, 0f, -StepCount * TreadDepth - 0.06f), new Vector3(xb + 0.04f, StairWallRise + 0.08f, -(StepCount - 1) * TreadDepth - 0.06f));   // 맨 아래 기둥

@@ -1,4 +1,4 @@
-using HumanLastRampart.Combat.Battle;
+﻿using HumanLastRampart.Combat.Battle;
 using HumanLastRampart.Combat.Render;
 using NUnit.Framework;
 using UnityEngine;
@@ -139,7 +139,14 @@ namespace HumanLastRampart.Combat.Tests
             HlrLights.ForceLow = false;
             HlrLights.Begin();
             GroundGlow.RefreshCap();
-            Assert.AreEqual(BattleLights.RoadPoolsPc, BattleLights.EmitRoad(false, 1f, view, Half), "PC: 가까운 기둥만, 상한까지");
+            int inReach = 0;
+            for (int i = 0; i < BattleRoad.LampCount(Half); i++)
+            {
+                Vector3 p = BattleRoad.LampBase(Half, i);
+                if ((p.x - view.x) * (p.x - view.x) + (p.z - view.z) * (p.z - view.z) <= 30f * 30f) inReach++;
+            }
+
+            Assert.AreEqual(Mathf.Min(BattleLights.RoadPoolsPc, inReach), BattleLights.EmitRoad(false, 1f, view, Half), "PC: 닿는 범위 안 기둥, 상한까지");
             Assert.AreEqual(0, HlrLights.Count, "셰이더 빛 칸은 쓰지 않는다");
             Assert.LessOrEqual(GroundGlow.Count, GroundGlow.Max);
             GroundGlow.Flush(true, true);
@@ -147,14 +154,35 @@ namespace HumanLastRampart.Combat.Tests
             HlrLights.ForceLow = true;
             HlrLights.Begin();
             GroundGlow.RefreshCap();
+            BattleLights.EmitCourtyard(true, 1f, false, Vector3.zero, 0f);   // 마당 웅덩이 2개 먼저
             int low = BattleLights.EmitRoad(true, 1f, view, Half);
             Assert.AreEqual(BattleLights.RoadPoolsLow, low, "모바일: 4개");
             Assert.AreEqual(0, HlrLights.Count);
-            Assert.LessOrEqual(GroundGlow.Count, 24 - 6 - 2, "모바일 웅덩이 24칸 중 횃불·마당 몫을 남긴다");
+            Assert.LessOrEqual(GroundGlow.Count + 6, GroundGlow.Max, "마당 + 돌길 웅덩이 뒤에도 횃불 웅덩이 6개 자리가 남는다");
+        }
+
+        [Test]
+        public void Plaza_TopsDiffer_StayBelowGlowQuad_AndBannersAvoidWorkers()
+        {
+            Assert.AreNotEqual(BattleRoad.PavingLift, BattleRoad.PlazaRimLift, "돌길과 광장 아랫단 윗면이 같은 높이면 겹쳐 깜박인다");
+            Assert.AreNotEqual(BattleRoad.PavingLift, BattleRoad.PlazaLift);
+            Assert.Less(BattleRoad.PlazaLift, 0.03f, "GroundGlow 판(바닥 +3cm)보다 낮아야 탑·문 앞 웅덩이가 보인다");
+            // 탑 일꾼 자리 (BattleBeaconView.WorkerX, 문 앞 z = DoorZ - 0.2): 깃발이 일꾼 뒤에 겹치지 않게 옆으로 0.4m 넘게
+            foreach (float workerX in new[] { -1.0f, 0.9f, 1.55f })
+                foreach (Vector2 spot in BattleRoad.BannerSpots)
+                    Assert.Greater(Mathf.Abs(spot.x - workerX), 0.4f, $"깃발 x={spot.x} 와 일꾼 x={workerX}");
         }
 
         [Test]
         public void NightFloor_KeepsSilhouettesReadable_BlueNotGrey()
+        {
+            float before = NightTuning.Level;
+            NightTuning.Level = NightTuning.DefaultLevel;   // 기본 단계 기준으로 확인 (다른 시험이 바꿨을 수 있다)
+            try { CheckNightFloor(); }
+            finally { NightTuning.Level = before; }
+        }
+
+        static void CheckNightFloor()
         {
             Color floor = NightTuning.AmbientFloor;
             Assert.GreaterOrEqual(floor.b, 0.22f, "달빛 바닥 파란 성분 (W26)");
@@ -165,3 +193,4 @@ namespace HumanLastRampart.Combat.Tests
         }
     }
 }
+

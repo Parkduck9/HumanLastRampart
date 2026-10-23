@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,9 +9,9 @@ namespace HumanLastRampart.Combat.Battle
     // - 광장: 탑 밑동을 두른 둥근 돌바닥 + 낮은 돌 단 하나
     // - 등불 기둥: 길 양쪽 4m마다 쇠 기둥 + 화로. 밤에는 불꽃이 켜지고 땅 번짐(GroundGlow)만 쓴다 — 셰이더 빛 칸은 쓰지 않는다 (PC 14·모바일 6 상한 그대로)
     // - 깃발: 탑 문 곁에 등불지기 깃발 두 개
-    // 전부 눈에 보이는 것만 — 발 높이·병사 길·전령 길·사진기는 건드리지 않는다 (돌길 윗면 +2cm, 광장 +3.5cm로 아주 낮게)
+    // 전부 눈에 보이는 것만 — 발 높이·병사 길·전령 길·사진기는 건드리지 않는다 (돌길 윗면 +2cm, 광장 +2.5cm로 아주 낮게)
     // 그림: Resources/BattleArt/Courtyard/road_paving 이 있으면 그것을, 없으면 통로 돌(walkway_stone)을 밝게 쓴다 (Codex K-116이 오면 그림만 바꾼다)
-    // 그리는 수: 돌길 1 + 연석·광장 단 1 + 쇠 1 + 불꽃 1 + 깃발 1 = 5번
+    // 그리는 수: 돌길 1 + 연석·광장 단 1 + 쇠 1 + 문양 1 + 깃발 1 = 5번
     public sealed class BattleRoad : IDisposable
     {
         const string Folder = "BattleArt/Courtyard/";
@@ -23,15 +23,16 @@ namespace HumanLastRampart.Combat.Battle
         public const float KerbLift = 0.08f;
         public const float PlazaRadius = 3.0f;            // 탑 둘레 광장 윗단 반지름 (탑 받침 1.25m 밖)
         public const float PlazaRimRadius = 3.5f;         // 낮은 아랫단
-        const float PlazaLift = 0.035f, PlazaRimLift = 0.02f;
+        public const float PlazaLift = 0.025f, PlazaRimLift = 0.015f;   // GroundGlow 판(바닥 +3cm)보다 낮게 — 탑·문 앞 웅덩이가 광장에 안 묻힌다 (돌길 윗면 2cm와도 다르게)
         public const float LampSpacing = 4f;
         public const float LampOffset = HalfWidth + KerbWidth + 0.3f;   // 길 가운데에서 기둥까지 (연석 바깥)
         public const float LampPostHeight = 0.7f;
         public const float LampPoolRadius = 1.8f;
+        public const float LampBowlTop = 0.01f + LampPostHeight + 0.07f;   // 마당 윗면 위 화로 그릇 윗면 높이 (불꽃 그림이 서는 자리)
         const float KerbBlock = 0.76f, KerbGap = 0.04f;
 
         // 깃발 자리 (탑 문 곁, 몸체 받침 바깥 · 주인공 서는 줄(z = -TowerHeroBack)에서 비껴)
-        public static readonly Vector2[] BannerSpots = { new Vector2(-1.55f, BattleTowerView.DoorZ + 0.1f), new Vector2(1.55f, BattleTowerView.DoorZ + 0.1f) };
+        public static readonly Vector2[] BannerSpots = { new Vector2(-2.05f, BattleTowerView.DoorZ + 0.1f), new Vector2(2.05f, BattleTowerView.DoorZ + 0.1f) };
 
         static readonly int BaseColorId = Shader.PropertyToID("_BaseColor");
         static readonly int ColorId = Shader.PropertyToID("_Color");
@@ -95,13 +96,15 @@ namespace HumanLastRampart.Combat.Battle
 
             // 돌길 (밝은 다듬은 돌) — 한 상자
             var paving = new BattleCourtyard.MeshBuilder(walkTile);
-            paving.BoxYaw(mid + Vector3.up * (top - 0.004f), new Vector3(HalfWidth * 2f, PavingLift - SkinLift + 0.004f, length), yaw);
+            if (length >= KerbBlock)   // 아주 작은 성은 길 없이 광장만
+                paving.BoxYaw(mid + Vector3.up * (top - 0.004f), new Vector3(HalfWidth * 2f, PavingLift - SkinLift + 0.004f, length), yaw);
             Spawn("Road Paving", paving, MakePaving(walkTile));
 
             // 연석 + 광장 단 (성벽 돌)
             var kerbs = new BattleCourtyard.MeshBuilder(wallTile);
-            int blocks = Mathf.Max(1, Mathf.FloorToInt((length + KerbGap) / (KerbBlock + KerbGap)));
-            float pitch = (length - KerbBlock) / Mathf.Max(1, blocks - 1);
+            float kerbLength = start - PlazaRimRadius;   // 연석은 광장 아랫단 가장자리에서 끝난다 (광장 위로 삐져나오지 않게)
+            int blocks = kerbLength >= KerbBlock ? Mathf.Max(1, Mathf.FloorToInt((kerbLength + KerbGap) / (KerbBlock + KerbGap))) : 0;
+            float pitch = (kerbLength - KerbBlock) / Mathf.Max(1, blocks - 1);
             for (int i = 0; i < blocks; i++)
             {
                 float d = start - KerbBlock * 0.5f - (blocks > 1 ? i * pitch : 0f);
@@ -113,7 +116,7 @@ namespace HumanLastRampart.Combat.Battle
             kerbs.Disc(Vector3.zero, PlazaRadius, top - 0.004f, BattleSim.WallHeight + PlazaLift, 28);
             Spawn("Road Kerb And Plaza", kerbs, MakeStone(BattleWorldMaterials.Surface.WallStone));
 
-            // 쇠 (기둥·화로 받침·깃발 대) + 불꽃 (밤에 켜지는 것) + 깃발 천
+            // 쇠 (기둥·화로 그릇·깃발 대) + 깃발 문양(밤에 은은히 빛남) + 깃발 천. 기둥 불꽃은 횃불 불꽃 그림(BattleEffectsView)이 밤에 얹는다
             var iron = new BattleCourtyard.MeshBuilder(Vector2.one);
             var flame = new BattleCourtyard.MeshBuilder(Vector2.one);
             int lamps = LampCount(half);
@@ -124,7 +127,6 @@ namespace HumanLastRampart.Combat.Battle
                 iron.BoxYaw(b, new Vector3(0.14f, 0.06f, 0.14f), yaw);
                 iron.BoxYaw(b, new Vector3(0.05f, LampPostHeight, 0.05f), yaw);
                 iron.BoxYaw(b + Vector3.up * LampPostHeight, new Vector3(0.2f, 0.07f, 0.2f), yaw);   // 화로 그릇
-                flame.BoxYaw(b + Vector3.up * (LampPostHeight + 0.07f), new Vector3(0.1f, 0.13f, 0.1f), yaw + 45f);
             }
 
             var cloth = new BattleCourtyard.MeshBuilder(Vector2.one);
@@ -139,7 +141,7 @@ namespace HumanLastRampart.Combat.Battle
 
             Spawn("Road Iron", iron, MakeLit("Road Iron (runtime)", new Color(0.12f, 0.115f, 0.11f), 0.35f));
             flameMaterial = MakeUnlit("Road Flame (runtime)", flameBase * 0.5f);
-            Spawn("Road Flame", flame, flameMaterial);
+            Spawn("Road Emblem", flame, flameMaterial);
             Spawn("Road Banner", cloth, MakeLit("Road Banner (runtime)", new Color(0.13f, 0.2f, 0.42f), 0.1f));
         }
 
@@ -235,3 +237,7 @@ namespace HumanLastRampart.Combat.Battle
         }
     }
 }
+
+
+
+
