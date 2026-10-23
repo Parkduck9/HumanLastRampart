@@ -1,0 +1,185 @@
+{
+  "card": "K-120",
+  "image": "prep_yard.png",
+  "image_size_px": [
+    3840,
+    1080
+  ],
+  "coordinate_origin": "top-left",
+  "bbox_format": "[x, y, width, height], half-open pixel edges",
+  "pixel_scale_from_native": 3,
+  "notes_ko": "건물 경계는 간판과 붙어 있는 부속물을 포함하는 수작업 측정 사각형입니다. approach_rect_px는 연결 검토용 제안이며 기존 보행 마스크나 충돌 영역과 호환됨을 보장하지 않습니다. 건물 경계 전체를 이동 트리거로 사용하지 마세요.",
+  "stations": [
+    {
+      "id": "repair",
+      "name_ko": "성벽 수리",
+      "side": "west",
+      "bbox_px": [
+        729,
+        390,
+        597,
+        315
+      ],
+      "bbox_native_px": [
+        243,
+        130,
+        199,
+        105
+      ],
+      "door_ground_px": [
+        1095,
+        690
+      ],
+      "suggested_approach_rect_px": [
+        1020,
+        705,
+        165,
+        54
+      ],
+      "identity_ko": "망치와 돌",
+      "reference": "Docs/References/codex_k118_v1/decals/repair_day.png"
+    },
+    {
+      "id": "barracks",
+      "name_ko": "병영",
+      "side": "east",
+      "bbox_px": [
+        2742,
+        378,
+        723,
+        288
+      ],
+      "bbox_native_px": [
+        914,
+        126,
+        241,
+        96
+      ],
+      "door_ground_px": [
+        3045,
+        642
+      ],
+      "suggested_approach_rect_px": [
+        2970,
+        672,
+        180,
+        54
+      ],
+      "identity_ko": "교차 창",
+      "reference": "Docs/References/codex_k118_v1/decals/barracks_day.png"
+    },
+    {
+      "id": "traps",
+      "name_ko": "함정 공방",
+      "side": "south-west",
+      "bbox_px": [
+        234,
+        699,
+        666,
+        315
+      ],
+      "bbox_native_px": [
+        78,
+        233,
+        222,
+        105
+      ],
+      "door_ground_px": [
+        525,
+        993
+      ],
+      "suggested_approach_rect_px": [
+        435,
+        1020,
+        210,
+        48
+      ],
+      "identity_ko": "가시 덫",
+      "reference": "Docs/References/codex_k118_v1/decals/trap_workshop_day.png"
+    },
+    {
+      "id": "shop",
+      "name_ko": "상점",
+      "side": "south-east",
+      "bbox_px": [
+        2808,
+        693,
+        606,
+        333
+      ],
+      "bbox_native_px": [
+        936,
+        231,
+        202,
+        111
+      ],
+      "door_ground_px": [
+        3165,
+        1011
+      ],
+      "suggested_approach_rect_px": [
+        3045,
+        1029,
+        210,
+        45
+      ],
+      "identity_ko": "동전 주머니·올리브색 차양",
+      "reference": "Docs/References/codex_k118_v1/decals/shop_day.png"
+    },
+    {
+      "id": "beacon",
+      "name_ko": "등대",
+      "side": "center",
+      "bbox_px": [
+        1806,
+        12,
+        252,
+        783
+      ],
+      "bbox_native_px": [
+        602,
+        4,
+        84,
+        261
+      ],
+      "door_ground_px": [
+        1917,
+        789
+      ],
+      "suggested_approach_rect_px": [
+        1851,
+        807,
+        135,
+        66
+      ],
+      "identity_ko": "사각 석탑·등실",
+      "reference": "Docs/References/codex_k115_v1/"
+    }
+  ],
+  "landmarks": [
+    {
+      "id": "stairs",
+      "name_ko": "북쪽 성벽 계단",
+      "bbox_px": [
+        1692,
+        309,
+        153,
+        216
+      ],
+      "ground_px": [
+        1761,
+        531
+      ]
+    },
+    {
+      "id": "tower_plaza",
+      "name_ko": "등대 둘레 원형 광장",
+      "bbox_px": [
+        1575,
+        717,
+        660,
+        123
+      ]
+    }
+  ]
+}
