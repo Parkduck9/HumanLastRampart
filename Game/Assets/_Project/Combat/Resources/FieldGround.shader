@@ -181,7 +181,12 @@ Shader "HumanLastRampart/FieldGround"
                 color += spec * (half)(0.02 * (1.0 - dirtMask * 0.4)) * (half3)lerp(half3(0.6, 0.55, 0.5), albedo * 2.0h, 0.4h);   // 은은한 반사 (젖은 흙이 빛을 머금는 정도)
                 // 밤: 들판 바닥은 어둡고 덜 선명하게 (빛 안 받는 곳 휘도 약 40 목표) — 밝기는 불 웅덩이에서 온다
                 half lumaG = dot(color, half3(0.3h, 0.55h, 0.15h));
-                color = lerp(color, lumaG.xxx, (half)(_HlrNight * 0.45)) * (half)lerp(1.0, 0.3, _HlrNight);
+                // W26: 빛 밖 들판이 새까맣거나 회색 안개로 보이지 않게 — 밝기 0.3 -> 0.62, 색 죽이기 0.45 -> 0.12, 푸른 달빛 색조를 얹는다 (밝은 따뜻한 빛은 여전히 도드라진다)
+                color = lerp(color, lumaG.xxx, (half)(_HlrNight * 0.12)) * (half)lerp(1.0, 0.62, _HlrNight);
+                color *= lerp(half3(1, 1, 1), half3(0.82h, 0.94h, 1.28h), (half)_HlrNight);
+                // 푸른 달빛 바닥: 질감 밝기를 조금 따라가는 더하기 — 풀·흙이 어두워도 빛줄기·불 밖 들판의 결이 읽힌다 (PerfLabSprite의 moonFill과 같은 계열 색)
+                half lumaA = dot(albedo, half3(0.3h, 0.55h, 0.15h));
+                color += half3(0.045h, 0.062h, 0.115h) * (half)_HlrNight * (0.55h + saturate(lumaA * 3.0h));
                 return half4(MixFog(color, input.fogFactor), 1.0h);
             }
             ENDHLSL

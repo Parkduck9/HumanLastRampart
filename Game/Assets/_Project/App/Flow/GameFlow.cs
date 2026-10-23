@@ -450,6 +450,7 @@ namespace HumanLastRampart.App.Flow
             currentEntry = entry;
             CurrentScreen = screen;
             currentContext = new ScreenContext(this, screen);
+            HumanLastRampart.App.Audio.AudioService.Ensure()?.OnScreen(screen, Campaign?.LastBattle != null && Campaign.LastBattle.Outcome == BattleOutcome.Victory);   // 화면별 음악 (W24, 소리 은행이 비면 조용)
             if (scene.IsValid())
             {
                 SceneManager.SetActiveScene(scene);

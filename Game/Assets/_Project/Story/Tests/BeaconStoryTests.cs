@@ -63,14 +63,20 @@ namespace HumanLastRampart.Story.Tests
         public void SpeakingLines_HavePortraits_HagenUsesOneSwappableFile()
         {
             string[] ids = { "story_intro", BeaconRules.ArriveStoryId(1), BeaconRules.RelitStoryId(1), BeaconRules.ArriveStoryId(2), BeaconRules.RunCompleteStoryId, "story_defeat" };
-            Texture2D hagen = Resources.Load<Texture2D>("StoryArt/portrait_hagen_neutral");   // TODO: 새 하겐 초상이 오면 이 파일만 덮어쓴다 (지금은 궁수 초상 임시)
+            Texture2D hagen = Resources.Load<Texture2D>("StoryArt/portrait_hagen_neutral");   // K-111: 입이 있는 하겐 4표정 가로 시트 (평상·결의·경계·피로 = 칸 0~3). 이야기 줄의 cell로 고른다
             Assert.IsNotNull(hagen);
+            Assert.AreEqual(1024, hagen.width); Assert.AreEqual(384, hagen.height);
+            Assert.AreEqual(4, StoryCells.Count(hagen));
             foreach (string id in ids)
                 foreach ((StoryScene _, StoryLine line) in Load(id).Flatten())
                 {
                     if (line.Side == StorySide.None) { Assert.AreEqual("", line.Speaker, id); continue; }
                     Assert.IsNotNull(line.Portrait, $"{id}: {line.Speaker} 초상 없음");
-                    if (line.Speaker == "하겐") Assert.AreSame(hagen, line.Portrait, id + ": 하겐 초상은 portrait_hagen_neutral 한 파일");
+                    if (line.Speaker != "하겐") continue;
+                    Assert.AreSame(hagen, line.Portrait, id + ": 하겐 초상은 portrait_hagen_neutral 한 파일");
+                    Assert.That(line.Cell, Is.InRange(0, 3), id + ": 하겐 표정 칸은 0~3");
+                    if (id == "story_defeat" || id == BeaconRules.ArriveStoryId(2)) Assert.AreEqual(2, line.Cell, id + ": 경계 표정");
+                    if (id == BeaconRules.ArriveStoryId(1) || id == BeaconRules.RelitStoryId(1)) Assert.AreEqual(1, line.Cell, id + ": 결의 표정");
                 }
         }
 

@@ -82,6 +82,7 @@ namespace HumanLastRampart.Combat.Battle
         BattleCourtyard courtyard;              // 마당 바닥·계단·소품 (W19 임시)
         BattleCourtyardBuildings courtyardBuildings;   // 정비 건물 블록아웃 (W28)
         BattleTowerView tower;                  // 마당 가운데 높은 등대 탑 (W20 임시)
+        BattleRoad road;                        // 계단에서 탑까지 의식용 돌길·광장·등불 기둥·깃발 (W26)
         public BattleTowerView Tower => tower;
         readonly BattleWorldView world;         // 성벽·포탑 3D 목업 (K-001)
         readonly BattleLights lights;           // 밤 횃불·폭발 빛 (K-010)
@@ -531,6 +532,7 @@ namespace HumanLastRampart.Combat.Battle
             if (courtyard.HasFloor) yard.GetComponent<Renderer>().enabled = false;
             courtyardBuildings = new BattleCourtyardBuildings(half, root.transform);   // 정비 건물 블록아웃 (W28, 사용자 확인용)
             tower = new BattleTowerView(root.transform, world?.Materials);   // 성벽 돌로 쌓은 높은 탑 (W20 임시, Codex 그림이 올 때까지)
+            road = new BattleRoad(half, root.transform, world?.Materials);   // 계단 → 탑 돌길 (W26, 길 그림은 Codex K-116이 오면 Resources 그림만 바꾼다)
 
             for (int side = 0; side < 4; side++)
             {
@@ -730,6 +732,7 @@ namespace HumanLastRampart.Combat.Battle
                 props.Draw();
                 beacon.Draw();
                 tower?.Tick(sim.TimeOfDay == HumanLastRampart.Core.CombatContracts.TimeOfDay.Night, BattleSim.GlowLevel(sim.Lamp), beacon.FlameStrength);
+                road?.Tick(sim.TimeOfDay == HumanLastRampart.Core.CombatContracts.TimeOfDay.Night, BattleSim.GlowLevel(sim.Lamp));
                 shotBuffer.SetData(sim.ShotInstances);
                 float shotShade = sim.Brightness;
                 foreach (var (block, art, area) in shotDraws)
@@ -830,7 +833,7 @@ namespace HumanLastRampart.Combat.Battle
 
             if (night)
             {
-                sky = Color.Lerp(sky, new Color(0.03f, 0.05f, 0.12f), 0.8f);
+                sky = Color.Lerp(sky, new Color(0.05f, 0.08f, 0.19f), 0.8f);   // W26: 밤하늘·환경광을 푸르게 조금 올림 (예전 0.03/0.05/0.12 — 거의 새까맸다)
                 sunIntensity *= HumanLastRampart.Combat.Render.NightTuning.SunScale;
             }
 
@@ -1213,6 +1216,7 @@ namespace HumanLastRampart.Combat.Battle
             beacon?.Dispose();
             shadows?.Dispose();
             world?.Dispose();
+            road?.Dispose();
             tower?.Dispose();
             courtyard?.Dispose();
             courtyardBuildings?.Dispose();
