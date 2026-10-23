@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using HumanLastRampart.Combat.Battle;
 using NUnit.Framework;
 using UnityEngine;
@@ -182,6 +182,25 @@ namespace HumanLastRampart.Combat.Tests
                 Assert.Less(m.normals[board.FirstVertex].z, -0.99f);
             }
             finally { b.Dispose(); Object.DestroyImmediate(parent); }
+        }
+
+        [Test]
+        public void Art_PropBillboards_FollowGivenCamera_NotCameraMain()
+        {
+            var b = Build(out GameObject parent);
+            var camObject = new GameObject("Battle Camera (not MainCamera)", typeof(Camera));
+            try
+            {
+                var board = parent.GetComponentInChildren<BattleCourtyardPropBillboards>();
+                Mesh m = board.GetComponent<MeshFilter>().sharedMesh;
+                camObject.transform.rotation = Quaternion.LookRotation(Vector3.right);   // 동쪽 성벽 쪽을 본다
+                b.Tick(false, camObject.GetComponent<Camera>());
+                Assert.Less(m.normals[board.FirstVertex].x, -0.99f, "사진기를 따라 판이 돈다");
+                camObject.transform.rotation = Quaternion.LookRotation(Vector3.forward);   // 북쪽 성벽으로 돌린다
+                b.Tick(false, camObject.GetComponent<Camera>());
+                Assert.Less(m.normals[board.FirstVertex].z, -0.99f, "다른 성벽으로 돌려도 따라간다");
+            }
+            finally { b.Dispose(); Object.DestroyImmediate(parent); Object.DestroyImmediate(camObject); }
         }
 
         [Test]

@@ -14,9 +14,9 @@ namespace HumanLastRampart.Combat.Battle
     // - 불꽃: 전투에서는 탑이 '꺼짐' 상태일 수 없다(빛줄기가 돈다)지만 그림은 복구 0이면 꺼진 모습. 등대 복구가 세기를 정한다(BeaconRules.TowerFlameStrength), 점화의 밤이면 완전 점화 불꽃 (정비 마당도 같은 규칙, S4)
     // - 일꾼: 빛줄기가 도는 동안 돌림대 둘레를 돌며 미는 그림(8칸 8fps)으로 돌림대를 같이 돌린다. 끝나면 쉬는 그림을 한 번 재생·마지막 칸 유지, 한동안 뒤 서 있는 그림.
     //   쉬는 동안 한 명(ClimberIndex)이 안쪽 나선 계단을 올라 불방에 갔다 오는 길을 되풀이한다
-// W31 (Codex K-119): 걷기(앞·뒤·왼·오른)·계단 오르기/내려오기(뒤·왼·오른)·화로 관리(앞·왼·오른)·기름통 운반 걷기(네 방향) 시트를 쓴다. 돌림대 밀기는 옛 미는 그림 그대로.
-//   올라갈 때(바닥 걸음·계단 발치·불방 입구)는 기름통을 든 운반 걷기, 불방에서는 화로 관리, 내려올 때는 빈손 걷기·계단 내려오기. 방향은 가는 쪽을 사진기 기준으로 네 방향 중 고른다 (깜빡이지 않게 이전 방향을 조금 더 유지)
-//   새 시트는 칸 96×128 원본(3배 확대본과 같은 세계 크기, 발 (48,120)) — 메모리 1/9, 점 필터라 모양은 같다. 시트가 없으면 옛 미는·서기 그림으로 되돌아간다
+    // W31 (Codex K-119): 걷기(앞·뒤·왼·오른)·계단 오르기/내려오기(뒤·왼·오른)·화로 관리(앞·왼·오른)·기름통 운반 걷기(네 방향) 시트를 쓴다. 돌림대 밀기는 옛 미는 그림 그대로.
+    //   올라갈 때(바닥 걸음·계단 발치·불방 입구)는 기름통을 든 운반 걷기, 불방에서는 화로 관리, 내려올 때는 빈손 걷기·계단 내려오기. 방향은 가는 쪽을 사진기 기준으로 네 방향 중 고른다 (깜빡이지 않게 이전 방향을 조금 더 유지)
+    //   새 시트는 칸 96×128 원본(3배 확대본과 같은 세계 크기, 발 (48,120)) — 메모리 1/9, 점 필터라 모양은 같다. 시트가 없으면 옛 미는·서기 그림으로 되돌아간다
     //   모든 움직임은 전투 시간(sim.Elapsed)으로 — 멈춤·지도 시간 멈춤에서 같이 멈춘다 (불꽃 일렁임만 실제 시간)
     // 크기: 인물 73점 = 주인공 키(HeroDrawSize), K-110 일꾼 칸은 288×384를 3배 확대본 그대로
     public sealed class BattleBeaconView : IDisposable
@@ -149,7 +149,13 @@ namespace HumanLastRampart.Combat.Battle
         public WorkMotion WorkerMotionKind(int i) => workerMotion[i];
         public WorkDir WorkerFacing(int i) => workerDir[i];
         public string WorkerSheetName(int i) => SheetName(WorkerVariant[i], workerMotion[i], workerDir[i]);
-        public bool HasMotionArt => motionSheets[0, (int)WorkMotion.Walk, (int)WorkDir.Left] != null;
+        public bool HasMotionArt => motionSheets[WorkerVariant[BattleTowerInterior.ClimberIndex], (int)WorkMotion.Walk, (int)WorkDir.Left] != null;
+        // 시험용: 새 시트를 버려 옛 미는·서기 그림으로 되돌아가는 길을 확인한다
+        public void DropMotionSheets()
+        {
+            foreach (Piece w in motionSheets) w?.Buffer?.Release();
+            System.Array.Clear(motionSheets, 0, motionSheets.Length);
+        }
 
         public BattleBeaconView(BattleSim sim, Material material, Mesh quad, Bounds bounds)
         {
@@ -200,7 +206,8 @@ namespace HumanLastRampart.Combat.Battle
                     workers[v, s].Block.SetFloat(ViewStretchId, 1f);
                 }
 
-            for (int v = 0; v < 2; v++)
+            int climberVariant = WorkerVariant[BattleTowerInterior.ClimberIndex];   // K-119 시트는 계단 일꾼 외형 것만 올린다 (나머지 둘은 돌림대만 민다)
+            for (int v = climberVariant; v <= climberVariant; v++)
                 for (int m = 0; m < MotionNames.Length; m++)
                 {
                     var motionLayout = PerfLabArt.SheetLayout.Make(MotionFrames[m], 1, 0.5f, 8f / 128f, 96f / 128f);
@@ -325,11 +332,11 @@ namespace HumanLastRampart.Combat.Battle
         public Vector3 WorkerFeet(int i) => workerWorld[i];
 
         // 작업이 끝난 뒤(sim.Complete 후), 지도 모드가 아닐 때
-        public void Draw()
+        public void Draw(Camera camera = null)
         {
             if (!HasArt) return;
             RefreshState();
-            Camera cam = Camera.main;
+            Camera cam = camera != null ? camera : Camera.main;   // 전투 사진기는 주 사진기 표시가 없어 BattleView가 넘겨 준다
             Vector3 toCamera = cam != null ? -cam.transform.forward : Vector3.back;   // 화면 위치는 그대로 두고 깊이만 가까이 (같은 평면 겹침 순서)
             Vector3 camRight = cam != null ? cam.transform.right : Vector3.right;
             float shade = sim.Brightness;
@@ -381,7 +388,8 @@ namespace HumanLastRampart.Combat.Battle
                     wstate = Push;
                     local = AdvanceReturn(dt, out moveDir);
                     idleSince = time;
-                    if (returning) { hasMotion = true; motion = returnStage == 0 ? WorkMotion.ClimbDown : WorkMotion.Walk; }
+                    if (returning) { hasMotion = true;   // 도착해 returning이 꺼진 프레임은 미는 그림 그대로
+                        motion = returnStage == 0 ? WorkMotion.ClimbDown : WorkMotion.Walk; }
                 }
                 else if (state == Push)
                 {

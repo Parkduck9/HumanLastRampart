@@ -141,6 +141,7 @@ namespace HumanLastRampart.Combat.Battle
         readonly List<Material> materials = new List<Material>();
         readonly List<UnityEngine.Object> textures = new List<UnityEngine.Object>();
         readonly List<MeshRenderer> renderers = new List<MeshRenderer>();
+        readonly List<BattleCourtyardPropBillboards> billboardParts = new List<BattleCourtyardPropBillboards>();
         Material spriteMaterial;
         Texture2D dayAtlas, nightAtlas;
         MeshRenderer windowRenderer;
@@ -276,7 +277,8 @@ namespace HumanLastRampart.Combat.Battle
                 day[i] = Resources.Load<Texture2D>(Folder + FacadeNames[i] + "_day");
                 nightSrc[i] = Resources.Load<Texture2D>(Folder + FacadeNames[i] + "_night");
                 masks[i] = Resources.Load<Texture2D>(Folder + FacadeNames[i] + "_window_emission");
-                if (masks[i] == null || !masks[i].isReadable) return false;
+                if (masks[i] == null || !masks[i].isReadable || nightSrc[i] == null) return false;
+                if (masks[i].width != nightSrc[i].width || masks[i].height != nightSrc[i].height) return false;   // 크기가 다르면 창 마스크를 못 쓴다 → 그림 없이 예전 블록
             }
 
             for (int i = 0; i < PropNames.Length; i++) { day[FacadeCount + i] = Resources.Load<Texture2D>(Folder + PropNames[i]); nightSrc[FacadeCount + i] = day[FacadeCount + i]; }
@@ -317,7 +319,9 @@ namespace HumanLastRampart.Combat.Battle
         // 선반식으로 한 장에 합친다 (사이 2화소 빈칸). 칸 크기만으로 배치가 정해져 낮·밤 판이 같은 자리를 쓴다
         static Texture2D Pack(Texture2D[] src, string name, out Rect[] rects, out Vector2Int size)
         {
-            const int pad = 2, width = 1024;
+            const int pad = 2;
+            int width = 1024;
+            foreach (var s in src) width = Mathf.Max(width, s.width + pad * 2);   // 가장 넓은 그림도 들어가게
             var pos = new Vector2Int[src.Length];
             int x = pad, y = pad, rowH = 0;
             for (int i = 0; i < src.Length; i++)
@@ -394,6 +398,7 @@ namespace HumanLastRampart.Combat.Battle
             if (billboards && sm.Billboards.Length > 0)
             {
                 var b = go.AddComponent<BattleCourtyardPropBillboards>();
+                billboardParts.Add(b);
                 b.Init(mesh, sm.Verts, sm.Normals, sm.Billboards);
                 b.Face(Vector3.forward);   // 첫 방향 (사진기가 정해지면 바로 바뀐다)
             }
@@ -402,8 +407,9 @@ namespace HumanLastRampart.Combat.Battle
         }
 
         // 낮·밤 전환: 낮판 ↔ 밤판 (창문만 다르다)과 켜진 창. 바뀔 때만 일한다
-        public void Tick(bool isNight)
+        public void Tick(bool isNight, Camera camera = null)
         {
+            if (camera != null) foreach (var b in billboardParts) b.Follow(camera);
             if (isNight == night) return;
             night = isNight;
             if (spriteMaterial != null && dayAtlas != null && nightAtlas != null)

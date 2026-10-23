@@ -20,7 +20,6 @@ namespace HumanLastRampart.Combat.Battle
         Vector3[] verts;
         Vector3[] normals;
         Quad[] quads;
-        Camera cam;
         float lastYaw = float.NaN;
 
         public int QuadCount => quads != null ? quads.Length : 0;
@@ -31,12 +30,11 @@ namespace HumanLastRampart.Combat.Battle
             mesh = target; verts = vertexBuffer; normals = normalBuffer; quads = list;
         }
 
-        void LateUpdate()
+        // 전투 사진기(주 사진기 표시가 없어 Camera.main으로는 못 찾는다)를 받아 방향이 바뀔 때만 다시 쓴다. BattleView가 매 프레임 부른다
+        public void Follow(Camera camera)
         {
-            if (quads == null || quads.Length == 0) return;
-            if (cam == null || !cam.isActiveAndEnabled) cam = Camera.main;
-            if (cam == null) return;
-            Vector3 forward = cam.transform.forward;
+            if (quads == null || quads.Length == 0 || camera == null) return;
+            Vector3 forward = camera.transform.forward;
             forward.y = 0f;
             if (forward.sqrMagnitude < 1e-4f) return;
             float yaw = Mathf.Atan2(forward.x, forward.z) * Mathf.Rad2Deg;

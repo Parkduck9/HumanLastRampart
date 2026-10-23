@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using HumanLastRampart.App.Data;
 using HumanLastRampart.Combat.Battle;
 using HumanLastRampart.Core.Campaign;
@@ -160,6 +160,45 @@ namespace HumanLastRampart.Combat.Tests
                     finally { view.Dispose(); }
                 }
                 finally { Object.DestroyImmediate(quadObj); Object.DestroyImmediate(mat); }
+            }
+        }
+
+        [Test]
+        public void Workers_FacingFollowsGivenCamera_AndFallBackToOldSheetWithoutMotionSheets()
+        {
+            using (var sim = MakeSim())
+            {
+                var quadObj = GameObject.CreatePrimitive(PrimitiveType.Quad);
+                var mat = new Material(Shader.Find("Sprites/Default"));
+                var camObject = new GameObject("Battle Camera (not MainCamera)", typeof(Camera));
+                try
+                {
+                    var cam = camObject.GetComponent<Camera>();
+                    var view = new BattleBeaconView(sim, mat, quadObj.GetComponent<MeshFilter>().sharedMesh, new Bounds(Vector3.zero, Vector3.one * 2000f));
+                    try
+                    {
+                        float t = 0f;
+                        camObject.transform.rotation = Quaternion.LookRotation(Vector3.forward);   // 북쪽을 본다: 서쪽 벽 계단을 북으로 오르면 멀어진다
+                        view.Draw(cam);
+                        for (int i = 0; i < 400 && !(view.WorkerUsesMotionSheet(2) && view.WorkerMotionKind(2) == BattleBeaconView.WorkMotion.ClimbUp); i++)
+                        { t += 0.05f; sim.BeginFrame(0.05f); sim.Schedule(0.05f, t); sim.Complete(); view.Draw(cam); }
+                        Assert.AreEqual(BattleBeaconView.WorkMotion.ClimbUp, view.WorkerMotionKind(2));
+                        Assert.AreEqual(BattleBeaconView.WorkDir.Back, view.WorkerFacing(2), "멀어지며 오르면 뒷모습");
+                        camObject.transform.rotation = Quaternion.LookRotation(Vector3.right);   // 다른 성벽으로 사진기를 돌린다
+                        t += 0.05f; sim.BeginFrame(0.05f); sim.Schedule(0.05f, t); sim.Complete(); view.Draw(cam);
+                        Assert.AreEqual(BattleBeaconView.WorkDir.Left, view.WorkerFacing(2), "사진기를 따라 옆모습으로");
+
+                        // 새 시트가 없으면 옛 미는 그림으로 되돌아간다 (사라지지 않는다)
+                        view.DropMotionSheets();
+                        Assert.IsFalse(view.HasMotionArt);
+                        for (int i = 0; i < 1200 && !(view.WorkerVisible(2) && view.WorkerMotionKind(2) == BattleBeaconView.WorkMotion.Carry && view.WorkerFeet(2).y < BattleSim.WallHeight + 0.3f && t > 20f); i++)
+                        { t += 0.05f; sim.BeginFrame(0.05f); sim.Schedule(0.05f, t); sim.Complete(); view.Draw(cam); }
+                        Assert.IsTrue(view.WorkerVisible(2));
+                        Assert.IsFalse(view.WorkerUsesMotionSheet(2), "새 시트 없이 옛 그림으로 그린다");
+                    }
+                    finally { view.Dispose(); }
+                }
+                finally { Object.DestroyImmediate(quadObj); Object.DestroyImmediate(mat); Object.DestroyImmediate(camObject); }
             }
         }
 
