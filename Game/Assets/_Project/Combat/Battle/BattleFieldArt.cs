@@ -848,7 +848,8 @@ namespace HumanLastRampart.Combat.Battle
         // 빛을 받지 않는 그림(낮·밤 그림이 따로 있다). 안개는 받는다 — 안개·비 날에는 먼 산·하늘이 안개색으로 묻힌다
         static Material NewUnlit(Shader shader, Texture2D texture, string name, bool alphaClip)
         {
-            var m = new Material(shader) { name = name };
+            // 투명 자르기는 견본 재질(ClipUnlit, 키워드가 재질 파일에 켜져 있어 빌드에서 빠지지 않는다)을 복사한다 (W27 검토)
+            var m = (alphaClip ? ClipMaterials.UnlitCopy(name) : null) ?? new Material(shader) { name = name };
             m.SetTexture(BaseMapId, texture);
             m.mainTexture = texture;
             m.SetColor(BaseColorId, Color.white);
