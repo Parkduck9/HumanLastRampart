@@ -80,6 +80,7 @@ namespace HumanLastRampart.Combat.Battle
         readonly BattleBeaconView beacon;       // 마당 가운데 등대 탑·일꾼·빛 번쩍 (W9)
         public BattleBeaconView Beacon => beacon;
         BattleCourtyard courtyard;              // 마당 바닥·계단·소품 (W19 임시)
+        BattleCourtyardBuildings courtyardBuildings;   // 정비 건물 블록아웃 (W28)
         BattleTowerView tower;                  // 마당 가운데 높은 등대 탑 (W20 임시)
         BattleRoad road;                        // 계단에서 탑까지 의식용 돌길·광장·등불 기둥·깃발 (W26)
         public BattleTowerView Tower => tower;
@@ -529,6 +530,7 @@ namespace HumanLastRampart.Combat.Battle
             courtyard = new BattleCourtyard(half, root.transform, world?.Materials);   // 마당 돌바닥·계단·소품 (W19 임시, Codex 그림이 올 때까지)
             // 옛 마당 상자는 윗면이 새 돌바닥에 완전히 덮여 헛그리기만 한다 (옆면은 성벽 안쪽이라 안 보인다)
             if (courtyard.HasFloor) yard.GetComponent<Renderer>().enabled = false;
+            courtyardBuildings = new BattleCourtyardBuildings(half, root.transform);   // 정비 건물 블록아웃 (W28, 사용자 확인용)
             tower = new BattleTowerView(root.transform, world?.Materials);   // 성벽 돌로 쌓은 높은 탑 (W20 임시, Codex 그림이 올 때까지)
             road = new BattleRoad(half, root.transform, world?.Materials);   // 계단 → 탑 돌길 (W26, 길 그림은 Codex K-116이 오면 Resources 그림만 바꾼다)
 
@@ -1217,6 +1219,7 @@ namespace HumanLastRampart.Combat.Battle
             road?.Dispose();
             tower?.Dispose();
             courtyard?.Dispose();
+            courtyardBuildings?.Dispose();
             lights?.Dispose();
             HumanLastRampart.Combat.Render.FieldGround.Release();   // 들판 땅 재질·격자 (W15)
             effectArt?.Dispose();

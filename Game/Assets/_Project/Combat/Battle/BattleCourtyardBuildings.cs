@@ -1,0 +1,266 @@
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace HumanLastRampart.Combat.Battle
+{
+    // 정비 화면(낮) 건물을 마당에 대충 세운 3D 블록아웃 (W28, 사용자 확인용 — 품질은 낮아도 된다)
+    // - 기능 건물: 성벽 수리 · 병영 · 함정 공방 · 상점 (PrepEntry의 정비 장소). 등대는 가운데 탑, 성벽 계단은 북쪽 층계(BattleCourtyard)가 이미 맡는다
+    // - 장식 건물(기능 없음): 대장간(굴뚝) · 마구간(울타리) · 예배당(작은 종탑) · 곡물창고 · 작은 집·창고, 우물·건초·장작더미
+    // - 탑이 한눈에 보이도록 작게(키 2.6m 이하, 굴뚝·종탑 3.0m 이하) 성벽 안쪽 면에 낮게 모아 짓는다. 탑 둘레·북쪽 길·계단은 비워 둔다
+    // - 그리는 수: 벽(돌·나무) 2 + 지붕(석판·기와) 2 + 문 1 + 건초 1 = 6번 (재질마다 합친 메시), 매 프레임 일은 없음
+    public sealed class BattleCourtyardBuildings : IDisposable
+    {
+        public const float TowerRing = 5f;        // 탑 둘레 비움 반지름 (병사 전령이 곁에 서는 자리 포함)
+        public const float RoadHalfWidth = 3f;    // 계단에서 탑으로 가는 길 (너비 6m)
+        public const float MaxBuildingHeight = 2.6f;   // 건물(지붕 끝까지)
+        public const float MaxPieceHeight = 3.0f;      // 굴뚝·종탑
+        const float WallInner = 2f;               // 성벽 두께 (마당은 half - 2까지)
+        const float Gap = 0.3f;                   // 성벽 안쪽 면과 건물 사이 틈
+        const float Overhang = 0.2f;              // 지붕 처마
+        const float DoorWidth = 0.8f, DoorHeight = 1.3f, DoorDepth = 0.06f;
+        const float RoofRise = 0.5f;              // 낮은 지붕 기울기
+
+        public enum WallKind { Stone, Timber }
+        public enum RoofKind { Slate, Tile }
+        public enum PieceKind { Stone, Timber, Hay, Slate }
+
+        public readonly struct Plot
+        {
+            public readonly string Name;
+            public readonly int Side;        // 붙는 성벽 (0 북 · 1 동 · 2 남 · 3 서)
+            public readonly float Along;     // 그 성벽 가운데에서 오른쪽(성 안에서 바깥을 볼 때)으로 옮긴 거리
+            public readonly float Width, Depth, WallHeight;
+            public readonly bool Pitched;
+            public readonly WallKind Wall;
+            public readonly RoofKind Roof;
+
+            public Plot(string name, int side, float along, float width, float depth, float wallHeight, bool pitched, WallKind wall, RoofKind roof)
+            {
+                Name = name; Side = side; Along = along; Width = width; Depth = depth; WallHeight = wallHeight;
+                Pitched = pitched; Wall = wall; Roof = roof;
+            }
+
+            // 마당 윗면 위 가장 높은 곳
+            public float TotalHeight => WallHeight + (Pitched ? RoofRise : 0.15f);
+        }
+
+        // 건물이 아닌 작은 구조물 (굴뚝·종탑·울타리·우물·건초·장작). Attached = 건물 지붕 위에 얹혀 건물과 겹쳐도 된다
+        public readonly struct Piece
+        {
+            public readonly string Name;
+            public readonly int Side;
+            public readonly float Along, Back;   // Back = 성벽 쪽 틈 끝에서 마당 쪽으로 옮긴 깊이(사각형 가까운 쪽 끝)
+            public readonly float Width, Depth, Y0, Height;
+            public readonly PieceKind Kind;
+            public readonly bool Attached;
+
+            public Piece(string name, int side, float along, float back, float width, float depth, float y0, float height, PieceKind kind, bool attached = false)
+            {
+                Name = name; Side = side; Along = along; Back = back; Width = width; Depth = depth; Y0 = y0; Height = height;
+                Kind = kind; Attached = attached;
+            }
+        }
+
+        // 정비 마당 그림의 왼쪽→오른쪽 순서(수리 · 병영 · 등대 · 함정 · 상점 · 계단)를 네 성벽에 돌려 놓았다
+        public static readonly Plot[] Plots =
+        {
+            // 기능 건물 (정비 장소)
+            new Plot("성벽 수리", 3, -6f, 5f, 3f, 1.9f, true, WallKind.Stone, RoofKind.Slate),
+            new Plot("병영", 1, 6f, 6.5f, 3.5f, 2.0f, true, WallKind.Timber, RoofKind.Tile),
+            new Plot("함정 공방", 2, 8f, 4.5f, 3f, 1.8f, false, WallKind.Stone, RoofKind.Slate),
+            new Plot("상점", 2, -8f, 4.5f, 3f, 1.9f, true, WallKind.Timber, RoofKind.Tile),
+            // 장식 건물 (기능 없음)
+            new Plot("대장간", 3, 5f, 4f, 3f, 1.8f, true, WallKind.Stone, RoofKind.Slate),
+            new Plot("마구간", 1, -6f, 5f, 3f, 1.7f, true, WallKind.Timber, RoofKind.Tile),
+            new Plot("예배당", 0, 8f, 4f, 3f, 1.9f, true, WallKind.Stone, RoofKind.Slate),
+            new Plot("곡물창고", 0, -8.5f, 4.5f, 3f, 1.8f, true, WallKind.Timber, RoofKind.Tile),
+            new Plot("작은 집", 2, -14f, 2.6f, 2.4f, 1.6f, true, WallKind.Timber, RoofKind.Slate),
+            new Plot("창고", 0, -13f, 2.4f, 2.2f, 1.5f, true, WallKind.Stone, RoofKind.Tile),
+        };
+
+        public static readonly Piece[] Pieces =
+        {
+            new Piece("대장간 굴뚝", 3, 5.9f, 0.3f, 0.5f, 0.5f, 1.4f, 1.5f, PieceKind.Stone, true),
+            new Piece("종탑", 0, 8f, 1.0f, 0.9f, 0.9f, 1.9f, 1.1f, PieceKind.Timber, true),
+            new Piece("마구간 울타리 앞", 1, -6f, 4.9f, 5.4f, 0.1f, 0f, 0.6f, PieceKind.Timber),
+            new Piece("마구간 울타리 왼", 1, -3.4f, 3.3f, 0.1f, 1.6f, 0f, 0.6f, PieceKind.Timber),
+            new Piece("마구간 울타리 오른", 1, -8.6f, 3.3f, 0.1f, 1.6f, 0f, 0.6f, PieceKind.Timber),
+            new Piece("마구간 건초", 1, -6f, 3.4f, 1.4f, 0.9f, 0f, 0.5f, PieceKind.Hay),
+            new Piece("건초 더미", 0, -4.3f, 0.2f, 1.5f, 1.2f, 0f, 0.7f, PieceKind.Hay),
+            new Piece("장작더미", 3, 8.6f, 0.2f, 1.6f, 0.9f, 0f, 0.6f, PieceKind.Timber),
+            new Piece("우물 둘레", 2, 13.4f, 0.4f, 1.2f, 1.2f, 0f, 0.55f, PieceKind.Stone),
+            new Piece("우물 기둥 왼", 2, 12.9f, 0.5f, 0.1f, 0.1f, 0.55f, 1.0f, PieceKind.Timber, true),
+            new Piece("우물 기둥 오른", 2, 13.9f, 0.5f, 0.1f, 0.1f, 0.55f, 1.0f, PieceKind.Timber, true),
+            new Piece("우물 지붕", 2, 13.4f, 0.4f, 1.5f, 1.4f, 1.55f, 0.1f, PieceKind.Slate, true),
+        };
+
+        static Vector3 Out(int side) { var o = WallGeometry.Outward(side); return new Vector3(o.x, 0f, o.z); }
+        static Vector3 Right(int side) { var r = WallGeometry.Right(side); return new Vector3(r.x, 0f, r.z); }
+
+        static Rect Span(int side, float half, float along0, float along1, float back0, float back1)
+        {
+            Vector3 n = Out(side), r = Right(side);
+            float plane = half - WallInner - Gap;
+            Vector3 a = n * (plane - back0) + r * along0, b = n * (plane - back1) + r * along1;
+            return Rect.MinMaxRect(Mathf.Min(a.x, b.x), Mathf.Min(a.z, b.z), Mathf.Max(a.x, b.x), Mathf.Max(a.z, b.z));
+        }
+
+        // 바닥 위에서 본 건물이 차지하는 땅 (처마·문 포함, 세계 좌표 x·z 사각형) — 테스트가 쓴다
+        public static Rect Footprint(in Plot p, float half)
+        {
+            float oh = p.Pitched ? Overhang : 0.1f;
+            return Span(p.Side, half, p.Along - p.Width * 0.5f - oh, p.Along + p.Width * 0.5f + oh, -oh, p.Depth + Mathf.Max(oh, DoorDepth));
+        }
+
+        public static Rect Footprint(in Piece p, float half)
+            => Span(p.Side, half, p.Along - p.Width * 0.5f, p.Along + p.Width * 0.5f, p.Back, p.Back + p.Depth);
+
+        readonly GameObject root;
+        readonly List<Mesh> meshes = new List<Mesh>();
+        readonly List<Material> materials = new List<Material>();
+
+        public BattleCourtyardBuildings(float half, Transform parent)
+        {
+            root = new GameObject("Courtyard Buildings (W28 블록아웃)");
+            root.transform.SetParent(parent, false);
+
+            var wallStone = new Builder(); var wallTimber = new Builder();
+            var roofSlate = new Builder(); var roofTile = new Builder();
+            var doors = new Builder(); var hay = new Builder();
+            float floor = BattleSim.WallHeight + BattleCourtyardSkin, plane = half - WallInner - Gap;
+            foreach (Plot p in Plots)
+            {
+                Builder wall = p.Wall == WallKind.Stone ? wallStone : wallTimber;
+                Builder roof = p.Roof == RoofKind.Slate ? roofSlate : roofTile;
+                Frame f = new Frame(Out(p.Side), Right(p.Side), plane, floor);
+                float x0 = p.Along - p.Width * 0.5f, x1 = p.Along + p.Width * 0.5f;
+                wall.Box(f, x0, 0f, 0f, x1, p.Depth, p.WallHeight);
+                if (p.Pitched) roof.Gable(f, x0 - Overhang, -Overhang, x1 + Overhang, p.Depth + Overhang, p.WallHeight, RoofRise);
+                else roof.Box(f, x0 - 0.1f, -0.1f, p.WallHeight, x1 + 0.1f, p.Depth + 0.1f, p.WallHeight + 0.15f);   // 평지붕: 얇은 판
+                // 문: 마당 쪽 면 가운데에 살짝 튀어나온 판
+                doors.Box(f, p.Along - DoorWidth * 0.5f, p.Depth, 0f, p.Along + DoorWidth * 0.5f, p.Depth + DoorDepth, DoorHeight);
+            }
+
+            foreach (Piece q in Pieces)
+            {
+                Builder b = q.Kind == PieceKind.Stone ? wallStone : q.Kind == PieceKind.Timber ? wallTimber : q.Kind == PieceKind.Hay ? hay : roofSlate;
+                Frame f = new Frame(Out(q.Side), Right(q.Side), plane, floor);
+                b.Box(f, q.Along - q.Width * 0.5f, q.Back, q.Y0, q.Along + q.Width * 0.5f, q.Back + q.Depth, q.Y0 + q.Height);
+            }
+
+            Spawn("Walls Stone", wallStone, Make(new Color(0.52f, 0.50f, 0.46f)));
+            Spawn("Walls Timber", wallTimber, Make(new Color(0.46f, 0.34f, 0.24f)));
+            Spawn("Roofs Slate", roofSlate, Make(new Color(0.36f, 0.36f, 0.38f)));
+            Spawn("Roofs Tile", roofTile, Make(new Color(0.55f, 0.27f, 0.20f)));
+            Spawn("Doors", doors, Make(new Color(0.20f, 0.13f, 0.09f)));
+            Spawn("Hay", hay, Make(new Color(0.72f, 0.60f, 0.28f)));
+        }
+
+        const float BattleCourtyardSkin = 0.01f;   // 마당 바닥판과 같은 높이 (BattleCourtyard.SkinLift)
+
+        void Spawn(string name, Builder b, Material m)
+        {
+            var go = new GameObject(name);
+            go.transform.SetParent(root.transform, false);
+            Mesh mesh = b.ToMesh(name);
+            meshes.Add(mesh);
+            go.AddComponent<MeshFilter>().sharedMesh = mesh;
+            go.AddComponent<MeshRenderer>().sharedMaterial = m;
+        }
+
+        Material Make(Color color)
+        {
+            Shader shader = Shader.Find("Universal Render Pipeline/Lit");
+            Material m = shader != null ? new Material(shader) : new Material(Shader.Find("Standard"));
+            m.name = "CourtyardBuildings (runtime)";
+            if (m.HasProperty("_BaseColor")) m.SetColor("_BaseColor", color);
+            if (m.HasProperty("_Color")) m.SetColor("_Color", color);
+            if (m.HasProperty("_Smoothness")) m.SetFloat("_Smoothness", 0.05f);
+            if (m.HasProperty("_Metallic")) m.SetFloat("_Metallic", 0f);
+            materials.Add(m);
+            return m;
+        }
+
+        public void Dispose()
+        {
+            if (root != null) UnityEngine.Object.Destroy(root);
+            foreach (Material m in materials) if (m != null) UnityEngine.Object.Destroy(m);
+            foreach (Mesh m in meshes) if (m != null) UnityEngine.Object.Destroy(m);
+            materials.Clear();
+            meshes.Clear();
+        }
+
+        // 성벽 한 면에 붙은 자기 좌표: x = 성벽 따라 오른쪽, b = 성벽 안쪽 면에서 마당 쪽 깊이, y = 위
+        readonly struct Frame
+        {
+            readonly Vector3 n, r;
+            readonly float back, floor;
+            public Frame(Vector3 outward, Vector3 right, float back, float floor) { n = outward; r = right; this.back = back; this.floor = floor; }
+            public Vector3 P(float x, float b, float y) => n * (back - b) + r * x + Vector3.up * (floor + y);
+            public Vector3 Inward => -n;
+            public Vector3 Right => r;
+        }
+
+        // 상자·박공 지붕을 한 메시로 합친다 (면마다 법선 하나, 색만 쓰니 UV는 0)
+        sealed class Builder
+        {
+            readonly List<Vector3> verts = new List<Vector3>();
+            readonly List<Vector3> normals = new List<Vector3>();
+            readonly List<int> tris = new List<int>();
+
+            // x0..x1 성벽 따라, b0..b1 깊이, y0..y1 높이. 아랫면은 안 보이니 만들지 않는다
+            public void Box(in Frame f, float x0, float b0, float y0, float x1, float b1, float y1)
+            {
+                Vector3 up = Vector3.up, inw = f.Inward, rt = f.Right;
+                Quad(f.P(x0, b1, y0), f.P(x1, b1, y0), f.P(x1, b1, y1), f.P(x0, b1, y1), inw);     // 마당 쪽 면
+                Quad(f.P(x1, b0, y0), f.P(x0, b0, y0), f.P(x0, b0, y1), f.P(x1, b0, y1), -inw);    // 성벽 쪽 면
+                Quad(f.P(x1, b1, y0), f.P(x1, b0, y0), f.P(x1, b0, y1), f.P(x1, b1, y1), rt);
+                Quad(f.P(x0, b0, y0), f.P(x0, b1, y0), f.P(x0, b1, y1), f.P(x0, b0, y1), -rt);
+                Quad(f.P(x0, b1, y1), f.P(x1, b1, y1), f.P(x1, b0, y1), f.P(x0, b0, y1), up);
+            }
+
+            // 박공 지붕: 용마루는 성벽과 나란히, 처마 높이 eaveY에서 rise만큼 솟는다
+            public void Gable(in Frame f, float x0, float b0, float x1, float b1, float eaveY, float rise)
+            {
+                float mid = (b0 + b1) * 0.5f;
+                Vector3 e0a = f.P(x0, b1, eaveY), e0b = f.P(x1, b1, eaveY);   // 마당 쪽 처마
+                Vector3 e1a = f.P(x0, b0, eaveY), e1b = f.P(x1, b0, eaveY);   // 성벽 쪽 처마
+                Vector3 ra = f.P(x0, mid, eaveY + rise), rb = f.P(x1, mid, eaveY + rise);
+                Quad(e0a, e0b, rb, ra, Vector3.Normalize(f.Inward * rise + Vector3.up * (b1 - mid)));
+                Quad(e1b, e1a, ra, rb, Vector3.Normalize(-f.Inward * rise + Vector3.up * (mid - b0)));
+                Tri(e0b, e1b, rb, f.Right);
+                Tri(e1a, e0a, ra, -f.Right);
+            }
+
+            // 앞면 = 법선 쪽 (감는 방향이 어긋나면 뒤집는다)
+            void Quad(Vector3 a, Vector3 b, Vector3 c, Vector3 d, Vector3 normal)
+            {
+                if (Vector3.Dot(Vector3.Cross(b - a, c - a), normal) < 0f) { Vector3 t = a; a = d; d = t; t = b; b = c; c = t; }   // a↔d, b↔c: 순서 뒤집기
+                int s = verts.Count;
+                verts.Add(a); verts.Add(b); verts.Add(c); verts.Add(d);
+                for (int i = 0; i < 4; i++) normals.Add(normal);
+                tris.AddRange(new[] { s, s + 1, s + 2, s, s + 2, s + 3 });
+            }
+
+            void Tri(Vector3 a, Vector3 b, Vector3 c, Vector3 normal)
+            {
+                if (Vector3.Dot(Vector3.Cross(b - a, c - a), normal) < 0f) { Vector3 t = b; b = c; c = t; }
+                int s = verts.Count;
+                verts.Add(a); verts.Add(b); verts.Add(c);
+                for (int i = 0; i < 3; i++) normals.Add(normal);
+                tris.AddRange(new[] { s, s + 1, s + 2 });
+            }
+
+            public Mesh ToMesh(string name)
+            {
+                var mesh = new Mesh { name = name };
+                mesh.SetVertices(verts);
+                mesh.SetNormals(normals);
+                mesh.SetTriangles(tris, 0);
+                mesh.RecalculateBounds();
+                return mesh;
+            }
+        }
+    }
+}
