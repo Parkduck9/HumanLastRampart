@@ -15,6 +15,7 @@ namespace HumanLastRampart.UI
         public RectTransform Content;
         public CanvasGroup ContentGroup;
         public Sprite Normal, Down;
+        public Sprite Hover, Disabled, OnSprite;   // K-123 상태 그림 (없으면 빛 테두리·어둡게로 대신한다)
         public Color FaceColor = Color.white;
         public bool On;
 
@@ -35,7 +36,10 @@ namespace HumanLastRampart.UI
         {
             float dt = clock.Tick();   // 게임 배속·멈춤과 상관없는 UI 시계
             bool live = Button == null || Button.IsInteractable();
-            float target = !live ? (On ? 0.35f : 0f) : On ? 1f : hover || selected ? 0.8f : 0f;
+            // 상태마다 그림이 있으면 그림으로, 없으면 빛 테두리로 보인다 (올림 그림 없음 → 올림 빛, 켜짐 그림 없음 → 켜짐 빛). 키보드 고름은 늘 빛
+            bool onGlow = On && OnSprite == null;
+            bool hoverGlow = hover && Hover == null;
+            float target = !live ? (onGlow ? 0.35f : 0f) : onGlow ? 1f : hoverGlow || selected ? 0.8f : 0f;
             glow = Mathf.MoveTowards(glow, target, dt * 9f);
             if (Glow != null)
             {
@@ -45,8 +49,16 @@ namespace HumanLastRampart.UI
 
             if (Face != null)
             {
-                if (Normal != null) Face.sprite = live && pressed && Down != null ? Down : Normal;
-                Face.color = live ? FaceColor : new Color(FaceColor.r * 0.55f, FaceColor.g * 0.55f, FaceColor.b * 0.55f, FaceColor.a);
+                if (Normal != null)
+                {
+                    Face.sprite = !live ? (Disabled != null ? Disabled : Normal)
+                        : pressed && Down != null ? Down
+                        : On && OnSprite != null ? OnSprite
+                        : hover && Hover != null ? Hover : Normal;
+                }
+
+                bool dim = !live && Disabled == null;   // 꺼진 그림이 있으면 그 그림 색 그대로
+                Face.color = !dim ? FaceColor : new Color(FaceColor.r * 0.55f, FaceColor.g * 0.55f, FaceColor.b * 0.55f, FaceColor.a);
             }
 
             if (Content != null)

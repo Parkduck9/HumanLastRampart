@@ -1,0 +1,16 @@
+{
+  "name": "HLR.UI.Editor",
+  "rootNamespace": "HumanLastRampart.UI.Editor",
+  "references": [],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": false,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}
