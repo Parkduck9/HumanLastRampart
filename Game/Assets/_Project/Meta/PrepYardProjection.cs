@@ -6,6 +6,7 @@ namespace HumanLastRampart.Meta
     public static class PrepYardProjection
     {
         public const float Width = 3840f, Height = 1080f, Depth = 8f;
+        public const float MinDepth = -0.3f;   // K-120: 앞쪽 건물(공방·상점) 문 앞까지 닿도록 화면 맨 아래(y≈1060)까지 허용
         public const float PixelsPerMetre = 219f / 1.7f;
 
         public static Vector2 Project(Vector2 ground)
@@ -22,7 +23,7 @@ namespace HumanLastRampart.Meta
 
         public static bool Walkable(Texture2D mask, Vector2 ground)
         {
-            if (mask == null || ground.y < 0f || ground.y > Depth) return false;
+            if (mask == null || ground.y < MinDepth || ground.y > Depth) return false;
             Vector2 p = Project(ground);
             if (p.x < 0f || p.x >= Width || p.y < 0f || p.y >= Height) return false;
             int x = Mathf.FloorToInt(p.x * mask.width / Width);

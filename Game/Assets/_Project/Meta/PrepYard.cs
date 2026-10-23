@@ -11,8 +11,8 @@ namespace HumanLastRampart.Meta
     // K-089: 고정 배경, 실제 3D 바닥·충돌과 화면 평면 인물을 맞춘 정비 마당.
     public sealed class PrepYard : MonoBehaviour
     {
-        [Serializable] public sealed class Layout { public Place[] stations; public Occluder[] occluders; }
-        [Serializable] public sealed class Place { public string id, name; public float x, y; public float[] rect; }
+        [Serializable] public sealed class Layout { public Place[] stations; public Occluder[] occluders, blocks; }   // blocks: 그림 속 건물·탑 자리 (그림 없이 걷기만 막는다, K-120)
+        [Serializable] public sealed class Place { public string id, name; public float x, y; public float[] rect, sign; }
         [Serializable] public sealed class Occluder { public string id; public float row; public Vector2[] polygon; }
         public sealed class Station
         {
@@ -28,6 +28,8 @@ namespace HumanLastRampart.Meta
         const float WalkSpeed = 5f;
         readonly List<Station> stations = new List<Station>();
         readonly List<Collider> obstacles = new List<Collider>();
+        readonly List<Vector2[]> blocks = new List<Vector2[]>();   // 건물·탑 자리 (바닥 좌표 다각형, K-120)
+        const float BodyRadius = 0.1f;
         readonly List<(Occluder data, RawImage image)> overlays = new List<(Occluder, RawImage)>();
         readonly List<UnityEngine.Object> owned = new List<UnityEngine.Object>();
         RectTransform strip, prompt, viewport;
@@ -50,7 +52,7 @@ namespace HumanLastRampart.Meta
         public Vector2 HeroGround => ground;
         public Vector2 HeroPixel => PrepYardProjection.Project(ground);
         public Camera WorldCamera => yardCamera;
-        public int ObstacleCount => obstacles.Count;
+        public int ObstacleCount => obstacles.Count + blocks.Count;   // 가림 그림 충돌 + 건물·탑 자리
         // 등대 명령 판처럼 마당 위에 뜬 창 (W9). 떠 있는 동안 걷지 못한다
         GameObject modal;
         public bool ModalOpen => modal != null;
@@ -67,88 +69,9 @@ namespace HumanLastRampart.Meta
             modal = null;
         }
 
-        // 가운데 등대 탑 그림 (W9, Codex K-110 탑 몸체 + K-102 불꽃): 걷는 사람이 탑 앞이면 탑 아래, 뒤면 탑 위에 그린다 (가림 그림과 같은 규칙).
-        // 탑 자리는 걸을 수 없는 장애물이다. 전투 화면과 같은 규칙 — 어느 쪽에서도 꺼짐이 없고, 불꽃 세기는 등대 복구, 점화의 밤 앞이면 완전 점화 (S4)
-        const float BeaconScale = 0.7f;   // 게임 1점 = 정비 마당 0.7점 (주인공 키에 맞춘다)
-        const float FlameArtScale = 2.2f;
-        readonly List<RawImage> beaconAbove = new List<RawImage>();
-        readonly List<RawImage> beaconFlames = new List<RawImage>();
+        // K-120: 가운데 등대 탑은 정비 마당 그림에 이미 그려져 있다 (따로 겹쳐 그리지 않는다). 탑 자리는 layout.json blocks의 장애물로 막는다.
+        // 그림 속 등롱 불빛은 고정이라 등대 복구에 따른 불꽃 세기는 여기서 보이지 않는다 (복구 상태는 등대 창·상단 줄에서 본다)
         RawImage characterPicture;
-        float beaconRow;
-        int beaconFlameFrames = 6;
-
-        public void AddBeaconTower(Texture2D tower, Texture2D flameSheet, float strength, float footX, float footY)
-        {
-            if (tower == null) return;
-            beaconRow = footY;
-            const float S = BeaconScale;
-            for (int pass = 0; pass < 2; pass++)
-            {
-                foreach (Texture2D tex in new[] { tower, flameSheet })
-                {
-                    if (tex == null) continue;
-                    bool isFlame = tex == flameSheet;
-                    var obj = new GameObject(pass == 0 ? "Beacon Below" : "Beacon Above", typeof(RectTransform), typeof(RawImage));
-                    obj.transform.SetParent(strip, false);
-                    var image = obj.GetComponent<RawImage>();
-                    image.texture = tex; image.raycastTarget = false;
-                    var rect = image.rectTransform;
-                    rect.anchorMin = rect.anchorMax = Vector2.zero;
-                    if (isFlame)
-                    {
-                        image.uvRect = new Rect(0f, 0f, 1f / beaconFlameFrames, 1f);
-                        beaconFlames.Add(image);
-                    }
-                    else
-                    {
-                        rect.pivot = new Vector2(720f / 1152f, 96f / 960f);   // K-110 탑 칸 1152×960, 발 (720, 864)
-                        rect.sizeDelta = new Vector2(1152f * S, 960f * S);
-                        rect.anchoredPosition = new Vector2(footX, 1080f - footY);
-                    }
-                    // 걷는 사람 판(characterPicture) 바로 앞에 끼운다 — 위치를 숫자로 가정하지 않는다 (N5)
-                    if (pass == 0) obj.transform.SetSiblingIndex(characterPicture != null ? characterPicture.transform.GetSiblingIndex() : 1);
-                    else beaconAbove.Add(image);
-                }
-            }
-
-            SetBeaconFlame(flameSheet, strength, footX, footY);
-            // 탑 몸체 바닥 자리를 막는다 (탑 그림 가로 -170..+370, 앞쪽 줄 폭 약 60점)
-            var polygon = new[]
-            {
-                new Vector2(footX - 170f * S, footY - 54f * S), new Vector2(footX + 370f * S, footY - 54f * S),
-                new Vector2(footX + 370f * S, footY + 6f * S), new Vector2(footX - 170f * S, footY + 6f * S),
-            };
-            var blocker = new GameObject("Obstacle beacon", typeof(MeshCollider));
-            blocker.transform.SetParent(world.transform, false);
-            var collider = blocker.GetComponent<MeshCollider>();
-            collider.sharedMesh = Own(ObstacleMesh(polygon));
-            obstacles.Add(collider);
-            // W16: 주인공이 탑 뒤(몸체에 가려짐)에서 시작하지 않게 탑 앞 빈 땅으로 옮긴다
-            foreach (Vector2 pixel in new[] { new Vector2(footX, footY + 80f), new Vector2(footX - 300f, footY + 80f), new Vector2(footX - 300f, footY + 30f) })
-            {
-                Vector2 candidate = PrepYardProjection.Ground(pixel);
-                if (CanStand(candidate)) { ground = candidate; break; }
-            }
-            PlaceHero();
-            prompt.SetAsLastSibling();
-        }
-
-        // 불꽃 그림·세기 바꾸기 (처음 만들 때와 등대 수리 뒤). sheet = flame_warming / flame_lit 시트(6칸)
-        public void SetBeaconFlame(Texture2D sheet, float strength, float footX = 1920f, float footY = 930f)
-        {
-            if (sheet == null) return;
-            const float S = BeaconScale;
-            float size = 384f * S * FlameArtScale * Mathf.Lerp(0.55f, 1f, strength);
-            foreach (var image in beaconFlames)
-            {
-                image.texture = sheet;
-                var rect = image.rectTransform;
-                rect.pivot = new Vector2(0.5f, (384f - 126f) / 384f);   // K-102 불꽃 기준점 (144, 126)
-                rect.sizeDelta = new Vector2(size * 0.75f, size);
-                rect.anchoredPosition = new Vector2(footX + 42f * S, 1080f - footY + 649f * S);   // 화로 가운데
-            }
-        }
-        public bool BeaconAboveVisible => beaconAbove.Count > 0 && beaconAbove[0].enabled;
 
         public bool CanMove => confirm == null && modal == null && (blocker == null || blocker.interactable)
             && (screenInput == null || screenInput.interactable);
@@ -223,7 +146,7 @@ namespace HumanLastRampart.Meta
             var heroBody = new GameObject("Hero Collider", typeof(CapsuleCollider));
             heroBody.transform.SetParent(world.transform, false);
             body = heroBody.GetComponent<CapsuleCollider>();
-            body.height = 1.7f; body.radius = 0.12f; body.center = Vector3.up * 0.85f; body.isTrigger = true;
+            body.height = 1.7f; body.radius = BodyRadius; body.center = Vector3.up * 0.85f; body.isTrigger = true;   // K-120: 건물 모서리에 걸리지 않게 반지름 0.12 → 0.1
             var rigid = heroBody.AddComponent<Rigidbody>();
             rigid.isKinematic = true; rigid.useGravity = false;
 
@@ -250,13 +173,23 @@ namespace HumanLastRampart.Meta
                 collider.sharedMesh = Own(ObstacleMesh(data.polygon));
                 obstacles.Add(collider);
             }
+            // 건물·탑 자리는 바닥 좌표 다각형으로 직접 막는다 (속이 빈 충돌 메시는 큰 건물 가운데·모서리에서 겹침 판정이 들쭉날쭉했다)
+            if (layout.blocks != null)
+                foreach (var data in layout.blocks) blocks.Add(Array.ConvertAll(data.polygon, PrepYardProjection.Ground));
             prompt = Ui.KeyHint(strip, "E", "들어가기");
             prompt.anchorMin = prompt.anchorMax = Vector2.zero; prompt.pivot = new Vector2(0.5f, 0f);
             prompt.gameObject.AddComponent<ContentSizeFitter>().horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
             var hints = Ui.Row(layer, "Key Hints", UiTokens.S24);
             Ui.Place((RectTransform)hints.transform, Vector2.zero, new Vector2(32f, 32f), new Vector2(650f, 40f), Vector2.zero);
             Ui.KeyHint(hints.transform, "W A S D · 방향키", "이동");
-            ground = PrepYardProjection.Ground(new Vector2(1920f, 850f));
+            // 처음 서는 자리: 어느 장소 칸에도 걸리지 않는 탑 앞 빈 땅 (시작하자마자 E 안내가 뜨지 않게)
+            ground = PrepYardProjection.Ground(new Vector2(1920f, 920f));
+            foreach (Vector2 pixel in new[] { new Vector2(1920f, 920f), new Vector2(1920f, 960f), new Vector2(1500f, 900f), new Vector2(2300f, 900f) })
+            {
+                Vector2 candidate = PrepYardProjection.Ground(pixel);
+                bool inStation = Array.Exists(layout.stations, s => new Rect(s.rect[0], s.rect[1], s.rect[2], s.rect[3]).Contains(pixel));
+                if (!inStation && CanStand(candidate)) { ground = candidate; break; }
+            }
             PlaceHero();
         }
 
@@ -302,7 +235,8 @@ namespace HumanLastRampart.Meta
             station.Trigger.center = new Vector3((a.x + b.x) / 2f, 0.85f, (a.y + b.y) / 2f);
             station.Trigger.size = new Vector3(Mathf.Abs(b.x - a.x), 1.7f, Mathf.Abs(b.y - a.y));
             Image plate = Ui.Panel(strip, "Place " + name, UiPanel.Plate); plate.raycastTarget = false;
-            Ui.Place(plate.rectTransform, Vector2.zero, signAt.HasValue ? new Vector2(signAt.Value.x, 1080f - signAt.Value.y) : new Vector2(data.x, 1080f - data.y + 180f), new Vector2(240f, 52f), new Vector2(0.5f, 0.5f));
+            Vector2 signPixel = signAt ?? (data.sign != null && data.sign.Length >= 2 ? new Vector2(data.sign[0], data.sign[1]) : new Vector2(data.x, data.y - 180f));   // K-120: 간판 자리는 layout.json sign (건물 지붕 위)
+            Ui.Place(plate.rectTransform, Vector2.zero, new Vector2(signPixel.x, 1080f - signPixel.y), new Vector2(240f, 52f), new Vector2(0.5f, 0.5f));
             Text sign = Ui.Label(plate.transform, "Name", name, UiTokens.H2, UiTokens.BrassLight, TextAnchor.MiddleCenter, true);
             Ui.Stretch(sign.rectTransform); station.Sign = plate.rectTransform; stations.Add(station);
             prompt.SetAsLastSibling();
@@ -324,9 +258,31 @@ namespace HumanLastRampart.Meta
             PlaceHero();
         }
 
+        static float EdgeDistance(Vector2[] polygon, Vector2 p)
+        {
+            float best = float.MaxValue;
+            for (int i = 0, j = polygon.Length - 1; i < polygon.Length; j = i++)
+            {
+                Vector2 a = polygon[j], edge = polygon[i] - a;
+                float t = Mathf.Clamp01(Vector2.Dot(p - a, edge) / Mathf.Max(1e-6f, edge.sqrMagnitude));
+                best = Mathf.Min(best, (p - (a + edge * t)).magnitude);
+            }
+            return best;
+        }
+
+        static bool InsidePolygon(Vector2[] polygon, Vector2 p)
+        {
+            bool inside = false;
+            for (int i = 0, j = polygon.Length - 1; i < polygon.Length; j = i++)
+                if ((polygon[i].y > p.y) != (polygon[j].y > p.y)
+                    && p.x < (polygon[j].x - polygon[i].x) * (p.y - polygon[i].y) / (polygon[j].y - polygon[i].y) + polygon[i].x) inside = !inside;
+            return inside;
+        }
+
         public bool CanStand(Vector2 point)
         {
             if (!PrepYardProjection.Walkable(mask, point)) return false;
+            foreach (var block in blocks) if (InsidePolygon(block, point) || EdgeDistance(block, point) < BodyRadius) return false;   // K-120 건물·탑 자리
             Vector3 position = world.transform.position + new Vector3(point.x, 0f, point.y);
             foreach (Collider obstacle in obstacles)
                 if (Physics.ComputePenetration(body, position, Quaternion.identity, obstacle, obstacle.transform.position,
@@ -396,9 +352,6 @@ namespace HumanLastRampart.Meta
             strip.anchoredPosition = new Vector2(Mathf.Clamp(width / 2f - pixel.x, Mathf.Min(0f, width - 3840f), 0f) * scale, 0f);
             body.transform.localPosition = new Vector3(ground.x, 0f, ground.y);
             foreach (var o in overlays) o.image.enabled = pixel.y <= o.data.row;
-            foreach (var a in beaconAbove) a.enabled = pixel.y <= beaconRow;
-            int flameFrame = (int)(Time.unscaledTime * 8f) % beaconFlameFrames;
-            foreach (var f in beaconFlames) f.uvRect = new Rect(flameFrame / (float)beaconFlameFrames, 0f, 1f / beaconFlameFrames, 1f);
             Station near = Nearest(); prompt.gameObject.SetActive(CanMove && near != null);
             if (near != null) prompt.anchoredPosition = new Vector2(near.X, 1080f - near.Place.y + 90f);
             Texture2D texture = heroSheet;

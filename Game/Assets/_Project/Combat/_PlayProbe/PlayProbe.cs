@@ -1438,6 +1438,12 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
             yield return null;
             yield return WaitScreen(ScreenId.MainMenu, 900);
             Assert.IsNull(FindReadyPrefix("이어하기"), "저장이 없으면 이어하기 버튼 없음");
+            // K-121: 게임 제목 "빛을 잇는 자들" + 네 겹 시차 배경
+            var menuTexts = UnityEngine.Object.FindObjectsByType<UnityEngine.UI.Text>(FindObjectsSortMode.None);
+            Assert.IsTrue(System.Array.Exists(menuTexts, t => t.text == "빛을 잇는 자들"), "메인 제목");
+            Assert.IsFalse(System.Array.Exists(menuTexts, t => t.text.Contains("인류의 마지막 성벽")), "옛 제목은 없다");
+            var parallax = GameObject.Find("Menu Parallax");
+            Assert.IsNotNull(parallax, "시차 배경"); Assert.AreEqual(4, parallax.transform.childCount, "하늘·들판·요새·전경");
             yield return Capture("main_menu_no_save");
 
             yield return Click("설정", 300);
