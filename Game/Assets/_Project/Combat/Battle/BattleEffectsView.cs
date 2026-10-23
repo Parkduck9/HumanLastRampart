@@ -98,8 +98,6 @@ namespace HumanLastRampart.Combat.Battle
         readonly int[] shotWeapons;                   // 칸마다 날아가던 무기 번호 (대포알 폭발 크기)
         readonly List<Vector3> torchFeet = new List<Vector3>();
         readonly List<Vector3> mountFeet = new List<Vector3>();   // 횃불대 받침 발 (통로 위)
-        readonly List<Vector3> roadFeet = new List<Vector3>();    // 돌길 등불 기둥 화로 위 (W26): 같은 횃불 불꽃 그림을 밤에만, 더 크게
-        const float RoadFlameSize = 0.24f;                        // 화로 위 불꽃 칸 (m) — 기둥 0.7m·병사 0.35m에 맞춰 눈에 띄게
         float torchSize = TorchSize;
         float clock;
 
@@ -136,7 +134,7 @@ namespace HumanLastRampart.Combat.Battle
 
             bool hasMount = Resources.Load<Texture2D>("BattleArt/Props/torch_mount_off") != null;
             BuildTorchFeet(hasMount);
-            torch = MakeKind("torch_flame", Mathf.Max(1, torchFeet.Count + roadFeet.Count));
+            torch = MakeKind("torch_flame", Mathf.Max(1, torchFeet.Count));
             if (hasMount) mount = MakeKind("Props/torch_mount_off", Mathf.Max(1, mountFeet.Count), PerfLabArt.SheetLayout.Make(1, 1, 0.5f, (256f - 224f) / 256f, 128f / 256f), "BattleArt/", false);
             smoke = MakeKind("muzzle_smoke", SmokeCapacity, PerfLabArt.SheetLayout.Make(Frames, 1, 0.5f, (256f - 240f) / 256f, 1f), "BattleArt/Cannon/", false);
             cannonAges = new float[sim.CannonCount];
@@ -176,12 +174,7 @@ namespace HumanLastRampart.Combat.Battle
         {
             float flameFoot = hasMount ? MountFlameFoot : TorchFootHeight;
             torchSize = hasMount ? MountFlameSize : TorchSize;
-            for (int i = 0; i < BattleRoad.LampCount(sim.CastleHalf); i++)
-            {
-                Vector3 p = BattleRoad.LampBase(sim.CastleHalf, i);
-                roadFeet.Add(new Vector3(p.x, p.y + BattleRoad.LampBowlTop, p.z));
-            }
-
+            // 돌길 등불 기둥 불꽃은 K-122 기둥 그림(BattleRoad)에 칸으로 들어 있어 여기서 따로 얹지 않는다
             float inner = sim.CastleHalf - TorchInset;
             for (int side = 0; side < 4; side++)
             {
@@ -245,8 +238,6 @@ namespace HumanLastRampart.Combat.Battle
                 torch.Count = 0;
                 for (int i = 0; i < torchFeet.Count; i++)
                     torch.Instances[torch.Count++] = Instance(torchFeet[i], LoopFrame(i * 2.3f), torchSize, TorchGlow);
-                for (int i = 0; i < roadFeet.Count; i++)
-                    torch.Instances[torch.Count++] = Instance(roadFeet[i], LoopFrame(i * 1.7f + 0.9f), RoadFlameSize, TorchGlow);
                 Submit(torch);
             }
 

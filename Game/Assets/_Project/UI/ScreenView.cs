@@ -104,6 +104,9 @@ namespace HumanLastRampart.UI
 
         public CanvasGroup PanelGroup => panel.GetComponent<CanvasGroup>();
 
+        // 배경 그림 칸 (K-121 메인 화면이 겹겹이 깐 시차 배경을 직접 넣는 곳)
+        public Transform BackdropRoot => background.transform;
+
         // 화면을 직접 그리는 곳(스토리 재생기 등)용: 빈 기본 판을 그리지 않는다 (입력 막기 묶음은 그대로)
         public void HidePanel()
         {

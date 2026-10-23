@@ -7,11 +7,11 @@ namespace HumanLastRampart.Combat.Battle
     // 계단 → 등대 탑 의식용 돌길 (W26, 사용자 2026-10-23 "등대로 가는 길이 너무 초라하다").
     // - 돌길: 계단 아래에서 탑 광장까지 조금 밝은 다듬은 돌 길 + 양쪽 연석(작은 돌 덩이를 틈 두고 줄 세움)
     // - 광장: 탑 밑동을 두른 둥근 돌바닥 + 낮은 돌 단 하나
-    // - 등불 기둥: 길 양쪽 4m마다 쇠 기둥 + 화로. 밤에는 불꽃이 켜지고 땅 번짐(GroundGlow)만 쓴다 — 셰이더 빛 칸은 쓰지 않는다 (PC 14·모바일 6 상한 그대로)
-    // - 깃발: 탑 문 곁에 등불지기 깃발 두 개
+    // - 등불 기둥 (K-122): 길 양쪽 4m마다 사진기를 보는 세운 그림. 낮엔 꺼진 쇠 기둥, 밤엔 불꽃 여섯 칸 그림. 땅 번짐(GroundGlow)만 쓴다 — 셰이더 빛 칸은 쓰지 않는다 (PC 14·모바일 6 상한 그대로)
+    // - 깃발 (K-122): 탑 문 곁에 등불지기 깃발 두 개, 네 칸 펄럭임 그림
     // 전부 눈에 보이는 것만 — 발 높이·병사 길·전령 길·사진기는 건드리지 않는다 (돌길 윗면 +2cm, 광장 +2.5cm로 아주 낮게)
     // 그림: Resources/BattleArt/Courtyard/road_paving 이 있으면 그것을, 없으면 통로 돌(walkway_stone)을 밝게 쓴다 (Codex K-116이 오면 그림만 바꾼다)
-    // 그리는 수: 돌길 1 + 연석·광장 단 1 + 쇠 1 + 문양 1 + 깃발 1 = 5번
+    // 그리는 수: 돌길 1 + 연석·광장 단 1 + 등불 기둥 하나당 1 + 깃발 하나당 1 (재질은 낮 1·밤 2·깃발 2로 나눠 쓴다)
     public sealed class BattleRoad : IDisposable
     {
         const string Folder = "BattleArt/Courtyard/";
@@ -26,9 +26,13 @@ namespace HumanLastRampart.Combat.Battle
         public const float PlazaLift = 0.025f, PlazaRimLift = 0.015f;   // GroundGlow 판(바닥 +3cm)보다 낮게 — 탑·문 앞 웅덩이가 광장에 안 묻힌다 (돌길 윗면 2cm와도 다르게)
         public const float LampSpacing = 4f;
         public const float LampOffset = HalfWidth + KerbWidth + 0.3f;   // 길 가운데에서 기둥까지 (연석 바깥)
-        public const float LampPostHeight = 0.7f;
+        public const float LampPostHeight = 0.9f;            // K-122 등불 기둥 보이는 높이 (그림 51화소 = 0.9m, 병사 키 0.35m의 약 2.5배)
+        const string RoadFolder = "BattleArt/Road/";         // K-122 기둥·깃발 그림 (96×128 칸 ×3배, 발 (144,360))
+        public const float LampVisibleMeters = LampPostHeight, BannerVisibleMeters = 1.5f;   // 깃발은 예전 깃대 1.5m 그대로
+        const float LampVisiblePixels = 51f, BannerVisiblePixels = 58f;                      // manifest visible_height_native
+        const int LampFrames = 6, BannerFrames = 4;
+        const float LampFps = 10f, BannerFps = 4f;
         public const float LampPoolRadius = 1.8f;
-        public const float LampBowlTop = 0.01f + LampPostHeight + 0.07f;   // 마당 윗면 위 화로 그릇 윗면 높이 (불꽃 그림이 서는 자리)
         const float KerbBlock = 0.76f, KerbGap = 0.04f;
         const float RoadCobbleTileMeters = 1.7f;           // 돌길 그림 한 장이 덮는 미터 (마당 바닥 2.6m보다 촘촘하게)
 
@@ -41,8 +45,11 @@ namespace HumanLastRampart.Combat.Battle
         readonly GameObject root;
         readonly List<Mesh> meshes = new List<Mesh>();
         readonly List<Material> ownedMaterials = new List<Material>();
-        readonly Material flameMaterial;
-        readonly Color flameBase = new Color(1f, 0.38f, 0.08f);   // 붉은 주황 (밝기 배수를 올려도 노랑·연두로 날아가지 않게)
+        readonly List<MeshRenderer> lampRenderers = new List<MeshRenderer>();
+        readonly List<Material> bannerMaterials = new List<Material>();
+        Material lampDayMaterial;
+        Material[] lampNightMaterials = new Material[0];   // 두 벌: 불꽃 칸이 엇갈려 기둥마다 따로 타 보인다
+        bool nightShown;
         BattleWorldMaterials stone;
         bool ownsStone;
 
@@ -120,33 +127,36 @@ namespace HumanLastRampart.Combat.Battle
             kerbs.Disc(Vector3.zero, PlazaRadius, top - 0.004f, BattleSim.WallHeight + PlazaLift, 28);
             Spawn("Road Kerb And Plaza", kerbs, MakeStone(BattleWorldMaterials.Surface.WallStone));
 
-            // 쇠 (기둥·화로 그릇·깃발 대) + 깃발 문양(밤에 은은히 빛남) + 깃발 천. 기둥 불꽃은 횃불 불꽃 그림(BattleEffectsView)이 밤에 얹는다
-            var iron = new BattleCourtyard.MeshBuilder(Vector2.one);
-            var flame = new BattleCourtyard.MeshBuilder(Vector2.one);
-            int lamps = LampCount(half);
-            for (int i = 0; i < lamps; i++)
+            // K-122 등불 기둥·깃발: 사진기를 보는 세운 그림 (예전 상자 기둥·천 대신). 그림이 없으면 만들지 않는다
+            var lampDayArt = Resources.Load<Texture2D>(RoadFolder + "lamp_post_day");
+            var lampNightArt = Resources.Load<Texture2D>(RoadFolder + "lamp_post_night");
+            if (lampDayArt != null && lampNightArt != null)
             {
-                Vector3 b = LampBase(half, i);
-                b.y = top;
-                iron.BoxYaw(b, new Vector3(0.14f, 0.06f, 0.14f), yaw);
-                iron.BoxYaw(b, new Vector3(0.05f, LampPostHeight, 0.05f), yaw);
-                iron.BoxYaw(b + Vector3.up * LampPostHeight, new Vector3(0.2f, 0.07f, 0.2f), yaw);   // 화로 그릇
+                float pm = LampVisibleMeters / LampVisiblePixels;
+                Mesh lampMesh = SpriteMesh(pm);
+                lampDayMaterial = MakeSheet("Road Lamp Day (runtime)", lampDayArt, 1, true);
+                lampNightMaterials = new[] { MakeSheet("Road Lamp Night A (runtime)", lampNightArt, LampFrames, false), MakeSheet("Road Lamp Night B (runtime)", lampNightArt, LampFrames, false) };
+                int lamps = LampCount(half);
+                for (int i = 0; i < lamps; i++)
+                {
+                    Vector3 b = LampBase(half, i);
+                    b.y = top;
+                    lampRenderers.Add(Billboard("Road Lamp " + i, lampMesh, lampDayMaterial, b, pm).GetComponent<MeshRenderer>());
+                }
             }
 
-            var cloth = new BattleCourtyard.MeshBuilder(Vector2.one);
-            foreach (Vector2 spot in BannerSpots)
+            var bannerArt = Resources.Load<Texture2D>(RoadFolder + "beacon_banner");
+            if (bannerArt != null)
             {
-                Vector3 b = new Vector3(spot.x, top, spot.y);
-                iron.BoxYaw(b, new Vector3(0.05f, 1.5f, 0.05f), 0f);                                  // 깃대
-                iron.BoxYaw(b + Vector3.up * 1.42f, new Vector3(0.5f, 0.035f, 0.04f), 0f);            // 가로대
-                cloth.BoxYaw(b + new Vector3(0f, 0.68f, -0.04f), new Vector3(0.38f, 0.74f, 0.012f), 0f);   // 천 (남쪽 = 문 쪽 면이 보인다)
-                flame.BoxYaw(b + new Vector3(0f, 1.0f, -0.052f), new Vector3(0.14f, 0.14f, 0.01f), 45f);   // 등불 문양 (금빛 마름모)
+                float pm = BannerVisibleMeters / BannerVisiblePixels;
+                Mesh bannerMesh = SpriteMesh(pm);
+                foreach (Vector2 spot in BannerSpots)
+                {
+                    Material m = MakeSheet("Road Banner (runtime)", bannerArt, BannerFrames, true);
+                    bannerMaterials.Add(m);
+                    Billboard("Road Banner", bannerMesh, m, new Vector3(spot.x, top, spot.y), pm);
+                }
             }
-
-            Spawn("Road Iron", iron, MakeLit("Road Iron (runtime)", new Color(0.12f, 0.115f, 0.11f), 0.35f));
-            flameMaterial = MakeUnlit("Road Flame (runtime)", flameBase * 0.5f);
-            Spawn("Road Emblem", flame, flameMaterial);
-            Spawn("Road Banner", cloth, MakeLit("Road Banner (runtime)", new Color(0.13f, 0.2f, 0.42f), 0.1f));
         }
 
         Vector2 TileOf(BattleWorldMaterials.Surface surface)
@@ -186,15 +196,87 @@ namespace HumanLastRampart.Combat.Battle
             return m;
         }
 
-        // 밤: 불꽃이 켜지고 등불 밝기에 따라 환해진다. 낮에는 꺼진 숯불. 재질 색만 바꾼다
+        // 밤: 등불 기둥이 불꽃 여섯 칸 그림으로 바뀌고(밝기에 따라 환해진다), 낮에는 꺼진 쇠 기둥. 깃발은 낮밤 없이 네 칸으로 펄럭인다.
+        // 땅 번짐은 그림이 아니라 BattleLights가 GroundGlow로 따로 낸다 (셰이더 빛 칸 안 씀). 재질의 칸 좌표·색만 바꾼다
         public void Tick(bool night, float level)
         {
-            if (flameMaterial == null) return;
-            float flick = 1f + 0.12f * Mathf.Sin(Time.time * 9.1f) + 0.06f * Mathf.Sin(Time.time * 17.3f + 1f);
-            Color c = night ? flameBase * (Mathf.Lerp(0.9f, 1.5f, Mathf.Clamp01(level)) * flick) : flameBase * 0.35f;
-            c.a = 1f;
-            flameMaterial.SetColor(BaseColorId, c);
-            flameMaterial.SetColor(ColorId, c);
+            if (night != nightShown)
+            {
+                nightShown = night;
+                for (int i = 0; i < lampRenderers.Count; i++)
+                    lampRenderers[i].sharedMaterial = night ? lampNightMaterials[i & 1] : lampDayMaterial;
+            }
+
+            float time = Time.time;
+            if (night)
+            {
+                float shade = Mathf.Lerp(0.95f, 1.25f, Mathf.Clamp01(level));
+                for (int g = 0; g < lampNightMaterials.Length; g++)
+                {
+                    var m = lampNightMaterials[g];
+                    if (m == null) continue;
+                    SetFrame(m, (int)(time * LampFps + g * 3f) % LampFrames, LampFrames);
+                    var c = new Color(shade, shade, shade, 1f);
+                    if (m.HasProperty(BaseColorId)) m.SetColor(BaseColorId, c);
+                }
+            }
+
+            for (int i = 0; i < bannerMaterials.Count; i++)
+                SetFrame(bannerMaterials[i], (int)(time * BannerFps + i * 2f) % BannerFrames, BannerFrames);
+        }
+
+        static void SetFrame(Material m, int frame, int frames)
+        {
+            m.mainTextureOffset = new Vector2(frame / (float)frames, 0f);
+        }
+
+        // 가로로 이어 붙인 칸 그림 재질: 한 칸이 판 전체에 보이도록 칸 폭만큼 줄이고 offset으로 칸을 고른다. 투명 자르기 견본 복사 (빌드에서 키워드가 빠지지 않게)
+        Material MakeSheet(string name, Texture2D art, int frames, bool lit)
+        {
+            art.filterMode = FilterMode.Point;
+            art.wrapMode = TextureWrapMode.Clamp;
+            Material m = lit ? ClipMaterials.LitCopy(name) : ClipMaterials.UnlitCopy(name);
+            if (m == null)
+            {
+                Shader shader = Shader.Find(lit ? "Universal Render Pipeline/Lit" : "Universal Render Pipeline/Unlit");
+                m = new Material(shader != null ? shader : Shader.Find("Sprites/Default")) { name = name };
+                if (m.HasProperty("_AlphaClip")) m.SetFloat("_AlphaClip", 1f);
+                if (m.HasProperty("_Cutoff")) m.SetFloat("_Cutoff", 0.5f);
+                if (m.HasProperty("_Cull")) m.SetFloat("_Cull", 0f);
+                m.EnableKeyword("_ALPHATEST_ON");
+            }
+
+            if (m.HasProperty("_BaseMap")) m.SetTexture("_BaseMap", art);
+            m.mainTexture = art;
+            m.mainTextureScale = new Vector2(1f / frames, 1f);
+            m.mainTextureOffset = Vector2.zero;
+            m.renderQueue = (int)UnityEngine.Rendering.RenderQueue.AlphaTest;
+            ownedMaterials.Add(m);
+            return m;
+        }
+
+        // 사진기를 보는 세운 그림 하나 (96×128 칸, 발 기준점 (48,120) → 칸 아래에서 8화소 위). 같은 메시를 여럿이 나눠 쓴다
+        GameObject Billboard(string name, Mesh mesh, Material material, Vector3 feet, float pixelMeters)
+        {
+            var go = new GameObject(name);
+            go.transform.SetParent(root.transform, false);
+            go.transform.localPosition = feet + Vector3.down * (8f * pixelMeters);
+            go.AddComponent<MeshFilter>().sharedMesh = mesh;
+            var r = go.AddComponent<MeshRenderer>();
+            r.sharedMaterial = material;
+            r.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            go.AddComponent<CourtyardBillboard>();
+            RendererCount++;
+            return go;
+        }
+
+        Mesh SpriteMesh(float pixelMeters)
+        {
+            var kit = new MeshKit();
+            kit.Standing(96f * pixelMeters, 128f * pixelMeters, new Rect(0f, 0f, 1f, 1f));
+            var mesh = kit.ToMesh("Road Sprite");
+            meshes.Add(mesh);
+            return mesh;
         }
 
         void Spawn(string name, BattleCourtyard.MeshBuilder builder, Material material)

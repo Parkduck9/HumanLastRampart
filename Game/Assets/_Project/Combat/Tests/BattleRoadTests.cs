@@ -1,4 +1,5 @@
-﻿using HumanLastRampart.Combat.Battle;
+﻿using System.Linq;
+using HumanLastRampart.Combat.Battle;
 using HumanLastRampart.Combat.Render;
 using NUnit.Framework;
 using UnityEngine;
@@ -114,7 +115,11 @@ namespace HumanLastRampart.Combat.Tests
             {
                 using (var road = new BattleRoad(Half, parent.transform))
                 {
-                    Assert.LessOrEqual(road.RendererCount, 5, "합친 메시 다섯 개 이하");
+                    // K-122: 돌길·연석 2 + 기둥·깃발은 사진기를 보는 세운 그림이라 하나씩 (메시·재질은 나눠 쓴다)
+                    int lamps = BattleRoad.LampCount(Half);
+                    Assert.LessOrEqual(road.RendererCount, 2 + lamps + BattleRoad.BannerSpots.Length, "돌길 둘 + 기둥·깃발 하나씩");
+                    Assert.AreEqual(lamps, parent.GetComponentsInChildren<Transform>().Count(t => t.name.StartsWith("Road Lamp ")), "등불 기둥 그림 수 = 기둥 수");
+                    Assert.AreEqual(BattleRoad.BannerSpots.Length, parent.GetComponentsInChildren<Transform>().Count(t => t.name == "Road Banner"), "깃발 그림 수");
                     float low = BattleSim.WallHeight + 0.2f;   // 돌길·연석·광장은 이보다 낮다 (병사 키 0.35m의 절반 안쪽)
                     float maxAll = float.MinValue;
                     foreach (var f in parent.GetComponentsInChildren<MeshFilter>())
@@ -126,7 +131,31 @@ namespace HumanLastRampart.Combat.Tests
                             Assert.Less(max, low, f.name + " 높이");
                     }
 
-                    Assert.Less(maxAll, BattleSim.WallHeight + 2f, "기둥·깃발도 성벽 높이 절반 아래 (사진기·탑을 가리지 않는다)");
+                    Assert.Less(maxAll, BattleSim.WallHeight + 3.5f, "기둥·깃발 판은 투명한 윗 여백을 포함해도 이 안 (보이는 그림은 0.9m·1.5m, 사진기·탑을 가리지 않는다)");
+                }
+            }
+            finally { Object.DestroyImmediate(parent); }
+        }
+
+        // K-122: 낮엔 꺼진 기둥 그림, 밤엔 불꽃 칸 그림으로 바뀌고 칸이 돈다. 깃발은 낮밤 없이 칸이 돈다
+        [Test]
+        public void LampSprites_SwapToNightFlameFrames_AndBannersFlap()
+        {
+            var parent = new GameObject("Road Sprite Test");
+            try
+            {
+                using (var road = new BattleRoad(Half, parent.transform))
+                {
+                    var lamp = parent.transform.Find("Beacon Road (W26)/Road Lamp 0").GetComponent<MeshRenderer>();
+                    var banner = parent.transform.Find("Beacon Road (W26)/Road Banner").GetComponent<MeshRenderer>();
+                    Assert.IsTrue(lamp.sharedMaterial.name.Contains("Lamp Day"), "처음엔 낮 기둥");
+                    road.Tick(true, 1f);
+                    Assert.IsTrue(lamp.sharedMaterial.name.Contains("Lamp Night"), "밤엔 불꽃 기둥");
+                    Assert.AreEqual(1f / 6f, lamp.sharedMaterial.mainTextureScale.x, 1e-4f, "불꽃은 여섯 칸 판에서 한 칸");
+                    Assert.AreEqual(1f / 4f, banner.sharedMaterial.mainTextureScale.x, 1e-4f, "깃발은 네 칸 판에서 한 칸");
+                    road.Tick(false, 1f);
+                    Assert.IsTrue(lamp.sharedMaterial.name.Contains("Lamp Day"), "낮에는 다시 꺼진 기둥");
+                    Assert.AreEqual(0, HlrLights.Count, "그림 기둥은 셰이더 빛 칸을 쓰지 않는다");
                 }
             }
             finally { Object.DestroyImmediate(parent); }
