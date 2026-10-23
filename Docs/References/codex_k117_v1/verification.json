@@ -1,0 +1,101 @@
+{
+  "passed": true,
+  "assets": [
+    {
+      "file": "story_dead_beacon_1920x1080.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "size_ok": true,
+      "fully_opaque": true,
+      "preview_size": [
+        7680,
+        4320
+      ],
+      "preview_exact_nearest_4x": true,
+      "lower_third": {
+        "mean_luminance": 33.649551030402606,
+        "max_luminance": 164.9816,
+        "bright_pixel_fraction": 0.00037037037037037035
+      },
+      "foot_line": "해당 없음 · 불투명 정지 배경",
+      "stray_alpha_pixels": "완전 불투명 여부로 확인"
+    },
+    {
+      "file": "story_relit_beacon_1920x1080.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "size_ok": true,
+      "fully_opaque": true,
+      "preview_size": [
+        7680,
+        4320
+      ],
+      "preview_exact_nearest_4x": true,
+      "lower_third": {
+        "mean_luminance": 19.39105311112799,
+        "max_luminance": 132.84699999999998,
+        "bright_pixel_fraction": 0.00004774305555555556
+      },
+      "foot_line": "해당 없음 · 불투명 정지 배경",
+      "stray_alpha_pixels": "완전 불투명 여부로 확인"
+    }
+  ],
+  "review": {
+    "images": [
+      {
+        "label": "수정 전 · K-111",
+        "loaded": true,
+        "embedded": true
+      },
+      {
+        "label": "수정 후 · K-117",
+        "loaded": true,
+        "embedded": true
+      },
+      {
+        "label": "꺼진 등대 · 해 질 녘 · 확대",
+        "loaded": true,
+        "embedded": true
+      },
+      {
+        "label": "수정 전 · K-111",
+        "loaded": true,
+        "embedded": true
+      },
+      {
+        "label": "수정 후 · K-117",
+        "loaded": true,
+        "embedded": true
+      },
+      {
+        "label": "되살아난 등대 · 푸른 밤 · 확대",
+        "loaded": true,
+        "embedded": true
+      },
+      {
+        "label": "실제 게임 · 계단·포장길·원형 광장",
+        "loaded": true,
+        "embedded": true
+      },
+      {
+        "label": "실제 게임 · 밤의 등대탑과 부채꼴 빛",
+        "loaded": true,
+        "embedded": true
+      },
+      {
+        "label": "K-115 목업 · 석재·띠·철창·지붕·아치문",
+        "loaded": true,
+        "embedded": true
+      }
+    ],
+    "dialogue_toggle": true,
+    "expand": true,
+    "mobileNoOverflow": true,
+    "errors": []
+  },
+  "unity_executed": false
+}
