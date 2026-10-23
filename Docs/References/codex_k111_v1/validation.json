@@ -1,0 +1,532 @@
+{
+  "passed": true,
+  "checks_count": 96,
+  "checks": [
+    {
+      "name": "neutral: mouth changed",
+      "passed": true,
+      "detail": 48
+    },
+    {
+      "name": "neutral: only mouth changed",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "neutral: original alpha preserved",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "neutral: original foot bounds preserved",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "neutral: no stray components",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "determined: mouth changed",
+      "passed": true,
+      "detail": 64
+    },
+    {
+      "name": "determined: only mouth changed",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "determined: original alpha preserved",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "determined: original foot bounds preserved",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "determined: no stray components",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "alarmed: mouth changed",
+      "passed": true,
+      "detail": 176
+    },
+    {
+      "name": "alarmed: only mouth changed",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "alarmed: original alpha preserved",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "alarmed: original foot bounds preserved",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "alarmed: no stray components",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tired: mouth changed",
+      "passed": true,
+      "detail": 64
+    },
+    {
+      "name": "tired: only mouth changed",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tired: original alpha preserved",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tired: original foot bounds preserved",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tired: no stray components",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Hagen exact 3x nearest",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "neutral: native foot y120",
+      "passed": true,
+      "detail": [
+        31,
+        46,
+        65,
+        120
+      ]
+    },
+    {
+      "name": "neutral: native body bounds unchanged",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "neutral: native no stray components",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "determined: native foot y120",
+      "passed": true,
+      "detail": [
+        31,
+        46,
+        65,
+        120
+      ]
+    },
+    {
+      "name": "determined: native body bounds unchanged",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "determined: native no stray components",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "alarmed: native foot y120",
+      "passed": true,
+      "detail": [
+        31,
+        46,
+        65,
+        120
+      ]
+    },
+    {
+      "name": "alarmed: native body bounds unchanged",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "alarmed: native no stray components",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tired: native foot y120",
+      "passed": true,
+      "detail": [
+        32,
+        46,
+        65,
+        120
+      ]
+    },
+    {
+      "name": "tired: native body bounds unchanged",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tired: native no stray components",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "glow low: compact transparent border",
+      "passed": true,
+      "detail": [
+        60,
+        60,
+        132,
+        132
+      ]
+    },
+    {
+      "name": "glow low: restrained alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "glow low: connected",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "glow low: exact 3x",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "glow normal: compact transparent border",
+      "passed": true,
+      "detail": [
+        50,
+        50,
+        142,
+        142
+      ]
+    },
+    {
+      "name": "glow normal: restrained alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "glow normal: connected",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "glow normal: exact 3x",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "glow high: compact transparent border",
+      "passed": true,
+      "detail": [
+        40,
+        40,
+        152,
+        152
+      ]
+    },
+    {
+      "name": "glow high: restrained alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "glow high: connected",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "glow high: exact 3x",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "fog only thin band",
+      "passed": true,
+      "detail": [
+        0,
+        38,
+        512,
+        62
+      ]
+    },
+    {
+      "name": "fog exact tiling edges",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "fog no stray components",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "fog lower half empty",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "fog exact 3x",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "story dead: size and opaque",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "story dead: calm dialogue third",
+      "passed": true,
+      "detail": {
+        "mean": 33.875753761574074,
+        "stddev": 14.699483727061454
+      }
+    },
+    {
+      "name": "story relit: size and opaque",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "story relit: calm dialogue third",
+      "passed": true,
+      "detail": {
+        "mean": 16.953912037037036,
+        "stddev": 8.292509887143556
+      }
+    },
+    {
+      "name": "fog_band_4x.png: exact 4x",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "glow_high_4x.png: exact 4x",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "glow_low_4x.png: exact 4x",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "glow_normal_4x.png: exact 4x",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "hagen_expressions_native_4x.png: exact 4x",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "mockup_north_wall_high_4x.png: exact 4x",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "portrait_hagen_alarmed_4x.png: exact 4x",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "portrait_hagen_determined_4x.png: exact 4x",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "portrait_hagen_neutral_4x.png: exact 4x",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "portrait_hagen_tired_4x.png: exact 4x",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "story_dead_beacon_4x.png: exact 4x",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "story_relit_beacon_4x.png: exact 4x",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "game/fog_band.png: transparent RGB clean",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "game/glow_high.png: transparent RGB clean",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "game/glow_low.png: transparent RGB clean",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "game/glow_normal.png: transparent RGB clean",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "hagen_expressions_game_288x384.png: transparent RGB clean",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "hagen_expressions_native_96x128.png: transparent RGB clean",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "hagen_expressions_story_256x384.png: transparent RGB clean",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "mockup_north_wall_high_1920x1080.png: transparent RGB clean",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "native/fog_band.png: transparent RGB clean",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "native/glow_high.png: transparent RGB clean",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "native/glow_low.png: transparent RGB clean",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "native/glow_normal.png: transparent RGB clean",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "portrait_hagen_alarmed.png: transparent RGB clean",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "portrait_hagen_determined.png: transparent RGB clean",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "portrait_hagen_neutral.png: transparent RGB clean",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "portrait_hagen_tired.png: transparent RGB clean",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "previews/fog_band_4x.png: transparent RGB clean",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "previews/glow_high_4x.png: transparent RGB clean",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "previews/glow_low_4x.png: transparent RGB clean",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "previews/glow_normal_4x.png: transparent RGB clean",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "previews/hagen_expressions_native_4x.png: transparent RGB clean",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "previews/mockup_north_wall_high_4x.png: transparent RGB clean",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "previews/portrait_hagen_alarmed_4x.png: transparent RGB clean",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "previews/portrait_hagen_determined_4x.png: transparent RGB clean",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "previews/portrait_hagen_neutral_4x.png: transparent RGB clean",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "previews/portrait_hagen_tired_4x.png: transparent RGB clean",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "previews/story_dead_beacon_4x.png: transparent RGB clean",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "previews/story_relit_beacon_4x.png: transparent RGB clean",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "story_dead_beacon_1920x1080.png: transparent RGB clean",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "story_relit_beacon_1920x1080.png: transparent RGB clean",
+      "passed": true,
+      "detail": null
+    }
+  ]
+}
