@@ -475,6 +475,7 @@ namespace HumanLastRampart.Combat.Battle
                     weaponIndex[weaponKey] = w;
                     weaponList.Add(MakeWeapon(weapon, Boost.UnitFor(unit.Id, mercenary)));
                     weaponUnits.Add(unit);   // 투사체 그림 (K-032)
+                    weaponKinds.Add(weapon.Kind);   // 소리 종류 (W24, 읽기 전용)
                 }
 
                 placed.Add((squad, post, w, unit.MaxHp > 0 ? unit.MaxHp : SoldierHpFallback));

@@ -76,7 +76,7 @@ namespace HumanLastRampart.App.Editor
                 Sfx(AudioCues.WallHit, Seq(Impact, "impactMining", 0, 4, "{0}_{1:000}"), 0.8f, 0.6f, 0.8f, 3, 0.15f),
                 Sfx(AudioCues.WallBreach, Seq(Impact, "impactWood_heavy", 0, 4), 1f, 0.3f, 0.45f, 2, 0.5f, true, 200f),
                 // 전투 — 흐름 (뿔나팔 자리는 낮춘 큰 종소리로 대신)
-                Sfx(AudioCues.WaveHorn, Seq(Impact, "impactBell_heavy", 0, 4), 0.9f, 0.45f, 0.6f, 1, 2f, false),
+                Sfx(AudioCues.WaveHorn, new[] { "oga/their-coming-generic-horn-sound/theircoming_0.ogg", "oga/their-coming-generic-horn-sound/theircoming3_0.ogg" }, 0.9f, 0.9f, 1f, 1, 2f, false),
                 Sfx(AudioCues.BeaconIgnite, Cat(new[] { Iface + "bong_001.ogg" }, Seq(Impact, "impactBell_heavy", 0, 0)), 0.8f, 0.9f, 1f, 1, 1f, false),
                 Sfx(AudioCues.BeaconBeamTurn, new[] { Rpg + "creak1.ogg", Rpg + "creak2.ogg", Rpg + "creak3.ogg" }, 0.6f, 0.8f, 1f, 2, 0.5f, false),
                 Sfx(AudioCues.CourierRun, Seq(Impact, "footstep_grass", 0, 4), 0.6f, 0.9f, 1.1f, 3, 0.15f),
@@ -94,9 +94,9 @@ namespace HumanLastRampart.App.Editor
                 Music(AudioCues.MusicBattle, "Music/battle_theme_a.mp3", 0.6f),
                 Music(AudioCues.MusicStory, "Music/story_the_hope.mp3", 0.6f),
                 // 주변 소리: 알맞은 CC0 파일이 아직 없어 비워 둔다 (열쇠만 만들어 둠)
-                new Spec { Cue = AudioCues.AmbWind, Files = new string[0], Volume = 0.5f, PitchMin = 1f, PitchMax = 1f, MaxVoices = 1, Bus = AudioBus.Ambience, Loop = true },
-                new Spec { Cue = AudioCues.AmbCrickets, Files = new string[0], Volume = 0.5f, PitchMin = 1f, PitchMax = 1f, MaxVoices = 1, Bus = AudioBus.Ambience, Loop = true },
-                new Spec { Cue = AudioCues.AmbCrowd, Files = new string[0], Volume = 0.6f, PitchMin = 1f, PitchMax = 1f, MaxVoices = 1, Bus = AudioBus.Ambience, Loop = true },
+                new Spec { Cue = AudioCues.AmbWind, Files = new[] { "oga/wind-whoosh-loop/wind_woosh_loop.ogg" }, Volume = 0.5f, PitchMin = 1f, PitchMax = 1f, MaxVoices = 1, Bus = AudioBus.Ambience, Loop = true },
+                new Spec { Cue = AudioCues.AmbCrickets, Files = new[] { "oga/crickets-ambient-noise-loopable/crickets_1.mp3" }, Volume = 0.5f, PitchMin = 1f, PitchMax = 1f, MaxVoices = 1, Bus = AudioBus.Ambience, Loop = true },
+                new Spec { Cue = AudioCues.AmbCrowd, Files = new[] { "oga/crowd-shoutingspeaking-ambience/crowd_shouting_0.ogg" }, Volume = 0.6f, PitchMin = 1f, PitchMax = 1f, MaxVoices = 1, Bus = AudioBus.Ambience, Loop = true },
             };
         }
 
@@ -133,6 +133,12 @@ namespace HumanLastRampart.App.Editor
                     if (!File.Exists(src)) { Debug.LogError("[소리 은행] 원본 없음: " + src); continue; }
                     File.Copy(src, dest, true);
                     bytes += new FileInfo(dest).Length;
+                    if (file.StartsWith("oga/"))
+                    {
+                        licenses.AppendLine($"| Sfx/{destName} | https://opengameart.org/content/{file.Split('/')[1]} | 쪽 참고 | CC0 |");
+                        continue;
+                    }
+
                     string pack = file.StartsWith(Impact) ? KenneyImpactUrl : file.StartsWith(Rpg) ? KenneyRpgUrl : KenneyIfaceUrl;
                     licenses.AppendLine($"| Sfx/{destName} | {pack} | Kenney | CC0 |");
                 }

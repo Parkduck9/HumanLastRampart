@@ -251,11 +251,15 @@ namespace HumanLastRampart.UI
             }
 
             if (onClick != null) button.onClick.AddListener(() => onClick());
-            button.onClick.AddListener(PlayClickSound);   // 소리 (W24): 은행이 비었으면 조용
+            // 소리 (W24): 주 행동 = 확인, 닫기·취소 글 = 취소, 나머지 = 누름. 은행이 비었으면 조용
+            string clickCue = kind == UiButtonKind.Primary ? HumanLastRampart.Core.Audio.AudioCues.UiConfirm
+                : IsCancelLabel(label) ? HumanLastRampart.Core.Audio.AudioCues.UiCancel : HumanLastRampart.Core.Audio.AudioCues.UiClick;
+            button.onClick.AddListener(() => HumanLastRampart.Core.Audio.Sound.Play(clickCue));
             return button;
         }
 
-        static void PlayClickSound() => HumanLastRampart.Core.Audio.Sound.Play(HumanLastRampart.Core.Audio.AudioCues.UiClick);
+        static bool IsCancelLabel(string label) =>
+            label != null && (label.Contains("닫기") || label.Contains("취소") || label.Contains("뒤로") || label.Contains("돌아가기"));
 
         public static Button IconButton(Transform parent, string key, string icon, Action onClick, float size = 48f)
         {

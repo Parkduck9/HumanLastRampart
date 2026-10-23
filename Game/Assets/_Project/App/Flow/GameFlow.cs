@@ -459,6 +459,7 @@ namespace HumanLastRampart.App.Flow
             try
             {
                 entry.OnEnter(currentContext);
+                HumanLastRampart.App.Audio.AudioService.Current?.AdoptSceneListeners();   // 화면 카메라의 리스너를 서비스 하나로 모음 (W24)
             }
             catch (System.Exception exception)
             {

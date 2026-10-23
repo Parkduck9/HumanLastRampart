@@ -293,6 +293,10 @@ namespace HumanLastRampart.Combat.Battle
                 BattleSim.SpellEffect e = effects[i];
                 if (e.Pending)
                 {
+                    bool known = false;
+                    for (int k = 0; k < pendingBefore.Count && !known; k++)
+                        if ((pendingBefore[k] - e.Position).sqrMagnitude < 0.0001f) known = true;
+                    if (!known) Sound.PlayAt(AudioCues.MagicCast, e.Position);   // 마법 시전 순간 (W24)
                     pendingNow.Add(e.Position);
                     continue;
                 }
@@ -331,7 +335,7 @@ namespace HumanLastRampart.Combat.Battle
 
             // 맞음 불꽃: 화살·총알 그림 크기가 0으로 바뀐 칸 = 이번 프레임 착지 (빗나간 화살도 땅에 닿은 자리에 난다)
             if (shotSizes == null) return;
-            int firedShots = 0;                   // 이번 프레임 새로 나간 화살·총알 수 (대포알 제외)
+            int firedBow = 0, firedCrossbow = 0, firedGun = 0, firedMagic = 0;   // 이번 프레임 새로 나간 투사체 수 종류별 (대포알 제외)
             int landedHits = 0;                   // 이번 프레임 맞음 수 — 한 소리로 묶어 알린다 (W24)
             Vector3 landedSum = Vector3.zero;
             NativeArray<PerfLabInstance> shots = sim.ShotInstances;
@@ -343,7 +347,16 @@ namespace HumanLastRampart.Combat.Battle
                 float before = shotSizes[i];
                 shotSizes[i] = size;
                 if (size > 0f) shotWeapons[i] = (int)shot.PosFrame.w;   // 날아가는 동안 칸 번호 = 무기 번호 (K-032)
-                if (before <= 0f && size > 0f && size <= CannonShotSize) firedShots++;
+                if (before <= 0f && size > 0f && size <= CannonShotSize)
+                {
+                    switch (sim.WeaponKindOf(shotWeapons[i]))
+                    {
+                        case HumanLastRampart.Core.Definitions.WeaponKind.Crossbow: firedCrossbow++; break;
+                        case HumanLastRampart.Core.Definitions.WeaponKind.Gun: firedGun++; break;
+                        case HumanLastRampart.Core.Definitions.WeaponKind.Magic: firedMagic++; break;
+                        default: firedBow++; break;
+                    }
+                }
                 if (before <= 0f || size > 0f) continue;
 
                 // 대포알이 떨어진 자리: 함정 폭발 그림을 범위보다 작게 한 번 (K-036). 땅 높이에서
@@ -365,8 +378,16 @@ namespace HumanLastRampart.Combat.Battle
                 hitPlays.Add((new Vector3(shot.PosFrame.x, shot.PosFrame.y, shot.PosFrame.z), 0f));
             }
 
-            if (landedHits > 0) Sound.Report(AudioCues.ArrowHit, landedHits, landedSum / landedHits);
-            if (firedShots > 0) Sound.Report(AudioCues.BowVolley, firedShots, BattleLights.ViewPosition);
+            if (landedHits > 0)
+            {
+                Sound.Report(AudioCues.ArrowHit, landedHits, landedSum / landedHits);
+                Sound.Report(AudioCues.EnemyHit, landedHits, landedSum / landedHits);   // 몸에 맞는 둔탁한 소리를 겹친다 (묶음)
+            }
+            Vector3 ear = BattleLights.ViewPosition;
+            if (firedBow > 0) Sound.Report(AudioCues.BowVolley, firedBow, ear);
+            if (firedCrossbow > 0) Sound.Report(AudioCues.CrossbowVolley, firedCrossbow, ear);
+            if (firedGun > 0) Sound.Report(AudioCues.MusketVolley, firedGun, ear);
+            if (firedMagic > 0) Sound.Report(AudioCues.MagicCast, firedMagic, ear);
         }
 
         static void Age(List<(Vector3 position, float size, float age)> plays, float dt, float life = OneShotSeconds)

@@ -40,6 +40,8 @@ namespace HumanLastRampart.App.Audio
         bool anyPending;
         bool ready;
         bool mapMode;
+        Transform listenerTransform;          // 서비스가 쥔 하나뿐인 AudioListener (화면이 바뀌어도 안 사라진다)
+        Transform followed;                   // 따라갈 화면 카메라 (그 카메라의 리스너는 꺼 둔다)
 
         // 시험·진단용
         public int StartedCount { get; private set; }
@@ -92,6 +94,7 @@ namespace HumanLastRampart.App.Audio
             ready = false;
             for (int c = transform.childCount - 1; c >= 0; c--)
             {
+                if (listenerTransform != null && transform.GetChild(c) == listenerTransform) continue;
                 if (Application.isPlaying) Destroy(transform.GetChild(c).gameObject);
                 else DestroyImmediate(transform.GetChild(c).gameObject);
             }
@@ -115,12 +118,20 @@ namespace HumanLastRampart.App.Audio
             for (int i = 0; i < voices.Length; i++) voices[i] = MakeSource("Voice " + i);
             musicSources = new[] { MakeSource("Music A"), MakeSource("Music B") };
             for (int i = 0; i < AmbienceSlots; i++) { ambSources[i] = MakeSource("Ambience " + i); ambCue[i] = null; ambNow[i] = ambTarget[i] = 0f; }
+            if (listenerTransform == null)
+            {
+                var lgo = new GameObject("Listener");
+                lgo.transform.SetParent(transform, false);
+                lgo.AddComponent<AudioListener>();
+                listenerTransform = lgo.transform;
+            }
+
             musicActive = -1;
             musicCue = null;
             anyPending = false;
             StartedCount = DroppedCount = 0;
             ready = true;
-            if (Application.isPlaying) { instance = this; Sound.Sink = this; }
+            if (Application.isPlaying) { instance = this; Sound.Sink = this; AdoptSceneListeners(); }
         }
 
         AudioSource MakeSource(string sourceName)
@@ -305,10 +316,24 @@ namespace HumanLastRampart.App.Audio
 
         // ── 매 프레임 ──
 
+        // 화면 카메라에 붙은 AudioListener는 모두 꺼 두고 서비스의 하나만 쓴다 ('리스너 없음' 안내가 화면 전환 틈에 뜨지 않게).
+        // 화면이 열린 직후(GameFlow) 한 번 부른다. 꺼 둔 카메라의 자리·방향을 매 프레임 따라간다
+        public void AdoptSceneListeners()
+        {
+            if (listenerTransform == null) return;
+            foreach (AudioListener found in FindObjectsByType<AudioListener>(FindObjectsSortMode.None))
+            {
+                if (found.transform == listenerTransform) continue;
+                if (found.enabled) followed = found.transform;
+                found.enabled = false;
+            }
+        }
+
         void Update() => Tick(Time.unscaledDeltaTime);
 
         void LateUpdate()
         {
+            if (followed != null && listenerTransform != null) listenerTransform.SetPositionAndRotation(followed.position, followed.rotation);
             if (anyPending) Flush();
         }
 

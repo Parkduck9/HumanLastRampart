@@ -47,7 +47,7 @@
 은행 자료: `Game/Assets/_Project/Audio/Resources/Audio/SoundBank.asset`. 파일 선택표와 만드는 방법은 `App/Editor/AudioBankBuilder.cs` (메뉴 HLR/Audio/Build Sound Bank). 파일을 바꾸려면 표를 고치고 다시 돌린다.
 
 - Kenney 충격음을 낮추거나 높여 쓴 것 (소리 높낮이 범위로 겹쳐 느낌을 만듦): 대포 발사·착탄, 마법 폭발, 함정, 불바다(낮은 둔탁음으로 대신), 성벽 맞음·무너짐, 맞음·죽음 묶음, 전령 발소리
-- 뿔나팔(sfx_wave_horn)은 뿔 소리가 없어 낮춘 큰 종소리로 대신했다. 진짜 뿔 소리를 구하면 교체
+- 뿔나팔(sfx_wave_horn)과 주변 소리 3종(바람·귀뚜라미·함성)은 OpenGameArt CC0 파일 (their-coming-generic-horn-sound, wind-whoosh-loop, crickets-ambient-noise-loopable, crowd-shoutingspeaking-ambience)
 - 음악: 낮=The Old Tower Inn, 밤 전투=Prepare to Fight, 낮 전투=Battle Theme A, 이야기=The Hope, 승리=Victory Theme for RPG, 패배=Laments of the War
-- 비어 있는 열쇠 (알맞은 CC0 파일이 없음): amb_wind, amb_crickets, amb_crowd_roar
-- 아직 코드에서 안 부르는 열쇠 (소리 파일은 채워 둠): sfx_crossbow_volley, sfx_musket_volley (무기 종류 구분 필요), sfx_magic_cast, sfx_enemy_hit, sfx_beacon_beam_turn, ui_confirm, ui_cancel
+- 31개 열쇠 모두 소리가 있다. 코드에서 모두 부른다 (석궁·머스킷·마법은 투사체 종류별 BattleEffectsView, 윈치는 빛줄기가 돌 때 BattleAudioDirector, 확인·취소는 Ui.Button의 단추 종류·글)
+- 소리 서비스가 AudioListener 하나를 쥐고 화면 카메라의 리스너는 꺼 둔다 ('리스너 없음' 안내 방지)
