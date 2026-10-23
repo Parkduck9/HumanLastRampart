@@ -119,7 +119,7 @@
                       "kind":  "card",
                       "folder":  "C:\\Unity\\1\\HLR-cards\\K-111",
                       "agent":  "",
-                      "stage":  1
+                      "stage":  5
                   },
                   {
                       "id":  "K-112",
@@ -314,7 +314,7 @@
                       "id":  "K-115",
                       "name":  "등대 탑 진짜 그림 (12m)",
                       "agent":  "",
-                      "stage":  0,
+                      "stage":  5,
                       "kind":  "card",
                       "folder":  "C:\\Unity\\1\\HLR-cards\\K-115",
                       "who":  "코덱스 (그림)"
@@ -323,7 +323,7 @@
                       "id":  "K-116",
                       "name":  "안마당 돌바닥 · 상자 · 통 · 계단",
                       "agent":  "",
-                      "stage":  0,
+                      "stage":  5,
                       "kind":  "card",
                       "folder":  "C:\\Unity\\1\\HLR-cards\\K-116",
                       "who":  "코덱스 (그림)"
@@ -331,8 +331,8 @@
                   {
                       "id":  "W21",
                       "name":  "밤 안마당 밝기",
-                      "agent":  "",
-                      "stage":  0,
+                      "agent":  "a7812def402144d24",
+                      "stage":  5,
                       "kind":  "coder",
                       "folder":  "C:\\Unity\\1\\HLR-work\\W21",
                       "who":  ""
@@ -340,8 +340,8 @@
                   {
                       "id":  "W22",
                       "name":  "대포 조준 시험 엄격하게 (프레임 씨앗)",
-                      "agent":  "",
-                      "stage":  0,
+                      "agent":  "ae7158eb9ae768c08",
+                      "stage":  5,
                       "kind":  "coder",
                       "folder":  "C:\\Unity\\1\\HLR-work\\W22",
                       "who":  ""
@@ -349,8 +349,8 @@
                   {
                       "id":  "W23",
                       "name":  "주인공 새 그림 붙이기 (K-109)",
-                      "agent":  "",
-                      "stage":  0,
+                      "agent":  "a14dfab10622a8382",
+                      "stage":  5,
                       "kind":  "coder",
                       "folder":  "C:\\Unity\\1\\HLR-work\\W23",
                       "who":  ""
@@ -359,7 +359,70 @@
                       "id":  "U1",
                       "name":  "유니티 공식 도구 설치 (허락 필요)",
                       "agent":  "",
-                      "stage":  0,
+                      "stage":  5,
+                      "kind":  "coder",
+                      "folder":  "",
+                      "who":  ""
+                  },
+                  {
+                      "id":  "W24",
+                      "name":  "소리 (틀 합침, 주변 소리 · 남은 연결)",
+                      "agent":  "ae1b185679005bf62",
+                      "stage":  5,
+                      "kind":  "coder",
+                      "folder":  "C:\\Unity\\1\\HLR-work\\W24",
+                      "who":  ""
+                  },
+                  {
+                      "id":  "W25",
+                      "name":  "하겐 입 · 화로 · 안개 붙이기 (K-111)",
+                      "agent":  "aa2a16bbd08ffe1d4",
+                      "stage":  5,
+                      "kind":  "coder",
+                      "folder":  "C:\\Unity\\1\\HLR-work\\W25",
+                      "who":  ""
+                  },
+                  {
+                      "id":  "W26",
+                      "name":  "등대 가는 길 꾸미기 + 밤 너무 어두운 곳 밝게",
+                      "agent":  "a30cb3dc9ed7384b0",
+                      "stage":  5,
+                      "kind":  "coder",
+                      "folder":  "C:\\Unity\\1\\HLR-work\\W26",
+                      "who":  ""
+                  },
+                  {
+                      "id":  "S1",
+                      "name":  "소리 자료 출처 조사 (상업용 · 출처 표기 없이)",
+                      "agent":  "ab53049862136323b",
+                      "stage":  5,
+                      "kind":  "coder",
+                      "folder":  "",
+                      "who":  ""
+                  },
+                  {
+                      "id":  "W27",
+                      "name":  "등대 탑 · 안마당 그림 붙이기 + 일꾼은 탑 안에서 일하기",
+                      "agent":  "a43414ad3049d3fda",
+                      "stage":  4,
+                      "kind":  "coder",
+                      "folder":  "C:\\Unity\\1\\HLR-work\\W27",
+                      "who":  ""
+                  },
+                  {
+                      "id":  "W28",
+                      "name":  "정비 건물 + 꾸밈 건물 대충 입체로",
+                      "agent":  "aec0b51d64f20fdad",
+                      "stage":  5,
+                      "kind":  "coder",
+                      "folder":  "C:\\Unity\\1\\HLR-work\\W28",
+                      "who":  ""
+                  },
+                  {
+                      "id":  "S2",
+                      "name":  "소리 고르기 (케니 · 무료 음악)",
+                      "agent":  "",
+                      "stage":  5,
                       "kind":  "coder",
                       "folder":  "",
                       "who":  ""
