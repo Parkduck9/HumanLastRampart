@@ -72,7 +72,11 @@ namespace HumanLastRampart.Story.Tests
                 {
                     if (line.Side == StorySide.None) { Assert.AreEqual("", line.Speaker, id); continue; }
                     Assert.IsNotNull(line.Portrait, $"{id}: {line.Speaker} 초상 없음");
-                    if (line.Speaker == "하겐") Assert.AreSame(hagen, line.Portrait, id + ": 하겐 초상은 portrait_hagen_neutral 한 파일");
+                    if (line.Speaker != "하겐") continue;
+                    Assert.AreSame(hagen, line.Portrait, id + ": 하겐 초상은 portrait_hagen_neutral 한 파일");
+                    Assert.That(line.Cell, Is.InRange(0, 3), id + ": 하겐 표정 칸은 0~3");
+                    if (id == "story_defeat" || id == BeaconRules.ArriveStoryId(2)) Assert.AreEqual(2, line.Cell, id + ": 경계 표정");
+                    if (id == BeaconRules.ArriveStoryId(1) || id == BeaconRules.RelitStoryId(1)) Assert.AreEqual(1, line.Cell, id + ": 결의 표정");
                 }
         }
 

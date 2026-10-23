@@ -79,7 +79,7 @@ public sealed class CharacterArtIntegrationTests
         var importer = (TextureImporter)AssetImporter.GetAtPath(path);
         Assert.AreEqual(FilterMode.Point, importer.filterMode);
         Assert.AreEqual(TextureImporterCompression.Uncompressed, importer.textureCompression);
-        Assert.IsFalse(importer.mipmapEnabled);
+        Assert.AreEqual(name == "fog_band", importer.mipmapEnabled, "안개 띠만 밉맵 켬");
         Assert.AreEqual(wrapU, importer.wrapModeU);
     }
 

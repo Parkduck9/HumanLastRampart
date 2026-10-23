@@ -792,8 +792,6 @@ namespace HumanLastRampart.Combat.Battle
             var band = night ? Resources.Load<Texture2D>("BattleArt/Props/fog_band") : null;
             if (band != null)
             {
-                band.wrapModeU = TextureWrapMode.Repeat;
-                band.wrapModeV = TextureWrapMode.Clamp;
                 float radius = sim.FieldSize + FogBandBeyond;
                 float width = 2f * Mathf.PI * radius / FogBandRepeats;
                 float height = width * band.height / band.width;
@@ -809,7 +807,7 @@ namespace HumanLastRampart.Combat.Battle
                 if (fogBandMaterial.HasProperty("_DstBlendAlpha")) fogBandMaterial.SetFloat("_DstBlendAlpha", (float)BlendMode.OneMinusSrcAlpha);
                 fogBandMaterial.SetFloat("_ZWrite", 0f);
                 fogBandMaterial.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
-                fogBandMaterial.renderQueue = (int)RenderQueue.Transparent;
+                fogBandMaterial.renderQueue = (int)RenderQueue.Transparent - 100;   // 가장 먼 물체: 땅 그림 판(-50)·땅 안개 판보다 먼저 그린다
                 fogBandObject = Place("Far Fog Band", fogBandMesh, fogBandMaterial);
             }
         }
@@ -1027,6 +1025,7 @@ namespace HumanLastRampart.Combat.Battle
 
             if (skyMaterial != null) skyMaterial.SetColor(BaseColorId, tint);
             if (horizonMaterial != null) horizonMaterial.SetColor(BaseColorId, tint);
+            if (fogBandMaterial != null) fogBandMaterial.SetColor(BaseColorId, tint);   // 먼 산과 같이 어둡게 (비 오는 밤에 띠만 밝아 보이지 않게)
         }
 
         public void Dispose()

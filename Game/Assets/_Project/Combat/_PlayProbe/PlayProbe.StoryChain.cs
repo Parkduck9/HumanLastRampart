@@ -31,6 +31,7 @@ public sealed partial class PlayProbe
         int presses = 0;
         bool photo = false;
         int hagenShots = 0;
+        string lastHagenText = "";
         while (GameFlow.Instance.CurrentScreen == ScreenId.Story && presses < 80)
         {
             string id = GameFlow.Instance.Campaign?.NextStory?.StoryId;
@@ -50,8 +51,12 @@ public sealed partial class PlayProbe
                 yield return Capture("story_intro_lumen", 1920, 1080);
             }
 
-            if (id == "story_intro" && SpeakerText() == "하겐" && hagenShots < 3)   // K-111 하겐 표정 사진 (평상·피로·결의)
+            string lineText = StoryText();
+            if (id == "story_intro" && SpeakerText() == "하겐" && lineText != lastHagenText)   // K-111 하겐 표정 사진 (평상·피로·결의) — 대사 줄이 바뀔 때만
+            {
+                lastHagenText = lineText;
                 yield return Capture("story_intro_hagen_" + hagenShots++, 1920, 1080);
+            }
 
             advance = FindAdvance();
             if (advance != null) advance.onClick.Invoke();
