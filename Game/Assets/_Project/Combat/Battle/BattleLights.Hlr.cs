@@ -15,7 +15,18 @@ namespace HumanLastRampart.Combat.Battle
         const float BigLightPull = 0.5f;       // 큰 불 빛 위치를 사진기 쪽으로 반경 × 이 값 당긴다 (불 그림 앞 땅에 웅덩이가 보이게)
         const float BigLightPullMax = 8f;
         const float BigLightHeight = 0.4f;
-        static readonly Color TowerLightPool = new Color(1f, 0.6f, 0.3f);   // 탑 둘레 웅덩이 색 (W21)
+        const float LowPoolScale = 0.55f;   // 저사양: 마당 웅덩이 반지름을 줄여 화면을 덮는 덧칠 면적을 아낀다
+
+        // 마당 빛 내보내기 (W21): 땅 웅덩이(탑 둘레·문 앞, 호박빛 = 횃불 웅덩이 색) + PC만 문등 셰이더 빛 한 칸.
+        // 문등 칸은 횃불·번쩍 몫을 나누기 전에 넣는다 (SplitSlots가 HlrLights.Count를 탑 몫으로 센다). 시험이 이 함수로 PC·모바일을 확인한다
+        public static void EmitCourtyard(bool low, float level, bool lanternOn, Vector3 lanternPos, float lanternIntensity)
+        {
+            float s = low ? LowPoolScale : 1f;
+            GroundGlow.Add(new Vector3(0f, BattleSim.WallHeight, 0f), CourtyardPoolRadius * s, GroundGlow.Torch, 0.3f * level);
+            GroundGlow.Add(new Vector3(0f, BattleSim.WallHeight, BattleTowerView.DoorZ - DoorLanternOut - 0.2f), DoorPoolRadius, GroundGlow.Torch, 0.6f * level);
+            if (lanternOn && DoorLanternUsesSlot(low))
+                HlrLights.Add(lanternPos, DoorLanternRange * TorchShaderRange, DoorLanternColor, lanternIntensity, 0.15f);
+        }
 
         readonly List<(float score, Vector3 pos, float radius, Color color, float intensity, float bounce)> flashCandidates =
             new List<(float, Vector3, float, Color, float, float)>();
@@ -71,14 +82,8 @@ namespace HumanLastRampart.Combat.Battle
 
             // 마당 빛 (W21): 탑 둘레·문 앞 따뜻한 웅덩이(모바일 포함), 문등은 PC에서만 칸 하나 (밑동 병사·일꾼이 보이게)
             if (towerLight != null && towerLight.enabled)
-            {
-                float level = towerLight.intensity > 0f ? doorLanternLevel : 0f;
-                GroundGlow.Add(new Vector3(0f, BattleSim.WallHeight, 0f), CourtyardPoolRadius, TowerLightPool, 0.34f * Mathf.Max(0.5f, level));
-                Vector3 door = new Vector3(0f, BattleSim.WallHeight, BattleTowerView.DoorZ - DoorLanternOut - 0.2f);
-                GroundGlow.Add(door, DoorPoolRadius, GroundGlow.Torch, 0.4f * level);
-                if (doorLantern != null && doorLantern.enabled && DoorLanternUsesSlot(HlrLights.Low))
-                    HlrLights.Add(doorLantern.transform.position, DoorLanternRange * TorchShaderRange, doorLantern.color, doorLantern.intensity, 0.15f);
-            }
+                EmitCourtyard(HlrLights.Low, courtyardLevel, doorLantern != null && doorLantern.enabled,
+                    doorLantern != null ? doorLantern.transform.position : Vector3.zero, doorLantern != null ? doorLantern.intensity : 0f);
 
             // 횃불 몫을 남겨 둔다 (벽 위 병사가 늘 빛을 받게)
             SplitSlots(max, HlrLights.Count, torchesOn, out _, out int flashSlots);

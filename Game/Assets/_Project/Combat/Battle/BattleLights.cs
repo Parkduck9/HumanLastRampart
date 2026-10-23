@@ -199,12 +199,13 @@ namespace HumanLastRampart.Combat.Battle
         public const float DoorPoolRadius = 2.4f;
         public const float DoorLanternHeight = 1.3f;
         public const float DoorLanternOut = 0.45f;   // 문 앞으로 나온 거리
-        const float TowerFillIntensity = 2.2f;
-        const float DoorLanternIntensity = 1.3f;
+        const float TowerFillIntensity = 3.6f;   // 윗몸이 램프 빛을 더 받게 (사진 확인 후 2.2에서 올림)
+        const float DoorLanternIntensity = 1f;
         const float DoorLanternRange = 3.6f;
-        static readonly Color DoorLanternColor = new Color(1f, 0.62f, 0.3f);
+        static readonly Color DoorLanternColor = new Color(1f, 0.55f, 0.22f);   // 호박빛 (흰빛으로 날아가지 않게 붉은 쪽)
+        static readonly Color TowerFillColor = new Color(1f, 0.6f, 0.26f);
         Light towerFill, doorLantern;
-        float doorLanternLevel;
+        float courtyardLevel;   // 마당 빛 세기 하나 (등불 밝기 최소 0.5 × 깜박임 × 비)
 
         // 문등 점광원이 셰이더 빛 목록 칸을 쓰는가: 모바일(6칸)은 칸을 아끼려고 땅 웅덩이만
         public static bool DoorLanternUsesSlot(bool low) => !low;
@@ -216,11 +217,12 @@ namespace HumanLastRampart.Combat.Battle
             {
                 if (towerFill != null) towerFill.enabled = false;
                 if (doorLantern != null) doorLantern.enabled = false;
-                doorLanternLevel = 0f;
+                courtyardLevel = 0f;
                 return;
             }
 
-            doorLanternLevel = Mathf.Max(0.5f, level) * flicker * (sim.IsRaining ? RainTorchMultiplier : 1f);
+            float rain = sim.IsRaining ? RainTorchMultiplier : 1f;
+            courtyardLevel = Mathf.Max(0.5f, level) * flicker * rain;
             if (!real)
             {
                 if (towerFill != null) towerFill.enabled = false;
@@ -232,7 +234,7 @@ namespace HumanLastRampart.Combat.Battle
             {
                 // 남쪽(사진기 쪽)으로 비켜 서서 윗몸 앞면을 쓸듯이 비춘다
                 towerFill = NewLight("Tower Fill", new Vector3(0f, BattleSim.WallHeight + BattleTowerView.LampHeight - 2.5f, BattleTowerView.DoorZ - 1.8f));
-                towerFill.color = HumanLastRampart.Combat.Render.NightTuning.TowerLightColor;
+                towerFill.color = TowerFillColor;
                 towerFill.range = 7f;
             }
 
@@ -243,9 +245,9 @@ namespace HumanLastRampart.Combat.Battle
                 doorLantern.range = DoorLanternRange;
             }
 
-            towerFill.intensity = TowerFillIntensity * level * flicker * (sim.IsIgnitionNight ? 1.3f : 1f);
+            towerFill.intensity = TowerFillIntensity * level * flicker * rain * (sim.IsIgnitionNight ? 1.3f : 1f);
             towerFill.enabled = true;
-            doorLantern.intensity = DoorLanternIntensity * doorLanternLevel;
+            doorLantern.intensity = DoorLanternIntensity * courtyardLevel;
             doorLantern.enabled = true;
         }
 
