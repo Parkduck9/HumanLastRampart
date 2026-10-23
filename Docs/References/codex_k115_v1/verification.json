@@ -1,0 +1,1010 @@
+{
+  "dimensions": [
+    {
+      "file": "textures/tower_wall_albedo.png",
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "file": "textures/tower_trim_albedo.png",
+      "size": [
+        256,
+        64
+      ]
+    },
+    {
+      "file": "textures/tower_roof_albedo.png",
+      "size": [
+        128,
+        128
+      ]
+    },
+    {
+      "file": "previews/wall_4x.png",
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "file": "previews/wall_repeat_2x2.png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "file": "previews/trim_4x.png",
+      "size": [
+        1024,
+        256
+      ]
+    },
+    {
+      "file": "previews/trim_repeat_2x2.png",
+      "size": [
+        512,
+        128
+      ]
+    },
+    {
+      "file": "previews/roof_4x.png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "file": "previews/roof_repeat_2x2.png",
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "file": "native/flame_warming.png",
+      "size": [
+        576,
+        128
+      ]
+    },
+    {
+      "file": "game/flame_warming.png",
+      "size": [
+        1728,
+        384
+      ]
+    },
+    {
+      "file": "previews/flame_warming_4x.png",
+      "size": [
+        2304,
+        512
+      ]
+    },
+    {
+      "file": "native/flame_lit.png",
+      "size": [
+        576,
+        128
+      ]
+    },
+    {
+      "file": "game/flame_lit.png",
+      "size": [
+        1728,
+        384
+      ]
+    },
+    {
+      "file": "previews/flame_lit_4x.png",
+      "size": [
+        2304,
+        512
+      ]
+    },
+    {
+      "file": "textures/lamp_interior_glow.png",
+      "size": [
+        128,
+        128
+      ]
+    },
+    {
+      "file": "previews/lamp_interior_glow_4x.png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "file": "mockup_day.png",
+      "size": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "mockup_night.png",
+      "size": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "native/lamp_window_dead.png",
+      "size": [
+        96,
+        128
+      ]
+    },
+    {
+      "file": "game/lamp_window_dead.png",
+      "size": [
+        288,
+        384
+      ]
+    },
+    {
+      "file": "previews/lamp_window_dead_4x.png",
+      "size": [
+        384,
+        512
+      ]
+    },
+    {
+      "file": "native/lamp_window_lit.png",
+      "size": [
+        96,
+        128
+      ]
+    },
+    {
+      "file": "game/lamp_window_lit.png",
+      "size": [
+        288,
+        384
+      ]
+    },
+    {
+      "file": "previews/lamp_window_lit_4x.png",
+      "size": [
+        384,
+        512
+      ]
+    },
+    {
+      "file": "native/brazier_lens_dead.png",
+      "size": [
+        96,
+        128
+      ]
+    },
+    {
+      "file": "game/brazier_lens_dead.png",
+      "size": [
+        288,
+        384
+      ]
+    },
+    {
+      "file": "previews/brazier_lens_dead_4x.png",
+      "size": [
+        384,
+        512
+      ]
+    },
+    {
+      "file": "native/brazier_lens_lit.png",
+      "size": [
+        96,
+        128
+      ]
+    },
+    {
+      "file": "game/brazier_lens_lit.png",
+      "size": [
+        288,
+        384
+      ]
+    },
+    {
+      "file": "previews/brazier_lens_lit_4x.png",
+      "size": [
+        384,
+        512
+      ]
+    },
+    {
+      "file": "native/lantern_dead.png",
+      "size": [
+        96,
+        128
+      ]
+    },
+    {
+      "file": "game/lantern_dead.png",
+      "size": [
+        288,
+        384
+      ]
+    },
+    {
+      "file": "previews/lantern_dead_4x.png",
+      "size": [
+        384,
+        512
+      ]
+    },
+    {
+      "file": "native/lantern_lit.png",
+      "size": [
+        96,
+        128
+      ]
+    },
+    {
+      "file": "game/lantern_lit.png",
+      "size": [
+        288,
+        384
+      ]
+    },
+    {
+      "file": "previews/lantern_lit_4x.png",
+      "size": [
+        384,
+        512
+      ]
+    },
+    {
+      "file": "previews/lamp_room_dead_4x.png",
+      "size": [
+        384,
+        512
+      ]
+    },
+    {
+      "file": "previews/lamp_room_lit_4x.png",
+      "size": [
+        384,
+        512
+      ]
+    },
+    {
+      "file": "native/flame_bright.png",
+      "size": [
+        576,
+        128
+      ]
+    },
+    {
+      "file": "game/flame_bright.png",
+      "size": [
+        1728,
+        384
+      ]
+    },
+    {
+      "file": "previews/flame_bright_4x.png",
+      "size": [
+        2304,
+        512
+      ]
+    },
+    {
+      "file": "native/door_dead.png",
+      "size": [
+        96,
+        128
+      ]
+    },
+    {
+      "file": "game/door_dead.png",
+      "size": [
+        288,
+        384
+      ]
+    },
+    {
+      "file": "previews/door_dead_4x.png",
+      "size": [
+        384,
+        512
+      ]
+    },
+    {
+      "file": "native/door_lit.png",
+      "size": [
+        96,
+        128
+      ]
+    },
+    {
+      "file": "game/door_lit.png",
+      "size": [
+        288,
+        384
+      ]
+    },
+    {
+      "file": "previews/door_lit_4x.png",
+      "size": [
+        384,
+        512
+      ]
+    }
+  ],
+  "sprites": [
+    {
+      "file": "native/flame_warming.png",
+      "fixed_pivot": [
+        48,
+        120
+      ],
+      "frames": [
+        {
+          "bounds": [
+            41,
+            99,
+            55,
+            120
+          ],
+          "baseline": 120,
+          "bounds_center_deviation_px": 0,
+          "components": [
+            130
+          ],
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "d9a9e6571fb6d167d9c34d5f6ee032aa4e3fa4e50080e4872762a91f842b3e23"
+        },
+        {
+          "bounds": [
+            41,
+            96,
+            55,
+            120
+          ],
+          "baseline": 120,
+          "bounds_center_deviation_px": 0,
+          "components": [
+            146
+          ],
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "95fc531dc5197f65cebd46c414bf5189c0776e0edaa0d99fd27cf943bd74b2df"
+        },
+        {
+          "bounds": [
+            41,
+            99,
+            55,
+            120
+          ],
+          "baseline": 120,
+          "bounds_center_deviation_px": 0,
+          "components": [
+            151
+          ],
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "3f938a7cd804514ed006bcb322d1a3b4e98b9ab53c87b4c0c06a195594c714fe"
+        },
+        {
+          "bounds": [
+            41,
+            102,
+            55,
+            120
+          ],
+          "baseline": 120,
+          "bounds_center_deviation_px": 0,
+          "components": [
+            140
+          ],
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "70b2222cdc15b25674c5c427d233e824eec40f424771eec23d23eb875b2dbcca"
+        },
+        {
+          "bounds": [
+            41,
+            97,
+            55,
+            120
+          ],
+          "baseline": 120,
+          "bounds_center_deviation_px": 0,
+          "components": [
+            142
+          ],
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "00ac45ebf3d0ed76d061ee851fa21e60114250a7fe7e078cff9c6c598df6e189"
+        },
+        {
+          "bounds": [
+            42,
+            98,
+            55,
+            120
+          ],
+          "baseline": 120,
+          "bounds_center_deviation_px": 0.5,
+          "components": [
+            132
+          ],
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "7bb8105d8a6d2cbbbe2e1100e61c6e0feeb0e5ae5577cd9463a8778bde3e0bf9"
+        }
+      ]
+    },
+    {
+      "file": "native/flame_lit.png",
+      "fixed_pivot": [
+        48,
+        120
+      ],
+      "frames": [
+        {
+          "bounds": [
+            36,
+            82,
+            60,
+            120
+          ],
+          "baseline": 120,
+          "bounds_center_deviation_px": 0,
+          "components": [
+            500
+          ],
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "4b06bcf143c31e2374e676e41eeb52246b155245241168710239cafe8792b4e6"
+        },
+        {
+          "bounds": [
+            36,
+            80,
+            60,
+            120
+          ],
+          "baseline": 120,
+          "bounds_center_deviation_px": 0,
+          "components": [
+            483
+          ],
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "7f0003f7c5488426fb3085ba6beeeb8198cb198211c596fdb436e0b7c641221e"
+        },
+        {
+          "bounds": [
+            36,
+            84,
+            60,
+            120
+          ],
+          "baseline": 120,
+          "bounds_center_deviation_px": 0,
+          "components": [
+            493
+          ],
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "f4c5be581edfbe55f85db198afcb8c8a561910da0611eb57d140084fed266b7d"
+        },
+        {
+          "bounds": [
+            36,
+            79,
+            60,
+            120
+          ],
+          "baseline": 120,
+          "bounds_center_deviation_px": 0,
+          "components": [
+            507
+          ],
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "5e5ff9ff977e2c481eceae8b0be142966980e02564eaa8df3dc9eee9026f3996"
+        },
+        {
+          "bounds": [
+            36,
+            81,
+            60,
+            120
+          ],
+          "baseline": 120,
+          "bounds_center_deviation_px": 0,
+          "components": [
+            510
+          ],
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "7417958bbd9028443e18a369e4d3baacb4b93a262b794430ece01c075649b063"
+        },
+        {
+          "bounds": [
+            36,
+            82,
+            60,
+            120
+          ],
+          "baseline": 120,
+          "bounds_center_deviation_px": 0,
+          "components": [
+            472
+          ],
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "9fabd28fc9af20b086078af8b12ffd79c8ac12a1264518d5efffacd112270311"
+        }
+      ]
+    },
+    {
+      "file": "native/lamp_window_dead.png",
+      "fixed_pivot": [
+        48,
+        120
+      ],
+      "frames": [
+        {
+          "bounds": [
+            4,
+            56,
+            92,
+            120
+          ],
+          "baseline": 120,
+          "bounds_center_deviation_px": 0,
+          "components": [
+            3180
+          ],
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "4cc6319348659bb63f0c16ca9d32afd0380f2d71d80e13ec166d63c26bb4d326"
+        }
+      ]
+    },
+    {
+      "file": "native/lamp_window_lit.png",
+      "fixed_pivot": [
+        48,
+        120
+      ],
+      "frames": [
+        {
+          "bounds": [
+            4,
+            56,
+            92,
+            120
+          ],
+          "baseline": 120,
+          "bounds_center_deviation_px": 0,
+          "components": [
+            3180
+          ],
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "8590e760d65cf2abcaf45432a209618f2738036232e0bb237a92eeead153a61d"
+        }
+      ]
+    },
+    {
+      "file": "native/brazier_lens_dead.png",
+      "fixed_pivot": [
+        48,
+        120
+      ],
+      "frames": [
+        {
+          "bounds": [
+            32,
+            72,
+            65,
+            120
+          ],
+          "baseline": 120,
+          "bounds_center_deviation_px": 0.5,
+          "components": [
+            1178
+          ],
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "e9962a1ae7d01cb94227a38617a77193950a157255cab0294dcfed7fc4822daf"
+        }
+      ]
+    },
+    {
+      "file": "native/brazier_lens_lit.png",
+      "fixed_pivot": [
+        48,
+        120
+      ],
+      "frames": [
+        {
+          "bounds": [
+            32,
+            72,
+            65,
+            120
+          ],
+          "baseline": 120,
+          "bounds_center_deviation_px": 0.5,
+          "components": [
+            1178
+          ],
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "a9cae7d7da947ddd889c22940a12adf9d5816ac0ad4fd8fbc4197c3ca817a656"
+        }
+      ]
+    },
+    {
+      "file": "native/lantern_dead.png",
+      "fixed_pivot": [
+        48,
+        120
+      ],
+      "frames": [
+        {
+          "bounds": [
+            41,
+            92,
+            55,
+            120
+          ],
+          "baseline": 120,
+          "bounds_center_deviation_px": 0,
+          "components": [
+            277
+          ],
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "13da597c702717242724781bf5c5b63ad7d28e4a73f9d5be1f880da2d3ea29d3"
+        }
+      ]
+    },
+    {
+      "file": "native/lantern_lit.png",
+      "fixed_pivot": [
+        48,
+        120
+      ],
+      "frames": [
+        {
+          "bounds": [
+            41,
+            92,
+            55,
+            120
+          ],
+          "baseline": 120,
+          "bounds_center_deviation_px": 0,
+          "components": [
+            277
+          ],
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "d7501700b8d3820ea607317af2ee36cdad90a8d73bd097fdebf80f6816008629"
+        }
+      ]
+    },
+    {
+      "file": "native/flame_bright.png",
+      "fixed_pivot": [
+        48,
+        120
+      ],
+      "frames": [
+        {
+          "bounds": [
+            33,
+            78,
+            63,
+            120
+          ],
+          "baseline": 120,
+          "bounds_center_deviation_px": 0,
+          "components": [
+            753
+          ],
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "b2c7a0a8a80fad7859c6d6ac2a19e0c43bdc33f92a25ede81b0a0fdc24c84353"
+        },
+        {
+          "bounds": [
+            33,
+            80,
+            63,
+            120
+          ],
+          "baseline": 120,
+          "bounds_center_deviation_px": 0,
+          "components": [
+            667
+          ],
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "c587d8a497eaf6800882401879e43acd80d40e98962d868990fe5bc0bc247945"
+        },
+        {
+          "bounds": [
+            33,
+            79,
+            63,
+            120
+          ],
+          "baseline": 120,
+          "bounds_center_deviation_px": 0,
+          "components": [
+            736
+          ],
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "20fb865da4d9df977502f40cae2ca4196a83eb67f281af509cf8d67f125877ba"
+        },
+        {
+          "bounds": [
+            33,
+            77,
+            63,
+            120
+          ],
+          "baseline": 120,
+          "bounds_center_deviation_px": 0,
+          "components": [
+            709
+          ],
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "7c2dc76d08b32f9e30efb187aa3e06a83ab5c563baddb554f00686122a0c38c8"
+        },
+        {
+          "bounds": [
+            33,
+            78,
+            63,
+            120
+          ],
+          "baseline": 120,
+          "bounds_center_deviation_px": 0,
+          "components": [
+            673
+          ],
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "22f79241efac93024cd9824179c9e7829cda46bbe813be43ec804480ec978cc3"
+        },
+        {
+          "bounds": [
+            33,
+            78,
+            63,
+            120
+          ],
+          "baseline": 120,
+          "bounds_center_deviation_px": 0,
+          "components": [
+            731
+          ],
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "6e1228e8fbd747aadf3e69e0f2b7d5e72a4839e58694942ed606cca4c1728f3e"
+        }
+      ]
+    },
+    {
+      "file": "native/door_dead.png",
+      "fixed_pivot": [
+        48,
+        120
+      ],
+      "frames": [
+        {
+          "bounds": [
+            8,
+            8,
+            88,
+            120
+          ],
+          "baseline": 120,
+          "bounds_center_deviation_px": 0,
+          "components": [
+            6948
+          ],
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "8146f8f92255071802c53325883a8a9420690e714f0fd1f8427a1bf8625212f6"
+        }
+      ]
+    },
+    {
+      "file": "native/door_lit.png",
+      "fixed_pivot": [
+        48,
+        120
+      ],
+      "frames": [
+        {
+          "bounds": [
+            8,
+            8,
+            88,
+            120
+          ],
+          "baseline": 120,
+          "bounds_center_deviation_px": 0,
+          "components": [
+            6948
+          ],
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "ddc80eaf48fd6b73c195832ff6fb5ced1e8e2d2bc2da4ab4d69179c07516395e"
+        }
+      ]
+    }
+  ],
+  "scale3x": [
+    {
+      "file": "native/flame_warming.png",
+      "exact": true
+    },
+    {
+      "file": "native/flame_lit.png",
+      "exact": true
+    },
+    {
+      "file": "native/lamp_window_dead.png",
+      "exact": true
+    },
+    {
+      "file": "native/lamp_window_lit.png",
+      "exact": true
+    },
+    {
+      "file": "native/brazier_lens_dead.png",
+      "exact": true
+    },
+    {
+      "file": "native/brazier_lens_lit.png",
+      "exact": true
+    },
+    {
+      "file": "native/lantern_dead.png",
+      "exact": true
+    },
+    {
+      "file": "native/lantern_lit.png",
+      "exact": true
+    },
+    {
+      "file": "native/flame_bright.png",
+      "exact": true
+    },
+    {
+      "file": "native/door_dead.png",
+      "exact": true
+    },
+    {
+      "file": "native/door_lit.png",
+      "exact": true
+    }
+  ],
+  "tiling": [
+    {
+      "file": "textures/tower_wall_albedo.png",
+      "requested": [
+        true,
+        true
+      ],
+      "matching_edges": [
+        true,
+        true
+      ]
+    },
+    {
+      "file": "textures/tower_trim_albedo.png",
+      "requested": [
+        true,
+        false
+      ],
+      "matching_edges": [
+        true,
+        false
+      ]
+    },
+    {
+      "file": "textures/tower_roof_albedo.png",
+      "requested": [
+        true,
+        true
+      ],
+      "matching_edges": [
+        true,
+        true
+      ]
+    }
+  ],
+  "mockups": [
+    {
+      "file": "mockup_day.png",
+      "changed_pixels_outside_tower_region": 0
+    },
+    {
+      "file": "mockup_night.png",
+      "changed_pixels_outside_tower_region": 0
+    }
+  ],
+  "errors": [],
+  "glow": {
+    "max_alpha": 94,
+    "transparent_border": true
+  },
+  "sprite_palette": {
+    "colors": 22,
+    "fire_colors": 6
+  },
+  "pivot_note": "Bounds may differ by <=0.5 pixel because an odd-width silhouette is centered on an integer pixel. Cell pivot and baseline are fixed for every frame."
+}
