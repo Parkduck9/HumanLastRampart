@@ -121,7 +121,7 @@ namespace HumanLastRampart.Combat.Battle
 
             HorizontalLayoutGroup row = Ui.Row(panel.transform, "Actions", UiTokens.S8);
             Ui.Size(row, -1f, 48f);
-            Button up = Ui.Button(row.transform, "성벽으로 올라가기", "성벽으로 올라가기", () => TowerLeaveChosen?.Invoke());
+            Button up = Ui.Button(row.transform, "성벽으로 올라가기", "내려온 성벽으로", () => TowerLeaveChosen?.Invoke());   // 다른 성벽은 W·A·S·D (W35)
             Ui.Size(up, 280f, 48f);
             Button close = Ui.Button(row.transform, "명령 닫기", "닫기", () => BeamOrderClosed?.Invoke());
             Ui.Size(close, 160f, 48f);

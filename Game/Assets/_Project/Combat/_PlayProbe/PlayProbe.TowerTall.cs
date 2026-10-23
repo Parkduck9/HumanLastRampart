@@ -121,14 +121,14 @@ public sealed partial class PlayProbe
             yield return WaitFor(() => rig.NearStairs, 6f);
             rig.DepthInput = 0f;
             Assert.IsTrue(entry.Interact(), "E: 탑으로 내려가기");
-            yield return WaitFor(() => rig.AtTower, 8f);
+            yield return WaitFor(() => rig.AtTower, 40f);
             Assert.IsTrue(rig.AtTower, "탑 앞 도착");
             Assert.AreEqual(BattleSim.WallHeight, rig.HeroFeet.y, 1e-3f, "발은 마당 윗면 높이 (오르지 않는다)");
             for (int i = 0; i < 20; i++) yield return null;
             yield return Capture($"tower_tall_{label}_5_at_tower_door", PfWidth, PfHeight);
 
             entry.LeaveTower();
-            yield return WaitFor(() => rig.OnWall, 8f);
+            yield return WaitFor(() => rig.OnWall, 40f);
             Assert.IsTrue(rig.OnWall, "성벽으로 복귀");
             Note("높은 탑 사진 촬영 완료");
         }

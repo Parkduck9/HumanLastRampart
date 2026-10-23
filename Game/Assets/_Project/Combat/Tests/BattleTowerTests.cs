@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace HumanLastRampart.Combat.Tests
 {
-    // 등대 탑 계단 (W9): 북쪽 성벽 통로 가운데 안쪽 끝에서 내려가고 올라오기, 탑에 있는 동안 '성벽에 없음'
+    // 등대 탑 계단 (W9, W35 네 성벽): 통로 가운데 안쪽 끝에서 내려가고 탑에서 W·A·S·D 성벽으로 올라오기, 거리 ÷ 속도 시간, 탑에 있는 동안 '성벽에 없음'
     public sealed class BattleTowerTests
     {
         static BattleCameraRig NewRig(out GameObject camera)
@@ -47,11 +47,11 @@ namespace HumanLastRampart.Combat.Tests
                 Assert.IsFalse(rig.OnWall, "내려가기 시작하면 성벽을 비운다");
                 Assert.IsTrue(rig.InTransition);
                 rig.WalkInput = 1f;   // 이동 입력은 탑 오가는 동안 무시된다
-                Run(rig, BattleCameraRig.TowerSeconds * 0.5f);
+                Run(rig, rig.PathSeconds * 0.5f);
                 Assert.AreEqual(BattleCameraRig.HeroPose.Walk, rig.Pose);
                 Assert.IsTrue(rig.FacingFront, "내려올 때는 사진기 쪽으로 걷는 앞모습");
                 Assert.IsFalse(rig.AtTower);
-                Run(rig, BattleCameraRig.TowerSeconds);
+                Run(rig, rig.PathSeconds);
                 rig.WalkInput = 0f;
                 Assert.IsTrue(rig.AtTower);
                 Assert.IsFalse(rig.OnWall);
@@ -62,9 +62,9 @@ namespace HumanLastRampart.Combat.Tests
 
                 Assert.IsTrue(rig.GoUp());
                 Assert.IsFalse(rig.OnWall, "오르는 중에도 아직 성벽에 없다");
-                Run(rig, BattleCameraRig.TowerSeconds * 0.5f);
+                Run(rig, rig.PathSeconds * 0.5f);
                 Assert.IsFalse(rig.FacingFront);
-                Run(rig, BattleCameraRig.TowerSeconds);
+                Run(rig, rig.PathSeconds);
                 Assert.IsTrue(rig.OnWall);
                 Assert.Less((rig.HeroFeet - wallFeet).magnitude, 1e-3f, "올라와 처음 서 있던 자리로");
                 Assert.IsFalse(rig.GoUp(), "성벽에서는 올라갈 곳이 없다");
@@ -73,27 +73,173 @@ namespace HumanLastRampart.Combat.Tests
         }
 
         [Test]
-        public void Stairs_OnlyAtNorthWallMiddle()
+        public void Stairs_OnlyAtWallMiddle_OnEveryWall()
         {
             var rig = NewRig(out GameObject camera);
             try
             {
-                rig.DepthInput = -1f;
-                Run(rig, 0.5f);
-                rig.DepthInput = 0f;
-                Assert.IsTrue(rig.NearStairs);
-                rig.WalkInput = 1f;   // 오른쪽으로 달려 계단에서 벗어난다
-                Run(rig, 1.0f);   // 5m
-                rig.WalkInput = 0f;
-                Assert.IsFalse(rig.NearStairs, "가운데에서 3m 넘게 벗어나면 계단이 아니다");
-                Assert.IsFalse(rig.GoDown());
+                for (int side = 0; side < 4; side++)
+                {
+                    rig.ShowSide(side);
+                    Assert.IsFalse(rig.NearStairs, $"성벽 {side}: 통로 바깥쪽에서는 계단이 멀다");
+                    GoToStairs(rig);
+                    Assert.IsTrue(rig.NearStairs, $"성벽 {side}: 통로 안쪽 끝 = 계단");
+                    rig.WalkInput = 1f;   // 오른쪽으로 달려 계단에서 벗어난다
+                    Run(rig, 1.0f);   // 5m
+                    rig.WalkInput = 0f;
+                    Assert.IsFalse(rig.NearStairs, $"성벽 {side}: 가운데에서 3m 넘게 벗어나면 계단이 아니다");
+                    Assert.IsFalse(rig.GoDown());
+                    Assert.IsTrue(rig.OnWall);
+                }
+            }
+            finally { Object.DestroyImmediate(camera); }
+        }
 
+        // 통로 안쪽 끝(계단)까지 걷는다
+        static void GoToStairs(BattleCameraRig rig)
+        {
+            rig.DepthInput = -1f;
+            Run(rig, 0.5f);
+            rig.DepthInput = 0f;
+        }
+
+        // 탑 앞에 닿을 때까지 (시간 제한 안에)
+        static void RunUntilArrived(BattleCameraRig rig, System.Func<bool> arrived)
+        {
+            for (float t = 0f; t < rig.PathSeconds + 2f && !arrived(); t += 0.05f) rig.Update(0.05f);
+        }
+
+        static float OutwardYaw(int side)
+        {
+            var n = WallGeometry.Outward(side);
+            return Mathf.Atan2(n.x, n.z) * Mathf.Rad2Deg;
+        }
+
+        [Test]
+        public void Stairs_DescendFromEachOfTheFourWalls_ToTheDoor()
+        {
+            var rig = NewRig(out GameObject camera);
+            try
+            {
+                for (int side = 0; side < 4; side++)
+                {
+                    rig.ShowSide(side);
+                    GoToStairs(rig);
+                    float along = rig.Along;
+                    Assert.IsTrue(rig.GoDown(), $"성벽 {side}에서 E");
+                    Assert.IsFalse(rig.OnWall);
+                    Assert.AreEqual(side, rig.PathSide);
+                    RunUntilArrived(rig, () => rig.AtTower);
+                    Assert.IsTrue(rig.AtTower, $"성벽 {side}: 탑 앞 도착");
+                    Assert.AreEqual(side, rig.Side, "내려온 성벽을 기억");
+                    Assert.AreEqual(along, rig.Along, 1e-4f);
+                    Assert.Less((rig.HeroFeet - rig.TowerFeet).magnitude, 1e-3f);
+                    Run(rig, 1f);
+                    Assert.AreEqual(0f, Mathf.DeltaAngle(rig.Yaw, 0f), 1f, "탑 앞에서는 사진기가 북쪽(문 쪽)을 본다");
+                    Assert.IsTrue(rig.GoUp(), "왔던 성벽으로");
+                    RunUntilArrived(rig, () => rig.OnWall);
+                    Assert.IsTrue(rig.OnWall);
+                    Assert.AreEqual(side, rig.Side);
+                    Run(rig, 1f);
+                    Assert.AreEqual(0f, Mathf.DeltaAngle(rig.Yaw, OutwardYaw(side)), 1f, "올라오면 그 성벽 바깥을 본다");
+                }
+            }
+            finally { Object.DestroyImmediate(camera); }
+        }
+
+        [Test]
+        public void Stairs_GoUpFromTower_ToEachOfTheFourWalls_AtTheirMiddle()
+        {
+            var rig = NewRig(out GameObject camera);
+            try
+            {
+                rig.ShowSide(0);
+                GoToStairs(rig);
+                rig.WalkInput = 1f;
+                Run(rig, 0.3f);   // 가운데에서 조금 옆 (1.5m)
+                rig.WalkInput = 0f;
+                Assert.IsTrue(rig.NearStairs);
+                Assert.IsTrue(rig.GoDown());
+                RunUntilArrived(rig, () => rig.AtTower);
+                Assert.IsTrue(rig.AtTower);
+                Assert.IsFalse(rig.GoUp(4), "없는 성벽");
+                Assert.IsFalse(rig.GoUp(-1));
+                foreach (int side in new[] { 1, 2, 3, 0 })   // 동 · 남 · 서 · 북 (D · S · A · W)
+                {
+                    Assert.IsTrue(rig.GoUp(side), $"탑에서 성벽 {side}로");
+                    Assert.IsFalse(rig.OnWall, "올라가는 동안 성벽을 비운다");
+                    Assert.IsFalse(rig.GoUp(side), "올라가는 중에는 다시 고를 수 없다");
+                    RunUntilArrived(rig, () => rig.OnWall);
+                    Assert.IsTrue(rig.OnWall);
+                    Assert.AreEqual(side, rig.Side);
+                    Assert.AreEqual(0f, rig.Along, 1e-4f, "그 성벽 가운데");
+                    Assert.AreEqual(BattleCameraRig.HeroInset, rig.Inset, 1e-4f);
+                    Assert.Less((rig.HeroFeet - rig.WallFeet(side, 0f, BattleCameraRig.HeroInset)).magnitude, 1e-3f);
+                    Run(rig, 1f);
+                    Assert.AreEqual(0f, Mathf.DeltaAngle(rig.Yaw, OutwardYaw(side)), 1f, "그 성벽 바깥을 본다");
+
+                    GoToStairs(rig);   // 다시 계단에서 내려가 다음 성벽을 고른다
+                    Assert.IsTrue(rig.GoDown());
+                    RunUntilArrived(rig, () => rig.AtTower);
+                    Assert.IsTrue(rig.AtTower);
+                }
+
+                // 내려가는 중에는 내려오던 성벽으로만 되돌아간다
                 rig.ShowSide(1);
-                rig.DepthInput = -1f;
-                Run(rig, 0.5f);
-                rig.DepthInput = 0f;
-                Assert.IsFalse(rig.NearStairs, "다른 성벽에는 계단이 없다");
+                GoToStairs(rig);
+                Assert.IsTrue(rig.GoDown());
+                Run(rig, 1.5f);
+                Assert.IsFalse(rig.AtTower);
+                Assert.IsFalse(rig.GoUp(3), "다른 성벽으로는 되돌아갈 수 없다");
+                Assert.IsTrue(rig.GoUp(1), "내려오던 성벽으로 되돌아간다");
+                RunUntilArrived(rig, () => rig.OnWall);
                 Assert.IsTrue(rig.OnWall);
+                Assert.AreEqual(1, rig.Side);
+            }
+            finally { Object.DestroyImmediate(camera); }
+        }
+
+        // 거리 ÷ 속도: 평지는 성벽 달리기 속도, 계단은 걷기 속도 — 예전처럼 어디서든 1.6초가 아니다
+        [Test]
+        public void TravelTime_IsDistanceOverSpeed_NotFixed()
+        {
+            var rig = NewRig(out GameObject camera);
+            try
+            {
+                foreach (int side in new[] { 0, 1, 2, 3 })
+                {
+                    rig.ShowSide(side);
+                    GoToStairs(rig);
+                    Vector3 prev = rig.HeroFeet;
+                    Assert.IsTrue(rig.GoDown());
+                    float planned = rig.PathSeconds;
+                    float length = 0f, maxSpeed = 0f, minSpeed = float.MaxValue, elapsed = 0f;
+                    while (!rig.AtTower && elapsed < planned + 2f)
+                    {
+                        rig.Update(0.05f);
+                        elapsed += 0.05f;
+                        Vector3 now = rig.HeroFeet;
+                        float step = Vector3.Distance(prev, now);
+                        if (step > 1e-4f)
+                        {
+                            length += step;
+                            maxSpeed = Mathf.Max(maxSpeed, step / 0.05f);
+                            if (step > 0.1f) minSpeed = Mathf.Min(minSpeed, step / 0.05f);
+                        }
+
+                        prev = now;
+                    }
+
+                    Assert.AreEqual(planned, elapsed, 0.1f, $"성벽 {side}: 걸린 시간 = 계획한 시간");
+                    Assert.Greater(elapsed, 5f, $"성벽 {side}: 고정 1.6초가 아니라 길이에 따라 (반폭 60m)");
+                    Assert.LessOrEqual(maxSpeed, BattleSim.HeroSpeed + 0.01f, "평지는 성벽 달리기 속도를 넘지 않는다");
+                    Assert.AreEqual(BattleSim.HeroWalkSpeed, minSpeed, 0.05f, "계단 구간은 걷기 속도");
+                    float stair = (60f - rig.Inset) - (60f - BattleCourtyard.WallThickness - BattleCourtyard.StepCount * BattleCourtyard.TreadDepth);   // 통로 안쪽 끝에서 계단 맨 아래까지
+                    float expected = (length - stair) / BattleSim.HeroSpeed + stair / BattleSim.HeroWalkSpeed;
+                    Assert.AreEqual(expected, elapsed, 0.3f, $"성벽 {side}: 시간 ≈ 평지 거리 / {BattleSim.HeroSpeed} + 계단 거리 / {BattleSim.HeroWalkSpeed}");
+                    rig.GoUp();
+                    RunUntilArrived(rig, () => rig.OnWall);
+                }
             }
             finally { Object.DestroyImmediate(camera); }
         }
@@ -108,7 +254,7 @@ namespace HumanLastRampart.Combat.Tests
                 Run(rig, 0.5f);
                 rig.DepthInput = 0f;
                 rig.GoDown();
-                Run(rig, 3f);
+                RunUntilArrived(rig, () => rig.AtTower);
                 Assert.IsTrue(rig.AtTower);
                 rig.ShowSide(2);
                 Assert.IsTrue(rig.OnWall, "패배 장면 등으로 성벽을 보여 줄 때는 탑 상태를 푼다");

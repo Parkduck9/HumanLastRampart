@@ -70,7 +70,7 @@ public sealed partial class PlayProbe
             Assert.IsTrue(entry.Interact(), "E: 탑으로 내려가기");
             for (int i = 0; i < 4; i++) yield return null;
             Assert.IsFalse(sim.CommanderOnWall, "내려가는 순간 성벽은 지휘관 없음");
-            yield return WaitFor(() => rig.AtTower, 8f);
+            yield return WaitFor(() => rig.AtTower, 40f);
             Assert.IsTrue(rig.AtTower, "탑 앞 도착");
             for (int i = 0; i < 20; i++) yield return null;
             // 카메라는 실제 시간으로 따라온다: 사진 기다리는 동안만 전투를 멈춰 둔다 (계단 걷기 자체는 전투 시간이다)
@@ -135,10 +135,12 @@ public sealed partial class PlayProbe
             for (int i = 0; i < 60; i++) yield return null;
             yield return Capture("tower_08_couriers_running_later", PfWidth, PfHeight);
 
-            // 5) 올라가기
-            entry.LeaveTower();
-            yield return WaitFor(() => rig.OnWall, 8f);
+            // 5) 올라가기 (W35: A = 서쪽 성벽 가운데로 — 내려온 북쪽이 아니다)
+            Assert.IsTrue(entry.TowerUp(3), "탑에서 A: 서쪽 성벽으로");
+            yield return WaitFor(() => rig.OnWall, 40f);
             Assert.IsTrue(rig.OnWall, "성벽으로 복귀");
+            Assert.AreEqual(3, rig.Side, "서쪽 성벽에 올라왔다");
+            Assert.AreEqual(0f, rig.Along, 1e-3f, "성벽 가운데");
             for (int i = 0; i < 4; i++) yield return null;
             Assert.IsTrue(sim.CommanderOnWall, "복귀하면 다시 성벽 지휘관");
             Note("계단 내려가기 → 탑 명령 → 6초 회전 → 올라오기 통과");

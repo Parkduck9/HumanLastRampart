@@ -56,16 +56,19 @@ namespace HumanLastRampart.Combat.Tests
             {
                 var rig = new BattleCameraRig(camera.GetComponent<Camera>(), 60f, BattleSim.WallHeight);
                 float limit = BattleTowerView.BaseHalf + 0.25f;   // 몸체 + 받침(0.15m) 바깥
-                foreach (float x in new[] { -3f, -1f, -0.01f, 0f, 1f, 3f })
-                    for (int i = 0; i <= 200; i++)
-                    {
-                        Vector3 p = rig.TowerPath(new Vector3(x, BattleSim.WallHeight, 58f), i / 200f);
-                        Assert.IsTrue(Mathf.Abs(p.x) > limit || Mathf.Abs(p.z) > limit, $"시작 x={x}, t={i / 200f:0.000}: 발 ({p.x:0.00}, {p.z:0.00})이 탑 몸체 안");
-                        Assert.AreEqual(BattleSim.WallHeight, p.y, 1e-4f);
-                    }
+                for (int side = 0; side < 4; side++)   // W35: 네 성벽 모두
+                {
+                    foreach (float x in new[] { -3f, -1f, -0.01f, 0f, 1f, 3f })
+                        for (int i = 0; i <= 200; i++)
+                        {
+                            Vector3 p = rig.TowerPath(side, rig.WallFeet(side, x, 2f), i / 200f);
+                            Assert.IsTrue(Mathf.Abs(p.x) > limit || Mathf.Abs(p.z) > limit, $"성벽 {side}, 시작 along={x}, t={i / 200f:0.000}: 발 ({p.x:0.00}, {p.z:0.00})이 탑 몸체 안");
+                            Assert.AreEqual(BattleSim.WallHeight, p.y, 1e-4f);
+                        }
 
-                Vector3 end = rig.TowerPath(new Vector3(0f, BattleSim.WallHeight, 58f), 1f);
-                Assert.Less((end - rig.TowerFeet).magnitude, 1e-4f, "끝은 문 앞");
+                    Vector3 end = rig.TowerPath(side, rig.WallFeet(side, 0f, 2f), 1f);
+                    Assert.Less((end - rig.TowerFeet).magnitude, 1e-4f, $"성벽 {side}: 끝은 문 앞");
+                }
             }
             finally { Object.DestroyImmediate(camera); }
         }
