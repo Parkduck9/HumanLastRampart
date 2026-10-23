@@ -1,0 +1,29 @@
+﻿{
+    "tool":  "image_gen.imagegen",
+    "mode":  "built-in",
+    "sources":  {
+                    "floorGen":  "C:\\Users\\User\\.codex\\generated_images\\01a16644-abe5-7573-8e2d-3b4485ac79b3\\exec-d116b1bc-bae0-41d3-a525-b009eb994f7e.png",
+                    "spritesGen":  "C:\\Users\\User\\.codex\\generated_images\\01a16644-abe5-7573-8e2d-3b4485ac79b3\\exec-472e3576-3dbe-4d47-9929-e84cb2b58127.png",
+                    "atlasGen":  "C:\\Users\\User\\.codex\\generated_images\\01a16644-abe5-7573-8e2d-3b4485ac79b3\\exec-2043fa18-7564-4eaa-a017-edf38b4c566b.png",
+                    "flankGen":  "C:\\Users\\User\\.codex\\generated_images\\01a16644-abe5-7573-8e2d-3b4485ac79b3\\exec-c9e98f55-a7df-4852-8131-006890848713.png",
+                    "mock62Gen":  "C:\\Users\\User\\.codex\\generated_images\\01a16644-abe5-7573-8e2d-3b4485ac79b3\\exec-331047cc-b6b4-4585-bcad-1c8093d4ae0f.png",
+                    "mock57Gen":  "C:\\Users\\User\\.codex\\generated_images\\01a16644-abe5-7573-8e2d-3b4485ac79b3\\exec-df78f62a-f725-40a5-82e2-9e419f4e7d21.png",
+                    "mock62_stair_refinement":  "C:/Users/User/.codex/generated_images/01a16644-abe5-7573-8e2d-3b4485ac79b3/exec-3e4e822b-db45-4ee4-91f8-ba714186c11c.png"
+                },
+    "postprocess":  [
+                        "nearest-neighbor dimension normalization",
+                        "minimum-error periodic seam cut; no mirroring",
+                        "alpha threshold and transparent fringe cleanup",
+                        "atlas packing and screenshot invariant restoration"
+                    ],
+    "note":  "Generated mockups are placement illustrations; delivered textures are separate import assets.",
+    "prompt_set":  [
+                       "Floor: seamless 512 square irregular neutral grey taupe old cobbles; 32px/m; orthographic albedo; no aligned rows, mirror symmetry, bloom, gloss, haze, or neon.",
+                       "Sprites: transparent sheet; separate front weapon rack, two-wheel handcart, tied arrows, dirt, puddle, straw, cracked stone; crisp chunky pixel clusters, limited neutral material shading.",
+                       "Atlas: six square flat crate faces, two circular barrel caps, one continuous stave wrap with two iron hoops; separate stone tread and riser; no perspective-painted boxes.",
+                       "Flank: flat straight-on horizontally tileable warm grey ashlar with coping course; no whole staircase or baked cast shadow.",
+                       "Mockup 62: edit actual screenshot; preserve camera, tower, landscape and UI; replace courtyard paving and small supplies; north wall straight stair descending from 4m.",
+                       "Mockup 57: edit actual screenshot; replace low landing with descending straight flight seen from wall top; preserve camera and UI.",
+                       "62 refinement: change only staircase to a full-height long straight flight; composite only the stair polygon onto the already protected mockup."
+                   ]
+}

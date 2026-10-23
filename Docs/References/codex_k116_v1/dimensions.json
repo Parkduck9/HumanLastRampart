@@ -1,0 +1,197 @@
+﻿[
+    {
+        "width":  192,
+        "file":  "arrow_bundles_game.png",
+        "height":  108
+    },
+    {
+        "width":  64,
+        "file":  "arrow_bundles_native.png",
+        "height":  36
+    },
+    {
+        "width":  256,
+        "file":  "arrow_bundles_preview4x.png",
+        "height":  144
+    },
+    {
+        "width":  100,
+        "file":  "barrel_side_100x32.png",
+        "height":  32
+    },
+    {
+        "width":  400,
+        "file":  "barrel_side_preview4x.png",
+        "height":  128
+    },
+    {
+        "width":  288,
+        "file":  "cart_game.png",
+        "height":  264
+    },
+    {
+        "width":  96,
+        "file":  "cart_native.png",
+        "height":  88
+    },
+    {
+        "width":  384,
+        "file":  "cart_preview4x.png",
+        "height":  352
+    },
+    {
+        "width":  512,
+        "file":  "courtyard_cobble_512.png",
+        "height":  512
+    },
+    {
+        "width":  2048,
+        "file":  "courtyard_cobble_preview4x.png",
+        "height":  2048
+    },
+    {
+        "width":  1152,
+        "file":  "courtyard_repeat_36m.png",
+        "height":  1152
+    },
+    {
+        "width":  192,
+        "file":  "decal_cracked_game.png",
+        "height":  192
+    },
+    {
+        "width":  64,
+        "file":  "decal_cracked_native.png",
+        "height":  64
+    },
+    {
+        "width":  256,
+        "file":  "decal_cracked_preview4x.png",
+        "height":  256
+    },
+    {
+        "width":  288,
+        "file":  "decal_dirt_game.png",
+        "height":  192
+    },
+    {
+        "width":  96,
+        "file":  "decal_dirt_native.png",
+        "height":  64
+    },
+    {
+        "width":  384,
+        "file":  "decal_dirt_preview4x.png",
+        "height":  256
+    },
+    {
+        "width":  288,
+        "file":  "decal_puddle_game.png",
+        "height":  192
+    },
+    {
+        "width":  96,
+        "file":  "decal_puddle_native.png",
+        "height":  64
+    },
+    {
+        "width":  384,
+        "file":  "decal_puddle_preview4x.png",
+        "height":  256
+    },
+    {
+        "width":  240,
+        "file":  "decal_straw_game.png",
+        "height":  192
+    },
+    {
+        "width":  80,
+        "file":  "decal_straw_native.png",
+        "height":  64
+    },
+    {
+        "width":  320,
+        "file":  "decal_straw_preview4x.png",
+        "height":  256
+    },
+    {
+        "width":  1920,
+        "file":  "mockup_57.png",
+        "height":  1080
+    },
+    {
+        "width":  1920,
+        "file":  "mockup_62.png",
+        "height":  1080
+    },
+    {
+        "width":  384,
+        "file":  "props_box_atlas_game.png",
+        "height":  384
+    },
+    {
+        "width":  128,
+        "file":  "props_box_atlas_native.png",
+        "height":  128
+    },
+    {
+        "width":  512,
+        "file":  "props_box_atlas_preview4x.png",
+        "height":  512
+    },
+    {
+        "width":  128,
+        "file":  "stair_flank_128x64.png",
+        "height":  64
+    },
+    {
+        "width":  512,
+        "file":  "stair_flank_preview4x.png",
+        "height":  256
+    },
+    {
+        "width":  64,
+        "file":  "stair_riser_64x6.png",
+        "height":  6
+    },
+    {
+        "width":  256,
+        "file":  "stair_riser_preview4x.png",
+        "height":  24
+    },
+    {
+        "width":  64,
+        "file":  "stair_step_atlas_64x16.png",
+        "height":  16
+    },
+    {
+        "width":  256,
+        "file":  "stair_step_atlas_preview4x.png",
+        "height":  64
+    },
+    {
+        "width":  64,
+        "file":  "stair_tread_64x10.png",
+        "height":  10
+    },
+    {
+        "width":  256,
+        "file":  "stair_tread_preview4x.png",
+        "height":  40
+    },
+    {
+        "width":  216,
+        "file":  "weapon_rack_game.png",
+        "height":  240
+    },
+    {
+        "width":  72,
+        "file":  "weapon_rack_native.png",
+        "height":  80
+    },
+    {
+        "width":  288,
+        "file":  "weapon_rack_preview4x.png",
+        "height":  320
+    }
+]

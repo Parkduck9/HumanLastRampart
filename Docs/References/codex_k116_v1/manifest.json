@@ -1,0 +1,562 @@
+{
+  "card": "K-116",
+  "version": 1,
+  "author": "Codex",
+  "scope": "Assets only; Claude imports and wires; Game untouched",
+  "units": {
+    "world_pixels_per_metre": 32,
+    "coordinate_origin": "top-left",
+    "rect_format": "[x,y,width,height]",
+    "native_scale": 1,
+    "game_scale": 3,
+    "nearest_neighbor": true
+  },
+  "import": {
+    "filter": "Point",
+    "mipmaps": false,
+    "alpha": "straight; binary for sprites",
+    "color_space": "sRGB",
+    "texture_compression": "None recommended",
+    "atlas_sampling": "Clamp; no padding; use exact per-face UVs; do not Repeat whole atlas"
+  },
+  "floor": {
+    "file": "courtyard_cobble_512.png",
+    "size": [
+      512,
+      512
+    ],
+    "alpha": false,
+    "repeat_axes": [
+      "x",
+      "y"
+    ],
+    "world_tile_metres": [
+      16,
+      16
+    ],
+    "courtyard_span_metres": [
+      36,
+      36
+    ],
+    "courtyard_repeats": [
+      2.25,
+      2.25
+    ],
+    "seam_method": "Minimum-error overlap seam selection; no mirroring or feathered blending",
+    "palette_colors": 32,
+    "preview": "courtyard_cobble_preview4x.png",
+    "repeat_preview": "courtyard_repeat_36m.png",
+    "wear": "Subtle chips in base texture; sparse offset dirt/straw/crack decals form worn routes. Avoid a repeated high-contrast path baked into every tile."
+  },
+  "props_atlas": {
+    "native": "props_box_atlas_native.png",
+    "native_size": [
+      128,
+      128
+    ],
+    "game": "props_box_atlas_game.png",
+    "game_size": [
+      384,
+      384
+    ],
+    "preview": "props_box_atlas_preview4x.png",
+    "regions": [
+      {
+        "id": "crate_front",
+        "rect_native": [
+          0,
+          0,
+          32,
+          32
+        ],
+        "rect_game": [
+          0,
+          0,
+          96,
+          96
+        ],
+        "world_face_metres": [
+          1,
+          1
+        ]
+      },
+      {
+        "id": "crate_right",
+        "rect_native": [
+          32,
+          0,
+          32,
+          32
+        ],
+        "rect_game": [
+          96,
+          0,
+          96,
+          96
+        ],
+        "world_face_metres": [
+          1,
+          1
+        ]
+      },
+      {
+        "id": "crate_back",
+        "rect_native": [
+          64,
+          0,
+          32,
+          32
+        ],
+        "rect_game": [
+          192,
+          0,
+          96,
+          96
+        ],
+        "world_face_metres": [
+          1,
+          1
+        ]
+      },
+      {
+        "id": "crate_left",
+        "rect_native": [
+          96,
+          0,
+          32,
+          32
+        ],
+        "rect_game": [
+          288,
+          0,
+          96,
+          96
+        ],
+        "world_face_metres": [
+          1,
+          1
+        ]
+      },
+      {
+        "id": "crate_top",
+        "rect_native": [
+          0,
+          32,
+          32,
+          32
+        ],
+        "rect_game": [
+          0,
+          96,
+          96,
+          96
+        ],
+        "world_face_metres": [
+          1,
+          1
+        ]
+      },
+      {
+        "id": "crate_bottom",
+        "rect_native": [
+          32,
+          32,
+          32,
+          32
+        ],
+        "rect_game": [
+          96,
+          96,
+          96,
+          96
+        ],
+        "world_face_metres": [
+          1,
+          1
+        ]
+      },
+      {
+        "id": "barrel_top",
+        "rect_native": [
+          64,
+          32,
+          32,
+          32
+        ],
+        "rect_game": [
+          192,
+          96,
+          96,
+          96
+        ],
+        "mapping": "disc UV; brown square corners outside disc are not visible",
+        "world_diameter_metres": 1
+      },
+      {
+        "id": "barrel_bottom",
+        "rect_native": [
+          96,
+          32,
+          32,
+          32
+        ],
+        "rect_game": [
+          288,
+          96,
+          96,
+          96
+        ],
+        "mapping": "disc UV"
+      },
+      {
+        "id": "barrel_side",
+        "rect_native": [
+          0,
+          64,
+          100,
+          32
+        ],
+        "rect_game": [
+          0,
+          192,
+          300,
+          96
+        ],
+        "mapping": "one full cylinder circumference, not a box face"
+      }
+    ],
+    "barrel": {
+      "side_file": "barrel_side_100x32.png",
+      "size": [
+        100,
+        32
+      ],
+      "repeat_axes": [
+        "x"
+      ],
+      "world_height_metres": 1,
+      "nominal_diameter_metres": 1,
+      "circumference_pixel_rounding_error_percent": 0.53,
+      "note": "Use a cylinder and separate top/bottom discs; cap texture is not an alpha billboard."
+    }
+  },
+  "sprites": [
+    {
+      "id": "weapon_rack",
+      "native": "weapon_rack_native.png",
+      "game": "weapon_rack_game.png",
+      "preview": "weapon_rack_preview4x.png",
+      "cell_native": [
+        72,
+        80
+      ],
+      "cell_game": [
+        216,
+        240
+      ],
+      "frame_count": 1,
+      "frame_order": [
+        "static"
+      ],
+      "alpha": true,
+      "repeat_axes": [],
+      "pivot_native": [
+        36,
+        78
+      ],
+      "pivot_game": [
+        108,
+        234
+      ],
+      "last_opaque_y_native": 77,
+      "note": "Standing prop billboard; bottom contact line at h-2; 2 transparent pixels below."
+    },
+    {
+      "id": "cart",
+      "native": "cart_native.png",
+      "game": "cart_game.png",
+      "preview": "cart_preview4x.png",
+      "cell_native": [
+        96,
+        88
+      ],
+      "cell_game": [
+        288,
+        264
+      ],
+      "frame_count": 1,
+      "frame_order": [
+        "static"
+      ],
+      "alpha": true,
+      "repeat_axes": [],
+      "pivot_native": [
+        48,
+        86
+      ],
+      "pivot_game": [
+        144,
+        258
+      ],
+      "last_opaque_y_native": 85,
+      "note": "Standing prop billboard; bottom contact line at h-2; 2 transparent pixels below."
+    },
+    {
+      "id": "arrow_bundles",
+      "native": "arrow_bundles_native.png",
+      "game": "arrow_bundles_game.png",
+      "preview": "arrow_bundles_preview4x.png",
+      "cell_native": [
+        64,
+        36
+      ],
+      "cell_game": [
+        192,
+        108
+      ],
+      "frame_count": 1,
+      "frame_order": [
+        "static"
+      ],
+      "alpha": true,
+      "repeat_axes": [],
+      "pivot_native": [
+        32,
+        34
+      ],
+      "pivot_game": [
+        96,
+        102
+      ],
+      "last_opaque_y_native": 33,
+      "note": "Standing prop billboard; bottom contact line at h-2; 2 transparent pixels below."
+    },
+    {
+      "id": "decal_dirt",
+      "native": "decal_dirt_native.png",
+      "game": "decal_dirt_game.png",
+      "preview": "decal_dirt_preview4x.png",
+      "cell_native": [
+        96,
+        64
+      ],
+      "cell_game": [
+        288,
+        192
+      ],
+      "frame_count": 1,
+      "frame_order": [
+        "static"
+      ],
+      "alpha": true,
+      "repeat_axes": [],
+      "pivot_native": [
+        48,
+        32
+      ],
+      "pivot_game": [
+        144,
+        96
+      ],
+      "last_opaque_y_native": 61,
+      "note": "Ground plane decal; center pivot; not a standing character."
+    },
+    {
+      "id": "decal_puddle",
+      "native": "decal_puddle_native.png",
+      "game": "decal_puddle_game.png",
+      "preview": "decal_puddle_preview4x.png",
+      "cell_native": [
+        96,
+        64
+      ],
+      "cell_game": [
+        288,
+        192
+      ],
+      "frame_count": 1,
+      "frame_order": [
+        "static"
+      ],
+      "alpha": true,
+      "repeat_axes": [],
+      "pivot_native": [
+        48,
+        32
+      ],
+      "pivot_game": [
+        144,
+        96
+      ],
+      "last_opaque_y_native": 61,
+      "note": "Ground plane decal; center pivot; not a standing character."
+    },
+    {
+      "id": "decal_straw",
+      "native": "decal_straw_native.png",
+      "game": "decal_straw_game.png",
+      "preview": "decal_straw_preview4x.png",
+      "cell_native": [
+        80,
+        64
+      ],
+      "cell_game": [
+        240,
+        192
+      ],
+      "frame_count": 1,
+      "frame_order": [
+        "static"
+      ],
+      "alpha": true,
+      "repeat_axes": [],
+      "pivot_native": [
+        40,
+        32
+      ],
+      "pivot_game": [
+        120,
+        96
+      ],
+      "last_opaque_y_native": 61,
+      "note": "Ground plane decal; center pivot; not a standing character."
+    },
+    {
+      "id": "decal_cracked",
+      "native": "decal_cracked_native.png",
+      "game": "decal_cracked_game.png",
+      "preview": "decal_cracked_preview4x.png",
+      "cell_native": [
+        64,
+        64
+      ],
+      "cell_game": [
+        192,
+        192
+      ],
+      "frame_count": 1,
+      "frame_order": [
+        "static"
+      ],
+      "alpha": true,
+      "repeat_axes": [],
+      "pivot_native": [
+        32,
+        32
+      ],
+      "pivot_game": [
+        96,
+        96
+      ],
+      "last_opaque_y_native": 61,
+      "note": "Ground plane decal; center pivot; not a standing character."
+    }
+  ],
+  "stairs": {
+    "tread": {
+      "file": "stair_tread_64x10.png",
+      "size": [
+        64,
+        10
+      ],
+      "repeat_axes": [
+        "x"
+      ],
+      "world_size_metres": [
+        2,
+        0.3125
+      ]
+    },
+    "riser": {
+      "file": "stair_riser_64x6.png",
+      "size": [
+        64,
+        6
+      ],
+      "repeat_axes": [
+        "x"
+      ],
+      "world_size_metres": [
+        2,
+        0.1875
+      ]
+    },
+    "step_atlas": {
+      "file": "stair_step_atlas_64x16.png",
+      "size": [
+        64,
+        16
+      ],
+      "regions": [
+        {
+          "id": "tread",
+          "rect": [
+            0,
+            0,
+            64,
+            10
+          ]
+        },
+        {
+          "id": "riser",
+          "rect": [
+            0,
+            10,
+            64,
+            6
+          ]
+        }
+      ],
+      "note": "Repeat local tread/riser UVs only. Never repeat the combined atlas on an entire stair mesh."
+    },
+    "flank": {
+      "file": "stair_flank_128x64.png",
+      "size": [
+        128,
+        64
+      ],
+      "repeat_axes": [
+        "x"
+      ],
+      "world_size_metres": [
+        4,
+        2
+      ],
+      "mapping": "Vertical side face aligned in world space, clipped by a stepped or sloping mesh; coping needs its own narrow upper face."
+    },
+    "geometry_reference": {
+      "height_metres": 4,
+      "width_metres": 1.5,
+      "risers": 20,
+      "riser_height_metres": 0.2,
+      "tread_depth_metres": 0.3,
+      "total_run_metres": 6,
+      "side_parapet_above_treads_metres": 0.6,
+      "note": "Geometry reference for Claude, not implemented or approved as a new runtime interface. Physical step dimensions are independent of rounded texture pixel dimensions."
+    }
+  },
+  "mockups": [
+    {
+      "file": "mockup_62.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "source": "Docs/References/tower_20261023/62_courtyard_day_f_courtyard_overview.png"
+    },
+    {
+      "file": "mockup_57.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "source": "Docs/References/tower_20261023/57_courtyard_day_a_wall_top_stairs.png"
+    }
+  ],
+  "limitations": [
+    "Mockups are painted placement illustrations, not exact Unity renders of the supplied assets; UI and selected protected scene areas are restored from real screenshots.",
+    "No character animation or 96x128 human cell applies to these environment assets.",
+    "No Unity import, collision, depth sorting, lighting, or runtime scale verification performed.",
+    "Native PPU 32; scaled game sprites PPU 96 to preserve world size. Do not apply character PPU 3x scaling to the native floor tile."
+  ]
+}
