@@ -119,7 +119,7 @@
                       "kind":  "card",
                       "folder":  "C:\\Unity\\1\\HLR-cards\\K-111",
                       "agent":  "",
-                      "stage":  0
+                      "stage":  1
                   },
                   {
                       "id":  "K-112",
@@ -309,7 +309,60 @@
                       "folder":  "C:\\Unity\\1\\HLR-work\\W20",
                       "agent":  "a54e7635b67ce9594",
                       "stage":  5
+                  },
+                  {
+                      "id":  "K-115",
+                      "name":  "등대 탑 진짜 그림 (12m)",
+                      "agent":  "",
+                      "stage":  0,
+                      "kind":  "card",
+                      "folder":  "C:\\Unity\\1\\HLR-cards\\K-115",
+                      "who":  "코덱스 (그림)"
+                  },
+                  {
+                      "id":  "K-116",
+                      "name":  "안마당 돌바닥 · 상자 · 통 · 계단",
+                      "agent":  "",
+                      "stage":  0,
+                      "kind":  "card",
+                      "folder":  "C:\\Unity\\1\\HLR-cards\\K-116",
+                      "who":  "코덱스 (그림)"
+                  },
+                  {
+                      "id":  "W21",
+                      "name":  "밤 안마당 밝기",
+                      "agent":  "",
+                      "stage":  0,
+                      "kind":  "coder",
+                      "folder":  "C:\\Unity\\1\\HLR-work\\W21",
+                      "who":  ""
+                  },
+                  {
+                      "id":  "W22",
+                      "name":  "대포 조준 시험 엄격하게 (프레임 씨앗)",
+                      "agent":  "",
+                      "stage":  0,
+                      "kind":  "coder",
+                      "folder":  "C:\\Unity\\1\\HLR-work\\W22",
+                      "who":  ""
+                  },
+                  {
+                      "id":  "W23",
+                      "name":  "주인공 새 그림 붙이기 (K-109)",
+                      "agent":  "",
+                      "stage":  0,
+                      "kind":  "coder",
+                      "folder":  "C:\\Unity\\1\\HLR-work\\W23",
+                      "who":  ""
+                  },
+                  {
+                      "id":  "U1",
+                      "name":  "유니티 공식 도구 설치 (허락 필요)",
+                      "agent":  "",
+                      "stage":  0,
+                      "kind":  "coder",
+                      "folder":  "",
+                      "who":  ""
                   }
               ]
 }
-
