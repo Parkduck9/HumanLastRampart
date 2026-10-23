@@ -28,6 +28,28 @@ namespace HumanLastRampart.Combat.Battle
                 HlrLights.Add(lanternPos, DoorLanternRange * TorchShaderRange, DoorLanternColor, lanternIntensity, 0.15f);
         }
 
+        // 돌길 등불 기둥 땅 번짐 (W26): 셰이더 빛 칸은 쓰지 않고 GroundGlow 웅덩이만. 사진기에서 가까운 기둥만 (PC 14개·모바일 4개 상한 — 웅덩이 상한 96/24 안에서 횃불·불바다 몫을 남긴다)
+        public const int RoadPoolsPc = 14, RoadPoolsLow = 4;
+        const float RoadPoolReachPc = 30f, RoadPoolReachLow = 10f;
+
+        public static int EmitRoad(bool low, float level, Vector3 view, float half)
+        {
+            int max = low ? RoadPoolsLow : RoadPoolsPc;
+            float reach = low ? RoadPoolReachLow : RoadPoolReachPc;
+            float radius = low ? BattleRoad.LampPoolRadius * 0.75f : BattleRoad.LampPoolRadius;
+            int count = BattleRoad.LampCount(half), added = 0;
+            for (int i = 0; i < count && added < max; i++)
+            {
+                Vector3 p = BattleRoad.LampBase(half, i);
+                float dx = p.x - view.x, dz = p.z - view.z;
+                if (dx * dx + dz * dz > reach * reach) continue;
+                GroundGlow.Add(p, radius, GroundGlow.Torch, 0.4f * level);
+                added++;
+            }
+
+            return added;
+        }
+
         readonly List<(float score, Vector3 pos, float radius, Color color, float intensity, float bounce)> flashCandidates =
             new List<(float, Vector3, float, Color, float, float)>();
         readonly List<(float distance, Light light)> torchCandidates = new List<(float, Light)>();
@@ -84,6 +106,10 @@ namespace HumanLastRampart.Combat.Battle
             if (towerLight != null && towerLight.enabled)
                 EmitCourtyard(HlrLights.Low, courtyardLevel, doorLantern != null && doorLantern.enabled,
                     doorLantern != null ? doorLantern.transform.position : Vector3.zero, doorLantern != null ? doorLantern.intensity : 0f);
+
+            // 돌길 등불 기둥 웅덩이 (W26): 밤 탑 불이 켜진 동안만 (마당 빛 세기와 같이 깜박임·비에 따른다)
+            if (towerLight != null && towerLight.enabled)
+                EmitRoad(HlrLights.Low, courtyardLevel, view, sim.CastleHalf);
 
             // 횃불 몫을 남겨 둔다 (벽 위 병사가 늘 빛을 받게)
             SplitSlots(max, HlrLights.Count, torchesOn, out _, out int flashSlots);

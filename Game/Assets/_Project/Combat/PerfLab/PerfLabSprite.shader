@@ -374,8 +374,8 @@ float4 _MainTex_TexelSize;
                 // 반사 색: 흰빛에 그림 색을 반쯤 섞는다 (금·구리는 금빛, 철은 흰빛). 해·달 색(밤 푸른빛·NightTuning.SunScale)과 횃불 색이 이미 spec에 들어 있다
                 half3 specColor = spec * specStrength * lerp(half3(1, 1, 1), saturate(albedo * 2.0h), 0.5h);
                 // 밤: 달빛·주변광을 조금만 키운다 (형체가 읽힐 정도. 밝기는 빛 웅덩이에서 온다)
-                half nightGain = 1.0h + (half)_HlrNight * 0.8h;
-                half3 moonFill = half3(0.22h, 0.28h, 0.45h) * (half)_HlrNight;   // 달빛 바닥: 빛 못 받는 적도 색 있는 차가운 형체로 남는다
+                half nightGain = 1.0h + (half)_HlrNight * 1.0h;   // W26: 0.8 -> 1.0 (빛 밖 그림도 읽히게)
+                half3 moonFill = half3(0.30h, 0.38h, 0.60h) * (half)_HlrNight;   // W26: 0.22/0.28/0.45에서 올림 (푸른 달밤)   // 달빛 바닥: 빛 못 받는 적도 색 있는 차가운 형체로 남는다
 
                 // 달 테두리빛 (PC): 달 쪽 한 면의 가장자리 화소에만 차가운 윤곽 — 어두운 무리도 실루엣이 읽힌다
                 half3 moonRim = 0;
