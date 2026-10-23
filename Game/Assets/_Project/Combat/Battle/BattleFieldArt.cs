@@ -62,7 +62,10 @@ namespace HumanLastRampart.Combat.Battle
         const float HorizonBeyond = 120f;          // 들판 끝 바깥 거리 — 반경 = FieldSize + 이 값
         const int HorizonRepeats = 12;             // 둘레에 그림을 몇 번 (거울 반복 — 좌우 끝 이음새를 감춘다)
         const int RingSegments = 72;
-        const float HorizonSink = 3f;              // 아래 끝을 땅 밑으로 (떠 보이지 않게)
+        const float FogBandBeyond = 60f;           // K-111 안개 띠: 들판 끝 바깥 거리 (성에서 45m보다 훨씬 멀다)
+        const int FogBandRepeats = 12;
+        const float FogBandBaseV = 0.5f;           // 그림 어두운 띠 시작 높이(그림 높이 비율)
+        const float HorizonSink = 3f;             // 아래 끝을 땅 밑으로 (떠 보이지 않게)
         const float SkyBeyond = 400f;
         const float SkyTop = 500f;
 
@@ -114,9 +117,9 @@ namespace HumanLastRampart.Combat.Battle
         float nextRefresh;
         float lastShade = -1f;
 
-        Material horizonMaterial, skyMaterial;
-        Mesh horizonMesh, skyMesh;
-        GameObject horizonObject, skyObject;
+        Material horizonMaterial, skyMaterial, fogBandMaterial;
+        Mesh horizonMesh, skyMesh, fogBandMesh;
+        GameObject horizonObject, skyObject, fogBandObject;
         bool backdropVisible = true;
         Weather backdropWeather;
         bool backdropTinted;
@@ -784,6 +787,31 @@ namespace HumanLastRampart.Combat.Battle
                 horizonMaterial = NewUnlit(unlit, horizon, "Battle Horizon (runtime)", true);
                 horizonObject = Place("Horizon", horizonMesh, horizonMaterial);
             }
+
+            // K-111 먼 전장 안개 띠: 밤에만, 들판 끝 바깥(45m보다 훨씬 멀리)에 얇은 어두운 띠. 장면 안개(RenderSettings.fog)는 그대로 둔다
+            var band = night ? Resources.Load<Texture2D>("BattleArt/Props/fog_band") : null;
+            if (band != null)
+            {
+                band.wrapModeU = TextureWrapMode.Repeat;
+                band.wrapModeV = TextureWrapMode.Clamp;
+                float radius = sim.FieldSize + FogBandBeyond;
+                float width = 2f * Mathf.PI * radius / FogBandRepeats;
+                float height = width * band.height / band.width;
+                float bottom = -height * FogBandBaseV;   // 그림의 어두운 띠(그림 높이 0.50~0.72)가 땅 높이부터 오르게
+                fogBandMesh = Ring("Fog Band Ring", radius, bottom, bottom + height, FogBandRepeats, y => (y - bottom) / height);
+                fogBandMaterial = NewUnlit(unlit, band, "Battle Far Fog Band (runtime)", false);
+                fogBandMaterial.SetFloat("_Surface", 1f);   // 반투명: 알파 섞기, 깊이 안 씀
+                fogBandMaterial.SetFloat("_Blend", 0f);
+                fogBandMaterial.SetOverrideTag("RenderType", "Transparent");
+                fogBandMaterial.SetFloat("_SrcBlend", (float)BlendMode.SrcAlpha);
+                fogBandMaterial.SetFloat("_DstBlend", (float)BlendMode.OneMinusSrcAlpha);
+                if (fogBandMaterial.HasProperty("_SrcBlendAlpha")) fogBandMaterial.SetFloat("_SrcBlendAlpha", (float)BlendMode.One);
+                if (fogBandMaterial.HasProperty("_DstBlendAlpha")) fogBandMaterial.SetFloat("_DstBlendAlpha", (float)BlendMode.OneMinusSrcAlpha);
+                fogBandMaterial.SetFloat("_ZWrite", 0f);
+                fogBandMaterial.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
+                fogBandMaterial.renderQueue = (int)RenderQueue.Transparent;
+                fogBandObject = Place("Far Fog Band", fogBandMesh, fogBandMaterial);
+            }
         }
 
         // 안쪽을 보는 원통 (u = 둘레 방향 × repeats, v = 높이 함수)
@@ -979,6 +1007,7 @@ namespace HumanLastRampart.Combat.Battle
             backdropVisible = visible;
             if (horizonObject != null) horizonObject.SetActive(visible);
             if (skyObject != null) skyObject.SetActive(visible);
+            if (fogBandObject != null) fogBandObject.SetActive(visible);
         }
 
         // 날씨가 바뀌면 하늘·먼 산을 조금 어둡게 (BattleView.ApplyAtmosphere 하늘색과 같은 방향)
@@ -1025,6 +1054,8 @@ namespace HumanLastRampart.Combat.Battle
             if (skyMaterial != null) UnityEngine.Object.Destroy(skyMaterial);
             if (horizonMesh != null) UnityEngine.Object.Destroy(horizonMesh);
             if (skyMesh != null) UnityEngine.Object.Destroy(skyMesh);
+            if (fogBandMaterial != null) UnityEngine.Object.Destroy(fogBandMaterial);
+            if (fogBandMesh != null) UnityEngine.Object.Destroy(fogBandMesh);
             foreach (var (_, material) in fogSheets) if (material != null) UnityEngine.Object.Destroy(material);
             fogSheets.Clear();
             if (fogNoise != null) UnityEngine.Object.Destroy(fogNoise);
