@@ -1572,7 +1572,8 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
         // 북쪽은 선봉이 곧바로 사거리에 들어오므로, 첫 무리가 오지 않는 남쪽 대포로 '대기'를 확인한다
         for (int i = 0; i < 10; i++) yield return null;
         entry.ToggleMap();
-        // 남쪽 4번 대포가 성벽 바로 앞을 노린다. 전투 모의가 씨앗+틱으로만 정해지므로(W22) 면을 가리지 않고 통과시키던 느슨함을 걷어낸다
+        // 남쪽 4번 대포가 성벽 바로 앞을 노린다. 시험 시작에서 한 프레임 시간을 1/20초로 고정하고(Time.captureDeltaTime) 전투 실행 ID·캠페인 씨앗도 고정하므로(W22)
+        // 틱 수가 같으면 적 위치도 같다 → 면을 가리지 않고 통과시키던 느슨함을 걷어낸다 (적 위치가 컴퓨터 속도를 타지 않는다)
         entry.SelectCannonSide(2);
         yield return null;
         entry.SelectCannon(4);
@@ -1583,11 +1584,18 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
         // '대기'는 대포가 장전을 마치고 조준점을 한 번 살펴본 뒤에야 정해진다 → 최대 100프레임(약 5초) 기다린다
         System.Collections.Generic.List<Text> early = null;
         var trace = new StringBuilder();
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 160; i++)   // 결정적이라 보통 90프레임 안팎에 끝난다 — 여유를 크게 둔다
         {
             yield return null;
             sim.Complete();
-            if (i % 10 == 0 || i >= 20 && i < 25) trace.Append($"[{i}:{sim.Elapsed:0.0}s idle={sim.GetCannon(cannon4).Idle} aim={sim.GetCannon(cannon4).HasAim} ign={sim.GetCannon(cannon4).Igniting}] ");
+            if (i % 10 == 0 || i >= 20 && i < 25)
+            {
+                // 조준점 근처 적 거리: 남쪽 성벽 앞 가장 붐비는 칸에서 조준점까지 (없으면 -)
+                var aimAt = new Vector3(sim.GetCannon(cannon4).Position.x, 0f, -(sim.CastleHalf + 5f));
+                Vector3? crowd = sim.DensestPointNear(aimAt, 40f);
+                string near = crowd.HasValue ? $"{Vector3.Distance(crowd.Value, aimAt):0.0}m" : "-";
+                trace.Append($"[{i}:{sim.Elapsed:0.0}s idle={sim.GetCannon(cannon4).Idle} aim={sim.GetCannon(cannon4).HasAim} ign={sim.GetCannon(cannon4).Igniting} 남쪽 적 {sim.Sides[2].InField}/벽앞 {sim.Sides[2].AtWall} 가까운 무리 {near}] ");
+            }
             early = UnityEngine.Object.FindObjectsByType<Text>(FindObjectsSortMode.None).Where(t => t.name == "Cannon 4 State" && t.gameObject.activeInHierarchy).ToList();
             if (i >= 20 && early.Any(t => t.text == "대기")) break;
         }

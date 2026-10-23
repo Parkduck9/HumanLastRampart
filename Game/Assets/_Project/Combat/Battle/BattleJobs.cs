@@ -756,7 +756,11 @@ namespace HumanLastRampart.Combat.Battle
                 if (c != 0) return c;
                 c = a.To.z.CompareTo(b.To.z);
                 if (c != 0) return c;
-                return a.Target.Index.CompareTo(b.Target.Index);
+                c = a.To.y.CompareTo(b.To.y);
+                if (c != 0) return c;
+                c = a.Target.Index.CompareTo(b.Target.Index);
+                if (c != 0) return c;
+                return a.Target.Generation.CompareTo(b.Target.Generation);
             }
         }
 
@@ -771,6 +775,7 @@ namespace HumanLastRampart.Combat.Battle
                 Shot shot = ordered[i];
                 if (free == 0)
                 {
+                    // 풀이 꽉 차면 정렬 뒤쪽(무기 번호·출발 위치가 큰 쪽)부터 버려진다 — 풀이 병사 수×4(최소 1024)라 드물다
                     Stats[BattleStat.PoolOverflow]++;
                     continue;
                 }
@@ -789,6 +794,7 @@ namespace HumanLastRampart.Combat.Battle
                 EnemyIncoming[shot.Target.Index] += Weapons[shot.Weapon].Damage;
             }
 
+            ordered.Dispose();
             FreeCount[0] = free;
         }
     }
