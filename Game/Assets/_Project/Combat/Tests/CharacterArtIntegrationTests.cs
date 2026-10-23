@@ -35,6 +35,36 @@ public sealed class CharacterArtIntegrationTests
         }
     }
 
+    // K-109 루멘 A안: 전투 시트는 288×384 칸, 색·노멀·광택 마스크가 같은 크기 (D-081)
+    [TestCase("Art/Characters/Hero/hero_walk_run_grid", 1152, 1536, 16)]
+    [TestCase("Art/Characters/Hero/hero_back_idle", 288, 384, 1)]
+    [TestCase("Art/Characters/Hero/hero_command", 864, 384, 3)]
+    public void HeroSheetsAre288CellsWithMatchingNormalAndSpec(string path, int width, int height, int frames)
+    {
+        const string Root = "Assets/_Project/";
+        var color = AssetDatabase.LoadAssetAtPath<Texture2D>(Root + path + ".png");
+        var normal = AssetDatabase.LoadAssetAtPath<Texture2D>(Root + path + "_normal.png");
+        var spec = AssetDatabase.LoadAssetAtPath<Texture2D>(Root + "Art/Battle/Resources/BattleArt/Spec/" + System.IO.Path.GetFileName(path) + "_spec.png");
+        Assert.AreEqual(width, color.width); Assert.AreEqual(height, color.height);
+        Assert.AreEqual(frames, PerfLabArt.FrameCount(color));
+        foreach (var other in new[] { normal, spec })
+        {
+            Assert.IsNotNull(other, path);
+            Assert.AreEqual(width, other.width); Assert.AreEqual(height, other.height);
+        }
+        var importer = (TextureImporter)AssetImporter.GetAtPath(Root + path + ".png");
+        Assert.AreEqual(FilterMode.Point, importer.filterMode);
+        Assert.AreEqual(TextureImporterCompression.Uncompressed, importer.textureCompression);
+        Assert.IsFalse(importer.mipmapEnabled);
+    }
+
+    [TestCase("neutral")] [TestCase("determined")] [TestCase("surprised")] [TestCase("tired")]
+    public void HeroPortraitsAre256x384(string mood)
+    {
+        var tex = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/_Project/Story/Resources/StoryArt/portrait_hero_" + mood + ".png");
+        Assert.AreEqual(256, tex.width); Assert.AreEqual(384, tex.height);
+    }
+
     [TestCase("enemy_goblin")]
     [TestCase("enemy_goblin_ladder")]
     [TestCase("enemy_ogre")]
