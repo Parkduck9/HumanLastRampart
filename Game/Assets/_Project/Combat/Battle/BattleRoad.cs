@@ -30,6 +30,7 @@ namespace HumanLastRampart.Combat.Battle
         public const float LampPoolRadius = 1.8f;
         public const float LampBowlTop = 0.01f + LampPostHeight + 0.07f;   // 마당 윗면 위 화로 그릇 윗면 높이 (불꽃 그림이 서는 자리)
         const float KerbBlock = 0.76f, KerbGap = 0.04f;
+        const float RoadCobbleTileMeters = 1.7f;           // 돌길 그림 한 장이 덮는 미터 (마당 바닥 2.6m보다 촘촘하게)
 
         // 깃발 자리 (탑 문 곁, 몸체 받침 바깥 · 주인공 서는 줄(z = -TowerHeroBack)에서 비껴)
         public static readonly Vector2[] BannerSpots = { new Vector2(-2.05f, BattleTowerView.DoorZ + 0.1f), new Vector2(2.05f, BattleTowerView.DoorZ + 0.1f) };
@@ -46,6 +47,7 @@ namespace HumanLastRampart.Combat.Battle
         bool ownsStone;
 
         public int RendererCount { get; private set; }
+        public bool HasPavingArt { get; private set; }
 
         // ── 배치 (순수 계산: 시험·빛 번짐이 같이 쓴다) ──
         // 계단 쪽 성벽 안쪽에서 계단 아래까지 거리: 길이 시작되는 곳 (탑 가운데에서 계단 바깥 방향으로 잰 거리)
@@ -94,11 +96,13 @@ namespace HumanLastRampart.Combat.Battle
             float length = start - end;
             Vector3 mid = n * ((start + end) * 0.5f);
 
-            // 돌길 (밝은 다듬은 돌) — 한 상자
-            var paving = new BattleCourtyard.MeshBuilder(walkTile);
+            // 돌길 (밝은 다듬은 돌) — 한 상자. K-116 둥근 돌 그림을 더 촘촘하게 깔면 바닥과 구분되는 길이 된다
+            Vector2 pavingTile = PavingArt() != null ? new Vector2(RoadCobbleTileMeters, RoadCobbleTileMeters) : walkTile;
+            var paving = new BattleCourtyard.MeshBuilder(pavingTile);
             if (length >= KerbBlock)   // 아주 작은 성은 길 없이 광장만
                 paving.BoxYaw(mid + Vector3.up * (top - 0.004f), new Vector3(HalfWidth * 2f, PavingLift - SkinLift + 0.004f, length), yaw);
             Spawn("Road Paving", paving, MakePaving(walkTile));
+            HasPavingArt = PavingArt() != null;
 
             // 연석 + 광장 단 (성벽 돌)
             var kerbs = new BattleCourtyard.MeshBuilder(wallTile);
@@ -155,9 +159,16 @@ namespace HumanLastRampart.Combat.Battle
         // 성벽·통로 재질을 그대로 쓰되 돌길은 한 칸 밝게 (복사본 — 공유 재질은 그대로)
         Material MakeStone(BattleWorldMaterials.Surface surface) => stone.Get(surface);
 
-        Material MakePaving(Vector2 walkTile)
+        // 돌길 그림: Resources/BattleArt/Courtyard/road_paving (교체 자리). 없으면 K-116 마당 바닥 돌(courtyard_cobble_512)을 밝게
+        static Texture2D PavingArt()
         {
             var art = Resources.Load<Texture2D>(Folder + "road_paving");
+            return art != null ? art : Resources.Load<Texture2D>(Folder + "courtyard_cobble_512");
+        }
+
+        Material MakePaving(Vector2 walkTile)
+        {
+            var art = PavingArt();
             var m = new Material(stone.Get(BattleWorldMaterials.Surface.WalkwayStone)) { name = "Road Paving (runtime)" };
             if (art != null)
             {
@@ -165,9 +176,10 @@ namespace HumanLastRampart.Combat.Battle
                 if (art.wrapMode != TextureWrapMode.Repeat) art.wrapMode = TextureWrapMode.Repeat;
                 if (m.HasProperty("_BaseMap")) m.SetTexture("_BaseMap", art);
                 m.mainTexture = art;
+                if (m.HasProperty("_BumpMap")) { m.SetTexture("_BumpMap", null); m.DisableKeyword("_NORMALMAP"); }   // 통로 돌 노멀맵은 이 그림과 안 맞는다
             }
 
-            Color c = art != null ? Color.white : (stone.HasArt(BattleWorldMaterials.Surface.WalkwayStone) ? new Color(1.18f, 1.16f, 1.1f) : new Color(0.72f, 0.7f, 0.66f));
+            Color c = art != null ? new Color(1.28f, 1.25f, 1.18f) : (stone.HasArt(BattleWorldMaterials.Surface.WalkwayStone) ? new Color(1.18f, 1.16f, 1.1f) : new Color(0.72f, 0.7f, 0.66f));
             if (m.HasProperty(BaseColorId)) m.SetColor(BaseColorId, c);
             if (m.HasProperty(ColorId)) m.SetColor(ColorId, c);
             ownedMaterials.Add(m);

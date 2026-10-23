@@ -167,10 +167,9 @@ namespace HumanLastRampart.Combat.Tests
             Assert.AreNotEqual(BattleRoad.PavingLift, BattleRoad.PlazaRimLift, "돌길과 광장 아랫단 윗면이 같은 높이면 겹쳐 깜박인다");
             Assert.AreNotEqual(BattleRoad.PavingLift, BattleRoad.PlazaLift);
             Assert.Less(BattleRoad.PlazaLift, 0.03f, "GroundGlow 판(바닥 +3cm)보다 낮아야 탑·문 앞 웅덩이가 보인다");
-            // 탑 일꾼 자리 (BattleBeaconView.WorkerX, 문 앞 z = DoorZ - 0.2): 깃발이 일꾼 뒤에 겹치지 않게 옆으로 0.4m 넘게
-            foreach (float workerX in new[] { -1.0f, 0.9f, 1.55f })
-                foreach (Vector2 spot in BattleRoad.BannerSpots)
-                    Assert.Greater(Mathf.Abs(spot.x - workerX), 0.4f, $"깃발 x={spot.x} 와 일꾼 x={workerX}");
+            // W27: 일꾼은 이제 탑 안이다. 깃발은 열린 문 그림(아치 + 오른쪽 랜턴, 가운데에서 -0.93~+1.16m)을 가리지 않게 옆으로
+            foreach (Vector2 spot in BattleRoad.BannerSpots)
+                Assert.Greater(Mathf.Abs(spot.x), 1.4f, $"깃발 x={spot.x}: 문 그림 밖");
         }
 
         [Test]

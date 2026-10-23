@@ -8,9 +8,12 @@ using UnityEngine.Rendering;
 
 namespace HumanLastRampart.Combat.Battle
 {
-    // 마당 가운데 등대 불꽃·일꾼·탑 전령 그림 (W9, Concept_Beacon_v1 9.7 4차 결정). W20: 탑 몸체는 BattleTowerView(돌 메시)가 그리고, 여기서는 Codex K-102 불꽃·K-110 일꾼 둘(a·b)과 탑 대기 전령만 그린다 (옛 탑 몸체·앞 기둥·빛기둥·번쩍 그림은 쓰지 않는다)
-    // - 불꽃: 전투에서는 탑이 '꺼짐' 상태일 수 없다(빛줄기가 돈다). 등대 복구가 세기를 정한다(BeaconRules.TowerFlameStrength), 점화의 밤이면 완전 점화 불꽃 (정비 마당도 같은 규칙, S4)
-    // - 일꾼: 빛줄기가 도는 동안 미는 그림(8칸 8fps)에 앞뒤로 기우는 흔들림을 더하고, 끝나면 쉬는 그림을 한 번 재생·마지막 칸 유지, 한동안 뒤 서 있는 그림.
+    // 마당 가운데 등대 불꽃·화로·일꾼·탑 전령 그림 (W9, Concept_Beacon_v1 9.7 4차 결정). W20: 탑 몸체는 BattleTowerView(돌 메시)가 그리고, 여기서는 불꽃·화로·일꾼 둘(a·b)과 탑 대기 전령만 그린다
+    // W27: Codex K-115 화로·반사경(꺼짐·점등)과 불꽃 세 단계(약함·보통·강함)를 불방에 세운다. 꺼진 탑(등대 복구 0)은 꺼진 화로·불꽃 없음
+    //      일꾼 셋은 이제 탑 안에서 큰 돌림대를 민다 (BattleTowerInterior) — 문 앞에 서지 않는다. 전령은 그대로 문 앞(sim 소유)
+    // - 불꽃: 전투에서는 탑이 '꺼짐' 상태일 수 없다(빛줄기가 돈다)지만 그림은 복구 0이면 꺼진 모습. 등대 복구가 세기를 정한다(BeaconRules.TowerFlameStrength), 점화의 밤이면 완전 점화 불꽃 (정비 마당도 같은 규칙, S4)
+    // - 일꾼: 빛줄기가 도는 동안 돌림대 둘레를 돌며 미는 그림(8칸 8fps)으로 돌림대를 같이 돌린다. 끝나면 쉬는 그림을 한 번 재생·마지막 칸 유지, 한동안 뒤 서 있는 그림.
+    //   쉬는 동안 한 명(ClimberIndex)이 안쪽 나선 계단을 올라 불방에 갔다 오는 길을 되풀이한다 (걷는 동작은 미는 그림을 쓴다)
     //   모든 움직임은 전투 시간(sim.Elapsed)으로 — 멈춤·지도 시간 멈춤에서 같이 멈춘다 (불꽃 일렁임만 실제 시간)
     // 크기: 인물 73점 = 주인공 키(HeroDrawSize), K-110 일꾼 칸은 288×384를 3배 확대본 그대로
     public sealed class BattleBeaconView : IDisposable
@@ -24,7 +27,7 @@ namespace HumanLastRampart.Combat.Battle
         static readonly int HasSpecId = Shader.PropertyToID("_HasSpec");
         static readonly int ViewStretchId = Shader.PropertyToID("_ViewStretch");
         static readonly int EmissiveId = Shader.PropertyToID("_Emissive");
-                static readonly int SheetScaleId = Shader.PropertyToID("_SheetScale");
+        static readonly int SheetScaleId = Shader.PropertyToID("_SheetScale");
 
         // 게임 그림 1점 = 몇 m (인물 키 219점 = 주인공 키)
         public static readonly float Mpp = BattleView.HeroDrawSize / 219f;
@@ -33,32 +36,32 @@ namespace HumanLastRampart.Combat.Battle
         public static readonly float TowerCellMeters = TowerH * Mpp;
         public static readonly float BowlHeight = (TowerFootY - BowlPxY) * Mpp;   // 발에서 화로까지 (m) ≈ 1.11
         public static readonly float BowlOffsetX = (BowlPxX - TowerFootX) * Mpp;
-        // K-110 일꾼 칸 288×384, 발 (144, 360). 탑 안 밧줄 틀 바닥 줄 (탑 그림 y 745)
+        // K-110 일꾼 칸 288×384, 발 (144, 360)
         const float WorkerW = 288f, WorkerH = 384f, WorkerFootY = 360f;
-        const float WorkerFloorLift = 0f;   // W20: 일꾼은 탑 문 앞 마당 바닥에 선다 (옛 탑 틀 안이 아니다)
-        // 일꾼 서는 자리 (탑 그림 가로 점)와 변형 (0 = a, 1 = b)
-        static readonly float[] WorkerX = { -1.0f, 0.9f, 1.55f };   // 탑 문 양옆, 그림 폭(약 0.5m)보다 넓게 (주인공은 문 가운데 앞)
+        const int WorkerCount = BattleTowerInterior.WorkerCount;
         static readonly int[] WorkerVariant = { 0, 1, 1 };
-        const int WorkerCount = 3;
-        // K-102 불꽃(6칸 8fps)·빛기둥. 칸 288×384, 불꽃 밑·화로 기준점 (144, 126). 새 화로가 K-102 화로보다 커서 키운다
+        // 옛 K-102 불꽃(6칸 8fps). 칸 288×384, 불꽃 밑·화로 기준점 (144, 126) — K-115 그림이 없을 때의 대비책
         const float FlameCellW = 288f, FlameCellH = 384f, FlameAnchorY = 126f;
         const int FlameFrames = 6;
         const float FlameFps = 8f;
         const float FlameScale = 2.2f;
+        const float FlameRoomScale = 1.3f;
         const float RestSeconds = 4f / 3f;       // 쉬는 그림 4칸 3fps 한 번
         const float RestHoldSeconds = 6f;        // 마지막 칸을 이만큼 유지한 뒤 서 있는 그림으로
-        const float LeanMeters = 0.02f;          // 밀 때 앞뒤로 기우는 폭 (미는 8칸이 거의 같아서 코드로 더한다)
         const float IdleFps = 4f;
+        static readonly string[] FlameSheets = { "flame_warming", "flame_lit", "flame_bright" };   // K-115 불꽃 세 단계 (BattleTowerView.FlameKind)
 
         readonly BattleSim sim;
         readonly Mesh quad;
         readonly Bounds bounds;
         readonly Material material;      // 도트 그림 셰이더 (BattleView와 같은 것)
         readonly Vector3 baseFeet;
-        readonly bool lit;
-        readonly float strength;
+        bool lit;
+        float strength;
 
-        readonly Piece flame;   // W20: 옛 탑 몸체·앞 기둥·빛기둥·번쩍 그림은 불러오지 않는다 (탑은 BattleTowerView)
+        readonly Piece[] flames = new Piece[3];   // [단계] K-115 불꽃 (약함·보통·강함). 없으면 flames[0]만 옛 그림
+        readonly bool newFlames;
+        readonly Piece brazierDead, brazierLit;   // K-115 화로·반사경
         readonly Piece courierStand, courierRun;   // 탑 대기 전령 3명 (병사 그림: 서 있기·달리기, W9)
         readonly Texture2D courierRunSheet;
         readonly Piece[,] workers = new Piece[2, 3];   // [변형 a·b, 상태 idle·push·rest]
@@ -67,6 +70,15 @@ namespace HumanLastRampart.Combat.Battle
         bool wasPushing;
         float restStart = -999f;
         bool faceLeft;      // 시계 방향(각도가 줄어드는 쪽)이면 일꾼이 왼쪽으로 민다 (사진기에서 보는 앞쪽은 서쪽으로 움직인다)
+
+        // 탑 안 돌림대 (W27): 돌아간 각도(미는 동안만 늘어난다)·마지막 시간·쉬기 시작한 시간 (계단 오르내림 시계)
+        readonly Mesh capstanMesh;
+        readonly Material capstanMaterial;
+        float capstanDegrees;
+        float lastTime = -1f;
+        float idleSince;
+        readonly Vector3[] workerWorld = new Vector3[WorkerCount];
+        readonly bool[] workerVisible = new bool[WorkerCount];
 
         sealed class Piece
         {
@@ -78,16 +90,21 @@ namespace HumanLastRampart.Combat.Battle
 
         public bool HasArt { get; private set; }
         public Vector3 Feet => baseFeet;
-        // W20: 불꽃·빛기둥·번쩍은 높은 탑(BattleTowerView) 꼭대기 불방에서 나온다. 옛 탑 그림(몸체·앞 기둥)은 그리지 않는다
+        // 불꽃·빛기둥·번쩍은 높은 탑(BattleTowerView) 꼭대기 불방에서 나온다. 옛 탑 그림(몸체·앞 기둥)은 그리지 않는다
         public Vector3 Bowl => baseFeet + new Vector3(0f, BattleTowerView.LampFloor, 0f);
-        const float FlameRoomScale = 1.3f;        // 불방(1.2m)에 맞춰 불꽃을 조금 키운다
         // 확인용
         public bool WorkersPushing { get; private set; }
         public int WorkerState { get; private set; }   // 0 서기 · 1 밀기 · 2 쉬기
         public bool FacingLeft => faceLeft;
         public float FlameStrength => strength;
         public bool Lit => lit;
+        public bool Dead => BattleTowerView.IsDead(strength);
         public static int WorkerTotal => WorkerCount;
+        public bool HasCapstan => capstanMesh != null && capstanMaterial != null;
+        public float CapstanDegrees => capstanDegrees;
+        public bool HasBrazierArt => brazierLit != null && brazierDead != null;
+        public bool HasFlameArt => newFlames;
+        public bool WorkerVisible(int i) => workerVisible[i];
 
         public BattleBeaconView(BattleSim sim, Material material, Mesh quad, Bounds bounds)
         {
@@ -96,15 +113,35 @@ namespace HumanLastRampart.Combat.Battle
             this.quad = quad;
             this.bounds = bounds;
             baseFeet = new Vector3(0f, BattleSim.WallHeight, 0f);   // 마당 윗면은 성벽 윗면과 같은 높이
-            lit = sim.IsIgnitionNight;
-            strength = BeaconRules.TowerFlameStrength(sim.BeaconRepair, lit);
+            RefreshState();
 
-            var flameTexture = Resources.Load<Texture2D>(lit ? "BattleArt/Beacon/flame_lit" : "BattleArt/Beacon/flame_warming");
-            if (flameTexture != null)
+            // K-115 불꽃 세 단계: 칸 96×128 원본, 발 (48, 120) = 정규화 (0.5, 0.0625)
+            var flameLayout = PerfLabArt.SheetLayout.Make(FlameFrames, 1, 0.5f, 8f / 128f, 96f / 128f);
+            for (int k = 0; k < flames.Length; k++)
             {
-                flame = Make(flameTexture, PerfLabArt.SheetLayout.Make(FlameFrames, 1, 0.5f, (FlameCellH - FlameAnchorY) / FlameCellH, FlameCellW / FlameCellH), 1);
-                flame.Block.SetFloat(EmissiveId, 1f);   // 스스로 빛나는 불 (빛번짐)
+                var tex = Resources.Load<Texture2D>("BattleArt/Tower/" + FlameSheets[k]);
+                if (tex == null) { newFlames = false; break; }
+                flames[k] = Make(tex, flameLayout, 1);
+                flames[k].Block.SetFloat(EmissiveId, 1f);   // 스스로 빛나는 불 (빛번짐)
+                newFlames = true;
             }
+
+            if (!newFlames)
+            {
+                for (int k = 0; k < flames.Length; k++) { flames[k]?.Buffer?.Release(); flames[k] = null; }
+                var flameTexture = Resources.Load<Texture2D>(lit ? "BattleArt/Beacon/flame_lit" : "BattleArt/Beacon/flame_warming");
+                if (flameTexture != null)
+                {
+                    flames[0] = Make(flameTexture, PerfLabArt.SheetLayout.Make(FlameFrames, 1, 0.5f, (FlameCellH - FlameAnchorY) / FlameCellH, FlameCellW / FlameCellH), 1);
+                    flames[0].Block.SetFloat(EmissiveId, 1f);
+                }
+            }
+
+            var brazierLayout = PerfLabArt.SheetLayout.Make(1, 1, 0.5f, 8f / 128f, 96f / 128f);
+            var bd = Resources.Load<Texture2D>("BattleArt/Tower/brazier_lens_dead");
+            var bl = Resources.Load<Texture2D>("BattleArt/Tower/brazier_lens_lit");
+            if (bd != null) { brazierDead = Make(bd, brazierLayout, 1); brazierDead.Block.SetFloat(EmissiveId, 0f); }
+            if (bl != null) { brazierLit = Make(bl, brazierLayout, 1); brazierLit.Block.SetFloat(EmissiveId, 0.3f); }
 
             string[] variants = { "a", "b" };
             string[] states = { "idle", "push", "rest" };
@@ -134,9 +171,34 @@ namespace HumanLastRampart.Combat.Battle
                 }
             }
 
-            HasArt = flame != null;
-            foreach (Piece w in workers) if (w != null) HasArt = true;   // W20: 옛 탑 몸체 그림 유무와 상관없이 불꽃·일꾼이 있으면 그린다
+            HasArt = newFlames || flames[0] != null || brazierLit != null;
+            foreach (Piece w in workers) if (w != null) HasArt = true;   // 옛 탑 몸체 그림 유무와 상관없이 불꽃·화로·일꾼이 있으면 그린다
 
+            // 돌림대 (나무 칸 그림). 그림이 없으면 일꾼만 돌림대 둘레를 돈다
+            var atlas = Resources.Load<Texture2D>("BattleArt/Courtyard/props_box_atlas");
+            if (atlas != null)
+            {
+                capstanMesh = BattleTowerInterior.BuildCapstanMesh();
+                Shader shader = Shader.Find("Universal Render Pipeline/Lit");
+                capstanMaterial = new Material(shader != null ? shader : Shader.Find("Standard")) { name = "Tower Capstan (runtime)" };
+                if (capstanMaterial.HasProperty("_BaseMap")) capstanMaterial.SetTexture("_BaseMap", atlas);
+                capstanMaterial.mainTexture = atlas;
+                if (capstanMaterial.HasProperty("_Smoothness")) capstanMaterial.SetFloat("_Smoothness", 0.1f);
+                if (capstanMaterial.HasProperty("_Metallic")) capstanMaterial.SetFloat("_Metallic", 0f);
+            }
+
+            for (int i = 0; i < WorkerCount; i++)
+            {
+                workerWorld[i] = baseFeet + BattleTowerInterior.WorkerStation(i, 0f);
+                workerVisible[i] = true;
+            }
+        }
+
+        // 등대 복구·점화의 밤은 전투 중에도 바뀔 수 있다 (시험·사진) — 그릴 때마다 읽는다
+        void RefreshState()
+        {
+            lit = sim.IsIgnitionNight;
+            strength = BeaconRules.TowerFlameStrength(sim.BeaconRepair, lit);
         }
 
         Piece Make(Texture2D texture, PerfLabArt.SheetLayout layout, int capacity)
@@ -154,19 +216,23 @@ namespace HumanLastRampart.Combat.Battle
             return piece;
         }
 
-        // 일꾼 i가 서는 자리 (발 위치, 밀 때 흔들림 제외)
-        public Vector3 WorkerFeet(int i) => baseFeet + new Vector3(WorkerX[i], WorkerFloorLift, BattleTowerView.DoorZ - 0.2f);
+        // 일꾼 i가 지금 서 있는 자리 (월드 발 위치). 탑 안이다 — 마지막으로 그린 자리 (그리기 전에는 돌림대 둘레 처음 자리)
+        public Vector3 WorkerFeet(int i) => workerWorld[i];
 
         // 작업이 끝난 뒤(sim.Complete 후), 지도 모드가 아닐 때
         public void Draw()
         {
             if (!HasArt) return;
+            RefreshState();
             Camera cam = Camera.main;
             Vector3 toCamera = cam != null ? -cam.transform.forward : Vector3.back;   // 화면 위치는 그대로 두고 깊이만 가까이 (같은 평면 겹침 순서)
+            Vector3 camRight = cam != null ? cam.transform.right : Vector3.right;
             float shade = sim.Brightness;
             float time = sim.Elapsed;
+            float dt = lastTime < 0f ? 0f : Mathf.Clamp(time - lastTime, 0f, 0.25f);
+            lastTime = time;
 
-            // 탑 몸체: W20부터 BattleTowerView(돌 메시)가 그린다 — 옛 그림은 그리지 않는다
+            // 탑 몸체: BattleTowerView(돌 메시)가 그린다 — 옛 그림은 그리지 않는다
 
             // 일꾼: 상태는 전투 시간으로 (미는 중 → 쉬기 → 서기)
             bool pushing = sim.BeamRotating;
@@ -175,43 +241,79 @@ namespace HumanLastRampart.Combat.Battle
             {
                 faceLeft = Mathf.DeltaAngle(sim.BeamAngleDegrees, sim.BeamTargetDegrees) < 0f;
                 wasPushing = true;
+                capstanDegrees = Mathf.Repeat(capstanDegrees + (faceLeft ? 1f : -1f) * BattleTowerInterior.PushDegreesPerSecond * dt, 360f);
+                idleSince = time;   // 계단 오르내림은 쉬기 시작할 때부터 센다
             }
             else if (wasPushing)
             {
                 wasPushing = false;
                 restStart = time;
+                idleSince = time;
             }
 
             float sinceRest = time - restStart;
             int state = pushing ? Push : sinceRest < RestSeconds + RestHoldSeconds ? Rest : Idle;
             WorkerState = state;
             foreach (Piece p in workers) if (p != null) p.Count = 0;
+            float climbClock = time - idleSince;
             for (int i = 0; i < WorkerCount; i++)
             {
-                Piece piece = workers[WorkerVariant[i], state];
-                if (piece == null) continue;
-                int frames = StateFrames[state];
-                int frame = state == Push ? (int)(time * 8f) % frames
-                    : state == Rest ? Mathf.Min((int)(Mathf.Max(0f, sinceRest) * 3f), frames - 1)
-                    : (int)(time * IdleFps + i) % frames;
-                bool mirror = state == Idle ? (i == 2) : (i == 2 ? !faceLeft : faceLeft);   // 서 있을 때는 오른쪽 끝이 가운데를 보게, 밀 때는 미는 방향을 본다
-                Vector3 p3 = WorkerFeet(i);
-                float lean = 0f, bob = 0f;
+                Vector3 local = BattleTowerInterior.WorkerStation(i, capstanDegrees);
+                int wstate = state;
+                Vector3 moveDir = Vector3.zero;   // 걷는 방향 (탑 로컬, 그림이 보는 쪽을 정한다)
+                bool visible = true;
                 if (state == Push)
                 {
-                    // 미는 8칸은 거의 같다 → 앞뒤로 기우는 흔들림·위아래 들썩임을 코드로 더한다 (한 걸음 1초)
-                    float phase = time * Mathf.PI * 2f + i * 1.3f;
-                    lean = Mathf.Sin(phase) * LeanMeters * (mirror ? -1f : 1f);
-                    bob = Mathf.Abs(Mathf.Sin(phase * 0.5f)) * 0.008f;
+                    // 돌림대 둘레 원의 접선 방향으로 간다 (각도가 늘면 (-sin, cos))
+                    float a = (capstanDegrees + 60f + i * 120f) * Mathf.Deg2Rad;
+                    float sign = faceLeft ? 1f : -1f;
+                    moveDir = new Vector3(-Mathf.Sin(a), 0f, Mathf.Cos(a)) * sign;
+                }
+                else if (i == BattleTowerInterior.ClimberIndex)
+                {
+                    Vector3 station = local;
+                    var phase = BattleTowerInterior.Climber(climbClock, station, out Vector3 feet);
+                    if (phase == BattleTowerInterior.ClimbPhase.Hidden) visible = false;
+                    else
+                    {
+                        local = feet;
+                        if (phase == BattleTowerInterior.ClimbPhase.Walk)
+                        {
+                            wstate = Push;   // 걷는 동작은 미는 그림 (걷는 그림이 따로 없다)
+                            BattleTowerInterior.Climber(climbClock + 0.1f, station, out Vector3 next);
+                            moveDir = next - feet;
+                            moveDir.y = 0f;
+                        }
+                        else if (phase == BattleTowerInterior.ClimbPhase.Tend) wstate = Idle;
+                    }
                 }
 
-                p3 += new Vector3(lean, bob, 0f) + toCamera * 0.005f;
+                workerVisible[i] = visible;
+                workerWorld[i] = baseFeet + local;
+                if (!visible) continue;
+
+                Piece piece = workers[WorkerVariant[i], wstate];
+                if (piece == null) continue;
+                int frames = StateFrames[wstate];
+                int frame = wstate == Push ? (int)(time * 8f) % frames
+                    : wstate == Rest ? Mathf.Min((int)(Mathf.Max(0f, sinceRest) * 3f), frames - 1)
+                    : (int)(time * IdleFps + i) % frames;
+                bool mirror = moveDir.sqrMagnitude > 1e-6f ? Vector3.Dot(moveDir, camRight) < 0f : (i == 2);   // 가는 쪽을 본다. 서 있을 때는 오른쪽 끝이 가운데를 보게
+                Vector3 p3 = baseFeet + local;
+                float bob = 0f;
+                if (wstate == Push) bob = Mathf.Abs(Mathf.Sin((time * Mathf.PI * 2f + i * 1.3f) * 0.5f)) * 0.008f;   // 한 걸음 1초, 위아래 들썩임
+                p3 += new Vector3(0f, bob, 0f) + toCamera * 0.005f;
                 piece.Instances[piece.Count++] = new PerfLabInstance
                 {
                     PosFrame = new float4(p3.x, p3.y, p3.z, mirror ? -frame - 1 : frame),
                     TintSize = new float4(shade, shade, shade, WorkerH * Mpp),
                 };
             }
+
+            // 돌림대: 미는 동안 같이 돈다 (그리기 1번, 새로 만드는 것 없음)
+            if (HasCapstan)
+                Graphics.DrawMesh(capstanMesh, Matrix4x4.TRS(baseFeet + new Vector3(0f, BattleTowerInterior.FloorY, 0f), Quaternion.Euler(0f, -capstanDegrees, 0f), Vector3.one),
+                    capstanMaterial, 0, null, 0, null, false, false);
 
             foreach (Piece p in workers) if (p != null && p.Count > 0) Submit(p, p.Count, material);
 
@@ -220,7 +322,6 @@ namespace HumanLastRampart.Combat.Battle
             {
                 courierStand.Count = 0;
                 if (courierRun != null) courierRun.Count = 0;
-                Vector3 camRight = cam != null ? cam.transform.right : Vector3.right;
                 float soldierSize = 1.4f * BattleSim.WallFigureScale;
                 for (int i = 0; i < BattleSim.TowerCourierCount; i++)
                 {
@@ -246,17 +347,39 @@ namespace HumanLastRampart.Combat.Battle
                 if (courierRun != null && courierRun.Count > 0) Submit(courierRun, courierRun.Count, material);
             }
 
-            // 불꽃 (실제 시간으로 일렁임)
-            Vector3 bowl = Bowl;
+            // 화로·반사경 (꺼진 탑은 꺼진 그림) — 불방 가운데, 창틀 받침보다 조금 위
+            Vector3 lamp = baseFeet + new Vector3(0f, BattleTowerView.LampBase, 0f);
+            bool dead = BattleTowerView.IsDead(strength);
+            Piece brazier = dead ? brazierDead : brazierLit;
+            if (brazier != null)
+            {
+                Vector3 bp = lamp + new Vector3(0f, BattleTowerView.BrazierLift, 0f);
+                brazier.Instances[0] = new PerfLabInstance { PosFrame = new float4(bp.x, bp.y, bp.z, 0f), TintSize = new float4(shade, shade, shade, BattleTowerView.SpriteCellMeters) };
+                Submit(brazier, 1, material);
+            }
+
+            // 불꽃 (실제 시간으로 일렁임). 꺼진 탑은 없다. 세기에 따라 약함·보통·강함 그림
+            int kind = newFlames ? BattleTowerView.FlameKind(strength) : (flames[0] != null ? 0 : -1);
+            Piece flame = kind >= 0 ? flames[kind] : null;
             if (flame != null)
             {
                 int frame = (int)(Time.unscaledTime * FlameFps) % FlameFrames;
                 float glow = 1.4f;
-                float size = FlameCellH * Mpp * FlameScale * FlameRoomScale * Mathf.Lerp(0.55f, 1f, strength);
-                flame.Instances[0] = new PerfLabInstance { PosFrame = new float4(bowl.x, bowl.y, bowl.z, frame), TintSize = new float4(glow * 1.2f, glow, glow * 0.8f, size) };
+                float size, y;
+                if (newFlames)
+                {
+                    size = BattleTowerView.SpriteCellMeters;
+                    y = lamp.y + BattleTowerView.FlameLift;
+                }
+                else
+                {
+                    size = FlameCellH * Mpp * FlameScale * FlameRoomScale * Mathf.Lerp(0.55f, 1f, strength);
+                    y = Bowl.y;
+                }
+
+                flame.Instances[0] = new PerfLabInstance { PosFrame = new float4(lamp.x, y, lamp.z, frame), TintSize = new float4(glow * 1.2f, glow, glow * 0.8f, size) };
                 Submit(flame, 1, material);
             }
-
         }
 
         void Submit(Piece piece, int count, Material mat)
@@ -267,8 +390,18 @@ namespace HumanLastRampart.Combat.Battle
 
         public void Dispose()
         {
-            foreach (Piece piece in new[] { flame, courierStand, courierRun }) piece?.Buffer?.Release();
+            foreach (Piece piece in flames) piece?.Buffer?.Release();
+            foreach (Piece piece in new[] { brazierDead, brazierLit, courierStand, courierRun }) piece?.Buffer?.Release();
             foreach (Piece piece in workers) piece?.Buffer?.Release();
+            Kill(capstanMesh);
+            Kill(capstanMaterial);
+        }
+
+        static void Kill(UnityEngine.Object o)
+        {
+            if (o == null) return;
+            if (Application.isPlaying) UnityEngine.Object.Destroy(o);
+            else UnityEngine.Object.DestroyImmediate(o);   // 편집 모드 시험
         }
     }
 }
