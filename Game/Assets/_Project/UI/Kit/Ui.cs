@@ -251,8 +251,11 @@ namespace HumanLastRampart.UI
             }
 
             if (onClick != null) button.onClick.AddListener(() => onClick());
+            button.onClick.AddListener(PlayClickSound);   // 소리 (W24): 은행이 비었으면 조용
             return button;
         }
+
+        static void PlayClickSound() => HumanLastRampart.Core.Audio.Sound.Play(HumanLastRampart.Core.Audio.AudioCues.UiClick);
 
         public static Button IconButton(Transform parent, string key, string icon, Action onClick, float size = 48f)
         {
