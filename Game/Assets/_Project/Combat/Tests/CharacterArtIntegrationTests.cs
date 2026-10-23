@@ -65,6 +65,32 @@ public sealed class CharacterArtIntegrationTests
         Assert.AreEqual(256, tex.width); Assert.AreEqual(384, tex.height);
     }
 
+    // K-111: 화로 빛 3단계(576×576)와 먼 전장 안개 띠(1536×384, 가로 반복) — 점 필터·압축 없음·밉맵 끔
+    [TestCase("brazier_glow_low", 576, 576, TextureWrapMode.Clamp)]
+    [TestCase("brazier_glow_normal", 576, 576, TextureWrapMode.Clamp)]
+    [TestCase("brazier_glow_high", 576, 576, TextureWrapMode.Clamp)]
+    [TestCase("fog_band", 1536, 384, TextureWrapMode.Repeat)]
+    public void K111GlowAndFogBandSizesAndImport(string name, int width, int height, TextureWrapMode wrapU)
+    {
+        string path = "Assets/_Project/Art/Battle/Resources/BattleArt/Props/" + name + ".png";
+        var tex = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+        Assert.IsNotNull(tex, name);
+        Assert.AreEqual(width, tex.width); Assert.AreEqual(height, tex.height);
+        var importer = (TextureImporter)AssetImporter.GetAtPath(path);
+        Assert.AreEqual(FilterMode.Point, importer.filterMode);
+        Assert.AreEqual(TextureImporterCompression.Uncompressed, importer.textureCompression);
+        Assert.AreEqual(name == "fog_band", importer.mipmapEnabled, "안개 띠만 밉맵 켬");
+        Assert.AreEqual(wrapU, importer.wrapModeU);
+    }
+
+    // K-111 하겐: 입이 있는 4표정 시트 256×384 칸 4개 (이야기 화면 portrait_hagen_neutral 한 파일)
+    [Test]
+    public void HagenStorySheetHasFourExpressionCells()
+    {
+        var tex = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/_Project/Story/Resources/StoryArt/portrait_hagen_neutral.png");
+        Assert.AreEqual(1024, tex.width); Assert.AreEqual(384, tex.height);
+    }
+
     [TestCase("enemy_goblin")]
     [TestCase("enemy_goblin_ladder")]
     [TestCase("enemy_ogre")]

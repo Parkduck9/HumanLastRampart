@@ -30,7 +30,7 @@ MonoBehaviour:
     - speaker: "하겐"
       side: 2
       portrait: {fileID: 2800000, guid: c6ff621d6fae4e329156fbdb88091de1, type: 3}
-      cell: 0
+      cell: 2
       text: "이쪽 놈들은 다릅니다. 눈이…… 빛나고 있습니다."
       background: {fileID: 0}
       effect: 0

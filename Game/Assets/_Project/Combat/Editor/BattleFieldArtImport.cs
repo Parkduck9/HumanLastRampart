@@ -37,7 +37,9 @@ namespace HumanLastRampart.Combat.Editor
             {
                 importer.filterMode = FilterMode.Point;
                 importer.wrapMode = TextureWrapMode.Clamp;
-                importer.mipmapEnabled = false;
+                bool fogBand = file == "fog_band.png";   // K-111 먼 전장 안개 띠: 가로 반복·세로 고정, 멀리서 줄여 그리므로 밉맵 켬(지글거림 방지)
+                if (fogBand) importer.wrapModeU = TextureWrapMode.Repeat;
+                importer.mipmapEnabled = fogBand;
                 return;
             }
 

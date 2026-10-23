@@ -5,6 +5,7 @@ using HumanLastRampart.App.Flow;
 using HumanLastRampart.Core.Campaign;
 using HumanLastRampart.Core.CombatContracts;
 using HumanLastRampart.Core.Flow;
+using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
@@ -13,6 +14,60 @@ using UnityEngine.TestTools;
 // 결과: HLR_PLAY_OUT/NN_night_beam_*.png (1920×1080, 표시판 없음)
 public sealed partial class PlayProbe
 {
+    // K-111 먼 전장 안개 띠 확인 (W25): 밤 전투, 북쪽 성벽 위에서 들판 끝을 바라본 사진 + 지도 모드에서 띠가 숨는지
+    [UnityTest]
+    public IEnumerator NightFogBandEdgeShot()
+    {
+        Directory.CreateDirectory(Out);
+        log = new StringBuilder();
+        Time.captureDeltaTime = 1f / 20f;
+        KeepPreparation = true;
+        try
+        {
+            SceneManager.LoadScene("Boot");
+            yield return null;
+            yield return null;
+            yield return WaitScreen(ScreenId.MainMenu, 900);
+            yield return Press("게임 시작", 600);
+            yield return Press("현실", 300);
+            yield return WaitScreen(ScreenId.Story, 600);
+            var story = Object.FindAnyObjectByType<HumanLastRampart.Story.StoryPlayer>();
+            for (int i = 0; i < 300 && story == null; i++) { yield return null; story = Object.FindAnyObjectByType<HumanLastRampart.Story.StoryPlayer>(); }
+            story.Skip();
+            yield return WaitScreen(ScreenId.Battle, 900);
+
+            var entry = Object.FindObjectsByType<HumanLastRampart.Combat.Battle.BattleEntry>(FindObjectsSortMode.None)[0];
+            var sim = entry.Sim;
+            var setup = GameFlow.Instance.Campaign.ActiveBattleSetup;
+            var f = setup.Forecast; f.InitialWeather = Weather.Clear; f.TimeOfDay = TimeOfDay.Night; f.Changes = false; setup.Forecast = f;
+            sim.WeatherDirty = true;
+            entry.StartBattle();
+            for (int i = 0; i < 40; i++) yield return null;
+            sim.Complete();
+
+            var band = GameObject.Find("Far Fog Band");
+            Assert.IsNotNull(band, "밤 전투에는 먼 안개 띠가 있다");
+            Assert.IsTrue(band.activeSelf);
+            float radius = band.GetComponent<MeshFilter>().sharedMesh.bounds.extents.x;
+            Assert.Greater(radius - sim.CastleHalf, 45f, "띠는 성에서 45m보다 멀다");
+
+            Camera cam = entry.BattleCamera;
+            var pin = cam.gameObject.AddComponent<CameraPin>();
+            pin.Target = cam;
+            pin.Position = new Vector3(0f, HumanLastRampart.Combat.Battle.BattleSim.WallHeight + 1.7f, sim.CastleHalf + 20f);
+            pin.Rotation = Quaternion.Euler(4f, 0f, 0f);   // 북쪽 먼 들판 끝
+            for (int i = 0; i < 3; i++) yield return null;
+            yield return Capture("night_fog_band_edge", 1920, 1080, true);
+            Object.Destroy(pin);
+        }
+        finally
+        {
+            KeepPreparation = false;
+            File.WriteAllText(Path.Combine(Out, "night_fog_band.txt"), log.ToString(), new UTF8Encoding(false));
+            Time.captureDeltaTime = 0f;
+        }
+    }
+
     [UnityTest]
     public IEnumerator NightBeamShots()
     {
