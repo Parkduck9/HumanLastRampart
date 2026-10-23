@@ -18,7 +18,7 @@ MonoBehaviour:
   note: "Story_Beacon_v1 2장. TODO: 하겐 초상은 임시(궁수 초상). 새 그림이 오면 StoryArt/portrait_hagen_neutral.png 파일만 덮어쓴다."
   scenes:
   - name: "첫 번째 등대 요새"
-    background: {fileID: 2800000, guid: ea34bdf54f354c1f87d397e4582080d9, type: 3}
+    background: {fileID: 2800000, guid: b7c1d2e3f4a54b6c8d9e0f1a2b3c4d5e, type: 3}
     lines:
     - speaker: ""
       side: 0

@@ -80,6 +80,34 @@ namespace HumanLastRampart.Story.Tests
                 }
         }
 
+        // W32: 요새를 밝히기 전 이야기 = 죽은 등대(황혼), 밝힌 뒤 이야기 = 다시 켜진 등대(밤). 줄 배경이 따로 없어 장면 배경이 쓰인다
+        [Test]
+        public void StoryBackgrounds_DeadBeaconBeforeRelit_RelitBeaconAfter()
+        {
+            Texture2D dead = Resources.Load<Texture2D>("StoryArt/story_bg_dead_beacon");
+            Texture2D relit = Resources.Load<Texture2D>("StoryArt/story_bg_relit_beacon");
+            Assert.IsNotNull(dead); Assert.IsNotNull(relit);
+            Assert.AreEqual(1920, dead.width); Assert.AreEqual(1080, dead.height);
+            Assert.AreEqual(1920, relit.width); Assert.AreEqual(1080, relit.height);
+            Assert.AreEqual(FilterMode.Point, dead.filterMode);
+            Assert.AreEqual(FilterMode.Point, relit.filterMode);
+            Assert.AreEqual(1, dead.mipmapCount, "밉맵 없음");
+
+            string[] before = { "story_intro", BeaconRules.ArriveStoryId(1), BeaconRules.ArriveStoryId(2), "story_defeat" };
+            string[] after = { BeaconRules.RelitStoryId(1), BeaconRules.RunCompleteStoryId };
+            foreach (string id in before) AssertBackdrop(id, dead);
+            foreach (string id in after) AssertBackdrop(id, relit);
+        }
+
+        static void AssertBackdrop(string id, Texture2D expected)
+        {
+            foreach ((StoryScene scene, StoryLine line) in Load(id).Flatten())
+            {
+                Texture2D shown = line.Background != null ? line.Background : scene.Background;   // StoryPlayer.ApplyLine과 같은 규칙
+                Assert.AreSame(expected, shown, $"{id}: 배경이 {expected.name}이어야 함");
+            }
+        }
+
         [Test]
         public void StoryChain_IntroToFortress1_RelitToFortress2ThenDay()
         {

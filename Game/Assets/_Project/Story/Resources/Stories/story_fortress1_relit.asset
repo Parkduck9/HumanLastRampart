@@ -18,7 +18,7 @@ MonoBehaviour:
   note: "Story_Beacon_v1 4장. TODO: 하겐 초상은 임시(궁수 초상). 새 그림이 오면 StoryArt/portrait_hagen_neutral.png 파일만 덮어쓴다."
   scenes:
   - name: "첫 번째 빛기둥"
-    background: {fileID: 2800000, guid: 6e64a8c276294a01bb0664cb86146552, type: 3}
+    background: {fileID: 2800000, guid: c8d2e3f4a5b64c7d9eaf1b2c3d4e5f6a, type: 3}
     lines:
     - speaker: ""
       side: 0
