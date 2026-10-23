@@ -744,6 +744,7 @@ namespace HumanLastRampart.Combat.Battle
                 beacon.Draw();
                 tower?.Tick(sim.TimeOfDay == HumanLastRampart.Core.CombatContracts.TimeOfDay.Night, BattleSim.GlowLevel(sim.Lamp), beacon.FlameStrength);
                 road?.Tick(sim.TimeOfDay == HumanLastRampart.Core.CombatContracts.TimeOfDay.Night, BattleSim.GlowLevel(sim.Lamp));
+                courtyardBuildings?.Tick(sim.TimeOfDay == HumanLastRampart.Core.CombatContracts.TimeOfDay.Night);   // 밤 창문 (W31, K-118)
                 shotBuffer.SetData(sim.ShotInstances);
                 float shotShade = sim.Brightness;
                 foreach (var (block, art, area) in shotDraws)

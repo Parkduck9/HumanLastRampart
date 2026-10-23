@@ -13,7 +13,10 @@ namespace HumanLastRampart.Combat.Battle
     //      일꾼 셋은 이제 탑 안에서 큰 돌림대를 민다 (BattleTowerInterior) — 문 앞에 서지 않는다. 전령은 그대로 문 앞(sim 소유)
     // - 불꽃: 전투에서는 탑이 '꺼짐' 상태일 수 없다(빛줄기가 돈다)지만 그림은 복구 0이면 꺼진 모습. 등대 복구가 세기를 정한다(BeaconRules.TowerFlameStrength), 점화의 밤이면 완전 점화 불꽃 (정비 마당도 같은 규칙, S4)
     // - 일꾼: 빛줄기가 도는 동안 돌림대 둘레를 돌며 미는 그림(8칸 8fps)으로 돌림대를 같이 돌린다. 끝나면 쉬는 그림을 한 번 재생·마지막 칸 유지, 한동안 뒤 서 있는 그림.
-    //   쉬는 동안 한 명(ClimberIndex)이 안쪽 나선 계단을 올라 불방에 갔다 오는 길을 되풀이한다 (걷는 동작은 미는 그림을 쓴다)
+    //   쉬는 동안 한 명(ClimberIndex)이 안쪽 나선 계단을 올라 불방에 갔다 오는 길을 되풀이한다
+// W31 (Codex K-119): 걷기(앞·뒤·왼·오른)·계단 오르기/내려오기(뒤·왼·오른)·화로 관리(앞·왼·오른)·기름통 운반 걷기(네 방향) 시트를 쓴다. 돌림대 밀기는 옛 미는 그림 그대로.
+//   올라갈 때(바닥 걸음·계단 발치·불방 입구)는 기름통을 든 운반 걷기, 불방에서는 화로 관리, 내려올 때는 빈손 걷기·계단 내려오기. 방향은 가는 쪽을 사진기 기준으로 네 방향 중 고른다 (깜빡이지 않게 이전 방향을 조금 더 유지)
+//   새 시트는 칸 96×128 원본(3배 확대본과 같은 세계 크기, 발 (48,120)) — 메모리 1/9, 점 필터라 모양은 같다. 시트가 없으면 옛 미는·서기 그림으로 되돌아간다
     //   모든 움직임은 전투 시간(sim.Elapsed)으로 — 멈춤·지도 시간 멈춤에서 같이 멈춘다 (불꽃 일렁임만 실제 시간)
     // 크기: 인물 73점 = 주인공 키(HeroDrawSize), K-110 일꾼 칸은 288×384를 3배 확대본 그대로
     public sealed class BattleBeaconView : IDisposable
@@ -65,8 +68,44 @@ namespace HumanLastRampart.Combat.Battle
         readonly Piece courierStand, courierRun;   // 탑 대기 전령 3명 (병사 그림: 서 있기·달리기, W9)
         readonly Texture2D courierRunSheet;
         readonly Piece[,] workers = new Piece[2, 3];   // [변형 a·b, 상태 idle·push·rest]
+        readonly Piece[,,] motionSheets = new Piece[2, 5, 4];   // [변형, WorkMotion, WorkDir] K-119 (없으면 null)
+        readonly bool[] workerNewSheet = new bool[WorkerCount];
+        readonly WorkMotion[] workerMotion = new WorkMotion[WorkerCount];
+        readonly WorkDir[] workerDir = new WorkDir[WorkerCount];
         const int Idle = 0, Push = 1, Rest = 2;
         static readonly int[] StateFrames = { 4, 8, 4 };
+
+        // K-119 새 동작 시트. 칸 96×128, 발 (48,120) = 정규화 (0.5, 0.0625)
+        public enum WorkMotion { Walk, Carry, ClimbUp, ClimbDown, Tend }
+        public enum WorkDir { Front, Back, Left, Right }
+        static readonly string[] MotionNames = { "walk", "carry", "climb_up", "climb_down", "tend" };
+        static readonly string[] DirNames = { "front", "back", "left", "right" };
+        static readonly int[] MotionFrames = { 8, 8, 6, 6, 6 };
+        static readonly float[] MotionFps = { 8f, 8f, 8f, 8f, 6f };
+        const float DirectionHysteresis = 1.25f;   // 축이 바뀌려면 새 축 성분이 이만큼 더 커야 한다 (경계에서 깜빡임 방지)
+        static readonly Vector3 LampCenterLocal = new Vector3(0f, BattleTowerView.LampBase, 0f);   // 화로 관리 때 바라보는 곳 (탑 로컬)
+
+        public static string SheetName(int variant, WorkMotion motion, WorkDir dir)
+            => $"worker_{(variant == 0 ? "a" : "b")}_{MotionNames[(int)motion]}_{DirNames[(int)dir]}";
+
+        // K-119가 준 방향: 걷기·운반 = 네 방향, 계단 = 뒤·왼·오른, 화로 관리 = 앞·왼·오른
+        public static bool SheetProvided(WorkMotion motion, WorkDir dir)
+            => motion == WorkMotion.ClimbUp || motion == WorkMotion.ClimbDown ? dir != WorkDir.Front : motion != WorkMotion.Tend || dir != WorkDir.Back;
+
+        // 가는 쪽(moveDir, 수평)을 사진기 기준 방향으로: camRight = 화면 오른쪽, camToward = 사진기 쪽(앞 = 사진기를 봄). previous를 조금 더 유지한다
+        public static WorkDir PickDirection(Vector3 moveDir, Vector3 camRight, Vector3 camToward, WorkDir previous, WorkMotion motion)
+        {
+            moveDir.y = 0f;
+            bool prevHorizontal = previous == WorkDir.Left || previous == WorkDir.Right;
+            if (moveDir.sqrMagnitude < 1e-8f) return SheetProvided(motion, previous) ? previous : WorkDir.Right;
+            float r = Vector3.Dot(moveDir, camRight), f = Vector3.Dot(moveDir, camToward);
+            float a = Mathf.Abs(r), b = Mathf.Abs(f);
+            bool vertical = prevHorizontal ? b > a * DirectionHysteresis : !(a > b * DirectionHysteresis);
+            WorkDir horizontalPick = r > 0f ? WorkDir.Right : r < 0f ? WorkDir.Left : (prevHorizontal ? previous : WorkDir.Right);
+            if (!vertical) return horizontalPick;
+            WorkDir verticalPick = f >= 0f ? WorkDir.Front : WorkDir.Back;
+            return SheetProvided(motion, verticalPick) ? verticalPick : horizontalPick;   // 없는 방향(계단 앞·화로 뒤)은 옆모습
+        }
         bool wasPushing;
         float restStart = -999f;
         bool faceLeft;      // 시계 방향(각도가 줄어드는 쪽)이면 일꾼이 왼쪽으로 민다 (사진기에서 보는 앞쪽은 서쪽으로 움직인다)
@@ -105,6 +144,12 @@ namespace HumanLastRampart.Combat.Battle
         public bool HasBrazierArt => brazierLit != null && brazierDead != null;
         public bool HasFlameArt => newFlames;
         public bool WorkerVisible(int i) => workerVisible[i];
+        // W31 확인용: i번 일꾼이 지금 K-119 새 시트로 그려지는가 / 그 동작·방향·시트 이름
+        public bool WorkerUsesMotionSheet(int i) => workerNewSheet[i] && workerVisible[i];
+        public WorkMotion WorkerMotionKind(int i) => workerMotion[i];
+        public WorkDir WorkerFacing(int i) => workerDir[i];
+        public string WorkerSheetName(int i) => SheetName(WorkerVariant[i], workerMotion[i], workerDir[i]);
+        public bool HasMotionArt => motionSheets[0, (int)WorkMotion.Walk, (int)WorkDir.Left] != null;
 
         public BattleBeaconView(BattleSim sim, Material material, Mesh quad, Bounds bounds)
         {
@@ -155,6 +200,20 @@ namespace HumanLastRampart.Combat.Battle
                     workers[v, s].Block.SetFloat(ViewStretchId, 1f);
                 }
 
+            for (int v = 0; v < 2; v++)
+                for (int m = 0; m < MotionNames.Length; m++)
+                {
+                    var motionLayout = PerfLabArt.SheetLayout.Make(MotionFrames[m], 1, 0.5f, 8f / 128f, 96f / 128f);
+                    for (int d = 0; d < DirNames.Length; d++)
+                    {
+                        if (!SheetProvided((WorkMotion)m, (WorkDir)d)) continue;
+                        var tex = Resources.Load<Texture2D>("BattleArt/Beacon/" + SheetName(v, (WorkMotion)m, (WorkDir)d));
+                        if (tex == null) continue;
+                        motionSheets[v, m, d] = Make(tex, motionLayout, WorkerCount);
+                        motionSheets[v, m, d].Block.SetFloat(ViewStretchId, 1f);
+                    }
+                }
+
             Texture2D standSheet = null;
             foreach (var (unit, _, count) in sim.SoldierGroups)
                 if (count > 0 && unit != null && unit.Sheet != null) { standSheet = unit.Sheet; courierRunSheet = unit.RunSheet; break; }
@@ -173,6 +232,7 @@ namespace HumanLastRampart.Combat.Battle
 
             HasArt = newFlames || flames[0] != null || brazierLit != null;
             foreach (Piece w in workers) if (w != null) HasArt = true;   // 옛 탑 몸체 그림 유무와 상관없이 불꽃·화로·일꾼이 있으면 그린다
+            foreach (Piece w in motionSheets) if (w != null) HasArt = true;
 
             // 돌림대 (나무 칸 그림). 그림이 없으면 일꾼만 돌림대 둘레를 돈다
             var atlas = Resources.Load<Texture2D>("BattleArt/Courtyard/props_box_atlas");
@@ -301,19 +361,27 @@ namespace HumanLastRampart.Combat.Battle
             int state = pushing ? Push : sinceRest < RestSeconds + RestHoldSeconds ? Rest : Idle;
             WorkerState = state;
             foreach (Piece p in workers) if (p != null) p.Count = 0;
+            foreach (Piece p in motionSheets) if (p != null) p.Count = 0;
             float climbClock = time - idleSince;
+            Vector3 camToward = new Vector3(toCamera.x, 0f, toCamera.z);   // 사진기 쪽 (수평)
+            camToward = camToward.sqrMagnitude > 1e-6f ? camToward.normalized : Vector3.back;
+            Vector3 camRightFlat = new Vector3(camRight.x, 0f, camRight.z);
+            camRightFlat = camRightFlat.sqrMagnitude > 1e-6f ? camRightFlat.normalized : Vector3.right;
             for (int i = 0; i < WorkerCount; i++)
             {
                 Vector3 local = BattleTowerInterior.WorkerStation(i, capstanDegrees);
                 int wstate = state;
                 Vector3 moveDir = Vector3.zero;   // 걷는 방향 (탑 로컬, 그림이 보는 쪽을 정한다)
                 bool visible = true;
+                bool hasMotion = false;           // K-119 동작 그림을 쓸 차례인가
+                var motion = WorkMotion.Walk;
                 if (returning && i == BattleTowerInterior.ClimberIndex)
                 {
-                    // 계단·불방에 있던 일꾼은 빛줄기가 돌기 시작해도 튀지 않고 걸어 내려와 돌림대로 돌아온다
+                    // 계단·불방에 있던 일꾼은 빛줄기가 돌기 시작해도 튀지 않고 걸어 내려와 돌림대로 돌아온다 (계단은 내려오기, 바닥은 빈손 걷기)
                     wstate = Push;
                     local = AdvanceReturn(dt, out moveDir);
                     idleSince = time;
+                    if (returning) { hasMotion = true; motion = returnStage == 0 ? WorkMotion.ClimbDown : WorkMotion.Walk; }
                 }
                 else if (state == Push)
                 {
@@ -325,25 +393,60 @@ namespace HumanLastRampart.Combat.Battle
                 else if (i == BattleTowerInterior.ClimberIndex)
                 {
                     Vector3 station = local;
-                    var phase = BattleTowerInterior.Climber(climbClock, station, out Vector3 feet);
+                    var phase = BattleTowerInterior.Climber(climbClock, station, out Vector3 feet, out BattleTowerInterior.ClimbMotion cm);
                     if (phase == BattleTowerInterior.ClimbPhase.Hidden) visible = false;
                     else
                     {
                         local = feet;
                         if (phase == BattleTowerInterior.ClimbPhase.Walk)
                         {
-                            wstate = Push;   // 걷는 동작은 미는 그림 (걷는 그림이 따로 없다)
+                            wstate = Push;   // 새 시트가 없을 때의 대비 (옛 미는 그림)
                             BattleTowerInterior.Climber(climbClock + 0.1f, station, out Vector3 next);
                             moveDir = next - feet;
                             moveDir.y = 0f;
+                            hasMotion = true;
+                            motion = cm == BattleTowerInterior.ClimbMotion.ClimbUp ? WorkMotion.ClimbUp
+                                : cm == BattleTowerInterior.ClimbMotion.ClimbDown ? WorkMotion.ClimbDown
+                                : cm == BattleTowerInterior.ClimbMotion.WalkCarry ? WorkMotion.Carry : WorkMotion.Walk;
                         }
-                        else if (phase == BattleTowerInterior.ClimbPhase.Tend) wstate = Idle;
+                        else if (phase == BattleTowerInterior.ClimbPhase.Tend)
+                        {
+                            wstate = Idle;
+                            moveDir = LampCenterLocal - local;   // 화로를 바라보며 기름을 붓는다
+                            hasMotion = true;
+                            motion = WorkMotion.Tend;
+                        }
                     }
                 }
 
                 workerVisible[i] = visible;
                 workerWorld[i] = baseFeet + local;
                 if (!visible) continue;
+
+                workerNewSheet[i] = false;
+                if (hasMotion)
+                {
+                    WorkDir dir = PickDirection(moveDir, camRightFlat, camToward, workerDir[i], motion);
+                    Piece sheet = motionSheets[WorkerVariant[i], (int)motion, (int)dir];
+                    workerDir[i] = dir;
+                    workerMotion[i] = motion;
+                    if (sheet != null)
+                    {
+                        // 새 시트: 한 줄 8칸(화로 6칸) 왼쪽부터. 왼쪽 시트는 따로 있어 뒤집지 않는다. 위아래 들썩임은 시트 안에 있다
+                        int mframes = MotionFrames[(int)motion];
+                        int mframe = (int)(time * MotionFps[(int)motion] + i * 3) % mframes;
+                        Vector3 mp = baseFeet + local + toCamera * 0.005f;
+                        sheet.Instances[sheet.Count++] = new PerfLabInstance
+                        {
+                            PosFrame = new float4(mp.x, mp.y, mp.z, mframe),
+                            TintSize = new float4(shade, shade, shade, WorkerH * Mpp),
+                        };
+                        workerNewSheet[i] = true;
+                        continue;
+                    }
+
+                    wstate = motion == WorkMotion.Tend ? Idle : Push;   // 시트가 없으면 옛 그림
+                }
 
                 Piece piece = workers[WorkerVariant[i], wstate];
                 if (piece == null) continue;
@@ -369,6 +472,7 @@ namespace HumanLastRampart.Combat.Battle
                     capstanMaterial, 0, null, 0, null, false, false);
 
             foreach (Piece p in workers) if (p != null && p.Count > 0) Submit(p, p.Count, material);
+            foreach (Piece p in motionSheets) if (p != null && p.Count > 0) Submit(p, p.Count, material);
 
             // 탑 대기 전령: 쉬는 동안 탑 곁에 서 있고, 명령을 들면 성벽까지 달려간다 (눈에 보인다)
             if (courierStand != null)
@@ -446,6 +550,7 @@ namespace HumanLastRampart.Combat.Battle
             foreach (Piece piece in flames) piece?.Buffer?.Release();
             foreach (Piece piece in new[] { brazierDead, brazierLit, courierStand, courierRun }) piece?.Buffer?.Release();
             foreach (Piece piece in workers) piece?.Buffer?.Release();
+            foreach (Piece piece in motionSheets) piece?.Buffer?.Release();
             Kill(capstanMesh);
             Kill(capstanMaterial);
         }

@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace HumanLastRampart.Combat.Battle
 {
@@ -46,6 +46,9 @@ namespace HumanLastRampart.Combat.Battle
 
         public enum ClimbPhase { Wait, Walk, Hidden, Tend }
 
+        // W31 (Codex K-119): 같은 길에서 일꾼 동작 그림을 고른다. 올라갈 때 기름통을 들고(운반 걷기), 내려올 때는 빈손
+        public enum ClimbMotion { Wait, WalkCarry, ClimbUp, WalkEmpty, ClimbDown, Tend, Hidden }
+
         // i번째 일꾼이 돌림대 둘레에서 서는 자리 (탑 로컬 발 위치). capstanDegrees = 돌림대가 지금까지 돈 각도
         public static Vector3 WorkerStation(int i, float capstanDegrees)
         {
@@ -69,12 +72,15 @@ namespace HumanLastRampart.Combat.Battle
         }
 
         // 기다림에서 시작해 cycleTime(초) 때 일꾼이 있는 곳. 벽 속으로 들어가면 Hidden (그리지 않는다)
-        public static ClimbPhase Climber(float cycleTime, Vector3 station, out Vector3 feet)
+        public static ClimbPhase Climber(float cycleTime, Vector3 station, out Vector3 feet) => Climber(cycleTime, station, out feet, out _);
+
+        public static ClimbPhase Climber(float cycleTime, Vector3 station, out Vector3 feet, out ClimbMotion motion)
         {
             float t = Mathf.Repeat(cycleTime, ClimbCycleSeconds);
             Vector3 foot = StairPoint(0f);
             Vector3 footFloor = new Vector3(foot.x, FloorY, foot.z);
             feet = station;
+            motion = ClimbMotion.Wait;
             if (t < WaitSeconds) return ClimbPhase.Wait;
             t -= WaitSeconds;
             if (t < ToFootSeconds)
@@ -82,27 +88,29 @@ namespace HumanLastRampart.Combat.Battle
                 float k = t / ToFootSeconds;
                 feet = Vector3.Lerp(station, footFloor, k);
                 feet.y = Mathf.Lerp(FloorY, foot.y, Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(0.7f, 1f, k)));   // 맨 끝에 첫 단을 밟는다
+                motion = ClimbMotion.WalkCarry;   // 기름통을 들고 계단 발치로
                 return ClimbPhase.Walk;
             }
 
             t -= ToFootSeconds;
-            if (t < ClimbSeconds) { feet = StairPoint(t / ClimbSeconds); return ClimbPhase.Walk; }
+            if (t < ClimbSeconds) { feet = StairPoint(t / ClimbSeconds); motion = ClimbMotion.ClimbUp; return ClimbPhase.Walk; }
             t -= ClimbSeconds;
-            if (t < UpHiddenSeconds) { feet = StairPoint(1f); return ClimbPhase.Hidden; }
+            if (t < UpHiddenSeconds) { feet = StairPoint(1f); motion = ClimbMotion.Hidden; return ClimbPhase.Hidden; }
             t -= UpHiddenSeconds;
-            if (t < EnterSeconds) { feet = Vector3.Lerp(LampHatch, LampStand, t / EnterSeconds); return ClimbPhase.Walk; }
+            if (t < EnterSeconds) { feet = Vector3.Lerp(LampHatch, LampStand, t / EnterSeconds); motion = ClimbMotion.WalkCarry; return ClimbPhase.Walk; }
             t -= EnterSeconds;
-            if (t < TendSeconds) { feet = LampStand; return ClimbPhase.Tend; }
+            if (t < TendSeconds) { feet = LampStand; motion = ClimbMotion.Tend; return ClimbPhase.Tend; }
             t -= TendSeconds;
-            if (t < LeaveSeconds) { feet = Vector3.Lerp(LampStand, LampHatch, t / LeaveSeconds); return ClimbPhase.Walk; }
+            if (t < LeaveSeconds) { feet = Vector3.Lerp(LampStand, LampHatch, t / LeaveSeconds); motion = ClimbMotion.WalkEmpty; return ClimbPhase.Walk; }
             t -= LeaveSeconds;
-            if (t < DownHiddenSeconds) { feet = StairPoint(1f); return ClimbPhase.Hidden; }
+            if (t < DownHiddenSeconds) { feet = StairPoint(1f); motion = ClimbMotion.Hidden; return ClimbPhase.Hidden; }
             t -= DownHiddenSeconds;
-            if (t < DescendSeconds) { feet = StairPoint(1f - t / DescendSeconds); return ClimbPhase.Walk; }
+            if (t < DescendSeconds) { feet = StairPoint(1f - t / DescendSeconds); motion = ClimbMotion.ClimbDown; return ClimbPhase.Walk; }
             t -= DescendSeconds;
             float back = Mathf.Clamp01(t / ToStationSeconds);
             feet = Vector3.Lerp(footFloor, station, back);
             feet.y = Mathf.Lerp(foot.y, FloorY, Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(0f, 0.3f, back)));
+            motion = ClimbMotion.WalkEmpty;
             return ClimbPhase.Walk;
         }
 
