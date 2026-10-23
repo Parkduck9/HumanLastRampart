@@ -1,0 +1,53 @@
+{
+  "tool": "image_gen.imagegen",
+  "mode": "built-in",
+  "assets": {
+    "plaster_timber": "C:\\Users\\User\\.codex\\generated_images\\01a166d8-34ff-7722-821c-72d007a2f34d\\exec-8b9359a8-4fdf-4fa5-97f9-0c5e35eb94b2.png",
+    "rough_stone": "C:\\Users\\User\\.codex\\generated_images\\01a166d8-34ff-7722-821c-72d007a2f34d\\exec-ea5d4eaf-fef8-4d42-8aad-61b82237e282.png",
+    "plank_wall": "C:\\Users\\User\\.codex\\generated_images\\01a166d8-34ff-7722-821c-72d007a2f34d\\exec-608843a8-8ec9-4085-8020-12d2cbc741c7.png",
+    "clay_tiles": "C:\\Users\\User\\.codex\\generated_images\\01a166d8-34ff-7722-821c-72d007a2f34d\\exec-558c0900-edee-48c2-8b3c-cdc737fdbff6.png",
+    "wood_shingles": "C:\\Users\\User\\.codex\\generated_images\\01a166d8-34ff-7722-821c-72d007a2f34d\\exec-86bed0fa-c68e-4c1f-b430-818a363a26d1.png",
+    "slate_roof": "C:\\Users\\User\\.codex\\generated_images\\01a166d8-34ff-7722-821c-72d007a2f34d\\exec-fa26bb49-5d6d-4fa5-a41c-4ed24ac8ae19.png",
+    "thatch": "C:\\Users\\User\\.codex\\generated_images\\01a166d8-34ff-7722-821c-72d007a2f34d\\exec-5d6abe60-5b41-4415-a901-e551bb5dca70.png",
+    "facades": "C:\\Users\\User\\.codex\\generated_images\\01a166d8-34ff-7722-821c-72d007a2f34d\\exec-04e07e0d-5f32-4b47-a4bd-23a44522e7b2.png",
+    "props": "C:\\Users\\User\\.codex\\generated_images\\01a166d8-34ff-7722-821c-72d007a2f34d\\exec-6914e356-adb5-42a6-9942-79cc6fb8b596.png",
+    "day": "C:\\Users\\User\\.codex\\generated_images\\01a166d8-34ff-7722-821c-72d007a2f34d\\exec-972a9c1f-852d-4dea-943e-a6c64dfe0d7a.png",
+    "night": "C:\\Users\\User\\.codex\\generated_images\\01a166d8-34ff-7722-821c-72d007a2f34d\\exec-98a47910-6d7a-498d-82fc-c92e35452489.png"
+  },
+  "prompts": {
+    "textures": [
+      [
+        "plaster_timber",
+        "warm desaturated ivory plaster infill, heavy weathered dark oak timber framing. Simple sparse large rectangular panels and occasional diagonal brace. Medieval low courtyard workshop wall."
+      ],
+      [
+        "rough_stone",
+        "warm neutral grey rough ashlar foundation, broad irregular rectangular blocks with dark recessed mortar, sparse chips, consistent light upper left. Match existing warm grey fortress stone, not blue."
+      ],
+      [
+        "plank_wall",
+        "aged medium brown vertical oak planks, sparse dark knots, structural horizontal rails widely spaced. Matte useful stable wall."
+      ],
+      [
+        "clay_tiles",
+        "low relief muted russet terracotta overlapping roof tiles, regular staggered rows, 3 shades each, dark seams and restrained ochre edge."
+      ],
+      [
+        "wood_shingles",
+        "weathered dark warm brown overlapping split wood roof shingles, staggered rows, distinct short grain marks, three shades."
+      ],
+      [
+        "slate_roof",
+        "desaturated charcoal blue grey overlapping slate roof, staggered rows, chipped pale upper lip and near black joints, restrained slate grey matching fortress beacon roof."
+      ],
+      [
+        "thatch",
+        "dry muted straw ochre tightly bound thatch, sparse long straw clusters and horizontal binding rows, dark warm brown undercuts. No fluffy grass or loose foliage."
+      ]
+    ],
+    "facades": "Production sprite atlas, genuine transparent background. Orthographic straight FRONT view, no perspective. Crisp chunky pixel art with dark outlines, 3 shades per material, muted warm brown oak, neutral fortress grey stone, restrained burgundy and antique gold. Native pixel grid at 32px/m; no gradients, blur, glow, smooth shading, lettering or clutter. One cohesive atlas: EXACTLY 4 columns, 1 row, equal spacious cells. Each cell contains a low courtyard building FACADE DECAL ONLY: wooden door with frame at bottom centre, two tiny windows beside it, and one clear hanging icon sign to right of door. No whole building, no wall backdrop or roof, transparent between components. All four door bottoms align. Left to right: 1 wall repair workshop with hammer striking a stone block icon; 2 barracks with TWO CROSSED SPEARS icon and burgundy pennant; 3 trap workshop with iron SPIKED JAW TRAP icon; 4 shop with a GOLD COIN POUCH icon and muted olive green short awning. Door about 26x42 pixels at native size; each cell intended 144x64 native pixels. Large readable icons, simple forms. Output wide landscape atlas.",
+    "props": "One cohesive production environment PROPS ATLAS with actual transparent background. EXACTLY 4 columns by 2 rows evenly separated equal cells. No text labels. All objects complete within their cells. Straight orthographic FRONT view, crisp chunky pixel art at native 32px/m, dark clear outlines, few discrete matte muted brown/grey/ochre/burgundy shades, upper-left highlights, no gradients, blur, glow, cast shadow, neon or photorealism. Row 1 left to right: 1 short rough grey stone chimney with flat smoke-free dark cap, NO smoke; 2 small low wooden belfry with charcoal slate cap and visible antique brass bell, NO cross; 3 simple 3-post oak fence segment with 2 rails; 4 squat bundled ochre hay pile. Row 2 left to right: 1 stacked cut firewood logs with readable circular end grain; 2 squat grey stone well FRONT VIEW with two oak posts, horizontal spindle rope bucket and very low slate canopy; 3 long low wooden horse watering trough with dark interior water; 4 small burgundy and gold BEACON ORDER banner on horizontal bar, split-tail, simple gold upright beacon-tower-and-flame emblem, no heraldic animal. Keep humble utilitarian medieval courtyard material style, consistent detail density. Each cell nominal 64x64 pixels.",
+    "day": "Edit target: actual HumanLastRampart screenshot supplied. Create a restrained pixel-art courtyard BUILDING MATERIAL mockup. CRITICAL preserve exact screenshot camera, composition, all tower pixels, landscape, paving, wall and UI. Change ONLY existing flat blockout building surfaces, doors and small associated props. Do not enlarge, move, raise or add buildings. Existing low boxes remain same silhouettes and screen positions. Dress walls with grey fortress stone foundations, warm ivory oak timber infill and dark oak planks, roofs muted rust clay tiles or grey slate. Back left smithy has capped short chimney, back right stable has low fence/hay/trough, large right barracks crossed spears sign, left foreground chapel tiny bell. Doors/windows small, warm dark wood. Preserve light direction and scale. Building max roof 2.6m, tower 12m and dominant. Crisp discrete pixel clusters, no neon/gloss/blur/bloom/haze. No new text. Keep all UI completely untouched.",
+    "night": "Use screenshot 1 as the exact EDIT TARGET, screenshot 2 as building location/scale context ONLY (different camera; do NOT copy its camera). Night courtyard art mockup for HumanLastRampart. Preserve screenshot 1 pixel-identical tower, UI, black sky, foreground floor and perspective. Add SMALL LOW humble buildings along the far INNER perimeter wall behind tower, max 2.6m tall compared to 12m central tower. A few at left horizon and right horizon, keep central road/tower ring open. Grey stone/oak/plaster, low muted terracotta/slate roofs, tiny simple functional signs, warm amber window panes with extremely limited local falloff. Dark readable night; tower flame remains brightest focal point. No fog, overall lightening, teal/purple neon, glossy/plastic material, tall spires, new text, camera changes or dominant buildings. Crisp chunky HD2D pixel clusters. Buildings only occupy narrow strip immediately above far horizon; do not cover existing walls or tower."
+  }
+}
