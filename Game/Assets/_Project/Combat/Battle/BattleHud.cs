@@ -311,7 +311,7 @@ namespace HumanLastRampart.Combat.Battle
             endTitle.text = victory ? "승리" : "패배";
             endLine.text = line;
             Color mark = victory ? UiTokens.Good : UiTokens.Danger;
-            endSeal.color = mark;
+            endSeal.color = UiArt.IsNative(endSeal.sprite) ? Color.white : mark;   // K-123 도장은 황동 고리 그림이라 흰색 (임시 그림이면 승패 색)
             endSealText.color = mark;
             endSealText.text = victory ? "승" : "패";
             CloseMenu();

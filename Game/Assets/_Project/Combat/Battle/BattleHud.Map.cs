@@ -447,6 +447,14 @@ namespace HumanLastRampart.Combat.Battle
             Anchor(marker.Plate.rectTransform, new Vector2(0f, 1f), new Vector2(17f, -21f), new Vector2(13f, 9f));
             marker.PlateInner = NewImage(marker.Plate.transform, "Inner", ArcherShade);
             Anchor(marker.PlateInner.rectTransform, new Vector2(0f, 1f), new Vector2(1f, -1f), new Vector2(11f, 7f));
+            Sprite plateArt = UiArt.Get(UiArt.MapGroupPlate);   // K-123 무리 숫자판 (16×10 점 = 깃발 숫자 자리를 덮는다)
+            if (plateArt != null)
+            {
+                marker.Plate.sprite = plateArt;
+                marker.Plate.color = Color.white;
+                Anchor(marker.Plate.rectTransform, new Vector2(0f, 1f), new Vector2(15.5f, -20.5f), new Vector2(16f, 10f));
+                Anchor(marker.PlateInner.rectTransform, new Vector2(0f, 1f), new Vector2(2f, -2f), new Vector2(12f, 6f));
+            }
             // 그림 속 숫자 판(13×9 점)에 맞춘 작은 숫자 — 글자가 아니라 그림의 일부라 20 규칙 밖
             var count = new GameObject("Count", typeof(RectTransform), typeof(CanvasRenderer), typeof(Text));
             count.transform.SetParent(marker.Plate.transform, false);
@@ -459,7 +467,7 @@ namespace HumanLastRampart.Combat.Battle
             marker.Count.raycastTarget = false;
             marker.Count.horizontalOverflow = HorizontalWrapMode.Overflow;
             marker.Count.verticalOverflow = VerticalWrapMode.Overflow;
-            Anchor(marker.Count.rectTransform, new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(13f, 9f), new Vector2(0.5f, 0.5f));
+            Anchor(marker.Count.rectTransform, new Vector2(0.5f, 0.5f), Vector2.zero, plateArt != null ? new Vector2(16f, 10f) : new Vector2(13f, 9f), new Vector2(0.5f, 0.5f));   // K-123 숫자판은 16×10
             // 화살표: 깃발 오른쪽 4화소 띄움 (K-020 README 배치안)
             marker.Arrow = Ui.HudIcon(go.transform, "Arrow", "Map/move_east", 24f);
             if (marker.Arrow != null) Anchor(marker.Arrow.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(32f, 0f), new Vector2(24f, 24f), new Vector2(0.5f, 0.5f));
@@ -503,7 +511,8 @@ namespace HumanLastRampart.Combat.Battle
                     marker.Flag.color = chosen ? UiTokens.Brass : info.Moving ? new Color(0.78f, 0.78f, 0.78f, 1f) : Color.white;   // 선택 테두리 그림이 없어도 황동색으로 구별
                     bool full = info.Alive == BattleSim.GroupSize;   // 10명이면 그림의 '10' 그대로
                     marker.Plate.gameObject.SetActive(!full);
-                    marker.PlateInner.color = gunner ? GunnerShade : ArcherShade;
+                    Color plateShade = gunner ? GunnerShade : ArcherShade;
+                    marker.PlateInner.color = marker.Plate.sprite != null ? new Color(plateShade.r, plateShade.g, plateShade.b, 0.45f) : plateShade;   // 숫자판 그림 위에는 병종 색을 옅게만
                     marker.Count.text = info.Alive.ToString();
                     if (marker.Selected != null) marker.Selected.gameObject.SetActive(chosen);
                     if (marker.Arrow != null)

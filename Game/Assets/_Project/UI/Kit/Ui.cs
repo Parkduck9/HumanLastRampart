@@ -205,8 +205,21 @@ namespace HumanLastRampart.UI
             }
             else
             {
-                feel.Normal = UiArt.Get(brass ? UiArt.ButtonBrass : UiArt.ButtonWood);
-                feel.Down = UiArt.Get(brass ? UiArt.ButtonBrassDown : UiArt.ButtonWoodDown);
+                // K-123 상태 그림: 보통 · 올림 · 눌림 · 꺼짐 · 켜짐 (탭은 꺼짐/켜짐 탭 그림, 아이콘 단추는 리벳 틀). 없는 그림은 null → 빛 테두리·어둡게로 대신
+                feel.Normal = UiArt.Get(brass ? UiArt.ButtonBrass : kind == UiButtonKind.Tab ? UiArt.TabOff : kind == UiButtonKind.Icon ? UiArt.IconButtonFrame : UiArt.ButtonWood);
+                if (feel.Normal == null) feel.Normal = UiArt.Get(brass ? UiArt.ButtonBrass : UiArt.ButtonWood);
+                // 상태 그림 묶음은 보통·주 단추만. 탭은 눌림·켜짐 = 켜짐 탭 그림(올림·꺼짐은 없음 → 빛 테두리·어둡게), 아이콘 단추는 틀 하나(나머지는 빛 테두리·어둡게)
+                if (kind == UiButtonKind.Normal || kind == UiButtonKind.Primary)
+                {
+                    feel.Down = UiArt.Get(brass ? UiArt.ButtonBrassDown : UiArt.ButtonWoodDown);
+                    feel.Hover = UiArt.Get(brass ? UiArt.ButtonBrassHover : UiArt.ButtonWoodHover);
+                    feel.Disabled = UiArt.Get(brass ? UiArt.ButtonBrassDisabled : UiArt.ButtonWoodDisabled);
+                    feel.OnSprite = UiArt.Get(brass ? UiArt.ButtonBrassOn : UiArt.ButtonWoodOn);
+                }
+                else if (kind == UiButtonKind.Tab)
+                {
+                    feel.Down = feel.OnSprite = UiArt.Get(UiArt.TabOn);
+                }
                 face.sprite = feel.Normal;
                 face.type = UnityEngine.UI.Image.Type.Sliced;
                 face.color = Color.white;
@@ -229,7 +242,7 @@ namespace HumanLastRampart.UI
             Color ink = brass ? UiTokens.Ink : kind == UiButtonKind.Quiet ? UiTokens.InkSoft : UiTokens.Body;   // Quiet = 종이 판 위 글 단추
             if (kind == UiButtonKind.Icon)
             {
-                Image picture = Icon(content, "Icon", icon ?? UiArt.IconClose, 1f, UiTokens.Body);
+                Image picture = Icon(content, "Icon", icon ?? UiArt.IconClose, 1f, Color.white);   // K-123 아이콘은 색이 그림에 들어 있어 흰색으로
                 Place(picture.rectTransform, new Vector2(0.5f, 0.5f), Vector2.zero, picture.rectTransform.sizeDelta);
             }
             else
@@ -266,6 +279,19 @@ namespace HumanLastRampart.UI
             Button button = Button(parent, key, null, onClick, UiButtonKind.Icon, icon);
             ((RectTransform)button.transform).sizeDelta = new Vector2(size, size);
             Size(button, size, size);
+            if (size >= 64f)
+            {
+                // 큰 단추는 K-123 48점 아이콘 (작은 단추에서는 24점 아이콘)
+                Transform t = button.transform.Find("Content/Icon");
+                var image = t != null ? t.GetComponent<Image>() : null;
+                Sprite big = UiArt.Get(UiArt.Big(icon));
+                if (image != null && big != null)
+                {
+                    image.sprite = big;
+                    image.rectTransform.sizeDelta = UiArt.Size(big);
+                }
+            }
+
             return button;
         }
 
@@ -288,7 +314,7 @@ namespace HumanLastRampart.UI
             var feel = button.GetComponent<UiButtonFeel>();
             if (feel != null) feel.On = on;
             Text label = LabelOf(button);
-            if (label != null && feel != null && feel.Normal != null && feel.Normal.name == UiArt.ButtonWood) label.color = on ? UiTokens.Brass : UiTokens.Body;
+            if (label != null && feel != null && feel.Normal != null && (feel.Normal.name == UiArt.ButtonWood || feel.Normal.name == UiArt.TabOff)) label.color = on ? UiTokens.Brass : UiTokens.Body;
         }
 
         public static void SetIcon(Button button, string icon, Color? tint = null)
@@ -296,7 +322,8 @@ namespace HumanLastRampart.UI
             Transform t = button != null ? button.transform.Find("Content/Icon") : null;
             if (t == null) return;
             var image = t.GetComponent<Image>();
-            image.sprite = UiArt.Get(icon);
+            bool big = image.sprite != null && image.sprite.name.EndsWith("_48");   // 큰 아이콘 단추는 큰 짝 그림으로 바꾼다
+            image.sprite = UiArt.Get(big ? UiArt.Big(icon) : icon);
             if (tint.HasValue) image.color = tint.Value;
         }
 
@@ -358,18 +385,32 @@ namespace HumanLastRampart.UI
         // ── 막대 (S-20·S-25) ──
         public static UiBar Bar(Transform parent, string name, float width, float height, bool colorByRatio = true)
         {
+            // K-123 막대: 홈 + 채움(좋음·황동·위험)·잔상 그림. 높이 24 이상은 큰 것(48×24), 아래는 작은 것(48×15). 그림이 없으면 색 칠하기로 대신
+            bool large = height >= 24f;
+            Sprite trackArt = UiArt.Get(large ? UiArt.BarTrackLarge : UiArt.BarTrackSmall);
+            Sprite good = UiArt.Get(UiArt.BarFill("good", large)), brassArt = UiArt.Get(UiArt.BarFill("brass", large));
+            Sprite danger = UiArt.Get(UiArt.BarFill("danger", large)), lagArt = UiArt.Get(UiArt.BarFill("lag", large));
+            bool art = trackArt != null && good != null && brassArt != null && danger != null && lagArt != null;
             Image track = Image(parent, name, Color.white);
-            track.sprite = UiArt.Get(UiArt.BarTrack);
+            track.sprite = art ? trackArt : UiArt.Get(UiArt.BarTrack);
             track.type = UnityEngine.UI.Image.Type.Sliced;
             ((RectTransform)track.transform).sizeDelta = new Vector2(width, height);
             Size(track, width, height);
             RectTransform inner = Rect(track.transform, "Inner");
-            Stretch(inner, UiTokens.Dot);
-            Image lag = Image(inner, "Lag", UiTokens.BrassLight);
+            Stretch(inner, art ? 0f : UiTokens.Dot);   // K-123 채움 그림은 홈과 같은 크기라 안쪽으로 줄이지 않는다
+            Image lag = Image(inner, "Lag", art ? Color.white : UiTokens.BrassLight);
             Stretch(lag.rectTransform);
-            Image fill = Image(inner, "Fill", UiTokens.Good);
+            Image fill = Image(inner, "Fill", art ? Color.white : UiTokens.Good);
             Stretch(fill.rectTransform);
+            if (art)
+            {
+                lag.sprite = lagArt;
+                fill.sprite = good;
+                lag.type = fill.type = UnityEngine.UI.Image.Type.Sliced;
+            }
+
             var bar = track.gameObject.AddComponent<UiBar>();
+            if (art) { bar.GoodArt = good; bar.BrassArt = brassArt; bar.DangerArt = danger; }
             bar.Fill = fill.rectTransform;
             bar.FillImage = fill;
             bar.Lag = lag.rectTransform;

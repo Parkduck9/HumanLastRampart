@@ -47,15 +47,28 @@ namespace HumanLastRampart.Combat.Battle
                 var go = new GameObject("Squad Selection", typeof(RectTransform));
                 go.transform.SetParent(root.transform, false);
                 selectionBox = (RectTransform)go.transform;
-                for (int i = 0; i < 4; i++)
+                Sprite frame = UiArt.Get(UiArt.DragSelection);   // K-123 끌어 고르기 테두리 (가운데 투명 9칸)
+                if (frame != null)
                 {
-                    Image edge = NewImage(go.transform, "Edge", UiTokens.Brass);
-                    edge.raycastTarget = false;
-                    RectTransform r = edge.rectTransform;
-                    r.anchorMin = i < 2 ? new Vector2(0f, i) : new Vector2(i - 2, 0f);
-                    r.anchorMax = i < 2 ? new Vector2(1f, i) : new Vector2(i - 2, 1f);
-                    r.sizeDelta = i < 2 ? new Vector2(0f, 2f) : new Vector2(2f, 0f);
-                    r.anchoredPosition = Vector2.zero;
+                    Image border = NewImage(go.transform, "Frame", Color.white);
+                    border.raycastTarget = false;
+                    border.sprite = frame;
+                    border.type = Image.Type.Sliced;
+                    border.fillCenter = false;
+                    Ui.Stretch(border.rectTransform);
+                }
+                else
+                {
+                    for (int i = 0; i < 4; i++)
+                    {
+                        Image edge = NewImage(go.transform, "Edge", UiTokens.Brass);
+                        edge.raycastTarget = false;
+                        RectTransform r = edge.rectTransform;
+                        r.anchorMin = i < 2 ? new Vector2(0f, i) : new Vector2(i - 2, 0f);
+                        r.anchorMax = i < 2 ? new Vector2(1f, i) : new Vector2(i - 2, 1f);
+                        r.sizeDelta = i < 2 ? new Vector2(0f, 2f) : new Vector2(2f, 0f);
+                        r.anchoredPosition = Vector2.zero;
+                    }
                 }
             }
             selectionBox.gameObject.SetActive(true);
