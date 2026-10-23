@@ -208,10 +208,18 @@ namespace HumanLastRampart.UI
                 // K-123 상태 그림: 보통 · 올림 · 눌림 · 꺼짐 · 켜짐 (탭은 꺼짐/켜짐 탭 그림, 아이콘 단추는 리벳 틀). 없는 그림은 null → 빛 테두리·어둡게로 대신
                 feel.Normal = UiArt.Get(brass ? UiArt.ButtonBrass : kind == UiButtonKind.Tab ? UiArt.TabOff : kind == UiButtonKind.Icon ? UiArt.IconButtonFrame : UiArt.ButtonWood);
                 if (feel.Normal == null) feel.Normal = UiArt.Get(brass ? UiArt.ButtonBrass : UiArt.ButtonWood);
-                feel.Down = UiArt.Get(brass ? UiArt.ButtonBrassDown : UiArt.ButtonWoodDown);
-                feel.Hover = UiArt.Get(brass ? UiArt.ButtonBrassHover : UiArt.ButtonWoodHover);
-                feel.Disabled = UiArt.Get(brass ? UiArt.ButtonBrassDisabled : UiArt.ButtonWoodDisabled);
-                feel.OnSprite = UiArt.Get(brass ? UiArt.ButtonBrassOn : kind == UiButtonKind.Tab ? UiArt.TabOn : UiArt.ButtonWoodOn);
+                // 상태 그림 묶음은 보통·주 단추만. 탭은 눌림·켜짐 = 켜짐 탭 그림(올림·꺼짐은 없음 → 빛 테두리·어둡게), 아이콘 단추는 틀 하나(나머지는 빛 테두리·어둡게)
+                if (kind == UiButtonKind.Normal || kind == UiButtonKind.Primary)
+                {
+                    feel.Down = UiArt.Get(brass ? UiArt.ButtonBrassDown : UiArt.ButtonWoodDown);
+                    feel.Hover = UiArt.Get(brass ? UiArt.ButtonBrassHover : UiArt.ButtonWoodHover);
+                    feel.Disabled = UiArt.Get(brass ? UiArt.ButtonBrassDisabled : UiArt.ButtonWoodDisabled);
+                    feel.OnSprite = UiArt.Get(brass ? UiArt.ButtonBrassOn : UiArt.ButtonWoodOn);
+                }
+                else if (kind == UiButtonKind.Tab)
+                {
+                    feel.Down = feel.OnSprite = UiArt.Get(UiArt.TabOn);
+                }
                 face.sprite = feel.Normal;
                 face.type = UnityEngine.UI.Image.Type.Sliced;
                 face.color = Color.white;

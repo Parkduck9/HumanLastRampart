@@ -36,9 +36,10 @@ namespace HumanLastRampart.UI
         {
             float dt = clock.Tick();   // 게임 배속·멈춤과 상관없는 UI 시계
             bool live = Button == null || Button.IsInteractable();
-            // 상태 그림(올림·켜짐)이 있으면 빛 테두리는 키보드 고름에만 쓴다
-            bool art = Hover != null || OnSprite != null;
-            float target = !live ? (On && !art ? 0.35f : 0f) : art ? (selected ? 0.8f : 0f) : On ? 1f : hover || selected ? 0.8f : 0f;
+            // 상태마다 그림이 있으면 그림으로, 없으면 빛 테두리로 보인다 (올림 그림 없음 → 올림 빛, 켜짐 그림 없음 → 켜짐 빛). 키보드 고름은 늘 빛
+            bool onGlow = On && OnSprite == null;
+            bool hoverGlow = hover && Hover == null;
+            float target = !live ? (onGlow ? 0.35f : 0f) : onGlow ? 1f : hoverGlow || selected ? 0.8f : 0f;
             glow = Mathf.MoveTowards(glow, target, dt * 9f);
             if (Glow != null)
             {

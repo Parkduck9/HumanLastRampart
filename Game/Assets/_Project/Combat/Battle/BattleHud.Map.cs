@@ -467,7 +467,7 @@ namespace HumanLastRampart.Combat.Battle
             marker.Count.raycastTarget = false;
             marker.Count.horizontalOverflow = HorizontalWrapMode.Overflow;
             marker.Count.verticalOverflow = VerticalWrapMode.Overflow;
-            Anchor(marker.Count.rectTransform, new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(13f, 9f), new Vector2(0.5f, 0.5f));
+            Anchor(marker.Count.rectTransform, new Vector2(0.5f, 0.5f), Vector2.zero, plateArt != null ? new Vector2(16f, 10f) : new Vector2(13f, 9f), new Vector2(0.5f, 0.5f));   // K-123 숫자판은 16×10
             // 화살표: 깃발 오른쪽 4화소 띄움 (K-020 README 배치안)
             marker.Arrow = Ui.HudIcon(go.transform, "Arrow", "Map/move_east", 24f);
             if (marker.Arrow != null) Anchor(marker.Arrow.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(32f, 0f), new Vector2(24f, 24f), new Vector2(0.5f, 0.5f));

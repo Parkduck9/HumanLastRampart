@@ -46,20 +46,33 @@ public class UiKitArtTests
         var root = new GameObject("UiKitArtTest", typeof(RectTransform));
         try
         {
-            foreach (UiButtonKind kind in new[] { UiButtonKind.Normal, UiButtonKind.Primary, UiButtonKind.Tab, UiButtonKind.Icon })
-            {
-                var button = Ui.Button(root.transform, kind.ToString(), "시험", null, kind, kind == UiButtonKind.Icon ? UiArt.IconClose : null);
-                var feel = button.GetComponent<UiButtonFeel>();
-                Assert.IsNotNull(feel.Normal, kind + " 보통");
-                Assert.IsNotNull(feel.Hover, kind + " 올림");
-                Assert.IsNotNull(feel.Down, kind + " 눌림");
-                Assert.IsNotNull(feel.Disabled, kind + " 꺼짐");
-                Assert.IsNotNull(feel.OnSprite, kind + " 켜짐");
-            }
+            // 종류별 상태 그림: 보통·주 단추는 전체 묶음, 탭은 꺼짐/켜짐(눌림 = 켜짐), 아이콘 단추는 틀 하나
+            var normal = Ui.Button(root.transform, "n", "시험", null, UiButtonKind.Normal).GetComponent<UiButtonFeel>();
+            Assert.AreEqual(UiArt.ButtonWood, normal.Normal.name);
+            Assert.AreEqual(UiArt.ButtonWoodHover, normal.Hover.name);
+            Assert.AreEqual(UiArt.ButtonWoodDown, normal.Down.name);
+            Assert.AreEqual(UiArt.ButtonWoodDisabled, normal.Disabled.name);
+            Assert.AreEqual(UiArt.ButtonWoodOn, normal.OnSprite.name);
+            var primary = Ui.Button(root.transform, "p", "시험", null, UiButtonKind.Primary).GetComponent<UiButtonFeel>();
+            Assert.AreEqual(UiArt.ButtonBrass, primary.Normal.name);
+            Assert.AreEqual(UiArt.ButtonBrassHover, primary.Hover.name);
+            Assert.AreEqual(UiArt.ButtonBrassDown, primary.Down.name);
+            Assert.AreEqual(UiArt.ButtonBrassDisabled, primary.Disabled.name);
+            Assert.AreEqual(UiArt.ButtonBrassOn, primary.OnSprite.name);
 
             var tab = Ui.Button(root.transform, "tab", "탭", null, UiButtonKind.Tab).GetComponent<UiButtonFeel>();
             Assert.AreEqual(UiArt.TabOff, tab.Normal.name);
             Assert.AreEqual(UiArt.TabOn, tab.OnSprite.name);
+            Assert.AreEqual(UiArt.TabOn, tab.Down.name);
+            Assert.IsNull(tab.Hover, "탭 올림 그림은 없다 (빛 테두리)");
+            Assert.IsNull(tab.Disabled, "탭 꺼짐 그림은 없다 (어둡게)");
+
+            var icon = Ui.Button(root.transform, "i", null, null, UiButtonKind.Icon, UiArt.IconClose).GetComponent<UiButtonFeel>();
+            Assert.AreEqual(UiArt.IconButtonFrame, icon.Normal.name);
+            Assert.IsNull(icon.Hover);
+            Assert.IsNull(icon.Down);
+            Assert.IsNull(icon.Disabled);
+            Assert.IsNull(icon.OnSprite);
         }
         finally { UnityEngine.Object.DestroyImmediate(root); }
     }

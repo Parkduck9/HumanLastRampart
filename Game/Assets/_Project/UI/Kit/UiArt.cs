@@ -136,6 +136,9 @@ namespace HumanLastRampart.UI
             return sprite;
         }
 
+        // K-123 그림 파일로 만든 스프라이트인가 (코드로 그린 임시 그림이면 false)
+        public static bool IsNative(Sprite sprite) => sprite != null && native3x.Contains(sprite.name);
+
         public static bool IsSliced(string name) => Border3x.ContainsKey(name) || Borders.ContainsKey(name);
 
         // Codex HudArt 그림 (Resources/HudArt/<경로>) — 전투 HUD·정비가 같이 쓴다. 없으면 null (부르는 쪽이 대신 모양을 그린다)

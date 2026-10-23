@@ -21,7 +21,7 @@ namespace HumanLastRampart.Meta
             bool victory = result.Outcome == BattleOutcome.Victory;
             HorizontalLayoutGroup row = Ui.Row(area, "Head Row", UiTokens.S24);
             Ui.Stretch((RectTransform)row.transform);
-            Image seal = Ui.Icon(row.transform, "Seal", UiArt.Seal, 1f, Color.white);   // K-123 도장: 황동 고리 그림 (승패 색은 글자에)
+            Image seal = Ui.Icon(row.transform, "Seal", UiArt.Seal, 1f, UiArt.IsNative(UiArt.Get(UiArt.Seal)) ? Color.white : (victory ? UiTokens.Good : UiTokens.Danger));   // K-123 도장은 황동 고리 그림이라 흰색 (임시 그림이면 승패 색)
             Text sealText = Ui.Label(seal.transform, "Mark", victory ? "승" : "패", UiTokens.H2, victory ? UiTokens.GoodInk : UiTokens.DangerInk, TextAnchor.MiddleCenter, true);
             Ui.Stretch(sealText.rectTransform);
             Text outcome = Ui.Label(row.transform, "Outcome", victory ? "승리" : "패배", UiTokens.H1, victory ? UiTokens.GoodInk : UiTokens.DangerInk, TextAnchor.MiddleLeft, true);

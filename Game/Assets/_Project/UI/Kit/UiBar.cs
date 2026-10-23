@@ -48,7 +48,8 @@ namespace HumanLastRampart.UI
                 // 그림으로 비율 단계를 나타낸다 (고정 색 막대는 황동). 30% 아래는 맥박치듯 밝아졌다 어두워진다
                 FillImage.sprite = !ColorByRatio ? BrassArt : value >= 0.7f ? GoodArt : value >= 0.35f ? BrassArt : DangerArt;
                 float shade = ColorByRatio && value < 0.3f && value > 0f ? 0.78f + 0.22f * (0.5f + 0.5f * Mathf.Sin(Time.realtimeSinceStartup * 7f)) : 1f;
-                FillImage.color = new Color(shade, shade, shade, 1f);
+                bool plainFixed = !ColorByRatio && (FixedColor == Color.white || FixedColor == UiTokens.Brass);   // 황동·기본 고정색은 그림 그대로, 다른 색은 입힌다
+                FillImage.color = !ColorByRatio && !plainFixed ? FixedColor : new Color(shade, shade, shade, 1f);
                 return;
             }
             Color c = !ColorByRatio ? FixedColor : value >= 0.7f ? UiTokens.Good : value >= 0.35f ? UiTokens.Brass : UiTokens.Danger;
