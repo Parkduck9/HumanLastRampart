@@ -1,0 +1,57 @@
+{
+  "card": "K-117",
+  "type": "static_story_backgrounds",
+  "generator": "built-in image_gen",
+  "assets": [
+    {
+      "file": "story_dead_beacon_1920x1080.png",
+      "width": 1920,
+      "height": 1080,
+      "frames": 1,
+      "frame_order": [
+        "dead"
+      ],
+      "pivot": null,
+      "foot_baseline": null,
+      "alpha": "opaque",
+      "dialogue_safe_region": [
+        0,
+        720,
+        1920,
+        360
+      ],
+      "preview": "previews/story_dead_beacon_1920x1080_4x.png",
+      "replaces": "Docs/References/codex_k111_v1/story_dead_beacon_1920x1080.png"
+    },
+    {
+      "file": "story_relit_beacon_1920x1080.png",
+      "width": 1920,
+      "height": 1080,
+      "frames": 1,
+      "frame_order": [
+        "relit"
+      ],
+      "pivot": null,
+      "foot_baseline": null,
+      "alpha": "opaque",
+      "dialogue_safe_region": [
+        0,
+        720,
+        1920,
+        360
+      ],
+      "preview": "previews/story_relit_beacon_1920x1080_4x.png",
+      "replaces": "Docs/References/codex_k111_v1/story_relit_beacon_1920x1080.png"
+    }
+  ],
+  "notes": [
+    "정지 이야기 배경으로 인물 셀·발 기준선·동작 재생은 적용하지 않습니다.",
+    "12m 등대탑과 북쪽 계단·포장길·원형 광장을 기준으로 제작한 이야기 그림입니다.",
+    "게임 연결과 Unity 확인은 Claude 담당입니다."
+  ],
+  "references": [
+    "Docs/References/codex_k111_v1/",
+    "Docs/References/codex_k115_v1/",
+    "Docs/References/courtyard_20261023/"
+  ]
+}

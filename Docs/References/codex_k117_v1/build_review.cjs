@@ -1,0 +1,26 @@
+const fs=require('fs'),path=require('path');
+const deps='C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/';
+const sharp=require(deps+'sharp');
+const root=__dirname,repo=path.resolve(root,'../../..');
+const names=['dead','relit'];
+const file=n=>`story_${n}_beacon_1920x1080.png`;
+const embed=p=>'data:image/png;base64,'+fs.readFileSync(p).toString('base64');
+(async()=>{
+fs.mkdirSync(path.join(root,'previews'),{recursive:true});
+const assets=[];
+for(const n of names){
+ const p=path.join(root,file(n)),m=await sharp(p).metadata();
+ if(m.width!==1920||m.height!==1080)throw Error('배경 크기 확인 필요');
+ await sharp(p).resize(7680,4320,{kernel:'nearest'}).png().toFile(path.join(root,'previews',file(n).replace('.png','_4x.png')));
+ assets.push({file:file(n),width:1920,height:1080,frames:1,frame_order:[n],pivot:null,foot_baseline:null,alpha:'opaque',dialogue_safe_region:[0,720,1920,360],preview:'previews/'+file(n).replace('.png','_4x.png'),replaces:'Docs/References/codex_k111_v1/'+file(n)});
+}
+const manifest={card:'K-117',type:'static_story_backgrounds',generator:'built-in image_gen',assets,notes:['정지 이야기 배경으로 인물 셀·발 기준선·동작 재생은 적용하지 않습니다.','12m 등대탑과 북쪽 계단·포장길·원형 광장을 기준으로 제작한 이야기 그림입니다.','게임 연결과 Unity 확인은 Claude 담당입니다.'],references:['Docs/References/codex_k111_v1/','Docs/References/codex_k115_v1/','Docs/References/courtyard_20261023/']};
+fs.writeFileSync(path.join(root,'manifest.json'),JSON.stringify(manifest,null,2));
+const labels=['꺼진 등대 · 해 질 녘','되살아난 등대 · 푸른 밤'];
+function figure(p,label,dialogue=true){return `<figure><div class="scene"><img src="${embed(p)}" alt="${label}">${dialogue?'<div class="dialogue"><strong>루멘</strong><p>이곳에서 다시 빛을 잇겠습니다.</p><span>검토용 대사 예시</span></div>':''}</div><figcaption>${label}</figcaption></figure>`}
+const rows=names.map((n,i)=>`<section><h2>${labels[i]}</h2><div class="pair">${figure(path.join(repo,'Docs/References/codex_k111_v1',file(n)),'수정 전 · K-111')}${figure(path.join(root,file(n)),'수정 후 · K-117')}</div><details><summary>수정 후 크게 보기</summary>${figure(path.join(root,file(n)),labels[i]+' · 확대')}</details></section>`).join('');
+const html=`<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>K-117 · 이야기 배경의 등대탑</title><style>
+*{box-sizing:border-box}body{margin:0;background:#080e19;color:#e9dfcb;font:16px/1.7 'Malgun Gothic',sans-serif}main{max-width:1600px;margin:auto;padding:30px 24px 70px}header{border-bottom:1px solid #625238;padding-bottom:20px}h1{font-size:32px;line-height:1.4}h2{font-size:23px}p{color:#bcc7d7}.tag{color:#efbc70}section{margin:30px 0;padding:20px;background:#111b2a;border:1px solid #344052;border-radius:8px}.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}figure{margin:0;min-width:0}.scene{position:relative;container-type:inline-size}img{display:block;width:100%;height:auto;image-rendering:pixelated}figcaption{font-size:14px;color:#b9c4d3;margin:8px 0 18px}.toolbar{position:sticky;top:0;z-index:2;background:#080e19f5;border-bottom:1px solid #344052;padding:12px;display:flex;gap:20px;flex-wrap:wrap}label,summary{cursor:pointer}input{accent-color:#efbc70}.dialogue{position:absolute;left:3%;right:3%;top:70%;bottom:4%;background:#090e19ec;border:1px solid #b38b50;padding:2% 3%;font-size:clamp(10px,1.15vw,20px);line-height:1.4}.dialogue strong{color:#efbc70}.dialogue p{color:#fff;margin:.5em 0}.dialogue span{font-size:.7em;color:#99a6bb}.hide-dialogue .dialogue{display:none}details{margin-top:10px}summary{color:#efbc70;padding:8px}.references{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}footer{color:#9caac1;font-size:14px}@media(max-width:700px){main{padding:20px 12px}.pair,.references{grid-template-columns:1fr}h1{font-size:26px}section{padding:12px}.dialogue{font-size:9px;overflow:hidden}.dialogue span{display:none}.dialogue p{margin:.25em 0}} </style><main><header><div class="tag">K-117 · 이야기 배경 2종</div><h1>요새 한가운데, 높은 등대탑</h1><p>K-111의 사각 네 성벽과 먼 시점을 유지했습니다. 12m 석조 등대탑, 북쪽 계단에서 이어지는 포장길, 원형 광장과 낮은 주변 건물을 반영했습니다.</p></header><div class="toolbar"><label><input id="dialogue" type="checkbox" checked> 대사창 겹쳐 보기</label><span>1920 × 1080 · 정지 배경 · 아래 1/3 대사 영역</span></div>${rows}<section><h2>실제 화면과 등대탑 기준</h2><p>아래는 참고한 실제 게임 화면과 K-115 목업입니다. 위의 완성 그림은 이야기용으로 뒤로 물러선 구도입니다.</p><div class="references">${figure(path.join(repo,'Docs/References/courtyard_20261023/01_bldg_day_0_overview.png'),'실제 게임 · 계단·포장길·원형 광장',false)}${figure(path.join(repo,'Docs/References/courtyard_20261023/279_w27_night_1_wall_top_tower_north.png'),'실제 게임 · 밤의 등대탑과 부채꼴 빛',false)}${figure(path.join(repo,'Docs/References/codex_k115_v1/mockup_day.png'),'K-115 목업 · 석재·띠·철창·지붕·아치문',false)}</div></section><footer>그림과 기능을 모두 내장했습니다. 서버 없이 직접 열 수 있습니다. 대사창은 검토용이며 PNG에는 포함되지 않습니다. Unity 적용·플레이 확인은 수행하지 않았습니다.</footer></main><script>document.querySelector('#dialogue').addEventListener('change',e=>document.body.classList.toggle('hide-dialogue',!e.target.checked));</script></html>`;
+fs.writeFileSync(path.join(repo,'_HTML/6_그림_화면/codex_K-117_이야기배경_등대탑_v1.html'),html);
+console.log('검토 HTML·자료 목록·4배 미리보기 생성 완료');
+})().catch(e=>{console.error(e);process.exitCode=1});
