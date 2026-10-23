@@ -173,6 +173,7 @@ namespace HumanLastRampart.Combat.Battle
             if (!on)
             {
                 if (towerLight != null) towerLight.enabled = false;
+                UpdateCourtyardLights(false, 0f, 1f);
                 return;
             }
 
@@ -188,6 +189,66 @@ namespace HumanLastRampart.Combat.Battle
             float flicker = 0.9f + 0.1f * Mathf.PerlinNoise(Time.time * 4f, 7.3f);
             towerLight.intensity = HumanLastRampart.Combat.Render.NightTuning.TowerLightIntensity * TowerTopBoost * level * flicker * (sim.IsIgnitionNight ? 1.3f : 1f) * (sim.IsRaining ? RainTorchMultiplier : 1f);
             towerLight.enabled = true;
+            UpdateCourtyardLights(true, level, flicker);
+        }
+
+        // 마당 아래 빛 (W21, 밤 마당·탑 밑동이 거의 까맣던 문제): 탑 꼭대기 빛은 9m 위라 바닥에 거의 안 닿는다.
+        // - 탑 둘레 따뜻한 빛 웅덩이(GroundGlow, 가장자리로 어두워짐) + 문 앞 작은 웅덩이 (모바일도 같다, 싸다)
+        // - PC만: 탑 윗몸에 따뜻한 빛을 비스듬히 얹는 보조 빛 하나, 문등 점광원 하나 (밑동 병사·일꾼이 보이게)
+        public const float CourtyardPoolRadius = 9f;
+        public const float DoorPoolRadius = 2.4f;
+        public const float DoorLanternHeight = 1.3f;
+        public const float DoorLanternOut = 0.45f;   // 문 앞으로 나온 거리
+        const float TowerFillIntensity = 3.6f;   // 윗몸이 램프 빛을 더 받게 (사진 확인 후 2.2에서 올림)
+        const float DoorLanternIntensity = 1f;
+        const float DoorLanternRange = 3.6f;
+        static readonly Color DoorLanternColor = new Color(1f, 0.55f, 0.22f);   // 호박빛 (흰빛으로 날아가지 않게 붉은 쪽)
+        static readonly Color TowerFillColor = new Color(1f, 0.6f, 0.26f);
+        Light towerFill, doorLantern;
+        float courtyardLevel;   // 마당 빛 세기 하나 (등불 밝기 최소 0.5 × 깜박임 × 비)
+
+        // 문등 점광원이 셰이더 빛 목록 칸을 쓰는가: 모바일(6칸)은 칸을 아끼려고 땅 웅덩이만
+        public static bool DoorLanternUsesSlot(bool low) => !low;
+
+        void UpdateCourtyardLights(bool on, float level, float flicker)
+        {
+            bool real = !HumanLastRampart.Combat.Render.HlrLights.Low;
+            if (!on)
+            {
+                if (towerFill != null) towerFill.enabled = false;
+                if (doorLantern != null) doorLantern.enabled = false;
+                courtyardLevel = 0f;
+                return;
+            }
+
+            float rain = sim.IsRaining ? RainTorchMultiplier : 1f;
+            courtyardLevel = Mathf.Max(0.5f, level) * flicker * rain;
+            if (!real)
+            {
+                if (towerFill != null) towerFill.enabled = false;
+                if (doorLantern != null) doorLantern.enabled = false;
+                return;
+            }
+
+            if (towerFill == null)
+            {
+                // 남쪽(사진기 쪽)으로 비켜 서서 윗몸 앞면을 쓸듯이 비춘다
+                towerFill = NewLight("Tower Fill", new Vector3(0f, BattleSim.WallHeight + BattleTowerView.LampHeight - 2.5f, BattleTowerView.DoorZ - 1.8f));
+                towerFill.color = TowerFillColor;
+                towerFill.range = 7f;
+            }
+
+            if (doorLantern == null)
+            {
+                doorLantern = NewLight("Door Lantern", new Vector3(0f, BattleSim.WallHeight + DoorLanternHeight, BattleTowerView.DoorZ - DoorLanternOut));
+                doorLantern.color = DoorLanternColor;
+                doorLantern.range = DoorLanternRange;
+            }
+
+            towerFill.intensity = TowerFillIntensity * level * flicker * rain * (sim.IsIgnitionNight ? 1.3f : 1f);
+            towerFill.enabled = true;
+            doorLantern.intensity = DoorLanternIntensity * courtyardLevel;
+            doorLantern.enabled = true;
         }
 
         void SetTorches(bool on, float intensity)
@@ -355,6 +416,8 @@ namespace HumanLastRampart.Combat.Battle
             if (flameMaterial != null) Object.Destroy(flameMaterial);
             flashes.Clear();
             towerLight = null;
+            towerFill = null;
+            doorLantern = null;
             trapBlasts.Clear();
         }
     }

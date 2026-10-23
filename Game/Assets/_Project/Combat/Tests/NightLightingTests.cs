@@ -61,6 +61,45 @@ namespace HumanLastRampart.Combat.Tests
         }
 
         [Test]
+        public void DoorLantern_TakesSlotOnPcOnly_AndStillFitsSplit()
+        {
+            Vector3 lantern = new Vector3(0f, BattleSim.WallHeight + BattleLights.DoorLanternHeight, BattleTowerView.DoorZ);
+
+            // PC: 탑이 1칸을 넣은 뒤 마당 빛이 문등 1칸 + 웅덩이 2개 -> 칸 나누기 전에 2칸 사용, 번쩍 8칸
+            HlrLights.ForceLow = false;
+            HlrLights.Begin();
+            HlrLights.Add(new Vector3(0f, 10f, 0f), 20f, Color.white, 1f, 0f);
+            BattleLights.EmitCourtyard(false, 1f, true, lantern, 1f);
+            Assert.AreEqual(2, HlrLights.Count, "PC: 탑 + 문등");
+            Assert.AreEqual(2, GroundGlow.Count, "웅덩이 둘 (탑 둘레·문 앞)");
+            BattleLights.SplitSlots(HlrLights.Max, HlrLights.Count, true, out int torch, out int flash);
+            Assert.AreEqual(4, torch);
+            Assert.AreEqual(8, flash);
+            GroundGlow.Flush(true, true);
+
+            // 모바일: 문등은 칸을 안 쓰고 웅덩이만 -> 번쩍 3칸 유지, 마당 웅덩이 반지름은 줄어든다
+            HlrLights.ForceLow = true;
+            HlrLights.Begin();
+            HlrLights.Add(new Vector3(0f, 10f, 0f), 20f, Color.white, 1f, 0f);
+            BattleLights.EmitCourtyard(true, 1f, true, lantern, 1f);
+            Assert.AreEqual(1, HlrLights.Count, "모바일: 탑만");
+            Assert.AreEqual(2, GroundGlow.Count);
+            BattleLights.SplitSlots(HlrLights.Max, HlrLights.Count, true, out torch, out flash);
+            Assert.AreEqual(3, flash);
+            Assert.Greater(BattleLights.CourtyardPoolRadius, BattleTowerView.BaseHalf * 3f, "마당 웅덩이는 탑 밑동보다 훨씬 넓다");
+        }
+
+        [Test]
+        public void EmitCourtyard_LanternOff_AddsNoSlot()
+        {
+            HlrLights.ForceLow = false;
+            HlrLights.Begin();
+            BattleLights.EmitCourtyard(false, 1f, false, Vector3.zero, 0f);
+            Assert.AreEqual(0, HlrLights.Count);
+            Assert.AreEqual(2, GroundGlow.Count);
+        }
+
+        [Test]
         public void TowerLight_OnMobileFlagDefaultsOn()
         {
             Assert.IsTrue(NightTuning.TowerLightOnMobile, "사용자 결정 2026-10-22: 휴대폰에서도 탑 불빛을 켠다");
