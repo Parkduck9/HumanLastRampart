@@ -738,11 +738,37 @@ namespace HumanLastRampart.Combat.Battle
         public NativeArray<int> EnemyIncoming;
         public NativeArray<int> Stats;
 
+        // 병렬로 쌓인 큐는 꺼내는 순서가 작업 스레드 배치에 따라 달라진다 → 슬롯 번호(화상 굴림 해시에 쓰임)가 실행마다 바뀌었다.
+        // 내용으로 줄을 세워 같은 씨앗·같은 입력이면 늘 같은 순서가 되게 한다 (같은 내용끼리는 바꿔 끼워도 결과가 같다)
+        struct ShotOrder : System.Collections.Generic.IComparer<Shot>
+        {
+            public int Compare(Shot a, Shot b)
+            {
+                int c = a.Weapon.CompareTo(b.Weapon);
+                if (c != 0) return c;
+                c = a.From.x.CompareTo(b.From.x);
+                if (c != 0) return c;
+                c = a.From.z.CompareTo(b.From.z);
+                if (c != 0) return c;
+                c = a.From.y.CompareTo(b.From.y);
+                if (c != 0) return c;
+                c = a.To.x.CompareTo(b.To.x);
+                if (c != 0) return c;
+                c = a.To.z.CompareTo(b.To.z);
+                if (c != 0) return c;
+                return a.Target.Index.CompareTo(b.Target.Index);
+            }
+        }
+
         public void Execute()
         {
             int free = FreeCount[0];
-            while (Shots.TryDequeue(out Shot shot))
+            var ordered = new NativeList<Shot>(math.max(Shots.Count, 1), Allocator.Temp);
+            while (Shots.TryDequeue(out Shot queued)) ordered.Add(queued);
+            if (ordered.Length > 1) ordered.Sort(new ShotOrder());
+            for (int i = 0; i < ordered.Length; i++)
             {
+                Shot shot = ordered[i];
                 if (free == 0)
                 {
                     Stats[BattleStat.PoolOverflow]++;

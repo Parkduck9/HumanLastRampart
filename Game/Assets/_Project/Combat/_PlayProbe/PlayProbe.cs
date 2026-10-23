@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.IO;
 using System.Linq;
@@ -1572,39 +1572,27 @@ public sealed partial class PlayProbe   // 한 바퀴 통과 시험은 PlayProbe
         // 북쪽은 선봉이 곧바로 사거리에 들어오므로, 첫 무리가 오지 않는 남쪽 대포로 '대기'를 확인한다
         for (int i = 0; i < 10; i++) yield return null;
         entry.ToggleMap();
-        // 같은 프레임에 4면의 4번 대포가 각자 성벽 바로 앞을 노린다. 어느 한 면에는 선봉이 일찍 닿을 수 있다 (게임 안 시계가 실행마다 조금 달라 어느 면인지 정해져 있지 않다)
-        // → 하나라도 '대기'면 통과. 적이 오는 길을 노린 대포는 대기가 아니므로 이 시험이 느슨해지지 않는다 (면마다 따로 조준)
-        var sideOf4 = new int[4];
-        var dirs = new[] { new Vector2(0f, 1f), new Vector2(1f, 0f), new Vector2(0f, -1f), new Vector2(-1f, 0f) };   // 북·동·남·서
-        foreach (int side in new[] { 2, 1, 3, 0 })
-        {
-            entry.SelectCannonSide(side);
-            yield return null;
-            entry.SelectCannon(4);
-            int index = -1;
-            for (int c = 0; c < sim.CannonCount; c++) { var ci = sim.GetCannon(c); if (ci.Side == side && ci.Number == 4) index = c; }
-            Assert.GreaterOrEqual(index, 0, $"{side}면 4번 대포");
-            sideOf4[side] = index;
-            Vector2 p = new Vector2(sim.GetCannon(index).Position.x, sim.GetCannon(index).Position.z), d = dirs[side];
-            Vector2 aim2 = p - d * Vector2.Dot(p, d) + d * (sim.CastleHalf + 5f);
-            Assert.IsTrue(entry.AimSelectedCannonAt(new Vector3(aim2.x, 0f, aim2.y)), $"{side}면 성벽 바로 앞 조준");
-        }
+        // 남쪽 4번 대포가 성벽 바로 앞을 노린다. 전투 모의가 씨앗+틱으로만 정해지므로(W22) 면을 가리지 않고 통과시키던 느슨함을 걷어낸다
+        entry.SelectCannonSide(2);
+        yield return null;
+        entry.SelectCannon(4);
+        int cannon4 = -1;
+        for (int c = 0; c < sim.CannonCount; c++) { var ci = sim.GetCannon(c); if (ci.Side == 2 && ci.Number == 4) cannon4 = c; }
+        Assert.GreaterOrEqual(cannon4, 0, "남쪽 4번 대포");
+        Assert.IsTrue(entry.AimSelectedCannonAt(new Vector3(sim.GetCannon(cannon4).Position.x, 0f, -(sim.CastleHalf + 5f))), "남쪽 성벽 바로 앞 조준");
         // '대기'는 대포가 장전을 마치고 조준점을 한 번 살펴본 뒤에야 정해진다 → 최대 100프레임(약 5초) 기다린다
-        int idleSide = -1;
+        System.Collections.Generic.List<Text> early = null;
         var trace = new StringBuilder();
-        for (int i = 0; i < 100 && idleSide < 0; i++)
+        for (int i = 0; i < 100; i++)
         {
             yield return null;
             sim.Complete();
-            if (i % 20 == 0) trace.Append($"[{i}:{sim.Elapsed:0.0}s " + string.Join("", new[] { 0, 1, 2, 3 }.Select(s => sim.GetCannon(sideOf4[s]).Idle ? "I" : "F")) + "] ");
-            if (i >= 20) foreach (int side in new[] { 2, 1, 3, 0 }) if (idleSide < 0 && sim.GetCannon(sideOf4[side]).Idle) idleSide = side;
+            if (i % 10 == 0 || i >= 20 && i < 25) trace.Append($"[{i}:{sim.Elapsed:0.0}s idle={sim.GetCannon(cannon4).Idle} aim={sim.GetCannon(cannon4).HasAim} ign={sim.GetCannon(cannon4).Igniting}] ");
+            early = UnityEngine.Object.FindObjectsByType<Text>(FindObjectsSortMode.None).Where(t => t.name == "Cannon 4 State" && t.gameObject.activeInHierarchy).ToList();
+            if (i >= 20 && early.Any(t => t.text == "대기")) break;
         }
-        Note($"초반 4번 대포 대기: {idleSide}면 (게임 {sim.Elapsed:0}초) {trace}");
-        Assert.GreaterOrEqual(idleSide, 0, "적 없는 곳을 노린 대포는 대기");
-        entry.SelectCannonSide(idleSide);
-        yield return null;
-        var early = UnityEngine.Object.FindObjectsByType<Text>(FindObjectsSortMode.None).Where(t => t.name == "Cannon 4 State" && t.gameObject.activeInHierarchy).ToList();
-        Assert.IsTrue(early.Any(t => t.text == "대기"), "화면에도 대기로 보인다");
+        Note($"초반 4번 대포: {string.Join(",", early.Select(t => t.text))} (게임 {sim.Elapsed:0}초) {trace}");
+        Assert.IsTrue(early.Any(t => t.text == "대기"), "적 없는 곳을 노린 대포는 대기");
         entry.ToggleMap();
         yield return Click("×4", 300);
 
