@@ -562,6 +562,27 @@ namespace HumanLastRampart.Combat.Tests
             }
         }
 
+        // 사진 시험이 쓰는 흐름: 등장 직전으로 건너뛰어 쌓인 일반 적이 한꺼번에 나온 뒤 매 틱 모두 쓰러뜨려도 멈추지 않는다
+        [Test, Timeout(120000)]
+        public void SkipToBossTime_ThenKillingAllNormals_KeepsRunning()
+        {
+            BattleSim.TerrainEnabled = true;   // 실제 전투처럼 무작위 지형(토벽·나무·바위)도 켠다
+            using (BattleSim sim = NewSim("run_boss_skip", soldiers: true, tweak: s => s.EnemyCountMultiplier = 0.75f))
+            {
+                sim.DebugSkipTo(BattleSim.BossSpawnSeconds - 7f);
+                var watch = System.Diagnostics.Stopwatch.StartNew();
+                int guard = 0;
+                while (!sim.BossSpawned && guard++ < 600)
+                {
+                    for (int e = 0; e < sim.TotalEnemies; e++) if (e != sim.BossSlot && sim.DebugAlive(e)) sim.DebugHit(e, 1000000);
+                    Step(sim);
+                }
+
+                Assert.IsTrue(sim.BossSpawned, $"등장했다 ({guard}틱, {watch.ElapsedMilliseconds}ms)");
+                Assert.Less(watch.ElapsedMilliseconds, 60000, "틱이 멈추지 않는다");
+            }
+        }
+
         // ── 결과·망원경 ──
 
         [Test]

@@ -63,6 +63,9 @@ namespace HumanLastRampart.Combat.Battle
         readonly Texture2D shotTexture;
         readonly List<(GraphicsBuffer buffer, MaterialPropertyBlock block, int start, int count)> enemyDraws =
             new List<(GraphicsBuffer, MaterialPropertyBlock, int, int)>();
+        BattleBossArt bossArt;   // 우두머리 전용 그림 (없으면 null — 일반 오우거 그림으로)
+        readonly HashSet<GraphicsBuffer> bossHiddenBuffers = new HashSet<GraphicsBuffer>();
+        public BattleBossArt BossArt => bossArt;
         readonly GraphicsBuffer soldierBuffer;   // 전체 병사 (지도 점)
         readonly MaterialPropertyBlock soldierBlock;
         readonly List<(GraphicsBuffer buffer, MaterialPropertyBlock block, int start, int count)> soldierDraws =
@@ -205,9 +208,16 @@ namespace HumanLastRampart.Combat.Battle
                 block.SetBuffer(InstancesId, buffer);
                 block.SetVector(FrameWindowId, PerfLabArt.Window(0));
                 enemyDraws.Add((buffer, block, start, count));
+                // 우두머리: Codex K-129 전용 그림이 있으면 BattleBossArt가 따로 그린다 — 이 일반 오우거 그림은 숨기고 버퍼는 지도 점·그림자용으로만 올린다
+                bool ownArt = def.IsBoss && sim.BossPresent && (bossArt != null || BattleBossArt.Available);
+                if (ownArt)
+                {
+                    bossArt ??= new BattleBossArt(sim, material, quad, bounds);
+                    bossHiddenBuffers.Add(buffer);
+                }
                 shadows.Add(buffer, count, def.IsSpecial ? HumanLastRampart.Combat.Render.ContactShadows.OgreWidthPerSize : HumanLastRampart.Combat.Render.ContactShadows.GoblinWidthPerSize,
                     0.5f, 0f, HumanLastRampart.Combat.Render.ContactShadows.LadderFadeHeight);
-                if (def.Sheet != null)
+                if (def.Sheet != null && !ownArt)
                 {
                     // 공격·세우기·오르기·쓰러짐 시트 (K-032). 칸 번호 구간은 WriteBattleEnemyInstancesJob
                     AddPose(enemyPoseDraws, buffer, count, def.AttackSheet, PerfLabArt.AttackFrame0, enemyFigurePx, def.NormalFor(def.AttackSheet));
@@ -633,8 +643,10 @@ namespace HumanLastRampart.Combat.Battle
             {
                 if (count <= 0) continue;
                 buffer.SetData(sim.EnemyInstances, start, 0, count);
-                if (!mapMode) Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, count, block);
+                if (!mapMode && !bossHiddenBuffers.Contains(buffer)) Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, count, block);
             }
+
+            if (!mapMode) bossArt?.Draw(viewCamera);   // 성벽손 오우거 (Codex K-129)
 
             if (!mapMode)
             {
@@ -1217,6 +1229,8 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             enemyDraws.Clear();
+            bossHiddenBuffers.Clear();
+            bossArt?.Dispose();
             foreach (var draw in soldierDraws) draw.buffer.Release();
             soldierDraws.Clear();
             foreach (var draw in runnerDraws) draw.buffer.Release();

@@ -22,7 +22,7 @@ namespace HumanLastRampart.Combat.Battle
         public const float WallHeight = 4f;
         // 성벽 위 비율 (D-046): 병사·대포는 작게 무조건 1줄. 적은 들판에선 원래 크기, 성벽 앞 가려진 구역에서 이 비율로 줄어든다
         public const float WallFigureScale = 0.25f;
-        const float EnemyWallScale = 0.33f;
+        public const float EnemyWallScale = 0.33f;
         // D-065 깔때기: 성벽 앞 반폭(성벽 끝 조금 안쪽) → 들판 끝(반폭 FunnelFieldHalfWidth)까지 넓어진다
         public static bool FrontArcOnly = true;   // D-073 자기 성벽 앞만 쏘기 (측정에서 끄고 비교)
         public static float FunnelFieldHalfWidth = 75f;    // D-071 들판 160m에 맞춰 반으로 (예전 320m에서 150m)   // 측정용으로 바꿀 수 있게 static

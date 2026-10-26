@@ -49,6 +49,8 @@ namespace HumanLastRampart.Combat.Battle
         public bool BossReachedWalkway { get; private set; }
         public float BossReachedAt { get; private set; } = -1f;
         public int BossFalls { get; private set; }
+        public float BossDownTotal { get; private set; }     // 이번 쓰러짐 전체 길이 (그리기가 누운 자세 단계를 가른다)
+        public bool BossDownByFall { get; private set; }     // true = 성벽에서 떨어짐 (떨어짐 → 착지 → 누움 → 일어남), false = 함정 (넘어짐 → 누움 → 일어남)
         public int BossSide => bossSide;
         public float BossTargetAlong => bossAlong;
         public string BossTitle => BossName;
@@ -204,6 +206,8 @@ namespace HumanLastRampart.Combat.Battle
             eState[bossSlot] = EnemyState.Walking;
             eClimb[bossSlot] = 0f;
             eDown[bossSlot] = math.max(eDown[bossSlot], seconds);
+            BossDownTotal = eDown[bossSlot];
+            BossDownByFall = true;
             bossTracking = false;
             BossFalls++;
             Notice?.Invoke("손을 놓쳤다!");
@@ -220,7 +224,9 @@ namespace HumanLastRampart.Combat.Battle
             if (state == EnemyState.Climbing) BossFall(bossDef.TrapKnockdownSeconds);
             else
             {
+                if (eDown[bossSlot] <= 0f) { BossDownTotal = 0f; BossDownByFall = false; }   // 새 쓰러짐 (이미 쓰러져 있으면 누운 시간만 길어진다)
                 eDown[bossSlot] += bossDef.TrapKnockdownSeconds;
+                BossDownTotal += bossDef.TrapKnockdownSeconds;
                 Notice?.Invoke($"{BossName}가 함정에 쓰러졌습니다!");
             }
         }
@@ -253,6 +259,8 @@ namespace HumanLastRampart.Combat.Battle
         public float DebugDown(int enemyIndex) => eDown[enemyIndex];
         public void DebugSetState(int enemyIndex, byte state) => eState[enemyIndex] = state;
         public void DebugSetHp(int enemyIndex, int hp) => eHp[enemyIndex] = hp;
+        public void DebugSkipTo(float seconds) { if (seconds > Elapsed) Elapsed = seconds; }   // 사진용: 등장 직전으로
+        public void DebugKnockdown(float left, float total, bool byFall) { eDown[bossSlot] = left; BossDownTotal = total; BossDownByFall = byFall; }   // 사진용: 쓰러짐 자세 (total 중 left 남음)
         public void DebugHitArea(int enemyIndex, int damage)
         {
             hitQueue.Enqueue(new HitEvent { Enemy = new EnemyHandle { Index = enemyIndex, Generation = eGen[enemyIndex] }, Damage = damage, Area = 1 });

@@ -32,9 +32,9 @@ namespace HumanLastRampart.Combat.Battle
             bossNumbers.text = $"{hp:N0} / {max:N0}";
             string state = !sim.BossActive ? "쓰러뜨림"
                 : sim.BossDownLeft > 0f ? $"쓰러짐 {Mathf.CeilToInt(sim.BossDownLeft)}초"
-                : sim.BossOnWalkway ? "통로 위 — 병사를 쓰러뜨리는 중!"
-                : sim.BossClimbing ? "성벽을 기어오르는 중"
-                : sim.BossLit ? "빛에 드러남 — 빨라짐" : "쇠장갑과 안개 — 화살이 잘 안 듣는다";
+                : sim.BossOnWalkway ? "통로 위 — 부수는 중!"
+                : sim.BossClimbing ? "기어오르는 중"
+                : sim.BossLit ? "빛에 드러남 · 빨라짐" : "화살이 잘 안 듣는다";
             if (state != bossStateShown)
             {
                 bossStateShown = state;
@@ -44,26 +44,32 @@ namespace HumanLastRampart.Combat.Battle
 
         void BuildBossBar()
         {
+            // K-129 체력 막대용 초상 (96×96, 글자 없음). 없으면 막대만
             bossRoot = Ui.Rect(root.transform, "Boss Bar");
-            Ui.Place(bossRoot, new Vector2(0.5f, 1f), new Vector2(0f, -(Edge + 64f + UiTokens.S8)), new Vector2(BossBarWidth, 76f), new Vector2(0.5f, 1f));
-            bossName = Ui.Outlined(Ui.Label(bossRoot, "Boss Name", "성벽손 오우거 · 우두머리", UiTokens.Text, UiTokens.DangerLight, TextAnchor.MiddleLeft, true));
+            Image portrait = Ui.HudIcon(bossRoot, "Boss Portrait", "Boss/wallhand_hud_portrait", 96f);
+            float left = portrait != null ? 104f : 0f;
+            float width = BossBarWidth - left;
+            Ui.Place(bossRoot, new Vector2(0.5f, 1f), new Vector2(0f, -(Edge + 64f + UiTokens.S8)), new Vector2(BossBarWidth, portrait != null ? 96f : 76f), new Vector2(0.5f, 1f));
+            if (portrait != null) Ui.Place(portrait.rectTransform, new Vector2(0f, 0.5f), Vector2.zero, portrait.rectTransform.sizeDelta, new Vector2(0f, 0.5f));
+            bossName = Ui.Outlined(Ui.Label(bossRoot, "Boss Name", "성벽손 오우거",UiTokens.Text, UiTokens.DangerLight, TextAnchor.MiddleLeft, true));
             bossName.horizontalOverflow = HorizontalWrapMode.Overflow;
-            Ui.Place(bossName.rectTransform, new Vector2(0f, 1f), Vector2.zero, new Vector2(360f, 32f), new Vector2(0f, 1f));
+            Ui.Place(bossName.rectTransform, new Vector2(0f, 1f), new Vector2(left, 0f), new Vector2(width * 0.55f, 32f), new Vector2(0f, 1f));
             bossState = Ui.Outlined(Ui.Label(bossRoot, "Boss State", "", UiTokens.Small, UiTokens.Body, TextAnchor.MiddleRight));
             bossState.horizontalOverflow = HorizontalWrapMode.Overflow;
-            Ui.Place(bossState.rectTransform, new Vector2(1f, 1f), Vector2.zero, new Vector2(BossBarWidth - 370f, 32f), new Vector2(1f, 1f));
-            bossBar = Ui.Bar(bossRoot, "Boss HP", BossBarWidth, 24f, false);
+            Ui.Place(bossState.rectTransform, new Vector2(1f, 1f), Vector2.zero, new Vector2(width * 0.45f, 32f), new Vector2(1f, 1f));
+            bossBar = Ui.Bar(bossRoot, "Boss HP", width, 24f, false);
             bossBar.FixedColor = UiTokens.Danger;
-            Ui.Place((RectTransform)bossBar.transform, new Vector2(0.5f, 0f), new Vector2(0f, 8f), new Vector2(BossBarWidth, 24f), new Vector2(0.5f, 0f));
+            Ui.Place((RectTransform)bossBar.transform, new Vector2(1f, 0.5f), new Vector2(0f, -4f), new Vector2(width, 24f), new Vector2(1f, 0.5f));
             bossNumbers = Ui.Outlined(Ui.Label(bossRoot, "Boss Numbers", "", UiTokens.Small, UiTokens.Body, TextAnchor.MiddleCenter));
             bossNumbers.horizontalOverflow = HorizontalWrapMode.Overflow;
-            Ui.Place(bossNumbers.rectTransform, new Vector2(0.5f, 0f), new Vector2(0f, 8f), new Vector2(BossBarWidth, 24f), new Vector2(0.5f, 0f));
+            Ui.Place(bossNumbers.rectTransform, new Vector2(1f, 0.5f), new Vector2(0f, -4f), new Vector2(width, 24f), new Vector2(1f, 0.5f));
             bossRoot.gameObject.SetActive(false);
         }
 
         // 지도: 우두머리 큰 표식(발 위)과 가려는 성벽 자리 표식. 지도가 닫혀 있거나 우두머리가 없으면 숨김. RefreshGroupLabels 끝에서 부른다
         RectTransform bossMapMarker, bossTargetMarker;
         Image bossMapIcon, bossTargetIcon;
+        bool bossMapIconArt;
 
         void RefreshBossMap(BattleSim sim, Camera camera)
         {
@@ -81,7 +87,8 @@ namespace HumanLastRampart.Combat.Battle
             bossMapMarker.gameObject.SetActive(screen.z > 0f);
             bossMapMarker.anchorMin = bossMapMarker.anchorMax = Viewport(screen);
             bossMapMarker.anchoredPosition = new Vector2(0f, UiTokens.S24);
-            bossMapIcon.color = sim.BossDownLeft > 0f ? UiTokens.BodyDim : sim.BossClimbing || sim.BossOnWalkway ? UiTokens.DangerLight : UiTokens.Danger;
+            Color bossColor = sim.BossDownLeft > 0f ? UiTokens.BodyDim : sim.BossClimbing || sim.BossOnWalkway ? UiTokens.DangerLight : UiTokens.Danger;
+            bossMapIcon.color = bossMapIconArt ? (sim.BossDownLeft > 0f ? new Color(0.6f, 0.6f, 0.6f, 1f) : Color.white) : bossColor;   // 그림은 제 색 그대로, 표식 대용만 칠한다
 
             Vector3 target = camera.WorldToScreenPoint(sim.BossTargetPoint);
             bossTargetMarker.gameObject.SetActive(target.z > 0f);
@@ -96,7 +103,10 @@ namespace HumanLastRampart.Combat.Battle
             bossMapMarker = Ui.Rect(root.transform, "Boss Map Marker");
             bossMapMarker.pivot = new Vector2(0.5f, 0f);
             bossMapMarker.sizeDelta = new Vector2(160f, 96f);
-            bossMapIcon = Ui.Icon(bossMapMarker, "Boss Icon", UiArt.IconSpecial, 4f, UiTokens.Danger);
+            // K-129 지도 아이콘 (64×64, 위에서 내려본 모습). 없으면 특수 적 표식. 일반 무리 점보다 훨씬 크게(×2 = 128px)
+            bossMapIcon = Ui.HudIcon(bossMapMarker, "Boss Icon", "Boss/wallhand_map_icon", 128f);
+            if (bossMapIcon == null) bossMapIcon = Ui.Icon(bossMapMarker, "Boss Icon", UiArt.IconSpecial, 4f, UiTokens.Danger);
+            bossMapIconArt = UiArt.Hud("Boss/wallhand_map_icon") != null;
             Ui.Place(bossMapIcon.rectTransform, new Vector2(0.5f, 0f), Vector2.zero, bossMapIcon.rectTransform.sizeDelta, new Vector2(0.5f, 0f));
             Text name = Ui.Outlined(Ui.Label(bossMapMarker, "Boss Label", "우두머리", UiTokens.Small, UiTokens.DangerLight, TextAnchor.MiddleCenter, true));
             name.horizontalOverflow = HorizontalWrapMode.Overflow;
