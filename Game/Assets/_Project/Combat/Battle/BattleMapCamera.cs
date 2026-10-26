@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace HumanLastRampart.Combat.Battle
@@ -79,6 +79,15 @@ namespace HumanLastRampart.Combat.Battle
             Apply();
         }
 
+        // 두 손가락 확대·축소 한 단계 (W40): +1 가까이 · -1 멀리
+        public void StepLevel(int direction)
+        {
+            if (direction > 0 && Current != Level.Close) Current++;
+            else if (direction < 0 && Current != Level.Full) Current--;
+            else return;
+            Apply();
+        }
+
         // 왼쪽 버튼으로 끌기 (D-073): 화면에서 움직인 화소만큼 반대로 — 손으로 지도를 잡아 미는 느낌
         public void DragBy(Vector2 screenDelta)
         {
@@ -99,3 +108,4 @@ namespace HumanLastRampart.Combat.Battle
         }
     }
 }
+

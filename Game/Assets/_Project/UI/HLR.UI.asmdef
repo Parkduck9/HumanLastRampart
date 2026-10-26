@@ -3,7 +3,8 @@
   "rootNamespace": "HumanLastRampart.UI",
   "references": [
     "HLR.Core",
-    "UnityEngine.UI"
+    "UnityEngine.UI",
+    "Unity.InputSystem"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],
