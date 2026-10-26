@@ -1,0 +1,4413 @@
+{
+  "card": "K-129",
+  "asset_status": "검토용 게임 시트 · Unity 연결 전",
+  "character": "성벽손 오우거",
+  "height_native_px": 144,
+  "height_m": 4.5,
+  "pixels_per_metre_native": 32,
+  "cell_native": [
+    256,
+    288
+  ],
+  "cell_game": [
+    768,
+    864
+  ],
+  "scale_game": 3,
+  "pivot_native_top_left": [
+    128,
+    280
+  ],
+  "pivot_game_top_left": [
+    384,
+    840
+  ],
+  "unity_pivot_bottom_left_normalized": [
+    0.5,
+    0.027777777777777776
+  ],
+  "baseline_native": 280,
+  "last_opaque_ground_row": 279,
+  "coordinate_system": "좌상단 원점, +x 오른쪽, +y 아래. 피벗은 화소 중심이 아닌 경계 좌표.",
+  "frame_order": "가로 한 줄, 왼쪽부터 0번",
+  "normals": {
+    "format": "RGB tangent-space +Y (OpenGL / Unity), linear",
+    "background_rgb": [
+      128,
+      128,
+      255
+    ],
+    "alpha_source": "대응 색 시트의 알파",
+    "method": "동일 실루엣의 얕은 외곽 부조 + 약한 명도 굴곡; 3D 베이크 아님",
+    "mirror": "반전된 색 그림에서 노멀 재계산, X 방향도 반전됨"
+  },
+  "import_recommendation": {
+    "filter": "Point",
+    "wrap": "Clamp",
+    "mipmaps": false,
+    "compression": "None",
+    "max_texture_size": 8192,
+    "albedo_srgb": true,
+    "normal_srgb": false,
+    "normal_texture_type": "NormalMap",
+    "flip_green": false
+  },
+  "palette_rgb": [
+    [
+      23,
+      23,
+      20
+    ],
+    [
+      156,
+      150,
+      124
+    ],
+    [
+      124,
+      73,
+      48
+    ],
+    [
+      122,
+      103,
+      78
+    ],
+    [
+      75,
+      45,
+      34
+    ],
+    [
+      60,
+      59,
+      54
+    ],
+    [
+      41,
+      41,
+      44
+    ],
+    [
+      146,
+      149,
+      116
+    ],
+    [
+      173,
+      107,
+      64
+    ],
+    [
+      57,
+      56,
+      46
+    ],
+    [
+      98,
+      99,
+      75
+    ],
+    [
+      193,
+      172,
+      136
+    ],
+    [
+      212,
+      170,
+      87
+    ],
+    [
+      238,
+      225,
+      191
+    ],
+    [
+      83,
+      81,
+      83
+    ],
+    [
+      185,
+      185,
+      152
+    ],
+    [
+      223,
+      170,
+      108
+    ],
+    [
+      198,
+      193,
+      174
+    ],
+    [
+      211,
+      206,
+      184
+    ],
+    [
+      172,
+      122,
+      49
+    ],
+    [
+      240,
+      207,
+      132
+    ],
+    [
+      137,
+      132,
+      133
+    ],
+    [
+      35,
+      64,
+      91
+    ],
+    [
+      69,
+      117,
+      157
+    ]
+  ],
+  "motions": [
+    {
+      "name": "wallhand_walk_front",
+      "label": "정면 걷기",
+      "n": 8,
+      "fps": 8,
+      "loop": true,
+      "mode": "ground",
+      "phases": [
+        "왼발 접지",
+        "왼발 하강",
+        "왼발 통과",
+        "왼발 상승",
+        "오른발 접지",
+        "오른발 하강",
+        "오른발 통과",
+        "오른발 상승"
+      ],
+      "cell_native": [
+        256,
+        288
+      ],
+      "cell_game": [
+        768,
+        864
+      ],
+      "sheet_native": [
+        2048,
+        288
+      ],
+      "sheet_game": [
+        6144,
+        864
+      ],
+      "files": {
+        "native": "native/wallhand_walk_front.png",
+        "game": "game/wallhand_walk_front.png",
+        "native_normal": "native_normal/wallhand_walk_front_normal.png",
+        "game_normal": "game_normal/wallhand_walk_front_normal.png",
+        "preview_4x": "preview_4x/wallhand_walk_front.png"
+      },
+      "frames": [
+        {
+          "frame": 0,
+          "phase_ko": "왼발 접지",
+          "bbox_native": [
+            61,
+            136,
+            209,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.602510460251046,
+          "source_bbox_size": [
+            245,
+            239
+          ],
+          "placement_native": [
+            61,
+            136
+          ]
+        },
+        {
+          "frame": 1,
+          "phase_ko": "왼발 하강",
+          "bbox_native": [
+            65,
+            144,
+            204,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.602510460251046,
+          "source_bbox_size": [
+            230,
+            226
+          ],
+          "placement_native": [
+            65,
+            144
+          ]
+        },
+        {
+          "frame": 2,
+          "phase_ko": "왼발 통과",
+          "bbox_native": [
+            68,
+            138,
+            193,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.602510460251046,
+          "source_bbox_size": [
+            208,
+            235
+          ],
+          "placement_native": [
+            68,
+            138
+          ]
+        },
+        {
+          "frame": 3,
+          "phase_ko": "왼발 상승",
+          "bbox_native": [
+            64,
+            136,
+            194,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.602510460251046,
+          "source_bbox_size": [
+            216,
+            239
+          ],
+          "placement_native": [
+            64,
+            136
+          ]
+        },
+        {
+          "frame": 4,
+          "phase_ko": "오른발 접지",
+          "bbox_native": [
+            61,
+            138,
+            200,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.602510460251046,
+          "source_bbox_size": [
+            231,
+            235
+          ],
+          "placement_native": [
+            61,
+            138
+          ]
+        },
+        {
+          "frame": 5,
+          "phase_ko": "오른발 하강",
+          "bbox_native": [
+            61,
+            144,
+            201,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.602510460251046,
+          "source_bbox_size": [
+            232,
+            225
+          ],
+          "placement_native": [
+            61,
+            144
+          ]
+        },
+        {
+          "frame": 6,
+          "phase_ko": "오른발 통과",
+          "bbox_native": [
+            64,
+            138,
+            186,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.602510460251046,
+          "source_bbox_size": [
+            203,
+            235
+          ],
+          "placement_native": [
+            64,
+            138
+          ]
+        },
+        {
+          "frame": 7,
+          "phase_ko": "오른발 상승",
+          "bbox_native": [
+            58,
+            136,
+            192,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.602510460251046,
+          "source_bbox_size": [
+            223,
+            239
+          ],
+          "placement_native": [
+            58,
+            136
+          ]
+        }
+      ]
+    },
+    {
+      "name": "wallhand_walk_back",
+      "label": "후면 걷기",
+      "n": 8,
+      "fps": 8,
+      "loop": true,
+      "mode": "ground",
+      "phases": [
+        "왼발 접지",
+        "왼발 하강",
+        "왼발 통과",
+        "왼발 상승",
+        "오른발 접지",
+        "오른발 하강",
+        "오른발 통과",
+        "오른발 상승"
+      ],
+      "cell_native": [
+        256,
+        288
+      ],
+      "cell_game": [
+        768,
+        864
+      ],
+      "sheet_native": [
+        2048,
+        288
+      ],
+      "sheet_game": [
+        6144,
+        864
+      ],
+      "files": {
+        "native": "native/wallhand_walk_back.png",
+        "game": "game/wallhand_walk_back.png",
+        "native_normal": "native_normal/wallhand_walk_back_normal.png",
+        "game_normal": "game_normal/wallhand_walk_back_normal.png",
+        "preview_4x": "preview_4x/wallhand_walk_back.png"
+      },
+      "frames": [
+        {
+          "frame": 0,
+          "phase_ko": "왼발 접지",
+          "bbox_native": [
+            65,
+            135,
+            200,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.602510460251046,
+          "source_bbox_size": [
+            224,
+            240
+          ],
+          "placement_native": [
+            65,
+            135
+          ]
+        },
+        {
+          "frame": 1,
+          "phase_ko": "왼발 하강",
+          "bbox_native": [
+            57,
+            141,
+            194,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.602510460251046,
+          "source_bbox_size": [
+            228,
+            231
+          ],
+          "placement_native": [
+            57,
+            141
+          ]
+        },
+        {
+          "frame": 2,
+          "phase_ko": "왼발 통과",
+          "bbox_native": [
+            66,
+            139,
+            194,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.602510460251046,
+          "source_bbox_size": [
+            213,
+            234
+          ],
+          "placement_native": [
+            66,
+            139
+          ]
+        },
+        {
+          "frame": 3,
+          "phase_ko": "왼발 상승",
+          "bbox_native": [
+            64,
+            138,
+            192,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.602510460251046,
+          "source_bbox_size": [
+            212,
+            236
+          ],
+          "placement_native": [
+            64,
+            138
+          ]
+        },
+        {
+          "frame": 4,
+          "phase_ko": "오른발 접지",
+          "bbox_native": [
+            61,
+            136,
+            197,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.602510460251046,
+          "source_bbox_size": [
+            225,
+            239
+          ],
+          "placement_native": [
+            61,
+            136
+          ]
+        },
+        {
+          "frame": 5,
+          "phase_ko": "오른발 하강",
+          "bbox_native": [
+            54,
+            141,
+            195,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.602510460251046,
+          "source_bbox_size": [
+            234,
+            231
+          ],
+          "placement_native": [
+            54,
+            141
+          ]
+        },
+        {
+          "frame": 6,
+          "phase_ko": "오른발 통과",
+          "bbox_native": [
+            63,
+            140,
+            188,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.602510460251046,
+          "source_bbox_size": [
+            208,
+            233
+          ],
+          "placement_native": [
+            63,
+            140
+          ]
+        },
+        {
+          "frame": 7,
+          "phase_ko": "오른발 상승",
+          "bbox_native": [
+            58,
+            136,
+            192,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.602510460251046,
+          "source_bbox_size": [
+            223,
+            239
+          ],
+          "placement_native": [
+            58,
+            136
+          ]
+        }
+      ]
+    },
+    {
+      "name": "wallhand_walk_right",
+      "label": "우측 걷기",
+      "n": 8,
+      "fps": 8,
+      "loop": true,
+      "mode": "ground",
+      "phases": [
+        "왼발 접지",
+        "왼발 하강",
+        "왼발 통과",
+        "왼발 상승",
+        "오른발 접지",
+        "오른발 하강",
+        "오른발 통과",
+        "오른발 상승"
+      ],
+      "cell_native": [
+        256,
+        288
+      ],
+      "cell_game": [
+        768,
+        864
+      ],
+      "sheet_native": [
+        2048,
+        288
+      ],
+      "sheet_game": [
+        6144,
+        864
+      ],
+      "files": {
+        "native": "native/wallhand_walk_right.png",
+        "game": "game/wallhand_walk_right.png",
+        "native_normal": "native_normal/wallhand_walk_right_normal.png",
+        "game_normal": "game_normal/wallhand_walk_right_normal.png",
+        "preview_4x": "preview_4x/wallhand_walk_right.png"
+      },
+      "frames": [
+        {
+          "frame": 0,
+          "phase_ko": "왼발 접지",
+          "bbox_native": [
+            70,
+            134,
+            179,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.602510460251046,
+          "source_bbox_size": [
+            181,
+            243
+          ],
+          "placement_native": [
+            70,
+            134
+          ]
+        },
+        {
+          "frame": 1,
+          "phase_ko": "왼발 하강",
+          "bbox_native": [
+            70,
+            132,
+            182,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.602510460251046,
+          "source_bbox_size": [
+            186,
+            246
+          ],
+          "placement_native": [
+            70,
+            132
+          ]
+        },
+        {
+          "frame": 2,
+          "phase_ko": "왼발 통과",
+          "bbox_native": [
+            70,
+            133,
+            172,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.602510460251046,
+          "source_bbox_size": [
+            170,
+            244
+          ],
+          "placement_native": [
+            70,
+            133
+          ]
+        },
+        {
+          "frame": 3,
+          "phase_ko": "왼발 상승",
+          "bbox_native": [
+            56,
+            131,
+            167,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.602510460251046,
+          "source_bbox_size": [
+            185,
+            248
+          ],
+          "placement_native": [
+            56,
+            131
+          ]
+        },
+        {
+          "frame": 4,
+          "phase_ko": "오른발 접지",
+          "bbox_native": [
+            56,
+            138,
+            161,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.602510460251046,
+          "source_bbox_size": [
+            175,
+            235
+          ],
+          "placement_native": [
+            56,
+            138
+          ]
+        },
+        {
+          "frame": 5,
+          "phase_ko": "오른발 하강",
+          "bbox_native": [
+            44,
+            133,
+            174,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.602510460251046,
+          "source_bbox_size": [
+            216,
+            244
+          ],
+          "placement_native": [
+            44,
+            133
+          ]
+        },
+        {
+          "frame": 6,
+          "phase_ko": "오른발 통과",
+          "bbox_native": [
+            63,
+            132,
+            173,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.602510460251046,
+          "source_bbox_size": [
+            182,
+            245
+          ],
+          "placement_native": [
+            63,
+            132
+          ]
+        },
+        {
+          "frame": 7,
+          "phase_ko": "오른발 상승",
+          "bbox_native": [
+            58,
+            131,
+            184,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.602510460251046,
+          "source_bbox_size": [
+            209,
+            248
+          ],
+          "placement_native": [
+            58,
+            131
+          ]
+        }
+      ]
+    },
+    {
+      "name": "wallhand_walk_left",
+      "label": "좌측 걷기",
+      "n": 8,
+      "fps": 8,
+      "loop": true,
+      "mode": "ground",
+      "phases": [
+        "왼발 접지",
+        "왼발 하강",
+        "왼발 통과",
+        "왼발 상승",
+        "오른발 접지",
+        "오른발 하강",
+        "오른발 통과",
+        "오른발 상승"
+      ],
+      "cell_native": [
+        256,
+        288
+      ],
+      "cell_game": [
+        768,
+        864
+      ],
+      "sheet_native": [
+        2048,
+        288
+      ],
+      "sheet_game": [
+        6144,
+        864
+      ],
+      "files": {
+        "native": "native/wallhand_walk_left.png",
+        "game": "game/wallhand_walk_left.png",
+        "native_normal": "native_normal/wallhand_walk_left_normal.png",
+        "game_normal": "game_normal/wallhand_walk_left_normal.png",
+        "preview_4x": "preview_4x/wallhand_walk_left.png"
+      },
+      "frames": [
+        {
+          "frame": 0,
+          "phase_ko": "왼발 접지",
+          "bbox_native": [
+            77,
+            134,
+            186,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.602510460251046,
+          "source_bbox_size": [
+            181,
+            243
+          ],
+          "placement_native": [
+            77,
+            134
+          ]
+        },
+        {
+          "frame": 1,
+          "phase_ko": "왼발 하강",
+          "bbox_native": [
+            74,
+            132,
+            186,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.602510460251046,
+          "source_bbox_size": [
+            186,
+            246
+          ],
+          "placement_native": [
+            74,
+            132
+          ]
+        },
+        {
+          "frame": 2,
+          "phase_ko": "왼발 통과",
+          "bbox_native": [
+            84,
+            133,
+            186,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.602510460251046,
+          "source_bbox_size": [
+            170,
+            244
+          ],
+          "placement_native": [
+            84,
+            133
+          ]
+        },
+        {
+          "frame": 3,
+          "phase_ko": "왼발 상승",
+          "bbox_native": [
+            89,
+            131,
+            200,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.602510460251046,
+          "source_bbox_size": [
+            185,
+            248
+          ],
+          "placement_native": [
+            89,
+            131
+          ]
+        },
+        {
+          "frame": 4,
+          "phase_ko": "오른발 접지",
+          "bbox_native": [
+            95,
+            138,
+            200,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.602510460251046,
+          "source_bbox_size": [
+            175,
+            235
+          ],
+          "placement_native": [
+            95,
+            138
+          ]
+        },
+        {
+          "frame": 5,
+          "phase_ko": "오른발 하강",
+          "bbox_native": [
+            82,
+            133,
+            212,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.602510460251046,
+          "source_bbox_size": [
+            216,
+            244
+          ],
+          "placement_native": [
+            82,
+            133
+          ]
+        },
+        {
+          "frame": 6,
+          "phase_ko": "오른발 통과",
+          "bbox_native": [
+            83,
+            132,
+            193,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.602510460251046,
+          "source_bbox_size": [
+            182,
+            245
+          ],
+          "placement_native": [
+            83,
+            132
+          ]
+        },
+        {
+          "frame": 7,
+          "phase_ko": "오른발 상승",
+          "bbox_native": [
+            72,
+            131,
+            198,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.602510460251046,
+          "source_bbox_size": [
+            209,
+            248
+          ],
+          "placement_native": [
+            72,
+            131
+          ]
+        }
+      ],
+      "mirrored_from": "wallhand_walk_right"
+    },
+    {
+      "name": "wallhand_punch_front",
+      "label": "성벽 치기 · 정면",
+      "n": 6,
+      "fps": 8,
+      "loop": false,
+      "mode": "ground",
+      "phases": [
+        "경계",
+        "주먹 당김",
+        "몸통 비틀기",
+        "정타",
+        "반동",
+        "회복"
+      ],
+      "cell_native": [
+        256,
+        288
+      ],
+      "cell_game": [
+        768,
+        864
+      ],
+      "sheet_native": [
+        1536,
+        288
+      ],
+      "sheet_game": [
+        4608,
+        864
+      ],
+      "files": {
+        "native": "native/wallhand_punch_front.png",
+        "game": "game/wallhand_punch_front.png",
+        "native_normal": "native_normal/wallhand_punch_front_normal.png",
+        "game_normal": "game_normal/wallhand_punch_front_normal.png",
+        "preview_4x": "preview_4x/wallhand_punch_front.png"
+      },
+      "frames": [
+        {
+          "frame": 0,
+          "phase_ko": "경계",
+          "bbox_native": [
+            70,
+            136,
+            207,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.6792452830188679,
+          "source_bbox_size": [
+            201,
+            212
+          ],
+          "placement_native": [
+            70,
+            136
+          ]
+        },
+        {
+          "frame": 1,
+          "phase_ko": "주먹 당김",
+          "bbox_native": [
+            55,
+            140,
+            200,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.6792452830188679,
+          "source_bbox_size": [
+            213,
+            206
+          ],
+          "placement_native": [
+            55,
+            140
+          ]
+        },
+        {
+          "frame": 2,
+          "phase_ko": "몸통 비틀기",
+          "bbox_native": [
+            69,
+            140,
+            185,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.6792452830188679,
+          "source_bbox_size": [
+            171,
+            206
+          ],
+          "placement_native": [
+            69,
+            140
+          ]
+        },
+        {
+          "frame": 3,
+          "phase_ko": "정타",
+          "bbox_native": [
+            74,
+            140,
+            194,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.6792452830188679,
+          "source_bbox_size": [
+            177,
+            206
+          ],
+          "placement_native": [
+            74,
+            140
+          ]
+        },
+        {
+          "frame": 4,
+          "phase_ko": "반동",
+          "bbox_native": [
+            71,
+            140,
+            205,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.6792452830188679,
+          "source_bbox_size": [
+            197,
+            206
+          ],
+          "placement_native": [
+            71,
+            140
+          ]
+        },
+        {
+          "frame": 5,
+          "phase_ko": "회복",
+          "bbox_native": [
+            65,
+            141,
+            199,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.6792452830188679,
+          "source_bbox_size": [
+            198,
+            205
+          ],
+          "placement_native": [
+            65,
+            141
+          ]
+        }
+      ]
+    },
+    {
+      "name": "wallhand_punch_side",
+      "label": "성벽 치기 · 측면",
+      "n": 6,
+      "fps": 8,
+      "loop": false,
+      "mode": "ground",
+      "phases": [
+        "경계",
+        "주먹 당김",
+        "몸통 비틀기",
+        "정타",
+        "반동",
+        "회복"
+      ],
+      "cell_native": [
+        256,
+        288
+      ],
+      "cell_game": [
+        768,
+        864
+      ],
+      "sheet_native": [
+        1536,
+        288
+      ],
+      "sheet_game": [
+        4608,
+        864
+      ],
+      "files": {
+        "native": "native/wallhand_punch_side.png",
+        "game": "game/wallhand_punch_side.png",
+        "native_normal": "native_normal/wallhand_punch_side_normal.png",
+        "game_normal": "game_normal/wallhand_punch_side_normal.png",
+        "preview_4x": "preview_4x/wallhand_punch_side.png"
+      },
+      "frames": [
+        {
+          "frame": 0,
+          "phase_ko": "경계",
+          "bbox_native": [
+            80,
+            140,
+            176,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.6792452830188679,
+          "source_bbox_size": [
+            141,
+            206
+          ],
+          "placement_native": [
+            80,
+            140
+          ]
+        },
+        {
+          "frame": 1,
+          "phase_ko": "주먹 당김",
+          "bbox_native": [
+            74,
+            139,
+            177,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.6792452830188679,
+          "source_bbox_size": [
+            152,
+            207
+          ],
+          "placement_native": [
+            74,
+            139
+          ]
+        },
+        {
+          "frame": 2,
+          "phase_ko": "몸통 비틀기",
+          "bbox_native": [
+            73,
+            140,
+            189,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.6792452830188679,
+          "source_bbox_size": [
+            171,
+            206
+          ],
+          "placement_native": [
+            73,
+            140
+          ]
+        },
+        {
+          "frame": 3,
+          "phase_ko": "정타",
+          "bbox_native": [
+            70,
+            139,
+            236,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.6792452830188679,
+          "source_bbox_size": [
+            244,
+            208
+          ],
+          "placement_native": [
+            70,
+            139
+          ]
+        },
+        {
+          "frame": 4,
+          "phase_ko": "반동",
+          "bbox_native": [
+            78,
+            141,
+            205,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.6792452830188679,
+          "source_bbox_size": [
+            187,
+            205
+          ],
+          "placement_native": [
+            78,
+            141
+          ]
+        },
+        {
+          "frame": 5,
+          "phase_ko": "회복",
+          "bbox_native": [
+            82,
+            139,
+            183,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.6792452830188679,
+          "source_bbox_size": [
+            149,
+            207
+          ],
+          "placement_native": [
+            82,
+            139
+          ]
+        }
+      ]
+    },
+    {
+      "name": "wallhand_climb_back",
+      "label": "등반 · 후면",
+      "n": 8,
+      "fps": 6,
+      "loop": true,
+      "mode": "grip",
+      "phases": [
+        "왼손 뻗기",
+        "왼손 걸기",
+        "왼팔 당기기",
+        "오른 무릎 지지",
+        "오른손 뻗기",
+        "오른손 걸기",
+        "오른팔 당기기",
+        "왼 무릎 지지"
+      ],
+      "cell_native": [
+        256,
+        288
+      ],
+      "cell_game": [
+        768,
+        864
+      ],
+      "sheet_native": [
+        2048,
+        288
+      ],
+      "sheet_game": [
+        6144,
+        864
+      ],
+      "files": {
+        "native": "native/wallhand_climb_back.png",
+        "game": "game/wallhand_climb_back.png",
+        "native_normal": "native_normal/wallhand_climb_back_normal.png",
+        "game_normal": "game_normal/wallhand_climb_back_normal.png",
+        "preview_4x": "preview_4x/wallhand_climb_back.png"
+      },
+      "frames": [
+        {
+          "frame": 0,
+          "phase_ko": "왼손 뻗기",
+          "bbox_native": [
+            70,
+            16,
+            197,
+            228
+          ],
+          "anchor_native": [
+            128,
+            16
+          ],
+          "anchor_game": [
+            384,
+            48
+          ],
+          "ground_contact_y": null,
+          "connected_components": 1,
+          "source_scale": 0.76,
+          "source_bbox_size": [
+            167,
+            279
+          ],
+          "placement_native": [
+            70,
+            16
+          ]
+        },
+        {
+          "frame": 1,
+          "phase_ko": "왼손 걸기",
+          "bbox_native": [
+            74,
+            16,
+            183,
+            203
+          ],
+          "anchor_native": [
+            128,
+            16
+          ],
+          "anchor_game": [
+            384,
+            48
+          ],
+          "ground_contact_y": null,
+          "connected_components": 1,
+          "source_scale": 0.76,
+          "source_bbox_size": [
+            144,
+            246
+          ],
+          "placement_native": [
+            74,
+            16
+          ]
+        },
+        {
+          "frame": 2,
+          "phase_ko": "왼팔 당기기",
+          "bbox_native": [
+            73,
+            16,
+            182,
+            196
+          ],
+          "anchor_native": [
+            128,
+            16
+          ],
+          "anchor_game": [
+            384,
+            48
+          ],
+          "ground_contact_y": null,
+          "connected_components": 1,
+          "source_scale": 0.76,
+          "source_bbox_size": [
+            144,
+            237
+          ],
+          "placement_native": [
+            73,
+            16
+          ]
+        },
+        {
+          "frame": 3,
+          "phase_ko": "오른 무릎 지지",
+          "bbox_native": [
+            72,
+            16,
+            182,
+            204
+          ],
+          "anchor_native": [
+            128,
+            16
+          ],
+          "anchor_game": [
+            384,
+            48
+          ],
+          "ground_contact_y": null,
+          "connected_components": 1,
+          "source_scale": 0.76,
+          "source_bbox_size": [
+            145,
+            247
+          ],
+          "placement_native": [
+            72,
+            16
+          ]
+        },
+        {
+          "frame": 4,
+          "phase_ko": "오른손 뻗기",
+          "bbox_native": [
+            75,
+            16,
+            193,
+            231
+          ],
+          "anchor_native": [
+            128,
+            16
+          ],
+          "anchor_game": [
+            384,
+            48
+          ],
+          "ground_contact_y": null,
+          "connected_components": 1,
+          "source_scale": 0.76,
+          "source_bbox_size": [
+            155,
+            283
+          ],
+          "placement_native": [
+            75,
+            16
+          ]
+        },
+        {
+          "frame": 5,
+          "phase_ko": "오른손 걸기",
+          "bbox_native": [
+            73,
+            16,
+            182,
+            207
+          ],
+          "anchor_native": [
+            128,
+            16
+          ],
+          "anchor_game": [
+            384,
+            48
+          ],
+          "ground_contact_y": null,
+          "connected_components": 1,
+          "source_scale": 0.76,
+          "source_bbox_size": [
+            144,
+            251
+          ],
+          "placement_native": [
+            73,
+            16
+          ]
+        },
+        {
+          "frame": 6,
+          "phase_ko": "오른팔 당기기",
+          "bbox_native": [
+            73,
+            16,
+            183,
+            203
+          ],
+          "anchor_native": [
+            128,
+            16
+          ],
+          "anchor_game": [
+            384,
+            48
+          ],
+          "ground_contact_y": null,
+          "connected_components": 1,
+          "source_scale": 0.76,
+          "source_bbox_size": [
+            145,
+            246
+          ],
+          "placement_native": [
+            73,
+            16
+          ]
+        },
+        {
+          "frame": 7,
+          "phase_ko": "왼 무릎 지지",
+          "bbox_native": [
+            72,
+            16,
+            184,
+            203
+          ],
+          "anchor_native": [
+            128,
+            16
+          ],
+          "anchor_game": [
+            384,
+            48
+          ],
+          "ground_contact_y": null,
+          "connected_components": 1,
+          "source_scale": 0.76,
+          "source_bbox_size": [
+            147,
+            246
+          ],
+          "placement_native": [
+            72,
+            16
+          ]
+        }
+      ]
+    },
+    {
+      "name": "wallhand_climb_front",
+      "label": "등반 · 정면",
+      "n": 8,
+      "fps": 6,
+      "loop": true,
+      "mode": "grip",
+      "phases": [
+        "왼손 뻗기",
+        "왼손 걸기",
+        "왼팔 당기기",
+        "오른 무릎 지지",
+        "오른손 뻗기",
+        "오른손 걸기",
+        "오른팔 당기기",
+        "왼 무릎 지지"
+      ],
+      "cell_native": [
+        256,
+        288
+      ],
+      "cell_game": [
+        768,
+        864
+      ],
+      "sheet_native": [
+        2048,
+        288
+      ],
+      "sheet_game": [
+        6144,
+        864
+      ],
+      "files": {
+        "native": "native/wallhand_climb_front.png",
+        "game": "game/wallhand_climb_front.png",
+        "native_normal": "native_normal/wallhand_climb_front_normal.png",
+        "game_normal": "game_normal/wallhand_climb_front_normal.png",
+        "preview_4x": "preview_4x/wallhand_climb_front.png"
+      },
+      "frames": [
+        {
+          "frame": 0,
+          "phase_ko": "왼손 뻗기",
+          "bbox_native": [
+            71,
+            16,
+            185,
+            196
+          ],
+          "anchor_native": [
+            128,
+            16
+          ],
+          "anchor_game": [
+            384,
+            48
+          ],
+          "ground_contact_y": null,
+          "connected_components": 1,
+          "source_scale": 0.76,
+          "source_bbox_size": [
+            150,
+            237
+          ],
+          "placement_native": [
+            71,
+            16
+          ]
+        },
+        {
+          "frame": 1,
+          "phase_ko": "왼손 걸기",
+          "bbox_native": [
+            74,
+            16,
+            183,
+            189
+          ],
+          "anchor_native": [
+            128,
+            16
+          ],
+          "anchor_game": [
+            384,
+            48
+          ],
+          "ground_contact_y": null,
+          "connected_components": 1,
+          "source_scale": 0.76,
+          "source_bbox_size": [
+            144,
+            228
+          ],
+          "placement_native": [
+            74,
+            16
+          ]
+        },
+        {
+          "frame": 2,
+          "phase_ko": "왼팔 당기기",
+          "bbox_native": [
+            73,
+            16,
+            184,
+            187
+          ],
+          "anchor_native": [
+            128,
+            16
+          ],
+          "anchor_game": [
+            384,
+            48
+          ],
+          "ground_contact_y": null,
+          "connected_components": 1,
+          "source_scale": 0.76,
+          "source_bbox_size": [
+            146,
+            225
+          ],
+          "placement_native": [
+            73,
+            16
+          ]
+        },
+        {
+          "frame": 3,
+          "phase_ko": "오른 무릎 지지",
+          "bbox_native": [
+            72,
+            16,
+            182,
+            188
+          ],
+          "anchor_native": [
+            128,
+            16
+          ],
+          "anchor_game": [
+            384,
+            48
+          ],
+          "ground_contact_y": null,
+          "connected_components": 1,
+          "source_scale": 0.76,
+          "source_bbox_size": [
+            145,
+            226
+          ],
+          "placement_native": [
+            72,
+            16
+          ]
+        },
+        {
+          "frame": 4,
+          "phase_ko": "오른손 뻗기",
+          "bbox_native": [
+            68,
+            16,
+            189,
+            178
+          ],
+          "anchor_native": [
+            128,
+            16
+          ],
+          "anchor_game": [
+            384,
+            48
+          ],
+          "ground_contact_y": null,
+          "connected_components": 1,
+          "source_scale": 0.76,
+          "source_bbox_size": [
+            159,
+            213
+          ],
+          "placement_native": [
+            68,
+            16
+          ]
+        },
+        {
+          "frame": 5,
+          "phase_ko": "오른손 걸기",
+          "bbox_native": [
+            74,
+            16,
+            183,
+            188
+          ],
+          "anchor_native": [
+            128,
+            16
+          ],
+          "anchor_game": [
+            384,
+            48
+          ],
+          "ground_contact_y": null,
+          "connected_components": 1,
+          "source_scale": 0.76,
+          "source_bbox_size": [
+            143,
+            226
+          ],
+          "placement_native": [
+            74,
+            16
+          ]
+        },
+        {
+          "frame": 6,
+          "phase_ko": "오른팔 당기기",
+          "bbox_native": [
+            70,
+            16,
+            182,
+            189
+          ],
+          "anchor_native": [
+            128,
+            16
+          ],
+          "anchor_game": [
+            384,
+            48
+          ],
+          "ground_contact_y": null,
+          "connected_components": 1,
+          "source_scale": 0.76,
+          "source_bbox_size": [
+            148,
+            227
+          ],
+          "placement_native": [
+            70,
+            16
+          ]
+        },
+        {
+          "frame": 7,
+          "phase_ko": "왼 무릎 지지",
+          "bbox_native": [
+            72,
+            16,
+            182,
+            184
+          ],
+          "anchor_native": [
+            128,
+            16
+          ],
+          "anchor_game": [
+            384,
+            48
+          ],
+          "ground_contact_y": null,
+          "connected_components": 1,
+          "source_scale": 0.76,
+          "source_bbox_size": [
+            145,
+            221
+          ],
+          "placement_native": [
+            72,
+            16
+          ]
+        }
+      ]
+    },
+    {
+      "name": "wallhand_lose_grip_fall",
+      "label": "손 놓침 · 추락",
+      "n": 6,
+      "fps": 8,
+      "loop": false,
+      "mode": "pelvis",
+      "phases": [
+        "양손 지지",
+        "오른손 미끄러짐",
+        "왼손 놓침",
+        "균형 상실",
+        "뒤로 회전",
+        "등부터 추락"
+      ],
+      "cell_native": [
+        256,
+        288
+      ],
+      "cell_game": [
+        768,
+        864
+      ],
+      "sheet_native": [
+        1536,
+        288
+      ],
+      "sheet_game": [
+        4608,
+        864
+      ],
+      "files": {
+        "native": "native/wallhand_lose_grip_fall.png",
+        "game": "game/wallhand_lose_grip_fall.png",
+        "native_normal": "native_normal/wallhand_lose_grip_fall_normal.png",
+        "game_normal": "game_normal/wallhand_lose_grip_fall_normal.png",
+        "preview_4x": "preview_4x/wallhand_lose_grip_fall.png"
+      },
+      "frames": [
+        {
+          "frame": 0,
+          "phase_ko": "양손 지지",
+          "bbox_native": [
+            80,
+            67,
+            195,
+            238
+          ],
+          "anchor_native": [
+            128,
+            152
+          ],
+          "anchor_game": [
+            384,
+            456
+          ],
+          "ground_contact_y": null,
+          "connected_components": 1,
+          "source_scale": 0.6792452830188679,
+          "source_bbox_size": [
+            170,
+            252
+          ],
+          "placement_native": [
+            80,
+            67
+          ]
+        },
+        {
+          "frame": 1,
+          "phase_ko": "오른손 미끄러짐",
+          "bbox_native": [
+            58,
+            65,
+            201,
+            239
+          ],
+          "anchor_native": [
+            128,
+            152
+          ],
+          "anchor_game": [
+            384,
+            456
+          ],
+          "ground_contact_y": null,
+          "connected_components": 1,
+          "source_scale": 0.6792452830188679,
+          "source_bbox_size": [
+            211,
+            256
+          ],
+          "placement_native": [
+            58,
+            65
+          ]
+        },
+        {
+          "frame": 2,
+          "phase_ko": "왼손 놓침",
+          "bbox_native": [
+            79,
+            67,
+            203,
+            237
+          ],
+          "anchor_native": [
+            128,
+            152
+          ],
+          "anchor_game": [
+            384,
+            456
+          ],
+          "ground_contact_y": null,
+          "connected_components": 1,
+          "source_scale": 0.6792452830188679,
+          "source_bbox_size": [
+            182,
+            250
+          ],
+          "placement_native": [
+            79,
+            67
+          ]
+        },
+        {
+          "frame": 3,
+          "phase_ko": "균형 상실",
+          "bbox_native": [
+            64,
+            86,
+            192,
+            219
+          ],
+          "anchor_native": [
+            128,
+            152
+          ],
+          "anchor_game": [
+            384,
+            456
+          ],
+          "ground_contact_y": null,
+          "connected_components": 1,
+          "source_scale": 0.6792452830188679,
+          "source_bbox_size": [
+            189,
+            196
+          ],
+          "placement_native": [
+            64,
+            86
+          ]
+        },
+        {
+          "frame": 4,
+          "phase_ko": "뒤로 회전",
+          "bbox_native": [
+            44,
+            98,
+            203,
+            207
+          ],
+          "anchor_native": [
+            128,
+            152
+          ],
+          "anchor_game": [
+            384,
+            456
+          ],
+          "ground_contact_y": null,
+          "connected_components": 1,
+          "source_scale": 0.6792452830188679,
+          "source_bbox_size": [
+            234,
+            161
+          ],
+          "placement_native": [
+            44,
+            98
+          ]
+        },
+        {
+          "frame": 5,
+          "phase_ko": "등부터 추락",
+          "bbox_native": [
+            50,
+            106,
+            199,
+            199
+          ],
+          "anchor_native": [
+            128,
+            152
+          ],
+          "anchor_game": [
+            384,
+            456
+          ],
+          "ground_contact_y": null,
+          "connected_components": 1,
+          "source_scale": 0.6792452830188679,
+          "source_bbox_size": [
+            219,
+            137
+          ],
+          "placement_native": [
+            50,
+            106
+          ]
+        }
+      ]
+    },
+    {
+      "name": "wallhand_land_stagger",
+      "label": "착지 · 비틀거림",
+      "n": 6,
+      "fps": 8,
+      "loop": false,
+      "mode": "ground",
+      "phases": [
+        "착지",
+        "충격 흡수",
+        "양손 지지",
+        "무릎 세움",
+        "휘청임",
+        "회복"
+      ],
+      "cell_native": [
+        256,
+        288
+      ],
+      "cell_game": [
+        768,
+        864
+      ],
+      "sheet_native": [
+        1536,
+        288
+      ],
+      "sheet_game": [
+        4608,
+        864
+      ],
+      "files": {
+        "native": "native/wallhand_land_stagger.png",
+        "game": "game/wallhand_land_stagger.png",
+        "native_normal": "native_normal/wallhand_land_stagger_normal.png",
+        "game_normal": "game_normal/wallhand_land_stagger_normal.png",
+        "preview_4x": "preview_4x/wallhand_land_stagger.png"
+      },
+      "frames": [
+        {
+          "frame": 0,
+          "phase_ko": "착지",
+          "bbox_native": [
+            68,
+            161,
+            211,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.6792452830188679,
+          "source_bbox_size": [
+            211,
+            175
+          ],
+          "placement_native": [
+            68,
+            161
+          ]
+        },
+        {
+          "frame": 1,
+          "phase_ko": "충격 흡수",
+          "bbox_native": [
+            52,
+            174,
+            215,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.6792452830188679,
+          "source_bbox_size": [
+            240,
+            156
+          ],
+          "placement_native": [
+            52,
+            174
+          ]
+        },
+        {
+          "frame": 2,
+          "phase_ko": "양손 지지",
+          "bbox_native": [
+            74,
+            179,
+            195,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.6792452830188679,
+          "source_bbox_size": [
+            178,
+            149
+          ],
+          "placement_native": [
+            74,
+            179
+          ]
+        },
+        {
+          "frame": 3,
+          "phase_ko": "무릎 세움",
+          "bbox_native": [
+            59,
+            165,
+            193,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.6792452830188679,
+          "source_bbox_size": [
+            198,
+            170
+          ],
+          "placement_native": [
+            59,
+            165
+          ]
+        },
+        {
+          "frame": 4,
+          "phase_ko": "휘청임",
+          "bbox_native": [
+            57,
+            144,
+            207,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.6792452830188679,
+          "source_bbox_size": [
+            221,
+            200
+          ],
+          "placement_native": [
+            57,
+            144
+          ]
+        },
+        {
+          "frame": 5,
+          "phase_ko": "회복",
+          "bbox_native": [
+            59,
+            133,
+            200,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.6792452830188679,
+          "source_bbox_size": [
+            207,
+            217
+          ],
+          "placement_native": [
+            59,
+            133
+          ]
+        }
+      ]
+    },
+    {
+      "name": "wallhand_trap_fall",
+      "label": "함정 · 뒤로 쓰러짐",
+      "n": 4,
+      "fps": 8,
+      "loop": false,
+      "mode": "ground",
+      "phases": [
+        "뒤로 흔들림",
+        "무릎 꺾임",
+        "뒤로 넘어짐",
+        "등 착지"
+      ],
+      "cell_native": [
+        256,
+        288
+      ],
+      "cell_game": [
+        768,
+        864
+      ],
+      "sheet_native": [
+        1024,
+        288
+      ],
+      "sheet_game": [
+        3072,
+        864
+      ],
+      "files": {
+        "native": "native/wallhand_trap_fall.png",
+        "game": "game/wallhand_trap_fall.png",
+        "native_normal": "native_normal/wallhand_trap_fall_normal.png",
+        "game_normal": "game_normal/wallhand_trap_fall_normal.png",
+        "preview_4x": "preview_4x/wallhand_trap_fall.png"
+      },
+      "frames": [
+        {
+          "frame": 0,
+          "phase_ko": "뒤로 흔들림",
+          "bbox_native": [
+            51,
+            120,
+            220,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.5142857142857142,
+          "source_bbox_size": [
+            328,
+            311
+          ],
+          "placement_native": [
+            51,
+            120
+          ]
+        },
+        {
+          "frame": 1,
+          "phase_ko": "무릎 꺾임",
+          "bbox_native": [
+            45,
+            141,
+            231,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.5142857142857142,
+          "source_bbox_size": [
+            362,
+            271
+          ],
+          "placement_native": [
+            45,
+            141
+          ]
+        },
+        {
+          "frame": 2,
+          "phase_ko": "뒤로 넘어짐",
+          "bbox_native": [
+            58,
+            156,
+            216,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.5142857142857142,
+          "source_bbox_size": [
+            307,
+            242
+          ],
+          "placement_native": [
+            58,
+            156
+          ]
+        },
+        {
+          "frame": 3,
+          "phase_ko": "등 착지",
+          "bbox_native": [
+            35,
+            190,
+            222,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.5142857142857142,
+          "source_bbox_size": [
+            363,
+            175
+          ],
+          "placement_native": [
+            35,
+            190
+          ]
+        }
+      ]
+    },
+    {
+      "name": "wallhand_trap_lie",
+      "label": "함정 · 누워 버티기",
+      "n": 2,
+      "fps": 2,
+      "loop": true,
+      "mode": "ground",
+      "phases": [
+        "누워 숨 들이쉬기",
+        "누워 숨 내쉬기"
+      ],
+      "cell_native": [
+        256,
+        288
+      ],
+      "cell_game": [
+        768,
+        864
+      ],
+      "sheet_native": [
+        512,
+        288
+      ],
+      "sheet_game": [
+        1536,
+        864
+      ],
+      "files": {
+        "native": "native/wallhand_trap_lie.png",
+        "game": "game/wallhand_trap_lie.png",
+        "native_normal": "native_normal/wallhand_trap_lie_normal.png",
+        "game_normal": "game_normal/wallhand_trap_lie_normal.png",
+        "preview_4x": "preview_4x/wallhand_trap_lie.png"
+      },
+      "frames": [
+        {
+          "frame": 0,
+          "phase_ko": "누워 숨 들이쉬기",
+          "bbox_native": [
+            58,
+            180,
+            198,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.5142857142857142,
+          "source_bbox_size": [
+            272,
+            196
+          ],
+          "placement_native": [
+            58,
+            180
+          ]
+        },
+        {
+          "frame": 1,
+          "phase_ko": "누워 숨 내쉬기",
+          "bbox_native": [
+            58,
+            181,
+            199,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.5142857142857142,
+          "source_bbox_size": [
+            275,
+            192
+          ],
+          "placement_native": [
+            58,
+            181
+          ]
+        }
+      ]
+    },
+    {
+      "name": "wallhand_get_up",
+      "label": "함정 · 일어나기",
+      "n": 6,
+      "fps": 8,
+      "loop": false,
+      "mode": "ground",
+      "phases": [
+        "누움",
+        "팔꿈치 지지",
+        "앉기",
+        "한 무릎 세움",
+        "양손 밀기",
+        "기립"
+      ],
+      "cell_native": [
+        256,
+        288
+      ],
+      "cell_game": [
+        768,
+        864
+      ],
+      "sheet_native": [
+        1536,
+        288
+      ],
+      "sheet_game": [
+        4608,
+        864
+      ],
+      "files": {
+        "native": "native/wallhand_get_up.png",
+        "game": "game/wallhand_get_up.png",
+        "native_normal": "native_normal/wallhand_get_up_normal.png",
+        "game_normal": "game_normal/wallhand_get_up_normal.png",
+        "preview_4x": "preview_4x/wallhand_get_up.png"
+      },
+      "frames": [
+        {
+          "frame": 0,
+          "phase_ko": "누움",
+          "bbox_native": [
+            58,
+            181,
+            199,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.5142857142857142,
+          "source_bbox_size": [
+            270,
+            184
+          ],
+          "placement_native": [
+            51,
+            185
+          ]
+        },
+        {
+          "frame": 1,
+          "phase_ko": "팔꿈치 지지",
+          "bbox_native": [
+            36,
+            188,
+            220,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.5142857142857142,
+          "source_bbox_size": [
+            357,
+            178
+          ],
+          "placement_native": [
+            36,
+            188
+          ]
+        },
+        {
+          "frame": 2,
+          "phase_ko": "앉기",
+          "bbox_native": [
+            64,
+            175,
+            230,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.5142857142857142,
+          "source_bbox_size": [
+            323,
+            205
+          ],
+          "placement_native": [
+            64,
+            175
+          ]
+        },
+        {
+          "frame": 3,
+          "phase_ko": "한 무릎 세움",
+          "bbox_native": [
+            71,
+            158,
+            212,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.5142857142857142,
+          "source_bbox_size": [
+            274,
+            237
+          ],
+          "placement_native": [
+            71,
+            158
+          ]
+        },
+        {
+          "frame": 4,
+          "phase_ko": "양손 밀기",
+          "bbox_native": [
+            66,
+            166,
+            206,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.5142857142857142,
+          "source_bbox_size": [
+            272,
+            221
+          ],
+          "placement_native": [
+            66,
+            166
+          ]
+        },
+        {
+          "frame": 5,
+          "phase_ko": "기립",
+          "bbox_native": [
+            61,
+            136,
+            206,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.5142857142857142,
+          "source_bbox_size": [
+            282,
+            280
+          ],
+          "placement_native": [
+            61,
+            136
+          ]
+        }
+      ]
+    },
+    {
+      "name": "wallhand_parapet_smash_front",
+      "label": "통로 부수기 · 정면",
+      "n": 8,
+      "fps": 8,
+      "loop": false,
+      "mode": "ground",
+      "phases": [
+        "경계",
+        "왼손 뻗기",
+        "흉벽 붙잡기",
+        "오른팔 당기기",
+        "주먹 들기",
+        "내려치기",
+        "충격 압축",
+        "회복"
+      ],
+      "cell_native": [
+        256,
+        288
+      ],
+      "cell_game": [
+        768,
+        864
+      ],
+      "sheet_native": [
+        2048,
+        288
+      ],
+      "sheet_game": [
+        6144,
+        864
+      ],
+      "files": {
+        "native": "native/wallhand_parapet_smash_front.png",
+        "game": "game/wallhand_parapet_smash_front.png",
+        "native_normal": "native_normal/wallhand_parapet_smash_front_normal.png",
+        "game_normal": "game_normal/wallhand_parapet_smash_front_normal.png",
+        "preview_4x": "preview_4x/wallhand_parapet_smash_front.png"
+      },
+      "frames": [
+        {
+          "frame": 0,
+          "phase_ko": "경계",
+          "bbox_native": [
+            47,
+            143,
+            213,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.9,
+          "source_bbox_size": [
+            185,
+            152
+          ],
+          "placement_native": [
+            47,
+            143
+          ]
+        },
+        {
+          "frame": 1,
+          "phase_ko": "왼손 뻗기",
+          "bbox_native": [
+            48,
+            154,
+            220,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.9,
+          "source_bbox_size": [
+            191,
+            140
+          ],
+          "placement_native": [
+            48,
+            154
+          ]
+        },
+        {
+          "frame": 2,
+          "phase_ko": "흉벽 붙잡기",
+          "bbox_native": [
+            48,
+            161,
+            216,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.9,
+          "source_bbox_size": [
+            187,
+            132
+          ],
+          "placement_native": [
+            48,
+            161
+          ]
+        },
+        {
+          "frame": 3,
+          "phase_ko": "오른팔 당기기",
+          "bbox_native": [
+            49,
+            136,
+            201,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.9,
+          "source_bbox_size": [
+            169,
+            160
+          ],
+          "placement_native": [
+            49,
+            136
+          ]
+        },
+        {
+          "frame": 4,
+          "phase_ko": "주먹 들기",
+          "bbox_native": [
+            46,
+            111,
+            194,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.9,
+          "source_bbox_size": [
+            165,
+            188
+          ],
+          "placement_native": [
+            46,
+            111
+          ]
+        },
+        {
+          "frame": 5,
+          "phase_ko": "내려치기",
+          "bbox_native": [
+            63,
+            163,
+            203,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.9,
+          "source_bbox_size": [
+            156,
+            130
+          ],
+          "placement_native": [
+            63,
+            163
+          ]
+        },
+        {
+          "frame": 6,
+          "phase_ko": "충격 압축",
+          "bbox_native": [
+            56,
+            186,
+            202,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.9,
+          "source_bbox_size": [
+            162,
+            105
+          ],
+          "placement_native": [
+            56,
+            186
+          ]
+        },
+        {
+          "frame": 7,
+          "phase_ko": "회복",
+          "bbox_native": [
+            46,
+            144,
+            212,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.9,
+          "source_bbox_size": [
+            184,
+            151
+          ],
+          "placement_native": [
+            46,
+            144
+          ]
+        }
+      ]
+    },
+    {
+      "name": "wallhand_parapet_smash_back",
+      "label": "통로 부수기 · 후면",
+      "n": 8,
+      "fps": 8,
+      "loop": false,
+      "mode": "ground",
+      "phases": [
+        "경계",
+        "왼손 뻗기",
+        "흉벽 붙잡기",
+        "오른팔 당기기",
+        "주먹 들기",
+        "내려치기",
+        "충격 압축",
+        "회복"
+      ],
+      "cell_native": [
+        256,
+        288
+      ],
+      "cell_game": [
+        768,
+        864
+      ],
+      "sheet_native": [
+        2048,
+        288
+      ],
+      "sheet_game": [
+        6144,
+        864
+      ],
+      "files": {
+        "native": "native/wallhand_parapet_smash_back.png",
+        "game": "game/wallhand_parapet_smash_back.png",
+        "native_normal": "native_normal/wallhand_parapet_smash_back_normal.png",
+        "game_normal": "game_normal/wallhand_parapet_smash_back_normal.png",
+        "preview_4x": "preview_4x/wallhand_parapet_smash_back.png"
+      },
+      "frames": [
+        {
+          "frame": 0,
+          "phase_ko": "경계",
+          "bbox_native": [
+            48,
+            137,
+            214,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.9,
+          "source_bbox_size": [
+            184,
+            159
+          ],
+          "placement_native": [
+            48,
+            137
+          ]
+        },
+        {
+          "frame": 1,
+          "phase_ko": "왼손 뻗기",
+          "bbox_native": [
+            53,
+            143,
+            215,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.9,
+          "source_bbox_size": [
+            180,
+            152
+          ],
+          "placement_native": [
+            53,
+            143
+          ]
+        },
+        {
+          "frame": 2,
+          "phase_ko": "흉벽 붙잡기",
+          "bbox_native": [
+            50,
+            140,
+            219,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.9,
+          "source_bbox_size": [
+            188,
+            155
+          ],
+          "placement_native": [
+            50,
+            140
+          ]
+        },
+        {
+          "frame": 3,
+          "phase_ko": "오른팔 당기기",
+          "bbox_native": [
+            57,
+            141,
+            212,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.9,
+          "source_bbox_size": [
+            172,
+            154
+          ],
+          "placement_native": [
+            57,
+            141
+          ]
+        },
+        {
+          "frame": 4,
+          "phase_ko": "주먹 들기",
+          "bbox_native": [
+            46,
+            126,
+            208,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.9,
+          "source_bbox_size": [
+            180,
+            171
+          ],
+          "placement_native": [
+            46,
+            126
+          ]
+        },
+        {
+          "frame": 5,
+          "phase_ko": "내려치기",
+          "bbox_native": [
+            49,
+            148,
+            210,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.9,
+          "source_bbox_size": [
+            179,
+            147
+          ],
+          "placement_native": [
+            49,
+            148
+          ]
+        },
+        {
+          "frame": 6,
+          "phase_ko": "충격 압축",
+          "bbox_native": [
+            56,
+            172,
+            211,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.9,
+          "source_bbox_size": [
+            172,
+            120
+          ],
+          "placement_native": [
+            56,
+            172
+          ]
+        },
+        {
+          "frame": 7,
+          "phase_ko": "회복",
+          "bbox_native": [
+            47,
+            137,
+            212,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.9,
+          "source_bbox_size": [
+            183,
+            159
+          ],
+          "placement_native": [
+            47,
+            137
+          ]
+        }
+      ]
+    },
+    {
+      "name": "wallhand_death_front",
+      "label": "죽음 · 정면",
+      "n": 10,
+      "fps": 9,
+      "loop": false,
+      "mode": "ground",
+      "phases": [
+        "치명타",
+        "상체 경직",
+        "무릎 풀림",
+        "기울기",
+        "균형 상실",
+        "쓰러짐",
+        "착지",
+        "잔여 움직임",
+        "몸 이완",
+        "누운 최종 자세"
+      ],
+      "cell_native": [
+        256,
+        288
+      ],
+      "cell_game": [
+        768,
+        864
+      ],
+      "sheet_native": [
+        2560,
+        288
+      ],
+      "sheet_game": [
+        7680,
+        864
+      ],
+      "files": {
+        "native": "native/wallhand_death_front.png",
+        "game": "game/wallhand_death_front.png",
+        "native_normal": "native_normal/wallhand_death_front_normal.png",
+        "game_normal": "game_normal/wallhand_death_front_normal.png",
+        "preview_4x": "preview_4x/wallhand_death_front.png"
+      },
+      "frames": [
+        {
+          "frame": 0,
+          "phase_ko": "치명타",
+          "bbox_native": [
+            61,
+            136,
+            212,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.5975103734439834,
+          "source_bbox_size": [
+            252,
+            241
+          ],
+          "placement_native": [
+            61,
+            136
+          ]
+        },
+        {
+          "frame": 1,
+          "phase_ko": "상체 경직",
+          "bbox_native": [
+            47,
+            141,
+            217,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.5975103734439834,
+          "source_bbox_size": [
+            284,
+            232
+          ],
+          "placement_native": [
+            47,
+            141
+          ]
+        },
+        {
+          "frame": 2,
+          "phase_ko": "무릎 풀림",
+          "bbox_native": [
+            51,
+            162,
+            197,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.5975103734439834,
+          "source_bbox_size": [
+            244,
+            197
+          ],
+          "placement_native": [
+            51,
+            162
+          ]
+        },
+        {
+          "frame": 3,
+          "phase_ko": "기울기",
+          "bbox_native": [
+            43,
+            144,
+            201,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.5975103734439834,
+          "source_bbox_size": [
+            265,
+            227
+          ],
+          "placement_native": [
+            43,
+            144
+          ]
+        },
+        {
+          "frame": 4,
+          "phase_ko": "균형 상실",
+          "bbox_native": [
+            53,
+            155,
+            206,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.5975103734439834,
+          "source_bbox_size": [
+            256,
+            210
+          ],
+          "placement_native": [
+            53,
+            155
+          ]
+        },
+        {
+          "frame": 5,
+          "phase_ko": "쓰러짐",
+          "bbox_native": [
+            44,
+            163,
+            217,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.5975103734439834,
+          "source_bbox_size": [
+            290,
+            196
+          ],
+          "placement_native": [
+            44,
+            163
+          ]
+        },
+        {
+          "frame": 6,
+          "phase_ko": "착지",
+          "bbox_native": [
+            47,
+            192,
+            218,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.5975103734439834,
+          "source_bbox_size": [
+            287,
+            148
+          ],
+          "placement_native": [
+            47,
+            192
+          ]
+        },
+        {
+          "frame": 7,
+          "phase_ko": "잔여 움직임",
+          "bbox_native": [
+            43,
+            187,
+            219,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.5975103734439834,
+          "source_bbox_size": [
+            294,
+            155
+          ],
+          "placement_native": [
+            43,
+            187
+          ]
+        },
+        {
+          "frame": 8,
+          "phase_ko": "몸 이완",
+          "bbox_native": [
+            41,
+            187,
+            219,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.5975103734439834,
+          "source_bbox_size": [
+            298,
+            156
+          ],
+          "placement_native": [
+            41,
+            187
+          ]
+        },
+        {
+          "frame": 9,
+          "phase_ko": "누운 최종 자세",
+          "bbox_native": [
+            38,
+            191,
+            212,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.5975103734439834,
+          "source_bbox_size": [
+            292,
+            149
+          ],
+          "placement_native": [
+            38,
+            191
+          ]
+        }
+      ]
+    },
+    {
+      "name": "wallhand_death_side",
+      "label": "죽음 · 측면",
+      "n": 10,
+      "fps": 9,
+      "loop": false,
+      "mode": "ground",
+      "phases": [
+        "치명타",
+        "상체 경직",
+        "무릎 풀림",
+        "기울기",
+        "균형 상실",
+        "쓰러짐",
+        "착지",
+        "잔여 움직임",
+        "몸 이완",
+        "누운 최종 자세"
+      ],
+      "cell_native": [
+        256,
+        288
+      ],
+      "cell_game": [
+        768,
+        864
+      ],
+      "sheet_native": [
+        2560,
+        288
+      ],
+      "sheet_game": [
+        7680,
+        864
+      ],
+      "files": {
+        "native": "native/wallhand_death_side.png",
+        "game": "game/wallhand_death_side.png",
+        "native_normal": "native_normal/wallhand_death_side_normal.png",
+        "game_normal": "game_normal/wallhand_death_side_normal.png",
+        "preview_4x": "preview_4x/wallhand_death_side.png"
+      },
+      "frames": [
+        {
+          "frame": 0,
+          "phase_ko": "치명타",
+          "bbox_native": [
+            82,
+            144,
+            177,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.5975103734439834,
+          "source_bbox_size": [
+            159,
+            228
+          ],
+          "placement_native": [
+            82,
+            144
+          ]
+        },
+        {
+          "frame": 1,
+          "phase_ko": "상체 경직",
+          "bbox_native": [
+            93,
+            143,
+            202,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.5975103734439834,
+          "source_bbox_size": [
+            183,
+            230
+          ],
+          "placement_native": [
+            93,
+            143
+          ]
+        },
+        {
+          "frame": 2,
+          "phase_ko": "무릎 풀림",
+          "bbox_native": [
+            68,
+            152,
+            166,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.5975103734439834,
+          "source_bbox_size": [
+            164,
+            215
+          ],
+          "placement_native": [
+            68,
+            152
+          ]
+        },
+        {
+          "frame": 3,
+          "phase_ko": "기울기",
+          "bbox_native": [
+            76,
+            150,
+            181,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.5975103734439834,
+          "source_bbox_size": [
+            176,
+            217
+          ],
+          "placement_native": [
+            76,
+            150
+          ]
+        },
+        {
+          "frame": 4,
+          "phase_ko": "균형 상실",
+          "bbox_native": [
+            46,
+            168,
+            201,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.5975103734439834,
+          "source_bbox_size": [
+            260,
+            187
+          ],
+          "placement_native": [
+            46,
+            168
+          ]
+        },
+        {
+          "frame": 5,
+          "phase_ko": "쓰러짐",
+          "bbox_native": [
+            46,
+            204,
+            197,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.5975103734439834,
+          "source_bbox_size": [
+            254,
+            128
+          ],
+          "placement_native": [
+            46,
+            204
+          ]
+        },
+        {
+          "frame": 6,
+          "phase_ko": "착지",
+          "bbox_native": [
+            49,
+            214,
+            209,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.5975103734439834,
+          "source_bbox_size": [
+            267,
+            110
+          ],
+          "placement_native": [
+            49,
+            214
+          ]
+        },
+        {
+          "frame": 7,
+          "phase_ko": "잔여 움직임",
+          "bbox_native": [
+            41,
+            214,
+            207,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.5975103734439834,
+          "source_bbox_size": [
+            278,
+            111
+          ],
+          "placement_native": [
+            41,
+            214
+          ]
+        },
+        {
+          "frame": 8,
+          "phase_ko": "몸 이완",
+          "bbox_native": [
+            44,
+            216,
+            207,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.5975103734439834,
+          "source_bbox_size": [
+            273,
+            107
+          ],
+          "placement_native": [
+            44,
+            216
+          ]
+        },
+        {
+          "frame": 9,
+          "phase_ko": "누운 최종 자세",
+          "bbox_native": [
+            42,
+            214,
+            210,
+            280
+          ],
+          "anchor_native": [
+            128,
+            280
+          ],
+          "anchor_game": [
+            384,
+            840
+          ],
+          "ground_contact_y": 280,
+          "connected_components": 1,
+          "source_scale": 0.5975103734439834,
+          "source_bbox_size": [
+            282,
+            111
+          ],
+          "placement_native": [
+            42,
+            214
+          ]
+        }
+      ]
+    }
+  ],
+  "ui": [
+    {
+      "name": "wallhand_map_icon",
+      "label": "지도 아이콘",
+      "size": [
+        64,
+        64
+      ],
+      "file": "wallhand_map_icon.png",
+      "normal": "wallhand_map_icon_normal.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "view": "거의 수직 하향"
+    },
+    {
+      "name": "wallhand_hud_portrait",
+      "label": "체력 막대 초상",
+      "size": [
+        96,
+        96
+      ],
+      "file": "wallhand_hud_portrait.png",
+      "normal": "wallhand_hud_portrait_normal.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "view": "정면 상반신"
+    }
+  ],
+  "anchor_notes": {
+    "ground": "지면 경계 y280, 서 있을 때 발바닥·누웠을 때 몸의 최하 접점. 공중에 뜨는 발을 지면에 억지로 내리지 않음.",
+    "grip": "양손 위쪽의 매달림 기준 (128,16). 한 손 접촉점은 프레임 내 그림에 따라 달라짐. 성벽 이동량은 시뮬레이션에서 적용.",
+    "pelvis": "추락 시 몸 중심 기준 (128,152). 실제 추락 경로·속도는 시뮬레이션에서 적용.",
+    "registration": "원안 각 칸의 중앙축을 고정. 주먹이 앞으로 뻗어도 불투명 바운드 중앙으로 재정렬하지 않음."
+  }
+}
