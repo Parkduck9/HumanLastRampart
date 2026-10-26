@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using HumanLastRampart.Combat.PerfLab;
 using HumanLastRampart.Core.Campaign;
 using HumanLastRampart.Core.CombatContracts;
@@ -18,6 +18,8 @@ namespace HumanLastRampart.Combat.Battle
     //   올라갈 때(바닥 걸음·계단 발치·불방 입구)는 기름통을 든 운반 걷기, 불방에서는 화로 관리, 내려올 때는 빈손 걷기·계단 내려오기. 방향은 가는 쪽을 사진기 기준으로 네 방향 중 고른다 (깜빡이지 않게 이전 방향을 조금 더 유지)
     //   새 시트는 칸 96×128 원본(3배 확대본과 같은 세계 크기, 발 (48,120)) — 메모리 1/9, 점 필터라 모양은 같다. 시트가 없으면 옛 미는·서기 그림으로 되돌아간다
     //   모든 움직임은 전투 시간(sim.Elapsed)으로 — 멈춤·지도 시간 멈춤에서 같이 멈춘다 (불꽃 일렁임만 실제 시간)
+    // W39 (Codex K-127): 돌림대를 미는 일꾼은 이제 방향별 밀기 시트(밀기 8칸·시작 3칸·멈춤 3칸·힘줌 8칸)를 쓴다. 방향 고르기는 걷기와 같은 규칙, 시작·멈춤은 미는 일이 시작·끝날 때 한 번, 힘줌은 빛줄기가 평소보다 빨리 돌 때(옆모습만).
+    //   옛 K-110 미는·쉬는 그림은 시트가 없을 때의 대비책으로만 남는다. 돌림대 막대 높이는 시트의 손 높이에 맞춘다 (BattleTowerInterior.CapstanBarY)
     // 크기: 인물 73점 = 주인공 키(HeroDrawSize), K-110 일꾼 칸은 288×384를 3배 확대본 그대로
     public sealed class BattleBeaconView : IDisposable
     {
@@ -70,6 +72,14 @@ namespace HumanLastRampart.Combat.Battle
         readonly Piece[,] workers = new Piece[2, 3];   // [변형 a·b, 상태 idle·push·rest]
         readonly Piece[,,] motionSheets = new Piece[2, 5, 4];   // [변형, WorkMotion, WorkDir] K-119 (없으면 null)
         readonly bool[] workerNewSheet = new bool[WorkerCount];
+        readonly Piece[,,] pushSheets = new Piece[2, 4, 4];   // [변형, PushKind, WorkDir] K-127 (처음 쓸 때 읽는다)
+        readonly bool[,,] pushTried = new bool[2, 4, 4];
+        readonly bool[] workerPushSheet = new bool[WorkerCount];
+        readonly PushKind[] workerPushKind = new PushKind[WorkerCount];
+        readonly float[] workerPushSince = new float[WorkerCount];
+        readonly bool[] workerWasPush = new bool[WorkerCount];
+        bool pushDisabled;
+        float lastBeamAngle, beamRate;
         readonly WorkMotion[] workerMotion = new WorkMotion[WorkerCount];
         readonly WorkDir[] workerDir = new WorkDir[WorkerCount];
         const int Idle = 0, Push = 1, Rest = 2;
@@ -106,6 +116,31 @@ namespace HumanLastRampart.Combat.Battle
             WorkDir verticalPick = f >= 0f ? WorkDir.Front : WorkDir.Back;
             return SheetProvided(motion, verticalPick) ? verticalPick : horizontalPick;   // 없는 방향(계단 앞·화로 뒤)은 옆모습
         }
+
+        // W39 (Codex K-127): 일꾼 바퀴 밀기 시트 — 밀기 8칸·시작 3칸(한 번)·멈춤 3칸(한 번 뒤 마지막 칸 유지)·힘줌 8칸(좌우만). 칸 96×128, 발 (48,120)
+        // 방향은 K-119 걷기와 같은 규칙(PickDirection)으로 고른다. 시트는 처음 필요할 때 읽는다 (쓰는 방향만 메모리에 — W31과 같은 방식). 없으면 옛 K-110 미는·쉬는 그림으로 되돌아간다
+        public enum PushKind { Push, Start, Stop, Strain }
+        static readonly string[] PushKindNames = { "push", "push_start", "push_stop", "push_strain" };
+        static readonly int[] PushKindFrames = { 8, 3, 3, 8 };
+        const float PushFps = 8f, StartFps = 6f, StopFps = 3f, StrainFps = 10f;
+        const float StrainFactor = 1.2f;   // 빛줄기가 평소(90도 ÷ BeamRotateSeconds)보다 이만큼 빨리 돌면 힘줌
+
+        public static string PushSheetName(int variant, PushKind kind, WorkDir dir)
+            => $"worker_{(variant == 0 ? "a" : "b")}_{PushKindNames[(int)kind]}_{DirNames[(int)dir]}";
+
+        // K-127가 준 방향: 밀기·시작·멈춤 = 네 방향, 힘줌 = 왼·오른쪽만
+        public static bool PushSheetProvided(PushKind kind, WorkDir dir) => kind != PushKind.Strain || dir == WorkDir.Left || dir == WorkDir.Right;
+
+        public static bool IsStrain(float beamDegreesPerSecond) => beamDegreesPerSecond > StrainFactor * 90f / BattleSim.BeamRotateSeconds;
+
+        // 밀기 상태에서 쓸 시트 종류: 막 시작했으면 시작, 빠르게 돌고 옆모습이면 힘줌, 아니면 밀기. 멈춘 뒤는 멈춤
+        public static PushKind PushKindFor(bool pushing, float secondsSincePushStart, bool strain, WorkDir dir)
+        {
+            if (!pushing) return PushKind.Stop;
+            if (secondsSincePushStart < PushKindFrames[(int)PushKind.Start] / StartFps) return PushKind.Start;
+            return strain && PushSheetProvided(PushKind.Strain, dir) ? PushKind.Strain : PushKind.Push;
+        }
+
         bool wasPushing;
         float restStart = -999f;
         bool faceLeft;      // 시계 방향(각도가 줄어드는 쪽)이면 일꾼이 왼쪽으로 민다 (사진기에서 보는 앞쪽은 서쪽으로 움직인다)
@@ -147,10 +182,37 @@ namespace HumanLastRampart.Combat.Battle
         // W31 확인용: i번 일꾼이 지금 K-119 새 시트로 그려지는가 / 그 동작·방향·시트 이름
         public bool WorkerUsesMotionSheet(int i) => workerNewSheet[i] && workerVisible[i];
         public WorkMotion WorkerMotionKind(int i) => workerMotion[i];
+        // W39 확인용: i번 일꾼이 지금 K-127 밀기 시트로 그려지는가 / 종류 / 시트 이름 / 지금까지 읽은 시트 수 / 빛줄기가 힘줌 속도인가
+        public bool WorkerUsesPushSheet(int i) => workerPushSheet[i] && workerVisible[i];
+        public PushKind WorkerPushKind(int i) => workerPushKind[i];
+        public string WorkerPushSheetName(int i) => PushSheetName(WorkerVariant[i], workerPushKind[i], workerDir[i]);
+        public bool BeamStraining => IsStrain(beamRate);
+        public int PushSheetsLoaded { get { int n = 0; foreach (Piece w in pushSheets) if (w != null) n++; return n; } }
         public WorkDir WorkerFacing(int i) => workerDir[i];
         public string WorkerSheetName(int i) => SheetName(WorkerVariant[i], workerMotion[i], workerDir[i]);
         public bool HasMotionArt => motionSheets[WorkerVariant[BattleTowerInterior.ClimberIndex], (int)WorkMotion.Walk, (int)WorkDir.Left] != null;
         // 시험용: 새 시트를 버려 옛 미는·서기 그림으로 되돌아가는 길을 확인한다
+        public void DropPushSheets()
+        {
+            foreach (Piece w in pushSheets) w?.Buffer?.Release();
+            System.Array.Clear(pushSheets, 0, pushSheets.Length);
+            pushDisabled = true;
+        }
+
+        Piece GetPushSheet(int variant, PushKind kind, WorkDir dir)
+        {
+            if (pushDisabled || !PushSheetProvided(kind, dir)) return null;
+            Piece have = pushSheets[variant, (int)kind, (int)dir];
+            if (have != null || pushTried[variant, (int)kind, (int)dir]) return have;
+            pushTried[variant, (int)kind, (int)dir] = true;
+            var tex = Resources.Load<Texture2D>("BattleArt/Beacon/" + PushSheetName(variant, kind, dir));
+            if (tex == null) return null;
+            Piece piece = Make(tex, PerfLabArt.SheetLayout.Make(PushKindFrames[(int)kind], 1, 0.5f, 8f / 128f, 96f / 128f), WorkerCount);
+            piece.Block.SetFloat(ViewStretchId, 1f);
+            pushSheets[variant, (int)kind, (int)dir] = piece;
+            return piece;
+        }
+
         public void DropMotionSheets()
         {
             foreach (Piece w in motionSheets) w?.Buffer?.Release();
@@ -343,7 +405,9 @@ namespace HumanLastRampart.Combat.Battle
             float time = sim.Elapsed;
             float dt = lastTime < 0f ? 0f : Mathf.Clamp(time - lastTime, 0f, 0.25f);
             lastTime = time;
-
+            float beamAngle = sim.BeamAngleDegrees;
+            beamRate = dt > 1e-4f ? Mathf.Abs(Mathf.DeltaAngle(beamAngle, lastBeamAngle)) / dt : 0f;   // 빛줄기가 도는 빠르기 (힘줌 판단)
+            lastBeamAngle = beamAngle;
             // 탑 몸체: BattleTowerView(돌 메시)가 그린다 — 옛 그림은 그리지 않는다
 
             // 일꾼: 상태는 전투 시간으로 (미는 중 → 쉬기 → 서기)
@@ -369,6 +433,7 @@ namespace HumanLastRampart.Combat.Battle
             WorkerState = state;
             foreach (Piece p in workers) if (p != null) p.Count = 0;
             foreach (Piece p in motionSheets) if (p != null) p.Count = 0;
+            foreach (Piece p in pushSheets) if (p != null) p.Count = 0;
             float climbClock = time - idleSince;
             Vector3 camToward = new Vector3(toCamera.x, 0f, toCamera.z);   // 사진기 쪽 (수평)
             camToward = camToward.sqrMagnitude > 1e-6f ? camToward.normalized : Vector3.back;
@@ -428,10 +493,40 @@ namespace HumanLastRampart.Combat.Battle
                 }
 
                 workerVisible[i] = visible;
+                bool pushNow = !hasMotion && state == Push;   // 돌림대를 실제로 미는 중 (걸어 돌아오는 일꾼은 제외)
+                if (pushNow && !workerWasPush[i]) workerPushSince[i] = time;
+                workerWasPush[i] = pushNow;
                 workerWorld[i] = baseFeet + local;
                 if (!visible) continue;
 
                 workerNewSheet[i] = false;
+                workerPushSheet[i] = false;
+                if (!hasMotion && (pushNow || wstate == Rest))
+                {
+                    // K-127: 밀기·시작·멈춤·힘줌. 멈춤은 마지막으로 향하던 쪽 그대로 (가는 쪽이 없으면 이전 방향)
+                    WorkDir pdir = PickDirection(moveDir, camRightFlat, camToward, workerDir[i], WorkMotion.Walk);
+                    float since = time - workerPushSince[i];
+                    PushKind want = PushKindFor(pushNow, since, IsStrain(beamRate), pdir);
+                    PushKind got = want;
+                    Piece ps = GetPushSheet(WorkerVariant[i], got, pdir);
+                    if (ps == null && (want == PushKind.Start || want == PushKind.Strain)) { got = PushKind.Push; ps = GetPushSheet(WorkerVariant[i], got, pdir); }   // 시작·힘줌이 없으면 밀기로
+                    if (ps != null)
+                    {
+                        int pframe = got == PushKind.Start ? Mathf.Min((int)(Mathf.Max(0f, since) * StartFps), 2)
+                            : got == PushKind.Stop ? Mathf.Min((int)(Mathf.Max(0f, sinceRest) * StopFps), 2)
+                            : (int)(time * (got == PushKind.Strain ? StrainFps : PushFps) + i * 3) % PushKindFrames[(int)got];
+                        Vector3 pp = baseFeet + local + toCamera * 0.005f;
+                        ps.Instances[ps.Count++] = new PerfLabInstance
+                        {
+                            PosFrame = new float4(pp.x, pp.y, pp.z, pframe),
+                            TintSize = new float4(shade, shade, shade, WorkerH * Mpp),
+                        };
+                        workerDir[i] = pdir;
+                        workerPushSheet[i] = true;
+                        workerPushKind[i] = got;
+                        continue;
+                    }
+                }
                 if (hasMotion)
                 {
                     WorkDir dir = PickDirection(moveDir, camRightFlat, camToward, workerDir[i], motion);
@@ -481,6 +576,7 @@ namespace HumanLastRampart.Combat.Battle
 
             foreach (Piece p in workers) if (p != null && p.Count > 0) Submit(p, p.Count, material);
             foreach (Piece p in motionSheets) if (p != null && p.Count > 0) Submit(p, p.Count, material);
+            foreach (Piece p in pushSheets) if (p != null && p.Count > 0) Submit(p, p.Count, material);
 
             // 탑 대기 전령: 쉬는 동안 탑 곁에 서 있고, 명령을 들면 성벽까지 달려간다 (눈에 보인다)
             if (courierStand != null)
@@ -559,6 +655,7 @@ namespace HumanLastRampart.Combat.Battle
             foreach (Piece piece in new[] { brazierDead, brazierLit, courierStand, courierRun }) piece?.Buffer?.Release();
             foreach (Piece piece in workers) piece?.Buffer?.Release();
             foreach (Piece piece in motionSheets) piece?.Buffer?.Release();
+            foreach (Piece piece in pushSheets) piece?.Buffer?.Release();
             Kill(capstanMesh);
             Kill(capstanMaterial);
         }
