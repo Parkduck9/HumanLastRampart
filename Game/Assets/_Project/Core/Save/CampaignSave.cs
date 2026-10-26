@@ -38,17 +38,20 @@ namespace HumanLastRampart.Core.Save
         }
 
         public const string LegacyProductName = "HumanLastRampart";
+        const string MigratedMarker = "legacy_migrated.flag";
 
         // 예전 저장 폴더의 슬롯 파일을 새 폴더로 복사한다. 새 폴더에 이미 저장이 있으면 건드리지 않는다 (복사만 하고 예전 파일은 남긴다). 가져왔으면 true
         public static bool MigrateLegacy(string legacyFolder, string newFolder)
         {
             try
             {
-                string from = Path.Combine(legacyFolder, FileName), to = Path.Combine(newFolder, FileName);
-                if (!File.Exists(from) || File.Exists(to)) return false;
+                string from = Path.Combine(legacyFolder, FileName), to = Path.Combine(newFolder, FileName), marker = Path.Combine(newFolder, MigratedMarker);
+                if (File.Exists(marker) || !File.Exists(from)) return false;   // 이미 한 번 확인했다: 새 위치 저장을 지운 뒤에 예전 것이 되살아나지 않게
                 Directory.CreateDirectory(newFolder);
-                File.Copy(from, to, false);
-                return true;
+                bool copy = !File.Exists(to);
+                if (copy) File.Copy(from, to, false);
+                File.WriteAllText(marker, "legacy save migrated once");
+                return copy;
             }
             catch (Exception exception)
             {

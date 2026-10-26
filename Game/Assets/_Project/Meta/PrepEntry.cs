@@ -50,15 +50,15 @@ namespace HumanLastRampart.Meta
             PrepYard yard = null;   // 등대 수리 단추가 마당 불빛을 새로 칠하도록 먼저 선언 (마당은 아래에서 만든다)
             // W36: 밝기 선택·등대 수리·성벽 조건은 띠 아래 접이식 칸. 닫혀 있어도 한 줄 요약(beaconBrief)은 늘 보인다
             Image detailPlate = Ui.Panel(repair.GetComponentInParent<UnityEngine.Canvas>().transform, "Beacon Detail", UiPanel.Band);
-            Ui.Place(detailPlate.rectTransform, new Vector2(0.5f, 1f), new Vector2(0f, -(UiTokens.S32 + 80f + 8f)), new Vector2(1720f, 144f), new Vector2(0.5f, 1f));
+            Ui.Place(detailPlate.rectTransform, new Vector2(0f, 1f), new Vector2(100f, -(UiTokens.S32 + 80f + 8f)), new Vector2(740f, 16f * 2 + 48f * 4 + 16f * 3), new Vector2(0f, 1f));   // 왼쪽 좁은 판: 가운데 탑 기둥(등실)을 가리지 않는다
             var detailColumn = detailPlate.gameObject.AddComponent<VerticalLayoutGroup>();
             detailColumn.padding = new RectOffset(32, 32, 16, 16); detailColumn.spacing = 16f;
             detailColumn.childControlWidth = detailColumn.childControlHeight = true;
             detailColumn.childForceExpandWidth = true; detailColumn.childForceExpandHeight = false;
-            RectTransform line1 = Ui.Rect(detailPlate.transform, "Beacon Line 1"), line2 = Ui.Rect(detailPlate.transform, "Beacon Line 2");
-            Ui.Size(line1, -1f, 48f); Ui.Size(line2, -1f, 48f);
-            BeaconPrepPanel.Build(line1, line2, null, context,
-                () => { PreparationPanel.RefreshSummary(repair, context, session); if (yard != null) yard.RefreshTower(); }, beaconBrief);
+            var detailLines = new RectTransform[4];
+            for (int i = 0; i < detailLines.Length; i++) { detailLines[i] = Ui.Rect(detailPlate.transform, "Beacon Line " + (i + 1)); Ui.Size(detailLines[i], -1f, 48f); }
+            BeaconPrepPanel.Build(detailLines[0], detailLines[1], null, context,
+                () => { PreparationPanel.RefreshSummary(repair, context, session); if (yard != null) yard.RefreshTower(); }, beaconBrief, detailLines[2], detailLines[3]);
             detail = detailPlate.gameObject; detail.SetActive(false);   // W8: 요새·밤, 등대 복구, 성벽 조건, 밝기 선택, 등대 수리, 수비대 지원금. W36: 수리하면 탑 불빛도 바로
             BuildDayLineStrip(repair.GetComponentInParent<UnityEngine.Canvas>().transform, campaign);   // W12 밤 사이 한마디: 화면 아래 가운데 작은 띠 (없으면 만들지 않음)
             yard = PrepYard.Build(view, HeroUnit(context));   // K-089 배경·3D 바닥·가림을 마당이 함께 소유한다.
@@ -102,7 +102,7 @@ namespace HumanLastRampart.Meta
                 var keyboard = UnityEngine.InputSystem.Keyboard.current;
                 if (keyboard == null || !keyboard.bKey.wasPressedThisFrame) return;
                 var yard = UnityEngine.Object.FindAnyObjectByType<PrepYard>();
-                if (yard == null || !yard.ModalOpen) toggle?.Invoke();
+                if (yard != null && yard.CanMove) toggle?.Invoke();   // 마당 창·확인창이 떠 있거나 다른 창이 입력을 막는 동안은 건드리지 않는다
             }
         }
         sealed class MapButtonGate : MonoBehaviour
@@ -135,7 +135,7 @@ namespace HumanLastRampart.Meta
             RectTransform spacer = Ui.Rect(row.transform, "Spacer");
             Ui.Size(spacer, 0f, 48f, true);
             brief = Ui.Label(row.transform, "Beacon Brief", "", UiTokens.Small, UiTokens.Body, TextAnchor.MiddleRight);   // W36: 등대 복구 % + 점화 준비 한 줄
-            Ui.Size(brief, 440f, 48f);
+            Ui.Size(brief, 432f, 48f);
             Button detailButton = Ui.Button(row.transform, "등대 세부", "등대 세부 (B)", toggleDetail);
             Ui.Size(detailButton, 168f, 48f);
             detailButton.gameObject.AddComponent<DetailKey>().Init(toggleDetail);
@@ -146,7 +146,7 @@ namespace HumanLastRampart.Meta
             Image troops = Ui.HudIcon(row.transform, "Troops Icon", "Icons/stat_troops", 24f);
             if (troops == null) Ui.Size(Ui.Label(row.transform, "Troops Word", "병력", UiTokens.Small, UiTokens.BodyDim), 44f, 48f);
             Text troopsValue = Ui.Label(row.transform, "Troops Value", "", UiTokens.Text, UiTokens.Body);
-            Ui.Size(troopsValue, 128f, 48f);
+            Ui.Size(troopsValue, 136f, 48f);
             return map;
         }
 

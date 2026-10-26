@@ -361,8 +361,11 @@ namespace HumanLastRampart.Meta
                 if (keyboard.sKey.isPressed || keyboard.downArrowKey.isPressed) input.y -= 1f;
             }
             if (modal != null && keyboard != null && keyboard.escapeKey.wasPressedThisFrame) CloseModal();   // Esc로 등대 창 닫기 (S5)
-            if (beacon != null && (LampLight(beacon.BeaconRepair, BeaconRules.IsIgnitionNight(beacon)) != lampLight
-                || BeaconRules.IsIgnitionNight(beacon) != lampIgnition)) RefreshTower();   // 성벽 수리로 점화의 밤이 되는 경우까지 따라간다
+            if (beacon != null)
+            {
+                bool ignitionNow = BeaconRules.IsIgnitionNight(beacon);   // 한 프레임에 한 번만 계산
+                if (LampLight(beacon.BeaconRepair, ignitionNow) != lampLight || ignitionNow != lampIgnition) RefreshTower();   // 성벽 수리로 점화의 밤이 되는 경우까지 따라간다
+            }
             walking = Move(input, Time.unscaledDeltaTime);
             if (CanMove && keyboard != null && (keyboard.eKey.wasPressedThisFrame || keyboard.spaceKey.wasPressedThisFrame)) Nearest()?.Use?.Invoke();
             PlaceHero();

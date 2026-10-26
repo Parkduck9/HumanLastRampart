@@ -13,7 +13,8 @@ namespace HumanLastRampart.App.Tests
     public sealed class LightbearersTests
     {
         const string ReduceKey = "hlr.settings.reduceMotion", ShakeKey = "hlr.settings.shake";
-        bool hadReduce, hadShake;
+        bool hadReduce, hadShake, hadMarker;
+        int markerValue;
         bool reduce, shake;
 
         [SetUp]
@@ -21,6 +22,7 @@ namespace HumanLastRampart.App.Tests
         {
             GameSettings.Load();
             hadReduce = PlayerPrefs.HasKey(ReduceKey); hadShake = PlayerPrefs.HasKey(ShakeKey);
+            hadMarker = PlayerPrefs.HasKey(GameSettings.MigrationMarker); markerValue = PlayerPrefs.GetInt(GameSettings.MigrationMarker, 0);
             reduce = GameSettings.ReduceMotion; shake = GameSettings.CameraShake;
         }
 
@@ -30,6 +32,7 @@ namespace HumanLastRampart.App.Tests
             // 사용자 설정을 시험 전 상태로 (키가 없었으면 없는 채로)
             if (hadReduce) GameSettings.SetReduceMotion(reduce); else PlayerPrefs.DeleteKey(ReduceKey);
             if (hadShake) GameSettings.SetCameraShake(shake); else PlayerPrefs.DeleteKey(ShakeKey);
+            if (hadMarker) PlayerPrefs.SetInt(GameSettings.MigrationMarker, markerValue); else PlayerPrefs.DeleteKey(GameSettings.MigrationMarker);
             PlayerPrefs.Save();
             GameSettings.Load();
         }
@@ -114,6 +117,49 @@ namespace HumanLastRampart.App.Tests
         }
 
         [Test]
+        public void SettingsMigration_TurnsReduceMotionOnOnceForPlayersWhoHadShakeOff()
+        {
+            PlayerPrefs.DeleteKey(GameSettings.MigrationMarker); PlayerPrefs.DeleteKey(ReduceKey);
+            PlayerPrefs.SetInt(ShakeKey, 0);
+            GameSettings.MigrateOnce();
+            Assert.IsTrue(PlayerPrefs.HasKey(GameSettings.MigrationMarker), "표시 키가 남는다");
+            Assert.AreEqual(1, PlayerPrefs.GetInt(ReduceKey, 0), "흔들림을 꺼 둔 사람은 움직임 줄이기가 켜진다");
+            // 사용자가 다시 끄면 두 번째 실행은 건드리지 않는다
+            PlayerPrefs.SetInt(ReduceKey, 0);
+            GameSettings.MigrateOnce();
+            Assert.AreEqual(0, PlayerPrefs.GetInt(ReduceKey, 1), "한 번만");
+            // 흔들림이 켜져 있던 사람은 영향이 없다
+            PlayerPrefs.DeleteKey(GameSettings.MigrationMarker); PlayerPrefs.DeleteKey(ReduceKey); PlayerPrefs.SetInt(ShakeKey, 1);
+            GameSettings.MigrateOnce();
+            Assert.IsFalse(PlayerPrefs.HasKey(ReduceKey));
+        }
+
+#if UNITY_EDITOR_WIN
+        [Test]
+        public void RegistryPrefs_CopiedOnlyIntoEmptyKey()
+        {
+            string root = @"Software\HLRTest_W36_" + Guid.NewGuid().ToString("N");
+            try
+            {
+                using (var key = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(root + @"\old"))
+                {
+                    key.SetValue("hlr.settings.volume_h1", 1056964608, Microsoft.Win32.RegistryValueKind.DWord);
+                    key.SetValue("blob_h2", new byte[] { 1, 2, 3 }, Microsoft.Win32.RegistryValueKind.Binary);
+                }
+                Assert.AreEqual(2, GameSettings.CopyRegistryPrefs(root + @"\old", root + @"\new"), "빈 새 키에는 복사한다");
+                using (var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(root + @"\new"))
+                {
+                    Assert.AreEqual(1056964608, (int)key.GetValue("hlr.settings.volume_h1"));
+                    CollectionAssert.AreEqual(new byte[] { 1, 2, 3 }, (byte[])key.GetValue("blob_h2"));
+                }
+                Assert.AreEqual(0, GameSettings.CopyRegistryPrefs(root + @"\old", root + @"\new"), "새 키에 값이 있으면 건드리지 않는다");
+                Assert.AreEqual(0, GameSettings.CopyRegistryPrefs(root + @"\none", root + @"\new2"), "예전 키가 없으면 아무 일도 없다");
+            }
+            finally { Microsoft.Win32.Registry.CurrentUser.DeleteSubKeyTree(root, false); }
+        }
+#endif
+
+        [Test]
         public void LegacySave_IsCopiedOnceToNewPath()
         {
             string root = Path.Combine(Path.GetTempPath(), "hlr_migrate_test_" + Guid.NewGuid().ToString("N"));
@@ -130,6 +176,10 @@ namespace HumanLastRampart.App.Tests
                 File.WriteAllText(Path.Combine(oldFolder, "slot1.json"), "older");
                 Assert.IsFalse(CampaignSave.MigrateLegacy(oldFolder, newFolder), "새 위치에 이미 저장이 있으면 덮어쓰지 않는다");
                 Assert.AreEqual("new", File.ReadAllText(Path.Combine(newFolder, "slot1.json")));
+                // 진짜 한 번만: 새 위치 저장을 지워도 예전 것이 되살아나지 않는다
+                File.Delete(Path.Combine(newFolder, "slot1.json"));
+                Assert.IsFalse(CampaignSave.MigrateLegacy(oldFolder, newFolder), "삭제 뒤 다시 가져오지 않는다");
+                Assert.IsFalse(File.Exists(Path.Combine(newFolder, "slot1.json")));
             }
             finally { if (Directory.Exists(root)) Directory.Delete(root, true); }
         }

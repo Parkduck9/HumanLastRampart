@@ -1,4 +1,7 @@
 using System;
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+ using Microsoft.Win32;
+#endif
 using UnityEngine;
 
 namespace HumanLastRampart.Core.Settings
@@ -35,8 +38,53 @@ namespace HumanLastRampart.Core.Settings
 
         static bool loaded;
 
+        // W36: 제품 이름이 HumanLastRampart → Lightbearers로 바뀌어 설정 저장 위치(윈도 레지스트리 키)도 옮겨졌다. 한 번만:
+        //  1) 새 키가 비어 있으면 예전 키의 값을 통째로 복사한다 (윈도 실행 파일만)
+        //  2) 카메라 흔들림을 이미 꺼 둔 사람은 움직임 줄이기도 켠다 (예전에는 흔들림 설정이 움직임 줄이기 대용이었다)
+        // 끝나면 표시 키를 남긴다. 기본값으로 되돌리기는 이 표시를 지우지 않는다
+        public const string MigrationMarker = Prefix + "w36";
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        public static void MigrateOnce()
+        {
+            if (PlayerPrefs.HasKey(MigrationMarker)) return;
+#if UNITY_STANDALONE_WIN && !UNITY_EDITOR
+            try
+            {
+                CopyRegistryPrefs(@"Software\" + Application.companyName + @"\HumanLastRampart", @"Software\" + Application.companyName + @"\" + Application.productName);
+            }
+            catch (Exception exception) { Debug.LogWarning("[설정] 예전 설정을 가져오지 못했습니다: " + exception.Message); }
+#endif
+            if (PlayerPrefs.GetInt(Prefix + "shake", 1) == 0 && !PlayerPrefs.HasKey(Prefix + "reduceMotion")) PlayerPrefs.SetInt(Prefix + "reduceMotion", 1);
+            PlayerPrefs.SetInt(MigrationMarker, 1);
+            PlayerPrefs.Save();
+        }
+
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+        // 레지스트리 키 값을 그대로 복사한다. 새 키에 값이 이미 있으면 아무것도 하지 않는다. 복사한 값 수를 돌려준다
+        public static int CopyRegistryPrefs(string fromPath, string toPath)
+        {
+            using (RegistryKey from = Registry.CurrentUser.OpenSubKey(fromPath))
+            {
+                if (from == null || from.ValueCount == 0) return 0;
+                using (RegistryKey to = Registry.CurrentUser.CreateSubKey(toPath))
+                {
+                    if (to.ValueCount > 0) return 0;
+                    int copied = 0;
+                    foreach (string name in from.GetValueNames())
+                    {
+                        to.SetValue(name, from.GetValue(name, null, RegistryValueOptions.DoNotExpandEnvironmentNames), from.GetValueKind(name));
+                        copied++;
+                    }
+                    return copied;
+                }
+            }
+        }
+#endif
+
         public static void Load()
         {
+            MigrateOnce();
             loaded = true;
             MasterVolume = Mathf.Clamp01(PlayerPrefs.GetFloat(Prefix + "volume", 1f));
             MusicVolume = Mathf.Clamp01(PlayerPrefs.GetFloat(Prefix + "music", 1f));
