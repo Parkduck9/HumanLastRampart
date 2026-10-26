@@ -55,8 +55,11 @@ namespace HumanLastRampart.Combat.Battle
         readonly List<(Renderer renderer, BattleWorldMaterials.Surface surface)>[] damageParts = new List<(Renderer, BattleWorldMaterials.Surface)>[4];
         readonly int[] damageStage = new int[4];
         List<(Renderer renderer, BattleWorldMaterials.Surface surface)> collecting;   // 지금 짓는 면의 손상 조각 목록 (Box가 채운다)
-        const float CrackedBelow = 0.66f;   // 체력 비율이 이보다 낮으면 금감(1단계)
-        const float BrokenBelow = 0.33f;    // 이보다 낮으면 부서짐(2단계)
+        // 단계 기준(66%·33%·0)은 WallDamageRules.StageOf
+        // W39 (Codex K-126): 0~3단계(3 = 파공, 체력 0) 그림을 얹는다. 기준은 WallDamageRules (66%·33%는 옛 값 그대로). 돌출부 3D 조각은 단계가 오르면 그림으로 바뀐다
+        readonly List<(Renderer renderer, float along)>[] merlonPieces = new List<(Renderer, float)>[4];
+        readonly bool[] stageKnown = new bool[4];
+        BattleWallDamageView damage;
 
         public int PieceCount { get; private set; }
 
@@ -132,12 +135,14 @@ namespace HumanLastRampart.Combat.Battle
 
                 // 돌출부 (사격구 안에는 없음). 자리 계산은 병사 총안 자리·횃불과 공용 (BattleWallLayout, K-045)
                 BattleWallLayout.Merlons(half, bays[side], merlons);
+                merlonPieces[side] = new List<(Renderer, float)>();
                 foreach (float m in merlons)
                 {
                     // 돌출부도 난간과 같은 벽돌 줄에서 이어진다 (위치 = 성벽 따라 m, 높이 = 난간 위)
-                    Box("Merlon", n * (half - p.ParapetDepth * 0.5f) + r * m + Vector3.up * (top + p.ParapetHeight + p.MerlonHeight * 0.5f),
+                    Renderer merlonBox = Box("Merlon", n * (half - p.ParapetDepth * 0.5f) + r * m + Vector3.up * (top + p.ParapetHeight + p.MerlonHeight * 0.5f),
                         face, new Vector3(p.MerlonWidth, p.MerlonHeight, p.ParapetDepth), BattleWorldMaterials.Surface.ParapetSide,
                         new Vector2(p.MerlonWidth, p.MerlonHeight), new Vector2(m - p.MerlonWidth * 0.5f, BrickRowStart + p.ParapetHeight));
+                    merlonPieces[side].Add((merlonBox, m));
                 }
 
                 collecting = null;   // 모서리 포탑은 손상 그림을 바꾸지 않는다
@@ -180,6 +185,9 @@ namespace HumanLastRampart.Combat.Battle
                 Box("Tower Roof", towerCenter + Vector3.up * (towerTop + p.MerlonHeight + 0.15f), Quaternion.LookRotation(outward), new Vector3(p.TowerSize * 0.7f, 0.3f, p.TowerSize * 0.7f), BattleWorldMaterials.Surface.TowerRoof);
                 collectingTower = null;
             }
+
+            damage = new BattleWallDamageView(root.transform, sim.BattleSeed, half, p, merlonPieces);   // 부서짐 그림 (그림판은 전투 화면을 지을 때 미리 만든다)
+            damage.Preload();
         }
 
         // 모서리 발판 윗면 돌 바닥 (W41). 모서리 쪽을 +로 본 좌표(u = x·sx, v = z·sz)에서 발판 [pu]×[pv]가 통로 판(u ≤ 안쪽 끝 e, v ≤ 바깥 끝)·마당 바닥(u, v ≤ e)에 안 덮인 곳
@@ -210,6 +218,7 @@ namespace HumanLastRampart.Combat.Battle
 
         public void UpdateView(Vector3 cameraPosition, bool mapMode)
         {
+            damage?.Tick(Time.unscaledTime, cameraPosition);   // 먼지·연기·불꽃 칸 (켜진 것만)
             for (int side = 0; side < 4; side++)
             {
                 List<Renderer> parts = towerParts[side];
@@ -248,7 +257,7 @@ namespace HumanLastRampart.Combat.Battle
         {
             var go = GameObject.CreatePrimitive(PrimitiveType.Cube);
             go.name = name;
-            Object.Destroy(go.GetComponent<Collider>());
+            Discard(go.GetComponent<Collider>());
             go.transform.SetParent(root.transform, false);
             go.transform.localPosition = position;
             go.transform.localRotation = rotation;
@@ -263,30 +272,51 @@ namespace HumanLastRampart.Combat.Battle
             return renderer;
         }
 
-        // 성벽 체력 색(BattleView): 덮은 판에도 같은 붉은 기를 곱한다. ratio 1 = 멀쩡
+        // 성벽 체력 색(BattleView): 덮은 판에도 같은 어두움을 곱한다 (W39: 붉은 기는 뺐다). ratio 1 = 멀쩡
         // 손상 그림(K-024)이 있으면 체력 비율에 따라 멀쩡 → 금감 → 부서짐 재질로 바꿔 끼운다 (반복 값은 조각마다 그대로)
         public void SetWallHealth(int side, float ratio)
         {
             if (sideSkins == null || side < 0 || side >= sideSkins.Length || sideSkins[side] == null) return;
-            Color tint = Color.Lerp(new Color(1f, 0.3f, 0.25f), Color.white, ratio);
+            // 붉은 기는 뺐다(W39 사진 검토): 손상은 돌 그림(균열·검댕·빠진 돌)으로 읽히게, 체력이 줄수록 조금 어둡게만
+            float shade = Mathf.Lerp(0.72f, 1f, Mathf.Clamp01(ratio));
+            Color tint = new Color(shade, shade * 0.98f, shade * 0.96f);
             foreach (Renderer skin in sideSkins[side]) materials.Tint(skin, tint);
 
-            int stage = ratio < BrokenBelow ? 2 : ratio < CrackedBelow ? 1 : 0;
+            int stage = WallDamageRules.StageOf(ratio);
+            bool first = !stageKnown[side];   // 처음 받은 값은 먼지를 피우지 않는다 (이미 부서진 채로 시작)
+            stageKnown[side] = true;
             if (stage == damageStage[side] || damageParts[side] == null) return;
             damageStage[side] = stage;
             foreach (var (renderer, surface) in damageParts[side])
             {
                 if (renderer == null) continue;
-                renderer.sharedMaterial = materials.GetDamaged(surface, stage) ?? materials.Get(surface);
+                renderer.sharedMaterial = materials.GetDamaged(surface, WallDamageRules.MaterialStage(stage)) ?? materials.Get(surface);
             }
+
+            damage?.SetStage(side, stage, first);
         }
 
-        // 확인용: 면 side의 지금 손상 단계 (0 멀쩡, 1 금감, 2 부서짐)
+        // 확인용: 면 side의 지금 손상 단계 (0 멀쩡, 1 금감, 2 반파, 3 파공)
         public int DamageStage(int side) => side >= 0 && side < damageStage.Length ? damageStage[side] : 0;
+
+        // 밤이면 심하게 부서진 곳에 작은 연기·불꽃 (BattleView.ApplyAtmosphere)
+        public void SetNight(bool night) => damage?.SetNight(night);
+
+        // 확인용: 부서짐 그림 (그림이 없거나 3D 목업이 꺼져 있으면 null)
+        public BattleWallDamageView Damage => damage;
+
+        // 편집 모드 시험에서는 Destroy를 못 쓴다 (W39)
+        static void Discard(Object o)
+        {
+            if (o == null) return;
+            if (Application.isPlaying) Object.Destroy(o);
+            else Object.DestroyImmediate(o);
+        }
 
         public void Dispose()
         {
-            if (root != null) Object.Destroy(root);
+            damage?.Dispose();
+            if (root != null) Discard(root);
             materials?.Dispose();
         }
     }

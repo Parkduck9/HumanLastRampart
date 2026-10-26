@@ -54,7 +54,10 @@ namespace HumanLastRampart.Combat.Battle
         public const float StairsReach = 3f;            // 계단 가운데에서 이 거리(m) 안이고
         public const float StairsInsetMin = InsetMax - 0.5f;   // 통로 안쪽 끝 가까이면 E로 내려갈 수 있다
         public const float TowerHeroBack = 1.45f;       // 탑 앞(문 앞)에서 서는 자리: 탑 가운데에서 남쪽(문 쪽)으로. 높은 탑(W20)의 아래 반폭 1.1m 밖
-        public const float TripSecondsMax = 5f;         // 한쪽 길(성벽 ↔ 탑)은 길어도 이 시간(게임 시간) 안에 — 걷기·계단 모습은 그대로 두고 속도만 올린다 (사용자 2026-10-23)
+        // 사용자 2026-10-26: 더 느리게 — 등대 길 평지 3.5m/s · 계단 1.75m/s · 한쪽 길 상한 8초 (성벽 달리기 HeroSpeed와는 따로)
+        public const float TripFlatSpeed = 3.5f;
+        public const float TripStairSpeed = 1.75f;
+        public const float TripSecondsMax = 8f;         // 한쪽 길(성벽 ↔ 탑)은 길어도 이 시간(게임 시간) 안에 — 걷기·계단 모습은 그대로 두고 속도만 올린다 (사용자 2026-10-23)
         public const float NorthLaneZ = 1.6f;           // 북쪽 길: 이보다 북쪽이면 사진기가 남쪽을 봐 탑 몸체 안에 들어가지 않는다 (탑 쪽이면 북쪽)
         public const float TowerYawRadius = 9f;        // 탑에서 이만큼(m) 안에서는 사진기가 북쪽(문 쪽)을 본다. 밖에서는 길이 닿는 성벽의 바깥을 본다 (사진기가 탑 몸체에 들어가지 않게)
         const float TowerFollowSharpness = 30f;         // 길을 오르내릴 때 카메라가 발을 따라붙는 빠르기 (평소 14)
@@ -118,7 +121,7 @@ namespace HumanLastRampart.Combat.Battle
             float total = 0f;
             for (int i = 1; i < count; i++)
             {
-                spd[i] = i == 2 ? BattleSim.HeroWalkSpeed : BattleSim.HeroSpeed;   // 계단만 걷고 나머지 평지는 성벽 달리기 속도
+                spd[i] = i == 2 ? TripStairSpeed : TripFlatSpeed;   // 계단만 느리게, 나머지 평지는 등대 길 속도 (사용자 2026-10-26: 더 느리게)
                 total += Vector3.Distance(pts[i - 1], pts[i]) / spd[i];
             }
 

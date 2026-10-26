@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using HumanLastRampart.Combat.PerfLab;
 using HumanLastRampart.Core.Definitions;
@@ -744,6 +744,7 @@ namespace HumanLastRampart.Combat.Battle
                 beacon.Draw(viewCamera);
                 tower?.Tick(sim.TimeOfDay == HumanLastRampart.Core.CombatContracts.TimeOfDay.Night, BattleSim.GlowLevel(sim.Lamp), beacon.FlameStrength);
                 road?.Tick(sim.TimeOfDay == HumanLastRampart.Core.CombatContracts.TimeOfDay.Night, BattleSim.GlowLevel(sim.Lamp));
+                world?.SetNight(sim.TimeOfDay == HumanLastRampart.Core.CombatContracts.TimeOfDay.Night);   // 밤 부서진 성벽 연기·불꽃 (W39, K-126)
                 courtyardBuildings?.Tick(sim.TimeOfDay == HumanLastRampart.Core.CombatContracts.TimeOfDay.Night, viewCamera);   // 밤 창문 (W31, K-118)
                 shotBuffer.SetData(sim.ShotInstances);
                 float shotShade = sim.Brightness;
@@ -819,7 +820,7 @@ namespace HumanLastRampart.Combat.Battle
                 float ratio = status.WallMaxHp > 0 ? Mathf.Clamp01((float)status.WallHp / status.WallMaxHp) : 1f;
                 if (ratio == wallRatioShown[side]) continue;   // 바뀔 때만 (K-061: 재질 값을 매 프레임 넣지 않게)
                 wallRatioShown[side] = ratio;
-                walls[side].material.color = Color.Lerp(new Color(0.75f, 0.2f, 0.15f), new Color(0.72f, 0.7f, 0.66f), ratio);
+                walls[side].material.color = Color.Lerp(new Color(0.46f, 0.44f, 0.41f), new Color(0.72f, 0.7f, 0.66f), ratio);   // 붉은 기 대신 어두운 돌 (W39)
                 world?.SetWallHealth(side, ratio);   // 질감 판(통로·바깥면)에도 같은 붉은 기
             }
         }
