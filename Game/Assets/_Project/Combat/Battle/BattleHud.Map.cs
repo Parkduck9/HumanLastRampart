@@ -385,7 +385,7 @@ namespace HumanLastRampart.Combat.Battle
                 BattleSim.GroupSummary g = groups[i];
                 Vector3 screen = camera.WorldToScreenPoint(g.Center);
                 Text label = groupLabels[i];
-                label.gameObject.SetActive(mapMode);
+                label.gameObject.SetActive(mapMode && !g.Boss);   // 우두머리는 큰 표식(BattleHud.Boss.cs)이 이름을 달고 있어 무리 글을 또 띄우지 않는다
                 label.rectTransform.anchorMin = label.rectTransform.anchorMax = Viewport(screen);
                 label.rectTransform.anchoredPosition = new Vector2(0f, 28f);
                 label.text = g.Boss ? "우두머리 · 성벽손 오우거" : g.Special > 0 ? $"약 {g.Alive} · 특수 {g.Special}" : $"약 {g.Alive}";

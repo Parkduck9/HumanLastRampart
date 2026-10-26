@@ -13,7 +13,7 @@ namespace HumanLastRampart.Combat.Battle
         RectTransform bossRoot;
         Text bossName, bossState, bossNumbers;
         UiBar bossBar;
-        string bossStateShown;
+        int bossHpShown = -1, bossMaxShown = -1, bossStateCode = -1;
 
         // 위쪽 가운데, 단계 띠(64) 바로 아래. Refresh가 부른다
         void RefreshBossBar(BattleSim sim)
@@ -29,16 +29,25 @@ namespace HumanLastRampart.Combat.Battle
             if (!bossRoot.gameObject.activeSelf) bossRoot.gameObject.SetActive(true);
             int max = Mathf.Max(1, sim.BossMaxHp), hp = Mathf.Clamp(sim.BossHp, 0, max);
             bossBar.Set((float)hp / max);
-            bossNumbers.text = $"{hp:N0} / {max:N0}";
-            string state = !sim.BossActive ? "쓰러뜨림"
-                : sim.BossDownLeft > 0f ? $"쓰러짐 {Mathf.CeilToInt(sim.BossDownLeft)}초"
-                : sim.BossOnWalkway ? "통로 위 — 부수는 중!"
-                : sim.BossClimbing ? "기어오르는 중"
-                : sim.BossLit ? "빛에 드러남 · 빨라짐" : "화살이 잘 안 듣는다";
-            if (state != bossStateShown)
+            if (hp != bossHpShown || max != bossMaxShown)   // 같은 값이면 글자를 다시 만들지 않는다 (문자열·글자 메쉬)
             {
-                bossStateShown = state;
-                bossState.text = state;
+                bossHpShown = hp;
+                bossMaxShown = max;
+                bossNumbers.text = $"{hp:N0} / {max:N0}";
+            }
+
+            int downSeconds = sim.BossActive && sim.BossDownLeft > 0f ? Mathf.CeilToInt(sim.BossDownLeft) : 0;
+            // 상태 번호: 0 쓰러뜨림 · 1 쓰러짐(초는 따로) · 2 통로 위 · 3 오르는 중 · 4 빛 · 5 빛 밖
+            int stateKey = !sim.BossActive ? 0 : downSeconds > 0 ? 1 : sim.BossOnWalkway ? 2 : sim.BossClimbing ? 3 : sim.BossLit ? 4 : 5;
+            int stateCode = stateKey * 1000 + downSeconds;
+            if (stateCode != bossStateCode)
+            {
+                bossStateCode = stateCode;
+                bossState.text = stateKey == 0 ? "쓰러뜨림"
+                    : stateKey == 1 ? $"쓰러짐 {downSeconds}초"
+                    : stateKey == 2 ? "통로 위 — 부수는 중!"
+                    : stateKey == 3 ? "기어오르는 중"
+                    : stateKey == 4 ? "빛에 드러남 · 빨라짐" : "화살이 잘 안 듣는다";
             }
         }
 

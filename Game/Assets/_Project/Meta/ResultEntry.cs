@@ -88,7 +88,7 @@ namespace HumanLastRampart.Meta
                     int seconds = Mathf.RoundToInt(result.BossSeconds);
                     string bossLine = result.BossDefeated
                         ? $"우두머리 성벽손 오우거 처치 · {seconds / 60}:{seconds % 60:00}" + (result.BossFalls > 0 ? $" · 떨어뜨림 {result.BossFalls}번" : "")
-                        : "우두머리 성벽손 오우거는 쓰러뜨리지 못했습니다";
+                        : $"우두머리 성벽손 오우거는 쓰러뜨리지 못했습니다 · {seconds / 60}:{seconds % 60:00}";
                     Text bossText = Ui.Label(boss, "Boss Text", bossLine, UiTokens.Text, result.BossDefeated ? UiTokens.GoodInk : UiTokens.DangerInk, TextAnchor.MiddleCenter, true);
                     Ui.Stretch(bossText.rectTransform);
                 }

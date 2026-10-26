@@ -648,7 +648,7 @@ namespace HumanLastRampart.Combat.Battle
                                 break;
                             case SpecialFirst:
                                 if (Kinds[EnemyKindOf[e]].IsSpecial != 0) favored = 0;
-                                key = BandOf(ratio);
+                                key = bossTarget ? float.MinValue : BandOf(ratio);   // 우두머리는 다친 특수 적보다도 먼저
                                 break;
                             case DensestArea:
                                 key = -CellCount[CellOfEnemy[e]];   // 같은 칸에 적이 많을수록

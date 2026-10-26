@@ -646,6 +646,7 @@ namespace HumanLastRampart.Combat.Battle
                 if (!mapMode && !bossHiddenBuffers.Contains(buffer)) Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, count, block);
             }
 
+            bossArt?.PreloadStep();   // 예고부터 동작 시트를 한 장씩 미리 불러 둔다 (지도가 열려 있어도)
             if (!mapMode) bossArt?.Draw(viewCamera);   // 성벽손 오우거 (Codex K-129)
 
             if (!mapMode)

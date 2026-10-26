@@ -11,7 +11,7 @@ namespace HumanLastRampart.Combat.Editor
     {
         const string Folder = "/Resources/BattleArt/Boss/";
 
-        public override uint GetVersion() => 1;
+        public override uint GetVersion() => 2;
 
         void OnPreprocessTexture()
         {
@@ -33,12 +33,15 @@ namespace HumanLastRampart.Combat.Editor
             importer.isReadable = false;
             importer.textureCompression = TextureImporterCompression.Compressed;
             importer.compressionQuality = 100;
+            // 휴대기기: 가로 4096을 넘는 시트(칸 6개 이상 = 4608~7680)는 최대 크기 4096으로 제한 — 오래된 휴대 GPU가 못 다루는 크기이고 메모리도 줄인다.
+            // 유니티는 2의 거듭제곱으로 줄이므로 이 시트들은 가로세로 절반이 된다 (칸 768×864 → 384×432). 4칸 이하 시트는 그대로
+            importer.GetSourceTextureWidthAndHeight(out int sourceWidth, out _);
             foreach (string platform in new[] { "Android", "iPhone" })
             {
                 var settings = importer.GetPlatformTextureSettings(platform);
                 settings.name = platform;
                 settings.overridden = true;
-                settings.maxTextureSize = 8192;
+                settings.maxTextureSize = sourceWidth > 4096 ? 4096 : 8192;
                 settings.format = TextureImporterFormat.ASTC_4x4;
                 settings.textureCompression = TextureImporterCompression.Compressed;
                 importer.SetPlatformTextureSettings(settings);

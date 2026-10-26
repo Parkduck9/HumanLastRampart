@@ -46,8 +46,9 @@ namespace HumanLastRampart.Combat.Battle
         readonly PerfLabInstance[] instance = new PerfLabInstance[1];
         readonly MaterialPropertyBlock[] blocks = new MaterialPropertyBlock[15];
         readonly bool[] missing = new bool[15];
-        bool dying;
-        float deathStart;
+        readonly System.Collections.Generic.List<Texture2D> loaded = new System.Collections.Generic.List<Texture2D>();   // 불러온 그림 (Dispose에서 내린다)
+        int preloadNext;
+        bool diedOnWalkway;
         Pose lastPose = Pose.WalkFront;
         int lastFrame;
 
@@ -75,6 +76,8 @@ namespace HumanLastRampart.Combat.Battle
             var texture = Resources.Load<Texture2D>(Folder + Names[index]);
             if (texture == null) { missing[index] = true; return null; }
             var normal = Resources.Load<Texture2D>(Folder + Names[index] + "_normal");
+            loaded.Add(texture);
+            if (normal != null) loaded.Add(normal);
             var block = new MaterialPropertyBlock();
             block.SetTexture("_MainTex", texture);
             block.SetVector("_MainTex_TexelSize", new Vector4(1f / texture.width, 1f / texture.height, texture.width, texture.height));
@@ -93,6 +96,22 @@ namespace HumanLastRampart.Combat.Battle
             blocks[index] = block;
             return block;
         }
+
+        // 나오기 전 예고부터 나온 뒤까지 매 프레임 한 동작씩 미리 불러 둔다 — 처음 쓰는 순간 한꺼번에 불러 멈칫하지 않게.
+        // 걷기·오르기·통로 위·떨어짐·죽음 (누움·일어남·함정은 드물어 그때 불러온다). 지도가 열려 있어도 부른다 (BattleView가 매 프레임)
+        static readonly Pose[] PreloadOrder =
+        {
+            Pose.WalkFront, Pose.WalkBack, Pose.WalkLeft, Pose.WalkRight, Pose.ClimbBack, Pose.ClimbFront, Pose.SmashFront, Pose.SmashBack,
+            Pose.LoseGrip, Pose.Land, Pose.DeathFront, Pose.DeathSide,
+        };
+
+        public void PreloadStep()
+        {
+            if (preloadNext >= PreloadOrder.Length || !(sim.BossSpawned || sim.TryGetBossWarning(out _, out _))) return;
+            BlockFor(PreloadOrder[preloadNext++]);
+        }
+
+        public int PreloadedCount => preloadNext;
 
         static Vector2 PivotOf(Pose pose) => pose == Pose.ClimbBack || pose == Pose.ClimbFront ? GripPivot : pose == Pose.LoseGrip ? PelvisPivot : GroundPivot;
 
@@ -141,11 +160,7 @@ namespace HumanLastRampart.Combat.Battle
             byte state = sim.BossState;
             bool dead = state == EnemyState.Dead;
             if (!dead && !EnemyState.IsAlive(state)) return;
-            if (dead)
-            {
-                if (!dying) { dying = true; deathStart = Time.time; }
-            }
-            else dying = false;
+            if (!dead) diedOnWalkway = state == EnemyState.OnWall;   // 죽는 순간 통로 위였는지 (죽는 그림도 통로 위 크기를 유지)
 
             int side = sim.BossSide;
             float3 outward = WallGeometry.Outward(side);
@@ -159,7 +174,7 @@ namespace HumanLastRampart.Combat.Battle
             if (dead)
             {
                 pose = view == 0 || view == 1 ? Pose.DeathFront : Pose.DeathSide;
-                float t = now - deathStart;
+                float t = Mathf.Max(0f, sim.Elapsed - sim.BossKilledAt);   // 죽은 시각은 모의 전투가 정한다 (지도를 닫고 열어도 다시 재생하지 않는다)
                 if (t > FrameCounts[(int)pose] / Fps[(int)pose] + DeathHold) return;   // 마지막 자세를 잠깐 둔 뒤 사라진다
                 frame = Mathf.Min((int)(t * Fps[(int)pose]), FrameCounts[(int)pose] - 1);
             }
@@ -199,11 +214,17 @@ namespace HumanLastRampart.Combat.Battle
             float scale = Mathf.Lerp(BattleSim.EnemyWallScale, 1f, Mathf.Clamp01((fromWall - 1f) / Mathf.Max(0.1f, BattleSim.WallScaleBand - 1f)));
             // 우두머리는 4.5m 그대로 보여야 한다: 성벽 위·오르는 중에는 줄이지 않고, 걷거나 쓰러져 있을 때도 일반 적만큼 작아지지 않게 바닥을 둔다
             if (state == EnemyState.Climbing) scale = 1f;
-            else if (state == EnemyState.OnWall) scale = WalkwayScale;   // 통로 위는 사진기가 4m 안팎이라 1.0이면 화면을 다 덮는다 (사진으로 맞춤)
+            else if (state == EnemyState.OnWall || (dead && diedOnWalkway)) scale = WalkwayScale;   // 통로 위는 사진기가 4m 안팎이라 1.0이면 화면을 다 덮는다 (사진으로 맞춤)
             else scale = Mathf.Max(scale, BossMinScale);
-            float shade = sim.Brightness;
+            // 밝기·안개 흐림·화상 깜빡임은 일반 적과 같은 작업이 쓴 값을 그대로 (WriteBattleEnemyInstancesJob). 비어 있으면 낮밤 밝기
+            float3 tint = new float3(sim.Brightness);
+            if (sim.EnemyInstances.IsCreated && sim.BossSlot < sim.EnemyInstances.Length)
+            {
+                float4 written = sim.EnemyInstances[sim.BossSlot].TintSize;
+                if (written.x + written.y + written.z > 0f) tint = written.xyz;
+            }
             // 빛줄기 안이면 화가 난 듯 붉게 (빛에 드러나 빨라지는 상태가 눈에 보이게)
-            float3 tint = sim.BossLit ? new float3(1f, 0.78f, 0.72f) * shade : new float3(shade, shade, shade);
+            if (sim.BossLit) tint *= new float3(1f, 0.78f, 0.72f);
             instance[0] = new PerfLabInstance { PosFrame = new float4(feet.x, feet.y, feet.z, frame), TintSize = new float4(tint, CellMeters * scale) };
             buffer.SetData(instance);
             lastPose = pose;
@@ -212,6 +233,12 @@ namespace HumanLastRampart.Combat.Battle
             Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, 1, block);
         }
 
-        public void Dispose() => buffer?.Release();
+        public void Dispose()
+        {
+            buffer?.Release();
+            foreach (Texture2D texture in loaded) if (texture != null) Resources.UnloadAsset(texture);   // 전투가 끝나면 시트를 내려 메모리를 돌려 준다
+            loaded.Clear();
+            for (int i = 0; i < blocks.Length; i++) blocks[i] = null;
+        }
     }
 }

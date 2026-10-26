@@ -14,8 +14,8 @@ namespace HumanLastRampart.Combat.Battle
     // 우두머리: 성벽손 오우거 (Docs/GDD/Boss_WallhandOgre_v1.md, 사용자 확정 2026-10-26)
     // - 점화의 밤에만 한 마리. 본대가 시작(MainPhaseStart)된 뒤 60초에 전투 씨앗이 정한 공격 면의 들판에서 나와
     //   그 성벽에서 가장 약한 자리(성벽 부서짐 W39의 파공 칸 = 체력은 벽 하나라 가장 먼저 뚫리는 칸)로 걸어온다
-    // - 빛줄기 밖: 화살·총 25%만 (범위 피해는 그대로). 빛 안: 100% + 빛 추가 피해, 대신 걷기 ×1.2, 느려짐 없음 — 피해 규칙은 ApplyBattleHitsJob, 걷기는 EnemyStepJob.StepBoss
-    // - 성벽에 닿으면 사다리 없이 땅에서 바로 초당 0.5m로 오른다. 오르는 동안 범위 피해 ×2. 한 번 오르는 동안 최대 체력의 15% 이상 잃으면 손을 놓고 떨어져 6초 쓰러짐,
+    // - 빛줄기 밖: 화살·총은 정의 비율(unlitPointDamageMul)만 (범위 피해는 그대로). 빛 안: 100% + 빛 추가 피해, 대신 걷기 ×1.2, 느려짐 없음 — 피해 규칙은 ApplyBattleHitsJob, 걷기는 EnemyStepJob.StepBoss
+    // - 성벽에 닿으면 사다리 없이 땅에서 바로 초당 0.5m로 오른다. 오르는 동안 범위 피해 ×2. 한 번 오르는 동안 최대 체력의 knockOffRatio(정의값) 이상 잃으면 손을 놓고 떨어져 6초 쓰러짐,
     //   다시 걸어와 오른다. 함정 폭발 범위 안이면 4초 쓰러짐
     // - 통로 위: 죽을 때까지 버틴다. 병사(OnWallAttack)와 그 성벽 체력(OnWallWallDamage)을 깎고, 모든 설정에서 1순위 표적, 늘 100% 피해
     // - 무작위는 전투 씨앗뿐 — 같은 전투를 다시 돌리면 같다. 우두머리는 일반 무리·최후 돌격·변형 단계 계산 밖에서 맨 끝 무리 하나로 붙는다
@@ -35,7 +35,7 @@ namespace HumanLastRampart.Combat.Battle
         NativeArray<float> eDown;           // 우두머리 쓰러짐 남은 시간 (적 이동 작업이 줄인다)
         NativeArray<float> eTargetLateral;  // 우두머리가 가려는 성벽 따라 자리 (적별 배열 — 우두머리만 쓴다)
         bool bossTracking;                // 지금 오르는 중인 한 번의 등반을 지켜보는 중
-        int bossClimbStartHp;
+        int bossClimbStartHp, bossPrevHp;
         bool bossSeenSpawn;
 
         public bool BossPresent => bossSlot >= 0;
@@ -143,6 +143,8 @@ namespace HumanLastRampart.Combat.Battle
             if (bossSlot < 0) return;
             byte state = eState[bossSlot];
             if (state == EnemyState.Waiting) return;
+            int hpBeforeFrame = bossPrevHp > 0 ? bossPrevHp : eHp[bossSlot];   // 이 틱의 작업이 돌기 전 체력 (등반 시작 체력을 전환 틱에 맞추려고)
+            bossPrevHp = eHp[bossSlot];
             if (!bossSeenSpawn)
             {
                 bossSeenSpawn = true;
@@ -184,9 +186,8 @@ namespace HumanLastRampart.Combat.Battle
 
             if (!bossTracking)
             {
-                bossTracking = true;   // 이번 등반 시작 체력
-                bossClimbStartHp = eHp[bossSlot];
-                return;
+                bossTracking = true;   // 이번 등반 시작 체력 = 걷기에서 오르기로 바뀐 틱이 시작될 때의 체력 (그 틱에 맞은 것도 센다)
+                bossClimbStartHp = hpBeforeFrame;
             }
 
             float limit = bossDef.KnockOffRatio * eMaxHp[bossSlot];

@@ -15,8 +15,8 @@ using UnityEngine;
 
 namespace HumanLastRampart.Combat.Tests
 {
-    // 우두머리 성벽손 오우거 (Docs/GDD/Boss_WallhandOgre_v1.md): 점화의 밤에만, 빛 밖 화살 25%, 빛 안 100%·걷기 ×1.2,
-    // 사다리 없이 오르기, 15% 잃으면 떨어짐, 함정 쓰러짐, 가장 약한 성벽 자리, 통로 위 1순위·성벽 피해, 같은 씨앗 = 같은 결과
+    // 우두머리 성벽손 오우거 (Docs/GDD/Boss_WallhandOgre_v1.md): 점화의 밤에만, 빛 밖 화살·총은 정의 비율, 빛 안 100%·걷기 ×1.2,
+    // 사다리 없이 오르기, 정의 비율만큼 잃으면 떨어짐 (값은 모두 EnemyDef 데이터), 함정 쓰러짐, 가장 약한 성벽 자리, 통로 위 1순위·성벽 피해, 같은 씨앗 = 같은 결과
     public sealed class BattleBossTests
     {
         const float Dt = 0.05f;
@@ -156,12 +156,13 @@ namespace HumanLastRampart.Combat.Tests
                 Assert.IsFalse(sim.BossSpawned);
                 FastForward(sim, BattleSim.BossSpawnSeconds - 0.1f);
                 Assert.IsFalse(sim.BossSpawned, "80초 전에는 없다");
+                WavePhase phaseBefore = sim.CurrentPhase;
                 FastForward(sim, BattleSim.BossSpawnSeconds + 0.1f);
                 Assert.IsTrue(sim.BossSpawned);
                 Assert.IsFalse(sim.TryGetBossWarning(out _, out _), "나온 뒤에는 예고 끝");
                 Assert.AreEqual(BattleSim.BossSpawnSeconds, sim.BossAppearedAt, 0.1f);
                 Assert.AreEqual(EnemyState.Walking, sim.BossState);
-                Assert.AreEqual(WavePhase.Main, sim.CurrentPhase == WavePhase.Final ? WavePhase.Main : sim.CurrentPhase, "우두머리는 공성 단계를 일으키지 않는다");
+                Assert.AreEqual(phaseBefore, sim.CurrentPhase, "우두머리가 나와도 단계(공성·최후 돌격)가 바뀌지 않는다");
                 Vector3 p = sim.BossPosition;
                 float3 pos = new float3(p.x, p.y, p.z);
                 Assert.AreEqual(sim.BossTargetAlong, math.dot(pos, WallGeometry.Right(sim.BossSide)), 0.01f, "그 자리 앞에서 나온다");
@@ -233,9 +234,10 @@ namespace HumanLastRampart.Combat.Tests
             using (BattleSim sim = SpawnedBoss(beamSide: side))
             {
                 var pos = Out(sim) * 110f;
-                Assert.AreEqual(120, HpLost(sim, pos, 100, false), "빛 안: 100% + 빛줄기 보통 +20%");
+                int lit = Mathf.RoundToInt(100 * (1f + BattleSim.BeamDamageBonus[(int)LampBrightness.Normal]));   // 빛줄기 보통 추가 피해
+                Assert.AreEqual(lit, HpLost(sim, pos, 100, false), "빛 안: 100% + 빛줄기 보통 추가 피해");
                 Assert.IsTrue(sim.BossLit);
-                Assert.AreEqual(120, HpLost(sim, pos, 100, true), "빛 안 범위 피해도 빛줄기 +20%");
+                Assert.AreEqual(lit, HpLost(sim, pos, 100, true), "빛 안 범위 피해도 빛줄기 추가 피해");
             }
         }
 
@@ -258,7 +260,7 @@ namespace HumanLastRampart.Combat.Tests
             using (BattleSim sim = SpawnedBoss())
             {
                 var dark = new float3(60.6f, 1f, 0f);
-                Assert.AreEqual(200, HpLost(sim, dark, 100, true, EnemyState.Climbing), "오르는 동안 범위 피해 ×2");
+                Assert.AreEqual(Mathf.RoundToInt(100 * Def(1).ClimbAreaDamageMul), HpLost(sim, dark, 100, true, EnemyState.Climbing), "오르는 동안 범위 피해 정의 배율");
                 Assert.AreEqual(Mathf.RoundToInt(100 * Def(1).UnlitPointDamageMul), HpLost(sim, dark, 100, false, EnemyState.Climbing), "오르는 동안에도 빛 밖 화살은 정의 비율");
             }
         }
@@ -320,7 +322,6 @@ namespace HumanLastRampart.Combat.Tests
         {
             using (BattleSim sim = SpawnedBoss())
             {
-                float t = sim.Elapsed;
                 int guard = 0;
                 while (sim.BossState == EnemyState.Walking && guard++ < 4000) Step(sim);
                 Assert.AreEqual(EnemyState.Climbing, sim.BossState);
@@ -329,7 +330,6 @@ namespace HumanLastRampart.Combat.Tests
                 Vector3 p = sim.BossPosition;
                 float lateral = math.dot(new float3(p.x, p.y, p.z), Right(sim));
                 Assert.AreEqual(sim.BossTargetAlong, lateral, 0.5f, "가장 약한 자리 앞에서 오른다");
-                Assert.AreEqual(t, t);
             }
         }
 
@@ -462,7 +462,7 @@ namespace HumanLastRampart.Combat.Tests
                 for (int i = 0; i < 60; i++) { sim.DebugSetHp(sim.BossSlot, sim.BossMaxHp); Step(sim); }   // 3초
                 Assert.AreEqual(EnemyState.OnWall, sim.BossState);
                 int wallLoss = wall0 - sim.Sides[side].WallHp;
-                Assert.AreEqual(180, wallLoss, 12, "그 성벽 체력을 초당 60씩 (일반 적 몇 마리 몫 포함)");
+                Assert.AreEqual(Def(1).OnWallWallDamage * 3, wallLoss, 12, "그 성벽 체력을 초당 정의값씩 3초 (일반 적 몇 마리 몫 포함)");
                 Assert.Greater(alive0 - sim.Sides[side].GarrisonAlive, 5, "병사를 빠르게 쓰러뜨린다 (기존 병사 피해 경로)");
             }
         }
@@ -499,6 +499,56 @@ namespace HumanLastRampart.Combat.Tests
 
                 Assert.Less(sim.BossHp, bossHp, "통로 위 우두머리가 맞고 있다");
                 Assert.AreEqual(otherHp, sim.DebugEnemyHp(other), "같은 통로 위 다른 적은 우두머리가 있는 동안 표적이 아니다");
+            }
+        }
+
+        [Test]
+        public void SpecialFirst_AimsAtBossBeforeAWoundedOgre()
+        {
+            BattleSim sim = null;
+            int ogre = -1;
+            for (int i = 0; i < 60 && sim == null; i++)
+            {
+                BattleSim candidate = NewSim("run_boss_sf" + i, soldiers: true, slot: 4, tweak: s => { s.EnemyCountMultiplier = 0.3f; s.WaveDefId = "wave_4"; });   // 4번 웨이브에 오우거 무리가 있다
+                FastForward(candidate, BattleSim.BossSpawnSeconds + 0.1f);
+                int found = -1;
+                foreach (var g in candidate.EnemyGroups)
+                    if (found < 0 && g.def.IsSpecial && !g.def.IsBoss && g.count > 0) found = g.start;   // 이 특수 적을 다쳐서 우두머리 옆에 세운다
+                if (found >= 0 && candidate.Sides[candidate.BossSide].GarrisonStart >= 10) { sim = candidate; ogre = found; }
+                else candidate.Dispose();
+            }
+
+            Assert.IsNotNull(sim, "다른 특수 적(오우거)이 있고 수비대가 선 면에 우두머리가 나오는 씨앗");
+            using (sim)
+            {
+                int side = sim.BossSide;
+                // 같은 거리·같은 각도 띠에 우두머리(체력 가득)와 크게 다친 다른 특수 적을 나란히 둔다
+                float3 front = Out(sim) * (sim.CastleHalf + 25f);
+                sim.DebugPlaceEnemy(sim.BossSlot, front + Right(sim) * sim.BossTargetAlong);
+                sim.DebugSetState(sim.BossSlot, EnemyState.Walking);
+                sim.DebugPlaceEnemy(ogre, front + Right(sim) * (sim.BossTargetAlong + 5f));
+                sim.DebugSetState(ogre, EnemyState.Walking);
+                const int woundedHp = 20;
+                sim.DebugSetHp(ogre, woundedHp);
+                int bossHp = sim.BossHp;
+                sim.IssueDirect(side, TargetPriority.SpecialFirst);
+                Step(sim, 10);
+                Assert.Less(sim.BossHp, bossHp, "특수 적 먼저: 우두머리가 맞는다");
+                Assert.AreEqual(woundedHp, sim.DebugEnemyHp(ogre), "체력 낮은 다른 특수 적보다 우두머리가 먼저다");
+            }
+        }
+
+        [Test]
+        public void ClimbStartHp_CountsDamageOfTheFirstClimbingTick()
+        {
+            using (BattleSim sim = SpawnedBoss())
+            {
+                int max = sim.BossMaxHp;
+                float limit = max * Def(1).KnockOffRatio;
+                PlaceBoss(sim, 0.6f, sim.BossTargetAlong);   // 성벽 바로 앞(멈춤 자리) — 이 틱에 오르기로 바뀐다
+                sim.DebugHitArea(sim.BossSlot, Mathf.CeilToInt(limit) + 10);   // 바뀌는 틱에 한꺼번에 한계 넘게 맞는다 (오르는 중이라 ×배율)
+                Step(sim, 3);
+                Assert.AreEqual(1, sim.BossFalls, "오르기로 바뀐 틱에 맞은 피해도 그 등반 몫이다");
             }
         }
 
@@ -567,7 +617,8 @@ namespace HumanLastRampart.Combat.Tests
                     Step(sim);
                 }
 
-                if (sim.Spawned >= sim.TotalEnemies - 1) Assert.IsFalse(sim.FinalAssaultStarted, "우두머리만 남았다고 최후 돌격이 시작되지 않는다");
+                Assert.GreaterOrEqual(sim.Spawned, sim.TotalEnemies - 1, "일반 적은 모두 나왔고 우두머리만 남았다 (비교 조건)");
+                Assert.IsFalse(sim.FinalAssaultStarted, "우두머리만 남았다고 최후 돌격이 시작되지 않는다");
                 Assert.IsFalse(sim.BossSpawned);
             }
         }

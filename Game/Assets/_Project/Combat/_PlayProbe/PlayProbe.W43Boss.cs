@@ -120,7 +120,8 @@ public sealed partial class PlayProbe
             Note("단계 1: 예고 구간 도착");
             yield return W43Frames(30);   // 1.5초 — 남은 약 3.5초
             Assert.IsTrue(sim.TryGetBossWarning(out int warnSide, out float warnLeft), "예고 띠 구간");
-            Note($"예고: 면 {warnSide}, 남은 {warnLeft:0.0}초");
+            Note($"예고: 면 {warnSide}, 남은 {warnLeft:0.0}초, 미리 불러온 동작 {W43Art()?.PreloadedCount}");
+            Assert.Greater(W43Art() != null ? W43Art().PreloadedCount : 0, 3, "예고부터 동작 시트를 미리 불러 둔다");
             yield return W43Shot("w43_01_banner");
             guard = 0;
             while (!sim.BossSpawned && guard++ < 400) yield return W43Frames(1);
@@ -164,6 +165,11 @@ public sealed partial class PlayProbe
             sim.RefreshSpottedGroups();
             yield return W43Frames(6);
             Assert.IsTrue(W43Hud().BossMapMarkersVisible, "지도가 열려 있으면 우두머리 표식이 보인다");
+            // 무리 글과 표식 글이 겹치지 않는다: 켜져 있는 "성벽손" 글은 체력 막대 이름 하나뿐
+            int bossNameTexts = 0;
+            foreach (UnityEngine.UI.Text text in Object.FindObjectsByType<UnityEngine.UI.Text>(FindObjectsSortMode.None))
+                if (text.isActiveAndEnabled && text.text.Contains("성벽손 오우거") && text.text.Contains("·")) bossNameTexts++;
+            Assert.AreEqual(0, bossNameTexts, "무리 글(우두머리 · 성벽손 오우거)은 숨는다");
             yield return W43Shot("w43_05_map");
             entry.ToggleMap();
             yield return W43Frames(6);

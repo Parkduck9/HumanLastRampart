@@ -42,7 +42,7 @@ namespace HumanLastRampart.Core.CombatContracts
         // v1.9 초안 (우두머리 성벽손 오우거, Boss_WallhandOgre_v1): 점화의 밤에만 BossPresent. 저장에 없으면 모두 0 = 우두머리 없음
         public bool BossPresent;
         public bool BossDefeated;
-        public float BossSeconds;                    // 처치까지(전투 시작 기준) 또는 처치 못 한 채 끝난 시각
+        public float BossSeconds;                    // 우두머리가 나온 뒤 처치까지(또는 처치 못 한 채 끝날 때까지) 걸린 초
         public int BossFalls;                        // 성벽에서 떨어뜨린 횟수
     }
 
