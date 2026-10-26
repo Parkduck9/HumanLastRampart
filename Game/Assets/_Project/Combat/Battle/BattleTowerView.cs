@@ -357,7 +357,7 @@ namespace HumanLastRampart.Combat.Battle
         Material MakeLit(string name, Texture2D texture, float smoothness, Color? fallback = null, float brightness = 1f)
         {
             Shader shader = Shader.Find("Universal Render Pipeline/Lit");
-            var m = new Material(shader != null ? shader : Shader.Find("Standard")) { name = name };
+            var m = new Material(shader != null ? shader : Shader.Find("Sprites/Default")) { name = name };
             Color tint = texture != null ? new Color(brightness, brightness, brightness, 1f) : fallback ?? Color.gray;
             if (m.HasProperty(BaseColorId)) m.SetColor(BaseColorId, tint);
             if (m.HasProperty(ColorId)) m.SetColor(ColorId, tint);

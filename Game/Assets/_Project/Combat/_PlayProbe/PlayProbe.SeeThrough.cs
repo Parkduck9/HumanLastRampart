@@ -62,6 +62,7 @@ public sealed partial class PlayProbe
         Vector3 center = feet + Vector3.up * (BattleView.HeroDrawSize * 0.45f);
         pin.Position = camPos;
         pin.Rotation = Quaternion.LookRotation(center - camPos);
+        float previousScale = entry.TutorialTimeScale;
         entry.TutorialTimeScale = 0f;   // 사진 사이에 전투가 흘러 장면이 달라지지 않게
         var history = new StringBuilder();
         for (int i = 0; i < 12; i++)
@@ -147,7 +148,7 @@ public sealed partial class PlayProbe
         }
 
         Object.Destroy(pin);
-        entry.TutorialTimeScale = 1f;
+        entry.TutorialTimeScale = previousScale;
         yield return null;
     }
 
@@ -183,6 +184,7 @@ public sealed partial class PlayProbe
             var forecast = setup.Forecast; forecast.InitialWeather = Weather.Clear; forecast.TimeOfDay = time; forecast.Changes = false; setup.Forecast = forecast;
             sim.WeatherDirty = true;
             entry.StartBattle();
+            entry.TutorialTimeScale = 0f;   // 걷고 찍는 동안 전투 시간을 멈춘다 (오래 걸으면 전투가 끝나 E가 안 먹는다). 주인공 이동은 실제 시간이라 그대로 걷는다
             for (int i = 0; i < 20; i++) yield return null;
             Camera cam = entry.BattleCamera;
             float half = sim.CastleHalf;
@@ -212,6 +214,7 @@ public sealed partial class PlayProbe
             yield return WaitFor(() => rig.NearStairs, 6f);
             rig.DepthInput = 0f;
             for (int i = 0; i < 10; i++) yield return null;
+            entry.TutorialTimeScale = 1f;   // 내려가기(E)와 길 걷기는 전투 시간이 흘러야 한다
             Assert.IsTrue(entry.Interact(), "E: 탑으로 내려가기");
             yield return WaitFor(() => rig.HeroFeet.z <= 3.4f, 40f);   // 광장 가장자리 — 탑이 사진기(남쪽)와 주인공 사이
             entry.TutorialTimeScale = 0f;
@@ -232,6 +235,7 @@ public sealed partial class PlayProbe
             hero = rig.HeroFeet;
             yield return SeeThroughPair(entry, label, "f_at_lighthouse_behind_tower", new Vector3(hero.x, top + 1.4f, hero.z + 5.5f), true, towerRoot);
 
+            entry.TutorialTimeScale = 1f;
             entry.LeaveTower();
             yield return WaitFor(() => rig.OnWall, 40f);
             Note("투시 구멍 사진 촬영 완료");
