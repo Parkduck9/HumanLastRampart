@@ -1,4 +1,5 @@
 using HumanLastRampart.Combat.Battle;
+using HumanLastRampart.Combat.Render;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -175,7 +176,8 @@ namespace HumanLastRampart.Combat.Tests
                         float layer = (v[i].y - (BattleSim.WallHeight + 0.02f)) / 0.01f;
                         Assert.GreaterOrEqual(layer, -0.1f, "바닥 위 1cm (먼 곳에서 깜박이지 않게)");
                         Assert.Less(Mathf.Abs(layer - Mathf.Round(layer)), 0.1f, "겹침 층은 1cm 단위");
-                        Assert.LessOrEqual(layer, 4.1f, "겹침 층은 몇 개 안 된다");
+                        Assert.LessOrEqual(layer, BattleCourtyard.MaxDecalLevel + 0.1f, "겹침 층은 2층까지 (땅 번짐 판 +5cm 아래)");
+                        Assert.Less(v[i].y - BattleSim.WallHeight, GroundGlow.Lift - 0.009f, "데칼 윗면은 땅 번짐 판보다 1cm 낮다");
                     }
 
                     // 세운 그림: 원본 칸 비율 그대로 (무기 걸이 72×80)

@@ -88,12 +88,14 @@ public sealed partial class PlayProbe
         KeepPreparation = true;
         bool suppressed = HumanLastRampart.Tutorial.TutorialState.Suppressed;
         HumanLastRampart.Tutorial.TutorialState.Suppressed = true;
+        BattleCameraRig rig = null;
+        Component pinToRemove = null;
         try
         {
             yield return EnterBattle(time);
             var entry = Object.FindObjectsByType<BattleEntry>(FindObjectsSortMode.None)[0];
             BattleSim sim = entry.Sim;
-            BattleCameraRig rig = entry.Rig;
+            rig = entry.Rig;
             Camera cam = entry.BattleCamera;
             float half = sim.CastleHalf;
             float top = BattleSim.WallHeight;
@@ -131,6 +133,7 @@ public sealed partial class PlayProbe
             // (c) 길과 광장 이음, 계단 아래, 성벽-마당 이음: 낮은 사진기 고정
             var pin = cam.gameObject.AddComponent<CameraPin>();
             pin.Target = cam;
+            pinToRemove = pin;
             void Pin(Vector3 pos, Vector3 look)
             {
                 pin.Position = pos;
@@ -158,6 +161,8 @@ public sealed partial class PlayProbe
         }
         finally
         {
+            if (rig != null) { rig.WalkInput = 0f; rig.DepthInput = 0f; }   // 시간 초과·예외에도 입력과 사진기 고정을 되돌린다
+            if (pinToRemove != null) Object.Destroy(pinToRemove);
             HumanLastRampart.Tutorial.TutorialState.Suppressed = suppressed;
             KeepPreparation = false;
             File.WriteAllText(Path.Combine(Out, $"w41_{label}_probe.txt"), log.ToString(), new UTF8Encoding(false));

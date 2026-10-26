@@ -235,6 +235,8 @@ namespace HumanLastRampart.Combat.Tests
             float[] stack = { 0.01f, BattleRoad.PlazaRimLift, BattleRoad.PavingLift, BattleRoad.PlazaLift, GroundGlow.Lift };
             for (int i = 1; i < stack.Length; i++)
                 Assert.GreaterOrEqual(stack[i] - stack[i - 1], 0.0099f, $"{i}번째 층은 아래 층보다 1cm 이상 높다 (겹쳐 깜박이지 않게)");
+            // 데칼은 길·광장과 자리가 안 겹치므로 같은 층 번호여도 되지만, 땅 번짐 판(깊이를 안 쓰는 덧칠)보다는 1cm 낮아야 한다
+            Assert.Less(BattleCourtyard.DecalTopMax, GroundGlow.Lift - 0.009f, "데칼 맨 위 층은 땅 번짐 판보다 낮다");
             Assert.Less(BattleRoad.PlazaLift, GroundGlow.Lift, "GroundGlow 판보다 낮아야 탑·문 앞 웅덩이가 보인다");
             // W27: 일꾼은 이제 탑 안이다. 깃발은 열린 문 그림(아치 + 오른쪽 랜턴, 가운데에서 -0.93~+1.16m)을 가리지 않게 옆으로
             foreach (Vector2 spot in BattleRoad.BannerSpots)

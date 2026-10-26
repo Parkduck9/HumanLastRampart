@@ -24,6 +24,8 @@ namespace HumanLastRampart.Combat.Battle
         const int DecalCount = 16;
         const float DecalLift = 0.01f;           // 바닥(+1cm) 위 1cm (먼 전체 보기에서 깜박이지 않게). 데칼은 길·광장을 피해 놓으므로 길 윗면(+3cm)과 겹치지 않는다
         const float DecalLayer = 0.01f;          // 데칼끼리 겹치면 위로 한 층씩 (W41)
+        public const int MaxDecalLevel = 2;      // 데칼 최고 윗면 = 바닥 +2cm + 2층 = +4cm (GroundGlow.Lift 5cm보다 1cm 낮게)
+        public const float DecalTopMax = 0.01f + DecalLift + MaxDecalLevel * DecalLayer;   // 성벽 높이 위 (m)
         static readonly string[] SpriteNames = { "decal_dirt", "decal_puddle", "decal_straw", "decal_cracked", "weapon_rack", "cart", "arrow_bundles" };
         const int SpriteDirt = 0, SpritePuddle = 1, SpriteStraw = 2, SpriteCracked = 3, SpriteRack = 4, SpriteCart = 5, SpriteArrows = 6;
         static readonly Vector2 FlankTile = new Vector2(1.2f, 0.6f);   // 옆돌 그림(4×2m)의 0.3배
@@ -420,6 +422,7 @@ namespace HumanLastRampart.Combat.Battle
                 int level = 0;
                 foreach (var (px, pz, pw, pd, plevel) in placedRects)
                     if (Mathf.Abs(x - px) < (w + pw) * 0.5f && Mathf.Abs(z - pz) < (d + pd) * 0.5f) level = Mathf.Max(level, plevel + 1);
+                if (level > MaxDecalLevel) continue;   // 땅 번짐 판(+5cm)보다 낮게 — 너무 겹치는 자리는 건너뛴다
                 placedRects.Add((x, z, w, d, level));
                 decals.Flat(new Vector3(x, y + level * DecalLayer, z), src.width * PropScale, src.height * PropScale, turns, rects[kind]);
                 placed++;

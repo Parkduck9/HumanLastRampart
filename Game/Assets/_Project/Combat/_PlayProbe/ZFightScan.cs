@@ -5,6 +5,8 @@ using UnityEngine;
 // 깊이 겹침(z-fighting) 점검 (W41): 장면의 모든 보이는 메시에서 '위를 보는 평평한 삼각형'을 모아,
 // 가로(XZ)로 겹치면서 높이(Y) 차가 MinSeparation 미만인 쌍을 찾는다. 겹친 곳이 더 높은 다른 윗면에 완전히 덮여 있으면 '숨은 겹침'(안 보임),
 // 아니면 '보이는 겹침'(깜박임). 시험은 보이는 겹침이 0개임을 약속한다
+// 검사 범위: MeshRenderer의 위를 보는 평평한 삼각형만. 묶음 그리기(땅 번짐 GroundGlow 판)·직접 그리기 호출·세로 면(성벽 바깥면 덮개 등)은 안 본다.
+//   땅 번짐 판과 데칼 높이는 BattleRoadTests·BattleCourtyardTests 단위 시험이 지킨다
 public static class ZFightScan
 {
     // 이보다 가까운 높이 차는 깊이 정밀도 문제로 본다. 층 간격은 1cm 이상 (근접면 0.1m 기준 해상도는 40m에서 약 1mm). 1cm 층이 통과하도록 0.9cm
@@ -28,6 +30,7 @@ public static class ZFightScan
         public float Y;
         public int Owner;
         public bool NoZWrite;          // 깊이를 안 쓰는 반투명: 둘이 겹쳐도 그리는 순서로 섞일 뿐 깜박이지 않는다
+        public bool NoOccluder;        // 잘라내기·반투명·깊이 안 씀: 아래 면을 완전히 가리지 못한다
         public Vector2 Min, Max;
     }
 
@@ -44,13 +47,16 @@ public static class ZFightScan
             if (mf == null || mf.sharedMesh == null) continue;
             int owner = names.Count;
             names.Add(PathOf(mr.transform));
-            Material mat = mr.sharedMaterial;
-            bool noZ = mat != null && (mat.HasProperty("_ZWrite") ? mat.GetFloat("_ZWrite") < 0.5f : mat.renderQueue >= 3000);
             Mesh mesh = mf.sharedMesh;
             Matrix4x4 m = mr.transform.localToWorldMatrix;
             var verts = mesh.vertices;
+            var mats = mr.sharedMaterials;
             for (int sub = 0; sub < mesh.subMeshCount; sub++)
             {
+                Material mat = mats.Length == 0 ? null : mats[Mathf.Min(sub, mats.Length - 1)];   // 부분 메시마다 자기 재질
+                bool noZ = mat != null && (mat.HasProperty("_ZWrite") ? mat.GetFloat("_ZWrite") < 0.5f : mat.renderQueue >= 3000);
+                // 가림 판정에서 뺀다: 깊이를 안 쓰는 면, 잘라내기·반투명 면 (구멍 사이로 아래가 보인다)
+                bool noOccluder = noZ || mat != null && (mat.renderQueue >= 2450 || mat.IsKeywordEnabled("_ALPHATEST_ON") || mat.HasProperty("_AlphaClip") && mat.GetFloat("_AlphaClip") > 0.5f);
                 var idx = mesh.GetTriangles(sub);
                 for (int i = 0; i + 2 < idx.Length; i += 3)
                 {
@@ -61,7 +67,7 @@ public static class ZFightScan
                     // 위를 보는 평평한 삼각형만 (세 점 높이가 같은 것). 유니티는 시계 방향이 앞면이라 앞면의 외적이 바깥(위)을 향한다
                     if (nrm.y / len < FlatNormalY) continue;
                     if (Mathf.Abs(a.y - b.y) > 1e-3f || Mathf.Abs(a.y - c.y) > 1e-3f) continue;
-                    var t = new Tri { P0 = new Vector2(a.x, a.z), P1 = new Vector2(b.x, b.z), P2 = new Vector2(c.x, c.z), Y = (a.y + b.y + c.y) / 3f, Owner = owner, NoZWrite = noZ };
+                    var t = new Tri { P0 = new Vector2(a.x, a.z), P1 = new Vector2(b.x, b.z), P2 = new Vector2(c.x, c.z), Y = (a.y + b.y + c.y) / 3f, Owner = owner, NoZWrite = noZ, NoOccluder = noOccluder };
                     t.Min = Vector2.Min(t.P0, Vector2.Min(t.P1, t.P2));
                     t.Max = Vector2.Max(t.P0, Vector2.Max(t.P1, t.P2));
                     if (t.Max.x < -areaHalf || t.Min.x > areaHalf || t.Max.y < -areaHalf || t.Min.y > areaHalf) continue;
@@ -185,7 +191,7 @@ public static class ZFightScan
         foreach (int id in list)
         {
             Tri t = tris[id];
-            if (t.Y < minY) continue;
+            if (t.Y < minY || t.NoOccluder) continue;
             if (InTri(p, t)) return true;
         }
 
