@@ -5,7 +5,8 @@
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
         "HLR.Core",
-        "HLR.App"
+        "HLR.App",
+        "HLR.App.Editor"
     ],
     "includePlatforms": [
         "Editor"
