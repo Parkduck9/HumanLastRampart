@@ -9,7 +9,7 @@ namespace HumanLastRampart.Combat.Battle
     // - 광장: 탑 밑동을 두른 둥근 돌바닥 + 낮은 돌 단 하나
     // - 등불 기둥 (K-122): 길 양쪽 4m마다 사진기를 보는 세운 그림. 낮엔 꺼진 쇠 기둥, 밤엔 불꽃 여섯 칸 그림. 땅 번짐(GroundGlow)만 쓴다 — 셰이더 빛 칸은 쓰지 않는다 (PC 14·모바일 6 상한 그대로)
     // - 깃발 (K-122): 탑 문 곁에 등불지기 깃발 두 개, 네 칸 펄럭임 그림
-    // 전부 눈에 보이는 것만 — 발 높이·병사 길·전령 길·사진기는 건드리지 않는다 (돌길 윗면 +2cm, 광장 +2.5cm로 아주 낮게)
+    // 전부 눈에 보이는 것만 — 발 높이·병사 길·전령 길·사진기는 건드리지 않는다 (돌길 윗면 +3cm, 광장 +4cm로 아주 낮게)
     // 그림: Resources/BattleArt/Courtyard/road_paving 이 있으면 그것을, 없으면 통로 돌(walkway_stone)을 밝게 쓴다 (Codex K-116이 오면 그림만 바꾼다)
     // 그리는 수: 돌길(네 갈래 합침) 1 + 연석·광장 단 1 + 등불 기둥 하나당 1 + 깃발 하나당 1 (재질은 낮 1·밤 2·깃발 2로 나눠 쓴다)
     public sealed class BattleRoad : IDisposable
@@ -19,11 +19,12 @@ namespace HumanLastRampart.Combat.Battle
 
         public const float HalfWidth = 1.1f;              // 돌길 반폭 (주인공 0.375m 기준 넉넉하게)
         public const float KerbWidth = 0.2f;
-        public const float PavingLift = 0.02f;            // 돌길 윗면 (마당 바닥 위) — 주인공 발이 거의 안 묻힌다
+        // W41: 겹치는 윗면은 서로 1cm 이상 층을 둔다 (바닥 1 < 광장 아랫단 2 < 돌길 3 < 광장 윗단 4 < 땅 번짐 5cm). 5mm 층은 먼 곳에서 깜박였다
+        public const float PavingLift = 0.03f;            // 돌길 윗면 (마당 바닥 위) — 주인공 발이 거의 안 묻힌다
         public const float KerbLift = 0.08f;
         public const float PlazaRadius = 3.0f;            // 탑 둘레 광장 윗단 반지름 (탑 받침 1.25m 밖)
         public const float PlazaRimRadius = 3.5f;         // 낮은 아랫단
-        public const float PlazaLift = 0.025f, PlazaRimLift = 0.015f;   // GroundGlow 판(바닥 +3cm)보다 낮게 — 탑·문 앞 웅덩이가 광장에 안 묻힌다 (돌길 윗면 2cm와도 다르게)
+        public const float PlazaLift = 0.04f, PlazaRimLift = 0.02f;   // GroundGlow 판(바닥 +5cm)보다 낮게 — 탑·문 앞 웅덩이가 광장에 안 묻힌다
         public const int RoadCount = 4;                   // W35: 네 성벽 가운데에서 광장으로 뻗은 십자 길
         public const float LampSpacing = 10f;             // 길 하나당 기둥 5~6쌍 (사용자 2026-10-23). 땅 번짐은 PC 14·모바일 4개 상한이라 사진기에 닿는 기둥만 쓴다
         public const float RoadBannerDistance = PlazaRimRadius + 1.2f;   // 길마다 광장 가장자리 바로 앞에 깃발 한 쌍

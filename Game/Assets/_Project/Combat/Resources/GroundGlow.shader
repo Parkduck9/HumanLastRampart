@@ -39,7 +39,7 @@ Shader "HumanLastRampart/GroundGlow"
                 float4 cs = _GlowCol[input.instanceID];
                 float flicker = 0.88 + 0.12 * sin(_Time.y * 9.0 + cs.a * 31.0) * sin(_Time.y * 5.3 + cs.a * 17.0);
                 Varyings output = (Varyings)0;
-                float3 world = float3(pr.x + input.positionOS.x * pr.w * 2.0, pr.y + 0.03, pr.z + input.positionOS.z * pr.w * 2.0);
+                float3 world = float3(pr.x + input.positionOS.x * pr.w * 2.0, pr.y + 0.05, pr.z + input.positionOS.z * pr.w * 2.0);
                 output.positionCS = TransformWorldToHClip(world);
                 output.uv = input.positionOS.xz * 2.0;
                 output.color = (half3)(cs.rgb * (flicker * _Night));

@@ -33,7 +33,7 @@ namespace HumanLastRampart.Combat.Battle
             new ViewPreset { Name = "C 높게", Back = 3.2f, Up = 2.75f, Pitch = 28f },
         };
 
-        public const float NearClip = 0.05f;
+        public const float NearClip = 0.1f;   // W41: 0.05 → 0.1 — 깊이 정밀도가 2배 좋아진다 (40m 밖에서도 1mm 안쪽이라 바닥 층 1cm 간격이 안 깜박인다). 0.2는 TowerTallNight 뒤 TrapFlow(구덩이 수) 시험이 설명 없이 깨져 여기서 멈췄다
         public const float HeroInset = 1f;      // 주인공 처음 자리: 성벽 바깥 모서리에서 1m 안쪽 (병사 줄 0.5m 바로 뒤)
         public const float InsetMin = 0.75f;    // 통로 바깥쪽 끝 (병사 줄 바로 뒤)
         public const float InsetMax = 1.8f;     // 통로 안쪽 끝 (성벽 두께 2m)

@@ -17,7 +17,7 @@ $sw = [Diagnostics.Stopwatch]::StartNew()
 $p = Start-Process -FilePath $Unity -ArgumentList $a -Wait -NoNewWindow -PassThru
 $sw.Stop()
 $min = [math]::Round($sw.Elapsed.TotalMinutes, 1)
-$exe = Join-Path $OutDir 'HumanLastRampart.exe'
+$exe = Join-Path $OutDir 'Lightbearers.exe'
 $ok = ($p.ExitCode -eq 0) -and (Test-Path $exe)
 if ($ok) {
     $mb = [math]::Round(((Get-ChildItem $OutDir -Recurse -File | Measure-Object Length -Sum).Sum) / 1MB, 1)

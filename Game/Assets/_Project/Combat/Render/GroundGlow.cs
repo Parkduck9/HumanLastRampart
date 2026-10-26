@@ -8,6 +8,7 @@ namespace HumanLastRampart.Combat.Render
     public static class GroundGlow
     {
         public const int Capacity = 128;
+        public const float Lift = 0.05f;   // 땅 위로 띄우는 높이 (셰이더 GroundGlow의 +0.05와 같다). 마당 바닥·돌길·광장(최대 +4cm)보다 1cm 높다 (W41)
         public static readonly Color Fire = new Color(1f, 0.52f, 0.2f);
         public static readonly Color Torch = new Color(1f, 0.6f, 0.28f);
 
