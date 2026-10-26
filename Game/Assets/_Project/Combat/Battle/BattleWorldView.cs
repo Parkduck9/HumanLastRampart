@@ -158,10 +158,13 @@ namespace HumanLastRampart.Combat.Battle
                 var platformCenter = corner - outward * 0.7f;
                 Box("Corner Platform", platformCenter + Vector3.up * (top * 0.5f), Quaternion.identity, new Vector3(p.TowerPlatform, top, p.TowerPlatform), BattleWorldMaterials.Surface.TowerWall);
                 // 발판 윗면에 통로와 같은 돌 바닥을 같은 높이로 (사용자 '코너 돌 때 땅이 위아래로' 2026-10-20 — 윗면이 탑 벽 질감을 늘인 민무늬라 통로와 확 달라 보였다)
+                // W41: 통로 판(Walkway)·마당 바닥(BattleCourtyard)과 같은 높이로 겹치면 위아래로 깜박인다 — 그 둘이 이미 덮은 곳을 빼고 세 조각만 깐다
                 if (materials.HasArt(BattleWorldMaterials.Surface.WalkwayStone))
-                    Box("Corner Walkway", platformCenter + Vector3.up * (top + SkinLift * 0.5f), Quaternion.identity,
-                        new Vector3(p.TowerPlatform, SkinLift, p.TowerPlatform), BattleWorldMaterials.Surface.WalkwayStone,
-                        new Vector2(p.TowerPlatform, p.TowerPlatform), Vector2.zero);
+                {
+                    float sx = Mathf.Sign(corner.x), sz = Mathf.Sign(corner.z), hp = p.TowerPlatform * 0.5f;
+                    float cu = Mathf.Abs(platformCenter.x), cv = Mathf.Abs(platformCenter.z), e = half - WallThickness;   // 모서리 쪽을 +로 본 발판 가운데·성벽 안쪽 끝
+                    CornerWalkway(sx, sz, top, new Vector2(e, half), new Vector2(cu - hp, cu + hp), new Vector2(cv - hp, cv + hp));
+                }
                 // 솟은 탑: 발판 바깥쪽 끝 (통로 밖이라 길을 막지 않음)
                 var towerCenter = corner + outward * (p.TowerSize * 0.5f * 0.9f);
                 towerCenters[side] = towerCenter;
@@ -185,6 +188,25 @@ namespace HumanLastRampart.Combat.Battle
 
             damage = new BattleWallDamageView(root.transform, sim.BattleSeed, half, p, merlonPieces);   // 부서짐 그림 (그림판은 전투 화면을 지을 때 미리 만든다)
             damage.Preload();
+        }
+
+        // 모서리 발판 윗면 돌 바닥 (W41). 모서리 쪽을 +로 본 좌표(u = x·sx, v = z·sz)에서 발판 [pu]×[pv]가 통로 판(u ≤ 안쪽 끝 e, v ≤ 바깥 끝)·마당 바닥(u, v ≤ e)에 안 덮인 곳
+        // = (u ≥ e, v ≥ e) ∪ (u ≥ 바깥 끝, v < e) ∪ (v ≥ 바깥 끝, u < e). wall = (안쪽 끝 e, 바깥 끝 half)
+        void CornerWalkway(float sx, float sz, float top, Vector2 wall, Vector2 pu, Vector2 pv)
+        {
+            float e = wall.x, outer = wall.y;
+            CornerPiece(sx, sz, top, new Vector2(e, pu.y), new Vector2(e, pv.y));
+            CornerPiece(sx, sz, top, new Vector2(outer, pu.y), new Vector2(pv.x, e));
+            CornerPiece(sx, sz, top, new Vector2(pu.x, e), new Vector2(outer, pv.y));
+        }
+
+        void CornerPiece(float sx, float sz, float top, Vector2 u, Vector2 v)
+        {
+            if (u.y - u.x < 0.01f || v.y - v.x < 0.01f) return;
+            float x0 = Mathf.Min(sx * u.x, sx * u.y), z0 = Mathf.Min(sz * v.x, sz * v.y);
+            Box("Corner Walkway", new Vector3(sx * (u.x + u.y) * 0.5f, top + SkinLift * 0.5f, sz * (v.x + v.y) * 0.5f), Quaternion.identity,
+                new Vector3(u.y - u.x, SkinLift, v.y - v.x), BattleWorldMaterials.Surface.WalkwayStone,
+                new Vector2(u.y - u.x, v.y - v.x), new Vector2(x0, z0));   // 그림 시작을 세계 좌표에 맞춰 세 조각이 이어진다
         }
 
         // 모서리 탑이 사진기 바로 옆이면 숨긴다 — 모서리를 돌 때 탑 벽이 화면 절반을 덮었다 (2026-10-20)

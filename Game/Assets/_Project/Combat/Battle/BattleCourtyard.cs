@@ -22,7 +22,10 @@ namespace HumanLastRampart.Combat.Battle
         const float CobbleTile512Meters = 2.6f;  // K-116 바닥 한 장(512화소, 설명서 16m)이 덮는 미터 — 돌 하나 약 0.18m
         public const float PropScale = 0.3f / 32f;   // K-116 소품·데칼 한 화소 = m (설명서 32화소 = 1m 의 0.3배 — 상자 한 변 0.3m)
         const int DecalCount = 16;
-        const float DecalLift = 0.01f;           // 바닥(+1cm) 위 1cm (먼 전체 보기에서 깜박이지 않게). 데칼은 길·광장을 피해 놓으므로 길 윗면(+2cm)과 겹치지 않는다
+        const float DecalLift = 0.01f;           // 바닥(+1cm) 위 1cm (먼 전체 보기에서 깜박이지 않게). 데칼은 길·광장을 피해 놓으므로 길 윗면(+3cm)과 겹치지 않는다
+        const float DecalLayer = 0.01f;          // 데칼끼리 겹치면 위로 한 층씩 (W41)
+        public const int MaxDecalLevel = 2;      // 데칼 최고 윗면 = 바닥 +2cm + 2층 = +4cm (GroundGlow.Lift 5cm보다 1cm 낮게)
+        public const float DecalTopMax = 0.01f + DecalLift + MaxDecalLevel * DecalLayer;   // 성벽 높이 위 (m)
         static readonly string[] SpriteNames = { "decal_dirt", "decal_puddle", "decal_straw", "decal_cracked", "weapon_rack", "cart", "arrow_bundles" };
         const int SpriteDirt = 0, SpritePuddle = 1, SpriteStraw = 2, SpriteCracked = 3, SpriteRack = 4, SpriteCart = 5, SpriteArrows = 6;
         static readonly Vector2 FlankTile = new Vector2(1.2f, 0.6f);   // 옆돌 그림(4×2m)의 0.3배
@@ -402,6 +405,7 @@ namespace HumanLastRampart.Combat.Battle
             float y = top + SkinLift + DecalLift;
             int[] kinds = { SpriteDirt, SpriteDirt, SpriteStraw, SpriteDirt, SpriteStraw, SpriteCracked, SpritePuddle, SpriteStraw, SpriteCracked, SpriteDirt, SpritePuddle, SpriteStraw, SpriteDirt, SpriteCracked, SpriteStraw, SpriteDirt };
             int placed = 0;
+            var placedRects = new List<(float x, float z, float w, float d, int level)>();
             for (int attempt = 0; attempt < 600 && placed < DecalCount; attempt++)
             {
                 float x = ((float)rng.NextDouble() * 2f - 1f) * limit, z = ((float)rng.NextDouble() * 2f - 1f) * limit;
@@ -411,7 +415,16 @@ namespace HumanLastRampart.Combat.Battle
                 int kind = kinds[placed % kinds.Length];
                 if (kind == SpritePuddle && Mathf.Max(Mathf.Abs(x), Mathf.Abs(z)) < limit - 5f) continue;   // 물웅덩이는 가장자리 낮은 곳에만
                 Texture2D src = sources[kind];
-                decals.Flat(new Vector3(x, y, z), src.width * PropScale, src.height * PropScale, rng.Next(4), rects[kind]);
+                float w = src.width * PropScale, d = src.height * PropScale;
+                int turns = rng.Next(4);
+                if (turns % 2 == 1) { float swap = w; w = d; d = swap; }   // 90도 돌리면 가로세로가 바뀐다
+                // 겹친 데칼은 같은 높이면 겹친 곳이 깜박인다 (W41): 먼저 놓은 겹친 데칼보다 한 층(1cm) 높게. 겹치지 않으면 층 0 (모양·자리는 그대로)
+                int level = 0;
+                foreach (var (px, pz, pw, pd, plevel) in placedRects)
+                    if (Mathf.Abs(x - px) < (w + pw) * 0.5f && Mathf.Abs(z - pz) < (d + pd) * 0.5f) level = Mathf.Max(level, plevel + 1);
+                if (level > MaxDecalLevel) continue;   // 땅 번짐 판(+5cm)보다 낮게 — 너무 겹치는 자리는 건너뛴다
+                placedRects.Add((x, z, w, d, level));
+                decals.Flat(new Vector3(x, y + level * DecalLayer, z), src.width * PropScale, src.height * PropScale, turns, rects[kind]);
                 placed++;
             }
 
