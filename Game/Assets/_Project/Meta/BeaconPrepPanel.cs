@@ -15,7 +15,9 @@ namespace HumanLastRampart.Meta
     // 진행 데이터를 직접 바꾸는 것은 밝기 선택(PlannedLamp)과 등대 수리(골드→복구)뿐이다.
     public static class BeaconPrepPanel
     {
-        public static void Build(RectTransform line1, RectTransform line2, RectTransform line3, IScreenContext context, Action refreshGold)
+        // W36: 등대 세부 칸은 탑 기둥을 가리지 않게 왼쪽 좁은 판(네 줄)에 놓는다.
+        //  줄 1: 밤 · 복구 막대 %    줄 2: 성벽 조건 / 점화 준비    lampLine: 밝기 약·보통·강    buyLine: 수비대 지원금 · 등대 수리
+        public static void Build(RectTransform line1, RectTransform line2, RectTransform line3, IScreenContext context, Action refreshGold, Text brief, RectTransform lampLine, RectTransform buyLine)
         {
             CampaignState campaign = context.Campaign;
             var ruleList = context.Definitions.All<BattleRulesDef>();
@@ -34,26 +36,25 @@ namespace HumanLastRampart.Meta
             HorizontalLayoutGroup row1 = Ui.Row(line1, "Beacon Row 1", UiTokens.S16);
             Ui.Stretch((RectTransform)row1.transform);
             Text night = Ui.Label(row1.transform, "Beacon Night", "", UiTokens.Text, UiTokens.Brass, TextAnchor.MiddleLeft, true);
-            Ui.Size(night, 260f, 48f);
-            Text repairWord = Ui.Label(row1.transform, "Beacon Repair Word", "등대 복구", UiTokens.Small, UiTokens.BodyDim);
-            Ui.Size(repairWord, 140f, 48f);   // W16: 갈무리는 폭이 넓어 두 줄로 꺾였다
-            repairWord.horizontalOverflow = HorizontalWrapMode.Overflow;
-            UiBar bar = Ui.Bar(row1.transform, "Beacon Repair Bar", 260f, 24f, false);
+            Ui.Size(night, 220f, 48f);
+            UiBar bar = Ui.Bar(row1.transform, "Beacon Repair Bar", 252f, 24f, false);
             bar.FixedColor = UiTokens.Brass;
             Text percent = Ui.Label(row1.transform, "Beacon Repair Value", "", UiTokens.Text, UiTokens.Body);
             Ui.Size(percent, 96f, 48f);
-            Text walls = Ui.Label(row1.transform, "Beacon Wall Condition", "", UiTokens.Small, UiTokens.Body);
-            Ui.Size(walls, 520f, 48f, true);
 
-            HorizontalLayoutGroup row2 = Ui.Row(line2, "Beacon Row 2", UiTokens.S16);
+            HorizontalLayoutGroup rowWalls = Ui.Row(line2, "Beacon Row Walls", UiTokens.S16);
+            Ui.Stretch((RectTransform)rowWalls.transform);
+            Text walls = Ui.Label(rowWalls.transform, "Beacon Wall Condition", "", UiTokens.Small, UiTokens.Body);
+            Ui.Size(walls, 600f, 48f, true);
+            HorizontalLayoutGroup row2 = Ui.Row(lampLine, "Beacon Row 2", UiTokens.S16);
             Ui.Stretch((RectTransform)row2.transform);
-            Text support = Ui.Label(row2.transform, "Beacon Support", "", UiTokens.Small, UiTokens.Body);
-            Ui.Size(support, 320f, 48f);
-            RectTransform spacer = Ui.Rect(row2.transform, "Spacer");
-            Ui.Size(spacer, 0f, 48f, true);
             Text lampWord = Ui.Label(row2.transform, "Beacon Lamp Word", "오늘 밤 등불 밝기", UiTokens.Small, UiTokens.BodyDim);
-            Ui.Size(lampWord, 240f, 48f);   // W16: 갈무리 폭에 맞춤
+            Ui.Size(lampWord, 220f, 48f);   // W16: 갈무리 폭에 맞춤
             lampWord.horizontalOverflow = HorizontalWrapMode.Overflow;
+            HorizontalLayoutGroup rowBuy = Ui.Row(buyLine, "Beacon Row Buy", UiTokens.S16);
+            Ui.Stretch((RectTransform)rowBuy.transform);
+            Text support = Ui.Label(rowBuy.transform, "Beacon Support", "", UiTokens.Small, UiTokens.Body);
+            Ui.Size(support, 220f, 48f);
             Button buy = null;   // Refresh가 쓰므로 먼저 선언
             var lampButtons = new Button[3];
             LampBrightness[] order = { LampBrightness.Low, LampBrightness.Normal, LampBrightness.High };
@@ -69,7 +70,7 @@ namespace HumanLastRampart.Meta
                 Ui.Size(lampButtons[i], 96f, 48f);
             }
 
-            buy = Ui.Button(row2.transform, "등대 수리", $"등대 수리 +{BeaconRules.DayRepairAmount:0} ({BeaconRules.DayRepairGold:N0}골드)", () =>
+            buy = Ui.Button(rowBuy.transform, "등대 수리", $"등대 수리 +{BeaconRules.DayRepairAmount:0} ({BeaconRules.DayRepairGold:N0}골드)", () =>
             {
                 BeaconRules.TryBuyRepair(campaign, out _, repairsPerDay);
                 refreshGold?.Invoke();
@@ -90,6 +91,11 @@ namespace HumanLastRampart.Meta
                 walls.text = $"성벽 최저 {Mathf.FloorToInt(low * 100f)}% (90% 필요)  ·  " + (missing ?? "다음 밤은 점화의 밤");
                 walls.color = missing == null ? UiTokens.Good : (wallsOk ? UiTokens.Body : UiTokens.DangerLight);
 
+                if (brief != null)   // W36: 얇은 위쪽 줄에 보이는 한 줄 요약 (자세한 것은 [등대 세부] 칸)
+                {
+                    brief.text = $"등대 {Mathf.FloorToInt(campaign.BeaconRepair)}% · " + (missing ?? "다음 밤은 점화의 밤");
+                    brief.color = missing == null ? UiTokens.Good : UiTokens.Body;
+                }
                 if (dayLine != null)
                     dayLine.text = string.Join("   ·   ", BeaconRules.DayLines(campaign).ConvertAll(l => $"{l.speaker}: \"{l.text}\""));
 
@@ -101,39 +107,43 @@ namespace HumanLastRampart.Meta
             }
 
             Refresh();
-            // 성벽 수리·골드 변화를 따라간다 (다른 패널이 진행 데이터를 바꾼다)
-            line1.gameObject.AddComponent<BeaconPrepWatcher>().Init(campaign, Refresh);
+            // 성벽 수리·골드 변화를 따라간다 (다른 패널이 진행 데이터를 바꾼다). 세부 칸이 접혀 있어도 한 줄 요약이 따라가도록 늘 켜진 요약 줄 글자에 붙인다
+            (brief != null ? brief.gameObject : line1.gameObject).AddComponent<BeaconPrepWatcher>().Init(campaign, Refresh);
         }
 
-        // 진행 데이터가 바뀌면 줄을 새로 그린다 (값이 같으면 아무것도 안 한다)
+        // 진행 데이터가 바뀌면 줄을 새로 그린다 (값이 같으면 아무것도 안 한다). 숫자만 견주어 매 프레임 할당이 없다
         sealed class BeaconPrepWatcher : MonoBehaviour
         {
             CampaignState campaign;
             Action refresh;
-            string stamp;
+            int gold, lamp, boughtToday;
+            float repair;
+            long wallSum;
 
             public void Init(CampaignState campaignState, Action refreshAction)
             {
                 campaign = campaignState;
                 refresh = refreshAction;
-                stamp = Stamp();
+                Snapshot();
             }
 
             void Update()
             {
                 if (campaign == null) return;
-                string now = Stamp();
-                if (now == stamp) return;
-                stamp = now;
+                int g = campaign.Gold, l = (int)campaign.PlannedLamp, b = campaign.BeaconRepairBoughtToday;
+                float r = campaign.BeaconRepair;
+                long w = WallSum();
+                if (g == gold && l == lamp && b == boughtToday && r == repair && w == wallSum) return;
+                Snapshot();
                 refresh?.Invoke();
             }
 
-            string Stamp()
+            void Snapshot() { gold = campaign.Gold; lamp = (int)campaign.PlannedLamp; boughtToday = campaign.BeaconRepairBoughtToday; repair = campaign.BeaconRepair; wallSum = WallSum(); }
+            long WallSum()
             {
-                var b = new System.Text.StringBuilder();
-                b.Append(campaign.Gold).Append('|').Append(campaign.BeaconRepair).Append('|').Append((int)campaign.PlannedLamp).Append('|').Append(campaign.BeaconRepairBoughtToday);
-                foreach (WallSegmentState wall in campaign.Wall) b.Append('|').Append(wall?.Hp);
-                return b.ToString();
+                long sum = 0; int i = 1;
+                foreach (WallSegmentState wall in campaign.Wall) sum += (wall != null ? wall.Hp : -1) * (long)i++;   // 칸마다 가중해 자리가 바뀌어도 알아챈다
+                return sum;
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using HumanLastRampart.Core.Campaign;
 using HumanLastRampart.Core.Definitions;
 using HumanLastRampart.UI;
 using UnityEngine;
@@ -70,8 +71,105 @@ namespace HumanLastRampart.Meta
         }
 
         // K-120: 가운데 등대 탑은 정비 마당 그림에 이미 그려져 있다 (따로 겹쳐 그리지 않는다). 탑 자리는 layout.json blocks의 장애물로 막는다.
-        // 그림 속 등롱 불빛은 고정이라 등대 복구에 따른 불꽃 세기는 여기서 보이지 않는다 (복구 상태는 등대 창·상단 줄에서 본다)
+        // 그림 속 등롱 불빛은 고정이라, 등실 유리 자리에 작은 덧그림(어둠 덮개 + 불꽃 + 점화의 밤 테두리 빛)을 올려 복구 상태를 보인다 (W36)
         RawImage characterPicture;
+        RawImage lampPicture;
+        Texture2D lampTexture;
+        CampaignState beacon;
+        float lampLight = -1f;
+        bool lampIgnition;
+
+        // 덧그림 격자: 정비 그림의 3배 픽셀 칸(48칸 = 144픽셀)을 그대로 쓴다. 왼쪽 위 (1845,108), 등실 유리는 칸 11~38
+        public const int LampGrid = 48;
+        const int LampOriginX = 1845, LampOriginY = 108, LampScale = 3;
+        const int GlassL = 11, GlassR = 38, GlassT = 11, GlassB = 38;
+        public float LampLightNow => lampLight;
+        public bool LampIgnitionNow => lampIgnition;
+
+        // 등실 불빛 세기 0~1: 복구 0 = 꺼짐, 그다음 약함(0.25)에서 강함(0.85)까지, 점화의 밤 = 1 (정비 마당 W36. 전투 쪽 TowerFlameStrength는 꺼짐이 없어 따로 둔다)
+        public static float LampLight(float repair, bool ignitionNight)
+        {
+            if (ignitionNight) return 1f;
+            if (repair <= 0f) return 0f;
+            return 0.25f + 0.6f * Mathf.Clamp01(repair / BeaconRules.RepairMax);
+        }
+
+        // 그림 속 등롱을 가리는 어둠 덮개 투명도: 불빛이 약할수록 짙다 (0.25 단계로 끊어 흐린 번짐을 피한다)
+        public static float LampCoverAlpha(float light) => Mathf.Round(Mathf.Clamp01((0.8f - light) / 0.8f) * 4f) / 4f;
+
+        public static int LampFlameRows(float light) => light <= 0f ? 0 : Mathf.RoundToInt(2f + light * 14f);
+
+        // 덧그림 픽셀을 칠한다 (왼쪽 위 기준 칸). 시험도 이 함수를 그대로 부른다
+        public static Color32[] PaintLamp(float light, bool ignition)
+        {
+            var px = new Color32[LampGrid * LampGrid];
+            void Put(int x, int top, Color32 c)
+            {
+                if (x < 0 || x >= LampGrid || top < 0 || top >= LampGrid) return;
+                px[(LampGrid - 1 - top) * LampGrid + x] = c;
+            }
+            // 테두리 빛: 유리 사각형에서 맨해튼 거리 띠 (모서리가 45도로 잘린 딱딱한 픽셀)
+            if (light >= 0.5f)
+            {
+                int rings = ignition ? 2 : 1;
+                for (int y = 0; y < LampGrid; y++)
+                    for (int x = 0; x < LampGrid; x++)
+                    {
+                        int d = Mathf.Max(GlassL - x, 0, x - GlassR) + Mathf.Max(GlassT - y, 0, y - GlassB);
+                        if (d < 1 || d > 3 * rings) continue;
+                        Put(x, y, d <= 3 ? new Color32(255, 196, 96, 64) : new Color32(255, 196, 96, 34));
+                    }
+            }
+            float cover = LampCoverAlpha(light);
+            if (cover > 0f)
+            {
+                byte a = (byte)Mathf.RoundToInt(cover * 255f);
+                for (int y = GlassT; y <= GlassB; y++)
+                    for (int x = GlassL; x <= GlassR; x++)
+                    {
+                        bool bar = x == 17 || x == 31 || y == 21;   // 유리 쇠살대 (그림 속 틀 자리)
+                        Put(x, y, bar ? new Color32(14, 12, 16, a) : new Color32(22, 28, 42, a));
+                    }
+                if (light <= 0f)   // 꺼진 등: 차가운 유리 반사 몇 칸
+                    foreach (var p in new[] { (13, 13), (14, 13), (13, 14), (22, 24), (23, 24), (35, 15) })
+                        Put(p.Item1, p.Item2, new Color32(66, 86, 118, a));
+            }
+            int rows = LampFlameRows(light);
+            if (rows > 0)
+            {
+                int baseRow = 35, center = 24, maxHalf = Mathf.RoundToInt(1f + light * 4f);
+                for (int r = 0; r < rows; r++)
+                {
+                    float t = r / (float)rows;
+                    int half = Mathf.RoundToInt(maxHalf * Mathf.Pow(1f - t, 0.7f));
+                    for (int dx = -half; dx <= half; dx++)
+                    {
+                        int ax = Mathf.Abs(dx);
+                        Color32 c = ax == half && half > 0 ? new Color32(235, 98, 24, 255)
+                            : (ax <= half - 2 && t < 0.55f ? new Color32(255, 244, 176, 255) : new Color32(255, 200, 64, 255));
+                        Put(center + dx, baseRow - r, c);
+                    }
+                }
+            }
+            return px;
+        }
+
+        // 등대 복구가 바뀐 뒤 불러 덧그림을 다시 칠한다 (등대 창·위쪽 줄의 수리 단추가 부른다)
+        public void RefreshTower()
+        {
+            if (lampTexture == null) return;
+            bool ignition = beacon != null && BeaconRules.IsIgnitionNight(beacon);
+            lampLight = LampLight(beacon != null ? beacon.BeaconRepair : 0f, ignition);
+            lampIgnition = ignition;
+            lampTexture.SetPixels32(PaintLamp(lampLight, ignition));
+            lampTexture.Apply(false);
+        }
+
+        public void BindBeacon(CampaignState campaign)
+        {
+            beacon = campaign;
+            RefreshTower();
+        }
 
         public bool CanMove => confirm == null && modal == null && (blocker == null || blocker.interactable)
             && (screenInput == null || screenInput.interactable);
@@ -113,6 +211,16 @@ namespace HumanLastRampart.Meta
             strip.anchorMin = strip.anchorMax = strip.pivot = Vector2.zero;
             strip.sizeDelta = new Vector2(3840f, 1080f);
             Picture("K089 Background", Resources.Load<Texture2D>("PrepYard/prep_yard"));
+            lampTexture = Own(new Texture2D(LampGrid, LampGrid, TextureFormat.RGBA32, false) { filterMode = FilterMode.Point, wrapMode = TextureWrapMode.Clamp });
+            var lampObject = new GameObject("Beacon Lamp Glow", typeof(RectTransform), typeof(RawImage));
+            lampObject.transform.SetParent(strip, false);
+            lampPicture = lampObject.GetComponent<RawImage>();
+            lampPicture.texture = lampTexture; lampPicture.raycastTarget = false;
+            var lampRect = lampPicture.rectTransform;
+            lampRect.anchorMin = lampRect.anchorMax = lampRect.pivot = Vector2.zero;
+            lampRect.sizeDelta = Vector2.one * (LampGrid * LampScale);
+            lampRect.anchoredPosition = new Vector2(LampOriginX, 1080f - LampOriginY - LampGrid * LampScale);
+            RefreshTower();
             mask = Own(new Texture2D(2, 2, TextureFormat.RGBA32, false));
             mask.LoadImage(Resources.Load<TextAsset>("PrepYard/walkable_mask").bytes);
             mask.filterMode = FilterMode.Point;
@@ -253,6 +361,11 @@ namespace HumanLastRampart.Meta
                 if (keyboard.sKey.isPressed || keyboard.downArrowKey.isPressed) input.y -= 1f;
             }
             if (modal != null && keyboard != null && keyboard.escapeKey.wasPressedThisFrame) CloseModal();   // Esc로 등대 창 닫기 (S5)
+            if (beacon != null)
+            {
+                bool ignitionNow = BeaconRules.IsIgnitionNight(beacon);   // 한 프레임에 한 번만 계산
+                if (LampLight(beacon.BeaconRepair, ignitionNow) != lampLight || ignitionNow != lampIgnition) RefreshTower();   // 성벽 수리로 점화의 밤이 되는 경우까지 따라간다
+            }
             walking = Move(input, Time.unscaledDeltaTime);
             if (CanMove && keyboard != null && (keyboard.eKey.wasPressedThisFrame || keyboard.spaceKey.wasPressedThisFrame)) Nearest()?.Use?.Invoke();
             PlaceHero();

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 namespace HumanLastRampart.Frontend
 {
     // K-121 메인 화면 배경: 하늘 → 들판 → 요새 → 전경 네 겹을 천천히 어긋나게 흔든다 (한 칸에 몇 픽셀, 크게 움직이지 않는다).
-    // 겹마다 같은 중심에서 1.035배 키워 가장자리에 여유를 둔다. 카메라 흔들림 설정이 꺼져 있으면 멈춘다 (움직임 줄이기 대용).
+    // 겹마다 같은 중심에서 1.035배 키워 가장자리에 여유를 둔다. 설정의 움직임 줄이기가 켜져 있으면 멈춘다 (화면 흔들림 설정과는 별개).
     public sealed class MenuParallax : MonoBehaviour
     {
         public const string SkyArt = "menu_0_sky", FieldArt = "menu_1_field", FortressArt = "menu_2_fortress", ForegroundArt = "menu_3_foreground";
@@ -68,14 +68,14 @@ namespace HumanLastRampart.Frontend
 
         void Update()
         {
-            if (GameSettings.CameraShake) clock += Time.unscaledDeltaTime;
+            if (!GameSettings.ReduceMotion) clock += Time.unscaledDeltaTime;
             Apply();
         }
 
         // 겹 i의 위치: 사인 곡선으로 천천히 오간다. 움직임을 끄면 기본 위치 (1920판을 그대로 겹친 모양)
         public Vector2 OffsetOf(int layer)
         {
-            if (!GameSettings.CameraShake) return Vector2.zero;
+            if (GameSettings.ReduceMotion) return Vector2.zero;
             float phase = clock * Mathf.PI * 2f / PeriodSeconds;
             return new Vector2(Mathf.Sin(phase) * ReachX[layer], Mathf.Sin(phase * 0.5f) * ReachY[layer]);
         }
@@ -83,8 +83,8 @@ namespace HumanLastRampart.Frontend
         void Apply()
         {
             if (holders == null) return;
-            if (!GameSettings.CameraShake && settled) return;   // 움직임을 끄면 한 번 제자리로 놓은 뒤 건드리지 않는다
-            settled = !GameSettings.CameraShake;
+            if (GameSettings.ReduceMotion && settled) return;   // 움직임을 끄면 한 번 제자리로 놓은 뒤 건드리지 않는다
+            settled = GameSettings.ReduceMotion;
             for (int i = 0; i < holders.Length; i++)
                 if (holders[i] != null) holders[i].anchoredPosition = OffsetOf(i);
         }
