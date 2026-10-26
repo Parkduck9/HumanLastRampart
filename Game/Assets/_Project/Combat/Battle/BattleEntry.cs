@@ -2,6 +2,7 @@
 using HumanLastRampart.Core.CombatContracts;
 using HumanLastRampart.Core.Definitions;
 using HumanLastRampart.Core.Flow;
+using HumanLastRampart.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -47,6 +48,8 @@ namespace HumanLastRampart.Combat.Battle
         Vector2 boxStart, wheelScreen;
         int sourceWall = -1, wallMoveCount;
         readonly System.Collections.Generic.List<int> selectedGroups = new System.Collections.Generic.List<int>();
+        BattleTouch touch;          // W40 휴대전화 터치 조작 (휴대 기기에서만 보인다)
+        bool boxSelectMode;         // 터치: 끌기 = 상자 고르기 (마우스의 Shift 끌기와 같다). 꺼져 있으면 끌기 = 지도 옮기기
 
         public ScreenId Id => ScreenId.Battle;
 
@@ -59,6 +62,15 @@ namespace HumanLastRampart.Combat.Battle
         public bool TelescopeActive => lens.HasValue;
         public float TutorialTimeScale { get; set; } = 1f;
         public int SquadOrders { get; private set; }   // 분대 이동 명령을 실제로 낸 횟수 (우선순위·대포 전령은 세지 않는다)
+        public BattleTouch Touch => touch;
+        public bool BoxSelectMode { get => boxSelectMode; set => boxSelectMode = value; }
+        // 터치 층이 꺼져야 하는 때: 도움말 판이 열려 있거나 튜토리얼 설명이 시간을 멈춘 동안 (그 판의 단추가 먼저 눌려야 한다)
+        public bool TouchBlocked => (hud != null && hud.HelpOpen) || TutorialTimeScale <= 0f;
+        public bool Paused => paused;
+        public int Speed => speed;
+        public int SelectedSpell => selectedSpell;
+        public int SelectedCannon => selectedCannon;
+        public int SelectedGroupCount => selectedGroups.Count;
         public bool IsPracticeSetup => context?.Campaign?.ActiveBattleSetup != null && context.Campaign.ActiveBattleSetup.IsPractice;
 
         void Awake()
@@ -108,6 +120,7 @@ namespace HumanLastRampart.Combat.Battle
                 Debug.LogError("[Battle] HLR/PerfLabSprite 셰이더가 없어 실제 전투를 시작하지 못합니다. [시험] 버튼만 쓸 수 있습니다.");
             }
 
+            touch = new BattleTouch(this, transform);
             hud = new BattleHud(transform, line, FinishFromSim, s => speed = s,
                 new System.Action[]
                 {
@@ -373,12 +386,12 @@ namespace HumanLastRampart.Combat.Battle
             if (hud == null || rig == null) return;
             int buttons = 0;
             if (mapOpen || sim == null || sim.Ended || preparing) hud.SetTowerPrompt(null, null);
-            else if (rig.InTransition && rig.TowerTarget) { hud.SetTowerPrompt("E", "되돌아가기"); buttons = 2; }   // 내려가는 중 (W35)
+            else if (rig.InTransition && rig.TowerTarget) { hud.SetTowerPrompt(TouchInput.Active ? null : "E", "되돌아가기"); buttons = 2; }   // 내려가는 중 (W35)
             else if (rig.InTransition) hud.SetTowerPrompt(null, null);
-            else if (rig.AtTower) { hud.SetTowerPrompt("E", "빛줄기 명령", "WASD", "성벽으로"); buttons = 1; }
-            else if (rig.OnWall && rig.NearStairs) hud.SetTowerPrompt("E", "계단으로 내려가 등대로");
+            else if (rig.AtTower) { if (TouchInput.Active) hud.SetTowerPrompt(null, null); else hud.SetTowerPrompt("E", "빛줄기 명령", "WASD", "성벽으로"); buttons = 1; }
+            else if (rig.OnWall && rig.NearStairs) { if (TouchInput.Active) hud.SetTowerPrompt(null, null); else hud.SetTowerPrompt("E", "계단으로 내려가 등대로"); }
             else hud.SetTowerPrompt(null, null);
-            hud.SetTowerButtons(buttons);
+            hud.SetTowerButtons(TouchInput.Active ? 0 : buttons);   // 터치에서는 성벽 선택판·뒤돌기 단추가 대신한다 (W40)
         }
 
         public void StartBattle()
@@ -482,6 +495,8 @@ namespace HumanLastRampart.Combat.Battle
             sim = null;
             hud?.Dispose();
             hud = null;
+            touch?.Dispose();
+            touch = null;
             seeThrough?.Release();
             seeThrough = null;
             rig = null;
@@ -498,18 +513,18 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             var keyboard = Keyboard.current;
-            var mouse = Mouse.current;
+            touch?.Refresh();
             bool cancelSquad = mapOpen && (boxSelecting || hud.SquadWheelOpen)
-                && ((keyboard != null && keyboard.escapeKey.wasPressedThisFrame) || (mouse != null && mouse.rightButton.wasPressedThisFrame));
+                && ((keyboard != null && keyboard.escapeKey.wasPressedThisFrame) || PointerInput.SecondaryPressed);
             if (cancelSquad) CancelSquadSelection();
-            if (mouse != null && !sim.Ended && !mapOpen)
+            if (PointerInput.Available && !sim.Ended && !mapOpen)
             {
-                if (mouse.middleButton.wasPressedThisFrame)
+                if (PointerInput.MiddlePressed || PointerInput.LongPressStarted)   // 터치: 길게 누르기 = 휠 버튼 (명령 메뉴)
                 {
                     if (rig == null || rig.OnWall) hud.ToggleMenu(rig != null ? rig.Side : 0);
                     else hud.PushNotice("성벽을 비운 동안에는 명령 메뉴를 쓸 수 없습니다 (지도에서 전령으로 명령)");
                 }
-                if (mouse.rightButton.wasPressedThisFrame) hud.CloseMenu();
+                if (PointerInput.RightButtonPressed) hud.CloseMenu();
             }
 
             if (keyboard != null && !sim.Ended)
@@ -591,21 +606,32 @@ namespace HumanLastRampart.Combat.Battle
             {
                 rig?.TickTower(TowerDelta());   // 지도가 열려 있어도 탑 오르내리기는 전투 시간대로 이어진다
                 mapCamera.Update(Time.unscaledDeltaTime);
+                int pinch = PointerInput.PinchStep();   // 두 손가락 벌리기·오므리기 = 두 손가락 가운데 기준 한 단계 가까이·멀리 (W40)
+                if (pinch != 0) mapCamera.StepLevel(pinch, PointerInput.PinchCenter);
+                // 끌기 도중 두 번째 손가락이 닿으면 놓기가 아니라 취소: 상자·묶음 끌기·지도 끌기를 그대로 접는다
+                if (PointerInput.PrimaryCanceled)
+                {
+                    boxSelecting = false;
+                    hud.HideSelectionBox();
+                    dragging = panPending = false;
+                }
                 // 대포를 고른 상태에서 들판(UI 바깥)을 왼쪽 클릭 → 조준점
                 // 아무것도 고르지 않았으면 내 함정 표시를 눌러 점화 (D-050)
-                bool overUi = UnityEngine.EventSystems.EventSystem.current != null && UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject();
-                bool shiftHeld = keyboard != null && (keyboard.leftShiftKey.isPressed || keyboard.rightShiftKey.isPressed);
-                bool pressed = mouse != null && mouse.leftButton.wasPressedThisFrame;
+                // 터치는 UI 판 위에서 시작한 눌림을 PointerInput이 이미 걸러 준다 (마우스만 여기서 거른다)
+                bool overUi = !PointerInput.IsTouch && UnityEngine.EventSystems.EventSystem.current != null && UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject();
+                bool shiftHeld = (keyboard != null && (keyboard.leftShiftKey.isPressed || keyboard.rightShiftKey.isPressed)) || boxSelectMode;
+                bool pressed = PointerInput.PrimaryPressed;
+                bool tap = !PointerInput.PressIsDrag;   // 터치 끌기는 마법·대포·점화가 아니라 지도 옮기기·상자·묶음 끌기다
                 // 둥근 표식 바깥을 누르면 표식을 닫고 그 누름을 평소처럼 처리한다 (닫히지 않아 다음 상자를 못 그리던 문제)
                 if (pressed && hud.SquadWheelOpen)
                 {
-                    if (ChooseSquadWheel(mouse.position.ReadValue())) pressed = false;
+                    if (ChooseSquadWheel(PointerInput.Position)) pressed = false;
                     else { CancelSquadSelection(); overUi = false; }
                 }
                 // 시프트를 누른 채면 UI 판 위에서 시작해도 상자를 그린다
                 if (pressed && (!overUi || shiftHeld) && !cancelSquad)
                 {
-                    Vector2 point = mouse.position.ReadValue();
+                    Vector2 point = PointerInput.Position;
                     Vector3 world = battleCamera.ScreenToWorldPoint(new Vector3(point.x, point.y, battleCamera.nearClipPlane));
                     // D-072: 병력 묶음 표시를 누르면 고르고 끌기 시작 (마법·대포보다 먼저)
                     int group = hud.GroupAtScreen(point);
@@ -626,9 +652,9 @@ namespace HumanLastRampart.Combat.Battle
                         dragStart = point;
                         dragging = true;
                     }
-                    else if (selectedSpell >= 0) CastSelectedSpellAt(world);
-                    else if (selectedCannon >= 0 && cannonMoveArmed) { OrderCannonMove(selectedCannon, SideOfPoint(world)); cannonMoveArmed = false; }
-                    else if (selectedCannon >= 0) AimSelectedCannonAt(world);
+                    else if (selectedSpell >= 0 && tap) CastSelectedSpellAt(world);
+                    else if (selectedCannon >= 0 && cannonMoveArmed && tap) { OrderCannonMove(selectedCannon, SideOfPoint(world)); cannonMoveArmed = false; }
+                    else if (selectedCannon >= 0 && tap) AimSelectedCannonAt(world);
                     else
                     {
                         // 아무것도 고르지 않았으면: 끌면 지도 옮기기(D-073), 그냥 떼면 함정 점화·묶음 선택 해제
@@ -639,11 +665,11 @@ namespace HumanLastRampart.Combat.Battle
                     }
                 }
 
-                if (boxSelecting && mouse != null)
+                if (boxSelecting && PointerInput.Available)
                 {
-                    Vector2 point = mouse.position.ReadValue();
+                    Vector2 point = PointerInput.Position;
                     hud.ShowSelectionBox(boxStart, point);
-                    if (!mouse.leftButton.isPressed)
+                    if (!PointerInput.PrimaryHeld)
                     {
                         boxSelecting = false;
                         hud.HideSelectionBox();
@@ -658,10 +684,10 @@ namespace HumanLastRampart.Combat.Battle
                     }
                 }
 
-                if (panPending && mouse != null)
+                if (panPending && PointerInput.Available)
                 {
-                    Vector2 point = mouse.position.ReadValue();
-                    if (mouse.leftButton.isPressed)
+                    Vector2 point = PointerInput.Position;
+                    if (PointerInput.PrimaryHeld)
                     {
                         // 누른 자리에서 6화소 넘게 움직이면 그때부터 끌기 (손떨림으로 함정 점화가 끌기로 바뀌지 않게)
                         if (!panMoved && (point - panLast).sqrMagnitude > 36f)
@@ -703,10 +729,10 @@ namespace HumanLastRampart.Combat.Battle
                 }
 
                 // 끌어다 놓기: 28화소 넘게 움직였으면 놓은 곳에서 가까운 성벽으로 보낸다. 조금만 움직였으면 고른 채로(창에서 성벽 고르기)
-                if (dragging && mouse != null && !mouse.leftButton.isPressed)
+                if (dragging && PointerInput.Available && !PointerInput.PrimaryHeld)
                 {
                     dragging = false;
-                    Vector2 point = mouse.position.ReadValue();
+                    Vector2 point = PointerInput.Position;
                     if ((point - dragStart).sqrMagnitude > 28f * 28f && selectedGroup >= 0)
                     {
                         Vector3 world = battleCamera.ScreenToWorldPoint(new Vector3(point.x, point.y, battleCamera.nearClipPlane));
@@ -716,9 +742,10 @@ namespace HumanLastRampart.Combat.Battle
 
                 // 망원경 (MAP-5): 오른쪽 버튼을 누르고 있는 동안 렌즈, 0.15초마다 무리 확인
                 lens = null;
-                if (mouse != null && mouse.rightButton.isPressed && !cancelSquad && !hud.SquadWheelOpen && !boxSelecting)
+                if (PointerInput.Available && PointerInput.SecondaryHeld && !cancelSquad && !hud.SquadWheelOpen && !boxSelecting)
                 {
-                    Vector3 world = battleCamera.ScreenToWorldPoint(new Vector3(mouse.position.ReadValue().x, mouse.position.ReadValue().y, battleCamera.nearClipPlane));
+                    Vector2 lensAt = PointerInput.Position;   // 터치: 길게 누르는 동안 렌즈
+                    Vector3 world = battleCamera.ScreenToWorldPoint(new Vector3(lensAt.x, lensAt.y, battleCamera.nearClipPlane));
                     UseTelescope(world);
                 }
             }
@@ -772,7 +799,7 @@ namespace HumanLastRampart.Combat.Battle
             if (!preparing) audioDirector.Tick(sim, battleCamera != null ? battleCamera.transform.position : Vector3.zero, mapOpen);
             if (mapOpen)
             {
-                view.SetSpellPreview(selectedSpell, selectedSpell >= 0 && Mouse.current != null ? battleCamera.ScreenToWorldPoint(new Vector3(Mouse.current.position.ReadValue().x, Mouse.current.position.ReadValue().y, battleCamera.nearClipPlane)) : (Vector3?)null);   // 마법 범위 미리 보기 (K-036)
+                view.SetSpellPreview(selectedSpell, selectedSpell >= 0 && PointerInput.Available ? battleCamera.ScreenToWorldPoint(new Vector3(PointerInput.Position.x, PointerInput.Position.y, battleCamera.nearClipPlane)) : (Vector3?)null);   // 마법 범위 미리 보기 (K-036)
                 view.DrawMapMarkers(cannonSide, selectedCannon, mapCamera.DotWorldSize, selectedSpell >= 0, lens);
                 if (Time.unscaledTime >= nextGroupRefresh)
                 {
@@ -783,8 +810,7 @@ namespace HumanLastRampart.Combat.Battle
                 hud?.RefreshGroupLabels(sim, battleCamera);
                 hud?.RefreshCompass(battleCamera, sim.CastleHalf);
                 if (rig != null) hud?.RefreshHeroMarker(battleCamera, HeroDrawFeet(), rig.Side, preparing);
-                Mouse dragMouse = Mouse.current;
-                hud?.RefreshGroupMarkers(sim, battleCamera, selectedGroup, dragging && dragMouse != null ? dragMouse.position.ReadValue() : (Vector2?)null);
+                hud?.RefreshGroupMarkers(sim, battleCamera, selectedGroup, dragging && PointerInput.Available ? PointerInput.Position : (Vector2?)null);
                 hud?.RefreshCannons(sim, cannonSide, selectedCannon);
                 hud?.RefreshLamp(sim);
                 hud?.RefreshCannonMarkers(sim, battleCamera, selectedCannon);
@@ -814,6 +840,71 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             return best >= 0 && sim.DetonateTrap(best);
+        }
+
+        // ── W40 터치 단추가 부르는 동작 (키보드·마우스 동작과 같은 길) ──
+        public void TogglePause() => paused = !paused;
+        public void CycleSpeed() => speed = speed == 1 ? 2 : speed == 2 ? 4 : 1;
+        public void ToggleHelp() => hud?.ToggleHelp();
+
+        // 성벽에서 명령 메뉴 열고 닫기 (휠 버튼과 같다)
+        public void ToggleCommandMenu()
+        {
+            if (sim == null || hud == null || sim.Ended) return;
+            if (rig == null || rig.OnWall) hud.ToggleMenu(rig != null ? rig.Side : 0);
+            else hud.PushNotice("성벽을 비운 동안에는 명령 메뉴를 쓸 수 없습니다 (지도에서 전령으로 명령)");
+        }
+
+        // Tab 키와 같다: 준비 중이면 전투 시작, 아니면 지도 열고 닫기
+        public void PressMapKey()
+        {
+            if (sim == null || sim.Ended) return;
+            if (preparing) StartBattle();
+            else ToggleMap();
+        }
+
+        // 마법 단추: 첫째 → 둘째 → … → 취소
+        public void CycleSpell()
+        {
+            if (sim == null || sim.SpellCount <= 0) return;
+            int next = selectedSpell + 1;
+            if (next >= sim.SpellCount) selectedSpell = -1;
+            else SelectSpell(next);
+        }
+
+        // 대포 단추: 살아 있는 대포를 차례로 고르고 끝나면 취소
+        public void CycleCannon()
+        {
+            if (sim == null || sim.CannonCount <= 0) return;
+            for (int i = selectedCannon + 1; i < sim.CannonCount; i++)
+            {
+                if (!sim.GetCannon(i).Alive) continue;
+                PickCannon(i);
+                return;
+            }
+
+            selectedCannon = -1;
+            cannonMoveArmed = false;
+        }
+
+        // 확인 단추(오른쪽 클릭이 필요하던 자리): 준비 중이면 전투 시작, 탑 명령이면 닫기, 아니면 지도 접기
+        public void ConfirmMap()
+        {
+            if (sim == null) return;
+            if (preparing) StartBattle();
+            else if (beamOrderMode) CloseBeamOrder();
+            else if (mapOpen) ToggleMap();
+        }
+
+        // 취소 단추(오른쪽 클릭 대신): 마법·대포·묶음·상자 고르기를 모두 푼다
+        public void CancelSelection()
+        {
+            selectedSpell = -1;
+            selectedCannon = -1;
+            selectedGroup = -1;
+            cannonMoveArmed = false;
+            panPending = dragging = false;
+            if (hud != null) CancelSquadSelection();
         }
 
         public bool MapOpen => mapOpen;
@@ -1002,3 +1093,6 @@ namespace HumanLastRampart.Combat.Battle
         }
     }
 }
+
+
+

@@ -190,6 +190,7 @@ namespace HumanLastRampart.Combat.Battle
 
         void RefreshHints()
         {
+            if (hints != null && hints.gameObject.activeSelf == TouchInput.Active) hints.gameObject.SetActive(!TouchInput.Active);   // 터치에서는 키 안내 줄을 숨긴다 (W40)
             int mode = !mapMode ? 0 : preparing ? 2 : 1;
             if (mode == hintsMode || hints == null) return;
             hintsMode = mode;
@@ -240,6 +241,39 @@ namespace HumanLastRampart.Combat.Battle
             Text close = Ui.Label(panel.transform, "Close", "F1을 다시 누르면 닫힙니다", UiTokens.Small, UiTokens.InkSoft);
             Ui.Size(close, -1f, 28f);
             helpBoard.SetActive(false);
+            BuildTouchHelp();
+        }
+
+        // 터치 도움말 (W40): 키 목록 대신 손가락 조작. 터치 층은 이 판이 열린 동안 꺼지므로 판 안에 닫기 단추를 둔다
+        void BuildTouchHelp()
+        {
+            Image panel = Ui.Panel(root.transform, "Touch Controls", UiPanel.Parchment);
+            touchHelpBoard = panel.gameObject;
+            Ui.Place(panel.rectTransform, new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(1040f, 0f));
+            var column = panel.gameObject.AddComponent<VerticalLayoutGroup>();
+            column.padding = new RectOffset(48, 48, 32, 32);
+            column.spacing = UiTokens.S16;
+            column.childControlWidth = column.childControlHeight = true;
+            column.childForceExpandWidth = true;
+            column.childForceExpandHeight = false;
+            panel.gameObject.AddComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+            Text title = Ui.Label(panel.transform, "Title", "손가락 조작", UiTokens.H2, UiTokens.Ink, TextAnchor.MiddleLeft, true);
+            Ui.Size(title, -1f, 48f);
+            HorizontalLayoutGroup sections = Ui.Row(panel.transform, "Sections", UiTokens.S48, TextAnchor.UpperLeft);
+            sections.childAlignment = TextAnchor.UpperLeft;
+            HelpColumn(sections.transform, "성벽 위", new[]
+            {
+                "왼쪽 아래 패드", "좌우 달리기 · 위아래 통로", "큰 단추", "계단 · 탑 · 명령 메뉴", "나침반", "탑에서 올라갈 성벽",
+                "길게 누르기", "명령 메뉴", "지도 · 멈춤 · 빠르기", "오른쪽 단추",
+            });
+            HelpColumn(sections.transform, "지도", new[]
+            {
+                "한 번 누르기", "고르기 · 조준 · 점화", "끌기", "지도 옮기기 · 병사 보내기", "고르기 단추 + 끌기", "상자로 분대 고르기",
+                "길게 누르기", "망원경", "두 손가락", "가까이 · 멀리", "취소 단추", "고른 것 풀기",
+            });
+            Button close = Ui.Button(panel.transform, "도움말 닫기", "닫기", () => ToggleHelp());
+            Ui.Size(close, 240f, 56f);
+            touchHelpBoard.SetActive(false);
         }
 
         static void HelpColumn(Transform parent, string heading, string[] pairs)
@@ -251,7 +285,25 @@ namespace HumanLastRampart.Combat.Battle
             for (int i = 0; i + 1 < pairs.Length; i += 2) Ui.KeyHint(column.transform, pairs[i], pairs[i + 1], false);
         }
 
-        public void ToggleHelp() => UiAppear.Toggle(helpBoard, !helpBoard.activeSelf, new Vector2(0f, -UiTokens.S24));
+        GameObject touchHelpBoard;
+
+        bool helpShown;   // 닫는 연출 중에는 판이 아직 켜져 있으므로 요청한 상태를 따로 적는다
+
+        public bool HelpOpen => helpShown;
+
+        // 키보드는 키 목록, 터치는 손가락 조작 목록
+        public void ToggleHelp()
+        {
+            bool open = helpShown;
+            helpShown = !open;
+            GameObject board = TouchInput.Active && touchHelpBoard != null ? touchHelpBoard : helpBoard;
+            if (open)
+            {
+                if (helpBoard.activeSelf) UiAppear.Toggle(helpBoard, false, new Vector2(0f, -UiTokens.S24));
+                if (touchHelpBoard != null && touchHelpBoard.activeSelf) UiAppear.Toggle(touchHelpBoard, false, new Vector2(0f, -UiTokens.S24));
+            }
+            else UiAppear.Toggle(board, true, new Vector2(0f, -UiTokens.S24));
+        }
 
         // ── F12 개발 표시: [시험] 단추·내부 정보. 기본은 안 보이지만 켜져 있고 눌린다 (시험 자동화가 쓴다) ──
         void BuildDev(Action[] devActions, string[] devLabels)

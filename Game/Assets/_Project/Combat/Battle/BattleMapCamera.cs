@@ -79,6 +79,22 @@ namespace HumanLastRampart.Combat.Battle
             Apply();
         }
 
+        // 두 손가락 확대·축소 한 단계 (W40): +1 가까이 · -1 멀리. 두 손가락 가운데(screenPoint) 아래의 땅이 제자리에 있게 중심을 옮긴다
+        public void StepLevel(int direction, Vector2 screenPoint)
+        {
+            Level before = Current;
+            if (direction > 0 && Current != Level.Close) Current++;
+            else if (direction < 0 && Current != Level.Full) Current--;
+            if (Current == before) return;
+            Vector2 offset = new Vector2(screenPoint.x - Screen.width * 0.5f, screenPoint.y - Screen.height * 0.5f);
+            float beforePerPixel = LevelHalfHeight(before) * 2f / Mathf.Max(1, Screen.height);
+            float afterPerPixel = HalfHeight * 2f / Mathf.Max(1, Screen.height);
+            center += offset * (beforePerPixel - afterPerPixel);   // 화면 위 = 북(+z), 오른쪽 = 동(+x)
+            Apply();
+        }
+
+        float LevelHalfHeight(Level level) => level == Level.Full ? fieldSize + 20f : level == Level.Side ? SideHalfHeight : CloseHalfHeight;
+
         // 왼쪽 버튼으로 끌기 (D-073): 화면에서 움직인 화소만큼 반대로 — 손으로 지도를 잡아 미는 느낌
         public void DragBy(Vector2 screenDelta)
         {
@@ -99,3 +115,4 @@ namespace HumanLastRampart.Combat.Battle
         }
     }
 }
+

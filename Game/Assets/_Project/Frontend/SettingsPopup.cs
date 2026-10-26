@@ -70,7 +70,9 @@ namespace HumanLastRampart.Frontend
                 () => GameSettings.SetFullscreen(!GameSettings.Fullscreen));
             Row(panel.transform, () => "글자 크기: " + FontName(GameSettings.FontScale),
                 () => GameSettings.SetFontScale(GameSettings.NextStep(GameSettings.FontSteps, GameSettings.FontScale)));
-            Row(panel.transform, () => "기본값으로", GameSettings.ResetToDefaults);
+            Row(panel.transform, () => "터치 조작: " + TouchName(TouchInput.Mode),   // W40: 휴대전화 터치 조작 (자동 = 휴대 기기이거나 마지막 입력이 터치일 때)
+                () => { TouchInput.Mode = (TouchMode)(((int)TouchInput.Mode + 1) % 3); Refresh(); });
+            Row(panel.transform, () => "기본값으로", () => { GameSettings.ResetToDefaults(); TouchInput.Mode = TouchMode.Auto; Refresh(); });
             MakeButton(panel.transform, "닫기", Close, UiButtonKind.Primary);
 
             GameSettings.Changed += Refresh;
@@ -80,6 +82,7 @@ namespace HumanLastRampart.Frontend
 
         public bool IsOpen => root != null;
 
+        static string TouchName(TouchMode mode) => mode == TouchMode.On ? "켜기" : mode == TouchMode.Off ? "끄기" : "자동";
         static string TiltName(float value) => value <= 0.001f ? "끔" : value < 0.75f ? "약하게" : "보통";
         static string FontName(float value) => value < 1.07f ? "보통" : value < 1.22f ? "크게" : "아주 크게";
 
