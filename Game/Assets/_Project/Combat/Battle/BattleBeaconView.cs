@@ -18,7 +18,7 @@ namespace HumanLastRampart.Combat.Battle
     //   올라갈 때(바닥 걸음·계단 발치·불방 입구)는 기름통을 든 운반 걷기, 불방에서는 화로 관리, 내려올 때는 빈손 걷기·계단 내려오기. 방향은 가는 쪽을 사진기 기준으로 네 방향 중 고른다 (깜빡이지 않게 이전 방향을 조금 더 유지)
     //   새 시트는 칸 96×128 원본(3배 확대본과 같은 세계 크기, 발 (48,120)) — 메모리 1/9, 점 필터라 모양은 같다. 시트가 없으면 옛 미는·서기 그림으로 되돌아간다
     //   모든 움직임은 전투 시간(sim.Elapsed)으로 — 멈춤·지도 시간 멈춤에서 같이 멈춘다 (불꽃 일렁임만 실제 시간)
-    // W39 (Codex K-127): 돌림대를 미는 일꾼은 이제 방향별 밀기 시트(밀기 8칸·시작 3칸·멈춤 3칸·힘줌 8칸)를 쓴다. 방향 고르기는 걷기와 같은 규칙, 시작·멈춤은 미는 일이 시작·끝날 때 한 번, 힘줌은 빛줄기가 평소보다 빨리 돌 때(옆모습만).
+    // W39 (Codex K-127): 돌림대를 미는 일꾼은 이제 방향별 밀기 시트(밀기 8칸·시작 3칸·멈춤 3칸·힘줌 8칸)를 쓴다. 방향 고르기는 걷기와 같은 규칙, 시작·멈춤은 미는 일이 시작·끝날 때 한 번, 힘줌은 180도 이상 돌리는 명령이 도는 동안(옆모습만).
     //   옛 K-110 미는·쉬는 그림은 시트가 없을 때의 대비책으로만 남는다. 돌림대 막대 높이는 시트의 손 높이에 맞춘다 (BattleTowerInterior.CapstanBarY)
     // 크기: 인물 73점 = 주인공 키(HeroDrawSize), K-110 일꾼 칸은 288×384를 3배 확대본 그대로
     public sealed class BattleBeaconView : IDisposable
@@ -79,7 +79,6 @@ namespace HumanLastRampart.Combat.Battle
         readonly float[] workerPushSince = new float[WorkerCount];
         readonly bool[] workerWasPush = new bool[WorkerCount];
         bool pushDisabled;
-        float lastBeamAngle, beamRate;
         readonly WorkMotion[] workerMotion = new WorkMotion[WorkerCount];
         readonly WorkDir[] workerDir = new WorkDir[WorkerCount];
         const int Idle = 0, Push = 1, Rest = 2;
@@ -123,7 +122,6 @@ namespace HumanLastRampart.Combat.Battle
         static readonly string[] PushKindNames = { "push", "push_start", "push_stop", "push_strain" };
         static readonly int[] PushKindFrames = { 8, 3, 3, 8 };
         const float PushFps = 8f, StartFps = 6f, StopFps = 3f, StrainFps = 10f;
-        const float StrainFactor = 1.2f;   // 빛줄기가 평소(90도 ÷ BeamRotateSeconds)보다 이만큼 빨리 돌면 힘줌
 
         public static string PushSheetName(int variant, PushKind kind, WorkDir dir)
             => $"worker_{(variant == 0 ? "a" : "b")}_{PushKindNames[(int)kind]}_{DirNames[(int)dir]}";
@@ -131,9 +129,7 @@ namespace HumanLastRampart.Combat.Battle
         // K-127가 준 방향: 밀기·시작·멈춤 = 네 방향, 힘줌 = 왼·오른쪽만
         public static bool PushSheetProvided(PushKind kind, WorkDir dir) => kind != PushKind.Strain || dir == WorkDir.Left || dir == WorkDir.Right;
 
-        public static bool IsStrain(float beamDegreesPerSecond) => beamDegreesPerSecond > StrainFactor * 90f / BattleSim.BeamRotateSeconds;
-
-        // 밀기 상태에서 쓸 시트 종류: 막 시작했으면 시작, 빠르게 돌고 옆모습이면 힘줌, 아니면 밀기. 멈춘 뒤는 멈춤
+        // 밀기 상태에서 쓸 시트 종류: 막 시작했으면 시작, 반대쪽으로 돌리는 중(BeamReverseTurn)이고 옆모습이면 힘줌, 아니면 밀기. 멈춘 뒤는 멈춤
         public static PushKind PushKindFor(bool pushing, float secondsSincePushStart, bool strain, WorkDir dir)
         {
             if (!pushing) return PushKind.Stop;
@@ -186,7 +182,7 @@ namespace HumanLastRampart.Combat.Battle
         public bool WorkerUsesPushSheet(int i) => workerPushSheet[i] && workerVisible[i];
         public PushKind WorkerPushKind(int i) => workerPushKind[i];
         public string WorkerPushSheetName(int i) => PushSheetName(WorkerVariant[i], workerPushKind[i], workerDir[i]);
-        public bool BeamStraining => IsStrain(beamRate);
+        public bool BeamStraining => sim.BeamReverseTurn;   // 180도 이상 돌리는 명령이 도는 동안 (시뮬레이션이 정한다)
         public int PushSheetsLoaded { get { int n = 0; foreach (Piece w in pushSheets) if (w != null) n++; return n; } }
         public WorkDir WorkerFacing(int i) => workerDir[i];
         public string WorkerSheetName(int i) => SheetName(WorkerVariant[i], workerMotion[i], workerDir[i]);
@@ -405,9 +401,6 @@ namespace HumanLastRampart.Combat.Battle
             float time = sim.Elapsed;
             float dt = lastTime < 0f ? 0f : Mathf.Clamp(time - lastTime, 0f, 0.25f);
             lastTime = time;
-            float beamAngle = sim.BeamAngleDegrees;
-            beamRate = dt > 1e-4f ? Mathf.Abs(Mathf.DeltaAngle(beamAngle, lastBeamAngle)) / dt : 0f;   // 빛줄기가 도는 빠르기 (힘줌 판단)
-            lastBeamAngle = beamAngle;
             // 탑 몸체: BattleTowerView(돌 메시)가 그린다 — 옛 그림은 그리지 않는다
 
             // 일꾼: 상태는 전투 시간으로 (미는 중 → 쉬기 → 서기)
@@ -506,7 +499,7 @@ namespace HumanLastRampart.Combat.Battle
                     // K-127: 밀기·시작·멈춤·힘줌. 멈춤은 마지막으로 향하던 쪽 그대로 (가는 쪽이 없으면 이전 방향)
                     WorkDir pdir = PickDirection(moveDir, camRightFlat, camToward, workerDir[i], WorkMotion.Walk);
                     float since = time - workerPushSince[i];
-                    PushKind want = PushKindFor(pushNow, since, IsStrain(beamRate), pdir);
+                    PushKind want = PushKindFor(pushNow, since, sim.BeamReverseTurn, pdir);
                     PushKind got = want;
                     Piece ps = GetPushSheet(WorkerVariant[i], got, pdir);
                     if (ps == null && (want == PushKind.Start || want == PushKind.Strain)) { got = PushKind.Push; ps = GetPushSheet(WorkerVariant[i], got, pdir); }   // 시작·힘줌이 없으면 밀기로

@@ -26,6 +26,8 @@ namespace HumanLastRampart.Combat.Battle
         public bool BeamRotating => beamRotateLeft > 0f;
         public float BeamAngleDegrees { get; private set; }   // 수평 각도: +x = 0°, +z(북) = 90°
         public float BeamTargetDegrees => beamTo;             // 도는 중이면 도착할 각도 (지도에 목표 방향을 보여 주는 데 쓴다). 서 있으면 지금 각도와 같다
+        // 지금 도는 명령의 전체 각도가 180도 이상(반대쪽으로 돌리기)이면 도는 내내 true — 일꾼이 힘을 주는 그림(K-127 힘줌)의 기준. 프레임 길이와 무관 (W39)
+        public bool BeamReverseTurn => BeamRotating && Mathf.Abs(beamTo - beamFrom) >= 180f - 0.01f;
         public float BeamRotateProgress => BeamRotating ? 1f - beamRotateLeft / beamTotal : 1f;
         public float BeamSecondsLeft => beamRotateLeft;
         // 등불 밝기별 빛 세기 배율 (탑 뒤 빛 번쩍·탑 불빛이 함께 쓴다). 인덱스 = (int)LampBrightness (보통·약·강)

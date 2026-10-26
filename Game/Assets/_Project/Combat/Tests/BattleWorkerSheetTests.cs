@@ -248,10 +248,6 @@ namespace HumanLastRampart.Combat.Tests
             Assert.AreEqual(BattleBeaconView.PushKind.Push, BattleBeaconView.PushKindFor(true, 2f, true, front), "앞모습은 힘줌 시트가 없어 밀기");
             Assert.AreEqual(BattleBeaconView.PushKind.Stop, BattleBeaconView.PushKindFor(false, 5f, true, right), "멈추면 멈춤");
 
-            float nominal = 90f / BattleSim.BeamRotateSeconds;
-            Assert.IsFalse(BattleBeaconView.IsStrain(nominal), "평소 속도는 힘줌이 아니다");
-            Assert.IsTrue(BattleBeaconView.IsStrain(nominal * 1.5f));
-            Assert.IsFalse(BattleBeaconView.IsStrain(0f));
         }
 
         [Test]
@@ -308,7 +304,7 @@ namespace HumanLastRampart.Combat.Tests
 
                         Assert.Less(steps, 300, "빛줄기가 끝까지 돈다");
                         Assert.IsTrue(kinds.Contains(BattleBeaconView.PushKind.Start) && kinds.Contains(BattleBeaconView.PushKind.Push), "시작 뒤 밀기");
-                        Assert.IsFalse(view.BeamStraining, "평소 속도는 힘줌이 아니다");
+                        Assert.IsFalse(view.BeamStraining, "90도 돌리기는 힘줌이 아니다");
                         Assert.GreaterOrEqual(dirs.Count, 2, "돌림대를 한 바퀴 가까이 돌며 방향이 바뀐다");
                         Assert.Less(view.PushSheetsLoaded, 28, "쓰는 시트만 읽는다");
 
@@ -326,6 +322,75 @@ namespace HumanLastRampart.Combat.Tests
                         Assert.IsTrue(view.WorkersPushing);
                         Assert.IsFalse(view.WorkerUsesPushSheet(0), "K-127 시트 없이 옛 그림으로 그린다");
                         Assert.IsFalse(view.WorkerUsesPushSheet(1));
+                    }
+                    finally { view.Dispose(); }
+                }
+                finally { Object.DestroyImmediate(quadObj); Object.DestroyImmediate(mat); Object.DestroyImmediate(camObject); }
+            }
+        }
+        // 힘줌은 시뮬레이션이 정한다: 180도 이상 돌리는 명령이 도는 내내 (프레임 길이와 무관)
+        [Test]
+        public void Strain_IsDrivenBySim_ReverseTurnOnly_NotByHitchFrames()
+        {
+            using (var sim = MakeSim())
+            {
+                int start = sim.BeamSide;
+                float t = 0f;
+                Assert.IsFalse(sim.BeamReverseTurn);
+                sim.RotateBeam((start + 1) % 4);   // 90도
+                Assert.IsTrue(sim.BeamRotating);
+                Assert.IsFalse(sim.BeamReverseTurn, "90도는 힘줌이 아니다");
+                for (int i = 0; i < 4; i++) { t += 0.25f; sim.BeginFrame(0.25f); sim.Schedule(0.25f, t); sim.Complete(); Assert.IsFalse(sim.BeamReverseTurn, "프레임이 길어도(끊김) 힘줌이 아니다"); }
+                while (sim.BeamRotating) { t += 0.25f; sim.BeginFrame(0.25f); sim.Schedule(0.25f, t); sim.Complete(); }
+
+                int here = sim.BeamSide;
+                sim.RotateBeam((here + 2) % 4);   // 180도 (반대쪽)
+                Assert.IsTrue(sim.BeamReverseTurn, "반대쪽으로 돌리면 도는 내내 힘줌");
+                int guard = 0;
+                while (sim.BeamRotating && guard++ < 200)
+                {
+                    float dt = guard % 7 == 0 ? 0.25f : 0.05f;   // 가끔 긴 프레임
+                    t += dt; sim.BeginFrame(dt); sim.Schedule(dt, t); sim.Complete();
+                    if (sim.BeamRotating) Assert.IsTrue(sim.BeamReverseTurn, "도는 동안 계속 힘줌");
+                }
+
+                Assert.IsFalse(sim.BeamRotating);
+                Assert.IsFalse(sim.BeamReverseTurn, "다 돌면 끝");
+            }
+        }
+
+        [Test]
+        public void Workers_UseStrainSheet_OnlyOnReverseTurn_AndSideFacing()
+        {
+            using (var sim = MakeSim())
+            {
+                var quadObj = GameObject.CreatePrimitive(PrimitiveType.Quad);
+                var mat = new Material(Shader.Find("Sprites/Default"));
+                var camObject = new GameObject("Battle Camera (not MainCamera)", typeof(Camera));
+                try
+                {
+                    var cam = camObject.GetComponent<Camera>();
+                    camObject.transform.rotation = Quaternion.LookRotation(Vector3.forward);
+                    var view = new BattleBeaconView(sim, mat, quadObj.GetComponent<MeshFilter>().sharedMesh, new Bounds(Vector3.zero, Vector3.one * 2000f));
+                    try
+                    {
+                        float t = 0f;
+                        view.Draw(cam);
+                        sim.RotateBeam((sim.BeamSide + 2) % 4);   // 반대쪽
+                        bool sawStrain = false;
+                        for (int i = 0; i < 400 && sim.BeamRotating; i++)
+                        {
+                            t += 0.05f; sim.BeginFrame(0.05f); sim.Schedule(0.05f, t); sim.Complete(); view.Draw(cam);
+                            if (!view.WorkersPushing || !view.WorkerUsesPushSheet(0)) continue;
+                            Assert.IsTrue(view.BeamStraining);
+                            var kind = view.WorkerPushKind(0);
+                            var dir = view.WorkerFacing(0);
+                            bool side = dir == BattleBeaconView.WorkDir.Left || dir == BattleBeaconView.WorkDir.Right;
+                            if (kind == BattleBeaconView.PushKind.Strain) { sawStrain = true; Assert.IsTrue(side, "힘줌 시트는 옆모습만"); }
+                            else if (kind == BattleBeaconView.PushKind.Push) Assert.IsFalse(side, "옆모습이면 힘줌 시트를 쓴다");
+                        }
+
+                        Assert.IsTrue(sawStrain, "반대쪽으로 돌리는 동안 힘줌 시트가 보인다");
                     }
                     finally { view.Dispose(); }
                 }

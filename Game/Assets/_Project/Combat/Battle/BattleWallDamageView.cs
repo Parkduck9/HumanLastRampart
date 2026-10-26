@@ -71,6 +71,7 @@ namespace HumanLastRampart.Combat.Battle
         readonly float half, top;
         readonly BattleWorldView.Proportion p;
         readonly TextureLoader loader;
+        readonly bool customLoader;
         readonly float mpp;                                   // 1화소 = 몇 m
         readonly int[] stage = new int[4];
         readonly List<(Renderer renderer, float along)>[] merlons = new List<(Renderer, float)>[4];
@@ -81,6 +82,7 @@ namespace HumanLastRampart.Combat.Battle
         bool artTried, hasArt, night;
         Texture2D atlas, breachTexture;
         Texture2D[] sources;
+        int[] srcW, srcH;   // 그림판에 넣은 원본 크기 (원본은 합친 뒤 버린다)
         Rect[] rects;
         Material litMaterial, unlitMaterial, voidMaterial, decalMaterial;
         GameObject staticObject, voidObject, decalObject;
@@ -122,6 +124,7 @@ namespace HumanLastRampart.Combat.Battle
             half = castleHalf;
             top = BattleSim.WallHeight;
             p = proportion;
+            customLoader = loader != null;
             this.loader = loader ?? (name => Resources.Load<Texture2D>(Folder + name));
             mpp = p.MerlonWidth / MerlonW;
             from = BattleWallLayout.From(half);
@@ -137,6 +140,9 @@ namespace HumanLastRampart.Combat.Battle
                 WallDamageRules.Place(seed, s, from, to, along, rubble[s], spots[s]);
             }
         }
+
+        // 전투 화면을 지을 때 그림을 미리 읽는다 (처음 부서지는 순간 끊기지 않게)
+        public void Preload() => EnsureArt();
 
         // 면의 단계가 바뀜 (BattleWorldView.SetWallHealth). silent = 처음 받은 값이라 먼지를 피우지 않는다
         public void SetStage(int side, int newStage, bool silent)
@@ -174,18 +180,30 @@ namespace HumanLastRampart.Combat.Battle
             if (artTried) return;
             artTried = true;
             sources = new Texture2D[SourceCount];
+            srcW = new int[SourceCount]; srcH = new int[SourceCount];
             for (int i = 0; i < SourceCount; i++)
             {
                 sources[i] = loader(SourceName(i));
                 if (sources[i] == null || !sources[i].isReadable) { sources = null; return; }   // 하나라도 없으면 그림 없음 (옛 모습 그대로)
+                srcW[i] = sources[i].width; srcH[i] = sources[i].height;
             }
 
             Material lit = ClipMaterials.LitCopy("Wall Damage Lit (runtime)");
             Material unlit = ClipMaterials.UnlitCopy("Wall Damage Fire (runtime)");
             if (lit == null || unlit == null) { Kill(lit); Kill(unlit); sources = null; return; }
 
+            // 깊은 흠 그림의 속이 찬 어두운 네모는 까만 구멍처럼 읽힌다 — 어두운 돌색으로 바꾼 사본을 쓴다 (RecessColor)
+            Texture2D gouge = SoftenGouge(sources[IGouges]);
+            Texture2D original = sources[IGouges];
+            sources[IGouges] = gouge;
+            breachTexture = BuildBreachTexture(sources[ICut]);
             atlas = new Texture2D(2, 2, TextureFormat.RGBA32, false) { name = "Wall Damage Atlas (runtime)" };
             rects = atlas.PackTextures(sources, 2, 2048, true);   // 합친 뒤 시스템 메모리 사본은 버린다
+            Kill(gouge);
+            // 원본 28장은 그림판에 합쳤으니 메모리에서 내린다 (기본 불러오기일 때만 — 시험이 넘긴 그림은 건드리지 않는다)
+            sources[IGouges] = original;
+            if (!customLoader) foreach (Texture2D s in sources) if (s != null) Resources.UnloadAsset(s);
+            sources = null;
             atlas.filterMode = FilterMode.Point;
             atlas.wrapMode = TextureWrapMode.Clamp;
             litMaterial = lit; unlitMaterial = unlit;
@@ -204,7 +222,6 @@ namespace HumanLastRampart.Combat.Battle
             if (decalMaterial.HasProperty("_Color")) decalMaterial.SetColor("_Color", decalTint);
             voidMaterial = new Material(litMaterial) { name = "Wall Breach Void (runtime)" };
             // 파공 안쪽: 까만 판 대신 어두운 돌(벽돌 줄눈·가장자리로 갈수록 더 어둡게)을 마스크 모양으로 구워 쓴다 — 움푹 들어간 모습 (W39 사진 검토)
-            breachTexture = BuildBreachTexture(sources[ICut]);
             if (voidMaterial.HasProperty("_BaseMap")) voidMaterial.SetTexture("_BaseMap", breachTexture);
             voidMaterial.mainTexture = breachTexture;
             if (voidMaterial.HasProperty("_Smoothness")) voidMaterial.SetFloat("_Smoothness", 0f);
@@ -233,10 +250,10 @@ namespace HumanLastRampart.Combat.Battle
         Rect Sub(int index, int x, int y, int w, int h)
         {
             const float inset = 0.02f;
-            Texture2D t = sources[index];
+            int tw = srcW[index], th = srcH[index];
             Rect r = rects[index];
-            float u0 = (x + inset) / t.width, u1 = (x + w - inset) / t.width;
-            float v0 = (t.height - y - h + inset) / t.height, v1 = (t.height - y - inset) / t.height;
+            float u0 = (x + inset) / tw, u1 = (x + w - inset) / tw;
+            float v0 = (th - y - h + inset) / th, v1 = (th - y - inset) / th;
             return Rect.MinMaxRect(r.xMin + r.width * u0, r.yMin + r.height * v0, r.xMin + r.width * u1, r.yMin + r.height * v1);
         }
 
@@ -290,7 +307,7 @@ namespace HumanLastRampart.Combat.Battle
 
                     var kind = WallDamageRules.DecalAt(WallDamageRules.TileHash(seed, side, t), st);
                     if (kind == WallDamageRules.DecalKind.None) continue;
-                    AddQuad(deco, foot, outRight, Up, WallDamageRules.TileMeters, WallDamageRules.TileMeters, n, Frame4(ICracks));
+                    AddQuad(deco, foot, outRight, Up, WallDamageRules.TileMeters, WallDamageRules.TileMeters, n, Frame4(kind == WallDamageRules.DecalKind.Cracks ? ICracks : IGouges));
                 }
 
                 // 잔해: 바깥 발치는 바깥을 보고, 통로 위는 안쪽(사진기)을 본다. 뒤로 눕혀 위에서도 읽힌다
@@ -315,7 +332,7 @@ namespace HumanLastRampart.Combat.Battle
             Apply(decalMesh, deco);
         }
 
-        Rect Frame4(int index) => Sub(index, 0, 0, sources[index].width, sources[index].height);
+        Rect Frame4(int index) => Sub(index, 0, 0, srcW[index], srcH[index]);
 
         static void AddQuad(MeshKit kit, Vector3 bottomCenter, Vector3 viewRight, Vector3 up, float width, float height, Vector3 normal, Rect uv)
         {
@@ -360,6 +377,25 @@ namespace HumanLastRampart.Combat.Battle
             var tex = new Texture2D(w, h, TextureFormat.RGBA32, false) { name = "Wall Breach Interior (runtime)", filterMode = FilterMode.Point, wrapMode = TextureWrapMode.Clamp };
             tex.SetPixels32(dst);
             tex.Apply(false, true);
+            return tex;
+        }
+
+        // 깊은 흠 그림의 어두운 화소(속이 찬 네모)를 어두운 돌색으로, 밝은 가장자리·투명은 그대로
+        public static Color32 RecessColor(Color32 c)
+        {
+            if (c.a < 128) return c;
+            int lum = (c.r * 3 + c.g * 6 + c.b) / 10;
+            if (lum >= 120) return c;   // 밝은 가장자리 (224)
+            return new Color32(122, 116, 110, c.a);   // 어두운 속 (68) → 어두운 돌 (데칼 재질을 곱하면 까맣지 않다)
+        }
+
+        static Texture2D SoftenGouge(Texture2D source)
+        {
+            Color32[] px = source.GetPixels32();
+            for (int i = 0; i < px.Length; i++) px[i] = RecessColor(px[i]);
+            var tex = new Texture2D(source.width, source.height, TextureFormat.RGBA32, false) { name = "Wall Gouge Recess (runtime)", filterMode = FilterMode.Point };
+            tex.SetPixels32(px);
+            tex.Apply(false, false);
             return tex;
         }
 
@@ -478,7 +514,7 @@ namespace HumanLastRampart.Combat.Battle
                 }
                 else SetFrame(e, e.Fire ? IFire : ISmoke, (int)(now * FlameFps) % Frames);
 
-                Vector3 away = e.Object.transform.localPosition - cameraPosition;
+                Vector3 away = e.Object.transform.position - cameraPosition;
                 away.y = 0f;
                 if (away.sqrMagnitude > 1e-4f) e.Object.transform.rotation = Quaternion.LookRotation(away);
             }

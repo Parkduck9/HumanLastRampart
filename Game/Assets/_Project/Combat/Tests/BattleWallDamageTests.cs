@@ -174,6 +174,18 @@ namespace HumanLastRampart.Combat.Tests
         }
 
         [Test]
+        public void GougeRecess_LightensSolidDarkFill_KeepsEdgesAndAlpha()
+        {
+            Color32 dark = BattleWallDamageView.RecessColor(new Color32(68, 66, 63, 255));
+            Assert.GreaterOrEqual((dark.r + dark.g + dark.b) / 3, 100, "속이 찬 어두운 네모는 까맣지 않다");
+            Assert.AreEqual(255, dark.a);
+            Color32 edge = new Color32(224, 218, 213, 255);
+            Assert.AreEqual(edge, BattleWallDamageView.RecessColor(edge), "밝은 가장자리는 그대로");
+            Color32 clear = new Color32(0, 0, 0, 0);
+            Assert.AreEqual(clear, BattleWallDamageView.RecessColor(clear), "투명은 그대로");
+        }
+
+        [Test]
         public void MissingArt_FallsBackToOldMerlons_WithoutErrors()
         {
             var root = new GameObject("W39 root");
@@ -205,7 +217,7 @@ namespace HumanLastRampart.Combat.Tests
             {
                 using (var view = new BattleWallDamageView(root.transform, 20261026u, Half, BattleWorldView.Drafts[1], pieces))
                 {
-                    Assert.IsFalse(view.HasArt, "멀쩡하면 그림을 읽지 않는다");
+                    Assert.IsFalse(view.HasArt, "미리 읽기(Preload)나 손상이 없으면 그림을 읽지 않는다");
                     view.SetStage(0, 1, true);
                     Assert.IsTrue(view.HasArt, "처음 손상이 생길 때 읽는다");
                     Assert.AreEqual(0, view.ActiveDust, "처음 받은 단계는 먼지 없음");
@@ -264,7 +276,8 @@ namespace HumanLastRampart.Combat.Tests
                 {
                     world = new BattleWorldView(sim, parent.transform);
                     Assert.IsNotNull(world.Damage);
-                    Assert.IsFalse(world.Damage.HasArt, "시작은 멀쩡 — 그림을 읽지 않는다");
+                    Assert.IsTrue(world.Damage.HasArt, "전투 화면을 지을 때 그림판을 미리 만든다");
+                    Assert.AreEqual(0, world.Damage.StaticDrawCalls, "멀쩡하면 그릴 것이 없다");
                     world.SetWallHealth(0, 1f);
                     Assert.AreEqual(0, world.DamageStage(0));
                     world.SetWallHealth(0, 0.5f);

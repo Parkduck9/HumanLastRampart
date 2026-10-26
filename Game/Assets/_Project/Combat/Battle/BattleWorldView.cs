@@ -183,7 +183,8 @@ namespace HumanLastRampart.Combat.Battle
                 collectingTower = null;
             }
 
-            damage = new BattleWallDamageView(root.transform, sim.BattleSeed, half, p, merlonPieces);   // 부서짐 그림 (처음 부서질 때 그림을 읽는다)
+            damage = new BattleWallDamageView(root.transform, sim.BattleSeed, half, p, merlonPieces);   // 부서짐 그림 (그림판은 전투 화면을 지을 때 미리 만든다)
+            damage.Preload();
         }
 
         // 모서리 탑이 사진기 바로 옆이면 숨긴다 — 모서리를 돌 때 탑 벽이 화면 절반을 덮었다 (2026-10-20)
@@ -249,7 +250,7 @@ namespace HumanLastRampart.Combat.Battle
             return renderer;
         }
 
-        // 성벽 체력 색(BattleView): 덮은 판에도 같은 붉은 기를 곱한다. ratio 1 = 멀쩡
+        // 성벽 체력 색(BattleView): 덮은 판에도 같은 어두움을 곱한다 (W39: 붉은 기는 뺐다). ratio 1 = 멀쩡
         // 손상 그림(K-024)이 있으면 체력 비율에 따라 멀쩡 → 금감 → 부서짐 재질로 바꿔 끼운다 (반복 값은 조각마다 그대로)
         public void SetWallHealth(int side, float ratio)
         {
