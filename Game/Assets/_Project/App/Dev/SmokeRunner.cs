@@ -189,7 +189,7 @@ namespace HumanLastRampart.App.Dev
             string[] names =
             {
                 "HLR/PerfLabSprite", "HLR/TiltShift", "Universal Render Pipeline/Lit", "Universal Render Pipeline/Unlit", "Sprites/Default",
-                "r:FieldGround", "r:ContactShadow", "r:BeamCone", "r:GroundGlow", "r:BeaconGlow", "r:LensAfterimage",   // r: = Resources.Load<Shader> (Shader.Find가 아니라 Resources 폴더에서 읽는 것)
+                "r:FieldGround", "r:ContactShadow", "r:BeamCone", "r:GroundGlow", "r:BeaconGlow", "r:LensAfterimage", "r:HlrSeeThroughLit", "r:HlrSeeThroughUnlit",   // r: = Resources.Load<Shader> (Shader.Find가 아니라 Resources 폴더에서 읽는 것)
             };
             foreach (string n in names)
             {

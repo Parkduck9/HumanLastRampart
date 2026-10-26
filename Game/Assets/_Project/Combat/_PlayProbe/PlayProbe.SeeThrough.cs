@@ -95,7 +95,6 @@ public sealed partial class PlayProbe
             yield return Capture($"seethrough_{label}_{name}_truth", PfWidth, PfHeight, true);
             truthPath = Path.Combine(Out, $"{shot:00}_seethrough_{label}_{name}_truth.png");
             hideForTruth.SetActive(true);
-            entry.SeeThrough?.Refresh();   // 꺼 둔 동안 목록에서 빠졌으니 바로 다시 훑는다 (게임에서는 2초마다)
         }
 
         // 확인용 목록: 사진기→주인공 가슴 선이 지나는 모든 그림(MeshRenderer 아닌 것 포함)과 셰이더. 투시 셰이더가 아닌 것이 있으면 구멍이 안 뚫린다

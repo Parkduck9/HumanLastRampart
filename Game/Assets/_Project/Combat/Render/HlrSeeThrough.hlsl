@@ -30,13 +30,16 @@ float HlrSeeThroughCover(float3 positionWS)
 }
 
 // 조각 버리기. positionCS는 프래그먼트 입력(SV_POSITION) — 화면 화소 좌표라 정렬 디더가 화소에 딱 붙는다
+// 전역 키워드 HLR_SEE_THROUGH가 꺼져 있으면(구멍이 안 켜진 동안) 아무 코드도 없다 → 조각 버리기가 없어 모바일의 가려진 면 걸러내기가 그대로 산다
 void HlrSeeThroughClip(float3 positionWS, float4 positionCS)
 {
+#if defined(HLR_SEE_THROUGH)
     float cover = HlrSeeThroughCover(positionWS);
     if (cover <= 0.0) return;
     uint2 p = (uint2)positionCS.xy & 3u;
     float threshold = HlrBayer4[p.y * 4u + p.x] + 0.5 / 16.0;
     clip(threshold - cover);   // cover가 문턱보다 크면 버린다 (cover 1이면 전부)
+#endif
 }
 
 #endif

@@ -99,7 +99,13 @@ public sealed partial class PlayProbe
 
             // 2) 내려가는 중 (계단 위): 흐름이 계단 구간 안에서 멈추게 전투 시간을 멈춘다
             Assert.IsTrue(entry.Interact(), "E: 탑으로 내려가기");
-            for (int i = 0; i < 8; i++) yield return null;   // 계단 첫 단 근처 (W35: 길이 거리 기준 속도라 비율이 아니라 프레임 수로. 2026-10-26 더 느리게(계단 1.75m/s)라 4→8프레임)
+            float peak = 0f;   // 층계참을 지나 내려가기 시작해 보정이 정점에서 조금 줄어들 때까지 (프레임 수가 아니라 조건으로 — 속도가 바뀌어도 된다)
+            yield return WaitFor(() =>
+            {
+                float lift = BattleCourtyard.HeroLift(rig.HeroFeet, half);
+                peak = Mathf.Max(peak, lift);
+                return peak > 0.06f && lift < peak - 0.02f && lift > 0.01f;
+            }, 20f);
             entry.TutorialTimeScale = 0f;
             yield return new WaitForSecondsRealtime(1.2f);
             Vector3 feet = rig.HeroFeet;
@@ -110,7 +116,7 @@ public sealed partial class PlayProbe
 
             // 한 단 더 내려간 모습 (blend 약 0.12)
             entry.TutorialTimeScale = 1f;
-            for (int i = 0; i < 4; i++) yield return null;
+            yield return WaitFor(() => BattleCourtyard.HeroLift(rig.HeroFeet, half) < liftC - 0.05f, 8f);   // 한 단 내려갈 때까지 (프레임 수가 아니라 조건으로)
             entry.TutorialTimeScale = 0f;
             yield return new WaitForSecondsRealtime(1.2f);
             feet = rig.HeroFeet;

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using HumanLastRampart.App.Data;
 using HumanLastRampart.Combat.Battle;
 using HumanLastRampart.Core.Campaign;
@@ -203,7 +203,7 @@ namespace HumanLastRampart.Combat.Tests
 
         // 거리 ÷ 속도: 평지는 성벽 달리기 속도, 계단은 걷기 속도 — 예전처럼 어디서든 1.6초가 아니다. 길어서 8초를 넘으면 속도만 같은 비율로 올려 8초에 맞춘다 (사용자 2026-10-26: 평지 3.5m/s · 계단 1.75m/s)
         [Test]
-        public void TravelTime_IsDistanceOverSpeed_CappedAtFiveSeconds([Values(20f, 60f)] float half)
+        public void TravelTime_IsDistanceOverSpeed_CappedAtEightSeconds([Values(20f, 60f)] float half)
         {
             var rig = NewRig(out GameObject camera, half);
             try
