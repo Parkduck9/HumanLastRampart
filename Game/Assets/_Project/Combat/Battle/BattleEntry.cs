@@ -62,6 +62,8 @@ namespace HumanLastRampart.Combat.Battle
         public int SquadOrders { get; private set; }   // 분대 이동 명령을 실제로 낸 횟수 (우선순위·대포 전령은 세지 않는다)
         public BattleTouch Touch => touch;
         public bool BoxSelectMode { get => boxSelectMode; set => boxSelectMode = value; }
+        // 터치 층이 꺼져야 하는 때: 도움말 판이 열려 있거나 튜토리얼 설명이 시간을 멈춘 동안 (그 판의 단추가 먼저 눌려야 한다)
+        public bool TouchBlocked => (hud != null && hud.HelpOpen) || TutorialTimeScale <= 0f;
         public bool Paused => paused;
         public int Speed => speed;
         public int SelectedSpell => selectedSpell;
@@ -381,8 +383,8 @@ namespace HumanLastRampart.Combat.Battle
             if (mapOpen || sim == null || sim.Ended || preparing) hud.SetTowerPrompt(null, null);
             else if (rig.InTransition && rig.TowerTarget) { hud.SetTowerPrompt(TouchInput.Active ? null : "E", "되돌아가기"); buttons = 2; }   // 내려가는 중 (W35)
             else if (rig.InTransition) hud.SetTowerPrompt(null, null);
-            else if (rig.AtTower) { hud.SetTowerPrompt("E", "빛줄기 명령", "WASD", "성벽으로"); buttons = 1; }
-            else if (rig.OnWall && rig.NearStairs) hud.SetTowerPrompt("E", "계단으로 내려가 등대로");
+            else if (rig.AtTower) { if (TouchInput.Active) hud.SetTowerPrompt(null, null); else hud.SetTowerPrompt("E", "빛줄기 명령", "WASD", "성벽으로"); buttons = 1; }
+            else if (rig.OnWall && rig.NearStairs) { if (TouchInput.Active) hud.SetTowerPrompt(null, null); else hud.SetTowerPrompt("E", "계단으로 내려가 등대로"); }
             else hud.SetTowerPrompt(null, null);
             hud.SetTowerButtons(TouchInput.Active ? 0 : buttons);   // 터치에서는 성벽 선택판·뒤돌기 단추가 대신한다 (W40)
         }
@@ -597,13 +599,22 @@ namespace HumanLastRampart.Combat.Battle
             {
                 rig?.TickTower(TowerDelta());   // 지도가 열려 있어도 탑 오르내리기는 전투 시간대로 이어진다
                 mapCamera.Update(Time.unscaledDeltaTime);
-                mapCamera.StepLevel(PointerInput.PinchStep());   // 두 손가락 벌리기·오므리기 = 한 단계 가까이·멀리 (W40)
+                int pinch = PointerInput.PinchStep();   // 두 손가락 벌리기·오므리기 = 두 손가락 가운데 기준 한 단계 가까이·멀리 (W40)
+                if (pinch != 0) mapCamera.StepLevel(pinch, PointerInput.PinchCenter);
+                // 끌기 도중 두 번째 손가락이 닿으면 놓기가 아니라 취소: 상자·묶음 끌기·지도 끌기를 그대로 접는다
+                if (PointerInput.PrimaryCanceled)
+                {
+                    boxSelecting = false;
+                    hud.HideSelectionBox();
+                    dragging = panPending = false;
+                }
                 // 대포를 고른 상태에서 들판(UI 바깥)을 왼쪽 클릭 → 조준점
                 // 아무것도 고르지 않았으면 내 함정 표시를 눌러 점화 (D-050)
                 // 터치는 UI 판 위에서 시작한 눌림을 PointerInput이 이미 걸러 준다 (마우스만 여기서 거른다)
                 bool overUi = !PointerInput.IsTouch && UnityEngine.EventSystems.EventSystem.current != null && UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject();
                 bool shiftHeld = (keyboard != null && (keyboard.leftShiftKey.isPressed || keyboard.rightShiftKey.isPressed)) || boxSelectMode;
                 bool pressed = PointerInput.PrimaryPressed;
+                bool tap = !PointerInput.PressIsDrag;   // 터치 끌기는 마법·대포·점화가 아니라 지도 옮기기·상자·묶음 끌기다
                 // 둥근 표식 바깥을 누르면 표식을 닫고 그 누름을 평소처럼 처리한다 (닫히지 않아 다음 상자를 못 그리던 문제)
                 if (pressed && hud.SquadWheelOpen)
                 {
@@ -634,9 +645,9 @@ namespace HumanLastRampart.Combat.Battle
                         dragStart = point;
                         dragging = true;
                     }
-                    else if (selectedSpell >= 0) CastSelectedSpellAt(world);
-                    else if (selectedCannon >= 0 && cannonMoveArmed) { OrderCannonMove(selectedCannon, SideOfPoint(world)); cannonMoveArmed = false; }
-                    else if (selectedCannon >= 0) AimSelectedCannonAt(world);
+                    else if (selectedSpell >= 0 && tap) CastSelectedSpellAt(world);
+                    else if (selectedCannon >= 0 && cannonMoveArmed && tap) { OrderCannonMove(selectedCannon, SideOfPoint(world)); cannonMoveArmed = false; }
+                    else if (selectedCannon >= 0 && tap) AimSelectedCannonAt(world);
                     else
                     {
                         // 아무것도 고르지 않았으면: 끌면 지도 옮기기(D-073), 그냥 떼면 함정 점화·묶음 선택 해제

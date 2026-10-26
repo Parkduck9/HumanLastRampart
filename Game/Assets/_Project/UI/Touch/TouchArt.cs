@@ -40,5 +40,30 @@ namespace HumanLastRampart.UI
 
         // 행동 기호 (48×48)
         public static Sprite Glyph(string id) => Get("glyph_" + id);
+
+        // 파문 4칸 · 길게 누르기 고리 8칸: 한 번 불러 모아 두고 이름 글자를 매 프레임 만들지 않는다
+        static Sprite[] ripples, rings;
+
+        public static Sprite Ripple(int frame)
+        {
+            if (ripples == null || ripples[0] == null)
+            {
+                ripples = new Sprite[4];
+                for (int i = 0; i < 4; i++) ripples[i] = Get("tap_ripple_" + (i + 1));
+            }
+
+            return ripples[Mathf.Clamp(frame, 0, 3)];
+        }
+
+        public static Sprite Ring(int step)
+        {
+            if (rings == null || rings[0] == null)
+            {
+                rings = new Sprite[8];
+                for (int i = 0; i < 8; i++) rings[i] = Get("long_press_" + (i + 1));
+            }
+
+            return rings[Mathf.Clamp(step - 1, 0, 7)];
+        }
     }
 }

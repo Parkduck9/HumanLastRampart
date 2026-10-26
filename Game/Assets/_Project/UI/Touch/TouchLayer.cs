@@ -12,7 +12,7 @@ namespace HumanLastRampart.UI
     public abstract class TouchWidget
     {
         public RectTransform Rt;
-        public float HitPad = 12f;   // 손가락 굵기만큼 눌림 범위를 넓힌다 (캔버스 px)
+        public float HitPad = 0f;   // 눌림 범위를 그림 밖으로 넓히지 않는다 (그림 밖은 그 밑의 판이 받아야 한다)
 
         public bool Visible
         {
@@ -26,11 +26,12 @@ namespace HumanLastRampart.UI
         public virtual void Tick(float dt) { }
 
         // 화면 화소 사각형 (오버레이 캔버스라 월드 좌표 = 화면 화소)
+        static readonly Vector3[] corners = new Vector3[4];   // 매 프레임 새로 만들지 않는다 (메인 스레드 전용)
+
         public UnityEngine.Rect ScreenRect
         {
             get
             {
-                var corners = new Vector3[4];
                 Rt.GetWorldCorners(corners);
                 float pad = HitPad * Rt.lossyScale.x;
                 return UnityEngine.Rect.MinMaxRect(corners[0].x - pad, corners[0].y - pad, corners[2].x + pad, corners[2].y + pad);
@@ -243,7 +244,9 @@ namespace HumanLastRampart.UI
         readonly Dictionary<int, TouchWidget> owners = new Dictionary<int, TouchWidget>();
         readonly HashSet<int> pressedNow = new HashSet<int>();
         readonly List<int> stale = new List<int>();
-        readonly List<(Image image, float born)> ripples = new List<(Image, float)>();
+        const int RipplePool = 4;
+        readonly Image[] rippleImages = new Image[RipplePool];
+        readonly float[] rippleBorn = new float[RipplePool];
         Image ring;
         Rect lastSafe;
         bool wanted = true;
@@ -402,27 +405,37 @@ namespace HumanLastRampart.UI
 
         void Ripple(Vector2 screen)
         {
-            Image image = Ui.Image(feedback, "Ripple", Color.white);
-            image.rectTransform.sizeDelta = new Vector2(96f, 96f);
-            image.rectTransform.anchorMin = image.rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
+            // 풀에서 쉬는 그림 하나를 쓴다 (다 쓰는 중이면 가장 오래된 것을 다시 쓴다)
+            int pick = 0;
+            for (int i = 0; i < RipplePool; i++)
+            {
+                if (rippleImages[i] == null)
+                {
+                    Image made = Ui.Image(feedback, "Ripple", Color.white);
+                    made.rectTransform.sizeDelta = new Vector2(96f, 96f);
+                    made.enabled = false;
+                    rippleImages[i] = made;
+                }
+
+                if (!rippleImages[i].enabled) { pick = i; break; }
+                if (rippleBorn[i] < rippleBorn[pick]) pick = i;
+            }
+
+            Image image = rippleImages[pick];
             Anchor(image.rectTransform, screen);
-            image.sprite = TouchArt.Get("tap_ripple_1");
-            ripples.Add((image, Time.unscaledTime));
+            image.sprite = TouchArt.Ripple(0);
+            image.enabled = true;
+            rippleBorn[pick] = Time.unscaledTime;
         }
 
         void TickRipples()
         {
-            for (int i = ripples.Count - 1; i >= 0; i--)
+            for (int i = 0; i < RipplePool; i++)
             {
-                int frame = (int)((Time.unscaledTime - ripples[i].born) * 12f);
-                if (frame >= 4)
-                {
-                    Destroy(ripples[i].image.gameObject);
-                    ripples.RemoveAt(i);
-                    continue;
-                }
-
-                ripples[i].image.sprite = TouchArt.Get("tap_ripple_" + (frame + 1));
+                if (rippleImages[i] == null || !rippleImages[i].enabled) continue;
+                int frame = (int)((Time.unscaledTime - rippleBorn[i]) * 12f);
+                if (frame >= 4) rippleImages[i].enabled = false;   // 마지막 칸 뒤 숨긴다
+                else rippleImages[i].sprite = TouchArt.Ripple(frame);
             }
         }
 
@@ -444,10 +457,11 @@ namespace HumanLastRampart.UI
 
             ring.enabled = true;
             Anchor(ring.rectTransform, PointerInput.RingPosition);
-            ring.sprite = TouchArt.Get("long_press_" + Mathf.Clamp(Mathf.CeilToInt(progress * 8f), 1, 8));
+            ring.sprite = TouchArt.Ring(Mathf.CeilToInt(progress * 8f));
         }
     }
 }
+
 
 
 

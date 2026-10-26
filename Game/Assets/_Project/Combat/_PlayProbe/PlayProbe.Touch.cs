@@ -54,7 +54,7 @@ public sealed partial class PlayProbe
             Tutorial = HumanLastRampart.Tutorial.TutorialState.Suppressed;
             HumanLastRampart.Tutorial.TutorialState.Suppressed = true;
             TouchInput.ForceOn = false;
-            TouchInput.Mode = TouchMode.Auto;
+            TouchInput.SetModeInMemory(TouchMode.Auto);   // 저장된 설정은 건드리지 않는다
             TouchInput.ResetHistory();
             PointerInput.Reset();
             touchDevice = InputSystem.AddDevice<Touchscreen>();   // 터치 화면이 있어도 터치하기 전에는 층이 꺼져 있어야 한다
@@ -64,6 +64,7 @@ public sealed partial class PlayProbe
         public void End()
         {
             TouchInput.ForceOn = false;
+            TouchInput.ReloadMode();
             if (touchDevice != null) InputSystem.RemoveDevice(touchDevice);
             touchDevice = null;
             InputSystem.settings.backgroundBehavior = background;
@@ -138,8 +139,8 @@ public sealed partial class PlayProbe
             yield return Capture("touch_02_map_selected", PfWidth, PfHeight);
             yield return TapAt(CenterOf(touch.Cancel));
             Assert.AreEqual(0, entry.SelectedGroupCount, "취소 단추가 고르기를 푼다");
-            yield return TapAt(CenterOf(touch.OrderMode));
-            Assert.IsFalse(entry.BoxSelectMode, "명령 표적 모드");
+            yield return TapAt(CenterOf(touch.BoxMode));
+            Assert.IsFalse(entry.BoxSelectMode, "같은 단추를 다시 누르면 명령 모드");
 
             // 2) 길게 누르기: 고리 → 오른쪽 버튼(망원경)
             Vector2 pressAt = new Vector2(w * 0.5f, h * 0.15f);
@@ -162,7 +163,7 @@ public sealed partial class PlayProbe
             Assert.IsFalse(entry.Preparing, "확인 단추로 전투 시작");
             for (int i = 0; i < 20; i++) yield return null;
             Assert.IsFalse(entry.MapOpen);
-            Assert.IsTrue(touch.Slider.Visible && touch.Interact.Visible && touch.StairsDown.Visible, "성벽 위 단추");
+            Assert.IsTrue(touch.Slider.Visible && touch.Interact.Visible, "성벽 위 단추");
             Assert.IsFalse(touch.Compass.Visible);
             yield return Capture("touch_04_wall", PfWidth, PfHeight);
 
@@ -181,6 +182,13 @@ public sealed partial class PlayProbe
             Assert.IsTrue(touch.Slider.Held);
             Assert.Greater(touch.Slider.Value.x, 0.9f);
             Assert.AreEqual(side0, rig.Side);
+            // 왼손으로 패드를 쥔 채 오른손으로 빠르기 단추 (손가락마다 따로 쥔다)
+            var speedButton = (TouchButton)touch.Layer.Find("speed");
+            int speed0 = entry.Speed;
+            yield return TapAt(CenterOf(speedButton));
+            Assert.AreNotEqual(speed0, entry.Speed, "다른 손가락의 단추도 눌린다");
+            Assert.IsTrue(touch.Slider.Held, "패드는 그대로 쥐고 있다");
+            while (entry.Speed != speed0) entry.CycleSpeed();
             Assert.Greater(rig.Along - along0, 2f, $"패드를 오른쪽으로 밀면 달린다 (along {along0:0.0} → {rig.Along:0.0})");
             TouchEnd(id, c);
             for (int i = 0; i < 3; i++) yield return null;
@@ -199,7 +207,7 @@ public sealed partial class PlayProbe
             TouchEnd(id, c);
             for (int i = 0; i < 6; i++) yield return null;
             Assert.AreEqual("glyph_stairs_down", touch.Interact.GlyphName, "계단 가까이서는 큰 단추가 계단 기호");
-            Assert.IsTrue(touch.StairsDown.Enabled && touch.Interact.Highlight);
+            Assert.IsTrue(touch.Interact.Enabled && touch.Interact.Highlight);
             yield return Capture("touch_05_near_stairs", PfWidth, PfHeight);
 
             // 6) 상호작용 단추 → 계단 내려가기 → 뒤돌기 → 다시 내려가기(계단 단추) → 탑 도착
@@ -213,8 +221,8 @@ public sealed partial class PlayProbe
             yield return WaitFor(() => rig.OnWall, 20f);
             Assert.IsTrue(rig.OnWall && rig.NearStairs);
             for (int i = 0; i < 6; i++) yield return null;
-            yield return TapAt(CenterOf(touch.StairsDown));
-            Assert.IsTrue(rig.TowerTarget, "계단 단추");
+            yield return TapAt(CenterOf(touch.Interact));
+            Assert.IsTrue(rig.TowerTarget, "다시 상호작용 단추로 내려간다");
             yield return WaitFor(() => rig.AtTower, 40f);
             Assert.IsTrue(rig.AtTower, "탑 앞 도착");
             for (int i = 0; i < 20; i++) yield return null;
@@ -234,6 +242,16 @@ public sealed partial class PlayProbe
             Assert.AreEqual(0f, rig.Along, 1e-3f);
             for (int i = 0; i < 20; i++) yield return null;
             yield return Capture("touch_08_after_compass", PfWidth, PfHeight);
+
+            // 도움말: 열리면 터치 층이 꺼지고(판 위로 새지 않게), 판 안 닫기 단추로 닫는다
+            yield return TapAt(CenterOf(touch.Help));
+            for (int i = 0; i < 6; i++) yield return null;
+            Assert.IsTrue(entry.TouchBlocked && !touch.Layer.Shown, "도움말이 열린 동안 터치 층은 꺼진다");
+            yield return Capture("touch_11_help", PfWidth, PfHeight);
+            yield return Press("도움말 닫기", 120);
+            for (int i = 0; i < 8; i++) yield return null;
+            Assert.IsFalse(entry.TouchBlocked);
+            Assert.IsTrue(touch.Layer.Shown, "닫으면 터치 층이 다시 켜진다");
 
             // 8) 지도 단추 → 지도 (분대 상자 고르기는 위 1에서 확인했다)
             yield return TapAt(CenterOf(touch.WallMap));

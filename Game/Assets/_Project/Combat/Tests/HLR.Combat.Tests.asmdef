@@ -1,4 +1,4 @@
-﻿{
+{
     "name": "HLR.Combat.Tests",
     "rootNamespace": "HumanLastRampart.Combat.Tests",
     "references": [
@@ -8,6 +8,7 @@
         "HLR.App",
         "HLR.Combat",
         "HLR.UI",
+        "HLR.Meta",
         "Unity.InputSystem",
         "Unity.InputSystem.TestFramework",
         "Unity.Collections",

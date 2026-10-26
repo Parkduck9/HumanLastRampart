@@ -15,11 +15,33 @@ namespace HumanLastRampart.UI
         // 시험·개발용 강제 켜기. 에디터에서는 환경 변수 HLR_FORCE_TOUCH=1 로도 켠다 (사진 촬영·실기기 없는 확인)
         public static bool ForceOn = Application.isEditor && Environment.GetEnvironmentVariable("HLR_FORCE_TOUCH") == "1";
 
+        static TouchMode mode;
+        static bool modeLoaded;
+
+        // 매 프레임 읽으므로 한 번만 PlayerPrefs에서 읽고 저장할 때만 갱신한다
         public static TouchMode Mode
         {
-            get => (TouchMode)Mathf.Clamp(PlayerPrefs.GetInt(ModeKey, 0), 0, 2);
-            set => PlayerPrefs.SetInt(ModeKey, (int)value);
+            get
+            {
+                if (!modeLoaded)
+                {
+                    mode = (TouchMode)Mathf.Clamp(PlayerPrefs.GetInt(ModeKey, 0), 0, 2);
+                    modeLoaded = true;
+                }
+
+                return mode;
+            }
+            set
+            {
+                mode = value;
+                modeLoaded = true;
+                PlayerPrefs.SetInt(ModeKey, (int)value);
+            }
         }
+
+        // 시험용: 저장된 값을 건드리지 않고 메모리 값만 바꾼다 / 다시 읽게 한다
+        public static void SetModeInMemory(TouchMode value) { mode = value; modeLoaded = true; }
+        public static void ReloadMode() { modeLoaded = false; }
 
         static int evalFrame = -1, testFrame = -1;
         static bool active;
@@ -50,16 +72,17 @@ namespace HumanLastRampart.UI
             if (evalFrame == key) return;
             evalFrame = key;
             var touchscreen = Touchscreen.current;
-            if (touchscreen != null && touchscreen.press.isPressed) lastTouch = ++sequence;
+            if (touchscreen != null && touchscreen.press.isPressed) { lastTouch = ++sequence; PointerInput.NoteTouch(); }
+            // 터치 노트북은 터치를 마우스 움직임·눌림으로도 알려 줄 수 있다 — 터치 직후 0.5초의 마우스는 입력으로 치지 않는다
             var mouse = Mouse.current;
-            if (mouse != null && (mouse.delta.ReadValue().sqrMagnitude > 0f || mouse.leftButton.isPressed || mouse.rightButton.isPressed
+            if (mouse != null && !PointerInput.MouseSuppressed && (mouse.delta.ReadValue().sqrMagnitude > 0f || mouse.leftButton.isPressed || mouse.rightButton.isPressed
                 || mouse.middleButton.isPressed || mouse.scroll.ReadValue().sqrMagnitude > 0f)) lastKeyMouse = ++sequence;
             var keyboard = Keyboard.current;
             if (keyboard != null && keyboard.anyKey.isPressed) lastKeyMouse = ++sequence;
 
-            TouchMode mode = Mode;
-            if (ForceOn || mode == TouchMode.On) active = true;
-            else if (mode == TouchMode.Off) active = false;
+            TouchMode current = Mode;
+            if (ForceOn || current == TouchMode.On) active = true;
+            else if (current == TouchMode.Off) active = false;
             else active = Application.isMobilePlatform || (touchscreen != null && lastTouch > lastKeyMouse);
         }
 
@@ -67,4 +90,3 @@ namespace HumanLastRampart.UI
         public static Rect SafeArea => Screen.safeArea.width > 1f ? Screen.safeArea : new Rect(0f, 0f, Screen.width, Screen.height);
     }
 }
-

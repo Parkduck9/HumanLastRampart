@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using HumanLastRampart.UI;
 using UnityEngine;
 using UnityEngine.UI;
@@ -144,4 +144,3 @@ namespace HumanLastRampart.Combat.Battle
         }
     }
 }
-
