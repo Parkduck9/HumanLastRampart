@@ -360,6 +360,7 @@ namespace HumanLastRampart.Meta
                 if (keyboard.wKey.isPressed || keyboard.upArrowKey.isPressed) input.y += 1f;
                 if (keyboard.sKey.isPressed || keyboard.downArrowKey.isPressed) input.y -= 1f;
             }
+            input += PrepYardTouch.Axis(this);   // W40 터치 이동 패드 (터치가 꺼져 있으면 0)
             if (modal != null && keyboard != null && keyboard.escapeKey.wasPressedThisFrame) CloseModal();   // Esc로 등대 창 닫기 (S5)
             if (beacon != null)
             {

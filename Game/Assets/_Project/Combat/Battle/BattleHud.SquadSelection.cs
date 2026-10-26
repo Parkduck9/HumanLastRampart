@@ -88,6 +88,7 @@ namespace HumanLastRampart.Combat.Battle
                 squadWheelBlocker = NewImage(root.transform, "Squad Wheel Input", Color.clear);
                 Ui.Stretch(squadWheelBlocker.rectTransform);
                 squadWheelBlocker.raycastTarget = true;
+                squadWheelBlocker.gameObject.AddComponent<PointerPassThrough>();   // 터치: 이 막 위의 눌림도 지도가 받는다 (고리 고르기·바깥 누르기, W40)
             }
             squadWheelBlocker.gameObject.SetActive(true);
             squadWheelBlocker.transform.SetAsLastSibling();
@@ -104,6 +105,7 @@ namespace HumanLastRampart.Combat.Battle
             screen.x = Mathf.Clamp(screen.x, margin, Mathf.Max(margin, Screen.width - margin));
             screen.y = Mathf.Clamp(screen.y, margin, Mathf.Max(margin, Screen.height - margin));
             Anchor(squadWheel, Viewport(screen), Vector2.zero, new Vector2(320f, 320f), new Vector2(0.5f, 0.5f));
+            go.AddComponent<PointerPassThrough>();
             wheelGraphic = go.GetComponent<SquadWheelGraphic>();
             wheelGraphic.Segments = amount ? 3 : 4;
             wheelGraphic.Disabled = disabledSide;
