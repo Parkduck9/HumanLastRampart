@@ -148,7 +148,16 @@ namespace HumanLastRampart.App.Tests
                 string dump = Reg("query", @"HKCU\" + root + @"\new").ToLowerInvariant();
                 StringAssert.Contains("reg_dword", dump); StringAssert.Contains("0x3f000000", dump);
                 StringAssert.Contains("reg_binary", dump); StringAssert.Contains("010203", dump);
-                Assert.AreEqual(0, GameSettings.CopyRegistryPrefs(root + @"\old", root + @"\new"), "새 키에 값이 있으면 건드리지 않는다");
+                Assert.AreEqual(0, GameSettings.CopyRegistryPrefs(root + @"\old", root + @"\new"), "이미 있는 값은 건드리지 않는다");
+                // 유니티가 새 키에 먼저 쓴 값(unity.player_sessionid)이 있어도 예전 값은 복사된다. 같은 이름은 새 값을 지킨다
+                Reg("add", @"HKCU\" + root + @"\old2", "/v", "hlr.settings.shake_h3", "/t", "REG_DWORD", "/d", "0", "/f");
+                Reg("add", @"HKCU\" + root + @"\old2", "/v", "keep_h4", "/t", "REG_DWORD", "/d", "1", "/f");
+                Reg("add", @"HKCU\" + root + @"\new3", "/v", "unity.player_sessionid", "/t", "REG_DWORD", "/d", "7", "/f");
+                Reg("add", @"HKCU\" + root + @"\new3", "/v", "keep_h4", "/t", "REG_DWORD", "/d", "9", "/f");
+                Assert.AreEqual(1, GameSettings.CopyRegistryPrefs(root + @"\old2", root + @"\new3"), "상관없는 값이 있어도 없는 이름만 복사한다");
+                string merged = Reg("query", @"HKCU\" + root + @"\new3").ToLowerInvariant();
+                StringAssert.Contains("hlr.settings.shake_h3", merged); StringAssert.Contains("unity.player_sessionid", merged);
+                StringAssert.Contains("0x9", merged);   // keep_h4는 새 값 그대로
                 Assert.AreEqual(0, GameSettings.CopyRegistryPrefs(root + @"\none", root + @"\new2"), "예전 키가 없으면 아무 일도 없다");
             }
             finally { Reg("delete", @"HKCU\" + root, "/f"); }

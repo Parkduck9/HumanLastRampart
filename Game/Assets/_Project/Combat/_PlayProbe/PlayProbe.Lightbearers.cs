@@ -46,7 +46,8 @@ public sealed partial class PlayProbe
             yield return Click("등대 수리", 120);
             Assert.AreEqual(PrepYard.LampLight(BeaconRules.DayRepairAmount, false), yard.LampLightNow, 0.0001f, "수리를 사면 같은 프레임에 불빛이 켜진다");
             Assert.Greater(yard.LampLightNow, 0f);
-            yield return Framed(yard, "w36_prep_detail_open_after_buy", 1920, 1080);
+            yield return Framed(yard, "w36_prep_detail_open_after_buy", 1920, 1080, true);
+            yield return Framed(yard, "w36_prep_detail_open_after_buy_16x10", 1920, 1200, true);
             yield return Click("등대 세부", 120);   // 다시 접는다
             Assert.IsNull(GameObject.Find("Beacon Detail"), "접힌 칸은 숨김 상태 (Find는 켜진 것만 찾는다)");
 
@@ -82,7 +83,7 @@ public sealed partial class PlayProbe
         yield return Framed(yard, name + "_16x10", 1920, 1200);
     }
 
-    IEnumerator Framed(PrepYard yard, string name, int width, int height)
+    IEnumerator Framed(PrepYard yard, string name, int width, int height, bool detailMustClearLamp = false)
     {
         yard.enabled = false;
         var strip = (RectTransform)GameObject.Find("Panorama").transform;
@@ -91,9 +92,22 @@ public sealed partial class PlayProbe
         strip.localScale = Vector3.one * scale;
         strip.anchoredPosition = new Vector2(Mathf.Clamp(picWidth / 2f - yard.HeroPixel.x, Mathf.Min(0f, picWidth - 3840f), 0f) * scale, 0f);
         for (int i = 0; i < 2; i++) yield return null;
+        if (detailMustClearLamp)
+        {
+            // 열린 [등대 세부] 판이 등실 불빛을 가리지 않는다 (두 사각형의 화면 영역이 겹치지 않음)
+            var plate = GameObject.Find("Beacon Detail"); var glow = GameObject.Find("Beacon Lamp Glow");
+            Assert.IsNotNull(plate, "세부 판이 열려 있다"); Assert.IsNotNull(glow, "등실 불빛 덧그림");
+            Rect plateRect = ScreenRect((RectTransform)plate.transform), glowRect = ScreenRect((RectTransform)glow.transform);
+            Assert.IsFalse(plateRect.Overlaps(glowRect), $"{width}x{height}: 세부 판 {plateRect} 이 등실 {glowRect} 를 가린다");
+        }
         yield return Capture(name, width, height);
         yard.enabled = true;
         for (int i = 0; i < 2; i++) yield return null;
+    }
+    static Rect ScreenRect(RectTransform rect)
+    {
+        var corners = new Vector3[4]; rect.GetWorldCorners(corners);
+        return Rect.MinMaxRect(corners[0].x, corners[0].y, corners[2].x, corners[2].y);
     }
     [UnityTest]
     public IEnumerator SettingsReduceMotionToggle()

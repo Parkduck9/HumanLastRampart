@@ -59,7 +59,7 @@ namespace HumanLastRampart.Meta
             for (int i = 0; i < detailLines.Length; i++) { detailLines[i] = Ui.Rect(detailPlate.transform, "Beacon Line " + (i + 1)); Ui.Size(detailLines[i], -1f, 48f); }
             BeaconPrepPanel.Build(detailLines[0], detailLines[1], null, context,
                 () => { PreparationPanel.RefreshSummary(repair, context, session); if (yard != null) yard.RefreshTower(); }, beaconBrief, detailLines[2], detailLines[3]);
-            detail = detailPlate.gameObject; detail.SetActive(false);   // W8: 요새·밤, 등대 복구, 성벽 조건, 밝기 선택, 등대 수리, 수비대 지원금. W36: 수리하면 탑 불빛도 바로
+            detail = detailPlate.gameObject; detail.AddComponent<DetailGuard>(); detail.SetActive(false);   // W8: 요새·밤, 등대 복구, 성벽 조건, 밝기 선택, 등대 수리, 수비대 지원금. W36: 수리하면 탑 불빛도 바로
             BuildDayLineStrip(repair.GetComponentInParent<UnityEngine.Canvas>().transform, campaign);   // W12 밤 사이 한마디: 화면 아래 가운데 작은 띠 (없으면 만들지 않음)
             yard = PrepYard.Build(view, HeroUnit(context));   // K-089 배경·3D 바닥·가림을 마당이 함께 소유한다.
             yard.BindBeacon(campaign);   // W36: 등실 불빛 덧그림이 복구·점화의 밤을 따라간다
@@ -105,7 +105,17 @@ namespace HumanLastRampart.Meta
                 if (yard != null && yard.CanMove) toggle?.Invoke();   // 마당 창·확인창이 떠 있거나 다른 창이 입력을 막는 동안은 건드리지 않는다
             }
         }
-        sealed class MapButtonGate : MonoBehaviour
+        // 마당 창·확인창·상점 등으로 마당이 멈춰 있는 동안은 [등대 세부] 판을 접는다 (판이 그 창들 위에 그려지고 입력도 막히지 않아서)
+        sealed class DetailGuard : MonoBehaviour
+        {
+            PrepYard yard;
+            void Update()
+            {
+                if (yard == null) yard = UnityEngine.Object.FindAnyObjectByType<PrepYard>();
+                if (yard != null && !yard.CanMove) gameObject.SetActive(false);
+            }
+        }
+        sealed class MapButtonGate: MonoBehaviour
         {
             Button button;
             HumanLastRampart.Tutorial.TutorialDirector director;

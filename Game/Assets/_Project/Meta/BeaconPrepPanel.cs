@@ -46,7 +46,6 @@ namespace HumanLastRampart.Meta
             Ui.Stretch((RectTransform)rowWalls.transform);
             Text walls = Ui.Label(rowWalls.transform, "Beacon Wall Condition", "", UiTokens.Small, UiTokens.Body);
             Ui.Size(walls, 640f, 48f, true);
-
             HorizontalLayoutGroup row2 = Ui.Row(lampLine, "Beacon Row 2", UiTokens.S16);
             Ui.Stretch((RectTransform)row2.transform);
             Text lampWord = Ui.Label(row2.transform, "Beacon Lamp Word", "오늘 밤 등불 밝기", UiTokens.Small, UiTokens.BodyDim);
@@ -79,7 +78,6 @@ namespace HumanLastRampart.Meta
             }, UiButtonKind.Normal);
             Ui.Size(buy, 400f, 48f);   // W16: 갈무리 폭에 맞춤
 
-
             void Refresh()
             {
                 night.text = BeaconRules.NightLabel(campaign.FortressNumber, campaign.NightNumber, true);
@@ -98,7 +96,6 @@ namespace HumanLastRampart.Meta
                     brief.text = $"등대 {Mathf.FloorToInt(campaign.BeaconRepair)}% · " + (missing ?? "다음 밤은 점화의 밤");
                     brief.color = missing == null ? UiTokens.Good : UiTokens.Body;
                 }
-
                 if (dayLine != null)
                     dayLine.text = string.Join("   ·   ", BeaconRules.DayLines(campaign).ConvertAll(l => $"{l.speaker}: \"{l.text}\""));
 
@@ -108,7 +105,6 @@ namespace HumanLastRampart.Meta
                 Ui.LabelOf(buy).text = usedToday ? "오늘 수리함 (내일 다시)" : $"등대 수리 +{BeaconRules.DayRepairAmount:0} ({BeaconRules.DayRepairGold:N0}골드)";   // W11: 하루 한 번
                 buy.interactable = !usedToday && campaign.BeaconRepair < BeaconRules.RepairMax && campaign.Gold >= BeaconRules.DayRepairGold;
             }
-
 
             Refresh();
             // 성벽 수리·골드 변화를 따라간다 (다른 패널이 진행 데이터를 바꾼다). 세부 칸이 접혀 있어도 한 줄 요약이 따라가도록 늘 켜진 요약 줄 글자에 붙인다
@@ -143,7 +139,6 @@ namespace HumanLastRampart.Meta
             }
 
             void Snapshot() { gold = campaign.Gold; lamp = (int)campaign.PlannedLamp; boughtToday = campaign.BeaconRepairBoughtToday; repair = campaign.BeaconRepair; wallSum = WallSum(); }
-
             long WallSum()
             {
                 long sum = 0; int i = 1;
