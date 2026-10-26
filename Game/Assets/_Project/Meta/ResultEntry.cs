@@ -79,6 +79,18 @@ namespace HumanLastRampart.Meta
                     : $"등대 복구 +{Mathf.RoundToInt(campaign.LastNightGain)}  (현재 {Mathf.RoundToInt(campaign.BeaconRepair)}%)";
                 Text beaconText = Ui.Label(beacon, "Beacon Text", line, UiTokens.Text, !lost && campaign.LastNightRelit ? UiTokens.GoodInk : UiTokens.Ink, TextAnchor.MiddleCenter, true);
                 Ui.Stretch(beaconText.rectTransform);
+
+                // 우두머리 성벽손 오우거 (점화의 밤): 처치 여부와 나온 뒤 걸린 시간
+                if (result.BossPresent)
+                {
+                    RectTransform boss = view.AddArea("Boss Line", 36f);
+                    int seconds = Mathf.RoundToInt(result.BossSeconds);
+                    string bossLine = result.BossDefeated
+                        ? $"우두머리 성벽손 오우거 처치 · {seconds / 60}:{seconds % 60:00}" + (result.BossFalls > 0 ? $" · 떨어뜨림 {result.BossFalls}번" : "")
+                        : "우두머리 성벽손 오우거는 쓰러뜨리지 못했습니다";
+                    Text bossText = Ui.Label(boss, "Boss Text", bossLine, UiTokens.Text, result.BossDefeated ? UiTokens.GoodInk : UiTokens.DangerInk, TextAnchor.MiddleCenter, true);
+                    Ui.Stretch(bossText.rectTransform);
+                }
             }
 
             var next = view.AddButton("다음", "보고 마치기", () => Complete(ScreenOutcome.Done), true);

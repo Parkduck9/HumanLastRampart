@@ -923,6 +923,7 @@ namespace HumanLastRampart.Combat.Battle
             if (victory)
             {
                 line = $"적 {sim.Kills:N0}을 막아 냈습니다\n얻은 골드 {sim.Gold:N0}";
+                if (sim.BossEndLine != null) line += "\n" + sim.BossEndLine;   // 우두머리 처치·시간 (BattleSim.Boss.cs)
             }
             else
             {

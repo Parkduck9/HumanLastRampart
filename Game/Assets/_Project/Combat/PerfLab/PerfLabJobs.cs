@@ -35,6 +35,7 @@ namespace HumanLastRampart.Combat.PerfLab
     {
         public EnemyHandle Enemy;
         public int Damage;
+        public byte Area;   // 1 = 범위 피해(대포·폭발·불바다·함정·화상), 0 = 한 대씩 맞는 화살·총. 우두머리 피해 규칙이 가른다 (BattleSim.Boss.cs)
     }
 
     // 바닥을 정사각형 칸으로 나눈 공간 격자. 칸마다 적 번호를 모아 둔다 (계수 정렬).

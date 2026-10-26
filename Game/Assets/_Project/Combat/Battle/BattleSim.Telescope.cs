@@ -18,6 +18,7 @@ namespace HumanLastRampart.Combat.Battle
             public Vector3 Center;
             public int Alive;
             public int Special;
+            public bool Boss;   // 우두머리가 이 무리에 있다 (성벽손 오우거, BattleSim.Boss.cs)
         }
 
         readonly List<(int side, bool special)> waveGroups = new List<(int, bool)>();
@@ -92,7 +93,7 @@ namespace HumanLastRampart.Combat.Battle
                         groupSpotted[g] = 1;
                         SpottedGroupCount++;
                         GroupSummary summary = Summarize(g);
-                        Notice?.Invoke($"망원경: {SideNames[summary.Side]} 무리 약 {summary.Alive}{(summary.Special > 0 ? $" · 특수 적 {summary.Special}" : "")}");
+                        Notice?.Invoke($"망원경: {SideNames[summary.Side]} 무리 약 {summary.Alive}{(summary.Special > 0 ? $" · 특수 적 {summary.Special}" : "")}{(summary.Boss ? " · 우두머리" : "")}");
                     }
                 }
             }
@@ -124,7 +125,7 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             float3 center = alive > 0 ? sum / alive : float3.zero;
-            return new GroupSummary { Side = waveGroups[g].side, Center = new Vector3(center.x, 0f, center.z), Alive = alive, Special = special };
+            return new GroupSummary { Side = waveGroups[g].side, Center = new Vector3(center.x, 0f, center.z), Alive = alive, Special = special, Boss = g == bossGroup && BossActive };
         }
     }
 }

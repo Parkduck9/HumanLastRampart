@@ -317,9 +317,21 @@ namespace HumanLastRampart.Combat.Battle
 
                     perKindCount[kindIndex[def.Id]] += count;
                 }
+
+                // 점화의 밤 우두머리 (BattleSim.Boss.cs): 웨이브 무리 계획(PlanAttack)이 끝난 뒤 맨 끝 무리로 붙인다 — 일반 무리의 면·시각·난수는 그대로
+                EnemyDef boss = ResolveBossDef(defs);
+                if (boss != null && !kindIndex.ContainsKey(boss.Id))
+                {
+                    kindIndex[boss.Id] = kindList.Count;
+                    kindList.Add(MakeKind(boss));
+                    perKindCount.Add(1);
+                    kindDefs.Add(boss);
+                    bossDef = boss;
+                }
             }
 
             PlanAttack(groups);   // 무리마다 나오는 면·시각 (D-053: 정면 북쪽, 우회는 늦게)
+            if (bossDef != null) AddBossGroup(groups);
 
             // 종류별로 슬롯을 이어 붙인다 — 그리기를 종류별 한 번씩 하기 위해
             var kindStart = new int[kindList.Count];
@@ -349,6 +361,8 @@ namespace HumanLastRampart.Combat.Battle
             eGroup = new NativeArray<int>(n, p);
             eTier = new NativeArray<byte>(n, p);
             eTierShown = new NativeArray<byte>(n, p);
+            eDown = new NativeArray<float>(n, p);            // 우두머리 쓰러짐 (BattleSim.Boss.cs)
+            eTargetLateral = new NativeArray<float>(n, p);
             eTierHpOn = new bool[n];
             eTierSpeedOn = new bool[n];
             enemyInstances = new NativeArray<PerfLabInstance>(n, p);
@@ -400,15 +414,17 @@ namespace HumanLastRampart.Combat.Battle
                     float time = isVanguard
                         ? random.NextFloat(0f, VanguardSpawnSeconds)
                         : plan.SpawnAt + (j - vanguard + 0.5f + random.NextFloat(-0.4f, 0.4f)) / rate;
-                    firstTime = Mathf.Min(firstTime, time);
-                    entries.Add(new SpawnEntry
+                    var spawn = new SpawnEntry
                     {
                         Slot = slot,
                         Time = time,
                         Side = plan.Side,
                         Lateral = random.NextFloat(-halfWidth, halfWidth),
                         Depth = depth,
-                    });
+                    };
+                    if (def.IsBoss) spawn = ConfigureBossSlot(slot, def, spawn);   // 체력·속도·시각·자리를 우두머리 규칙으로 덮어쓴다
+                    firstTime = Mathf.Min(firstTime, spawn.Time);
+                    entries.Add(spawn);
                 }
 
                 groupPhase.Add(wavePhase);
@@ -431,7 +447,7 @@ namespace HumanLastRampart.Combat.Battle
                 RewardGold = def.RewardGold,
                 IsSpecial = (byte)(def.IsSpecial ? 1 : 0),
                 CarriesLadder = (byte)(def.CarriesLadder ? 1 : 0),
-                DrawSize = def.IsSpecial ? (hasSheet ? 2.0f : 1.6f) : (hasSheet ? 1.2f : 0.8f),   // 사용자 의견 8: 적이 너무 커 보임 → 절반 (D-061)
+                DrawSize = (def.IsSpecial ? (hasSheet ? 2.0f : 1.6f) : (hasSheet ? 1.2f : 0.8f)) * def.DrawScale,   // 사용자 의견 8: 적이 너무 커 보임 → 절반 (D-061). 우두머리는 오우거 ×1.6 (임시 그림)
                 // 그림이 없으면 임시 그림에 색을 입힌다 (사다리 고블린·오우거는 Codex 정적 데모 그림, M-CX-049)
                 Tint = hasSheet
                     ? new float3(1f, 1f, 1f)
@@ -444,6 +460,12 @@ namespace HumanLastRampart.Combat.Battle
                 ClimbFrames = hasSheet ? PoseFrames(def.ClimbSheet) : (byte)0,
                 FallFrames = hasSheet ? PoseFrames(def.DeathSheet) : (byte)0,
                 HasLadder = (byte)(def.CarriesLadder && def.LadderSheet != null ? 1 : 0),
+                IsBoss = (byte)(def.IsBoss ? 1 : 0),
+                UnlitPointMul = def.UnlitPointDamageMul,
+                LitSpeedMul = def.LitSpeedMul,
+                ClimbAreaMul = def.ClimbAreaDamageMul,
+                KnockdownSeconds = def.KnockdownSeconds,
+                OnWallWallDamage = def.OnWallWallDamage,
             };
         }
 
@@ -747,6 +769,7 @@ namespace HumanLastRampart.Combat.Battle
             ApplyArrowBurns();   // 불화살 화상 (K-058, BattleSim.Boosts.cs)
             UpdatePhases();      // 최후 돌격 검사 (BattleSim.Phases.cs)
             Spawn();
+            UpdateBoss();        // 우두머리 떨어짐·통로 도착·처치 (BattleSim.Boss.cs)
             UpdateMessengers(dt);
             UpdateGroupMoves(dt);
             UpdateSlotWalks(dt);   // 빈 총안 메우러 걷기 (K-045)
@@ -886,6 +909,8 @@ namespace HumanLastRampart.Combat.Battle
                 FunnelBase = FunnelBase,
                 FunnelSlope = FunnelSlope,
                 Terrain = TerrainData,   // 무작위 지형·지형 손질 (K-049, BattleSim.Terrain.cs)
+                Down = eDown,                    // 우두머리 쓰러짐·가는 자리 (BattleSim.Boss.cs)
+                TargetLateral = eTargetLateral,
             }.Schedule(n, 256);
             JobHandle terrainJob = ScheduleTerrain(h, dt);   // 토벽 허물기 (K-049)
 
@@ -1054,6 +1079,7 @@ namespace HumanLastRampart.Combat.Battle
                 LadderSize = PerfLabArt.LadderDrawSize,
                 Burn = eBurn,   // 화상 붉은 깜빡임 (K-035)
                 TerrainHit = eTerrainHit,   // 토벽 때리는 적은 공격 칸 (K-051)
+                Down = eDown,               // 우두머리 쓰러짐 칸
             }.Schedule(n, 256, h);
 
             JobHandle shotDraw = new WriteShotInstancesJob
@@ -1146,6 +1172,7 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             CopyLampSeconds(result);   // 밝기별 켠 시간 (BattleSim.Lamp.cs)
+            CopyBossResult(result);    // 우두머리 처치·시간 (BattleSim.Boss.cs)
             AddTrapResults(result);   // 터진 함정·밀려난 함정 (D-050, C-006 v1.1)
             return result;
         }
@@ -1184,6 +1211,8 @@ namespace HumanLastRampart.Combat.Battle
             Release(ref eGroup);
             Release(ref eTier);
             Release(ref eTierShown);
+            Release(ref eDown);
+            Release(ref eTargetLateral);
             Release(ref groupSpotted);
             Release(ref craters);
             ReleaseTerrain();   // K-049

@@ -387,10 +387,11 @@ namespace HumanLastRampart.Combat.Battle
                 label.gameObject.SetActive(mapMode);
                 label.rectTransform.anchorMin = label.rectTransform.anchorMax = Viewport(screen);
                 label.rectTransform.anchoredPosition = new Vector2(0f, 28f);
-                label.text = g.Special > 0 ? $"약 {g.Alive} · 특수 {g.Special}" : $"약 {g.Alive}";
+                label.text = g.Boss ? "우두머리 · 성벽손 오우거" : g.Special > 0 ? $"약 {g.Alive} · 특수 {g.Special}" : $"약 {g.Alive}";
             }
 
             for (int i = groups.Count; i < groupLabels.Count; i++) groupLabels[i].gameObject.SetActive(false);
+            RefreshBossMap(sim, camera);   // 우두머리 큰 표식·가려는 성벽 자리 (BattleHud.Boss.cs)
         }
 
         // ── 병력 묶음 (D-072): 지도 위 10명 묶음 표시. 누르면 갈 성벽이 바로 뜨고, 끌어다 다른 성벽에 놓아도 된다 ──

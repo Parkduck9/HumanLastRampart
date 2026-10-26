@@ -15,7 +15,7 @@ using UnityEditor;
 using UnityEngine;
 
 // 측정 도구 (밤 시험 Tools/NightTest가 씀, D-067): 1~4번 전투를 이어서 진행 — 결과 반영(Codex 반영기) → 수리·모집(시험용 정책) → 다음 전투
-public sealed class SimProbe
+public sealed partial class SimProbe
 {
     static readonly System.Reflection.BindingFlags F = System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance;
 
