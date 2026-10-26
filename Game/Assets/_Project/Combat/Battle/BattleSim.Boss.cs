@@ -25,8 +25,7 @@ namespace HumanLastRampart.Combat.Battle
         public const string BossDefIdFortress2 = "enemy_boss_wallhand_2"; // 요새 2 (없으면 요새 1 정의)
         public const float BossSpawnSeconds = MainPhaseStart + 60f;       // 본대 시작 뒤 60초
         public const float BossWarnSeconds = PhaseWarnSeconds;            // 나오기 5초 전 단계 띠
-        public const float BossEasyHpMul = 0.7f;                          // 쉬움: 체력 ×0.7 (변형 단계 보너스는 우두머리에 안 붙는다)
-        public const float BossSpawnReach = 85f;                          // 성벽 바깥 모서리에서 나오는 거리(m) — 초속 1.2m로 약 70초
+        public const float BossSpawnReach = 85f;                          // 성벽 바깥 모서리에서 나오는 거리(m)
         const float BossFallDistance = 2f;                                // 떨어져 쓰러지는 자리 (성벽 중심선에서 CastleHalf + 이만큼)
         const string BossName = "성벽손 오우거";
 
@@ -114,7 +113,7 @@ namespace HumanLastRampart.Combat.Battle
             bossSlot = slot;
             eTier[slot] = 0;                 // 변형 단계 체력·속도 보너스·빛줄기 끄기 대상이 아니다
             eTierShown[slot] = 0;
-            int hp = Mathf.Max(1, Mathf.RoundToInt(Mathf.Max(1, def.MaxHp) * (setup.Difficulty == Difficulty.Easy ? BossEasyHpMul : 1f)));
+            int hp = Mathf.Max(1, Mathf.RoundToInt(Mathf.Max(1, def.MaxHp) * (setup.Difficulty == Difficulty.Easy ? def.EasyHpMul : 1f)));
             eMaxHp[slot] = hp;
             eHp[slot] = hp;
             eSpeed[slot] = def.MoveSpeed;    // 속도 흔들림 없음

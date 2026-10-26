@@ -94,6 +94,9 @@ namespace HumanLastRampart.Combat.Tests
             return sim;
         }
 
+        // 우두머리 정의 (요새 1·2). 값은 데이터라 시험이 숫자를 따로 갖지 않는다
+        static EnemyDef Def(int fortress) => Lookup().Get<EnemyDef>(fortress >= 2 ? BattleSim.BossDefIdFortress2 : BattleSim.BossDefId);
+
         static float3 Out(BattleSim sim) => WallGeometry.Outward(sim.BossSide);
         static float3 Right(BattleSim sim) => WallGeometry.Right(sim.BossSide);
 
@@ -116,18 +119,20 @@ namespace HumanLastRampart.Combat.Tests
                 Assert.IsTrue(sim.BossPresent);
                 Assert.AreEqual(baseCount + 1, sim.TotalEnemies, "정확히 한 마리 더");
                 Assert.IsTrue(sim.EnemyGroups[sim.EnemyGroups.Count - 1].def.IsBoss, "맨 끝 무리");
-                Assert.AreEqual(2800, sim.BossMaxHp, "쉬움: 4000 × 0.7");
+                EnemyDef d1 = Def(1);
+                Assert.AreEqual(Mathf.RoundToInt(d1.MaxHp * d1.EasyHpMul), sim.BossMaxHp, "쉬움: 정의 체력 × 쉬움 배율 (값은 데이터)");
+                Assert.Less(sim.BossMaxHp, d1.MaxHp, "쉬움이 더 쉽다");
             }
 
-            using (var sim = NewSim("run_boss_a", fortress: 1, difficulty: Difficulty.Realistic)) Assert.AreEqual(4000, sim.BossMaxHp, "현실: 그대로");
-            using (var sim = NewSim("run_boss_a", fortress: 2, difficulty: Difficulty.Realistic)) Assert.AreEqual(6000, sim.BossMaxHp, "요새 2: 6000");
-            using (var sim = NewSim("run_boss_a", fortress: 2, difficulty: Difficulty.Easy)) Assert.AreEqual(4200, sim.BossMaxHp, "요새 2 쉬움: 6000 × 0.7");
+            using (var sim = NewSim("run_boss_a", fortress: 1, difficulty: Difficulty.Realistic)) Assert.AreEqual(Def(1).MaxHp, sim.BossMaxHp, "현실: 그대로");
+            using (var sim = NewSim("run_boss_a", fortress: 2, difficulty: Difficulty.Realistic)) Assert.AreEqual(Def(2).MaxHp, sim.BossMaxHp, "요새 2 정의 체력");
+            using (var sim = NewSim("run_boss_a", fortress: 2, difficulty: Difficulty.Easy)) Assert.AreEqual(Mathf.RoundToInt(Def(2).MaxHp * Def(2).EasyHpMul), sim.BossMaxHp, "요새 2 쉬움");
             // 변형 단계(요새 2 점화의 밤 = 2단계) 체력 보너스는 우두머리에 안 붙는다
             using (var sim = NewSim("run_boss_a", fortress: 2, difficulty: Difficulty.Realistic, tier: 2))
             {
-                Assert.AreEqual(6000, sim.BossMaxHp, "변형 단계 체력 보너스 없음");
+                Assert.AreEqual(Def(2).MaxHp, sim.BossMaxHp, "변형 단계 체력 보너스 없음");
                 Assert.AreEqual(0, sim.TierOf(sim.BossSlot));
-                Assert.AreEqual(1.2f, sim.EnemySpeedOf(sim.BossSlot), 1e-4f, "속도 보너스·흔들림 없음");
+                Assert.AreEqual(Def(2).MoveSpeed, sim.EnemySpeedOf(sim.BossSlot), 1e-4f, "속도 보너스·흔들림 없음");
             }
         }
 
@@ -211,13 +216,14 @@ namespace HumanLastRampart.Combat.Tests
         }
 
         [Test]
-        public void UnlitPointDamage_IsQuarter_LitIsFullPlusBeam_AreaIsFull()
+        public void UnlitPointDamage_UsesDefinitionRatio_LitIsFullPlusBeam_AreaIsFull()
         {
             // 같은 자리(그 면 정면 들판 110m)를 빛줄기가 비출 때와 비추지 않을 때
+            int unlitPoint = Mathf.RoundToInt(100 * Def(1).UnlitPointDamageMul);
             using (BattleSim sim = SpawnedBoss())
             {
                 var pos = Out(sim) * 110f;
-                Assert.AreEqual(25, HpLost(sim, pos, 100, false), "빛 밖 화살·총 25%");
+                Assert.AreEqual(unlitPoint, HpLost(sim, pos, 100, false), "빛 밖 화살·총은 정의 비율 (값은 데이터)");
                 Assert.IsFalse(sim.BossLit);
                 Assert.AreEqual(100, HpLost(sim, pos, 100, true), "빛 밖 범위 피해는 그대로");
             }
@@ -247,13 +253,13 @@ namespace HumanLastRampart.Combat.Tests
         }
 
         [Test]
-        public void ClimbingTakesDoubleAreaDamage_PointStillQuarter()
+        public void ClimbingTakesDoubleAreaDamage_PointStillUnlitRatio()
         {
             using (BattleSim sim = SpawnedBoss())
             {
                 var dark = new float3(60.6f, 1f, 0f);
                 Assert.AreEqual(200, HpLost(sim, dark, 100, true, EnemyState.Climbing), "오르는 동안 범위 피해 ×2");
-                Assert.AreEqual(25, HpLost(sim, dark, 100, false, EnemyState.Climbing), "오르는 동안에도 빛 밖 화살은 25%");
+                Assert.AreEqual(Mathf.RoundToInt(100 * Def(1).UnlitPointDamageMul), HpLost(sim, dark, 100, false, EnemyState.Climbing), "오르는 동안에도 빛 밖 화살은 정의 비율");
             }
         }
 
@@ -278,8 +284,9 @@ namespace HumanLastRampart.Combat.Tests
             float unlit, litWalk;
             using (BattleSim sim = SpawnedBoss(beamSide: (side + 2) % 4)) unlit = WalkedInOneSecond(sim);
             using (BattleSim sim = SpawnedBoss(beamSide: side)) { litWalk = WalkedInOneSecond(sim); Assert.IsTrue(sim.BossLit, "정면 빛줄기 안"); }
-            Assert.AreEqual(1.2f, unlit, 0.03f, "빛 밖 초속 1.2m");
-            Assert.AreEqual(1.44f, litWalk, 0.03f, "빛 안 ×1.2 = 1.44 (보통 빛줄기 느려짐 −25%는 받지 않는다)");
+            EnemyDef def = Def(1);
+            Assert.AreEqual(def.MoveSpeed, unlit, 0.04f, "빛 밖은 정의 속도");
+            Assert.AreEqual(def.MoveSpeed * def.LitSpeedMul, litWalk, 0.05f, "빛 안 ×1.2 (보통 빛줄기 느려짐 −25%는 받지 않는다)");
             // 비교: 같은 빛줄기 안의 일반 적은 느려진다
             Assert.Greater(litWalk, unlit * 1.15f);
         }
@@ -318,7 +325,7 @@ namespace HumanLastRampart.Combat.Tests
                 while (sim.BossState == EnemyState.Walking && guard++ < 4000) Step(sim);
                 Assert.AreEqual(EnemyState.Climbing, sim.BossState);
                 float travel = sim.Elapsed - BattleSim.BossSpawnSeconds;
-                Assert.AreEqual((BattleSim.BossSpawnReach - 0.6f) / 1.2f, travel, 1.5f, "85m를 초속 1.2m로");
+                Assert.AreEqual((BattleSim.BossSpawnReach - 0.6f) / Def(1).MoveSpeed, travel, 1.5f, "85m를 정의 속도로");
                 Vector3 p = sim.BossPosition;
                 float lateral = math.dot(new float3(p.x, p.y, p.z), Right(sim));
                 Assert.AreEqual(sim.BossTargetAlong, lateral, 0.5f, "가장 약한 자리 앞에서 오른다");
@@ -333,9 +340,12 @@ namespace HumanLastRampart.Combat.Tests
             {
                 var messages = new List<string>();
                 sim.Notice += messages.Add;
-                int max = sim.BossMaxHp;   // 2800 → 한계 420
+                int max = sim.BossMaxHp;
+                float limit = max * Def(1).KnockOffRatio;   // 한 번 오르는 동안의 한계 (체력 15%)
+                int u = Mathf.RoundToInt(limit / 4.2f);     // 범위 피해 한 번 (등반 중 ×2). 두 번 = 한계의 0.95, 세 번 = 1.43
+                int walkHit = Mathf.RoundToInt(limit * 2.4f);
                 // 걸을 때 잃은 체력은 등반 몫이 아니다
-                sim.DebugHitArea(sim.BossSlot, 1000);
+                sim.DebugHitArea(sim.BossSlot, walkHit);
                 Step(sim);
                 PlaceBoss(sim, 0.7f, sim.BossTargetAlong);
                 Step(sim, 6);
@@ -343,11 +353,11 @@ namespace HumanLastRampart.Combat.Tests
                 Step(sim, 5);
                 Assert.AreEqual(0, sim.BossFalls, "오르기 전에 잃은 체력은 세지 않는다");
 
-                sim.DebugHitArea(sim.BossSlot, 100); sim.DebugHitArea(sim.BossSlot, 100);   // 범위 ×2 = 400 < 420
+                sim.DebugHitArea(sim.BossSlot, u); sim.DebugHitArea(sim.BossSlot, u);   // 범위 ×2 = 한계 아래
                 Step(sim, 3);
                 Assert.AreEqual(EnemyState.Climbing, sim.BossState, "한계(15%) 아래는 버틴다");
                 Assert.AreEqual(0, sim.BossFalls);
-                sim.DebugHitArea(sim.BossSlot, 100);   // 누적 600 ≥ 420
+                sim.DebugHitArea(sim.BossSlot, u);   // 누적 한계 이상
                 Step(sim, 3);
                 Assert.AreEqual(1, sim.BossFalls, "15% 이상 잃으면 손을 놓는다");
                 Assert.IsTrue(messages.Contains("손을 놓쳤다!"));
@@ -355,7 +365,7 @@ namespace HumanLastRampart.Combat.Tests
                 Assert.AreEqual(0f, sim.BossPosition.y, 1e-4f);
                 Assert.Greater(sim.BossDownLeft, 5.5f, "6초 쓰러짐");
                 Assert.LessOrEqual(sim.BossDownLeft, 6f);
-                Assert.Less(sim.BossHp, max - 1000);
+                Assert.Less(sim.BossHp, max - walkHit);
 
                 Vector3 down = sim.BossPosition;
                 Step(sim, 100);   // 5초
@@ -366,12 +376,12 @@ namespace HumanLastRampart.Combat.Tests
                 Assert.AreEqual(EnemyState.Climbing, sim.BossState, "다시 걸어와 오른다");
                 Assert.Less(sim.BossPosition.y, 1f, "처음부터 다시");
 
-                // 새 등반은 새로 센다: 400을 맞아도 버틴다
-                sim.DebugHitArea(sim.BossSlot, 100); sim.DebugHitArea(sim.BossSlot, 100);
+                // 새 등반은 새로 센다: 한계 아래를 맞아도 버틴다
+                sim.DebugHitArea(sim.BossSlot, u); sim.DebugHitArea(sim.BossSlot, u);
                 Step(sim, 4);
                 Assert.AreEqual(1, sim.BossFalls, "이전 등반에서 잃은 체력을 이어 세지 않는다");
                 Assert.AreEqual(EnemyState.Climbing, sim.BossState);
-                sim.DebugHitArea(sim.BossSlot, 100);
+                sim.DebugHitArea(sim.BossSlot, u);
                 Step(sim, 3);
                 Assert.AreEqual(2, sim.BossFalls, "한 번 더 떨어뜨릴 수 있다");
             }
@@ -602,7 +612,7 @@ namespace HumanLastRampart.Combat.Tests
                 var messages = new List<string>();
                 sim.Notice += messages.Add;
                 sim.DebugPlaceEnemy(sim.BossSlot, new float3(0f, 0f, 110f));
-                sim.DebugHit(sim.BossSlot, 100000);
+                sim.DebugHitArea(sim.BossSlot, sim.BossMaxHp * 2);   // 범위 피해라 빛 밖 비율이 없다
                 Step(sim, 3);
                 Assert.IsTrue(sim.BossKilled);
                 Assert.IsFalse(sim.BossActive);

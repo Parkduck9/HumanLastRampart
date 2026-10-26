@@ -66,8 +66,9 @@ namespace HumanLastRampart.Meta
                 view.SetPanelSize(1600f, 900f);
                 RectTransform head = view.AddArea("Result Head", 96f);
                 ResultBoard.BuildHead(head, result);
-                RectTransform board = view.AddArea("Result Board", 456f);
-                board.sizeDelta = new Vector2(1504f, 456f);
+                float boardHeight = result.BossPresent ? 420f : 456f;   // 우두머리 줄(36)이 더해지는 만큼 판을 낮춰 쪽이 넘치지 않게
+                RectTransform board = view.AddArea("Result Board", boardHeight);
+                board.sizeDelta = new Vector2(1504f, boardHeight);
                 ResultBoard.Build(board, campaign.ActiveBattleSetup, result, id => context.Definitions.Get<UnitDef>(id));
 
                 // W8: 등대 복구 / 점화 (자리만 잡은 한 줄)

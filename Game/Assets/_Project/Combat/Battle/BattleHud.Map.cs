@@ -57,6 +57,7 @@ namespace HumanLastRampart.Combat.Battle
                 if (!open)
                 {
                     foreach (Text label in groupLabels) label.gameObject.SetActive(false);
+                    HideBossMap();   // 지도를 닫으면 우두머리 표식도 같이 (화면에 남지 않게)
                     foreach (GroupMarker marker in groupMarkers) marker.Root.gameObject.SetActive(false);
                     foreach (Button marker in cannonMarkers) marker.gameObject.SetActive(false);
                     foreach (Text c in compass) if (c != null) c.gameObject.SetActive(false);

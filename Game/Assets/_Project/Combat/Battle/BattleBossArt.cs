@@ -34,7 +34,9 @@ namespace HumanLastRampart.Combat.Battle
 
         // 쓰러짐 단계 길이 (초): 떨어짐 6칸·착지 6칸·일어남 6칸(8칸/초) = 0.75, 함정 넘어짐 4칸 = 0.5
         const float FallSeconds = 6f / 8f, LandSeconds = 6f / 8f, GetUpSeconds = 6f / 8f, TrapFallSeconds = 4f / 8f;
-        const float DeathHold = 1.5f;   // 죽은 뒤 마지막 자세를 잠깐 남겨 둔다
+        const float BossMinScale = 0.7f;   // 걷기·쓰러짐 때 성벽 가까이 줄임의 바닥
+        const float WalkwayScale = 0.5f;   // 통로 위 크기 (기본 시점에서 일반 병사의 두 배 남짓)
+        const float DeathHold = 1.5f;  // 죽은 뒤 마지막 자세를 잠깐 남겨 둔다
 
         readonly BattleSim sim;
         readonly Material material;
@@ -180,7 +182,8 @@ namespace HumanLastRampart.Combat.Battle
             {
                 pose = view == 0 ? Pose.ClimbFront : Pose.ClimbBack;
                 frame = (int)(now * Fps[(int)pose]) % FrameCounts[(int)pose];
-                feet.y = 3.2f + 0.2f * Mathf.Clamp(feet.y, 0f, BattleSim.WallHeight);   // 손 높이: 성벽 윗단 가까이에서 시작해 오를수록 올라간다
+                // 손 높이: 오를수록 올라가 끝에는 손이 성벽 위(난간)에 닿는다
+                feet.y = Mathf.Lerp(2.4f, BattleSim.WallHeight + 0.3f, Mathf.Clamp01(feet.y / BattleSim.WallHeight));
             }
             else
             {
@@ -194,6 +197,10 @@ namespace HumanLastRampart.Combat.Battle
             // 일반 적과 같은 크기 규칙: 성벽에서 멀면 원래 크기, 성벽 가까이(카메라에서 가려지는 구역)에서 EnemyWallScale로 줄인다
             float fromWall = math.dot(new float3(feet.x, 0f, feet.z), outward) - sim.CastleHalf;
             float scale = Mathf.Lerp(BattleSim.EnemyWallScale, 1f, Mathf.Clamp01((fromWall - 1f) / Mathf.Max(0.1f, BattleSim.WallScaleBand - 1f)));
+            // 우두머리는 4.5m 그대로 보여야 한다: 성벽 위·오르는 중에는 줄이지 않고, 걷거나 쓰러져 있을 때도 일반 적만큼 작아지지 않게 바닥을 둔다
+            if (state == EnemyState.Climbing) scale = 1f;
+            else if (state == EnemyState.OnWall) scale = WalkwayScale;   // 통로 위는 사진기가 4m 안팎이라 1.0이면 화면을 다 덮는다 (사진으로 맞춤)
+            else scale = Mathf.Max(scale, BossMinScale);
             float shade = sim.Brightness;
             // 빛줄기 안이면 화가 난 듯 붉게 (빛에 드러나 빨라지는 상태가 눈에 보이게)
             float3 tint = sim.BossLit ? new float3(1f, 0.78f, 0.72f) * shade : new float3(shade, shade, shade);

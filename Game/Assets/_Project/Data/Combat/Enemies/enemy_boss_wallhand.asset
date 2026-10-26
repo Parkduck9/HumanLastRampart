@@ -15,8 +15,8 @@ MonoBehaviour:
   id: enemy_boss_wallhand
   displayName: 성벽손 오우거
   isSpecial: 1
-  maxHp: 4000
-  moveSpeed: 1.2
+  maxHp: 60000
+  moveSpeed: 1.8
   wallDamage: 30
   rewardGold: 200
   climbSpeed: 0.5
@@ -34,10 +34,11 @@ MonoBehaviour:
     Normal: {fileID: 2800000, guid: 906e3e85b32842b3a5f042eded3423aa, type: 3}
   isBoss: 1
   drawScale: 1.6
-  unlitPointDamageMul: 0.25
+  unlitPointDamageMul: 0.15
   litSpeedMul: 1.2
   climbAreaDamageMul: 2
   knockOffRatio: 0.15
   knockdownSeconds: 6
   trapKnockdownSeconds: 4
   onWallWallDamage: 60
+  easyHpMul: 0.55

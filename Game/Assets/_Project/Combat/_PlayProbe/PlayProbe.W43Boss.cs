@@ -24,6 +24,8 @@ public sealed partial class PlayProbe
 
     BattleBossArt W43Art() => ((BattleView)typeof(BattleEntry).GetField("view", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(w43Entry)).BossArt;
 
+    BattleHud W43Hud() => (BattleHud)typeof(BattleEntry).GetField("hud", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(w43Entry);
+
     // 일반 적은 매 틱 모두 쓰러뜨려 우두머리만 보이게 (사진용)
     static void W43KillNormals(BattleSim sim)
     {
@@ -34,6 +36,12 @@ public sealed partial class PlayProbe
     // 사진 한 장 뒤 그 프레임의 작업을 끝내 둔다 (바로 이어 모의 전투 값을 쓸 수 있게)
     IEnumerator W43Shot(string name)
     {
+        if (w43Entry != null && w43Entry.Sim != null)
+        {
+            // 화면 글이 최신이도록 한 프레임 더 (글 갱신은 초당 5번으로 줄여 있어 빠르게 감은 직후에는 옛 값일 수 있다)
+            W43Hud()?.ForceRefresh();
+            yield return W43Frames(1);
+        }
         yield return Capture(name, PfWidth, PfHeight);
         w43Entry?.Sim?.Complete();   // 결과 화면 사진에서는 전투가 이미 끝나 모의 전투가 없다
     }
@@ -155,9 +163,11 @@ public sealed partial class PlayProbe
             yield return W43Frames(12);
             sim.RefreshSpottedGroups();
             yield return W43Frames(6);
+            Assert.IsTrue(W43Hud().BossMapMarkersVisible, "지도가 열려 있으면 우두머리 표식이 보인다");
             yield return W43Shot("w43_05_map");
             entry.ToggleMap();
             yield return W43Frames(6);
+            Assert.IsFalse(W43Hud().BossMapMarkersVisible, "지도를 닫으면 우두머리 표식도 사라진다 (화면에 남지 않는다)");
 
             // ── 오르기: 바깥에서(등 뒤) · 통로 위에서 내려다보며(앞) ──
             Camera cam = entry.BattleCamera;
@@ -172,6 +182,7 @@ public sealed partial class PlayProbe
             yield return W43Frames(6);
             Note($"오르기(바깥): {W43Art()?.CurrentPose}");
             yield return W43Shot("w43_06_climb_outside");
+            sim.DebugPlaceEnemy(sim.BossSlot, new Unity.Mathematics.float3(foot.x, 3.4f, foot.z));   // 끝에 가까이 올랐을 때 (손이 난간에 닿는다)
             pin.Position = n * (half - 2.6f) + r * (along - 1.0f) + Vector3.up * (top + 1.6f);
             pin.Rotation = Quaternion.LookRotation(n * (half + 0.6f) + r * along + Vector3.up * 3.0f - pin.Position);
             yield return W43Frames(6);
@@ -210,7 +221,18 @@ public sealed partial class PlayProbe
             Object.Destroy(pin);
             yield return null;
             entry.Rig.ShowSide(side);
+            // 기본 시점은 성벽 가운데를 비춘다: 우두머리를 가운데 통로로 옮겨 찍는다 (실제 전투에서는 가려는 자리에 있다)
+            sim.Complete();
+            Vector3 centerSpot = n * (half - 0.4f);
+            sim.DebugPlaceEnemy(sim.BossSlot, new Unity.Mathematics.float3(centerSpot.x, top, centerSpot.z));
             yield return W43Frames(10);
+            {
+                Vector3 bp = sim.BossPosition;
+                Vector3 feetScreen = cam.WorldToScreenPoint(bp), headScreen = cam.WorldToScreenPoint(bp + Vector3.up * 4.5f);
+                Note($"통로 기본 시점: 보임 {W43Art()?.Visible} 상태 {sim.BossState} 위치 {bp} 카메라 {cam.transform.position} 앞 {cam.transform.forward} 발 화면 {feetScreen} 머리 화면 {headScreen}");
+                Assert.IsTrue(W43Art() != null && W43Art().Visible, "통로 위 우두머리가 기본 시점에서 그려진다");
+                Note($"카메라 시야 {cam.fieldOfView} 가로세로 {cam.aspect} 화면 {Screen.width}x{Screen.height} 회전 {cam.transform.rotation.eulerAngles}");
+            }
             yield return W43Shot("w43_14_onwalkway_default_view");
 
             // ── 죽음 → 결과 줄 ──
@@ -222,11 +244,18 @@ public sealed partial class PlayProbe
             yield return W43Frames(8);
             Note($"죽음: {W43Art()?.CurrentPose} 칸 {W43Art()?.CurrentFrame}");
             yield return W43Shot("w43_15_death");
-            entry.TutorialTimeScale = 0f;
-            yield return Press("[시험] 승리", 300);
+            // 진짜 끝나는 길로: 모의 전투를 승리로 끝내면 BattleEntry.ShowEnd가 BuildResult(우두머리 기록 포함)로 결과 화면을 연다
+            entry.TutorialTimeScale = 1f;
+            sim.Complete();
+            Assert.IsNotNull(sim.BossEndLine, "결과 줄");
+            Note("결과 줄: " + sim.BossEndLine);
+            sim.ForceEnd(BattleOutcome.Victory, DefeatReason.None, 0);
+            for (int i = 0; i < 40; i++) yield return null;
+            yield return Capture("w43_16_endpanel", PfWidth, PfHeight);   // 전투 안 끝 판 (우두머리 줄 포함)
+            yield return Press("보고서 보기", 300);
             yield return WaitScreen(ScreenId.Result, 900);
             for (int i = 0; i < 60; i++) yield return null;
-            yield return W43Shot("w43_16_result");
+            yield return W43Shot("w43_17_result");
             Note("우두머리 사진 촬영 완료");
         }
         finally

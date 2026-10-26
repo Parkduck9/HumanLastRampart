@@ -8,7 +8,7 @@ namespace HumanLastRampart.Combat.Battle
     // 막대는 K-123 막대 그림(Ui.Bar). 우두머리가 나와 살아 있는 동안(처치 뒤 3초까지)만 보인다
     public sealed partial class BattleHud
     {
-        const float BossBarWidth = 640f;
+        const float BossBarWidth = 520f;   // 좁게 (위쪽 가운데 멀리 있는 우두머리를 덜 가린다)
 
         RectTransform bossRoot;
         Text bossName, bossState, bossNumbers;
@@ -71,13 +71,24 @@ namespace HumanLastRampart.Combat.Battle
         Image bossMapIcon, bossTargetIcon;
         bool bossMapIconArt;
 
+        // 시험용: 글·띠를 다음 프레임에 바로 다시 그린다 (사진 직전)
+        public void ForceRefresh() => nextRefresh = 0f;
+
+        void HideBossMap()
+        {
+            if (bossMapMarker != null && bossMapMarker.gameObject.activeSelf) bossMapMarker.gameObject.SetActive(false);
+            if (bossTargetMarker != null && bossTargetMarker.gameObject.activeSelf) bossTargetMarker.gameObject.SetActive(false);
+        }
+
+        // 시험용: 지도 표식이 지금 보이는지
+        public bool BossMapMarkersVisible => (bossMapMarker != null && bossMapMarker.gameObject.activeSelf) || (bossTargetMarker != null && bossTargetMarker.gameObject.activeSelf);
+
         void RefreshBossMap(BattleSim sim, Camera camera)
         {
             bool show = mapMode && sim.BossActive;
             if (!show)
             {
-                if (bossMapMarker != null && bossMapMarker.gameObject.activeSelf) bossMapMarker.gameObject.SetActive(false);
-                if (bossTargetMarker != null && bossTargetMarker.gameObject.activeSelf) bossTargetMarker.gameObject.SetActive(false);
+                HideBossMap();
                 return;
             }
 

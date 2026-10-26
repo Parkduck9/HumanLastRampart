@@ -34,6 +34,7 @@ namespace HumanLastRampart.Core.Definitions
         [SerializeField] float knockdownSeconds = 6f;          // 떨어진 뒤 쓰러져 있는 시간
         [SerializeField] float trapKnockdownSeconds = 4f;      // 함정 폭발 범위 안일 때 쓰러지는 시간
         [SerializeField] int onWallWallDamage;                 // 통로 위에서 그 성벽에 주는 초당 피해 (병사 피해는 onWallAttack)
+        [SerializeField] float easyHpMul = 0.7f;               // 쉬움 난이도의 체력 배율 (변형 단계 보너스는 우두머리에 안 붙는다)
 
         public bool IsSpecial => isSpecial;
         public bool IsBoss => isBoss;
@@ -45,6 +46,7 @@ namespace HumanLastRampart.Core.Definitions
         public float KnockdownSeconds => knockdownSeconds;
         public float TrapKnockdownSeconds => trapKnockdownSeconds;
         public int OnWallWallDamage => onWallWallDamage;
+        public float EasyHpMul => Mathf.Max(0.05f, easyHpMul);
         public int MaxHp => maxHp;
         public float MoveSpeed => moveSpeed;
         public int WallDamage => wallDamage;
