@@ -99,8 +99,7 @@ public sealed partial class PlayProbe
 
             // 2) 내려가는 중 (계단 위): 흐름이 계단 구간 안에서 멈추게 전투 시간을 멈춘다
             Assert.IsTrue(entry.Interact(), "E: 탑으로 내려가기");
-            int guard = 0;
-            while (rig.TowerBlend < 0.08f && guard++ < 60) yield return null;
+            for (int i = 0; i < 4; i++) yield return null;   // 계단 첫 단 근처 (W35: 길이 거리 기준 속도라 비율이 아니라 프레임 수로)
             entry.TutorialTimeScale = 0f;
             yield return new WaitForSecondsRealtime(1.2f);
             Vector3 feet = rig.HeroFeet;
@@ -111,8 +110,7 @@ public sealed partial class PlayProbe
 
             // 한 단 더 내려간 모습 (blend 약 0.12)
             entry.TutorialTimeScale = 1f;
-            int g2 = 0;
-            while (rig.TowerBlend < 0.12f && g2++ < 20) yield return null;
+            for (int i = 0; i < 4; i++) yield return null;
             entry.TutorialTimeScale = 0f;
             yield return new WaitForSecondsRealtime(1.2f);
             feet = rig.HeroFeet;
@@ -123,7 +121,7 @@ public sealed partial class PlayProbe
             entry.TutorialTimeScale = 1f;
 
             // 3) 탑 앞
-            yield return WaitFor(() => rig.AtTower, 8f);
+            yield return WaitFor(() => rig.AtTower, 40f);
             Assert.IsTrue(rig.AtTower, "탑 앞 도착");
             Assert.AreEqual(0f, BattleCourtyard.HeroLift(rig.HeroFeet, half), 1e-4f, "마당에서는 보정 없음");
             for (int i = 0; i < 20; i++) yield return null;
@@ -144,7 +142,7 @@ public sealed partial class PlayProbe
             yield return null;
 
             entry.LeaveTower();
-            yield return WaitFor(() => rig.OnWall, 8f);
+            yield return WaitFor(() => rig.OnWall, 40f);
             Assert.IsTrue(rig.OnWall, "성벽으로 복귀");
             Note("마당 사진 촬영 완료");
         }

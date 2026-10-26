@@ -476,7 +476,7 @@
                       "id":  "W31",
                       "name":  "안마당 건물 그림 + 일꾼 걷기·계단 붙이기",
                       "agent":  "a543dfc15635f7403",
-                      "stage":  1,
+                      "stage":  4,
                       "kind":  "coder",
                       "folder":  "C:\\Unity\\1\\HLR-work\\W31",
                       "who":  ""
@@ -485,10 +485,109 @@
                       "id":  "W32",
                       "name":  "이야기 배경 (큰 등대 탑) 붙이기",
                       "agent":  "a27735b3bc4bf5df3",
-                      "stage":  1,
+                      "stage":  5,
                       "kind":  "coder",
                       "folder":  "C:\\Unity\\1\\HLR-work\\W32",
                       "who":  ""
+                  },
+                  {
+                      "id":  "K-120",
+                      "name":  "정비 화면 마당 그림 다시",
+                      "agent":  "",
+                      "stage":  5,
+                      "kind":  "card",
+                      "folder":  "C:\\Unity\\1\\HLR-cards\\K-120",
+                      "who":  "코덱스 (그림)"
+                  },
+                  {
+                      "id":  "K-121",
+                      "name":  "메인 화면 제목 그림 · 앱 아이콘",
+                      "agent":  "",
+                      "stage":  5,
+                      "kind":  "card",
+                      "folder":  "C:\\Unity\\1\\HLR-cards\\K-121",
+                      "who":  "코덱스 (그림)"
+                  },
+                  {
+                      "id":  "K-122",
+                      "name":  "등불 기둥 · 등불지기 깃발",
+                      "agent":  "",
+                      "stage":  5,
+                      "kind":  "card",
+                      "folder":  "C:\\Unity\\1\\HLR-cards\\K-122",
+                      "who":  "코덱스 (그림)"
+                  },
+                  {
+                      "id":  "U2",
+                      "name":  "화면 꾸밈(UI) 설계 — 요소 목록 뽑기",
+                      "agent":  "af94a1652a3d7cc3f",
+                      "stage":  5,
+                      "kind":  "coder",
+                      "folder":  "",
+                      "who":  ""
+                  },
+                  {
+                      "id":  "K-123",
+                      "name":  "UI 그림 (판 · 단추 · 막대 · 아이콘)",
+                      "agent":  "",
+                      "stage":  5,
+                      "kind":  "card",
+                      "folder":  "C:\\Unity\\1\\HLR-cards\\K-123",
+                      "who":  "코덱스 (그림)"
+                  },
+                  {
+                      "id":  "W33",
+                      "name":  "정비 마당 · 메인 화면 · 등불 기둥과 깃발 붙이기",
+                      "agent":  "ab8720b15d572019e",
+                      "stage":  4,
+                      "kind":  "coder",
+                      "folder":  "C:\\Unity\\1\\HLR-work\\W33",
+                      "who":  ""
+                  },
+                  {
+                      "id":  "W34",
+                      "name":  "UI 그림 붙이기 (판 · 단추 · 아이콘 · 성 도식)",
+                      "agent":  "a3a6f6fd17df14de3",
+                      "stage":  4,
+                      "kind":  "coder",
+                      "folder":  "C:\\Unity\\1\\HLR-work\\W34",
+                      "who":  ""
+                  },
+                  {
+                      "id":  "K-124",
+                      "name":  "앱 아이콘 이음 자국 고치기 (코덱스 사용량 부족, 초기화 뒤 다시)",
+                      "agent":  "",
+                      "stage":  0,
+                      "kind":  "card",
+                      "folder":  "C:\\Unity\\1\\HLR-cards\\K-124",
+                      "who":  "코덱스 (그림)"
+                  },
+                  {
+                      "id":  "W35",
+                      "name":  "등대 가는 길 네 면",
+                      "who":  "클로드 (소넷 작업자)",
+                      "kind":  "work",
+                      "folder":  "C:\\Unity\\1\\HLR-work\\W35",
+                      "stage":  4,
+                      "desc":  "성벽 네 면 모두에서 등대로 내려가기, 등대 앞 E = 빛줄기 조절, W북 A서 D동 S남 성벽으로 올라가기, 오가는 빠르기 늦추기 (W33 합친 뒤 시작)"
+                  },
+                  {
+                      "id":  "W36",
+                      "name":  "정비 등불·움직임 줄이기·새 이름",
+                      "who":  "클로드 (소넷 작업자)",
+                      "kind":  "work",
+                      "folder":  "C:\\Unity\\1\\HLR-work\\W36",
+                      "stage":  2,
+                      "desc":  "멈춤(사용자 지시, 사용량 부족) — 검토 고침 도중. 이어할 것은 live/claude/tasks.md 맨 아래"
+                  },
+                  {
+                      "id":  "W37",
+                      "name":  "배속 단추 그림 알아보기 쉽게",
+                      "who":  "클로드 (소넷 작업자)",
+                      "kind":  "work",
+                      "folder":  "C:\\Unity\\1\\HLR-work\\W37",
+                      "stage":  4,
+                      "desc":  "1·2·4배 단추가 거의 같아 보이는 문제 → 삼각형 1·2·3개로"
                   }
               ]
 }
