@@ -1,6 +1,7 @@
-using System;
+﻿using System;
 #if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
- using Microsoft.Win32;
+using System.Runtime.InteropServices;
+using System.Text;
 #endif
 using UnityEngine;
 
@@ -61,23 +62,43 @@ namespace HumanLastRampart.Core.Settings
         }
 
 #if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+        // 유니티 쪽 어셈블리에 Microsoft.Win32.Registry가 없어 advapi32를 직접 부른다 (값 이름·종류·바이트를 그대로 옮긴다)
+        static readonly IntPtr HkeyCurrentUser = new IntPtr(unchecked((int)0x80000001));
+        const int KeyRead = 0x20019, KeyAllAccess = 0xF003F;
+
+        [DllImport("advapi32.dll", CharSet = CharSet.Unicode)] static extern int RegOpenKeyExW(IntPtr key, string sub, int options, int access, out IntPtr result);
+        [DllImport("advapi32.dll", CharSet = CharSet.Unicode)] static extern int RegCreateKeyExW(IntPtr key, string sub, int reserved, string cls, int options, int access, IntPtr security, out IntPtr result, out int disposition);
+        [DllImport("advapi32.dll")] static extern int RegQueryInfoKeyW(IntPtr key, IntPtr cls, IntPtr clsLen, IntPtr reserved, IntPtr subKeys, IntPtr maxSub, IntPtr maxCls, out int values, out int maxName, out int maxData, IntPtr security, IntPtr lastWrite);
+        [DllImport("advapi32.dll", CharSet = CharSet.Unicode)] static extern int RegEnumValueW(IntPtr key, int index, StringBuilder name, ref int nameLen, IntPtr reserved, out int type, byte[] data, ref int dataLen);
+        [DllImport("advapi32.dll", CharSet = CharSet.Unicode)] static extern int RegSetValueExW(IntPtr key, string name, int reserved, int type, byte[] data, int dataLen);
+        [DllImport("advapi32.dll")] static extern int RegCloseKey(IntPtr key);
+
         // 레지스트리 키 값을 그대로 복사한다. 새 키에 값이 이미 있으면 아무것도 하지 않는다. 복사한 값 수를 돌려준다
         public static int CopyRegistryPrefs(string fromPath, string toPath)
         {
-            using (RegistryKey from = Registry.CurrentUser.OpenSubKey(fromPath))
+            if (RegOpenKeyExW(HkeyCurrentUser, fromPath, 0, KeyRead, out IntPtr from) != 0) return 0;
+            IntPtr to = IntPtr.Zero;
+            try
             {
-                if (from == null || from.ValueCount == 0) return 0;
-                using (RegistryKey to = Registry.CurrentUser.CreateSubKey(toPath))
+                if (RegQueryInfoKeyW(from, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, out int count, out int maxName, out int maxData, IntPtr.Zero, IntPtr.Zero) != 0 || count == 0) return 0;
+                if (RegCreateKeyExW(HkeyCurrentUser, toPath, 0, null, 0, KeyAllAccess, IntPtr.Zero, out to, out _) != 0) return 0;
+                if (RegQueryInfoKeyW(to, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, out int existing, out _, out _, IntPtr.Zero, IntPtr.Zero) != 0 || existing > 0) return 0;
+                int copied = 0;
+                for (int i = 0; i < count; i++)
                 {
-                    if (to.ValueCount > 0) return 0;
-                    int copied = 0;
-                    foreach (string name in from.GetValueNames())
-                    {
-                        to.SetValue(name, from.GetValue(name, null, RegistryValueOptions.DoNotExpandEnvironmentNames), from.GetValueKind(name));
-                        copied++;
-                    }
-                    return copied;
+                    var name = new StringBuilder(maxName + 1);
+                    int nameLen = maxName + 1, dataLen = maxData;
+                    var data = new byte[Math.Max(1, maxData)];
+                    if (RegEnumValueW(from, i, name, ref nameLen, IntPtr.Zero, out int type, data, ref dataLen) != 0) continue;
+                    var exact = new byte[dataLen]; Array.Copy(data, exact, dataLen);
+                    if (RegSetValueExW(to, name.ToString(), 0, type, exact, dataLen) == 0) copied++;
                 }
+                return copied;
+            }
+            finally
+            {
+                RegCloseKey(from);
+                if (to != IntPtr.Zero) RegCloseKey(to);
             }
         }
 #endif

@@ -141,21 +141,27 @@ namespace HumanLastRampart.App.Tests
             string root = @"Software\HLRTest_W36_" + Guid.NewGuid().ToString("N");
             try
             {
-                using (var key = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(root + @"\old"))
-                {
-                    key.SetValue("hlr.settings.volume_h1", 1056964608, Microsoft.Win32.RegistryValueKind.DWord);
-                    key.SetValue("blob_h2", new byte[] { 1, 2, 3 }, Microsoft.Win32.RegistryValueKind.Binary);
-                }
+                // 유니티 어셈블리에 레지스트리 형식이 없어 reg.exe로 만들고 읽는다
+                Reg("add", @"HKCU\" + root + @"\old", "/v", "hlr.settings.volume_h1", "/t", "REG_DWORD", "/d", "1056964608", "/f");
+                Reg("add", @"HKCU\" + root + @"\old", "/v", "blob_h2", "/t", "REG_BINARY", "/d", "010203", "/f");
                 Assert.AreEqual(2, GameSettings.CopyRegistryPrefs(root + @"\old", root + @"\new"), "빈 새 키에는 복사한다");
-                using (var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(root + @"\new"))
-                {
-                    Assert.AreEqual(1056964608, (int)key.GetValue("hlr.settings.volume_h1"));
-                    CollectionAssert.AreEqual(new byte[] { 1, 2, 3 }, (byte[])key.GetValue("blob_h2"));
-                }
+                string dump = Reg("query", @"HKCU\" + root + @"\new").ToLowerInvariant();
+                StringAssert.Contains("reg_dword", dump); StringAssert.Contains("0x3f000000", dump);
+                StringAssert.Contains("reg_binary", dump); StringAssert.Contains("010203", dump);
                 Assert.AreEqual(0, GameSettings.CopyRegistryPrefs(root + @"\old", root + @"\new"), "새 키에 값이 있으면 건드리지 않는다");
                 Assert.AreEqual(0, GameSettings.CopyRegistryPrefs(root + @"\none", root + @"\new2"), "예전 키가 없으면 아무 일도 없다");
             }
-            finally { Microsoft.Win32.Registry.CurrentUser.DeleteSubKeyTree(root, false); }
+            finally { Reg("delete", @"HKCU\" + root, "/f"); }
+        }
+
+        static string Reg(params string[] args)
+        {
+            var info = new System.Diagnostics.ProcessStartInfo("reg.exe", string.Join(" ", args)) { UseShellExecute = false, RedirectStandardOutput = true, RedirectStandardError = true, CreateNoWindow = true };
+            using (var process = System.Diagnostics.Process.Start(info))
+            {
+                string output = process.StandardOutput.ReadToEnd(); process.StandardError.ReadToEnd(); process.WaitForExit();
+                return output;
+            }
         }
 #endif
 

@@ -52,6 +52,10 @@ namespace HumanLastRampart.Meta
             Text lampWord = Ui.Label(row2.transform, "Beacon Lamp Word", "오늘 밤 등불 밝기", UiTokens.Small, UiTokens.BodyDim);
             Ui.Size(lampWord, 220f, 48f);   // W16: 갈무리 폭에 맞춤
             lampWord.horizontalOverflow = HorizontalWrapMode.Overflow;
+            HorizontalLayoutGroup rowBuy = Ui.Row(buyLine, "Beacon Row Buy", UiTokens.S16);
+            Ui.Stretch((RectTransform)rowBuy.transform);
+            Text support = Ui.Label(rowBuy.transform, "Beacon Support", "", UiTokens.Small, UiTokens.Body);
+            Ui.Size(support, 220f, 48f);
             Button buy = null;   // Refresh가 쓰므로 먼저 선언
             var lampButtons = new Button[3];
             LampBrightness[] order = { LampBrightness.Low, LampBrightness.Normal, LampBrightness.High };
@@ -67,10 +71,6 @@ namespace HumanLastRampart.Meta
                 Ui.Size(lampButtons[i], 96f, 48f);
             }
 
-            HorizontalLayoutGroup rowBuy = Ui.Row(buyLine, "Beacon Row Buy", UiTokens.S16);
-            Ui.Stretch((RectTransform)rowBuy.transform);
-            Text support = Ui.Label(rowBuy.transform, "Beacon Support", "", UiTokens.Small, UiTokens.Body);
-            Ui.Size(support, 220f, 48f);
             buy = Ui.Button(rowBuy.transform, "등대 수리", $"등대 수리 +{BeaconRules.DayRepairAmount:0} ({BeaconRules.DayRepairGold:N0}골드)", () =>
             {
                 BeaconRules.TryBuyRepair(campaign, out _, repairsPerDay);
