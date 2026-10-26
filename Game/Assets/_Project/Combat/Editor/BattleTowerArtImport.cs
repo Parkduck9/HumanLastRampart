@@ -29,8 +29,11 @@ namespace HumanLastRampart.Combat.Editor
         const string BeaconFolder = "/Resources/BattleArt/Beacon/";
         static readonly string[] BuildingTiles = { "plaster_timber", "rough_stone", "plank_wall", "clay_tiles", "slate_roof", "thatch", "wood_shingles" };
 
+        // W39: Codex K-127 일꾼 바퀴 밀기(밀기·시작·멈춤·힘줌 × 방향) 시트도 같은 규칙 (옛 worker_a_push는 "_push_"가 없어 건드리지 않는다)
+        public static bool IsK127Sheet(string name) => name.StartsWith("worker_") && name.Contains("_push_");
+
         static bool IsK119Sheet(string name) =>
-            name.StartsWith("worker_") && (name.Contains("_walk_") || name.Contains("_climb_") || name.Contains("_tend_") || name.Contains("_carry_"));
+            name.StartsWith("worker_") && (name.Contains("_walk_") || name.Contains("_climb_") || name.Contains("_tend_") || name.Contains("_carry_") || IsK127Sheet(name));
 
         // 건물 그림·일꾼 시트: 점 필터, 가장자리 고정, 압축 없음, 밉맵 끔. 건물 앞면·소품은 실행 중 한 장으로 합치므로 읽기 가능
         void PreprocessW31(string path)
@@ -48,6 +51,7 @@ namespace HumanLastRampart.Combat.Editor
             importer.wrapMode = TextureWrapMode.Clamp;
             importer.mipmapEnabled = false;
             importer.isReadable = false;
+            if (IsK127Sheet(name)) BattleWallDamageArtImport.ApplyMobile(importer);   // 휴대기기는 ASTC (W39)
             if (path.Contains(BuildingsFolder))
             {
                 if (System.Array.IndexOf(BuildingTiles, name) >= 0)
