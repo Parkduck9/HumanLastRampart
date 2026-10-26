@@ -141,7 +141,7 @@ namespace HumanLastRampart.Combat.Battle
                 foreach (int sz in new[] { -1, 1 })
                     wall.Box(new Vector3(sx > 0 ? LampOuterHalf - pillar : -LampOuterHalf, LampBase, sz > 0 ? LampOuterHalf - pillar : -LampOuterHalf),
                         new Vector3(sx > 0 ? LampOuterHalf : -LampOuterHalf + pillar, lampTop, sz > 0 ? LampOuterHalf : -LampOuterHalf + pillar));
-            trim.Box(new Vector3(-LampOuterHalf, lampTop, -LampOuterHalf), new Vector3(LampOuterHalf, rimTop, LampOuterHalf));        // 불방 지붕 테
+            trim.Box(new Vector3(-LampOuterHalf, lampTop, -LampOuterHalf), new Vector3(LampOuterHalf, rimTop - 0.02f, LampOuterHalf));        // 불방 지붕 테 (윗면은 처마 윗면보다 2cm 낮게 — 같은 높이로 겹쳐 깜박이지 않게, 처마 속이라 안 보인다. W41)
             roof.Box(new Vector3(-LampOuterHalf - 0.14f, rimTop - 0.07f, -LampOuterHalf - 0.14f), new Vector3(LampOuterHalf + 0.14f, rimTop, LampOuterHalf + 0.14f));   // 처마 (아랫면)
             roof.Frustum(rimTop, LampOuterHalf + 0.14f, Height - 0.28f, 0.14f);                                              // 뾰족 지붕
             wall.Box(new Vector3(-0.05f, Height - 0.28f, -0.05f), new Vector3(0.05f, Height, 0.05f));                       // 꼭대기 꽂이

@@ -231,9 +231,11 @@ namespace HumanLastRampart.Combat.Tests
         [Test]
         public void Plaza_TopsDiffer_StayBelowGlowQuad_AndBannersAvoidWorkers()
         {
-            Assert.AreNotEqual(BattleRoad.PavingLift, BattleRoad.PlazaRimLift, "돌길과 광장 아랫단 윗면이 같은 높이면 겹쳐 깜박인다");
-            Assert.AreNotEqual(BattleRoad.PavingLift, BattleRoad.PlazaLift);
-            Assert.Less(BattleRoad.PlazaLift, 0.03f, "GroundGlow 판(바닥 +3cm)보다 낮아야 탑·문 앞 웅덩이가 보인다");
+            // W41: 겹치는 윗면은 서로 1cm 이상 층을 둔다 (바닥 1 < 광장 아랫단 2 < 돌길 3 < 광장 윗단 4 < 땅 번짐 판)
+            float[] stack = { 0.01f, BattleRoad.PlazaRimLift, BattleRoad.PavingLift, BattleRoad.PlazaLift, GroundGlow.Lift };
+            for (int i = 1; i < stack.Length; i++)
+                Assert.GreaterOrEqual(stack[i] - stack[i - 1], 0.0099f, $"{i}번째 층은 아래 층보다 1cm 이상 높다 (겹쳐 깜박이지 않게)");
+            Assert.Less(BattleRoad.PlazaLift, GroundGlow.Lift, "GroundGlow 판보다 낮아야 탑·문 앞 웅덩이가 보인다");
             // W27: 일꾼은 이제 탑 안이다. 깃발은 열린 문 그림(아치 + 오른쪽 랜턴, 가운데에서 -0.93~+1.16m)을 가리지 않게 옆으로
             foreach (Vector2 spot in BattleRoad.BannerSpots)
                 Assert.Greater(Mathf.Abs(spot.x), 1.4f, $"깃발 x={spot.x}: 문 그림 밖");

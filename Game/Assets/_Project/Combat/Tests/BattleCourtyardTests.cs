@@ -171,7 +171,11 @@ namespace HumanLastRampart.Combat.Tests
                         c.y = 0f;
                         Assert.GreaterOrEqual(c.magnitude, BattleRoad.PlazaRimRadius + 1.2f - 1e-3f, "탑 광장 밖");
                         Assert.IsFalse(BattleCourtyard.OnAnyRoad(c, BattleRoad.HalfWidth + BattleRoad.KerbWidth + 2.2f - 1e-3f), "네 돌길·계단 줄 밖 (W35)");
-                        Assert.Less(Mathf.Abs(v[i].y - (BattleSim.WallHeight + 0.02f)), 1e-3f, "바닥 위 1cm (먼 곳에서 깜박이지 않게)");
+                        // W41: 바닥 위 1cm. 겹친 데칼만 위로 1cm 층씩 (같은 높이로 겹치면 깜박인다)
+                        float layer = (v[i].y - (BattleSim.WallHeight + 0.02f)) / 0.01f;
+                        Assert.GreaterOrEqual(layer, -0.1f, "바닥 위 1cm (먼 곳에서 깜박이지 않게)");
+                        Assert.Less(Mathf.Abs(layer - Mathf.Round(layer)), 0.1f, "겹침 층은 1cm 단위");
+                        Assert.LessOrEqual(layer, 4.1f, "겹침 층은 몇 개 안 된다");
                     }
 
                     // 세운 그림: 원본 칸 비율 그대로 (무기 걸이 72×80)
