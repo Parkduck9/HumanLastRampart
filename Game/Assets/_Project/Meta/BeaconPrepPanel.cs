@@ -45,7 +45,7 @@ namespace HumanLastRampart.Meta
             HorizontalLayoutGroup rowWalls = Ui.Row(line2, "Beacon Row Walls", UiTokens.S16);
             Ui.Stretch((RectTransform)rowWalls.transform);
             Text walls = Ui.Label(rowWalls.transform, "Beacon Wall Condition", "", UiTokens.Small, UiTokens.Body);
-            Ui.Size(walls, 640f, 48f, true);
+            Ui.Size(walls, 600f, 48f, true);
             HorizontalLayoutGroup row2 = Ui.Row(lampLine, "Beacon Row 2", UiTokens.S16);
             Ui.Stretch((RectTransform)row2.transform);
             Text lampWord = Ui.Label(row2.transform, "Beacon Lamp Word", "오늘 밤 등불 밝기", UiTokens.Small, UiTokens.BodyDim);

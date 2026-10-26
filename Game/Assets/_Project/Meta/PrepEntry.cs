@@ -1,4 +1,4 @@
-﻿using HumanLastRampart.Core.Flow;
+using HumanLastRampart.Core.Flow;
 using HumanLastRampart.UI;
 using System;
 using UnityEngine;
@@ -50,7 +50,7 @@ namespace HumanLastRampart.Meta
             PrepYard yard = null;   // 등대 수리 단추가 마당 불빛을 새로 칠하도록 먼저 선언 (마당은 아래에서 만든다)
             // W36: 밝기 선택·등대 수리·성벽 조건은 띠 아래 접이식 칸. 닫혀 있어도 한 줄 요약(beaconBrief)은 늘 보인다
             Image detailPlate = Ui.Panel(repair.GetComponentInParent<UnityEngine.Canvas>().transform, "Beacon Detail", UiPanel.Band);
-            Ui.Place(detailPlate.rectTransform, new Vector2(0f, 1f), new Vector2(100f, -(UiTokens.S32 + 80f + 8f)), new Vector2(740f, 16f * 2 + 48f * 4 + 16f * 3), new Vector2(0f, 1f));   // 왼쪽 좁은 판: 가운데 탑 기둥(등실)을 가리지 않는다
+            Ui.Place(detailPlate.rectTransform, new Vector2(0f, 1f), new Vector2(100f, -(UiTokens.S32 + 80f + 8f)), new Vector2(700f, 16f * 2 + 48f * 4 + 16f * 3), new Vector2(0f, 1f));   // 왼쪽 좁은 판 (16:10에서도 등실과 간격이 남게 700): 가운데 탑 기둥(등실)을 가리지 않는다
             var detailColumn = detailPlate.gameObject.AddComponent<VerticalLayoutGroup>();
             detailColumn.padding = new RectOffset(32, 32, 16, 16); detailColumn.spacing = 16f;
             detailColumn.childControlWidth = detailColumn.childControlHeight = true;
