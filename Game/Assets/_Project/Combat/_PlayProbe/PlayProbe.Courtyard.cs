@@ -99,7 +99,7 @@ public sealed partial class PlayProbe
 
             // 2) 내려가는 중 (계단 위): 흐름이 계단 구간 안에서 멈추게 전투 시간을 멈춘다
             Assert.IsTrue(entry.Interact(), "E: 탑으로 내려가기");
-            for (int i = 0; i < 4; i++) yield return null;   // 계단 첫 단 근처 (W35: 길이 거리 기준 속도라 비율이 아니라 프레임 수로)
+            for (int i = 0; i < 8; i++) yield return null;   // 계단 첫 단 근처 (W35: 길이 거리 기준 속도라 비율이 아니라 프레임 수로. 2026-10-26 더 느리게(계단 1.75m/s)라 4→8프레임)
             entry.TutorialTimeScale = 0f;
             yield return new WaitForSecondsRealtime(1.2f);
             Vector3 feet = rig.HeroFeet;

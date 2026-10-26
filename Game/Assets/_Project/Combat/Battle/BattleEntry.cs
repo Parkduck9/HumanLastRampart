@@ -52,6 +52,8 @@ namespace HumanLastRampart.Combat.Battle
 
         // 튜토리얼(W2)이 읽는 공개 상태 — BattleTutorialSource. TutorialTimeScale: 0 = 전투 시간 멈춤, 1 = 보통
         public BattleSim Sim => sim;
+        BattleSeeThrough seeThrough;   // 주인공 둘레 투시 구멍 (W42)
+        public BattleSeeThrough SeeThrough => seeThrough;
         public BattleCameraRig Rig => rig;
         public Camera BattleCamera => battleCamera;
         public bool TelescopeActive => lens.HasValue;
@@ -477,6 +479,8 @@ namespace HumanLastRampart.Combat.Battle
             sim = null;
             hud?.Dispose();
             hud = null;
+            seeThrough?.Release();
+            seeThrough = null;
             rig = null;
             context = null;
         }
@@ -751,6 +755,8 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             DrawHero();
+            // 가리는 것이 주인공을 덮으면 그 둘레만 동그랗게 투시 (W42). 지도 화면이면 끈다
+            if (rig != null) (seeThrough ??= new BattleSeeThrough(battleCamera)).Update(HeroDrawFeet(), BattleView.HeroDrawSize, Time.unscaledDeltaTime, !mapOpen);
             UpdateTowerPrompt();
             // 명령 메뉴는 주인공 가슴 높이 오른쪽에 붙는다 (D-072)
             if (hud.MenuOpen && rig != null && !mapOpen)
