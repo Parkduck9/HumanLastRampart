@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using HumanLastRampart.App.Data;
 using HumanLastRampart.Combat.Battle;
 using HumanLastRampart.Core.Campaign;
@@ -14,7 +14,7 @@ namespace HumanLastRampart.Combat.Tests
     // 등대 탑 계단 (W9, W35 네 성벽): 통로 가운데 안쪽 끝에서 내려가고 탑에서 W·A·S·D 성벽으로 올라오기, 거리 ÷ 속도 시간, 탑에 있는 동안 '성벽에 없음'
     public sealed class BattleTowerTests
     {
-        const float Half = 60f;   // 시험 성 반폭 (길이 길어 한쪽 5초 상한에 걸린다)
+        const float Half = 60f;   // 시험 성 반폭 (길이 길어 한쪽 8초 상한에 걸린다)
 
         static BattleCameraRig NewRig(out GameObject camera, float half = Half)
         {
@@ -201,9 +201,9 @@ namespace HumanLastRampart.Combat.Tests
             finally { Object.DestroyImmediate(camera); }
         }
 
-        // 거리 ÷ 속도: 평지는 성벽 달리기 속도, 계단은 걷기 속도 — 예전처럼 어디서든 1.6초가 아니다. 길어서 5초를 넘으면 속도만 같은 비율로 올려 5초에 맞춘다
+        // 거리 ÷ 속도: 평지는 성벽 달리기 속도, 계단은 걷기 속도 — 예전처럼 어디서든 1.6초가 아니다. 길어서 8초를 넘으면 속도만 같은 비율로 올려 8초에 맞춘다 (사용자 2026-10-26: 평지 3.5m/s · 계단 1.75m/s)
         [Test]
-        public void TravelTime_IsDistanceOverSpeed_CappedAtFiveSeconds([Values(20f, 60f)] float half)
+        public void TravelTime_IsDistanceOverSpeed_CappedAtEightSeconds([Values(20f, 60f)] float half)
         {
             var rig = NewRig(out GameObject camera, half);
             try
@@ -226,7 +226,7 @@ namespace HumanLastRampart.Combat.Tests
                         {
                             length += step;
                             maxSpeed = Mathf.Max(maxSpeed, step / 0.05f);
-                            if (step > 0.1f) minSpeed = Mathf.Min(minSpeed, step / 0.05f);
+                            if (step > 0.05f) minSpeed = Mathf.Min(minSpeed, step / 0.05f);
                         }
 
                         prev = now;
@@ -234,14 +234,17 @@ namespace HumanLastRampart.Combat.Tests
 
                     float scale = rig.PathSpeedScale;
                     Assert.AreEqual(planned, elapsed, 0.1f, $"성벽 {side}: 걸린 시간 = 계획한 시간");
-                    Assert.LessOrEqual(elapsed, BattleCameraRig.TripSecondsMax + 0.1f, $"성벽 {side}: 한쪽 5초 상한");
+                    Assert.AreEqual(8f, BattleCameraRig.TripSecondsMax, 1e-4f);
+                    Assert.AreEqual(3.5f, BattleCameraRig.TripFlatSpeed, 1e-4f);
+                    Assert.AreEqual(1.75f, BattleCameraRig.TripStairSpeed, 1e-4f);
+                    Assert.LessOrEqual(elapsed, BattleCameraRig.TripSecondsMax + 0.1f, $"성벽 {side}: 한쪽 8초 상한");
                     Assert.Greater(elapsed, 2.5f, $"성벽 {side}: 고정 1.6초가 아니라 길이에 따라");
-                    if (half >= 60f) Assert.Greater(scale, 2f, "긴 길은 속도를 올려 5초에 맞춘다");
-                    Assert.LessOrEqual(maxSpeed, BattleSim.HeroSpeed * scale + 0.01f, "평지는 (올린) 달리기 속도를 넘지 않는다");
-                    Assert.AreEqual(BattleSim.HeroWalkSpeed * scale, minSpeed, 0.05f * scale, "계단 구간은 걷기 속도 (같은 비율로 올림)");
+                    if (half >= 60f) Assert.Greater(scale, 1.5f, "긴 길은 속도를 올려 8초에 맞춘다");
+                    Assert.LessOrEqual(maxSpeed, BattleCameraRig.TripFlatSpeed * scale + 0.01f, "평지는 (올린) 등대 길 속도를 넘지 않는다");
+                    Assert.AreEqual(BattleCameraRig.TripStairSpeed * scale, minSpeed, 0.05f * scale, "계단 구간은 느린 속도 (같은 비율로 올림)");
                     float stair = (half - rig.Inset) - (half - BattleCourtyard.WallThickness - BattleCourtyard.StepCount * BattleCourtyard.TreadDepth);   // 통로 안쪽 끝에서 계단 맨 아래까지
-                    float expected = ((length - stair) / BattleSim.HeroSpeed + stair / BattleSim.HeroWalkSpeed) / scale;
-                    Assert.AreEqual(expected, elapsed, 0.3f, $"성벽 {side}: 시간 ≈ (평지 거리 / {BattleSim.HeroSpeed} + 계단 거리 / {BattleSim.HeroWalkSpeed}) / 속도 비율");
+                    float expected = ((length - stair) / BattleCameraRig.TripFlatSpeed + stair / BattleCameraRig.TripStairSpeed) / scale;
+                    Assert.AreEqual(expected, elapsed, 0.3f, $"성벽 {side}: 시간 ≈ (평지 거리 / {BattleCameraRig.TripFlatSpeed} + 계단 거리 / {BattleCameraRig.TripStairSpeed}) / 속도 비율");
                     rig.GoUp();
                     RunUntilArrived(rig, () => rig.OnWall);
                 }
