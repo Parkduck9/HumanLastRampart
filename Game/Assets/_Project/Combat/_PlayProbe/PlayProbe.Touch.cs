@@ -336,5 +336,40 @@ public sealed partial class PlayProbe
             File.WriteAllText(Path.Combine(Out, "touch_prep_probe.txt"), log.ToString(), new UTF8Encoding(false));
         }
     }
+
+    // 설정 창 터치 조작 줄: 자동 → 켜기 → 끄기 → 자동, 기본값으로 = 자동
+    [UnityTest]
+    public IEnumerator TouchSettingsRow()
+    {
+        Directory.CreateDirectory(Out); log = new StringBuilder();
+        TouchMode original = TouchInput.Mode;
+        TouchInput.Mode = TouchMode.Auto;
+        try
+        {
+            SceneManager.LoadScene("Boot"); yield return null; yield return null;
+            yield return WaitScreen(ScreenId.MainMenu, 900);
+            yield return Click("설정", 300);
+            for (int i = 0; i < 3; i++) yield return null;
+            yield return Capture("touch_12_settings", PfWidth, PfHeight);
+            yield return ClickPrefix("터치 조작", 60);
+            Assert.AreEqual(TouchMode.On, TouchInput.Mode, "자동 다음은 켜기");
+            yield return ClickPrefix("터치 조작", 60);
+            Assert.AreEqual(TouchMode.Off, TouchInput.Mode);
+            yield return ClickPrefix("터치 조작", 60);
+            Assert.AreEqual(TouchMode.Auto, TouchInput.Mode);
+            yield return ClickPrefix("터치 조작", 60);
+            Assert.AreEqual(TouchMode.On, TouchInput.Mode);
+            yield return Capture("touch_13_settings_on", PfWidth, PfHeight);
+            yield return ClickPrefix("기본값으로", 60);
+            Assert.AreEqual(TouchMode.Auto, TouchInput.Mode, "기본값으로 = 자동");
+            yield return Click("닫기", 60);
+            Note("설정 창 터치 조작 줄 통과");
+        }
+        finally
+        {
+            TouchInput.Mode = original;
+            File.WriteAllText(Path.Combine(Out, "touch_settings.txt"), log.ToString(), new UTF8Encoding(false));
+        }
+    }
 }
 
