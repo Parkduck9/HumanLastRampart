@@ -1,0 +1,20 @@
+{
+  "embedded_images_decoded": true,
+  "image_count": 45,
+  "canvases": 3,
+  "title": "K-126 성벽 부서짐",
+  "animation_frames_visible": [
+    {
+      "effect": "dust",
+      "visible": true
+    },
+    {
+      "effect": "fire",
+      "visible": true
+    },
+    {
+      "effect": "smoke",
+      "visible": true
+    }
+  ]
+}

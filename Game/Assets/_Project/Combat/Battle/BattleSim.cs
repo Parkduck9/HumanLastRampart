@@ -123,6 +123,7 @@ namespace HumanLastRampart.Combat.Battle
         readonly float[] garrisonDamage = new float[4];
         readonly int maxConcurrent;
         readonly uint seed;
+        public uint BattleSeed => seed;   // 눈에 보이는 배치(성벽 부서짐 W39)가 전투 씨앗으로 정해지게
         int spawnCursor;
         int enemyCount;
         int soldierCount;

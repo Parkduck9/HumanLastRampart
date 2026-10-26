@@ -19,7 +19,8 @@ namespace HumanLastRampart.Combat.Battle
         // 돌림대: 가운데 기둥 + 위로 올라가는 축 + 십자 막대. 일꾼은 막대 끝 안쪽 WorkerOrbit 반지름 원 위를 걷는다
         public const float CapstanDrumRadius = 0.2f;
         public const float CapstanBarHalf = 0.5f;
-        public const float CapstanBarY = 0.28f;
+        // 막대 높이 = K-127 일꾼 시트의 손 높이 (발 위 원본 35화소 = 게임 105화소, 1화소 = Mpp). 옛 K-110 미는 그림은 0.28m였다 (W39)
+        public static readonly float CapstanBarY = 105f * BattleBeaconView.Mpp;
         public const float WorkerOrbit = 0.4f;
         public const float PushDegreesPerSecond = 28f;       // 미는 동안 도는 빠르기 (일꾼 걸음 약 0.28m/s)
         public const int WorkerCount = 3;

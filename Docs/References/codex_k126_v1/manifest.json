@@ -1,0 +1,1685 @@
+{
+  "schema_version": 1,
+  "card": "K-126",
+  "version": "v1",
+  "assets": [
+    {
+      "id": "dust_6f",
+      "stage": null,
+      "native": {
+        "path": "native/dust_6f.png",
+        "sheet_px": [
+          576,
+          128
+        ],
+        "cell_px": [
+          96,
+          128
+        ],
+        "pivot_px_top_left": [
+          48,
+          120
+        ]
+      },
+      "game": {
+        "path": "game/dust_6f.png",
+        "sheet_px": [
+          1728,
+          384
+        ],
+        "cell_px": [
+          288,
+          384
+        ],
+        "pivot_px_top_left": [
+          144,
+          360
+        ]
+      },
+      "preview_4x": "previews/dust_6f.png",
+      "frames": 6,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "fps": 10,
+      "loop": false,
+      "tile_x": false,
+      "alpha": "binary",
+      "placement": "성벽",
+      "pixels_per_meter_native": 32,
+      "pixels_per_meter_game": 96
+    },
+    {
+      "id": "fire_6f",
+      "stage": 2,
+      "native": {
+        "path": "native/fire_6f.png",
+        "sheet_px": [
+          576,
+          128
+        ],
+        "cell_px": [
+          96,
+          128
+        ],
+        "pivot_px_top_left": [
+          48,
+          120
+        ]
+      },
+      "game": {
+        "path": "game/fire_6f.png",
+        "sheet_px": [
+          1728,
+          384
+        ],
+        "cell_px": [
+          288,
+          384
+        ],
+        "pivot_px_top_left": [
+          144,
+          360
+        ]
+      },
+      "preview_4x": "previews/fire_6f.png",
+      "frames": 6,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "fps": 8,
+      "loop": true,
+      "tile_x": false,
+      "alpha": "binary",
+      "placement": "성벽",
+      "pixels_per_meter_native": 32,
+      "pixels_per_meter_game": 96
+    },
+    {
+      "id": "merlon_chipped",
+      "stage": 1,
+      "native": {
+        "path": "native/merlon_chipped.png",
+        "sheet_px": [
+          96,
+          128
+        ],
+        "cell_px": [
+          96,
+          128
+        ],
+        "pivot_px_top_left": [
+          48,
+          120
+        ]
+      },
+      "game": {
+        "path": "game/merlon_chipped.png",
+        "sheet_px": [
+          288,
+          384
+        ],
+        "cell_px": [
+          288,
+          384
+        ],
+        "pivot_px_top_left": [
+          144,
+          360
+        ]
+      },
+      "preview_4x": "previews/merlon_chipped.png",
+      "frames": 1,
+      "frame_order": [
+        "merlon_chipped"
+      ],
+      "fps": 0,
+      "loop": false,
+      "tile_x": false,
+      "alpha": "binary",
+      "placement": "성벽",
+      "pixels_per_meter_native": 32,
+      "pixels_per_meter_game": 96
+    },
+    {
+      "id": "merlon_half_broken",
+      "stage": 2,
+      "native": {
+        "path": "native/merlon_half_broken.png",
+        "sheet_px": [
+          96,
+          128
+        ],
+        "cell_px": [
+          96,
+          128
+        ],
+        "pivot_px_top_left": [
+          48,
+          120
+        ]
+      },
+      "game": {
+        "path": "game/merlon_half_broken.png",
+        "sheet_px": [
+          288,
+          384
+        ],
+        "cell_px": [
+          288,
+          384
+        ],
+        "pivot_px_top_left": [
+          144,
+          360
+        ]
+      },
+      "preview_4x": "previews/merlon_half_broken.png",
+      "frames": 1,
+      "frame_order": [
+        "merlon_half_broken"
+      ],
+      "fps": 0,
+      "loop": false,
+      "tile_x": false,
+      "alpha": "binary",
+      "placement": "성벽",
+      "pixels_per_meter_native": 32,
+      "pixels_per_meter_game": 96
+    },
+    {
+      "id": "merlon_intact",
+      "stage": 0,
+      "native": {
+        "path": "native/merlon_intact.png",
+        "sheet_px": [
+          96,
+          128
+        ],
+        "cell_px": [
+          96,
+          128
+        ],
+        "pivot_px_top_left": [
+          48,
+          120
+        ]
+      },
+      "game": {
+        "path": "game/merlon_intact.png",
+        "sheet_px": [
+          288,
+          384
+        ],
+        "cell_px": [
+          288,
+          384
+        ],
+        "pivot_px_top_left": [
+          144,
+          360
+        ]
+      },
+      "preview_4x": "previews/merlon_intact.png",
+      "frames": 1,
+      "frame_order": [
+        "merlon_intact"
+      ],
+      "fps": 0,
+      "loop": false,
+      "tile_x": false,
+      "alpha": "binary",
+      "placement": "성벽",
+      "pixels_per_meter_native": 32,
+      "pixels_per_meter_game": 96
+    },
+    {
+      "id": "merlon_states",
+      "stage": null,
+      "native": {
+        "path": "native/merlon_states.png",
+        "sheet_px": [
+          384,
+          128
+        ],
+        "cell_px": [
+          96,
+          128
+        ],
+        "pivot_px_top_left": [
+          48,
+          120
+        ]
+      },
+      "game": {
+        "path": "game/merlon_states.png",
+        "sheet_px": [
+          1152,
+          384
+        ],
+        "cell_px": [
+          288,
+          384
+        ],
+        "pivot_px_top_left": [
+          144,
+          360
+        ]
+      },
+      "preview_4x": "previews/merlon_states.png",
+      "frames": 4,
+      "frame_order": [
+        "intact",
+        "chipped",
+        "half_broken",
+        "stub"
+      ],
+      "fps": 0,
+      "loop": false,
+      "tile_x": false,
+      "alpha": "binary",
+      "placement": "성벽",
+      "pixels_per_meter_native": 32,
+      "pixels_per_meter_game": 96
+    },
+    {
+      "id": "merlon_stub",
+      "stage": 3,
+      "native": {
+        "path": "native/merlon_stub.png",
+        "sheet_px": [
+          96,
+          128
+        ],
+        "cell_px": [
+          96,
+          128
+        ],
+        "pivot_px_top_left": [
+          48,
+          120
+        ]
+      },
+      "game": {
+        "path": "game/merlon_stub.png",
+        "sheet_px": [
+          288,
+          384
+        ],
+        "cell_px": [
+          288,
+          384
+        ],
+        "pivot_px_top_left": [
+          144,
+          360
+        ]
+      },
+      "preview_4x": "previews/merlon_stub.png",
+      "frames": 1,
+      "frame_order": [
+        "merlon_stub"
+      ],
+      "fps": 0,
+      "loop": false,
+      "tile_x": false,
+      "alpha": "binary",
+      "placement": "성벽",
+      "pixels_per_meter_native": 32,
+      "pixels_per_meter_game": 96
+    },
+    {
+      "id": "rubble_field_large_1",
+      "stage": null,
+      "native": {
+        "path": "native/rubble_field_large_1.png",
+        "sheet_px": [
+          96,
+          128
+        ],
+        "cell_px": [
+          96,
+          128
+        ],
+        "pivot_px_top_left": [
+          48,
+          120
+        ]
+      },
+      "game": {
+        "path": "game/rubble_field_large_1.png",
+        "sheet_px": [
+          288,
+          384
+        ],
+        "cell_px": [
+          288,
+          384
+        ],
+        "pivot_px_top_left": [
+          144,
+          360
+        ]
+      },
+      "preview_4x": "previews/rubble_field_large_1.png",
+      "frames": 1,
+      "frame_order": [
+        "rubble_field_large_1"
+      ],
+      "fps": 0,
+      "loop": false,
+      "tile_x": false,
+      "alpha": "binary",
+      "placement": "외부 들판",
+      "pixels_per_meter_native": 32,
+      "pixels_per_meter_game": 96
+    },
+    {
+      "id": "rubble_field_large_2",
+      "stage": null,
+      "native": {
+        "path": "native/rubble_field_large_2.png",
+        "sheet_px": [
+          96,
+          128
+        ],
+        "cell_px": [
+          96,
+          128
+        ],
+        "pivot_px_top_left": [
+          48,
+          120
+        ]
+      },
+      "game": {
+        "path": "game/rubble_field_large_2.png",
+        "sheet_px": [
+          288,
+          384
+        ],
+        "cell_px": [
+          288,
+          384
+        ],
+        "pivot_px_top_left": [
+          144,
+          360
+        ]
+      },
+      "preview_4x": "previews/rubble_field_large_2.png",
+      "frames": 1,
+      "frame_order": [
+        "rubble_field_large_2"
+      ],
+      "fps": 0,
+      "loop": false,
+      "tile_x": false,
+      "alpha": "binary",
+      "placement": "외부 들판",
+      "pixels_per_meter_native": 32,
+      "pixels_per_meter_game": 96
+    },
+    {
+      "id": "rubble_field_large_3",
+      "stage": null,
+      "native": {
+        "path": "native/rubble_field_large_3.png",
+        "sheet_px": [
+          96,
+          128
+        ],
+        "cell_px": [
+          96,
+          128
+        ],
+        "pivot_px_top_left": [
+          48,
+          120
+        ]
+      },
+      "game": {
+        "path": "game/rubble_field_large_3.png",
+        "sheet_px": [
+          288,
+          384
+        ],
+        "cell_px": [
+          288,
+          384
+        ],
+        "pivot_px_top_left": [
+          144,
+          360
+        ]
+      },
+      "preview_4x": "previews/rubble_field_large_3.png",
+      "frames": 1,
+      "frame_order": [
+        "rubble_field_large_3"
+      ],
+      "fps": 0,
+      "loop": false,
+      "tile_x": false,
+      "alpha": "binary",
+      "placement": "외부 들판",
+      "pixels_per_meter_native": 32,
+      "pixels_per_meter_game": 96
+    },
+    {
+      "id": "rubble_field_medium_1",
+      "stage": null,
+      "native": {
+        "path": "native/rubble_field_medium_1.png",
+        "sheet_px": [
+          96,
+          128
+        ],
+        "cell_px": [
+          96,
+          128
+        ],
+        "pivot_px_top_left": [
+          48,
+          120
+        ]
+      },
+      "game": {
+        "path": "game/rubble_field_medium_1.png",
+        "sheet_px": [
+          288,
+          384
+        ],
+        "cell_px": [
+          288,
+          384
+        ],
+        "pivot_px_top_left": [
+          144,
+          360
+        ]
+      },
+      "preview_4x": "previews/rubble_field_medium_1.png",
+      "frames": 1,
+      "frame_order": [
+        "rubble_field_medium_1"
+      ],
+      "fps": 0,
+      "loop": false,
+      "tile_x": false,
+      "alpha": "binary",
+      "placement": "외부 들판",
+      "pixels_per_meter_native": 32,
+      "pixels_per_meter_game": 96
+    },
+    {
+      "id": "rubble_field_medium_2",
+      "stage": null,
+      "native": {
+        "path": "native/rubble_field_medium_2.png",
+        "sheet_px": [
+          96,
+          128
+        ],
+        "cell_px": [
+          96,
+          128
+        ],
+        "pivot_px_top_left": [
+          48,
+          120
+        ]
+      },
+      "game": {
+        "path": "game/rubble_field_medium_2.png",
+        "sheet_px": [
+          288,
+          384
+        ],
+        "cell_px": [
+          288,
+          384
+        ],
+        "pivot_px_top_left": [
+          144,
+          360
+        ]
+      },
+      "preview_4x": "previews/rubble_field_medium_2.png",
+      "frames": 1,
+      "frame_order": [
+        "rubble_field_medium_2"
+      ],
+      "fps": 0,
+      "loop": false,
+      "tile_x": false,
+      "alpha": "binary",
+      "placement": "외부 들판",
+      "pixels_per_meter_native": 32,
+      "pixels_per_meter_game": 96
+    },
+    {
+      "id": "rubble_field_medium_3",
+      "stage": null,
+      "native": {
+        "path": "native/rubble_field_medium_3.png",
+        "sheet_px": [
+          96,
+          128
+        ],
+        "cell_px": [
+          96,
+          128
+        ],
+        "pivot_px_top_left": [
+          48,
+          120
+        ]
+      },
+      "game": {
+        "path": "game/rubble_field_medium_3.png",
+        "sheet_px": [
+          288,
+          384
+        ],
+        "cell_px": [
+          288,
+          384
+        ],
+        "pivot_px_top_left": [
+          144,
+          360
+        ]
+      },
+      "preview_4x": "previews/rubble_field_medium_3.png",
+      "frames": 1,
+      "frame_order": [
+        "rubble_field_medium_3"
+      ],
+      "fps": 0,
+      "loop": false,
+      "tile_x": false,
+      "alpha": "binary",
+      "placement": "외부 들판",
+      "pixels_per_meter_native": 32,
+      "pixels_per_meter_game": 96
+    },
+    {
+      "id": "rubble_field_small_1",
+      "stage": null,
+      "native": {
+        "path": "native/rubble_field_small_1.png",
+        "sheet_px": [
+          96,
+          128
+        ],
+        "cell_px": [
+          96,
+          128
+        ],
+        "pivot_px_top_left": [
+          48,
+          120
+        ]
+      },
+      "game": {
+        "path": "game/rubble_field_small_1.png",
+        "sheet_px": [
+          288,
+          384
+        ],
+        "cell_px": [
+          288,
+          384
+        ],
+        "pivot_px_top_left": [
+          144,
+          360
+        ]
+      },
+      "preview_4x": "previews/rubble_field_small_1.png",
+      "frames": 1,
+      "frame_order": [
+        "rubble_field_small_1"
+      ],
+      "fps": 0,
+      "loop": false,
+      "tile_x": false,
+      "alpha": "binary",
+      "placement": "외부 들판",
+      "pixels_per_meter_native": 32,
+      "pixels_per_meter_game": 96
+    },
+    {
+      "id": "rubble_field_small_2",
+      "stage": null,
+      "native": {
+        "path": "native/rubble_field_small_2.png",
+        "sheet_px": [
+          96,
+          128
+        ],
+        "cell_px": [
+          96,
+          128
+        ],
+        "pivot_px_top_left": [
+          48,
+          120
+        ]
+      },
+      "game": {
+        "path": "game/rubble_field_small_2.png",
+        "sheet_px": [
+          288,
+          384
+        ],
+        "cell_px": [
+          288,
+          384
+        ],
+        "pivot_px_top_left": [
+          144,
+          360
+        ]
+      },
+      "preview_4x": "previews/rubble_field_small_2.png",
+      "frames": 1,
+      "frame_order": [
+        "rubble_field_small_2"
+      ],
+      "fps": 0,
+      "loop": false,
+      "tile_x": false,
+      "alpha": "binary",
+      "placement": "외부 들판",
+      "pixels_per_meter_native": 32,
+      "pixels_per_meter_game": 96
+    },
+    {
+      "id": "rubble_field_small_3",
+      "stage": null,
+      "native": {
+        "path": "native/rubble_field_small_3.png",
+        "sheet_px": [
+          96,
+          128
+        ],
+        "cell_px": [
+          96,
+          128
+        ],
+        "pivot_px_top_left": [
+          48,
+          120
+        ]
+      },
+      "game": {
+        "path": "game/rubble_field_small_3.png",
+        "sheet_px": [
+          288,
+          384
+        ],
+        "cell_px": [
+          288,
+          384
+        ],
+        "pivot_px_top_left": [
+          144,
+          360
+        ]
+      },
+      "preview_4x": "previews/rubble_field_small_3.png",
+      "frames": 1,
+      "frame_order": [
+        "rubble_field_small_3"
+      ],
+      "fps": 0,
+      "loop": false,
+      "tile_x": false,
+      "alpha": "binary",
+      "placement": "외부 들판",
+      "pixels_per_meter_native": 32,
+      "pixels_per_meter_game": 96
+    },
+    {
+      "id": "rubble_walkway_large_1",
+      "stage": null,
+      "native": {
+        "path": "native/rubble_walkway_large_1.png",
+        "sheet_px": [
+          96,
+          128
+        ],
+        "cell_px": [
+          96,
+          128
+        ],
+        "pivot_px_top_left": [
+          48,
+          120
+        ]
+      },
+      "game": {
+        "path": "game/rubble_walkway_large_1.png",
+        "sheet_px": [
+          288,
+          384
+        ],
+        "cell_px": [
+          288,
+          384
+        ],
+        "pivot_px_top_left": [
+          144,
+          360
+        ]
+      },
+      "preview_4x": "previews/rubble_walkway_large_1.png",
+      "frames": 1,
+      "frame_order": [
+        "rubble_walkway_large_1"
+      ],
+      "fps": 0,
+      "loop": false,
+      "tile_x": false,
+      "alpha": "binary",
+      "placement": "보행로",
+      "pixels_per_meter_native": 32,
+      "pixels_per_meter_game": 96
+    },
+    {
+      "id": "rubble_walkway_large_2",
+      "stage": null,
+      "native": {
+        "path": "native/rubble_walkway_large_2.png",
+        "sheet_px": [
+          96,
+          128
+        ],
+        "cell_px": [
+          96,
+          128
+        ],
+        "pivot_px_top_left": [
+          48,
+          120
+        ]
+      },
+      "game": {
+        "path": "game/rubble_walkway_large_2.png",
+        "sheet_px": [
+          288,
+          384
+        ],
+        "cell_px": [
+          288,
+          384
+        ],
+        "pivot_px_top_left": [
+          144,
+          360
+        ]
+      },
+      "preview_4x": "previews/rubble_walkway_large_2.png",
+      "frames": 1,
+      "frame_order": [
+        "rubble_walkway_large_2"
+      ],
+      "fps": 0,
+      "loop": false,
+      "tile_x": false,
+      "alpha": "binary",
+      "placement": "보행로",
+      "pixels_per_meter_native": 32,
+      "pixels_per_meter_game": 96
+    },
+    {
+      "id": "rubble_walkway_large_3",
+      "stage": null,
+      "native": {
+        "path": "native/rubble_walkway_large_3.png",
+        "sheet_px": [
+          96,
+          128
+        ],
+        "cell_px": [
+          96,
+          128
+        ],
+        "pivot_px_top_left": [
+          48,
+          120
+        ]
+      },
+      "game": {
+        "path": "game/rubble_walkway_large_3.png",
+        "sheet_px": [
+          288,
+          384
+        ],
+        "cell_px": [
+          288,
+          384
+        ],
+        "pivot_px_top_left": [
+          144,
+          360
+        ]
+      },
+      "preview_4x": "previews/rubble_walkway_large_3.png",
+      "frames": 1,
+      "frame_order": [
+        "rubble_walkway_large_3"
+      ],
+      "fps": 0,
+      "loop": false,
+      "tile_x": false,
+      "alpha": "binary",
+      "placement": "보행로",
+      "pixels_per_meter_native": 32,
+      "pixels_per_meter_game": 96
+    },
+    {
+      "id": "rubble_walkway_medium_1",
+      "stage": null,
+      "native": {
+        "path": "native/rubble_walkway_medium_1.png",
+        "sheet_px": [
+          96,
+          128
+        ],
+        "cell_px": [
+          96,
+          128
+        ],
+        "pivot_px_top_left": [
+          48,
+          120
+        ]
+      },
+      "game": {
+        "path": "game/rubble_walkway_medium_1.png",
+        "sheet_px": [
+          288,
+          384
+        ],
+        "cell_px": [
+          288,
+          384
+        ],
+        "pivot_px_top_left": [
+          144,
+          360
+        ]
+      },
+      "preview_4x": "previews/rubble_walkway_medium_1.png",
+      "frames": 1,
+      "frame_order": [
+        "rubble_walkway_medium_1"
+      ],
+      "fps": 0,
+      "loop": false,
+      "tile_x": false,
+      "alpha": "binary",
+      "placement": "보행로",
+      "pixels_per_meter_native": 32,
+      "pixels_per_meter_game": 96
+    },
+    {
+      "id": "rubble_walkway_medium_2",
+      "stage": null,
+      "native": {
+        "path": "native/rubble_walkway_medium_2.png",
+        "sheet_px": [
+          96,
+          128
+        ],
+        "cell_px": [
+          96,
+          128
+        ],
+        "pivot_px_top_left": [
+          48,
+          120
+        ]
+      },
+      "game": {
+        "path": "game/rubble_walkway_medium_2.png",
+        "sheet_px": [
+          288,
+          384
+        ],
+        "cell_px": [
+          288,
+          384
+        ],
+        "pivot_px_top_left": [
+          144,
+          360
+        ]
+      },
+      "preview_4x": "previews/rubble_walkway_medium_2.png",
+      "frames": 1,
+      "frame_order": [
+        "rubble_walkway_medium_2"
+      ],
+      "fps": 0,
+      "loop": false,
+      "tile_x": false,
+      "alpha": "binary",
+      "placement": "보행로",
+      "pixels_per_meter_native": 32,
+      "pixels_per_meter_game": 96
+    },
+    {
+      "id": "rubble_walkway_medium_3",
+      "stage": null,
+      "native": {
+        "path": "native/rubble_walkway_medium_3.png",
+        "sheet_px": [
+          96,
+          128
+        ],
+        "cell_px": [
+          96,
+          128
+        ],
+        "pivot_px_top_left": [
+          48,
+          120
+        ]
+      },
+      "game": {
+        "path": "game/rubble_walkway_medium_3.png",
+        "sheet_px": [
+          288,
+          384
+        ],
+        "cell_px": [
+          288,
+          384
+        ],
+        "pivot_px_top_left": [
+          144,
+          360
+        ]
+      },
+      "preview_4x": "previews/rubble_walkway_medium_3.png",
+      "frames": 1,
+      "frame_order": [
+        "rubble_walkway_medium_3"
+      ],
+      "fps": 0,
+      "loop": false,
+      "tile_x": false,
+      "alpha": "binary",
+      "placement": "보행로",
+      "pixels_per_meter_native": 32,
+      "pixels_per_meter_game": 96
+    },
+    {
+      "id": "rubble_walkway_small_1",
+      "stage": null,
+      "native": {
+        "path": "native/rubble_walkway_small_1.png",
+        "sheet_px": [
+          96,
+          128
+        ],
+        "cell_px": [
+          96,
+          128
+        ],
+        "pivot_px_top_left": [
+          48,
+          120
+        ]
+      },
+      "game": {
+        "path": "game/rubble_walkway_small_1.png",
+        "sheet_px": [
+          288,
+          384
+        ],
+        "cell_px": [
+          288,
+          384
+        ],
+        "pivot_px_top_left": [
+          144,
+          360
+        ]
+      },
+      "preview_4x": "previews/rubble_walkway_small_1.png",
+      "frames": 1,
+      "frame_order": [
+        "rubble_walkway_small_1"
+      ],
+      "fps": 0,
+      "loop": false,
+      "tile_x": false,
+      "alpha": "binary",
+      "placement": "보행로",
+      "pixels_per_meter_native": 32,
+      "pixels_per_meter_game": 96
+    },
+    {
+      "id": "rubble_walkway_small_2",
+      "stage": null,
+      "native": {
+        "path": "native/rubble_walkway_small_2.png",
+        "sheet_px": [
+          96,
+          128
+        ],
+        "cell_px": [
+          96,
+          128
+        ],
+        "pivot_px_top_left": [
+          48,
+          120
+        ]
+      },
+      "game": {
+        "path": "game/rubble_walkway_small_2.png",
+        "sheet_px": [
+          288,
+          384
+        ],
+        "cell_px": [
+          288,
+          384
+        ],
+        "pivot_px_top_left": [
+          144,
+          360
+        ]
+      },
+      "preview_4x": "previews/rubble_walkway_small_2.png",
+      "frames": 1,
+      "frame_order": [
+        "rubble_walkway_small_2"
+      ],
+      "fps": 0,
+      "loop": false,
+      "tile_x": false,
+      "alpha": "binary",
+      "placement": "보행로",
+      "pixels_per_meter_native": 32,
+      "pixels_per_meter_game": 96
+    },
+    {
+      "id": "rubble_walkway_small_3",
+      "stage": null,
+      "native": {
+        "path": "native/rubble_walkway_small_3.png",
+        "sheet_px": [
+          96,
+          128
+        ],
+        "cell_px": [
+          96,
+          128
+        ],
+        "pivot_px_top_left": [
+          48,
+          120
+        ]
+      },
+      "game": {
+        "path": "game/rubble_walkway_small_3.png",
+        "sheet_px": [
+          288,
+          384
+        ],
+        "cell_px": [
+          288,
+          384
+        ],
+        "pivot_px_top_left": [
+          144,
+          360
+        ]
+      },
+      "preview_4x": "previews/rubble_walkway_small_3.png",
+      "frames": 1,
+      "frame_order": [
+        "rubble_walkway_small_3"
+      ],
+      "fps": 0,
+      "loop": false,
+      "tile_x": false,
+      "alpha": "binary",
+      "placement": "보행로",
+      "pixels_per_meter_native": 32,
+      "pixels_per_meter_game": 96
+    },
+    {
+      "id": "smoke_6f",
+      "stage": 2,
+      "native": {
+        "path": "native/smoke_6f.png",
+        "sheet_px": [
+          576,
+          128
+        ],
+        "cell_px": [
+          96,
+          128
+        ],
+        "pivot_px_top_left": [
+          48,
+          120
+        ]
+      },
+      "game": {
+        "path": "game/smoke_6f.png",
+        "sheet_px": [
+          1728,
+          384
+        ],
+        "cell_px": [
+          288,
+          384
+        ],
+        "pivot_px_top_left": [
+          144,
+          360
+        ]
+      },
+      "preview_4x": "previews/smoke_6f.png",
+      "frames": 6,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "fps": 8,
+      "loop": true,
+      "tile_x": false,
+      "alpha": "binary",
+      "placement": "성벽",
+      "pixels_per_meter_native": 32,
+      "pixels_per_meter_game": 96
+    },
+    {
+      "id": "wall_composite_stage0",
+      "stage": 0,
+      "native": {
+        "path": "native/wall_composite_stage0.png",
+        "sheet_px": [
+          128,
+          128
+        ],
+        "cell_px": [
+          128,
+          128
+        ],
+        "pivot_px_top_left": [
+          64,
+          128
+        ]
+      },
+      "game": {
+        "path": "game/wall_composite_stage0.png",
+        "sheet_px": [
+          384,
+          384
+        ],
+        "cell_px": [
+          384,
+          384
+        ],
+        "pivot_px_top_left": [
+          192,
+          384
+        ]
+      },
+      "preview_4x": "previews/wall_composite_stage0.png",
+      "frames": 1,
+      "frame_order": [
+        "wall_composite_stage0"
+      ],
+      "fps": 0,
+      "loop": false,
+      "tile_x": false,
+      "alpha": "binary",
+      "placement": "성벽",
+      "pixels_per_meter_native": 32,
+      "pixels_per_meter_game": 96
+    },
+    {
+      "id": "wall_composite_stage1",
+      "stage": 1,
+      "native": {
+        "path": "native/wall_composite_stage1.png",
+        "sheet_px": [
+          128,
+          128
+        ],
+        "cell_px": [
+          128,
+          128
+        ],
+        "pivot_px_top_left": [
+          64,
+          128
+        ]
+      },
+      "game": {
+        "path": "game/wall_composite_stage1.png",
+        "sheet_px": [
+          384,
+          384
+        ],
+        "cell_px": [
+          384,
+          384
+        ],
+        "pivot_px_top_left": [
+          192,
+          384
+        ]
+      },
+      "preview_4x": "previews/wall_composite_stage1.png",
+      "frames": 1,
+      "frame_order": [
+        "wall_composite_stage1"
+      ],
+      "fps": 0,
+      "loop": false,
+      "tile_x": false,
+      "alpha": "binary",
+      "placement": "성벽",
+      "pixels_per_meter_native": 32,
+      "pixels_per_meter_game": 96
+    },
+    {
+      "id": "wall_composite_stage2",
+      "stage": 2,
+      "native": {
+        "path": "native/wall_composite_stage2.png",
+        "sheet_px": [
+          128,
+          128
+        ],
+        "cell_px": [
+          128,
+          128
+        ],
+        "pivot_px_top_left": [
+          64,
+          128
+        ]
+      },
+      "game": {
+        "path": "game/wall_composite_stage2.png",
+        "sheet_px": [
+          384,
+          384
+        ],
+        "cell_px": [
+          384,
+          384
+        ],
+        "pivot_px_top_left": [
+          192,
+          384
+        ]
+      },
+      "preview_4x": "previews/wall_composite_stage2.png",
+      "frames": 1,
+      "frame_order": [
+        "wall_composite_stage2"
+      ],
+      "fps": 0,
+      "loop": false,
+      "tile_x": false,
+      "alpha": "binary",
+      "placement": "성벽",
+      "pixels_per_meter_native": 32,
+      "pixels_per_meter_game": 96
+    },
+    {
+      "id": "wall_composite_stage3",
+      "stage": 3,
+      "native": {
+        "path": "native/wall_composite_stage3.png",
+        "sheet_px": [
+          128,
+          128
+        ],
+        "cell_px": [
+          128,
+          128
+        ],
+        "pivot_px_top_left": [
+          64,
+          128
+        ]
+      },
+      "game": {
+        "path": "game/wall_composite_stage3.png",
+        "sheet_px": [
+          384,
+          384
+        ],
+        "cell_px": [
+          384,
+          384
+        ],
+        "pivot_px_top_left": [
+          192,
+          384
+        ]
+      },
+      "preview_4x": "previews/wall_composite_stage3.png",
+      "frames": 1,
+      "frame_order": [
+        "wall_composite_stage3"
+      ],
+      "fps": 0,
+      "loop": false,
+      "tile_x": false,
+      "alpha": "binary",
+      "placement": "성벽",
+      "pixels_per_meter_native": 32,
+      "pixels_per_meter_game": 96
+    },
+    {
+      "id": "wall_stage1_cracks",
+      "stage": 1,
+      "native": {
+        "path": "native/wall_stage1_cracks.png",
+        "sheet_px": [
+          128,
+          128
+        ],
+        "cell_px": [
+          128,
+          128
+        ],
+        "pivot_px_top_left": [
+          64,
+          128
+        ]
+      },
+      "game": {
+        "path": "game/wall_stage1_cracks.png",
+        "sheet_px": [
+          384,
+          384
+        ],
+        "cell_px": [
+          384,
+          384
+        ],
+        "pivot_px_top_left": [
+          192,
+          384
+        ]
+      },
+      "preview_4x": "previews/wall_stage1_cracks.png",
+      "frames": 1,
+      "frame_order": [
+        "wall_stage1_cracks"
+      ],
+      "fps": 0,
+      "loop": false,
+      "tile_x": true,
+      "alpha": "binary",
+      "placement": "성벽",
+      "pixels_per_meter_native": 32,
+      "pixels_per_meter_game": 96
+    },
+    {
+      "id": "wall_stage2_gouges",
+      "stage": 2,
+      "native": {
+        "path": "native/wall_stage2_gouges.png",
+        "sheet_px": [
+          128,
+          128
+        ],
+        "cell_px": [
+          128,
+          128
+        ],
+        "pivot_px_top_left": [
+          64,
+          128
+        ]
+      },
+      "game": {
+        "path": "game/wall_stage2_gouges.png",
+        "sheet_px": [
+          384,
+          384
+        ],
+        "cell_px": [
+          384,
+          384
+        ],
+        "pivot_px_top_left": [
+          192,
+          384
+        ]
+      },
+      "preview_4x": "previews/wall_stage2_gouges.png",
+      "frames": 1,
+      "frame_order": [
+        "wall_stage2_gouges"
+      ],
+      "fps": 0,
+      "loop": false,
+      "tile_x": true,
+      "alpha": "binary",
+      "placement": "성벽",
+      "pixels_per_meter_native": 32,
+      "pixels_per_meter_game": 96
+    },
+    {
+      "id": "wall_stage3_breach_rim",
+      "stage": 3,
+      "native": {
+        "path": "native/wall_stage3_breach_rim.png",
+        "sheet_px": [
+          128,
+          128
+        ],
+        "cell_px": [
+          128,
+          128
+        ],
+        "pivot_px_top_left": [
+          64,
+          128
+        ]
+      },
+      "game": {
+        "path": "game/wall_stage3_breach_rim.png",
+        "sheet_px": [
+          384,
+          384
+        ],
+        "cell_px": [
+          384,
+          384
+        ],
+        "pivot_px_top_left": [
+          192,
+          384
+        ]
+      },
+      "preview_4x": "previews/wall_stage3_breach_rim.png",
+      "frames": 1,
+      "frame_order": [
+        "wall_stage3_breach_rim"
+      ],
+      "fps": 0,
+      "loop": false,
+      "tile_x": false,
+      "alpha": "binary",
+      "placement": "파공 마스크와 동일한 원점",
+      "pixels_per_meter_native": 32,
+      "pixels_per_meter_game": 96
+    },
+    {
+      "id": "wall_stage3_cut_mask",
+      "stage": 3,
+      "native": {
+        "path": "native/wall_stage3_cut_mask.png",
+        "sheet_px": [
+          128,
+          128
+        ],
+        "cell_px": [
+          128,
+          128
+        ],
+        "pivot_px_top_left": [
+          64,
+          128
+        ]
+      },
+      "game": {
+        "path": "game/wall_stage3_cut_mask.png",
+        "sheet_px": [
+          384,
+          384
+        ],
+        "cell_px": [
+          384,
+          384
+        ],
+        "pivot_px_top_left": [
+          192,
+          384
+        ]
+      },
+      "preview_4x": "previews/wall_stage3_cut_mask.png",
+      "frames": 1,
+      "frame_order": [
+        "wall_stage3_cut_mask"
+      ],
+      "fps": 0,
+      "loop": false,
+      "tile_x": false,
+      "alpha": "binary",
+      "placement": "흰색 영역을 벽에서 제거",
+      "pixels_per_meter_native": 32,
+      "pixels_per_meter_game": 96
+    },
+    {
+      "id": "wall_stage3_edge_strip",
+      "stage": 3,
+      "native": {
+        "path": "native/wall_stage3_edge_strip.png",
+        "sheet_px": [
+          32,
+          128
+        ],
+        "cell_px": [
+          32,
+          128
+        ],
+        "pivot_px_top_left": [
+          16,
+          128
+        ]
+      },
+      "game": {
+        "path": "game/wall_stage3_edge_strip.png",
+        "sheet_px": [
+          96,
+          384
+        ],
+        "cell_px": [
+          96,
+          384
+        ],
+        "pivot_px_top_left": [
+          48,
+          384
+        ]
+      },
+      "preview_4x": "previews/wall_stage3_edge_strip.png",
+      "frames": 1,
+      "frame_order": [
+        "wall_stage3_edge_strip"
+      ],
+      "fps": 0,
+      "loop": false,
+      "tile_x": false,
+      "alpha": "binary",
+      "placement": "성벽",
+      "pixels_per_meter_native": 32,
+      "pixels_per_meter_game": 96
+    }
+  ],
+  "source_materials": [
+    "Game/Assets/_Project/Art/Battle/Resources/BattleArt/World/wall_stone_albedo.png",
+    "Game/Assets/_Project/Art/Battle/Resources/BattleArt/World/wall_stone_damage1_albedo.png",
+    "Game/Assets/_Project/Art/Battle/Resources/BattleArt/World/wall_stone_damage2_albedo.png",
+    "Game/Assets/_Project/Art/Battle/Resources/BattleArt/World/parapet_side_albedo.png",
+    "Game/Assets/_Project/Art/Battle/Resources/BattleArt/World/parapet_top_albedo.png",
+    "Game/Assets/_Project/Art/Battle/Resources/BattleArt/World/walkway_stone_albedo.png",
+    "Game/Assets/_Project/Art/Battle/Resources/BattleArt/World/wall_stone_normal.png"
+  ],
+  "stage_order": [
+    "정상",
+    "모서리 손상·균열",
+    "반파·깊은 손상",
+    "파공·잔단"
+  ],
+  "stage_mapping_note": "현재 HP 66%/33% 경계는 변경하지 않음. 네 번째 파공 상태의 발동 조건은 Claude·사용자 연결 결정 필요.",
+  "pivot_convention": "좌상단 기준 픽셀 좌표. Unity 정규화 피벗은 (x/폭,1-y/높이). 접지 경계 y=120, 마지막 불투명 행 y=119.",
+  "world_dimensions_m": {
+    "wall_overlay": [
+      4,
+      4
+    ],
+    "edge_strip": [
+      1,
+      4
+    ],
+    "prop_canvas": [
+      3,
+      4
+    ]
+  },
+  "mask_rule": "wall_stage3_cut_mask의 흰색/불투명 영역을 기존 벽에서 제거하고 같은 원점에 breach_rim을 얹음. 투명 데칼만으로 기존 3D 박스에 구멍이 생기지 않음.",
+  "tile_rule": "균열·깊은 손상은 양쪽 경계가 완전 투명. 벽 가로 4m마다 반복. 파공은 단일 구간용이며 반복하지 않음. edge_strip은 4m 높이 경계 조각.",
+  "import_notes": [
+    "Point, 압축 없음, 밉맵 없음, 알파 보존",
+    "3배 시트는 96 PPU로 사용해야 원본 32 PPU와 월드 크기가 같음",
+    "라이트는 실제 3D 조명 적용. 연기와 불꽃은 작은 영역으로 제한",
+    "고정 소품에만 발 기준선 적용. 상승하는 먼지는 의도적인 이동",
+    "프레임 좌→우, 회전 없음. 먼지 1회, 불꽃/연기 반복"
+  ],
+  "k123": {
+    "source": "Docs/References/codex_k123_v1/1x/fortress_states.png",
+    "agreement": "따뜻한 회색 석재와 적갈색 위험 표식의 의미는 일치. 지도는 양피지 위 UI이므로 월드 석재와 RGB를 같게 칠하지 않음.",
+    "modified": false
+  },
+  "mockups": {
+    "walltop": "Docs/References/tower_20261023/238_tower_tall_night_4_beam_field_from_wall.png",
+    "courtyard": "Docs/References/courtyard_20261023/02_bldg_day_1_topdown.png",
+    "note": "실제 캡처에 얹은 국소 합성 시안. Unity 적용 화면이 아님. 야간 여장은 기존 장면에 맞춘 색 곱셈, 파공은 들판 패치로 가시화."
+  }
+}

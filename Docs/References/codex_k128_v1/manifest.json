@@ -1,0 +1,726 @@
+{
+  "card": "K-128",
+  "status": "concepts_awaiting_user_choice",
+  "generation": "built-in image_gen",
+  "concepts": [
+    {
+      "id": "A",
+      "name": "먹장막 공성추",
+      "slug": "ram",
+      "height": 104,
+      "split": 680,
+      "fantasy": "안개에 홀린 고블린들이 낡은 가죽 지붕 아래 거대한 통나무를 밀고 온다.",
+      "pressure": "가죽 덮개로 몸을 가리고 성벽 한 지점을 계속 두드린다.",
+      "beam": "광선으로 덮개 아래 차축의 위치를 드러낸다.",
+      "cannon": "측면에 둔 대포로 드러난 바퀴와 차축을 노린다.",
+      "trap": "진로의 구덩이·감속 함정으로 바퀴를 붙잡는다.",
+      "silhouette": "낮고 긴 지붕 · 두 바퀴",
+      "motif": "공성 장치",
+      "color": "#bb8651",
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a175e4-d48c-7da2-89bd-e292e429a3eb\\exec-7486639c-f4d5-482d-8f95-444e670a79b5.png",
+      "prompt": "Create a friendly retro pixel-art design sheet of a goblin wooden cart for a fantasy strategy game. Transparent background. Exactly two separate full views of the same cart, FRONT on left and SIDE facing right on right, at the same height and foot baseline, wide empty gap. No text. Landscape 1536x1024. Wooden wheeled cart with a triangular brown hide roof, thick wooden log suspended underneath, large iron wheel hubs, cream repair patch on the hide. Two little olive green goblins pushing it, with large heads, clear eyes, visible mouths, brown leather clothes and oversized boots. Use the supplied images only as visual style and species references. Large chunky square pixel clusters, bold dark pixel outlines, only 3 distinct shading values per material. Source is like a native 150px tall sprite enlarged 4x without interpolation. Colours olive, rust brown, charcoal, ivory. Full cart uncropped with transparent padding and no floor shadow. Side view is wider than tall. No fine decorative details, no spikes, skulls, particles, glow or gradients. This is a static prop/character concept on a blank transparent background.",
+      "native_height_px": 104,
+      "height_m": 3.25,
+      "view_metrics": [
+        {
+          "size_px": [
+            120,
+            104
+          ],
+          "removed_isolated_pixels": 0,
+          "connected_component_sizes": [
+            6845
+          ],
+          "source_region": [
+            0,
+            0,
+            680,
+            1024
+          ],
+          "opaque_rgb_colors": 26
+        },
+        {
+          "size_px": [
+            159,
+            104
+          ],
+          "removed_isolated_pixels": 0,
+          "connected_component_sizes": [
+            8985
+          ],
+          "source_region": [
+            680,
+            0,
+            1536,
+            1024
+          ],
+          "opaque_rgb_colors": 25
+        }
+      ],
+      "file": "A_ram_concept.png",
+      "study_file": "A_ram_study.png",
+      "source_sha256": "b2a79a6f847bab5507395157673ac0ec8ccd073b8b4671ee2b7a92e51920b742",
+      "view_bboxes": [
+        [
+          52,
+          80,
+          172,
+          184
+        ],
+        [
+          33,
+          80,
+          192,
+          184
+        ]
+      ],
+      "scale_comparison_rects": [
+        {
+          "name": "정면",
+          "bbox": [
+            784,
+            341,
+            904,
+            445
+          ]
+        },
+        {
+          "name": "측면",
+          "bbox": [
+            973,
+            341,
+            1132,
+            445
+          ]
+        },
+        {
+          "name": "고블린",
+          "bbox": [
+            1201,
+            389,
+            1243,
+            445
+          ]
+        },
+        {
+          "name": "오우거",
+          "bbox": [
+            1312,
+            349,
+            1398,
+            445
+          ]
+        },
+        {
+          "name": "성벽",
+          "bbox": [
+            1467,
+            317,
+            1531,
+            445
+          ]
+        }
+      ],
+      "height_includes_accessories": false
+    },
+    {
+      "id": "B",
+      "name": "성벽손 오우거",
+      "slug": "climber",
+      "height": 144,
+      "split": 840,
+      "fantasy": "쇠장갑을 낀 오우거가 무너진 돌 틈을 더듬어 성벽 위로 기어오른다.",
+      "pressure": "긴 팔로 성가퀴를 붙잡아 사다리 없이 위협한다.",
+      "beam": "광선을 비추면 안개가 벗겨져 손을 뻗는 동작이 읽힌다.",
+      "cannon": "등반 구간을 덮는 대포로 붙잡은 팔 쪽을 압박한다.",
+      "trap": "성벽 앞 감속·발목 함정으로 등반 전에 멈춰 세운다.",
+      "silhouette": "긴 양팔 · 큰 쇠장갑",
+      "motif": "직접 등반",
+      "color": "#a5a57c",
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a175e4-d48c-7da2-89bd-e292e429a3eb\\exec-93d2d236-5cff-4b00-9793-e186e3120feb.png",
+      "prompt": "Create a retro fantasy pixel-art creature design source on a transparent background. Exactly TWO isolated full-body views of the SAME large climbing ogre: FRONT on left, strict SIDE facing right on right. Same ground line, same height, generous transparent padding, no shadow, no text or labels. 1536x1024 landscape. Match the supplied goblin/ogre reference style, especially the last existing ogre's olive-grey bald head, pointed ears, visible brows, eyes, mouth and two little lower tusks, rusty leather harness and big brown boots. This particular ogre is a stocky stone-wall climber: oversized blunt hands with dark iron climbing mitts, long heavy forearms hanging to knees, short powerful legs, simple leather knee pads, a folded rope coil on one hip. Upright relaxed stance to see entire anatomy, no action scene. Head takes almost one third of body height. Asymmetrical single shoulder pad, three large fingers visible per hand. No extra limbs, horns or tail. Height 4.5m. Side view has hunch and hands projecting forwards. One defining shape: broad low arms and small head at the top of a wide trapezoidal torso. Source should look like a 160px-tall sprite enlarged 4x nearest neighbour. Thick near-black 1 logical pixel outlines, chunky square colour clusters, 3 flat values per material, warm upper-left lighting. No painterly textures, gradients, bloom, fog, runes, decorative spikes or glossy rendering.",
+      "native_height_px": 144,
+      "height_m": 4.5,
+      "view_metrics": [
+        {
+          "size_px": [
+            130,
+            144
+          ],
+          "removed_isolated_pixels": 0,
+          "connected_component_sizes": [
+            11144
+          ],
+          "source_region": [
+            0,
+            0,
+            840,
+            1024
+          ],
+          "opaque_rgb_colors": 21
+        },
+        {
+          "size_px": [
+            96,
+            144
+          ],
+          "removed_isolated_pixels": 0,
+          "connected_component_sizes": [
+            8417
+          ],
+          "source_region": [
+            840,
+            0,
+            1536,
+            1024
+          ],
+          "opaque_rgb_colors": 22
+        }
+      ],
+      "file": "B_climber_concept.png",
+      "study_file": "B_climber_study.png",
+      "source_sha256": "9ef38ed3d4fc14841d342b6581965c1310f98cf1002b9fe652f6c9fa7108025e",
+      "view_bboxes": [
+        [
+          47,
+          40,
+          177,
+          184
+        ],
+        [
+          64,
+          40,
+          160,
+          184
+        ]
+      ],
+      "scale_comparison_rects": [
+        {
+          "name": "정면",
+          "bbox": [
+            784,
+            301,
+            914,
+            445
+          ]
+        },
+        {
+          "name": "측면",
+          "bbox": [
+            996,
+            301,
+            1092,
+            445
+          ]
+        },
+        {
+          "name": "고블린",
+          "bbox": [
+            1174,
+            389,
+            1216,
+            445
+          ]
+        },
+        {
+          "name": "오우거",
+          "bbox": [
+            1298,
+            349,
+            1384,
+            445
+          ]
+        },
+        {
+          "name": "성벽",
+          "bbox": [
+            1466,
+            317,
+            1530,
+            445
+          ]
+        }
+      ],
+      "height_includes_accessories": false
+    },
+    {
+      "id": "C",
+      "name": "안개 북지기",
+      "slug": "caller",
+      "height": 106,
+      "split": 850,
+      "fantasy": "북소리에 홀린 무리가 꺼진 길을 따라 등대의 빛으로 몰려든다.",
+      "pressure": "뒤에서 북을 울려 고블린 증원과 우회 압박을 부른다.",
+      "beam": "북지기에게 광선을 유지해 안개 속 지휘를 끊는다.",
+      "cannon": "후열을 겨냥할 수 있는 위치에 대포를 둔다.",
+      "trap": "북지기에게 접근하는 길과 증원 합류 지점에 함정을 둔다.",
+      "silhouette": "둥근 북 · 한쪽 갈고리 지팡이",
+      "motif": "증원 지휘",
+      "color": "#9ba476",
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a175e4-d48c-7da2-89bd-e292e429a3eb\\exec-f131b4ee-1079-4a49-b8db-7cfc9d74f997.png",
+      "prompt": "Create a retro fantasy pixel-art goblin elder design source on a transparent background. Exactly TWO isolated full-body views of the SAME goblin: FRONT on left, strict SIDE facing right on right. Same height and foot line, wide gap, full body visible including boots and staff, no ground shadow, no text. Landscape 1536x1024. The goblin elder is the \"안개 북지기\": olive-green large head, pointed ears, bushy grey eyebrows, clear ivory eyes with amber irises, visible flat mouth and two small teeth, stout short body. A large single round wooden drum strapped across belly, one short mallet held low, and a plain tall hooked wooden walking staff in the other hand. Dark faded indigo cloak with warm rusty ochre collar, patched brown boots. Two little dull brass bells on staff, no magical effects. A simple hood is folded down to expose the face, no tall hat, no horns. Strong silhouette is round drum below wide ears and tall hooked staff on one side. Height to head 2.5m, staff 3.3m. Keep the existing goblin species from reference images and chunky big-head pixel density, do not make it human or a skeletal wizard. Like a low resolution native 120px tall sprite enlarged 5x nearest-neighbor. Thick dark outlines, chunky square clusters, around three hard shading values per material. Upper left light, simple limited colours. No painterly gradients, fine texture, glow, haze, neon, floating objects, runes, skulls or decorative clutter.",
+      "native_height_px": 106,
+      "height_m": 3.3125,
+      "view_metrics": [
+        {
+          "size_px": [
+            87,
+            106
+          ],
+          "removed_isolated_pixels": 0,
+          "connected_component_sizes": [
+            4592
+          ],
+          "source_region": [
+            0,
+            0,
+            850,
+            1024
+          ],
+          "opaque_rgb_colors": 27
+        },
+        {
+          "size_px": [
+            65,
+            106
+          ],
+          "removed_isolated_pixels": 0,
+          "connected_component_sizes": [
+            3662
+          ],
+          "source_region": [
+            850,
+            0,
+            1536,
+            1024
+          ],
+          "opaque_rgb_colors": 27
+        }
+      ],
+      "file": "C_caller_concept.png",
+      "study_file": "C_caller_study.png",
+      "source_sha256": "69dbf9c899bc52e9a773c4a76eb5dcb76aed9fffec0003d8482e2557e30c4fe3",
+      "view_bboxes": [
+        [
+          69,
+          78,
+          156,
+          184
+        ],
+        [
+          80,
+          78,
+          145,
+          184
+        ]
+      ],
+      "scale_comparison_rects": [
+        {
+          "name": "정면",
+          "bbox": [
+            784,
+            339,
+            871,
+            445
+          ]
+        },
+        {
+          "name": "측면",
+          "bbox": [
+            972,
+            339,
+            1037,
+            445
+          ]
+        },
+        {
+          "name": "고블린",
+          "bbox": [
+            1138,
+            389,
+            1180,
+            445
+          ]
+        },
+        {
+          "name": "오우거",
+          "bbox": [
+            1281,
+            349,
+            1367,
+            445
+          ]
+        },
+        {
+          "name": "성벽",
+          "bbox": [
+            1468,
+            317,
+            1532,
+            445
+          ]
+        }
+      ],
+      "height_includes_accessories": true,
+      "body_height_estimate_m": 2.7
+    },
+    {
+      "id": "D",
+      "name": "문짝 방패지기",
+      "slug": "shield",
+      "height": 112,
+      "split": 900,
+      "fantasy": "부서진 요새 문짝을 든 오우거가 고블린의 움직이는 성벽이 된다.",
+      "pressure": "큰 방패 뒤에 무리를 숨겨 성벽 가까이 호위한다.",
+      "beam": "광선으로 방패 가장자리의 호위병과 옆구리를 찾는다.",
+      "cannon": "정면과 측면의 대포 배치를 나누어 측면을 노린다.",
+      "trap": "감속 함정으로 호위 대열을 벌려 옆구리를 노출한다.",
+      "silhouette": "큰 직사각 방패 · 어긋난 머리",
+      "motif": "대열 호위",
+      "color": "#d39b4b",
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a175e4-d48c-7da2-89bd-e292e429a3eb\\exec-f395605e-db4a-4cea-9c06-91b00f9aa663.png",
+      "prompt": "Create a retro fantasy pixel-art ogre design source on a transparent background. Exactly TWO isolated full-body views of SAME shield-carrying ogre: FRONT left and strict SIDE facing right on right. Same height, same foot baseline, generous transparent margins and gap, no floor shadows, no text. Landscape 1536x1024. Species/style reference supplied: existing bald olive-grey ogre with big head, pointed ears, clear eyes, visible mouth, little lower tusks, rusty leather harness and big brown boots. This variant is \"문짝 방패지기\": very broad stout ogre carrying a salvaged upright wooden double-door shield on its LEFT arm, shield top a little below eyes, tall rectangular flat top, dark iron crossbars, three large warm ochre wood planks, ONE simple small cream painted patch. Right hand relaxed and empty, full head and right arm and boots visible. Face looks weary and fog-bewitched, not demonic. Simple rusty orange shoulder cloth, brown leather belt, iron knee cap. Height 3.5m, huge rectangular shield 2.6m. SIDE must show shield on front of forearm, ogre body and two boots clearly behind it, no second shield. Silhouette is a broad rectangle plus offset large head; opposite silhouette of long-armed climbing ogre. Match the chunky square pixel clusters and visible faces of references: head roughly one third body, thick dark 1 logical pixel outline, ~3 hard values per material, upper left light. Like a native 140px tall sprite enlarged 4x nearest neighbor. No tiny spikes, horns, skulls, runes, battle scene, neon, mist, glow, gradients, painterly shading, gloss or high definition texture.",
+      "native_height_px": 112,
+      "height_m": 3.5,
+      "view_metrics": [
+        {
+          "size_px": [
+            91,
+            112
+          ],
+          "removed_isolated_pixels": 0,
+          "connected_component_sizes": [
+            7334
+          ],
+          "source_region": [
+            0,
+            0,
+            900,
+            1024
+          ],
+          "opaque_rgb_colors": 22
+        },
+        {
+          "size_px": [
+            55,
+            112
+          ],
+          "removed_isolated_pixels": 0,
+          "connected_component_sizes": [
+            4942
+          ],
+          "source_region": [
+            900,
+            0,
+            1536,
+            1024
+          ],
+          "opaque_rgb_colors": 21
+        }
+      ],
+      "file": "D_shield_concept.png",
+      "study_file": "D_shield_study.png",
+      "source_sha256": "3e7f5fb485d0c2455f4388ad1ea7196520fe81f62d10de656c0aa003bada90b9",
+      "view_bboxes": [
+        [
+          67,
+          72,
+          158,
+          184
+        ],
+        [
+          85,
+          72,
+          140,
+          184
+        ]
+      ],
+      "scale_comparison_rects": [
+        {
+          "name": "정면",
+          "bbox": [
+            784,
+            333,
+            875,
+            445
+          ]
+        },
+        {
+          "name": "측면",
+          "bbox": [
+            977,
+            333,
+            1032,
+            445
+          ]
+        },
+        {
+          "name": "고블린",
+          "bbox": [
+            1134,
+            389,
+            1176,
+            445
+          ]
+        },
+        {
+          "name": "오우거",
+          "bbox": [
+            1278,
+            349,
+            1364,
+            445
+          ]
+        },
+        {
+          "name": "성벽",
+          "bbox": [
+            1466,
+            317,
+            1530,
+            445
+          ]
+        }
+      ],
+      "height_includes_accessories": false
+    }
+  ],
+  "world_pixels_per_metre": 32,
+  "comparison_goblin_height_px": 56,
+  "comparison_ogre_height_px": 96,
+  "comparison_ogre_height_is_proposed_normalization": true,
+  "wall_height_px": 128,
+  "wall_height_m": 4,
+  "study_cell_px": [
+    224,
+    192
+  ],
+  "study_pivot_px": [
+    112,
+    184
+  ],
+  "study_view_order": [
+    "front",
+    "side"
+  ],
+  "animation": false,
+  "game_sheets": null,
+  "production_sheet_contract": "Not applicable to concept-only static studies; do not import as animation. User selection and Claude integration remain pending.",
+  "palette": [
+    "#171714",
+    "#39382e",
+    "#62634b",
+    "#929574",
+    "#b9b998",
+    "#39451f",
+    "#65732d",
+    "#93a13e",
+    "#4b2d22",
+    "#7c4930",
+    "#ad6b40",
+    "#dfaa6c",
+    "#29292c",
+    "#535153",
+    "#898485",
+    "#c6c1ae",
+    "#eee1bf",
+    "#242735",
+    "#414455",
+    "#66697b",
+    "#ac7a31",
+    "#d4aa57",
+    "#f0cf84",
+    "#9c967c",
+    "#d3ceb8",
+    "#3c3b36",
+    "#7a674e",
+    "#c1ac88"
+  ],
+  "sheet_px": [
+    1600,
+    1160
+  ],
+  "lighting_test": "Illustrative warm hard-edged beam swatch, not a game screenshot or Unity lighting measurement.",
+  "map_zoom_test": "0.5x nearest-neighbour proxy, not a measured current battle camera zoom.",
+  "source_references": {
+    "Docs/References/codex_hero_octopath_review_v6/generated.png": "0026367083018c4a484e769d2d04e0d9f2faee675d62098b2def0db63bebfc68",
+    "Docs/References/codex_k066_v1/lineup_front_4x.png": "d36057338c48312d8ef87d03e09d193ab319b783b81a712e07ffa5a304939720",
+    "Docs/References/codex_k070_v1/goblin_species56_96x128.png": "050e7e513c2fb4749cda7265dd79acc045925b81ab798a6c1a17b3aa5278664a",
+    "Game/Assets/_Project/Art/Characters/Static/ogre_static.png": "b2fead452612250ad05ca074b86bac8bccfa4858c1846cd6497fe8312f8c13af",
+    "Game/Assets/_Project/Art/Characters/Goblin/goblin_walk_attack4.png": "a58b0ffb89e69d65747bddc6c6487f38ba3317685f7acc06cd33af7d596aa7ef"
+  },
+  "current_sheet_review": {
+    "currentGoblin": {
+      "sheet_size": [
+        1152,
+        768
+      ],
+      "first_cell": [
+        288,
+        384
+      ],
+      "comparison_height": 56
+    },
+    "currentOgre": {
+      "sheet_size": [
+        1024,
+        384
+      ],
+      "first_cell": [
+        256,
+        384
+      ],
+      "comparison_height": 96
+    }
+  },
+  "verification": {
+    "static_studies": [
+      {
+        "id": "A",
+        "cell": [
+          224,
+          192
+        ],
+        "sheet": [
+          448,
+          192
+        ],
+        "view_order": [
+          "front",
+          "side"
+        ],
+        "pivot": [
+          112,
+          184
+        ],
+        "feet_boundary_y": [
+          184,
+          184
+        ],
+        "binary_alpha": true,
+        "no_transparent_rgb": true,
+        "single_connected_body_per_view": true,
+        "detail_is_exact_4x_nearest": true
+      },
+      {
+        "id": "B",
+        "cell": [
+          224,
+          192
+        ],
+        "sheet": [
+          448,
+          192
+        ],
+        "view_order": [
+          "front",
+          "side"
+        ],
+        "pivot": [
+          112,
+          184
+        ],
+        "feet_boundary_y": [
+          184,
+          184
+        ],
+        "binary_alpha": true,
+        "no_transparent_rgb": true,
+        "single_connected_body_per_view": true,
+        "detail_is_exact_4x_nearest": true
+      },
+      {
+        "id": "C",
+        "cell": [
+          224,
+          192
+        ],
+        "sheet": [
+          448,
+          192
+        ],
+        "view_order": [
+          "front",
+          "side"
+        ],
+        "pivot": [
+          112,
+          184
+        ],
+        "feet_boundary_y": [
+          184,
+          184
+        ],
+        "binary_alpha": true,
+        "no_transparent_rgb": true,
+        "single_connected_body_per_view": true,
+        "detail_is_exact_4x_nearest": true
+      },
+      {
+        "id": "D",
+        "cell": [
+          224,
+          192
+        ],
+        "sheet": [
+          448,
+          192
+        ],
+        "view_order": [
+          "front",
+          "side"
+        ],
+        "pivot": [
+          112,
+          184
+        ],
+        "feet_boundary_y": [
+          184,
+          184
+        ],
+        "binary_alpha": true,
+        "no_transparent_rgb": true,
+        "single_connected_body_per_view": true,
+        "detail_is_exact_4x_nearest": true
+      }
+    ],
+    "board_sizes_px": [
+      1600,
+      1160
+    ],
+    "lineup_size_px": [
+      1600,
+      800
+    ],
+    "embedded_png_occurrences_decoded": 22,
+    "source_reference_hashes_unchanged": true,
+    "unity_run": false,
+    "game_files_written": false,
+    "git_writes": false,
+    "browser": {
+      "browser": "Chrome headless via Playwright",
+      "url_scheme": "file",
+      "viewport_desktop": [
+        1600,
+        1100
+      ],
+      "viewport_mobile": [
+        390,
+        844
+      ],
+      "embedded_images_decoded": true,
+      "four_cards_same_desktop_row": true,
+      "silhouette_filter": true,
+      "night_mode": true,
+      "scale_1x": true,
+      "scale_4x": true,
+      "all_four_full_sheets_decoded": true,
+      "selection": true,
+      "desktop_page_overflow": false,
+      "mobile_page_overflow": false,
+      "script_errors": []
+    },
+    "agent_visual_inspection": "All four generated originals, final concept boards, lineup and rendered review page were inspected.",
+    "read_only_git_status": "No tracked modifications. Only the requested output paths plus an externally generated CARD_CODEX_LOG.jsonl were untracked. No Git mutation command was used."
+  }
+}

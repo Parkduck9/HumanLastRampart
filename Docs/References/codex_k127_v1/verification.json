@@ -1,0 +1,1236 @@
+{
+  "sheets": 30,
+  "native_frames": 160,
+  "checks": [
+    {
+      "sheet": "worker_a_push_front",
+      "frames": 8,
+      "unique_frames": 8,
+      "bounds": [
+        [
+          27,
+          48,
+          68,
+          120
+        ],
+        [
+          26,
+          48,
+          67,
+          120
+        ],
+        [
+          26,
+          48,
+          67,
+          120
+        ],
+        [
+          24,
+          48,
+          68,
+          120
+        ],
+        [
+          27,
+          48,
+          69,
+          120
+        ],
+        [
+          27,
+          48,
+          69,
+          120
+        ],
+        [
+          27,
+          49,
+          69,
+          120
+        ],
+        [
+          27,
+          48,
+          68,
+          120
+        ]
+      ],
+      "baseline": 120,
+      "single_component": true
+    },
+    {
+      "sheet": "worker_a_push_back",
+      "frames": 8,
+      "unique_frames": 8,
+      "bounds": [
+        [
+          27,
+          48,
+          69,
+          120
+        ],
+        [
+          26,
+          48,
+          68,
+          120
+        ],
+        [
+          26,
+          47,
+          69,
+          120
+        ],
+        [
+          26,
+          48,
+          69,
+          120
+        ],
+        [
+          26,
+          48,
+          69,
+          120
+        ],
+        [
+          26,
+          48,
+          68,
+          120
+        ],
+        [
+          26,
+          48,
+          69,
+          120
+        ],
+        [
+          26,
+          48,
+          69,
+          120
+        ]
+      ],
+      "baseline": 120,
+      "single_component": true
+    },
+    {
+      "sheet": "worker_a_push_right",
+      "frames": 8,
+      "unique_frames": 8,
+      "bounds": [
+        [
+          29,
+          48,
+          73,
+          120
+        ],
+        [
+          28,
+          48,
+          75,
+          120
+        ],
+        [
+          26,
+          48,
+          74,
+          120
+        ],
+        [
+          29,
+          48,
+          74,
+          120
+        ],
+        [
+          28,
+          48,
+          73,
+          120
+        ],
+        [
+          27,
+          48,
+          74,
+          120
+        ],
+        [
+          27,
+          48,
+          75,
+          120
+        ],
+        [
+          27,
+          48,
+          76,
+          120
+        ]
+      ],
+      "baseline": 120,
+      "single_component": true
+    },
+    {
+      "sheet": "worker_a_push_left",
+      "frames": 8,
+      "unique_frames": 8,
+      "bounds": [
+        [
+          23,
+          48,
+          67,
+          120
+        ],
+        [
+          21,
+          48,
+          68,
+          120
+        ],
+        [
+          22,
+          48,
+          70,
+          120
+        ],
+        [
+          22,
+          48,
+          67,
+          120
+        ],
+        [
+          23,
+          48,
+          68,
+          120
+        ],
+        [
+          22,
+          48,
+          69,
+          120
+        ],
+        [
+          21,
+          48,
+          69,
+          120
+        ],
+        [
+          20,
+          48,
+          69,
+          120
+        ]
+      ],
+      "baseline": 120,
+      "single_component": true
+    },
+    {
+      "sheet": "worker_a_push",
+      "frames": 8,
+      "unique_frames": 8,
+      "bounds": [
+        [
+          29,
+          48,
+          73,
+          120
+        ],
+        [
+          28,
+          48,
+          75,
+          120
+        ],
+        [
+          26,
+          48,
+          74,
+          120
+        ],
+        [
+          29,
+          48,
+          74,
+          120
+        ],
+        [
+          28,
+          48,
+          73,
+          120
+        ],
+        [
+          27,
+          48,
+          74,
+          120
+        ],
+        [
+          27,
+          48,
+          75,
+          120
+        ],
+        [
+          27,
+          48,
+          76,
+          120
+        ]
+      ],
+      "baseline": 120,
+      "single_component": true
+    },
+    {
+      "sheet": "worker_a_push_start_front",
+      "frames": 3,
+      "unique_frames": 3,
+      "bounds": [
+        [
+          26,
+          48,
+          68,
+          120
+        ],
+        [
+          27,
+          48,
+          69,
+          120
+        ],
+        [
+          26,
+          48,
+          68,
+          120
+        ]
+      ],
+      "baseline": 120,
+      "single_component": true
+    },
+    {
+      "sheet": "worker_a_push_start_back",
+      "frames": 3,
+      "unique_frames": 3,
+      "bounds": [
+        [
+          26,
+          48,
+          70,
+          120
+        ],
+        [
+          25,
+          47,
+          69,
+          120
+        ],
+        [
+          26,
+          48,
+          67,
+          120
+        ]
+      ],
+      "baseline": 120,
+      "single_component": true
+    },
+    {
+      "sheet": "worker_a_push_start_right",
+      "frames": 3,
+      "unique_frames": 3,
+      "bounds": [
+        [
+          28,
+          48,
+          68,
+          120
+        ],
+        [
+          29,
+          48,
+          72,
+          120
+        ],
+        [
+          28,
+          48,
+          73,
+          120
+        ]
+      ],
+      "baseline": 120,
+      "single_component": true
+    },
+    {
+      "sheet": "worker_a_push_start_left",
+      "frames": 3,
+      "unique_frames": 3,
+      "bounds": [
+        [
+          28,
+          48,
+          68,
+          120
+        ],
+        [
+          24,
+          48,
+          67,
+          120
+        ],
+        [
+          23,
+          48,
+          68,
+          120
+        ]
+      ],
+      "baseline": 120,
+      "single_component": true
+    },
+    {
+      "sheet": "worker_a_push_stop_front",
+      "frames": 3,
+      "unique_frames": 3,
+      "bounds": [
+        [
+          25,
+          48,
+          69,
+          120
+        ],
+        [
+          24,
+          48,
+          70,
+          120
+        ],
+        [
+          25,
+          48,
+          70,
+          120
+        ]
+      ],
+      "baseline": 120,
+      "single_component": true
+    },
+    {
+      "sheet": "worker_a_push_stop_back",
+      "frames": 3,
+      "unique_frames": 3,
+      "bounds": [
+        [
+          26,
+          48,
+          69,
+          120
+        ],
+        [
+          26,
+          48,
+          71,
+          120
+        ],
+        [
+          26,
+          48,
+          69,
+          120
+        ]
+      ],
+      "baseline": 120,
+      "single_component": true
+    },
+    {
+      "sheet": "worker_a_push_stop_right",
+      "frames": 3,
+      "unique_frames": 3,
+      "bounds": [
+        [
+          29,
+          48,
+          64,
+          120
+        ],
+        [
+          28,
+          49,
+          72,
+          120
+        ],
+        [
+          29,
+          48,
+          64,
+          120
+        ]
+      ],
+      "baseline": 120,
+      "single_component": true
+    },
+    {
+      "sheet": "worker_a_push_stop_left",
+      "frames": 3,
+      "unique_frames": 3,
+      "bounds": [
+        [
+          32,
+          48,
+          67,
+          120
+        ],
+        [
+          24,
+          49,
+          68,
+          120
+        ],
+        [
+          32,
+          48,
+          67,
+          120
+        ]
+      ],
+      "baseline": 120,
+      "single_component": true
+    },
+    {
+      "sheet": "worker_a_push_strain_right",
+      "frames": 8,
+      "unique_frames": 8,
+      "bounds": [
+        [
+          27,
+          53,
+          79,
+          120
+        ],
+        [
+          26,
+          53,
+          79,
+          120
+        ],
+        [
+          25,
+          54,
+          82,
+          120
+        ],
+        [
+          24,
+          53,
+          78,
+          120
+        ],
+        [
+          25,
+          53,
+          81,
+          120
+        ],
+        [
+          27,
+          53,
+          81,
+          120
+        ],
+        [
+          26,
+          53,
+          81,
+          120
+        ],
+        [
+          25,
+          53,
+          79,
+          120
+        ]
+      ],
+      "baseline": 120,
+      "single_component": true
+    },
+    {
+      "sheet": "worker_a_push_strain_left",
+      "frames": 8,
+      "unique_frames": 8,
+      "bounds": [
+        [
+          17,
+          53,
+          69,
+          120
+        ],
+        [
+          17,
+          53,
+          70,
+          120
+        ],
+        [
+          14,
+          54,
+          71,
+          120
+        ],
+        [
+          18,
+          53,
+          72,
+          120
+        ],
+        [
+          15,
+          53,
+          71,
+          120
+        ],
+        [
+          15,
+          53,
+          69,
+          120
+        ],
+        [
+          15,
+          53,
+          70,
+          120
+        ],
+        [
+          17,
+          53,
+          71,
+          120
+        ]
+      ],
+      "baseline": 120,
+      "single_component": true
+    },
+    {
+      "sheet": "worker_b_push_front",
+      "frames": 8,
+      "unique_frames": 8,
+      "bounds": [
+        [
+          24,
+          48,
+          71,
+          120
+        ],
+        [
+          23,
+          48,
+          71,
+          120
+        ],
+        [
+          25,
+          48,
+          73,
+          120
+        ],
+        [
+          23,
+          48,
+          73,
+          120
+        ],
+        [
+          24,
+          48,
+          72,
+          120
+        ],
+        [
+          23,
+          48,
+          71,
+          120
+        ],
+        [
+          23,
+          48,
+          71,
+          120
+        ],
+        [
+          23,
+          48,
+          71,
+          120
+        ]
+      ],
+      "baseline": 120,
+      "single_component": true
+    },
+    {
+      "sheet": "worker_b_push_back",
+      "frames": 8,
+      "unique_frames": 8,
+      "bounds": [
+        [
+          24,
+          48,
+          72,
+          120
+        ],
+        [
+          24,
+          48,
+          71,
+          120
+        ],
+        [
+          23,
+          48,
+          71,
+          120
+        ],
+        [
+          23,
+          49,
+          71,
+          120
+        ],
+        [
+          24,
+          49,
+          71,
+          120
+        ],
+        [
+          23,
+          49,
+          71,
+          120
+        ],
+        [
+          24,
+          49,
+          72,
+          120
+        ],
+        [
+          24,
+          48,
+          72,
+          120
+        ]
+      ],
+      "baseline": 120,
+      "single_component": true
+    },
+    {
+      "sheet": "worker_b_push_right",
+      "frames": 8,
+      "unique_frames": 8,
+      "bounds": [
+        [
+          26,
+          47,
+          81,
+          120
+        ],
+        [
+          25,
+          48,
+          82,
+          120
+        ],
+        [
+          28,
+          48,
+          83,
+          120
+        ],
+        [
+          25,
+          48,
+          82,
+          120
+        ],
+        [
+          27,
+          48,
+          82,
+          120
+        ],
+        [
+          27,
+          48,
+          82,
+          120
+        ],
+        [
+          26,
+          47,
+          84,
+          120
+        ],
+        [
+          26,
+          48,
+          84,
+          120
+        ]
+      ],
+      "baseline": 120,
+      "single_component": true
+    },
+    {
+      "sheet": "worker_b_push_left",
+      "frames": 8,
+      "unique_frames": 8,
+      "bounds": [
+        [
+          15,
+          47,
+          70,
+          120
+        ],
+        [
+          14,
+          48,
+          71,
+          120
+        ],
+        [
+          13,
+          48,
+          68,
+          120
+        ],
+        [
+          14,
+          48,
+          71,
+          120
+        ],
+        [
+          14,
+          48,
+          69,
+          120
+        ],
+        [
+          14,
+          48,
+          69,
+          120
+        ],
+        [
+          12,
+          47,
+          70,
+          120
+        ],
+        [
+          12,
+          48,
+          70,
+          120
+        ]
+      ],
+      "baseline": 120,
+      "single_component": true
+    },
+    {
+      "sheet": "worker_b_push",
+      "frames": 8,
+      "unique_frames": 8,
+      "bounds": [
+        [
+          26,
+          47,
+          81,
+          120
+        ],
+        [
+          25,
+          48,
+          82,
+          120
+        ],
+        [
+          28,
+          48,
+          83,
+          120
+        ],
+        [
+          25,
+          48,
+          82,
+          120
+        ],
+        [
+          27,
+          48,
+          82,
+          120
+        ],
+        [
+          27,
+          48,
+          82,
+          120
+        ],
+        [
+          26,
+          47,
+          84,
+          120
+        ],
+        [
+          26,
+          48,
+          84,
+          120
+        ]
+      ],
+      "baseline": 120,
+      "single_component": true
+    },
+    {
+      "sheet": "worker_b_push_start_front",
+      "frames": 3,
+      "unique_frames": 3,
+      "bounds": [
+        [
+          23,
+          48,
+          72,
+          120
+        ],
+        [
+          22,
+          48,
+          72,
+          120
+        ],
+        [
+          22,
+          48,
+          73,
+          120
+        ]
+      ],
+      "baseline": 120,
+      "single_component": true
+    },
+    {
+      "sheet": "worker_b_push_start_back",
+      "frames": 3,
+      "unique_frames": 3,
+      "bounds": [
+        [
+          23,
+          48,
+          72,
+          120
+        ],
+        [
+          23,
+          48,
+          72,
+          120
+        ],
+        [
+          23,
+          48,
+          72,
+          120
+        ]
+      ],
+      "baseline": 120,
+      "single_component": true
+    },
+    {
+      "sheet": "worker_b_push_start_right",
+      "frames": 3,
+      "unique_frames": 3,
+      "bounds": [
+        [
+          28,
+          48,
+          73,
+          120
+        ],
+        [
+          27,
+          48,
+          82,
+          120
+        ],
+        [
+          27,
+          48,
+          84,
+          120
+        ]
+      ],
+      "baseline": 120,
+      "single_component": true
+    },
+    {
+      "sheet": "worker_b_push_start_left",
+      "frames": 3,
+      "unique_frames": 3,
+      "bounds": [
+        [
+          23,
+          48,
+          68,
+          120
+        ],
+        [
+          14,
+          48,
+          69,
+          120
+        ],
+        [
+          12,
+          48,
+          69,
+          120
+        ]
+      ],
+      "baseline": 120,
+      "single_component": true
+    },
+    {
+      "sheet": "worker_b_push_stop_front",
+      "frames": 3,
+      "unique_frames": 3,
+      "bounds": [
+        [
+          22,
+          48,
+          73,
+          120
+        ],
+        [
+          17,
+          48,
+          68,
+          120
+        ],
+        [
+          22,
+          48,
+          73,
+          120
+        ]
+      ],
+      "baseline": 120,
+      "single_component": true
+    },
+    {
+      "sheet": "worker_b_push_stop_back",
+      "frames": 3,
+      "unique_frames": 3,
+      "bounds": [
+        [
+          22,
+          48,
+          73,
+          120
+        ],
+        [
+          22,
+          48,
+          75,
+          120
+        ],
+        [
+          22,
+          49,
+          74,
+          120
+        ]
+      ],
+      "baseline": 120,
+      "single_component": true
+    },
+    {
+      "sheet": "worker_b_push_stop_right",
+      "frames": 3,
+      "unique_frames": 3,
+      "bounds": [
+        [
+          32,
+          47,
+          70,
+          120
+        ],
+        [
+          33,
+          48,
+          77,
+          120
+        ],
+        [
+          29,
+          48,
+          70,
+          120
+        ]
+      ],
+      "baseline": 120,
+      "single_component": true
+    },
+    {
+      "sheet": "worker_b_push_stop_left",
+      "frames": 3,
+      "unique_frames": 3,
+      "bounds": [
+        [
+          26,
+          47,
+          64,
+          120
+        ],
+        [
+          19,
+          48,
+          63,
+          120
+        ],
+        [
+          26,
+          48,
+          67,
+          120
+        ]
+      ],
+      "baseline": 120,
+      "single_component": true
+    },
+    {
+      "sheet": "worker_b_push_strain_right",
+      "frames": 8,
+      "unique_frames": 8,
+      "bounds": [
+        [
+          24,
+          54,
+          85,
+          120
+        ],
+        [
+          24,
+          54,
+          88,
+          120
+        ],
+        [
+          22,
+          53,
+          88,
+          120
+        ],
+        [
+          22,
+          54,
+          88,
+          120
+        ],
+        [
+          24,
+          54,
+          89,
+          120
+        ],
+        [
+          28,
+          52,
+          89,
+          120
+        ],
+        [
+          25,
+          53,
+          89,
+          120
+        ],
+        [
+          27,
+          51,
+          88,
+          120
+        ]
+      ],
+      "baseline": 120,
+      "single_component": true
+    },
+    {
+      "sheet": "worker_b_push_strain_left",
+      "frames": 8,
+      "unique_frames": 8,
+      "bounds": [
+        [
+          11,
+          54,
+          72,
+          120
+        ],
+        [
+          8,
+          54,
+          72,
+          120
+        ],
+        [
+          8,
+          53,
+          74,
+          120
+        ],
+        [
+          8,
+          54,
+          74,
+          120
+        ],
+        [
+          7,
+          54,
+          72,
+          120
+        ],
+        [
+          7,
+          52,
+          68,
+          120
+        ],
+        [
+          7,
+          53,
+          71,
+          120
+        ],
+        [
+          8,
+          51,
+          69,
+          120
+        ]
+      ],
+      "baseline": 120,
+      "single_component": true
+    }
+  ]
+}
