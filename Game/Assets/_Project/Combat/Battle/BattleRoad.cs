@@ -319,7 +319,7 @@ namespace HumanLastRampart.Combat.Battle
         Material MakeLit(string name, Color color, float smoothness)
         {
             Shader shader = Shader.Find("Universal Render Pipeline/Lit");
-            var m = new Material(shader != null ? shader : Shader.Find("Standard")) { name = name };
+            var m = new Material(shader != null ? shader : Shader.Find("Sprites/Default")) { name = name };
             if (m.HasProperty(BaseColorId)) m.SetColor(BaseColorId, color);
             if (m.HasProperty(ColorId)) m.SetColor(ColorId, color);
             if (m.HasProperty("_Smoothness")) m.SetFloat("_Smoothness", smoothness);

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using UnityEditor;
@@ -13,7 +13,7 @@ namespace HumanLastRampart.App.Editor
     // 스크립팅 백엔드: IL2CPP 모듈(win64 il2cpp 변형)이 깔려 있으면 IL2CPP, 아니면 Mono. 프로젝트 설정은 빌드 뒤 원래대로 돌려 놓는다.
     public static class BuildScripts
     {
-        const string OutputDir = @"C:\Unity\1\HLR-builds\win";
+        static string OutputDir => System.Environment.GetEnvironmentVariable("HLR_BUILD_OUT") is string o && o.Length > 0 ? o : @"C:\Unity\1\HLR-builds\win";   // 환경변수로 출력 위치를 바꿀 수 있음 (W44)
         const string ExeName = "Lightbearers.exe";
 
         public static void BuildWindows() => Run(false);

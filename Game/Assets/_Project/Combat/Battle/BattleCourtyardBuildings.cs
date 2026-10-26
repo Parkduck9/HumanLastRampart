@@ -439,7 +439,7 @@ namespace HumanLastRampart.Combat.Battle
         Material MakeWall(Texture2D texture, Color flat, Color tint)
         {
             Shader shader = Shader.Find("Universal Render Pipeline/Lit");
-            Material m = shader != null ? new Material(shader) : new Material(Shader.Find("Standard"));
+            Material m = shader != null ? new Material(shader) : new Material(Shader.Find("Sprites/Default"));
             m.name = "CourtyardBuildings (runtime)";
             Color color = texture != null ? tint : flat;
             if (m.HasProperty("_BaseColor")) m.SetColor("_BaseColor", color);
@@ -463,7 +463,7 @@ namespace HumanLastRampart.Combat.Battle
             if (m == null)
             {
                 Shader shader = Shader.Find(lit ? "Universal Render Pipeline/Lit" : "Universal Render Pipeline/Unlit");
-                m = new Material(shader != null ? shader : Shader.Find("Standard")) { name = name };
+                m = new Material(shader != null ? shader : Shader.Find("Sprites/Default")) { name = name };
                 if (m.HasProperty("_AlphaClip")) m.SetFloat("_AlphaClip", 1f);
                 if (m.HasProperty("_Cutoff")) m.SetFloat("_Cutoff", 0.5f);
                 if (m.HasProperty("_Cull")) m.SetFloat("_Cull", 0f);   // 세운 그림은 양면

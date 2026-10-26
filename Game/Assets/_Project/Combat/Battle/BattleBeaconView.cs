@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using HumanLastRampart.Combat.PerfLab;
 using HumanLastRampart.Core.Campaign;
 using HumanLastRampart.Core.CombatContracts;
@@ -305,7 +305,7 @@ namespace HumanLastRampart.Combat.Battle
             {
                 capstanMesh = BattleTowerInterior.BuildCapstanMesh();
                 Shader shader = Shader.Find("Universal Render Pipeline/Lit");
-                capstanMaterial = new Material(shader != null ? shader : Shader.Find("Standard")) { name = "Tower Capstan (runtime)" };
+                capstanMaterial = new Material(shader != null ? shader : Shader.Find("Sprites/Default")) { name = "Tower Capstan (runtime)" };
                 if (capstanMaterial.HasProperty("_BaseMap")) capstanMaterial.SetTexture("_BaseMap", atlas);
                 capstanMaterial.mainTexture = atlas;  BattleSeeThrough.Adopt(capstanMaterial);   // 돌림대도 주인공을 가릴 수 있다 — 투시 구멍 대상 (W42)
                 if (capstanMaterial.HasProperty("_Smoothness")) capstanMaterial.SetFloat("_Smoothness", 0.1f);

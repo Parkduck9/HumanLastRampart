@@ -13,6 +13,7 @@ $log = Join-Path (Split-Path $OutDir -Parent) 'build-win.log'
 Remove-Item $log -ErrorAction SilentlyContinue
 $method = if ($Dev) { 'HumanLastRampart.App.Editor.BuildScripts.BuildWindowsDev' } else { 'HumanLastRampart.App.Editor.BuildScripts.BuildWindows' }
 $a = @('-batchmode','-quit','-projectPath',"`"$Project`"",'-buildTarget','StandaloneWindows64','-executeMethod',$method,'-logFile',"`"$log`"")
+$env:HLR_BUILD_OUT = $OutDir
 $sw = [Diagnostics.Stopwatch]::StartNew()
 $p = Start-Process -FilePath $Unity -ArgumentList $a -Wait -NoNewWindow -PassThru
 $sw.Stop()
