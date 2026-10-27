@@ -20,7 +20,7 @@ namespace HumanLastRampart.App.Dev
     // 옵션: -hlrSmokeOut <폴더> (기본 C:\Unity\1\HLR-builds\win), -hlrSmokeBattleSeconds <초> (기본 20)
     public sealed class SmokeRunner : MonoBehaviour
     {
-        const string FlagName = "-hlrSmoke";
+        const string FlagName = HumanLastRampart.Core.DevGate.SmokeFlag;
         const string DefaultOut = @"C:\Unity\1\HLR-builds\win";
         const string KeyPrefix = "btn:";   // HumanLastRampart.UI.Ui.KeyPrefix (App은 UI 어셈블리를 참조하지 않는다)
 
