@@ -1,0 +1,1394 @@
+{
+  "card": "K-130",
+  "version": "1.0",
+  "name_ko": "빛을 잇는 자들",
+  "name_en": "Lightbearers",
+  "color_space": "sRGB ICC embedded in every PNG",
+  "frames": 1,
+  "pivot": "not applicable: static Store artwork, not sprite sheets",
+  "bottom_third_policy": "Essential hero, tower and titles are above y=2h/3. Silhouette crowds and shadowed masonry are expendable scenery.",
+  "assets": [
+    {
+      "file": "sources/poster_generated.png",
+      "size_px": [
+        1024,
+        1536
+      ],
+      "purpose": "생성 원안 보관 · 제출용 아님",
+      "color_space": "sRGB",
+      "alpha": "opaque",
+      "sha256": "d627560b8c0658eb3efec8d31d349158fee1b3a5192399bd6c7ac4c12be8a328"
+    },
+    {
+      "file": "native/poster.png",
+      "size_px": [
+        360,
+        540
+      ],
+      "purpose": "논리 도트 원본 · 제출용 아님",
+      "color_space": "sRGB",
+      "alpha": "opaque",
+      "title": {
+        "text": "빛을 잇는 자들",
+        "syllables": [
+          "빛",
+          "을",
+          "잇",
+          "는",
+          "자",
+          "들"
+        ],
+        "korean_bounds_native": [
+          72,
+          14,
+          288,
+          47
+        ],
+        "bottom_native": 67,
+        "foreground": [
+          255,
+          237,
+          195
+        ],
+        "minimum_actual_background_contrast": 16.5189,
+        "font": "맑은 고딕 굵게, 1비트 마스크, 최근접 확대"
+      },
+      "sha256": "d0b4b996584d927a63958e259c489bf763c54114bc5382cca83b4f619d6ee576"
+    },
+    {
+      "file": "store/poster_1440x2160.png",
+      "size_px": [
+        1440,
+        2160
+      ],
+      "purpose": "스토어 세로 포스터",
+      "color_space": "sRGB",
+      "alpha": "opaque",
+      "native_size_px": [
+        360,
+        540
+      ],
+      "scale": 4,
+      "bottom_overlay_starts_y": 1440,
+      "title": {
+        "text": "빛을 잇는 자들",
+        "syllables": [
+          "빛",
+          "을",
+          "잇",
+          "는",
+          "자",
+          "들"
+        ],
+        "korean_bounds_native": [
+          72,
+          14,
+          288,
+          47
+        ],
+        "bottom_native": 67,
+        "foreground": [
+          255,
+          237,
+          195
+        ],
+        "minimum_actual_background_contrast": 16.5189,
+        "font": "맑은 고딕 굵게, 1비트 마스크, 최근접 확대"
+      },
+      "sha256": "4f1511310c087bbdae30dc57b1f9d3c38ffbb62d5aab05dc59a7743d6bc44bd7"
+    },
+    {
+      "file": "store/poster_720x1080.png",
+      "size_px": [
+        720,
+        1080
+      ],
+      "purpose": "스토어 제출용 작은 크기 · 최근접 축소",
+      "color_space": "sRGB",
+      "alpha": "opaque",
+      "scale": 2,
+      "native_size_px": [
+        360,
+        540
+      ],
+      "bottom_overlay_starts_y": 720,
+      "sha256": "b9fc20c61977c4cb63970f68f3527106e5cd2c0c6be36279061f14375d100d8e"
+    },
+    {
+      "file": "previews/poster_4x.png",
+      "size_px": [
+        1440,
+        2160
+      ],
+      "purpose": "논리 원본의 정확한 4배 확대 · 큰 제출본과 동일",
+      "color_space": "sRGB",
+      "alpha": "opaque",
+      "sha256": "4f1511310c087bbdae30dc57b1f9d3c38ffbb62d5aab05dc59a7743d6bc44bd7"
+    },
+    {
+      "file": "sources/box_generated.png",
+      "size_px": [
+        1254,
+        1254
+      ],
+      "purpose": "생성 원안 보관 · 제출용 아님",
+      "color_space": "sRGB",
+      "alpha": "opaque",
+      "sha256": "44da6ba09a2b3c1593555b27ab8a2351064f0f2ca7f32d63d76d6391666edd26"
+    },
+    {
+      "file": "native/box.png",
+      "size_px": [
+        540,
+        540
+      ],
+      "purpose": "논리 도트 원본 · 제출용 아님",
+      "color_space": "sRGB",
+      "alpha": "opaque",
+      "title": {
+        "text": "빛을 잇는 자들",
+        "syllables": [
+          "빛",
+          "을",
+          "잇",
+          "는",
+          "자",
+          "들"
+        ],
+        "korean_bounds_native": [
+          135,
+          14,
+          405,
+          55
+        ],
+        "bottom_native": 77,
+        "foreground": [
+          255,
+          237,
+          195
+        ],
+        "minimum_actual_background_contrast": 16.5138,
+        "font": "맑은 고딕 굵게, 1비트 마스크, 최근접 확대"
+      },
+      "sha256": "e0d347ba34c6f35ce58408b92cbb050a640362ae488b457ea133b9b9a556326e"
+    },
+    {
+      "file": "store/box_2160x2160.png",
+      "size_px": [
+        2160,
+        2160
+      ],
+      "purpose": "스토어 정사각 표지",
+      "color_space": "sRGB",
+      "alpha": "opaque",
+      "native_size_px": [
+        540,
+        540
+      ],
+      "scale": 4,
+      "bottom_overlay_starts_y": 1440,
+      "title": {
+        "text": "빛을 잇는 자들",
+        "syllables": [
+          "빛",
+          "을",
+          "잇",
+          "는",
+          "자",
+          "들"
+        ],
+        "korean_bounds_native": [
+          135,
+          14,
+          405,
+          55
+        ],
+        "bottom_native": 77,
+        "foreground": [
+          255,
+          237,
+          195
+        ],
+        "minimum_actual_background_contrast": 16.5138,
+        "font": "맑은 고딕 굵게, 1비트 마스크, 최근접 확대"
+      },
+      "sha256": "b06506bc45884d1934ac66bd7fbcd79123f865dbd8a48237d5e9bd4efdc866b7"
+    },
+    {
+      "file": "store/box_1080x1080.png",
+      "size_px": [
+        1080,
+        1080
+      ],
+      "purpose": "스토어 제출용 작은 크기 · 최근접 축소",
+      "color_space": "sRGB",
+      "alpha": "opaque",
+      "scale": 2,
+      "native_size_px": [
+        540,
+        540
+      ],
+      "bottom_overlay_starts_y": 720,
+      "sha256": "b92b96d9c1c1822a390f455f5d7b7a9e4967d073fe3b48581bc28c4eecb516b4"
+    },
+    {
+      "file": "previews/box_4x.png",
+      "size_px": [
+        2160,
+        2160
+      ],
+      "purpose": "논리 원본의 정확한 4배 확대 · 큰 제출본과 동일",
+      "color_space": "sRGB",
+      "alpha": "opaque",
+      "sha256": "b06506bc45884d1934ac66bd7fbcd79123f865dbd8a48237d5e9bd4efdc866b7"
+    },
+    {
+      "file": "sources/super_hero_generated.png",
+      "size_px": [
+        1672,
+        941
+      ],
+      "purpose": "생성 원안 보관 · 제출용 아님",
+      "color_space": "sRGB",
+      "alpha": "opaque",
+      "sha256": "3892f4d5acccd973e36c3cd639e055e65086fbf3644f3bb0f7ca3e35711b3fb4"
+    },
+    {
+      "file": "native/super_hero.png",
+      "size_px": [
+        960,
+        540
+      ],
+      "purpose": "논리 도트 원본 · 제출용 아님",
+      "color_space": "sRGB",
+      "alpha": "opaque",
+      "title": null,
+      "sha256": "1b7a583932284c698502d887cb5432418186945d825cad36f096a61a3bf91c51"
+    },
+    {
+      "file": "store/super_hero_3840x2160.png",
+      "size_px": [
+        3840,
+        2160
+      ],
+      "purpose": "스토어 가로 전경 · 글자 없음",
+      "color_space": "sRGB",
+      "alpha": "opaque",
+      "native_size_px": [
+        960,
+        540
+      ],
+      "scale": 4,
+      "bottom_overlay_starts_y": 1440,
+      "title": null,
+      "sha256": "d458afa14f03e598edac0acc4025eb8eee95c7dc1540cfc7d8ed80df931e96b4"
+    },
+    {
+      "file": "store/super_hero_1920x1080.png",
+      "size_px": [
+        1920,
+        1080
+      ],
+      "purpose": "스토어 제출용 작은 크기 · 최근접 축소",
+      "color_space": "sRGB",
+      "alpha": "opaque",
+      "scale": 2,
+      "native_size_px": [
+        960,
+        540
+      ],
+      "bottom_overlay_starts_y": 720,
+      "sha256": "b102e9e04ec475936356f3eca66409937e193285a33d3d603974e48c2b6892a0"
+    },
+    {
+      "file": "previews/super_hero_4x.png",
+      "size_px": [
+        3840,
+        2160
+      ],
+      "purpose": "논리 원본의 정확한 4배 확대 · 큰 제출본과 동일",
+      "color_space": "sRGB",
+      "alpha": "opaque",
+      "sha256": "d458afa14f03e598edac0acc4025eb8eee95c7dc1540cfc7d8ed80df931e96b4"
+    },
+    {
+      "file": "store/app_tile_300x300.png",
+      "size_px": [
+        300,
+        300
+      ],
+      "purpose": "스토어 앱 타일 · K-124 동일 등실 그림, 100점 원본의 3배",
+      "color_space": "sRGB",
+      "alpha": "opaque",
+      "sha256": "fabca6dd6721aae8ba0321066e15b213b88b66308ba360d395e5067612ac35df"
+    },
+    {
+      "file": "msix/Square44x44Logo.scale-100.png",
+      "size_px": [
+        44,
+        44
+      ],
+      "purpose": "패키지 Square44x44Logo · 배율 100%",
+      "color_space": "sRGB",
+      "alpha": "transparent",
+      "logical_size_px": [
+        44,
+        44
+      ],
+      "scale_percent": 100,
+      "sha256": "83824b0672688b3bb336cfecdda17e72c69cde96e378c736136fb910c84ec37c"
+    },
+    {
+      "file": "msix/Square44x44Logo.scale-200.png",
+      "size_px": [
+        88,
+        88
+      ],
+      "purpose": "패키지 Square44x44Logo · 배율 200%",
+      "color_space": "sRGB",
+      "alpha": "transparent",
+      "logical_size_px": [
+        44,
+        44
+      ],
+      "scale_percent": 200,
+      "sha256": "b79abe971047e1dea055ea5b80f89e6ab0a5a7ce7160227f02f032251cb36dd4"
+    },
+    {
+      "file": "previews/Square44x44Logo_4x.png",
+      "size_px": [
+        176,
+        176
+      ],
+      "purpose": "패키지 기본 배율의 4배 확대",
+      "color_space": "sRGB",
+      "alpha": "transparent",
+      "sha256": "dbbb100c3fe76b3e84bd9980a483ad74f27850faca728d590e1ec37729e8bf09"
+    },
+    {
+      "file": "msix/Square150x150Logo.scale-100.png",
+      "size_px": [
+        150,
+        150
+      ],
+      "purpose": "패키지 Square150x150Logo · 배율 100%",
+      "color_space": "sRGB",
+      "alpha": "transparent",
+      "logical_size_px": [
+        150,
+        150
+      ],
+      "scale_percent": 100,
+      "sha256": "09a60d874f1f91564ac6c565ef4dd9ee886d76a667a6ee389a3f3eeded3ea813"
+    },
+    {
+      "file": "msix/Square150x150Logo.scale-200.png",
+      "size_px": [
+        300,
+        300
+      ],
+      "purpose": "패키지 Square150x150Logo · 배율 200%",
+      "color_space": "sRGB",
+      "alpha": "transparent",
+      "logical_size_px": [
+        150,
+        150
+      ],
+      "scale_percent": 200,
+      "sha256": "6f6edc6588f2539063297cbfbe482e997307ec14390a691d74b0bd5cbad1fb95"
+    },
+    {
+      "file": "previews/Square150x150Logo_4x.png",
+      "size_px": [
+        600,
+        600
+      ],
+      "purpose": "패키지 기본 배율의 4배 확대",
+      "color_space": "sRGB",
+      "alpha": "transparent",
+      "sha256": "cc1de1a22870afec7a92e608a5bfe5f1f35245ce19e8a3c51f2607915a62d7b6"
+    },
+    {
+      "file": "msix/Wide310x150Logo.scale-100.png",
+      "size_px": [
+        310,
+        150
+      ],
+      "purpose": "패키지 Wide310x150Logo · 배율 100%",
+      "color_space": "sRGB",
+      "alpha": "opaque",
+      "logical_size_px": [
+        310,
+        150
+      ],
+      "scale_percent": 100,
+      "sha256": "f78ad1a091fcce237ae7a40c8733537e986222aa5790fbf049086022926d9658"
+    },
+    {
+      "file": "msix/Wide310x150Logo.scale-200.png",
+      "size_px": [
+        620,
+        300
+      ],
+      "purpose": "패키지 Wide310x150Logo · 배율 200%",
+      "color_space": "sRGB",
+      "alpha": "opaque",
+      "logical_size_px": [
+        310,
+        150
+      ],
+      "scale_percent": 200,
+      "sha256": "b28275cba90007f656f83465e02354cff3f4b76cd9b853c1328b3a4b1ed65f68"
+    },
+    {
+      "file": "previews/Wide310x150Logo_4x.png",
+      "size_px": [
+        1240,
+        600
+      ],
+      "purpose": "패키지 기본 배율의 4배 확대",
+      "color_space": "sRGB",
+      "alpha": "opaque",
+      "sha256": "e555f65ee5efb47dbead5a8961eee80d04b20f1ebfae1f3ae6dcea2ceaab7e68"
+    },
+    {
+      "file": "msix/StoreLogo.scale-100.png",
+      "size_px": [
+        50,
+        50
+      ],
+      "purpose": "패키지 StoreLogo · 배율 100%",
+      "color_space": "sRGB",
+      "alpha": "transparent",
+      "logical_size_px": [
+        50,
+        50
+      ],
+      "scale_percent": 100,
+      "sha256": "a44b6b80fc8a34f465ee21e760a09d1846d00278a08bc30ca71712f0c3818a05"
+    },
+    {
+      "file": "msix/StoreLogo.scale-200.png",
+      "size_px": [
+        100,
+        100
+      ],
+      "purpose": "패키지 StoreLogo · 배율 200%",
+      "color_space": "sRGB",
+      "alpha": "transparent",
+      "logical_size_px": [
+        50,
+        50
+      ],
+      "scale_percent": 200,
+      "sha256": "cad501449ce826b34bdd741fc843c62f71392ce71cc5bbc173d30a73210a21e1"
+    },
+    {
+      "file": "previews/StoreLogo_4x.png",
+      "size_px": [
+        200,
+        200
+      ],
+      "purpose": "패키지 기본 배율의 4배 확대",
+      "color_space": "sRGB",
+      "alpha": "transparent",
+      "sha256": "2d4821e74ca7bacb7b7f948276575e49afbac10643faac53b5c7126f88034153"
+    },
+    {
+      "file": "msix/SplashScreen.scale-100.png",
+      "size_px": [
+        620,
+        300
+      ],
+      "purpose": "패키지 SplashScreen · 배율 100%",
+      "color_space": "sRGB",
+      "alpha": "opaque",
+      "logical_size_px": [
+        620,
+        300
+      ],
+      "scale_percent": 100,
+      "sha256": "cbd371bb4761a3cd29c1b62455ad6677bcbe6ae3ee52b6748a25f29bf4ab6177"
+    },
+    {
+      "file": "msix/SplashScreen.scale-200.png",
+      "size_px": [
+        1240,
+        600
+      ],
+      "purpose": "패키지 SplashScreen · 배율 200%",
+      "color_space": "sRGB",
+      "alpha": "opaque",
+      "logical_size_px": [
+        620,
+        300
+      ],
+      "scale_percent": 200,
+      "sha256": "0cc77ab67a7400c6d29cc000b25327a0c8a12490f1198cfe8d67df43fa60f044"
+    },
+    {
+      "file": "previews/SplashScreen_4x.png",
+      "size_px": [
+        2480,
+        1200
+      ],
+      "purpose": "패키지 기본 배율의 4배 확대",
+      "color_space": "sRGB",
+      "alpha": "opaque",
+      "sha256": "63a38c4b9f8241687cb2b8eb94360d15b0ad0f5c2cca83f1c364d52ecc11f14d"
+    },
+    {
+      "file": "msix/Square44x44Logo.targetsize-16_altform-unplated.png",
+      "size_px": [
+        16,
+        16
+      ],
+      "purpose": "작업 표시줄용 투명 무배경 아이콘 · 실제 16px",
+      "color_space": "sRGB",
+      "alpha": "transparent",
+      "target_size_px": 16,
+      "qualifiers": "targetsize-16_altform-unplated",
+      "sha256": "6431233994838d4d69bfd84b822a361d7b3871dcd436104340ece9f7072e9104"
+    },
+    {
+      "file": "previews/unplated_16_4x.png",
+      "size_px": [
+        64,
+        64
+      ],
+      "purpose": "무배경 16px 아이콘의 정확한 4배 확대",
+      "color_space": "sRGB",
+      "alpha": "transparent",
+      "sha256": "dcb7d799d7992ec07f00f99b2fd31052cef31ce7e6983baa72f86a05c87fb04f"
+    },
+    {
+      "file": "msix/Square44x44Logo.targetsize-24_altform-unplated.png",
+      "size_px": [
+        24,
+        24
+      ],
+      "purpose": "작업 표시줄용 투명 무배경 아이콘 · 실제 24px",
+      "color_space": "sRGB",
+      "alpha": "transparent",
+      "target_size_px": 24,
+      "qualifiers": "targetsize-24_altform-unplated",
+      "sha256": "ab3d16681040b569e529b066acbadae027386eebd2dea406d98a6b73159a51d1"
+    },
+    {
+      "file": "previews/unplated_24_4x.png",
+      "size_px": [
+        96,
+        96
+      ],
+      "purpose": "무배경 24px 아이콘의 정확한 4배 확대",
+      "color_space": "sRGB",
+      "alpha": "transparent",
+      "sha256": "dde3dd7f00285c6b852bc1794a27f5c8c5d3578900e04257b5a233c112a50b47"
+    },
+    {
+      "file": "msix/Square44x44Logo.targetsize-32_altform-unplated.png",
+      "size_px": [
+        32,
+        32
+      ],
+      "purpose": "작업 표시줄용 투명 무배경 아이콘 · 실제 32px",
+      "color_space": "sRGB",
+      "alpha": "transparent",
+      "target_size_px": 32,
+      "qualifiers": "targetsize-32_altform-unplated",
+      "sha256": "f268ab3abdf5332a18c3ac9ec8096de20f39386a1255a6ef91a1095dda75e2a7"
+    },
+    {
+      "file": "previews/unplated_32_4x.png",
+      "size_px": [
+        128,
+        128
+      ],
+      "purpose": "무배경 32px 아이콘의 정확한 4배 확대",
+      "color_space": "sRGB",
+      "alpha": "transparent",
+      "sha256": "a00e3f0ee8196317201fdbbb510aeabaf512328be05d2ece48a898ec28bf7a56"
+    },
+    {
+      "file": "msix/Square44x44Logo.targetsize-48_altform-unplated.png",
+      "size_px": [
+        48,
+        48
+      ],
+      "purpose": "작업 표시줄용 투명 무배경 아이콘 · 실제 48px",
+      "color_space": "sRGB",
+      "alpha": "transparent",
+      "target_size_px": 48,
+      "qualifiers": "targetsize-48_altform-unplated",
+      "sha256": "f3a79f412a365253a1f7c013ef410e210e43242c160231dcf2d675ae35284c42"
+    },
+    {
+      "file": "previews/unplated_48_4x.png",
+      "size_px": [
+        192,
+        192
+      ],
+      "purpose": "무배경 48px 아이콘의 정확한 4배 확대",
+      "color_space": "sRGB",
+      "alpha": "transparent",
+      "sha256": "1dbb2aec4fb198e8964a4ffcb0e6e788a730f2f13d9f5e1bd087071be4721038"
+    },
+    {
+      "file": "msix/Square44x44Logo.targetsize-64_altform-unplated.png",
+      "size_px": [
+        64,
+        64
+      ],
+      "purpose": "작업 표시줄용 투명 무배경 아이콘 · 실제 64px",
+      "color_space": "sRGB",
+      "alpha": "transparent",
+      "target_size_px": 64,
+      "qualifiers": "targetsize-64_altform-unplated",
+      "sha256": "2779ed8d4730075633b5a91d80e11276f06d2dcf980f29dba6f79eb6ba5c92e1"
+    },
+    {
+      "file": "previews/unplated_64_4x.png",
+      "size_px": [
+        256,
+        256
+      ],
+      "purpose": "무배경 64px 아이콘의 정확한 4배 확대",
+      "color_space": "sRGB",
+      "alpha": "transparent",
+      "sha256": "c49ec7202330e70c1b3516059a472b54316feb0f3fd516a7bc6c686253f3961a"
+    },
+    {
+      "file": "msix/Square44x44Logo.targetsize-96_altform-unplated.png",
+      "size_px": [
+        96,
+        96
+      ],
+      "purpose": "작업 표시줄용 투명 무배경 아이콘 · 실제 96px",
+      "color_space": "sRGB",
+      "alpha": "transparent",
+      "target_size_px": 96,
+      "qualifiers": "targetsize-96_altform-unplated",
+      "sha256": "d967321c3c09a724e536c1404b2e23b4398bcb5793fe842f7a678af843c79a14"
+    },
+    {
+      "file": "previews/unplated_96_4x.png",
+      "size_px": [
+        384,
+        384
+      ],
+      "purpose": "무배경 96px 아이콘의 정확한 4배 확대",
+      "color_space": "sRGB",
+      "alpha": "transparent",
+      "sha256": "c0ea5b1e4546c3663bcb378a8045be2171fecbbd569e2b7f14bda38f69aac1a5"
+    },
+    {
+      "file": "msix/Square44x44Logo.targetsize-256_altform-unplated.png",
+      "size_px": [
+        256,
+        256
+      ],
+      "purpose": "작업 표시줄용 투명 무배경 아이콘 · 실제 256px",
+      "color_space": "sRGB",
+      "alpha": "transparent",
+      "target_size_px": 256,
+      "qualifiers": "targetsize-256_altform-unplated",
+      "sha256": "6419c8aaed53ba854975c7ad6f0196c461714434aaac5731d4e4ef9f8cd9237d"
+    },
+    {
+      "file": "previews/unplated_256_4x.png",
+      "size_px": [
+        1024,
+        1024
+      ],
+      "purpose": "무배경 256px 아이콘의 정확한 4배 확대",
+      "color_space": "sRGB",
+      "alpha": "transparent",
+      "sha256": "d0dc1c51f2f83ca1f818dd4e9a1f6409a99bb88a50f3f574df26e6c5546c44b9"
+    },
+    {
+      "file": "msix/Square44x44Logo.targetsize-512_altform-unplated.png",
+      "size_px": [
+        512,
+        512
+      ],
+      "purpose": "작업 표시줄용 투명 무배경 아이콘 · 실제 512px",
+      "color_space": "sRGB",
+      "alpha": "transparent",
+      "target_size_px": 512,
+      "qualifiers": "targetsize-512_altform-unplated",
+      "sha256": "709886f99f6a73b1d7548c9a1c0c21ed55a2c3ed813d5ffe0d0f424a23a1112d"
+    },
+    {
+      "file": "previews/unplated_512_4x.png",
+      "size_px": [
+        2048,
+        2048
+      ],
+      "purpose": "무배경 512px 아이콘의 정확한 4배 확대",
+      "color_space": "sRGB",
+      "alpha": "transparent",
+      "sha256": "746501eb42b4f66161e132b9e1762b637ccf15afd98e2b3357200d524696c07f"
+    },
+    {
+      "file": "previews/existing_K124_4x.png",
+      "size_px": [
+        512,
+        512
+      ],
+      "purpose": "기존 K-124 아이콘 비교용 · 128점의 4배",
+      "color_space": "sRGB",
+      "alpha": "opaque",
+      "sha256": "1865dc0d4673b9f7e36833c3a2890394e692291f8fdfdebbb9bb403bd4f6e611"
+    },
+    {
+      "file": "previews/title_syllables_4x.png",
+      "size_px": [
+        1440,
+        272
+      ],
+      "purpose": "제목 여섯 음절 확인 · 빛 을 잇 는 자 들",
+      "color_space": "sRGB",
+      "alpha": "opaque",
+      "sha256": "f78587adb4a4853378eee089d189c8cdf6efd0fdac408d6d0b859b771e4e499d"
+    },
+    {
+      "file": "previews/review_desktop.png",
+      "size_px": [
+        1440,
+        1000
+      ],
+      "purpose": "?? ???? ?? ??",
+      "color_space": "sRGB",
+      "alpha": "opaque",
+      "sha256": "eae0b2fd86d5999437915a3863c7a4e2d420d099d228c5c22d58019ddd550927"
+    },
+    {
+      "file": "previews/review_mobile.png",
+      "size_px": [
+        390,
+        844
+      ],
+      "purpose": "?? ???? ?? ??",
+      "color_space": "sRGB",
+      "alpha": "opaque",
+      "sha256": "c3f5fe99e189bfc83b92cf273aadf32c6905c3c17f759009a0bfa5af19789c31"
+    },
+    {
+      "file": "previews/review_overlay.png",
+      "size_px": [
+        1440,
+        1000
+      ],
+      "purpose": "?? ???? ?? ??",
+      "color_space": "sRGB",
+      "alpha": "opaque",
+      "sha256": "5fa216a5530f0ac128bb6341ac26a705b7d756063208ffac615639440a7612d1"
+    }
+  ],
+  "title_contrast_ratio": 16.5138,
+  "package_targetsize_policy": "Absolute pixel sizes; do not combine targetsize and scale qualifiers. Includes requested 16/24/32/48/256 plus 64/96/512 to cover their 2x equivalents.",
+  "font_note": "Korean title rasterized from locally installed Malgun Gothic Bold with a binary mask; no font files redistributed.",
+  "review_page": "_HTML/6_그림_화면/codex_K-130_스토어그림_v1.html",
+  "generation_tool": "built-in image_gen; final text compositing, palette cleanup and requested resizes with Pillow",
+  "files": [
+    {
+      "file": "msix/SplashScreen.scale-100.png",
+      "purpose": "패키지 SplashScreen · 배율 100%",
+      "bytes": 25269,
+      "sha256": "cbd371bb4761a3cd29c1b62455ad6677bcbe6ae3ee52b6748a25f29bf4ab6177",
+      "size_px": [
+        620,
+        300
+      ]
+    },
+    {
+      "file": "msix/SplashScreen.scale-200.png",
+      "purpose": "패키지 SplashScreen · 배율 200%",
+      "bytes": 32333,
+      "sha256": "0cc77ab67a7400c6d29cc000b25327a0c8a12490f1198cfe8d67df43fa60f044",
+      "size_px": [
+        1240,
+        600
+      ]
+    },
+    {
+      "file": "msix/Square150x150Logo.scale-100.png",
+      "purpose": "패키지 Square150x150Logo · 배율 100%",
+      "bytes": 20120,
+      "sha256": "09a60d874f1f91564ac6c565ef4dd9ee886d76a667a6ee389a3f3eeded3ea813",
+      "size_px": [
+        150,
+        150
+      ]
+    },
+    {
+      "file": "msix/Square150x150Logo.scale-200.png",
+      "purpose": "패키지 Square150x150Logo · 배율 200%",
+      "bytes": 25346,
+      "sha256": "6f6edc6588f2539063297cbfbe482e997307ec14390a691d74b0bd5cbad1fb95",
+      "size_px": [
+        300,
+        300
+      ]
+    },
+    {
+      "file": "msix/Square44x44Logo.scale-100.png",
+      "purpose": "패키지 Square44x44Logo · 배율 100%",
+      "bytes": 2699,
+      "sha256": "83824b0672688b3bb336cfecdda17e72c69cde96e378c736136fb910c84ec37c",
+      "size_px": [
+        44,
+        44
+      ]
+    },
+    {
+      "file": "msix/Square44x44Logo.scale-200.png",
+      "purpose": "패키지 Square44x44Logo · 배율 200%",
+      "bytes": 3456,
+      "sha256": "b79abe971047e1dea055ea5b80f89e6ab0a5a7ce7160227f02f032251cb36dd4",
+      "size_px": [
+        88,
+        88
+      ]
+    },
+    {
+      "file": "msix/Square44x44Logo.targetsize-16_altform-unplated.png",
+      "purpose": "작업 표시줄용 투명 무배경 아이콘 · 실제 16px",
+      "bytes": 1014,
+      "sha256": "6431233994838d4d69bfd84b822a361d7b3871dcd436104340ece9f7072e9104",
+      "size_px": [
+        16,
+        16
+      ]
+    },
+    {
+      "file": "msix/Square44x44Logo.targetsize-24_altform-unplated.png",
+      "purpose": "작업 표시줄용 투명 무배경 아이콘 · 실제 24px",
+      "bytes": 1535,
+      "sha256": "ab3d16681040b569e529b066acbadae027386eebd2dea406d98a6b73159a51d1",
+      "size_px": [
+        24,
+        24
+      ]
+    },
+    {
+      "file": "msix/Square44x44Logo.targetsize-256_altform-unplated.png",
+      "purpose": "작업 표시줄용 투명 무배경 아이콘 · 실제 256px",
+      "bytes": 25715,
+      "sha256": "6419c8aaed53ba854975c7ad6f0196c461714434aaac5731d4e4ef9f8cd9237d",
+      "size_px": [
+        256,
+        256
+      ]
+    },
+    {
+      "file": "msix/Square44x44Logo.targetsize-32_altform-unplated.png",
+      "purpose": "작업 표시줄용 투명 무배경 아이콘 · 실제 32px",
+      "bytes": 2369,
+      "sha256": "f268ab3abdf5332a18c3ac9ec8096de20f39386a1255a6ef91a1095dda75e2a7",
+      "size_px": [
+        32,
+        32
+      ]
+    },
+    {
+      "file": "msix/Square44x44Logo.targetsize-48_altform-unplated.png",
+      "purpose": "작업 표시줄용 투명 무배경 아이콘 · 실제 48px",
+      "bytes": 4473,
+      "sha256": "f3a79f412a365253a1f7c013ef410e210e43242c160231dcf2d675ae35284c42",
+      "size_px": [
+        48,
+        48
+      ]
+    },
+    {
+      "file": "msix/Square44x44Logo.targetsize-512_altform-unplated.png",
+      "purpose": "작업 표시줄용 투명 무배경 아이콘 · 실제 512px",
+      "bytes": 30629,
+      "sha256": "709886f99f6a73b1d7548c9a1c0c21ed55a2c3ed813d5ffe0d0f424a23a1112d",
+      "size_px": [
+        512,
+        512
+      ]
+    },
+    {
+      "file": "msix/Square44x44Logo.targetsize-64_altform-unplated.png",
+      "purpose": "작업 표시줄용 투명 무배경 아이콘 · 실제 64px",
+      "bytes": 7173,
+      "sha256": "2779ed8d4730075633b5a91d80e11276f06d2dcf980f29dba6f79eb6ba5c92e1",
+      "size_px": [
+        64,
+        64
+      ]
+    },
+    {
+      "file": "msix/Square44x44Logo.targetsize-96_altform-unplated.png",
+      "purpose": "작업 표시줄용 투명 무배경 아이콘 · 실제 96px",
+      "bytes": 14160,
+      "sha256": "d967321c3c09a724e536c1404b2e23b4398bcb5793fe842f7a678af843c79a14",
+      "size_px": [
+        96,
+        96
+      ]
+    },
+    {
+      "file": "msix/StoreLogo.scale-100.png",
+      "purpose": "패키지 StoreLogo · 배율 100%",
+      "bytes": 3394,
+      "sha256": "a44b6b80fc8a34f465ee21e760a09d1846d00278a08bc30ca71712f0c3818a05",
+      "size_px": [
+        50,
+        50
+      ]
+    },
+    {
+      "file": "msix/StoreLogo.scale-200.png",
+      "purpose": "패키지 StoreLogo · 배율 200%",
+      "bytes": 4351,
+      "sha256": "cad501449ce826b34bdd741fc843c62f71392ce71cc5bbc173d30a73210a21e1",
+      "size_px": [
+        100,
+        100
+      ]
+    },
+    {
+      "file": "msix/Wide310x150Logo.scale-100.png",
+      "purpose": "패키지 Wide310x150Logo · 배율 100%",
+      "bytes": 17015,
+      "sha256": "f78ad1a091fcce237ae7a40c8733537e986222aa5790fbf049086022926d9658",
+      "size_px": [
+        310,
+        150
+      ]
+    },
+    {
+      "file": "msix/Wide310x150Logo.scale-200.png",
+      "purpose": "패키지 Wide310x150Logo · 배율 200%",
+      "bytes": 23750,
+      "sha256": "b28275cba90007f656f83465e02354cff3f4b76cd9b853c1328b3a4b1ed65f68",
+      "size_px": [
+        620,
+        300
+      ]
+    },
+    {
+      "file": "native/box.png",
+      "purpose": "논리 도트 원본 · 제출용 아님",
+      "bytes": 427243,
+      "sha256": "e0d347ba34c6f35ce58408b92cbb050a640362ae488b457ea133b9b9a556326e",
+      "size_px": [
+        540,
+        540
+      ]
+    },
+    {
+      "file": "native/poster.png",
+      "purpose": "논리 도트 원본 · 제출용 아님",
+      "bytes": 277560,
+      "sha256": "d0b4b996584d927a63958e259c489bf763c54114bc5382cca83b4f619d6ee576",
+      "size_px": [
+        360,
+        540
+      ]
+    },
+    {
+      "file": "native/super_hero.png",
+      "purpose": "논리 도트 원본 · 제출용 아님",
+      "bytes": 652985,
+      "sha256": "1b7a583932284c698502d887cb5432418186945d825cad36f096a61a3bf91c51",
+      "size_px": [
+        960,
+        540
+      ]
+    },
+    {
+      "file": "previews/box_4x.png",
+      "purpose": "논리 원본의 정확한 4배 확대 · 큰 제출본과 동일",
+      "bytes": 628182,
+      "sha256": "b06506bc45884d1934ac66bd7fbcd79123f865dbd8a48237d5e9bd4efdc866b7",
+      "size_px": [
+        2160,
+        2160
+      ]
+    },
+    {
+      "file": "previews/existing_K124_4x.png",
+      "purpose": "기존 K-124 아이콘 비교용 · 128점의 4배",
+      "bytes": 26939,
+      "sha256": "1865dc0d4673b9f7e36833c3a2890394e692291f8fdfdebbb9bb403bd4f6e611",
+      "size_px": [
+        512,
+        512
+      ]
+    },
+    {
+      "file": "previews/poster_4x.png",
+      "purpose": "논리 원본의 정확한 4배 확대 · 큰 제출본과 동일",
+      "bytes": 422056,
+      "sha256": "4f1511310c087bbdae30dc57b1f9d3c38ffbb62d5aab05dc59a7743d6bc44bd7",
+      "size_px": [
+        1440,
+        2160
+      ]
+    },
+    {
+      "file": "previews/review_desktop.png",
+      "purpose": "?? ???? ?? ??",
+      "bytes": 83912,
+      "sha256": "eae0b2fd86d5999437915a3863c7a4e2d420d099d228c5c22d58019ddd550927",
+      "size_px": [
+        1440,
+        1000
+      ]
+    },
+    {
+      "file": "previews/review_mobile.png",
+      "purpose": "?? ???? ?? ??",
+      "bytes": 30448,
+      "sha256": "c3f5fe99e189bfc83b92cf273aadf32c6905c3c17f759009a0bfa5af19789c31",
+      "size_px": [
+        390,
+        844
+      ]
+    },
+    {
+      "file": "previews/review_overlay.png",
+      "purpose": "?? ???? ?? ??",
+      "bytes": 726888,
+      "sha256": "5fa216a5530f0ac128bb6341ac26a705b7d756063208ffac615639440a7612d1",
+      "size_px": [
+        1440,
+        1000
+      ]
+    },
+    {
+      "file": "previews/SplashScreen_4x.png",
+      "purpose": "패키지 기본 배율의 4배 확대",
+      "bytes": 42850,
+      "sha256": "63a38c4b9f8241687cb2b8eb94360d15b0ad0f5c2cca83f1c364d52ecc11f14d",
+      "size_px": [
+        2480,
+        1200
+      ]
+    },
+    {
+      "file": "previews/Square150x150Logo_4x.png",
+      "purpose": "패키지 기본 배율의 4배 확대",
+      "bytes": 29981,
+      "sha256": "cc1de1a22870afec7a92e608a5bfe5f1f35245ce19e8a3c51f2607915a62d7b6",
+      "size_px": [
+        600,
+        600
+      ]
+    },
+    {
+      "file": "previews/Square44x44Logo_4x.png",
+      "purpose": "패키지 기본 배율의 4배 확대",
+      "bytes": 4014,
+      "sha256": "dbbb100c3fe76b3e84bd9980a483ad74f27850faca728d590e1ec37729e8bf09",
+      "size_px": [
+        176,
+        176
+      ]
+    },
+    {
+      "file": "previews/StoreLogo_4x.png",
+      "purpose": "패키지 기본 배율의 4배 확대",
+      "bytes": 5045,
+      "sha256": "2d4821e74ca7bacb7b7f948276575e49afbac10643faac53b5c7126f88034153",
+      "size_px": [
+        200,
+        200
+      ]
+    },
+    {
+      "file": "previews/super_hero_4x.png",
+      "purpose": "논리 원본의 정확한 4배 확대 · 큰 제출본과 동일",
+      "bytes": 989943,
+      "sha256": "d458afa14f03e598edac0acc4025eb8eee95c7dc1540cfc7d8ed80df931e96b4",
+      "size_px": [
+        3840,
+        2160
+      ]
+    },
+    {
+      "file": "previews/title_syllables_4x.png",
+      "purpose": "제목 여섯 음절 확인 · 빛 을 잇 는 자 들",
+      "bytes": 2969,
+      "sha256": "f78587adb4a4853378eee089d189c8cdf6efd0fdac408d6d0b859b771e4e499d",
+      "size_px": [
+        1440,
+        272
+      ]
+    },
+    {
+      "file": "previews/unplated_16_4x.png",
+      "purpose": "무배경 16px 아이콘의 정확한 4배 확대",
+      "bytes": 1364,
+      "sha256": "dcb7d799d7992ec07f00f99b2fd31052cef31ce7e6983baa72f86a05c87fb04f",
+      "size_px": [
+        64,
+        64
+      ]
+    },
+    {
+      "file": "previews/unplated_24_4x.png",
+      "purpose": "무배경 24px 아이콘의 정확한 4배 확대",
+      "bytes": 2150,
+      "sha256": "dde3dd7f00285c6b852bc1794a27f5c8c5d3578900e04257b5a233c112a50b47",
+      "size_px": [
+        96,
+        96
+      ]
+    },
+    {
+      "file": "previews/unplated_256_4x.png",
+      "purpose": "무배경 256px 아이콘의 정확한 4배 확대",
+      "bytes": 38007,
+      "sha256": "d0dc1c51f2f83ca1f818dd4e9a1f6409a99bb88a50f3f574df26e6c5546c44b9",
+      "size_px": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "file": "previews/unplated_32_4x.png",
+      "purpose": "무배경 32px 아이콘의 정확한 4배 확대",
+      "bytes": 3430,
+      "sha256": "a00e3f0ee8196317201fdbbb510aeabaf512328be05d2ece48a898ec28bf7a56",
+      "size_px": [
+        128,
+        128
+      ]
+    },
+    {
+      "file": "previews/unplated_48_4x.png",
+      "purpose": "무배경 48px 아이콘의 정확한 4배 확대",
+      "bytes": 6495,
+      "sha256": "1dbb2aec4fb198e8964a4ffcb0e6e788a730f2f13d9f5e1bd087071be4721038",
+      "size_px": [
+        192,
+        192
+      ]
+    },
+    {
+      "file": "previews/unplated_512_4x.png",
+      "purpose": "무배경 512px 아이콘의 정확한 4배 확대",
+      "bytes": 54326,
+      "sha256": "746501eb42b4f66161e132b9e1762b637ccf15afd98e2b3357200d524696c07f",
+      "size_px": [
+        2048,
+        2048
+      ]
+    },
+    {
+      "file": "previews/unplated_64_4x.png",
+      "purpose": "무배경 64px 아이콘의 정확한 4배 확대",
+      "bytes": 10512,
+      "sha256": "c49ec7202330e70c1b3516059a472b54316feb0f3fd516a7bc6c686253f3961a",
+      "size_px": [
+        256,
+        256
+      ]
+    },
+    {
+      "file": "previews/unplated_96_4x.png",
+      "purpose": "무배경 96px 아이콘의 정확한 4배 확대",
+      "bytes": 20744,
+      "sha256": "c0ea5b1e4546c3663bcb378a8045be2171fecbbd569e2b7f14bda38f69aac1a5",
+      "size_px": [
+        384,
+        384
+      ]
+    },
+    {
+      "file": "previews/Wide310x150Logo_4x.png",
+      "purpose": "패키지 기본 배율의 4배 확대",
+      "bytes": 28864,
+      "sha256": "e555f65ee5efb47dbead5a8961eee80d04b20f1ebfae1f3ae6dcea2ceaab7e68",
+      "size_px": [
+        1240,
+        600
+      ]
+    },
+    {
+      "file": "prompts.json",
+      "purpose": "???????? ??",
+      "bytes": 9899,
+      "sha256": "83aad52a9017ea6b5e525be45defc3729d9348ed72f055999fe439f109cdcd19"
+    },
+    {
+      "file": "README.md",
+      "purpose": "???????? ??",
+      "bytes": 5662,
+      "sha256": "d3d4a642c6a2a345f9b4fa4c86ae219b3dc3eb579f32b651242a3f117d21bfaa"
+    },
+    {
+      "file": "sources/box_generated.png",
+      "purpose": "생성 원안 보관 · 제출용 아님",
+      "bytes": 2060396,
+      "sha256": "44da6ba09a2b3c1593555b27ab8a2351064f0f2ca7f32d63d76d6391666edd26",
+      "size_px": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "file": "sources/poster_generated.png",
+      "purpose": "생성 원안 보관 · 제출용 아님",
+      "bytes": 1813199,
+      "sha256": "d627560b8c0658eb3efec8d31d349158fee1b3a5192399bd6c7ac4c12be8a328",
+      "size_px": [
+        1024,
+        1536
+      ]
+    },
+    {
+      "file": "sources/super_hero_generated.png",
+      "purpose": "생성 원안 보관 · 제출용 아님",
+      "bytes": 1910934,
+      "sha256": "3892f4d5acccd973e36c3cd639e055e65086fbf3644f3bb0f7ca3e35711b3fb4",
+      "size_px": [
+        1672,
+        941
+      ]
+    },
+    {
+      "file": "store/app_tile_300x300.png",
+      "purpose": "스토어 앱 타일 · K-124 동일 등실 그림, 100점 원본의 3배",
+      "bytes": 16227,
+      "sha256": "fabca6dd6721aae8ba0321066e15b213b88b66308ba360d395e5067612ac35df",
+      "size_px": [
+        300,
+        300
+      ]
+    },
+    {
+      "file": "store/box_1080x1080.png",
+      "purpose": "스토어 제출용 작은 크기 · 최근접 축소",
+      "bytes": 541147,
+      "sha256": "b92b96d9c1c1822a390f455f5d7b7a9e4967d073fe3b48581bc28c4eecb516b4",
+      "size_px": [
+        1080,
+        1080
+      ]
+    },
+    {
+      "file": "store/box_2160x2160.png",
+      "purpose": "스토어 정사각 표지",
+      "bytes": 628182,
+      "sha256": "b06506bc45884d1934ac66bd7fbcd79123f865dbd8a48237d5e9bd4efdc866b7",
+      "size_px": [
+        2160,
+        2160
+      ]
+    },
+    {
+      "file": "store/poster_1440x2160.png",
+      "purpose": "스토어 세로 포스터",
+      "bytes": 422056,
+      "sha256": "4f1511310c087bbdae30dc57b1f9d3c38ffbb62d5aab05dc59a7743d6bc44bd7",
+      "size_px": [
+        1440,
+        2160
+      ]
+    },
+    {
+      "file": "store/poster_720x1080.png",
+      "purpose": "스토어 제출용 작은 크기 · 최근접 축소",
+      "bytes": 354681,
+      "sha256": "b9fc20c61977c4cb63970f68f3527106e5cd2c0c6be36279061f14375d100d8e",
+      "size_px": [
+        720,
+        1080
+      ]
+    },
+    {
+      "file": "store/super_hero_1920x1080.png",
+      "purpose": "스토어 제출용 작은 크기 · 최근접 축소",
+      "bytes": 840030,
+      "sha256": "b102e9e04ec475936356f3eca66409937e193285a33d3d603974e48c2b6892a0",
+      "size_px": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "store/super_hero_3840x2160.png",
+      "purpose": "스토어 가로 전경 · 글자 없음",
+      "bytes": 989943,
+      "sha256": "d458afa14f03e598edac0acc4025eb8eee95c7dc1540cfc7d8ed80df931e96b4",
+      "size_px": [
+        3840,
+        2160
+      ]
+    },
+    {
+      "file": "verification_assets.json",
+      "purpose": "???????? ??",
+      "bytes": 2641,
+      "sha256": "3d913930aa0533d3fc76e19f6e77bfca3f828f9157a375222f33782964fbb406"
+    },
+    {
+      "file": "verification_browser.json",
+      "purpose": "???????? ??",
+      "bytes": 4168,
+      "sha256": "3b19b0d82529e5301abeebb007b1bc07a9b62e22bd560d41463d4fab049415c4"
+    },
+    {
+      "file": "manifest.json",
+      "purpose": "?? ?? ????? ?? ? ?? ?? ??? ?? ??"
+    }
+  ],
+  "read_only_reference_hashes": [
+    {
+      "path": "FirstRead.md",
+      "sha256": "647e29610f8252c22444ce7ccc6012a9b4b2991d01962d69b11d5491259778bd"
+    },
+    {
+      "path": "Docs/References/codex_hero_octopath_review_v6/generated.png",
+      "sha256": "0026367083018c4a484e769d2d04e0d9f2faee675d62098b2def0db63bebfc68"
+    },
+    {
+      "path": "Docs/References/codex_k070_v1/hero_native_96x128.png",
+      "sha256": "aafa47917a8674262efb91a47bd881bce0c84bb1749c9c8d872e854c9630e283"
+    },
+    {
+      "path": "Docs/References/codex_k070_v1/archer_front_96x128.png",
+      "sha256": "22f3677bd1937e97fa3253509ea538ba178566d7797c1b1bc4fbd0296e964719"
+    },
+    {
+      "path": "Docs/References/codex_k124_v1/icons/app_icon_128.png",
+      "sha256": "645c23121a302501b98a513db48b5fd7ea8f0f074a10b50bdadc686beb454cc4"
+    },
+    {
+      "path": "Docs/References/codex_k124_v1/icons/lamp_foreground_128.png",
+      "sha256": "bfa1d1f69febb74f6fd3e57acbd29993ea8c1a6b69c55f1b8c15e3f155d2bc26"
+    },
+    {
+      "path": "Docs/References/codex_k128_v1/B_climber_concept.png",
+      "sha256": "7ba6451ea3b37a9825fad05f0ee6a362da5370792444d1c76974534a23ca91bc"
+    },
+    {
+      "path": "Docs/References/codex_k129_v1/native/wallhand_walk_front.png",
+      "sha256": "5c45db6e39b65055523a302f0ebb9d48c708393592a83b073d484cd77f246569"
+    },
+    {
+      "path": "Game/Assets/_Project/Art/UI/Resources/ScreenArt/menu_2_fortress.png",
+      "sha256": "dd308107a79ab073715498f7eb6094ddbbf61cfa8cc41fcf7af58a005bc2840f"
+    },
+    {
+      "path": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Beacon/tower_base.png",
+      "sha256": "2b3065b92de6313513ecb6b4ea92347060385f39889fa1265b3f83d1777dcc95"
+    },
+    {
+      "path": "Docs/References/beacon_game_20261022/05_pf_night_clean.png",
+      "sha256": "8233352f29cfd95d16c493727a3b3afb95c5ecddb8a74c18e3b76f6f03cebb6b"
+    },
+    {
+      "path": "Docs/References/beacon_game_20261022/07_pf_map_full.png",
+      "sha256": "f4683125f6a158a0b02af32b112828190f3f79fdc3832d7dc60732f65eae5f19"
+    }
+  ],
+  "review_page_sha256": "43abacb56616979ec9e96be5c2b5c8b706167513eaf9f9b4ac1abeabeb33c6e0"
+}

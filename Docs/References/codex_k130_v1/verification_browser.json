@@ -1,0 +1,184 @@
+{
+  "browser": "155.0.8059.85",
+  "loaded_images": [
+    {
+      "alt": "빛 을 잇 는 자 들 음절 확인",
+      "width": 1440,
+      "height": 272,
+      "complete": true
+    },
+    {
+      "alt": "스토어 세로 포스터",
+      "width": 1440,
+      "height": 2160,
+      "complete": true
+    },
+    {
+      "alt": "스토어 제출용 작은 크기 · 최근접 축소",
+      "width": 720,
+      "height": 1080,
+      "complete": true
+    },
+    {
+      "alt": "스토어 정사각 표지",
+      "width": 2160,
+      "height": 2160,
+      "complete": true
+    },
+    {
+      "alt": "스토어 제출용 작은 크기 · 최근접 축소",
+      "width": 1080,
+      "height": 1080,
+      "complete": true
+    },
+    {
+      "alt": "스토어 가로 전경 · 글자 없음",
+      "width": 3840,
+      "height": 2160,
+      "complete": true
+    },
+    {
+      "alt": "스토어 제출용 작은 크기 · 최근접 축소",
+      "width": 1920,
+      "height": 1080,
+      "complete": true
+    },
+    {
+      "alt": "스토어 앱 타일 · K-124 동일 등실 그림, 100점 원본의 3배",
+      "width": 300,
+      "height": 300,
+      "complete": true
+    },
+    {
+      "alt": "패키지 Square44x44Logo · 배율 100%",
+      "width": 44,
+      "height": 44,
+      "complete": true
+    },
+    {
+      "alt": "패키지 Square44x44Logo · 배율 200%",
+      "width": 88,
+      "height": 88,
+      "complete": true
+    },
+    {
+      "alt": "패키지 Square150x150Logo · 배율 100%",
+      "width": 150,
+      "height": 150,
+      "complete": true
+    },
+    {
+      "alt": "패키지 Square150x150Logo · 배율 200%",
+      "width": 300,
+      "height": 300,
+      "complete": true
+    },
+    {
+      "alt": "패키지 Wide310x150Logo · 배율 100%",
+      "width": 310,
+      "height": 150,
+      "complete": true
+    },
+    {
+      "alt": "패키지 Wide310x150Logo · 배율 200%",
+      "width": 620,
+      "height": 300,
+      "complete": true
+    },
+    {
+      "alt": "패키지 StoreLogo · 배율 100%",
+      "width": 50,
+      "height": 50,
+      "complete": true
+    },
+    {
+      "alt": "패키지 StoreLogo · 배율 200%",
+      "width": 100,
+      "height": 100,
+      "complete": true
+    },
+    {
+      "alt": "패키지 SplashScreen · 배율 100%",
+      "width": 620,
+      "height": 300,
+      "complete": true
+    },
+    {
+      "alt": "패키지 SplashScreen · 배율 200%",
+      "width": 1240,
+      "height": 600,
+      "complete": true
+    },
+    {
+      "alt": "작업 표시줄용 투명 무배경 아이콘 · 실제 16px",
+      "width": 16,
+      "height": 16,
+      "complete": true
+    },
+    {
+      "alt": "작업 표시줄용 투명 무배경 아이콘 · 실제 24px",
+      "width": 24,
+      "height": 24,
+      "complete": true
+    },
+    {
+      "alt": "작업 표시줄용 투명 무배경 아이콘 · 실제 32px",
+      "width": 32,
+      "height": 32,
+      "complete": true
+    },
+    {
+      "alt": "작업 표시줄용 투명 무배경 아이콘 · 실제 48px",
+      "width": 48,
+      "height": 48,
+      "complete": true
+    },
+    {
+      "alt": "작업 표시줄용 투명 무배경 아이콘 · 실제 64px",
+      "width": 64,
+      "height": 64,
+      "complete": true
+    },
+    {
+      "alt": "작업 표시줄용 투명 무배경 아이콘 · 실제 96px",
+      "width": 96,
+      "height": 96,
+      "complete": true
+    },
+    {
+      "alt": "작업 표시줄용 투명 무배경 아이콘 · 실제 256px",
+      "width": 256,
+      "height": 256,
+      "complete": true
+    },
+    {
+      "alt": "작업 표시줄용 투명 무배경 아이콘 · 실제 512px",
+      "width": 512,
+      "height": 512,
+      "complete": true
+    },
+    {
+      "alt": "기존 아이콘 비교",
+      "width": 512,
+      "height": 512,
+      "complete": true
+    }
+  ],
+  "all_images_loaded": true,
+  "overlay_toggle_pass": true,
+  "real_size_dialog": {
+    "natural": [
+      1440,
+      2160
+    ],
+    "rendered": [
+      1440,
+      2160
+    ]
+  },
+  "fit_and_restore_pass": true,
+  "desktopOverflow": false,
+  "mobileOverflow": false,
+  "page_errors": [],
+  "external_requests": []
+}
