@@ -473,7 +473,7 @@ namespace HumanLastRampart.Combat.Battle
         Vector3 HeroDrawFeet()
         {
             Vector3 feet = rig.HeroFeet;
-            feet.y += BattleCourtyard.HeroLift(feet, sim.CastleHalf);
+            feet.y += BattleCourtyard.HeroLift(feet, sim.CastleHalf) + BattleSim.FootLift;   // W49: 덮는 판(+1cm)에 발바닥이 묻히지 않게
             return feet;
         }
 

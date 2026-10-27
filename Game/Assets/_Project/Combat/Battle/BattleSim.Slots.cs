@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -38,6 +38,37 @@ namespace HumanLastRampart.Combat.Battle
         public IReadOnlyList<float> CannonBays(int side) => cannonBays[side];
         public IReadOnlyList<float> TorchSpots(int side) => torchSpots[side];
 
+        // 그림 발 높이 (W49, 사용자 "대포·병사가 성벽에 아래 묻혀있더라"): 계산 위치는 성벽 높이(4.0)지만 통로 덮는 판 윗면은 +1cm, 대포 사격구의 낮은 난간 윗면은 +BayHeight다.
+        // 그림만 그 위로 FootLift 얹어 그린다 (계산 위치·거리·시험은 그대로). 난간 두께 안쪽·사격구 폭 안에 선 발(설치 대포·점화병)이면 난간 윗면 높이까지 올리고,
+        // 그 가장자리 밖 RampMeters 동안은 부드럽게 이어 대포를 끌기 시작·끝낼 때 높이가 튀지 않는다.
+        // insetShift = 그림이 실제 자리보다 이만큼 안쪽으로 그려지는 경우의 보정 (끄는 대포는 설치되면 InstalledForwardOffset만큼 바깥으로 나간다)
+        public const float FootLift = 0.015f;   // 덮는 판(1cm) 위 1.5cm: 발바닥 줄이 판 아래로 안 묻히고, 눈에 띄게 떠 보이지도 않는다
+        const float RampMeters = 0.2f;
+
+        public float3 Standing(float3 feet, float insetShift = 0f)
+        {
+            float lift = 0f;
+            if (BattleWorldView.Active)
+            {
+                var p = BattleWorldView.Current;
+                var flat = new float3(feet.x, 0f, feet.z);
+                for (int side = 0; side < 4 && lift <= 0f; side++)
+                {
+                    float inset = CastleHalf - math.dot(flat, WallGeometry.Outward(side)) - insetShift;
+                    if (inset < -RampMeters || inset > p.ParapetDepth + RampMeters) continue;
+                    float insetWeight = 1f - math.smoothstep(0f, RampMeters, inset - p.ParapetDepth);
+                    float along = math.dot(flat, WallGeometry.Right(side));
+                    foreach (float bay in cannonBays[side])
+                    {
+                        float alongWeight = 1f - math.smoothstep(0f, RampMeters, math.abs(along - bay) - p.BayWidth * 0.5f);
+                        lift = math.max(lift, p.BayHeight * insetWeight * alongWeight);
+                    }
+                }
+            }
+
+            feet.y += FootLift + lift;
+            return feet;
+        }
         // 확인용: 성벽 한 면의 줄별 자리 수
         public int SlotCount(int side, int row)
         {
