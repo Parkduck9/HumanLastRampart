@@ -109,8 +109,9 @@ namespace HumanLastRampart.Combat.Battle
                 if (materials.HasArt(BattleWorldMaterials.Surface.WalkwayStone))
                 {
                     float walkLength = half * 2f - WallThickness * 2f;   // 모서리 네모는 발판이 덮는다 — 두 판이 겹쳐 깜빡이지 않게
-                    tinted.Add(Box("Walkway", n * (half - WallThickness * 0.5f) + Vector3.up * (top + SkinLift * 0.5f), face,
-                        new Vector3(walkLength, SkinLift, WallThickness), BattleWorldMaterials.Surface.WalkwayStone,
+                    // W47: 바깥 가장자리를 3mm 안으로 — 난간(Parapet) 바깥면과 같은 평면(높이 1cm 띠)에서 겹쳐 바깥에서 볼 때 깜빡이던 것
+                    tinted.Add(Box("Walkway", n * (half - WallThickness * 0.5f - 0.0015f) + Vector3.up * (top + SkinLift * 0.5f), face,
+                        new Vector3(walkLength, SkinLift, WallThickness - 0.003f), BattleWorldMaterials.Surface.WalkwayStone,
                         new Vector2(walkLength, WallThickness), new Vector2(-walkLength * 0.5f, 0f)));
                 }
                 if (materials.HasArt(BattleWorldMaterials.Surface.WallStone))

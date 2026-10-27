@@ -203,10 +203,10 @@ public sealed partial class PlayProbe
             Vector3 hero = rig.HeroFeet;
             GameObject buildings = GameObject.Find("Courtyard Buildings (W31 K-118)");
             Assert.IsNotNull(buildings, "마당 건물");
-            // 건물 몸통과 사진기가 마당 쪽 안에 있도록 주인공에서 마당 쪽(-z)으로 6.5m, 위로 1.5m
-            yield return SeeThroughPair(entry, label, "b_behind_courtyard_building", new Vector3(hero.x, top + 1.5f, hero.z - 6.5f), true, buildings);
+            // 건물 몸통과 사진기가 마당 쪽 안에 있도록 주인공에서 마당 쪽(-z)으로 11m (W47: 건물을 성벽에서 4.5m 안으로 옮겨 건물 앞쪽에 선다), 위로 1.5m
+            yield return SeeThroughPair(entry, label, "b_behind_courtyard_building", new Vector3(hero.x, top + 1.5f, hero.z - 11f), true, buildings);
             // 같은 자리에서 사진기를 더 낮게 — 지붕 선에 걸치는 각도
-            yield return SeeThroughPair(entry, label, "c_behind_building_low", new Vector3(hero.x, top + 0.8f, hero.z - 6.0f), true, buildings);
+            yield return SeeThroughPair(entry, label, "c_behind_building_low", new Vector3(hero.x, top + 0.8f, hero.z - 10.5f), true, buildings);
 
             // 2) 원래 자리로 돌아와(가운데) 탑으로 내려가는 길 한가운데에서 탑 너머로 본다
             rig.ShowSide(0);
