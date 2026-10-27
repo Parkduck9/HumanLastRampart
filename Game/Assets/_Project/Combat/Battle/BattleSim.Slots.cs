@@ -38,6 +38,28 @@ namespace HumanLastRampart.Combat.Battle
         public IReadOnlyList<float> CannonBays(int side) => cannonBays[side];
         public IReadOnlyList<float> TorchSpots(int side) => torchSpots[side];
 
+        // 그림 발 높이 (W49, 사용자 "대포·병사가 성벽에 아래 묻혀있더라"): 계산 위치는 성벽 높이(4.0)지만 통로 덮는 판 윗면은 +1cm, 대포 사격구의 낮은 난간 윗면은 +BayHeight다.
+        // 그림만 그 위로 FootLift 얹어 그린다 (계산 위치·거리·시험은 그대로). 난간 두께 안쪽·사격구 폭 안에 선 발(설치 대포·점화병)이면 난간 윗면 높이
+        public const float FootLift = 0.015f;   // 덮는 판(1cm) 위 1.5cm: 발바닥 줄이 판 아래로 안 묻히고, 눈에 띄게 떠 보이지도 않는다
+
+        public float3 Standing(float3 feet)
+        {
+            feet.y += FootLift;
+            if (!BattleWorldView.Active) return feet;
+            var p = BattleWorldView.Current;
+            var flat = new float3(feet.x, 0f, feet.z);
+            for (int side = 0; side < 4; side++)
+            {
+                float inset = CastleHalf - math.dot(flat, WallGeometry.Outward(side));
+                if (inset < 0f || inset > p.ParapetDepth) continue;
+                float along = math.dot(flat, WallGeometry.Right(side));
+                foreach (float bay in cannonBays[side])
+                    if (math.abs(along - bay) < p.BayWidth * 0.5f) { feet.y += p.BayHeight; return feet; }
+            }
+
+            return feet;
+        }
+
         // 확인용: 성벽 한 면의 줄별 자리 수
         public int SlotCount(int side, int row)
         {

@@ -1117,7 +1117,7 @@ namespace HumanLastRampart.Combat.Battle
                 bool shown = SoldierPose(i, out float frame) && !runner && (cannonMoves.Count == 0 || !Hauling(i));   // 사격·쓰러짐 칸 (K-032). 대포를 끄는 병사는 끌기 그림으로 (K-060)
                 soldierInstances[i] = new PerfLabInstance
                 {
-                    PosFrame = new float4(sPos[i], frame),
+                    PosFrame = new float4(Standing(sPos[i]), frame),
                     TintSize = shown ? new float4(new float3(1f, 1f, 1f) * Brightness, SoldierDrawSize) : float4.zero,
                 };
             }

@@ -333,6 +333,8 @@ namespace HumanLastRampart.Combat.Battle
                 }
 
                 Vector3 p = c.Position + new Vector3(n.x, 0f, n.z) * CannonArt.InstalledForwardOffset;
+                float3 standing = sim.Standing(new float3(p.x, p.y, p.z));   // 사격구 낮은 난간 윗면 위에 선다 (W49: 바퀴 아래가 난간에 묻혔다)
+                p.y = standing.y;
                 cannonInstances[i] = new PerfLabInstance
                 {
                     PosFrame = new float4(p.x, p.y, p.z, frame),
@@ -366,6 +368,8 @@ namespace HumanLastRampart.Combat.Battle
         public static float InstalledCannonVisibleWidth => RecoilCannonSize * CannonArt.RecoilVisibleWidthFraction;
 
         // 확인용: 대포 i의 지금 그림 칸 (0 왼쪽, 1 가운데, 2 오른쪽)
+        public Vector3 CannonFeet(int index) => cannonInstances != null && index < cannonInstances.Length
+            ? new Vector3(cannonInstances[index].PosFrame.x, cannonInstances[index].PosFrame.y, cannonInstances[index].PosFrame.z) : Vector3.zero;   // 그린 발 위치 (W49 시험용)
         public int CannonFrame(int index) => cannonInstances != null && index < cannonInstances.Length ? (int)cannonInstances[index].PosFrame.w : -1;
         public int WallPieceCount { get { int n = 0; foreach (Piece d in wallDraws) n += d.Feet.Length; return n; } }
 

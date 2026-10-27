@@ -601,9 +601,17 @@ namespace HumanLastRampart.Combat.Battle
         // 병사(1.4×0.25)보다 조금 크게. K-034부터 개체 크기 = 인물 실제 키 (시트 배율이 칸 안 여백을 뺀다)
         public const float HeroDrawSize = 1.5f * BattleSim.WallFigureScale;
 
+        // 주인공 그림의 깊이만 사진기 쪽으로 당기는 거리 m (W49, 사용자 1.0 시험 "움직일때 짤리는거같은데"):
+        // 병사 줄이 통로 안쪽(사진기 쪽)까지 4줄로 서서 주인공이 줄 사이를 지날 때 앞줄 병사 그림이 주인공 몸 40~55%를 가렸다. 화면 위치·크기는 그대로
+        public const float HeroDepthPull = 0.8f;
+        static readonly int DepthPullId = Shader.PropertyToID("_DepthPull");
+
         // command = 명령 손짓 칸 (0 이상이면 손짓 시트로, 뒤집지 않음 — K-032)
         public void SetHero(Vector3 feet, int frame, bool flip, bool visible, bool idle = false, int command = -1)
         {
+            heroBlock.SetFloat(DepthPullId, HeroDepthPull);
+            heroIdleBlock?.SetFloat(DepthPullId, HeroDepthPull);
+            heroCommandBlock?.SetFloat(DepthPullId, HeroDepthPull);
             heroVisible = visible;
             heroCommandFrame = heroCommandBlock != null ? command : -1;
             heroIdle = idle && heroIdleBlock != null && heroCommandFrame < 0;
@@ -805,7 +813,7 @@ namespace HumanLastRampart.Combat.Battle
                     }
                     wizardInstance[0] = new PerfLabInstance
                     {
-                        PosFrame = new float4(feet.x, feet.y, feet.z, wizardFrame),
+                        PosFrame = new float4(feet.x, feet.y + BattleSim.FootLift, feet.z, wizardFrame),   // W49: 덮는 판에 안 묻히게
                         TintSize = new float4(shade, shade, shade, HeroDrawSize),   // 주인공과 같은 크기
                     };
                     wizardBuffer.SetData(wizardInstance);

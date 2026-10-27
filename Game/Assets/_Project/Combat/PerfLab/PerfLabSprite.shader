@@ -50,6 +50,8 @@ Shader "HLR/PerfLabSprite"
         _Emissive ("Self-lit (0/1)", Float) = 0
         // 먼 적 저비용 그림 (W4b, K-099): (가장 가까운 거리, 가장 먼 거리, 1/4 칸 바꾸기, 켬). w = 0이면 거리 띠 없음(기본, 아무것도 안 함)
         _LodBand ("LOD band (min m, max m, quarter frames, on)", Vector) = (0, 0, 0, 0)
+        // 깊이만 카메라 쪽으로 당기는 거리 m (W49 주인공): 화면 위치·크기는 그대로, 앞줄 병사 뒤에 서도 병사 그림에 안 잘린다. 0이면 아무것도 안 함
+        _DepthPull ("Depth pull toward camera (m)", Float) = 0
     }
 
     SubShader
@@ -99,6 +101,7 @@ float4 _MainTex_TexelSize;
         float _ScreenUpright;
         float _GroundPlane;
         float _Emissive;
+        float _DepthPull;
         float4 _LodBand;
 
         struct Attributes
@@ -307,6 +310,12 @@ float4 _MainTex_TexelSize;
                 output.lit = _Emissive > 0.5 ? 0.0 : _SpriteLit;   // 스스로 빛나는 그림은 빛 계산 없이 색 그대로 (K-041)
                 output.fogFactor = ComputeFogFactor(output.positionCS.z);
                 output.fogOn = 1.0;
+                if (_DepthPull > 0.0)
+                {
+                    // 깊이만 당긴다 (W49): 당긴 점의 깊이 값을 쓰고 화면 x·y·w는 그대로 → 모양·크기·안개는 안 바뀐다
+                    float4 pulled = TransformWorldToHClip(world + UNITY_MATRIX_V[2].xyz * _DepthPull);
+                    output.positionCS.z = pulled.z * (output.positionCS.w / pulled.w);
+                }
                 return output;
             }
 

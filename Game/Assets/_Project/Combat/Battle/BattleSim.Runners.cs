@@ -98,7 +98,7 @@ namespace HumanLastRampart.Combat.Battle
             float w = flip ? -frame - 1 : frame;
             runnerInstances[i] = new PerfLabInstance
             {
-                PosFrame = new float4(sPos[i], w),
+                PosFrame = new float4(Standing(sPos[i]), w),
                 TintSize = new float4(new float3(1f, 1f, 1f) * Brightness, SoldierDrawSize),
             };
             return true;
