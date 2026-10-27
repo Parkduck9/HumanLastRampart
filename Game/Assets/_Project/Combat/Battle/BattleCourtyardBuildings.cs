@@ -97,7 +97,7 @@ namespace HumanLastRampart.Combat.Battle
             new Plot("마구간", 1, -6f, 5f, 3f, 1.7f, true, WallKind.Plank, RoofKind.Tile),
             new Plot("예배당", 0, 8f, 4f, 3f, 1.9f, true, WallKind.Stone, RoofKind.Slate),
             new Plot("곡물창고", 0, -8f, 4.5f, 3f, 1.8f, true, WallKind.Plank, RoofKind.Tile),
-            new Plot("작은 집", 2, -12f, 2.6f, 2.4f, 1.6f, true, WallKind.Timber, RoofKind.Slate),
+            new Plot("작은 집", 2, -11.8f, 2.2f, 2.4f, 1.6f, true, WallKind.Timber, RoofKind.Slate),
             new Plot("창고", 0, -12f, 2.4f, 2.2f, 1.5f, true, WallKind.Stone, RoofKind.Tile),
         };
 

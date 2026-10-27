@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using HumanLastRampart.Combat.Battle;
 using HumanLastRampart.Core.CombatContracts;
 using NUnit.Framework;
@@ -197,7 +197,7 @@ namespace HumanLastRampart.Combat.Tests
             finally { b.Dispose(); Object.DestroyImmediate(parent); }
         }
 
-[Test]
+        [Test]
         public void Art_Night_SwapsAtlas_AndLightsWindowsOnly()
         {
             var b = Build(out GameObject parent);
