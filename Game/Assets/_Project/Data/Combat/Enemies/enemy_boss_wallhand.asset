@@ -42,3 +42,4 @@ MonoBehaviour:
   trapKnockdownSeconds: 4
   onWallWallDamage: 60
   easyHpMul: 0.55
+  beamDamagePerSec: 300

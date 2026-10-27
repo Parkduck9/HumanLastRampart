@@ -235,9 +235,73 @@ namespace HumanLastRampart.Combat.Tests
             {
                 var pos = Out(sim) * 110f;
                 int lit = Mathf.RoundToInt(100 * (1f + BattleSim.BeamDamageBonus[(int)LampBrightness.Normal]));   // 빛줄기 보통 추가 피해
-                Assert.AreEqual(lit, HpLost(sim, pos, 100, false), "빛 안: 100% + 빛줄기 보통 추가 피해");
+                Step(sim, 3);   // 등장 직전 틱에 쌓인 빛줄기 직접 피해를 먼저 흘려 보낸다
+                float burnPerTick = sim.BossBeamBurnPerSecond * Dt;   // 한 틱의 빛줄기 직접 피해도 같이 들어온다 (올림·쌓임 오차 ±2)
+                Assert.AreEqual(lit + burnPerTick, HpLost(sim, pos, 100, false), 2f, "빛 안: 100% + 빛줄기 보통 추가 피해 (+ 빛줄기 직접 피해)");
                 Assert.IsTrue(sim.BossLit);
-                Assert.AreEqual(lit, HpLost(sim, pos, 100, true), "빛 안 범위 피해도 빛줄기 추가 피해");
+                Assert.AreEqual(lit + burnPerTick, HpLost(sim, pos, 100, true), 2f, "빛 안 범위 피해도 빛줄기 추가 피해");
+            }
+        }
+
+        // 빛줄기 직접 피해: 안에 있는 동안 초당 정의값 × 밝기(약 0.5·보통 1·강 1.5). 빛 밖은 0. 같은 입력 = 같은 값
+        static int BeamLossOverSeconds(LampBrightness lamp, bool inBeam, int seconds)
+        {
+            int side;
+            using (BattleSim probe = SpawnedBoss()) side = probe.BossSide;
+            using (BattleSim sim = SpawnedBoss(beamSide: inBeam ? side : (side + 2) % 4, lamp: lamp))
+            {
+                sim.DebugPlaceEnemy(sim.BossSlot, Out(sim) * 110f);
+                Step(sim);
+                int before = sim.BossHp;
+                for (int i = 0; i < seconds * 20; i++)
+                {
+                    sim.DebugPlaceEnemy(sim.BossSlot, Out(sim) * 110f);   // 걸어 나가도 같은 자리(빛줄기 안)에서 잰다
+                    Step(sim);
+                }
+
+                Assert.AreEqual(inBeam, sim.BossLit);
+                return before - sim.BossHp;
+            }
+        }
+
+        [Test]
+        public void BeamDamage_OnlyInsideBeam_ScaledByLampBrightness_Deterministic()
+        {
+            float perSec = Def(1).BeamDamagePerSec;
+            Assert.Greater(perSec, 0f, "우두머리 정의에 빛줄기 초당 피해가 있다 (데이터)");
+            const int seconds = 5;
+            Assert.AreEqual(0, BeamLossOverSeconds(LampBrightness.Normal, false, seconds), "빛 밖에서는 빛줄기 피해가 없다 (병사도 없다)");
+            int normal = BeamLossOverSeconds(LampBrightness.Normal, true, seconds);
+            Assert.AreEqual(perSec * BattleSim.BeamBurnBrightness[(int)LampBrightness.Normal] * seconds, normal, 2f, "보통: 초당 정의값");
+            Assert.AreEqual(normal, BeamLossOverSeconds(LampBrightness.Normal, true, seconds), "같은 입력 = 같은 피해");
+            Assert.AreEqual(perSec * 0.5f * seconds, BeamLossOverSeconds(LampBrightness.Low, true, seconds), 2f, "약: ×0.5");
+            Assert.AreEqual(perSec * 1.5f * seconds, BeamLossOverSeconds(LampBrightness.High, true, seconds), 2f, "강: ×1.5");
+        }
+
+        [Test]
+        public void BeamDamage_CountsTowardKnockOff_WhileClimbing_WithoutAreaDoubling()
+        {
+            int side;
+            using (BattleSim probe = SpawnedBoss()) side = probe.BossSide;
+            using (BattleSim sim = SpawnedBoss(beamSide: side, lamp: LampBrightness.High))
+            {
+                float rate = sim.BossBeamBurnPerSecond;
+                float limit = sim.BossMaxHp * Def(1).KnockOffRatio;
+                PlaceBoss(sim, 0.6f, sim.BossTargetAlong);
+                Step(sim, 4);
+                Assert.AreEqual(EnemyState.Climbing, sim.BossState);
+                int hp0 = sim.BossHp;
+                // 범위 피해(오르는 중 ×배율)로 한계의 절반을 먼저 맞고, 나머지 절반은 빛줄기 직접 피해가 채운다
+                float climbMul = Def(1).ClimbAreaDamageMul;
+                float beamMul = 1f + BattleSim.BeamDamageBonus[(int)LampBrightness.High];   // 빛 안에서는 범위 피해도 빛 추가 피해를 받는다
+                sim.DebugHitArea(sim.BossSlot, Mathf.RoundToInt(limit * 0.5f / (climbMul * beamMul)));
+                float restSeconds = limit * 0.5f / rate;   // 직접 피해만으로 남은 절반을 채우는 시간 (범위 ×2 없이)
+                int burnSteps = Mathf.CeilToInt(restSeconds / Dt);
+                Step(sim, Mathf.Max(1, burnSteps / 2));
+                Assert.AreEqual(0, sim.BossFalls, "절반 지점에서는 아직 버틴다");
+                Assert.AreEqual(limit * 0.5f + rate * burnSteps / 2 * Dt, hp0 - sim.BossHp, rate * 0.3f, "오르는 중에도 직접 피해는 ×2 없이 초당 값");
+                Step(sim, burnSteps / 2 + 8);
+                Assert.GreaterOrEqual(sim.BossFalls, 1, "빛줄기 직접 피해가 떨어뜨림 한계에 같이 쌓인다");
             }
         }
 

@@ -769,7 +769,7 @@ namespace HumanLastRampart.Combat.Battle
             ApplyArrowBurns();   // 불화살 화상 (K-058, BattleSim.Boosts.cs)
             UpdatePhases();      // 최후 돌격 검사 (BattleSim.Phases.cs)
             Spawn();
-            UpdateBoss();        // 우두머리 떨어짐·통로 도착·처치 (BattleSim.Boss.cs)
+            UpdateBoss(dt);      // 우두머리 떨어짐·통로 도착·처치 (BattleSim.Boss.cs)
             UpdateMessengers(dt);
             UpdateGroupMoves(dt);
             UpdateSlotWalks(dt);   // 빈 총안 메우러 걷기 (K-045)

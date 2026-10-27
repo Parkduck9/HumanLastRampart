@@ -224,7 +224,16 @@ namespace HumanLastRampart.Combat.Battle
                 if (written.x + written.y + written.z > 0f) tint = written.xyz;
             }
             // 빛줄기 안이면 화가 난 듯 붉게 (빛에 드러나 빨라지는 상태가 눈에 보이게)
-            if (sim.BossLit) tint *= new float3(1f, 0.78f, 0.72f);
+            if (sim.BossLit)
+            {
+                tint *= new float3(1f, 0.78f, 0.72f);
+                if (sim.BossBeamBurnPerSecond > 0f && !dead)
+                {
+                    // 빛줄기에 타는 중: 일반 적 화상과 같은 붉은 깜빡임 (WriteBattleEnemyInstancesJob의 화상 식)
+                    float flicker = 0.5f + 0.5f * Mathf.Sin(now * 18f);
+                    tint *= math.lerp(new float3(1f, 1f, 1f), new float3(1.25f, 0.45f, 0.3f), 0.45f + 0.55f * flicker);
+                }
+            }
             instance[0] = new PerfLabInstance { PosFrame = new float4(feet.x, feet.y, feet.z, frame), TintSize = new float4(tint, CellMeters * scale) };
             buffer.SetData(instance);
             lastPose = pose;

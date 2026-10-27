@@ -138,7 +138,25 @@ namespace HumanLastRampart.Combat.Battle
         }
 
         // BeginFrame, Spawn 뒤 (작업이 끝난 상태): 등장·통로 도착·처치 기록, 한 번 오르는 동안 잃은 체력으로 떨어뜨리기
-        void UpdateBoss()
+        // 빛줄기 안에 있는 동안 초당 직접 피해 (정의 beamDamagePerSec × 등불 밝기). 쌓인 소수는 다음 틱으로 — 틱 길이와 무관하게 같은 합계
+        public static readonly float[] BeamBurnBrightness = { 1f, 0.5f, 1.5f };   // 인덱스 = (int)LampBrightness (보통·약·강)
+        float bossBeamCarry;
+
+        void ApplyBossBeamBurn(float dt)
+        {
+            if (bossDef == null || bossDef.BeamDamagePerSec <= 0f || dt <= 0f || !BossLit) return;
+            bossBeamCarry += BossBeamBurnPerSecond * dt;
+            int whole = (int)bossBeamCarry;
+            if (whole <= 0) return;
+            bossBeamCarry -= whole;
+            // Area = 2: 빛줄기 피해 — 빛 밖 비율·빛 추가 피해·오르는 중 범위 ×2를 받지 않는다 (ApplyBattleHitsJob). 오르는 동안 잃은 체력(떨어뜨림 한계)에는 그대로 센다
+            hitQueue.Enqueue(new HitEvent { Enemy = new EnemyHandle { Index = bossSlot, Generation = eGen[bossSlot] }, Damage = whole, Area = 2 });
+        }
+
+        // 지금 빛줄기 직접 피해 초당 값 (등불 밝기 반영)
+        public float BossBeamBurnPerSecond => bossDef == null ? 0f : bossDef.BeamDamagePerSec * BeamBurnBrightness[Mathf.Clamp((int)Lamp, 0, 2)];
+
+        void UpdateBoss(float dt)
         {
             if (bossSlot < 0) return;
             byte state = eState[bossSlot];
@@ -164,6 +182,8 @@ namespace HumanLastRampart.Combat.Battle
 
                 return;
             }
+
+            ApplyBossBeamBurn(dt);
 
             if (state == EnemyState.OnWall)
             {

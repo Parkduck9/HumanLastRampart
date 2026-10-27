@@ -1047,7 +1047,8 @@ namespace HumanLastRampart.Combat.Battle
                 int damage = hit.Damage;
                 EnemyKind kind = Kinds[KindOf[e]];
                 bool lit = Beam.Contains(EnemyPositions[e]);
-                if (kind.IsBoss != 0)
+                bool beamBurn = hit.Area == 2;   // 빛줄기 직접 피해 (우두머리, BattleSim.Boss.cs): 이미 빛 세기가 곱해진 값 — 다른 배율을 또 곱하지 않는다
+                if (kind.IsBoss != 0 && !beamBurn)
                 {
                     // 우두머리 (BattleSim.Boss.cs): 쇠장갑과 안개 — 빛 밖·통로 아래에서는 화살·총이 조금만 든다.
                     // 오르는 동안 범위 피해는 매달려 피하지 못해 배로
@@ -1062,7 +1063,7 @@ namespace HumanLastRampart.Combat.Battle
                     }
                 }
 
-                if (lit) damage = math.max(1, (int)math.round(damage * Beam.DamageMul));
+                if (lit && !beamBurn) damage = math.max(1, (int)math.round(damage * Beam.DamageMul));
                 int hp = EnemyHp[e] - damage;
                 EnemyHp[e] = math.max(hp, 0);
                 if (hp > 0)
