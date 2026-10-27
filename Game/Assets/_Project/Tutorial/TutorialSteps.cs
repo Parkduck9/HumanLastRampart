@@ -26,6 +26,9 @@ namespace HumanLastRampart.Tutorial
         public const float ReadSeconds = 2.5f;   // 새 단계가 뜬 뒤 이 시간은 전투 시간을 멈춰 두고 읽게 한다
         public const float ActionTimeScale = 0.25f;   // 직접 해 보는 동안은 천천히
         public const float WalkMeters = 6f;      // 걷기 단계 완료: 이만큼 걸어야 한다
+        public const float BeamTurnDegrees = 90f;   // 빛줄기 단계 완료: 빛줄기 방향 명령이 이만큼(도) 이상 바꾸어야 한다 (다른 성벽 쪽 한 번이면 90도)
+        // 단계 → 그림 칸 (step_icons_24 · step_pips 모두 8칸 = 옛 8단계). 빛줄기 전용 그림이 아직 없어 망원경 렌즈(7)를 빌려 쓴다 — 전용 그림은 Codex 몫
+        public static readonly int[] ArtColumn = { 0, 1, 2, 3, 4, 5, 7, 6, 7 };
 
         static readonly TutorialStepInfo[] table =
         {
@@ -66,6 +69,12 @@ namespace HumanLastRampart.Tutorial
             },
             new TutorialStepInfo
             {
+                Title = "등대 빛줄기 돌리기", Expression = 1, Pointer = true,
+                Body = "등대 빛줄기를 돌려 보십시오. 빛 안의 적은 느려지고 더 크게 맞습니다.\n지도를 접고 성벽 가운데 계단에서 탑으로 내려가, 방향을 고르십시오.",
+                Chips = new[] { new TutorialStepInfo.Chip(3, "계단 · 탑 명령"), new TutorialStepInfo.Chip(-1, "방향 단추") },
+            },
+            new TutorialStepInfo
+            {
                 Title = "함정 놓기", Expression = 1,
                 Body = "함정 공방에서 함정을 사서 지도 위에 하나 놓아 보십시오.\n다음 전투에서 적이 지나갈 길목이 좋습니다.",
                 ExplainBody = "함정 공방에서는 함정을 사서 지도 위에 놓을 수 있습니다.\n지금은 살 돈이 모자라니 말씀만 드리겠습니다. 적이 지나갈 길목이 좋습니다.",
@@ -77,6 +86,24 @@ namespace HumanLastRampart.Tutorial
                 Body = "상점에서 망원경 렌즈를 사서 장착하면\n더 넓게 보이고, 시야에서 벗어난 적도 잠시 지도에 남습니다.",
             },
         };
+
+        // 우두머리 첫 예고 때 한 번 뜨는 두 쪽 안내 (W48). 9단계 표 밖이라 진행 번호·순서에 끼지 않는다. BossTipIcons = step_icons_24 칸
+        public static readonly TutorialStepInfo[] BossTip =
+        {
+            new TutorialStepInfo
+            {
+                Title = "성벽손 오우거 (1/2)", Expression = 2, ExplainOnly = true,
+                Body = "지휘관님, 빛줄기 밖에서는 화살과 총이 거의 듣지 않습니다.\n빛 안에서는 온전히 맞고 빛에도 타지만, 걸음이 빨라집니다.",
+                Chips = new[] { new TutorialStepInfo.Chip(3, "탑에서 빛줄기 돌리기") },
+            },
+            new TutorialStepInfo
+            {
+                Title = "성벽손 오우거 (2/2)", Expression = 1, ExplainOnly = true,
+                Body = "오르는 동안 대포를 맞히면 크게 다치고, 많이 다치면 떨어집니다.\n폭탄 함정은 잠시 쓰러뜨립니다. 통로에 오르게 두면 안 됩니다!",
+                Chips = new[] { new TutorialStepInfo.Chip(-1, "지도에서 대포 겨누기"), new TutorialStepInfo.Chip(-1, "폭탄 함정") },
+            },
+        };
+        public static readonly int[] BossTipIcons = { 5, 4 };   // 쪽별 제목 그림 칸 (마법 · 대포)
 
         public static TutorialStepInfo Get(TutorialStep step) => table[(int)step];
     }

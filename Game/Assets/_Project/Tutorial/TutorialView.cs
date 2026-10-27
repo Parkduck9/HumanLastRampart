@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace HumanLastRampart.Tutorial
 {
-    // 튜토리얼 화면: 장교 흉상(단계별 표정) · 안내 판 · 조작 표시 · 강조 고리와 화살표 · 8칸 진행 표시 · [다음]/[튜토리얼 건너뛰기].
+    // 튜토리얼 화면: 장교 흉상(단계별 표정) · 안내 판 · 조작 표시 · 강조 고리와 화살표 · 9칸 진행 표시 · [다음]/[튜토리얼 건너뛰기].
     // 자기 캔버스(맨 위)에 그린다. 그림은 Resources/HudArt/Tutorial (K-097, K-093) — 없으면 색 판으로 대신한다.
     // 1920×1080 기준. 판 바깥(고리 등)은 클릭을 막지 않는다
     public sealed class TutorialView : IDisposable
@@ -16,6 +16,7 @@ namespace HumanLastRampart.Tutorial
         readonly RawImage bust, ring, pointer, icon;
         readonly Text title, body;
         readonly RectTransform chipRow;
+        readonly RectTransform pipStrip;
         readonly RawImage[] pips = new RawImage[TutorialState.Total];
         readonly Texture2D pipTex, ringTex, chipTex;
         readonly Texture2D[] pointerTex = new Texture2D[4];   // 위·오른쪽·아래·왼쪽
@@ -23,6 +24,7 @@ namespace HumanLastRampart.Tutorial
         public readonly Button NextButton, SkipButton;
         int shownStep = -1;
         bool shownExplain;
+        bool boxLifted;
         bool disposed;
 
         static Texture2D Tex(string name)
@@ -68,10 +70,11 @@ namespace HumanLastRampart.Tutorial
             ring.gameObject.SetActive(false);
             pointer.gameObject.SetActive(false);
 
-            // 8칸 진행 표시 (위 가운데)
+            // 9칸 진행 표시 (위 가운데)
             pipTex = Tex("step_pips");
             RectTransform strip = Ui.Rect(root.transform, "Step Pips");
-            Ui.Place(strip, new Vector2(0.5f, 1f), new Vector2(0f, -132f), new Vector2(8 * 56f, 56f), new Vector2(0.5f, 1f));
+            pipStrip = strip;
+            Ui.Place(strip, new Vector2(0.5f, 1f), new Vector2(0f, -132f), new Vector2(TutorialState.Total * 56f, 56f), new Vector2(0.5f, 1f));
             for (int i = 0; i < pips.Length; i++)
             {
                 pips[i] = Sheet(strip, "Pip " + i, pipTex, new Vector2(56f, 56f));
@@ -132,11 +135,21 @@ namespace HumanLastRampart.Tutorial
                 title.text = info.Title;
                 body.text = explain && !string.IsNullOrEmpty(info.ExplainBody) ? info.ExplainBody : info.Body;
                 Cell(bust, info.Expression, 4);
-                Cell(icon, step, 8);
+                Cell(icon, TutorialSteps.ArtColumn[step], 8);
                 NextButton.gameObject.SetActive(explain);
                 if (stepChanged) BuildChips(info);
                 // 진행 표시는 단계가 바뀔 때만 다시 맞춘다 (매 프레임 uvRect를 다시 쓰지 않는다)
-                for (int i = 0; i < pips.Length; i++) Cell(pips[i], i * 3 + (i < step ? 2 : i == step ? 1 : 0), 24);
+                for (int i = 0; i < pips.Length; i++) Cell(pips[i], TutorialSteps.ArtColumn[i] * 3 + (i < step ? 2 : i == step ? 1 : 0), 24);
+            }
+
+            // 빛줄기 단계에서 지도가 열리면(탑 명령 판) 방향 단추가 아래 가운데에 뜨므로 안내 판은 위쪽 가운데로 비킨다
+            bool lift = machine.Current == TutorialStep.Beam && source.MapOpen;
+            if (lift != boxLifted)
+            {
+                boxLifted = lift;
+                var box = (RectTransform)boxObject.transform;
+                if (lift) Ui.Place(box, new Vector2(0.5f, 1f), new Vector2(0f, -210f), new Vector2(1100f, 230f), new Vector2(0.5f, 1f));
+                else Ui.Place(box, new Vector2(0.5f, 0f), new Vector2(0f, 16f), new Vector2(1100f, 230f), new Vector2(0.5f, 0f));
             }
 
             // 목표 화면 좌표(화소)를 화면 비율로 바꿔 앵커에 건다 — 캔버스 배율·피벗과 무관하다 (BattleHud.Viewport와 같은 방식)
@@ -158,6 +171,28 @@ namespace HumanLastRampart.Tutorial
                 pointerRect.anchoredPosition = new Vector2(0f, 150f);
                 Cell(pointer, (int)(t * 6f) % 4, 4);
             }
+        }
+
+        // 우두머리 안내 쪽 (W48): 같은 장교 판을 쓰되 진행 표시·건너뛰기는 숨기고 고리는 끈다
+        public void RefreshTip(BossTipMachine tip)
+        {
+            if (disposed) return;
+            bool visible = tip.Visible;
+            root.SetActive(visible);
+            if (!visible) return;
+            if (tip.Page == shownStep) return;
+            shownStep = tip.Page;
+            TutorialStepInfo info = tip.Info;
+            title.text = info.Title;
+            body.text = info.Body;
+            Cell(bust, info.Expression, 4);
+            Cell(icon, TutorialSteps.BossTipIcons[tip.Page], 8);
+            NextButton.gameObject.SetActive(true);
+            SkipButton.gameObject.SetActive(false);
+            pipStrip.gameObject.SetActive(false);
+            ring.gameObject.SetActive(false);
+            pointer.gameObject.SetActive(false);
+            BuildChips(info);
         }
 
         void BuildChips(TutorialStepInfo info)

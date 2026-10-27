@@ -214,7 +214,7 @@ namespace HumanLastRampart.Combat.Battle
                         if (!EnemyState.IsAlive(eState[e])) continue;
                         float3 d = ePos[e] - c;
                         if (d.x * d.x + d.z * d.z > radiusSq) continue;
-                        hitQueue.Enqueue(new HitEvent { Enemy = new EnemyHandle { Index = e, Generation = eGen[e] }, Damage = damage });
+                        hitQueue.Enqueue(new HitEvent { Enemy = new EnemyHandle { Index = e, Generation = eGen[e] }, Damage = damage, Area = 1 });
                         count++;
                     }
                 }

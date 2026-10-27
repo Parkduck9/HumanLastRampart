@@ -66,8 +66,9 @@ namespace HumanLastRampart.Meta
                 view.SetPanelSize(1600f, 900f);
                 RectTransform head = view.AddArea("Result Head", 96f);
                 ResultBoard.BuildHead(head, result);
-                RectTransform board = view.AddArea("Result Board", 456f);
-                board.sizeDelta = new Vector2(1504f, 456f);
+                float boardHeight = result.BossPresent ? 420f : 456f;   // 우두머리 줄(36)이 더해지는 만큼 판을 낮춰 쪽이 넘치지 않게
+                RectTransform board = view.AddArea("Result Board", boardHeight);
+                board.sizeDelta = new Vector2(1504f, boardHeight);
                 ResultBoard.Build(board, campaign.ActiveBattleSetup, result, id => context.Definitions.Get<UnitDef>(id));
 
                 // W8: 등대 복구 / 점화 (자리만 잡은 한 줄)
@@ -79,6 +80,18 @@ namespace HumanLastRampart.Meta
                     : $"등대 복구 +{Mathf.RoundToInt(campaign.LastNightGain)}  (현재 {Mathf.RoundToInt(campaign.BeaconRepair)}%)";
                 Text beaconText = Ui.Label(beacon, "Beacon Text", line, UiTokens.Text, !lost && campaign.LastNightRelit ? UiTokens.GoodInk : UiTokens.Ink, TextAnchor.MiddleCenter, true);
                 Ui.Stretch(beaconText.rectTransform);
+
+                // 우두머리 성벽손 오우거 (점화의 밤): 처치 여부와 나온 뒤 걸린 시간
+                if (result.BossPresent)
+                {
+                    RectTransform boss = view.AddArea("Boss Line", 36f);
+                    int seconds = Mathf.RoundToInt(result.BossSeconds);
+                    string bossLine = result.BossDefeated
+                        ? $"우두머리 성벽손 오우거 처치 · {seconds / 60}:{seconds % 60:00}" + (result.BossFalls > 0 ? $" · 떨어뜨림 {result.BossFalls}번" : "")
+                        : $"우두머리 성벽손 오우거는 쓰러뜨리지 못했습니다 · {seconds / 60}:{seconds % 60:00}";
+                    Text bossText = Ui.Label(boss, "Boss Text", bossLine, UiTokens.Text, result.BossDefeated ? UiTokens.GoodInk : UiTokens.DangerInk, TextAnchor.MiddleCenter, true);
+                    Ui.Stretch(bossText.rectTransform);
+                }
             }
 
             var next = view.AddButton("다음", "보고 마치기", () => Complete(ScreenOutcome.Done), true);

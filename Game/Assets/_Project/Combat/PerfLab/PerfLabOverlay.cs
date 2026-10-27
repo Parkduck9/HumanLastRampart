@@ -78,7 +78,7 @@ namespace HumanLastRampart.Combat.PerfLab
         void Update()
         {
             var keyboard = Keyboard.current;
-            if (keyboard != null && keyboard.f8Key.wasPressedThisFrame)
+            if (keyboard != null && keyboard.f8Key.wasPressedThisFrame && HumanLastRampart.Core.DevGate.Allowed)
             {
                 panel.SetActive(!panel.activeSelf);
                 elapsed = 0f;

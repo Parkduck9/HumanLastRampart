@@ -159,6 +159,7 @@ namespace HumanLastRampart.Combat.Battle
         {
             var center = new Vector3(t.Pos.x, 0f, t.Pos.y);
             int hit = DamageArea(center, t.Def.DamageRadius, t.Def.Damage);
+            BossKnockdownByTrap(center, t.Def.DamageRadius);   // 우두머리는 범위 안이면 쓰러진다 (BattleSim.Boss.cs)
             t.State = TrapState.Exploded;
             float r = t.Def.CraterRadius;
             craters[craterCount++] = new float4(t.Pos.x, t.Pos.y, r * r, t.Def.CraterSpeedMultiplier);

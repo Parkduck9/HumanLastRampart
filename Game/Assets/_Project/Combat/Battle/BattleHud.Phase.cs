@@ -183,6 +183,22 @@ namespace HumanLastRampart.Combat.Battle
             phase = WavePhase.Final;
             side = 0;
             warning = false;
+            // 우두머리가 나오기 5초 전: 공성 표식을 쓰고 글만 따로 (BattleSim.Boss.cs). 글은 면이 같으면 같은 문자열 그대로
+            if (sim.TryGetBossWarning(out int bossSide, out _))
+            {
+                phase = WavePhase.Siege;
+                side = bossSide;
+                warning = true;
+                int bossKey = (1 + Mathf.Clamp(bossSide, 0, 3)) * -1000;
+                if (bossKey != cachedPhaseLineKey)
+                {
+                    cachedPhaseLineKey = bossKey;
+                    cachedPhaseLine = $"성벽손 오우거가 나타납니다 — {SideFull[Mathf.Clamp(bossSide, 0, 3)]}";
+                }
+
+                return cachedPhaseLine;
+            }
+
             if (sim.FinalAssaultStarted)
                 return sim.Elapsed - sim.FinalAssaultAt < BattleSim.FinalBannerSeconds ? "최후 돌격!" : null;
             if (!sim.TryGetPhaseWarning(out BattleSim.PhaseWarning w)) return null;

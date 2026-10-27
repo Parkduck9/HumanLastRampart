@@ -121,15 +121,32 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             touch = new BattleTouch(this, transform);
-            hud = new BattleHud(transform, line, FinishFromSim, s => speed = s,
-                new System.Action[]
+            // 시험 단추는 에디터·개발 빌드·-hlrSmoke 에서만 만든다 (W46). 정식 빌드에서 전투를 못 만들었으면 [메인으로] 한 개만 둔다.
+            System.Action[] devActions;
+            string[] devLabels;
+            if (HumanLastRampart.Core.DevGate.Allowed)
+            {
+                devActions = new System.Action[]
                 {
                     () => FinishTest(BattleOutcome.Victory, DefeatReason.None),
                     () => FinishTest(BattleOutcome.Defeat, DefeatReason.WallDestroyed),
                     () => FinishTest(BattleOutcome.Defeat, DefeatReason.GarrisonLost),
-                },
-                new[] { "[시험] 승리", "[시험] 패배 — 성벽 붕괴", "[시험] 패배 — 병력 70%" });
-            if (sim == null) hud.ToggleDev();   // 실제 전투를 못 만든 경우: 시험 단추만 쓸 수 있으니 처음부터 보인다
+                };
+                devLabels = new[] { "[시험] 승리", "[시험] 패배 — 성벽 붕괴", "[시험] 패배 — 병력 70%" };
+            }
+            else if (sim == null)
+            {
+                devActions = new System.Action[] { () => context?.Complete(ScreenOutcome.BackToMainMenu) };
+                devLabels = new[] { "메인으로" };
+                line = "전투를 시작하지 못했습니다.";
+            }
+            else
+            {
+                devActions = new System.Action[0];
+                devLabels = new string[0];
+            }
+            hud = new BattleHud(transform, line, FinishFromSim, s => speed = s, devActions, devLabels);
+            if (sim == null) hud.ToggleDev();   // 실제 전투를 못 만든 경우: 빠져나갈 단추만 쓸 수 있으니 처음부터 보인다
 
             if (sim != null)
             {
@@ -159,6 +176,7 @@ namespace HumanLastRampart.Combat.Battle
                 mapCamera.OpenCastle();
                 hud.SetPreparing(true);
                 if (!setup.IsPractice) BattleTutorialSource.TryBegin(this, transform, setup.BattleNumber);   // 1번째 전투 튜토리얼 (W2). 대상이 아니면 아무것도 안 한다
+                BattleBossTip.TryBegin(this, transform, setup.IsPractice);   // 우두머리 첫 예고 때 한 번 뜨는 두 쪽 안내 (W48)
             }
         }
 
@@ -598,8 +616,8 @@ namespace HumanLastRampart.Combat.Battle
                 if (keyboard.pKey.wasPressedThisFrame) paused = !paused;
                 if (keyboard.hKey.wasPressedThisFrame) hud.ToggleStatusDetail();   // 4면 자세히 (K-002)
                 if (keyboard.f1Key.wasPressedThisFrame) hud.ToggleHelp();          // 조작 판 (K-047 S-15: 키 목록은 여기에만)
-                if (keyboard.f12Key.wasPressedThisFrame) hud.ToggleDev();          // 개발 표시 (K-047 S-16: [시험] 단추·내부 정보)
-                if (keyboard.gKey.wasPressedThisFrame) HumanLastRampart.Combat.Render.BattleLook.Enabled = !HumanLastRampart.Combat.Render.BattleLook.Enabled;   // 화면 효과 켜고 끔 (비교용)
+                if (keyboard.f12Key.wasPressedThisFrame && HumanLastRampart.Core.DevGate.Allowed) hud.ToggleDev();          // 개발 표시 (K-047 S-16: [시험] 단추·내부 정보)
+                if (keyboard.gKey.wasPressedThisFrame && HumanLastRampart.Core.DevGate.Allowed) HumanLastRampart.Combat.Render.BattleLook.Enabled = !HumanLastRampart.Combat.Render.BattleLook.Enabled;   // 화면 효과 켜고 끔 (비교용)
             }
 
             if (mapOpen)
@@ -1014,11 +1032,13 @@ namespace HumanLastRampart.Combat.Battle
             if (victory)
             {
                 line = $"적 {sim.Kills:N0}을 막아 냈습니다\n얻은 골드 {sim.Gold:N0}";
+                if (sim.BossEndLine != null) line += "\n" + sim.BossEndLine;   // 우두머리 처치·시간 (BattleSim.Boss.cs)
             }
             else
             {
                 string wall = sim.DefeatSide >= 0 ? new[] { "북쪽", "동쪽", "남쪽", "서쪽" }[sim.DefeatSide] : "";
                 line = sim.DefeatReason == DefeatReason.WallDestroyed ? $"{wall} 성벽이 무너졌습니다" : $"{wall} 성벽을 지키던 병사 대부분을 잃었습니다";
+                if (sim.BossEndLine != null) line += "\n" + sim.BossEndLine;   // 우두머리가 나온 뒤 졌다면 그 기록도
                 if (sim.DefeatSide >= 0)
                 {
                     rig?.ShowSide(sim.DefeatSide);

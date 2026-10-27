@@ -69,7 +69,7 @@ namespace HumanLastRampart.Combat.Battle
                         float3 d = ePos[e] - c;
                         if (d.x * d.x + d.z * d.z > radiusSq) continue;
                         int damage = whole + (burnRandom.NextFloat() < part ? 1 : 0);
-                        if (damage > 0) hitQueue.Enqueue(new HitEvent { Enemy = new EnemyHandle { Index = e, Generation = eGen[e] }, Damage = damage });
+                        if (damage > 0) hitQueue.Enqueue(new HitEvent { Enemy = new EnemyHandle { Index = e, Generation = eGen[e] }, Damage = damage, Area = 1 });
                         if (chance <= 0f || eFireRolled[e] == effect.Serial) continue;
                         eFireRolled[e] = effect.Serial;   // 이 불바다에서는 한 번만 굴린다
                         if (burnRandom.NextFloat() < chance) Ignite(e, spell.BurnSeconds, spell.BurnDamage * multiplier);
@@ -100,7 +100,7 @@ namespace HumanLastRampart.Combat.Battle
                     int damage = (int)carry;
                     if (damage > 0)
                     {
-                        hitQueue.Enqueue(new HitEvent { Enemy = new EnemyHandle { Index = e, Generation = eGen[e] }, Damage = damage });
+                        hitQueue.Enqueue(new HitEvent { Enemy = new EnemyHandle { Index = e, Generation = eGen[e] }, Damage = damage, Area = 1 });
                         carry -= damage;
                     }
 

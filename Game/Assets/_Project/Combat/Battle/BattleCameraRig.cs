@@ -248,6 +248,7 @@ namespace HumanLastRampart.Combat.Battle
         }
 
         public float Inset => inset;
+        public Vector3 StairsFeet => FeetAt(Side, 0f, InsetMax);   // 지금 성벽의 계단 자리 (튜토리얼 고리가 가리킨다)
 
         // 옆 성벽 가운데까지 자동으로 달린다 (D-046). 키 연결은 D-069로 없앴고 시험 도구만 부른다. A/D를 누르면 멈춘다
         int runDir;

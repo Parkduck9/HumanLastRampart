@@ -19,7 +19,7 @@ namespace HumanLastRampart.Frontend
             // K-047: 해 질 녘 성벽 그림(K-027) 위 왼쪽에 양피지 임명장 — 한글 제목(세계 글꼴) + 작은 영문 이름, 주인공 단추는 하나
             // K-062: 이어하기(저장이 있을 때만, 그때는 이어하기가 주인공)·설정 — 시작/설정/종료 (FirstRead 0번 화면)
             bool canContinue = CampaignSave.TryPeek(out CampaignSave.Summary save);
-            var view = new ScreenView(transform, "빛을 잇는 자들", "");   // K-121: 게임 제목 변경 (영문 이름은 아래 작은 글씨)
+            var view = new ScreenView(transform, "빛을 잇는 자", "");   // K-121: 게임 제목 변경 (영문 이름은 아래 작은 글씨)
             // K-047 고침: 단추를 판 폭 안에 세로로 — 주인공 단추(이어하기 또는 출정)를 맨 위에 판 폭 가득, 아래 줄에 설정·종료
             float height = canContinue ? 512f : 432f;
             // K-121: 네 겹 시차 배경 (그림이 없으면 K-027 한 장 배경으로)
