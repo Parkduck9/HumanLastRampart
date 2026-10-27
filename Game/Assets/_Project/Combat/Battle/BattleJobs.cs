@@ -88,6 +88,13 @@ namespace HumanLastRampart.Combat.Battle
         public byte ClimbFrames;
         public byte FallFrames;
         public byte HasLadder;       // 오르는 동안 사다리 소품을 그린다
+        // 우두머리 (성벽손 오우거, BattleSim.Boss.cs). IsBoss = 0이면 아래 값은 모두 쓰지 않는다
+        public byte IsBoss;
+        public float UnlitPointMul;      // 빛 밖·통로 아래 한 대씩 쏘는 무기 피해 비율
+        public float LitSpeedMul;        // 빛 안 걷기 배율 (빛줄기 느려짐 대신)
+        public float ClimbAreaMul;       // 오르는 동안 범위 피해 배율
+        public float KnockdownSeconds;   // 떨어진 뒤 쓰러짐 시간 (그리기가 쓰러짐 칸 진행에 쓴다)
+        public float OnWallWallDamage;   // 통로 위에서 그 성벽에 주는 초당 피해
     }
 
     // 무기 종류별 값 (WeaponDef에서 복사)
@@ -164,11 +171,68 @@ namespace HumanLastRampart.Combat.Battle
         public float FunnelBase;    // 성벽에서 적이 퍼지는 반폭(m)
         public float FunnelSlope;   // 성벽에서 1m 멀어질 때 늘어나는 반폭
         public TerrainField Terrain;   // 무작위 지형·지형 손질 (K-049, BattleSim.Terrain.cs): 돌아감·넘음·허묾·엄폐
+        public NativeArray<float> Down;                    // 우두머리 쓰러짐 남은 시간 (BattleSim.Boss.cs). 0 = 서 있음
+        [ReadOnly] public NativeArray<float> TargetLateral;   // 우두머리가 가려는 성벽 따라 자리(m)
+
+        // 우두머리 걷기: 쓰러져 있으면 제자리, 빛 안이면 빨라지고(빛줄기 느려짐은 안 받음), 정한 성벽 자리를 향해 모인다.
+        // 성벽에 닿으면 사다리·시체 더미 없이 땅에서 바로 오르기 시작한다
+        void StepBoss(int i, EnemyKind kind)
+        {
+            float3 position = Positions[i];
+            float down = Down[i];
+            if (down > 0f)
+            {
+                Down[i] = math.max(0f, down - DeltaTime);
+                Velocities[i] = float3.zero;
+                return;
+            }
+
+            float3 n = WallGeometry.Outward(Sides[i]);
+            float slow = 1f;
+            for (int c = 0; c < CraterCount; c++)
+            {
+                float4 crater = Craters[c];
+                float dx = position.x - crater.x, dz = position.z - crater.y;
+                if (dx * dx + dz * dz <= crater.z) slow = math.min(slow, crater.w);
+            }
+
+            float speed = Speeds[i] * slow * (Beam.Contains(position) ? kind.LitSpeedMul : 1f);
+            float3 r = WallGeometry.Right(Sides[i]);
+            float fromWall = math.dot(position, n) - CastleHalf;
+            float lateral = math.dot(position, r);
+            // 남은 거리에 비례해 좁혀 와 성벽에 닿을 때 정확히 그 자리 (깔때기와 같은 방식)
+            float lateralSpeed = math.clamp((TargetLateral[i] - lateral) / math.max(fromWall, 1f), -1f, 1f) * speed;
+            float3 velocity = -n * speed + r * lateralSpeed;
+            if (Terrain.Active != 0) velocity = Terrain.Steer(i, position, velocity, Sides[i], fromWall);
+            position += velocity * DeltaTime;
+            Velocities[i] = velocity;
+            float distance = math.dot(position, n);
+            if (distance <= StopDistance[i])
+            {
+                position += n * (StopDistance[i] - distance);
+                position.y = 0f;
+                Velocities[i] = float3.zero;
+                Climb[i] = 0f;
+                States[i] = EnemyState.Climbing;
+            }
+
+            Positions[i] = position;
+        }
 
         public void Execute(int i)
         {
             byte state = States[i];
             if (Terrain.Active != 0 && state != EnemyState.Walking) Terrain.Clear(i);
+            if (state == EnemyState.Walking)
+            {
+                EnemyKind boss = Kinds[KindOf[i]];
+                if (boss.IsBoss != 0)
+                {
+                    StepBoss(i, boss);
+                    return;
+                }
+            }
+
             if (state == EnemyState.AtWall)
             {
                 // 성벽 앞 적: 시체 더미 위에 서고, 더미가 충분히 높으면 밟고 오르기 시작한다
@@ -295,10 +359,12 @@ namespace HumanLastRampart.Combat.Battle
                         break;
                     case EnemyState.Climbing:
                         Tally[b + SideStat.Climbing] += 1f;
+                        if (kind.IsBoss != 0) Tally[b + SideStat.WallDamage] += kind.WallDamage * DeltaTime;   // 우두머리는 매달려서도 성벽을 부순다
                         break;
                     case EnemyState.OnWall:
                         Tally[b + SideStat.OnWall] += 1f;
                         Tally[b + SideStat.GarrisonDamage] += kind.OnWallAttack * DeltaTime;
+                        Tally[b + SideStat.WallDamage] += kind.OnWallWallDamage * DeltaTime;   // 우두머리: 통로 위에서 그 성벽 체력도 깎는다 (일반 적은 0)
                         break;
                 }
             }
@@ -531,10 +597,13 @@ namespace HumanLastRampart.Combat.Battle
                         }
 
                         // 날아가는 피해만으로 죽을 적은 건너뛴다 — 모두가 다친 한 마리만 노리는 헛방 방지
+                        // (우두머리는 화살 피해가 줄어 들어가므로 날아가는 피해를 그대로 빼면 안 된다 — 늘 표적)
                         int remaining = EnemyHp[e] - EnemyIncoming[e];
+                        bool bossTarget = Kinds[EnemyKindOf[e]].IsBoss != 0;
                         if (remaining <= 0)
                         {
-                            continue;
+                            if (!bossTarget) continue;
+                            remaining = math.max(1, EnemyHp[e]);
                         }
 
                         byte state = EnemyStates[e];
@@ -579,7 +648,7 @@ namespace HumanLastRampart.Combat.Battle
                                 break;
                             case SpecialFirst:
                                 if (Kinds[EnemyKindOf[e]].IsSpecial != 0) favored = 0;
-                                key = BandOf(ratio);
+                                key = bossTarget ? float.MinValue : BandOf(ratio);   // 우두머리는 다친 특수 적보다도 먼저
                                 break;
                             case DensestArea:
                                 key = -CellCount[CellOfEnemy[e]];   // 같은 칸에 적이 많을수록
@@ -589,6 +658,7 @@ namespace HumanLastRampart.Combat.Battle
                                 break;
                         }
 
+                        if (onWall && bossTarget) key = float.MinValue;   // 통로 위 우두머리는 모든 명령에서 1순위 (같은 통로 위 적보다도 먼저)
                         int rank = onWall ? 0 : 1 + band * 2 + favored;
                         // 몰림 방지 (D-073): 키를 띠로 묶어 비슷한 적은 같은 값 → 병사마다 다른 순서(해시)로 골라 흩어 쏜다
                         uint scatter = math.hash(new uint2((uint)s, (uint)e));
@@ -873,6 +943,7 @@ namespace HumanLastRampart.Combat.Battle
                                 {
                                     Enemy = new EnemyHandle { Index = e, Generation = EnemyGeneration[e] },
                                     Damage = weapon.Damage,
+                                    Area = 1,
                                 });
                             }
                         }
@@ -974,7 +1045,25 @@ namespace HumanLastRampart.Combat.Battle
                 }
 
                 int damage = hit.Damage;
-                if (Beam.Contains(EnemyPositions[e])) damage = math.max(1, (int)math.round(damage * Beam.DamageMul));
+                EnemyKind kind = Kinds[KindOf[e]];
+                bool lit = Beam.Contains(EnemyPositions[e]);
+                bool beamBurn = hit.Area == 2;   // 빛줄기 직접 피해 (우두머리, BattleSim.Boss.cs): 이미 빛 세기가 곱해진 값 — 다른 배율을 또 곱하지 않는다
+                if (kind.IsBoss != 0 && !beamBurn)
+                {
+                    // 우두머리 (BattleSim.Boss.cs): 쇠장갑과 안개 — 빛 밖·통로 아래에서는 화살·총이 조금만 든다.
+                    // 오르는 동안 범위 피해는 매달려 피하지 못해 배로
+                    byte bossState = EnemyStates[e];
+                    if (hit.Area == 0)
+                    {
+                        if (!lit && bossState != EnemyState.OnWall) damage = math.max(1, (int)math.round(damage * kind.UnlitPointMul));
+                    }
+                    else if (bossState == EnemyState.Climbing)
+                    {
+                        damage = math.max(1, (int)math.round(damage * kind.ClimbAreaMul));
+                    }
+                }
+
+                if (lit && !beamBurn) damage = math.max(1, (int)math.round(damage * Beam.DamageMul));
                 int hp = EnemyHp[e] - damage;
                 EnemyHp[e] = math.max(hp, 0);
                 if (hp > 0)
@@ -994,7 +1083,6 @@ namespace HumanLastRampart.Combat.Battle
                     int p = WallGeometry.PileIndex(position, side, CastleHalf, Pile.BinWidth, Pile.Bins);
                     Piles[p] = math.min(Piles[p] + Pile.PerKill, Pile.MaxHeight);
                 }
-                EnemyKind kind = Kinds[KindOf[e]];
                 Stats[BattleStat.Kills]++;
                 Stats[BattleStat.Gold] += kind.RewardGold;
                 if (kind.IsSpecial != 0)
@@ -1042,6 +1130,7 @@ namespace HumanLastRampart.Combat.Battle
         public float LadderSize;
         [ReadOnly] public NativeArray<float> Burn;            // 화상 남은 시간 (K-035, BattleSim.Burn.cs)
         [ReadOnly] public NativeArray<int> TerrainHit;        // 토벽을 때리는 칸 (0 이상이면 때리는 중 — 공격 칸으로, K-051)
+        [ReadOnly] public NativeArray<float> Down;            // 우두머리 쓰러짐 남은 시간 (쓰러짐 칸으로)
         [ReadOnly] public NativeArray<float3> Positions;
         [ReadOnly] public NativeArray<byte> States;
         [ReadOnly] public NativeArray<float> AnimPhases;
@@ -1094,7 +1183,9 @@ namespace HumanLastRampart.Combat.Battle
             }
             else
             {
-                bool attacking = state == EnemyState.AtWall || state == EnemyState.OnWall || (state == EnemyState.Walking && TerrainHit[i] >= 0);
+                // 우두머리는 기어오르는 동안 성벽을 움켜쥐고 부수는 중 — 공격 칸 (임시 그림, K-129 전)
+                bool attacking = state == EnemyState.AtWall || state == EnemyState.OnWall || (state == EnemyState.Walking && TerrainHit[i] >= 0)
+                    || (state == EnemyState.Climbing && kind.IsBoss != 0);
                 float fps = attacking ? AttackFps : WalkFps;
                 float cycle = math.floor(math.frac(Time * fps / FramesPerAction + AnimPhases[i]) * FramesPerAction);
                 frame = cycle;
@@ -1120,6 +1211,13 @@ namespace HumanLastRampart.Combat.Battle
                     else if (kind.ClimbFrames > 0)
                         frame = PerfLabArt.ClimbFrame0 + cycle % kind.ClimbFrames;
                 }
+
+                // 우두머리 쓰러짐(떨어짐·함정): 쓰러짐 칸을 따라가다 마지막 칸에서 누워 있는다
+                if (kind.IsBoss != 0 && Down[i] > 0f && kind.FallFrames > 0)
+                {
+                    float lying = math.max(0f, kind.KnockdownSeconds - Down[i]);
+                    frame = PerfLabArt.FallFrame0 + math.min(math.floor(lying * FallFps), kind.FallFrames - 1);
+                }
             }
 
             float shade = Brightness;
@@ -1129,13 +1227,13 @@ namespace HumanLastRampart.Combat.Battle
             float beyond = fromWall - VisibleDistance;
             if (beyond > 0f && GroupSpotted[EnemyGroup[i]] == 0)
             {
-                if (beyond > 20f)
+                if (beyond > 20f && kind.IsBoss == 0)   // 우두머리는 커서 안개 속에서도 어두운 그림자로 보인다
                 {
                     Instances[i] = new PerfLabInstance { PosFrame = new float4(Positions[i], 0f), TintSize = float4.zero };
                     return;
                 }
 
-                shade *= math.lerp(0.45f, 0.15f, beyond / 20f);   // 시야 밖: 검은 그림자처럼 흐려지다 사라짐
+                shade *= math.lerp(0.45f, 0.15f, math.saturate(beyond / 20f));   // 시야 밖: 검은 그림자처럼 흐려지다 사라짐
             }
 
             // 화상 (K-035): 살아 있는 동안 붉게 깜빡인다

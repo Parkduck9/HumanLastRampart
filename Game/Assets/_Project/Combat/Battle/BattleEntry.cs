@@ -1031,11 +1031,13 @@ namespace HumanLastRampart.Combat.Battle
             if (victory)
             {
                 line = $"적 {sim.Kills:N0}을 막아 냈습니다\n얻은 골드 {sim.Gold:N0}";
+                if (sim.BossEndLine != null) line += "\n" + sim.BossEndLine;   // 우두머리 처치·시간 (BattleSim.Boss.cs)
             }
             else
             {
                 string wall = sim.DefeatSide >= 0 ? new[] { "북쪽", "동쪽", "남쪽", "서쪽" }[sim.DefeatSide] : "";
                 line = sim.DefeatReason == DefeatReason.WallDestroyed ? $"{wall} 성벽이 무너졌습니다" : $"{wall} 성벽을 지키던 병사 대부분을 잃었습니다";
+                if (sim.BossEndLine != null) line += "\n" + sim.BossEndLine;   // 우두머리가 나온 뒤 졌다면 그 기록도
                 if (sim.DefeatSide >= 0)
                 {
                     rig?.ShowSide(sim.DefeatSide);

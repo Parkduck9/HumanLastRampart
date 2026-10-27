@@ -130,7 +130,9 @@ namespace HumanLastRampart.Combat.Battle
         {
             if (finalStarted || enemyCount <= 0) return;
             int unspawned = spawnOrder.Length - spawnCursor;
-            if (unspawned <= 0) return;
+            // 우두머리는 최후 돌격으로 앞당기지 않는다 (제 시각·제 면 그대로) — 우두머리만 안 나왔을 때는 최후 돌격이 아니다
+            bool bossPending = bossSlot >= 0 && eState[bossSlot] == EnemyState.Waiting;
+            if (unspawned - (bossPending ? 1 : 0) <= 0) return;
             if (enemyCount - Kills > enemyCount * FinalRemainFraction) return;
 
             finalStarted = true;
@@ -138,7 +140,7 @@ namespace HumanLastRampart.Combat.Battle
             var random = new Unity.Mathematics.Random(seed ^ 0x9E3779B1u);
             // 이 전투가 이미 공격해 오는 면만 쓴다 (1번 전투는 정면뿐이라 원래 면 그대로)
             var sides = new List<int>();
-            foreach (GroupPlan plan in attackPlan) if (!sides.Contains(plan.Side)) sides.Add(plan.Side);
+            for (int g = 0; g < attackPlan.Count; g++) if (g != bossGroup && !sides.Contains(attackPlan[g].Side)) sides.Add(attackPlan[g].Side);
             sides.Sort();
             // 이미 나와 있는 우회 무리는 계속 발견·보고되어야 하므로 표시하지 않는다.
             // 살아서 나와 있는 적이 하나도 없는 무리(남은 적이 전부 아래에서 면이 바뀜)만 발견 끝낸 것으로 본다
@@ -157,6 +159,7 @@ namespace HumanLastRampart.Combat.Battle
             for (int i = spawnCursor; i < spawnOrder.Length; i++)
             {
                 SpawnEntry entry = spawnOrder[i];
+                if (entry.Slot == bossSlot) continue;
                 entry.Time = Elapsed + random.NextFloat(0f, FinalCompressSeconds);
                 if (sides.Count > 1) entry.Side = sides[random.NextInt(0, sides.Count)];
                 spawnOrder[i] = entry;
