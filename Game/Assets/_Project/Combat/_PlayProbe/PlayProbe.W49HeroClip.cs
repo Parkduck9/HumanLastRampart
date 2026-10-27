@@ -224,6 +224,7 @@ public sealed partial class PlayProbe
             cam.cullingMask = 1 << HeroLayer; cam.clearFlags = CameraClearFlags.SolidColor; cam.backgroundColor = Color.black;
             Color32[] c2 = Render(cam, rt, tex);                      // C2: 주인공 층만 — 빈 화면
             buffer.SetData(instances);
+            // 주의: 이 그리기는 그 프레임 끝까지 남는다. 전투 사진기는 30번 층을 안 그리므로 장면에는 안 보이고, 이 도구는 그 프레임 안에서만 쓴다 (점검 전용)
             Graphics.DrawMeshInstancedProcedural(quad, 0, material, bounds, 1, block, ShadowCastingMode.Off, false, HeroLayer);
             Color32[] c1 = Render(cam, rt, tex);                      // C1: 주인공 그림만 — 가려지지 않은 완전한 모양
             cam.cullingMask = mask; cam.clearFlags = flags; cam.backgroundColor = bg;

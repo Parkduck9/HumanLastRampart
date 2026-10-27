@@ -7,13 +7,12 @@ namespace HumanLastRampart.Combat.Tests
 {
     // 주인공 걷기·달리기 시트 칸 점검 (W49, 사용자 1.0 시험 "플레이어 움직일때 짤리는거같은데"):
     // 모양 옆 끝 줄이 세로로 길게 곧게 끊긴 칸 = 그림이 옆으로 싹둑 잘린 칸. 자연스러운 옆 끝(머리카락·주먹·발끝)은 한 줄에 27화소를 안 넘는다.
-    // 지금 달리기 행(행 2) 1·2번 칸은 뒤로 뻗은 다리·장화가 원본부터 옆으로 잘려 있다 (42~45화소 곧은 단면) — 그림 다시 그리기는 Codex 몫.
-    // 새 잘림이 생기면 이 시험이 실패하고, 위 두 칸을 고치면 알려진 목록에서 지우라고 알려 준다
+    // 예전 달리기 행(행 2) 1·2번 칸은 뒤로 뻗은 다리·장화가 옆으로 잘려 있었다 (42~45화소 곧은 단면) — Codex K-133 그림으로 고쳐졌다. 잘린 칸이 하나라도 생기면 실패한다
     public sealed class HeroSheetEdgeTests
     {
         const string SheetPath = "_Project/Art/Characters/Hero/hero_walk_run_grid.png";
         const int Columns = 4, Rows = 4, SliceRun = 36;   // 곧은 단면 판정: 맨 끝 줄에서 이어진 불투명 화소 수
-        static readonly HashSet<string> KnownSliced = new HashSet<string> { "행2 칸1 오른쪽", "행2 칸2 오른쪽" };
+        static readonly HashSet<string> KnownSliced = new HashSet<string>();   // 알려진 잘림 없음 (K-133 그림으로 달리기 행 2의 1·2번 칸이 고쳐졌다)
 
         // 한 칸의 왼쪽·오른쪽 맨 끝 불투명 줄에서 세로로 이어진 최대 길이
         static void EdgeRuns(Color32[] pixels, int width, int cellX, int cellY, int cellW, int cellH, out int left, out int right)

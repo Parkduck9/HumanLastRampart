@@ -511,7 +511,7 @@ namespace HumanLastRampart.Combat.Battle
                         Vector3 pp = baseFeet + local + toCamera * 0.005f;
                         ps.Instances[ps.Count++] = new PerfLabInstance
                         {
-                            PosFrame = new float4(pp.x, pp.y, pp.z, pframe),
+                            PosFrame = new float4(pp.x, pp.y + BattleSim.FootLift, pp.z, pframe),
                             TintSize = new float4(shade, shade, shade, WorkerH * Mpp),
                         };
                         workerDir[i] = pdir;
@@ -534,7 +534,7 @@ namespace HumanLastRampart.Combat.Battle
                         Vector3 mp = baseFeet + local + toCamera * 0.005f;
                         sheet.Instances[sheet.Count++] = new PerfLabInstance
                         {
-                            PosFrame = new float4(mp.x, mp.y, mp.z, mframe),
+                            PosFrame = new float4(mp.x, mp.y + BattleSim.FootLift, mp.z, mframe),
                             TintSize = new float4(shade, shade, shade, WorkerH * Mpp),
                         };
                         workerNewSheet[i] = true;
@@ -557,7 +557,7 @@ namespace HumanLastRampart.Combat.Battle
                 p3 += new Vector3(0f, bob, 0f) + toCamera * 0.005f;
                 piece.Instances[piece.Count++] = new PerfLabInstance
                 {
-                    PosFrame = new float4(p3.x, p3.y, p3.z, mirror ? -frame - 1 : frame),
+                    PosFrame = new float4(p3.x, p3.y + BattleSim.FootLift, p3.z, mirror ? -frame - 1 : frame),
                     TintSize = new float4(shade, shade, shade, WorkerH * Mpp),
                 };
             }
@@ -586,14 +586,14 @@ namespace HumanLastRampart.Combat.Battle
                         int frame = (int)(time * 8f) % PerfLabArt.FrameCount(courierRunSheet);
                         bool movingRight = Vector3.Dot(c.Direction, camRight) > 0f;
                         bool flip = PerfLabArt.RunFacesRight(courierRunSheet) ? !movingRight : movingRight;   // 달리기 그림이 보는 쪽 (PerfLabArt.RunFacesRight)
-                        courierRun.Instances[courierRun.Count++] = new PerfLabInstance { PosFrame = new float4(cp.x, cp.y, cp.z, flip ? -frame - 1 : frame), TintSize = new float4(shade, shade, shade, soldierSize) };
+                        courierRun.Instances[courierRun.Count++] = new PerfLabInstance { PosFrame = new float4(cp.x, cp.y + BattleSim.FootLift, cp.z, flip ? -frame - 1 : frame), TintSize = new float4(shade, shade, shade, soldierSize) };
                     }
                     else
                     {
                         // 달리기 그림이 없으면 서 있는 그림이 통통 튀며 움직인다
                         float bob = c.Busy ? Mathf.Abs(Mathf.Sin(time * 14f)) * 0.12f : 0f;
                         bool movingRight = c.Busy && Vector3.Dot(c.Direction, camRight) > 0f;
-                        courierStand.Instances[courierStand.Count++] = new PerfLabInstance { PosFrame = new float4(cp.x, cp.y + bob, cp.z, movingRight ? -1f : 0f), TintSize = new float4(shade, shade, shade, soldierSize) };
+                        courierStand.Instances[courierStand.Count++] = new PerfLabInstance { PosFrame = new float4(cp.x, cp.y + BattleSim.FootLift + bob, cp.z, movingRight ? -1f : 0f), TintSize = new float4(shade, shade, shade, soldierSize) };
                     }
                 }
 

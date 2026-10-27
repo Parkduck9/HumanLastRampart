@@ -226,8 +226,13 @@ namespace HumanLastRampart.Combat.Battle
                 bool flip = Vector3.Dot(dir, camRight) > 0f;   // 그림은 왼쪽(사진기 왼쪽)으로 끈다
                 float w = flip ? -frame - 1 : frame;
                 var tint = new float4(shade, shade, shade, SoldierHeight);
+                // 발 높이 (W49): 끄는 병사는 병사와 같게, 포가·바퀴는 설치된 대포 높이에서 출발·도착 때 부드럽게 이어진다 (설치되면 바깥으로 InstalledForwardOffset)
                 Vector3 pull = at - dir * (CannonArt.PullOffsetPx * mpp);   // 그림 왼쪽(−) = 가는 쪽
                 Vector3 push = at - dir * (CannonArt.PushOffsetPx * mpp);
+                pull.y = sim.Standing(new float3(pull.x, pull.y, pull.z)).y;
+                push.y = sim.Standing(new float3(push.x, push.y, push.z)).y;
+                float cannonLift = sim.Standing(new float3(at.x, at.y, at.z), CannonArt.InstalledForwardOffset).y - at.y;
+                at.y += cannonLift;
                 haulPull.Instances[haulPull.Count++] = new PerfLabInstance { PosFrame = new float4(pull.x, pull.y, pull.z, w), TintSize = tint };
                 if (haul.PushCrew) haulPush.Instances[haulPush.Count++] = new PerfLabInstance { PosFrame = new float4(push.x, push.y, push.z, w), TintSize = tint };
                 haulChassis.Instances[haulChassis.Count++] = new PerfLabInstance { PosFrame = new float4(at.x, at.y, at.z, flip ? -1f : 0f), TintSize = new float4(shade, shade, shade, cannonSize) };

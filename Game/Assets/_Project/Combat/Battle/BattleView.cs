@@ -345,6 +345,7 @@ namespace HumanLastRampart.Combat.Battle
 
             heroBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, 1, PerfLabInstance.Stride);
             heroBlock.SetBuffer(InstancesId, heroBuffer);
+            heroBlock.SetFloat(DepthPullId, HeroDepthPull);   // 만들 때 한 번 (W49)
             shadows.Add(heroBuffer, 1, HumanLastRampart.Combat.Render.ContactShadows.SoldierWidthPerSize);
             heroSheetOriginal = heroSheet;            // 3등신 시험 그림에서 되돌릴 원래 그림 (K-057)
             heroIdleOriginal = heroIdleSheet;
@@ -355,6 +356,7 @@ namespace HumanLastRampart.Combat.Battle
                 heroIdleBlock = new MaterialPropertyBlock();
                 ApplyFigure(heroIdleBlock, heroIdleSheet, heroIdleNormalSheet);
                 heroIdleBlock.SetBuffer(InstancesId, heroBuffer);
+                heroIdleBlock.SetFloat(DepthPullId, HeroDepthPull);
             }
 
             if (sim.WizardPresent && sim.WizardUnit != null && sim.WizardUnit.Sheet != null)
@@ -478,6 +480,7 @@ namespace HumanLastRampart.Combat.Battle
             heroCommandBlock = new MaterialPropertyBlock();
             ApplyFigure(heroCommandBlock, sheet, normal);
             heroCommandBlock.SetBuffer(InstancesId, heroBuffer);
+            heroCommandBlock.SetFloat(DepthPullId, HeroDepthPull);
         }
 
         public bool HasHeroCommandArt => heroCommandBlock != null;
@@ -609,9 +612,6 @@ namespace HumanLastRampart.Combat.Battle
         // command = 명령 손짓 칸 (0 이상이면 손짓 시트로, 뒤집지 않음 — K-032)
         public void SetHero(Vector3 feet, int frame, bool flip, bool visible, bool idle = false, int command = -1)
         {
-            heroBlock.SetFloat(DepthPullId, HeroDepthPull);
-            heroIdleBlock?.SetFloat(DepthPullId, HeroDepthPull);
-            heroCommandBlock?.SetFloat(DepthPullId, HeroDepthPull);
             heroVisible = visible;
             heroCommandFrame = heroCommandBlock != null ? command : -1;
             heroIdle = idle && heroIdleBlock != null && heroCommandFrame < 0;
