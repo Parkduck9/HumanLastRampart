@@ -529,8 +529,39 @@ namespace HumanLastRampart.Combat.Battle
 
             ViewPreset p = PresetIndex >= 0 ? Presets[PresetIndex] : Blend(Presets[0], Presets[1], Mathf.SmoothStep(0f, 1f, moveBlend));
             Vector3 position = smoothedFeet - forward * p.Back + Vector3.up * p.Up;
+            position.y = LiftOverBuildings(position);
             camera.transform.SetPositionAndRotation(position, heading * Quaternion.Euler(p.Pitch, 0f, 0f));
             ApplyShake(dt);
+        }
+
+        // W47 (사용자 2026-10-26 "플레이어가 성벽돌때 그림 겹쳐서 계속 z-파이팅"): 마당 건물은 지붕까지 2.0~2.5m라 사진기(성벽 위 2.1~2.25m, 주인공 3m 뒤)가
+        // 대장간·병영·수리소 위를 지나면 근접면이 지붕·벽을 갈라 화면 절반을 큰 지붕 그림이 덮고 가장자리가 깜박인다 (걷는 표본의 28%).
+        // 건물 바닥 모양 위로 가면 사진기를 지붕 꼭대기 위로 올린다. 둘레 BuildingRamp(m)부터 서서히 올라 튀지 않는다
+        public const float BuildingClearance = 0.4f;   // 지붕 꼭대기 위 여유 (m)
+        public const float BuildingRamp = 1.5f;        // 건물 바닥 모양 둘레에서 오르기 시작하는 거리 (m)
+
+        public static bool BuildingLiftEnabled = true;   // 시험 도구가 고치기 전 모습을 재려고 끈다 (게임에서는 항상 켜짐)
+
+        public float LiftOverBuildings(Vector3 position)
+        {
+            float y = position.y;
+            if (!BuildingLiftEnabled) return y;
+            float floor = wallHeight + 0.01f;   // 마당 바닥 (BattleCourtyardBuildings의 바닥 높이)
+            foreach (var plot in BattleCourtyardBuildings.Plots)
+                y = Mathf.Max(y, LiftNear(BattleCourtyardBuildings.Footprint(plot, castleHalf), floor + plot.TotalHeight, position));
+            foreach (var piece in BattleCourtyardBuildings.Pieces)
+                y = Mathf.Max(y, LiftNear(BattleCourtyardBuildings.Footprint(piece, castleHalf), floor + piece.Y0 + piece.Height, position));
+            return y;
+        }
+
+        static float LiftNear(Rect footprint, float top, Vector3 position)
+        {
+            float need = top + BuildingClearance;
+            if (need <= position.y) return position.y;   // 이미 위
+            float dx = Mathf.Max(footprint.xMin - position.x, 0f, position.x - footprint.xMax);
+            float dz = Mathf.Max(footprint.yMin - position.z, 0f, position.z - footprint.yMax);
+            float t = Mathf.Clamp01(1f - Mathf.Sqrt(dx * dx + dz * dz) / BuildingRamp);
+            return Mathf.Lerp(position.y, need, t * t * (3f - 2f * t));
         }
 
         // ── 화면 흔들림 (K-041 마법·함정 폭발) ── 효과 쪽(BattleEffectsView)이 부르고, 카메라 자리를 정한 뒤 위에 얹기만 한다
@@ -574,3 +605,4 @@ namespace HumanLastRampart.Combat.Battle
         };
     }
 }
+

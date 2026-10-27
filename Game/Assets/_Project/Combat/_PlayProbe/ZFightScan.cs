@@ -123,6 +123,142 @@ public static class ZFightScan
         return new List<Finding>(byPair.Values);
     }
 
+    // ── W47: 위를 보지 않는 면(세로 면·기울어진 면)의 겹침 ──
+    // 같은 방향을 보고 같은 평면(거리 차 MinSeparation 미만)에 놓이며 평면 위에서 겹치는 삼각형 쌍. 가려졌는지는 가르지 않는다 (이름으로 판단)
+    struct PlaneTri
+    {
+        public Vector3 A, B, C, N;
+        public float D;
+        public int Owner;
+        public bool NoZWrite;
+        public Vector3 Min, Max;
+    }
+
+    public static List<Finding> ScanAnyOrientation(float areaHalf, StringBuilder stats = null)
+    {
+        var tris = new List<PlaneTri>();
+        var names = new List<string>();
+        var grid = new Dictionary<long, List<int>>();
+        const float yMin = -5f, yMax = 40f;
+        foreach (var mr in Object.FindObjectsByType<MeshRenderer>(FindObjectsSortMode.None))
+        {
+            if (!mr.enabled || !mr.gameObject.activeInHierarchy) continue;
+            var mf = mr.GetComponent<MeshFilter>();
+            if (mf == null || mf.sharedMesh == null) continue;
+            int owner = names.Count;
+            names.Add(PathOf(mr.transform));
+            Mesh mesh = mf.sharedMesh;
+            Matrix4x4 m = mr.transform.localToWorldMatrix;
+            var verts = mesh.vertices;
+            var mats = mr.sharedMaterials;
+            for (int sub = 0; sub < mesh.subMeshCount; sub++)
+            {
+                Material mat = mats.Length == 0 ? null : mats[Mathf.Min(sub, mats.Length - 1)];
+                bool noZ = mat != null && (mat.HasProperty("_ZWrite") ? mat.GetFloat("_ZWrite") < 0.5f : mat.renderQueue >= 3000);
+                var idx = mesh.GetTriangles(sub);
+                for (int i = 0; i + 2 < idx.Length; i += 3)
+                {
+                    Vector3 a = m.MultiplyPoint3x4(verts[idx[i]]), b = m.MultiplyPoint3x4(verts[idx[i + 1]]), c = m.MultiplyPoint3x4(verts[idx[i + 2]]);
+                    Vector3 nrm = Vector3.Cross(b - a, c - a);
+                    float len = nrm.magnitude;
+                    if (len < 1e-6f) continue;
+                    nrm /= len;
+                    if (Mathf.Abs(nrm.y) >= FlatNormalY) continue;   // 위·아래를 보는 평평한 면은 Scan이 본다
+                    var t = new PlaneTri { A = a, B = b, C = c, N = nrm, D = Vector3.Dot(nrm, a), Owner = owner, NoZWrite = noZ };
+                    t.Min = Vector3.Min(a, Vector3.Min(b, c));
+                    t.Max = Vector3.Max(a, Vector3.Max(b, c));
+                    if (t.Max.x < -areaHalf || t.Min.x > areaHalf || t.Max.z < -areaHalf || t.Min.z > areaHalf || t.Max.y < yMin || t.Min.y > yMax) continue;
+                    int id = tris.Count;
+                    tris.Add(t);
+                    int x0 = Mathf.FloorToInt(Mathf.Max(t.Min.x, -areaHalf) / Cell), x1 = Mathf.FloorToInt(Mathf.Min(t.Max.x, areaHalf) / Cell);
+                    int y0 = Mathf.FloorToInt(Mathf.Max(t.Min.y, yMin) / Cell), y1 = Mathf.FloorToInt(Mathf.Min(t.Max.y, yMax) / Cell);
+                    int z0 = Mathf.FloorToInt(Mathf.Max(t.Min.z, -areaHalf) / Cell), z1 = Mathf.FloorToInt(Mathf.Min(t.Max.z, areaHalf) / Cell);
+                    for (int cx = x0; cx <= x1; cx++)
+                        for (int cy = y0; cy <= y1; cy++)
+                            for (int cz = z0; cz <= z1; cz++)
+                            {
+                                long key = ((long)(cx + 512) << 40) ^ ((long)(cy + 512) << 20) ^ (long)(cz + 512);
+                                if (!grid.TryGetValue(key, out var list)) grid[key] = list = new List<int>();
+                                list.Add(id);
+                            }
+                }
+            }
+        }
+
+        stats?.AppendLine($"기울어진·세로 삼각형 {tris.Count}개, 메시 {names.Count}개, 칸 {grid.Count}개");
+        var seen = new HashSet<long>();
+        var byPair = new Dictionary<long, Finding>();
+        foreach (var kv in grid)
+        {
+            var list = kv.Value;
+            for (int i = 0; i < list.Count; i++)
+                for (int j = i + 1; j < list.Count; j++)
+                {
+                    int ia = list[i], ib = list[j];
+                    if (ia > ib) { int s = ia; ia = ib; ib = s; }
+                    PlaneTri ta = tris[ia], tb = tris[ib];
+                    if (Vector3.Dot(ta.N, tb.N) < 0.9999f) continue;
+                    if (Mathf.Abs(ta.D - Vector3.Dot(ta.N, tb.A)) >= MinSeparation) continue;
+                    if (Mathf.Abs(ta.D - Vector3.Dot(ta.N, tb.B)) >= MinSeparation || Mathf.Abs(ta.D - Vector3.Dot(ta.N, tb.C)) >= MinSeparation) continue;
+                    if (ta.NoZWrite && tb.NoZWrite) continue;
+                    if (ta.Max.x <= tb.Min.x || tb.Max.x <= ta.Min.x || ta.Max.y <= tb.Min.y || tb.Max.y <= ta.Min.y || ta.Max.z <= tb.Min.z || tb.Max.z <= ta.Min.z) continue;
+                    long pairKey = ((long)ia << 32) | (uint)ib;
+                    if (!seen.Add(pairKey)) continue;
+                    // 평면 위 두 축으로 눌러 겹침 넓이를 잰다
+                    Vector3 u = Vector3.Cross(ta.N, Mathf.Abs(ta.N.y) < 0.9f ? Vector3.up : Vector3.right).normalized, v = Vector3.Cross(ta.N, u);
+                    Tri pa = Flatten(ta, u, v), pb = Flatten(tb, u, v);
+                    var poly = Clip(pa, pb);
+                    float area = Area(poly);
+                    if (area < MinArea) continue;
+                    long ownerKey = ((long)Mathf.Min(ta.Owner, tb.Owner) << 32) | (uint)Mathf.Max(ta.Owner, tb.Owner);
+                    byPair.TryGetValue(ownerKey, out Finding f);
+                    if (f.A == null)
+                    {
+                        Vector2 cp = Centroid(poly);
+                        f = new Finding { A = names[Mathf.Min(ta.Owner, tb.Owner)], B = names[Mathf.Max(ta.Owner, tb.Owner)], Dy = Vector3.Dot(ta.N, tb.A) - ta.D, Where = ta.A + u * (cp.x - pa.P0.x) + v * (cp.y - pa.P0.y) };
+                    }
+
+                    f.VisibleArea += area;
+                    byPair[ownerKey] = f;
+                }
+        }
+
+        return new List<Finding>(byPair.Values);
+    }
+
+    static Tri Flatten(PlaneTri t, Vector3 u, Vector3 v) => new Tri
+    {
+        P0 = new Vector2(Vector3.Dot(t.A, u), Vector3.Dot(t.A, v)),
+        P1 = new Vector2(Vector3.Dot(t.B, u), Vector3.Dot(t.B, v)),
+        P2 = new Vector2(Vector3.Dot(t.C, u), Vector3.Dot(t.C, v)),
+    };
+
+    // ── W47: 세운 그림(병사·장교·대포 운용병·주인공 등)끼리 같은 깊이에 겹치는가 ──
+    // 세운 그림은 사진기를 향한 세로 판이라(PerfLabSprite) 평면은 '사진기 앞쪽 수평 방향 깊이'로 정해진다. 깊이 차가 MinSeparation 미만이고
+    // 좌우로 겹치면(폭 합의 절반 안) 같은 평면 겹침 — 사진기가 움직이면 어느 쪽이 이기는지 뒤바뀐다.
+    // items: xyz = 발 위치, w = 높이(m). widthPerHeight = 판 폭/높이 (대략)
+    public static List<(int A, int B, float Depth, float Lateral)> ScanBillboards(Camera cam, IList<Vector4> items, float widthPerHeight = 0.9f)
+    {
+        var found = new List<(int, int, float, float)>();
+        Vector3 f = cam.transform.forward; f.y = 0f; f = f.sqrMagnitude > 1e-6f ? f.normalized : Vector3.forward;
+        Vector3 right = Vector3.Cross(Vector3.up, f);
+        for (int i = 0; i < items.Count; i++)
+        {
+            if (items[i].w <= 0f) continue;
+            for (int j = i + 1; j < items.Count; j++)
+            {
+                if (items[j].w <= 0f) continue;
+                Vector3 d = new Vector3(items[j].x - items[i].x, 0f, items[j].z - items[i].z);
+                float depth = Mathf.Abs(Vector3.Dot(d, f)), lateral = Mathf.Abs(Vector3.Dot(d, right));
+                if (depth >= MinSeparation) continue;
+                if (lateral >= (items[i].w + items[j].w) * 0.5f * widthPerHeight * 0.9f) continue;
+                found.Add((i, j, depth, lateral));
+            }
+        }
+
+        return found;
+    }
+
     static string PathOf(Transform t)
     {
         string n = t.name;
