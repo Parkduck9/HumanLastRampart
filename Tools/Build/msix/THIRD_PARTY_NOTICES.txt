@@ -1,0 +1,401 @@
+﻿THIRD-PARTY NOTICES / 제3자 저작물 고지
+Lightbearers (빛을 잇는 자들) 1.0.0
+
+This product includes the third-party materials listed below.
+이 게임에는 아래 제3자 저작물이 들어 있습니다.
+
+================================================================
+1. FONTS (SIL Open Font License 1.1)
+================================================================
+Galmuri11 / Galmuri11-Bold  - Copyright (c) 2019-2025 Lee Minseo (quiple@quiple.dev) - https://github.com/quiple/galmuri
+Gowun Batang (Regular)      - Copyright 2021 The Gowun Batang Project Authors (https://github.com/yangheeryu/Gowun-Batang)
+Hahmlet (Black)             - Copyright 2020 The Hahmlet Project Authors (https://github.com/hyper-type/hahmlet)
+
+---------------- Galmuri : full licence text ----------------
+Copyright (c) 2019–2025 Lee Minseo (quiple@quiple.dev)
+
+This font software is licensed under the SIL Open Font License, Version 1.1.
+This license is copied below, and is also available with a FAQ at:
+https://openfontlicense.org
+
+
+-----------------------------------------------------------
+SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+-----------------------------------------------------------
+
+PREAMBLE
+The goals of the Open Font License (OFL) are to stimulate worldwide
+development of collaborative font projects, to support the font creation
+efforts of academic and linguistic communities, and to provide a free and
+open framework in which fonts may be shared and improved in partnership
+with others.
+
+The OFL allows the licensed fonts to be used, studied, modified and
+redistributed freely as long as they are not sold by themselves. The
+fonts, including any derivative works, can be bundled, embedded,
+redistributed and/or sold with any software provided that any reserved
+names are not used by derivative works. The fonts and derivatives,
+however, cannot be released under any other type of license. The
+requirement for fonts to remain under this license does not apply
+to any document created using the fonts or their derivatives.
+
+DEFINITIONS
+"Font Software" refers to the set of files released by the Copyright
+Holder(s) under this license and clearly marked as such. This may
+include source files, build scripts and documentation.
+
+"Reserved Font Name" refers to any names specified as such after the
+copyright statement(s).
+
+"Original Version" refers to the collection of Font Software components as
+distributed by the Copyright Holder(s).
+
+"Modified Version" refers to any derivative made by adding to, deleting,
+or substituting -- in part or in whole -- any of the components of the
+Original Version, by changing formats or by porting the Font Software to a
+new environment.
+
+"Author" refers to any designer, engineer, programmer, technical
+writer or other person who contributed to the Font Software.
+
+PERMISSION & CONDITIONS
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of the Font Software, to use, study, copy, merge, embed, modify,
+redistribute, and sell modified and unmodified copies of the Font
+Software, subject to the following conditions:
+
+1) Neither the Font Software nor any of its individual components,
+in Original or Modified Versions, may be sold by itself.
+
+2) Original or Modified Versions of the Font Software may be bundled,
+redistributed and/or sold with any software, provided that each copy
+contains the above copyright notice and this license. These can be
+included either as stand-alone text files, human-readable headers or
+in the appropriate machine-readable metadata fields within text or
+binary files as long as those fields can be easily viewed by the user.
+
+3) No Modified Version of the Font Software may use the Reserved Font
+Name(s) unless explicit written permission is granted by the corresponding
+Copyright Holder. This restriction only applies to the primary font name as
+presented to the users.
+
+4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
+Software shall not be used to promote, endorse or advertise any
+Modified Version, except to acknowledge the contribution(s) of the
+Copyright Holder(s) and the Author(s) or with their explicit written
+permission.
+
+5) The Font Software, modified or unmodified, in part or in whole,
+must be distributed entirely under this license, and must not be
+distributed under any other license. The requirement for fonts to
+remain under this license does not apply to any document created
+using the Font Software.
+
+TERMINATION
+This license becomes null and void if any of the above conditions are
+not met.
+
+DISCLAIMER
+THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
+DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
+OTHER DEALINGS IN THE FONT SOFTWARE.
+
+---------------- GowunBatang : full licence text ----------------
+Copyright 2021 The Gowun Batang Project Authors (https://github.com/yangheeryu/Gowun-Batang)
+
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is copied below, and is also available with a FAQ at:
+http://scripts.sil.org/OFL
+
+
+-----------------------------------------------------------
+SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+-----------------------------------------------------------
+
+PREAMBLE
+The goals of the Open Font License (OFL) are to stimulate worldwide
+development of collaborative font projects, to support the font creation
+efforts of academic and linguistic communities, and to provide a free and
+open framework in which fonts may be shared and improved in partnership
+with others.
+
+The OFL allows the licensed fonts to be used, studied, modified and
+redistributed freely as long as they are not sold by themselves. The
+fonts, including any derivative works, can be bundled, embedded, 
+redistributed and/or sold with any software provided that any reserved
+names are not used by derivative works. The fonts and derivatives,
+however, cannot be released under any other type of license. The
+requirement for fonts to remain under this license does not apply
+to any document created using the fonts or their derivatives.
+
+DEFINITIONS
+"Font Software" refers to the set of files released by the Copyright
+Holder(s) under this license and clearly marked as such. This may
+include source files, build scripts and documentation.
+
+"Reserved Font Name" refers to any names specified as such after the
+copyright statement(s).
+
+"Original Version" refers to the collection of Font Software components as
+distributed by the Copyright Holder(s).
+
+"Modified Version" refers to any derivative made by adding to, deleting,
+or substituting -- in part or in whole -- any of the components of the
+Original Version, by changing formats or by porting the Font Software to a
+new environment.
+
+"Author" refers to any designer, engineer, programmer, technical
+writer or other person who contributed to the Font Software.
+
+PERMISSION & CONDITIONS
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of the Font Software, to use, study, copy, merge, embed, modify,
+redistribute, and sell modified and unmodified copies of the Font
+Software, subject to the following conditions:
+
+1) Neither the Font Software nor any of its individual components,
+in Original or Modified Versions, may be sold by itself.
+
+2) Original or Modified Versions of the Font Software may be bundled,
+redistributed and/or sold with any software, provided that each copy
+contains the above copyright notice and this license. These can be
+included either as stand-alone text files, human-readable headers or
+in the appropriate machine-readable metadata fields within text or
+binary files as long as those fields can be easily viewed by the user.
+
+3) No Modified Version of the Font Software may use the Reserved Font
+Name(s) unless explicit written permission is granted by the corresponding
+Copyright Holder. This restriction only applies to the primary font name as
+presented to the users.
+
+4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
+Software shall not be used to promote, endorse or advertise any
+Modified Version, except to acknowledge the contribution(s) of the
+Copyright Holder(s) and the Author(s) or with their explicit written
+permission.
+
+5) The Font Software, modified or unmodified, in part or in whole,
+must be distributed entirely under this license, and must not be
+distributed under any other license. The requirement for fonts to
+remain under this license does not apply to any document created
+using the Font Software.
+
+TERMINATION
+This license becomes null and void if any of the above conditions are
+not met.
+
+DISCLAIMER
+THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
+DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
+OTHER DEALINGS IN THE FONT SOFTWARE.
+
+---------------- Hahmlet : full licence text ----------------
+Copyright 2020 The Hahmlet Project Authors (https://github.com/hyper-type/hahmlet)
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is copied below, and is also available with a FAQ at:
+http://scripts.sil.org/OFL
+
+
+-----------------------------------------------------------
+SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+-----------------------------------------------------------
+
+PREAMBLE
+The goals of the Open Font License (OFL) are to stimulate worldwide
+development of collaborative font projects, to support the font creation
+efforts of academic and linguistic communities, and to provide a free and
+open framework in which fonts may be shared and improved in partnership
+with others.
+
+The OFL allows the licensed fonts to be used, studied, modified and
+redistributed freely as long as they are not sold by themselves. The
+fonts, including any derivative works, can be bundled, embedded, 
+redistributed and/or sold with any software provided that any reserved
+names are not used by derivative works. The fonts and derivatives,
+however, cannot be released under any other type of license. The
+requirement for fonts to remain under this license does not apply
+to any document created using the fonts or their derivatives.
+
+DEFINITIONS
+"Font Software" refers to the set of files released by the Copyright
+Holder(s) under this license and clearly marked as such. This may
+include source files, build scripts and documentation.
+
+"Reserved Font Name" refers to any names specified as such after the
+copyright statement(s).
+
+"Original Version" refers to the collection of Font Software components as
+distributed by the Copyright Holder(s).
+
+"Modified Version" refers to any derivative made by adding to, deleting,
+or substituting -- in part or in whole -- any of the components of the
+Original Version, by changing formats or by porting the Font Software to a
+new environment.
+
+"Author" refers to any designer, engineer, programmer, technical
+writer or other person who contributed to the Font Software.
+
+PERMISSION & CONDITIONS
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of the Font Software, to use, study, copy, merge, embed, modify,
+redistribute, and sell modified and unmodified copies of the Font
+Software, subject to the following conditions:
+
+1) Neither the Font Software nor any of its individual components,
+in Original or Modified Versions, may be sold by itself.
+
+2) Original or Modified Versions of the Font Software may be bundled,
+redistributed and/or sold with any software, provided that each copy
+contains the above copyright notice and this license. These can be
+included either as stand-alone text files, human-readable headers or
+in the appropriate machine-readable metadata fields within text or
+binary files as long as those fields can be easily viewed by the user.
+
+3) No Modified Version of the Font Software may use the Reserved Font
+Name(s) unless explicit written permission is granted by the corresponding
+Copyright Holder. This restriction only applies to the primary font name as
+presented to the users.
+
+4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
+Software shall not be used to promote, endorse or advertise any
+Modified Version, except to acknowledge the contribution(s) of the
+Copyright Holder(s) and the Author(s) or with their explicit written
+permission.
+
+5) The Font Software, modified or unmodified, in part or in whole,
+must be distributed entirely under this license, and must not be
+distributed under any other license. The requirement for fonts to
+remain under this license does not apply to any document created
+using the Font Software.
+
+TERMINATION
+This license becomes null and void if any of the above conditions are
+not met.
+
+DISCLAIMER
+THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
+DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
+OTHER DEALINGS IN THE FONT SOFTWARE.
+
+================================================================
+2. AUDIO (all CC0 1.0 Universal / public domain; attribution not required, listed as courtesy)
+================================================================
+Licence: https://creativecommons.org/publicdomain/zero/1.0/
+Sources: Kenney (https://kenney.nl - RPG Audio, Impact Sounds, Interface Sounds), OpenGameArt.org contributors (links below).
+
+Music/battle_theme_a.mp3 | cynicmusic | CC0 | https://opengameart.org/content/battle-theme-a
+Music/day_old_tower_inn.mp3 | RandomMind | CC0 | https://opengameart.org/content/medieval-the-old-tower-inn
+Music/night_prepare_to_fight.mp3 | basil | CC0 | https://opengameart.org/content/prepare-to-fight
+Music/result_defeat_laments.mp3 | cethiel | CC0 | https://opengameart.org/content/laments-of-the-war
+Music/result_victory.mp3 | cynicmusic | CC0 | https://opengameart.org/content/victory-theme-for-rpg
+Music/story_the_hope.mp3 | tad | CC0 | https://opengameart.org/content/the-hope
+Sfx/back_001.ogg | Kenney | CC0 | https://kenney.nl/assets/interface-sounds
+Sfx/bong_001.ogg | Kenney | CC0 | https://kenney.nl/assets/interface-sounds
+Sfx/click_001.ogg | Kenney | CC0 | https://kenney.nl/assets/interface-sounds
+Sfx/click_002.ogg | Kenney | CC0 | https://kenney.nl/assets/interface-sounds
+Sfx/click_003.ogg | Kenney | CC0 | https://kenney.nl/assets/interface-sounds
+Sfx/close_001.ogg | Kenney | CC0 | https://kenney.nl/assets/interface-sounds
+Sfx/confirmation_001.ogg | Kenney | CC0 | https://kenney.nl/assets/interface-sounds
+Sfx/confirmation_002.ogg | Kenney | CC0 | https://kenney.nl/assets/interface-sounds
+Sfx/creak1.ogg | Kenney | CC0 | https://kenney.nl/assets/rpg-audio
+Sfx/creak2.ogg | Kenney | CC0 | https://kenney.nl/assets/rpg-audio
+Sfx/creak3.ogg | Kenney | CC0 | https://kenney.nl/assets/rpg-audio
+Sfx/crickets_1.mp3 | see source page | CC0 | https://opengameart.org/content/crickets-ambient-noise-loopable
+Sfx/crowd_shouting_0.ogg | see source page | CC0 | https://opengameart.org/content/crowd-shoutingspeaking-ambience
+Sfx/drawKnife1.ogg | Kenney | CC0 | https://kenney.nl/assets/rpg-audio
+Sfx/drawKnife2.ogg | Kenney | CC0 | https://kenney.nl/assets/rpg-audio
+Sfx/drawKnife3.ogg | Kenney | CC0 | https://kenney.nl/assets/rpg-audio
+Sfx/footstep_grass_000.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/footstep_grass_001.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/footstep_grass_002.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/footstep_grass_003.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/footstep_grass_004.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/glass_002.ogg | Kenney | CC0 | https://kenney.nl/assets/interface-sounds
+Sfx/impactBell_heavy_000.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactGlass_heavy_000.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactGlass_heavy_001.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactGlass_heavy_002.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactGlass_heavy_003.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactGlass_heavy_004.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactMetal_heavy_000.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactMetal_heavy_001.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactMetal_heavy_002.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactMetal_heavy_003.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactMetal_heavy_004.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactMining_000.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactMining_001.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactMining_002.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactMining_003.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactMining_004.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactPunch_heavy_000.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactPunch_heavy_001.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactPunch_heavy_002.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactPunch_heavy_003.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactPunch_heavy_004.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactPunch_medium_000.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactPunch_medium_001.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactPunch_medium_002.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactPunch_medium_003.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactPunch_medium_004.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactSoft_heavy_000.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactSoft_heavy_001.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactSoft_heavy_002.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactSoft_heavy_003.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactSoft_heavy_004.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactSoft_medium_000.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactSoft_medium_001.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactSoft_medium_002.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactSoft_medium_003.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactSoft_medium_004.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactWood_heavy_000.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactWood_heavy_001.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactWood_heavy_002.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactWood_heavy_003.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactWood_heavy_004.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactWood_light_000.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactWood_light_001.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactWood_light_002.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactWood_light_003.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/impactWood_light_004.ogg | Kenney | CC0 | https://kenney.nl/assets/impact-sounds
+Sfx/knifeSlice.ogg | Kenney | CC0 | https://kenney.nl/assets/rpg-audio
+Sfx/knifeSlice2.ogg | Kenney | CC0 | https://kenney.nl/assets/rpg-audio
+Sfx/maximize_003.ogg | Kenney | CC0 | https://kenney.nl/assets/interface-sounds
+Sfx/maximize_005.ogg | Kenney | CC0 | https://kenney.nl/assets/interface-sounds
+Sfx/metalLatch.ogg | Kenney | CC0 | https://kenney.nl/assets/rpg-audio
+Sfx/theircoming_0.ogg | see source page | CC0 | https://opengameart.org/content/their-coming-generic-horn-sound
+Sfx/theircoming3_0.ogg | see source page | CC0 | https://opengameart.org/content/their-coming-generic-horn-sound
+Sfx/tick_001.ogg | Kenney | CC0 | https://kenney.nl/assets/interface-sounds
+Sfx/tick_002.ogg | Kenney | CC0 | https://kenney.nl/assets/interface-sounds
+Sfx/tick_004.ogg | Kenney | CC0 | https://kenney.nl/assets/interface-sounds
+Sfx/wind_woosh_loop.ogg | see source page | CC0 | https://opengameart.org/content/wind-whoosh-loop
+
+================================================================
+3. UNITY RUNTIME
+================================================================
+This game was made with Unity (Unity Technologies). The Unity runtime, Burst, Collections, Mathematics, Input System and other Unity packages are used under the Unity Software Additional Terms / Unity Companion License / package licences. Details: https://unity.com/legal
+
+================================================================
+UNKNOWN - needs check
+================================================================
+(audio) none: every audio file is listed in section 2.
+(art) Sprites, UI art and the app icon: no source or licence record exists in the repository. Confirm authorship / generation-tool terms before release.

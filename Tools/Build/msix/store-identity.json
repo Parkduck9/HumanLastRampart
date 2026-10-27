@@ -1,0 +1,6 @@
+{
+  "_comment": "Partner Center > 앱 > 제품 관리 > 제품 ID(Product identity) 페이지의 값을 그대로 복사해 붙여 넣는다. 아래 3개가 가짜 값이면 package-msix.ps1 이 '로컬 확인용'이라고 경고한다.",
+  "IdentityName": "PLACEHOLDER.Lightbearers",
+  "Publisher": "CN=00000000-0000-0000-0000-000000000000",
+  "PublisherDisplayName": "PLACEHOLDER Publisher"
+}
