@@ -10,7 +10,7 @@
   <Identity Name="{IdentityName}" Publisher="{Publisher}" Version="{Version}" ProcessorArchitecture="x64" />
 
   <Properties>
-    <DisplayName>빛을 잇는 자들</DisplayName>
+    <DisplayName>빛을 잇는 자</DisplayName>
     <PublisherDisplayName>{PublisherDisplayName}</PublisherDisplayName>
     <Logo>Images\StoreLogo.png</Logo>
   </Properties>
@@ -27,7 +27,7 @@
   <Applications>
     <Application Id="App" Executable="Lightbearers.exe" EntryPoint="Windows.FullTrustApplication">
       <uap:VisualElements
-        DisplayName="빛을 잇는 자들"
+        DisplayName="빛을 잇는 자"
         Description="안개에 덮인 대륙에서 꺼진 등대 요새를 하나씩 되살리는 성벽 디펜스 게임"
         BackgroundColor="#101820"
         Square150x150Logo="Images\Square150x150Logo.png"
