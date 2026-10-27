@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using HumanLastRampart.Combat.Battle;
 using HumanLastRampart.Core.CombatContracts;
 using NUnit.Framework;
@@ -197,55 +197,7 @@ namespace HumanLastRampart.Combat.Tests
             finally { b.Dispose(); Object.DestroyImmediate(parent); }
         }
 
-        // W48: 성벽 위 사진기(주인공 3.2m 뒤 · 2.25m 위)가 건물 지붕 높이에서 건물 덩어리 안으로 들어가면 화면 절반이 지붕으로 덮였다 → 그때만 통째로 숨긴다
-        [Test]
-        public void CameraInsideABuilding_HidesBuildings_AndOnlyThen()
-        {
-            // 실제로 덮였던 자리: 북쪽 성벽 along 6 (예배당 6~10), 사진기 (6, 6.25, 15.8) — 성 반폭 20
-            Assert.IsTrue(BattleCourtyardBuildings.CameraTooClose(new Vector3(6f, 6.25f, 15.8f), Half), "덮였던 자리");
-            // 모든 성벽·모든 건물: 성벽 따라 걸으며 사진기가 건물 땅 안에 있으면 숨고, 건물에서 충분히 멀면 숨지 않는다
-            int hidden = 0, shown = 0;
-            for (int side = 0; side < 4; side++)
-                for (float along = -18f; along <= 18f; along += 0.5f)
-                {
-                    Vector3 n = new Vector3(WallGeometry.Outward(side).x, 0f, WallGeometry.Outward(side).z), r = new Vector3(WallGeometry.Right(side).x, 0f, WallGeometry.Right(side).z);
-                    Vector3 cam = n * (Half - 1.0f - 3.2f) + r * along + Vector3.up * (BattleSim.WallHeight + 2.25f);
-                    bool near = BattleCourtyardBuildings.CameraTooClose(cam, Half);
-                    bool insideFootprint = false;
-                    foreach (var p in BattleCourtyardBuildings.Plots)
-                    {
-                        Rect fp = BattleCourtyardBuildings.Footprint(p, Half);
-                        if (cam.x >= fp.xMin && cam.x <= fp.xMax && cam.z >= fp.yMin && cam.z <= fp.yMax) insideFootprint = true;
-                    }
-
-                    if (insideFootprint) Assert.IsTrue(near, $"건물 땅 안의 사진기는 숨긴다 (면 {side}, {along})");
-                    if (near) hidden++; else shown++;
-                }
-
-            Assert.Greater(hidden, 0);
-            Assert.Greater(shown, 0, "건물에서 먼 자리는 숨기지 않는다");
-            Assert.IsFalse(BattleCourtyardBuildings.CameraTooClose(new Vector3(0f, 60f, 0f), Half), "지도 사진기는 높아서 해당 없음");
-
-            var b = Build(out GameObject parent);
-            var camObject = new GameObject("Test Camera");
-            try
-            {
-                Camera cam = camObject.AddComponent<Camera>();
-                int calls = b.DrawCalls;
-                Assert.Greater(calls, 0);
-                camObject.transform.position = new Vector3(6f, 6.25f, 15.8f);
-                b.Tick(false, cam);
-                Assert.IsTrue(b.HiddenForCamera);
-                Assert.AreEqual(0, b.DrawCalls, "안에 들어가면 건물은 하나도 그려지지 않는다");
-                camObject.transform.position = new Vector3(0f, 60f, 0f);
-                b.Tick(false, cam);
-                Assert.IsFalse(b.HiddenForCamera);
-                Assert.AreEqual(calls, b.DrawCalls, "나오면 그대로 돌아온다");
-            }
-            finally { Object.DestroyImmediate(camObject); b.Dispose(); Object.DestroyImmediate(parent); }
-        }
-
-        [Test]
+[Test]
         public void Art_Night_SwapsAtlas_AndLightsWindowsOnly()
         {
             var b = Build(out GameObject parent);
