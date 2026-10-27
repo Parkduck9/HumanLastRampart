@@ -7,62 +7,63 @@ namespace HumanLastRampart.Combat.Tests
 {
     // 주인공 걷기·달리기 시트 칸 점검 (W49, 사용자 1.0 시험 "플레이어 움직일때 짤리는거같은데"):
     // 모양 옆 끝 줄이 세로로 길게 곧게 끊긴 칸 = 그림이 옆으로 싹둑 잘린 칸. 자연스러운 옆 끝(머리카락·주먹·발끝)은 한 줄에 27화소를 안 넘는다.
-    // 예전 달리기 행(행 2) 1·2번 칸은 뒤로 뻗은 다리·장화가 옆으로 잘려 있었다 (42~45화소 곧은 단면) — Codex K-133 그림으로 고쳐졌다. 잘린 칸이 하나라도 생기면 실패한다
+    // 예전 달리기 행(행 2) 1·2번 칸은 뒤로 뻗은 다리·장화가 옆으로 잘려 있었다 (42~45화소 곧은 단면) — Codex K-133 그림으로 고쳐졌다.
+    // 걷기 행(행 1) 1·3번 칸은 앞 장화 끝이 칸 안쪽에서 잘려 있었다 (33~42화소, 맨 끝 줄이 아니라 놓쳤다) — Codex K-134로 고쳐졌다.
+    // 그래서 맨 끝 줄만이 아니라 칸 안의 모든 세로 윤곽(불투명 옆이 투명)을 본다. 잘린 칸이 하나라도 생기면 실패한다
     public sealed class HeroSheetEdgeTests
     {
-        const string SheetPath = "_Project/Art/Characters/Hero/hero_walk_run_grid.png";
-        const int Columns = 4, Rows = 4, SliceRun = 36;   // 곧은 단면 판정: 맨 끝 줄에서 이어진 불투명 화소 수
-        static readonly HashSet<string> KnownSliced = new HashSet<string>();   // 알려진 잘림 없음 (K-133 그림으로 달리기 행 2의 1·2번 칸이 고쳐졌다)
+        const string Dir = "_Project/Art/Characters/Hero/";
+        const int SliceRun = 30;   // 곧은 단면 판정: 한 세로 윤곽에서 이어진 화소 수. 자연스러운 윤곽(3배 확대 그림)은 27을 안 넘는다
 
-        // 한 칸의 왼쪽·오른쪽 맨 끝 불투명 줄에서 세로로 이어진 최대 길이
-        static void EdgeRuns(Color32[] pixels, int width, int cellX, int cellY, int cellW, int cellH, out int left, out int right)
+        // 한 칸 안의 세로 윤곽 중 가장 긴 곧은 단면 (불투명 화소 바로 옆(dir 쪽)이 투명인 줄이 세로로 이어진 길이)
+        static int LongestStraightEdge(Color32[] pixels, int width, int cellX, int cellY, int cellW, int cellH, out int atX)
         {
-            int minX = int.MaxValue, maxX = -1;
-            for (int y = 0; y < cellH; y++)
-                for (int x = 0; x < cellW; x++)
-                    if (pixels[(cellY + y) * width + cellX + x].a > 8) { if (x < minX) minX = x; if (x > maxX) maxX = x; }
-            left = maxX < 0 ? 0 : Run(pixels, width, cellX + minX, cellY, cellH);
-            right = maxX < 0 ? 0 : Run(pixels, width, cellX + maxX, cellY, cellH);
-        }
-
-        static int Run(Color32[] pixels, int width, int x, int cellY, int cellH)
-        {
-            int best = 0, run = 0;
-            for (int y = 0; y < cellH; y++)
-            {
-                if (pixels[(cellY + y) * width + x].a > 8) { run++; if (run > best) best = run; }
-                else run = 0;
-            }
+            int best = 0; atX = -1;
+            for (int dir = -1; dir <= 1; dir += 2)
+                for (int x = 1; x < cellW - 1; x++)
+                {
+                    int run = 0;
+                    for (int y = 0; y < cellH; y++)
+                    {
+                        int i = (cellY + y) * width + cellX + x;
+                        if (pixels[i].a > 128 && pixels[i + dir].a < 20) { run++; if (run > best) { best = run; atX = x; } }
+                        else run = 0;
+                    }
+                }
 
             return best;
         }
 
-        [Test]
-        public void WalkRunSheetSlicedFramesAreOnlyTheKnownOnes()
+        static void AssertNoSlicedCells(string file, int columns, int rows)
         {
-            string path = Path.Combine(Application.dataPath, SheetPath);
+            string path = Path.Combine(Application.dataPath, Dir + file);
             Assert.IsTrue(File.Exists(path), "주인공 시트가 있다: " + path);
             var tex = new Texture2D(2, 2, TextureFormat.RGBA32, false);
             try
             {
                 Assert.IsTrue(ImageConversion.LoadImage(tex, File.ReadAllBytes(path)));
-                int cw = tex.width / Columns, ch = tex.height / Rows;
-                Color32[] pixels = tex.GetPixels32();   // 아래가 y = 0 (시트를 위에서부터 센 행 r 은 아래에서 Rows-1-r)
-                var found = new HashSet<string>();
-                for (int r = 0; r < Rows; r++)
-                    for (int c = 0; c < Columns; c++)
+                int cw = tex.width / columns, ch = tex.height / rows;
+                Color32[] pixels = tex.GetPixels32();   // 아래가 y = 0 (시트를 위에서부터 센 행 r 은 아래에서 rows-1-r)
+                var found = new List<string>();
+                for (int r = 0; r < rows; r++)
+                    for (int c = 0; c < columns; c++)
                     {
-                        EdgeRuns(pixels, tex.width, c * cw, (Rows - 1 - r) * ch, cw, ch, out int left, out int right);
-                        if (left > SliceRun) found.Add($"행{r} 칸{c} 왼쪽");
-                        if (right > SliceRun) found.Add($"행{r} 칸{c} 오른쪽");
+                        int run = LongestStraightEdge(pixels, tex.width, c * cw, (rows - 1 - r) * ch, cw, ch, out int x);
+                        if (run > SliceRun) found.Add($"행{r} 칸{c} x={x} {run}화소");
                     }
 
-                var fresh = new List<string>(found); fresh.RemoveAll(KnownSliced.Contains);
-                var fixedNow = new List<string>(KnownSliced); fixedNow.RemoveAll(found.Contains);
-                Assert.IsEmpty(fresh, "새로 옆이 잘린 주인공 칸이 생겼다: " + string.Join(", ", fresh));
-                Assert.IsEmpty(fixedNow, "잘렸던 칸이 고쳐졌다 — KnownSliced에서 지운다: " + string.Join(", ", fixedNow));
+                Assert.IsEmpty(found, file + "에 옆이 곧게 잘린 칸이 있다: " + string.Join(", ", found));
             }
             finally { Object.DestroyImmediate(tex); }
         }
+
+        [Test]
+        public void WalkRunSheetHasNoSlicedFrames() => AssertNoSlicedCells("hero_walk_run_grid.png", 4, 4);
+
+        [Test]
+        public void BackIdleHasNoSlicedFrames() => AssertNoSlicedCells("hero_back_idle.png", 1, 1);
+
+        [Test]
+        public void CommandSheetHasNoSlicedFrames() => AssertNoSlicedCells("hero_command.png", 3, 1);
     }
 }
