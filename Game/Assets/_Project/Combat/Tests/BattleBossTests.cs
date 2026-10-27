@@ -773,8 +773,35 @@ namespace HumanLastRampart.Combat.Tests
             public float Scale = 1f;
             public SimTipSource(BattleSim sim) { this.sim = sim; }
             public bool Alive => true;
-            public bool BossWarning => sim.TryGetBossWarning(out _, out _);
+            public bool BossWarning => BattleBossTip.IsWarning(sim);   // 실제 전투와 같은 길
             public void SetTimeScale(float scale) => Scale = scale;
+        }
+
+        // 안내가 쓰는 IsWarning(적 배열을 읽지 않음)이 단계 띠가 쓰는 TryGetBossWarning과 어긋나지 않는다: 예고 전 · 예고 안 · 등장 뒤, 그리고 경계를 프레임마다
+        [Test]
+        public void BossTip_IsWarning_MatchesTryGetBossWarning_AtEveryFrameAroundTheSpawn()
+        {
+            using (var sim = NewSim("run_boss_a"))
+            {
+                FastForward(sim, BattleSim.BossSpawnSeconds - BattleSim.BossWarnSeconds - 2f);
+                sim.Complete();
+                Assert.IsFalse(BattleBossTip.IsWarning(sim), "예고 전");
+                Assert.IsFalse(sim.TryGetBossWarning(out _, out _));
+                bool sawWarning = false, sawAfter = false;
+                for (int i = 0; i < 200 && !sim.Ended; i++)
+                {
+                    sim.BeginFrame(Dt);
+                    sim.Complete();
+                    bool expected = sim.TryGetBossWarning(out _, out _);
+                    Assert.AreEqual(expected, BattleBossTip.IsWarning(sim), $"{sim.Elapsed:0.00}s 에서 두 판정이 같다");
+                    sawWarning |= expected;
+                    if (sim.BossSpawned) { sawAfter = true; Assert.IsFalse(BattleBossTip.IsWarning(sim), "등장 뒤에는 예고가 아니다"); }
+                    if (sawAfter && i > 20) break;
+                }
+
+                Assert.IsTrue(sawWarning, "예고 구간을 지났다");
+                Assert.IsTrue(sawAfter, "등장까지 지났다");
+            }
         }
 
         [Test]

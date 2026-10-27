@@ -18,6 +18,7 @@ public sealed partial class PlayProbe
     public void TutorialOffForOtherProbes()
     {
         TutorialState.Store = new MemoryTutorialStore();
+        TutorialState.BossTipStore = new MemoryTutorialStore();   // 우두머리 안내 "봤음"이 개발 기계의 PlayerPrefs에 남지 않게
         TutorialState.Suppressed = true;
     }
 
@@ -26,6 +27,7 @@ public sealed partial class PlayProbe
     {
         TutorialState.Suppressed = true;
         TutorialState.Store = new PlayerPrefsTutorialStore();
+        TutorialState.BossTipStore = new PlayerPrefsTutorialStore(TutorialState.BossTipKey);
     }
 
     static IEnumerator WaitTutorialStep(TutorialStep expected, int frames)
@@ -49,6 +51,17 @@ public sealed partial class PlayProbe
             yield return null;
         }
         Assert.Fail($"튜토리얼 단계 {from}이 {frames}프레임 안에 끝나지 않음");
+    }
+
+    // 사진기가 마당 건물 덩어리 안이면(CameraTooClose) 건물 그림 개체가 하나도 켜져 있지 않다: 켜져 있으면 지붕·벽 윗면이 화면을 덮는다 (W48).
+    // 합친 그림 개체의 경계는 마당 전체라 쓸 수 없어, 판정은 건물 배치(Plots)로 하고 여기서는 그 결과가 실제로 그리기에 닿았는지 본다
+    static void AssertNoNearBuilding(HumanLastRampart.Combat.Battle.BattleEntry entry, string message)
+    {
+        Vector3 p = entry.BattleCamera.transform.position;
+        if (!HumanLastRampart.Combat.Battle.BattleCourtyardBuildings.CameraTooClose(p, entry.Sim.CastleHalf)) return;
+        foreach (var r in Object.FindObjectsByType<MeshRenderer>(FindObjectsSortMode.None))
+            if (r.enabled && r.gameObject.activeInHierarchy && r.transform.parent != null && r.transform.parent.name.StartsWith("Courtyard Buildings"))
+                Assert.Fail($"{message} — {r.name} 가 켜져 있다, 사진기 {p}");
     }
 
     // 튜토리얼 1~9단계: 걷기 → 망원경(설명) → 지도 → 분대 → 대포(설명) → 마법 → 빛줄기(탑) → (정비) 함정 → 망원경 업그레이드(설명).
@@ -156,8 +169,10 @@ public sealed partial class PlayProbe
             var sim = entry.Sim;
             for (int i = 0; i < 5; i++) yield return null;
             if (entry.MapOpen) entry.ToggleMap();   // 마법을 지도에서 썼으니 접고 성벽으로 (지도가 열려 있으면 계단을 못 쓴다)
-            for (int i = 0; i < 3; i++) yield return null;
-            Note($"빛줄기 단계: 지금 빛줄기 면 {sim.BeamSide}");
+            // 지도 → 성벽 사진기 전환이 끝나도록 충분히 기다린 뒤 찍는다 (3프레임 만에 찍으면 전환 중 반쪽 화면이 사진에 남는다)
+            for (int i = 0; i < 60; i++) yield return null;
+            Note($"빛줄기 단계: 빛줄기 면 {sim.BeamSide}, 성벽 따라 {entry.Rig.Along:0.00}, 사진기 {entry.BattleCamera.transform.position}");
+            AssertNoNearBuilding(entry, "빛줄기 단계 사진: 사진기가 건물 덩어리 안에 들어가 화면을 덮지 않는다 (W48)");
             yield return Capture("tutorial_6b_beam");   // 탑을 가리키는 고리
             yield return new WaitForSecondsRealtime(0.1f);
             Assert.AreEqual(TutorialStep.Beam, Object.FindAnyObjectByType<TutorialDirector>().Current, "탑에 가기 전에는 안 넘어간다");

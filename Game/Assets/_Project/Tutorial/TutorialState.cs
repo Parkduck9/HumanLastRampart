@@ -29,6 +29,7 @@ namespace HumanLastRampart.Tutorial
             if (key == Key && !PlayerPrefs.HasKey(Key) && PlayerPrefs.HasKey(LegacyKey))
             {
                 PlayerPrefs.SetInt(Key, TutorialState.MigrateV1(PlayerPrefs.GetInt(LegacyKey)));
+                PlayerPrefs.DeleteKey(LegacyKey);   // 한 번만 옮긴다 — 남겨 두면 Clear 뒤 옛 값이 되살아난다
                 PlayerPrefs.Save();
             }
 
@@ -38,7 +39,11 @@ namespace HumanLastRampart.Tutorial
         }
 
         public void Save(int progress) { PlayerPrefs.SetInt(key, progress); PlayerPrefs.Save(); }
-        public void Clear() { PlayerPrefs.DeleteKey(key); }
+        public void Clear()
+        {
+            PlayerPrefs.DeleteKey(key);
+            if (key == Key) PlayerPrefs.DeleteKey(LegacyKey);   // 아직 옮기기 전의 옛 값도 지운다 (다시 읽을 때 되살아나지 않게)
+        }
     }
 
     public sealed class MemoryTutorialStore : ITutorialStore

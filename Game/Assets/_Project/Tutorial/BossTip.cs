@@ -11,7 +11,7 @@ namespace HumanLastRampart.Tutorial
     }
 
     // 두 쪽짜리 설명 전용 안내 기계. 예고가 처음 뜨는 순간 시작하고, 그때 곧바로 "봤다"고 저장한다 (중간에 나가도 다시 뜨지 않게).
-    // 보는 동안 전투 시간은 멈춘다. 8단계 첫 전투 튜토리얼과는 진행 번호도 순서도 따로다
+    // 보는 동안 전투 시간은 멈춘다. 9단계 첫 전투 튜토리얼과는 진행 번호도 순서도 따로다
     public sealed class BossTipMachine
     {
         public const int PageCount = 2;

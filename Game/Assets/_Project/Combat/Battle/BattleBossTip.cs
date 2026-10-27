@@ -16,6 +16,9 @@ namespace HumanLastRampart.Combat.Battle
         public static BossTipDirector TryBegin(BattleEntry entry, Transform parent, bool practice)
         {
             if (!ShouldBegin(entry.Sim, practice)) return null;
+            // 첫 전투 튜토리얼이 돌고 있으면 달지 않는다: 두 안내가 같은 전투 시간 배율(TutorialTimeScale)을 쓰므로, 안내가 끝날 때 1로 덮어쓰면 튜토리얼의 멈춤·느림이 풀린다.
+            // 우두머리는 점화의 밤에만 나와 실제로는 겹치지 않지만, 겹치면 튜토리얼이 우선 (BattleTutorialSource.TryBegin이 이 줄보다 먼저 불린다)
+            if (Object.FindAnyObjectByType<TutorialDirector>() != null) return null;
             return BossTipDirector.Begin(parent, new BattleBossTip(entry));
         }
 

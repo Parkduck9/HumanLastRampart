@@ -137,6 +137,7 @@ namespace HumanLastRampart.Combat.Battle
             => Span(p.Side, half, p.Along - p.Width * 0.5f, p.Along + p.Width * 0.5f, p.Back, p.Back + p.Depth);
 
         readonly GameObject root;
+        readonly float half;
         readonly List<Mesh> meshes = new List<Mesh>();
         readonly List<Material> materials = new List<Material>();
         readonly List<UnityEngine.Object> textures = new List<UnityEngine.Object>();
@@ -160,6 +161,7 @@ namespace HumanLastRampart.Combat.Battle
 
         public BattleCourtyardBuildings(float half, Transform parent)
         {
+            this.half = half;
             root = new GameObject("Courtyard Buildings (W31 K-118)");
             root.transform.SetParent(parent, false);
 
@@ -407,9 +409,40 @@ namespace HumanLastRampart.Combat.Battle
         }
 
         // 낮·밤 전환: 낮판 ↔ 밤판 (창문만 다르다)과 켜진 창. 바뀔 때만 일한다
+        // 사진기가 건물 덩어리 안이나 바로 위에 들어가면 지붕·벽 윗면이 화면을 가득 덮는다 (성벽 위 사진기는 주인공 3.2m 뒤 · 2.25m 위 = 마당 바닥 위 약 2.3m, 지붕 높이와 같다).
+        // 그럴 때만 건물을 통째로 숨긴다 (단면 보기). 성벽 위에서는 사진기가 바깥을 보므로 뒤쪽 건물이 사라져도 화면에 보이는 것이 없다. 지도 사진기는 높아서 해당 없음
+        public const float CameraClearMargin = 1.0f;   // 건물 땅 둘레 이만큼 안
+        public const float CameraClearAbove = 1.4f;    // 건물 꼭대기 위로 이만큼까지
+
+        public static bool CameraTooClose(Vector3 camera, float half)
+        {
+            float floor = BattleSim.WallHeight + BattleCourtyardSkin;
+            foreach (Plot p in Plots)
+            {
+                Rect r = Footprint(p, half);
+                if (camera.x < r.xMin - CameraClearMargin || camera.x > r.xMax + CameraClearMargin || camera.z < r.yMin - CameraClearMargin || camera.z > r.yMax + CameraClearMargin) continue;
+                if (camera.y < floor + p.TotalHeight + CameraClearAbove && camera.y > floor - CameraClearMargin) return true;
+            }
+
+            return false;
+        }
+
+        bool cameraInside;
+        public bool HiddenForCamera => cameraInside;
+
+        void ApplyCameraClear(Camera camera)
+        {
+            bool inside = camera != null && CameraTooClose(camera.transform.position, half);
+            if (inside == cameraInside) return;
+            cameraInside = inside;
+            foreach (var r in renderers) if (r != null) r.enabled = !inside;
+            if (windowRenderer != null) windowRenderer.enabled = night && !inside;   // 창 판은 밤에만
+        }
+
         public void Tick(bool isNight, Camera camera = null)
         {
             if (camera != null) foreach (var b in billboardParts) b.Follow(camera);
+            ApplyCameraClear(camera);
             if (isNight == night) return;
             night = isNight;
             if (spriteMaterial != null && dayAtlas != null && nightAtlas != null)
@@ -419,7 +452,7 @@ namespace HumanLastRampart.Combat.Battle
                 spriteMaterial.mainTexture = t;
             }
 
-            if (windowRenderer != null) windowRenderer.enabled = night;
+            if (windowRenderer != null) windowRenderer.enabled = night && !cameraInside;
         }
 
         void Spawn(string name, Builder b, Material m)

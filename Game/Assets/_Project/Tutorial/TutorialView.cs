@@ -70,7 +70,7 @@ namespace HumanLastRampart.Tutorial
             ring.gameObject.SetActive(false);
             pointer.gameObject.SetActive(false);
 
-            // 8칸 진행 표시 (위 가운데)
+            // 9칸 진행 표시 (위 가운데)
             pipTex = Tex("step_pips");
             RectTransform strip = Ui.Rect(root.transform, "Step Pips");
             pipStrip = strip;

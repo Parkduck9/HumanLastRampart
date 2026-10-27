@@ -87,7 +87,9 @@ namespace HumanLastRampart.Combat.Battle
             Vector3 world;
             if (step == TutorialStep.Walk && entry.Rig != null) world = entry.Rig.HeroFeet + Vector3.up * HeroCenterHeight;
             else if (step == TutorialStep.Squad && entry.MapOpen && TryFindGroup(out Vector3 center)) world = center;
-            else if (step == TutorialStep.Beam && !entry.MapOpen && !entry.AtTower) world = new Vector3(0f, TowerPointHeight, 0f);   // 마당 가운데 등대 탑 (탑 앞이나 지도에서는 끈다)
+            else if (step == TutorialStep.Beam && entry.Rig != null && !entry.MapOpen && !entry.AtTower)
+                world = entry.Rig.OnWall ? entry.Rig.StairsFeet + Vector3.up * HeroCenterHeight   // 성벽 위에서는 먼저 계단으로 (가까운 성벽의 계단)
+                    : new Vector3(0f, TowerPointHeight, 0f);                                      // 내려가는 중에는 마당 가운데 등대 탑 (탑 앞이나 지도에서는 끈다)
             else return false;
             // 전투 사진기는 낮은 해상도 그림판에 그릴 때가 있어(PerfLabResolution) 화소가 아닌 비율로 구해 화면 크기에 곱한다
             Vector3 p = camera.WorldToViewportPoint(world);

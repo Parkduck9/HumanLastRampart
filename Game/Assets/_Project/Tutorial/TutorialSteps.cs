@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace HumanLastRampart.Tutorial
 {
@@ -70,7 +70,7 @@ namespace HumanLastRampart.Tutorial
             new TutorialStepInfo
             {
                 Title = "등대 빛줄기 돌리기", Expression = 1, Pointer = true,
-                Body = "등대 빛줄기를 돌려 보십시오. 빛 안의 적은 느려지고 더 크게 맞습니다.\n계단에서 E로 탑에 내려가 다시 E를 누르고, 방향을 고르십시오.",
+                Body = "등대 빛줄기를 돌려 보십시오. 빛 안의 적은 느려지고 더 크게 맞습니다.\n지도를 접고 성벽 가운데 계단에서 탑으로 내려가, 방향을 고르십시오.",
                 Chips = new[] { new TutorialStepInfo.Chip(3, "계단 · 탑 명령"), new TutorialStepInfo.Chip(-1, "방향 단추") },
             },
             new TutorialStepInfo
@@ -87,7 +87,7 @@ namespace HumanLastRampart.Tutorial
             },
         };
 
-        // 우두머리 첫 예고 때 한 번 뜨는 두 쪽 안내 (W48). 8단계 표 밖이라 진행 번호·순서에 끼지 않는다. IconCell = step_icons_24 칸
+        // 우두머리 첫 예고 때 한 번 뜨는 두 쪽 안내 (W48). 9단계 표 밖이라 진행 번호·순서에 끼지 않는다. BossTipIcons = step_icons_24 칸
         public static readonly TutorialStepInfo[] BossTip =
         {
             new TutorialStepInfo
