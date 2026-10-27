@@ -101,10 +101,6 @@ public sealed partial class PlayProbe
         public Texture2D Shot, Mask;
     }
 
-    // 고치기 전 모습 기록용: 사진기 올리기를 끄고 같은 표본을 잰다. 허용을 넘는 것이 정상이라 확인하지 않는다 (결과: w47_day_lift_off_flicker.txt)
-    [UnityTest, Timeout(3600000)]
-    public IEnumerator W47FlickerWalkDayLiftOff() { yield return W47FlickerWalk(TimeOfDay.Day, "day_lift_off", false); }
-
     IEnumerator W47FlickerWalk(TimeOfDay time, string label, bool liftOn = true)
     {
         BattleCameraRig.BuildingLiftEnabled = liftOn;
@@ -120,6 +116,7 @@ public sealed partial class PlayProbe
         FlickerSample buildingShot = default;
         bool shotSmithy = false, shotStable = false;
         int samples = 0, overFull = 0, overNear = 0, maxFull = 0, maxNear = 0, stackedTotal = 0, stackedMax = 0, stackedLogged = 0, inBuildingSamples = 0;
+        float maxLift = 0f;
         try
         {
             yield return EnterBattle(time);
@@ -156,6 +153,7 @@ public sealed partial class PlayProbe
                     var shooter = new GameObject("W47 Flicker").AddComponent<FlickerShooter>();
                     shooter.Setup(cam, rig.HeroFeet, 1f);
                     for (int i = 0; i < 10 && !shooter.Done; i++) yield return null;
+                    maxLift = Mathf.Max(maxLift, rig.LastLift);
                     int stacked = CountBillboardOverlaps(entry, cam, rig, out string stackedNames);
                     stackedTotal += stacked; stackedMax = Mathf.Max(stackedMax, stacked);
                     if (stacked > 0 && stackedLogged++ < 12) Note($"  같은 깊이 겹침 {stacked}쌍 (사진기 {cam.transform.position}, 주인공 {rig.HeroFeet}): {stackedNames}");
@@ -240,7 +238,9 @@ public sealed partial class PlayProbe
                 n++;
             }
 
+            Note($"사진기 올림 최대 {maxLift:0.000}m");
             if (!liftOn) yield break;   // 고치기 전 기록: 숫자만 남긴다
+            Assert.AreEqual(0f, maxLift, 1e-6f, "건물을 성벽에서 뗐으니 걷는 동안 안전망(사진기 올리기)이 한 번도 안 켜진다:\n" + log);
             Assert.AreEqual(0, inBuildingSamples, "걷는 동안 사진기가 건물(지붕 꼭대기 아래) 안에 들지 않는다:\n" + log);
             Assert.AreEqual(0, stackedTotal, "걷는 모든 표본에서 세운 그림끼리 같은 깊이 겹침(사진기가 움직이면 이기는 쪽이 뒤바뀜)이 없다:\n" + log);
             Assert.AreEqual(0, overFull, "걷는 모든 표본에서 화면 전체 깜박임 화소가 허용 이하:\n" + log);

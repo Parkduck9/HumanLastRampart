@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace HumanLastRampart.Combat.Battle
@@ -529,7 +529,9 @@ namespace HumanLastRampart.Combat.Battle
 
             ViewPreset p = PresetIndex >= 0 ? Presets[PresetIndex] : Blend(Presets[0], Presets[1], Mathf.SmoothStep(0f, 1f, moveBlend));
             Vector3 position = smoothedFeet - forward * p.Back + Vector3.up * p.Up;
-            position.y = LiftOverBuildings(position);
+            float lifted = LiftOverBuildings(position);
+            LastLift = lifted - position.y;
+            position.y = lifted;
             camera.transform.SetPositionAndRotation(position, heading * Quaternion.Euler(p.Pitch, 0f, 0f));
             ApplyShake(dt);
         }
@@ -540,6 +542,7 @@ namespace HumanLastRampart.Combat.Battle
         public const float BuildingClearance = 0.4f;   // 지붕 꼭대기 위 여유 (m)
         public const float BuildingRamp = 1.5f;        // 건물 바닥 모양 둘레에서 오르기 시작하는 거리 (m)
 
+        public float LastLift { get; private set; }   // 마지막 갱신에서 사진기를 올린 높이 (m). 건물이 성벽에서 떨어져 있어 걷는 동안은 늘 0이어야 한다 (안전망)
         public static bool BuildingLiftEnabled = true;   // 시험 도구가 고치기 전 모습을 재려고 끈다 (게임에서는 항상 켜짐)
 
         public float LiftOverBuildings(Vector3 position)

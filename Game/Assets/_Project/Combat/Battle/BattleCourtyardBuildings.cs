@@ -22,6 +22,9 @@ namespace HumanLastRampart.Combat.Battle
         public const float PixelsPerMeter = 32f;
         const float WallInner = 2f;               // 성벽 두께 (마당은 half - 2까지)
         const float Gap = 0.3f;                   // 성벽 안쪽 면과 건물 사이 틈
+        // W47 (사용자 "건물을 성벽에서 떼기"): 건물 뒷면을 성벽 안쪽 면에서 이만큼 안으로. 사진기가 주인공 3m 뒤(성벽 가장자리에서 최대 5m 안)에서 따라오므로
+        // 건물 땅은 성벽 바깥 가장자리에서 6.5m(= 5m + 사진기 올림 둘레 1.5m) 이상 떨어져야 사진기가 건물 위·안을 지나지 않는다 (옆 성벽 쪽도 같아서 along는 ±13.5 안)
+        public const float WallSetback = 4.5f;
         const float Overhang = 0.2f;              // 지붕 처마
         const float DoorWidth = 0.8f, DoorHeight = 1.3f, DoorDepth = 0.06f;
         const float RoofRise = 0.5f;              // 낮은 지붕 기울기
@@ -93,9 +96,9 @@ namespace HumanLastRampart.Combat.Battle
             new Plot("대장간", 3, 5.3f, 4f, 3f, 1.8f, true, WallKind.Stone, RoofKind.Slate),
             new Plot("마구간", 1, -6f, 5f, 3f, 1.7f, true, WallKind.Plank, RoofKind.Tile),
             new Plot("예배당", 0, 8f, 4f, 3f, 1.9f, true, WallKind.Stone, RoofKind.Slate),
-            new Plot("곡물창고", 0, -8.5f, 4.5f, 3f, 1.8f, true, WallKind.Plank, RoofKind.Tile),
-            new Plot("작은 집", 2, -14f, 2.6f, 2.4f, 1.6f, true, WallKind.Timber, RoofKind.Slate),
-            new Plot("창고", 0, -13f, 2.4f, 2.2f, 1.5f, true, WallKind.Stone, RoofKind.Tile),
+            new Plot("곡물창고", 0, -8f, 4.5f, 3f, 1.8f, true, WallKind.Plank, RoofKind.Tile),
+            new Plot("작은 집", 2, -12f, 2.6f, 2.4f, 1.6f, true, WallKind.Timber, RoofKind.Slate),
+            new Plot("창고", 0, -12f, 2.4f, 2.2f, 1.5f, true, WallKind.Stone, RoofKind.Tile),
         };
 
         public static readonly Piece[] Pieces =
@@ -109,10 +112,10 @@ namespace HumanLastRampart.Combat.Battle
             new Piece("마구간 물통", 1, -7.7f, 3.5f, 1.4f, 0.5f, 0f, 0.5f, PieceKind.Timber, false, PropArt.Trough),
             new Piece("건초 더미", 0, -4.3f, 0.2f, 1.5f, 1.2f, 0f, 0.7f, PieceKind.Hay, false, PropArt.Hay),
             new Piece("장작더미", 3, 8.6f, 0.2f, 1.6f, 0.9f, 0f, 0.6f, PieceKind.Timber, false, PropArt.Woodpile),
-            new Piece("우물 둘레", 2, 13.4f, 0.4f, 1.2f, 1.2f, 0f, 0.55f, PieceKind.Stone, false, PropArt.Well),
-            new Piece("우물 기둥 왼", 2, 12.9f, 0.5f, 0.1f, 0.1f, 0.55f, 1.0f, PieceKind.Timber, true, PropArt.Covered),
-            new Piece("우물 기둥 오른", 2, 13.9f, 0.5f, 0.1f, 0.1f, 0.55f, 1.0f, PieceKind.Timber, true, PropArt.Covered),
-            new Piece("우물 지붕", 2, 13.4f, 0.4f, 1.5f, 1.4f, 1.55f, 0.1f, PieceKind.Slate, true, PropArt.Covered),
+            new Piece("우물 둘레", 2, 11.9f, 0.4f, 1.2f, 1.2f, 0f, 0.55f, PieceKind.Stone, false, PropArt.Well),
+            new Piece("우물 기둥 왼", 2, 11.4f, 0.5f, 0.1f, 0.1f, 0.55f, 1.0f, PieceKind.Timber, true, PropArt.Covered),
+            new Piece("우물 기둥 오른", 2, 12.4f, 0.5f, 0.1f, 0.1f, 0.55f, 1.0f, PieceKind.Timber, true, PropArt.Covered),
+            new Piece("우물 지붕", 2, 11.9f, 0.4f, 1.5f, 1.4f, 1.55f, 0.1f, PieceKind.Slate, true, PropArt.Covered),
         };
 
         static Vector3 Out(int side) { var o = WallGeometry.Outward(side); return new Vector3(o.x, 0f, o.z); }
@@ -121,7 +124,7 @@ namespace HumanLastRampart.Combat.Battle
         static Rect Span(int side, float half, float along0, float along1, float back0, float back1)
         {
             Vector3 n = Out(side), r = Right(side);
-            float plane = half - WallInner - Gap;
+            float plane = half - WallInner - Gap - WallSetback;
             Vector3 a = n * (plane - back0) + r * along0, b = n * (plane - back1) + r * along1;
             return Rect.MinMaxRect(Mathf.Min(a.x, b.x), Mathf.Min(a.z, b.z), Mathf.Max(a.x, b.x), Mathf.Max(a.z, b.z));
         }
@@ -180,7 +183,7 @@ namespace HumanLastRampart.Combat.Battle
             bool sprites = BuildSpriteAtlases(out Rect[] rects, out Rect[] windowRects, out Vector2Int[] sizes, out Vector2Int atlasSize, out Vector2Int windowAtlasSize, out Texture2D windowAtlas);
             HasSpriteArt = sprites;
 
-            float floor = BattleSim.WallHeight + BattleCourtyardSkin, plane = half - WallInner - Gap;
+            float floor = BattleSim.WallHeight + BattleCourtyardSkin, plane = half - WallInner - Gap - WallSetback;
             var sprite = new SpriteMesh();
             var windows = new SpriteMesh();
             int index = 0;
