@@ -37,3 +37,12 @@
 - 인증은 보통 1~3 영업일. 결과는 메일과 파트너 센터에 옵니다.
 - 떨어지면 보고서 내용을 Claude에게 붙여 주세요 → 고친 포장 파일을 다시 만듭니다.
 - 업데이트할 때: 판 번호(프로젝트 설정 `bundleVersion`)를 올려 다시 포장 → 새 제출에서 패키지만 바꿔 올림. 같은 판 번호는 다시 올릴 수 없습니다.
+
+## 5. 실제 화면 기준 답안 (2026-10-27, 앱 제품 9P56FVZZTZPJ)
+- **속성**: 범주 **Entertainment**(앱 제품에는 "게임" 범주가 없음), 개인 정보 **No**, 최소 하드웨어 키보드·마우스, 메모리 최소 4 GB·권장 8 GB, DirectX 최소 Version 11. 생성형 AI 기능 칸은 체크하지 않음(게임 안에 AI 기능 없음). → **저장됨(Complete)**
+- **가격**: 통화 USD - United States, 소매 가격 **0** → 저장 눌렀으나 개요에 "Not started"로 보여 다시 확인 필요
+- **연령 등급 (IARC)**: App Type **Game** / 폭력 **Yes** → "인간 대상 폭력"과 "인간 외(판타지 생물) 대상 폭력" 둘 다 체크
+  - 인간 대상: Fantastical / Yes, pixelated style / Unrealistic / Often depicted from a distant perspective / 피 None / 실제·역사 전쟁 No / 무고한 인물 No / 위협적 소리·어두운 분위기 Yes
+  - 인간 외 대상: Fantastical / pixelated Yes / Unrealistic / Often distant / 피 None / 사람처럼 행동 Yes(고블린·오우거) / 실제 동물 No / 어두운 분위기 Yes
+  - 나머지 질문 전부 **No** (공포, 성적 내용, 도박, 욕설, 약물, 저속한 유머, 디지털 구매·NFT, 사용자 대화, 위치 공유, 나치 상징, 대한민국 정체성 훼손, 테러, 범죄 수법)
+  - 마지막 "등급 기관 직접 등급/실물 매체" **No** → **Preview ratings** → 결과 확인 후 저장
