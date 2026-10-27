@@ -176,6 +176,7 @@ namespace HumanLastRampart.Combat.Battle
                 mapCamera.OpenCastle();
                 hud.SetPreparing(true);
                 if (!setup.IsPractice) BattleTutorialSource.TryBegin(this, transform, setup.BattleNumber);   // 1번째 전투 튜토리얼 (W2). 대상이 아니면 아무것도 안 한다
+                BattleBossTip.TryBegin(this, transform, setup.IsPractice);   // 우두머리 첫 예고 때 한 번 뜨는 두 쪽 안내 (W48)
             }
         }
 

@@ -764,5 +764,96 @@ namespace HumanLastRampart.Combat.Tests
                 Assert.IsTrue(found, "망원경으로 우두머리 무리를 확인");
             }
         }
+
+        // ── 첫 예고 안내 (W48) ──
+
+        sealed class SimTipSource : HumanLastRampart.Tutorial.IBossTipSource
+        {
+            readonly BattleSim sim;
+            public float Scale = 1f;
+            public SimTipSource(BattleSim sim) { this.sim = sim; }
+            public bool Alive => true;
+            public bool BossWarning => BattleBossTip.IsWarning(sim);   // 실제 전투와 같은 길
+            public void SetTimeScale(float scale) => Scale = scale;
+        }
+
+        // 안내가 쓰는 IsWarning(적 배열을 읽지 않음)이 단계 띠가 쓰는 TryGetBossWarning과 어긋나지 않는다: 예고 전 · 예고 안 · 등장 뒤, 그리고 경계를 프레임마다
+        [Test]
+        public void BossTip_IsWarning_MatchesTryGetBossWarning_AtEveryFrameAroundTheSpawn()
+        {
+            using (var sim = NewSim("run_boss_a"))
+            {
+                FastForward(sim, BattleSim.BossSpawnSeconds - BattleSim.BossWarnSeconds - 2f);
+                sim.Complete();
+                Assert.IsFalse(BattleBossTip.IsWarning(sim), "예고 전");
+                Assert.IsFalse(sim.TryGetBossWarning(out _, out _));
+                bool sawWarning = false, sawAfter = false;
+                for (int i = 0; i < 200 && !sim.Ended; i++)
+                {
+                    sim.BeginFrame(Dt);
+                    sim.Complete();
+                    bool expected = sim.TryGetBossWarning(out _, out _);
+                    Assert.AreEqual(expected, BattleBossTip.IsWarning(sim), $"{sim.Elapsed:0.00}s 에서 두 판정이 같다");
+                    sawWarning |= expected;
+                    if (sim.BossSpawned) { sawAfter = true; Assert.IsFalse(BattleBossTip.IsWarning(sim), "등장 뒤에는 예고가 아니다"); }
+                    if (sawAfter && i > 20) break;
+                }
+
+                Assert.IsTrue(sawWarning, "예고 구간을 지났다");
+                Assert.IsTrue(sawAfter, "등장까지 지났다");
+            }
+        }
+
+        [Test]
+        public void BossTip_FiresOnFirstWarning_ThenNeverAgain_AndNotOnNightsWithoutBoss()
+        {
+            var oldStore = HumanLastRampart.Tutorial.TutorialState.BossTipStore;
+            bool oldSuppressed = HumanLastRampart.Tutorial.TutorialState.Suppressed;
+            HumanLastRampart.Tutorial.TutorialState.BossTipStore = new HumanLastRampart.Tutorial.MemoryTutorialStore();
+            HumanLastRampart.Tutorial.TutorialState.Suppressed = false;
+            try
+            {
+                using (var plain = NewSim("run_boss_a", ignition: false))
+                    Assert.IsFalse(BattleBossTip.ShouldBegin(plain, false), "우두머리 없는 밤에는 안내를 달지 않는다");
+
+                using (var sim = NewSim("run_boss_a"))
+                {
+                    Assert.IsFalse(BattleBossTip.ShouldBegin(sim, true), "연습 전투에는 달지 않는다");
+                    Assert.IsTrue(BattleBossTip.ShouldBegin(sim, false), "우두머리 밤, 아직 안 봄");
+                    var source = new SimTipSource(sim);
+                    var machine = new HumanLastRampart.Tutorial.BossTipMachine(source);
+                    FastForward(sim, BattleSim.BossSpawnSeconds - BattleSim.BossWarnSeconds - 1f);
+                    machine.Update();
+                    Assert.IsFalse(machine.Visible, "예고 전에는 보이지 않는다");
+                    Assert.IsFalse(HumanLastRampart.Tutorial.TutorialState.BossTipSeen);
+
+                    FastForward(sim, BattleSim.BossSpawnSeconds - BattleSim.BossWarnSeconds + 0.1f);
+                    machine.Update();
+                    Assert.IsTrue(machine.Visible, "첫 예고에 뜬다");
+                    Assert.AreEqual(0f, source.Scale, "읽는 동안 전투 시간 멈춤");
+                    Assert.IsTrue(HumanLastRampart.Tutorial.TutorialState.BossTipSeen, "뜨자마자 저장");
+                    Assert.IsTrue(machine.Next());
+                    Assert.AreEqual(1, machine.Page);
+                    Assert.IsTrue(machine.Next());
+                    Assert.IsTrue(machine.Finished);
+                    Assert.AreEqual(1f, source.Scale, "다 읽으면 시간이 다시 흐른다");
+
+                    Assert.IsFalse(BattleBossTip.ShouldBegin(sim, false), "본 뒤에는 다시 달지 않는다");
+                    var again = new HumanLastRampart.Tutorial.BossTipMachine(source);
+                    again.Update();
+                    Assert.IsFalse(again.Visible, "본 저장이 있으면 새 기계도 다시 뜨지 않는다");
+                }
+
+                // 튜토리얼 끔
+                HumanLastRampart.Tutorial.TutorialState.BossTipStore.Clear();
+                HumanLastRampart.Tutorial.TutorialState.Suppressed = true;
+                using (var sim = NewSim("run_boss_a")) Assert.IsFalse(BattleBossTip.ShouldBegin(sim, false), "튜토리얼 끔");
+            }
+            finally
+            {
+                HumanLastRampart.Tutorial.TutorialState.BossTipStore = oldStore;
+                HumanLastRampart.Tutorial.TutorialState.Suppressed = oldSuppressed;
+            }
+        }
     }
 }

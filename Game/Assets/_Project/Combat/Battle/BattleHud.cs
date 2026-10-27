@@ -238,6 +238,7 @@ namespace HumanLastRampart.Combat.Battle
                 "왼쪽 클릭", "고르기 · 조준 · 점화", "왼쪽 끌기", "지도 옮기기 · 병사 보내기", "우클릭 누름", "망원경",
                 "휠", "가까이 · 멀리", "Q · W", "마법 고르기", "Tab · Esc", "지도 접기",
             });
+            BossTipLine(panel.transform);
             Text close = Ui.Label(panel.transform, "Close", "F1을 다시 누르면 닫힙니다", UiTokens.Small, UiTokens.InkSoft);
             Ui.Size(close, -1f, 28f);
             helpBoard.SetActive(false);
@@ -271,9 +272,17 @@ namespace HumanLastRampart.Combat.Battle
                 "한 번 누르기", "고르기 · 조준 · 점화", "끌기", "지도 옮기기 · 병사 보내기", "고르기 단추 + 끌기", "상자로 분대 고르기",
                 "길게 누르기", "망원경", "두 손가락", "가까이 · 멀리", "취소 단추", "고른 것 풀기",
             });
+            BossTipLine(panel.transform);
             Button close = Ui.Button(panel.transform, "도움말 닫기", "닫기", () => ToggleHelp());
             Ui.Size(close, 240f, 56f);
             touchHelpBoard.SetActive(false);
+        }
+
+        // 조작 판 아래 요령 한 줄 (키·손가락 공통): 키 목록 안이 아니라 따로 둔다 (W48)
+        static void BossTipLine(Transform parent)
+        {
+            Text tip = Ui.Label(parent, "Boss Tip", "요령  우두머리는 빛 안에서만 화살이 듣고, 오를 때는 대포가 듣습니다.", UiTokens.Small, UiTokens.InkSoft, TextAnchor.MiddleLeft);
+            Ui.Size(tip, -1f, 32f);
         }
 
         static void HelpColumn(Transform parent, string heading, string[] pairs)

@@ -14,6 +14,8 @@ namespace HumanLastRampart.Combat.Battle
         Vector3? lastFeet;
         float walked;
         int spellCasts;
+        float beamTurned;        // 빛줄기 목표 각도가 바뀐 만큼의 누적 (도). 명령이 들어간 순간 오르므로 도는 데 걸리는 6초를 기다리지 않는다
+        float? lastBeamTarget;
         readonly List<bool> lastCooling = new List<bool>();
 
         BattleTutorialSource(BattleEntry entry) { this.entry = entry; }
@@ -24,7 +26,7 @@ namespace HumanLastRampart.Combat.Battle
             if (!TutorialState.ShouldStartBattle(battleNumber)) return null;
             // 저장이 없으면 0으로 적어 둔다 — 전투가 중간에 끝나도 정비 구간이 이어지게
             if (!TutorialState.Store.TryLoad(out _)) TutorialState.Store.Save(0);
-            return TutorialDirector.Begin(parent, new BattleTutorialSource(entry), TutorialStep.Walk, TutorialStep.Magic);
+            return TutorialDirector.Begin(parent, new BattleTutorialSource(entry), TutorialStep.Walk, TutorialStep.Beam);
         }
 
         public bool Alive => entry != null && entry.Sim != null;
@@ -47,6 +49,10 @@ namespace HumanLastRampart.Combat.Battle
                 lastFeet = feet;
             }
 
+            float beamTarget = sim.BeamTargetDegrees;
+            if (lastBeamTarget.HasValue) beamTurned += Mathf.Abs(Mathf.DeltaAngle(lastBeamTarget.Value, beamTarget));
+            lastBeamTarget = beamTarget;
+
             for (int i = 0; i < sim.SpellCount; i++)
             {
                 bool cooling = sim.GetSpell(i).CooldownLeft > 0f;
@@ -60,6 +66,7 @@ namespace HumanLastRampart.Combat.Battle
         public bool MapOpen => entry.MapOpen;
         public int SquadSends => entry.SquadOrders;   // 분대 이동 명령만 (OrderGroupMove·OrderWallMoveCount)
         public int SpellCasts => spellCasts;
+        public float BeamTurnDegrees => beamTurned;
         public int TrapCount => entry.Sim != null ? entry.Sim.TrapCount : 0;
 
         public bool CanPerform(TutorialStep step) => true;
@@ -69,6 +76,7 @@ namespace HumanLastRampart.Combat.Battle
             step != TutorialStep.Magic || (entry.Sim != null && entry.Sim.WizardPresent && entry.Sim.SpellCount > 0);
 
         // 주인공은 성벽 위에서 키 0.375m(HeroDrawSize)로 그려진다 — 몸 한가운데는 발에서 그 절반 위 (1.2m로 잡으면 고리가 머리 위 허공에 뜬다)
+        public const float TowerPointHeight = 4.5f;   // 탑 몸 가운데쯤 (탑은 약 9m)
         public const float HeroCenterHeight = BattleView.HeroDrawSize * 0.5f;
 
         public bool TryGetTargetScreen(TutorialStep step, out Vector2 screen)
@@ -79,6 +87,9 @@ namespace HumanLastRampart.Combat.Battle
             Vector3 world;
             if (step == TutorialStep.Walk && entry.Rig != null) world = entry.Rig.HeroFeet + Vector3.up * HeroCenterHeight;
             else if (step == TutorialStep.Squad && entry.MapOpen && TryFindGroup(out Vector3 center)) world = center;
+            else if (step == TutorialStep.Beam && entry.Rig != null && !entry.MapOpen && !entry.AtTower)
+                world = entry.Rig.OnWall ? entry.Rig.StairsFeet + Vector3.up * HeroCenterHeight   // 성벽 위에서는 먼저 계단으로 (가까운 성벽의 계단)
+                    : new Vector3(0f, TowerPointHeight, 0f);                                      // 내려가는 중에는 마당 가운데 등대 탑 (탑 앞이나 지도에서는 끈다)
             else return false;
             // 전투 사진기는 낮은 해상도 그림판에 그릴 때가 있어(PerfLabResolution) 화소가 아닌 비율로 구해 화면 크기에 곱한다
             Vector3 p = camera.WorldToViewportPoint(world);

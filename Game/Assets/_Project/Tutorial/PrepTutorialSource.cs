@@ -30,6 +30,8 @@ namespace HumanLastRampart.Tutorial
         }
 
         // 함정 놓기는 하나라도 놓을 수 있을 때만 시킨다: 보관품이 있거나, 상점 재고를 지금 골드로 살 수 있을 때. 아니면 설명만 한다
+        public float BeamTurnDegrees => 0f;   // 정비에는 빛줄기가 없다
+
         public bool CanPerform(TutorialStep step) => step != TutorialStep.Trap || canTrap;   // Tick이 갱신한 값을 돌려준다 (하루 몇 번씩 불려도 가볍게)
 
         bool ComputeCanTrap()
