@@ -121,15 +121,32 @@ namespace HumanLastRampart.Combat.Battle
             }
 
             touch = new BattleTouch(this, transform);
-            hud = new BattleHud(transform, line, FinishFromSim, s => speed = s,
-                new System.Action[]
+            // 시험 단추는 에디터·개발 빌드·-hlrSmoke 에서만 만든다 (W46). 정식 빌드에서 전투를 못 만들었으면 [메인으로] 한 개만 둔다.
+            System.Action[] devActions;
+            string[] devLabels;
+            if (HumanLastRampart.Core.DevGate.Allowed)
+            {
+                devActions = new System.Action[]
                 {
                     () => FinishTest(BattleOutcome.Victory, DefeatReason.None),
                     () => FinishTest(BattleOutcome.Defeat, DefeatReason.WallDestroyed),
                     () => FinishTest(BattleOutcome.Defeat, DefeatReason.GarrisonLost),
-                },
-                new[] { "[시험] 승리", "[시험] 패배 — 성벽 붕괴", "[시험] 패배 — 병력 70%" });
-            if (sim == null) hud.ToggleDev();   // 실제 전투를 못 만든 경우: 시험 단추만 쓸 수 있으니 처음부터 보인다
+                };
+                devLabels = new[] { "[시험] 승리", "[시험] 패배 — 성벽 붕괴", "[시험] 패배 — 병력 70%" };
+            }
+            else if (sim == null)
+            {
+                devActions = new System.Action[] { () => context?.Complete(ScreenOutcome.BackToMainMenu) };
+                devLabels = new[] { "메인으로" };
+                line = "전투를 시작하지 못했습니다.";
+            }
+            else
+            {
+                devActions = new System.Action[0];
+                devLabels = new string[0];
+            }
+            hud = new BattleHud(transform, line, FinishFromSim, s => speed = s, devActions, devLabels);
+            if (sim == null) hud.ToggleDev();   // 실제 전투를 못 만든 경우: 빠져나갈 단추만 쓸 수 있으니 처음부터 보인다
 
             if (sim != null)
             {
@@ -598,8 +615,8 @@ namespace HumanLastRampart.Combat.Battle
                 if (keyboard.pKey.wasPressedThisFrame) paused = !paused;
                 if (keyboard.hKey.wasPressedThisFrame) hud.ToggleStatusDetail();   // 4면 자세히 (K-002)
                 if (keyboard.f1Key.wasPressedThisFrame) hud.ToggleHelp();          // 조작 판 (K-047 S-15: 키 목록은 여기에만)
-                if (keyboard.f12Key.wasPressedThisFrame) hud.ToggleDev();          // 개발 표시 (K-047 S-16: [시험] 단추·내부 정보)
-                if (keyboard.gKey.wasPressedThisFrame) HumanLastRampart.Combat.Render.BattleLook.Enabled = !HumanLastRampart.Combat.Render.BattleLook.Enabled;   // 화면 효과 켜고 끔 (비교용)
+                if (keyboard.f12Key.wasPressedThisFrame && HumanLastRampart.Core.DevGate.Allowed) hud.ToggleDev();          // 개발 표시 (K-047 S-16: [시험] 단추·내부 정보)
+                if (keyboard.gKey.wasPressedThisFrame && HumanLastRampart.Core.DevGate.Allowed) HumanLastRampart.Combat.Render.BattleLook.Enabled = !HumanLastRampart.Combat.Render.BattleLook.Enabled;   // 화면 효과 켜고 끔 (비교용)
             }
 
             if (mapOpen)

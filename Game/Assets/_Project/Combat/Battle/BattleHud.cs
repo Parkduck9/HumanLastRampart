@@ -321,6 +321,7 @@ namespace HumanLastRampart.Combat.Battle
                 Action action = devActions[i];
                 Button dev = Ui.Button(column.transform, devLabels[i], devLabels[i], () => action());
                 Ui.Size(dev, 420f, 48f);
+                dev.navigation = new Navigation { mode = Navigation.Mode.None };   // 키보드·패드 이동으로 숨은 단추가 눌리지 않게 (W46)
             }
 
             SetDevVisible(false);
