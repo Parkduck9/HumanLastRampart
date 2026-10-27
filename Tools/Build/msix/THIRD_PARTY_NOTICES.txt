@@ -395,7 +395,11 @@ Sfx/wind_woosh_loop.ogg | see source page | CC0 | https://opengameart.org/conten
 This game was made with Unity (Unity Technologies). The Unity runtime, Burst, Collections, Mathematics, Input System and other Unity packages are used under the Unity Software Additional Terms / Unity Companion License / package licences. Details: https://unity.com/legal
 
 ================================================================
+ORIGINAL ARTWORK
+================================================================
+All sprites, UI art, backgrounds and the app icon were made for this project by the developer using an AI image tool (Codex / OpenAI). They are not third-party assets.
+
+================================================================
 UNKNOWN - needs check
 ================================================================
 (audio) none: every audio file is listed in section 2.
-(art) Sprites, UI art and the app icon: no source or licence record exists in the repository. Confirm authorship / generation-tool terms before release.

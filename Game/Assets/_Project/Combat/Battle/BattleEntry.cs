@@ -598,7 +598,7 @@ namespace HumanLastRampart.Combat.Battle
                 if (keyboard.pKey.wasPressedThisFrame) paused = !paused;
                 if (keyboard.hKey.wasPressedThisFrame) hud.ToggleStatusDetail();   // 4면 자세히 (K-002)
                 if (keyboard.f1Key.wasPressedThisFrame) hud.ToggleHelp();          // 조작 판 (K-047 S-15: 키 목록은 여기에만)
-                if (keyboard.f12Key.wasPressedThisFrame) hud.ToggleDev();          // 개발 표시 (K-047 S-16: [시험] 단추·내부 정보)
+                if (keyboard.f12Key.wasPressedThisFrame && HumanLastRampart.Core.DevGate.Allowed) hud.ToggleDev();          // 개발 표시 (K-047 S-16: [시험] 단추·내부 정보)
                 if (keyboard.gKey.wasPressedThisFrame) HumanLastRampart.Combat.Render.BattleLook.Enabled = !HumanLastRampart.Combat.Render.BattleLook.Enabled;   // 화면 효과 켜고 끔 (비교용)
             }
 
