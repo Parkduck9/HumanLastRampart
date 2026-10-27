@@ -51,7 +51,7 @@ public sealed partial class PlayProbe
         Assert.Fail($"튜토리얼 단계 {from}이 {frames}프레임 안에 끝나지 않음");
     }
 
-    // 튜토리얼 1~8단계: 걷기 → 망원경(설명) → 지도 → 분대 → 대포(설명) → 마법 → (정비) 함정 → 망원경 업그레이드(설명).
+    // 튜토리얼 1~9단계: 걷기 → 망원경(설명) → 지도 → 분대 → 대포(설명) → 마법 → 빛줄기(탑) → (정비) 함정 → 망원경 업그레이드(설명).
     // 직접 해야 하는 단계는 다른 시험과 같은 공개 함수(BattleEntry.ToggleMap·SelectGroupsInScreenRect·SendSelectedGroups·SelectSpell·CastSelectedSpellAt,
     // FreePlacementInput.PlaceAt)로 하고, 설명 단계는 실제 [다음] 단추를 누른다. 단계마다 사진 한 장
     [UnityTest]
@@ -150,9 +150,40 @@ public sealed partial class PlayProbe
             entry.SelectSpell(0);
             Assert.IsTrue(entry.CastSelectedSpellAt(new Vector3(0f, 0f, 110f)), "마법 쓰기");
             yield return TutorialAdvance(TutorialStep.Magic, 120);
+            yield return WaitTutorialStep(TutorialStep.Beam, 10);
+
+            // 6-b 빛줄기: 계단 → 탑 → E → 다른 성벽 쪽 단추. 명령이 들어가야 넘어간다 (돌기가 끝나기를 기다리지 않는다)
+            var sim = entry.Sim;
+            for (int i = 0; i < 5; i++) yield return null;
+            if (entry.MapOpen) entry.ToggleMap();   // 마법을 지도에서 썼으니 접고 성벽으로 (지도가 열려 있으면 계단을 못 쓴다)
+            for (int i = 0; i < 3; i++) yield return null;
+            Note($"빛줄기 단계: 지금 빛줄기 면 {sim.BeamSide}");
+            yield return Capture("tutorial_6b_beam");   // 탑을 가리키는 고리
+            yield return new WaitForSecondsRealtime(0.1f);
+            Assert.AreEqual(TutorialStep.Beam, Object.FindAnyObjectByType<TutorialDirector>().Current, "탑에 가기 전에는 안 넘어간다");
+            yield return WaitFor(() => entry.TutorialTimeScale > 0f, 8f);   // 읽는 동안은 계단을 못 쓴다
+            entry.Rig.ShowSide(entry.Rig.Side);
+            for (int i = 0; i < 6; i++) yield return null;
+            entry.Rig.DepthInput = -1f;
+            yield return WaitFor(() => entry.Rig.NearStairs, 6f);
+            entry.Rig.DepthInput = 0f;
+            Assert.IsTrue(entry.Rig.NearStairs, "계단 앞");
+            Assert.IsTrue(entry.Interact(), "E: 탑으로 내려가기");
+            yield return WaitFor(() => entry.Rig.AtTower, 60f);
+            Assert.IsTrue(entry.Rig.AtTower, "탑 앞 도착");
+            Assert.AreEqual(TutorialStep.Beam, Object.FindAnyObjectByType<TutorialDirector>().Current, "탑에 서기만 해서는 안 넘어간다");
+            Assert.IsTrue(entry.Interact(), "E: 빛줄기 명령");
+            for (int i = 0; i < 6; i++) yield return null;
+            Assert.IsTrue(entry.BeamOrderMode, "명령 지도");
+            Assert.AreEqual(TutorialStep.Beam, Object.FindAnyObjectByType<TutorialDirector>().Current, "지도만 열어서는 안 넘어간다");
+            yield return Capture("tutorial_6c_beam_map");
+            string[] sideNames = { "북", "동", "남", "서" };
+            yield return Press("빛 " + sideNames[(sim.BeamSide + 1) % 4], 120);
+            yield return TutorialAdvance(TutorialStep.Beam, 60);
             Assert.IsTrue(Object.FindAnyObjectByType<TutorialDirector>().Finished, "전투 구간 끝");
             for (int i = 0; i < 3; i++) yield return null;
             Assert.AreEqual(1f, entry.TutorialTimeScale, "끝나면 시간이 정상");
+            entry.CloseBeamOrder();
 
             // 결과 → 정비
             yield return Press("[시험] 승리", 300);
@@ -186,7 +217,7 @@ public sealed partial class PlayProbe
             yield return null;
             Assert.IsTrue(Object.FindAnyObjectByType<TutorialDirector>().Finished, "정비 구간 끝");
             Assert.IsTrue(TutorialState.Completed, "튜토리얼 끝이 저장됨");
-            Note("튜토리얼 8단계 통과");
+            Note("튜토리얼 9단계 통과");
         }
         finally
         {

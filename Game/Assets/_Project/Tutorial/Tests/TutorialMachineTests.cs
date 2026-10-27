@@ -14,6 +14,8 @@ namespace HumanLastRampart.Tutorial.Tests
             public int Squads { get; set; }
             public int Spells { get; set; }
             public int Traps { get; set; }
+            public float Beam { get; set; }
+            public float BeamTurnDegrees => Beam;
             public bool WizardOk = true;
             public bool TrapOk = true;
             public float Scale = -1f;
@@ -50,7 +52,7 @@ namespace HumanLastRampart.Tutorial.Tests
             TutorialState.Suppressed = previousSuppressed;
         }
 
-        static TutorialMachine Battle(Fake f) => new TutorialMachine(f, new TutorialState(), TutorialStep.Walk, TutorialStep.Magic);
+        static TutorialMachine Battle(Fake f) => new TutorialMachine(f, new TutorialState(), TutorialStep.Walk, TutorialStep.Beam);
 
         [Test]
         public void BattleRange_RunsInUserOrder_AndDetectsEachAction()
@@ -84,11 +86,15 @@ namespace HumanLastRampart.Tutorial.Tests
             Assert.AreEqual(TutorialStep.Magic, m.Current);
             Assert.IsFalse(m.Next());
             f.Spells++; m.Update(0.1f);
+            Assert.AreEqual(TutorialStep.Beam, m.Current, "마법 다음은 빛줄기");
+            Assert.IsFalse(m.Finished);
+            f.Beam = TutorialSteps.BeamTurnDegrees; m.Update(0.1f);
             Assert.IsTrue(m.Finished);
             Assert.IsFalse(m.Skipped);
-            for (int i = 0; i <= (int)TutorialStep.Magic; i++) Assert.IsTrue(m.State.IsDone((TutorialStep)i));
+            for (int i = 0; i <= (int)TutorialStep.Beam; i++) Assert.IsTrue(m.State.IsDone((TutorialStep)i));
             Assert.IsTrue(store.TryLoad(out int progress));
-            Assert.AreEqual(6, progress, "전투 구간을 마치면 정비 구간 번호를 저장");
+            Assert.AreEqual(TutorialState.BattleSteps, progress, "전투 구간을 마치면 정비 구간 번호를 저장");
+            Assert.AreEqual(7, progress);
         }
 
         [Test]
@@ -148,7 +154,49 @@ namespace HumanLastRampart.Tutorial.Tests
             f.Squads++; m.Update(0.1f); m.Next();
             m.Update(0.1f);
             Assert.IsTrue(skipped);
+            Assert.AreEqual(TutorialStep.Beam, m.Current, "마법을 건너뛰면 빛줄기로");
+            f.Beam = TutorialSteps.BeamTurnDegrees; m.Update(0.1f);
             Assert.IsTrue(m.Finished);
+        }
+
+        [Test]
+        public void BeamStep_CompletesOnlyAfterTurning_AndIgnoresEarlierTurns()
+        {
+            var f = new Fake { Beam = 180f };   // 단계 전에 돌려 둔 것은 세지 않는다
+            TutorialMachine m = Battle(f);
+            f.Walked = 10f; m.Update(0.1f); m.Next();
+            f.Map = true; m.Update(0.1f);
+            f.Squads++; m.Update(0.1f); m.Next();
+            f.Spells++; m.Update(0.1f);
+            Assert.AreEqual(TutorialStep.Beam, m.Current);
+            Assert.IsFalse(m.ExplainOnly, "직접 해 보는 단계");
+            Assert.IsFalse(m.Next(), "[다음]으로 못 넘긴다");
+            f.Walked += 30f; f.Spells++; f.Squads++; f.Map = false; m.Update(0.1f); f.Map = true; m.Update(0.1f);
+            Assert.AreEqual(TutorialStep.Beam, m.Current, "빛줄기를 안 돌리면 다른 행동으로 안 넘어간다");
+            f.Beam += TutorialSteps.BeamTurnDegrees - 1f; m.Update(0.1f);
+            Assert.AreEqual(TutorialStep.Beam, m.Current, "조금 돌린 것으로는 안 넘어간다");
+            f.Beam += 1f; m.Update(0.1f);
+            Assert.IsTrue(m.Finished);
+        }
+
+        [Test]
+        public void OldSave_Migration_MapsOldStepNumbers_WithoutSkippingOrStalling()
+        {
+            Assert.AreEqual(0, TutorialState.MigrateV1(0));
+            Assert.AreEqual(3, TutorialState.MigrateV1(3));
+            Assert.AreEqual(5, TutorialState.MigrateV1(5), "마법을 하던 중이면 그대로 마법부터 (끝나면 새 빛줄기 단계)");
+            Assert.AreEqual((int)TutorialStep.Trap, TutorialState.MigrateV1(6), "옛 6(함정) -> 새 함정");
+            Assert.AreEqual((int)TutorialStep.Lens, TutorialState.MigrateV1(7), "옛 7(렌즈) -> 새 렌즈");
+            Assert.AreEqual(TutorialState.Total, TutorialState.MigrateV1(8), "옛 8(끝) -> 새 끝 (튜토리얼이 다시 시작되지 않는다)");
+            Assert.AreEqual(TutorialState.Total, TutorialState.MigrateV1(99));
+            // 옮긴 번호로 시작 판단이 맞는가
+            store.Save(TutorialState.MigrateV1(6));
+            Assert.IsFalse(TutorialState.ShouldStartBattle(1), "전투 구간을 마친 옛 저장은 첫 전투를 다시 안 한다");
+            Assert.IsTrue(TutorialState.ShouldStartPrep(2));
+            Assert.AreEqual(TutorialStep.Trap, TutorialState.ResumeStep(TutorialStep.Trap, TutorialStep.Lens));
+            store.Save(TutorialState.MigrateV1(8));
+            Assert.IsTrue(TutorialState.Completed);
+            Assert.IsFalse(TutorialState.ShouldStartPrep(2));
         }
 
         [Test]
@@ -260,7 +308,7 @@ namespace HumanLastRampart.Tutorial.Tests
         }
 
         [Test]
-        public void StepTable_HasAllEightSteps_WithKoreanText()
+        public void StepTable_HasAllNineSteps_WithKoreanText()
         {
             for (int i = 0; i < TutorialState.Total; i++)
             {
@@ -275,6 +323,9 @@ namespace HumanLastRampart.Tutorial.Tests
             Assert.IsTrue(TutorialSteps.Get(TutorialStep.Lens).ExplainOnly);
             Assert.IsFalse(TutorialSteps.Get(TutorialStep.Squad).ExplainOnly);
             Assert.IsFalse(TutorialSteps.Get(TutorialStep.Magic).ExplainOnly);
+            Assert.IsFalse(TutorialSteps.Get(TutorialStep.Beam).ExplainOnly);
+            Assert.AreEqual(TutorialState.Total, TutorialSteps.ArtColumn.Length);
+            foreach (int column in TutorialSteps.ArtColumn) Assert.That(column, Is.InRange(0, 7), "그림은 8칸");
             Assert.IsFalse(TutorialSteps.Get(TutorialStep.Trap).ExplainOnly);
         }
     }

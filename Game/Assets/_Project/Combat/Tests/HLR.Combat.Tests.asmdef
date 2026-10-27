@@ -8,6 +8,7 @@
         "HLR.App",
         "HLR.Combat",
         "HLR.UI",
+        "HLR.Tutorial",
         "HLR.Meta",
         "Unity.InputSystem",
         "Unity.InputSystem.TestFramework",

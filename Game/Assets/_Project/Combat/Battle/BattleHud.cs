@@ -237,6 +237,7 @@ namespace HumanLastRampart.Combat.Battle
             {
                 "왼쪽 클릭", "고르기 · 조준 · 점화", "왼쪽 끌기", "지도 옮기기 · 병사 보내기", "우클릭 누름", "망원경",
                 "휠", "가까이 · 멀리", "Q · W", "마법 고르기", "Tab · Esc", "지도 접기",
+                "우두머리", "빛 안 · 오를 때 대포",
             });
             Text close = Ui.Label(panel.transform, "Close", "F1을 다시 누르면 닫힙니다", UiTokens.Small, UiTokens.InkSoft);
             Ui.Size(close, -1f, 28f);

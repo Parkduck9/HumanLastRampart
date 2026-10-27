@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace HumanLastRampart.Tutorial
 {
-    // 튜토리얼 8단계 (사용자 결정 2026-10-20 · 2026-10-22): 걷기 → 망원경 → 지도 → 분대 → 대포(말만) → 마법 → 함정(정비) → 망원경 업그레이드(말만)
-    public enum TutorialStep { Walk = 0, Telescope, Map, Squad, Cannon, Magic, Trap, Lens }
+    // 튜토리얼 9단계 (사용자 결정 2026-10-20 · 2026-10-22 · 2026-10-27): 걷기 → 망원경 → 지도 → 분대 → 대포(말만) → 마법 → 빛줄기(탑) → 함정(정비) → 망원경 업그레이드(말만)
+    public enum TutorialStep { Walk = 0, Telescope, Map, Squad, Cannon, Magic, Beam, Trap, Lens }
 
     // 저장 자리. 진행 데이터(CampaignState)에는 표시 칸이 없고 저장 형식을 바꾸지 않기로 했으므로 PlayerPrefs 한 칸만 쓴다 (시험은 메모리)
     public interface ITutorialStore
@@ -15,19 +15,30 @@ namespace HumanLastRampart.Tutorial
 
     public sealed class PlayerPrefsTutorialStore : ITutorialStore
     {
-        // 값: 0~7 = 그 단계를 하던 중 (단계에 들어갈 때마다 저장), 8 = 끝(건너뛴 것 포함). 플레이어 단위 전역 키 (튜토리얼은 플레이어마다 한 번)
-        public const string Key = "HLR.Tutorial.v1";
+        // 값: 0~8 = 그 단계를 하던 중 (단계에 들어갈 때마다 저장), 9 = 끝(건너뛴 것 포함). 플레이어 단위 전역 키 (튜토리얼은 플레이어마다 한 번)
+        // v2: 빛줄기 단계가 6번에 끼어 번호가 하나씩 밀렸다. v1 값은 처음 읽을 때 한 번 옮긴다 (TutorialState.MigrateV1)
+        public const string Key = "HLR.Tutorial.v2";
+        public const string LegacyKey = "HLR.Tutorial.v1";
+        readonly string key;
+
+        public PlayerPrefsTutorialStore(string key = Key) { this.key = key; }
 
         public bool TryLoad(out int progress)
         {
             progress = 0;
-            if (!PlayerPrefs.HasKey(Key)) return false;
-            progress = Mathf.Clamp(PlayerPrefs.GetInt(Key), 0, TutorialState.Total);
+            if (key == Key && !PlayerPrefs.HasKey(Key) && PlayerPrefs.HasKey(LegacyKey))
+            {
+                PlayerPrefs.SetInt(Key, TutorialState.MigrateV1(PlayerPrefs.GetInt(LegacyKey)));
+                PlayerPrefs.Save();
+            }
+
+            if (!PlayerPrefs.HasKey(key)) return false;
+            progress = Mathf.Clamp(PlayerPrefs.GetInt(key), 0, TutorialState.Total);
             return true;
         }
 
-        public void Save(int progress) { PlayerPrefs.SetInt(Key, progress); PlayerPrefs.Save(); }
-        public void Clear() { PlayerPrefs.DeleteKey(Key); }
+        public void Save(int progress) { PlayerPrefs.SetInt(key, progress); PlayerPrefs.Save(); }
+        public void Clear() { PlayerPrefs.DeleteKey(key); }
     }
 
     public sealed class MemoryTutorialStore : ITutorialStore
@@ -39,11 +50,19 @@ namespace HumanLastRampart.Tutorial
         public void Clear() { has = false; value = 0; }
     }
 
-    // 단계 진행 표시와 저장. 전투 쪽은 Walk~Magic, 정비 쪽은 Trap~Lens (두 구간이 한 진행 번호를 이어 쓴다)
+    // 단계 진행 표시와 저장. 전투 쪽은 Walk~Beam, 정비 쪽은 Trap~Lens (두 구간이 한 진행 번호를 이어 쓴다)
     public sealed class TutorialState
     {
-        public const int Total = 8;
-        public const int BattleSteps = 6;   // 0~5 전투 중, 6~7 정비
+        public const int Total = 9;
+        public const int BattleSteps = 7;   // 0~6 전투 중, 7~8 정비
+
+        // 옛 저장(8단계) 값 → 지금 번호: 0~5(걷기~마법)는 그대로, 6~7(함정·렌즈)은 하나씩 뒤로, 8(끝)은 9(끝). 더 큰 값도 끝으로
+        public static int MigrateV1(int old)
+        {
+            if (old <= 5) return Mathf.Max(0, old);
+            if (old >= 8) return Total;
+            return old + 1;
+        }
 
         // ── 저장·꺼짐 스위치 (전역) ──
         public static ITutorialStore Store = new PlayerPrefsTutorialStore();
@@ -73,7 +92,16 @@ namespace HumanLastRampart.Tutorial
         public static bool Completed => Store.TryLoad(out int progress) && progress >= Total;
 
         // 설정에서 "튜토리얼 다시 보기"를 만들 때 쓰는 길
-        public static void Reset() => Store.Clear();
+        public static void Reset() { Store.Clear(); BossTipStore.Clear(); }
+
+        // ── 우두머리 첫 예고 안내 (W48): 본 적이 있는지 따로 한 칸 (옛 저장에는 없으므로 "아직 안 봄"으로 읽힌다 — 저장 형식 호환) ──
+        public const string BossTipKey = "HLR.Tutorial.BossTip.v1";
+        public static ITutorialStore BossTipStore = new PlayerPrefsTutorialStore(BossTipKey);
+        public static bool BossTipSeen => BossTipStore.TryLoad(out int value) && value >= 1;
+        public static void MarkBossTipSeen() => BossTipStore.Save(1);
+
+        // 튜토리얼이 꺼져 있지 않고 아직 안 봤을 때만
+        public static bool ShouldShowBossTip() => !Suppressed && !BossTipSeen;
 
         // ── 한 번의 진행 (인스턴스) ──
         readonly bool[] done = new bool[Total];
