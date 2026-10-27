@@ -1,0 +1,96 @@
+﻿{
+    "artworks":  [
+                     {
+                         "art":  "poster",
+                         "changed_bottom_third":  0,
+                         "changed_outside_roi":  0,
+                         "changed_inside_roi":  13398,
+                         "scales":  [
+                                        {
+                                            "nonopaque_pixels":  0,
+                                            "nearest_mismatch_pixels":  0,
+                                            "file":  "store/poster_1440x2160.png",
+                                            "size":  [
+                                                         1440,
+                                                         2160
+                                                     ],
+                                            "sha256":  "201098251EF1DB294CB1BCEA78157C9E8A45CD7AB893E95D41484EE7211D91C1"
+                                        },
+                                        {
+                                            "nonopaque_pixels":  0,
+                                            "nearest_mismatch_pixels":  0,
+                                            "file":  "store/poster_720x1080.png",
+                                            "size":  [
+                                                         720,
+                                                         1080
+                                                     ],
+                                            "sha256":  "E22653F4C32B3432E0F53C7CBCE1BACB5D2DEF7E167E5B90268DA18A69236BDF"
+                                        }
+                                    ]
+                     },
+                     {
+                         "art":  "box",
+                         "changed_bottom_third":  0,
+                         "changed_outside_roi":  0,
+                         "changed_inside_roi":  15682,
+                         "scales":  [
+                                        {
+                                            "nonopaque_pixels":  0,
+                                            "nearest_mismatch_pixels":  0,
+                                            "file":  "store/box_2160x2160.png",
+                                            "size":  [
+                                                         2160,
+                                                         2160
+                                                     ],
+                                            "sha256":  "FB5C151EF10832DF6B76962D01FB6FC4E6D0780A0B006F7FC566B1738C809B2F"
+                                        },
+                                        {
+                                            "nonopaque_pixels":  0,
+                                            "nearest_mismatch_pixels":  0,
+                                            "file":  "store/box_1080x1080.png",
+                                            "size":  [
+                                                         1080,
+                                                         1080
+                                                     ],
+                                            "sha256":  "192C851528A7349B945BD8A8BB147A1A42C4D220376E04126EF113C45F4A266F"
+                                        }
+                                    ]
+                     },
+                     {
+                         "art":  "super_hero",
+                         "changed_bottom_third":  0,
+                         "changed_outside_roi":  0,
+                         "changed_inside_roi":  1393,
+                         "scales":  [
+                                        {
+                                            "nonopaque_pixels":  0,
+                                            "nearest_mismatch_pixels":  0,
+                                            "file":  "store/super_hero_3840x2160.png",
+                                            "size":  [
+                                                         3840,
+                                                         2160
+                                                     ],
+                                            "sha256":  "31A9C9A8BC9475311F3482C91C68AEF4EA74C15AAC9D2BE16C6D8E4BC931FDE6"
+                                        },
+                                        {
+                                            "nonopaque_pixels":  0,
+                                            "nearest_mismatch_pixels":  0,
+                                            "file":  "store/super_hero_1920x1080.png",
+                                            "size":  [
+                                                         1920,
+                                                         1080
+                                                     ],
+                                            "sha256":  "27C88F4DF30174748FBC2457FA0E9C60BB9B1C8AB3F250D608A104D035F8581C"
+                                        }
+                                    ]
+                     }
+                 ],
+    "visual_review":  "최종 포스터·표지·가로 전경 확대 확인, 갈색 머리와 흰색 칼라·발 접촉 및 수정 경계 육안 확인",
+    "html_decoded_images":  13,
+    "animation_and_foot_pivot":  "정지 스토어 그림이므로 프레임·시트 발선·피벗 검사 해당 없음",
+    "html_no_external_image_dependencies":  true,
+    "browser_test":  "미수행: CUA 사용 가능 브라우저 목록이 비어 있음",
+    "app_tile_unchanged":  true,
+    "asset_checks_pass":  true,
+    "html_embedded_image_tags":  13
+}
