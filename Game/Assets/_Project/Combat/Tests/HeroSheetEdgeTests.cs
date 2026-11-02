@@ -10,6 +10,7 @@ namespace HumanLastRampart.Combat.Tests
     // 예전 달리기 행(행 2) 1·2번 칸은 뒤로 뻗은 다리·장화가 옆으로 잘려 있었다 (42~45화소 곧은 단면) — Codex K-133 그림으로 고쳐졌다.
     // 걷기 행(행 1) 1·3번 칸은 앞 장화 끝이 칸 안쪽에서 잘려 있었다 (33~42화소, 맨 끝 줄이 아니라 놓쳤다) — Codex K-134로 고쳐졌다.
     // 그래서 맨 끝 줄만이 아니라 칸 안의 모든 세로 윤곽(불투명 옆이 투명)을 본다. 잘린 칸이 하나라도 생기면 실패한다
+    // 앞·뒤 걷기 행(0·3)은 한쪽 다리가 외투 밑에서 끊겨 있어 서 있는 뒷모습 그림의 두 다리로 바꿨다 (2026-11-02, 사용자 허락으로 Claude가 고침)
     public sealed class HeroSheetEdgeTests
     {
         const string Dir = "_Project/Art/Characters/Hero/";
@@ -53,6 +54,30 @@ namespace HumanLastRampart.Combat.Tests
                     }
 
                 Assert.IsEmpty(found, file + "에 옆이 곧게 잘린 칸이 있다: " + string.Join(", ", found));
+
+                // 밑이 가로로 잘린 칸: 칸 맨 아래 불투명 줄이 어두운 밑창 윤곽이 아니라 부츠 색이면 땅에서 싹둑 잘린 것이다
+                // (옆 달리기·걷기 8칸이 그랬다 — 26~61%. 고친 뒤와 서 있는 그림은 100%)
+                var cut = new List<string>();
+                for (int r = 0; r < rows; r++)
+                    for (int c = 0; c < columns; c++)
+                    {
+                        int cellY = (rows - 1 - r) * ch, opaque = 0, dark = 0, bottom = -1;
+                        for (int y = 0; y < ch && bottom < 0; y++)   // 아래(y=0)부터 처음 불투명이 있는 줄
+                            for (int x = 0; x < cw; x++)
+                                if (pixels[(cellY + y) * tex.width + c * cw + x].a > 128) { bottom = y; break; }
+                        if (bottom < 0) continue;
+                        for (int x = 0; x < cw; x++)
+                        {
+                            Color32 p = pixels[(cellY + bottom) * tex.width + c * cw + x];
+                            if (p.a <= 128) continue;
+                            opaque++;
+                            if (p.r < 55 && p.g < 55 && p.b < 55) dark++;
+                        }
+
+                        if (dark < opaque * 0.85f) cut.Add($"행{r} 칸{c} 밑줄 어두운 비율 {dark}/{opaque}");
+                    }
+
+                Assert.IsEmpty(cut, file + "에 밑이 가로로 잘린 칸이 있다: " + string.Join(", ", cut));
             }
             finally { Object.DestroyImmediate(tex); }
         }
