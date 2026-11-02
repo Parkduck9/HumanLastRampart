@@ -11,6 +11,7 @@ namespace HumanLastRampart.Combat.Tests
     // 걷기 행(행 1) 1·3번 칸은 앞 장화 끝이 칸 안쪽에서 잘려 있었다 (33~42화소, 맨 끝 줄이 아니라 놓쳤다) — Codex K-134로 고쳐졌다.
     // 그래서 맨 끝 줄만이 아니라 칸 안의 모든 세로 윤곽(불투명 옆이 투명)을 본다. 잘린 칸이 하나라도 생기면 실패한다
     // 앞·뒤 걷기 행(0·3)은 한쪽 다리가 외투 밑에서 끊겨 있어 서 있는 뒷모습 그림의 두 다리로 바꿨다 (2026-11-02, 사용자 허락으로 Claude가 고침)
+    // 그 뒤 앞·뒤 걷기 행은 코덱스 K-139 새 시안을 Claude가 게임 격자·색에 맞춰 다듬은 그림으로 바꿨다 (D-088)
     public sealed class HeroSheetEdgeTests
     {
         const string Dir = "_Project/Art/Characters/Hero/";
