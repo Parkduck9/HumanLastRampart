@@ -94,3 +94,5 @@ The beacon's light spreads in every direction and draws the fog-touched horde, s
 문의: (사용자 이메일)
 
 This game does not collect, store or transmit any personal information. Save data and settings stay on your computer only. There are no ads, analytics or in-game purchases.
+
+- 새 게임 제품: 스토어 아이디 9PKZQ90TX171, 패키지 이름 NIPAD.281646FF1BBCE (게시자 그대로). 옛 앱 제품은 사용자가 지움.
