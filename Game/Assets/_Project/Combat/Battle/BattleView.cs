@@ -607,7 +607,8 @@ namespace HumanLastRampart.Combat.Battle
         // 주인공 그림의 깊이만 사진기 쪽으로 당기는 거리 m (W49, 사용자 1.0 시험 "움직일때 짤리는거같은데"):
         // 병사 줄이 통로 안쪽(사진기 쪽)까지 4줄로 서서 주인공이 줄 사이를 지날 때 앞줄 병사 그림이 주인공 몸 40~55%를 가렸다. 화면 위치·크기는 그대로
         // 0.8 → 0.3 (D-090): 진짜 잘림 원인은 그림이었다(D-088·D-089). 0.8이면 병사 뒤로 가도 늘 앞에 보여 원근감이 사라졌다
-        public const float HeroDepthPull = 0.3f;
+        // 0.3 → 0 (2026-11-03, 사용자 1.0 시험 "병사쪽으로 가도 병사보다 앞에 있다"): 병사 줄 간격이 0.3m라 당김이 있으면 늘 한 줄 앞에 그려졌다. 실제 깊이대로 가린다
+        public const float HeroDepthPull = 0f;
         static readonly int DepthPullId = Shader.PropertyToID("_DepthPull");
 
         // command = 명령 손짓 칸 (0 이상이면 손짓 시트로, 뒤집지 않음 — K-032)

@@ -2,8 +2,9 @@ using UnityEngine;
 
 namespace HumanLastRampart.Tutorial
 {
-    // 튜토리얼 9단계 (사용자 결정 2026-10-20 · 2026-10-22 · 2026-10-27): 걷기 → 망원경 → 지도 → 분대 → 대포(말만) → 마법 → 빛줄기(탑) → 함정(정비) → 망원경 업그레이드(말만)
-    public enum TutorialStep { Walk = 0, Telescope, Map, Squad, Cannon, Magic, Beam, Trap, Lens }
+    // 튜토리얼 9단계 (사용자 결정 2026-10-20 · 2026-10-22 · 2026-10-27): 걷기 → 지도 → 망원경 → 분대 → 대포(말만) → 마법 → 빛줄기(탑) → 함정(정비) → 망원경 업그레이드(말만)
+    // 2026-11-03 사용자 요청으로 망원경과 지도 순서를 맞바꿨다. 저장된 진행 값 1·2는 뜻만 서로 바뀐다 (둘 다 전투 초반 단계라 옮기지 않는다)
+    public enum TutorialStep { Walk = 0, Map, Telescope, Squad, Cannon, Magic, Beam, Trap, Lens }
 
     // 저장 자리. 진행 데이터(CampaignState)에는 표시 칸이 없고 저장 형식을 바꾸지 않기로 했으므로 PlayerPrefs 한 칸만 쓴다 (시험은 메모리)
     public interface ITutorialStore

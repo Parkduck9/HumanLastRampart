@@ -99,7 +99,8 @@ public sealed partial class PlayProbe
                         stats[shooter.Key] = st;
                         if (hiddenAll > maxHidden) maxHidden = hiddenAll;
                         if (hidden > maxWorldHidden) maxWorldHidden = hidden;
-                        if (hiddenAll > HeroClipMaxHidden || hidden > HeroClipMaxHidden) overHidden++;
+                        // 2026-11-03: 깊이 당김 0 — 주인공이 앞줄 병사 뒤에 서면 병사가 가리는 게 맞다. 바닥·난간·건물에 가린 비율만 센다 (병사 포함 비율은 기록만)
+                        if (hidden > HeroClipMaxHidden) overHidden++;
                         if (shooter.SideMissing > HeroClipMaxSideMissing) overSide++;
                         if (BattleCourtyard.HeroLift(rig.HeroFeet, entry.Sim.CastleHalf) > 0.001f) liftSamples++;
                         if ((entry.SeeThrough != null ? entry.SeeThrough.Strength : 0f) > 0f) holeSamples++;
@@ -130,7 +131,7 @@ public sealed partial class PlayProbe
                 n++;
             }
 
-            Assert.AreEqual(0, overHidden, "걷는 모든 표본에서 주인공이 바닥·난간·건물·병사 그림에 가려 잘리는 화소 비율이 허용 이하:\n" + log);
+            Assert.AreEqual(0, overHidden, "걷는 모든 표본에서 주인공이 바닥·난간·건물에 가려 잘리는 화소 비율이 허용 이하 (병사 가림은 깊이대로라 제외):\n" + log);
             Assert.AreEqual(0, overSide, "걷는 모든 표본에서 주인공 옆모습이 칸 모서리에서 잘리지 않는다:\n" + log);
         }
         finally

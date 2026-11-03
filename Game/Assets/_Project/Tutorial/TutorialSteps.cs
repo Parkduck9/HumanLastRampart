@@ -28,7 +28,7 @@ namespace HumanLastRampart.Tutorial
         public const float WalkMeters = 6f;      // 걷기 단계 완료: 이만큼 걸어야 한다
         public const float BeamTurnDegrees = 90f;   // 빛줄기 단계 완료: 빛줄기 방향 명령이 이만큼(도) 이상 바꾸어야 한다 (다른 성벽 쪽 한 번이면 90도)
         // 단계 → 그림 칸 (step_icons_24 · step_pips 모두 8칸 = 옛 8단계). 빛줄기 전용 그림이 아직 없어 망원경 렌즈(7)를 빌려 쓴다 — 전용 그림은 Codex 몫
-        public static readonly int[] ArtColumn = { 0, 1, 2, 3, 4, 5, 7, 6, 7 };
+        public static readonly int[] ArtColumn = { 0, 2, 1, 3, 4, 5, 7, 6, 7 };   // 그림 칸 번호는 옛 순서(1 망원경 · 2 지도) 그대로라 지도·망원경 자리만 맞바꾼다
 
         static readonly TutorialStepInfo[] table =
         {
@@ -40,15 +40,15 @@ namespace HumanLastRampart.Tutorial
             },
             new TutorialStepInfo
             {
-                Title = "망원경", Expression = 1, ExplainOnly = true,
-                Body = "지도를 연 뒤 오른쪽 버튼을 누르고 있으면\n그 둘레의 멀리 있는 적 무리를 볼 수 있습니다.",
-                Chips = new[] { new TutorialStepInfo.Chip(1, "누르고 있기") },
+                Title = "지도 열기", Expression = 0,
+                Body = "이제 지도를 펼쳐 보십시오.\n멀리까지 한눈에 보입니다.",
+                Chips = new[] { new TutorialStepInfo.Chip(-1, "Tab") },
             },
             new TutorialStepInfo
             {
-                Title = "지도 열기", Expression = 0,
-                Body = "이번에는 지도를 펼쳐 보십시오.\n멀리까지 한눈에 보입니다.",
-                Chips = new[] { new TutorialStepInfo.Chip(-1, "Tab") },
+                Title = "망원경", Expression = 1, ExplainOnly = true,
+                Body = "지도에서 오른쪽 버튼을 누르고 있으면\n그 둘레의 멀리 있는 적 무리를 볼 수 있습니다.",
+                Chips = new[] { new TutorialStepInfo.Chip(1, "누르고 있기") },
             },
             new TutorialStepInfo
             {

@@ -62,7 +62,7 @@ public sealed partial class PlayProbe
             if (HumanLastRampart.Combat.Battle.BattleCourtyardBuildings.Footprint(plot, half).Contains(new Vector2(p.x, p.z)) && p.y < floor + plot.TotalHeight + 0.2f)
                 Assert.Fail($"{message} — {plot.Name} 안, 사진기 {p}");
     }
-    // 튜토리얼 1~9단계: 걷기 → 망원경(설명) → 지도 → 분대 → 대포(설명) → 마법 → 빛줄기(탑) → (정비) 함정 → 망원경 업그레이드(설명).
+    // 튜토리얼 1~9단계: 걷기 → 지도 → 망원경(설명) → 분대 → 대포(설명) → 마법 → 빛줄기(탑) → (정비) 함정 → 망원경 업그레이드(설명).
     // 직접 해야 하는 단계는 다른 시험과 같은 공개 함수(BattleEntry.ToggleMap·SelectGroupsInScreenRect·SendSelectedGroups·SelectSpell·CastSelectedSpellAt,
     // FreePlacementInput.PlaceAt)로 하고, 설명 단계는 실제 [다음] 단추를 누른다. 단계마다 사진 한 장
     [UnityTest]
@@ -126,19 +126,20 @@ public sealed partial class PlayProbe
             }
             rig.WalkInput = 0f;
             Assert.AreNotEqual(TutorialStep.Walk, Object.FindAnyObjectByType<TutorialDirector>()?.Current, "15초 걸었는데 걷기 단계가 끝나지 않음");
-            yield return WaitTutorialStep(TutorialStep.Telescope, 5);
+            yield return WaitTutorialStep(TutorialStep.Map, 5);
 
-            // 2 망원경(설명): [다음]
+            // 2 지도: 열어야 넘어간다
             yield return null;
-            yield return Capture("tutorial_2_telescope");
-            yield return Press("튜토리얼 다음", 60);
-            yield return WaitTutorialStep(TutorialStep.Map, 10);
-
-            // 3 지도: 열어야 넘어간다
-            yield return null;
-            yield return Capture("tutorial_3_map");
+            yield return Capture("tutorial_2_map");
             entry.ToggleMap();
-            yield return WaitTutorialStep(TutorialStep.Squad, 30);
+            yield return WaitTutorialStep(TutorialStep.Telescope, 30);
+
+            // 3 망원경(설명): 지도가 열린 채로 [다음]
+            yield return null;
+            Assert.IsTrue(entry.MapOpen, "망원경 설명은 지도가 열린 채로 뜬다");
+            yield return Capture("tutorial_3_telescope");
+            yield return Press("튜토리얼 다음", 60);
+            yield return WaitTutorialStep(TutorialStep.Squad, 10);
 
             // 4 분대: 상자로 고르고 보낸다
             for (int i = 0; i < 3; i++) yield return null;

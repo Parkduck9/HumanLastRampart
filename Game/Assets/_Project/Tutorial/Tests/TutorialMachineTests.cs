@@ -64,16 +64,16 @@ namespace HumanLastRampart.Tutorial.Tests
             f.Walked = TutorialSteps.WalkMeters - 0.1f; m.Update(0.1f);
             Assert.AreEqual(TutorialStep.Walk, m.Current, "조금 걸은 것으로는 안 넘어간다");
             f.Walked = TutorialSteps.WalkMeters; m.Update(0.1f);
-            Assert.AreEqual(TutorialStep.Telescope, m.Current);
-
-            m.Update(0.1f);
-            Assert.AreEqual(TutorialStep.Telescope, m.Current, "설명 단계는 상태로 안 넘어간다");
-            Assert.IsTrue(m.Next());
             Assert.AreEqual(TutorialStep.Map, m.Current);
 
             m.Update(0.1f);
             Assert.AreEqual(TutorialStep.Map, m.Current, "지도를 안 열면 그대로");
             f.Map = true; m.Update(0.1f);
+            Assert.AreEqual(TutorialStep.Telescope, m.Current);
+
+            m.Update(0.1f);
+            Assert.AreEqual(TutorialStep.Telescope, m.Current, "설명 단계는 상태로 안 넘어간다");
+            Assert.IsTrue(m.Next());
             Assert.AreEqual(TutorialStep.Squad, m.Current);
 
             Assert.IsFalse(m.Next(), "직접 해야 하는 단계는 [다음]으로 못 넘긴다");
@@ -103,7 +103,9 @@ namespace HumanLastRampart.Tutorial.Tests
             var f = new Fake { Spells = 3, Squads = 2, Walked = 50f };
             TutorialMachine m = Battle(f);
             f.Walked = 50f + TutorialSteps.WalkMeters; m.Update(0.1f);
-            m.Next(); f.Map = true; m.Update(0.1f);
+            f.Map = true; m.Update(0.1f);   // 지도 단계 끝
+            m.Next();                       // 망원경 설명 끝
+            m.Update(0.1f);
             Assert.AreEqual(TutorialStep.Squad, m.Current, "이전에 보낸 횟수는 세지 않는다");
             f.Squads = 3; m.Update(0.1f);
             m.Next();
@@ -133,8 +135,9 @@ namespace HumanLastRampart.Tutorial.Tests
         {
             var f = new Fake();
             TutorialMachine m = Battle(f);
-            f.Walked = 10f; m.Update(0.1f); m.Next();
+            f.Walked = 10f; m.Update(0.1f);
             f.Map = true; m.Update(0.1f);
+            m.Next();
             Assert.AreEqual(TutorialStep.Squad, m.Current);
             f.Spells++; f.Traps++; f.Walked += 20f; m.Update(0.1f);
             Assert.AreEqual(TutorialStep.Squad, m.Current, "분대 명령 횟수만 센다");
@@ -149,8 +152,9 @@ namespace HumanLastRampart.Tutorial.Tests
             TutorialMachine m = Battle(f);
             bool skipped = false;
             m.StepCompleted += (step, unavailable) => skipped |= step == TutorialStep.Magic && unavailable;
-            f.Walked = 10f; m.Update(0.1f); m.Next();
+            f.Walked = 10f; m.Update(0.1f);
             f.Map = true; m.Update(0.1f);
+            m.Next();
             f.Squads++; m.Update(0.1f); m.Next();
             m.Update(0.1f);
             Assert.IsTrue(skipped);
@@ -164,8 +168,9 @@ namespace HumanLastRampart.Tutorial.Tests
         {
             var f = new Fake { Beam = 180f };   // 단계 전에 돌려 둔 것은 세지 않는다
             TutorialMachine m = Battle(f);
-            f.Walked = 10f; m.Update(0.1f); m.Next();
+            f.Walked = 10f; m.Update(0.1f);
             f.Map = true; m.Update(0.1f);
+            m.Next();
             f.Squads++; m.Update(0.1f); m.Next();
             f.Spells++; m.Update(0.1f);
             Assert.AreEqual(TutorialStep.Beam, m.Current);
@@ -209,7 +214,8 @@ namespace HumanLastRampart.Tutorial.Tests
             m.Update(TutorialSteps.ReadSeconds);
             Assert.AreEqual(TutorialSteps.ActionTimeScale, f.Scale, 1e-4f, "직접 해 보는 동안 천천히");
             f.Walked = 10f; m.Update(0.1f);
-            Assert.AreEqual(0f, f.Scale, "설명 단계는 멈춤");
+            Assert.AreEqual(TutorialStep.Map, m.Current);
+            Assert.AreEqual(0f, f.Scale, "다음 단계(지도)가 시작되면 다시 읽는 동안 멈춤");
             m.Skip();
             Assert.AreEqual(1f, f.Scale, "끝나면 정상");
         }
@@ -258,14 +264,14 @@ namespace HumanLastRampart.Tutorial.Tests
         {
             var f = new Fake { Map = true };   // 단계가 시작될 때 이미 열려 있음
             TutorialMachine m = Battle(f);
-            f.Walked = 10f; m.Update(0.1f); m.Next();
+            f.Walked = 10f; m.Update(0.1f);
             Assert.AreEqual(TutorialStep.Map, m.Current);
             m.Update(0.1f);
             Assert.AreEqual(TutorialStep.Map, m.Current, "이미 열려 있던 지도로는 안 넘어간다");
             f.Map = false; m.Update(0.1f);
             Assert.AreEqual(TutorialStep.Map, m.Current, "닫기만 해도 안 넘어간다");
             f.Map = true; m.Update(0.1f);
-            Assert.AreEqual(TutorialStep.Squad, m.Current, "닫혔다가 열리면 넘어간다");
+            Assert.AreEqual(TutorialStep.Telescope, m.Current, "닫혔다가 열리면 넘어간다");
         }
 
         [Test]
@@ -277,15 +283,15 @@ namespace HumanLastRampart.Tutorial.Tests
             Assert.AreEqual(0, progress);
             f.Walked = 10f; m.Update(0.1f);
             store.TryLoad(out progress);
-            Assert.AreEqual((int)TutorialStep.Telescope, progress, "단계에 들어갈 때마다 저장");
-            m.Next();
+            Assert.AreEqual((int)TutorialStep.Map, progress, "단계에 들어갈 때마다 저장");
+            f.Map = true; m.Update(0.1f);   // 단계가 시작될 때 닫혀 있었으니 열기만 하면 지도 단계 끝
             store.TryLoad(out progress);
-            Assert.AreEqual((int)TutorialStep.Map, progress);
-            Assert.AreEqual(TutorialStep.Map, TutorialState.ResumeStep(TutorialStep.Walk, TutorialStep.Magic), "다시 시작하면 하던 단계부터");
+            Assert.AreEqual((int)TutorialStep.Telescope, progress);
+            Assert.AreEqual(TutorialStep.Telescope, TutorialState.ResumeStep(TutorialStep.Walk, TutorialStep.Magic), "다시 시작하면 하던 단계부터");
             Assert.AreEqual(TutorialStep.Trap, TutorialState.ResumeStep(TutorialStep.Trap, TutorialStep.Lens), "구간 밖 번호는 구간 안으로");
             new TutorialState().SaveStep(TutorialStep.Walk);
             store.TryLoad(out progress);
-            Assert.AreEqual((int)TutorialStep.Map, progress, "저장 값을 낮추지 않는다");
+            Assert.AreEqual((int)TutorialStep.Telescope, progress, "저장 값을 낮추지 않는다");
         }
 
         [Test]
