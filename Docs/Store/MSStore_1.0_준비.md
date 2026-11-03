@@ -96,3 +96,10 @@ The beacon's light spreads in every direction and draws the fog-touched horde, s
 This game does not collect, store or transmit any personal information. Save data and settings stay on your computer only. There are no ads, analytics or in-game purchases.
 
 - 새 게임 제품: 스토어 아이디 9PKZQ90TX171, 패키지 이름 NIPAD.281646FF1BBCE (게시자 그대로). 옛 앱 제품은 사용자가 지움.
+
+## 8. 2026-11-03 오후 입력 결과
+- 검색어: 파트너 센터가 설명·짧은 설명에 이미 나온 낱말은 검색어로 받지 않음(엔터를 눌러도 사라짐).
+  - 한국어 최종: 타워 디펜스, 픽셀 아트, 판타지, 디펜스, 공성전, 웨이브 디펜스, 도트 그래픽
+  - 영어 최종: wall defense, tower defense, strategy, pixel art, fantasy, siege, castle defense
+- 개인정보: 전체 권한(runFullTrust) 선언 때문에 "개인정보 사용"이 '예'로 고정되고 처리방침이 필수 → 7장 글을 그대로 입력.
+- 전체 권한 사유는 제출 선택 화면에 칸이 없어 "추가 시험 정보" 메모에 영어로 적음(실행 안내 포함).
