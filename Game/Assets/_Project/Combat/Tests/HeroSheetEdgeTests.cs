@@ -13,6 +13,7 @@ namespace HumanLastRampart.Combat.Tests
     // 앞·뒤 걷기 행(0·3)은 한쪽 다리가 외투 밑에서 끊겨 있어 서 있는 뒷모습 그림의 두 다리로 바꿨다 (2026-11-02, 사용자 허락으로 Claude가 고침)
     // 그 뒤 앞·뒤 걷기 행은 코덱스 K-139 새 시안을 Claude가 게임 격자·색에 맞춰 다듬은 그림으로 바꿨다 (D-088)
     // 달리기 행(행 2)도 코덱스 K-140 새 시안을 다듬은 그림으로 바꿨다 — 2·3번 칸 뒷발이 장화 모양 없는 덩어리였다 (D-089)
+    // 그 뒤 걷기·달리기 머리가 서 있기 그림보다 커서 시안에서 머리·몸을 따로 줄여 다시 맞췄다 (D-091)
     public sealed class HeroSheetEdgeTests
     {
         const string Dir = "_Project/Art/Characters/Hero/";
