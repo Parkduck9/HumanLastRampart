@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace HumanLastRampart.Combat.Battle
@@ -37,6 +38,35 @@ namespace HumanLastRampart.Combat.Battle
         public const float HeroInset = 1f;      // 주인공 처음 자리: 성벽 바깥 모서리에서 1m 안쪽 (병사 줄 0.5m 바로 뒤)
         public const float InsetMin = 0.75f;    // 통로 바깥쪽 끝 (병사 줄 바로 뒤)
         public const float InsetMax = 1.8f;     // 통로 안쪽 끝 (성벽 두께 2m)
+
+        // 병사 줄 막기 (사용자 2026-11-03 "전투 중 병사가 선 자리로 주인공이 못 지나가게"): 앞줄 병사(줄 안쪽 거리 < FormationRowLimit)가 선 곳에서는 그 줄 + FormationClearance 안쪽까지만 들어간다.
+        // 뒷줄(1.7·1.95)은 달리는 길 너머라 무시한다. 위쪽 한계는 InsetMax (앞줄 최대 1.1 + 0.35라 계단 높이 StairsInsetMin 아래로 막힌다)
+        public const float FormationReach = 0.45f;       // 병사 반폭 + 주인공 반폭: 성벽 따라 이 거리 안의 병사만 막는다
+        public const float FormationClearance = 0.35f;   // 병사 줄에서 주인공 앞까지 띄울 여유 (m)
+        public const float FormationRowLimit = InsetMax - 0.3f;
+
+        // (성벽 번호, 따라 위치) → 거기 선 앞줄 병사 중 가장 안쪽 줄의 안쪽 거리 (없으면 0 이하). BattleEntry가 정한다. null이면 옛 동작 (시험)
+        Func<int, float, float> formationInsetAt;
+        public void SetFormation(Func<int, float, float> insetAt)
+        {
+            formationInsetAt = insetAt;
+            inset = Mathf.Max(inset, MinInsetAt(Side, along));
+            snap = true;
+            Apply(0f);
+        }
+
+        // 지금 (성벽, 따라 위치)에서 주인공이 설 수 있는 가장 바깥쪽 inset
+        public float MinInsetAt(int side, float alongAt)
+        {
+            if (formationInsetAt == null) return InsetMin;
+            float front = formationInsetAt(side, alongAt);
+            if (front <= 0f) return InsetMin;
+            return Mathf.Clamp(front + FormationClearance, InsetMin, InsetMax);
+        }
+
+        // 처음·옆 성벽 가운데에 설 때 inset: 기본 자리, 병사 줄이 있으면 그 뒤
+        float plannedArriveInset = HeroInset;   // 탑에서 다른 성벽으로 올라올 때 GoUp이 정한 도착 inset
+        float SpawnInset(int side, float alongAt) => Mathf.Max(HeroInset, MinInsetAt(side, alongAt));
 
         // 주인공 모습 (그리기용). 서 있으면 뒷모습, 옆으로 달리기, 안쪽·바깥쪽 걷기는 앞·뒷모습
         public enum HeroPose { Idle, Walk, Run }
@@ -192,7 +222,7 @@ namespace HumanLastRampart.Combat.Battle
                 // 다른 성벽(또는 같은 성벽 가운데)으로 올라왔다: 그 성벽 가운데에 서고 사진기는 그 성벽 바깥을 본다
                 Side = pathSide;
                 along = 0f;
-                inset = HeroInset;
+                inset = plannedArriveInset;   // GoUp이 길을 짠 그 자리 (다시 계산하면 튄다)
                 arriveMiddle = false;
             }
 
@@ -215,7 +245,8 @@ namespace HumanLastRampart.Combat.Battle
             // 내려온 성벽의 키면 떠난 자리 그대로(단추와 같다), 다른 성벽이면 그 성벽 가운데
             bool back = side == Side;
             pathSide = side;
-            pathTotal = Plan(side, back ? FeetAt(Side, along, inset) : FeetAt(side, 0f, HeroInset));
+            plannedArriveInset = SpawnInset(side, 0f);
+            pathTotal = Plan(side, back ? FeetAt(Side, along, inset) : FeetAt(side, 0f, plannedArriveInset));
             pathTime = pathTotal;
             arriveMiddle = !back;
             towerTarget = false;
@@ -352,8 +383,30 @@ namespace HumanLastRampart.Combat.Battle
             }
             else
             {
-                if (pan != 0f) MoveAlong(pan * RunSpeed * unscaledDt);
+                if (pan != 0f)
+                {
+                    // 가려는 자리에 병사 줄이 있으면 이번 걸음 몫을 먼저 안쪽으로 쓰고 남은 걸음만 옆으로 간다 (달리는 빠르기로 밀려나 병사와 겹치지 않는다)
+                    float step = RunSpeed * unscaledDt;
+                    float need = Mathf.Max(MinInsetAt(Side, along), MinInsetAt(Side, along + pan * step)) - inset;
+                    if (need > 0f)
+                    {
+                        float spend = Mathf.Min(need, step);
+                        inset += spend;
+                        step -= spend;
+                    }
+
+                    if (step > 0f) MoveAlong(pan * step);
+                }
+
                 if (depth != 0f) SetInset(inset - depth * DepthSpeed * unscaledDt);
+            }
+
+            // 서 있는 동안 옆 빈자리에 병사가 들어서면 걷는 빠르기로 부드럽게 안쪽으로 밀려난다
+            float minInset = MinInsetAt(Side, along);
+            if (inset < minInset)
+            {
+                inset = Mathf.MoveTowards(inset, minInset, DepthSpeed * unscaledDt);
+                along = Mathf.Clamp(along, -Limit, Limit);   // 안쪽으로 들어가면 모서리 끝이 줄어든다
             }
 
             bool sideways = !Mathf.Approximately(alongBefore, along) || sideBefore != Side;
@@ -366,7 +419,7 @@ namespace HumanLastRampart.Combat.Battle
             else if (deeper)
             {
                 Pose = HeroPose.Walk;
-                FacingFront = depth < 0f;
+                FacingFront = depth != 0f ? depth < 0f : inset > insetBefore;   // 밀려날 때(입력 없음)는 안쪽 = 앞모습
             }
             else
             {
@@ -440,7 +493,9 @@ namespace HumanLastRampart.Combat.Battle
 
         void SetInset(float value)
         {
-            float next = Mathf.Clamp(value, InsetMin, InsetMax);
+            // 병사 줄 앞으로는 못 나간다. 이미 밀려나는 중이라 최소보다 바깥이면 그 자리까지만 (뛰어오르지 않는다)
+            float floor = Mathf.Min(MinInsetAt(Side, along), Mathf.Max(inset, InsetMin));
+            float next = Mathf.Clamp(value, floor, InsetMax);
             // 모서리 근처에서 안쪽으로 들어가면 끝이 줄어든다 — 끝 안에 머문다
             inset = next;
             along = Mathf.Clamp(along, -Limit, Limit);
@@ -488,7 +543,7 @@ namespace HumanLastRampart.Combat.Battle
         {
             Side = side;
             along = 0f;
-            inset = HeroInset;
+            inset = SpawnInset(side, 0f);
             overview = false;
             runDir = 0;
             towerTarget = false;

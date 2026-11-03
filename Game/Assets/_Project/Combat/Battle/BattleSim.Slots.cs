@@ -89,6 +89,24 @@ namespace HumanLastRampart.Combat.Battle
             return s.Row;
         }
 
+        // 주인공 길 막기용: side 성벽 along(성벽 따라 m) 둘레 reach 안에 실제로 서 있는 병사 중, 줄 안쪽 거리가 rowLimit보다 작은 줄의 가장 큰 안쪽 거리. 없으면 0
+        // 자리만 맡겨 두고 나간 병사(전령·우회)와 쓰러진 병사는 세지 않는다
+        public float FormationInsetAt(int side, float along, float reach, float rowLimit)
+        {
+            if (wallSlots[side] == null || !sAlive.IsCreated || !sAway.IsCreated) return 0f;
+            float best = 0f;
+            foreach (WallSlot s in wallSlots[side])
+            {
+                int i = s.Occupant;
+                if (i < 0 || sAlive[i] == 0 || sAway[i] != 0) continue;
+                float inset = SlotRowInset[s.Row];
+                if (inset >= rowLimit || inset <= best || math.abs(s.Lateral - along) >= reach) continue;
+                best = inset;
+            }
+
+            return best;
+        }
+
         // BuildSoldiers 앞에서: 대포 사격구(cannonBays)를 채운 뒤 부른다
         void BuildWallSlots(int soldiers)
         {

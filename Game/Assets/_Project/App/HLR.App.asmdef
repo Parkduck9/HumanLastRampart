@@ -3,6 +3,7 @@
     "rootNamespace": "HumanLastRampart.App",
     "references": [
         "HLR.Core",
+        "HLR.Tutorial",
         "Unity.InputSystem",
         "UnityEngine.UI"
     ],

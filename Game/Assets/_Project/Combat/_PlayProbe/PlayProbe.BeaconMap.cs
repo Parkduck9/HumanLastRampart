@@ -89,16 +89,19 @@ public sealed partial class PlayProbe
         Directory.CreateDirectory(Out); log = new StringBuilder();
         bool keep = KeepPreparation; KeepPreparation = true;
         var oldStore = HumanLastRampart.Tutorial.TutorialState.Store;
+        var oldTip = HumanLastRampart.Tutorial.TutorialState.BossTipStore;   // 새 게임이 우두머리 안내 저장도 지운다 — 진짜 PlayerPrefs를 건드리지 않게 메모리로
         bool oldSuppressed = HumanLastRampart.Tutorial.TutorialState.Suppressed;
         try
         {
             HumanLastRampart.Tutorial.TutorialState.Store = new HumanLastRampart.Tutorial.MemoryTutorialStore();
             HumanLastRampart.Tutorial.TutorialState.Store.Save(HumanLastRampart.Tutorial.TutorialState.BattleSteps);   // 전투 구간은 이미 마친 것으로
+            HumanLastRampart.Tutorial.TutorialState.BossTipStore = new HumanLastRampart.Tutorial.MemoryTutorialStore();
             HumanLastRampart.Tutorial.TutorialState.Suppressed = false;
             SceneManager.LoadScene("Boot"); yield return null; yield return null;
             yield return WaitScreen(ScreenId.MainMenu, 900);
             yield return Press("게임 시작", 600); yield return Press("쉬움", 300);
             yield return WaitScreen(ScreenId.Story, 600);
+            HumanLastRampart.Tutorial.TutorialState.Store.Save(HumanLastRampart.Tutorial.TutorialState.BattleSteps);   // 새 게임이 저장을 지웠으니 다시 심는다
             Object.FindAnyObjectByType<HumanLastRampart.Story.StoryPlayer>().Skip();
             yield return WaitScreen(ScreenId.Battle, 900);
             yield return Press("[시험] 승리", 300);
@@ -127,6 +130,7 @@ public sealed partial class PlayProbe
         finally
         {
             HumanLastRampart.Tutorial.TutorialState.Store = oldStore;
+            HumanLastRampart.Tutorial.TutorialState.BossTipStore = oldTip;
             HumanLastRampart.Tutorial.TutorialState.Suppressed = oldSuppressed;
             KeepPreparation = keep;
             File.WriteAllText(Path.Combine(Out, "beacon_map_tutorial.txt"), log.ToString(), new UTF8Encoding(false));

@@ -108,6 +108,8 @@ namespace HumanLastRampart.Combat.Battle
                     heroUnit?.NormalSheet, heroUnit?.IdleNormalSheet);   // 노멀맵 짝 (D-062 G4) — 없으면 null
                 view.SetHeroCommandArt(heroUnit?.CommandSheet, heroUnit?.NormalFor(heroUnit.CommandSheet));
                 rig = new BattleCameraRig(battleCamera, sim.CastleHalf, BattleSim.WallHeight);
+                var formationSim = sim;
+                rig.SetFormation((side, along) => formationSim.FormationInsetAt(side, along, BattleCameraRig.FormationReach, BattleCameraRig.FormationRowLimit));   // 병사 줄 앞으로 못 간다
                 mapCamera = new BattleMapCamera(battleCamera, sim.CastleHalf, sim.FieldSize);
                 easy = setup.Difficulty == Difficulty.Easy;
                 beamView = new BattleBeamView(sim);

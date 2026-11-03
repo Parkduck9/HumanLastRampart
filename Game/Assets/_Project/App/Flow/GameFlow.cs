@@ -9,6 +9,7 @@ using HumanLastRampart.Core.Definitions;
 using HumanLastRampart.Core.Flow;
 using HumanLastRampart.Core.Save;
 using HumanLastRampart.Core.Settings;
+using HumanLastRampart.Tutorial;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.UI;
@@ -177,6 +178,7 @@ namespace HumanLastRampart.App.Flow
                 }
 
                 Campaign = created;
+                if (!TutorialState.Suppressed) TutorialState.Reset();   // 새 게임이면 1번째 전투에서 튜토리얼과 우두머리 안내를 다시 보여 준다 (이어하기는 그대로)
             }
             else if (outcome == ScreenOutcome.ContinueGame)
             {

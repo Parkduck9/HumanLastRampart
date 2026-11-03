@@ -41,6 +41,7 @@ public sealed partial class PlayProbe
             yield return Press("게임 시작", 600);
             yield return Press("쉬움", 300);
             yield return WaitScreen(ScreenId.Story, 600);
+            TutorialState.Store.Save(TutorialState.Total);   // 새 게임이 저장을 지웠으니 다시 심는다 (BossTipStore는 비어 있어야 하므로 그대로)
             CampaignState campaign = GameFlow.Instance.Campaign;
             campaign.BeaconRepair = 100f;
             campaign.PlannedBeamSide = 2;
