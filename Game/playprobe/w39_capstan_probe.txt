@@ -1,0 +1,3 @@
+시작: worker_a_push_start_back / worker_b_push_start_front
+밀기: worker_a_push_left / worker_b_push_front, 힘줌 False
+멈춤: worker_a_push_stop_front 종류 Stop

@@ -1,0 +1,12 @@
+story_intro:  — 수십 년 전, 빛을 삼키는 검은 안개가 대륙을 덮었다.
+story_intro: 하겐 — 루멘 생도. 아니, 이제는 루멘 파로스 님이시군요.
+story_fortress1_arrive:  — 안개 속 첫 번째 등대 요새. 성벽은 반쯤 무너지고, 탑의 불은 오래전에 꺼져 있었다.
+story_fortress1_arrive: 하겐 — 해가 지면 안개가 짙어집니다. 그 전에 성벽부터.
+story_fortress2_arrive:  — 뒤쪽 지평선에 첫 번째 등대의 불빛이 점처럼 보였다. 앞에는 더 짙은 안개.
+story_fortress2_arrive: 하겐 — 이쪽 놈들은 다릅니다. 눈이…… 빛나고 있습니다.
+story_defeat:  — 성벽이 무너지고, 등불이 하나둘 꺼져 갔다.
+story_defeat: 하겐 — 대장님, 물러나야 합니다! 불빛이 남은 곳으로!
+story_fortress1_relit:  — 탑 꼭대기에서 빛기둥이 솟았다. 검은 안개가 찢어지며 물러났다.
+story_fortress1_relit: 이그나 — 켜졌어요……! 정말로.
+story_run1_complete:  — 두 번째 빛기둥이 솟았다. 두 등대 사이로 가는 빛의 길이 이어졌다.
+story_run1_complete: 하겐 — 봉화선이 다시 이어졌습니다. 몇십 년 만에.
