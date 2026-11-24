@@ -1,0 +1,1 @@
+강화: 골드 4480, 아이템 item_telescope_lens×1,item_fire_arrows×1, 훈련 unit_archer1, 용병 10

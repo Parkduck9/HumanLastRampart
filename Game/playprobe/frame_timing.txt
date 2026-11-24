@@ -1,0 +1,74 @@
+4,200명 · 시험 성벽 80m: 기존 40m 성능 기준과 직접 비교하지 않음
+설정: 현실 4번, 적 배율 0.9, 병사 4208명, 적 최대 동시 50000, 화면 640×480, 그래픽 Direct3D12 NVIDIA GeForce RTX 3060, 프레임 통계 기능 True, 배치 실행 — 카메라 직접 그리기 1920×1080로 그리기 시간 측정
+시험 전용: 병력 손실·성벽 파괴 패배 해제 (이 측정 개체만) — 90초 이후 단계까지 살아남기 위함
+① 10초 (맑은 낮, 효과 켬): 프레임 평균 6.08ms (약 164fps) · p50 5.78 · p95 7.11 · p99 7.90 · 상위 1% 25.9ms · 최대 25.9ms · 게임 16초 · 처치 83
+    계수기: Main Thread 5.84ms(최대 7.9) · CPU Main Thread Frame Time 5.72ms(최대 7.7) · CPU Render Thread Frame Time 0.00ms(최대 0.0) · GPU Frame Time 사용 불가(원시 계수 0) · Draw Calls Count 152 (최대 152) · Batches Count 152 (최대 152) · SetPass Calls Count 138 (최대 138) · Triangles Count 309879 (최대 310085) · GC Allocated In Frame 3368 (최대 57008)
+    FrameTimingManager: 메인 5.83ms · GPU 사용 불가(0)
+    GPU 시간: 사용 불가
+    카메라 직접 그리기 1920×1080 (GPU 완료까지): 평균 4.08ms · 상위 1% 21.2ms · 최대 21.2ms — 위 프레임 시간에 이미 들어 있다
+② 45초: 프레임 평균 6.63ms (약 151fps) · p50 6.53 · p95 7.47 · p99 8.67 · 상위 1% 10.1ms · 최대 10.1ms · 게임 51초 · 처치 2112
+    계수기: Main Thread 6.62ms(최대 10.2) · CPU Main Thread Frame Time 6.30ms(최대 10.0) · CPU Render Thread Frame Time 0.00ms(최대 0.0) · GPU Frame Time 사용 불가(원시 계수 0) · Draw Calls Count 154 (최대 156) · Batches Count 154 (최대 156) · SetPass Calls Count 140 (최대 142) · Triangles Count 310102 (최대 310127) · GC Allocated In Frame 4217 (최대 9666)
+    FrameTimingManager: 메인 6.33ms · GPU 사용 불가(0)
+    GPU 시간: 사용 불가
+    카메라 직접 그리기 1920×1080 (GPU 완료까지): 평균 4.36ms · 상위 1% 5.9ms · 최대 5.9ms — 위 프레임 시간에 이미 들어 있다
+③ 75초 중반 (성벽에 몰림, 효과 켬): 프레임 평균 6.68ms (약 150fps) · p50 6.54 · p95 7.75 · p99 12.89 · 상위 1% 18.0ms · 최대 18.0ms · 게임 82초 · 처치 5643
+    계수기: Main Thread 6.61ms(최대 18.0) · CPU Main Thread Frame Time 6.45ms(최대 17.8) · CPU Render Thread Frame Time 0.00ms(최대 0.0) · GPU Frame Time 사용 불가(원시 계수 0) · Draw Calls Count 157 (최대 158) · Batches Count 157 (최대 158) · SetPass Calls Count 143 (최대 144) · Triangles Count 310126 (최대 310139) · GC Allocated In Frame 4135 (최대 7662)
+    FrameTimingManager: 메인 6.46ms · GPU 사용 불가(0)
+    GPU 시간: 사용 불가
+    카메라 직접 그리기 1920×1080 (GPU 완료까지): 평균 4.33ms · 상위 1% 7.8ms · 최대 7.8ms — 위 프레임 시간에 이미 들어 있다
+③ 75초대 · 먼 적 그림 켬: 프레임 평균 6.88ms (약 145fps) · p50 6.58 · p95 8.22 · p99 12.90 · 상위 1% 13.0ms · 최대 13.0ms · 게임 88초 · 처치 6723
+    계수기: Main Thread 6.82ms(최대 13.1) · CPU Main Thread Frame Time 6.71ms(최대 12.9) · CPU Render Thread Frame Time 0.00ms(최대 0.0) · GPU Frame Time 사용 불가(원시 계수 0) · Draw Calls Count 163 (최대 164) · Batches Count 163 (최대 164) · SetPass Calls Count 149 (최대 150) · Triangles Count 382139 (최대 382149) · GC Allocated In Frame 4634 (최대 56774)
+    FrameTimingManager: 메인 6.60ms · GPU 사용 불가(0)
+    GPU 시간: 사용 불가
+    카메라 직접 그리기 1920×1080 (GPU 완료까지): 평균 4.46ms · 상위 1% 10.5ms · 최대 10.5ms — 위 프레임 시간에 이미 들어 있다
+③ 75초대 · 먼 적 그림 끔 (원래 크기만): 프레임 평균 7.19ms (약 139fps) · p50 7.05 · p95 9.07 · p99 9.68 · 상위 1% 13.8ms · 최대 13.8ms · 게임 95초 · 처치 7844
+    계수기: Main Thread 7.19ms(최대 14.6) · CPU Main Thread Frame Time 6.89ms(최대 14.3) · CPU Render Thread Frame Time 0.00ms(최대 0.0) · GPU Frame Time 사용 불가(원시 계수 0) · Draw Calls Count 158 (최대 159) · Batches Count 158 (최대 159) · SetPass Calls Count 144 (최대 145) · Triangles Count 310150 (최대 310163) · GC Allocated In Frame 4199 (최대 7250)
+    FrameTimingManager: 메인 6.84ms · GPU 사용 불가(0)
+    GPU 시간: 사용 불가
+    카메라 직접 그리기 1920×1080 (GPU 완료까지): 평균 4.61ms · 상위 1% 6.5ms · 최대 6.5ms — 위 프레임 시간에 이미 들어 있다
+③ 75초대 · 640×480: 프레임 평균 5.83ms (약 171fps) · p50 5.55 · p95 7.12 · p99 8.26 · 상위 1% 25.5ms · 최대 25.5ms · 게임 101초 · 처치 8947
+    계수기: Main Thread 5.83ms(최대 18.8) · CPU Main Thread Frame Time 5.53ms(최대 18.7) · CPU Render Thread Frame Time 0.00ms(최대 0.0) · GPU Frame Time 사용 불가(원시 계수 0) · Draw Calls Count 152 (최대 153) · Batches Count 152 (최대 153) · SetPass Calls Count 138 (최대 139) · Triangles Count 310082 (최대 310091) · GC Allocated In Frame 4451 (최대 22902)
+    FrameTimingManager: 메인 5.56ms · GPU 사용 불가(0)
+    GPU 시간: 사용 불가
+    카메라 직접 그리기 640×480 (GPU 완료까지): 평균 3.35ms · 상위 1% 13.2ms · 최대 13.2ms — 위 프레임 시간에 이미 들어 있다
+③ 75초대 · 화면 효과 끔 (빛 받기·그림자도 꺼짐): 프레임 평균 6.78ms (약 148fps) · p50 6.57 · p95 8.14 · p99 9.37 · 상위 1% 22.4ms · 최대 22.4ms · 게임 108초 · 처치 9961
+    계수기: Main Thread 6.77ms(최대 22.4) · CPU Main Thread Frame Time 6.46ms(최대 22.3) · CPU Render Thread Frame Time 0.00ms(최대 0.0) · GPU Frame Time 사용 불가(원시 계수 0) · Draw Calls Count 157 (최대 157) · Batches Count 157 (최대 157) · SetPass Calls Count 143 (최대 143) · Triangles Count 310159 (최대 310167) · GC Allocated In Frame 4513 (최대 19064)
+    FrameTimingManager: 메인 6.49ms · GPU 사용 불가(0)
+    GPU 시간: 사용 불가
+    카메라 직접 그리기 1920×1080 (GPU 완료까지): 평균 4.32ms · 상위 1% 18.2ms · 최대 18.2ms — 위 프레임 시간에 이미 들어 있다
+③ 75초대 · 안개 켬: 프레임 평균 7.30ms (약 137fps) · p50 7.04 · p95 9.11 · p99 10.07 · 상위 1% 15.4ms · 최대 15.4ms · 게임 114초 · 처치 10863
+    계수기: Main Thread 7.30ms(최대 15.3) · CPU Main Thread Frame Time 6.93ms(최대 15.1) · CPU Render Thread Frame Time 0.00ms(최대 0.0) · GPU Frame Time 사용 불가(원시 계수 0) · Draw Calls Count 162 (최대 162) · Batches Count 162 (최대 162) · SetPass Calls Count 147 (최대 147) · Triangles Count 310176 (최대 310187) · GC Allocated In Frame 5013 (최대 55772)
+    FrameTimingManager: 메인 6.97ms · GPU 사용 불가(0)
+    GPU 시간: 사용 불가
+    카메라 직접 그리기 1920×1080 (GPU 완료까지): 평균 4.69ms · 상위 1% 11.1ms · 최대 11.1ms — 위 프레임 시간에 이미 들어 있다
+③ 75초대 · 밤 (횃불 켬): 프레임 평균 7.49ms (약 133fps) · p50 7.42 · p95 8.56 · p99 9.24 · 상위 1% 11.9ms · 최대 11.9ms · 게임 121초 · 처치 11711
+    계수기: Main Thread 7.49ms(최대 11.7) · CPU Main Thread Frame Time 7.11ms(최대 11.6) · CPU Render Thread Frame Time 0.00ms(최대 0.0) · GPU Frame Time 사용 불가(원시 계수 0) · Draw Calls Count 160 (최대 160) · Batches Count 160 (최대 160) · SetPass Calls Count 146 (최대 146) · Triangles Count 310387 (최대 310395) · GC Allocated In Frame 4885 (최대 9702)
+    FrameTimingManager: 메인 7.15ms · GPU 사용 불가(0)
+    GPU 시간: 사용 불가
+    카메라 직접 그리기 1920×1080 (GPU 완료까지): 평균 4.81ms · 상위 1% 6.7ms · 최대 6.7ms — 위 프레임 시간에 이미 들어 있다
+마법: 불바다 시전, 폭발 시전 (마법사 있음), 시작된 효과 2개, 동시 효과 2개
+④ 마법 시전 중 (불바다+폭발): 프레임 평균 7.47ms (약 134fps) · p50 7.22 · p95 8.64 · p99 11.82 · 상위 1% 11.8ms · 최대 11.8ms · 게임 125초 · 처치 12463
+    계수기: Main Thread 7.46ms(최대 12.6) · CPU Main Thread Frame Time 6.91ms(최대 12.4) · CPU Render Thread Frame Time 0.00ms(최대 0.0) · GPU Frame Time 사용 불가(원시 계수 0) · Draw Calls Count 161 (최대 162) · Batches Count 161 (최대 162) · SetPass Calls Count 147 (최대 148) · Triangles Count 310271 (최대 310289) · GC Allocated In Frame 6097 (최대 56096)
+    FrameTimingManager: 메인 7.00ms · GPU 사용 불가(0)
+    GPU 시간: 사용 불가
+    카메라 직접 그리기 1920×1080 (GPU 완료까지): 평균 4.79ms · 상위 1% 7.2ms · 최대 7.2ms — 위 프레임 시간에 이미 들어 있다
+⑤ 95초 이후 (공성 단계): 프레임 평균 7.12ms (약 140fps) · p50 6.91 · p95 8.40 · p99 9.75 · 상위 1% 10.4ms · 최대 10.4ms · 게임 131초 · 처치 13229
+    계수기: Main Thread 7.02ms(최대 9.4) · CPU Main Thread Frame Time 6.82ms(최대 9.3) · CPU Render Thread Frame Time 0.00ms(최대 0.0) · GPU Frame Time 사용 불가(원시 계수 0) · Draw Calls Count 161 (최대 161) · Batches Count 161 (최대 161) · SetPass Calls Count 147 (최대 147) · Triangles Count 310294 (최대 310317) · GC Allocated In Frame 5279 (최대 9858)
+    FrameTimingManager: 메인 6.82ms · GPU 사용 불가(0)
+    GPU 시간: 사용 불가
+    카메라 직접 그리기 1920×1080 (GPU 완료까지): 평균 4.59ms · 상위 1% 7.2ms · 최대 7.2ms — 위 프레임 시간에 이미 들어 있다
+
+== 구간별 프레임 시간 표 (ms, 낮을수록 좋음; 게임초 = 구간 끝 시각; 적 = 살아 있는 수; 직접 그리기 = 배치 실행만)
+| 구간 | 게임초 | 평균 | p50 | p95 | p99 | 최대 | GPU ms (출처) | 직접 그리기 평균 | 적 | 병사 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| ① 10초 (맑은 낮, 효과 켬) | 16 | 6.08 | 5.78 | 7.11 | 7.90 | 25.9 | 사용 불가 | 4.08 | 883 | 4208 |
+| ② 45초 | 51 | 6.63 | 6.53 | 7.47 | 8.67 | 10.1 | 사용 불가 | 4.36 | 2674 | 4208 |
+| ③ 75초 중반 (성벽에 몰림, 효과 켬) | 82 | 6.68 | 6.54 | 7.75 | 12.89 | 18.0 | 사용 불가 | 4.33 | 4068 | 4208 |
+| ③ 75초대 · 먼 적 그림 켬 | 88 | 6.88 | 6.58 | 8.22 | 12.90 | 13.0 | 사용 불가 | 4.46 | 4043 | 4208 |
+| ③ 75초대 · 먼 적 그림 끔 (원래 크기만) | 95 | 7.19 | 7.05 | 9.07 | 9.68 | 13.8 | 사용 불가 | 4.61 | 4063 | 4208 |
+| ③ 75초대 · 640×480 | 101 | 5.83 | 5.55 | 7.12 | 8.26 | 25.5 | 사용 불가 | 3.35 | 4026 | 4208 |
+| ③ 75초대 · 화면 효과 끔 (빛 받기·그림자도 꺼짐) | 108 | 6.78 | 6.57 | 8.14 | 9.37 | 22.4 | 사용 불가 | 4.32 | 3903 | 4208 |
+| ③ 75초대 · 안개 켬 | 114 | 7.30 | 7.04 | 9.11 | 10.07 | 15.4 | 사용 불가 | 4.69 | 3768 | 4208 |
+| ③ 75초대 · 밤 (횃불 켬) | 121 | 7.49 | 7.42 | 8.56 | 9.24 | 11.9 | 사용 불가 | 4.81 | 3532 | 4208 |
+| ④ 마법 시전 중 (불바다+폭발) | 125 | 7.47 | 7.22 | 8.64 | 11.82 | 11.8 | 사용 불가 | 4.79 | 3104 | 4208 |
+| ⑤ 95초 이후 (공성 단계) | 131 | 7.12 | 6.91 | 8.40 | 9.75 | 10.4 | 사용 불가 | 4.59 | 2846 | 4208 |

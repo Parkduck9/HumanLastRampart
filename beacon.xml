@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="1" result="Passed" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-22 07:39:53Z" end-time="2026-10-22 07:41:21Z" duration="87.2341772">
+  <test-suite type="TestSuite" id="1000" name="HumanLastRampart" fullname="HumanLastRampart" runstate="Runnable" testcasecount="223" result="Passed" start-time="2026-10-22 07:39:53Z" end-time="2026-10-22 07:41:21Z" duration="87.234177" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1280" name="HLR.SimProbe.dll" fullname="C:/Unity/1/HLR-work/W11/Game/Library/ScriptAssemblies/HLR.SimProbe.dll" runstate="Runnable" testcasecount="16" result="Passed" start-time="2026-10-22 07:39:53Z" end-time="2026-10-22 07:41:21Z" duration="87.222039" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="4684" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestFixture" id="1263" name="SimProbe" fullname="SimProbe" classname="SimProbe" runstate="Runnable" testcasecount="16" result="Passed" start-time="2026-10-22 07:39:53Z" end-time="2026-10-22 07:41:21Z" duration="87.220402" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1278" name="BeaconRun" fullname="SimProbe.BeaconRun" methodname="BeaconRun" classname="SimProbe" runstate="Runnable" seed="545884322" result="Passed" start-time="2026-10-22 07:39:53Z" end-time="2026-10-22 07:41:21Z" duration="87.203160" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[Saving results to: C:/Users/User/AppData/LocalLow/DefaultCompany/HumanLastRampart\TestResults.xml
+]]></output>
+        </test-case>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>
