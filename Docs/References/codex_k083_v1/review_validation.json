@@ -1,9 +1,0 @@
-{
-  "browser": "Chrome headless",
-  "imageCount": 10,
-  "allImagesLoaded": true,
-  "toggleWorks": true,
-  "sizeWorks": true,
-  "mobileOverflow": false,
-  "pageErrors": []
-}
