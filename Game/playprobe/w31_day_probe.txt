@@ -1,0 +1,6 @@
+K-119 시트 True
+운반: worker_b_carry_left
+오르기: worker_b_climb_up_back 높이 0.94
+화로 관리: worker_b_tend_right
+내려오기: worker_b_climb_down_left
+일꾼 K-119 사진 촬영 완료
