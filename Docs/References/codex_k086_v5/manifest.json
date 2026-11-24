@@ -1,0 +1,224 @@
+{
+  "card": "K086-v5",
+  "user_anchor_approved": true,
+  "user_quote": "다음진행해",
+  "native_cell": [
+    144,
+    128
+  ],
+  "game_cell": [
+    432,
+    384
+  ],
+  "native_pivot": [
+    96,
+    120
+  ],
+  "game_pivot": [
+    288,
+    360
+  ],
+  "frames": 6,
+  "fps": 6,
+  "reference_standing_figure": 73,
+  "frames_data": [
+    {
+      "frame": 1,
+      "source": "../codex_k086_v3/native/cannon_crew_ignite6.png",
+      "source_frame": 1,
+      "source_scale": 1,
+      "hard_bounds": [
+        56,
+        36,
+        115,
+        120
+      ],
+      "flame": {
+        "center": [
+          60.19444444444444,
+          43.02777777777778
+        ],
+        "bounds": [
+          57,
+          39,
+          65,
+          48
+        ],
+        "pixels": 36
+      }
+    },
+    {
+      "frame": 2,
+      "source": "../codex_k086_v3/native/cannon_crew_ignite6.png",
+      "source_frame": 2,
+      "source_scale": 1,
+      "hard_bounds": [
+        49,
+        48,
+        118,
+        120
+      ],
+      "flame": {
+        "center": [
+          53.60526315789474,
+          61.05263157894737
+        ],
+        "bounds": [
+          50,
+          56,
+          58,
+          66
+        ],
+        "pixels": 38
+      }
+    },
+    {
+      "frame": 3,
+      "source": "../codex_k086_v3/native/cannon_crew_ignite6.png",
+      "source_frame": 3,
+      "source_scale": 1,
+      "hard_bounds": [
+        39,
+        51,
+        116,
+        120
+      ],
+      "flame": {
+        "center": [
+          43.0,
+          77.9047619047619
+        ],
+        "bounds": [
+          40,
+          73,
+          48,
+          83
+        ],
+        "pixels": 42
+      }
+    },
+    {
+      "frame": 4,
+      "source": "contact_attempt3.png",
+      "source_rect": [
+        0,
+        0,
+        1376,
+        1143
+      ],
+      "source_scale": 0.09217171717171717,
+      "source_feet": [
+        1053.0,
+        1054
+      ],
+      "paste": [
+        -1,
+        23
+      ],
+      "hard_bounds": [
+        3,
+        47,
+        121,
+        120
+      ],
+      "flame": {
+        "center": [
+          12.179487179487179,
+          62.12820512820513
+        ],
+        "bounds": [
+          7,
+          54,
+          19,
+          69
+        ],
+        "pixels": 78
+      }
+    },
+    {
+      "frame": 5,
+      "source": "../codex_k086_v3/native/cannon_crew_ignite6.png",
+      "source_frame": 5,
+      "source_scale": 1,
+      "hard_bounds": [
+        42,
+        52,
+        118,
+        120
+      ],
+      "flame": {
+        "center": [
+          46.523809523809526,
+          69.83333333333333
+        ],
+        "bounds": [
+          43,
+          65,
+          51,
+          75
+        ],
+        "pixels": 42
+      }
+    },
+    {
+      "frame": 6,
+      "source": "../codex_k086_v3/native/cannon_crew_ignite6.png",
+      "source_frame": 1,
+      "source_scale": 1,
+      "hard_bounds": [
+        56,
+        36,
+        115,
+        120
+      ],
+      "flame": {
+        "center": [
+          60.19444444444444,
+          43.02777777777778
+        ],
+        "bounds": [
+          57,
+          39,
+          65,
+          48
+        ],
+        "pixels": 36
+      }
+    }
+  ],
+  "cannon_patch_boxes": [
+    [
+      120,
+      121,
+      140,
+      140
+    ],
+    [
+      376,
+      129,
+      396,
+      148
+    ],
+    [
+      632,
+      125,
+      652,
+      144
+    ]
+  ],
+  "cannon_fixture_source": [
+    128,
+    134
+  ],
+  "normalization_note": "단독 생성 머리폭 약332px : 시트 머리폭 약166px, 해상도 차이 2:1 정규화. 첫칸 기준 인물73도트. 자세별 전체높이를 억지로 같게 늘리지 않음.",
+  "all_shaft_lengths_measured": false,
+  "source_sha256": {
+    "cannon_fuse_attempt1.png": "ebfdf3120d96e31e919857078e553b55189ffdca6ecc046bbe272274a36ce057",
+    "cannon_input_3x.png": "b13b9e99d55bf4b126eca6cb20c86be06ef461c5ab280bc3ac599e1538c1fd4c",
+    "cannon_original.png": "c0b5a4cacb8839d3856daa26390e6882f95e1375b8828c662d5c245daf25d44d",
+    "contact_attempt2.png": "8704686e3d356baa9f0252fbf888304696377ea292904220ac9b719031c74475",
+    "contact_attempt2_padded.png": "846ff806cb7934b877210585ed9383d63c299531ca0f80206ae22945deee92ce",
+    "contact_attempt3.png": "a1333cf893f761f1d708aafc7129a1d80d7d8863be9b2779c5f0260574ae997c",
+    "ignite_attempt1.png": "a2b74e9ecf642259c777f172ec4f9b4327299f81e6534069cd98a76d899fd587"
+  }
+}

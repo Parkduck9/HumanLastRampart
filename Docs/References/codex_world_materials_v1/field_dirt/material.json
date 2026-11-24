@@ -1,0 +1,31 @@
+{
+  "id": "field_dirt",
+  "label": "들판 흙",
+  "albedo": "field_dirt/albedo.png",
+  "normal": "field_dirt/normal.png",
+  "size": [
+    256,
+    256
+  ],
+  "worldMeters": [
+    8,
+    8
+  ],
+  "pixelsPerMeter": 32,
+  "source": "field_dirt_source.png",
+  "sourceSha256": "5c334a67cee08d3c2673dd0585964bd83b7b827722dfd83a19d90a5b7590e11c",
+  "albedoSha256": "7cb76690d713b6bba42b14147755e7dba8915bb93912fd8aa85191b48af57374",
+  "normalSha256": "7b418726b4b165da0935291f768fee59019963d5a3ee083d79bdd38edd21e881",
+  "normalSpace": "tangent OpenGL Y+",
+  "normalStrength": 0.55,
+  "normalMaxUnitError": 0.005414025440695802,
+  "wrap": "Repeat",
+  "filter": "Point",
+  "seamMethod": "mirrored periodization of AI material quarter; reflected normal XY corrected; reflection-axis tangent=0",
+  "edgesExact": true,
+  "normalEdgesExact": true,
+  "albedoColorSpace": "sRGB",
+  "normalColorSpace": "Linear",
+  "status": "reference-sample-user-review-pending",
+  "unityPlayVerified": false
+}

@@ -1,0 +1,107 @@
+{
+  "id": "wizard",
+  "label": "마법사",
+  "action": "run",
+  "facing": "side",
+  "columns": 4,
+  "rows": 1,
+  "cell": [
+    256,
+    384
+  ],
+  "size": [
+    1024,
+    384
+  ],
+  "frames": 4,
+  "fps": 8,
+  "frameOrder": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "footPivotTopLeft": [
+    128,
+    352
+  ],
+  "groundPolicy": "shared source baseline; airborne boots stay above ground",
+  "uniformScale": 0.38095238095238093,
+  "sourceSha256": "769a2330e9ffae28683887dd23dde6e120af99b168c7dc21c600212196844d22",
+  "sheetSha256": "28270c7a35aeeaa519a041cadca84781d26fc7255bdd1876f3f83fb27f52bec4",
+  "frameHashes": [
+    "0bb78e41b8aa0fcf1105c98be178ffaaf21e79e56a11eaa21b267aac09aecfda",
+    "23d82f30f4640768f76e2dc9eacc45933962348c777a1c2564526fb8d42bc7b3",
+    "27df09b486309b8259386a64a0e9ff56f15ce70ad3283a4f8c02592dba1f05a7",
+    "0960c3ea92641fc89774bb6bfe5ba88f36fe06773208f1ae78cf4735d666d004"
+  ],
+  "framesData": [
+    {
+      "frame": 0,
+      "packedRect": [
+        60,
+        112,
+        180,
+        240
+      ],
+      "groundGap": 0,
+      "sourceRect": [
+        29,
+        96,
+        473,
+        630
+      ]
+    },
+    {
+      "frame": 1,
+      "packedRect": [
+        56,
+        106,
+        176,
+        237
+      ],
+      "groundGap": 9,
+      "sourceRect": [
+        516,
+        79,
+        463,
+        623
+      ]
+    },
+    {
+      "frame": 2,
+      "packedRect": [
+        59,
+        112,
+        178,
+        240
+      ],
+      "groundGap": 0,
+      "sourceRect": [
+        1014,
+        96,
+        467,
+        630
+      ]
+    },
+    {
+      "frame": 3,
+      "packedRect": [
+        52,
+        106,
+        175,
+        221
+      ],
+      "groundGap": 25,
+      "sourceRect": [
+        1506,
+        81,
+        460,
+        579
+      ]
+    }
+  ],
+  "rightPreview": "mirror",
+  "status": "user-review-draft",
+  "unityPlayVerified": false
+}

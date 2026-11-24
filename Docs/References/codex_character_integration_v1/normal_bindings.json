@@ -1,0 +1,177 @@
+[
+  {
+    "color": "Game\\Assets\\_Project\\Art\\Characters\\Static\\archer_static.png",
+    "normal": "Game\\Assets\\_Project\\Art\\Characters\\Static\\archer_static_normal.png",
+    "normal_guid": "01f399281c8b4d828bee32c603d44974"
+  },
+  {
+    "color": "Game\\Assets\\_Project\\Art\\Characters\\Run\\archer_run.png",
+    "normal": "Game\\Assets\\_Project\\Art\\Characters\\Run\\archer_run_normal.png",
+    "normal_guid": "15215f836a0d48aea7e1de13b7da5b05"
+  },
+  {
+    "color": "Game\\Assets\\_Project\\Art\\Characters\\Fire\\archer_fire.png",
+    "normal": "Game\\Assets\\_Project\\Art\\Characters\\Fire\\archer_fire_normal.png",
+    "normal_guid": "6e437b2dc46b41b5bc39704ac1f5d961"
+  },
+  {
+    "color": "Game\\Assets\\_Project\\Art\\Characters\\Fall\\archer_fall.png",
+    "normal": "Game\\Assets\\_Project\\Art\\Characters\\Fall\\archer_fall_normal.png",
+    "normal_guid": "233d451689304ba38b7d74c876623e3d"
+  },
+  {
+    "color": "Game\\Assets\\_Project\\Art\\Characters\\Static\\gunner_static.png",
+    "normal": "Game\\Assets\\_Project\\Art\\Characters\\Static\\gunner_static_normal.png",
+    "normal_guid": "f0e818b3ce2345b8af31485e55a68f21"
+  },
+  {
+    "color": "Game\\Assets\\_Project\\Art\\Characters\\Run\\gunner_run.png",
+    "normal": "Game\\Assets\\_Project\\Art\\Characters\\Run\\gunner_run_normal.png",
+    "normal_guid": "e894fadeea5c45ea917734ae53f4a227"
+  },
+  {
+    "color": "Game\\Assets\\_Project\\Art\\Characters\\Fire\\gunner_fire.png",
+    "normal": "Game\\Assets\\_Project\\Art\\Characters\\Fire\\gunner_fire_normal.png",
+    "normal_guid": "ca5aaca225c348779f137aba2753d8b2"
+  },
+  {
+    "color": "Game\\Assets\\_Project\\Art\\Characters\\Fall\\gunner_fall.png",
+    "normal": "Game\\Assets\\_Project\\Art\\Characters\\Fall\\gunner_fall_normal.png",
+    "normal_guid": "ee4125c58ec34c5685239d094cdaf53b"
+  },
+  {
+    "color": "Game\\Assets\\_Project\\Art\\Characters\\Static\\cannon_crew_static.png",
+    "normal": "Game\\Assets\\_Project\\Art\\Characters\\Static\\cannon_crew_static_normal.png",
+    "normal_guid": "b42713b1b74f40a7a3b0ca8e40bbd6f4"
+  },
+  {
+    "color": "Game\\Assets\\_Project\\Art\\Characters\\Run\\cannon_crew_run.png",
+    "normal": "Game\\Assets\\_Project\\Art\\Characters\\Run\\cannon_crew_run_normal.png",
+    "normal_guid": "b6bf4ab43e9a40c3a417854ee7e8975e"
+  },
+  {
+    "color": "Game\\Assets\\_Project\\Art\\Characters\\Fall\\cannon_crew_fall.png",
+    "normal": "Game\\Assets\\_Project\\Art\\Characters\\Fall\\cannon_crew_fall_normal.png",
+    "normal_guid": "f44081e03ad44928943c2b260f0f9512"
+  },
+  {
+    "color": "Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\Cannon\\crew_push6.png",
+    "normal": "Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\Cannon\\crew_push6_normal.png",
+    "normal_guid": "342dbf14da6240e396e04523c7e10df2"
+  },
+  {
+    "color": "Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\Cannon\\crew_pull6.png",
+    "normal": "Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\Cannon\\crew_pull6_normal.png",
+    "normal_guid": "3ec66b6a7f164648b3b643ccf4892926"
+  },
+  {
+    "color": "Game\\Assets\\_Project\\Art\\Characters\\Static\\wizard_back_static.png",
+    "normal": "Game\\Assets\\_Project\\Art\\Characters\\Static\\wizard_back_static_normal.png",
+    "normal_guid": "eff6c8f52b9b4c94bd730ada77fb899a"
+  },
+  {
+    "color": "Game\\Assets\\_Project\\Art\\Characters\\Static\\wizard_static.png",
+    "normal": "Game\\Assets\\_Project\\Art\\Characters\\Static\\wizard_static_normal.png",
+    "normal_guid": "5c3f0f84a1dc4bbbbd5cc759f2d8e57c"
+  },
+  {
+    "color": "Game\\Assets\\_Project\\Art\\Characters\\Static\\wizard_cast.png",
+    "normal": "Game\\Assets\\_Project\\Art\\Characters\\Static\\wizard_cast_normal.png",
+    "normal_guid": "eb67234429c1410ca97af74f115a17bc"
+  },
+  {
+    "color": "Game\\Assets\\_Project\\Art\\Characters\\Static\\wizard_walk.png",
+    "normal": "Game\\Assets\\_Project\\Art\\Characters\\Static\\wizard_walk_normal.png",
+    "normal_guid": "4099b0abb2ff49dda2a6a3ae7fdb091f"
+  },
+  {
+    "color": "Game\\Assets\\_Project\\Art\\Characters\\Goblin\\goblin_walk_attack4.png",
+    "normal": "Game\\Assets\\_Project\\Art\\Characters\\Goblin\\goblin_walk_attack4_normal.png",
+    "normal_guid": "9fb5251f82fe44c99d0a66f7004038c4"
+  },
+  {
+    "color": "Game\\Assets\\_Project\\Art\\Characters\\Fall\\goblin_fall4.png",
+    "normal": "Game\\Assets\\_Project\\Art\\Characters\\Fall\\goblin_fall4_normal.png",
+    "normal_guid": "3efb7ef487b34449b5330c2a5fa45fc8"
+  },
+  {
+    "color": "Game\\Assets\\_Project\\Art\\Characters\\Walk\\goblin_wallhit4.png",
+    "normal": "Game\\Assets\\_Project\\Art\\Characters\\Walk\\goblin_wallhit4_normal.png",
+    "normal_guid": "2b774412f2a04d439a57d885d210f613"
+  },
+  {
+    "color": "Game\\Assets\\_Project\\Art\\Characters\\Static\\ladder_goblin_static.png",
+    "normal": "Game\\Assets\\_Project\\Art\\Characters\\Static\\ladder_goblin_static_normal.png",
+    "normal_guid": "77f95da4826f4c6db5f354a0e008d8e1"
+  },
+  {
+    "color": "Game\\Assets\\_Project\\Art\\Characters\\Walk\\ladder_goblin_walk.png",
+    "normal": "Game\\Assets\\_Project\\Art\\Characters\\Walk\\ladder_goblin_walk_normal.png",
+    "normal_guid": "91905e0854774e53b459fe292fed7aee"
+  },
+  {
+    "color": "Game\\Assets\\_Project\\Art\\Characters\\Ladder\\ladder_goblin_carry_run4.png",
+    "normal": "Game\\Assets\\_Project\\Art\\Characters\\Ladder\\ladder_goblin_carry_run4_normal.png",
+    "normal_guid": "bc3fc0e1e20a465db640062da107aa93"
+  },
+  {
+    "color": "Game\\Assets\\_Project\\Art\\Characters\\Ladder\\ladder_goblin_deploy4.png",
+    "normal": "Game\\Assets\\_Project\\Art\\Characters\\Ladder\\ladder_goblin_deploy4_normal.png",
+    "normal_guid": "2670cea7c7a84b63b130078fb1712120"
+  },
+  {
+    "color": "Game\\Assets\\_Project\\Art\\Characters\\Ladder\\ladder_goblin_climb4.png",
+    "normal": "Game\\Assets\\_Project\\Art\\Characters\\Ladder\\ladder_goblin_climb4_normal.png",
+    "normal_guid": "cdf7215af48141c8946b3479092608af"
+  },
+  {
+    "color": "Game\\Assets\\_Project\\Art\\Characters\\Ladder\\ladder_front.png",
+    "normal": "Game\\Assets\\_Project\\Art\\Characters\\Ladder\\ladder_front_normal.png",
+    "normal_guid": "df12793d94f248409e2a181da780487c"
+  },
+  {
+    "color": "Game\\Assets\\_Project\\Art\\Characters\\Ladder\\ladder_side.png",
+    "normal": "Game\\Assets\\_Project\\Art\\Characters\\Ladder\\ladder_side_normal.png",
+    "normal_guid": "b7632d23eaa04608b87889b27720a650"
+  },
+  {
+    "color": "Game\\Assets\\_Project\\Art\\Characters\\Static\\ogre_static.png",
+    "normal": "Game\\Assets\\_Project\\Art\\Characters\\Static\\ogre_static_normal.png",
+    "normal_guid": "31967d1dbbcc41608ffb098552818283"
+  },
+  {
+    "color": "Game\\Assets\\_Project\\Art\\Characters\\Walk\\ogre_walk.png",
+    "normal": "Game\\Assets\\_Project\\Art\\Characters\\Walk\\ogre_walk_normal.png",
+    "normal_guid": "f28583b84c324e5da805547d686ec2c6"
+  },
+  {
+    "color": "Game\\Assets\\_Project\\Art\\Characters\\Walk\\ogre_attack4.png",
+    "normal": "Game\\Assets\\_Project\\Art\\Characters\\Walk\\ogre_attack4_normal.png",
+    "normal_guid": "a317b7ab5a094a86bcffc4c383e8dceb"
+  },
+  {
+    "color": "Game\\Assets\\_Project\\Art\\Characters\\Fall\\ogre_fall4.png",
+    "normal": "Game\\Assets\\_Project\\Art\\Characters\\Fall\\ogre_fall4_normal.png",
+    "normal_guid": "906e3e85b32842b3a5f042eded3423aa"
+  },
+  {
+    "color": "Game\\Assets\\_Project\\Art\\Characters\\Hero\\hero_back_idle.png",
+    "normal": "Game\\Assets\\_Project\\Art\\Characters\\Hero\\hero_back_idle_normal.png",
+    "normal_guid": "2eb3af22967146cca08a3c8be0a71baf"
+  },
+  {
+    "color": "Game\\Assets\\_Project\\Art\\Characters\\Hero\\hero_walk_run_grid.png",
+    "normal": "Game\\Assets\\_Project\\Art\\Characters\\Hero\\hero_walk_run_grid_normal.png",
+    "normal_guid": "cac8495632e14c56b0e5e429000b757f"
+  },
+  {
+    "color": "Game\\Assets\\_Project\\Art\\Characters\\Hero\\hero_command.png",
+    "normal": "Game\\Assets\\_Project\\Art\\Characters\\Hero\\hero_command_normal.png",
+    "normal_guid": "a466497703cc459481cbf3ee516c2835"
+  },
+  {
+    "color": "Game\\Assets\\_Project\\Art\\Characters\\Fire\\cannon_crew_ignite6.png",
+    "normal": "Game\\Assets\\_Project\\Art\\Characters\\Fire\\cannon_crew_ignite6_normal.png",
+    "normal_guid": "cbe6c7b2c1c643bdbec7d777b1d02d9f"
+  }
+]

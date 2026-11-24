@@ -1,0 +1,205 @@
+{
+  "id": "gunner_fire",
+  "title": "총병 후면 사격",
+  "kind": "character",
+  "frames": 6,
+  "w": 256,
+  "h": 384,
+  "pivot": [
+    128,
+    352
+  ],
+  "fps": 8,
+  "ref": "Docs/References/codex_soldier_back_v1/gunner_back.png",
+  "prompt": "Use case: stylized-concept. Asset: game sprite animation reference, not a game screenshot. Strict crisp chunky 16-bit PIXEL ART with limited flat palette, opaque pixel clusters and dark stepped outline. No painting, no gradients, no diffuse halo, no shadow, floor, captions, grid or text. True transparent PNG. Panoramic3:1 canvas. Exactly SIX frames in ONE horizontal row, evenly spaced, clearly separate generous transparent gaps. No frames on another row. Same character, same scale, same rear camera, head/hair identity and body proportions in ALL six frames, feet planted on identical baseline. Preserve 2.2-head tall compact character proportions and original reference colors. All6poses visibly DIFFER, especially forearms and weapon: prepare,raise,aim,release,recover,reload. Draw full body with margins, never cut hair/weapon/toes. Soldier faces OUTWARD away from viewer, mostly rear view with only a subtle15degree angle so hands and weapon read, NEVER turns front or faces viewer. Match image1 identity EXACTLY: dark brown tousled hair, navy coat with IVORY trim and small gold fastening, silver RIGHT shoulder pad, brown diagonal strap, brown right hip pouch, brown boots, wooden-stock dark iron long musket. Six poses: 1 rifle low across body; 2 brings stock to right shoulder; 3 aims long barrel away upper-left toward field; 4 firing recoil clearly moves shoulder and barrel a LITTLE backward (NO giant muzzlefire, separate effect supplied); 5 lowers rifle and reaches pouch; 6 reloads with ramrod before resetting. Same right shoulder metal guard in everypose. Head fixed identity, no face view and no mirroring.\nCRITICAL layout correction: leave MUCH WIDER transparent gaps so NO TWO frames overlap in horizontal extent. Each soldier INCLUDING raised rifle fits inside 260px wide by430px tall area on a2172x724canvas. Six columncenters181,543,905,1267,1629,1991. Maximum width260px leaves100px transparent gap. Soldier bodyheight350px, feet y630. Rifle points mostly UP out ofscreen toward field, not long sideways across columns. Frame2/3/4 barrel held close toleftside ofhead with moderate upwarddiagonal, no horizontalbarrel crossingframeboundary. Keep all feet samey. Make ZERO stray pixels above figures, no ghost background marks. The whole canvas except six silhouettes is transparent alpha0.",
+  "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-0c7abbb5-3856-4815-86f9-6620088512c5.png",
+  "tool": "built-in imagegen",
+  "source": "gunner_fire_source.png",
+  "sourceSize": [
+    2172,
+    724
+  ],
+  "sourceSha256": "928ed856e5f96012da815e7f5391213ceab9bcd99faad151075d96ab2a51982c",
+  "sheet": "gunner_fire_sheet.png",
+  "sheetSize": [
+    1536,
+    384
+  ],
+  "sheetSha256": "43982f8fbf1242b0f7ca63271746936d9f62b8eb8c619638d4e23892ba1aafb7",
+  "sourceColumnBounds": [
+    0,
+    372,
+    718,
+    1109,
+    1488,
+    1835,
+    2172
+  ],
+  "commonScale": 0.4793388429752066,
+  "framesMeta": [
+    {
+      "index": 0,
+      "rect": [
+        0,
+        0,
+        256,
+        384
+      ],
+      "pivotPixels": [
+        128,
+        352
+      ],
+      "alphaBBox": [
+        46,
+        85,
+        215,
+        352
+      ],
+      "rgbaSha256": "9f8526676ff9b4518441637e662fbdd1d070a02b97452cc8dc7d04f3014de348",
+      "sourceRect": [
+        0,
+        73,
+        372,
+        670
+      ],
+      "sourceAnchorX": 188.5
+    },
+    {
+      "index": 1,
+      "rect": [
+        256,
+        0,
+        256,
+        384
+      ],
+      "pivotPixels": [
+        128,
+        352
+      ],
+      "alphaBBox": [
+        26,
+        66,
+        188,
+        352
+      ],
+      "rgbaSha256": "ba5597ac39f139b259590928cdd3fadfee0c193cfe30695efb92fd59caa14dfd",
+      "sourceRect": [
+        372,
+        73,
+        718,
+        670
+      ],
+      "sourceAnchorX": 584.5
+    },
+    {
+      "index": 2,
+      "rect": [
+        512,
+        0,
+        256,
+        384
+      ],
+      "pivotPixels": [
+        128,
+        352
+      ],
+      "alphaBBox": [
+        8,
+        70,
+        189,
+        352
+      ],
+      "rgbaSha256": "cf141f098c2bd60b4e73d6b2e3c1e573726cd812afdd07803c6fbdf62e32500c",
+      "sourceRect": [
+        718,
+        73,
+        1109,
+        670
+      ],
+      "sourceAnchorX": 975.0
+    },
+    {
+      "index": 3,
+      "rect": [
+        768,
+        0,
+        256,
+        384
+      ],
+      "pivotPixels": [
+        128,
+        352
+      ],
+      "alphaBBox": [
+        17,
+        85,
+        189,
+        352
+      ],
+      "rgbaSha256": "976135273f6a8bba4230cec98fae99cf2ca18d16fa515f00e815312bc1fb68fa",
+      "sourceRect": [
+        1109,
+        73,
+        1488,
+        670
+      ],
+      "sourceAnchorX": 1352.5
+    },
+    {
+      "index": 4,
+      "rect": [
+        1024,
+        0,
+        256,
+        384
+      ],
+      "pivotPixels": [
+        128,
+        352
+      ],
+      "alphaBBox": [
+        39,
+        74,
+        197,
+        352
+      ],
+      "rgbaSha256": "8a1abf3abf104b25c68772d283a00835c57575eb0479fdf3537a2d66d9d94a4f",
+      "sourceRect": [
+        1488,
+        73,
+        1835,
+        670
+      ],
+      "sourceAnchorX": 1688.0
+    },
+    {
+      "index": 5,
+      "rect": [
+        1280,
+        0,
+        256,
+        384
+      ],
+      "pivotPixels": [
+        128,
+        352
+      ],
+      "alphaBBox": [
+        58,
+        66,
+        185,
+        352
+      ],
+      "rgbaSha256": "dadb5ca689d3fec0bc8f901f83b9c50df4966c2dfaec9397d8a70eacc8ea2be1",
+      "sourceRect": [
+        1835,
+        73,
+        2172,
+        670
+      ],
+      "sourceAnchorX": 2006.5
+    }
+  ],
+  "reviewStatus": "외형사용자검토대기·게임연결없음",
+  "processing": "원안분리·동일시트공통배율·최근접정렬만. 병사발/대포바퀴접지 기준. 내용덧칠/프레임복제없음."
+}

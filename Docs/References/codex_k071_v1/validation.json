@@ -1,0 +1,18 @@
+{
+  "portraits": 10,
+  "alpha_binary": true,
+  "footline_all": 352,
+  "native_integer_scale": 4,
+  "stray_component_check": "all native portraits have exactly one 8-connected alpha component",
+  "source_files_unchanged": 117,
+  "hero_other_cells_unchanged": 15,
+  "embedded_png_decoded": 26,
+  "external_dependencies": 0,
+  "browser_render_verified": false,
+  "unity_run": false,
+  "final_png_files_decoded": 53,
+  "individual_4x_previews_exact": 10,
+  "expression_sheet_sizes_and_order_verified": true,
+  "selected_generation_original_hashes_matched": 10,
+  "browser_unavailable_reason": "cua: in-app browser unavailable; enabled browser inventory empty"
+}

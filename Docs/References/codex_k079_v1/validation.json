@@ -1,0 +1,280 @@
+{
+    "raster_checks":  [
+                          {
+                              "opaque_palette_colors":  16,
+                              "preview_size":  [
+                                                   512,
+                                                   768
+                                               ],
+                              "has_transparency":  true,
+                              "game_size":  [
+                                                256,
+                                                384
+                                            ],
+                              "name":  "ogre_static",
+                              "original_game_sha256_unchanged":  true,
+                              "frames":  [
+                                             {
+                                                 "connected_components":  1,
+                                                 "boot_pixels_at_row175":  38,
+                                                 "alpha_binary":  true,
+                                                 "opaque_bottom":  176,
+                                                 "transparent_cell_border":  true,
+                                                 "bounds":  [
+                                                                6,
+                                                                56,
+                                                                107,
+                                                                120
+                                                            ],
+                                                 "index":  0
+                                             }
+                                         ],
+                              "game_exact_2x":  true,
+                              "alpha_binary":  true,
+                              "native_size":  [
+                                                  128,
+                                                  192
+                                              ],
+                              "preview_exact_4x":  true
+                          },
+                          {
+                              "opaque_palette_colors":  17,
+                              "preview_size":  [
+                                                   2048,
+                                                   768
+                                               ],
+                              "has_transparency":  true,
+                              "game_size":  [
+                                                1024,
+                                                384
+                                            ],
+                              "name":  "ogre_walk",
+                              "original_game_sha256_unchanged":  true,
+                              "frames":  [
+                                             {
+                                                 "connected_components":  1,
+                                                 "boot_pixels_at_row175":  13,
+                                                 "alpha_binary":  true,
+                                                 "opaque_bottom":  176,
+                                                 "transparent_cell_border":  true,
+                                                 "bounds":  [
+                                                                6,
+                                                                56,
+                                                                107,
+                                                                120
+                                                            ],
+                                                 "index":  0
+                                             },
+                                             {
+                                                 "connected_components":  1,
+                                                 "boot_pixels_at_row175":  38,
+                                                 "alpha_binary":  true,
+                                                 "opaque_bottom":  176,
+                                                 "transparent_cell_border":  true,
+                                                 "bounds":  [
+                                                                6,
+                                                                56,
+                                                                107,
+                                                                120
+                                                            ],
+                                                 "index":  1
+                                             },
+                                             {
+                                                 "connected_components":  1,
+                                                 "boot_pixels_at_row175":  18,
+                                                 "alpha_binary":  true,
+                                                 "opaque_bottom":  176,
+                                                 "transparent_cell_border":  true,
+                                                 "bounds":  [
+                                                                4,
+                                                                56,
+                                                                110,
+                                                                120
+                                                            ],
+                                                 "index":  2
+                                             },
+                                             {
+                                                 "connected_components":  1,
+                                                 "boot_pixels_at_row175":  18,
+                                                 "alpha_binary":  true,
+                                                 "opaque_bottom":  176,
+                                                 "transparent_cell_border":  true,
+                                                 "bounds":  [
+                                                                6,
+                                                                56,
+                                                                107,
+                                                                120
+                                                            ],
+                                                 "index":  3
+                                             }
+                                         ],
+                              "game_exact_2x":  true,
+                              "alpha_binary":  true,
+                              "native_size":  [
+                                                  512,
+                                                  192
+                                              ],
+                              "preview_exact_4x":  true
+                          },
+                          {
+                              "opaque_palette_colors":  17,
+                              "preview_size":  [
+                                                   2048,
+                                                   768
+                                               ],
+                              "has_transparency":  true,
+                              "game_size":  [
+                                                1024,
+                                                384
+                                            ],
+                              "name":  "ogre_attack4",
+                              "original_game_sha256_unchanged":  true,
+                              "frames":  [
+                                             {
+                                                 "connected_components":  1,
+                                                 "boot_pixels_at_row175":  47,
+                                                 "alpha_binary":  true,
+                                                 "opaque_bottom":  176,
+                                                 "transparent_cell_border":  true,
+                                                 "bounds":  [
+                                                                7,
+                                                                68,
+                                                                102,
+                                                                108
+                                                            ],
+                                                 "index":  0
+                                             },
+                                             {
+                                                 "connected_components":  1,
+                                                 "boot_pixels_at_row175":  46,
+                                                 "alpha_binary":  true,
+                                                 "opaque_bottom":  176,
+                                                 "transparent_cell_border":  true,
+                                                 "bounds":  [
+                                                                19,
+                                                                33,
+                                                                96,
+                                                                143
+                                                            ],
+                                                 "index":  1
+                                             },
+                                             {
+                                                 "connected_components":  1,
+                                                 "boot_pixels_at_row175":  61,
+                                                 "alpha_binary":  true,
+                                                 "opaque_bottom":  185,
+                                                 "transparent_cell_border":  true,
+                                                 "bounds":  [
+                                                                16,
+                                                                80,
+                                                                97,
+                                                                105
+                                                            ],
+                                                 "index":  2
+                                             },
+                                             {
+                                                 "connected_components":  1,
+                                                 "boot_pixels_at_row175":  47,
+                                                 "alpha_binary":  true,
+                                                 "opaque_bottom":  176,
+                                                 "transparent_cell_border":  true,
+                                                 "bounds":  [
+                                                                7,
+                                                                68,
+                                                                101,
+                                                                108
+                                                            ],
+                                                 "index":  3
+                                             }
+                                         ],
+                              "game_exact_2x":  true,
+                              "alpha_binary":  true,
+                              "native_size":  [
+                                                  512,
+                                                  192
+                                              ],
+                              "preview_exact_4x":  true
+                          },
+                          {
+                              "opaque_palette_colors":  17,
+                              "preview_size":  [
+                                                   2048,
+                                                   768
+                                               ],
+                              "has_transparency":  true,
+                              "game_size":  [
+                                                1024,
+                                                384
+                                            ],
+                              "name":  "ogre_fall4",
+                              "original_game_sha256_unchanged":  true,
+                              "frames":  [
+                                             {
+                                                 "connected_components":  1,
+                                                 "boot_pixels_at_row175":  39,
+                                                 "alpha_binary":  true,
+                                                 "opaque_bottom":  176,
+                                                 "transparent_cell_border":  true,
+                                                 "bounds":  [
+                                                                10,
+                                                                74,
+                                                                113,
+                                                                102
+                                                            ],
+                                                 "index":  0
+                                             },
+                                             {
+                                                 "connected_components":  1,
+                                                 "boot_pixels_at_row175":  3,
+                                                 "alpha_binary":  true,
+                                                 "opaque_bottom":  176,
+                                                 "transparent_cell_border":  true,
+                                                 "bounds":  [
+                                                                7,
+                                                                91,
+                                                                107,
+                                                                85
+                                                            ],
+                                                 "index":  1
+                                             },
+                                             {
+                                                 "connected_components":  1,
+                                                 "boot_pixels_at_row175":  3,
+                                                 "alpha_binary":  true,
+                                                 "opaque_bottom":  176,
+                                                 "transparent_cell_border":  true,
+                                                 "bounds":  [
+                                                                6,
+                                                                108,
+                                                                112,
+                                                                68
+                                                            ],
+                                                 "index":  2
+                                             },
+                                             {
+                                                 "connected_components":  1,
+                                                 "boot_pixels_at_row175":  5,
+                                                 "alpha_binary":  true,
+                                                 "opaque_bottom":  176,
+                                                 "transparent_cell_border":  true,
+                                                 "bounds":  [
+                                                                8,
+                                                                120,
+                                                                113,
+                                                                56
+                                                            ],
+                                                 "index":  3
+                                             }
+                                         ],
+                              "game_exact_2x":  true,
+                              "alpha_binary":  true,
+                              "native_size":  [
+                                                  512,
+                                                  192
+                                              ],
+                              "preview_exact_4x":  true
+                          }
+                      ],
+    "foot_note":  "장화 밑의 어두운 외곽선을 포함한 발선 접촉 픽셀 수. 가운데 철퇴 영역은 제외. 쓰러짐에서는 몸·장비의 지면 접촉을 뜻하며 자세별 의미는 육안으로 확인.",
+    "review":  "브라우저 확인 결과는 review_validation.json 참조"
+}

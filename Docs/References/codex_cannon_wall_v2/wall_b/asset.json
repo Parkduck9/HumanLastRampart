@@ -1,0 +1,34 @@
+{
+  "id": "wall_b",
+  "label": "B 거친 거석",
+  "size": [
+    1024,
+    512
+  ],
+  "columns": 1,
+  "rows": 1,
+  "frames": 1,
+  "fps": 0,
+  "pivotTopLeft": [
+    512,
+    400
+  ],
+  "packedRect": [
+    16,
+    112,
+    992,
+    288
+  ],
+  "sourceRect": [
+    11,
+    49,
+    2165,
+    675
+  ],
+  "sourceSha256": "381e250f5dcc1502506dc563f0f1c40760db9a50ada6bc61408bff58659f0f64",
+  "packedSha256": "315810ab5c71f8f905a226cce5f0a4f3a8a2fda3347c002381f96b30877c3eb1",
+  "demoMuzzle": null,
+  "demoMuzzleVerified": false,
+  "status": "user-review",
+  "unityPlayVerified": false
+}

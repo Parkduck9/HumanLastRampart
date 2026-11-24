@@ -1,0 +1,37 @@
+{
+  "tool": "image_gen.imagegen",
+  "requests": [
+    {
+      "id": "tree_broadleaf",
+      "label": "넓은 수관 나무",
+      "kind": "prop",
+      "prompt": "Use case: stylized-concept. ONE full-body broadleaf tree game cutout, genuinely transparent background. Mature medieval temperate tree with gnarled gray-brown trunk and restrained dusty olive foliage in large irregular leaf masses, a few sparse gaps, sturdy roots. HD-2D pixel-art prop matching weathered old gray fortress, rich restrained pixel clusters and subtle soft painted volume, not a rounded cartoon sticker, no thick black outline, no photorealistic smooth leaves. View from slightly above at LOW about20degree elevation, front3/4 suitable beside an Octopath-inspired 2.5D wall. Entire isolated tree, roots planted on common ground line, centered with margin; no ground tile, scenery, grass patch, cast shadow or light halo. No labels/grid/multiple trees. Portrait1024x1536 composition, trunk root contact around x512/y1320, crown inside x120..904 and y140..1280.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-89d568f8-b09d-439e-8905-7474982a5dbe.png"
+    },
+    {
+      "id": "tree_conifer",
+      "label": "짙은 침엽수",
+      "kind": "prop",
+      "prompt": "Use case: stylized-concept. ONE isolated tall dark olive conifer game sprite/cutout on genuine transparent background. Weathered gray-brown trunk visible at base, uneven layered needle boughs, asymmetrical natural silhouette, restrained dark forest-green foliage with sparse gray-green lit clusters. HD-2D pixel-art game prop with coarse readable pixel clusters, no thick black cartoon outline, no smooth glossy vector or photorealistic foliage. Low20degree front3/4 camera matching medieval gray fortress props. Full tree centered, no floor/ground tile, no other objects, no cast shadow, no halo, no caption. Portrait1024x1536, ground contact x512/y1320, crown above and all branches within margin.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-ef010b26-5418-47e7-80be-be9bfe5bb5fa.png"
+    },
+    {
+      "id": "tower_square_intact",
+      "label": "사각 포탑·온전함",
+      "kind": "tower",
+      "family": "tower_square",
+      "state": "intact",
+      "prompt": "Use case: stylized-concept, original game prop design. ONE isolated square medieval fortress ARTILLERY TOWER, whole structure on truly transparent background, FULL BODY. Old neutral gray limestone matching worn gray fortification, about4m square footprint and6m tall, thick varied weathered stone blocks, subdued gray mortar, a few cracks/olive moss near base, broad readable quiet stone faces. Flat crenellated roof fighting platform with one small dark iron cannon on brown wooden carriage visibly peeking over front embrasure; NO red/conical roof. Low front3/4 camera only20degree elevation, showing front and right face and enough platform for cannon. HD-2D textured pixel-art prop, realistic restrained stone volume expressed by pixel clusters, not outlined cartoon/isometric steep camera/photo. Portrait1024x1536 canvas, base centerx512 floor y1320, top aroundy220, base widthabout700px; 10%empty margin, no ground slab, no shadow ellipse, no scene, text or extra buildings. This is INTACT state; keep walls complete and cannon intact.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-26518a2e-6b95-4a67-98e0-06f7bb3d87dc.png"
+    },
+    {
+      "id": "battery_low_intact",
+      "label": "낮은 대포 포대·온전함",
+      "kind": "tower",
+      "family": "battery_low",
+      "state": "intact",
+      "prompt": "Use case: stylized-concept, original game prop design. ONE isolated LOW SQUARE STONE CANNON BATTERY on transparent background. A low sturdy old neutral gray limestone platform about4m wide and3m tall, worn broad gray stones with subdued mortar, parapet gun port at front, short rear side steps and ONE dark iron cannon on a dark brown wooden carriage aimed forward, front muzzle visible through low opening. Different silhouette from tall tower: broad low rectangular gun platform, no tall tower, no conical/red roof. Low20degree front3/4 view showing front/right faces, HD-2D textured pixel-art, restrained chunky pixel clusters, subtle moss onlyinbasecracks, no thickblackoutline/cartoon/photo. Portrait1024x1536 canvas, base centerx512 floor y1320, full prop betweenx130..894 andy600..1320; keepmargin,no groundtile/castshadow/labels/background/extraobjects. Intactcompletewallsandcannon.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-eca4c239-61d9-4ddd-8a1b-dbc3b52391f5.png"
+    }
+  ]
+}

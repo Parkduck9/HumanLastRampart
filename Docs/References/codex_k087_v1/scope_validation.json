@@ -1,0 +1,13 @@
+{
+  "card": "K-087",
+  "method": "read-only Git index blob hash comparison; CRLF-to-LF fallback for text",
+  "index_version": 2,
+  "game_files_checked": 1202,
+  "eol_normalized_matches": 951,
+  "mismatches": [],
+  "all_game_files_match_index": true,
+  "original_branch": "ref: refs/heads/develop",
+  "card_branch": "ref: refs/heads/card/K-087",
+  "git_writes": false,
+  "unity_run": false
+}

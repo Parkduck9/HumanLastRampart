@@ -1,0 +1,110 @@
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>미커밋 문서 정리</title><style>body{font:15px/1.7 "Malgun Gothic",sans-serif;background:#18212b;color:#edf2fa;margin:20px}pre{white-space:pre-wrap;overflow-wrap:anywhere}</style><h1>Codex 미커밋 문서 정리</h1><p>G-CX-020 요청 · 96파일 · 스테이징/커밋 전</p><pre># Codex 미커밋 문서·레퍼런스 정리
+
+- 작성자 Codex / T-CX-031 / G-CX-020 요청
+- 자기 문서·레퍼런스 96파일. 정확한 경로/최종해시는 live/codex/qa/G-CX-020-files.json. 자기색인3파일 재귀해시만 inventory에서 생략.
+- 삭제·스테이징·커밋 미수행. 게임정비12파일 G-CX-019와 별도. live/QA바이너리/Claude파일 제외.
+- 병사후면은 사용자 데모용 사용허용. 정적6종은 animated=false/fps0/1칸. 실제Unity연결은Claude담당.
+- 주인공게임전달은 hero_walk_run_append_grid.png/json: 후면·측면·정면·달리기. 초기 run2/front3은 보관용.
+- 함정 설계는 사용자검토제안. 오프라인파일 codex_prep_traps_v1/preview.html. 에러로 못 봤다는 답변은 승인 아님.
+
+## 정확한 커밋 요청 목록
+
+| 파일 | 크기(byte) | 분류 |
+|---|---:|---|
+| Docs/GDD/screens/EconomyContractProposal.md | 9710 | document/data |
+| Docs/GDD/screens/PrepTrapsProposal.md | 6365 | document/data |
+| Docs/References/codex_balance_v1/BALANCING.md | 7339 | document/data |
+| Docs/References/codex_balance_v1/preview.html | 10243 | preview |
+| Docs/References/codex_balance_v1/results.json | 13404 | document/data |
+| Docs/References/codex_balance_v1/run_balance.py | 5452 | source |
+| Docs/References/codex_balance_v2/BALANCING_v2.md | 8025 | document/data |
+| Docs/References/codex_balance_v2/preview.html | 8785 | preview |
+| Docs/References/codex_balance_v2/price_qa.json | 3284 | document/data |
+| Docs/References/codex_balance_v2/price_qa.py | 3420 | source |
+| Docs/References/codex_character_grids_v1/README.md | 2121 | document/data |
+| Docs/References/codex_character_grids_v1/archer_static_grid.json | 997 | document/data |
+| Docs/References/codex_character_grids_v1/archer_static_grid.png | 64771 | media |
+| Docs/References/codex_character_grids_v1/build_sheets.py | 3783 | source |
+| Docs/References/codex_character_grids_v1/cannon_crew_static_grid.json | 1016 | document/data |
+| Docs/References/codex_character_grids_v1/cannon_crew_static_grid.png | 68863 | media |
+| Docs/References/codex_character_grids_v1/gunner_static_grid.json | 997 | document/data |
+| Docs/References/codex_character_grids_v1/gunner_static_grid.png | 60447 | media |
+| Docs/References/codex_character_grids_v1/ladder_goblin_static_grid.json | 1032 | document/data |
+| Docs/References/codex_character_grids_v1/ladder_goblin_static_grid.png | 70372 | media |
+| Docs/References/codex_character_grids_v1/manifest.json | 7276 | document/data |
+| Docs/References/codex_character_grids_v1/ogre_static_grid.json | 995 | document/data |
+| Docs/References/codex_character_grids_v1/ogre_static_grid.png | 43342 | media |
+| Docs/References/codex_character_grids_v1/preview.html | 2027524 | preview |
+| Docs/References/codex_character_grids_v1/qa.json | 289 | document/data |
+| Docs/References/codex_character_grids_v1/wizard_static_grid.json | 999 | document/data |
+| Docs/References/codex_character_grids_v1/wizard_static_grid.png | 71526 | media |
+| Docs/References/codex_character_pixel_v2/README.md | 2253 | document/data |
+| Docs/References/codex_character_pixel_v2/archer.png | 539622 | media |
+| Docs/References/codex_character_pixel_v2/cannon_crew.png | 596787 | media |
+| Docs/References/codex_character_pixel_v2/check_assets.py | 960 | source |
+| Docs/References/codex_character_pixel_v2/gunner.png | 680789 | media |
+| Docs/References/codex_character_pixel_v2/ladder_goblin.png | 639416 | media |
+| Docs/References/codex_character_pixel_v2/manifest.json | 1371 | document/data |
+| Docs/References/codex_character_pixel_v2/ogre.png | 566790 | media |
+| Docs/References/codex_character_pixel_v2/png_analysis.json | 2084 | document/data |
+| Docs/References/codex_character_pixel_v2/preview.html | 4891 | preview |
+| Docs/References/codex_character_pixel_v2/prompts.json | 12332 | document/data |
+| Docs/References/codex_character_pixel_v2/prompts_initial.json | 7142 | document/data |
+| Docs/References/codex_character_pixel_v2/wizard.png | 590668 | media |
+| Docs/References/codex_cycle1_qa.md | 2356 | document/data |
+| Docs/References/codex_cycle1_review.html | 21068 | preview |
+| Docs/References/codex_cycle1_review.md | 2253 | document/data |
+| Docs/References/codex_cycle2_preview.html | 3621 | preview |
+| Docs/References/codex_cycle2_scope.md | 2368 | document/data |
+| Docs/References/codex_economy_contract_v1.html | 24270 | preview |
+| Docs/References/codex_goblin_preview_v1.html | 682221 | preview |
+| Docs/References/codex_goblin_reference_v1.md | 2391 | document/data |
+| Docs/References/codex_goblin_walk_attack4_v1.json | 4054 | document/data |
+| Docs/References/codex_goblin_walk_attack4_v1.png | 503362 | media |
+| Docs/References/codex_hero_grid_v1/README.md | 2860 | document/data |
+| Docs/References/codex_hero_grid_v1/build_sheet.py | 4269 | source |
+| Docs/References/codex_hero_grid_v1/hero_walk_grid.json | 7429 | document/data |
+| Docs/References/codex_hero_grid_v1/hero_walk_grid.png | 797199 | media |
+| Docs/References/codex_hero_grid_v1/preview.html | 1067216 | preview |
+| Docs/References/codex_hero_grid_v1/qa.json | 337 | document/data |
+| Docs/References/codex_hero_grid_v2/README.md | 3096 | document/data |
+| Docs/References/codex_hero_grid_v2/build_append.py | 1092 | source |
+| Docs/References/codex_hero_grid_v2/build_sheet.py | 3541 | source |
+| Docs/References/codex_hero_grid_v2/generation.json | 5207 | document/data |
+| Docs/References/codex_hero_grid_v2/hero_walk_run_append_grid.json | 2847 | document/data |
+| Docs/References/codex_hero_grid_v2/hero_walk_run_append_grid.png | 1006851 | media |
+| Docs/References/codex_hero_grid_v2/hero_walk_run_grid.json | 2838 | document/data |
+| Docs/References/codex_hero_grid_v2/hero_walk_run_grid.png | 1006724 | media |
+| Docs/References/codex_hero_grid_v2/preview.html | 1347044 | preview |
+| Docs/References/codex_hero_grid_v2/qa.json | 206 | document/data |
+| Docs/References/codex_hero_grid_v2/run_pose_0.png | 490061 | media |
+| Docs/References/codex_hero_grid_v2/run_pose_1.png | 410955 | media |
+| Docs/References/codex_hero_grid_v2/run_pose_2.png | 523881 | media |
+| Docs/References/codex_hero_grid_v2/run_pose_3.png | 428726 | media |
+| Docs/References/codex_hero_reference_v1.html | 312 | preview |
+| Docs/References/codex_hero_walk4_v8.json | 5807 | document/data |
+| Docs/References/codex_hero_walk4_v8.md | 1267 | document/data |
+| Docs/References/codex_hero_walk_preview_v1.html | 2066901 | preview |
+| Docs/References/codex_hero_walk_v4_side.png | 670150 | media |
+| Docs/References/codex_hero_walk_v6_eye_edit.json | 229 | document/data |
+| Docs/References/codex_hero_walk_v6_front_back.png | 866927 | media |
+| Docs/References/codex_pending_documents/README.md | 자기색인 | index |
+| Docs/References/codex_pending_documents/inventory.json | 자기색인 | index |
+| Docs/References/codex_pending_documents/preview.html | 자기색인 | index |
+| Docs/References/codex_player_asset_issue.html | 5814 | preview |
+| Docs/References/codex_player_asset_issue.md | 4960 | document/data |
+| Docs/References/codex_prep_traps_proposal.html | 18560 | preview |
+| Docs/References/codex_prep_traps_v1/README.md | 634 | document/data |
+| Docs/References/codex_prep_traps_v1/preview.html | 18560 | preview |
+| Docs/References/codex_preparation_implementation.html | 2860 | preview |
+| Docs/References/codex_preparation_implementation.md | 2114 | document/data |
+| Docs/References/codex_result_details.html | 4107 | preview |
+| Docs/References/codex_result_details.md | 3356 | document/data |
+| Docs/References/codex_soldier_back_v1/README.md | 1829 | document/data |
+| Docs/References/codex_soldier_back_v1/archer_back.png | 485998 | media |
+| Docs/References/codex_soldier_back_v1/cannon_crew_back.png | 575894 | media |
+| Docs/References/codex_soldier_back_v1/gunner_back.png | 632568 | media |
+| Docs/References/codex_soldier_back_v1/png_analysis.json | 1143 | document/data |
+| Docs/References/codex_soldier_back_v1/preview.html | 3874 | preview |
+| Docs/References/codex_soldier_back_v1/prompts.json | 3926 | document/data |
+</pre></html>

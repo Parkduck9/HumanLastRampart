@@ -1,0 +1,26 @@
+{
+  "archer": {
+    "path": "Docs/References/codex_walk6_v1/archer/source.png",
+    "sha256": "e0db305091c3ed788c2e91c6ef38966a93c935b59c81e449fd4b1b989767bebf"
+  },
+  "gunner": {
+    "path": "Docs/References/codex_walk6_v1/gunner/source.png",
+    "sha256": "183efd388a99edbed070f9be5748a67b34aa0410e8ed5b4d3045dd659d8ddd62"
+  },
+  "cannon_crew": {
+    "path": "Docs/References/codex_walk6_v1/cannon_crew/source.png",
+    "sha256": "147cd0c0531285f42f3bec621c2662f83beb1f7adcc07090366fc9bb998d34d3"
+  },
+  "wizard": {
+    "path": "Docs/References/codex_walk6_v1/wizard/source.png",
+    "sha256": "5a05141613683c689e3f8f26da39c03db70848a710dba2a105eadc8d615ab597"
+  },
+  "ogre": {
+    "path": "Docs/References/codex_walk6_v1/ogre/walk4_grid.png",
+    "sha256": "a91fbecd19a355eaf2ee032dbce4bdc0ce96c3c93468fe1dbee3a877b405088d"
+  },
+  "ladder_goblin": {
+    "path": "Docs/References/codex_walk6_v1/ladder_goblin/walk4_grid.png",
+    "sha256": "e620e115990f1cb7d72cd297a08645806688c654aaa39ffecca41f5ad86071bc"
+  }
+}

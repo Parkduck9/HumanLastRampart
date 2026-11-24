@@ -1,0 +1,22 @@
+{
+  "decoded_sheet_pngs": 90,
+  "checked_pixels": 51118080,
+  "native_frames_including_aliases": 160,
+  "exact_k119_palette": true,
+  "binary_alpha": true,
+  "transparent_rgb_zero": true,
+  "nearest_neighbor_exact": true,
+  "foot_bottom_every_frame": 120,
+  "compatibility_names_and_counts": true,
+  "browser": "installed Chrome headless",
+  "embedded_comparison_images": 38,
+  "canvas_elements": 84,
+  "scene_image_loaded": true,
+  "animation_advanced": true,
+  "frame_step": true,
+  "filter": true,
+  "mobile_no_horizontal_overflow": true,
+  "page_errors": [],
+  "unity_run": false,
+  "limitations": "No in-game bar occlusion, gait speed synchronization or user visual acceptance verified."
+}

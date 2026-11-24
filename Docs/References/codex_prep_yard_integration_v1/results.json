@@ -1,0 +1,79 @@
+{
+  "date": "2026-10-21",
+  "tests": {
+    "edit": {
+      "id": "2",
+      "testcasecount": "129",
+      "result": "Passed",
+      "total": "129",
+      "passed": "128",
+      "failed": "0",
+      "inconclusive": "1",
+      "skipped": "0",
+      "asserts": "0",
+      "engine-version": "3.5.0.0",
+      "clr-version": "4.0.30319.42000",
+      "start-time": "2026-10-21 08:06:12Z",
+      "end-time": "2026-10-21 08:06:15Z",
+      "duration": "2.7553395"
+    },
+    "play": {
+      "id": "2",
+      "testcasecount": "50",
+      "result": "Passed",
+      "total": "50",
+      "passed": "50",
+      "failed": "0",
+      "inconclusive": "0",
+      "skipped": "0",
+      "asserts": "0",
+      "engine-version": "3.5.0.0",
+      "clr-version": "4.0.30319.42000",
+      "start-time": "2026-10-21 08:06:25Z",
+      "end-time": "2026-10-21 08:07:36Z",
+      "duration": "71.0821242"
+    },
+    "yard_prompt": {
+      "id": "2",
+      "testcasecount": "1",
+      "result": "Passed",
+      "total": "1",
+      "passed": "1",
+      "failed": "0",
+      "inconclusive": "0",
+      "skipped": "0",
+      "asserts": "0",
+      "engine-version": "3.5.0.0",
+      "clr-version": "4.0.30319.42000",
+      "start-time": "2026-10-21 08:12:46Z",
+      "end-time": "2026-10-21 08:12:48Z",
+      "duration": "2.1106559"
+    }
+  },
+  "images": [
+    {
+      "label": "정비 마당 가까운 바닥 — 최신 주인공",
+      "path": "Docs\\References\\codex_prep_yard_integration_v1\\qa\\prompt_final\\captures\\01_yard_00_near.png"
+    },
+    {
+      "label": "앞뒤 이동·원근 — E 안내는 간판 아래",
+      "path": "Docs\\References\\codex_prep_yard_integration_v1\\qa\\prompt_final\\captures\\02_yard_01_far.png"
+    },
+    {
+      "label": "나무통 뒤의 인물 가림",
+      "path": "Docs\\References\\codex_prep_yard_integration_v1\\qa\\prompt_final\\captures\\03_yard_02_foreground.png"
+    },
+    {
+      "label": "계단의 출정 확인",
+      "path": "Docs\\References\\codex_prep_yard_integration_v1\\qa\\prompt_final\\captures\\04_yard_03_stairs.png"
+    },
+    {
+      "label": "폭발 수명 뒤 — 남는 구덩이는 지면에 배치",
+      "path": "Docs\\References\\codex_character_integration_v1\\qa\\final\\captures\\169_trap_3_ground_crater_after_burst.png"
+    },
+    {
+      "label": "최신 캐릭터가 연결된 실제 전투 준비",
+      "path": "Docs\\References\\codex_character_integration_v1\\qa\\final\\captures\\87_characters_00_installed_battle.png"
+    }
+  ]
+}

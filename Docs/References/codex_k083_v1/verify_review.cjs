@@ -1,0 +1,25 @@
+const fs=require('fs');
+const path=require('path');
+const {pathToFileURL}=require('url');
+const {chromium}=require('C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+(async()=>{
+const browser=await chromium.launch({channel:'chrome',headless:true});
+const page=await browser.newPage({viewport:{width:1440,height:1080}});
+const errors=[];page.on('pageerror',e=>errors.push(String(e)));
+await page.goto(pathToFileURL(path.resolve(__dirname,'../../../_HTML/6_그림_화면/codex_K-083_타이틀_v1.html')).href);
+await page.locator('img').evaluateAll(a=>Promise.all(a.map(i=>i.decode())));
+const imageCount=await page.locator('img').count();
+const allImagesLoaded=await page.locator('img').evaluateAll(a=>a.every(i=>i.complete&&i.naturalWidth>0&&i.src.startsWith('data:')));
+await page.screenshot({path:path.join(__dirname,'review_desktop.png'),fullPage:true});
+await page.locator('#toggle').click();
+const toggleWorks=await page.locator('#menu').evaluate(e=>getComputedStyle(e).display==='none');
+await page.locator('#size').click();
+const sizeWorks=await page.locator('#stage').evaluate(e=>Math.abs(e.getBoundingClientRect().width-960)<1);
+await page.setViewportSize({width:390,height:844});
+const mobileOverflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth);
+await page.screenshot({path:path.join(__dirname,'review_mobile.png'),fullPage:true});
+const result={browser:'Chrome headless',imageCount,allImagesLoaded,toggleWorks,sizeWorks,mobileOverflow,pageErrors:errors};
+fs.writeFileSync(path.join(__dirname,'review_validation.json'),JSON.stringify(result,null,2));
+console.log(result);await browser.close();
+if(!allImagesLoaded||!toggleWorks||!sizeWorks||mobileOverflow||errors.length)process.exitCode=1;
+})().catch(e=>{console.error(e);process.exitCode=1});

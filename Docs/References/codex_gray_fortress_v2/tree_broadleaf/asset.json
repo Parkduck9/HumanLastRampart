@@ -1,0 +1,39 @@
+{
+  "id": "tree_broadleaf",
+  "label": "넓은 수관 나무",
+  "kind": "cutout_reference",
+  "family": null,
+  "state": null,
+  "file": "tree_broadleaf/sprite.png",
+  "size": [
+    256,
+    384
+  ],
+  "pivotPixelsTopLeft": [
+    128,
+    352
+  ],
+  "pivotUnityNormalized": [
+    0.5,
+    0.08333333333333333
+  ],
+  "sourceSize": [
+    1024,
+    1536
+  ],
+  "sourceCrop": [
+    28,
+    116,
+    996,
+    1426
+  ],
+  "sharedSourceScale": 0.22900763358778625,
+  "packedBodySize": [
+    222,
+    300
+  ],
+  "pixelsPerMeter": null,
+  "normalMapIncluded": false,
+  "sha256": "4d6482f6761cf9cb9c1e834d92d56c71f08a4f2fc522aa335b5d332d28cb6887",
+  "sourceSha256": "ec526d1cb6da9a435fe2f18ca77cb3bd2a565680ac08e365b1deb09d09ec5a1b"
+}

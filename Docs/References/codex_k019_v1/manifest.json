@@ -1,0 +1,72 @@
+{
+  "상태": "사용자 확정 전 시안",
+  "제작": "내장 imagegen 원안 + PowerShell 규격 추출",
+  "그림": [
+    {
+      "file": "png/command_band_hover.png",
+      "width": 380,
+      "height": 48,
+      "sha256": "64c1ca73aa9ca53d205d23f7e063ac48782219d311d0e65bc2a55e67607de76f"
+    },
+    {
+      "file": "png/command_band_normal.png",
+      "width": 380,
+      "height": 48,
+      "sha256": "0356fcca3ae0ae670542823fbd0fdc30ac224252d90d5f808fd4c12eaf549ed6"
+    },
+    {
+      "file": "png/command_circle.png",
+      "width": 34,
+      "height": 34,
+      "sha256": "201abd5795f282c498eebd20fcb92f55381e1c143e2acdd0156e0d3a51590a38"
+    },
+    {
+      "file": "png/command_line.png",
+      "width": 3,
+      "height": 360,
+      "sha256": "10194f17e5d5b5371fdb787519112b52718d0a3043f22769e4193106c54cead1"
+    },
+    {
+      "file": "png/command_number_1.png",
+      "width": 34,
+      "height": 34,
+      "sha256": "cd80d052394a0d73171f66bcfaf3d3a210937cb4621ad2505bea707d26a7cc73"
+    },
+    {
+      "file": "png/command_number_2.png",
+      "width": 34,
+      "height": 34,
+      "sha256": "c7d3e7dee8e45ad51d39d41b44541045c71d89e9df93ea4e426db87ce88f2480"
+    },
+    {
+      "file": "png/command_number_3.png",
+      "width": 34,
+      "height": 34,
+      "sha256": "50c77a432c138cd7aae64bdacebb5f47e36f103c31332ce871a2e48ae3b5024e"
+    },
+    {
+      "file": "png/command_number_4.png",
+      "width": 34,
+      "height": 34,
+      "sha256": "39797c8feb4d9b9b77068fcef3eeb2529374a4b00f50063f0b0148f5e3f97105"
+    },
+    {
+      "file": "png/command_number_5.png",
+      "width": 34,
+      "height": 34,
+      "sha256": "0fde97d773351ecdc6366676d24518e276e7697cd0c8b90989e783129d29eec3"
+    },
+    {
+      "file": "png/command_number_6.png",
+      "width": 34,
+      "height": 34,
+      "sha256": "ce3a74bb13c53e9e5b087d579ea703d0e04168b71a02a535ed2f80ba4c656615"
+    },
+    {
+      "file": "png/command_underline.png",
+      "width": 320,
+      "height": 8,
+      "sha256": "e45473bd5d5854d051a71d6b715cc36db217632d41eea4a0bd007a632ed2f6dd"
+    }
+  ]
+}

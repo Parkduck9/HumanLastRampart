@@ -1,0 +1,40 @@
+// 원안에서 동작별 프레임을 추출하고 이 카드의 산출물만 만든다.
+const fs=require('fs'),path=require('path'),crypto=require('crypto');
+const PNG=require('C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/pngjs').PNG;
+const OUT=__dirname, ROOT=path.resolve(OUT,'../../..');
+const read=p=>PNG.sync.read(fs.readFileSync(p));
+const blank=(w,h)=>({width:w,height:h,data:Buffer.alloc(w*h*4)});
+function save(p,im){p=path.join(OUT,p);fs.mkdirSync(path.dirname(p),{recursive:true});fs.writeFileSync(p,PNG.sync.write(im));}
+function box(im){let x0=im.width,y0=im.height,x1=-1,y1=-1;for(let y=0;y<im.height;y++)for(let x=0;x<im.width;x++)if(im.data[(y*im.width+x)*4+3]){x0=Math.min(x0,x);x1=Math.max(x1,x);y0=Math.min(y0,y);y1=Math.max(y1,y);}return [x0,y0,x1,y1];}
+function largest(im){let seen=new Uint8Array(im.width*im.height),best=[];for(let n=0;n<seen.length;n++){if(seen[n]||!im.data[n*4+3])continue;let q=[n];seen[n]=1;for(let j=0;j<q.length;j++){let p=q[j],x=p%im.width,y=Math.floor(p/im.width);for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){let xx=x+dx,yy=y+dy,k=yy*im.width+xx;if(xx<0||yy<0||xx>=im.width||yy>=im.height||seen[k]||!im.data[k*4+3])continue;seen[k]=1;q.push(k);}}if(q.length>best.length)best=q;}let out=blank(im.width,im.height);for(let k of best)im.data.copy(out.data,k*4,k*4,k*4+4);return out;}
+function scale(im,k){let out=blank(im.width*k,im.height*k);for(let y=0;y<out.height;y++)for(let x=0;x<out.width;x++){let i=(Math.floor(y/k)*im.width+Math.floor(x/k))*4;im.data.copy(out.data,(y*out.width+x)*4,i,i+4);}return out;}
+function flip(im){let out=blank(96,128);for(let y=0;y<128;y++)for(let x=1;x<96;x++)im.data.copy(out.data,(y*96+96-x)*4,(y*96+x)*4,(y*96+x)*4+4);return out;}
+const specs=[['walk','front',8],['walk','back',8],['walk','right',8],['climb_up','right',6],['climb_up','back',6],['climb_down','right',6],['climb_down','back',6],['tend','front',6],['tend','right',6],['carry','front',8],['carry','back',8],['carry','right',8]];
+const labels={walk:['왼발 닿기','왼발 체중 받기','오른발 통과','오른발 전진','오른발 닿기','오른발 체중 받기','왼발 통과','왼발 전진'],carry:['왼발 닿기·기름통 유지','왼발 지지','오른발 통과','오른발 전진','오른발 닿기·기름통 유지','오른발 지지','왼발 통과','왼발 전진'],climb_up:['발 올리기','높은 무릎','발 내딛기','체중 올리기','반대 무릎','다음 디딤 준비'],climb_down:['아래 발 찾기','앞발 내밀기','무릎 굽히기','체중 내리기','반대 발 회수','다음 디딤 준비'],tend:['기름통 잡기','들어 올리기','주둥이 기울이기','기름 붓기','통 세우기','허리로 내리기']};
+let assets=[],extract={},allFrames={},checks=[];
+function deliver(v,m,d,frames,mirrorOf){let name=`worker_${v}_${m}_${d}`,sheet=blank(96*frames.length,128);frames.forEach((f,n)=>{for(let y=0;y<128;y++)f.data.copy(sheet.data,(y*sheet.width+n*96)*4,y*96*4,(y+1)*96*4);});
+ for(let [folder,k] of [['native',1],['game',3],['previews',4]]){let file=`${folder}/${name}${folder==='previews'?'_4x':''}.png`;save(file,scale(sheet,k));assets.push({file,variant:v,motion:m,direction:d,frames:frames.length,cell:[96*k,128*k],size:[96*k*frames.length,128*k],pivot_px:[48*k,120*k],baseline_y:120*k,unity_pivot:[0.5,0.0625],frame_order:frames.map((_,i)=>i),frame_labels:labels[m],fps:m==='tend'?6:8,loop:true,mirror_of:mirrorOf||null,filter:'Point',alpha:'binary straight RGBA',role:folder==='previews'?'preview':'worker'});}
+ allFrames[name]=frames;
+}
+for(let v of ['a','b']){
+ let src=read(path.join(OUT,`source/worker_${v}_atlas.png`)),old=read(path.join(ROOT,`Docs/References/codex_k110_v1/native/worker_${v}_push.png`)),paletteMap=new Map();
+ for(let i=0;i<old.data.length;i+=4)if(old.data[i+3]){let c=[...old.data.subarray(i,i+3)];paletteMap.set(c.join(','),c);}let palette=[...paletteMap.values()];
+ let rowBands=[],start=null;for(let y=0;y<=src.height;y++){let n=0;if(y<src.height)for(let x=0;x<src.width;x++)if(src.data[(y*src.width+x)*4+3]>=200)n++;if(n>8&&start===null)start=y;if(n<=8&&start!==null){rowBands.push([start,y-1]);start=null;}}
+ if(rowBands.length!==12)throw Error('원안 행 수 오류 '+v);extract[v]={size:[src.width,src.height],row_bands:rowBands,palette_colors:palette.length,rows:[]};
+ for(let row=0;row<12;row++){
+ let [m,d,count]=specs[row],band=rowBands[row],cuts=[];
+ for(let f=0;f<count;f++){let x0=Math.round(f*src.width/8),x1=Math.round((f+1)*src.width/8),im=blank(x1-x0,band[1]-band[0]+1);for(let y=0;y<im.height;y++)for(let x=0;x<im.width;x++){let i=((y+band[0])*src.width+x+x0)*4,j=(y*im.width+x)*4;if(src.data[i+3]>=200){src.data.copy(im.data,j,i,i+3);im.data[j+3]=255;}}cuts.push(largest(im));}
+ let heights=cuts.map(im=>{let b=box(im);return b[3]-b[1]+1;}).sort((a,b)=>a-b),target=m.startsWith('climb')?71:73,k=target/heights[Math.floor(heights.length/2)];
+ let frames=cuts.map(im=>{let b=box(im),out=blank(96,128),w=Math.round((b[2]-b[0]+1)*k),h=Math.round((b[3]-b[1]+1)*k),small=blank(w,h);
+ for(let y=0;y<h;y++)for(let x=0;x<w;x++){let sx=Math.min(b[2],b[0]+Math.floor(x/k)),sy=Math.min(b[3],b[1]+Math.floor(y/k)),i=(sy*im.width+sx)*4,j=(y*w+x)*4;if(!im.data[i+3])continue;let c=[...im.data.subarray(i,i+3)],best=palette[0],dist=Infinity;for(let p of palette){let dd=(c[0]-p[0])**2+(c[1]-p[1])**2+(c[2]-p[2])**2;if(dd<dist){dist=dd;best=p;}}small.data.set([...best,255],j);}
+ small=largest(small);
+ // 허리 띠 높이의 몸통 중앙을 고정하고 발의 최하단을 기준선에 맞춘다.
+ let lo=w,hi=0;for(let y=Math.floor(h*.48);y<Math.floor(h*.66);y++)for(let x=0;x<w;x++)if(small.data[(y*w+x)*4+3]){lo=Math.min(lo,x);hi=Math.max(hi,x);}let dx=48-Math.round((lo+hi)/2),dy=120-box(small)[3];
+ for(let y=0;y<h;y++)for(let x=0;x<w;x++){let xx=x+dx,yy=y+dy;if(xx<0||xx>=96||yy<0||yy>=128)throw Error('셀 넘침');let i=(y*w+x)*4;if(small.data[i+3])small.data.copy(out.data,(yy*96+xx)*4,i,i+4);}return out;});
+ extract[v].rows.push({motion:m,direction:d,scale:k,bounds:frames.map(box)});deliver(v,m,d,frames);if(d==='right')deliver(v,m,'left',frames.map(flip),`worker_${v}_${m}_right`);
+ }
+}
+for(let [name,frames] of Object.entries(allFrames)){let hashes=new Set();for(let [n,im] of frames.entries()){let b=box(im);if(b[3]!==120)throw Error('발 기준선 오류 '+name);for(let i=3;i<im.data.length;i+=4)if(im.data[i]!==0&&im.data[i]!==255)throw Error('알파 오류');let one=largest(im);if(!one.data.equals(im.data))throw Error('분리된 점 '+name);hashes.add(crypto.createHash('sha256').update(im.data).digest('hex'));}if(hashes.size!==frames.length)throw Error('중복 프레임 '+name);checks.push({sheet:name,frames:frames.length,unique_frames:hashes.size,bottom_y:120,binary_alpha:true,single_connected_component:true,bounds:frames.map(box)});}
+const manifest={card:'K-119',version:1,status:'assets_only_integration_pending',generation:'built-in image_gen, threshold alpha 200, largest component, K-110 palette mapping, nearest-neighbor extraction and packing',worker_native_cell:[96,128],worker_game_cell:[288,384],worker_foot_native:[48,120],worker_foot_game:[144,360],worker_unity_pivot:[0.5,0.0625],coordinate_system:'top-left pixel coordinates; visible contact row native 120 / game 360..362; pivot stays at y=120 / 360',variants:['a','b'],game_worker_variant_assignment:['a','b','b'],variant_assignment_source:'Game/Assets/_Project/Combat/Battle/BattleBeaconView.cs: WorkerVariant = {0,1,1}',scale:3,frame_direction:'left_to_right',prop:'small iron oil can',mirroring:'All left views are reflected right views about native x=48; no logos or handedness-critical equipment. Lighting reflects too.',root_motion:'none; integrate position and stair elevation externally; visible support foot remains at y=120',tend_playback:'one action cycle in six frames; loop allowed while tending',replacement:'none; existing push/idle/rest files untouched',limitations:['Generated directional extensions, not exact copied K-110 face pixels. User visual acceptance remains required.','No staircase, brazier or world scene baked into sprites.','No Unity import, Play, camera or in-game animation verification.'],assets};
+fs.writeFileSync(path.join(OUT,'manifest.json'),JSON.stringify(manifest,null,2));fs.writeFileSync(path.join(OUT,'extraction.json'),JSON.stringify(extract,null,2));fs.writeFileSync(path.join(OUT,'verification.json'),JSON.stringify({sheets:checks.length,native_frames:checks.reduce((s,c)=>s+c.frames,0),checks},null,2));
+console.log(JSON.stringify({sheets:checks.length,frames:checks.reduce((s,c)=>s+c.frames,0),pngs:assets.length}));

@@ -1,0 +1,9 @@
+{
+  "browser": "Chrome headless",
+  "loaded": true,
+  "imageCount": 10,
+  "expands": true,
+  "actualSize": true,
+  "mobileOverflow": false,
+  "errors": []
+}

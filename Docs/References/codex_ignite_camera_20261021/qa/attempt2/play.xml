@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="1" result="Failed(Child)" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-21 02:43:37Z" end-time="2026-10-21 02:43:38Z" duration="0.6142229">
+  <test-suite type="TestSuite" id="1055" name="HumanLastRampart" fullname="HumanLastRampart" runstate="Runnable" testcasecount="47" result="Failed" site="Child" start-time="2026-10-21 02:43:37Z" end-time="2026-10-21 02:43:38Z" duration="0.614223" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <failure>
+      <message><![CDATA[One or more child tests had errors]]></message>
+    </failure>
+    <test-suite type="Assembly" id="1051" name="HLR.PlayProbe.dll" fullname="C:/Unity/1/HumanLastRampart/Game/Library/ScriptAssemblies/HLR.PlayProbe.dll" runstate="Runnable" testcasecount="47" result="Failed" site="Child" start-time="2026-10-21 02:43:37Z" end-time="2026-10-21 02:43:38Z" duration="0.609053" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="17184" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <failure>
+        <message><![CDATA[One or more child tests had errors]]></message>
+      </failure>
+      <test-suite type="TestFixture" id="1015" name="PlayProbe" fullname="PlayProbe" classname="PlayProbe" runstate="Runnable" testcasecount="35" result="Failed" site="Child" start-time="2026-10-21 02:43:37Z" end-time="2026-10-21 02:43:38Z" duration="0.608063" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <failure>
+          <message><![CDATA[One or more child tests had errors]]></message>
+        </failure>
+        <test-case id="1019" name="IgniteContactSixFrames" fullname="PlayProbe.IgniteContactSixFrames" methodname="IgniteContactSixFrames" classname="PlayProbe" runstate="Runnable" seed="2008545863" result="Failed" start-time="2026-10-21 02:43:37Z" end-time="2026-10-21 02:43:38Z" duration="0.599375" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <failure>
+            <message><![CDATA[  실제 전투 진행 전 준비 상태
+  Expected: True
+  But was:  False
+]]></message>
+            <stack-trace><![CDATA[at PlayProbe+<IgniteContactSixFrames>d__19.MoveNext () [0x0045e] in C:\Unity\1\HumanLastRampart\Game\Assets\_Project\Combat\_PlayProbe\PlayProbe.IgniteContact.cs:94
+at UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0003a] in .\Library\PackageCache\com.unity.test-framework@bd7f943e9647\UnityEngine.TestRunner\NUnitExtensions\Attributes\TestEnumerator.cs:44
+]]></stack-trace>
+          </failure>
+          <output><![CDATA[Saving results to: C:/Users/User/AppData/LocalLow/DefaultCompany/HumanLastRampart\TestResults.xml
+]]></output>
+        </test-case>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

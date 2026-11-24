@@ -1,0 +1,32 @@
+{
+  "status": "PASS",
+  "newSheets": 4,
+  "uniqueFrames": 16,
+  "rgba": true,
+  "noClipping": true,
+  "sharedGroundBaseline": true,
+  "referencesUnchanged": true,
+  "enemyBytesReused": true,
+  "unityPlayVerified": false,
+  "htmlJsSyntax": true,
+  "embeddedAssetsExact": true,
+  "externalRequests": false,
+  "flightFramesAboveGround": true,
+  "browserQa": {
+    "cards": 6,
+    "imagesLoaded": 24,
+    "individualPages": 4,
+    "imagesEach": 4,
+    "autoplay": true,
+    "pauseStable": true,
+    "nextFrame": true,
+    "resume": true,
+    "rightMirror": true,
+    "smallSize": true,
+    "moving": true,
+    "consoleErrors": 0,
+    "horizontalOverflow": false,
+    "screenshot": "browser_review.png",
+    "fileSchemeTested": false
+  }
+}

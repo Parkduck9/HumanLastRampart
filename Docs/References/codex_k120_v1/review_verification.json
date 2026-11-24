@@ -1,0 +1,57 @@
+{
+  "result": "pass",
+  "browser": "Google Chrome, headless Playwright",
+  "loaded_image_sizes": [
+    [
+      3840,
+      1080
+    ],
+    [
+      3840,
+      1080
+    ],
+    [
+      1920,
+      1080
+    ]
+  ],
+  "building_boxes": 5,
+  "controls_checked": [
+    "hide/show boxes",
+    "approach toggle",
+    "1920px crop",
+    "pan left/right",
+    "five place jumps",
+    "full panorama"
+  ],
+  "viewports": [
+    [
+      1500,
+      1100
+    ],
+    [
+      390,
+      844
+    ]
+  ],
+  "mobile_horizontal_overflow": false,
+  "external_network_requests": 0,
+  "page_errors": [],
+  "source_sha256_unchanged": [
+    "Game/Assets/_Project/Meta/PrepYard.cs",
+    "Game/Assets/_Project/Meta/PrepYardProjection.cs",
+    "Game/Assets/_Project/Meta/Resources/PrepYard/prep_yard.png",
+    "Game/Assets/_Project/Meta/Resources/PrepYard/layout.json"
+  ],
+  "pixel_verification": {
+    "opaque": true,
+    "nonopaque_pixels": 0,
+    "padding_magenta_pixels": 0,
+    "nearest_3x_mismatches": 0,
+    "nearest_4x_mismatches": 0
+  },
+  "unity_run": false,
+  "game_integration_checked": false,
+  "foot_baseline_check": "Not applicable to an opaque static background; five separate door-ground coordinates checked within building bounds.",
+  "stray_alpha_check": "Fully opaque; zero nonopaque pixels. Visual inspection for floating props and padding artifacts is separate."
+}

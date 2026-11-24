@@ -1,0 +1,14 @@
+{
+  "script_syntax": true,
+  "embedded_images_requested": 67,
+  "old_menu_rows": 3,
+  "mockup_choices": 6,
+  "amount_then_direction": true,
+  "north_east_mapping": true,
+  "hub_ignored": true,
+  "disabled_input_ignored": true,
+  "shift_release_at_cursor": true,
+  "escape_closes": true,
+  "edge_clamp": true,
+  "method": "Node VM with DOM/canvas stubs; not a browser render"
+}

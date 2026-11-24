@@ -1,0 +1,482 @@
+{
+  "card": "K-122",
+  "version": 1,
+  "status": "에셋 납품 · 게임 연결 전",
+  "generation": "내장 이미지 생성 도구, 원안은 source/에 보존",
+  "direction": "D-080 최초 생성본과 D-081 원본 칸·최근접 3배 계약",
+  "coordinates": "픽셀 원점은 좌상단. y=120은 마지막 불투명 행 119 바로 아래 경계.",
+  "pixel_filter": "Point",
+  "wrap_mode": "Clamp",
+  "mipmaps": false,
+  "texture_compression": "None",
+  "alpha": "본체와 문장 0/255. 바닥빛만 0~46의 연속 알파.",
+  "palette": [
+    "#10151e",
+    "#172334",
+    "#29394d",
+    "#3f5265",
+    "#252d38",
+    "#47515d",
+    "#6e7880",
+    "#45474a",
+    "#777970",
+    "#aca99a",
+    "#73552e",
+    "#a47836",
+    "#d1aa58",
+    "#efcf85",
+    "#ab421b",
+    "#e67524",
+    "#ffb640",
+    "#fff0a5"
+  ],
+  "assets": [
+    {
+      "id": "lamp_post_day",
+      "label": "낮 · 꺼진 철제 등롱",
+      "native_sheet": "lamp_post_day_native.png",
+      "game_sheet": "lamp_post_day_game.png",
+      "preview_4x": "lamp_post_day_4x.png",
+      "frame_count": 1,
+      "frame_order": [
+        "소등"
+      ],
+      "fps": 0,
+      "loop": false,
+      "native_cell": [
+        96,
+        128
+      ],
+      "game_cell": [
+        288,
+        384
+      ],
+      "pivot_top_left_native": [
+        48,
+        120
+      ],
+      "pivot_top_left_game": [
+        144,
+        360
+      ],
+      "unity_pivot_normalized": [
+        0.5,
+        0.0625
+      ],
+      "visible_height_native": 51,
+      "approximate_world_height_m": 1.5938,
+      "native_pixels_per_unit": 32,
+      "game_pixels_per_unit": 96,
+      "note": "화염과 바닥빛 없음. 작은 석재 받침 기준.",
+      "static_y_ranges": [
+        [
+          69,
+          81
+        ],
+        [
+          94,
+          120
+        ]
+      ],
+      "static_pole_rectangle": null
+    },
+    {
+      "id": "lamp_post_night",
+      "label": "밤 · 등롱 속 불꽃",
+      "native_sheet": "lamp_post_night_native.png",
+      "game_sheet": "lamp_post_night_game.png",
+      "preview_4x": "lamp_post_night_4x.png",
+      "frame_count": 6,
+      "frame_order": [
+        "불꽃 1",
+        "불꽃 2",
+        "불꽃 3",
+        "불꽃 4",
+        "불꽃 5",
+        "불꽃 6"
+      ],
+      "fps": 10,
+      "loop": true,
+      "native_cell": [
+        96,
+        128
+      ],
+      "game_cell": [
+        288,
+        384
+      ],
+      "pivot_top_left_native": [
+        48,
+        120
+      ],
+      "pivot_top_left_game": [
+        144,
+        360
+      ],
+      "unity_pivot_normalized": [
+        0.5,
+        0.0625
+      ],
+      "visible_height_native": 51,
+      "approximate_world_height_m": 1.5938,
+      "native_pixels_per_unit": 32,
+      "game_pixels_per_unit": 96,
+      "note": "불꽃과 유리 안쪽만 변화. 외부 후광과 부유 불티 없음.",
+      "static_y_ranges": [
+        [
+          69,
+          81
+        ],
+        [
+          94,
+          120
+        ]
+      ],
+      "static_pole_rectangle": null
+    },
+    {
+      "id": "beacon_banner",
+      "label": "문 앞 · 등불지기 깃발",
+      "native_sheet": "beacon_banner_native.png",
+      "game_sheet": "beacon_banner_game.png",
+      "preview_4x": "beacon_banner_4x.png",
+      "frame_count": 4,
+      "frame_order": [
+        "오른쪽 주름",
+        "중립 주름 A",
+        "왼쪽 주름",
+        "중립 주름 B"
+      ],
+      "fps": 4,
+      "loop": true,
+      "native_cell": [
+        96,
+        128
+      ],
+      "game_cell": [
+        288,
+        384
+      ],
+      "pivot_top_left_native": [
+        48,
+        120
+      ],
+      "pivot_top_left_game": [
+        144,
+        360
+      ],
+      "unity_pivot_normalized": [
+        0.5,
+        0.0625
+      ],
+      "visible_height_native": 58,
+      "approximate_world_height_m": 1.8125,
+      "native_pixels_per_unit": 32,
+      "game_pixels_per_unit": 96,
+      "note": "철제 깃대·가로대와 석재 받침. 남색 천과 황동색 자수.",
+      "static_y_ranges": [
+        [
+          62,
+          75
+        ],
+        [
+          104,
+          120
+        ]
+      ],
+      "static_pole_rectangle": [
+        47,
+        50,
+        75,
+        104
+      ]
+    },
+    {
+      "id": "beacon_pennant",
+      "label": "회랑 · 작은 삼각기",
+      "native_sheet": "beacon_pennant_native.png",
+      "game_sheet": "beacon_pennant_game.png",
+      "preview_4x": "beacon_pennant_4x.png",
+      "frame_count": 4,
+      "frame_order": [
+        "처진 끝",
+        "높아진 끝",
+        "낮아진 끝",
+        "돌아오는 끝"
+      ],
+      "fps": 4,
+      "loop": true,
+      "native_cell": [
+        96,
+        128
+      ],
+      "game_cell": [
+        288,
+        384
+      ],
+      "pivot_top_left_native": [
+        48,
+        120
+      ],
+      "pivot_top_left_game": [
+        144,
+        360
+      ],
+      "unity_pivot_normalized": [
+        0.5,
+        0.0625
+      ],
+      "visible_height_native": 32,
+      "approximate_world_height_m": 1.0,
+      "native_pixels_per_unit": 32,
+      "game_pixels_per_unit": 96,
+      "note": "오른쪽을 향한 삼각기. 깃대 축은 x=48이며 천은 오른쪽으로 펼쳐짐.",
+      "static_y_ranges": [
+        [
+          88,
+          92
+        ],
+        [
+          108,
+          120
+        ]
+      ],
+      "static_pole_rectangle": [
+        47,
+        50,
+        92,
+        108
+      ]
+    },
+    {
+      "id": "beacon_wall_banner",
+      "label": "건물 · 벽걸이 깃발",
+      "native_sheet": "beacon_wall_banner_native.png",
+      "game_sheet": "beacon_wall_banner_game.png",
+      "preview_4x": "beacon_wall_banner_4x.png",
+      "frame_count": 4,
+      "frame_order": [
+        "오른쪽 주름",
+        "중립 주름 A",
+        "왼쪽 주름",
+        "중립 주름 B"
+      ],
+      "fps": 4,
+      "loop": true,
+      "native_cell": [
+        96,
+        128
+      ],
+      "game_cell": [
+        288,
+        384
+      ],
+      "pivot_top_left_native": [
+        48,
+        120
+      ],
+      "pivot_top_left_game": [
+        144,
+        360
+      ],
+      "unity_pivot_normalized": [
+        0.5,
+        0.0625
+      ],
+      "visible_height_native": 40,
+      "approximate_world_height_m": 1.25,
+      "native_pixels_per_unit": 32,
+      "game_pixels_per_unit": 96,
+      "note": "바닥 깃대 없음. 요청한 밑단 피벗은 가상 기준점. 실제 벽 고정점은 원본 (48,84), 게임 (144,252).",
+      "static_y_ranges": [
+        [
+          80,
+          89
+        ]
+      ],
+      "static_pole_rectangle": null
+    }
+  ],
+  "icons": [
+    {
+      "file": "beacon_emblem_64.png",
+      "size": [
+        64,
+        64
+      ],
+      "pivot": [
+        32,
+        32
+      ]
+    },
+    {
+      "file": "beacon_emblem_256.png",
+      "size": [
+        256,
+        256
+      ],
+      "pivot": [
+        128,
+        128
+      ],
+      "scale": "64px 아이콘의 최근접 4배"
+    }
+  ],
+  "decals": [
+    {
+      "file": "lamp_ground_glow_128.png",
+      "size": [
+        128,
+        128
+      ],
+      "pivot": [
+        64,
+        64
+      ],
+      "unity_pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "max_alpha": 46,
+      "world_diameter_m": 3.6,
+      "note": "바닥 평면에 눕혀 사용. 낮에는 숨김. 불꽃과 별도 렌더링. 원형 원안이며 카메라 투영은 게임에서 처리."
+    }
+  ],
+  "existing_game": {
+    "geometry": "Game/Assets/_Project/Combat/Battle/BattleRoad.cs",
+    "lamp": "상자 메시와 별도 torch_flame.png. 기존 등불 기둥 시트 없음.",
+    "banner": "가로대·남색 천·금빛 마름모를 상자 메시로 생성. 기존 깃발 시트 없음.",
+    "height_difference": "현 구현 LampPostHeight=0.7m, 깃대 1.5m. 이번 카드는 등불 51/32m, 깃발 58/32m 지시를 따름. Claude가 연결 시 크기 조정."
+  },
+  "integration_notes": [
+    "기존 메시 기둥·그릇·깃발·문양과 기존 횃불 화염을 새 시트와 중복 표시하지 않기.",
+    "26개 등불과 문 앞 깃발 2개의 기존 배치 좌표는 Claude가 유지.",
+    "게임용 3배 시트는 96 PPU로 사용하면 원본 32 PPU와 같은 크기. 32 PPU를 그대로 쓰면 3배 커짐.",
+    "벽걸이 밑단 피벗과 벽 장착점은 용도에 맞게 구분.",
+    "빛 데칼은 불꽃 시트에 합치지 않았으며 실제 광원/그림자를 생성하지 않음."
+  ],
+  "source_crop_boxes": {
+    "lamp": [
+      [
+        86,
+        104,
+        256,
+        662
+      ],
+      [
+        79,
+        104,
+        249,
+        662
+      ],
+      [
+        73,
+        104,
+        243,
+        662
+      ],
+      [
+        67,
+        104,
+        235,
+        662
+      ],
+      [
+        60,
+        104,
+        228,
+        662
+      ],
+      [
+        52,
+        104,
+        221,
+        662
+      ],
+      [
+        45,
+        104,
+        215,
+        662
+      ]
+    ],
+    "banner": [
+      [
+        34,
+        66,
+        406,
+        884
+      ],
+      [
+        44,
+        66,
+        378,
+        884
+      ],
+      [
+        36,
+        66,
+        376,
+        884
+      ],
+      [
+        50,
+        66,
+        387,
+        884
+      ]
+    ],
+    "pennant": [
+      [
+        54,
+        91,
+        536,
+        644
+      ],
+      [
+        29,
+        91,
+        512,
+        644
+      ],
+      [
+        7,
+        91,
+        502,
+        644
+      ],
+      [
+        8,
+        91,
+        484,
+        644
+      ]
+    ],
+    "wall": [
+      [
+        70,
+        110,
+        480,
+        689
+      ],
+      [
+        61,
+        110,
+        448,
+        687
+      ],
+      [
+        36,
+        110,
+        427,
+        687
+      ],
+      [
+        21,
+        110,
+        412,
+        687
+      ]
+    ]
+  }
+}

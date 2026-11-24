@@ -1,0 +1,529 @@
+{
+  "model": "관측 전투 결과를 고정한 정비 경제 재생 모델; Unity 전투 시뮬레이터 아님",
+  "head": "e8bcc2eb772d738ee0ecc9ebe3a06e966d37eb27",
+  "policies": [
+    {
+      "round": 1,
+      "name": "현행 기준",
+      "hp_per_gold": null,
+      "recruit_per_wall": 0
+    },
+    {
+      "round": 2,
+      "name": "고가 수리 시험",
+      "hp_per_gold": 1,
+      "recruit_per_wall": 0
+    },
+    {
+      "round": 3,
+      "name": "저가 수리+모집 시험",
+      "hp_per_gold": 10,
+      "recruit_per_wall": 8
+    }
+  ],
+  "baseline": {
+    "easy": {
+      "victories": [
+        {
+          "battle": 1,
+          "reward": 500,
+          "walls": [
+            9989,
+            10000,
+            10000,
+            10000
+          ],
+          "soldiers": 300
+        },
+        {
+          "battle": 2,
+          "reward": 1630,
+          "walls": [
+            8450,
+            8220,
+            6860,
+            8412
+          ],
+          "soldiers": 300
+        }
+      ],
+      "first_defeat": [
+        "WallDestroyed",
+        "1042",
+        "0"
+      ]
+    },
+    "realistic": {
+      "victories": [
+        {
+          "battle": 1,
+          "reward": 1000,
+          "walls": [
+            8958,
+            9828,
+            9930,
+            9963
+          ],
+          "soldiers": 300
+        }
+      ],
+      "first_defeat": [
+        "WallDestroyed",
+        "2241",
+        "0"
+      ]
+    }
+  },
+  "waves": [
+    {
+      "battle": 1,
+      "realistic": 1000,
+      "easy": 500
+    },
+    {
+      "battle": 2,
+      "realistic": 3000,
+      "easy": 1501
+    },
+    {
+      "battle": 3,
+      "realistic": 8000,
+      "easy": 4000
+    },
+    {
+      "battle": 4,
+      "realistic": 20000,
+      "easy": 10000
+    }
+  ],
+  "cases": [
+    {
+      "round": 1,
+      "name": "현행 기준",
+      "hp_per_gold": null,
+      "recruit_per_wall": 0,
+      "difficulty": "easy",
+      "rows": [
+        {
+          "battle": 1,
+          "fixed_reward": 500,
+          "fixed_damage": [
+            11,
+            0,
+            0,
+            0
+          ],
+          "gold_before_maintenance": 600,
+          "repair_quote": 0,
+          "repair_paid": 0,
+          "repair_success": null,
+          "recruited": 0,
+          "recruit_paid": 0,
+          "gold_after": 600,
+          "soldiers": 300,
+          "walls": [
+            9989,
+            10000,
+            10000,
+            10000
+          ],
+          "minimum_wall": 9989
+        },
+        {
+          "battle": 2,
+          "fixed_reward": 1630,
+          "fixed_damage": [
+            1539,
+            1780,
+            3140,
+            1588
+          ],
+          "gold_before_maintenance": 2230,
+          "repair_quote": 0,
+          "repair_paid": 0,
+          "repair_success": null,
+          "recruited": 0,
+          "recruit_paid": 0,
+          "gold_after": 2230,
+          "soldiers": 300,
+          "walls": [
+            8450,
+            8220,
+            6860,
+            8412
+          ],
+          "minimum_wall": 6860
+        }
+      ],
+      "combat_result": "1차 기준의 관측된 승리 구간만 경제 재생. 2·3차 실제 승패 미측정."
+    },
+    {
+      "round": 2,
+      "name": "고가 수리 시험",
+      "hp_per_gold": 1,
+      "recruit_per_wall": 0,
+      "difficulty": "easy",
+      "rows": [
+        {
+          "battle": 1,
+          "fixed_reward": 500,
+          "fixed_damage": [
+            11,
+            0,
+            0,
+            0
+          ],
+          "gold_before_maintenance": 600,
+          "repair_quote": 11,
+          "repair_paid": 11,
+          "repair_success": true,
+          "recruited": 0,
+          "recruit_paid": 0,
+          "gold_after": 589,
+          "soldiers": 300,
+          "walls": [
+            10000,
+            10000,
+            10000,
+            10000
+          ],
+          "minimum_wall": 10000
+        },
+        {
+          "battle": 2,
+          "fixed_reward": 1630,
+          "fixed_damage": [
+            1539,
+            1780,
+            3140,
+            1588
+          ],
+          "gold_before_maintenance": 2219,
+          "repair_quote": 8047,
+          "repair_paid": 0,
+          "repair_success": false,
+          "recruited": 0,
+          "recruit_paid": 0,
+          "gold_after": 2219,
+          "soldiers": 300,
+          "walls": [
+            8461,
+            8220,
+            6860,
+            8412
+          ],
+          "minimum_wall": 6860
+        }
+      ],
+      "combat_result": "1차 기준의 관측된 승리 구간만 경제 재생. 2·3차 실제 승패 미측정."
+    },
+    {
+      "round": 3,
+      "name": "저가 수리+모집 시험",
+      "hp_per_gold": 10,
+      "recruit_per_wall": 8,
+      "difficulty": "easy",
+      "rows": [
+        {
+          "battle": 1,
+          "fixed_reward": 500,
+          "fixed_damage": [
+            11,
+            0,
+            0,
+            0
+          ],
+          "gold_before_maintenance": 600,
+          "repair_quote": 2,
+          "repair_paid": 2,
+          "repair_success": true,
+          "recruited": 32,
+          "recruit_paid": 160,
+          "gold_after": 438,
+          "soldiers": 332,
+          "walls": [
+            10000,
+            10000,
+            10000,
+            10000
+          ],
+          "minimum_wall": 10000
+        },
+        {
+          "battle": 2,
+          "fixed_reward": 1630,
+          "fixed_damage": [
+            1539,
+            1780,
+            3140,
+            1588
+          ],
+          "gold_before_maintenance": 2068,
+          "repair_quote": 805,
+          "repair_paid": 805,
+          "repair_success": true,
+          "recruited": 32,
+          "recruit_paid": 160,
+          "gold_after": 1103,
+          "soldiers": 364,
+          "walls": [
+            10000,
+            10000,
+            10000,
+            10000
+          ],
+          "minimum_wall": 10000
+        }
+      ],
+      "combat_result": "1차 기준의 관측된 승리 구간만 경제 재생. 2·3차 실제 승패 미측정."
+    },
+    {
+      "round": 1,
+      "name": "현행 기준",
+      "hp_per_gold": null,
+      "recruit_per_wall": 0,
+      "difficulty": "realistic",
+      "rows": [
+        {
+          "battle": 1,
+          "fixed_reward": 1000,
+          "fixed_damage": [
+            1042,
+            172,
+            70,
+            37
+          ],
+          "gold_before_maintenance": 1100,
+          "repair_quote": 0,
+          "repair_paid": 0,
+          "repair_success": null,
+          "recruited": 0,
+          "recruit_paid": 0,
+          "gold_after": 1100,
+          "soldiers": 300,
+          "walls": [
+            8958,
+            9828,
+            9930,
+            9963
+          ],
+          "minimum_wall": 8958
+        }
+      ],
+      "combat_result": "1차 기준의 관측된 승리 구간만 경제 재생. 2·3차 실제 승패 미측정."
+    },
+    {
+      "round": 2,
+      "name": "고가 수리 시험",
+      "hp_per_gold": 1,
+      "recruit_per_wall": 0,
+      "difficulty": "realistic",
+      "rows": [
+        {
+          "battle": 1,
+          "fixed_reward": 1000,
+          "fixed_damage": [
+            1042,
+            172,
+            70,
+            37
+          ],
+          "gold_before_maintenance": 1100,
+          "repair_quote": 1321,
+          "repair_paid": 0,
+          "repair_success": false,
+          "recruited": 0,
+          "recruit_paid": 0,
+          "gold_after": 1100,
+          "soldiers": 300,
+          "walls": [
+            8958,
+            9828,
+            9930,
+            9963
+          ],
+          "minimum_wall": 8958
+        }
+      ],
+      "combat_result": "1차 기준의 관측된 승리 구간만 경제 재생. 2·3차 실제 승패 미측정."
+    },
+    {
+      "round": 3,
+      "name": "저가 수리+모집 시험",
+      "hp_per_gold": 10,
+      "recruit_per_wall": 8,
+      "difficulty": "realistic",
+      "rows": [
+        {
+          "battle": 1,
+          "fixed_reward": 1000,
+          "fixed_damage": [
+            1042,
+            172,
+            70,
+            37
+          ],
+          "gold_before_maintenance": 1100,
+          "repair_quote": 134,
+          "repair_paid": 134,
+          "repair_success": true,
+          "recruited": 32,
+          "recruit_paid": 160,
+          "gold_after": 806,
+          "soldiers": 332,
+          "walls": [
+            10000,
+            10000,
+            10000,
+            10000
+          ],
+          "minimum_wall": 10000
+        }
+      ],
+      "combat_result": "1차 기준의 관측된 승리 구간만 경제 재생. 2·3차 실제 승패 미측정."
+    }
+  ],
+  "model_qa": {
+    "passed": 30,
+    "failed": 0,
+    "checks": [
+      {
+        "name": "시작 골드 원본100",
+        "result": "통과"
+      },
+      {
+        "name": "궁수 모집비 원본5",
+        "result": "통과"
+      },
+      {
+        "name": "만피 수리 무료",
+        "result": "통과"
+      },
+      {
+        "name": "1HP 손상 올림1골드",
+        "result": "통과"
+      },
+      {
+        "name": "10HP 손상1골드",
+        "result": "통과"
+      },
+      {
+        "name": "11HP 손상2골드",
+        "result": "통과"
+      },
+      {
+        "name": "벽별 올림 비용",
+        "result": "통과"
+      },
+      {
+        "name": "골드 부족 시 HP/골드 무변경",
+        "result": "통과"
+      },
+      {
+        "name": "현실 첫 수리10HP당1골드134",
+        "result": "통과"
+      },
+      {
+        "name": "수리 이후 최대HP·골드 보존",
+        "result": "통과"
+      },
+      {
+        "name": "중복 수리 차감0",
+        "result": "통과"
+      },
+      {
+        "name": "1차/easy/전투1 골드회계",
+        "result": "통과"
+      },
+      {
+        "name": "1차/easy/전투1 체력범위",
+        "result": "통과"
+      },
+      {
+        "name": "1차/easy/전투2 골드회계",
+        "result": "통과"
+      },
+      {
+        "name": "1차/easy/전투2 체력범위",
+        "result": "통과"
+      },
+      {
+        "name": "2차/easy/전투1 골드회계",
+        "result": "통과"
+      },
+      {
+        "name": "2차/easy/전투1 체력범위",
+        "result": "통과"
+      },
+      {
+        "name": "2차/easy/전투2 골드회계",
+        "result": "통과"
+      },
+      {
+        "name": "2차/easy/전투2 체력범위",
+        "result": "통과"
+      },
+      {
+        "name": "3차/easy/전투1 골드회계",
+        "result": "통과"
+      },
+      {
+        "name": "3차/easy/전투1 체력범위",
+        "result": "통과"
+      },
+      {
+        "name": "3차/easy/전투2 골드회계",
+        "result": "통과"
+      },
+      {
+        "name": "3차/easy/전투2 체력범위",
+        "result": "통과"
+      },
+      {
+        "name": "1차/realistic/전투1 골드회계",
+        "result": "통과"
+      },
+      {
+        "name": "1차/realistic/전투1 체력범위",
+        "result": "통과"
+      },
+      {
+        "name": "2차/realistic/전투1 골드회계",
+        "result": "통과"
+      },
+      {
+        "name": "2차/realistic/전투1 체력범위",
+        "result": "통과"
+      },
+      {
+        "name": "3차/realistic/전투1 골드회계",
+        "result": "통과"
+      },
+      {
+        "name": "3차/realistic/전투1 체력범위",
+        "result": "통과"
+      },
+      {
+        "name": "현실 웨이브 규모1000/3000/8000/20000",
+        "result": "통과"
+      }
+    ]
+  },
+  "claude_previous_play_qa": {
+    "total": "2",
+    "passed": "2",
+    "failed": "0",
+    "result": "Passed"
+  },
+  "sources_sha256": {
+    "Game/Assets/_Project/Data/Combat/Start/campaign_start.asset": "c53c82eec3f3ed0ecb28fb88063424cd390aceb7ea41c8ea6a4602a9c0531317",
+    "Game/Assets/_Project/Data/Combat/Units/unit_archer.asset": "570e8c81286980557dc3b18592501f540ca1be041eba3884f6203f6f32d704db",
+    "Game/Assets/_Project/Data/Combat/Waves/wave_1.asset": "5d74b5f08f1e4ebb3a1fba67a2c6ba2202251d531edbb972d9b08264a137eec9",
+    "Game/Assets/_Project/Data/Combat/Waves/wave_2.asset": "66c344da480c1ce4c513a353061e3f43564927d190a078bbdf632fa2d72b4b0e",
+    "Game/Assets/_Project/Data/Combat/Waves/wave_3.asset": "d79f3519a4b8d12a85930cad3eb5b8ba673ab713ed9c076f1d6df0dc8062dbdf",
+    "Game/Assets/_Project/Data/Combat/Waves/wave_4.asset": "8f089992ce8128c09a1b9eea67c2be0715e3a93379df36bbb5e210f203a7b665",
+    "Docs/collab/live/review/qa/play_20261014/easy.txt": "3c4e76bb51c6e1d7ebecf46dc99cf05f1ea4b6e0654a2e03d2e413cad3c06779",
+    "Docs/collab/live/review/qa/play_20261014/realistic.txt": "6fefb61ccac9f925886b08322b1ab8cffe66daf2f1ddff5291ee84e63b9e70c1",
+    "Docs/collab/live/review/qa/play_20261014/results_easy_realistic.xml": "efbca3926391960e3ba1383f6da3ccba1168ee9584709ee110b91b151370d2bd"
+  }
+}

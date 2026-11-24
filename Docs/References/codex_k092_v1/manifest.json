@@ -1,0 +1,3919 @@
+{
+  "card": "K-092",
+  "channels": {
+    "R": "반사 강도 (선형 데이터)",
+    "G": "매끄러움 (선형 데이터)",
+    "B": "미사용, 0",
+    "A": "원본 알파 바이트 그대로"
+  },
+  "import": {
+    "sRGB": false,
+    "filter": "Point",
+    "mipmaps": false,
+    "compression": "None",
+    "wrap": "Clamp",
+    "texture_type": "Default; Normal map으로 가져오지 않음"
+  },
+  "materials": {
+    "matte": {
+      "label": "천·피부·머리·흙·나무",
+      "rg": [
+        13,
+        26
+      ]
+    },
+    "leather": {
+      "label": "가죽 장화·장갑·허리띠",
+      "rg": [
+        77,
+        64
+      ]
+    },
+    "iron": {
+      "label": "거친 철·포신·바퀴 테",
+      "rg": [
+        242,
+        140
+      ]
+    },
+    "polished": {
+      "label": "총열·금속 고리·밝은 철",
+      "rg": [
+        255,
+        191
+      ]
+    },
+    "gold": {
+      "label": "금색 금속 장식·버클",
+      "rg": [
+        255,
+        217
+      ]
+    },
+    "effect": {
+      "label": "섬광·연기·발광 궤적",
+      "rg": [
+        0,
+        0
+      ]
+    }
+  },
+  "source_contract": "원본 크기·격자·프레임·피벗 보존. D-081 외 규격은 개별 항목 참조.",
+  "sheets": [
+    {
+      "name": "archer_fall",
+      "source": "Game/Assets/_Project/Art/Characters/Fall/archer_fall.png",
+      "source_sha256": "879f9d36ac90a89a61040a12a460815e7e529d0b7c5e5f8337e570f0888d48d3",
+      "mask": "Characters/Fall/archer_fall_spec.png",
+      "mask_sha256": "121533a2f5be50cee6e3bec22eaedb23e7d0f6c86d0ea6fd0b0f060bf83f6fce",
+      "size": [
+        1152,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "grid": [
+        4,
+        1
+      ],
+      "frame_count": 4,
+      "frame_order": "왼쪽 위부터 행 우선, 각 행 왼쪽→오른쪽",
+      "pivot_top_left": [
+        144,
+        360
+      ],
+      "alpha_cutoff": 0.5,
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "alpha_bounds": [
+            90,
+            141,
+            243,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "column": 1,
+          "alpha_bounds": [
+            66,
+            207,
+            207,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "column": 2,
+          "alpha_bounds": [
+            45,
+            219,
+            243,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "column": 3,
+          "alpha_bounds": [
+            30,
+            264,
+            258,
+            360
+          ],
+          "cutout_bottom_y": 360
+        }
+      ],
+      "native_mask": "native/Characters/Fall/archer_fall_spec.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "native_scale_to_game": 3,
+      "native_note": "정수 최근접 격자 복원",
+      "preview_4x": "previews/Characters/Fall/archer_fall_spec_4x.png",
+      "preview_frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "normal_source": null,
+      "normal_used_in_review": false,
+      "normal_note": "노멀맵 없음: 평면 법선",
+      "material_pixels": {
+        "matte": 53820,
+        "leather": 11421,
+        "iron": 0,
+        "polished": 0,
+        "gold": 0,
+        "effect": 0
+      }
+    },
+    {
+      "name": "cannon_crew_fall",
+      "source": "Game/Assets/_Project/Art/Characters/Fall/cannon_crew_fall.png",
+      "source_sha256": "b258a6de2a54a55d72def698b9fb996b22fbf7f1ec0d10782d8f061c3069cf6d",
+      "mask": "Characters/Fall/cannon_crew_fall_spec.png",
+      "mask_sha256": "39503b42cbc4f3ff292d9cb23584a1ddec7d96013e0e74f0d7c2813143802220",
+      "size": [
+        1152,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "grid": [
+        4,
+        1
+      ],
+      "frame_count": 4,
+      "frame_order": "왼쪽 위부터 행 우선, 각 행 왼쪽→오른쪽",
+      "pivot_top_left": [
+        144,
+        360
+      ],
+      "alpha_cutoff": 0.5,
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "alpha_bounds": [
+            66,
+            141,
+            222,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "column": 1,
+          "alpha_bounds": [
+            63,
+            165,
+            225,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "column": 2,
+          "alpha_bounds": [
+            45,
+            198,
+            243,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "column": 3,
+          "alpha_bounds": [
+            42,
+            267,
+            246,
+            360
+          ],
+          "cutout_bottom_y": 360
+        }
+      ],
+      "native_mask": "native/Characters/Fall/cannon_crew_fall_spec.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "native_scale_to_game": 3,
+      "native_note": "정수 최근접 격자 복원",
+      "preview_4x": "previews/Characters/Fall/cannon_crew_fall_spec_4x.png",
+      "preview_frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "normal_source": null,
+      "normal_used_in_review": false,
+      "normal_note": "노멀맵 없음: 평면 법선",
+      "material_pixels": {
+        "matte": 50013,
+        "leather": 11826,
+        "iron": 0,
+        "polished": 0,
+        "gold": 207,
+        "effect": 0
+      }
+    },
+    {
+      "name": "goblin_fall4",
+      "source": "Game/Assets/_Project/Art/Characters/Fall/goblin_fall4.png",
+      "source_sha256": "7353e2ae7093551c4f2a9852057ef295846f03109526c84e226289fc519f31e2",
+      "mask": "Characters/Fall/goblin_fall4_spec.png",
+      "mask_sha256": "2af11e3e78547fab636b7622b62d85bb25ea4893e764e28a1a8bda8d9a55b91f",
+      "size": [
+        1152,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "grid": [
+        4,
+        1
+      ],
+      "frame_count": 4,
+      "frame_order": "왼쪽 위부터 행 우선, 각 행 왼쪽→오른쪽",
+      "pivot_top_left": [
+        144,
+        360
+      ],
+      "alpha_cutoff": 0.5,
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "alpha_bounds": [
+            63,
+            207,
+            222,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "column": 1,
+          "alpha_bounds": [
+            60,
+            231,
+            204,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "column": 2,
+          "alpha_bounds": [
+            39,
+            240,
+            228,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "column": 3,
+          "alpha_bounds": [
+            51,
+            282,
+            231,
+            360
+          ],
+          "cutout_bottom_y": 360
+        }
+      ],
+      "native_mask": "native/Characters/Fall/goblin_fall4_spec.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "native_scale_to_game": 3,
+      "native_note": "정수 최근접 격자 복원",
+      "preview_4x": "previews/Characters/Fall/goblin_fall4_spec_4x.png",
+      "preview_frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "normal_source": null,
+      "normal_used_in_review": false,
+      "normal_note": "노멀맵 없음: 평면 법선",
+      "material_pixels": {
+        "matte": 44325,
+        "leather": 1971,
+        "iron": 0,
+        "polished": 0,
+        "gold": 81,
+        "effect": 0
+      }
+    },
+    {
+      "name": "gunner_fall",
+      "source": "Game/Assets/_Project/Art/Characters/Fall/gunner_fall.png",
+      "source_sha256": "4ef6863f35be19cdd1a0d67bc929074927f9e398c92086a113a6435e4a7f55eb",
+      "mask": "Characters/Fall/gunner_fall_spec.png",
+      "mask_sha256": "178f92b73ed1e7aa2ba8bf73f4bb7d2f6eee51f34be9c27f51c50a6fb59c8f40",
+      "size": [
+        1152,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "grid": [
+        4,
+        1
+      ],
+      "frame_count": 4,
+      "frame_order": "왼쪽 위부터 행 우선, 각 행 왼쪽→오른쪽",
+      "pivot_top_left": [
+        144,
+        360
+      ],
+      "alpha_cutoff": 0.5,
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "alpha_bounds": [
+            54,
+            141,
+            249,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "column": 1,
+          "alpha_bounds": [
+            57,
+            162,
+            243,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "column": 2,
+          "alpha_bounds": [
+            42,
+            210,
+            246,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "column": 3,
+          "alpha_bounds": [
+            12,
+            261,
+            273,
+            360
+          ],
+          "cutout_bottom_y": 360
+        }
+      ],
+      "native_mask": "native/Characters/Fall/gunner_fall_spec.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "native_scale_to_game": 3,
+      "native_note": "정수 최근접 격자 복원",
+      "preview_4x": "previews/Characters/Fall/gunner_fall_spec_4x.png",
+      "preview_frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "normal_source": null,
+      "normal_used_in_review": false,
+      "normal_note": "노멀맵 없음: 평면 법선",
+      "material_pixels": {
+        "matte": 53577,
+        "leather": 13752,
+        "iron": 0,
+        "polished": 2106,
+        "gold": 0,
+        "effect": 0
+      }
+    },
+    {
+      "name": "ogre_fall4",
+      "source": "Game/Assets/_Project/Art/Characters/Fall/ogre_fall4.png",
+      "source_sha256": "6c06484c8d54f61f4afbf48e7b94252bced2ebc8ba41f28b83052e116d056a12",
+      "mask": "Characters/Fall/ogre_fall4_spec.png",
+      "mask_sha256": "48a2ad95b92f3f5167056a169797e792c04c860f9b06b82a145bff47f742698e",
+      "size": [
+        1024,
+        384
+      ],
+      "cell": [
+        256,
+        384
+      ],
+      "grid": [
+        4,
+        1
+      ],
+      "frame_count": 4,
+      "frame_order": "왼쪽 위부터 행 우선, 각 행 왼쪽→오른쪽",
+      "pivot_top_left": [
+        128.0,
+        352
+      ],
+      "alpha_cutoff": 0.5,
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "alpha_bounds": [
+            20,
+            165,
+            235,
+            352
+          ],
+          "cutout_bottom_y": 352
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "column": 1,
+          "alpha_bounds": [
+            28,
+            181,
+            227,
+            352
+          ],
+          "cutout_bottom_y": 352
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "column": 2,
+          "alpha_bounds": [
+            16,
+            196,
+            240,
+            352
+          ],
+          "cutout_bottom_y": 352
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "column": 3,
+          "alpha_bounds": [
+            22,
+            220,
+            234,
+            352
+          ],
+          "cutout_bottom_y": 352
+        }
+      ],
+      "native_mask": "native/Characters/Fall/ogre_fall4_spec.png",
+      "native_cell": [
+        256,
+        384
+      ],
+      "native_scale_to_game": 1,
+      "native_note": "현재 원본 해상도 보존; 손실 없는 축소 원본 없음",
+      "preview_4x": "previews/Characters/Fall/ogre_fall4_spec_4x.png",
+      "preview_frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "normal_source": null,
+      "normal_used_in_review": false,
+      "normal_note": "노멀맵 없음: 평면 법선",
+      "material_pixels": {
+        "matte": 80903,
+        "leather": 11674,
+        "iron": 1096,
+        "polished": 0,
+        "gold": 0,
+        "effect": 0
+      }
+    },
+    {
+      "name": "archer_fire",
+      "source": "Game/Assets/_Project/Art/Characters/Fire/archer_fire.png",
+      "source_sha256": "f425d7e0d3191df7f9db66843112b86138c386f8e3984c221527a6c606702288",
+      "mask": "Characters/Fire/archer_fire_spec.png",
+      "mask_sha256": "249ace92222854fb725777ec64e58ee56a91370b024d52ac72adb2df57ad07bb",
+      "size": [
+        1728,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "grid": [
+        6,
+        1
+      ],
+      "frame_count": 6,
+      "frame_order": "왼쪽 위부터 행 우선, 각 행 왼쪽→오른쪽",
+      "pivot_top_left": [
+        144,
+        360
+      ],
+      "alpha_cutoff": 0.5,
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "alpha_bounds": [
+            78,
+            141,
+            195,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "column": 1,
+          "alpha_bounds": [
+            60,
+            123,
+            204,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "column": 2,
+          "alpha_bounds": [
+            48,
+            126,
+            207,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "column": 3,
+          "alpha_bounds": [
+            54,
+            126,
+            213,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 4,
+          "row": 0,
+          "column": 4,
+          "alpha_bounds": [
+            84,
+            141,
+            195,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 5,
+          "row": 0,
+          "column": 5,
+          "alpha_bounds": [
+            87,
+            141,
+            213,
+            360
+          ],
+          "cutout_bottom_y": 360
+        }
+      ],
+      "native_mask": "native/Characters/Fire/archer_fire_spec.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "native_scale_to_game": 3,
+      "native_note": "정수 최근접 격자 복원",
+      "preview_4x": "previews/Characters/Fire/archer_fire_spec_4x.png",
+      "preview_frames": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "normal_source": null,
+      "normal_used_in_review": false,
+      "normal_note": "노멀맵 없음: 평면 법선",
+      "material_pixels": {
+        "matte": 89145,
+        "leather": 12177,
+        "iron": 0,
+        "polished": 0,
+        "gold": 0,
+        "effect": 0
+      }
+    },
+    {
+      "name": "cannon_crew_ignite6",
+      "source": "Game/Assets/_Project/Art/Characters/Fire/cannon_crew_ignite6.png",
+      "source_sha256": "0f832d3c457690d52dad34fd1a99cd52a413a00c357ed1341e83e5b2e4d1b133",
+      "mask": "Characters/Fire/cannon_crew_ignite6_spec.png",
+      "mask_sha256": "0feebb0c34112173d7fcd329090d5cb1d3fe07fcf08612115a821af66a296058",
+      "size": [
+        1728,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "grid": [
+        6,
+        1
+      ],
+      "frame_count": 6,
+      "frame_order": "왼쪽 위부터 행 우선, 각 행 왼쪽→오른쪽",
+      "pivot_top_left": [
+        144,
+        360
+      ],
+      "alpha_cutoff": 0.5,
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "alpha_bounds": [
+            78,
+            138,
+            213,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "column": 1,
+          "alpha_bounds": [
+            69,
+            138,
+            213,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "column": 2,
+          "alpha_bounds": [
+            57,
+            135,
+            210,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "column": 3,
+          "alpha_bounds": [
+            84,
+            135,
+            213,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 4,
+          "row": 0,
+          "column": 4,
+          "alpha_bounds": [
+            57,
+            138,
+            210,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 5,
+          "row": 0,
+          "column": 5,
+          "alpha_bounds": [
+            78,
+            138,
+            204,
+            360
+          ],
+          "cutout_bottom_y": 360
+        }
+      ],
+      "native_mask": "native/Characters/Fire/cannon_crew_ignite6_spec.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "native_scale_to_game": 3,
+      "native_note": "정수 최근접 격자 복원",
+      "preview_4x": "previews/Characters/Fire/cannon_crew_ignite6_spec_4x.png",
+      "preview_frames": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "normal_source": null,
+      "normal_used_in_review": false,
+      "normal_note": "노멀맵 없음: 평면 법선",
+      "material_pixels": {
+        "matte": 96840,
+        "leather": 17226,
+        "iron": 0,
+        "polished": 0,
+        "gold": 1017,
+        "effect": 0
+      }
+    },
+    {
+      "name": "gunner_fire",
+      "source": "Game/Assets/_Project/Art/Characters/Fire/gunner_fire.png",
+      "source_sha256": "10a7906f436ea393c5ba68abb28ae7f497edcbacdb4b24fcf85c58c377613f21",
+      "mask": "Characters/Fire/gunner_fire_spec.png",
+      "mask_sha256": "49d9c21999dc8dffb1cd715389586ba6a97cc934e1fa556f7969fb43d1dbc897",
+      "size": [
+        1728,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "grid": [
+        6,
+        1
+      ],
+      "frame_count": 6,
+      "frame_order": "왼쪽 위부터 행 우선, 각 행 왼쪽→오른쪽",
+      "pivot_top_left": [
+        144,
+        360
+      ],
+      "alpha_cutoff": 0.5,
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "alpha_bounds": [
+            90,
+            141,
+            237,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "column": 1,
+          "alpha_bounds": [
+            90,
+            141,
+            264,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "column": 2,
+          "alpha_bounds": [
+            90,
+            141,
+            282,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "column": 3,
+          "alpha_bounds": [
+            84,
+            141,
+            243,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 4,
+          "row": 0,
+          "column": 4,
+          "alpha_bounds": [
+            90,
+            141,
+            255,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 5,
+          "row": 0,
+          "column": 5,
+          "alpha_bounds": [
+            90,
+            141,
+            225,
+            360
+          ],
+          "cutout_bottom_y": 360
+        }
+      ],
+      "native_mask": "native/Characters/Fire/gunner_fire_spec.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "native_scale_to_game": 3,
+      "native_note": "정수 최근접 격자 복원",
+      "preview_4x": "previews/Characters/Fire/gunner_fire_spec_4x.png",
+      "preview_frames": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "normal_source": null,
+      "normal_used_in_review": false,
+      "normal_note": "노멀맵 없음: 평면 법선",
+      "material_pixels": {
+        "matte": 85275,
+        "leather": 11934,
+        "iron": 0,
+        "polished": 2007,
+        "gold": 0,
+        "effect": 0
+      }
+    },
+    {
+      "name": "goblin_walk_attack4",
+      "source": "Game/Assets/_Project/Art/Characters/Goblin/goblin_walk_attack4.png",
+      "source_sha256": "a58b0ffb89e69d65747bddc6c6487f38ba3317685f7acc06cd33af7d596aa7ef",
+      "mask": "Characters/Goblin/goblin_walk_attack4_spec.png",
+      "mask_sha256": "ae975fffd605ad3d26dd72eae5e9a7e3cb0463abfb9c801c07a1c4ee004676aa",
+      "size": [
+        1152,
+        768
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "grid": [
+        4,
+        2
+      ],
+      "frame_count": 8,
+      "frame_order": "왼쪽 위부터 행 우선, 각 행 왼쪽→오른쪽",
+      "pivot_top_left": [
+        144,
+        360
+      ],
+      "alpha_cutoff": 0.5,
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "alpha_bounds": [
+            72,
+            192,
+            207,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "column": 1,
+          "alpha_bounds": [
+            75,
+            192,
+            207,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "column": 2,
+          "alpha_bounds": [
+            60,
+            192,
+            192,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "column": 3,
+          "alpha_bounds": [
+            81,
+            192,
+            216,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 4,
+          "row": 1,
+          "column": 0,
+          "alpha_bounds": [
+            63,
+            189,
+            204,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 5,
+          "row": 1,
+          "column": 1,
+          "alpha_bounds": [
+            69,
+            165,
+            207,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 6,
+          "row": 1,
+          "column": 2,
+          "alpha_bounds": [
+            72,
+            231,
+            225,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 7,
+          "row": 1,
+          "column": 3,
+          "alpha_bounds": [
+            57,
+            192,
+            195,
+            360
+          ],
+          "cutout_bottom_y": 360
+        }
+      ],
+      "native_mask": "native/Characters/Goblin/goblin_walk_attack4_spec.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "native_scale_to_game": 3,
+      "native_note": "정수 최근접 격자 복원",
+      "preview_4x": "previews/Characters/Goblin/goblin_walk_attack4_spec_4x.png",
+      "preview_frames": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "normal_source": "Game/Assets/_Project/Art/Characters/Goblin/goblin_walk_attack4_normal.png",
+      "normal_used_in_review": false,
+      "normal_note": "기존 노멀맵 크기 불일치: 평면 법선",
+      "material_pixels": {
+        "matte": 97893,
+        "leather": 5895,
+        "iron": 0,
+        "polished": 0,
+        "gold": 234,
+        "effect": 0
+      }
+    },
+    {
+      "name": "hero_back_idle",
+      "source": "Game/Assets/_Project/Art/Characters/Hero/hero_back_idle.png",
+      "source_sha256": "dc29add2be5beb8661b24e6ca9eb1152294fb54eff312218636f71284ce37067",
+      "mask": "Characters/Hero/hero_back_idle_spec.png",
+      "mask_sha256": "f7f1aa710056d176367a99b66928751dc88bbf63b464588f95f3a877119f993f",
+      "size": [
+        256,
+        384
+      ],
+      "cell": [
+        256,
+        384
+      ],
+      "grid": [
+        1,
+        1
+      ],
+      "frame_count": 1,
+      "frame_order": "왼쪽 위부터 행 우선, 각 행 왼쪽→오른쪽",
+      "pivot_top_left": [
+        128.0,
+        352
+      ],
+      "alpha_cutoff": 0.5,
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "alpha_bounds": [
+            52,
+            52,
+            203,
+            352
+          ],
+          "cutout_bottom_y": 352
+        }
+      ],
+      "native_mask": "native/Characters/Hero/hero_back_idle_spec.png",
+      "native_cell": [
+        256,
+        384
+      ],
+      "native_scale_to_game": 1,
+      "native_note": "현재 원본 해상도 보존; 손실 없는 축소 원본 없음",
+      "preview_4x": "previews/Characters/Hero/hero_back_idle_spec_4x.png",
+      "preview_frames": [
+        0
+      ],
+      "normal_source": null,
+      "normal_used_in_review": false,
+      "normal_note": "노멀맵 없음: 평면 법선",
+      "material_pixels": {
+        "matte": 28464,
+        "leather": 2527,
+        "iron": 0,
+        "polished": 0,
+        "gold": 2684,
+        "effect": 0
+      }
+    },
+    {
+      "name": "hero_command",
+      "source": "Game/Assets/_Project/Art/Characters/Hero/hero_command.png",
+      "source_sha256": "1da7d9a82b63c0aabb2603cc48f1004ffa1a75ccaa2e8ca6ece97243496155d7",
+      "mask": "Characters/Hero/hero_command_spec.png",
+      "mask_sha256": "ba8830b8d5e6c0d8202705553f8fb19de045e3356d9cd80241393bbc64dfb540",
+      "size": [
+        768,
+        384
+      ],
+      "cell": [
+        256,
+        384
+      ],
+      "grid": [
+        3,
+        1
+      ],
+      "frame_count": 3,
+      "frame_order": "왼쪽 위부터 행 우선, 각 행 왼쪽→오른쪽",
+      "pivot_top_left": [
+        128.0,
+        352
+      ],
+      "alpha_cutoff": 0.5,
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "alpha_bounds": [
+            50,
+            61,
+            198,
+            352
+          ],
+          "cutout_bottom_y": 352
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "column": 1,
+          "alpha_bounds": [
+            60,
+            61,
+            230,
+            352
+          ],
+          "cutout_bottom_y": 352
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "column": 2,
+          "alpha_bounds": [
+            49,
+            61,
+            252,
+            352
+          ],
+          "cutout_bottom_y": 352
+        }
+      ],
+      "native_mask": "native/Characters/Hero/hero_command_spec.png",
+      "native_cell": [
+        256,
+        384
+      ],
+      "native_scale_to_game": 1,
+      "native_note": "현재 원본 해상도 보존; 손실 없는 축소 원본 없음",
+      "preview_4x": "previews/Characters/Hero/hero_command_spec_4x.png",
+      "preview_frames": [
+        0,
+        1,
+        2
+      ],
+      "normal_source": null,
+      "normal_used_in_review": false,
+      "normal_note": "노멀맵 없음: 평면 법선",
+      "material_pixels": {
+        "matte": 80019,
+        "leather": 7154,
+        "iron": 0,
+        "polished": 0,
+        "gold": 7076,
+        "effect": 0
+      }
+    },
+    {
+      "name": "hero_walk_run_grid",
+      "source": "Game/Assets/_Project/Art/Characters/Hero/hero_walk_run_grid.png",
+      "source_sha256": "3ac773e6922c1ae1a3281730fec4ed26679fff808f448e0d0e3e96550d085c15",
+      "mask": "Characters/Hero/hero_walk_run_grid_spec.png",
+      "mask_sha256": "66db46441a1c9cc56f58c98007c26d46894428177bfb611783d39d27b079429e",
+      "size": [
+        1024,
+        1536
+      ],
+      "cell": [
+        256,
+        384
+      ],
+      "grid": [
+        4,
+        4
+      ],
+      "frame_count": 16,
+      "frame_order": "왼쪽 위부터 행 우선, 각 행 왼쪽→오른쪽",
+      "pivot_top_left": [
+        128.0,
+        352
+      ],
+      "alpha_cutoff": 0.5,
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "alpha_bounds": [
+            54,
+            55,
+            201,
+            352
+          ],
+          "cutout_bottom_y": 352
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "column": 1,
+          "alpha_bounds": [
+            53,
+            54,
+            203,
+            352
+          ],
+          "cutout_bottom_y": 352
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "column": 2,
+          "alpha_bounds": [
+            53,
+            55,
+            203,
+            352
+          ],
+          "cutout_bottom_y": 352
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "column": 3,
+          "alpha_bounds": [
+            53,
+            54,
+            203,
+            352
+          ],
+          "cutout_bottom_y": 352
+        },
+        {
+          "index": 4,
+          "row": 1,
+          "column": 0,
+          "alpha_bounds": [
+            48,
+            52,
+            198,
+            352
+          ],
+          "cutout_bottom_y": 352
+        },
+        {
+          "index": 5,
+          "row": 1,
+          "column": 1,
+          "alpha_bounds": [
+            59,
+            51,
+            197,
+            352
+          ],
+          "cutout_bottom_y": 352
+        },
+        {
+          "index": 6,
+          "row": 1,
+          "column": 2,
+          "alpha_bounds": [
+            52,
+            53,
+            198,
+            352
+          ],
+          "cutout_bottom_y": 352
+        },
+        {
+          "index": 7,
+          "row": 1,
+          "column": 3,
+          "alpha_bounds": [
+            59,
+            52,
+            197,
+            352
+          ],
+          "cutout_bottom_y": 352
+        },
+        {
+          "index": 8,
+          "row": 2,
+          "column": 0,
+          "alpha_bounds": [
+            50,
+            53,
+            238,
+            352
+          ],
+          "cutout_bottom_y": 352
+        },
+        {
+          "index": 9,
+          "row": 2,
+          "column": 1,
+          "alpha_bounds": [
+            52,
+            56,
+            250,
+            308
+          ],
+          "cutout_bottom_y": 308
+        },
+        {
+          "index": 10,
+          "row": 2,
+          "column": 2,
+          "alpha_bounds": [
+            48,
+            45,
+            254,
+            302
+          ],
+          "cutout_bottom_y": 302
+        },
+        {
+          "index": 11,
+          "row": 2,
+          "column": 3,
+          "alpha_bounds": [
+            48,
+            51,
+            232,
+            361
+          ],
+          "cutout_bottom_y": 361
+        },
+        {
+          "index": 12,
+          "row": 3,
+          "column": 0,
+          "alpha_bounds": [
+            54,
+            49,
+            202,
+            352
+          ],
+          "cutout_bottom_y": 352
+        },
+        {
+          "index": 13,
+          "row": 3,
+          "column": 1,
+          "alpha_bounds": [
+            56,
+            49,
+            201,
+            352
+          ],
+          "cutout_bottom_y": 352
+        },
+        {
+          "index": 14,
+          "row": 3,
+          "column": 2,
+          "alpha_bounds": [
+            50,
+            49,
+            202,
+            352
+          ],
+          "cutout_bottom_y": 352
+        },
+        {
+          "index": 15,
+          "row": 3,
+          "column": 3,
+          "alpha_bounds": [
+            54,
+            50,
+            202,
+            352
+          ],
+          "cutout_bottom_y": 352
+        }
+      ],
+      "native_mask": "native/Characters/Hero/hero_walk_run_grid_spec.png",
+      "native_cell": [
+        256,
+        384
+      ],
+      "native_scale_to_game": 1,
+      "native_note": "현재 원본 해상도 보존; 손실 없는 축소 원본 없음",
+      "preview_4x": "previews/Characters/Hero/hero_walk_run_grid_spec_4x.png",
+      "preview_frames": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "normal_source": "Game/Assets/_Project/Art/Characters/Hero/hero_walk_run_grid_normal.png",
+      "normal_used_in_review": true,
+      "normal_note": "일치하는 기존 노멀맵 사용",
+      "material_pixels": {
+        "matte": 426048,
+        "leather": 26420,
+        "iron": 0,
+        "polished": 0,
+        "gold": 44225,
+        "effect": 0
+      }
+    },
+    {
+      "name": "ladder_front",
+      "source": "Game/Assets/_Project/Art/Characters/Ladder/ladder_front.png",
+      "source_sha256": "7c4ade7b17ddda39e7a06af87adeae1dec439a1ebc0dd3ca1c3604b169b0d5f7",
+      "mask": "Characters/Ladder/ladder_front_spec.png",
+      "mask_sha256": "1816492e5995ba684132e7669abc2436204da6526dd76d77bb224cb85dcfa58e",
+      "size": [
+        256,
+        1536
+      ],
+      "cell": [
+        256,
+        1536
+      ],
+      "grid": [
+        1,
+        1
+      ],
+      "frame_count": 1,
+      "frame_order": "왼쪽 위부터 행 우선, 각 행 왼쪽→오른쪽",
+      "pivot_top_left": [
+        128,
+        1472
+      ],
+      "alpha_cutoff": 0.5,
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "alpha_bounds": [
+            16,
+            320,
+            240,
+            1472
+          ],
+          "cutout_bottom_y": 1472
+        }
+      ],
+      "native_mask": "native/Characters/Ladder/ladder_front_spec.png",
+      "native_cell": [
+        256,
+        1536
+      ],
+      "native_scale_to_game": 1,
+      "native_note": "현재 원본 해상도 보존; 손실 없는 축소 원본 없음",
+      "preview_4x": "previews/Characters/Ladder/ladder_front_spec_4x.png",
+      "preview_frames": [
+        0
+      ],
+      "normal_source": null,
+      "normal_used_in_review": false,
+      "normal_note": "노멀맵 없음: 평면 법선",
+      "material_pixels": {
+        "matte": 149546,
+        "leather": 0,
+        "iron": 7993,
+        "polished": 0,
+        "gold": 0,
+        "effect": 0
+      }
+    },
+    {
+      "name": "ladder_goblin_carry_run4",
+      "source": "Game/Assets/_Project/Art/Characters/Ladder/ladder_goblin_carry_run4.png",
+      "source_sha256": "228ba937b69248bd153d7c485fc407247b6f8d51b6eaab9cdc7636af87824a74",
+      "mask": "Characters/Ladder/ladder_goblin_carry_run4_spec.png",
+      "mask_sha256": "12c96457c6c51e3129a8c5dc01aeecf693d94c8563e8329d2b45dd4c519cc867",
+      "size": [
+        1152,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "grid": [
+        4,
+        1
+      ],
+      "frame_count": 4,
+      "frame_order": "왼쪽 위부터 행 우선, 각 행 왼쪽→오른쪽",
+      "pivot_top_left": [
+        144,
+        360
+      ],
+      "alpha_cutoff": 0.5,
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "alpha_bounds": [
+            90,
+            192,
+            183,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "column": 1,
+          "alpha_bounds": [
+            81,
+            192,
+            183,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "column": 2,
+          "alpha_bounds": [
+            87,
+            192,
+            183,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "column": 3,
+          "alpha_bounds": [
+            84,
+            192,
+            186,
+            360
+          ],
+          "cutout_bottom_y": 360
+        }
+      ],
+      "native_mask": "native/Characters/Ladder/ladder_goblin_carry_run4_spec.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "native_scale_to_game": 3,
+      "native_note": "정수 최근접 격자 복원",
+      "preview_4x": "previews/Characters/Ladder/ladder_goblin_carry_run4_spec_4x.png",
+      "preview_frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "normal_source": "Game/Assets/_Project/Art/Characters/Ladder/ladder_goblin_carry_normal.png",
+      "normal_used_in_review": false,
+      "normal_note": "기존 노멀맵 크기 불일치: 평면 법선",
+      "material_pixels": {
+        "matte": 35217,
+        "leather": 5877,
+        "iron": 0,
+        "polished": 0,
+        "gold": 0,
+        "effect": 0
+      }
+    },
+    {
+      "name": "ladder_goblin_climb4",
+      "source": "Game/Assets/_Project/Art/Characters/Ladder/ladder_goblin_climb4.png",
+      "source_sha256": "aa21e873540a0fb0057b51dfd763bee233df059028dc76401e1e07459e3c43bd",
+      "mask": "Characters/Ladder/ladder_goblin_climb4_spec.png",
+      "mask_sha256": "986ea5027037ead51577f20452de7acfd01092a1ad493b23aed46ce10620ffd0",
+      "size": [
+        1152,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "grid": [
+        4,
+        1
+      ],
+      "frame_count": 4,
+      "frame_order": "왼쪽 위부터 행 우선, 각 행 왼쪽→오른쪽",
+      "pivot_top_left": [
+        144,
+        360
+      ],
+      "alpha_cutoff": 0.5,
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "alpha_bounds": [
+            93,
+            180,
+            186,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "column": 1,
+          "alpha_bounds": [
+            102,
+            180,
+            195,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "column": 2,
+          "alpha_bounds": [
+            96,
+            153,
+            192,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "column": 3,
+          "alpha_bounds": [
+            90,
+            180,
+            183,
+            360
+          ],
+          "cutout_bottom_y": 360
+        }
+      ],
+      "native_mask": "native/Characters/Ladder/ladder_goblin_climb4_spec.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "native_scale_to_game": 3,
+      "native_note": "정수 최근접 격자 복원",
+      "preview_4x": "previews/Characters/Ladder/ladder_goblin_climb4_spec_4x.png",
+      "preview_frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "normal_source": null,
+      "normal_used_in_review": false,
+      "normal_note": "노멀맵 없음: 평면 법선",
+      "material_pixels": {
+        "matte": 37539,
+        "leather": 5850,
+        "iron": 0,
+        "polished": 0,
+        "gold": 0,
+        "effect": 0
+      }
+    },
+    {
+      "name": "ladder_goblin_deploy4",
+      "source": "Game/Assets/_Project/Art/Characters/Ladder/ladder_goblin_deploy4.png",
+      "source_sha256": "ea42b6ba6ef8cb1e5620da6f3e215e1e361234347f1f9c8e1c015b56da3b3f8d",
+      "mask": "Characters/Ladder/ladder_goblin_deploy4_spec.png",
+      "mask_sha256": "60f8a4454091c0ef6d12683cbd5a006682f043219756175f1ddd3a253eff8bc1",
+      "size": [
+        1152,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "grid": [
+        4,
+        1
+      ],
+      "frame_count": 4,
+      "frame_order": "왼쪽 위부터 행 우선, 각 행 왼쪽→오른쪽",
+      "pivot_top_left": [
+        144,
+        360
+      ],
+      "alpha_cutoff": 0.5,
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "alpha_bounds": [
+            90,
+            192,
+            189,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "column": 1,
+          "alpha_bounds": [
+            90,
+            192,
+            210,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "column": 2,
+          "alpha_bounds": [
+            90,
+            192,
+            213,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "column": 3,
+          "alpha_bounds": [
+            84,
+            192,
+            195,
+            360
+          ],
+          "cutout_bottom_y": 360
+        }
+      ],
+      "native_mask": "native/Characters/Ladder/ladder_goblin_deploy4_spec.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "native_scale_to_game": 3,
+      "native_note": "정수 최근접 격자 복원",
+      "preview_4x": "previews/Characters/Ladder/ladder_goblin_deploy4_spec_4x.png",
+      "preview_frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "normal_source": null,
+      "normal_used_in_review": false,
+      "normal_note": "노멀맵 없음: 평면 법선",
+      "material_pixels": {
+        "matte": 38763,
+        "leather": 5778,
+        "iron": 0,
+        "polished": 0,
+        "gold": 0,
+        "effect": 0
+      }
+    },
+    {
+      "name": "ladder_side",
+      "source": "Game/Assets/_Project/Art/Characters/Ladder/ladder_side.png",
+      "source_sha256": "32ae4f1b07abd9a2ceac321f9df160d0cdcd0a574248a89079306a2f877f49b4",
+      "mask": "Characters/Ladder/ladder_side_spec.png",
+      "mask_sha256": "c99d12b8c99bee4c83687b9c23be10dec0811e0b486ac1205fbc2df48a3bd2a4",
+      "size": [
+        256,
+        1536
+      ],
+      "cell": [
+        256,
+        1536
+      ],
+      "grid": [
+        1,
+        1
+      ],
+      "frame_count": 1,
+      "frame_order": "왼쪽 위부터 행 우선, 각 행 왼쪽→오른쪽",
+      "pivot_top_left": [
+        128,
+        1472
+      ],
+      "alpha_cutoff": 0.5,
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "alpha_bounds": [
+            60,
+            320,
+            196,
+            1472
+          ],
+          "cutout_bottom_y": 1471
+        }
+      ],
+      "native_mask": "native/Characters/Ladder/ladder_side_spec.png",
+      "native_cell": [
+        256,
+        1536
+      ],
+      "native_scale_to_game": 1,
+      "native_note": "현재 원본 해상도 보존; 손실 없는 축소 원본 없음",
+      "preview_4x": "previews/Characters/Ladder/ladder_side_spec_4x.png",
+      "preview_frames": [
+        0
+      ],
+      "normal_source": null,
+      "normal_used_in_review": false,
+      "normal_note": "노멀맵 없음: 평면 법선",
+      "material_pixels": {
+        "matte": 75433,
+        "leather": 0,
+        "iron": 9953,
+        "polished": 0,
+        "gold": 0,
+        "effect": 0
+      }
+    },
+    {
+      "name": "arrow",
+      "source": "Game/Assets/_Project/Art/Characters/Projectiles/arrow.png",
+      "source_sha256": "f4459006db5a56e975ca58a48e265a5472f44192543cc0dd3c63acafe5408141",
+      "mask": "Characters/Projectiles/arrow_spec.png",
+      "mask_sha256": "0def545787f9e24e6fdc22aa82ba9e73e41cd7df2f33fd0f18280644862d01ef",
+      "size": [
+        256,
+        128
+      ],
+      "cell": [
+        256,
+        128
+      ],
+      "grid": [
+        1,
+        1
+      ],
+      "frame_count": 1,
+      "frame_order": "왼쪽 위부터 행 우선, 각 행 왼쪽→오른쪽",
+      "pivot_top_left": [
+        128.0,
+        64.0
+      ],
+      "alpha_cutoff": 0.5,
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "alpha_bounds": [
+            37,
+            48,
+            218,
+            80
+          ],
+          "cutout_bottom_y": 80
+        }
+      ],
+      "native_mask": "native/Characters/Projectiles/arrow_spec.png",
+      "native_cell": [
+        256,
+        128
+      ],
+      "native_scale_to_game": 1,
+      "native_note": "현재 원본 해상도 보존; 손실 없는 축소 원본 없음",
+      "preview_4x": "previews/Characters/Projectiles/arrow_spec_4x.png",
+      "preview_frames": [
+        0
+      ],
+      "normal_source": null,
+      "normal_used_in_review": false,
+      "normal_note": "노멀맵 없음: 평면 법선",
+      "material_pixels": {
+        "matte": 2242,
+        "leather": 0,
+        "iron": 316,
+        "polished": 0,
+        "gold": 0,
+        "effect": 0
+      }
+    },
+    {
+      "name": "bullet_trace",
+      "source": "Game/Assets/_Project/Art/Characters/Projectiles/bullet_trace.png",
+      "source_sha256": "b65fec4ee29fccab7acba06d7da9fb8942d5a7129da5ee75b7243ea6f58fbc07",
+      "mask": "Characters/Projectiles/bullet_trace_spec.png",
+      "mask_sha256": "aa43246be2bbe76757cae96f42c4069f23392a0281d7a298352b75011809409d",
+      "size": [
+        256,
+        128
+      ],
+      "cell": [
+        256,
+        128
+      ],
+      "grid": [
+        1,
+        1
+      ],
+      "frame_count": 1,
+      "frame_order": "왼쪽 위부터 행 우선, 각 행 왼쪽→오른쪽",
+      "pivot_top_left": [
+        128.0,
+        64.0
+      ],
+      "alpha_cutoff": 0.5,
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "alpha_bounds": [
+            37,
+            44,
+            223,
+            85
+          ],
+          "cutout_bottom_y": 85
+        }
+      ],
+      "native_mask": "native/Characters/Projectiles/bullet_trace_spec.png",
+      "native_cell": [
+        256,
+        128
+      ],
+      "native_scale_to_game": 1,
+      "native_note": "현재 원본 해상도 보존; 손실 없는 축소 원본 없음",
+      "preview_4x": "previews/Characters/Projectiles/bullet_trace_spec_4x.png",
+      "preview_frames": [
+        0
+      ],
+      "normal_source": null,
+      "normal_used_in_review": false,
+      "normal_note": "노멀맵 없음: 평면 법선",
+      "material_pixels": {
+        "matte": 0,
+        "leather": 0,
+        "iron": 0,
+        "polished": 0,
+        "gold": 0,
+        "effect": 5494
+      }
+    },
+    {
+      "name": "cannonball",
+      "source": "Game/Assets/_Project/Art/Characters/Projectiles/cannonball.png",
+      "source_sha256": "0bc24da3d582b2a1ebf6408e7899ba1b73b0d86373856bda63fe86e52a0f95e7",
+      "mask": "Characters/Projectiles/cannonball_spec.png",
+      "mask_sha256": "8061efa25f1abf95734edf02eb63b036beda3ae152ead41914c4a4577e6fca54",
+      "size": [
+        256,
+        128
+      ],
+      "cell": [
+        256,
+        128
+      ],
+      "grid": [
+        1,
+        1
+      ],
+      "frame_count": 1,
+      "frame_order": "왼쪽 위부터 행 우선, 각 행 왼쪽→오른쪽",
+      "pivot_top_left": [
+        128.0,
+        64.0
+      ],
+      "alpha_cutoff": 0.5,
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "alpha_bounds": [
+            92,
+            28,
+            165,
+            100
+          ],
+          "cutout_bottom_y": 100
+        }
+      ],
+      "native_mask": "native/Characters/Projectiles/cannonball_spec.png",
+      "native_cell": [
+        256,
+        128
+      ],
+      "native_scale_to_game": 1,
+      "native_note": "현재 원본 해상도 보존; 손실 없는 축소 원본 없음",
+      "preview_4x": "previews/Characters/Projectiles/cannonball_spec_4x.png",
+      "preview_frames": [
+        0
+      ],
+      "normal_source": null,
+      "normal_used_in_review": false,
+      "normal_note": "노멀맵 없음: 평면 법선",
+      "material_pixels": {
+        "matte": 1081,
+        "leather": 0,
+        "iron": 3038,
+        "polished": 0,
+        "gold": 0,
+        "effect": 0
+      }
+    },
+    {
+      "name": "archer_run",
+      "source": "Game/Assets/_Project/Art/Characters/Run/archer_run.png",
+      "source_sha256": "98808a08f186b08f4500f7827c9ed7821f854efc0716a8cbcca76c954b4e3925",
+      "mask": "Characters/Run/archer_run_spec.png",
+      "mask_sha256": "afcf72ebcfd0a81c42d79ac20388ded422c17ad0799e65ddf44a9cbb9b980b6e",
+      "size": [
+        1152,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "grid": [
+        4,
+        1
+      ],
+      "frame_count": 4,
+      "frame_order": "왼쪽 위부터 행 우선, 각 행 왼쪽→오른쪽",
+      "pivot_top_left": [
+        144,
+        360
+      ],
+      "alpha_cutoff": 0.5,
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "alpha_bounds": [
+            57,
+            141,
+            213,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "column": 1,
+          "alpha_bounds": [
+            84,
+            141,
+            213,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "column": 2,
+          "alpha_bounds": [
+            51,
+            141,
+            216,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "column": 3,
+          "alpha_bounds": [
+            84,
+            141,
+            210,
+            360
+          ],
+          "cutout_bottom_y": 360
+        }
+      ],
+      "native_mask": "native/Characters/Run/archer_run_spec.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "native_scale_to_game": 3,
+      "native_note": "정수 최근접 격자 복원",
+      "preview_4x": "previews/Characters/Run/archer_run_spec_4x.png",
+      "preview_frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "normal_source": null,
+      "normal_used_in_review": false,
+      "normal_note": "노멀맵 없음: 평면 법선",
+      "material_pixels": {
+        "matte": 60633,
+        "leather": 9936,
+        "iron": 0,
+        "polished": 0,
+        "gold": 0,
+        "effect": 0
+      }
+    },
+    {
+      "name": "cannon_crew_run",
+      "source": "Game/Assets/_Project/Art/Characters/Run/cannon_crew_run.png",
+      "source_sha256": "94cfa6a2205a2cdaef28a7f99280ede26109f2ee894ee3f252d370234930be51",
+      "mask": "Characters/Run/cannon_crew_run_spec.png",
+      "mask_sha256": "f1416c5bfbfa96272a5f8cd32a171f6c2637692eec567f824222a6abeabe19b6",
+      "size": [
+        1152,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "grid": [
+        4,
+        1
+      ],
+      "frame_count": 4,
+      "frame_order": "왼쪽 위부터 행 우선, 각 행 왼쪽→오른쪽",
+      "pivot_top_left": [
+        144,
+        360
+      ],
+      "alpha_cutoff": 0.5,
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "alpha_bounds": [
+            48,
+            138,
+            255,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "column": 1,
+          "alpha_bounds": [
+            42,
+            138,
+            225,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "column": 2,
+          "alpha_bounds": [
+            48,
+            138,
+            261,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "column": 3,
+          "alpha_bounds": [
+            45,
+            138,
+            228,
+            360
+          ],
+          "cutout_bottom_y": 360
+        }
+      ],
+      "native_mask": "native/Characters/Run/cannon_crew_run_spec.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "native_scale_to_game": 3,
+      "native_note": "정수 최근접 격자 복원",
+      "preview_4x": "previews/Characters/Run/cannon_crew_run_spec_4x.png",
+      "preview_frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "normal_source": null,
+      "normal_used_in_review": false,
+      "normal_note": "노멀맵 없음: 평면 법선",
+      "material_pixels": {
+        "matte": 68445,
+        "leather": 11394,
+        "iron": 0,
+        "polished": 0,
+        "gold": 189,
+        "effect": 0
+      }
+    },
+    {
+      "name": "gunner_run",
+      "source": "Game/Assets/_Project/Art/Characters/Run/gunner_run.png",
+      "source_sha256": "6132a2797bcc63f51a67c771a7801c8428b92f0f5c380c3e87a36b1d07e8d70d",
+      "mask": "Characters/Run/gunner_run_spec.png",
+      "mask_sha256": "37f170e37eade7a8569996847c967b459a53731223cf81761cbec6c201bf2ec4",
+      "size": [
+        1152,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "grid": [
+        4,
+        1
+      ],
+      "frame_count": 4,
+      "frame_order": "왼쪽 위부터 행 우선, 각 행 왼쪽→오른쪽",
+      "pivot_top_left": [
+        144,
+        360
+      ],
+      "alpha_cutoff": 0.5,
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "alpha_bounds": [
+            60,
+            141,
+            252,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "column": 1,
+          "alpha_bounds": [
+            78,
+            141,
+            258,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "column": 2,
+          "alpha_bounds": [
+            66,
+            141,
+            264,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "column": 3,
+          "alpha_bounds": [
+            78,
+            141,
+            255,
+            360
+          ],
+          "cutout_bottom_y": 360
+        }
+      ],
+      "native_mask": "native/Characters/Run/gunner_run_spec.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "native_scale_to_game": 3,
+      "native_note": "정수 최근접 격자 복원",
+      "preview_4x": "previews/Characters/Run/gunner_run_spec_4x.png",
+      "preview_frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "normal_source": null,
+      "normal_used_in_review": false,
+      "normal_note": "노멀맵 없음: 평면 법선",
+      "material_pixels": {
+        "matte": 59895,
+        "leather": 11331,
+        "iron": 0,
+        "polished": 2025,
+        "gold": 0,
+        "effect": 0
+      }
+    },
+    {
+      "name": "archer_static",
+      "source": "Game/Assets/_Project/Art/Characters/Static/archer_static.png",
+      "source_sha256": "0a7c35db020d1805bbdadacde6362bf7c990448298a61bae618879efdddfc9f2",
+      "mask": "Characters/Static/archer_static_spec.png",
+      "mask_sha256": "566b6d65534a22b056c299da31b485699284572b9e782eac5baf6fc17be2a2e3",
+      "size": [
+        288,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "grid": [
+        1,
+        1
+      ],
+      "frame_count": 1,
+      "frame_order": "왼쪽 위부터 행 우선, 각 행 왼쪽→오른쪽",
+      "pivot_top_left": [
+        144,
+        360
+      ],
+      "alpha_cutoff": 0.5,
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "alpha_bounds": [
+            93,
+            141,
+            195,
+            360
+          ],
+          "cutout_bottom_y": 360
+        }
+      ],
+      "native_mask": "native/Characters/Static/archer_static_spec.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "native_scale_to_game": 3,
+      "native_note": "정수 최근접 격자 복원",
+      "preview_4x": "previews/Characters/Static/archer_static_spec_4x.png",
+      "preview_frames": [
+        0
+      ],
+      "normal_source": "Game/Assets/_Project/Art/Characters/Static/archer_static_normal.png",
+      "normal_used_in_review": false,
+      "normal_note": "기존 노멀맵 크기 불일치: 평면 법선",
+      "material_pixels": {
+        "matte": 12933,
+        "leather": 2070,
+        "iron": 0,
+        "polished": 0,
+        "gold": 0,
+        "effect": 0
+      }
+    },
+    {
+      "name": "cannon_crew_static",
+      "source": "Game/Assets/_Project/Art/Characters/Static/cannon_crew_static.png",
+      "source_sha256": "3836ce50297502e9899df0d2a8a432b2d6e8244a9d34998c12819f711358251e",
+      "mask": "Characters/Static/cannon_crew_static_spec.png",
+      "mask_sha256": "1635dc1635d510a9e6f24b2ba023974bfc11ed88aaa230e157746e4ae40077bf",
+      "size": [
+        288,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "grid": [
+        1,
+        1
+      ],
+      "frame_count": 1,
+      "frame_order": "왼쪽 위부터 행 우선, 각 행 왼쪽→오른쪽",
+      "pivot_top_left": [
+        144,
+        360
+      ],
+      "alpha_cutoff": 0.5,
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "alpha_bounds": [
+            84,
+            141,
+            222,
+            360
+          ],
+          "cutout_bottom_y": 360
+        }
+      ],
+      "native_mask": "native/Characters/Static/cannon_crew_static_spec.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "native_scale_to_game": 3,
+      "native_note": "정수 최근접 격자 복원",
+      "preview_4x": "previews/Characters/Static/cannon_crew_static_spec_4x.png",
+      "preview_frames": [
+        0
+      ],
+      "normal_source": "Game/Assets/_Project/Art/Characters/Static/cannon_crew_static_normal.png",
+      "normal_used_in_review": false,
+      "normal_note": "기존 노멀맵 크기 불일치: 평면 법선",
+      "material_pixels": {
+        "matte": 16164,
+        "leather": 2781,
+        "iron": 0,
+        "polished": 0,
+        "gold": 0,
+        "effect": 0
+      }
+    },
+    {
+      "name": "gunner_static",
+      "source": "Game/Assets/_Project/Art/Characters/Static/gunner_static.png",
+      "source_sha256": "0570db03f345ef9c9bc05346ed010e7cfd082fe6a01c0103fb74e7cdce6910f5",
+      "mask": "Characters/Static/gunner_static_spec.png",
+      "mask_sha256": "828f48858fa4b4c671b8abad1cac717cd560384de57edab27f698a1c32ff02ef",
+      "size": [
+        288,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "grid": [
+        1,
+        1
+      ],
+      "frame_count": 1,
+      "frame_order": "왼쪽 위부터 행 우선, 각 행 왼쪽→오른쪽",
+      "pivot_top_left": [
+        144,
+        360
+      ],
+      "alpha_cutoff": 0.5,
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "alpha_bounds": [
+            78,
+            141,
+            204,
+            360
+          ],
+          "cutout_bottom_y": 360
+        }
+      ],
+      "native_mask": "native/Characters/Static/gunner_static_spec.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "native_scale_to_game": 3,
+      "native_note": "정수 최근접 격자 복원",
+      "preview_4x": "previews/Characters/Static/gunner_static_spec_4x.png",
+      "preview_frames": [
+        0
+      ],
+      "normal_source": "Game/Assets/_Project/Art/Characters/Static/gunner_static_normal.png",
+      "normal_used_in_review": false,
+      "normal_note": "기존 노멀맵 크기 불일치: 평면 법선",
+      "material_pixels": {
+        "matte": 13131,
+        "leather": 2178,
+        "iron": 0,
+        "polished": 360,
+        "gold": 0,
+        "effect": 0
+      }
+    },
+    {
+      "name": "ladder_goblin_static",
+      "source": "Game/Assets/_Project/Art/Characters/Static/ladder_goblin_static.png",
+      "source_sha256": "df4177cf4cfd1aab010f401f693198588483591a72ed9cff6e7665d19933961c",
+      "mask": "Characters/Static/ladder_goblin_static_spec.png",
+      "mask_sha256": "dbd51ab00b56602694bc4457015672c0a65f42b2003f47294ce614219d45c681",
+      "size": [
+        288,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "grid": [
+        1,
+        1
+      ],
+      "frame_count": 1,
+      "frame_order": "왼쪽 위부터 행 우선, 각 행 왼쪽→오른쪽",
+      "pivot_top_left": [
+        144,
+        360
+      ],
+      "alpha_cutoff": 0.5,
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "alpha_bounds": [
+            93,
+            180,
+            204,
+            360
+          ],
+          "cutout_bottom_y": 360
+        }
+      ],
+      "native_mask": "native/Characters/Static/ladder_goblin_static_spec.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "native_scale_to_game": 3,
+      "native_note": "정수 최근접 격자 복원",
+      "preview_4x": "previews/Characters/Static/ladder_goblin_static_spec_4x.png",
+      "preview_frames": [
+        0
+      ],
+      "normal_source": null,
+      "normal_used_in_review": false,
+      "normal_note": "노멀맵 없음: 평면 법선",
+      "material_pixels": {
+        "matte": 11619,
+        "leather": 2376,
+        "iron": 9,
+        "polished": 0,
+        "gold": 0,
+        "effect": 0
+      }
+    },
+    {
+      "name": "ogre_static",
+      "source": "Game/Assets/_Project/Art/Characters/Static/ogre_static.png",
+      "source_sha256": "ae75c2b19fc2ded77a0714f81be5176cb7701605ff70f430ef478571a264d06f",
+      "mask": "Characters/Static/ogre_static_spec.png",
+      "mask_sha256": "7acaa6288aaa45ac172fd99c38cd0dbd2411f048e92d6ff76d5cf126e3daa1b3",
+      "size": [
+        256,
+        384
+      ],
+      "cell": [
+        256,
+        384
+      ],
+      "grid": [
+        1,
+        1
+      ],
+      "frame_count": 1,
+      "frame_order": "왼쪽 위부터 행 우선, 각 행 왼쪽→오른쪽",
+      "pivot_top_left": [
+        128.0,
+        352
+      ],
+      "alpha_cutoff": 0.5,
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "alpha_bounds": [
+            16,
+            179,
+            197,
+            352
+          ],
+          "cutout_bottom_y": 352
+        }
+      ],
+      "native_mask": "native/Characters/Static/ogre_static_spec.png",
+      "native_cell": [
+        256,
+        384
+      ],
+      "native_scale_to_game": 1,
+      "native_note": "현재 원본 해상도 보존; 손실 없는 축소 원본 없음",
+      "preview_4x": "previews/Characters/Static/ogre_static_spec_4x.png",
+      "preview_frames": [
+        0
+      ],
+      "normal_source": "Game/Assets/_Project/Art/Characters/Static/ogre_static_normal.png",
+      "normal_used_in_review": true,
+      "normal_note": "일치하는 기존 노멀맵 사용",
+      "material_pixels": {
+        "matte": 17162,
+        "leather": 2037,
+        "iron": 251,
+        "polished": 0,
+        "gold": 0,
+        "effect": 0
+      }
+    },
+    {
+      "name": "wizard_back_static",
+      "source": "Game/Assets/_Project/Art/Characters/Static/wizard_back_static.png",
+      "source_sha256": "e8c581155516d8b85563627d14fcbfd1a40acc0d90a3b08483943ba0f485e6a6",
+      "mask": "Characters/Static/wizard_back_static_spec.png",
+      "mask_sha256": "4ed89c30633561fb236af560ec1edde9fbd79d9ccf9773c99fe0b720e43f0e1f",
+      "size": [
+        256,
+        384
+      ],
+      "cell": [
+        256,
+        384
+      ],
+      "grid": [
+        1,
+        1
+      ],
+      "frame_count": 1,
+      "frame_order": "왼쪽 위부터 행 우선, 각 행 왼쪽→오른쪽",
+      "pivot_top_left": [
+        128.0,
+        352
+      ],
+      "alpha_cutoff": 0.5,
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "alpha_bounds": [
+            54,
+            54,
+            240,
+            352
+          ],
+          "cutout_bottom_y": 352
+        }
+      ],
+      "native_mask": "native/Characters/Static/wizard_back_static_spec.png",
+      "native_cell": [
+        256,
+        384
+      ],
+      "native_scale_to_game": 1,
+      "native_note": "현재 원본 해상도 보존; 손실 없는 축소 원본 없음",
+      "preview_4x": "previews/Characters/Static/wizard_back_static_spec_4x.png",
+      "preview_frames": [
+        0
+      ],
+      "normal_source": "Game/Assets/_Project/Art/Characters/Static/wizard_back_static_normal.png",
+      "normal_used_in_review": true,
+      "normal_note": "일치하는 기존 노멀맵 사용",
+      "material_pixels": {
+        "matte": 30737,
+        "leather": 2037,
+        "iron": 0,
+        "polished": 0,
+        "gold": 1878,
+        "effect": 0
+      }
+    },
+    {
+      "name": "wizard_cast",
+      "source": "Game/Assets/_Project/Art/Characters/Static/wizard_cast.png",
+      "source_sha256": "1f502ae2b03dd5b82eeb7b75ea6153fa80af72f2da417f569c3535571f957973",
+      "mask": "Characters/Static/wizard_cast_spec.png",
+      "mask_sha256": "ce66a1cabab61a6cbdac8db6f9df22120e68286c3c2e408ffd11806c2ff4d946",
+      "size": [
+        1024,
+        384
+      ],
+      "cell": [
+        256,
+        384
+      ],
+      "grid": [
+        4,
+        1
+      ],
+      "frame_count": 4,
+      "frame_order": "왼쪽 위부터 행 우선, 각 행 왼쪽→오른쪽",
+      "pivot_top_left": [
+        128.0,
+        352
+      ],
+      "alpha_cutoff": 0.5,
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "alpha_bounds": [
+            60,
+            95,
+            236,
+            352
+          ],
+          "cutout_bottom_y": 352
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "column": 1,
+          "alpha_bounds": [
+            69,
+            95,
+            252,
+            352
+          ],
+          "cutout_bottom_y": 352
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "column": 2,
+          "alpha_bounds": [
+            64,
+            56,
+            231,
+            352
+          ],
+          "cutout_bottom_y": 352
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "column": 3,
+          "alpha_bounds": [
+            68,
+            25,
+            219,
+            352
+          ],
+          "cutout_bottom_y": 352
+        }
+      ],
+      "native_mask": "native/Characters/Static/wizard_cast_spec.png",
+      "native_cell": [
+        256,
+        384
+      ],
+      "native_scale_to_game": 1,
+      "native_note": "현재 원본 해상도 보존; 손실 없는 축소 원본 없음",
+      "preview_4x": "previews/Characters/Static/wizard_cast_spec_4x.png",
+      "preview_frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "normal_source": null,
+      "normal_used_in_review": false,
+      "normal_note": "노멀맵 없음: 평면 법선",
+      "material_pixels": {
+        "matte": 89530,
+        "leather": 5942,
+        "iron": 0,
+        "polished": 0,
+        "gold": 5251,
+        "effect": 0
+      }
+    },
+    {
+      "name": "wizard_static",
+      "source": "Game/Assets/_Project/Art/Characters/Static/wizard_static.png",
+      "source_sha256": "e3994c5f0d2bb08ce99fb0d75dd9aecda3af417ed1b03b6b1e7a02ae764bd511",
+      "mask": "Characters/Static/wizard_static_spec.png",
+      "mask_sha256": "9a37667fb912bf6a8e5a1e784f1feac22c4e2f307d2f73814967eca168553de7",
+      "size": [
+        256,
+        384
+      ],
+      "cell": [
+        256,
+        384
+      ],
+      "grid": [
+        1,
+        1
+      ],
+      "frame_count": 1,
+      "frame_order": "왼쪽 위부터 행 우선, 각 행 왼쪽→오른쪽",
+      "pivot_top_left": [
+        128.0,
+        352
+      ],
+      "alpha_cutoff": 0.5,
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "alpha_bounds": [
+            12,
+            56,
+            211,
+            352
+          ],
+          "cutout_bottom_y": 352
+        }
+      ],
+      "native_mask": "native/Characters/Static/wizard_static_spec.png",
+      "native_cell": [
+        256,
+        384
+      ],
+      "native_scale_to_game": 1,
+      "native_note": "현재 원본 해상도 보존; 손실 없는 축소 원본 없음",
+      "preview_4x": "previews/Characters/Static/wizard_static_spec_4x.png",
+      "preview_frames": [
+        0
+      ],
+      "normal_source": null,
+      "normal_used_in_review": false,
+      "normal_note": "노멀맵 없음: 평면 법선",
+      "material_pixels": {
+        "matte": 32274,
+        "leather": 2122,
+        "iron": 0,
+        "polished": 0,
+        "gold": 2370,
+        "effect": 0
+      }
+    },
+    {
+      "name": "ladder_goblin_walk",
+      "source": "Game/Assets/_Project/Art/Characters/Walk/ladder_goblin_walk.png",
+      "source_sha256": "6e2771e9f84b279250225e885d5d44b9c8e191389690636e0336994bd25372fb",
+      "mask": "Characters/Walk/ladder_goblin_walk_spec.png",
+      "mask_sha256": "61c7d591cf94562aa8f6b534d61607ff7a598c78580a94460388ae2091361a04",
+      "size": [
+        1152,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "grid": [
+        4,
+        1
+      ],
+      "frame_count": 4,
+      "frame_order": "왼쪽 위부터 행 우선, 각 행 왼쪽→오른쪽",
+      "pivot_top_left": [
+        144,
+        360
+      ],
+      "alpha_cutoff": 0.5,
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "alpha_bounds": [
+            96,
+            180,
+            204,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "column": 1,
+          "alpha_bounds": [
+            96,
+            180,
+            204,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "column": 2,
+          "alpha_bounds": [
+            93,
+            180,
+            207,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "column": 3,
+          "alpha_bounds": [
+            96,
+            180,
+            198,
+            360
+          ],
+          "cutout_bottom_y": 360
+        }
+      ],
+      "native_mask": "native/Characters/Walk/ladder_goblin_walk_spec.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "native_scale_to_game": 3,
+      "native_note": "정수 최근접 격자 복원",
+      "preview_4x": "previews/Characters/Walk/ladder_goblin_walk_spec_4x.png",
+      "preview_frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "normal_source": null,
+      "normal_used_in_review": false,
+      "normal_note": "노멀맵 없음: 평면 법선",
+      "material_pixels": {
+        "matte": 45234,
+        "leather": 7326,
+        "iron": 18,
+        "polished": 0,
+        "gold": 0,
+        "effect": 0
+      }
+    },
+    {
+      "name": "ogre_attack4",
+      "source": "Game/Assets/_Project/Art/Characters/Walk/ogre_attack4.png",
+      "source_sha256": "d9671bcb22509579bdd060e262cd5fe8ed87b4f9948d0d0ea71efa0961d33e7c",
+      "mask": "Characters/Walk/ogre_attack4_spec.png",
+      "mask_sha256": "60a95e0885078cc352c9df89347a2ef0866b8deaa8e5704d49d9f110f5559931",
+      "size": [
+        1024,
+        384
+      ],
+      "cell": [
+        256,
+        384
+      ],
+      "grid": [
+        4,
+        1
+      ],
+      "frame_count": 4,
+      "frame_order": "왼쪽 위부터 행 우선, 각 행 왼쪽→오른쪽",
+      "pivot_top_left": [
+        128.0,
+        352
+      ],
+      "alpha_cutoff": 0.5,
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "alpha_bounds": [
+            37,
+            153,
+            218,
+            354
+          ],
+          "cutout_bottom_y": 354
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "column": 1,
+          "alpha_bounds": [
+            40,
+            93,
+            215,
+            354
+          ],
+          "cutout_bottom_y": 354
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "column": 2,
+          "alpha_bounds": [
+            40,
+            176,
+            215,
+            380
+          ],
+          "cutout_bottom_y": 380
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "column": 3,
+          "alpha_bounds": [
+            35,
+            153,
+            220,
+            354
+          ],
+          "cutout_bottom_y": 354
+        }
+      ],
+      "native_mask": "native/Characters/Walk/ogre_attack4_spec.png",
+      "native_cell": [
+        256,
+        384
+      ],
+      "native_scale_to_game": 1,
+      "native_note": "현재 원본 해상도 보존; 손실 없는 축소 원본 없음",
+      "preview_4x": "previews/Characters/Walk/ogre_attack4_spec_4x.png",
+      "preview_frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "normal_source": null,
+      "normal_used_in_review": false,
+      "normal_note": "노멀맵 없음: 평면 법선",
+      "material_pixels": {
+        "matte": 91894,
+        "leather": 12392,
+        "iron": 704,
+        "polished": 0,
+        "gold": 0,
+        "effect": 0
+      }
+    },
+    {
+      "name": "ogre_walk",
+      "source": "Game/Assets/_Project/Art/Characters/Walk/ogre_walk.png",
+      "source_sha256": "a91fbecd19a355eaf2ee032dbce4bdc0ce96c3c93468fe1dbee3a877b405088d",
+      "mask": "Characters/Walk/ogre_walk_spec.png",
+      "mask_sha256": "2c0d287c093118145cb1d536f4f5f3c00c53c8c42382918c0c4d4c60cea8ff92",
+      "size": [
+        1024,
+        384
+      ],
+      "cell": [
+        256,
+        384
+      ],
+      "grid": [
+        4,
+        1
+      ],
+      "frame_count": 4,
+      "frame_order": "왼쪽 위부터 행 우선, 각 행 왼쪽→오른쪽",
+      "pivot_top_left": [
+        128.0,
+        352
+      ],
+      "alpha_cutoff": 0.5,
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "alpha_bounds": [
+            34,
+            119,
+            234,
+            352
+          ],
+          "cutout_bottom_y": 352
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "column": 1,
+          "alpha_bounds": [
+            32,
+            123,
+            239,
+            352
+          ],
+          "cutout_bottom_y": 352
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "column": 2,
+          "alpha_bounds": [
+            31,
+            119,
+            240,
+            352
+          ],
+          "cutout_bottom_y": 352
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "column": 3,
+          "alpha_bounds": [
+            31,
+            123,
+            227,
+            352
+          ],
+          "cutout_bottom_y": 352
+        }
+      ],
+      "native_mask": "native/Characters/Walk/ogre_walk_spec.png",
+      "native_cell": [
+        256,
+        384
+      ],
+      "native_scale_to_game": 1,
+      "native_note": "현재 원본 해상도 보존; 손실 없는 축소 원본 없음",
+      "preview_4x": "previews/Characters/Walk/ogre_walk_spec_4x.png",
+      "preview_frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "normal_source": null,
+      "normal_used_in_review": false,
+      "normal_note": "노멀맵 없음: 평면 법선",
+      "material_pixels": {
+        "matte": 106715,
+        "leather": 13044,
+        "iron": 2024,
+        "polished": 0,
+        "gold": 0,
+        "effect": 0
+      }
+    },
+    {
+      "name": "cannon_recoil",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/cannon_recoil.png",
+      "source_sha256": "c0b5a4cacb8839d3856daa26390e6882f95e1375b8828c662d5c245daf25d44d",
+      "mask": "Cannon/cannon_recoil_spec.png",
+      "mask_sha256": "d483f0159541390f5e9bade03fdc5ddb3cc89cda6e7458235d00e89f5ab1a6ce",
+      "size": [
+        768,
+        256
+      ],
+      "cell": [
+        256,
+        256
+      ],
+      "grid": [
+        3,
+        1
+      ],
+      "frame_count": 3,
+      "frame_order": "왼쪽 위부터 행 우선, 각 행 왼쪽→오른쪽",
+      "pivot_top_left": [
+        128,
+        240
+      ],
+      "alpha_cutoff": 0.5,
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "alpha_bounds": [
+            11,
+            32,
+            245,
+            240
+          ],
+          "cutout_bottom_y": 240
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "column": 1,
+          "alpha_bounds": [
+            11,
+            37,
+            244,
+            240
+          ],
+          "cutout_bottom_y": 240
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "column": 2,
+          "alpha_bounds": [
+            10,
+            37,
+            245,
+            240
+          ],
+          "cutout_bottom_y": 240
+        }
+      ],
+      "native_mask": "native/Cannon/cannon_recoil_spec.png",
+      "native_cell": [
+        256,
+        256
+      ],
+      "native_scale_to_game": 1,
+      "native_note": "현재 원본 해상도 보존; 손실 없는 축소 원본 없음",
+      "preview_4x": "previews/Cannon/cannon_recoil_spec_4x.png",
+      "preview_frames": [
+        0,
+        1,
+        2
+      ],
+      "normal_source": null,
+      "normal_used_in_review": false,
+      "normal_note": "노멀맵 없음: 평면 법선",
+      "material_pixels": {
+        "matte": 50635,
+        "leather": 0,
+        "iron": 26400,
+        "polished": 6410,
+        "gold": 0,
+        "effect": 0
+      }
+    },
+    {
+      "name": "crew_pull6",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/crew_pull6.png",
+      "source_sha256": "906e0c9aef8a351be30e5624f434def424c1d215d34693f1de06cf23095200a2",
+      "mask": "Cannon/crew_pull6_spec.png",
+      "mask_sha256": "1ca8c9aaffd494619f49cd584fd4560709f76b2ebe56277dae24e687f29be7a0",
+      "size": [
+        2304,
+        384
+      ],
+      "cell": [
+        384,
+        384
+      ],
+      "grid": [
+        6,
+        1
+      ],
+      "frame_count": 6,
+      "frame_order": "왼쪽 위부터 행 우선, 각 행 왼쪽→오른쪽",
+      "pivot_top_left": [
+        192.0,
+        352
+      ],
+      "alpha_cutoff": 0.5,
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "alpha_bounds": [
+            73,
+            142,
+            262,
+            352
+          ],
+          "cutout_bottom_y": 352
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "column": 1,
+          "alpha_bounds": [
+            91,
+            142,
+            274,
+            352
+          ],
+          "cutout_bottom_y": 352
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "column": 2,
+          "alpha_bounds": [
+            54,
+            142,
+            238,
+            352
+          ],
+          "cutout_bottom_y": 352
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "column": 3,
+          "alpha_bounds": [
+            74,
+            142,
+            259,
+            352
+          ],
+          "cutout_bottom_y": 352
+        },
+        {
+          "index": 4,
+          "row": 0,
+          "column": 4,
+          "alpha_bounds": [
+            29,
+            142,
+            214,
+            352
+          ],
+          "cutout_bottom_y": 352
+        },
+        {
+          "index": 5,
+          "row": 0,
+          "column": 5,
+          "alpha_bounds": [
+            54,
+            142,
+            239,
+            352
+          ],
+          "cutout_bottom_y": 352
+        }
+      ],
+      "native_mask": "native/Cannon/crew_pull6_spec.png",
+      "native_cell": [
+        384,
+        384
+      ],
+      "native_scale_to_game": 1,
+      "native_note": "현재 원본 해상도 보존; 손실 없는 축소 원본 없음",
+      "preview_4x": "previews/Cannon/crew_pull6_spec_4x.png",
+      "preview_frames": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "normal_source": null,
+      "normal_used_in_review": false,
+      "normal_note": "노멀맵 없음: 평면 법선",
+      "material_pixels": {
+        "matte": 99522,
+        "leather": 18296,
+        "iron": 0,
+        "polished": 0,
+        "gold": 0,
+        "effect": 0
+      }
+    },
+    {
+      "name": "crew_push6",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/crew_push6.png",
+      "source_sha256": "666baf673edce403c0c2b5340558e9aba4228b0c850495c2dafa387b53ab61b0",
+      "mask": "Cannon/crew_push6_spec.png",
+      "mask_sha256": "f0d8e048810d1097de866bab20148033bfdf8c5e853b48652c074d5b6a4608d8",
+      "size": [
+        2304,
+        384
+      ],
+      "cell": [
+        384,
+        384
+      ],
+      "grid": [
+        6,
+        1
+      ],
+      "frame_count": 6,
+      "frame_order": "왼쪽 위부터 행 우선, 각 행 왼쪽→오른쪽",
+      "pivot_top_left": [
+        192.0,
+        352
+      ],
+      "alpha_cutoff": 0.5,
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "alpha_bounds": [
+            59,
+            142,
+            265,
+            352
+          ],
+          "cutout_bottom_y": 352
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "column": 1,
+          "alpha_bounds": [
+            62,
+            142,
+            257,
+            352
+          ],
+          "cutout_bottom_y": 352
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "column": 2,
+          "alpha_bounds": [
+            31,
+            142,
+            236,
+            352
+          ],
+          "cutout_bottom_y": 352
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "column": 3,
+          "alpha_bounds": [
+            51,
+            142,
+            255,
+            352
+          ],
+          "cutout_bottom_y": 352
+        },
+        {
+          "index": 4,
+          "row": 0,
+          "column": 4,
+          "alpha_bounds": [
+            11,
+            142,
+            200,
+            352
+          ],
+          "cutout_bottom_y": 352
+        },
+        {
+          "index": 5,
+          "row": 0,
+          "column": 5,
+          "alpha_bounds": [
+            32,
+            142,
+            235,
+            352
+          ],
+          "cutout_bottom_y": 352
+        }
+      ],
+      "native_mask": "native/Cannon/crew_push6_spec.png",
+      "native_cell": [
+        384,
+        384
+      ],
+      "native_scale_to_game": 1,
+      "native_note": "현재 원본 해상도 보존; 손실 없는 축소 원본 없음",
+      "preview_4x": "previews/Cannon/crew_push6_spec_4x.png",
+      "preview_frames": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "normal_source": null,
+      "normal_used_in_review": false,
+      "normal_note": "노멀맵 없음: 평면 법선",
+      "material_pixels": {
+        "matte": 104201,
+        "leather": 18728,
+        "iron": 0,
+        "polished": 0,
+        "gold": 0,
+        "effect": 0
+      }
+    },
+    {
+      "name": "haul_cannon_body",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/haul_cannon_body.png",
+      "source_sha256": "5416605290e1d45f95b325cf38e2ff368b5eb85f4305ca659ae8774f4720ef35",
+      "mask": "Cannon/haul_cannon_body_spec.png",
+      "mask_sha256": "50df72491b935c20b473d67f1b3ff7de07eeb2f1446c3a6eefc7955fa9b41c6f",
+      "size": [
+        768,
+        384
+      ],
+      "cell": [
+        768,
+        384
+      ],
+      "grid": [
+        1,
+        1
+      ],
+      "frame_count": 1,
+      "frame_order": "왼쪽 위부터 행 우선, 각 행 왼쪽→오른쪽",
+      "pivot_top_left": [
+        336,
+        352
+      ],
+      "alpha_cutoff": 0.5,
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "alpha_bounds": [
+            163,
+            132,
+            722,
+            351
+          ],
+          "cutout_bottom_y": 351
+        }
+      ],
+      "native_mask": "native/Cannon/haul_cannon_body_spec.png",
+      "native_cell": [
+        768,
+        384
+      ],
+      "native_scale_to_game": 1,
+      "native_note": "현재 원본 해상도 보존; 손실 없는 축소 원본 없음",
+      "preview_4x": "previews/Cannon/haul_cannon_body_spec_4x.png",
+      "preview_frames": [
+        0
+      ],
+      "normal_source": null,
+      "normal_used_in_review": false,
+      "normal_note": "노멀맵 없음: 평면 법선",
+      "material_pixels": {
+        "matte": 14072,
+        "leather": 0,
+        "iron": 22683,
+        "polished": 2941,
+        "gold": 0,
+        "effect": 0
+      }
+    },
+    {
+      "name": "haul_cannon_chassis",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/haul_cannon_chassis.png",
+      "source_sha256": "804295f0b8104815c9cda6a389b13f558f76f69585c65ad077ac4efd16d15523",
+      "mask": "Cannon/haul_cannon_chassis_spec.png",
+      "mask_sha256": "b660dcce2cc35845f42bf6486f0caf456a0617840be5b20c9efcfbddee5f9757",
+      "size": [
+        768,
+        384
+      ],
+      "cell": [
+        768,
+        384
+      ],
+      "grid": [
+        1,
+        1
+      ],
+      "frame_count": 1,
+      "frame_order": "왼쪽 위부터 행 우선, 각 행 왼쪽→오른쪽",
+      "pivot_top_left": [
+        336,
+        352
+      ],
+      "alpha_cutoff": 0.5,
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "alpha_bounds": [
+            163,
+            132,
+            722,
+            343
+          ],
+          "cutout_bottom_y": 343
+        }
+      ],
+      "native_mask": "native/Cannon/haul_cannon_chassis_spec.png",
+      "native_cell": [
+        768,
+        384
+      ],
+      "native_scale_to_game": 1,
+      "native_note": "현재 원본 해상도 보존; 손실 없는 축소 원본 없음",
+      "preview_4x": "previews/Cannon/haul_cannon_chassis_spec_4x.png",
+      "preview_frames": [
+        0
+      ],
+      "normal_source": null,
+      "normal_used_in_review": false,
+      "normal_note": "노멀맵 없음: 평면 법선",
+      "material_pixels": {
+        "matte": 9564,
+        "leather": 0,
+        "iron": 19685,
+        "polished": 2746,
+        "gold": 0,
+        "effect": 0
+      }
+    },
+    {
+      "name": "haul_cannon_wheel",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/haul_cannon_wheel.png",
+      "source_sha256": "eb8fbc6a620fc24b8b1b07ea665a354879c36a44f03c771d8bedc3cfcffd4664",
+      "mask": "Cannon/haul_cannon_wheel_spec.png",
+      "mask_sha256": "592139f43ca5d30523ffef0d9fa626d87fd15e349d5fd6b77f609c192dfbbdb7",
+      "size": [
+        101,
+        101
+      ],
+      "cell": [
+        101,
+        101
+      ],
+      "grid": [
+        1,
+        1
+      ],
+      "frame_count": 1,
+      "frame_order": "왼쪽 위부터 행 우선, 각 행 왼쪽→오른쪽",
+      "pivot_top_left": [
+        50.5,
+        50.5
+      ],
+      "alpha_cutoff": 0.5,
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "alpha_bounds": [
+            0,
+            0,
+            101,
+            100
+          ],
+          "cutout_bottom_y": 100
+        }
+      ],
+      "native_mask": "native/Cannon/haul_cannon_wheel_spec.png",
+      "native_cell": [
+        101,
+        101
+      ],
+      "native_scale_to_game": 1,
+      "native_note": "현재 원본 해상도 보존; 손실 없는 축소 원본 없음",
+      "preview_4x": "previews/Cannon/haul_cannon_wheel_spec_4x.png",
+      "preview_frames": [
+        0
+      ],
+      "normal_source": null,
+      "normal_used_in_review": false,
+      "normal_note": "노멀맵 없음: 평면 법선",
+      "material_pixels": {
+        "matte": 4508,
+        "leather": 0,
+        "iron": 2998,
+        "polished": 195,
+        "gold": 0,
+        "effect": 0
+      }
+    },
+    {
+      "name": "muzzle_smoke",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/muzzle_smoke.png",
+      "source_sha256": "82773ff6dfe13ac3d23b1c51d9584c967d2111aba2312b52d1408393f9131caa",
+      "mask": "Cannon/muzzle_smoke_spec.png",
+      "mask_sha256": "a533e627f72a174a9a993e308a90ee1a8d872c6821fe5c16b3a29e7ba605eae1",
+      "size": [
+        1536,
+        256
+      ],
+      "cell": [
+        256,
+        256
+      ],
+      "grid": [
+        6,
+        1
+      ],
+      "frame_count": 6,
+      "frame_order": "왼쪽 위부터 행 우선, 각 행 왼쪽→오른쪽",
+      "pivot_top_left": [
+        128,
+        240
+      ],
+      "alpha_cutoff": 0.5,
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "column": 0,
+          "alpha_bounds": [
+            73,
+            187,
+            150,
+            234
+          ],
+          "cutout_bottom_y": 226
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "column": 1,
+          "alpha_bounds": [
+            60,
+            122,
+            193,
+            236
+          ],
+          "cutout_bottom_y": 233
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "column": 2,
+          "alpha_bounds": [
+            33,
+            32,
+            224,
+            240
+          ],
+          "cutout_bottom_y": 240
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "column": 3,
+          "alpha_bounds": [
+            35,
+            41,
+            221,
+            240
+          ],
+          "cutout_bottom_y": 240
+        },
+        {
+          "index": 4,
+          "row": 0,
+          "column": 4,
+          "alpha_bounds": [
+            49,
+            51,
+            196,
+            238
+          ],
+          "cutout_bottom_y": 232
+        },
+        {
+          "index": 5,
+          "row": 0,
+          "column": 5,
+          "alpha_bounds": [
+            116,
+            185,
+            141,
+            208
+          ],
+          "cutout_bottom_y": 206
+        }
+      ],
+      "native_mask": "native/Cannon/muzzle_smoke_spec.png",
+      "native_cell": [
+        256,
+        256
+      ],
+      "native_scale_to_game": 1,
+      "native_note": "현재 원본 해상도 보존; 손실 없는 축소 원본 없음",
+      "preview_4x": "previews/Cannon/muzzle_smoke_spec_4x.png",
+      "preview_frames": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "normal_source": null,
+      "normal_used_in_review": false,
+      "normal_note": "노멀맵 없음: 평면 법선",
+      "material_pixels": {
+        "matte": 0,
+        "leather": 0,
+        "iron": 0,
+        "polished": 0,
+        "gold": 0,
+        "effect": 59971
+      }
+    }
+  ]
+}

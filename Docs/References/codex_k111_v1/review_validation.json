@@ -1,0 +1,267 @@
+{
+  "passed": true,
+  "images": [
+    {
+      "alt": "평상 · 닫힌 입",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "결의 · 굳게 다문 입",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "경계 · 벌어진 입",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "피로 · 처진 입",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "현재 게임 · 마법사 초상",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "실제 게임 원본 · 지정된 05_pf_night_clean.png",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "수정 합성 목업 · 같은 병사·성벽·카메라",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "K-103 기존 목업 · 다른 캡처 기반",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "K-103 기존 광원",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "수정 광원 · 알파 40",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "K-103 기존 광원",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "수정 광원 · 알파 64",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "K-103 기존 광원",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "수정 광원 · 알파 88",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "K-103 기존 · 넓은 띠",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "수정 · 128화소 중 28화소 이내만 점유",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "현재 게임 · 횃불 불꽃 시트 / 신규 화로 본체와는 별개",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "실제 게임 지도 · 네 성벽과 안마당 배치",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "실제 전투 · 석재·여장·벽 위 보행로 참고",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "K-105 기존 · 게임 미연결",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "수정 · 평지의 사각 요새",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "K-105 기존 · 게임 미연결",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "수정 · 같은 요새 점화",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "점화 전후 자동 비교",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "현재 게임 공용 배경 · 기존 주인공은 비교 자료에만 있음",
+      "loaded": true,
+      "embedded": true
+    }
+  ],
+  "backgrounds": [
+    {
+      "loaded": true,
+      "embedded": true,
+      "size": [
+        256,
+        384
+      ]
+    },
+    {
+      "loaded": true,
+      "embedded": true,
+      "size": [
+        256,
+        384
+      ]
+    },
+    {
+      "loaded": true,
+      "embedded": true,
+      "size": [
+        256,
+        384
+      ]
+    },
+    {
+      "loaded": true,
+      "embedded": true,
+      "size": [
+        256,
+        384
+      ]
+    },
+    {
+      "loaded": true,
+      "embedded": true,
+      "size": [
+        256,
+        384
+      ]
+    },
+    {
+      "loaded": true,
+      "embedded": true,
+      "size": [
+        256,
+        384
+      ]
+    },
+    {
+      "loaded": true,
+      "embedded": true,
+      "size": [
+        256,
+        384
+      ]
+    },
+    {
+      "loaded": true,
+      "embedded": true,
+      "size": [
+        256,
+        384
+      ]
+    },
+    {
+      "loaded": true,
+      "embedded": true,
+      "size": [
+        1024,
+        384
+      ]
+    },
+    {
+      "loaded": true,
+      "embedded": true,
+      "size": [
+        1024,
+        384
+      ]
+    },
+    {
+      "loaded": true,
+      "embedded": true,
+      "size": [
+        192,
+        192
+      ]
+    },
+    {
+      "loaded": true,
+      "embedded": true,
+      "size": [
+        576,
+        128
+      ]
+    },
+    {
+      "loaded": true,
+      "embedded": true,
+      "size": [
+        192,
+        192
+      ]
+    },
+    {
+      "loaded": true,
+      "embedded": true,
+      "size": [
+        576,
+        128
+      ]
+    },
+    {
+      "loaded": true,
+      "embedded": true,
+      "size": [
+        192,
+        192
+      ]
+    },
+    {
+      "loaded": true,
+      "embedded": true,
+      "size": [
+        576,
+        128
+      ]
+    }
+  ],
+  "motion_count": 5,
+  "animated": true,
+  "storyChanges": true,
+  "pauseWorks": true,
+  "dialogueVisible": true,
+  "mobileNoOverflow": true,
+  "errors": []
+}

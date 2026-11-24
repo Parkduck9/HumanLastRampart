@@ -1,0 +1,1762 @@
+{
+  "sheets": 34,
+  "native_frames": 236,
+  "checks": [
+    {
+      "sheet": "worker_a_walk_front",
+      "frames": 8,
+      "unique_frames": 8,
+      "bottom_y": 120,
+      "binary_alpha": true,
+      "single_connected_component": true,
+      "bounds": [
+        [
+          27,
+          48,
+          68,
+          120
+        ],
+        [
+          26,
+          48,
+          70,
+          120
+        ],
+        [
+          27,
+          48,
+          69,
+          120
+        ],
+        [
+          27,
+          48,
+          69,
+          120
+        ],
+        [
+          26,
+          48,
+          69,
+          120
+        ],
+        [
+          26,
+          48,
+          69,
+          120
+        ],
+        [
+          27,
+          48,
+          69,
+          120
+        ],
+        [
+          27,
+          48,
+          69,
+          120
+        ]
+      ]
+    },
+    {
+      "sheet": "worker_a_walk_back",
+      "frames": 8,
+      "unique_frames": 8,
+      "bottom_y": 120,
+      "binary_alpha": true,
+      "single_connected_component": true,
+      "bounds": [
+        [
+          27,
+          48,
+          68,
+          120
+        ],
+        [
+          28,
+          48,
+          68,
+          120
+        ],
+        [
+          27,
+          48,
+          68,
+          120
+        ],
+        [
+          27,
+          48,
+          68,
+          120
+        ],
+        [
+          26,
+          48,
+          69,
+          120
+        ],
+        [
+          27,
+          48,
+          68,
+          120
+        ],
+        [
+          28,
+          48,
+          68,
+          120
+        ],
+        [
+          27,
+          48,
+          69,
+          120
+        ]
+      ]
+    },
+    {
+      "sheet": "worker_a_walk_right",
+      "frames": 8,
+      "unique_frames": 8,
+      "bottom_y": 120,
+      "binary_alpha": true,
+      "single_connected_component": true,
+      "bounds": [
+        [
+          23,
+          48,
+          65,
+          120
+        ],
+        [
+          22,
+          48,
+          66,
+          120
+        ],
+        [
+          24,
+          48,
+          68,
+          120
+        ],
+        [
+          24,
+          47,
+          67,
+          120
+        ],
+        [
+          23,
+          49,
+          68,
+          120
+        ],
+        [
+          24,
+          49,
+          69,
+          120
+        ],
+        [
+          25,
+          49,
+          68,
+          120
+        ],
+        [
+          24,
+          48,
+          69,
+          120
+        ]
+      ]
+    },
+    {
+      "sheet": "worker_a_walk_left",
+      "frames": 8,
+      "unique_frames": 8,
+      "bottom_y": 120,
+      "binary_alpha": true,
+      "single_connected_component": true,
+      "bounds": [
+        [
+          31,
+          48,
+          73,
+          120
+        ],
+        [
+          30,
+          48,
+          74,
+          120
+        ],
+        [
+          28,
+          48,
+          72,
+          120
+        ],
+        [
+          29,
+          47,
+          72,
+          120
+        ],
+        [
+          28,
+          49,
+          73,
+          120
+        ],
+        [
+          27,
+          49,
+          72,
+          120
+        ],
+        [
+          28,
+          49,
+          71,
+          120
+        ],
+        [
+          27,
+          48,
+          72,
+          120
+        ]
+      ]
+    },
+    {
+      "sheet": "worker_a_climb_up_right",
+      "frames": 6,
+      "unique_frames": 6,
+      "bottom_y": 120,
+      "binary_alpha": true,
+      "single_connected_component": true,
+      "bounds": [
+        [
+          29,
+          51,
+          67,
+          120
+        ],
+        [
+          31,
+          49,
+          70,
+          120
+        ],
+        [
+          26,
+          49,
+          68,
+          120
+        ],
+        [
+          27,
+          50,
+          68,
+          120
+        ],
+        [
+          30,
+          51,
+          66,
+          120
+        ],
+        [
+          29,
+          50,
+          67,
+          120
+        ]
+      ]
+    },
+    {
+      "sheet": "worker_a_climb_up_left",
+      "frames": 6,
+      "unique_frames": 6,
+      "bottom_y": 120,
+      "binary_alpha": true,
+      "single_connected_component": true,
+      "bounds": [
+        [
+          29,
+          51,
+          67,
+          120
+        ],
+        [
+          26,
+          49,
+          65,
+          120
+        ],
+        [
+          28,
+          49,
+          70,
+          120
+        ],
+        [
+          28,
+          50,
+          69,
+          120
+        ],
+        [
+          30,
+          51,
+          66,
+          120
+        ],
+        [
+          29,
+          50,
+          67,
+          120
+        ]
+      ]
+    },
+    {
+      "sheet": "worker_a_climb_up_back",
+      "frames": 6,
+      "unique_frames": 6,
+      "bottom_y": 120,
+      "binary_alpha": true,
+      "single_connected_component": true,
+      "bounds": [
+        [
+          26,
+          50,
+          69,
+          120
+        ],
+        [
+          28,
+          51,
+          68,
+          120
+        ],
+        [
+          27,
+          51,
+          68,
+          120
+        ],
+        [
+          26,
+          50,
+          69,
+          120
+        ],
+        [
+          27,
+          50,
+          68,
+          120
+        ],
+        [
+          27,
+          50,
+          68,
+          120
+        ]
+      ]
+    },
+    {
+      "sheet": "worker_a_climb_down_right",
+      "frames": 6,
+      "unique_frames": 6,
+      "bottom_y": 120,
+      "binary_alpha": true,
+      "single_connected_component": true,
+      "bounds": [
+        [
+          29,
+          50,
+          65,
+          120
+        ],
+        [
+          30,
+          49,
+          65,
+          120
+        ],
+        [
+          32,
+          50,
+          71,
+          120
+        ],
+        [
+          30,
+          52,
+          69,
+          120
+        ],
+        [
+          29,
+          50,
+          66,
+          120
+        ],
+        [
+          30,
+          50,
+          65,
+          120
+        ]
+      ]
+    },
+    {
+      "sheet": "worker_a_climb_down_left",
+      "frames": 6,
+      "unique_frames": 6,
+      "bottom_y": 120,
+      "binary_alpha": true,
+      "single_connected_component": true,
+      "bounds": [
+        [
+          31,
+          50,
+          67,
+          120
+        ],
+        [
+          31,
+          49,
+          66,
+          120
+        ],
+        [
+          25,
+          50,
+          64,
+          120
+        ],
+        [
+          27,
+          52,
+          66,
+          120
+        ],
+        [
+          30,
+          50,
+          67,
+          120
+        ],
+        [
+          31,
+          50,
+          66,
+          120
+        ]
+      ]
+    },
+    {
+      "sheet": "worker_a_climb_down_back",
+      "frames": 6,
+      "unique_frames": 6,
+      "bottom_y": 120,
+      "binary_alpha": true,
+      "single_connected_component": true,
+      "bounds": [
+        [
+          27,
+          51,
+          69,
+          120
+        ],
+        [
+          28,
+          50,
+          68,
+          120
+        ],
+        [
+          27,
+          50,
+          69,
+          120
+        ],
+        [
+          27,
+          50,
+          69,
+          120
+        ],
+        [
+          26,
+          51,
+          69,
+          120
+        ],
+        [
+          27,
+          49,
+          69,
+          120
+        ]
+      ]
+    },
+    {
+      "sheet": "worker_a_tend_front",
+      "frames": 6,
+      "unique_frames": 6,
+      "bottom_y": 120,
+      "binary_alpha": true,
+      "single_connected_component": true,
+      "bounds": [
+        [
+          28,
+          48,
+          68,
+          120
+        ],
+        [
+          26,
+          47,
+          69,
+          120
+        ],
+        [
+          22,
+          51,
+          69,
+          120
+        ],
+        [
+          27,
+          52,
+          69,
+          120
+        ],
+        [
+          27,
+          48,
+          69,
+          120
+        ],
+        [
+          27,
+          49,
+          68,
+          120
+        ]
+      ]
+    },
+    {
+      "sheet": "worker_a_tend_right",
+      "frames": 6,
+      "unique_frames": 6,
+      "bottom_y": 120,
+      "binary_alpha": true,
+      "single_connected_component": true,
+      "bounds": [
+        [
+          26,
+          48,
+          67,
+          120
+        ],
+        [
+          27,
+          48,
+          68,
+          120
+        ],
+        [
+          21,
+          48,
+          72,
+          120
+        ],
+        [
+          25,
+          50,
+          69,
+          120
+        ],
+        [
+          22,
+          48,
+          69,
+          120
+        ],
+        [
+          26,
+          48,
+          69,
+          120
+        ]
+      ]
+    },
+    {
+      "sheet": "worker_a_tend_left",
+      "frames": 6,
+      "unique_frames": 6,
+      "bottom_y": 120,
+      "binary_alpha": true,
+      "single_connected_component": true,
+      "bounds": [
+        [
+          29,
+          48,
+          70,
+          120
+        ],
+        [
+          28,
+          48,
+          69,
+          120
+        ],
+        [
+          24,
+          48,
+          75,
+          120
+        ],
+        [
+          27,
+          50,
+          71,
+          120
+        ],
+        [
+          27,
+          48,
+          74,
+          120
+        ],
+        [
+          27,
+          48,
+          70,
+          120
+        ]
+      ]
+    },
+    {
+      "sheet": "worker_a_carry_front",
+      "frames": 8,
+      "unique_frames": 8,
+      "bottom_y": 120,
+      "binary_alpha": true,
+      "single_connected_component": true,
+      "bounds": [
+        [
+          24,
+          47,
+          69,
+          120
+        ],
+        [
+          26,
+          49,
+          69,
+          120
+        ],
+        [
+          27,
+          51,
+          68,
+          120
+        ],
+        [
+          27,
+          48,
+          68,
+          120
+        ],
+        [
+          26,
+          48,
+          71,
+          120
+        ],
+        [
+          27,
+          49,
+          68,
+          120
+        ],
+        [
+          27,
+          48,
+          70,
+          120
+        ],
+        [
+          26,
+          47,
+          71,
+          120
+        ]
+      ]
+    },
+    {
+      "sheet": "worker_a_carry_back",
+      "frames": 8,
+      "unique_frames": 8,
+      "bottom_y": 120,
+      "binary_alpha": true,
+      "single_connected_component": true,
+      "bounds": [
+        [
+          26,
+          48,
+          72,
+          120
+        ],
+        [
+          25,
+          48,
+          71,
+          120
+        ],
+        [
+          25,
+          49,
+          72,
+          120
+        ],
+        [
+          24,
+          48,
+          70,
+          120
+        ],
+        [
+          26,
+          48,
+          72,
+          120
+        ],
+        [
+          23,
+          49,
+          69,
+          120
+        ],
+        [
+          26,
+          49,
+          70,
+          120
+        ],
+        [
+          26,
+          49,
+          72,
+          120
+        ]
+      ]
+    },
+    {
+      "sheet": "worker_a_carry_right",
+      "frames": 8,
+      "unique_frames": 8,
+      "bottom_y": 120,
+      "binary_alpha": true,
+      "single_connected_component": true,
+      "bounds": [
+        [
+          25,
+          48,
+          67,
+          120
+        ],
+        [
+          24,
+          49,
+          67,
+          120
+        ],
+        [
+          24,
+          48,
+          67,
+          120
+        ],
+        [
+          25,
+          48,
+          68,
+          120
+        ],
+        [
+          24,
+          49,
+          69,
+          120
+        ],
+        [
+          23,
+          49,
+          68,
+          120
+        ],
+        [
+          24,
+          49,
+          67,
+          120
+        ],
+        [
+          26,
+          49,
+          68,
+          120
+        ]
+      ]
+    },
+    {
+      "sheet": "worker_a_carry_left",
+      "frames": 8,
+      "unique_frames": 8,
+      "bottom_y": 120,
+      "binary_alpha": true,
+      "single_connected_component": true,
+      "bounds": [
+        [
+          29,
+          48,
+          71,
+          120
+        ],
+        [
+          29,
+          49,
+          72,
+          120
+        ],
+        [
+          29,
+          48,
+          72,
+          120
+        ],
+        [
+          28,
+          48,
+          71,
+          120
+        ],
+        [
+          27,
+          49,
+          72,
+          120
+        ],
+        [
+          28,
+          49,
+          73,
+          120
+        ],
+        [
+          29,
+          49,
+          72,
+          120
+        ],
+        [
+          28,
+          49,
+          70,
+          120
+        ]
+      ]
+    },
+    {
+      "sheet": "worker_b_walk_front",
+      "frames": 8,
+      "unique_frames": 8,
+      "bottom_y": 120,
+      "binary_alpha": true,
+      "single_connected_component": true,
+      "bounds": [
+        [
+          20,
+          48,
+          75,
+          120
+        ],
+        [
+          21,
+          48,
+          74,
+          120
+        ],
+        [
+          20,
+          48,
+          75,
+          120
+        ],
+        [
+          21,
+          48,
+          74,
+          120
+        ],
+        [
+          22,
+          48,
+          74,
+          120
+        ],
+        [
+          21,
+          48,
+          74,
+          120
+        ],
+        [
+          21,
+          48,
+          74,
+          120
+        ],
+        [
+          22,
+          48,
+          74,
+          120
+        ]
+      ]
+    },
+    {
+      "sheet": "worker_b_walk_back",
+      "frames": 8,
+      "unique_frames": 8,
+      "bottom_y": 120,
+      "binary_alpha": true,
+      "single_connected_component": true,
+      "bounds": [
+        [
+          21,
+          48,
+          74,
+          120
+        ],
+        [
+          21,
+          48,
+          74,
+          120
+        ],
+        [
+          21,
+          48,
+          74,
+          120
+        ],
+        [
+          21,
+          48,
+          74,
+          120
+        ],
+        [
+          22,
+          48,
+          74,
+          120
+        ],
+        [
+          21,
+          48,
+          74,
+          120
+        ],
+        [
+          21,
+          48,
+          74,
+          120
+        ],
+        [
+          21,
+          48,
+          74,
+          120
+        ]
+      ]
+    },
+    {
+      "sheet": "worker_b_walk_right",
+      "frames": 8,
+      "unique_frames": 8,
+      "bottom_y": 120,
+      "binary_alpha": true,
+      "single_connected_component": true,
+      "bounds": [
+        [
+          18,
+          48,
+          72,
+          120
+        ],
+        [
+          22,
+          48,
+          71,
+          120
+        ],
+        [
+          17,
+          48,
+          71,
+          120
+        ],
+        [
+          19,
+          48,
+          71,
+          120
+        ],
+        [
+          18,
+          48,
+          72,
+          120
+        ],
+        [
+          18,
+          48,
+          71,
+          120
+        ],
+        [
+          21,
+          48,
+          71,
+          120
+        ],
+        [
+          19,
+          48,
+          72,
+          120
+        ]
+      ]
+    },
+    {
+      "sheet": "worker_b_walk_left",
+      "frames": 8,
+      "unique_frames": 8,
+      "bottom_y": 120,
+      "binary_alpha": true,
+      "single_connected_component": true,
+      "bounds": [
+        [
+          24,
+          48,
+          78,
+          120
+        ],
+        [
+          25,
+          48,
+          74,
+          120
+        ],
+        [
+          25,
+          48,
+          79,
+          120
+        ],
+        [
+          25,
+          48,
+          77,
+          120
+        ],
+        [
+          24,
+          48,
+          78,
+          120
+        ],
+        [
+          25,
+          48,
+          78,
+          120
+        ],
+        [
+          25,
+          48,
+          75,
+          120
+        ],
+        [
+          24,
+          48,
+          77,
+          120
+        ]
+      ]
+    },
+    {
+      "sheet": "worker_b_climb_up_right",
+      "frames": 6,
+      "unique_frames": 6,
+      "bottom_y": 120,
+      "binary_alpha": true,
+      "single_connected_component": true,
+      "bounds": [
+        [
+          21,
+          51,
+          71,
+          120
+        ],
+        [
+          30,
+          50,
+          78,
+          120
+        ],
+        [
+          27,
+          50,
+          69,
+          120
+        ],
+        [
+          21,
+          50,
+          69,
+          120
+        ],
+        [
+          31,
+          50,
+          74,
+          120
+        ],
+        [
+          27,
+          50,
+          68,
+          120
+        ]
+      ]
+    },
+    {
+      "sheet": "worker_b_climb_up_left",
+      "frames": 6,
+      "unique_frames": 6,
+      "bottom_y": 120,
+      "binary_alpha": true,
+      "single_connected_component": true,
+      "bounds": [
+        [
+          25,
+          51,
+          75,
+          120
+        ],
+        [
+          18,
+          50,
+          66,
+          120
+        ],
+        [
+          27,
+          50,
+          69,
+          120
+        ],
+        [
+          27,
+          50,
+          75,
+          120
+        ],
+        [
+          22,
+          50,
+          65,
+          120
+        ],
+        [
+          28,
+          50,
+          69,
+          120
+        ]
+      ]
+    },
+    {
+      "sheet": "worker_b_climb_up_back",
+      "frames": 6,
+      "unique_frames": 6,
+      "bottom_y": 120,
+      "binary_alpha": true,
+      "single_connected_component": true,
+      "bounds": [
+        [
+          24,
+          51,
+          71,
+          120
+        ],
+        [
+          23,
+          49,
+          72,
+          120
+        ],
+        [
+          25,
+          50,
+          71,
+          120
+        ],
+        [
+          24,
+          50,
+          71,
+          120
+        ],
+        [
+          23,
+          49,
+          72,
+          120
+        ],
+        [
+          24,
+          51,
+          71,
+          120
+        ]
+      ]
+    },
+    {
+      "sheet": "worker_b_climb_down_right",
+      "frames": 6,
+      "unique_frames": 6,
+      "bottom_y": 120,
+      "binary_alpha": true,
+      "single_connected_component": true,
+      "bounds": [
+        [
+          27,
+          47,
+          69,
+          120
+        ],
+        [
+          26,
+          51,
+          71,
+          120
+        ],
+        [
+          25,
+          51,
+          71,
+          120
+        ],
+        [
+          25,
+          50,
+          72,
+          120
+        ],
+        [
+          30,
+          51,
+          75,
+          120
+        ],
+        [
+          25,
+          50,
+          71,
+          120
+        ]
+      ]
+    },
+    {
+      "sheet": "worker_b_climb_down_left",
+      "frames": 6,
+      "unique_frames": 6,
+      "bottom_y": 120,
+      "binary_alpha": true,
+      "single_connected_component": true,
+      "bounds": [
+        [
+          27,
+          47,
+          69,
+          120
+        ],
+        [
+          25,
+          51,
+          70,
+          120
+        ],
+        [
+          25,
+          51,
+          71,
+          120
+        ],
+        [
+          24,
+          50,
+          71,
+          120
+        ],
+        [
+          21,
+          51,
+          66,
+          120
+        ],
+        [
+          25,
+          50,
+          71,
+          120
+        ]
+      ]
+    },
+    {
+      "sheet": "worker_b_climb_down_back",
+      "frames": 6,
+      "unique_frames": 6,
+      "bottom_y": 120,
+      "binary_alpha": true,
+      "single_connected_component": true,
+      "bounds": [
+        [
+          24,
+          49,
+          71,
+          120
+        ],
+        [
+          24,
+          49,
+          70,
+          120
+        ],
+        [
+          25,
+          50,
+          72,
+          120
+        ],
+        [
+          24,
+          51,
+          71,
+          120
+        ],
+        [
+          25,
+          52,
+          70,
+          120
+        ],
+        [
+          24,
+          51,
+          71,
+          120
+        ]
+      ]
+    },
+    {
+      "sheet": "worker_b_tend_front",
+      "frames": 6,
+      "unique_frames": 6,
+      "bottom_y": 120,
+      "binary_alpha": true,
+      "single_connected_component": true,
+      "bounds": [
+        [
+          22,
+          48,
+          73,
+          120
+        ],
+        [
+          22,
+          48,
+          74,
+          120
+        ],
+        [
+          21,
+          49,
+          73,
+          120
+        ],
+        [
+          22,
+          48,
+          74,
+          120
+        ],
+        [
+          23,
+          48,
+          72,
+          120
+        ],
+        [
+          22,
+          48,
+          73,
+          120
+        ]
+      ]
+    },
+    {
+      "sheet": "worker_b_tend_right",
+      "frames": 6,
+      "unique_frames": 6,
+      "bottom_y": 120,
+      "binary_alpha": true,
+      "single_connected_component": true,
+      "bounds": [
+        [
+          31,
+          48,
+          71,
+          120
+        ],
+        [
+          25,
+          48,
+          69,
+          120
+        ],
+        [
+          21,
+          48,
+          80,
+          120
+        ],
+        [
+          24,
+          48,
+          71,
+          120
+        ],
+        [
+          30,
+          48,
+          67,
+          120
+        ],
+        [
+          31,
+          48,
+          71,
+          120
+        ]
+      ]
+    },
+    {
+      "sheet": "worker_b_tend_left",
+      "frames": 6,
+      "unique_frames": 6,
+      "bottom_y": 120,
+      "binary_alpha": true,
+      "single_connected_component": true,
+      "bounds": [
+        [
+          25,
+          48,
+          65,
+          120
+        ],
+        [
+          27,
+          48,
+          71,
+          120
+        ],
+        [
+          16,
+          48,
+          75,
+          120
+        ],
+        [
+          25,
+          48,
+          72,
+          120
+        ],
+        [
+          29,
+          48,
+          66,
+          120
+        ],
+        [
+          25,
+          48,
+          65,
+          120
+        ]
+      ]
+    },
+    {
+      "sheet": "worker_b_carry_front",
+      "frames": 8,
+      "unique_frames": 8,
+      "bottom_y": 120,
+      "binary_alpha": true,
+      "single_connected_component": true,
+      "bounds": [
+        [
+          17,
+          48,
+          75,
+          120
+        ],
+        [
+          17,
+          48,
+          75,
+          120
+        ],
+        [
+          18,
+          48,
+          75,
+          120
+        ],
+        [
+          17,
+          48,
+          75,
+          120
+        ],
+        [
+          17,
+          48,
+          74,
+          120
+        ],
+        [
+          17,
+          48,
+          75,
+          120
+        ],
+        [
+          19,
+          48,
+          74,
+          120
+        ],
+        [
+          17,
+          48,
+          76,
+          120
+        ]
+      ]
+    },
+    {
+      "sheet": "worker_b_carry_back",
+      "frames": 8,
+      "unique_frames": 8,
+      "bottom_y": 120,
+      "binary_alpha": true,
+      "single_connected_component": true,
+      "bounds": [
+        [
+          22,
+          49,
+          75,
+          120
+        ],
+        [
+          21,
+          47,
+          74,
+          120
+        ],
+        [
+          22,
+          48,
+          74,
+          120
+        ],
+        [
+          22,
+          48,
+          75,
+          120
+        ],
+        [
+          22,
+          49,
+          75,
+          120
+        ],
+        [
+          22,
+          48,
+          75,
+          120
+        ],
+        [
+          22,
+          49,
+          74,
+          120
+        ],
+        [
+          22,
+          49,
+          75,
+          120
+        ]
+      ]
+    },
+    {
+      "sheet": "worker_b_carry_right",
+      "frames": 8,
+      "unique_frames": 8,
+      "bottom_y": 120,
+      "binary_alpha": true,
+      "single_connected_component": true,
+      "bounds": [
+        [
+          20,
+          48,
+          72,
+          120
+        ],
+        [
+          22,
+          48,
+          71,
+          120
+        ],
+        [
+          20,
+          48,
+          71,
+          120
+        ],
+        [
+          20,
+          49,
+          70,
+          120
+        ],
+        [
+          22,
+          48,
+          71,
+          120
+        ],
+        [
+          20,
+          48,
+          71,
+          120
+        ],
+        [
+          23,
+          49,
+          70,
+          120
+        ],
+        [
+          21,
+          49,
+          72,
+          120
+        ]
+      ]
+    },
+    {
+      "sheet": "worker_b_carry_left",
+      "frames": 8,
+      "unique_frames": 8,
+      "bottom_y": 120,
+      "binary_alpha": true,
+      "single_connected_component": true,
+      "bounds": [
+        [
+          24,
+          48,
+          76,
+          120
+        ],
+        [
+          25,
+          48,
+          74,
+          120
+        ],
+        [
+          25,
+          48,
+          76,
+          120
+        ],
+        [
+          26,
+          49,
+          76,
+          120
+        ],
+        [
+          25,
+          48,
+          74,
+          120
+        ],
+        [
+          25,
+          48,
+          76,
+          120
+        ],
+        [
+          26,
+          49,
+          73,
+          120
+        ],
+        [
+          24,
+          49,
+          75,
+          120
+        ]
+      ]
+    }
+  ]
+}

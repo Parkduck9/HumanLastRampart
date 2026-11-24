@@ -1,0 +1,29 @@
+{
+  "loaded": true,
+  "imageCount": 8,
+  "allCanvasNonempty": true,
+  "scaleDimensions": [
+    [
+      96,
+      128
+    ],
+    [
+      384,
+      512
+    ],
+    [
+      288,
+      384
+    ]
+  ],
+  "commandLabels": [
+    "지휘",
+    "지휘",
+    "지휘"
+  ],
+  "poseCycleAdvanced": true,
+  "mobilePageOverflow": false,
+  "pageErrors": [],
+  "externalNetworkRequests": [],
+  "pass": true
+}

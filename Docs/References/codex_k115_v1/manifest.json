@@ -1,0 +1,1836 @@
+{
+  "card": "K-115",
+  "version": 1,
+  "world_pixels_per_meter": 32,
+  "coordinates": "pixels from top-left; pivot normalized separately for Unity bottom-left",
+  "filter": "Point",
+  "normal_maps": false,
+  "assets": [
+    {
+      "file": "textures/tower_wall_albedo.png",
+      "size": [
+        256,
+        256
+      ],
+      "cell": [
+        256,
+        256
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        128,
+        128
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.5
+      ],
+      "tiling": [
+        true,
+        true
+      ],
+      "filter": "Point",
+      "alpha": "opaque",
+      "role": "albedo",
+      "world_size_m": [
+        8,
+        8
+      ],
+      "wrap": "Repeat"
+    },
+    {
+      "file": "textures/tower_trim_albedo.png",
+      "size": [
+        256,
+        64
+      ],
+      "cell": [
+        256,
+        64
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        128,
+        32
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.5
+      ],
+      "tiling": [
+        true,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "opaque",
+      "role": "albedo",
+      "world_size_m": [
+        8,
+        2
+      ],
+      "wrap": "Repeat X, Clamp Y"
+    },
+    {
+      "file": "textures/tower_roof_albedo.png",
+      "size": [
+        128,
+        128
+      ],
+      "cell": [
+        128,
+        128
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        64,
+        64
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.5
+      ],
+      "tiling": [
+        true,
+        true
+      ],
+      "filter": "Point",
+      "alpha": "opaque",
+      "role": "albedo",
+      "world_size_m": [
+        4,
+        4
+      ],
+      "wrap": "Repeat"
+    },
+    {
+      "file": "previews/wall_4x.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "cell": [
+        1024,
+        1024
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        512,
+        512
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.5
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "previews/wall_repeat_2x2.png",
+      "size": [
+        512,
+        512
+      ],
+      "cell": [
+        512,
+        512
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        256,
+        256
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.5
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "role": "tiling_preview"
+    },
+    {
+      "file": "previews/trim_4x.png",
+      "size": [
+        1024,
+        256
+      ],
+      "cell": [
+        1024,
+        256
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        512,
+        128
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.5
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "previews/trim_repeat_2x2.png",
+      "size": [
+        512,
+        128
+      ],
+      "cell": [
+        512,
+        128
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        256,
+        64
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.5
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "role": "tiling_preview"
+    },
+    {
+      "file": "previews/roof_4x.png",
+      "size": [
+        512,
+        512
+      ],
+      "cell": [
+        512,
+        512
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        256,
+        256
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.5
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "previews/roof_repeat_2x2.png",
+      "size": [
+        256,
+        256
+      ],
+      "cell": [
+        256,
+        256
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        128,
+        128
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.5
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "role": "tiling_preview"
+    },
+    {
+      "file": "native/flame_warming.png",
+      "size": [
+        576,
+        128
+      ],
+      "cell": [
+        96,
+        128
+      ],
+      "frames": 6,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.0625
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "baseline_y": 120,
+      "center_x": 48,
+      "role": "fire",
+      "state": "LIT",
+      "strength": "dim",
+      "fps": 8,
+      "loop": true,
+      "anchor_px": [
+        48,
+        120
+      ],
+      "anchor_game_px": [
+        144,
+        360
+      ],
+      "source_frame_order": "left_to_right_0_to_5",
+      "replaces_read_only_source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Beacon/flame_warming.png"
+    },
+    {
+      "file": "game/flame_warming.png",
+      "size": [
+        1728,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "frames": 6,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.0625
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "baseline_y": 360,
+      "center_x": 144,
+      "role": "fire",
+      "state": "LIT",
+      "strength": "dim",
+      "fps": 8,
+      "loop": true,
+      "anchor_px": [
+        48,
+        120
+      ],
+      "anchor_game_px": [
+        144,
+        360
+      ],
+      "source_frame_order": "left_to_right_0_to_5",
+      "replaces_read_only_source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Beacon/flame_warming.png"
+    },
+    {
+      "file": "previews/flame_warming_4x.png",
+      "size": [
+        2304,
+        512
+      ],
+      "cell": [
+        384,
+        512
+      ],
+      "frames": 6,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.5
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/flame_lit.png",
+      "size": [
+        576,
+        128
+      ],
+      "cell": [
+        96,
+        128
+      ],
+      "frames": 6,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.0625
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "baseline_y": 120,
+      "center_x": 48,
+      "role": "fire",
+      "state": "LIT",
+      "strength": "normal",
+      "fps": 8,
+      "loop": true,
+      "anchor_px": [
+        48,
+        120
+      ],
+      "anchor_game_px": [
+        144,
+        360
+      ],
+      "source_frame_order": "left_to_right_0_to_5",
+      "replaces_read_only_source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Beacon/flame_lit.png"
+    },
+    {
+      "file": "game/flame_lit.png",
+      "size": [
+        1728,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "frames": 6,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.0625
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "baseline_y": 360,
+      "center_x": 144,
+      "role": "fire",
+      "state": "LIT",
+      "strength": "normal",
+      "fps": 8,
+      "loop": true,
+      "anchor_px": [
+        48,
+        120
+      ],
+      "anchor_game_px": [
+        144,
+        360
+      ],
+      "source_frame_order": "left_to_right_0_to_5",
+      "replaces_read_only_source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Beacon/flame_lit.png"
+    },
+    {
+      "file": "previews/flame_lit_4x.png",
+      "size": [
+        2304,
+        512
+      ],
+      "cell": [
+        384,
+        512
+      ],
+      "frames": 6,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.5
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "textures/lamp_interior_glow.png",
+      "size": [
+        128,
+        128
+      ],
+      "cell": [
+        128,
+        128
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        64,
+        64
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.5
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Bilinear (only intentionally smooth asset)",
+      "alpha": "straight RGBA",
+      "role": "local_interior_glow",
+      "max_alpha": 96,
+      "blend": "SrcAlpha OneMinusSrcAlpha",
+      "clip_to_lamp_room": true,
+      "wrap": "Clamp"
+    },
+    {
+      "file": "previews/lamp_interior_glow_4x.png",
+      "size": [
+        512,
+        512
+      ],
+      "cell": [
+        512,
+        512
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        256,
+        256
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.5
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "mockup_day.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "cell": [
+        1920,
+        1080
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        960,
+        540
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.5
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "role": "mockup",
+      "source": "Docs/References/tower_20261023/226_tower_tall_day_2_wall_top_look_tower_north.png",
+      "edit_region_xyxy": [
+        856,
+        166,
+        1066,
+        970
+      ],
+      "generated_tower_paintover": true
+    },
+    {
+      "file": "mockup_night.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "cell": [
+        1920,
+        1080
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        960,
+        540
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.5
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "role": "mockup",
+      "source": "Docs/References/tower_20261023/236_tower_tall_night_3_courtyard_overview.png",
+      "edit_region_xyxy": [
+        882,
+        265,
+        1043,
+        765
+      ],
+      "generated_tower_paintover": true
+    },
+    {
+      "file": "native/lamp_window_dead.png",
+      "size": [
+        96,
+        128
+      ],
+      "cell": [
+        96,
+        128
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.0625
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "baseline_y": 120,
+      "center_x": 48,
+      "role": "lamp_window",
+      "state": "DEAD",
+      "art_size_px": [
+        88,
+        64
+      ],
+      "shared_state_alpha_mask": true,
+      "opening_transparent": true
+    },
+    {
+      "file": "game/lamp_window_dead.png",
+      "size": [
+        288,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.0625
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "baseline_y": 360,
+      "center_x": 144,
+      "role": "lamp_window",
+      "state": "DEAD",
+      "art_size_px": [
+        88,
+        64
+      ],
+      "shared_state_alpha_mask": true,
+      "opening_transparent": true
+    },
+    {
+      "file": "previews/lamp_window_dead_4x.png",
+      "size": [
+        384,
+        512
+      ],
+      "cell": [
+        384,
+        512
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.5
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/lamp_window_lit.png",
+      "size": [
+        96,
+        128
+      ],
+      "cell": [
+        96,
+        128
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.0625
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "baseline_y": 120,
+      "center_x": 48,
+      "role": "lamp_window",
+      "state": "LIT",
+      "art_size_px": [
+        88,
+        64
+      ],
+      "shared_state_alpha_mask": true,
+      "opening_transparent": true
+    },
+    {
+      "file": "game/lamp_window_lit.png",
+      "size": [
+        288,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.0625
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "baseline_y": 360,
+      "center_x": 144,
+      "role": "lamp_window",
+      "state": "LIT",
+      "art_size_px": [
+        88,
+        64
+      ],
+      "shared_state_alpha_mask": true,
+      "opening_transparent": true
+    },
+    {
+      "file": "previews/lamp_window_lit_4x.png",
+      "size": [
+        384,
+        512
+      ],
+      "cell": [
+        384,
+        512
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.5
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/brazier_lens_dead.png",
+      "size": [
+        96,
+        128
+      ],
+      "cell": [
+        96,
+        128
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.0625
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "baseline_y": 120,
+      "center_x": 48,
+      "role": "brazier_lens",
+      "state": "DEAD",
+      "art_size_px": [
+        34,
+        48
+      ],
+      "shared_state_alpha_mask": true,
+      "fire_mount_from_base_px": [
+        0,
+        -14
+      ]
+    },
+    {
+      "file": "game/brazier_lens_dead.png",
+      "size": [
+        288,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.0625
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "baseline_y": 360,
+      "center_x": 144,
+      "role": "brazier_lens",
+      "state": "DEAD",
+      "art_size_px": [
+        34,
+        48
+      ],
+      "shared_state_alpha_mask": true,
+      "fire_mount_from_base_px": [
+        0,
+        -14
+      ]
+    },
+    {
+      "file": "previews/brazier_lens_dead_4x.png",
+      "size": [
+        384,
+        512
+      ],
+      "cell": [
+        384,
+        512
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.5
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/brazier_lens_lit.png",
+      "size": [
+        96,
+        128
+      ],
+      "cell": [
+        96,
+        128
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.0625
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "baseline_y": 120,
+      "center_x": 48,
+      "role": "brazier_lens",
+      "state": "LIT",
+      "art_size_px": [
+        34,
+        48
+      ],
+      "shared_state_alpha_mask": true,
+      "fire_mount_from_base_px": [
+        0,
+        -14
+      ]
+    },
+    {
+      "file": "game/brazier_lens_lit.png",
+      "size": [
+        288,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.0625
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "baseline_y": 360,
+      "center_x": 144,
+      "role": "brazier_lens",
+      "state": "LIT",
+      "art_size_px": [
+        34,
+        48
+      ],
+      "shared_state_alpha_mask": true,
+      "fire_mount_from_base_px": [
+        0,
+        -14
+      ]
+    },
+    {
+      "file": "previews/brazier_lens_lit_4x.png",
+      "size": [
+        384,
+        512
+      ],
+      "cell": [
+        384,
+        512
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.5
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/lantern_dead.png",
+      "size": [
+        96,
+        128
+      ],
+      "cell": [
+        96,
+        128
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.0625
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "baseline_y": 120,
+      "center_x": 48,
+      "role": "door_lantern_alternative",
+      "state": "DEAD",
+      "usage": "alternative to lantern included on door; do not stack"
+    },
+    {
+      "file": "game/lantern_dead.png",
+      "size": [
+        288,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.0625
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "baseline_y": 360,
+      "center_x": 144,
+      "role": "door_lantern_alternative",
+      "state": "DEAD",
+      "usage": "alternative to lantern included on door; do not stack"
+    },
+    {
+      "file": "previews/lantern_dead_4x.png",
+      "size": [
+        384,
+        512
+      ],
+      "cell": [
+        384,
+        512
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.5
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/lantern_lit.png",
+      "size": [
+        96,
+        128
+      ],
+      "cell": [
+        96,
+        128
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.0625
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "baseline_y": 120,
+      "center_x": 48,
+      "role": "door_lantern_alternative",
+      "state": "LIT",
+      "usage": "alternative to lantern included on door; do not stack"
+    },
+    {
+      "file": "game/lantern_lit.png",
+      "size": [
+        288,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.0625
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "baseline_y": 360,
+      "center_x": 144,
+      "role": "door_lantern_alternative",
+      "state": "LIT",
+      "usage": "alternative to lantern included on door; do not stack"
+    },
+    {
+      "file": "previews/lantern_lit_4x.png",
+      "size": [
+        384,
+        512
+      ],
+      "cell": [
+        384,
+        512
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.5
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "previews/lamp_room_dead_4x.png",
+      "size": [
+        384,
+        512
+      ],
+      "cell": [
+        384,
+        512
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.5
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "role": "assembly_preview_no_fire",
+      "state": "DEAD"
+    },
+    {
+      "file": "previews/lamp_room_lit_4x.png",
+      "size": [
+        384,
+        512
+      ],
+      "cell": [
+        384,
+        512
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.5
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "role": "assembly_preview_no_fire",
+      "state": "LIT"
+    },
+    {
+      "file": "native/flame_bright.png",
+      "size": [
+        576,
+        128
+      ],
+      "cell": [
+        96,
+        128
+      ],
+      "frames": 6,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.0625
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "baseline_y": 120,
+      "center_x": 48,
+      "role": "fire",
+      "state": "LIT",
+      "strength": "bright",
+      "fps": 8,
+      "loop": true,
+      "anchor_px": [
+        48,
+        120
+      ],
+      "anchor_game_px": [
+        144,
+        360
+      ],
+      "source_frame_order": "left_to_right_0_to_5",
+      "max_art_height_px": 43
+    },
+    {
+      "file": "game/flame_bright.png",
+      "size": [
+        1728,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "frames": 6,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.0625
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "baseline_y": 360,
+      "center_x": 144,
+      "role": "fire",
+      "state": "LIT",
+      "strength": "bright",
+      "fps": 8,
+      "loop": true,
+      "anchor_px": [
+        48,
+        120
+      ],
+      "anchor_game_px": [
+        144,
+        360
+      ],
+      "source_frame_order": "left_to_right_0_to_5",
+      "max_art_height_px": 43
+    },
+    {
+      "file": "previews/flame_bright_4x.png",
+      "size": [
+        2304,
+        512
+      ],
+      "cell": [
+        384,
+        512
+      ],
+      "frames": 6,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.5
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/door_dead.png",
+      "size": [
+        96,
+        128
+      ],
+      "cell": [
+        96,
+        128
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.0625
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "baseline_y": 120,
+      "center_x": 48,
+      "role": "door_with_lantern",
+      "state": "DEAD",
+      "opening_width_px": 38,
+      "opening_width_m": 1.1875,
+      "art_width_px": 80,
+      "shared_state_alpha_mask": true
+    },
+    {
+      "file": "game/door_dead.png",
+      "size": [
+        288,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.0625
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "baseline_y": 360,
+      "center_x": 144,
+      "role": "door_with_lantern",
+      "state": "DEAD",
+      "opening_width_px": 38,
+      "opening_width_m": 1.1875,
+      "art_width_px": 80,
+      "shared_state_alpha_mask": true
+    },
+    {
+      "file": "previews/door_dead_4x.png",
+      "size": [
+        384,
+        512
+      ],
+      "cell": [
+        384,
+        512
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.5
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/door_lit.png",
+      "size": [
+        96,
+        128
+      ],
+      "cell": [
+        96,
+        128
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.0625
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "baseline_y": 120,
+      "center_x": 48,
+      "role": "door_with_lantern",
+      "state": "LIT",
+      "opening_width_px": 38,
+      "opening_width_m": 1.1875,
+      "art_width_px": 80,
+      "shared_state_alpha_mask": true
+    },
+    {
+      "file": "game/door_lit.png",
+      "size": [
+        288,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.0625
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "baseline_y": 360,
+      "center_x": 144,
+      "role": "door_with_lantern",
+      "state": "LIT",
+      "opening_width_px": 38,
+      "opening_width_m": 1.1875,
+      "art_width_px": 80,
+      "shared_state_alpha_mask": true
+    },
+    {
+      "file": "previews/door_lit_4x.png",
+      "size": [
+        384,
+        512
+      ],
+      "cell": [
+        384,
+        512
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "pivot_normalized_unity": [
+        0.5,
+        0.5
+      ],
+      "tiling": [
+        false,
+        false
+      ],
+      "filter": "Point",
+      "alpha": "straight RGBA",
+      "role": "preview"
+    }
+  ],
+  "mockups": [
+    {
+      "file": "mockup_day.png",
+      "source": "Docs/References/tower_20261023/226_tower_tall_day_2_wall_top_look_tower_north.png",
+      "edit_region_xyxy": [
+        856,
+        166,
+        1066,
+        970
+      ],
+      "unchanged_outside_region": true,
+      "note": "Art-direction paintover, not a Unity integration screenshot"
+    },
+    {
+      "file": "mockup_night.png",
+      "source": "Docs/References/tower_20261023/236_tower_tall_night_3_courtyard_overview.png",
+      "edit_region_xyxy": [
+        882,
+        265,
+        1043,
+        765
+      ],
+      "unchanged_outside_region": true,
+      "note": "Art-direction paintover, not a Unity integration screenshot"
+    }
+  ],
+  "import_notes": {
+    "sprite_filter": "Point",
+    "sprite_compression": "None",
+    "sprite_mipmaps": false,
+    "pixels_per_unit_native": 32,
+    "pixels_per_unit_game": 96,
+    "texture_pixels_per_unit": 32,
+    "tiling": "wall 8m x 8m; roof 4m x 4m; trim 8m x 2m along X only",
+    "layers_back_to_front": [
+      "opaque dark lamp interior",
+      "local restrained glow",
+      "brazier_lens",
+      "fire (base 14 native pixels above brazier base)",
+      "lamp_window"
+    ],
+    "torch_and_beam": "Use existing Unity point lights/beam; glow sprite does not replace scene lighting",
+    "not_a_character_sheet": true,
+    "states": "DEAD: cold window, cold hardware, cold door; LIT: warm variants, fire and clipped glow"
+  },
+  "lamp_mounts_native": {
+    "window_pivot": [
+      48,
+      120
+    ],
+    "brazier_pivot": [
+      48,
+      113
+    ],
+    "fire_pivot": [
+      48,
+      99
+    ],
+    "glow_rect": [
+      16,
+      57,
+      64,
+      56
+    ],
+    "note": "All are locations within a 96x128 assembly preview; convert offsets by x3 for game sheets."
+  },
+  "replacements": {
+    "flame_warming": "dim, six frames",
+    "flame_lit": "normal, six frames",
+    "flame_bright": "bright, new six-frame sheet",
+    "tower_wall_albedo": "256x256 Repeat XY",
+    "tower_roof_albedo": "128x128 Repeat XY"
+  },
+  "optional_dressing": "Banner and gallery chain omitted; optional in brief.",
+  "generation": {
+    "tool": "built-in image_gen",
+    "processing": "Crop, alpha threshold, shared state masks, palette reduction for wall/fire, edge wrap reconciliation, nearest-neighbor sizing and 3x/4x exports.",
+    "reference_identity": "K-102 dark stone and warm bronze; selected hero v6 pixel direction",
+    "prompts": "prompts.json"
+  }
+}

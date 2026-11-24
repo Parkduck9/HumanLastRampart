@@ -1,0 +1,28 @@
+{
+  "method": "Node VM with DOM/canvas mocks plus PNG IDAT decoding; not a real browser",
+  "embedded_png_count": 19,
+  "draw_calls": 274,
+  "all_source_rects_in_bounds": true,
+  "autoplay": true,
+  "pause": true,
+  "single_step_holds": true,
+  "all_9_progress_states": [
+    "1 / 8 · 걷기",
+    "2 / 8 · 망원경",
+    "3 / 8 · 지도",
+    "4 / 8 · 분대",
+    "5 / 8 · 대포",
+    "6 / 8 · 마법",
+    "7 / 8 · 함정",
+    "8 / 8 · 망원경 업그레이드",
+    "여덟 단계 모두 완료"
+  ],
+  "nine_slice_widths": [
+    180,
+    900
+  ],
+  "external_resources": 0,
+  "browser_verified": false,
+  "browser_limitation": "Headless Chrome did not expose its debugging endpoint. Computer-use inventory had no browsers; iab was unavailable.",
+  "unity_verified": false
+}

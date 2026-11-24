@@ -1,0 +1,61 @@
+﻿{
+    "fuse":  [
+                 269,
+                 132
+             ],
+    "frames":  [
+                   {
+                       "frame":  0,
+                       "bodyHeight":  210,
+                       "hotY":  200,
+                       "offset":  126,
+                       "hotX":  134,
+                       "footY":  352
+                   },
+                   {
+                       "frame":  1,
+                       "bodyHeight":  210,
+                       "hotY":  165,
+                       "offset":  109,
+                       "hotX":  117,
+                       "footY":  352
+                   },
+                   {
+                       "frame":  2,
+                       "bodyHeight":  210,
+                       "hotY":  189,
+                       "offset":  97,
+                       "hotX":  107,
+                       "footY":  352
+                   },
+                   {
+                       "frame":  3,
+                       "bodyHeight":  210,
+                       "hotY":  132,
+                       "offset":  123,
+                       "hotX":  132,
+                       "footY":  352
+                   },
+                   {
+                       "frame":  4,
+                       "bodyHeight":  210,
+                       "hotY":  180,
+                       "offset":  108,
+                       "hotX":  117,
+                       "footY":  352
+                   },
+                   {
+                       "frame":  5,
+                       "bodyHeight":  210,
+                       "hotY":  200,
+                       "offset":  130,
+                       "hotX":  137,
+                       "footY":  352
+                   }
+               ],
+    "flamePalette":  [
+                         "#FFFA90",
+                         "#FBB02A",
+                         "#E75501"
+                     ]
+}

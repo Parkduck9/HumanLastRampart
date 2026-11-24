@@ -1,0 +1,991 @@
+{
+  "date": "2026-10-21",
+  "status": "color_files_copied_and_existing_definition_fields_connected_unity_not_run",
+  "rows": [
+    {
+      "sheet": "archer_static.png",
+      "source_card": "K-073",
+      "source": "Docs/References/codex_k073_v1/archer_static.png",
+      "target": "Game/Assets/_Project/Art/Characters/Static/archer_static.png",
+      "before_size": [
+        288,
+        384
+      ],
+      "source_size": [
+        288,
+        384
+      ],
+      "before_sha256": "0a7c35db020d1805bbdadacde6362bf7c990448298a61bae618879efdddfc9f2",
+      "source_sha256": "0a7c35db020d1805bbdadacde6362bf7c990448298a61bae618879efdddfc9f2",
+      "before_guid": "9bbb432c5b1d445cb092d3e80eb1aa65",
+      "action": "same",
+      "after_sha256": "0a7c35db020d1805bbdadacde6362bf7c990448298a61bae618879efdddfc9f2",
+      "after_guid": "9bbb432c5b1d445cb092d3e80eb1aa65",
+      "byte_exact": true,
+      "definition_references": [
+        "Game/Assets/_Project/Data/Combat/Units/unit_archer.asset:sheet"
+      ],
+      "resource_reference": null,
+      "meta_exists": true,
+      "runtime_state": "referenced_existing_runtime"
+    },
+    {
+      "sheet": "archer_run.png",
+      "source_card": "K-073",
+      "source": "Docs/References/codex_k073_v1/archer_run.png",
+      "target": "Game/Assets/_Project/Art/Characters/Run/archer_run.png",
+      "before_size": [
+        1152,
+        384
+      ],
+      "source_size": [
+        1152,
+        384
+      ],
+      "before_sha256": "98808a08f186b08f4500f7827c9ed7821f854efc0716a8cbcca76c954b4e3925",
+      "source_sha256": "98808a08f186b08f4500f7827c9ed7821f854efc0716a8cbcca76c954b4e3925",
+      "before_guid": "ca45a3950036483ea0c9dc299d2ce017",
+      "action": "same",
+      "after_sha256": "98808a08f186b08f4500f7827c9ed7821f854efc0716a8cbcca76c954b4e3925",
+      "after_guid": "ca45a3950036483ea0c9dc299d2ce017",
+      "byte_exact": true,
+      "definition_references": [
+        "Game/Assets/_Project/Data/Combat/Units/unit_archer.asset:runSheet"
+      ],
+      "resource_reference": null,
+      "meta_exists": true,
+      "runtime_state": "referenced_existing_runtime"
+    },
+    {
+      "sheet": "archer_fire.png",
+      "source_card": "K-073",
+      "source": "Docs/References/codex_k073_v1/archer_fire.png",
+      "target": "Game/Assets/_Project/Art/Characters/Fire/archer_fire.png",
+      "before_size": [
+        1728,
+        384
+      ],
+      "source_size": [
+        1728,
+        384
+      ],
+      "before_sha256": "f425d7e0d3191df7f9db66843112b86138c386f8e3984c221527a6c606702288",
+      "source_sha256": "f425d7e0d3191df7f9db66843112b86138c386f8e3984c221527a6c606702288",
+      "before_guid": "77712fd5d7784cb3858f6cee7662a38f",
+      "action": "same",
+      "after_sha256": "f425d7e0d3191df7f9db66843112b86138c386f8e3984c221527a6c606702288",
+      "after_guid": "77712fd5d7784cb3858f6cee7662a38f",
+      "byte_exact": true,
+      "definition_references": [
+        "Game/Assets/_Project/Data/Combat/Units/unit_archer.asset:fireSheet"
+      ],
+      "resource_reference": null,
+      "meta_exists": true,
+      "runtime_state": "referenced_existing_runtime"
+    },
+    {
+      "sheet": "archer_fall.png",
+      "source_card": "K-073",
+      "source": "Docs/References/codex_k073_v1/archer_fall.png",
+      "target": "Game/Assets/_Project/Art/Characters/Fall/archer_fall.png",
+      "before_size": [
+        1152,
+        384
+      ],
+      "source_size": [
+        1152,
+        384
+      ],
+      "before_sha256": "879f9d36ac90a89a61040a12a460815e7e529d0b7c5e5f8337e570f0888d48d3",
+      "source_sha256": "879f9d36ac90a89a61040a12a460815e7e529d0b7c5e5f8337e570f0888d48d3",
+      "before_guid": "1ce4ecdac9504d06b34d300d20d5e839",
+      "action": "same",
+      "after_sha256": "879f9d36ac90a89a61040a12a460815e7e529d0b7c5e5f8337e570f0888d48d3",
+      "after_guid": "1ce4ecdac9504d06b34d300d20d5e839",
+      "byte_exact": true,
+      "definition_references": [
+        "Game/Assets/_Project/Data/Combat/Units/unit_archer.asset:deathSheet"
+      ],
+      "resource_reference": null,
+      "meta_exists": true,
+      "runtime_state": "referenced_existing_runtime"
+    },
+    {
+      "sheet": "gunner_static.png",
+      "source_card": "K-074",
+      "source": "Docs/References/codex_k074_v1/gunner_static.png",
+      "target": "Game/Assets/_Project/Art/Characters/Static/gunner_static.png",
+      "before_size": [
+        288,
+        384
+      ],
+      "source_size": [
+        288,
+        384
+      ],
+      "before_sha256": "0570db03f345ef9c9bc05346ed010e7cfd082fe6a01c0103fb74e7cdce6910f5",
+      "source_sha256": "0570db03f345ef9c9bc05346ed010e7cfd082fe6a01c0103fb74e7cdce6910f5",
+      "before_guid": "41cc8dcf5f7a4fd5980191d361dc65f3",
+      "action": "same",
+      "after_sha256": "0570db03f345ef9c9bc05346ed010e7cfd082fe6a01c0103fb74e7cdce6910f5",
+      "after_guid": "41cc8dcf5f7a4fd5980191d361dc65f3",
+      "byte_exact": true,
+      "definition_references": [
+        "Game/Assets/_Project/Data/Combat/Units/unit_gunner.asset:sheet"
+      ],
+      "resource_reference": null,
+      "meta_exists": true,
+      "runtime_state": "referenced_existing_runtime"
+    },
+    {
+      "sheet": "gunner_run.png",
+      "source_card": "K-074",
+      "source": "Docs/References/codex_k074_v1/gunner_run.png",
+      "target": "Game/Assets/_Project/Art/Characters/Run/gunner_run.png",
+      "before_size": [
+        1152,
+        384
+      ],
+      "source_size": [
+        1152,
+        384
+      ],
+      "before_sha256": "6132a2797bcc63f51a67c771a7801c8428b92f0f5c380c3e87a36b1d07e8d70d",
+      "source_sha256": "6132a2797bcc63f51a67c771a7801c8428b92f0f5c380c3e87a36b1d07e8d70d",
+      "before_guid": "c41bc62645c84bc4bf83291a3dda7ec8",
+      "action": "same",
+      "after_sha256": "6132a2797bcc63f51a67c771a7801c8428b92f0f5c380c3e87a36b1d07e8d70d",
+      "after_guid": "c41bc62645c84bc4bf83291a3dda7ec8",
+      "byte_exact": true,
+      "definition_references": [
+        "Game/Assets/_Project/Data/Combat/Units/unit_gunner.asset:runSheet"
+      ],
+      "resource_reference": null,
+      "meta_exists": true,
+      "runtime_state": "referenced_existing_runtime"
+    },
+    {
+      "sheet": "gunner_fire.png",
+      "source_card": "K-074",
+      "source": "Docs/References/codex_k074_v1/gunner_fire.png",
+      "target": "Game/Assets/_Project/Art/Characters/Fire/gunner_fire.png",
+      "before_size": [
+        1728,
+        384
+      ],
+      "source_size": [
+        1728,
+        384
+      ],
+      "before_sha256": "10a7906f436ea393c5ba68abb28ae7f497edcbacdb4b24fcf85c58c377613f21",
+      "source_sha256": "10a7906f436ea393c5ba68abb28ae7f497edcbacdb4b24fcf85c58c377613f21",
+      "before_guid": "e16c30e8cb684c009a3aac23aea8e5a3",
+      "action": "same",
+      "after_sha256": "10a7906f436ea393c5ba68abb28ae7f497edcbacdb4b24fcf85c58c377613f21",
+      "after_guid": "e16c30e8cb684c009a3aac23aea8e5a3",
+      "byte_exact": true,
+      "definition_references": [
+        "Game/Assets/_Project/Data/Combat/Units/unit_gunner.asset:fireSheet"
+      ],
+      "resource_reference": null,
+      "meta_exists": true,
+      "runtime_state": "referenced_existing_runtime"
+    },
+    {
+      "sheet": "gunner_fall.png",
+      "source_card": "K-074",
+      "source": "Docs/References/codex_k074_v1/gunner_fall.png",
+      "target": "Game/Assets/_Project/Art/Characters/Fall/gunner_fall.png",
+      "before_size": [
+        1152,
+        384
+      ],
+      "source_size": [
+        1152,
+        384
+      ],
+      "before_sha256": "4ef6863f35be19cdd1a0d67bc929074927f9e398c92086a113a6435e4a7f55eb",
+      "source_sha256": "4ef6863f35be19cdd1a0d67bc929074927f9e398c92086a113a6435e4a7f55eb",
+      "before_guid": "abae2fe5ccea45a191cf76e820748bd7",
+      "action": "same",
+      "after_sha256": "4ef6863f35be19cdd1a0d67bc929074927f9e398c92086a113a6435e4a7f55eb",
+      "after_guid": "abae2fe5ccea45a191cf76e820748bd7",
+      "byte_exact": true,
+      "definition_references": [
+        "Game/Assets/_Project/Data/Combat/Units/unit_gunner.asset:deathSheet"
+      ],
+      "resource_reference": null,
+      "meta_exists": true,
+      "runtime_state": "referenced_existing_runtime"
+    },
+    {
+      "sheet": "cannon_crew_static.png",
+      "source_card": "K-075",
+      "source": "Docs/References/codex_k075_v1/game/Characters/Static/cannon_crew_static.png",
+      "target": "Game/Assets/_Project/Art/Characters/Static/cannon_crew_static.png",
+      "before_size": [
+        288,
+        384
+      ],
+      "source_size": [
+        288,
+        384
+      ],
+      "before_sha256": "3836ce50297502e9899df0d2a8a432b2d6e8244a9d34998c12819f711358251e",
+      "source_sha256": "3836ce50297502e9899df0d2a8a432b2d6e8244a9d34998c12819f711358251e",
+      "before_guid": "7f645c3e19234801a7ff1e384a13b293",
+      "action": "same",
+      "after_sha256": "3836ce50297502e9899df0d2a8a432b2d6e8244a9d34998c12819f711358251e",
+      "after_guid": "7f645c3e19234801a7ff1e384a13b293",
+      "byte_exact": true,
+      "definition_references": [
+        "Game/Assets/_Project/Data/Combat/Units/unit_cannon_crew.asset:sheet"
+      ],
+      "resource_reference": null,
+      "meta_exists": true,
+      "runtime_state": "referenced_existing_runtime"
+    },
+    {
+      "sheet": "cannon_crew_run.png",
+      "source_card": "K-075",
+      "source": "Docs/References/codex_k075_v1/game/Characters/Run/cannon_crew_run.png",
+      "target": "Game/Assets/_Project/Art/Characters/Run/cannon_crew_run.png",
+      "before_size": [
+        1152,
+        384
+      ],
+      "source_size": [
+        1152,
+        384
+      ],
+      "before_sha256": "94cfa6a2205a2cdaef28a7f99280ede26109f2ee894ee3f252d370234930be51",
+      "source_sha256": "94cfa6a2205a2cdaef28a7f99280ede26109f2ee894ee3f252d370234930be51",
+      "before_guid": "1e75ca3ef8ba4eefb256edfa72eca636",
+      "action": "same",
+      "after_sha256": "94cfa6a2205a2cdaef28a7f99280ede26109f2ee894ee3f252d370234930be51",
+      "after_guid": "1e75ca3ef8ba4eefb256edfa72eca636",
+      "byte_exact": true,
+      "definition_references": [
+        "Game/Assets/_Project/Data/Combat/Units/unit_cannon_crew.asset:runSheet"
+      ],
+      "resource_reference": null,
+      "meta_exists": true,
+      "runtime_state": "referenced_existing_runtime"
+    },
+    {
+      "sheet": "cannon_crew_ignite6.png",
+      "source_card": "T-CX-094/K-086-v5",
+      "source": "Docs/References/codex_k086_v5/game/cannon_crew_ignite6.png",
+      "target": "Game/Assets/_Project/Art/Characters/Fire/cannon_crew_ignite6.png",
+      "before_size": [
+        2592,
+        384
+      ],
+      "source_size": [
+        2592,
+        384
+      ],
+      "before_sha256": "5132d551a86960a7f95884e804534c79244847f260c2c8bd047866f0da4496e9",
+      "source_sha256": "5132d551a86960a7f95884e804534c79244847f260c2c8bd047866f0da4496e9",
+      "before_guid": "b75ab3c5093e4f079e2ee21e56b399f7",
+      "action": "same",
+      "after_sha256": "5132d551a86960a7f95884e804534c79244847f260c2c8bd047866f0da4496e9",
+      "after_guid": "b75ab3c5093e4f079e2ee21e56b399f7",
+      "byte_exact": true,
+      "definition_references": [
+        "Game/Assets/_Project/Data/Combat/Units/unit_cannon_crew.asset:igniteSheet"
+      ],
+      "resource_reference": null,
+      "meta_exists": true,
+      "runtime_state": "referenced_existing_runtime"
+    },
+    {
+      "sheet": "cannon_crew_fall.png",
+      "source_card": "K-075",
+      "source": "Docs/References/codex_k075_v1/game/Characters/Fall/cannon_crew_fall.png",
+      "target": "Game/Assets/_Project/Art/Characters/Fall/cannon_crew_fall.png",
+      "before_size": [
+        1152,
+        384
+      ],
+      "source_size": [
+        1152,
+        384
+      ],
+      "before_sha256": "b258a6de2a54a55d72def698b9fb996b22fbf7f1ec0d10782d8f061c3069cf6d",
+      "source_sha256": "b258a6de2a54a55d72def698b9fb996b22fbf7f1ec0d10782d8f061c3069cf6d",
+      "before_guid": "ae478026414744898e758701ec76fd64",
+      "action": "same",
+      "after_sha256": "b258a6de2a54a55d72def698b9fb996b22fbf7f1ec0d10782d8f061c3069cf6d",
+      "after_guid": "ae478026414744898e758701ec76fd64",
+      "byte_exact": true,
+      "definition_references": [
+        "Game/Assets/_Project/Data/Combat/Units/unit_cannon_crew.asset:deathSheet"
+      ],
+      "resource_reference": null,
+      "meta_exists": true,
+      "runtime_state": "referenced_existing_runtime"
+    },
+    {
+      "sheet": "crew_push6.png",
+      "source_card": "K-075",
+      "source": "Docs/References/codex_k075_v1/game/Battle/Resources/BattleArt/Cannon/crew_push6.png",
+      "target": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/crew_push6.png",
+      "before_size": [
+        2304,
+        384
+      ],
+      "source_size": [
+        1728,
+        384
+      ],
+      "before_sha256": "666baf673edce403c0c2b5340558e9aba4228b0c850495c2dafa387b53ab61b0",
+      "source_sha256": "73b51b2e4840f1f6243267e0dbe21e0c21efe556c54a973ea3589bd7afa4cfab",
+      "before_guid": "e53bf35b221fea94a88dd49ee9ce0836",
+      "action": "replace",
+      "after_sha256": "73b51b2e4840f1f6243267e0dbe21e0c21efe556c54a973ea3589bd7afa4cfab",
+      "after_guid": "e53bf35b221fea94a88dd49ee9ce0836",
+      "byte_exact": true,
+      "definition_references": [],
+      "resource_reference": "CannonArt.PushSheet → Resources.Load in BattlePropView",
+      "meta_exists": true,
+      "runtime_state": "referenced_existing_runtime"
+    },
+    {
+      "sheet": "crew_pull6.png",
+      "source_card": "K-075",
+      "source": "Docs/References/codex_k075_v1/game/Battle/Resources/BattleArt/Cannon/crew_pull6.png",
+      "target": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/crew_pull6.png",
+      "before_size": [
+        2304,
+        384
+      ],
+      "source_size": [
+        1728,
+        384
+      ],
+      "before_sha256": "906e0c9aef8a351be30e5624f434def424c1d215d34693f1de06cf23095200a2",
+      "source_sha256": "ea60ccd1c7ec25c702e317160dfc70c185d883022d9f2b2c4728dbf56a78bef9",
+      "before_guid": "a218e5067399ab04f9963621f95dbc6f",
+      "action": "replace",
+      "after_sha256": "ea60ccd1c7ec25c702e317160dfc70c185d883022d9f2b2c4728dbf56a78bef9",
+      "after_guid": "a218e5067399ab04f9963621f95dbc6f",
+      "byte_exact": true,
+      "definition_references": [],
+      "resource_reference": "CannonArt.PullSheet → Resources.Load in BattlePropView",
+      "meta_exists": true,
+      "runtime_state": "referenced_existing_runtime"
+    },
+    {
+      "sheet": "wizard_back_static.png",
+      "source_card": "K-076",
+      "source": "Docs/References/codex_k076_v1/wizard_back_static.png",
+      "target": "Game/Assets/_Project/Art/Characters/Static/wizard_back_static.png",
+      "before_size": [
+        256,
+        384
+      ],
+      "source_size": [
+        288,
+        384
+      ],
+      "before_sha256": "e8c581155516d8b85563627d14fcbfd1a40acc0d90a3b08483943ba0f485e6a6",
+      "source_sha256": "3f96cd668def6932e33d1339c2c8c2d9d4516f9e02b16c159717623fcd993aa3",
+      "before_guid": "04a5da04782849b793241d496223d40b",
+      "action": "replace",
+      "after_sha256": "3f96cd668def6932e33d1339c2c8c2d9d4516f9e02b16c159717623fcd993aa3",
+      "after_guid": "04a5da04782849b793241d496223d40b",
+      "byte_exact": true,
+      "definition_references": [
+        "Game/Assets/_Project/Data/Combat/Units/unit_wizard.asset:sheet"
+      ],
+      "resource_reference": null,
+      "meta_exists": true,
+      "runtime_state": "referenced_existing_runtime"
+    },
+    {
+      "sheet": "wizard_static.png",
+      "source_card": "K-076",
+      "source": "Docs/References/codex_k076_v1/wizard_static.png",
+      "target": "Game/Assets/_Project/Art/Characters/Static/wizard_static.png",
+      "before_size": [
+        256,
+        384
+      ],
+      "source_size": [
+        288,
+        384
+      ],
+      "before_sha256": "e3994c5f0d2bb08ce99fb0d75dd9aecda3af417ed1b03b6b1e7a02ae764bd511",
+      "source_sha256": "97523b2c8eac6c0ddd70b11fefee47516396b5d0167a939f301f16d7769facd7",
+      "before_guid": "01dc04a024d34e08b29ec75ba6216e56",
+      "action": "replace",
+      "after_sha256": "97523b2c8eac6c0ddd70b11fefee47516396b5d0167a939f301f16d7769facd7",
+      "after_guid": "01dc04a024d34e08b29ec75ba6216e56",
+      "byte_exact": true,
+      "definition_references": [],
+      "resource_reference": null,
+      "meta_exists": true,
+      "runtime_state": "copied_reference_variant_not_drawn_by_existing_runtime"
+    },
+    {
+      "sheet": "wizard_cast.png",
+      "source_card": "K-076",
+      "source": "Docs/References/codex_k076_v1/wizard_cast.png",
+      "target": "Game/Assets/_Project/Art/Characters/Static/wizard_cast.png",
+      "before_size": [
+        1024,
+        384
+      ],
+      "source_size": [
+        1152,
+        384
+      ],
+      "before_sha256": "1f502ae2b03dd5b82eeb7b75ea6153fa80af72f2da417f569c3535571f957973",
+      "source_sha256": "2780e400d9e2183cab0444a9b413c05af2a0c2b87d0592825579cf5ea3c2ec2a",
+      "before_guid": "3ea33aa64d5f4fb5a070b5d76aa53dc3",
+      "action": "replace",
+      "after_sha256": "2780e400d9e2183cab0444a9b413c05af2a0c2b87d0592825579cf5ea3c2ec2a",
+      "after_guid": "3ea33aa64d5f4fb5a070b5d76aa53dc3",
+      "byte_exact": true,
+      "definition_references": [
+        "Game/Assets/_Project/Data/Combat/Units/unit_wizard.asset:castSheet"
+      ],
+      "resource_reference": null,
+      "meta_exists": true,
+      "runtime_state": "referenced_existing_runtime"
+    },
+    {
+      "sheet": "wizard_walk.png",
+      "source_card": "K-076",
+      "source": "Docs/References/codex_k076_v1/wizard_walk.png",
+      "target": "Game/Assets/_Project/Art/Characters/Static/wizard_walk.png",
+      "before_size": null,
+      "source_size": [
+        1152,
+        384
+      ],
+      "before_sha256": null,
+      "source_sha256": "8f45fa038b0e6ead0caf2fd271d99bde19bc58d0bef4ea1637e089f2a90903aa",
+      "before_guid": null,
+      "action": "add",
+      "after_sha256": "8f45fa038b0e6ead0caf2fd271d99bde19bc58d0bef4ea1637e089f2a90903aa",
+      "after_guid": "dcbdb2e1ee2e4c32ae18b4726c57cc95",
+      "byte_exact": true,
+      "definition_references": [
+        "Game/Assets/_Project/Data/Combat/Units/unit_wizard.asset:runSheet"
+      ],
+      "resource_reference": null,
+      "meta_exists": true,
+      "runtime_state": "definition_connected_but_BattleView_wizard_movement_draw_missing"
+    },
+    {
+      "sheet": "goblin_walk_attack4.png",
+      "source_card": "K-077",
+      "source": "Docs/References/codex_k077_v1/goblin_walk_attack4.png",
+      "target": "Game/Assets/_Project/Art/Characters/Goblin/goblin_walk_attack4.png",
+      "before_size": [
+        1152,
+        768
+      ],
+      "source_size": [
+        1152,
+        768
+      ],
+      "before_sha256": "a58b0ffb89e69d65747bddc6c6487f38ba3317685f7acc06cd33af7d596aa7ef",
+      "source_sha256": "a58b0ffb89e69d65747bddc6c6487f38ba3317685f7acc06cd33af7d596aa7ef",
+      "before_guid": "b3d4ea76535e4d6d85ca1a232a8d7b12",
+      "action": "same",
+      "after_sha256": "a58b0ffb89e69d65747bddc6c6487f38ba3317685f7acc06cd33af7d596aa7ef",
+      "after_guid": "b3d4ea76535e4d6d85ca1a232a8d7b12",
+      "byte_exact": true,
+      "definition_references": [
+        "Game/Assets/_Project/Data/Combat/Enemies/enemy_goblin.asset:sheet"
+      ],
+      "resource_reference": null,
+      "meta_exists": true,
+      "runtime_state": "referenced_existing_runtime"
+    },
+    {
+      "sheet": "goblin_fall4.png",
+      "source_card": "K-077",
+      "source": "Docs/References/codex_k077_v1/goblin_fall4.png",
+      "target": "Game/Assets/_Project/Art/Characters/Fall/goblin_fall4.png",
+      "before_size": [
+        1152,
+        384
+      ],
+      "source_size": [
+        1152,
+        384
+      ],
+      "before_sha256": "7353e2ae7093551c4f2a9852057ef295846f03109526c84e226289fc519f31e2",
+      "source_sha256": "7353e2ae7093551c4f2a9852057ef295846f03109526c84e226289fc519f31e2",
+      "before_guid": "a090547155244c3dab2e40b2668f082c",
+      "action": "same",
+      "after_sha256": "7353e2ae7093551c4f2a9852057ef295846f03109526c84e226289fc519f31e2",
+      "after_guid": "a090547155244c3dab2e40b2668f082c",
+      "byte_exact": true,
+      "definition_references": [
+        "Game/Assets/_Project/Data/Combat/Enemies/enemy_goblin.asset:deathSheet"
+      ],
+      "resource_reference": null,
+      "meta_exists": true,
+      "runtime_state": "referenced_existing_runtime"
+    },
+    {
+      "sheet": "goblin_wallhit4.png",
+      "source_card": "K-077",
+      "source": "Docs/References/codex_k077_v1/goblin_wallhit4.png",
+      "target": "Game/Assets/_Project/Art/Characters/Walk/goblin_wallhit4.png",
+      "before_size": null,
+      "source_size": [
+        1152,
+        384
+      ],
+      "before_sha256": null,
+      "source_sha256": "3874cb622fa9ebc797cdb48498754a18421a41f58e8a532b4ac695f0d482c6e5",
+      "before_guid": null,
+      "action": "add",
+      "after_sha256": "3874cb622fa9ebc797cdb48498754a18421a41f58e8a532b4ac695f0d482c6e5",
+      "after_guid": "fe60191f0e09405294d9bb82dca91637",
+      "byte_exact": true,
+      "definition_references": [
+        "Game/Assets/_Project/Data/Combat/Enemies/enemy_goblin.asset:attackSheet"
+      ],
+      "resource_reference": null,
+      "meta_exists": true,
+      "runtime_state": "referenced_existing_runtime"
+    },
+    {
+      "sheet": "ladder_goblin_static.png",
+      "source_card": "K-078",
+      "source": "Docs/References/codex_k078_v1/ladder_goblin_static.png",
+      "target": "Game/Assets/_Project/Art/Characters/Static/ladder_goblin_static.png",
+      "before_size": [
+        288,
+        384
+      ],
+      "source_size": [
+        288,
+        384
+      ],
+      "before_sha256": "df4177cf4cfd1aab010f401f693198588483591a72ed9cff6e7665d19933961c",
+      "source_sha256": "df4177cf4cfd1aab010f401f693198588483591a72ed9cff6e7665d19933961c",
+      "before_guid": "076c7d2837a0409d84e0b43819d58342",
+      "action": "same",
+      "after_sha256": "df4177cf4cfd1aab010f401f693198588483591a72ed9cff6e7665d19933961c",
+      "after_guid": "076c7d2837a0409d84e0b43819d58342",
+      "byte_exact": true,
+      "definition_references": [],
+      "resource_reference": null,
+      "meta_exists": true,
+      "runtime_state": "copied_reference_variant_not_drawn_by_existing_runtime"
+    },
+    {
+      "sheet": "ladder_goblin_walk.png",
+      "source_card": "K-078",
+      "source": "Docs/References/codex_k078_v1/ladder_goblin_walk.png",
+      "target": "Game/Assets/_Project/Art/Characters/Walk/ladder_goblin_walk.png",
+      "before_size": [
+        1152,
+        384
+      ],
+      "source_size": [
+        1152,
+        384
+      ],
+      "before_sha256": "6e2771e9f84b279250225e885d5d44b9c8e191389690636e0336994bd25372fb",
+      "source_sha256": "6e2771e9f84b279250225e885d5d44b9c8e191389690636e0336994bd25372fb",
+      "before_guid": "27d178a3bbd3436a8694084ceb39abef",
+      "action": "same",
+      "after_sha256": "6e2771e9f84b279250225e885d5d44b9c8e191389690636e0336994bd25372fb",
+      "after_guid": "27d178a3bbd3436a8694084ceb39abef",
+      "byte_exact": true,
+      "definition_references": [
+        "Game/Assets/_Project/Data/Combat/Enemies/enemy_goblin_ladder.asset:sheet"
+      ],
+      "resource_reference": null,
+      "meta_exists": true,
+      "runtime_state": "referenced_existing_runtime"
+    },
+    {
+      "sheet": "ladder_goblin_carry_run4.png",
+      "source_card": "K-078",
+      "source": "Docs/References/codex_k078_v1/ladder_goblin_carry_run4.png",
+      "target": "Game/Assets/_Project/Art/Characters/Ladder/ladder_goblin_carry_run4.png",
+      "before_size": [
+        1152,
+        384
+      ],
+      "source_size": [
+        1152,
+        384
+      ],
+      "before_sha256": "228ba937b69248bd153d7c485fc407247b6f8d51b6eaab9cdc7636af87824a74",
+      "source_sha256": "228ba937b69248bd153d7c485fc407247b6f8d51b6eaab9cdc7636af87824a74",
+      "before_guid": "b1fa7fe1a3014ba4a6ab27c493badfec",
+      "action": "same",
+      "after_sha256": "228ba937b69248bd153d7c485fc407247b6f8d51b6eaab9cdc7636af87824a74",
+      "after_guid": "b1fa7fe1a3014ba4a6ab27c493badfec",
+      "byte_exact": true,
+      "definition_references": [],
+      "resource_reference": null,
+      "meta_exists": true,
+      "runtime_state": "copied_reference_variant_not_drawn_by_existing_runtime"
+    },
+    {
+      "sheet": "ladder_goblin_deploy4.png",
+      "source_card": "K-078",
+      "source": "Docs/References/codex_k078_v1/ladder_goblin_deploy4.png",
+      "target": "Game/Assets/_Project/Art/Characters/Ladder/ladder_goblin_deploy4.png",
+      "before_size": [
+        1152,
+        384
+      ],
+      "source_size": [
+        1152,
+        384
+      ],
+      "before_sha256": "ea42b6ba6ef8cb1e5620da6f3e215e1e361234347f1f9c8e1c015b56da3b3f8d",
+      "source_sha256": "ea42b6ba6ef8cb1e5620da6f3e215e1e361234347f1f9c8e1c015b56da3b3f8d",
+      "before_guid": "8f2fc603cafa4878892af63745ccd017",
+      "action": "same",
+      "after_sha256": "ea42b6ba6ef8cb1e5620da6f3e215e1e361234347f1f9c8e1c015b56da3b3f8d",
+      "after_guid": "8f2fc603cafa4878892af63745ccd017",
+      "byte_exact": true,
+      "definition_references": [
+        "Game/Assets/_Project/Data/Combat/Enemies/enemy_goblin_ladder.asset:deploySheet"
+      ],
+      "resource_reference": null,
+      "meta_exists": true,
+      "runtime_state": "referenced_existing_runtime"
+    },
+    {
+      "sheet": "ladder_goblin_climb4.png",
+      "source_card": "K-078",
+      "source": "Docs/References/codex_k078_v1/ladder_goblin_climb4.png",
+      "target": "Game/Assets/_Project/Art/Characters/Ladder/ladder_goblin_climb4.png",
+      "before_size": [
+        1152,
+        384
+      ],
+      "source_size": [
+        1152,
+        384
+      ],
+      "before_sha256": "aa21e873540a0fb0057b51dfd763bee233df059028dc76401e1e07459e3c43bd",
+      "source_sha256": "aa21e873540a0fb0057b51dfd763bee233df059028dc76401e1e07459e3c43bd",
+      "before_guid": "41d0da7f932044bc9f35a3afb4835b28",
+      "action": "same",
+      "after_sha256": "aa21e873540a0fb0057b51dfd763bee233df059028dc76401e1e07459e3c43bd",
+      "after_guid": "41d0da7f932044bc9f35a3afb4835b28",
+      "byte_exact": true,
+      "definition_references": [
+        "Game/Assets/_Project/Data/Combat/Enemies/enemy_goblin_ladder.asset:climbSheet"
+      ],
+      "resource_reference": null,
+      "meta_exists": true,
+      "runtime_state": "referenced_existing_runtime"
+    },
+    {
+      "sheet": "ladder_front.png",
+      "source_card": "K-078",
+      "source": "Docs/References/codex_k078_v1/ladder_front.png",
+      "target": "Game/Assets/_Project/Art/Characters/Ladder/ladder_front.png",
+      "before_size": [
+        256,
+        1536
+      ],
+      "source_size": [
+        256,
+        1536
+      ],
+      "before_sha256": "7c4ade7b17ddda39e7a06af87adeae1dec439a1ebc0dd3ca1c3604b169b0d5f7",
+      "source_sha256": "7892c618ff48430388b622b886083d30b433a6ea1c8e4788938e3cd8d9c308e6",
+      "before_guid": "601d893506ea42f8a2d813e68e5c4a36",
+      "action": "replace",
+      "after_sha256": "7892c618ff48430388b622b886083d30b433a6ea1c8e4788938e3cd8d9c308e6",
+      "after_guid": "601d893506ea42f8a2d813e68e5c4a36",
+      "byte_exact": true,
+      "definition_references": [
+        "Game/Assets/_Project/Data/Combat/Enemies/enemy_goblin_ladder.asset:ladderSheet"
+      ],
+      "resource_reference": null,
+      "meta_exists": true,
+      "runtime_state": "referenced_existing_runtime"
+    },
+    {
+      "sheet": "ladder_side.png",
+      "source_card": "K-078",
+      "source": "Docs/References/codex_k078_v1/ladder_side.png",
+      "target": "Game/Assets/_Project/Art/Characters/Ladder/ladder_side.png",
+      "before_size": [
+        256,
+        1536
+      ],
+      "source_size": [
+        256,
+        1536
+      ],
+      "before_sha256": "32ae4f1b07abd9a2ceac321f9df160d0cdcd0a574248a89079306a2f877f49b4",
+      "source_sha256": "c87bb7abebcbf4add38148b71621446a3094fa690ddfe8f9f55d225a53fbe86b",
+      "before_guid": "a4b674a32fac4373b2e46e4a6c805e9d",
+      "action": "replace",
+      "after_sha256": "c87bb7abebcbf4add38148b71621446a3094fa690ddfe8f9f55d225a53fbe86b",
+      "after_guid": "a4b674a32fac4373b2e46e4a6c805e9d",
+      "byte_exact": true,
+      "definition_references": [],
+      "resource_reference": null,
+      "meta_exists": true,
+      "runtime_state": "copied_reference_variant_not_drawn_by_existing_runtime"
+    },
+    {
+      "sheet": "ogre_static.png",
+      "source_card": "K-079",
+      "source": "Docs/References/codex_k079_v1/ogre_static.png",
+      "target": "Game/Assets/_Project/Art/Characters/Static/ogre_static.png",
+      "before_size": [
+        256,
+        384
+      ],
+      "source_size": [
+        256,
+        384
+      ],
+      "before_sha256": "ae75c2b19fc2ded77a0714f81be5176cb7701605ff70f430ef478571a264d06f",
+      "source_sha256": "b2fead452612250ad05ca074b86bac8bccfa4858c1846cd6497fe8312f8c13af",
+      "before_guid": "d03684aa8c6e4a67a4524846dd206b16",
+      "action": "replace",
+      "after_sha256": "b2fead452612250ad05ca074b86bac8bccfa4858c1846cd6497fe8312f8c13af",
+      "after_guid": "d03684aa8c6e4a67a4524846dd206b16",
+      "byte_exact": true,
+      "definition_references": [],
+      "resource_reference": null,
+      "meta_exists": true,
+      "runtime_state": "copied_reference_variant_not_drawn_by_existing_runtime"
+    },
+    {
+      "sheet": "ogre_walk.png",
+      "source_card": "K-079",
+      "source": "Docs/References/codex_k079_v1/ogre_walk.png",
+      "target": "Game/Assets/_Project/Art/Characters/Walk/ogre_walk.png",
+      "before_size": [
+        1024,
+        384
+      ],
+      "source_size": [
+        1024,
+        384
+      ],
+      "before_sha256": "a91fbecd19a355eaf2ee032dbce4bdc0ce96c3c93468fe1dbee3a877b405088d",
+      "source_sha256": "5eaabb2f9a89e59996778a27a3cfe592d81e0c039c19a3f825af608ecb38e3a8",
+      "before_guid": "66768a11424c46e18ebf47a6236d46f7",
+      "action": "replace",
+      "after_sha256": "5eaabb2f9a89e59996778a27a3cfe592d81e0c039c19a3f825af608ecb38e3a8",
+      "after_guid": "66768a11424c46e18ebf47a6236d46f7",
+      "byte_exact": true,
+      "definition_references": [
+        "Game/Assets/_Project/Data/Combat/Enemies/enemy_ogre.asset:sheet"
+      ],
+      "resource_reference": null,
+      "meta_exists": true,
+      "runtime_state": "referenced_existing_runtime"
+    },
+    {
+      "sheet": "ogre_attack4.png",
+      "source_card": "K-079",
+      "source": "Docs/References/codex_k079_v1/ogre_attack4.png",
+      "target": "Game/Assets/_Project/Art/Characters/Walk/ogre_attack4.png",
+      "before_size": [
+        1024,
+        384
+      ],
+      "source_size": [
+        1024,
+        384
+      ],
+      "before_sha256": "d9671bcb22509579bdd060e262cd5fe8ed87b4f9948d0d0ea71efa0961d33e7c",
+      "source_sha256": "0cb8cb05c79651b54c32073c5215339efe76561c95c287a2a8d60f1e0ecd7bcc",
+      "before_guid": "950740006b1b4e93af480ba8376186be",
+      "action": "replace",
+      "after_sha256": "0cb8cb05c79651b54c32073c5215339efe76561c95c287a2a8d60f1e0ecd7bcc",
+      "after_guid": "950740006b1b4e93af480ba8376186be",
+      "byte_exact": true,
+      "definition_references": [
+        "Game/Assets/_Project/Data/Combat/Enemies/enemy_ogre.asset:attackSheet"
+      ],
+      "resource_reference": null,
+      "meta_exists": true,
+      "runtime_state": "referenced_existing_runtime"
+    },
+    {
+      "sheet": "ogre_fall4.png",
+      "source_card": "K-079",
+      "source": "Docs/References/codex_k079_v1/ogre_fall4.png",
+      "target": "Game/Assets/_Project/Art/Characters/Fall/ogre_fall4.png",
+      "before_size": [
+        1024,
+        384
+      ],
+      "source_size": [
+        1024,
+        384
+      ],
+      "before_sha256": "6c06484c8d54f61f4afbf48e7b94252bced2ebc8ba41f28b83052e116d056a12",
+      "source_sha256": "886add16e6aaffb5fd3ec9d3e973598ecaadde526d632ad54e27bab3d82b7ab2",
+      "before_guid": "78a0e7b2a3ad4dbcac9ee81260abec90",
+      "action": "replace",
+      "after_sha256": "886add16e6aaffb5fd3ec9d3e973598ecaadde526d632ad54e27bab3d82b7ab2",
+      "after_guid": "78a0e7b2a3ad4dbcac9ee81260abec90",
+      "byte_exact": true,
+      "definition_references": [
+        "Game/Assets/_Project/Data/Combat/Enemies/enemy_ogre.asset:deathSheet"
+      ],
+      "resource_reference": null,
+      "meta_exists": true,
+      "runtime_state": "referenced_existing_runtime"
+    },
+    {
+      "sheet": "hero_back_idle.png",
+      "source_card": "K-080",
+      "source": "Docs/References/codex_k080_v1/hero_back_idle.png",
+      "target": "Game/Assets/_Project/Art/Characters/Hero/hero_back_idle.png",
+      "before_size": [
+        256,
+        384
+      ],
+      "source_size": [
+        288,
+        384
+      ],
+      "before_sha256": "dc29add2be5beb8661b24e6ca9eb1152294fb54eff312218636f71284ce37067",
+      "source_sha256": "1bda81fed1caf6598540eab6c02a6fe2d24264a884afd2ff6ec7903b039ffa94",
+      "before_guid": "bfd7be73219f4cf2824e70126bda9be6",
+      "action": "replace",
+      "after_sha256": "1bda81fed1caf6598540eab6c02a6fe2d24264a884afd2ff6ec7903b039ffa94",
+      "after_guid": "bfd7be73219f4cf2824e70126bda9be6",
+      "byte_exact": true,
+      "definition_references": [
+        "Game/Assets/_Project/Data/Combat/Units/unit_hero.asset:idleSheet"
+      ],
+      "resource_reference": null,
+      "meta_exists": true,
+      "runtime_state": "referenced_existing_runtime"
+    },
+    {
+      "sheet": "hero_walk_run_grid.png",
+      "source_card": "K-080",
+      "source": "Docs/References/codex_k080_v1/hero_walk_run_grid.png",
+      "target": "Game/Assets/_Project/Art/Characters/Hero/hero_walk_run_grid.png",
+      "before_size": [
+        1024,
+        1536
+      ],
+      "source_size": [
+        1152,
+        1536
+      ],
+      "before_sha256": "3ac773e6922c1ae1a3281730fec4ed26679fff808f448e0d0e3e96550d085c15",
+      "source_sha256": "5587d9d2e62d69b2e7a24de3015e0635d54264a3d9c669e2878a72d517d82fd6",
+      "before_guid": "c4e761f2657a4ac284f9c21bbf2ab6fa",
+      "action": "replace",
+      "after_sha256": "5587d9d2e62d69b2e7a24de3015e0635d54264a3d9c669e2878a72d517d82fd6",
+      "after_guid": "c4e761f2657a4ac284f9c21bbf2ab6fa",
+      "byte_exact": true,
+      "definition_references": [
+        "Game/Assets/_Project/Data/Combat/Units/unit_hero.asset:sheet"
+      ],
+      "resource_reference": null,
+      "meta_exists": true,
+      "runtime_state": "referenced_existing_runtime"
+    },
+    {
+      "sheet": "hero_command.png",
+      "source_card": "K-080",
+      "source": "Docs/References/codex_k080_v1/hero_command.png",
+      "target": "Game/Assets/_Project/Art/Characters/Hero/hero_command.png",
+      "before_size": [
+        768,
+        384
+      ],
+      "source_size": [
+        864,
+        384
+      ],
+      "before_sha256": "1da7d9a82b63c0aabb2603cc48f1004ffa1a75ccaa2e8ca6ece97243496155d7",
+      "source_sha256": "e7997c7b3c4a9c7ac6c34130a47d0eab9ff8bcca378809ceea5812387a615fc8",
+      "before_guid": "15000a1c800945ceb693f3d98b76546a",
+      "action": "replace",
+      "after_sha256": "e7997c7b3c4a9c7ac6c34130a47d0eab9ff8bcca378809ceea5812387a615fc8",
+      "after_guid": "15000a1c800945ceb693f3d98b76546a",
+      "byte_exact": true,
+      "definition_references": [
+        "Game/Assets/_Project/Data/Combat/Units/unit_hero.asset:commandSheet"
+      ],
+      "resource_reference": null,
+      "meta_exists": true,
+      "runtime_state": "referenced_existing_runtime"
+    }
+  ],
+  "definition_changes": [
+    {
+      "asset": "Game/Assets/_Project/Data/Combat/Units/unit_wizard.asset",
+      "field": "runSheet",
+      "target": "Game/Assets/_Project/Art/Characters/Static/wizard_walk.png",
+      "guid": "dcbdb2e1ee2e4c32ae18b4726c57cc95",
+      "before_sha256": "9ecba5f7bdd44c7aeee8402cffd77627d0da3ddabfd7e66d29a1674d8e57177f",
+      "after_sha256": "fb52dd05e3e0cc7a6186b36b075b5f93d20cf4872eb9c4d41784f766ffd9701a"
+    },
+    {
+      "asset": "Game/Assets/_Project/Data/Combat/Enemies/enemy_goblin.asset",
+      "field": "attackSheet",
+      "target": "Game/Assets/_Project/Art/Characters/Walk/goblin_wallhit4.png",
+      "guid": "fe60191f0e09405294d9bb82dca91637",
+      "before_sha256": "42bc10e1bb18a8a15d6af45a698a5a856fb2cf56f098937e2ca61cea4bbe38be",
+      "after_sha256": "ec33fe007a4db8ba9df16439dfa993a89c0c76864586086e7ad06f606d8d9693"
+    }
+  ],
+  "summary": {
+    "same": 19,
+    "replace": 14,
+    "add": 2
+  },
+  "runtime_gaps": [
+    {
+      "item": "wizard_walk",
+      "location": "Combat/Battle/BattleView.cs:308,611",
+      "issue": "Wizard UnitDef.runSheet 연결 완료. 기존 wizard 별도 renderer가 Sheet/CastSheet만 사용하므로 이동중 runSheet를 선택하는 코드 필요. 오른쪽을보는그림, RunFacesRight에서 자동 인식."
+    },
+    {
+      "item": "crew_push6 / crew_pull6",
+      "location": "Combat/Battle/BattlePropView.cs:146,202 / PerfLab/CannonArt.cs / BattleSim.Haul.cs",
+      "issue": "Resources 자동로드 연결됨. 칸규격 자동인식288, 피벗360. 단 기존 crewScale/stride/offset는 구형상수210·32 사용, 최신figure219·stride36에 대한 운반정합 검증 필요."
+    },
+    {
+      "item": "goblin_wallhit4",
+      "location": "Combat/Battle/BattleJobs.cs:1063",
+      "issue": "전용공격필드 우선으로 토벽/성벽/성벽위 공격 모두 적용됨. 토벽전용분기는 없음."
+    },
+    {
+      "item": "unused_reference_variants",
+      "sheets": [
+        "wizard_static.png",
+        "ladder_goblin_static.png",
+        "ladder_goblin_carry_run4.png",
+        "ladder_side.png",
+        "ogre_static.png"
+      ],
+      "issue": "원색PNG최신연결폴더에 보존했지만 기존정의필드/렌더상태는이자료를선택하지않음. 동일캐릭터의대안/동작상태이므로전부동시에표시하는것아님. 운반·측면사다리실제사용은런타임추가필요."
+    }
+  ],
+  "validation": {
+    "all_35_source_bytes_equal": true,
+    "all_existing_guids_retained": true,
+    "all_color_meta_present": true,
+    "new_game_folders": [],
+    "unity_run_by_this_agent": false,
+    "art_repainted": false,
+    "git_writes": false
+  }
+}

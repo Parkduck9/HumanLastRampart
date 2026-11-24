@@ -1,0 +1,137 @@
+﻿{
+    "assets":  [
+                   {
+                       "id":  "instruction_box",
+                       "per_frame_bounds_recorded":  true,
+                       "native_dimensions":  true,
+                       "binary_alpha":  true,
+                       "exact_3x_nearest":  true,
+                       "exact_4x_preview":  true,
+                       "foot_baseline":  "해당 없음: 인물 동작이 아닌 화면 안내 그림"
+                   },
+                   {
+                       "id":  "officer_bust",
+                       "per_frame_bounds_recorded":  true,
+                       "native_dimensions":  true,
+                       "binary_alpha":  true,
+                       "exact_3x_nearest":  true,
+                       "exact_4x_preview":  true,
+                       "foot_baseline":  "해당 없음: 인물 동작이 아닌 화면 안내 그림"
+                   },
+                   {
+                       "id":  "next_tick",
+                       "per_frame_bounds_recorded":  true,
+                       "native_dimensions":  true,
+                       "binary_alpha":  true,
+                       "exact_3x_nearest":  true,
+                       "exact_4x_preview":  true,
+                       "foot_baseline":  "해당 없음: 인물 동작이 아닌 화면 안내 그림"
+                   },
+                   {
+                       "id":  "highlight_ring",
+                       "per_frame_bounds_recorded":  true,
+                       "native_dimensions":  true,
+                       "binary_alpha":  true,
+                       "exact_3x_nearest":  true,
+                       "exact_4x_preview":  true,
+                       "foot_baseline":  "해당 없음: 인물 동작이 아닌 화면 안내 그림"
+                   },
+                   {
+                       "id":  "pointer_up",
+                       "per_frame_bounds_recorded":  true,
+                       "native_dimensions":  true,
+                       "binary_alpha":  true,
+                       "exact_3x_nearest":  true,
+                       "exact_4x_preview":  true,
+                       "foot_baseline":  "해당 없음: 인물 동작이 아닌 화면 안내 그림"
+                   },
+                   {
+                       "id":  "pointer_right",
+                       "per_frame_bounds_recorded":  true,
+                       "native_dimensions":  true,
+                       "binary_alpha":  true,
+                       "exact_3x_nearest":  true,
+                       "exact_4x_preview":  true,
+                       "foot_baseline":  "해당 없음: 인물 동작이 아닌 화면 안내 그림"
+                   },
+                   {
+                       "id":  "pointer_down",
+                       "per_frame_bounds_recorded":  true,
+                       "native_dimensions":  true,
+                       "binary_alpha":  true,
+                       "exact_3x_nearest":  true,
+                       "exact_4x_preview":  true,
+                       "foot_baseline":  "해당 없음: 인물 동작이 아닌 화면 안내 그림"
+                   },
+                   {
+                       "id":  "pointer_left",
+                       "per_frame_bounds_recorded":  true,
+                       "native_dimensions":  true,
+                       "binary_alpha":  true,
+                       "exact_3x_nearest":  true,
+                       "exact_4x_preview":  true,
+                       "foot_baseline":  "해당 없음: 인물 동작이 아닌 화면 안내 그림"
+                   },
+                   {
+                       "id":  "input_chips_24",
+                       "per_frame_bounds_recorded":  true,
+                       "native_dimensions":  true,
+                       "binary_alpha":  true,
+                       "exact_3x_nearest":  true,
+                       "exact_4x_preview":  true,
+                       "foot_baseline":  "해당 없음: 인물 동작이 아닌 화면 안내 그림"
+                   },
+                   {
+                       "id":  "input_chips_32",
+                       "per_frame_bounds_recorded":  true,
+                       "native_dimensions":  true,
+                       "binary_alpha":  true,
+                       "exact_3x_nearest":  true,
+                       "exact_4x_preview":  true,
+                       "foot_baseline":  "해당 없음: 인물 동작이 아닌 화면 안내 그림"
+                   },
+                   {
+                       "id":  "locked_chain",
+                       "per_frame_bounds_recorded":  true,
+                       "native_dimensions":  true,
+                       "binary_alpha":  true,
+                       "exact_3x_nearest":  true,
+                       "exact_4x_preview":  true,
+                       "foot_baseline":  "해당 없음: 인물 동작이 아닌 화면 안내 그림"
+                   },
+                   {
+                       "id":  "locked_seal",
+                       "per_frame_bounds_recorded":  true,
+                       "native_dimensions":  true,
+                       "binary_alpha":  true,
+                       "exact_3x_nearest":  true,
+                       "exact_4x_preview":  true,
+                       "foot_baseline":  "해당 없음: 인물 동작이 아닌 화면 안내 그림"
+                   },
+                   {
+                       "id":  "complete_stamp",
+                       "per_frame_bounds_recorded":  true,
+                       "native_dimensions":  true,
+                       "binary_alpha":  true,
+                       "exact_3x_nearest":  true,
+                       "exact_4x_preview":  true,
+                       "foot_baseline":  "해당 없음: 인물 동작이 아닌 화면 안내 그림"
+                   }
+               ],
+    "parchment_text_contrast":  7.54,
+    "parchment_text_contrast_pass":  true,
+    "delivery_sheets":  39,
+    "motion_frames_checked":  30,
+    "mockup_dimensions_checked":  true,
+    "image_decode_checked":  true,
+    "browser_render_checked":  false,
+    "unity_run":  false,
+    "git_writes":  false,
+    "notes_ko":  [
+                     "고리·화살표·흉상은 각 칸의 연결 영역 1개를 검사. 입력 글자·봉인 문양은 의도한 분리 영역이므로 최소 영역 수를 강제하지 않음.",
+                     "발 기준선 검사는 화면 안내 그림에 해당하지 않음. 고리는 중심 고정, 화살표 이동은 명시한 바운스만 사용.",
+                     "생성 원안의 부드러운 알파는 보관용이며 납품용 흉상은 이진 알파로 정리.",
+                     "브라우저 실행과 Unity Play는 수행하지 않음."
+                 ],
+    "embedded_png_count":  23
+}

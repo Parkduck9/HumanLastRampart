@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>무작위 지형과 지형 손질</title>
+<style>
+  :root { --bg:#101613; --panel:#1b2620; --deep:#18211c; --brass:#d5b16b; --body:#eee4cf; --dim:#b9c2b0; --danger:#c37e70; --good:#73b86b; --line:#3a4a40; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--body); font-family:"Malgun Gothic","맑은 고딕",sans-serif; line-height:1.65; }
+  main { max-width:1080px; margin:0 auto; padding:32px 16px 64px; }
+  h1 { color:var(--brass); font-size:30px; margin:0 0 6px; }
+  h2 { color:var(--brass); font-size:22px; margin:36px 0 10px; border-bottom:1px solid var(--line); padding-bottom:6px; }
+  h3 { font-size:17px; margin:20px 0 6px; }
+  .sub { color:var(--dim); margin:0 0 20px; }
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:16px 20px; margin:12px 0; }
+  table { width:100%; border-collapse:collapse; margin:10px 0; font-size:15px; }
+  th, td { border:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top; }
+  th { background:var(--deep); color:var(--brass); }
+  .q { border-left:4px solid var(--brass); }
+  .q b { color:var(--brass); }
+  .rec { color:var(--good); font-weight:bold; }
+  .warn { color:var(--danger); }
+  code { background:var(--deep); padding:1px 5px; border-radius:4px; }
+  svg { width:100%; height:auto; display:block; }
+  .legend span { display:inline-block; margin-right:16px; color:var(--dim); font-size:14px; }
+  .legend i { display:inline-block; width:14px; height:14px; border-radius:3px; margin-right:6px; vertical-align:-2px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>무작위 지형과 지형 손질 — 설계 제안 1판</h1>
+  <p class="sub">Claude · 2026-10-16 · 결정 D-076 ④의 세부. <b>사용자 검토 전 — 아래 질문(T1~T6)에 답해 주시면 확정 후 만듭니다.</b> 그림은 코덱스 K-029(함정 지도)·K-030(지형 손질) 시안과 짝.</p>
+
+  <h2>1. 한눈에</h2>
+  <div class="card">
+    <p>새 게임을 시작하면 성 둘레 들판(반경 160m)에 <b>언덕·나무 덩이·바위 덩이</b>가 무작위로 놓입니다. 한 판(전투 1~4) 동안 그대로이고, 다음 판에서 새로 만들어집니다.</p>
+    <p>정비 화면의 마당에서 <b>성벽 계단 옆 '작업 지휘소'</b>(새 장소)에 들어가면, 들판 지도 위 격자에서 칸을 골라 <b>병사 묶음을 동원</b>해 지형을 손질합니다: 토벽 쌓기, 언덕 돋우기, 쓰러진 나무·바위 옮기기. 이렇게 <b>적이 몰리는 길</b>을 직접 만들고, 그 길 위에 함정을 둡니다.</p>
+    <p>전투에서 적은 지금처럼 곧장 오지 않고, <b>막힌 칸을 돌아 성벽까지 가장 빠른 길</b>로 옵니다(흐름 지도). 그래서 토벽 하나가 적의 길을 바꿉니다.</p>
+  </div>
+
+  <svg viewBox="0 0 1000 420" role="img" aria-label="북쪽 들판 예시: 토벽과 언덕으로 적을 가운데 길로 모는 모습">
+    <rect x="0" y="0" width="1000" height="420" fill="#2c3a27"/>
+    <!-- 성벽 -->
+    <rect x="300" y="360" width="400" height="34" fill="#6b6760"/>
+    <text x="500" y="383" text-anchor="middle" fill="#eee4cf" font-size="16">북쪽 성벽</text>
+    <!-- 언덕 -->
+    <ellipse cx="170" cy="150" rx="90" ry="55" fill="#4f6b3a"/><text x="170" y="155" text-anchor="middle" fill="#eee4cf" font-size="14">언덕(무작위)</text>
+    <ellipse cx="840" cy="110" rx="70" ry="45" fill="#4f6b3a"/><text x="840" y="115" text-anchor="middle" fill="#eee4cf" font-size="14">언덕</text>
+    <!-- 나무·바위 -->
+    <circle cx="640" cy="70" r="26" fill="#2f4d2a"/><circle cx="668" cy="88" r="20" fill="#2f4d2a"/><text x="652" y="128" text-anchor="middle" fill="#b9c2b0" font-size="13">나무 덩이</text>
+    <rect x="340" y="60" width="44" height="30" rx="8" fill="#7d7a73"/><text x="362" y="108" text-anchor="middle" fill="#b9c2b0" font-size="13">바위</text>
+    <!-- 토벽 (플레이어) -->
+    <rect x="250" y="250" width="200" height="18" fill="#a07b4f"/><rect x="560" y="250" width="200" height="18" fill="#a07b4f"/>
+    <text x="350" y="242" text-anchor="middle" fill="#d5b16b" font-size="14">토벽(병사 동원)</text>
+    <text x="660" y="242" text-anchor="middle" fill="#d5b16b" font-size="14">토벽</text>
+    <!-- 적 흐름 -->
+    <path d="M120 20 C 200 120, 420 190, 490 260 L 500 350" stroke="#c37e70" stroke-width="5" fill="none" stroke-dasharray="10 8"/>
+    <path d="M880 20 C 800 140, 600 200, 510 260 L 500 350" stroke="#c37e70" stroke-width="5" fill="none" stroke-dasharray="10 8"/>
+    <path d="M500 10 L 500 350" stroke="#c37e70" stroke-width="5" fill="none" stroke-dasharray="10 8"/>
+    <!-- 함정 -->
+    <rect x="470" y="285" width="60" height="40" fill="none" stroke="#d5b16b" stroke-width="3"/>
+    <text x="500" y="310" text-anchor="middle" fill="#d5b16b" font-size="14">함정</text>
+  </svg>
+  <div class="legend"><span><i style="background:#a07b4f"></i>토벽(막음)</span><span><i style="background:#4f6b3a"></i>언덕(느려짐)</span><span><i style="background:#c37e70"></i>적의 길</span><span><i style="background:#d5b16b"></i>함정 칸</span></div>
+
+  <h2>2. 무작위 지형 만들기 (확정 내용 + 제안 수치)</h2>
+  <table>
+    <tr><th>요소</th><th>몇 개</th><th>크기</th><th>효과 (제안)</th></tr>
+    <tr><td>언덕</td><td>4~7개</td><td>반지름 6~14m</td><td>함정 설치 불가. 적 이동 <b>느려짐(속도 70%)</b> — 지금은 효과 없음(D-050)</td></tr>
+    <tr><td>나무 덩이</td><td>6~10개</td><td>칸 1~3개</td><td>함정 설치 불가. 적은 <b>돌아감</b>(막힘). 적 무리가 지나가며 쓰러뜨리면 '쓰러진 나무'가 됨</td></tr>
+    <tr><td>바위 덩이</td><td>4~8개</td><td>칸 1~2개</td><td>함정 설치 불가. 적은 돌아감. 옮길 수 있음</td></tr>
+  </table>
+  <p>규칙: 성벽에서 10m 안, 정면 가운데 너비 20m에는 놓지 않음(성벽까지 길이 아예 막히지 않게). 같은 판에서는 함정 지도·전투 들판·결과 모두 같은 지형.</p>
+
+  <h2>3. 지형 손질 — 정비 마당의 '작업 지휘소'</h2>
+  <table>
+    <tr><th>작업</th><th>동원</th><th>비용 (제안)</th><th>효과</th></tr>
+    <tr><td>토벽 쌓기</td><td>병사 묶음 1개(10명) = 칸 2개</td><td>칸당 20골드</td><td>칸을 막음 — 적은 돌아감. 적이 때리면 무너짐(체력 300)</td></tr>
+    <tr><td>언덕 돋우기</td><td>묶음 1개 = 칸 3개</td><td>칸당 10골드</td><td>칸 위 적 느려짐(70%), 함정 불가</td></tr>
+    <tr><td>나무·바위 옮기기</td><td>묶음 1개 = 덩이 1개</td><td>0골드</td><td>덩이를 다른 칸으로 — 길을 막거나 엶</td></tr>
+    <tr><td>길 내기(치우기)</td><td>묶음 1개 = 칸 4개</td><td>칸당 5골드</td><td>칸의 언덕·잔해를 없앰 — 적이 이 길을 더 좋아함</td></tr>
+  </table>
+  <p><b>동원의 대가 (제안):</b> 작업한 묶음은 <span class="warn">다음 전투를 '지친 상태'로 시작</span> — 처음 30초 공격 간격 1.5배. 병력을 작업에 쓸지 방어에 아낄지가 판단거리. (대안: 골드만 쓰고 피로 없음)</p>
+
+  <h2>4. 적의 길 찾기 (흐름 지도)</h2>
+  <div class="card">
+    <p>들판을 5m 칸으로 나눈 격자(함정 격자와 같음)에서, 정비가 끝날 때 <b>성벽까지 걸리는 시간</b>을 칸마다 한 번 계산해 둡니다. 전투 중 적은 지금 칸에서 <b>이웃 칸 중 더 빠른 쪽</b>으로 갑니다. 막힌 칸(토벽·나무·바위)은 못 지나고, 언덕은 1.4배 걸리고, 치운 길은 0.9배 걸립니다.</p>
+    <p>계산은 정비 끝에 4면 한 번(칸 약 2,000개) — 전투 중에는 칸 조회만이라 성능 걱정 없음(지금 전투 계산 평균 0.45ms).</p>
+    <p class="warn">주의: 적 이동이 바뀌므로 난이도를 다시 맞춰야 합니다(지금 정한 오우거 200마리 등). 성벽 바로 앞(성벽에서 10m)은 지금처럼 곧장 붙습니다.</p>
+  </div>
+
+  <h2>5. 정해 주실 것</h2>
+  <div class="card q"><b>T1. 언덕 효과</b> — 적을 느리게(속도 70%) 할까요, 지금처럼 효과 없이(함정만 막음) 둘까요? <span class="rec">추천: 느리게</span></div>
+  <div class="card q"><b>T2. 토벽</b> — 적이 때려서 무너뜨릴 수 있게 할까요(체력 300), 전투 내내 안 무너지게 할까요? <span class="rec">추천: 무너질 수 있게</span> (안 무너지면 길을 완전히 막는 꼼수가 생김)</div>
+  <div class="card q"><b>T3. 동원의 대가</b> — 작업한 병사가 다음 전투 처음 30초 지치게 할까요, 골드만 쓰게 할까요? <span class="rec">추천: 지치게(+골드)</span></div>
+  <div class="card q"><b>T4. 작업 장소</b> — 마당에 새 장소 '작업 지휘소'를 둘까요, 함정 공방 안에 '지형 손질' 탭으로 넣을까요? <span class="rec">추천: 새 장소</span></div>
+  <div class="card q"><b>T5. 쓰러진 나무</b> — 적 무리가 나무 덩이를 지나가면 쓰러져 '옮길 수 있는 잔해'가 되게 할까요(다음 정비에 재료가 됨)? <span class="rec">추천: 예</span></div>
+  <div class="card q"><b>T6. 길 막기 한도</b> — 한 면의 모든 길을 완전히 막지 못하게 '항상 길 하나는 남기기' 규칙을 둘까요? <span class="rec">추천: 예</span> (막으면 적이 토벽을 부수며 옴 — T2와 연결)</div>
+
+  <h2>6. 만드는 순서 (확정 뒤)</h2>
+  <table>
+    <tr><th>단계</th><th>내용</th><th>필요한 그림</th></tr>
+    <tr><td>1</td><td>무작위 지형 생성(새 게임 시드), 함정 지도 격자 위에 표시, 전투 들판에 임시 도형</td><td>K-029 지형 타일</td></tr>
+    <tr><td>2</td><td>작업 지휘소 + 지형 손질 창(격자에서 칸 고르기·비용·동원)</td><td>K-030 토벽·언덕·잔해</td></tr>
+    <tr><td>3</td><td>흐름 지도 적 이동, 토벽 체력, 언덕 느려짐</td><td>K-030 병사 작업 동작</td></tr>
+    <tr><td>4</td><td>난이도 다시 측정(정면 1/3 + 지형 손질 플레이)</td><td>—</td></tr>
+  </table>
+</main>
+</body>
+</html>

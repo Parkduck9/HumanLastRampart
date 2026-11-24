@@ -1,0 +1,962 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="129" result="Passed" total="129" passed="128" failed="0" inconclusive="1" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-21 08:06:12Z" end-time="2026-10-21 08:06:15Z" duration="2.7553395">
+  <test-suite type="TestSuite" id="1000" name="HumanLastRampart" fullname="HumanLastRampart" runstate="Runnable" testcasecount="144" result="Passed" start-time="2026-10-21 08:06:12Z" end-time="2026-10-21 08:06:15Z" duration="2.755340" total="129" passed="128" failed="0" inconclusive="1" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1034" name="HLR.App.Tests.dll" fullname="C:/Unity/1/HumanLastRampart/Game/Library/ScriptAssemblies/HLR.App.Tests.dll" runstate="Runnable" testcasecount="26" result="Passed" start-time="2026-10-21 08:06:12Z" end-time="2026-10-21 08:06:13Z" duration="0.196332" total="26" passed="26" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="60208" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1035" name="HumanLastRampart" fullname="HumanLastRampart" runstate="Runnable" testcasecount="26" result="Passed" start-time="2026-10-21 08:06:12Z" end-time="2026-10-21 08:06:13Z" duration="0.195903" total="26" passed="26" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1036" name="App" fullname="HumanLastRampart.App" runstate="Runnable" testcasecount="26" result="Passed" start-time="2026-10-21 08:06:12Z" end-time="2026-10-21 08:06:13Z" duration="0.195661" total="26" passed="26" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1037" name="Tests" fullname="HumanLastRampart.App.Tests" runstate="Runnable" testcasecount="26" result="Passed" start-time="2026-10-21 08:06:12Z" end-time="2026-10-21 08:06:13Z" duration="0.195393" total="26" passed="26" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1007" name="AppDataTests" fullname="HumanLastRampart.App.Tests.AppDataTests" classname="HumanLastRampart.App.Tests.AppDataTests" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-10-21 08:06:12Z" end-time="2026-10-21 08:06:13Z" duration="0.041121" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1013" name="BattleSetup_IsDeepCopy_WithDifficultyAndForecast" fullname="HumanLastRampart.App.Tests.AppDataTests.BattleSetup_IsDeepCopy_WithDifficultyAndForecast" methodname="BattleSetup_IsDeepCopy_WithDifficultyAndForecast" classname="HumanLastRampart.App.Tests.AppDataTests" runstate="Runnable" seed="771259609" result="Passed" start-time="2026-10-21 08:06:12Z" end-time="2026-10-21 08:06:13Z" duration="0.023368" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1009" name="DuplicateId_IsRejectedNotOverwritten" fullname="HumanLastRampart.App.Tests.AppDataTests.DuplicateId_IsRejectedNotOverwritten" methodname="DuplicateId_IsRejectedNotOverwritten" classname="HumanLastRampart.App.Tests.AppDataTests" runstate="Runnable" seed="505425991" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.001132" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1011" name="MissingReference_IsReported" fullname="HumanLastRampart.App.Tests.AppDataTests.MissingReference_IsReported" methodname="MissingReference_IsReported" classname="HumanLastRampart.App.Tests.AppDataTests" runstate="Runnable" seed="1203989634" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.000699" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1012" name="NewGame_HasFourWallsAndDifficulty" fullname="HumanLastRampart.App.Tests.AppDataTests.NewGame_HasFourWallsAndDifficulty" methodname="NewGame_HasFourWallsAndDifficulty" classname="HumanLastRampart.App.Tests.AppDataTests" runstate="Runnable" seed="178050734" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.002486" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1010" name="PreparationEconomy_MustBeExactlyOne" fullname="HumanLastRampart.App.Tests.AppDataTests.PreparationEconomy_MustBeExactlyOne" methodname="PreparationEconomy_MustBeExactlyOne" classname="HumanLastRampart.App.Tests.AppDataTests" runstate="Runnable" seed="1592614752" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.001338" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1014" name="ResultCheck_RejectsWrongRunAndMissingReason" fullname="HumanLastRampart.App.Tests.AppDataTests.ResultCheck_RejectsWrongRunAndMissingReason" methodname="ResultCheck_RejectsWrongRunAndMissingReason" classname="HumanLastRampart.App.Tests.AppDataTests" runstate="Runnable" seed="2017561337" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.000671" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1015" name="ResultCheck_RequiresOneOutcomePerParticipatingHero" fullname="HumanLastRampart.App.Tests.AppDataTests.ResultCheck_RequiresOneOutcomePerParticipatingHero" methodname="ResultCheck_RequiresOneOutcomePerParticipatingHero" classname="HumanLastRampart.App.Tests.AppDataTests" runstate="Runnable" seed="512596457" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.000733" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1008" name="ValidSet_PassesValidation" fullname="HumanLastRampart.App.Tests.AppDataTests.ValidSet_PassesValidation" methodname="ValidSet_PassesValidation" classname="HumanLastRampart.App.Tests.AppDataTests" runstate="Runnable" seed="112430030" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.000510" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1001" name="FlowRouterTests" fullname="HumanLastRampart.App.Tests.FlowRouterTests" classname="HumanLastRampart.App.Tests.FlowRouterTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.002467" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1006" name="AllowedOutcomes_FollowC003" fullname="HumanLastRampart.App.Tests.FlowRouterTests.AllowedOutcomes_FollowC003" methodname="AllowedOutcomes_FollowC003" classname="HumanLastRampart.App.Tests.FlowRouterTests" runstate="Runnable" seed="478323029" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.000200" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1004" name="BattleVictory_GoesToResult_DefeatSkipsResult" fullname="HumanLastRampart.App.Tests.FlowRouterTests.BattleVictory_GoesToResult_DefeatSkipsResult" methodname="BattleVictory_GoesToResult_DefeatSkipsResult" classname="HumanLastRampart.App.Tests.FlowRouterTests" runstate="Runnable" seed="960633128" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.000466" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1002" name="MainMenuStart_CreatesCampaignAndOpensStory" fullname="HumanLastRampart.App.Tests.FlowRouterTests.MainMenuStart_CreatesCampaignAndOpensStory" methodname="MainMenuStart_CreatesCampaignAndOpensStory" classname="HumanLastRampart.App.Tests.FlowRouterTests" runstate="Runnable" seed="1265647110" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.000095" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1005" name="PrepDone_NextBattleOrMainAfterLast" fullname="HumanLastRampart.App.Tests.FlowRouterTests.PrepDone_NextBattleOrMainAfterLast" methodname="PrepDone_NextBattleOrMainAfterLast" classname="HumanLastRampart.App.Tests.FlowRouterTests" runstate="Runnable" seed="1101385988" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.000157" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1003" name="StoryDone_PreparesBattle_ButDefeatEndingGoesToMain" fullname="HumanLastRampart.App.Tests.FlowRouterTests.StoryDone_PreparesBattle_ButDefeatEndingGoesToMain" methodname="StoryDone_PreparesBattle_ButDefeatEndingGoesToMain" classname="HumanLastRampart.App.Tests.FlowRouterTests" runstate="Runnable" seed="951304904" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.000104" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1016" name="RealDataTests" fullname="HumanLastRampart.App.Tests.RealDataTests" classname="HumanLastRampart.App.Tests.RealDataTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.112575" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1017" name="RealCatalogs_PassValidation" fullname="HumanLastRampart.App.Tests.RealDataTests.RealCatalogs_PassValidation" methodname="RealCatalogs_PassValidation" classname="HumanLastRampart.App.Tests.RealDataTests" runstate="Runnable" seed="562363663" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.090258" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1020" name="RealRules_EasyBattle4Multiplier" fullname="HumanLastRampart.App.Tests.RealDataTests.RealRules_EasyBattle4Multiplier" methodname="RealRules_EasyBattle4Multiplier" classname="HumanLastRampart.App.Tests.RealDataTests" runstate="Runnable" seed="200984341" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.006963" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1019" name="RealStart_CreatesPlayableCampaign" fullname="HumanLastRampart.App.Tests.RealDataTests.RealStart_CreatesPlayableCampaign" methodname="RealStart_CreatesPlayableCampaign" classname="HumanLastRampart.App.Tests.RealDataTests" runstate="Runnable" seed="1216096845" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.006933" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1018" name="RealWaves_MatchD032" fullname="HumanLastRampart.App.Tests.RealDataTests.RealWaves_MatchD032" methodname="RealWaves_MatchD032" classname="HumanLastRampart.App.Tests.RealDataTests" runstate="Runnable" seed="1996944318" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.007445" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1021" name="ResultPortraitLayoutTests" fullname="HumanLastRampart.App.Tests.ResultPortraitLayoutTests" classname="HumanLastRampart.App.Tests.ResultPortraitLayoutTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.028050" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="ParameterizedMethod" id="1026" name="Portrait_KeepsCellAspectAndCommonFootLine" fullname="HumanLastRampart.App.Tests.ResultPortraitLayoutTests.Portrait_KeepsCellAspectAndCommonFootLine" classname="HumanLastRampart.App.Tests.ResultPortraitLayoutTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.027238" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1022" name="Portrait_KeepsCellAspectAndCommonFootLine(288,384,False,288.0f,360.0f,1,1)" fullname="HumanLastRampart.App.Tests.ResultPortraitLayoutTests.Portrait_KeepsCellAspectAndCommonFootLine(288,384,False,288.0f,360.0f,1,1)" methodname="Portrait_KeepsCellAspectAndCommonFootLine" classname="HumanLastRampart.App.Tests.ResultPortraitLayoutTests" runstate="Runnable" seed="332816986" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.014297" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1023" name="Portrait_KeepsCellAspectAndCommonFootLine(1152,1536,False,288.0f,360.0f,4,4)" fullname="HumanLastRampart.App.Tests.ResultPortraitLayoutTests.Portrait_KeepsCellAspectAndCommonFootLine(1152,1536,False,288.0f,360.0f,4,4)" methodname="Portrait_KeepsCellAspectAndCommonFootLine" classname="HumanLastRampart.App.Tests.ResultPortraitLayoutTests" runstate="Runnable" seed="849732996" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.005439" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1024" name="Portrait_KeepsCellAspectAndCommonFootLine(1024,1536,False,256.0f,352.0f,4,4)" fullname="HumanLastRampart.App.Tests.ResultPortraitLayoutTests.Portrait_KeepsCellAspectAndCommonFootLine(1024,1536,False,256.0f,352.0f,4,4)" methodname="Portrait_KeepsCellAspectAndCommonFootLine" classname="HumanLastRampart.App.Tests.ResultPortraitLayoutTests" runstate="Runnable" seed="1902624693" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.003341" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1025" name="Portrait_KeepsCellAspectAndCommonFootLine(288,384,True,288.0f,360.0f,1,1)" fullname="HumanLastRampart.App.Tests.ResultPortraitLayoutTests.Portrait_KeepsCellAspectAndCommonFootLine(288,384,True,288.0f,360.0f,1,1)" methodname="Portrait_KeepsCellAspectAndCommonFootLine" classname="HumanLastRampart.App.Tests.ResultPortraitLayoutTests" runstate="Runnable" seed="970143836" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.003180" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+            </test-suite>
+            <test-suite type="TestFixture" id="1027" name="SaveFlowTests" fullname="HumanLastRampart.App.Tests.SaveFlowTests" classname="HumanLastRampart.App.Tests.SaveFlowTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.002738" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1028" name="Continue_OpensPrep_WithLoad" fullname="HumanLastRampart.App.Tests.SaveFlowTests.Continue_OpensPrep_WithLoad" methodname="Continue_OpensPrep_WithLoad" classname="HumanLastRampart.App.Tests.SaveFlowTests" runstate="Runnable" seed="884011909" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.000245" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1029" name="EndOfRun_DeletesSave_BackToMenu_KeepsSave" fullname="HumanLastRampart.App.Tests.SaveFlowTests.EndOfRun_DeletesSave_BackToMenu_KeepsSave" methodname="EndOfRun_DeletesSave_BackToMenu_KeepsSave" classname="HumanLastRampart.App.Tests.SaveFlowTests" runstate="Runnable" seed="1991173073" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.000193" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1030" name="ScreenContextErrorTests" fullname="HumanLastRampart.App.Tests.ScreenContextErrorTests" classname="HumanLastRampart.App.Tests.ScreenContextErrorTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.007215" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1031" name="AfterReport_CompleteIsIgnored" fullname="HumanLastRampart.App.Tests.ScreenContextErrorTests.AfterReport_CompleteIsIgnored" methodname="AfterReport_CompleteIsIgnored" classname="HumanLastRampart.App.Tests.ScreenContextErrorTests" runstate="Runnable" seed="1131132429" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.003998" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[[App] Result 화면은 데이터 오류를 알렸으므로 Done 신호를 무시합니다 (C-003 v1.3).
+]]></output>
+              </test-case>
+              <test-case id="1033" name="ReportOnInvalidContext_IsIgnored" fullname="HumanLastRampart.App.Tests.ScreenContextErrorTests.ReportOnInvalidContext_IsIgnored" methodname="ReportOnInvalidContext_IsIgnored" classname="HumanLastRampart.App.Tests.ScreenContextErrorTests" runstate="Runnable" seed="762478771" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.001485" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[[App] 이미 닫힌 화면(Prep)의 데이터 오류 알림을 무시합니다: 늦은 알림
+[App] 이미 닫힌 화면(Prep)의 신호 Done를 무시합니다.
+]]></output>
+              </test-case>
+              <test-case id="1032" name="SecondReport_KeepsSingleNotice" fullname="HumanLastRampart.App.Tests.ScreenContextErrorTests.SecondReport_KeepsSingleNotice" methodname="SecondReport_KeepsSingleNotice" classname="HumanLastRampart.App.Tests.ScreenContextErrorTests" runstate="Runnable" seed="180707911" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.000558" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[[App] Result 화면이 데이터 오류를 다시 알렸습니다. 안내는 하나만 유지합니다: 두 번째 오류
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+    <test-suite type="Assembly" id="1136" name="HLR.Combat.Tests.dll" fullname="C:/Unity/1/HumanLastRampart/Game/Library/ScriptAssemblies/HLR.Combat.Tests.dll" runstate="Runnable" testcasecount="72" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:15Z" duration="2.433573" total="72" passed="71" failed="0" inconclusive="1" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="60208" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestFixture" id="1038" name="CharacterArtIntegrationTests" fullname="CharacterArtIntegrationTests" classname="CharacterArtIntegrationTests" runstate="Runnable" testcasecount="9" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.008673" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="ParameterizedMethod" id="1048" name="EnemyActionsAndLadderCarryHaveMatchingNormals" fullname="CharacterArtIntegrationTests.EnemyActionsAndLadderCarryHaveMatchingNormals" classname="CharacterArtIntegrationTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.001168" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-case id="1045" name="EnemyActionsAndLadderCarryHaveMatchingNormals(&quot;enemy_goblin&quot;)" fullname="CharacterArtIntegrationTests.EnemyActionsAndLadderCarryHaveMatchingNormals(&quot;enemy_goblin&quot;)" methodname="EnemyActionsAndLadderCarryHaveMatchingNormals" classname="CharacterArtIntegrationTests" runstate="Runnable" seed="229159563" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.000612" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+          <test-case id="1046" name="EnemyActionsAndLadderCarryHaveMatchingNormals(&quot;enemy_goblin_ladder&quot;)" fullname="CharacterArtIntegrationTests.EnemyActionsAndLadderCarryHaveMatchingNormals(&quot;enemy_goblin_ladder&quot;)" methodname="EnemyActionsAndLadderCarryHaveMatchingNormals" classname="CharacterArtIntegrationTests" runstate="Runnable" seed="9572895" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.000128" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+          <test-case id="1047" name="EnemyActionsAndLadderCarryHaveMatchingNormals(&quot;enemy_ogre&quot;)" fullname="CharacterArtIntegrationTests.EnemyActionsAndLadderCarryHaveMatchingNormals(&quot;enemy_ogre&quot;)" methodname="EnemyActionsAndLadderCarryHaveMatchingNormals" classname="CharacterArtIntegrationTests" runstate="Runnable" seed="1937352619" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.000074" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+        </test-suite>
+        <test-suite type="ParameterizedMethod" id="1044" name="InstalledUnitUsesNewSheetAndMatchingNormals" fullname="CharacterArtIntegrationTests.InstalledUnitUsesNewSheetAndMatchingNormals" classname="CharacterArtIntegrationTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.005612" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-case id="1039" name="InstalledUnitUsesNewSheetAndMatchingNormals(&quot;unit_hero&quot;,1152)" fullname="CharacterArtIntegrationTests.InstalledUnitUsesNewSheetAndMatchingNormals(&quot;unit_hero&quot;,1152)" methodname="InstalledUnitUsesNewSheetAndMatchingNormals" classname="CharacterArtIntegrationTests" runstate="Runnable" seed="159941033" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.002421" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+          <test-case id="1040" name="InstalledUnitUsesNewSheetAndMatchingNormals(&quot;unit_wizard&quot;,288)" fullname="CharacterArtIntegrationTests.InstalledUnitUsesNewSheetAndMatchingNormals(&quot;unit_wizard&quot;,288)" methodname="InstalledUnitUsesNewSheetAndMatchingNormals" classname="CharacterArtIntegrationTests" runstate="Runnable" seed="472109928" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.000447" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+          <test-case id="1041" name="InstalledUnitUsesNewSheetAndMatchingNormals(&quot;unit_archer&quot;,288)" fullname="CharacterArtIntegrationTests.InstalledUnitUsesNewSheetAndMatchingNormals(&quot;unit_archer&quot;,288)" methodname="InstalledUnitUsesNewSheetAndMatchingNormals" classname="CharacterArtIntegrationTests" runstate="Runnable" seed="205001938" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.000446" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+          <test-case id="1042" name="InstalledUnitUsesNewSheetAndMatchingNormals(&quot;unit_gunner&quot;,288)" fullname="CharacterArtIntegrationTests.InstalledUnitUsesNewSheetAndMatchingNormals(&quot;unit_gunner&quot;,288)" methodname="InstalledUnitUsesNewSheetAndMatchingNormals" classname="CharacterArtIntegrationTests" runstate="Runnable" seed="505538094" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.000423" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+          <test-case id="1043" name="InstalledUnitUsesNewSheetAndMatchingNormals(&quot;unit_cannon_crew&quot;,288)" fullname="CharacterArtIntegrationTests.InstalledUnitUsesNewSheetAndMatchingNormals(&quot;unit_cannon_crew&quot;,288)" methodname="InstalledUnitUsesNewSheetAndMatchingNormals" classname="CharacterArtIntegrationTests" runstate="Runnable" seed="81144052" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.001300" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+        </test-suite>
+        <test-case id="1049" name="MismatchedOldNormalIsRejected" fullname="CharacterArtIntegrationTests.MismatchedOldNormalIsRejected" methodname="MismatchedOldNormalIsRejected" classname="CharacterArtIntegrationTests" runstate="Runnable" seed="1222459007" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.001268" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+      </test-suite>
+      <test-suite type="TestSuite" id="1137" name="HumanLastRampart" fullname="HumanLastRampart" runstate="Runnable" testcasecount="63" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:15Z" duration="2.423907" total="63" passed="62" failed="0" inconclusive="1" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1138" name="Combat" fullname="HumanLastRampart.Combat" runstate="Runnable" testcasecount="63" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:15Z" duration="2.423327" total="63" passed="62" failed="0" inconclusive="1" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1139" name="Tests" fullname="HumanLastRampart.Combat.Tests" runstate="Runnable" testcasecount="63" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:15Z" duration="2.422780" total="63" passed="62" failed="0" inconclusive="1" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1050" name="BattleArtPreviewTests" fullname="HumanLastRampart.Combat.Tests.BattleArtPreviewTests" classname="HumanLastRampart.Combat.Tests.BattleArtPreviewTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.238348" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1052" name="Messenger_UsesRunSheet_AndHidesStandingPicture" fullname="HumanLastRampart.Combat.Tests.BattleArtPreviewTests.Messenger_UsesRunSheet_AndHidesStandingPicture" methodname="Messenger_UsesRunSheet_AndHidesStandingPicture" classname="HumanLastRampart.Combat.Tests.BattleArtPreviewTests" runstate="Runnable" seed="1565366791" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.074918" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1051" name="SpecialEnemies_WalkFourFrames" fullname="HumanLastRampart.Combat.Tests.BattleArtPreviewTests.SpecialEnemies_WalkFourFrames" methodname="SpecialEnemies_WalkFourFrames" classname="HumanLastRampart.Combat.Tests.BattleArtPreviewTests" runstate="Runnable" seed="1237947300" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.162820" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1053" name="BattleCannonMoveTests" fullname="HumanLastRampart.Combat.Tests.BattleCannonMoveTests" classname="HumanLastRampart.Combat.Tests.BattleCannonMoveTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.161404" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1054" name="EveryWall_HasSpareBays" fullname="HumanLastRampart.Combat.Tests.BattleCannonMoveTests.EveryWall_HasSpareBays" methodname="EveryWall_HasSpareBays" classname="HumanLastRampart.Combat.Tests.BattleCannonMoveTests" runstate="Runnable" seed="1644559962" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.016919" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1057" name="FullWall_RefusesMove" fullname="HumanLastRampart.Combat.Tests.BattleCannonMoveTests.FullWall_RefusesMove" methodname="FullWall_RefusesMove" classname="HumanLastRampart.Combat.Tests.BattleCannonMoveTests" runstate="Runnable" seed="1841530977" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.016598" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1055" name="InstantMove_LandsInFreeBay_AndMovesGarrison" fullname="HumanLastRampart.Combat.Tests.BattleCannonMoveTests.InstantMove_LandsInFreeBay_AndMovesGarrison" methodname="InstantMove_LandsInFreeBay_AndMovesGarrison" classname="HumanLastRampart.Combat.Tests.BattleCannonMoveTests" runstate="Runnable" seed="1579871976" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.015485" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1056" name="TimedMove_Hauls_ThenArrives" fullname="HumanLastRampart.Combat.Tests.BattleCannonMoveTests.TimedMove_Hauls_ThenArrives" methodname="TimedMove_Hauls_ThenArrives" classname="HumanLastRampart.Combat.Tests.BattleCannonMoveTests" runstate="Runnable" seed="1129933761" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.111045" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1058" name="BattleFlankTests" fullname="HumanLastRampart.Combat.Tests.BattleFlankTests" classname="HumanLastRampart.Combat.Tests.BattleFlankTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:14Z" duration="0.751132" total="3" passed="2" failed="0" inconclusive="1" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1059" name="Battle1_AllFront" fullname="HumanLastRampart.Combat.Tests.BattleFlankTests.Battle1_AllFront" methodname="Battle1_AllFront" classname="HumanLastRampart.Combat.Tests.BattleFlankTests" runstate="Runnable" seed="783285317" result="Passed" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:13Z" duration="0.016030" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1061" name="Discovery_SendsRunners_WhoReportAndReturn" fullname="HumanLastRampart.Combat.Tests.BattleFlankTests.Discovery_SendsRunners_WhoReportAndReturn" methodname="Discovery_SendsRunners_WhoReportAndReturn" classname="HumanLastRampart.Combat.Tests.BattleFlankTests" runstate="Runnable" seed="910858271" result="Inconclusive" start-time="2026-10-21 08:06:13Z" end-time="2026-10-21 08:06:14Z" duration="0.436456" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <reason>
+                  <message><![CDATA[우회 무리가 있는 2번 전투를 찾지 못함]]></message>
+                </reason>
+              </test-case>
+              <test-case id="1060" name="LaterBattles_SidesUnlockByStage_TimesInRange" fullname="HumanLastRampart.Combat.Tests.BattleFlankTests.LaterBattles_SidesUnlockByStage_TimesInRange" methodname="LaterBattles_SidesUnlockByStage_TimesInRange" classname="HumanLastRampart.Combat.Tests.BattleFlankTests" runstate="Runnable" seed="2016722951" result="Passed" start-time="2026-10-21 08:06:14Z" end-time="2026-10-21 08:06:14Z" duration="0.297384" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1062" name="BattleLensAfterimageTests" fullname="HumanLastRampart.Combat.Tests.BattleLensAfterimageTests" classname="HumanLastRampart.Combat.Tests.BattleLensAfterimageTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-10-21 08:06:14Z" end-time="2026-10-21 08:06:14Z" duration="0.123830" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1065" name="Capacity512_ReplacesOldestWithoutGrowing" fullname="HumanLastRampart.Combat.Tests.BattleLensAfterimageTests.Capacity512_ReplacesOldestWithoutGrowing" methodname="Capacity512_ReplacesOldestWithoutGrowing" classname="HumanLastRampart.Combat.Tests.BattleLensAfterimageTests" runstate="Runnable" seed="1733201809" result="Passed" start-time="2026-10-21 08:06:14Z" end-time="2026-10-21 08:06:14Z" duration="0.000824" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1063" name="Release_RemembersLastPosition_FadesFourSeconds_ThenExpires" fullname="HumanLastRampart.Combat.Tests.BattleLensAfterimageTests.Release_RemembersLastPosition_FadesFourSeconds_ThenExpires" methodname="Release_RemembersLastPosition_FadesFourSeconds_ThenExpires" classname="HumanLastRampart.Combat.Tests.BattleLensAfterimageTests" runstate="Runnable" seed="503970213" result="Passed" start-time="2026-10-21 08:06:14Z" end-time="2026-10-21 08:06:14Z" duration="0.000377" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1064" name="Reobserving_RemovesOldDot_AndNextExitStartsNewLifetime" fullname="HumanLastRampart.Combat.Tests.BattleLensAfterimageTests.Reobserving_RemovesOldDot_AndNextExitStartsNewLifetime" methodname="Reobserving_RemovesOldDot_AndNextExitStartsNewLifetime" classname="HumanLastRampart.Combat.Tests.BattleLensAfterimageTests" runstate="Runnable" seed="2128520659" result="Passed" start-time="2026-10-21 08:06:14Z" end-time="2026-10-21 08:06:14Z" duration="0.000225" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-suite type="ParameterizedMethod" id="1068" name="Sim_OnlyLensItemCreatesMemory_EnemyExitAndLensMoveKeepLastPlace" fullname="HumanLastRampart.Combat.Tests.BattleLensAfterimageTests.Sim_OnlyLensItemCreatesMemory_EnemyExitAndLensMoveKeepLastPlace" classname="HumanLastRampart.Combat.Tests.BattleLensAfterimageTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-21 08:06:14Z" end-time="2026-10-21 08:06:14Z" duration="0.114615" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1066" name="Sim_OnlyLensItemCreatesMemory_EnemyExitAndLensMoveKeepLastPlace(False)" fullname="HumanLastRampart.Combat.Tests.BattleLensAfterimageTests.Sim_OnlyLensItemCreatesMemory_EnemyExitAndLensMoveKeepLastPlace(False)" methodname="Sim_OnlyLensItemCreatesMemory_EnemyExitAndLensMoveKeepLastPlace" classname="HumanLastRampart.Combat.Tests.BattleLensAfterimageTests" runstate="Runnable" seed="1508381692" result="Passed" start-time="2026-10-21 08:06:14Z" end-time="2026-10-21 08:06:14Z" duration="0.098293" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1067" name="Sim_OnlyLensItemCreatesMemory_EnemyExitAndLensMoveKeepLastPlace(True)" fullname="HumanLastRampart.Combat.Tests.BattleLensAfterimageTests.Sim_OnlyLensItemCreatesMemory_EnemyExitAndLensMoveKeepLastPlace(True)" methodname="Sim_OnlyLensItemCreatesMemory_EnemyExitAndLensMoveKeepLastPlace" classname="HumanLastRampart.Combat.Tests.BattleLensAfterimageTests" runstate="Runnable" seed="1072358922" result="Passed" start-time="2026-10-21 08:06:14Z" end-time="2026-10-21 08:06:14Z" duration="0.015774" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+            </test-suite>
+            <test-suite type="TestFixture" id="1069" name="BattlePracticeTests" fullname="HumanLastRampart.Combat.Tests.BattlePracticeTests" classname="HumanLastRampart.Combat.Tests.BattlePracticeTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-10-21 08:06:14Z" end-time="2026-10-21 08:06:14Z" duration="0.173813" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1071" name="Practice_WallHpStays_WhileEnemiesAttack" fullname="HumanLastRampart.Combat.Tests.BattlePracticeTests.Practice_WallHpStays_WhileEnemiesAttack" methodname="Practice_WallHpStays_WhileEnemiesAttack" classname="HumanLastRampart.Combat.Tests.BattlePracticeTests" runstate="Runnable" seed="826045319" result="Passed" start-time="2026-10-21 08:06:14Z" end-time="2026-10-21 08:06:14Z" duration="0.146989" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1070" name="RealBattle_WallTakesDamage" fullname="HumanLastRampart.Combat.Tests.BattlePracticeTests.RealBattle_WallTakesDamage" methodname="RealBattle_WallTakesDamage" classname="HumanLastRampart.Combat.Tests.BattlePracticeTests" runstate="Runnable" seed="331291491" result="Passed" start-time="2026-10-21 08:06:14Z" end-time="2026-10-21 08:06:14Z" duration="0.025421" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1072" name="Router_PracticeDone_SkipsResult_ToFreshBattle" fullname="HumanLastRampart.Combat.Tests.BattlePracticeTests.Router_PracticeDone_SkipsResult_ToFreshBattle" methodname="Router_PracticeDone_SkipsResult_ToFreshBattle" classname="HumanLastRampart.Combat.Tests.BattlePracticeTests" runstate="Runnable" seed="1616700615" result="Passed" start-time="2026-10-21 08:06:14Z" end-time="2026-10-21 08:06:14Z" duration="0.000376" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1073" name="BattleSquadSelectionTests" fullname="HumanLastRampart.Combat.Tests.BattleSquadSelectionTests" classname="HumanLastRampart.Combat.Tests.BattleSquadSelectionTests" runstate="Runnable" testcasecount="9" result="Passed" start-time="2026-10-21 08:06:14Z" end-time="2026-10-21 08:06:14Z" duration="0.254272" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="ParameterizedMethod" id="1081" name="CountOrder_DirectOrMessenger_DeliversOnlyRequestedGroups" fullname="HumanLastRampart.Combat.Tests.BattleSquadSelectionTests.CountOrder_DirectOrMessenger_DeliversOnlyRequestedGroups" classname="HumanLastRampart.Combat.Tests.BattleSquadSelectionTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-21 08:06:14Z" end-time="2026-10-21 08:06:14Z" duration="0.042779" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1079" name="CountOrder_DirectOrMessenger_DeliversOnlyRequestedGroups(False)" fullname="HumanLastRampart.Combat.Tests.BattleSquadSelectionTests.CountOrder_DirectOrMessenger_DeliversOnlyRequestedGroups(False)" methodname="CountOrder_DirectOrMessenger_DeliversOnlyRequestedGroups" classname="HumanLastRampart.Combat.Tests.BattleSquadSelectionTests" runstate="Runnable" seed="570711866" result="Passed" start-time="2026-10-21 08:06:14Z" end-time="2026-10-21 08:06:14Z" duration="0.021545" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1080" name="CountOrder_DirectOrMessenger_DeliversOnlyRequestedGroups(True)" fullname="HumanLastRampart.Combat.Tests.BattleSquadSelectionTests.CountOrder_DirectOrMessenger_DeliversOnlyRequestedGroups(True)" methodname="CountOrder_DirectOrMessenger_DeliversOnlyRequestedGroups" classname="HumanLastRampart.Combat.Tests.BattleSquadSelectionTests" runstate="Runnable" seed="1910080726" result="Passed" start-time="2026-10-21 08:06:14Z" end-time="2026-10-21 08:06:14Z" duration="0.020812" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="ParameterizedMethod" id="1078" name="HalfChoice_RoundsUp_AndKeepsMinimum" fullname="HumanLastRampart.Combat.Tests.BattleSquadSelectionTests.HalfChoice_RoundsUp_AndKeepsMinimum" classname="HumanLastRampart.Combat.Tests.BattleSquadSelectionTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-10-21 08:06:14Z" end-time="2026-10-21 08:06:14Z" duration="0.044428" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1075" name="HalfChoice_RoundsUp_AndKeepsMinimum(7,4)" fullname="HumanLastRampart.Combat.Tests.BattleSquadSelectionTests.HalfChoice_RoundsUp_AndKeepsMinimum(7,4)" methodname="HalfChoice_RoundsUp_AndKeepsMinimum" classname="HumanLastRampart.Combat.Tests.BattleSquadSelectionTests" runstate="Runnable" seed="1082346948" result="Passed" start-time="2026-10-21 08:06:14Z" end-time="2026-10-21 08:06:14Z" duration="0.015090" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1076" name="HalfChoice_RoundsUp_AndKeepsMinimum(5,3)" fullname="HumanLastRampart.Combat.Tests.BattleSquadSelectionTests.HalfChoice_RoundsUp_AndKeepsMinimum(5,3)" methodname="HalfChoice_RoundsUp_AndKeepsMinimum" classname="HumanLastRampart.Combat.Tests.BattleSquadSelectionTests" runstate="Runnable" seed="761081300" result="Passed" start-time="2026-10-21 08:06:14Z" end-time="2026-10-21 08:06:14Z" duration="0.014795" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1077" name="HalfChoice_RoundsUp_AndKeepsMinimum(3,1)" fullname="HumanLastRampart.Combat.Tests.BattleSquadSelectionTests.HalfChoice_RoundsUp_AndKeepsMinimum(3,1)" methodname="HalfChoice_RoundsUp_AndKeepsMinimum" classname="HumanLastRampart.Combat.Tests.BattleSquadSelectionTests" runstate="Runnable" seed="475076512" result="Passed" start-time="2026-10-21 08:06:14Z" end-time="2026-10-21 08:06:14Z" duration="0.013797" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="ParameterizedMethod" id="1084" name="OneAndAllChoices_UseExistingWallMinimum" fullname="HumanLastRampart.Combat.Tests.BattleSquadSelectionTests.OneAndAllChoices_UseExistingWallMinimum" classname="HumanLastRampart.Combat.Tests.BattleSquadSelectionTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-21 08:06:14Z" end-time="2026-10-21 08:06:14Z" duration="0.030802" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1082" name="OneAndAllChoices_UseExistingWallMinimum(0,10)" fullname="HumanLastRampart.Combat.Tests.BattleSquadSelectionTests.OneAndAllChoices_UseExistingWallMinimum(0,10)" methodname="OneAndAllChoices_UseExistingWallMinimum" classname="HumanLastRampart.Combat.Tests.BattleSquadSelectionTests" runstate="Runnable" seed="2004144258" result="Passed" start-time="2026-10-21 08:06:14Z" end-time="2026-10-21 08:06:14Z" duration="0.014658" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1083" name="OneAndAllChoices_UseExistingWallMinimum(2,50)" fullname="HumanLastRampart.Combat.Tests.BattleSquadSelectionTests.OneAndAllChoices_UseExistingWallMinimum(2,50)" methodname="OneAndAllChoices_UseExistingWallMinimum" classname="HumanLastRampart.Combat.Tests.BattleSquadSelectionTests" runstate="Runnable" seed="639036992" result="Passed" start-time="2026-10-21 08:06:14Z" end-time="2026-10-21 08:06:14Z" duration="0.015468" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-case id="1074" name="ScreenRect_SelectsMarkers_AndEntrySendsAllSelected" fullname="HumanLastRampart.Combat.Tests.BattleSquadSelectionTests.ScreenRect_SelectsMarkers_AndEntrySendsAllSelected" methodname="ScreenRect_SelectsMarkers_AndEntrySendsAllSelected" classname="HumanLastRampart.Combat.Tests.BattleSquadSelectionTests" runstate="Runnable" seed="2022752720" result="Passed" start-time="2026-10-21 08:06:14Z" end-time="2026-10-21 08:06:14Z" duration="0.134373" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1085" name="WallBand_RejectsFieldAndCourtyard_AndCameraKeepsNorthUp" fullname="HumanLastRampart.Combat.Tests.BattleSquadSelectionTests.WallBand_RejectsFieldAndCourtyard_AndCameraKeepsNorthUp" methodname="WallBand_RejectsFieldAndCourtyard_AndCameraKeepsNorthUp" classname="HumanLastRampart.Combat.Tests.BattleSquadSelectionTests" runstate="Runnable" seed="1266907066" result="Passed" start-time="2026-10-21 08:06:14Z" end-time="2026-10-21 08:06:14Z" duration="0.000794" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1086" name="BattleStartCrowdingTests" fullname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests" classname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-10-21 08:06:14Z" end-time="2026-10-21 08:06:15Z" duration="0.326577" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="ParameterizedMethod" id="1091" name="FirstGroup_SpawnsNearWallWithinTwoSeconds_EnemyPresentAtFive" fullname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests.FirstGroup_SpawnsNearWallWithinTwoSeconds_EnemyPresentAtFive" classname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-21 08:06:14Z" end-time="2026-10-21 08:06:15Z" duration="0.177354" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1087" name="FirstGroup_SpawnsNearWallWithinTwoSeconds_EnemyPresentAtFive(1)" fullname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests.FirstGroup_SpawnsNearWallWithinTwoSeconds_EnemyPresentAtFive(1)" methodname="FirstGroup_SpawnsNearWallWithinTwoSeconds_EnemyPresentAtFive" classname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests" runstate="Runnable" seed="887547390" result="Passed" start-time="2026-10-21 08:06:14Z" end-time="2026-10-21 08:06:14Z" duration="0.024941" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1088" name="FirstGroup_SpawnsNearWallWithinTwoSeconds_EnemyPresentAtFive(2)" fullname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests.FirstGroup_SpawnsNearWallWithinTwoSeconds_EnemyPresentAtFive(2)" methodname="FirstGroup_SpawnsNearWallWithinTwoSeconds_EnemyPresentAtFive" classname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests" runstate="Runnable" seed="1336486" result="Passed" start-time="2026-10-21 08:06:14Z" end-time="2026-10-21 08:06:14Z" duration="0.036090" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1089" name="FirstGroup_SpawnsNearWallWithinTwoSeconds_EnemyPresentAtFive(3)" fullname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests.FirstGroup_SpawnsNearWallWithinTwoSeconds_EnemyPresentAtFive(3)" methodname="FirstGroup_SpawnsNearWallWithinTwoSeconds_EnemyPresentAtFive" classname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests" runstate="Runnable" seed="356475928" result="Passed" start-time="2026-10-21 08:06:14Z" end-time="2026-10-21 08:06:15Z" duration="0.048508" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1090" name="FirstGroup_SpawnsNearWallWithinTwoSeconds_EnemyPresentAtFive(4)" fullname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests.FirstGroup_SpawnsNearWallWithinTwoSeconds_EnemyPresentAtFive(4)" methodname="FirstGroup_SpawnsNearWallWithinTwoSeconds_EnemyPresentAtFive" classname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests" runstate="Runnable" seed="802011362" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.066916" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-case id="1092" name="FullWall_SpreadsBeyondOriginalSlots_WithoutStacking" fullname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests.FullWall_SpreadsBeyondOriginalSlots_WithoutStacking" methodname="FullWall_SpreadsBeyondOriginalSlots_WithoutStacking" classname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests" runstate="Runnable" seed="1604952165" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.033453" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-suite type="ParameterizedMethod" id="1095" name="MinimumSpacing_OnlyRoomMoves_OverflowStaysOnSource" fullname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests.MinimumSpacing_OnlyRoomMoves_OverflowStaysOnSource" classname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.070860" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1093" name="MinimumSpacing_OnlyRoomMoves_OverflowStaysOnSource(True)" fullname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests.MinimumSpacing_OnlyRoomMoves_OverflowStaysOnSource(True)" methodname="MinimumSpacing_OnlyRoomMoves_OverflowStaysOnSource" classname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests" runstate="Runnable" seed="885627108" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.034161" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1094" name="MinimumSpacing_OnlyRoomMoves_OverflowStaysOnSource(False)" fullname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests.MinimumSpacing_OnlyRoomMoves_OverflowStaysOnSource(False)" methodname="MinimumSpacing_OnlyRoomMoves_OverflowStaysOnSource" classname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests" runstate="Runnable" seed="1798221224" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.035964" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-case id="1096" name="WallCommand_ReportsRefusedCount_AndKeepsMinimumGarrison" fullname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests.WallCommand_ReportsRefusedCount_AndKeepsMinimumGarrison" methodname="WallCommand_ReportsRefusedCount_AndKeepsMinimumGarrison" classname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests" runstate="Runnable" seed="2043172813" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.035918" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1097" name="BattleTrapTests" fullname="HumanLastRampart.Combat.Tests.BattleTrapTests" classname="HumanLastRampart.Combat.Tests.BattleTrapTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.042949" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1098" name="Detonate_DamagesNearbyEnemies_ConsumesOnce_LeavesCrater" fullname="HumanLastRampart.Combat.Tests.BattleTrapTests.Detonate_DamagesNearbyEnemies_ConsumesOnce_LeavesCrater" methodname="Detonate_DamagesNearbyEnemies_ConsumesOnce_LeavesCrater" classname="HumanLastRampart.Combat.Tests.BattleTrapTests" runstate="Runnable" seed="2071471985" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.020842" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1100" name="Grid_SizeHillsAndIds" fullname="HumanLastRampart.Combat.Tests.BattleTrapTests.Grid_SizeHillsAndIds" methodname="Grid_SizeHillsAndIds" classname="HumanLastRampart.Combat.Tests.BattleTrapTests" runstate="Runnable" seed="780387005" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.007339" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1099" name="TrapOnOtherTerrain_IsNotInBattle" fullname="HumanLastRampart.Combat.Tests.BattleTrapTests.TrapOnOtherTerrain_IsNotInBattle" methodname="TrapOnOtherTerrain_IsNotInBattle" classname="HumanLastRampart.Combat.Tests.BattleTrapTests" runstate="Runnable" seed="351995418" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.013626" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1101" name="BattleUpgradeTests" fullname="HumanLastRampart.Combat.Tests.BattleUpgradeTests" classname="HumanLastRampart.Combat.Tests.BattleUpgradeTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.039020" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1102" name="Definitions_HaveShopTrainingMercenaries" fullname="HumanLastRampart.Combat.Tests.BattleUpgradeTests.Definitions_HaveShopTrainingMercenaries" methodname="Definitions_HaveShopTrainingMercenaries" classname="HumanLastRampart.Combat.Tests.BattleUpgradeTests" runstate="Runnable" seed="321806006" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.007082" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1103" name="NoUpgrades_WeaponsMatchDefinitions" fullname="HumanLastRampart.Combat.Tests.BattleUpgradeTests.NoUpgrades_WeaponsMatchDefinitions" methodname="NoUpgrades_WeaponsMatchDefinitions" classname="HumanLastRampart.Combat.Tests.BattleUpgradeTests" runstate="Runnable" seed="1183914146" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.013813" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1104" name="Upgrades_ChangeWeaponsSpellsTelescope_MercenariesOutsideGarrison" fullname="HumanLastRampart.Combat.Tests.BattleUpgradeTests.Upgrades_ChangeWeaponsSpellsTelescope_MercenariesOutsideGarrison" methodname="Upgrades_ChangeWeaponsSpellsTelescope_MercenariesOutsideGarrison" classname="HumanLastRampart.Combat.Tests.BattleUpgradeTests" runstate="Runnable" seed="1850922908" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.017048" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1105" name="BattleWallSlotTests" fullname="HumanLastRampart.Combat.Tests.BattleWallSlotTests" classname="HumanLastRampart.Combat.Tests.BattleWallSlotTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.121174" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1106" name="FrontRow_StandsInEmbrasures_OneSoldierPerSlot" fullname="HumanLastRampart.Combat.Tests.BattleWallSlotTests.FrontRow_StandsInEmbrasures_OneSoldierPerSlot" methodname="FrontRow_StandsInEmbrasures_OneSoldierPerSlot" classname="HumanLastRampart.Combat.Tests.BattleWallSlotTests" runstate="Runnable" seed="952764132" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.099332" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1107" name="Torches_SitBehindMerlons" fullname="HumanLastRampart.Combat.Tests.BattleWallSlotTests.Torches_SitBehindMerlons" methodname="Torches_SitBehindMerlons" classname="HumanLastRampart.Combat.Tests.BattleWallSlotTests" runstate="Runnable" seed="1094105251" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.014674" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1108" name="BattleWizardTests" fullname="HumanLastRampart.Combat.Tests.BattleWizardTests" classname="HumanLastRampart.Combat.Tests.BattleWizardTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.061134" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1111" name="SpellOnEast_WalksThere_ThenFires_AndStays" fullname="HumanLastRampart.Combat.Tests.BattleWizardTests.SpellOnEast_WalksThere_ThenFires_AndStays" methodname="SpellOnEast_WalksThere_ThenFires_AndStays" classname="HumanLastRampart.Combat.Tests.BattleWizardTests" runstate="Runnable" seed="1115514953" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.030999" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1110" name="SpellOnFront_FiresAtOnce" fullname="HumanLastRampart.Combat.Tests.BattleWizardTests.SpellOnFront_FiresAtOnce" methodname="SpellOnFront_FiresAtOnce" classname="HumanLastRampart.Combat.Tests.BattleWizardTests" runstate="Runnable" seed="191126580" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.014633" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1109" name="Wizard_StartsAtNorthCenter_WithBackSheet" fullname="HumanLastRampart.Combat.Tests.BattleWizardTests.Wizard_StartsAtNorthCenter_WithBackSheet" methodname="Wizard_StartsAtNorthCenter_WithBackSheet" classname="HumanLastRampart.Combat.Tests.BattleWizardTests" runstate="Runnable" seed="872841411" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.014338" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1112" name="ExpandedIgniteLayoutTests" fullname="HumanLastRampart.Combat.Tests.ExpandedIgniteLayoutTests" classname="HumanLastRampart.Combat.Tests.ExpandedIgniteLayoutTests" runstate="Runnable" testcasecount="10" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.022998" total="10" passed="10" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="ParameterizedMethod" id="1122" name="ExistingLayoutsAndUnrelatedNameKeepTheirLayout" fullname="HumanLastRampart.Combat.Tests.ExpandedIgniteLayoutTests.ExistingLayoutsAndUnrelatedNameKeepTheirLayout" classname="HumanLastRampart.Combat.Tests.ExpandedIgniteLayoutTests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.010551" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1115" name="ExistingLayoutsAndUnrelatedNameKeepTheirLayout(&quot;cannon_crew_ignite6&quot;,1728,6,288,360)" fullname="HumanLastRampart.Combat.Tests.ExpandedIgniteLayoutTests.ExistingLayoutsAndUnrelatedNameKeepTheirLayout(&quot;cannon_crew_ignite6&quot;,1728,6,288,360)" methodname="ExistingLayoutsAndUnrelatedNameKeepTheirLayout" classname="HumanLastRampart.Combat.Tests.ExpandedIgniteLayoutTests" runstate="Runnable" seed="1204134229" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.002376" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1116" name="ExistingLayoutsAndUnrelatedNameKeepTheirLayout(&quot;cannon_crew_ignite6&quot;,2304,6,384,352)" fullname="HumanLastRampart.Combat.Tests.ExpandedIgniteLayoutTests.ExistingLayoutsAndUnrelatedNameKeepTheirLayout(&quot;cannon_crew_ignite6&quot;,2304,6,384,352)" methodname="ExistingLayoutsAndUnrelatedNameKeepTheirLayout" classname="HumanLastRampart.Combat.Tests.ExpandedIgniteLayoutTests" runstate="Runnable" seed="1695017067" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.001260" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1117" name="ExistingLayoutsAndUnrelatedNameKeepTheirLayout(&quot;crew_pull6&quot;,2304,6,384,352)" fullname="HumanLastRampart.Combat.Tests.ExpandedIgniteLayoutTests.ExistingLayoutsAndUnrelatedNameKeepTheirLayout(&quot;crew_pull6&quot;,2304,6,384,352)" methodname="ExistingLayoutsAndUnrelatedNameKeepTheirLayout" classname="HumanLastRampart.Combat.Tests.ExpandedIgniteLayoutTests" runstate="Runnable" seed="1235070778" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.003233" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1118" name="ExistingLayoutsAndUnrelatedNameKeepTheirLayout(&quot;crew_push6&quot;,2304,6,384,352)" fullname="HumanLastRampart.Combat.Tests.ExpandedIgniteLayoutTests.ExistingLayoutsAndUnrelatedNameKeepTheirLayout(&quot;crew_push6&quot;,2304,6,384,352)" methodname="ExistingLayoutsAndUnrelatedNameKeepTheirLayout" classname="HumanLastRampart.Combat.Tests.ExpandedIgniteLayoutTests" runstate="Runnable" seed="850730627" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.000906" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1119" name="ExistingLayoutsAndUnrelatedNameKeepTheirLayout(&quot;ordinary_four&quot;,1024,4,256,352)" fullname="HumanLastRampart.Combat.Tests.ExpandedIgniteLayoutTests.ExistingLayoutsAndUnrelatedNameKeepTheirLayout(&quot;ordinary_four&quot;,1024,4,256,352)" methodname="ExistingLayoutsAndUnrelatedNameKeepTheirLayout" classname="HumanLastRampart.Combat.Tests.ExpandedIgniteLayoutTests" runstate="Runnable" seed="782635840" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.000506" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1120" name="ExistingLayoutsAndUnrelatedNameKeepTheirLayout(&quot;ordinary_four&quot;,1152,4,288,360)" fullname="HumanLastRampart.Combat.Tests.ExpandedIgniteLayoutTests.ExistingLayoutsAndUnrelatedNameKeepTheirLayout(&quot;ordinary_four&quot;,1152,4,288,360)" methodname="ExistingLayoutsAndUnrelatedNameKeepTheirLayout" classname="HumanLastRampart.Combat.Tests.ExpandedIgniteLayoutTests" runstate="Runnable" seed="241049315" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.000490" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1121" name="ExistingLayoutsAndUnrelatedNameKeepTheirLayout(&quot;different_name&quot;,2592,9,288,360)" fullname="HumanLastRampart.Combat.Tests.ExpandedIgniteLayoutTests.ExistingLayoutsAndUnrelatedNameKeepTheirLayout(&quot;different_name&quot;,2592,9,288,360)" methodname="ExistingLayoutsAndUnrelatedNameKeepTheirLayout" classname="HumanLastRampart.Combat.Tests.ExpandedIgniteLayoutTests" runstate="Runnable" seed="1852214803" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.000805" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-case id="1114" name="ExpandedIgnitePreservesCharacterHeightAndFootRegistration" fullname="HumanLastRampart.Combat.Tests.ExpandedIgniteLayoutTests.ExpandedIgnitePreservesCharacterHeightAndFootRegistration" methodname="ExpandedIgnitePreservesCharacterHeightAndFootRegistration" classname="HumanLastRampart.Combat.Tests.ExpandedIgniteLayoutTests" runstate="Runnable" seed="333259953" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.005220" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1113" name="ExpandedIgniteReadsSixFramesAndOffCenterFeet" fullname="HumanLastRampart.Combat.Tests.ExpandedIgniteLayoutTests.ExpandedIgniteReadsSixFramesAndOffCenterFeet" methodname="ExpandedIgniteReadsSixFramesAndOffCenterFeet" classname="HumanLastRampart.Combat.Tests.ExpandedIgniteLayoutTests" runstate="Runnable" seed="800976332" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.001440" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1123" name="MatchingNameAndWidthWithWrongHeightDoesNotUseExpandedException" fullname="HumanLastRampart.Combat.Tests.ExpandedIgniteLayoutTests.MatchingNameAndWidthWithWrongHeightDoesNotUseExpandedException" methodname="MatchingNameAndWidthWithWrongHeightDoesNotUseExpandedException" classname="HumanLastRampart.Combat.Tests.ExpandedIgniteLayoutTests" runstate="Runnable" seed="1210768881" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.004729" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1124" name="ExpandedIgnitePlacementTests" fullname="HumanLastRampart.Combat.Tests.ExpandedIgnitePlacementTests" classname="HumanLastRampart.Combat.Tests.ExpandedIgnitePlacementTests" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.092346" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="ParameterizedMethod" id="1128" name="InitialPlacement_OnlyExpandedShooterGetsForwardOffset_OnEveryWall" fullname="HumanLastRampart.Combat.Tests.ExpandedIgnitePlacementTests.InitialPlacement_OnlyExpandedShooterGetsForwardOffset_OnEveryWall" classname="HumanLastRampart.Combat.Tests.ExpandedIgnitePlacementTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.045078" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1125" name="InitialPlacement_OnlyExpandedShooterGetsForwardOffset_OnEveryWall(&quot;expanded&quot;)" fullname="HumanLastRampart.Combat.Tests.ExpandedIgnitePlacementTests.InitialPlacement_OnlyExpandedShooterGetsForwardOffset_OnEveryWall(&quot;expanded&quot;)" methodname="InitialPlacement_OnlyExpandedShooterGetsForwardOffset_OnEveryWall" classname="HumanLastRampart.Combat.Tests.ExpandedIgnitePlacementTests" runstate="Runnable" seed="113898398" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.016620" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1126" name="InitialPlacement_OnlyExpandedShooterGetsForwardOffset_OnEveryWall(&quot;legacy&quot;)" fullname="HumanLastRampart.Combat.Tests.ExpandedIgnitePlacementTests.InitialPlacement_OnlyExpandedShooterGetsForwardOffset_OnEveryWall(&quot;legacy&quot;)" methodname="InitialPlacement_OnlyExpandedShooterGetsForwardOffset_OnEveryWall" classname="HumanLastRampart.Combat.Tests.ExpandedIgnitePlacementTests" runstate="Runnable" seed="985223103" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.014642" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1127" name="InitialPlacement_OnlyExpandedShooterGetsForwardOffset_OnEveryWall(&quot;none&quot;)" fullname="HumanLastRampart.Combat.Tests.ExpandedIgnitePlacementTests.InitialPlacement_OnlyExpandedShooterGetsForwardOffset_OnEveryWall(&quot;none&quot;)" methodname="InitialPlacement_OnlyExpandedShooterGetsForwardOffset_OnEveryWall" classname="HumanLastRampart.Combat.Tests.ExpandedIgnitePlacementTests" runstate="Runnable" seed="803983311" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.013173" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="ParameterizedMethod" id="1132" name="InstantMove_PreservesCrewOffsets_AroundAllFourWalls" fullname="HumanLastRampart.Combat.Tests.ExpandedIgnitePlacementTests.InstantMove_PreservesCrewOffsets_AroundAllFourWalls" classname="HumanLastRampart.Combat.Tests.ExpandedIgnitePlacementTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.046685" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1129" name="InstantMove_PreservesCrewOffsets_AroundAllFourWalls(&quot;expanded&quot;)" fullname="HumanLastRampart.Combat.Tests.ExpandedIgnitePlacementTests.InstantMove_PreservesCrewOffsets_AroundAllFourWalls(&quot;expanded&quot;)" methodname="InstantMove_PreservesCrewOffsets_AroundAllFourWalls" classname="HumanLastRampart.Combat.Tests.ExpandedIgnitePlacementTests" runstate="Runnable" seed="316701375" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.017685" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1130" name="InstantMove_PreservesCrewOffsets_AroundAllFourWalls(&quot;legacy&quot;)" fullname="HumanLastRampart.Combat.Tests.ExpandedIgnitePlacementTests.InstantMove_PreservesCrewOffsets_AroundAllFourWalls(&quot;legacy&quot;)" methodname="InstantMove_PreservesCrewOffsets_AroundAllFourWalls" classname="HumanLastRampart.Combat.Tests.ExpandedIgnitePlacementTests" runstate="Runnable" seed="1346767215" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.014911" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1131" name="InstantMove_PreservesCrewOffsets_AroundAllFourWalls(&quot;none&quot;)" fullname="HumanLastRampart.Combat.Tests.ExpandedIgnitePlacementTests.InstantMove_PreservesCrewOffsets_AroundAllFourWalls(&quot;none&quot;)" methodname="InstantMove_PreservesCrewOffsets_AroundAllFourWalls" classname="HumanLastRampart.Combat.Tests.ExpandedIgnitePlacementTests" runstate="Runnable" seed="376205290" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.013236" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+            </test-suite>
+            <test-suite type="TestFixture" id="1133" name="SheetCellTests" fullname="HumanLastRampart.Combat.Tests.SheetCellTests" classname="HumanLastRampart.Combat.Tests.SheetCellTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.012023" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1135" name="OldSheetsUnchanged" fullname="HumanLastRampart.Combat.Tests.SheetCellTests.OldSheetsUnchanged" methodname="OldSheetsUnchanged" classname="HumanLastRampart.Combat.Tests.SheetCellTests" runstate="Runnable" seed="611228900" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.006589" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1134" name="SixSheetUses288Cells" fullname="HumanLastRampart.Combat.Tests.SheetCellTests.SixSheetUses288Cells" methodname="SixSheetUses288Cells" classname="HumanLastRampart.Combat.Tests.SheetCellTests" runstate="Runnable" seed="1437037977" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.004674" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+    <test-suite type="Assembly" id="1177" name="HLR.Core.Tests.dll" fullname="C:/Unity/1/HumanLastRampart/Game/Library/ScriptAssemblies/HLR.Core.Tests.dll" runstate="Runnable" testcasecount="31" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.119750" total="31" passed="31" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="60208" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1178" name="HumanLastRampart" fullname="HumanLastRampart" runstate="Runnable" testcasecount="31" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.119101" total="31" passed="31" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1179" name="Core" fullname="HumanLastRampart.Core" runstate="Runnable" testcasecount="31" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.118589" total="31" passed="31" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1180" name="Tests" fullname="HumanLastRampart.Core.Tests" runstate="Runnable" testcasecount="31" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.118230" total="31" passed="31" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1140" name="CampaignSaveTests" fullname="HumanLastRampart.Core.Tests.CampaignSaveTests" classname="HumanLastRampart.Core.Tests.CampaignSaveTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.060843" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1142" name="FreeTrapCoordinates_SaveAndLoadWithoutLosingLegacyCellTrap" fullname="HumanLastRampart.Core.Tests.CampaignSaveTests.FreeTrapCoordinates_SaveAndLoadWithoutLosingLegacyCellTrap" methodname="FreeTrapCoordinates_SaveAndLoadWithoutLosingLegacyCellTrap" classname="HumanLastRampart.Core.Tests.CampaignSaveTests" runstate="Runnable" seed="64013441" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.013584" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1144" name="MissingNewField_GetsDefault" fullname="HumanLastRampart.Core.Tests.CampaignSaveTests.MissingNewField_GetsDefault" methodname="MissingNewField_GetsDefault" classname="HumanLastRampart.Core.Tests.CampaignSaveTests" runstate="Runnable" seed="1376841405" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.014063" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1145" name="NewerOrBrokenFile_Refused" fullname="HumanLastRampart.Core.Tests.CampaignSaveTests.NewerOrBrokenFile_Refused" methodname="NewerOrBrokenFile_Refused" classname="HumanLastRampart.Core.Tests.CampaignSaveTests" runstate="Runnable" seed="411729647" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.015686" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1143" name="Peek_ShowsBattleAndDifficulty" fullname="HumanLastRampart.Core.Tests.CampaignSaveTests.Peek_ShowsBattleAndDifficulty" methodname="Peek_ShowsBattleAndDifficulty" classname="HumanLastRampart.Core.Tests.CampaignSaveTests" runstate="Runnable" seed="996759166" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.009295" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1141" name="SaveThenLoad_SameState" fullname="HumanLastRampart.Core.Tests.CampaignSaveTests.SaveThenLoad_SameState" methodname="SaveThenLoad_SameState" classname="HumanLastRampart.Core.Tests.CampaignSaveTests" runstate="Runnable" seed="975262105" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.007020" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1146" name="CoreContractTests" fullname="HumanLastRampart.Core.Tests.CoreContractTests" classname="HumanLastRampart.Core.Tests.CoreContractTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.010458" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1151" name="Forecast_ChangesFollowRules" fullname="HumanLastRampart.Core.Tests.CoreContractTests.Forecast_ChangesFollowRules" methodname="Forecast_ChangesFollowRules" classname="HumanLastRampart.Core.Tests.CoreContractTests" runstate="Runnable" seed="40182678" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.008176" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1150" name="Forecast_IsDeterministic" fullname="HumanLastRampart.Core.Tests.CoreContractTests.Forecast_IsDeterministic" methodname="Forecast_IsDeterministic" classname="HumanLastRampart.Core.Tests.CoreContractTests" runstate="Runnable" seed="1980257634" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.000331" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1147" name="NewInstanceId_IsUniqueAndPrefixed" fullname="HumanLastRampart.Core.Tests.CoreContractTests.NewInstanceId_IsUniqueAndPrefixed" methodname="NewInstanceId_IsUniqueAndPrefixed" classname="HumanLastRampart.Core.Tests.CoreContractTests" runstate="Runnable" seed="1959170887" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.000279" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1148" name="Targeting_GlobalCommandClearsWallCommands" fullname="HumanLastRampart.Core.Tests.CoreContractTests.Targeting_GlobalCommandClearsWallCommands" methodname="Targeting_GlobalCommandClearsWallCommands" classname="HumanLastRampart.Core.Tests.CoreContractTests" runstate="Runnable" seed="1238503408" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.000395" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1149" name="WallIds_OppositeAndAdjacent" fullname="HumanLastRampart.Core.Tests.CoreContractTests.WallIds_OppositeAndAdjacent" methodname="WallIds_OppositeAndAdjacent" classname="HumanLastRampart.Core.Tests.CoreContractTests" runstate="Runnable" seed="255055148" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.000152" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1152" name="PreparationEconomyTests" fullname="HumanLastRampart.Core.Tests.PreparationEconomyTests" classname="HumanLastRampart.Core.Tests.PreparationEconomyTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.011334" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1154" name="Recruit_RejectsBadInputAndCapacity" fullname="HumanLastRampart.Core.Tests.PreparationEconomyTests.Recruit_RejectsBadInputAndCapacity" methodname="Recruit_RejectsBadInputAndCapacity" classname="HumanLastRampart.Core.Tests.PreparationEconomyTests" runstate="Runnable" seed="1952095670" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.000598" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1153" name="Recruit_UsesPriceBeforeEachSoldier" fullname="HumanLastRampart.Core.Tests.PreparationEconomyTests.Recruit_UsesPriceBeforeEachSoldier" methodname="Recruit_UsesPriceBeforeEachSoldier" classname="HumanLastRampart.Core.Tests.PreparationEconomyTests" runstate="Runnable" seed="1398897157" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.000334" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1155" name="Repair_RoundsUpPerWall" fullname="HumanLastRampart.Core.Tests.PreparationEconomyTests.Repair_RoundsUpPerWall" methodname="Repair_RoundsUpPerWall" classname="HumanLastRampart.Core.Tests.PreparationEconomyTests" runstate="Runnable" seed="1679557380" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.000296" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1156" name="Validate_DefaultsPass" fullname="HumanLastRampart.Core.Tests.PreparationEconomyTests.Validate_DefaultsPass" methodname="Validate_DefaultsPass" classname="HumanLastRampart.Core.Tests.PreparationEconomyTests" runstate="Runnable" seed="2122217987" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.000366" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1157" name="TerrainGeneratorTests" fullname="HumanLastRampart.Core.Tests.TerrainGeneratorTests" classname="HumanLastRampart.Core.Tests.TerrainGeneratorTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.015563" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1162" name="FreePieces_CoverCells_AndIdRoundTrips" fullname="HumanLastRampart.Core.Tests.TerrainGeneratorTests.FreePieces_CoverCells_AndIdRoundTrips" methodname="FreePieces_CoverCells_AndIdRoundTrips" classname="HumanLastRampart.Core.Tests.TerrainGeneratorTests" runstate="Runnable" seed="1682754142" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.001971" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1161" name="PathAndMove_Works" fullname="HumanLastRampart.Core.Tests.TerrainGeneratorTests.PathAndMove_Works" methodname="PathAndMove_Works" classname="HumanLastRampart.Core.Tests.TerrainGeneratorTests" runstate="Runnable" seed="2112817598" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.000628" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1158" name="SameSeed_SameLayout_DifferentSeed_Differs" fullname="HumanLastRampart.Core.Tests.TerrainGeneratorTests.SameSeed_SameLayout_DifferentSeed_Differs" methodname="SameSeed_SameLayout_DifferentSeed_Differs" classname="HumanLastRampart.Core.Tests.TerrainGeneratorTests" runstate="Runnable" seed="1203787447" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.001995" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1159" name="WallClearanceAndFrontCorridor_StayFree" fullname="HumanLastRampart.Core.Tests.TerrainGeneratorTests.WallClearanceAndFrontCorridor_StayFree" methodname="WallClearanceAndFrontCorridor_StayFree" classname="HumanLastRampart.Core.Tests.TerrainGeneratorTests" runstate="Runnable" seed="1478938984" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.009433" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1160" name="Works_AreStampedIntoCells_AndBlockTraps" fullname="HumanLastRampart.Core.Tests.TerrainGeneratorTests.Works_AreStampedIntoCells_AndBlockTraps" methodname="Works_AreStampedIntoCells_AndBlockTraps" classname="HumanLastRampart.Core.Tests.TerrainGeneratorTests" runstate="Runnable" seed="953950667" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.000453" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1163" name="TrapRulesTests" fullname="HumanLastRampart.Core.Tests.TrapRulesTests" classname="HumanLastRampart.Core.Tests.TrapRulesTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.004238" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1164" name="KnownTarget_IsRecoveredSafely" fullname="HumanLastRampart.Core.Tests.TrapRulesTests.KnownTarget_IsRecoveredSafely" methodname="KnownTarget_IsRecoveredSafely" classname="HumanLastRampart.Core.Tests.TrapRulesTests" runstate="Runnable" seed="1296311318" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.001907" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1167" name="SameInput_SameResult" fullname="HumanLastRampart.Core.Tests.TrapRulesTests.SameInput_SameResult" methodname="SameInput_SameResult" classname="HumanLastRampart.Core.Tests.TrapRulesTests" runstate="Runnable" seed="605895537" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.000324" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1165" name="UnknownTrapOnPath_ExplodesWhenNotSpotted" fullname="HumanLastRampart.Core.Tests.TrapRulesTests.UnknownTrapOnPath_ExplodesWhenNotSpotted" methodname="UnknownTrapOnPath_ExplodesWhenNotSpotted" classname="HumanLastRampart.Core.Tests.TrapRulesTests" runstate="Runnable" seed="1715382526" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.000276" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1166" name="UnknownTrapOnPath_IsSpottedWhenNoticed" fullname="HumanLastRampart.Core.Tests.TrapRulesTests.UnknownTrapOnPath_IsSpottedWhenNoticed" methodname="UnknownTrapOnPath_IsSpottedWhenNoticed" classname="HumanLastRampart.Core.Tests.TrapRulesTests" runstate="Runnable" seed="1914022227" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.000394" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1168" name="UpgradeRulesTests" fullname="HumanLastRampart.Core.Tests.UpgradeRulesTests" classname="HumanLastRampart.Core.Tests.UpgradeRulesTests" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.014790" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1170" name="Buy_FailsWithoutGold_AndDoesNotChangeCampaign" fullname="HumanLastRampart.Core.Tests.UpgradeRulesTests.Buy_FailsWithoutGold_AndDoesNotChangeCampaign" methodname="Buy_FailsWithoutGold_AndDoesNotChangeCampaign" classname="HumanLastRampart.Core.Tests.UpgradeRulesTests" runstate="Runnable" seed="1143794225" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.002247" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1171" name="Consumable_StacksAndIsListedForBattle_UnitBurnChance" fullname="HumanLastRampart.Core.Tests.UpgradeRulesTests.Consumable_StacksAndIsListedForBattle_UnitBurnChance" methodname="Consumable_StacksAndIsListedForBattle_UnitBurnChance" classname="HumanLastRampart.Core.Tests.UpgradeRulesTests" runstate="Runnable" seed="896712848" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.000933" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1169" name="HeroItem_BuyEquipsIntoEmptySlot_SwapMovesOldToBag" fullname="HumanLastRampart.Core.Tests.UpgradeRulesTests.HeroItem_BuyEquipsIntoEmptySlot_SwapMovesOldToBag" methodname="HeroItem_BuyEquipsIntoEmptySlot_SwapMovesOldToBag" classname="HumanLastRampart.Core.Tests.UpgradeRulesTests" runstate="Runnable" seed="1513121145" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.001097" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1176" name="HeroItems_OnFallenHero_HaveNoEffect" fullname="HumanLastRampart.Core.Tests.UpgradeRulesTests.HeroItems_OnFallenHero_HaveNoEffect" methodname="HeroItems_OnFallenHero_HaveNoEffect" classname="HumanLastRampart.Core.Tests.UpgradeRulesTests" runstate="Runnable" seed="503236979" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.000487" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1174" name="Mercenary_CapCostWages_LeaveWhenUnpaid_EliteLevel" fullname="HumanLastRampart.Core.Tests.UpgradeRulesTests.Mercenary_CapCostWages_LeaveWhenUnpaid_EliteLevel" methodname="Mercenary_CapCostWages_LeaveWhenUnpaid_EliteLevel" classname="HumanLastRampart.Core.Tests.UpgradeRulesTests" runstate="Runnable" seed="499927897" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.001192" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1172" name="PerWallItem_OnePerWall_GuardsThatWallOnly" fullname="HumanLastRampart.Core.Tests.UpgradeRulesTests.PerWallItem_OnePerWall_GuardsThatWallOnly" methodname="PerWallItem_OnePerWall_GuardsThatWallOnly" classname="HumanLastRampart.Core.Tests.UpgradeRulesTests" runstate="Runnable" seed="961050041" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.001126" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1173" name="Training_StepsInOrder_EffectsStack" fullname="HumanLastRampart.Core.Tests.UpgradeRulesTests.Training_StepsInOrder_EffectsStack" methodname="Training_StepsInOrder_EffectsStack" classname="HumanLastRampart.Core.Tests.UpgradeRulesTests" runstate="Runnable" seed="28182380" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.000574" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1175" name="UpgradeFields_SurviveJsonRoundTrip" fullname="HumanLastRampart.Core.Tests.UpgradeRulesTests.UpgradeFields_SurviveJsonRoundTrip" methodname="UpgradeFields_SurviveJsonRoundTrip" classname="HumanLastRampart.Core.Tests.UpgradeRulesTests" runstate="Runnable" seed="1798182247" result="Passed" start-time="2026-10-21 08:06:15Z" end-time="2026-10-21 08:06:15Z" duration="0.000894" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Saving results to: C:/Users/User/AppData/LocalLow/DefaultCompany/HumanLastRampart\TestResults.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

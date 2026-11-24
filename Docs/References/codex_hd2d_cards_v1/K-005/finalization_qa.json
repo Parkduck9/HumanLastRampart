@@ -1,0 +1,143 @@
+{
+  "task": "T-CX-053",
+  "decision": "D-068",
+  "technicalChecksPassed": 33,
+  "checks": [
+    {
+      "check": "wall_stone_albedo.png hash/size",
+      "passed": true
+    },
+    {
+      "check": "wall_stone_normal.png hash/size",
+      "passed": true
+    },
+    {
+      "check": "wall_stone 32px/m",
+      "passed": true
+    },
+    {
+      "check": "wall_stone visual/crop",
+      "passed": true
+    },
+    {
+      "check": "wall_stone color repeat metric",
+      "passed": true
+    },
+    {
+      "check": "wall_stone normal repeat metric",
+      "passed": true
+    },
+    {
+      "check": "walkway_stone_albedo.png hash/size",
+      "passed": true
+    },
+    {
+      "check": "walkway_stone_normal.png hash/size",
+      "passed": true
+    },
+    {
+      "check": "walkway_stone 32px/m",
+      "passed": true
+    },
+    {
+      "check": "parapet_top_albedo.png hash/size",
+      "passed": true
+    },
+    {
+      "check": "parapet_top_normal.png hash/size",
+      "passed": true
+    },
+    {
+      "check": "parapet_top 32px/m",
+      "passed": true
+    },
+    {
+      "check": "parapet_top visual/crop",
+      "passed": true
+    },
+    {
+      "check": "parapet_top color repeat metric",
+      "passed": true
+    },
+    {
+      "check": "parapet_top normal repeat metric",
+      "passed": true
+    },
+    {
+      "check": "parapet_side_albedo.png hash/size",
+      "passed": true
+    },
+    {
+      "check": "parapet_side_normal.png hash/size",
+      "passed": true
+    },
+    {
+      "check": "parapet_side 32px/m",
+      "passed": true
+    },
+    {
+      "check": "parapet_side visual/crop",
+      "passed": true
+    },
+    {
+      "check": "parapet_side color repeat metric",
+      "passed": true
+    },
+    {
+      "check": "parapet_side normal repeat metric",
+      "passed": true
+    },
+    {
+      "check": "tower_wall_albedo.png hash/size",
+      "passed": true
+    },
+    {
+      "check": "tower_wall_normal.png hash/size",
+      "passed": true
+    },
+    {
+      "check": "tower_wall 32px/m",
+      "passed": true
+    },
+    {
+      "check": "tower_roof_albedo.png hash/size",
+      "passed": true
+    },
+    {
+      "check": "tower_roof_normal.png hash/size",
+      "passed": true
+    },
+    {
+      "check": "tower_roof 32px/m",
+      "passed": true
+    },
+    {
+      "check": "field_grass_albedo.png hash/size",
+      "passed": true
+    },
+    {
+      "check": "field_grass_normal.png hash/size",
+      "passed": true
+    },
+    {
+      "check": "field_grass 32px/m",
+      "passed": true
+    },
+    {
+      "check": "field_dirt_albedo.png hash/size",
+      "passed": true
+    },
+    {
+      "check": "field_dirt_normal.png hash/size",
+      "passed": true
+    },
+    {
+      "check": "field_dirt 32px/m",
+      "passed": true
+    }
+  ],
+  "threeSurfaceRepeatVisualReviewed": true,
+  "normalShapeAlignmentCertified": false,
+  "unityVerified": false,
+  "gameChanges": false
+}

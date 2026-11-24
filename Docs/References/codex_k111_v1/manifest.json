@@ -1,0 +1,720 @@
+{
+  "card": "K-111",
+  "version": 1,
+  "status": "assets_only_integration_pending",
+  "generation": "built-in image_gen; exact mouth-only transfer; compact alpha and edge cleanup; nearest scaling; real screenshot compositing",
+  "coordinates": "top-left pixels; foot baseline is exclusive bottom edge",
+  "frame_order": [
+    "neutral",
+    "determined",
+    "alarmed",
+    "tired"
+  ],
+  "assets": [
+    {
+      "file": "game/fog_band.png",
+      "size": [
+        1536,
+        384
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        210
+      ],
+      "role": "far_edge_fog",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        768,
+        192
+      ],
+      "blend": "alpha",
+      "wrap": "repeat U clamp V"
+    },
+    {
+      "file": "game/glow_high.png",
+      "size": [
+        576,
+        576
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        88
+      ],
+      "role": "compact_glow",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        288,
+        288
+      ],
+      "blend": "SrcAlpha One",
+      "filter": "Point"
+    },
+    {
+      "file": "game/glow_low.png",
+      "size": [
+        576,
+        576
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        40
+      ],
+      "role": "compact_glow",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        288,
+        288
+      ],
+      "blend": "SrcAlpha One",
+      "filter": "Point"
+    },
+    {
+      "file": "game/glow_normal.png",
+      "size": [
+        576,
+        576
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        64
+      ],
+      "role": "compact_glow",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        288,
+        288
+      ],
+      "blend": "SrcAlpha One",
+      "filter": "Point"
+    },
+    {
+      "file": "hagen_expressions_game_288x384.png",
+      "size": [
+        1152,
+        384
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "role": "expression_sheet",
+      "frames": 4,
+      "frame_order": [
+        "neutral",
+        "determined",
+        "alarmed",
+        "tired"
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "pivot_px": [
+        144,
+        360
+      ]
+    },
+    {
+      "file": "hagen_expressions_native_96x128.png",
+      "size": [
+        384,
+        128
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "role": "expression_sheet",
+      "frames": 4,
+      "frame_order": [
+        "neutral",
+        "determined",
+        "alarmed",
+        "tired"
+      ],
+      "cell": [
+        96,
+        128
+      ],
+      "pivot_px": [
+        48,
+        120
+      ]
+    },
+    {
+      "file": "hagen_expressions_story_256x384.png",
+      "size": [
+        1024,
+        384
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "role": "expression_sheet",
+      "frames": 4,
+      "frame_order": [
+        "neutral",
+        "determined",
+        "alarmed",
+        "tired"
+      ],
+      "cell": [
+        256,
+        384
+      ],
+      "pivot_px": [
+        128,
+        352
+      ]
+    },
+    {
+      "file": "mockup_north_wall_high_1920x1080.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "role": "screenshot_composite",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        960,
+        540
+      ],
+      "safe_dialogue_rect_px": null
+    },
+    {
+      "file": "native/fog_band.png",
+      "size": [
+        512,
+        128
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        210
+      ],
+      "role": "far_edge_fog",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        256,
+        64
+      ],
+      "blend": "alpha",
+      "wrap": "repeat U clamp V"
+    },
+    {
+      "file": "native/glow_high.png",
+      "size": [
+        192,
+        192
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        88
+      ],
+      "role": "compact_glow",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        96,
+        96
+      ],
+      "blend": "SrcAlpha One",
+      "filter": "Point"
+    },
+    {
+      "file": "native/glow_low.png",
+      "size": [
+        192,
+        192
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        40
+      ],
+      "role": "compact_glow",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        96,
+        96
+      ],
+      "blend": "SrcAlpha One",
+      "filter": "Point"
+    },
+    {
+      "file": "native/glow_normal.png",
+      "size": [
+        192,
+        192
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        64
+      ],
+      "role": "compact_glow",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        96,
+        96
+      ],
+      "blend": "SrcAlpha One",
+      "filter": "Point"
+    },
+    {
+      "file": "portrait_hagen_alarmed.png",
+      "size": [
+        256,
+        384
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "role": "story_portrait",
+      "frames": 1,
+      "frame_order": [
+        "alarmed"
+      ],
+      "cell": [
+        256,
+        384
+      ],
+      "pivot_px": [
+        128,
+        352
+      ]
+    },
+    {
+      "file": "portrait_hagen_determined.png",
+      "size": [
+        256,
+        384
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "role": "story_portrait",
+      "frames": 1,
+      "frame_order": [
+        "determined"
+      ],
+      "cell": [
+        256,
+        384
+      ],
+      "pivot_px": [
+        128,
+        352
+      ]
+    },
+    {
+      "file": "portrait_hagen_neutral.png",
+      "size": [
+        256,
+        384
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "role": "story_portrait",
+      "frames": 1,
+      "frame_order": [
+        "neutral"
+      ],
+      "cell": [
+        256,
+        384
+      ],
+      "pivot_px": [
+        128,
+        352
+      ]
+    },
+    {
+      "file": "portrait_hagen_tired.png",
+      "size": [
+        256,
+        384
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "role": "story_portrait",
+      "frames": 1,
+      "frame_order": [
+        "tired"
+      ],
+      "cell": [
+        256,
+        384
+      ],
+      "pivot_px": [
+        128,
+        352
+      ]
+    },
+    {
+      "file": "previews/fog_band_4x.png",
+      "size": [
+        2048,
+        512
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        210
+      ],
+      "role": "preview_4x",
+      "scale": 4,
+      "filter": "nearest"
+    },
+    {
+      "file": "previews/glow_high_4x.png",
+      "size": [
+        768,
+        768
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        88
+      ],
+      "role": "preview_4x",
+      "scale": 4,
+      "filter": "nearest"
+    },
+    {
+      "file": "previews/glow_low_4x.png",
+      "size": [
+        768,
+        768
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        40
+      ],
+      "role": "preview_4x",
+      "scale": 4,
+      "filter": "nearest"
+    },
+    {
+      "file": "previews/glow_normal_4x.png",
+      "size": [
+        768,
+        768
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        64
+      ],
+      "role": "preview_4x",
+      "scale": 4,
+      "filter": "nearest"
+    },
+    {
+      "file": "previews/hagen_expressions_native_4x.png",
+      "size": [
+        1536,
+        512
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "role": "preview_4x",
+      "scale": 4,
+      "filter": "nearest"
+    },
+    {
+      "file": "previews/mockup_north_wall_high_4x.png",
+      "size": [
+        7680,
+        4320
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "role": "preview_4x",
+      "scale": 4,
+      "filter": "nearest"
+    },
+    {
+      "file": "previews/portrait_hagen_alarmed_4x.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "role": "preview_4x",
+      "scale": 4,
+      "filter": "nearest"
+    },
+    {
+      "file": "previews/portrait_hagen_determined_4x.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "role": "preview_4x",
+      "scale": 4,
+      "filter": "nearest"
+    },
+    {
+      "file": "previews/portrait_hagen_neutral_4x.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "role": "preview_4x",
+      "scale": 4,
+      "filter": "nearest"
+    },
+    {
+      "file": "previews/portrait_hagen_tired_4x.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "role": "preview_4x",
+      "scale": 4,
+      "filter": "nearest"
+    },
+    {
+      "file": "previews/story_dead_beacon_4x.png",
+      "size": [
+        7680,
+        4320
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "role": "preview_4x",
+      "scale": 4,
+      "filter": "nearest"
+    },
+    {
+      "file": "previews/story_relit_beacon_4x.png",
+      "size": [
+        7680,
+        4320
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "role": "preview_4x",
+      "scale": 4,
+      "filter": "nearest"
+    },
+    {
+      "file": "story_dead_beacon_1920x1080.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "role": "story_background",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        960,
+        540
+      ],
+      "safe_dialogue_rect_px": [
+        0,
+        720,
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "story_relit_beacon_1920x1080.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "role": "story_background",
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "pivot_px": [
+        960,
+        540
+      ],
+      "safe_dialogue_rect_px": [
+        0,
+        720,
+        1920,
+        1080
+      ]
+    }
+  ],
+  "reference_inputs": [
+    "Docs/References/codex_k108_v1/",
+    "Docs/References/codex_k103_v1/",
+    "Docs/References/codex_k105_v1/",
+    "Docs/References/beacon_game_20261022/05_pf_night_clean.png",
+    "Docs/References/beacon_game_20261022/01_pf_day_clean.png",
+    "Docs/References/beacon_game_20261022/08_pf_map_side.png"
+  ],
+  "replacement_policy": "Keep source filenames. K-103 bodies/flames unchanged; replace only glows and fog band, disable legacy broad fog corners/wisps. K-108 and K-105 assets are not yet in Game at this worktree snapshot.",
+  "fog": {
+    "native_size": [
+      512,
+      128
+    ],
+    "occupied_y_limit": [
+      36,
+      64
+    ],
+    "game_size": [
+      1536,
+      384
+    ],
+    "placement": "entire geometry beyond 45m; far edge only",
+    "legacy_corners_and_wisps": "disable; no revised corner or wisp delivered"
+  },
+  "glow": {
+    "native_size": [
+      192,
+      192
+    ],
+    "game_size": [
+      576,
+      576
+    ],
+    "native_radii": [
+      36,
+      46,
+      56
+    ],
+    "maximum_alpha": [
+      40,
+      64,
+      88
+    ],
+    "anchor_on_brazier_native": [
+      48,
+      72
+    ],
+    "anchor_on_brazier_game": [
+      144,
+      216
+    ],
+    "shadows": "mockup contact/cast shadows only; runtime shadow/occlusion integration pending"
+  },
+  "story": {
+    "size": [
+      1920,
+      1080
+    ],
+    "safe_dialogue_rect_px": [
+      0,
+      720,
+      1920,
+      1080
+    ],
+    "people": "distant faceless silhouettes; no hero-specific costume",
+    "camera": "pulled-back oblique view; square footprint from real tactical screenshot, masonry reference from actual battle screenshot"
+  },
+  "mockup": {
+    "source": "Docs/References/beacon_game_20261022/05_pf_night_clean.png",
+    "type": "asset composite, not a new game capture",
+    "preserved": "original camera, field, soldiers, wall geometry, original torch and distant fire effects",
+    "changes": "blue-black grade, two K-103 braziers, warm local lighting, geometric cast shadows, thin far-edge band"
+  },
+  "integration_pending": [
+    "Unity import/Play and actual screenshot",
+    "World-space >=45m fog placement and removal of legacy broad overlays",
+    "Runtime point light, shadow and occlusion setup",
+    "User visual approval"
+  ],
+  "verification_file": "validation.json"
+}

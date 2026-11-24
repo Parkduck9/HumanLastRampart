@@ -1,0 +1,8 @@
+{
+  "tool": "내장 imagegen",
+  "transparent_background": true,
+  "prompt": "Create a production sprite atlas of dark fantasy PIXEL ART command menu UI components, actual transparent background. Canvas 1024x1024. Strict layout with generous blank space: horizontal dark charcoal-green dry-brush band inside rectangle x64 y64 width896 height112; second matching brighter slate-green hover band x64 y256 width896 height112. Both bands perfectly HORIZONTAL, no rotation baked in (will rotate +6 degrees in UI). Broad nearly opaque dark center for white text; scratchy brush ends only in leftmost/rightmost 60 pixels; central 750 pixels flat, uninterrupted top and bottom silhouettes so 9-slice stretches well. No ornamental frames. Third row x64 y460 width800 height32: tapered warm antique gold brush underline, fine pointed ends. Bottom left x96 y640: circular number badge empty dark center antique gold 2px ring, diameter80. Bottom right x900 y600 to y960: thin vertical antique ivory-gold brush line, fading out both ends, width6 pixels. NO text, NO digits, NO labels, NO mockup, NO scenery, no shadows outside sprites. Crisp stepped pixel edges and restrained speckled dry-brush texture. Palette charcoal #101613, slate #26352d, brass #d5b16b, ivory #eee4cf. Each item entirely separated by transparent pixels. This is an original game UI asset atlas, not a rendered menu.",
+  "output": "imagegen_atlas.png",
+  "status": "사용자 확정 전 원안",
+  "postprocess": "PowerShell System.Drawing 최근접 영역 추출, 띠 중앙 열 반복, 숫자 도트 추가, 세로선 양끝 알파 감쇠"
+}

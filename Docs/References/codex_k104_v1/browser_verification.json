@@ -1,0 +1,25 @@
+{
+  "card": "K-104",
+  "browser": "Edge headless / file://",
+  "image_load": {
+    "total": 15,
+    "loaded": 15,
+    "failed": 0,
+    "frames": 6
+  },
+  "animation_advances": true,
+  "pause_stable": true,
+  "manual_frame_6": {
+    "transform": "translateX(-1920px)",
+    "label": "6 / 6"
+  },
+  "manual_pass": true,
+  "mobile_layout": {
+    "viewport": 390,
+    "body": 390,
+    "document": 390
+  },
+  "mobile_no_document_overflow": true,
+  "unity_run": false,
+  "all_passed": true
+}

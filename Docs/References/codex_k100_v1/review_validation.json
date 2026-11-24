@@ -1,0 +1,12 @@
+{
+  "images": 12,
+  "all_images_loaded_embedded": true,
+  "pulse_backgrounds": 24,
+  "all_backgrounds_decoded": true,
+  "animated": true,
+  "pause": true,
+  "resume": true,
+  "reduced_motion_starts_paused": true,
+  "mobile_overflow": false,
+  "script_errors": []
+}

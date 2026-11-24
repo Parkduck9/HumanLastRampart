@@ -1,0 +1,37 @@
+{
+  "id": "cannon_left",
+  "label": "대포 왼쪽 조준",
+  "size": [
+    512,
+    384
+  ],
+  "columns": 1,
+  "rows": 1,
+  "frames": 1,
+  "fps": 0,
+  "pivotTopLeft": [
+    256,
+    352
+  ],
+  "packedRect": [
+    95,
+    32,
+    321,
+    320
+  ],
+  "sourceRect": [
+    196,
+    114,
+    1160,
+    1074
+  ],
+  "sourceSha256": "1e43e44ea1be705a9c326372694cf4856ed14eadca9ac3d3fccb2c7acec48b5f",
+  "packedSha256": "2cd841fd331e7252e55c419358c867abfce9442c4310a1dbd4fceebe8623202e",
+  "demoMuzzle": [
+    155,
+    55
+  ],
+  "demoMuzzleVerified": false,
+  "status": "user-review",
+  "unityPlayVerified": false
+}

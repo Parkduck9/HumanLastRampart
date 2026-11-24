@@ -1,0 +1,2378 @@
+﻿[
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\.vsconfig",
+        "Hash":  "7D09B272359100ACF99D52D35DFA10B76EEC9BE5F5DB4E4A3AD13D0E204721F8"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\InputSystem_Actions.inputactions",
+        "Hash":  "CD5A6308F9BCE6DDAC2023B5ED185FF6BC36AC09FBFD9680054D367822203812"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\InputSystem_Actions.inputactions.meta",
+        "Hash":  "5E2E2329AB736A64146D747108BDE43AFF5F940DA6A98DD48BC35DC7C0B87098"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\Settings.meta",
+        "Hash":  "FA4ADE308D94F4213FE1712FBE10839379C26BC8B4CA3B4C43CF02CCC03A7687"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project.meta",
+        "Hash":  "E960C5C1E516622BA29F1D3BFC9517E9A4791A370F0628C1B721AB43486BA593"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\Settings\\DefaultVolumeProfile.asset",
+        "Hash":  "BDA0E0EDFAAC8AFB004C90A2E0FE1B7797D1F2027F329CAE5026F5B83727B14F"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\Settings\\DefaultVolumeProfile.asset.meta",
+        "Hash":  "43E8F7BED8F99DA631D74EE652953C230594E150CE305D313EC0844E312D574F"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\Settings\\Mobile_Renderer.asset",
+        "Hash":  "76431DD5DD9DB51E5C515B8EFE45DB0B0AE9C26081CED605A29ABBC608B11344"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\Settings\\Mobile_Renderer.asset.meta",
+        "Hash":  "DA2404303C1D6F6AF244A6BB7AC7D65CC8CBDD741C804CC913BE8BE861E65379"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\Settings\\Mobile_RPAsset.asset",
+        "Hash":  "165398D62DDE207E08282F43C4F7EF7FC0C10F520BA79E99174DF5D44099B6A9"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\Settings\\Mobile_RPAsset.asset.meta",
+        "Hash":  "4718CAB1245B68049FC0C4E0ACD26AC7C4A7E8EB7DCDB8F357159A129CA615EC"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\Settings\\PC_Renderer.asset",
+        "Hash":  "2095EDC1E52730A03D8B5C9A4E67B20AC525E0B15F84233470A1B458563E8785"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\Settings\\PC_Renderer.asset.meta",
+        "Hash":  "0F063B81DB6817DB7EC416712A575DD3E9960330E241DE389115F02ED5B3FFBD"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\Settings\\PC_RPAsset.asset",
+        "Hash":  "929E4F77B89C15A0DC2F8B228374822805F0B19B110DEF36CA62951924B46628"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\Settings\\PC_RPAsset.asset.meta",
+        "Hash":  "DD77AB3EB523C6E234943BC07250360E2AE934CED15C075A56168F2F7A3B5CE4"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\Settings\\SampleSceneProfile.asset",
+        "Hash":  "14F72F9E3356A20316FC7DEDB062CEF5160AFB00023C5500E65B72BEA640CDFC"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\Settings\\SampleSceneProfile.asset.meta",
+        "Hash":  "0B8036AF967C670DEB9C96912E7EFDA0895418AD3B2EEB4612B016A4D76A25C8"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\Settings\\UniversalRenderPipelineGlobalSettings.asset",
+        "Hash":  "7289418AC7D4DF8D22A2BAA5C20E3396AF470502154AFEC962D4CBCD5AE6D0B4"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\Settings\\UniversalRenderPipelineGlobalSettings.asset.meta",
+        "Hash":  "9F7756AF7860ADE1E88DB1B5CFFA7DFF8CC535F6AC08819A4E26164BF4018717"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\App.meta",
+        "Hash":  "24576EC38A78F77A6174C3011C3F8F18CE77F8929CCFD430536289E627DD3430"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art.meta",
+        "Hash":  "0C5C84B2A59A7E18DDA348381C9850913100BB1B79EEFE18C7B62696511F053D"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat.meta",
+        "Hash":  "BFD4B2CF8D0689DD63A4770BECEF89154AF7726434599885A0D5142C12FFED07"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core.meta",
+        "Hash":  "AA93DB5B5B2ACB632E3911894AB9A87EC2AFC32DFF498C0BDF9F8BA77EA06168"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data.meta",
+        "Hash":  "6FFA6A6AEDAABD53BAC735A0B3A8292E53A4278166F2C0E191CDB710624C3405"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Frontend.meta",
+        "Hash":  "FF3D07B54755598E529F9E1B4B1130BE1715BD555131AE7B09EF80BCB04129D7"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Meta.meta",
+        "Hash":  "F93D3723C05E6850473E6AB62874E3DD5829B798276EBDF96D78B1BA1E1FB053"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Scenes.meta",
+        "Hash":  "65D7FDF26DBBA2588D45C61E7B54F44E843513FC4BA911C95D9C97DBB9B11404"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Story.meta",
+        "Hash":  "6367D592C9AB5D1D6F361521EB3AD8E9B79FA921F53A8C35868201D75A01CC0F"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\UI.meta",
+        "Hash":  "3F85862C8E2BEC56212712E922B40C65E4FA6C4431D46AC861CB38989F9C3AA1"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\App\\AssemblyInfo.cs",
+        "Hash":  "15D582EBDD9FCAEA449302A92FB537F71F00020C41F6C1162120EE7873534924"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\App\\AssemblyInfo.cs.meta",
+        "Hash":  "C203B7C1ADE27CDF120A60670AECC771C16FFFE9B56EB32E49D0E843F05CD94D"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\App\\Data.meta",
+        "Hash":  "EECC767B388A10233619C9D36DD5C0A6D72071FE77266EE0468ABFFE4BD16011"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\App\\Dev.meta",
+        "Hash":  "6BDAC92907ECF5E5E0F35F164842398996437F4E0B36C66BD0249C5EE757F0F8"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\App\\Flow.meta",
+        "Hash":  "1F07D1302A0122917ACE866913A6166D368C78C6475EC4E1F1A64966B59A91A4"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\App\\HLR.App.asmdef",
+        "Hash":  "AADD77CB41B75DFA38752B5CD7233A242B423FF933D0B332509F4FBEC42576D7"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\App\\HLR.App.asmdef.meta",
+        "Hash":  "8FC935DFF42A923DE341C4DE7855F4C684F0B2BBEBFAB0E52EA59F2843F47072"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\App\\Tests.meta",
+        "Hash":  "154F9754C717241C21BCE582EF4C56C83355F65DEE81E390F8E90646D1050967"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\App\\Ui.meta",
+        "Hash":  "75FE3E8F79364FB440EDE9D0CDA6F2AEEBCD051D62D4BD5E5E24F277272F1E44"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\App\\Data\\BattleResultCheck.cs",
+        "Hash":  "804BC0BC9294F0B09FB8020FF4BD883E02AFAAD6A093AC863F6C9A998AB04A1D"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\App\\Data\\BattleResultCheck.cs.meta",
+        "Hash":  "6DF47DB182E2274DE98AE45D4F26B4A84E2566E5B71EC2F33BF8E615C63BB3B3"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\App\\Data\\BattleSetupFactory.cs",
+        "Hash":  "7A9732A12A4558ECB3EAE128F3ECF27DB5EC7A1D7060B33D7A04730852A39CD7"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\App\\Data\\BattleSetupFactory.cs.meta",
+        "Hash":  "2AF0332F123EE598229CB0CC60F46BE32F81C4CCDE2163FC5D8F014CFF2A649C"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\App\\Data\\CampaignFactory.cs",
+        "Hash":  "3FD72A37B08DC486197F52E046067D45DD579B3EB72CA73D9B952B5F2EDD3671"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\App\\Data\\CampaignFactory.cs.meta",
+        "Hash":  "A9CB9897314F9DCDC22B6EC7BC34F7B8EA705C8F0C52F7EFEDE3BD82145D89FD"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\App\\Data\\DefinitionLookup.cs",
+        "Hash":  "2B35B457405CD621C46380943C2AD52D65AB23782E055312A3803FFD4F3B47B2"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\App\\Data\\DefinitionLookup.cs.meta",
+        "Hash":  "83B196482612EB322646D547D988EF593AFD6CC0F04109E1685F2C73C8925E7F"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\App\\Dev\\DevHarness.cs",
+        "Hash":  "D95E86F5C993A51192D5C19297EC2FBDBBC0C519557ADD8BDC677A074114B4D6"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\App\\Dev\\DevHarness.cs.meta",
+        "Hash":  "EC567C2B20D969725EFD253697E8D9B3E9DFEA483F8E1FEFE9728B07BE70358B"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\App\\Dev\\DevPlaceholderScreen.cs",
+        "Hash":  "620A115699A2070F7015E999EAF1860CDFDE9AB4AD2753F1206EBA42C57F0DB4"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\App\\Dev\\DevPlaceholderScreen.cs.meta",
+        "Hash":  "7675C21B3E298E4F6A73466A374EDA4ADC90E4E09DAD0A97250812B96B397F00"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\App\\Flow\\FlowRouter.cs",
+        "Hash":  "62795E958824BA9C9510597B506949ACDDA7F751C635DA1D9D845D9C76B3D653"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\App\\Flow\\FlowRouter.cs.meta",
+        "Hash":  "308A99A6022B3DD92395F1C291443C14D86271B895CA9C132C5627D3322B1873"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\App\\Flow\\GameFlow.cs",
+        "Hash":  "F6EAACABD8835967B19A0543255CE5B0678F659CE28618686F895A7C438F892F"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\App\\Flow\\GameFlow.cs.meta",
+        "Hash":  "DFF0999E914B01F828893066CF4AB442C006A74A7C420DBB691BF75C2E36CBDE"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\App\\Flow\\ScreenContext.cs",
+        "Hash":  "48D9843593C876E5E81B02C9F94C8C74F15C9F402B510685E74397A79B9EFA20"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\App\\Flow\\ScreenContext.cs.meta",
+        "Hash":  "D321715E90E2BA562948183769D8B442A515C47EAFFEFC875C5EBAAF2176EAD4"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\App\\Tests\\AppFlowTests.cs",
+        "Hash":  "E1A2CE1CE3D463263D26BF431D52A7EB2165785F04A462887C8567B4AB2B82B3"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\App\\Tests\\AppFlowTests.cs.meta",
+        "Hash":  "4AA4777E485BC63A71F900E8623A82DAFBFBEA1D6F601ABB73783867EABAE436"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\App\\Tests\\AppTestData.cs",
+        "Hash":  "7547C6DC476FC0B6785951AD6EBDDB3FF7305F1F52D961D2955348CFBEDB585D"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\App\\Tests\\AppTestData.cs.meta",
+        "Hash":  "26CA5458F5A313FF93B4F7804F17EA735F29B12FC04CA1DECB47E7946003C93F"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\App\\Tests\\HLR.App.Tests.asmdef",
+        "Hash":  "026B8601DEA5BCB305974213119FDF190CA7FD65B844D26D8D72EE48390B3AE4"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\App\\Tests\\HLR.App.Tests.asmdef.meta",
+        "Hash":  "E03B33F4B863BD062DBDF69838BB4949297F57078831A847B1F79C56D6AFC435"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\App\\Tests\\RealDataTests.cs",
+        "Hash":  "39379ADCE53C63570D5C30C3D138C305763A3ED77C90895FE720A6B212B5AE0B"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\App\\Tests\\RealDataTests.cs.meta",
+        "Hash":  "B9CD677DB3A988C734B578D57B1125CA742146D3827624031ADF34F6BB3BC013"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\App\\Tests\\ScreenContextErrorTests.cs",
+        "Hash":  "9F3A56321BE2421D423FBFADABEB6DB4403DD1E8994B5A3CB5BF98CB7DDEF8EE"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\App\\Tests\\ScreenContextErrorTests.cs.meta",
+        "Hash":  "01AF15EE188E3EBF6BBFC6ED0A3E9549C837E3353087C8644E48288D468861D4"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\App\\Ui\\BootOverlay.cs",
+        "Hash":  "A0814DEE63CE3A5EAA6A9B8DF328B8DC37D854B0AB3384ADD4A230AC20B3ABFB"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\App\\Ui\\BootOverlay.cs.meta",
+        "Hash":  "F640D0AA447A2389E3781AEAD523A21630DDAE231EB1E615603DD42215590837"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle.meta",
+        "Hash":  "CD9591DD9E9024FE02D2515C38FB40590D4D72B334EBDF9EEDDD5528F7252299"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Characters.meta",
+        "Hash":  "45602E0DD75E8C05C473724599344624698885B554C303F0153E8DD69974B4A4"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources.meta",
+        "Hash":  "CFE0C8A1E7B4BE538B1A7B7DE854FAE961D3E7B6106B7A0A9B3F89E0DFDE55FE"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt.meta",
+        "Hash":  "E18D9C1DFE707416F982E6B9ACD2E501089C718258BFC75BA098AE6AC4EE4BE1"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\cannon_aim3.png",
+        "Hash":  "B0900407E26994B630B9AD3C1316B4E68BBC24305443E56787542CF8B70D300A"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\cannon_aim3.png.meta",
+        "Hash":  "A32D93C86869B9DF006FA9C2C51309E080190AC13F14558D3DCEA8FC153F5D87"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\Effects.meta",
+        "Hash":  "E2F8B72F9A0B108AF6D628676B1B571AA58511943B365A441D7848D8FDEAC871"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\wall_a.png",
+        "Hash":  "28D8A5CB07975C7DC2558B99865D0707EBA4E2ED3F5B8AC52201D01905DAE1B3"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\wall_a.png.meta",
+        "Hash":  "DC1FB5DE489DB55DF82F4152FD5013C762F6C7E7F327383EB8B415AE9E97CDC4"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\wall_cannon_bay.png",
+        "Hash":  "A616FD6949ED398B952853444D6A014949388FB910F67D367D57276835106210"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\wall_cannon_bay.png.meta",
+        "Hash":  "ABC6D4A6120AAC523C78F87DBA53FBCE74E6C20D69564481E661073EEB70AFD0"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\World.meta",
+        "Hash":  "2D40DE4BAFBF2F390FAC2AF98C3E92F0C75F5E3238719B117929B94222747FC9"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\Effects\\arrow_hit.png",
+        "Hash":  "E10F6DB61B5315EFE60073D766CE6CDCDCE5B8B5B977ADCB410FB1C5085E0058"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\Effects\\arrow_hit.png.meta",
+        "Hash":  "BD2D3797388E16AAE28D73C51445BD379FFBF1528FFE49B2769E862AF17CC5F2"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\Effects\\fire_field.png",
+        "Hash":  "D9F0293E91026D2574A262B989DE2C9F15DC6EE6625F37AEDE66AE616361FDC7"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\Effects\\fire_field.png.meta",
+        "Hash":  "7364CFF9A53B4DF2638AF02067BD40DC684AFA825A8C657EFA562CDB8FC1DAF7"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\Effects\\magic_burst.png",
+        "Hash":  "3846FB47DD2F81906426D2665C099DAAF598609BE63177E3BA1E97863EEC9ADF"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\Effects\\magic_burst.png.meta",
+        "Hash":  "05461666A574090069B90703B831FD02DA1B677BDE8B85F8FBBE36B8D2452622"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\Effects\\torch_flame.png",
+        "Hash":  "21B26184607E5B8CCD1C493EB792B1FB60E00348855C55ADC2D0F3D00AB50A40"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\Effects\\torch_flame.png.meta",
+        "Hash":  "29FB273A12FFFA5CFC61CB5A213628F0E3C636C0258FF4173D645B16D9E18FDB"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\Effects\\trap_burst.png",
+        "Hash":  "A58F5D32F4AD1AB9372D843377065C9AFA6777539A979D9B330BC9E354674C71"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\Effects\\trap_burst.png.meta",
+        "Hash":  "230C10EB25F950E749B253215EB6F863F925A34DF4476E56B059CE69DA1A5267"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\World\\field_dirt_albedo.png",
+        "Hash":  "B56B4A115E667840C0F1D68D2C243DE1CD2184E7A790AEEA4B038BBC52B39D2D"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\World\\field_dirt_albedo.png.meta",
+        "Hash":  "9E7E4C94DBC47552F72C8A46CF144CD91883C29A6F48984E33E28D38683624A2"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\World\\field_dirt_normal.png",
+        "Hash":  "9AFBA43D51111658ADA450EF3D46CF0650B9C92E981DB8A225FEA35817F08EE4"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\World\\field_dirt_normal.png.meta",
+        "Hash":  "F6E621F76BCB43617E603150BD5675B4DC3A19031182CC805DD458C3C0C59992"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\World\\field_grass_albedo.png",
+        "Hash":  "928D68BBF035563CB15C797DC84DF819782A452B345A8C24C3DC2272C5093302"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\World\\field_grass_albedo.png.meta",
+        "Hash":  "B443FA7CA03C88276C34CC4CC63E92017FDC2A7CBED7A20EDE3B737EF15666CE"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\World\\field_grass_normal.png",
+        "Hash":  "E57EDFD6BD1FCD1F92A9C1D4E650AF8E35B2DF13F5996AF2529514F353A4AAFE"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\World\\field_grass_normal.png.meta",
+        "Hash":  "D2B2C34D9B214CAC877536542574BF503B9B9FB7CDE06D618AD182F7A09CEF8F"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\World\\parapet_side_albedo.png",
+        "Hash":  "5C28F110B706196DCBCD5B23F2F5A2B7A15298327EB6390CD8CAA38C6754D771"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\World\\parapet_side_albedo.png.meta",
+        "Hash":  "2956635A256B3AC1008744607B22940E03EE19369BBB4B303F263EC8DD3ED722"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\World\\parapet_side_normal.png",
+        "Hash":  "08FDFC0D0F170CAC42DF97A91F9873A6D5D666FB7AC2CD801EA298F89D628496"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\World\\parapet_side_normal.png.meta",
+        "Hash":  "85042DAFEB2BCD3060B4AC0C8CFB7ED5DC0DDA14C6F796C639F6753D829D03C3"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\World\\parapet_top_albedo.png",
+        "Hash":  "766C5E20FF43A286B64F201CD5D1FA24B812850006BB88007C88143E718DFBC6"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\World\\parapet_top_albedo.png.meta",
+        "Hash":  "CDBD60DA8B3D7BA294B87EE879134680FED8346F96EE8510EB79CA0D6C495F0D"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\World\\parapet_top_normal.png",
+        "Hash":  "FD238B6469019066228771754CE2ED9D34603E5267C05EC49E9305B3E71F5624"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\World\\parapet_top_normal.png.meta",
+        "Hash":  "5B03F7126DEE1DD80AE0C21DBE97F184D7CD35538EAF32C55F4312A90C552588"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\World\\README.md",
+        "Hash":  "7A8833BCFCCF46992B39A4C9C51FF513CDCCB74ED3A18D0A8AC47F260555CDE9"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\World\\README.md.meta",
+        "Hash":  "4442ABEB8045F6EF016C7C618A529DAB6E4B771343448364988E59A923959538"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\World\\tower_roof_albedo.png",
+        "Hash":  "BBAF16AEB3C67BC211D116F8AE9AC25EA27536C903FCCF546D83E244297020F4"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\World\\tower_roof_albedo.png.meta",
+        "Hash":  "CAA8CD071096BA24648947EFCA6230FA98EC448EACE1E3BC972F180D0514A758"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\World\\tower_roof_normal.png",
+        "Hash":  "971598B663D70A47CF42A13C3957DFAAFE10DA0FB8F9ABA79BAD083FECE114C0"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\World\\tower_roof_normal.png.meta",
+        "Hash":  "FB6BD96693FE9C367F017B2B8E09D85C5822D29AF29FDA916BC0E91FBED4F95C"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\World\\tower_wall_albedo.png",
+        "Hash":  "6E66E969959646E6C2DAD647F56DA55BBE631E2F58946930BC9C60D322EC8EEE"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\World\\tower_wall_albedo.png.meta",
+        "Hash":  "A6F524BF5B2EBED4409F1FA1B1C5D9B7EF2027D4815687EF38FAA23B0EA44BC2"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\World\\tower_wall_normal.png",
+        "Hash":  "891FF045D4D9B1C6BE657A38AD7CB39BA7A02F7E9A6C97E011EBB434B98C40C3"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\World\\tower_wall_normal.png.meta",
+        "Hash":  "85EF5DBE5118F2E583201387FA38CF8848312B0C10EF0B5CDAEDFA2326509AF3"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\World\\walkway_stone_albedo.png",
+        "Hash":  "7A48C2577F7D90246E461DE84503193CC05F27AC8FFA0A7CD25AC6447E586BDF"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\World\\walkway_stone_albedo.png.meta",
+        "Hash":  "EB40461840100D25B3E3C9D3B85BD444ACD5FEF5C42C477B8FE124DB874BA366"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\World\\walkway_stone_normal.png",
+        "Hash":  "04AA12AF39F3CCA4DEEF6253833B768017ACF611A85D63149288441CFC470CC2"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\World\\walkway_stone_normal.png.meta",
+        "Hash":  "DE21D48A0E226527EFABF447C9D78852C218EA22491DA6BF16D0077A4C7F9CEE"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\World\\wall_stone_albedo.png",
+        "Hash":  "207226D53C8A8B414D621422506D1A1F81D6E48D649E75C1F4AE3A25D686093F"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\World\\wall_stone_albedo.png.meta",
+        "Hash":  "2B0C07321369D65F49E60B325FC99E183E0559A0713CB125508BA5F809ED42F7"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\World\\wall_stone_normal.png",
+        "Hash":  "796641B39607635BBE67CE3C282A19A61A8CAB3F91CA739FBC8071126EE38C19"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\World\\wall_stone_normal.png.meta",
+        "Hash":  "17E464F0B638251FB026EF076A24CF2A0385EA43813C44864882093C332473DD"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Characters\\Goblin.meta",
+        "Hash":  "C99EEE3B3686A3DAF8416C98EB5BB25958D0322347BFB36785934C2D8EA594B8"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Characters\\Hero.meta",
+        "Hash":  "7D0F90B0681D13A3E142E7314507F54C25470E0123FC7450501E5D872CD4A61C"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Characters\\Run.meta",
+        "Hash":  "CF2384C0F62F989FA36E8D2B716B830C1B25DFE185B433DF5DEED4DB2CF9AE14"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Characters\\Static.meta",
+        "Hash":  "B8856BFB0FE2310D443B15F58AD3FB8A34FDE205A15FBB1AD7DD0DD5C143735B"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Characters\\Walk.meta",
+        "Hash":  "10C2B2624197C4A34E671B844F7B1A773D8974CA6A4BE0BE9156401B7E013BDE"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Characters\\Goblin\\goblin_walk_attack4.png",
+        "Hash":  "0E2E311EA0D214FAE8C46605A1E58A7F8E8F8815BD2CD05D34B6CB1FE0F359CF"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Characters\\Goblin\\goblin_walk_attack4.png.meta",
+        "Hash":  "B6B2DC87913FF01F81FE3EEBC78A333D4FB8385B91E559A420740E2DC1502FA1"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Characters\\Hero\\hero_back_idle.png",
+        "Hash":  "DC29ADD2BE5BEB8661B24E6CA9EB1152294FB54EFF312218636F71284CE37067"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Characters\\Hero\\hero_back_idle.png.meta",
+        "Hash":  "8B5BF1832D21BEB4B4D29CDB2393E40E62A6EF3B403A1823C4E1DFB6D421E214"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Characters\\Hero\\hero_walk_run_grid.png",
+        "Hash":  "3AC773E6922C1AE1A3281730FEC4ED26679FFF808F448E0D0E3E96550D085C15"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Characters\\Hero\\hero_walk_run_grid.png.meta",
+        "Hash":  "F7A748DD97C937A754C472A2E966D2A221948F5815D69BF14738D133496E40E4"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Characters\\Hero\\hero_walk_run_grid_normal.png",
+        "Hash":  "84F709ABCB3E0E3819616CDEC068C4524DD2F3E53C123FEBDA4C5B57858938C2"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Characters\\Hero\\hero_walk_run_grid_normal.png.meta",
+        "Hash":  "DFC4D9F176385D37A7130EC0BFDDE82A9DBA19F3E4DC8D01071675135788A435"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Characters\\Run\\archer_run.png",
+        "Hash":  "22ACCB9800C05EF2336296A0E55D692F9A969343C1B10C7DCC0F91A67C047419"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Characters\\Run\\archer_run.png.meta",
+        "Hash":  "7293FAD5B8FC245D076D06930E9DEE948D2A51D1AD73A766114D4480E61AAD16"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Characters\\Run\\cannon_crew_run.png",
+        "Hash":  "7E4BD00D40549A19479FE738AD73C9A01EF70C0F8C272A5F7E17F6551270EEE3"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Characters\\Run\\cannon_crew_run.png.meta",
+        "Hash":  "B16ED0D8BF508B0186D11C1CD53CF8462B0261971121FDE364EA6B74A172AA88"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Characters\\Run\\gunner_run.png",
+        "Hash":  "A631038DC80BF53F8E21465429FA0E1E4D50739F3BF9B4BC77ED431B32047C61"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Characters\\Run\\gunner_run.png.meta",
+        "Hash":  "4F8F74D07AB846F3F65DCC819A4D8E29EA9831ED76C64CBBD3BB1A189FCC1188"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Characters\\Static\\archer_static.png",
+        "Hash":  "2D9FCC469018D73D48B2E044C2388F0BA74DE8C9F958366AD20BD1FFE44A7E06"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Characters\\Static\\archer_static.png.meta",
+        "Hash":  "C6098254C4AAC417E19D5A69FEE4ED49AABE44A1EF323E84C6B5CB3A8C879AFE"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Characters\\Static\\archer_static_normal.png",
+        "Hash":  "F745E54D9E2DEA6CE0A21B28387B6D0EA4AE350F5F947FAA210C64B660F1D851"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Characters\\Static\\archer_static_normal.png.meta",
+        "Hash":  "61166B1C792AD90A20F9C2F1531A7D82F31E49109F9A0BE1094073E19FC166C4"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Characters\\Static\\cannon_crew_static.png",
+        "Hash":  "5EE84F511A5351AA9E93CC6E4A22ADBB063B2C54F7993A5557EB039C17122EA3"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Characters\\Static\\cannon_crew_static.png.meta",
+        "Hash":  "D700900A3EFBF7B293C3D1D4341A1002314A506DC513D800DE9C9F2619673438"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Characters\\Static\\gunner_static.png",
+        "Hash":  "F513D4261420D4D9709E9513CC2F4E640459EB8407EE060FFAAF49CF8DB9C46C"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Characters\\Static\\gunner_static.png.meta",
+        "Hash":  "7FB0B31981F48CC3EA85BFC588F6E0969DCDF682595A6DBFC623A37171DF8D91"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Characters\\Static\\ladder_goblin_static.png",
+        "Hash":  "F6FA814CDB4521E775D99F6DA685656519E6E89BCA9158473498D5C6FA6118DB"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Characters\\Static\\ladder_goblin_static.png.meta",
+        "Hash":  "C2BDAC5AD342244B99A82C1FB59764FD8D325C602E4208FBECADC92C031B0099"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Characters\\Static\\ogre_static.png",
+        "Hash":  "AE75C2B19FC2DED77A0714F81BE5176CB7701605FF70F430EF478571A264D06F"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Characters\\Static\\ogre_static.png.meta",
+        "Hash":  "0694D0980A72729D7AF393AC330100CC37611B5218FE80E39038B658BB9B3D53"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Characters\\Static\\wizard_back_static.png",
+        "Hash":  "E8C581155516D8B85563627D14FCBFD1A40ACC0D90A3B08483943BA0F485E6A6"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Characters\\Static\\wizard_back_static.png.meta",
+        "Hash":  "966194AA9F82C65F4FEEE55BAE2399CFF17BC91B9A9B8DBD3049A960E501B531"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Characters\\Static\\wizard_static.png",
+        "Hash":  "E3994C5F0D2BB08CE99FB0D75DD9AECDA3AF417ED1B03B6B1E7A02AE764BD511"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Characters\\Static\\wizard_static.png.meta",
+        "Hash":  "C1FAC44D39359F346D8E784655D78914DCD990280A31026938BFA27894372DA4"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Characters\\Walk\\ladder_goblin_walk.png",
+        "Hash":  "E620E115990F1CB7D72CD297A08645806688C654AAA39FFECCA41F5AD86071BC"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Characters\\Walk\\ladder_goblin_walk.png.meta",
+        "Hash":  "DC49FF8894826CA60A9FCD06661E2BB3E03E01F00C0ED5C2C0DD5D2429DB51ED"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Characters\\Walk\\ogre_walk.png",
+        "Hash":  "A91FBECD19A355EAF2EE032DBCE4BDC0CE96C3C93468FE1DBEE3A877B405088D"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Art\\Characters\\Walk\\ogre_walk.png.meta",
+        "Hash":  "A7ED42132A52E34DF430AD72F4FAD11BD5CBBA5CB7421DA0A820BD61D4A4669E"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle.meta",
+        "Hash":  "8C03F01690B599A0A4A22ED24A2673B8DD0820BC80D5A6B47B0A6D4131A677B2"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Editor.meta",
+        "Hash":  "CE3D8B7B53E258070645B460281FB3A73E90151AD08C62E53C0FFD2CB88EA7E3"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\HLR.Combat.asmdef",
+        "Hash":  "40D6FFC94BAFC1BD97FD6B90DF763D6C52418DB495C30AF2C9F2627EE1637E88"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\HLR.Combat.asmdef.meta",
+        "Hash":  "2D34554B3AB527B7B4A21A9077B2B54F17F4E6EC481E26DDBA9495C9AD917E96"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\PerfLab.meta",
+        "Hash":  "A4D495A41129458481F29275888472DB387EE69862ECB00AE328EBB043C695D0"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Render.meta",
+        "Hash":  "0B5EA9579B1244DEDCFB937D8CB11B222D2E8C6B3F0A70E483E881672A5527EA"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Tests.meta",
+        "Hash":  "C3B7F70C47A2DB7182CE0A538908034A3AA56BB9380D7246F9D1F07431FC6787"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\_PlayProbe.meta",
+        "Hash":  "0ECE2746B2906F07A4541600516873B9764FD84ECCC2E4D7DB7AECCD899CD15D"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\_SimProbe.meta",
+        "Hash":  "0DCA6BD8B290B5C01141F0D8DA7621ACD5891E0652351560421841538A3F7939"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleCameraRig.cs",
+        "Hash":  "9AC1022B7DC148F2C5588E747E5CB70EDE6CC2665922B7357BB1D57F68DD79A0"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleCameraRig.cs.meta",
+        "Hash":  "A57FFC1B1D3C07C68D0A8BBA82DB382D3798FF992A912847BE890AF2DA1D30CE"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleEffectsView.cs",
+        "Hash":  "3F21B6E2398CE0D73442B2C640071A111AF5C7AA75D227366269EE90FB1AD5A1"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleEffectsView.cs.meta",
+        "Hash":  "DA0E0C33BE6083567340410C3F5DD7E3F3033FD60AF24CF972116CA39285A27B"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleEntry.cs",
+        "Hash":  "7975BE56E193023D6758D6B50FEA7D20759703588B8106D3A41685957424767D"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleEntry.cs.meta",
+        "Hash":  "BEAA5F2F435487358566A49A68D1DA62AFEE16ABF5CE2F0620621069D3A72812"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleHud.Commands.cs",
+        "Hash":  "FB70E2DE400A26FC9476705A2D3A91EF6BFF38E2E5D0C8294B0FD31CDE416772"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleHud.Commands.cs.meta",
+        "Hash":  "D71D919A00CDDBF901DAF73F97DDCC9A0B5424A5857A67B6FED31F2233C8C7D3"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleHud.cs",
+        "Hash":  "A0C1E6947DAE040E4590CC4EEBE65870E4A7AD06DF023425042113477A6EE35E"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleHud.cs.meta",
+        "Hash":  "79EFEAA92617F095F7990C668B4F27BA8AE923FA84214A919CDBB8062C45A192"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleHud.Map.cs",
+        "Hash":  "D7A5B6011A29EAD4EF9C849BC24415B03856141FD7675BBD77B6AD3261FC5481"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleHud.Map.cs.meta",
+        "Hash":  "EF42236B6C02B21EA8E28E0D91F1826F2977048F4EBA3690FA8B868DF7AF17AC"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleHudStyle.cs",
+        "Hash":  "CD5AEDE8965633EF967F29908CB7BAE13CF0915F09690E79FEB005331E058E04"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleHudStyle.cs.meta",
+        "Hash":  "042AB493E41628C68A4A5CDCF056A20BA2F1E3F26A514866AC0B0EA36ACAB693"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleJobs.cs",
+        "Hash":  "8564A3F97BCC2A686BF3A0A128FEFE4A0F05AB9F90C02E9F54D96A22733F4CC2"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleJobs.cs.meta",
+        "Hash":  "0B7A793BF660B76793F6172B74D005350314708796B833AF68400B86DBAC07D5"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleLights.cs",
+        "Hash":  "E3CE9891AD6A391E4D55EB7B3DE285B59CFE227F50B218C8F6A7024D743A8A27"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleLights.cs.meta",
+        "Hash":  "54B65310AC4F9E6334C024F282B2969A6477B725BBA175DC9985B521DDCA3660"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleMapCamera.cs",
+        "Hash":  "99134FFBD3C3881C86AA13A946302EA2E12FA80220845E42E3DA754A0818F9EF"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleMapCamera.cs.meta",
+        "Hash":  "EF3A400F4E467B75083FAF5E3A611D1783C68A31DACF529DB7C915D463EED68E"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattlePropView.cs",
+        "Hash":  "7433F8EB514A0CFC6B9D8ECD9B67B340271513E5451B913583B67C802E042C56"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattlePropView.cs.meta",
+        "Hash":  "784614B4849F3A175197D205D6F8892D1654974E192EF0949DB0087342F63775"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleSim.Cannons.cs",
+        "Hash":  "7E292F70FF1A5B1E88AC7A3BF522449F257874E4C5A7F5E297A8FEB6C1AB9945"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleSim.Cannons.cs.meta",
+        "Hash":  "206361644F2A50DE3BADAEF0ED69EE0C7F1097190EC4D13AA1D898F4346DE07C"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleSim.Commands.cs",
+        "Hash":  "382CFBF37FA28AEB42F78B208296972CF74232118046C5709FF350B85081CDE8"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleSim.Commands.cs.meta",
+        "Hash":  "096FA5BEDC54D5FE211A424CDB324494DD9163A2EAAF22D986792B37E24CA55A"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleSim.cs",
+        "Hash":  "A8C36EDFF70BEB1212B890E81B63C5A53418078E053A136414A1F6C769A9E914"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleSim.cs.meta",
+        "Hash":  "1409F80789A148FCBBB97C72B579AF608FEB4295E6A705416C2C1BFC153507E8"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleSim.Flank.cs",
+        "Hash":  "F55D770B0F8C8179AD02B6CF9A1287EFDCBB011252A475AF0FB52DDAE9090DAA"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleSim.Flank.cs.meta",
+        "Hash":  "6AAC0160C6339590A0203717FCBCA33860B9EA95244110B25C835E83BCF2E8E3"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleSim.Groups.cs",
+        "Hash":  "E2991003A82157F2F6542A7A958BFEBC30BD1E2C26CB163A50BD68C1E75A97E5"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleSim.Groups.cs.meta",
+        "Hash":  "249EA38F31C8B1226C80A7103C3322F511EC652FF0C47CE31753E5933AC7D90E"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleSim.Runners.cs",
+        "Hash":  "F71A15E573825EC57A96AF7DDA6014C408107B7CE44FB137AD5A127A67FD7AF7"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleSim.Runners.cs.meta",
+        "Hash":  "43DB123A71266482DD4D342E31F65C3447B12CF879E0D30BB472B0C9274F15D2"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleSim.Spells.cs",
+        "Hash":  "732C2F09B2845ED89030FD60D581FB8BAF55654FDF10EA887FBEAD6A4079F07B"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleSim.Spells.cs.meta",
+        "Hash":  "EF2E27A04FFCC15E5ADD1511747AEBD4483572EBFDC7BD66AF01AD701BD8A6FE"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleSim.Telescope.cs",
+        "Hash":  "C7F2E3398898897CAE638A1071946F520B987D2AE98C8F86FADD29B8E88564A6"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleSim.Telescope.cs.meta",
+        "Hash":  "4AA94752F9FE13133BB74BD54E19030F41213A7CECA14F3F99BE803CEE783BDC"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleSim.Traps.cs",
+        "Hash":  "14CD0A7BF5E14CF5088900B3424C373E82DDD5B3CA860CE695D66E09226305F3"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleSim.Traps.cs.meta",
+        "Hash":  "DBFB6FB81EAEA84BD1074EF54502B2EB09A0F7F999033558F14127F449E95917"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleSim.Weather.cs",
+        "Hash":  "069B8661BEB0F05FD741817BF8FA4F3E1A2F15DA66BACC5ACFC1FE53D56CBD33"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleSim.Weather.cs.meta",
+        "Hash":  "5B15B803096A571BAF9BCDCA4316720282F3807D0F613131B7BE25E62F4F9BCC"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleSim.Wizard.cs",
+        "Hash":  "1B2A0934A213CE685DDBE97B661662DC577B22FC2F1AF55AF6A9E668C16A2983"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleSim.Wizard.cs.meta",
+        "Hash":  "E5EA1C0906886D6DA53C43FD76139D15C073730516F0D3534F44E36E61E04044"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleView.cs",
+        "Hash":  "6371C9DE1BB32C22BFD4D4D813B3D4FD2E205B54C3D3BFE568532C87BF530D18"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleView.cs.meta",
+        "Hash":  "B03FD01069F747CC82FFA1733D23945DA8BA87656DCB405F18A37AA1E4259BF4"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleWorldMaterials.cs",
+        "Hash":  "1E095B88FDA399CF41EE73CDEDF06A5E55CF73B1444BE157344571DA45C4F74B"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleWorldMaterials.cs.meta",
+        "Hash":  "650EE2EB6F9ABB89357C941A89165E89023F29B8061B6556DB1E9F13E9C23F4A"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleWorldView.cs",
+        "Hash":  "75D80316304510E11AF73E9AC765584EE47B392D26CF2FCE1C62663FC17F15BB"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Battle\\BattleWorldView.cs.meta",
+        "Hash":  "2359157E5E7338867F256446FBEBC34ABF336A1F4615FF9118785F92F94304FD"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Editor\\BattleWorldTextureImport.cs",
+        "Hash":  "226BE322306818A6F46B169C41F02CDDC13AA6266E5530B741BD17C9EEA8A66A"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Editor\\BattleWorldTextureImport.cs.meta",
+        "Hash":  "70FEEFEFCF342C1391762D0C446E13C06BD9311EF5AC488AAF61ED7F46A2A491"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Editor\\HLR.Combat.Editor.asmdef",
+        "Hash":  "944E8918CA3B4D24980077451DE51764BB3BB4B57A8789E2567DA46E73D846D5"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Editor\\HLR.Combat.Editor.asmdef.meta",
+        "Hash":  "72BB1D61332067B073390873FE926D7C39EE3AFA438A2481F3F29AE8007DCAF5"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\PerfLab\\PerfLab.unity",
+        "Hash":  "5019E137541FCA786A1EB16A98098826405E7C5025E8E746D3A3BF172407E859"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\PerfLab\\PerfLab.unity.meta",
+        "Hash":  "73478AE394538DC77AD1317C6A181DAE88E72F22EDB406B2D16915F1C06B6D2B"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\PerfLab\\PerfLabArt.cs",
+        "Hash":  "B826E2E02B98EFBB43587D4EAC75B63F08418D0F49C669A7932B0D60F8CA8968"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\PerfLab\\PerfLabArt.cs.meta",
+        "Hash":  "F64071BA787AF675013908D76DF4433A94C21C30431CF6E1F7BF3A8A79D655CF"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\PerfLab\\PerfLabBenchmark.cs",
+        "Hash":  "1AFAD637964265E6FBC60C243BF7497E39DD5E56B887939AD5ADA553B783138E"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\PerfLab\\PerfLabBenchmark.cs.meta",
+        "Hash":  "532C4D5C92D2F54FD6306C36B0B218A60860B83D46AC7D95510C360490D45BEB"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\PerfLab\\PerfLabBootstrap.cs",
+        "Hash":  "F5AA377604D56A7504B49A5FB9B56E9E0291F320C98BA61767F041B3DFB7609B"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\PerfLab\\PerfLabBootstrap.cs.meta",
+        "Hash":  "AF0FD9BA655194E4F78D605922886DCFFF4AE19E5186344B43E01EB30CB505CD"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\PerfLab\\PerfLabBuildMenu.cs",
+        "Hash":  "094A3300969857D66478DB9525E5146DB010036A65E09FD80E5A3090923E9315"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\PerfLab\\PerfLabBuildMenu.cs.meta",
+        "Hash":  "6518E01620B345FD851E2B99DDDE6BCA398E648A3ADDEA891111940FBFFF768A"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\PerfLab\\PerfLabJobs.cs",
+        "Hash":  "BB63C3641B531ABEB4115F51002862D31DBAC60EF652ACFD60FB8CD6B720AB7A"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\PerfLab\\PerfLabJobs.cs.meta",
+        "Hash":  "3CB0454091B57EC82FB4A1FC9AF2AC34B1F2AC61B448E9182D140FA2217C8A96"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\PerfLab\\PerfLabOverlay.cs",
+        "Hash":  "5850D0FA585C91EF71A21F7DB9F78B620A8C608CEE3A3C66D190FA9FCF748017"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\PerfLab\\PerfLabOverlay.cs.meta",
+        "Hash":  "EB0EAFA672B96196B723319E648B6937182138A72BD960DFA7D7F894E31355EF"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\PerfLab\\PerfLabResolution.cs",
+        "Hash":  "F9C6064BEF78B7B380BF33B793FE972FA64E2E1627CD4C609413BBA90EB4151B"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\PerfLab\\PerfLabResolution.cs.meta",
+        "Hash":  "07336195BCE511E1ECD27ADB449C35A3D0F08AC6FDCF5C2BDBE091564BFFC95E"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\PerfLab\\PerfLabSceneMenu.cs",
+        "Hash":  "A6B5D56571F90E6B797262D84FB9DCCE913F9F0C63371C24F300C097957DF301"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\PerfLab\\PerfLabSceneMenu.cs.meta",
+        "Hash":  "95D953A8877DB0E4FD6EA1E195D98665E9F09FBBBA71F2AA03D83147DC25BEEB"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\PerfLab\\PerfLabSprite.shader",
+        "Hash":  "F17DB65C3D7551E12146FF66208533546437FBA1FEEBB604D773DE1329D7D085"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\PerfLab\\PerfLabSprite.shader.meta",
+        "Hash":  "A4C0246E0F0F67D48A2BCF472BC2314213FB3D175B44DBEF7FC8617B0D2FB245"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Render\\BattleLook.cs",
+        "Hash":  "51E3D2D8AB3D4E15E51A2A4963C6856EB301A72F38F039CF64AD123ED7ECEAFB"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Render\\BattleLook.cs.meta",
+        "Hash":  "CFB0C05C004940209EF73068643C7FCE6FB9F5B9ADD5110B8866AAA7CEA2393D"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Render\\TiltShift.shader",
+        "Hash":  "1180CC6D4F87BD5CE8493A5B71890F1EB4578864E92E80677E5EF7F484F85516"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Render\\TiltShift.shader.meta",
+        "Hash":  "BDADA9451755ED88C3CABB95184F95237056BCB96128580703576B3C5A63EB2B"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Render\\TiltShiftFeature.cs",
+        "Hash":  "89E704FD9F61A208263E9E502635C3D5E90E2FB9CCBDA6C66DFE5A9A24E93946"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Render\\TiltShiftFeature.cs.meta",
+        "Hash":  "0593D6E929D55D766D2FEF2FBFB413D53C37C6BE0736FF8877E4E4D118698F8B"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Tests\\BattleArtPreviewTests.cs",
+        "Hash":  "527EEE801FFCF529E604354F6E1AF0A5AA975D68B3CF716E9F28DEAD8104B19D"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Tests\\BattleArtPreviewTests.cs.meta",
+        "Hash":  "598D151A5F2230FF5C452D4765D547A9109AE45F83BB257BB06C923613696ADB"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Tests\\BattleFlankTests.cs",
+        "Hash":  "34BE75A524DE52609B7FCE7809217EB4D1936220BB41204CBE53DBBB1CC3AFF4"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Tests\\BattleFlankTests.cs.meta",
+        "Hash":  "4E5B83FF0BFDC4D14582021D79703156151F2672B1B56DC6833E8B63DAEC77A8"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Tests\\BattlePracticeTests.cs",
+        "Hash":  "7B65410FCCDB8402320D15C5D57C9EC23DB2CBC6F2AC06060E7AE48B7AE7E2CE"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Tests\\BattlePracticeTests.cs.meta",
+        "Hash":  "203F4F3D273B0237FF9582CEB004C06B692A568B75AB6548A0799627B4FAFA10"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Tests\\BattleTrapTests.cs",
+        "Hash":  "13A097E75804B23DD6E3BA29925118A1D583A7DA99DFF7691B9AEB7856CD362C"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Tests\\BattleTrapTests.cs.meta",
+        "Hash":  "1ADC34244F5E4B16DC4F3D8F6F470E3C7B24FB4FC974B9EFC6B280AF9BFDE4B9"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Tests\\BattleWizardTests.cs",
+        "Hash":  "33703A69645F97B630C6CF8892FC054EA72077116E960305AD4ADEE85ECA8B27"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Tests\\BattleWizardTests.cs.meta",
+        "Hash":  "89FFC4EAB5C352EB6E43822529B716D10525EBEEA9FB1871C8CF32CBB7009F2D"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Tests\\HLR.Combat.Tests.asmdef",
+        "Hash":  "C3E8ABBEE4B48D960F46B4330D56D8E913206EA5615B62ED2BC62CE0B4E1CC2E"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\Tests\\HLR.Combat.Tests.asmdef.meta",
+        "Hash":  "E5062A5A3D2BB4F1A83854ABB79D03F894682EDF9B5A534A7463EEF8F06579C0"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\_PlayProbe\\HLR.PlayProbe.asmdef",
+        "Hash":  "1A7F8B29610A8741005A5749C69FFCBF05EE37ECFA29FFD40620C39D359DA8EB"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\_PlayProbe\\HLR.PlayProbe.asmdef.meta",
+        "Hash":  "82E0201AF35B5CD95386DB1F947D6E24006F1AEF9C576864A1A6E8DE5C549101"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\_PlayProbe\\PlayProbe.cs",
+        "Hash":  "FD475915CEEA13A7BB2DF201B9ED39E385B6D5631FBB10E519ECC9F2730FDAEC"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\_PlayProbe\\PlayProbe.cs.meta",
+        "Hash":  "8D407108A7DD0794A3F4D18459F6C929685216FADE006E6DA98E0EDACDC498CE"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\_SimProbe\\HLR.SimProbe.asmdef",
+        "Hash":  "C86E27E19144FF8E625B402EBC2BB9DFD1FE72BFD883F1DF50614221B9F8721F"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\_SimProbe\\HLR.SimProbe.asmdef.meta",
+        "Hash":  "A9BD4112BE8266B8AA10A4CBD79D475BF3FD4AB236EBBDC2E5C1CCCAA1C4315D"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\_SimProbe\\SimProbe.cs",
+        "Hash":  "5AB27143D78452D89536F8B4E9E59FD237B7ED8F752B19285A336B7C73B2031C"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Combat\\_SimProbe\\SimProbe.cs.meta",
+        "Hash":  "90795386A9428C65FAAF52BF96F1576FAF81E455E73823C8CDF5CCFCBFE92EB4"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Campaign.meta",
+        "Hash":  "4CCED968884B5B46D5758B94F4EF272A9B9CCD40DB20F6135F672BA00D2816FF"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\CombatContracts.meta",
+        "Hash":  "95E480691252F7D2562FCAFF3C240B9881880B22AFAB1E4242513E18368F083D"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Definitions.meta",
+        "Hash":  "6264841BF9F0D43FBA4EE69C5284BC951E9679A02936DC7A4731CFC8421AB5CD"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\DeterministicRandom.cs",
+        "Hash":  "94C53A3637836679F2D089804FAA795A6AF98E562578BB31305906B76E5ED51F"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\DeterministicRandom.cs.meta",
+        "Hash":  "B5BAB6F8B07844EA7D6081323BA8268DE443836797300B9F1EBDF7D9985105B1"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Economy.meta",
+        "Hash":  "C9544599FB492A51FC2ED43C7E56BD2E4BB7047C17647620D229689D58D33824"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Flow.meta",
+        "Hash":  "B4A752446857AA458ED823731EC62A103D2CCC785851DC8935050D914E0F2A4A"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\HLR.Core.asmdef",
+        "Hash":  "DE804DF9F8081E6CE238F57B2303AAB63788AE3153644B83BD0A4574FFFE3B54"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\HLR.Core.asmdef.meta",
+        "Hash":  "A88A812E21AD538BD68DA64C23055758B2ADA0A5294BFBE7A576E81D7FC4DA75"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Tests.meta",
+        "Hash":  "F8D8A102224CDDF4C5C0B864119D348F9CCF489489EEFC2B9C2B9A6123FA2E79"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Traps.meta",
+        "Hash":  "A9A3AC94D50DDE6FE873F3AF9461AE80BD84E493180D5F099B2DB2678DE4B7D6"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Campaign\\CampaignState.cs",
+        "Hash":  "9B957A72BDEB65265D26922D28C43682BD46F5A1005875FB160F395E94F7AE8B"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Campaign\\CampaignState.cs.meta",
+        "Hash":  "6C92429CA450B4F1623921FB0F66A9A5BBF963205736AB3E659C239F8AA93578"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Campaign\\TargetingSettings.cs",
+        "Hash":  "8BE9A68EDB64090E92BC5CFBB5787DA64C2919963A7798087760A91F46D554B2"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Campaign\\TargetingSettings.cs.meta",
+        "Hash":  "C0BA8461266D6579DDB179F018BD08D680214CCDAC46FC9826A6237E61B6AD2E"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Campaign\\WallIds.cs",
+        "Hash":  "BE135DFFDC54FB6030AA09F072C1ACFDCB84506B1F159159F6EC3B4AFA038ED8"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Campaign\\WallIds.cs.meta",
+        "Hash":  "445E9AFE1CF4372DE65C6C58DFB7DC817F2F68DA05171AEC64B09A578BC2B3AB"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\CombatContracts\\BattleForecast.cs",
+        "Hash":  "E37961204103A489D9D3D1D528AAC2E3E7513CA273B0EBDD905B57A3B24B86AF"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\CombatContracts\\BattleForecast.cs.meta",
+        "Hash":  "103F72A10DA634CF0A0F25F4E71B59393E30D9515A86123AC8130B2D10DB1DB7"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\CombatContracts\\BattleResult.cs",
+        "Hash":  "17A37C51167CAE5FB609CB243F856E23BC5CD831FB544D3FC498128F41EC5709"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\CombatContracts\\BattleResult.cs.meta",
+        "Hash":  "93F3DECB2F1EB2D66B819A8BD26555C5B1E52EED7BE6A2B9769EA009F04567EF"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\CombatContracts\\BattleSetup.cs",
+        "Hash":  "7C397C9AC6E9A75BF4BE24B34A0E73190C356633419659A2CB5168329D619286"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\CombatContracts\\BattleSetup.cs.meta",
+        "Hash":  "4448D5D89E5F483BECBA86F6F19FB0951DD06BB57DD8E2036DAF089E3FF6EA60"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\CombatContracts\\Weather.cs",
+        "Hash":  "F935AFDF5237CED2868FAC5149B20E47B0EFC63F4F2984DF76871D41A5718F92"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\CombatContracts\\Weather.cs.meta",
+        "Hash":  "FAB53C10C23F9E8B678D0133BAC07C7A3779A71A98535E140F467C9B8D324E4C"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Definitions\\BattleRulesDef.cs",
+        "Hash":  "921AAEC2478BA876D647426AA5D46C0C0AEDDE58BD3F4AC33C10050EB6D2ADC2"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Definitions\\BattleRulesDef.cs.meta",
+        "Hash":  "13D7C20C145B34F99C2A328490509CDC1986F4A21C6E3D57663126A4BF373183"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Definitions\\CampaignStartDef.cs",
+        "Hash":  "14680D0B028E681C9F8E394AEFFE59CFEC54B9B0C429956178C23611F53E45A4"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Definitions\\CampaignStartDef.cs.meta",
+        "Hash":  "D1B29B3BDFF6FA5D34056B5EEAB78EE1C8EE3FDF5AAB7C32504DBEC591D8C499"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Definitions\\DefinitionBase.cs",
+        "Hash":  "B7CEAF89CA74149E98F8B2A958B29DA14B1B5760ACE8A4ED105B6E3B1607C9DE"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Definitions\\DefinitionBase.cs.meta",
+        "Hash":  "E485CBA36FA5B932DDA08653AF7F16EF9DACB910761296CE7779C96B66964284"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Definitions\\DefinitionCatalog.cs",
+        "Hash":  "B92753FF29D9F9E5AC86AB55E47B7BB68E91D5A0A3AE62744F9777F5E2C1AEB2"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Definitions\\DefinitionCatalog.cs.meta",
+        "Hash":  "DEEE275F3645B4383EC450262B10C0084D3FF3E3E18C9C299366E86346C6DC61"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Definitions\\EnemyDef.cs",
+        "Hash":  "34954B9F6134CFF684461772170AEB84BFAE4D4D30F45F6363B4A5FB291972C5"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Definitions\\EnemyDef.cs.meta",
+        "Hash":  "C9DC022EA8ACEA962713984195FADC2C285122239B571E9DEAA8EEA74F00A075"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Definitions\\IDefinitionLookup.cs",
+        "Hash":  "46DEE0A774F916D7C709BFB1953C70D04B24388A8A7FDE7D9B5081FA7944C4B7"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Definitions\\IDefinitionLookup.cs.meta",
+        "Hash":  "FB88A67B78AEFCFB536ECF6EBE9997ECDCF053D847569A71CD1FA9BBB003C6F5"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Definitions\\ItemDef.cs",
+        "Hash":  "4DCDD1F20B1FDEACDF4C154E81583071D9C082D4A7CB163ECAF2A977A80511E1"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Definitions\\ItemDef.cs.meta",
+        "Hash":  "A9CC07896736B789E5146976B82B8653EF6BA0606E3CCDEFC479A857F5DA0FDE"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Definitions\\PostDef.cs",
+        "Hash":  "075D61608E657805FC9D1B19A5D40369AC854C8EEDE6B3AF45DE11BF44EEC044"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Definitions\\PostDef.cs.meta",
+        "Hash":  "EDAE92E376402765120A4A7629F2281492B697691634F8D901A1540EF144D417"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Definitions\\PreparationEconomyDef.cs",
+        "Hash":  "C76C06C0A21A7D1C4B4BA2F1984227B9C34BD2511D4B5BB9E249B1A42D03E3A0"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Definitions\\PreparationEconomyDef.cs.meta",
+        "Hash":  "E4A51084E58496D42F6262B929B68E83A8A1331D3944C83982AAF1E946B59AB4"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Definitions\\SpellDef.cs",
+        "Hash":  "EDA8E0589ED24245BBFE4EC58F02CCF0EAC9AD88841651F64E0907C67E260D5B"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Definitions\\SpellDef.cs.meta",
+        "Hash":  "3392FD38339131556C98565BB79DD43AB7F0488A6F24DCDD869DB14DF7959D47"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Definitions\\TerrainDef.cs",
+        "Hash":  "2222D87E19B04F24F37B08B3550CB6BB4DC67A9DED5D3A9F3C9ACC71FCC41FFF"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Definitions\\TerrainDef.cs.meta",
+        "Hash":  "36000409426A0F9AAC0A0239AC2E5B8F6B691871C2822C6CA8FA715ECA3E12C2"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Definitions\\TrapDef.cs",
+        "Hash":  "D2369C8A8FB5D33590EA208B185988A894ABF9953BBF621CA58456D3D707E7B8"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Definitions\\TrapDef.cs.meta",
+        "Hash":  "677CE2F141F396DF3341E60A301269CEC3DB790CB98588E73E21BE46A4AE40B9"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Definitions\\TrapSlotDef.cs",
+        "Hash":  "12F00389D37394597E703FA1D93CCF6D3CD0ED68D8371459283E21754EC0489F"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Definitions\\TrapSlotDef.cs.meta",
+        "Hash":  "45A4AED2E9F562DD6CA752E2A7E78997F6A4EEA2A0C103643E38A1E40189E7C0"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Definitions\\UnitDef.cs",
+        "Hash":  "A509F49A6F9226A3EE76AB1B4FC4CE07EDDF167B68532DE55E2D583D7CD63682"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Definitions\\UnitDef.cs.meta",
+        "Hash":  "56CED86117D34F5C859CD10363B6CF8FD000DA24A6C012C70A60FDF2F7DE824A"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Definitions\\WaveDef.cs",
+        "Hash":  "3CEEDD8890193C69C183367C96162AAAA3039D02082FC5AE7AFEE8466AD80DCD"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Definitions\\WaveDef.cs.meta",
+        "Hash":  "090529E5B04C4F204072FC1D1C4B3D69570AA36C1B1699B37A20D5CA4813172C"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Definitions\\WeaponDef.cs",
+        "Hash":  "46FBF350EA64AF548F9EDD6B2CCD087037222F909CB4DB26E7DBB164E7F46975"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Definitions\\WeaponDef.cs.meta",
+        "Hash":  "3BD4367CC82778BEA6397537176938DB4701EEF192D0594110499723501B78F9"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Economy\\PreparationEconomyRules.cs",
+        "Hash":  "2CEBF01E87EC4E97F772264B0137C947D8756A00211C60DDECD095C244D8D947"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Economy\\PreparationEconomyRules.cs.meta",
+        "Hash":  "C58A0FD6CB54F30C2D8A8266108F9CCB9BD406848914347079325AEDC21AD156"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Flow\\Difficulty.cs",
+        "Hash":  "C3BCE372A2A0157808199ABDE8A36011D7EA2D924C291E29BB976100A632A4F6"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Flow\\Difficulty.cs.meta",
+        "Hash":  "8ED10A8603D2A782F1D41979EB3E2BE3143658BFEA92D79DA2B3B2248B0608B0"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Flow\\IScreenContext.cs",
+        "Hash":  "CA282A7CABF0815EF4267A65C625651DCF6E1C823D592B31DDE4B765FA8E7898"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Flow\\IScreenContext.cs.meta",
+        "Hash":  "A83173EACAFAEA0D2C99A3DD02C39CF41445D10639935874AE486E714280EDED"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Flow\\IScreenEntry.cs",
+        "Hash":  "D17B42140BE720E08B2A27EDC2ED9F0823180CD2A78AAA16CCE051EAE24A5E68"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Flow\\IScreenEntry.cs.meta",
+        "Hash":  "06F3539CB45725DF9F880727E2D7D80C57232036BD096A74D59F211E9973AD87"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Flow\\ScreenId.cs",
+        "Hash":  "14D62D5E509B72EB9B87298DF81611CDFAAE242F278E1F24488478FF8BD6E341"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Flow\\ScreenId.cs.meta",
+        "Hash":  "52FEE6349F4DB2FAE6DE582684B24E7CEA97B67D735CE552AB352250A158A6A8"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Flow\\ScreenOutcome.cs",
+        "Hash":  "2F6B0329DF47613E46BC2B96B77923C2D3258D791D0324A910174A7EE3EB2D0D"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Flow\\ScreenOutcome.cs.meta",
+        "Hash":  "042EDFA28EFA0C8A138CDD267A7045CEEEA9704DEE1EC61846FE3AE63ED4030D"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Tests\\CoreContractTests.cs",
+        "Hash":  "3BAA9BEA8312AB92FE25D1392F9229CC984A4F4A0B38580C26BDD7DB368C3B3F"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Tests\\CoreContractTests.cs.meta",
+        "Hash":  "305F8C8196D3A02299E33DFD3B0CF3B4C2E497D296AEFB674C0AE11A48F200D9"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Tests\\CoreTestHelpers.cs",
+        "Hash":  "26040EC486903D925CBE06AF23F097494D6179ECFE42C0490734662AB27F8BBF"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Tests\\CoreTestHelpers.cs.meta",
+        "Hash":  "DD974058E6A44FDB89D867B93B15BABEC76B92284DF97919048D79F46F3DA1CF"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Tests\\HLR.Core.Tests.asmdef",
+        "Hash":  "8DD6CB4F812EF186B43057B75891CD322DFDD7943FDAE66E83DB0EB4A4CA7D3A"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Tests\\HLR.Core.Tests.asmdef.meta",
+        "Hash":  "3D058920D375BEAD2B56DB0FCB4E21D50CD45ECE6445E55CF7EC45220BB6A29E"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Tests\\PreparationEconomyTests.cs",
+        "Hash":  "0B3E7CF820FA12B34AC41340DF1FCFD072D3D218D3366B5C78FD010B3BCA2018"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Tests\\PreparationEconomyTests.cs.meta",
+        "Hash":  "7AABF3C7FBDE2C0F7BB86A1C6EF18B8B4FAC4BA6676E510C4AC6E680B1922DCE"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Tests\\TrapRulesTests.cs",
+        "Hash":  "172BB88442A57927E72FB10DBEE5E51F310D269BA76997628CAAC020A318E8D5"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Tests\\TrapRulesTests.cs.meta",
+        "Hash":  "B02A8A41D64974D2E1E3819F07412A23F7E782B2B7DFBFE1EE48A631CE9D7BCF"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Traps\\TrapGrid.cs",
+        "Hash":  "DBE229DB45EE0715610306DBD926C8F6BECCA981989249A84C1856FEA80BE298"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Traps\\TrapGrid.cs.meta",
+        "Hash":  "B3CC7DACE329C9A9018F6DA49973E4F60ECA71CECB6F3AAD5EC861703360C849"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Traps\\TrapRules.cs",
+        "Hash":  "50EF4340F97E7FB88D09B499414D575F1E6C7E461E3383B7C205C109F3D23385"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Core\\Traps\\TrapRules.cs.meta",
+        "Hash":  "C9C8A6058D6C0A6B58A7F12856CAC85A27DC2296EE6D8AEDC7F50C36A85D9291"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat.meta",
+        "Hash":  "6703C1145675B7FF76121C96DCF8934F54C137CB868FF186E1F577514C63A05F"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Meta.meta",
+        "Hash":  "DD72A66AA08F4C2C1FBA368ADFE5C5CF41561B04A3806474E92AC7233B77C312"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Traps.meta",
+        "Hash":  "9305C855FAB0147FCD3AACAD529DA0D57F72D1710585A1B56A7CDC3A78F7A04D"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\CombatCatalog.asset",
+        "Hash":  "E7E709A7A346088ADA97B3D1339366625E4A71DBB8E06889285D664CE970DAC6"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\CombatCatalog.asset.meta",
+        "Hash":  "7B0EE981D61AE99BAB717756C13B080D100F13F10C108F054B236548A875FD90"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Enemies.meta",
+        "Hash":  "EE05EE63DCD1B903A1C3317612B51B13B504E187A1A62875F8AD3440E62A0579"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts.meta",
+        "Hash":  "D665E59B8A4E159B3F955379E2A13170BCD0C04B97EFF0CBA354B9E9DB709B79"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Rules.meta",
+        "Hash":  "4103DA65F30CCFE773C4361AF75BD6CDD50F07D0B30AB32234BB9DA348C0323F"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Spells.meta",
+        "Hash":  "88FC2B0FF896793180C05ED4B3821D8938C16DFFFFDDD75920D6F1127BF6EA34"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Start.meta",
+        "Hash":  "E0C4913920C1DE221C55175EA245B297CB82D3095BD6E9ECE0D19B0F7F0221E5"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Terrains.meta",
+        "Hash":  "8EB1D5DBEA93588B9EA71E65DE692609589F230C6A778127C728D368D773443C"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\TrapSlots.meta",
+        "Hash":  "BB38B17FD421CE79A5A0FF438A35EC0A9815BA8C1B0C1149099922C8BD7C6ECE"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Units.meta",
+        "Hash":  "8C6B35C9A8360A05F476E762CA0241866B364CDCEE97AE8F4F472E41752792F0"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Waves.meta",
+        "Hash":  "604F8D1D69D81CA44CC60579ED414F4EA733FCA7A1404E9AF3431DBB19F210C9"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Weapons.meta",
+        "Hash":  "77E3C4488F7C7671D72546D881570576904C5349A050FF8BE56C9E7B024E23C8"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Enemies\\enemy_goblin.asset",
+        "Hash":  "C30B6DB73B5ECE940C1CA0B3ABA20702EA68CE3CF0B61F0892F98EFC4ECEFDBB"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Enemies\\enemy_goblin.asset.meta",
+        "Hash":  "18D1D34D260BB0342097D9B062B1C2DADC8843FC733E2B4CE8C8794B6E88AC2E"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Enemies\\enemy_goblin_ladder.asset",
+        "Hash":  "66935142E0A2708DC2CAD07981812D9372A8B9E1DCE251A81A0186693A85203F"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Enemies\\enemy_goblin_ladder.asset.meta",
+        "Hash":  "CA0007890862834A7D9C23D5858ED590D938E15DE1E4D719100B3BC2EF3B5B4E"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Enemies\\enemy_ogre.asset",
+        "Hash":  "997C164E7692B8ED04BEAB7BFDC6B6E3116AD52CA016C5F336A3CAEA8EF27480"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Enemies\\enemy_ogre.asset.meta",
+        "Hash":  "A0C031930FF3AAA93223E12A0E5DC292CD684F7AEA28A792CC68F3422F9FE0B0"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_east_cannon_1.asset",
+        "Hash":  "9739EF764EC56B9FFB42890C89614131D71597E02F4792E4796EDD0E7E9F5C15"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_east_cannon_1.asset.meta",
+        "Hash":  "0DC73D545287FB47B56EE2819D3E74809AE405709E17C215205B8AC67811D48E"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_east_cannon_2.asset",
+        "Hash":  "E82BDC2A46E8822B1479C447BB97F4AC32699802FED33FA7B5ECB42FA131D2DB"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_east_cannon_2.asset.meta",
+        "Hash":  "6350F09EA1B272D74F81CC69790E97F5B96D99F83516146D81BD2FDEB77E8F48"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_east_cannon_3.asset",
+        "Hash":  "95B9AF745437530561BA47D770E92AB721D5C10A4086AE239BC210679801D313"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_east_cannon_3.asset.meta",
+        "Hash":  "0C59E7BC7FA349B604A5F62B3E54D95AA4A6CAEC09020F570A7C61621CA3D1CB"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_east_cannon_4.asset",
+        "Hash":  "0E81B5084DD66CA7942E5BCEF9400615E9D7D802F0F75A7B181545620E951DF3"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_east_cannon_4.asset.meta",
+        "Hash":  "3C8B2D6070131F72C5D9281D4DA3BB90CBAF3BE3468D05D0B4081402A90BB7E5"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_east_squad_1.asset",
+        "Hash":  "B0BCCF037DF3039E693ACD1CB787F4E946E2FB640E318F349364BA29FB143F45"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_east_squad_1.asset.meta",
+        "Hash":  "B91E5350ED92700164A7EE75BA2E22420D8F28A9E38714E5DDF797F951D9D49E"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_east_squad_2.asset",
+        "Hash":  "D726C185BFCB7ADB3553125104CEED4AADFDE84EC66EFF708BE02EE81D0422AB"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_east_squad_2.asset.meta",
+        "Hash":  "29B5538C7863DF5B025D2A78BD6855A26557A82BE0932C2E80FF8DF6FCE7D9F9"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_east_squad_3.asset",
+        "Hash":  "E76FF16766F8E8646E6A1FAC175866AEF00688D66A757FD515C023C8FF22BCC1"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_east_squad_3.asset.meta",
+        "Hash":  "5720B26AB2EF2CC5A4334BE6817A023922E75E0270175DCA3763DE455AE33B51"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_north_cannon_1.asset",
+        "Hash":  "8EAC82AAF4A1E72953E0D3C13B61BB86D54586A3BD775D3952D1471C8491DB09"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_north_cannon_1.asset.meta",
+        "Hash":  "3A254A38D6AE89B80ECBC1C7BB1B6FCDE5FC1DFD2A25AAA08CEFB98BDB2C2D14"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_north_cannon_2.asset",
+        "Hash":  "E89FCB617BB91D341CC9BE818595DE883A5DC3AB054AED845357963793AD627B"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_north_cannon_2.asset.meta",
+        "Hash":  "9BEF7A2C457A99CDA79D7FEDB092D42084CFFC7EE8C7559611E49170A78D59D9"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_north_cannon_3.asset",
+        "Hash":  "24813B2337DBC52599CE948CCA9336BCE359E8857EA972D918345B34D255AB34"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_north_cannon_3.asset.meta",
+        "Hash":  "468B4531BB3AD02653BDBA89B8763CE402D176E1378FF0A0E008951A4F4B0761"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_north_cannon_4.asset",
+        "Hash":  "5CED6567AACB1C7211447369ED486C5499150509929913383F0C104122F6984E"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_north_cannon_4.asset.meta",
+        "Hash":  "F8536C498973EBF30D15A4B31FC022997E467CFE24EA025475DC877BCDF8D6D5"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_north_squad_1.asset",
+        "Hash":  "228857D672A68CB325BD90B41DD288E4527290EC85B5AF725428CEF55B2E82BD"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_north_squad_1.asset.meta",
+        "Hash":  "65B61CF63711F361E2AD36EA35CC8F586B44D1D7326AE57A3A24C65843D331FE"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_north_squad_2.asset",
+        "Hash":  "7E3C722C67925B8C943E26ACAF645B8A18213C3A38D8D8C5236348BA18DBDF74"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_north_squad_2.asset.meta",
+        "Hash":  "AF1D2113E71C76C1BB2092D5B2C4E9D8E5F72AE2222F3FA418B67AED418F301D"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_north_squad_3.asset",
+        "Hash":  "AA3C7085D2A9842DF8A440151C64E23F4BF62C5CC4379B056DB7A9F4636149BA"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_north_squad_3.asset.meta",
+        "Hash":  "C380AD19FACFE4EC576E33E904153CDE90680DE9167A960EFDE42296DB295B9B"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_north_squad_4.asset",
+        "Hash":  "42B6217CE5F9EF511A06D097D3AB7D07D6E3C7571559B68C8AD1BA20E0218B24"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_north_squad_4.asset.meta",
+        "Hash":  "58D8FC9D4CE3EB4810D78F302188D71192CB6FC862E7FCEC4A84593E5A228B4E"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_north_squad_5.asset",
+        "Hash":  "4D436301690665EFED9F767E52BFA5EFD12F0068A4B0AE7474934EC496D0A56E"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_north_squad_5.asset.meta",
+        "Hash":  "2A44852C10049738CD53E2B4DBCDCE6BFE6229EE140176CFFB5D7B30237EE99C"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_south_cannon_1.asset",
+        "Hash":  "7E95E2EE5F6902942EE980CB449485A740D1C31CA965AF542EDAA40654FA5CB7"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_south_cannon_1.asset.meta",
+        "Hash":  "9E872B000926487FCED05B810549699055C01D7FB94362844C8FC1A7863AC677"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_south_cannon_2.asset",
+        "Hash":  "381BC0A2537CD530FFF6FE8F4E724AACAE8FB4181D603B7A87F749A13D19109C"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_south_cannon_2.asset.meta",
+        "Hash":  "854E936A1914E849A21471E79BFA1BA79B7EB9782CB2639D58AFBD084CB0A6F1"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_south_cannon_3.asset",
+        "Hash":  "83EBDE54A95A95F27697F565A1BA0665C73DDB9C2D99F3FF92A46857B9A77484"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_south_cannon_3.asset.meta",
+        "Hash":  "D9BA2D7E9035E5DB8ED54D39674BA64F5101BFA543B10F8FE72DA7AFE23EA0F0"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_south_cannon_4.asset",
+        "Hash":  "45F0341A5EA850195ECD0A7347C4C802F75C79E3A60427C36602B8EADD170125"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_south_cannon_4.asset.meta",
+        "Hash":  "F4F997A83473C71D6D070FB7AF92019DD6CFC17AB76371FAB9DE16C01BA0020D"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_south_squad_1.asset",
+        "Hash":  "25D7E281550EB837D85B0D63BA1CDB523328D6000011403D2196C38A317B53A9"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_south_squad_1.asset.meta",
+        "Hash":  "BE7DF6969B5DF149D0609C69D50A7853523A3C9A2BCEBCB9A9937FA438B3E3A3"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_south_squad_2.asset",
+        "Hash":  "B314A43C519822F050C0CA52447D1C4339D1E92563F00CEEC21DC7B90A394AE2"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_south_squad_2.asset.meta",
+        "Hash":  "53F825DCBE22B8E34FD14C77410E252E53DD5BF06EDC9308E63D002C8895F213"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_south_squad_3.asset",
+        "Hash":  "A743C879F79711EF804070F7B8DC2E21B7817849BA89EB4B1AACB10F48AE1051"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_south_squad_3.asset.meta",
+        "Hash":  "D5C604DF2662E133D49F88A927AE1A8D8BFE0B24C1982ABA95B6C34E45023CE9"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_west_cannon_1.asset",
+        "Hash":  "9D4073BE8955BE0A7A22CD60212672BECB73591B5F7A16644EE2EA3A179233A5"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_west_cannon_1.asset.meta",
+        "Hash":  "6DC705591ADB5AF759C0E139F87359F8390575E11C669C97808A2963163F346B"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_west_cannon_2.asset",
+        "Hash":  "C684E981E4035F2FDB83024D1420A0E7EE25761DE74501D81AB51A858DF89B87"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_west_cannon_2.asset.meta",
+        "Hash":  "DAB8933866F8A1D35C6F7B09A630FADE0648F7FAF0302934257AE085E1F868A4"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_west_cannon_3.asset",
+        "Hash":  "698AA912EDB8E25E883F11395B414EDFAB79D4694D1B6873E02AFD889F4AA3E7"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_west_cannon_3.asset.meta",
+        "Hash":  "36EFE887C76CE63B6E6925788648D090B386E13FBCD07EE6A30E19665548C47A"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_west_cannon_4.asset",
+        "Hash":  "1268D1E72E5790964411879994AD4B938392958A62FF25A86BD1A4D0FE3D2972"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_west_cannon_4.asset.meta",
+        "Hash":  "EC576D8BE90D6BE9FA7A59E4DC6781B2C5A7E5ED8BB46F33ED72533AD341D28E"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_west_squad_1.asset",
+        "Hash":  "EE341159BAA3639F3F4D05411FD957ADDC613123D3A7FB81777EE47B9EA6058F"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_west_squad_1.asset.meta",
+        "Hash":  "BEEA3CE9F78F0AE03C1F08D9B4BAB9D8D836E9B6FA6626E43F03A5848B8B15E9"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_west_squad_2.asset",
+        "Hash":  "29D6F79DE3E5E893C824E928B8FACA5F74731D9AE4307A1596B3B668FEEA09B1"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_west_squad_2.asset.meta",
+        "Hash":  "CF5B07C6F6BDF99463D1DD20EF13DAA620A31C48A284F09994589DADDD67CFFD"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_west_squad_3.asset",
+        "Hash":  "B5343E784FB2A4F4D88A7712BACD122D7E778766EB88FC91F6CA1A2D6C59B800"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Posts\\post_west_squad_3.asset.meta",
+        "Hash":  "A1B09609A55E366A7D5A6725B1EFC3E5662363D132BA1451F17CB8080A8FD34B"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Rules\\battle_rules.asset",
+        "Hash":  "B8B09AE0F9793E22F9BA5EC11F643B346CC9A751D65241E4B1B7D1B43A75D83E"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Rules\\battle_rules.asset.meta",
+        "Hash":  "3F28069E96D65A31149636D73887EC5B1B9912A802E24FC60CD01C7D03619FA7"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Spells\\spell_explosion.asset",
+        "Hash":  "5E61F45FCD6BFBE7E1F178D4EDBA24E8C057B47567919FCA9993EA1A8A9504F0"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Spells\\spell_explosion.asset.meta",
+        "Hash":  "2F052E88CF0426905287CAA89805518CF4C27D1E44B4B54EB7A20F4BC5E1280D"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Spells\\spell_firefield.asset",
+        "Hash":  "E67C8AC0A302D092D1A70CD854F6BF2FE80F38A39578857ABA16D42DDEC18773"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Spells\\spell_firefield.asset.meta",
+        "Hash":  "3276702F5C91371CC2D16DCA13668BB66B24A2280DDCADF63D4CB6AADFFAFF5C"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Start\\campaign_start.asset",
+        "Hash":  "F5C1048C4F2950A6777BBC9B64090DE5FFC83B33ABF2A703CD01C5A572A1A562"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Start\\campaign_start.asset.meta",
+        "Hash":  "ECDD647E9A4BB303566FB809408B9F77CD9ABF7DA32E144A2A688AF5E90D51A6"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Terrains\\terrain_1.asset",
+        "Hash":  "5172E1E561586281BAAA3045E88781092C16F089AAC595CCF15A5091FDE0B2B0"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Terrains\\terrain_1.asset.meta",
+        "Hash":  "BC3E6E3B89B5F6FCFDA8BC029953ECED8BCA9293C11D7B9C5705EB3AC8421CB1"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Terrains\\terrain_2.asset",
+        "Hash":  "53ED8C1FA8CBE64984ACE7A0CDF8AE76750AA8329D836E0DE86E339AAE07FCCE"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Terrains\\terrain_2.asset.meta",
+        "Hash":  "DE618F402C8B5B1C2715F6034E1E692513679B593131781EE42EEA536BAC5A2E"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Terrains\\terrain_3.asset",
+        "Hash":  "4D5777FC6B45AF5BE0D69E5876343E88B83BD67B81C2CBB182DD7A1972AEDF2C"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Terrains\\terrain_3.asset.meta",
+        "Hash":  "2231C8DD71ADF161877C841845CE8F6E07BA55A6DB84A9868897514759A19130"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Terrains\\terrain_4.asset",
+        "Hash":  "B945B3240AA7C5EFC68D285AD65FFAE0DBB9724F8C43001835A1C85A0A489FA4"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Terrains\\terrain_4.asset.meta",
+        "Hash":  "3DC64A2079B62D98CA1167159ADF55A8FE6D2DA048E1AF0C6AB6D0E66E56A10D"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\TrapSlots\\slot_t1_east.asset",
+        "Hash":  "4679882548F151ED0FFB7EF51291552A5AE936C8135D672A94F4ADF31B5B735C"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\TrapSlots\\slot_t1_east.asset.meta",
+        "Hash":  "2D4484986FD1FB53EFB12B0CB542C15B8114661BA5F528E304EEF0A2D93C0574"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\TrapSlots\\slot_t1_north.asset",
+        "Hash":  "216410800984DC582467F933550A72D3F354DBF24B1D1392A10F7B64CC20F60E"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\TrapSlots\\slot_t1_north.asset.meta",
+        "Hash":  "BF724C8B6EFE70B72386161A9C955006A326CF973C0B6ED6F9304537013B52AF"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\TrapSlots\\slot_t1_south.asset",
+        "Hash":  "22364A89FD847453678F34AB2023CDB2D239AA01954562EB6C36FB4028A56A85"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\TrapSlots\\slot_t1_south.asset.meta",
+        "Hash":  "3E128116A84F94A52ABF442198742288F3A1C787A2634E62BBC62D16A6B76404"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\TrapSlots\\slot_t1_west.asset",
+        "Hash":  "1C8CE0E62EB02F122424AB2A662C4790DFDDECB3B53D74F384DE312B7C1B1279"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\TrapSlots\\slot_t1_west.asset.meta",
+        "Hash":  "A8F4184E253BC597AEFC43D7C324EF74286A9CF09A1E0FF0138FB2F5CA1A6237"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\TrapSlots\\slot_t2_east.asset",
+        "Hash":  "1ADE407F8F50BB8EEACE53C5FC00EE7C8CB00C0C58A83364D8D3A4729995652B"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\TrapSlots\\slot_t2_east.asset.meta",
+        "Hash":  "482DC7CAA08B0AB4CB38B7C719812393700E0B608E203092ADBF3AE6EE8710D9"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\TrapSlots\\slot_t2_north.asset",
+        "Hash":  "0DE72B7A95FD56F61CD930FE7C5C37EA98BEE78739105A2DD3007F6EDBE8A1B0"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\TrapSlots\\slot_t2_north.asset.meta",
+        "Hash":  "C73654562A225C8A0655049DBAC9EB4272DC236E5C1D226ADAB2ACFE197686EF"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\TrapSlots\\slot_t2_south.asset",
+        "Hash":  "0F36768A258C5D64ECF4761BF4E5F6D07B74E45C68E7D6F53A31702FFB41C31B"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\TrapSlots\\slot_t2_south.asset.meta",
+        "Hash":  "45281D0ADDCD7CEA44A8AC33768F52E1DAD2A84D97B86D7701619A8493DE7D44"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\TrapSlots\\slot_t2_west.asset",
+        "Hash":  "7370956BDA08F7B39D2C80E8BA6B25328EA4B7DC24E0D7454FA584457E0B751E"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\TrapSlots\\slot_t2_west.asset.meta",
+        "Hash":  "CBAF7157BBC92FCED4F4BCE5F32147253791764401B3F4F0DC7F6B21F32E2C19"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\TrapSlots\\slot_t3_east.asset",
+        "Hash":  "EA7F5BCDF7C77E4AE4E050BE9DFF53439DD7BF8AF99B7186C461C9EA87244FDF"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\TrapSlots\\slot_t3_east.asset.meta",
+        "Hash":  "30A2E3FA8767A3B1D10166AA5A0872179CFA44B1A6935BE3BAC2A03818AD9FC8"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\TrapSlots\\slot_t3_north.asset",
+        "Hash":  "26D74D71CB722FEF55E22AFA383457D75606628775EC4DF8B2C5892F5AEA758B"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\TrapSlots\\slot_t3_north.asset.meta",
+        "Hash":  "6D8DBF3CA6B9C39C035428137D8A792460C0AE01F23C7434AB7AFE169697FE0C"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\TrapSlots\\slot_t3_south.asset",
+        "Hash":  "0AF5F59DBB671CEA48E8279F6BE8087D751F0C12EE5B3C0CB56A7D718A024349"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\TrapSlots\\slot_t3_south.asset.meta",
+        "Hash":  "B5A5F84484EE465350BE0E77F19B3C9ADC73FEF74D0C5F09E6A527BDB6CA320F"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\TrapSlots\\slot_t3_west.asset",
+        "Hash":  "2696E84E3445AA033C381EE95273EDDA6840850D249DE797704AA55F4A2C7FD3"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\TrapSlots\\slot_t3_west.asset.meta",
+        "Hash":  "DC409E9C6639E20E8E8BAB93123076708AD169D5B2C2BEDF37A812359F6E1DCA"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\TrapSlots\\slot_t4_east.asset",
+        "Hash":  "E9F5CBF98B7F2E454F96E045C4C6570405044561409F04A24288494E06188EDE"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\TrapSlots\\slot_t4_east.asset.meta",
+        "Hash":  "E7A075C80ADBABBE7BD3A7F8444CF85B5620464C8B228092F6EC5864E27DDC15"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\TrapSlots\\slot_t4_north.asset",
+        "Hash":  "7B08828CAD4BB84FDE471EACF78CE3284DC605B944D3DEF4E5A5FBE7377C678E"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\TrapSlots\\slot_t4_north.asset.meta",
+        "Hash":  "C207DEBC4E4FAFB08AC2F821B3C5A5F04E7D3E176BCCED30F6884DB991D994BE"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\TrapSlots\\slot_t4_south.asset",
+        "Hash":  "6FE5353324BDFFF6B6084B4B0CDCD1F1BF50A8BE1925376D32D007494F9D9532"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\TrapSlots\\slot_t4_south.asset.meta",
+        "Hash":  "9D9E0C5E2B4D897B2A9C553B5CC4816C9594990487634E6890609CCD2791BE17"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\TrapSlots\\slot_t4_west.asset",
+        "Hash":  "B1B069C8231E2CBCB973F7D66C1DCDE29FC1ABF9AEC74C9CC9E7802C875C1416"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\TrapSlots\\slot_t4_west.asset.meta",
+        "Hash":  "6712B2374CE086E7273A80CBB503A95E72CFDE168A306E5B3167EE96C401C6EC"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Units\\unit_archer.asset",
+        "Hash":  "2DECD8C2E01710F6BB5F2A6B26537CA2736AC9E9BEBAB31B60AC68FC8B27D3B1"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Units\\unit_archer.asset.meta",
+        "Hash":  "BF8E54AEB6F13C0013571F83A8FF8D98FA8F0F052FE7E176C8E0C6319AC068C5"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Units\\unit_cannon_crew.asset",
+        "Hash":  "B9A49EF7250E12804DEF661F18BE98EA3B22C9BF0D37D8B74D31E0AE91F316B7"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Units\\unit_cannon_crew.asset.meta",
+        "Hash":  "DAA202DFFF7B1EBF5C779DB6E5C109663CDE0D13D1CB5C49350376FF487AC8E2"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Units\\unit_gunner.asset",
+        "Hash":  "ABD73BB5964AC54F9F6ABB59211179E82E3E79793D134831B55DCB495674F3A8"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Units\\unit_gunner.asset.meta",
+        "Hash":  "20F01CC111566F5E344EECD5B01CD36649FF264EFACD62998CB680612A9DE83F"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Units\\unit_hero.asset",
+        "Hash":  "18E167EF58DC374EDAF52EAA81D8A9D4CCD22919A8C9C86AF33F8683068BE732"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Units\\unit_hero.asset.meta",
+        "Hash":  "88E56DE4720F04C8F6C1AB321774FFDC15DFFB147644ADCBDD4D2B49B440B069"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Units\\unit_wizard.asset",
+        "Hash":  "5A97ED07B00E38509CE377C7D0ABDFD01998BEEFEDE19E6FD6EA0D468542BD34"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Units\\unit_wizard.asset.meta",
+        "Hash":  "79FE39A94AB37AF6474805EC33054FA84CA93D23E54E9BD9A0B9C621D836817A"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Waves\\wave_1.asset",
+        "Hash":  "49A2045414BBA91903F0A1B6163A44BA126DA0D7DF25351DC187CF1215426030"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Waves\\wave_1.asset.meta",
+        "Hash":  "43FCD0D42FB52EEADAFC2DDF685AA32DB5CD0574186D5F39715719F537752A89"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Waves\\wave_2.asset",
+        "Hash":  "CA3A418A0C21952CEE10CB60B91C2AB5E49EA765DD712175B65FE42B8A76B999"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Waves\\wave_2.asset.meta",
+        "Hash":  "3EC1C8E68E70C59729FC69D3CBA703C6DBE4ADA14F7449C9E30C632892DC81FE"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Waves\\wave_3.asset",
+        "Hash":  "436F0AF7F0520805A25FBCCEE04277FA8A1B90C9EA9083F2B4AD7EC24ED54C4F"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Waves\\wave_3.asset.meta",
+        "Hash":  "6A4D06BD6AAC8F089844D15E61E45F8E888B021C7DDE346A42FEA1D28181AC97"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Waves\\wave_4.asset",
+        "Hash":  "83AEA53C6E0E0388D96054C757D68005FFFC482C4EFC96D42E786E244C04F7C7"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Waves\\wave_4.asset.meta",
+        "Hash":  "159B9A1F156B463C9C0714E960905357D5F2CB2FB932443BED4342ACE8D56D40"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Weapons\\weapon_bow.asset",
+        "Hash":  "57EFB577AF624F154AE42C32E8090B3046BBD14580CBDB0330AD821AE06290F8"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Weapons\\weapon_bow.asset.meta",
+        "Hash":  "3B075452CD5ACF7A96BEFF67652A1F5F86050FFF833A51289127092CEBB007D6"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Weapons\\weapon_cannon.asset",
+        "Hash":  "09F366A3DCE4A8BD1869DF13EC329684672032FA44A888D32129630601E1AD81"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Weapons\\weapon_cannon.asset.meta",
+        "Hash":  "8279A43DB4AA6D54BF0860AF67846858E522C3BDCA6327C749D5C30310996B36"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Weapons\\weapon_gun.asset",
+        "Hash":  "F9FB8F0E6EE2123494A9A397CFA521E5EE44629F193C5BE62E1ACA79BC3B838D"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Combat\\Weapons\\weapon_gun.asset.meta",
+        "Hash":  "DA23F210552CE25D71FEEE3DA1463459638B880CF4EF1EC0C5C3FDE4925C19B8"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Meta\\economy_preparation_1.asset",
+        "Hash":  "0388E613B77A1CF5001662E32EE98BACE690806D1E313D11972D09720091B8B0"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Meta\\economy_preparation_1.asset.meta",
+        "Hash":  "EAB2E242BD5A0E8B12B7A242B04A446CC205D503DE4A9C967E614D39032D070F"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Meta\\MetaCatalog.asset",
+        "Hash":  "88A3E165785319A8E6463CDB408E2747CA1F812790B8B1BEACA96053EF0731D3"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Meta\\MetaCatalog.asset.meta",
+        "Hash":  "C21B712C0B06366FB1C152D8F6771F69610CC5AAD95015D6DE312F943A5741F0"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Traps\\TrapCatalog.asset",
+        "Hash":  "1C3C87ABF7391AACC48722944C2662BA5A1C61AC8B52000D46DDB20AA0DEC678"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Traps\\TrapCatalog.asset.meta",
+        "Hash":  "74ABCE3F41122819D90318063A46FE8522981FB6780AAC713C7A345FECE2A515"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Traps\\trap_bomb.asset",
+        "Hash":  "35368BD93E0A6EEAEFF6E03317636EFFDF3DECBB635F1D8FE9821591368C9936"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Data\\Traps\\trap_bomb.asset.meta",
+        "Hash":  "37AE02DCE8D2D74F23B15E5909B07BD6314C058D6F0282B57F9A2EC8D5D2EC72"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Frontend\\HLR.Frontend.asmdef",
+        "Hash":  "EE827A45365F36FCEEA7090918EEB72D328A6BFB749B93469FC808F72333D85A"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Frontend\\HLR.Frontend.asmdef.meta",
+        "Hash":  "814A522690CB54C311013C87704516FCE6B86AEE51A9CCB8D4E334AFBD2BEB2F"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Frontend\\MainMenuEntry.cs",
+        "Hash":  "D6E1C7D29292CC272DF55C82C788EB4629AB66016987EF4A51EE23B257572C06"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Frontend\\MainMenuEntry.cs.meta",
+        "Hash":  "70D72C616CE68AD3C009E49B12FF5FC318019EE839E668B2F94B9784A43D5227"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Meta\\BattleResultApplier.cs",
+        "Hash":  "DD1D4378D9E8697DB0D1773609CFB1BBB06B21D56AC74FE68855D29B36C5AE1C"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Meta\\BattleResultApplier.cs.meta",
+        "Hash":  "9F2CFFAFA46A27E23834BCE3E3DAC09647D54B9849BF2C66ADA69EB4F119F381"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Meta\\HLR.Meta.asmdef",
+        "Hash":  "31DAAD8CCD9B58BECE46F59B6AD4BD0A87EEC6EF9E936B180733490469329DC4"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Meta\\HLR.Meta.asmdef.meta",
+        "Hash":  "5B891F5163E2F00E3E52613E2E6A63B05EC8B41F04AACCC426CBC8303EB0D5C5"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Meta\\PreparationPanel.cs",
+        "Hash":  "14E841766A02800626EEE619EBC89DFE766EA7A1693716E77EDFBF9F67CE6349"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Meta\\PreparationPanel.cs.meta",
+        "Hash":  "B60587B028C4067B7CF8800BB3E4BD10FE216C017A5DEE26FBDE7AEA54A1A781"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Meta\\PreparationSessionLifetime.cs",
+        "Hash":  "F9B5974AB93B9E952B43250C8B13F4FF3ABE1E95E24BA9609181D97A0C94A82A"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Meta\\PreparationSessionLifetime.cs.meta",
+        "Hash":  "1E8A5184E926FA2F32C6C15E04038E8115028195161C3348BC33865508ADC15A"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Meta\\PreparationTransactions.cs",
+        "Hash":  "BC255EF495FB91722B10F2CE74D5889FE6166EAEEC69375BD78793BBA44CD93C"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Meta\\PreparationTransactions.cs.meta",
+        "Hash":  "77BB1B2F643C1BD45D58E909D852D9B508B0828CCC7A9478B20B39AD88AF8FB5"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Meta\\PrepEntry.cs",
+        "Hash":  "53C4A2C8AB533857200C67E798212C1118D42B052837F096AB95F5ACC36DA339"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Meta\\PrepEntry.cs.meta",
+        "Hash":  "F73F84B9C3EF97BB5EA073FB684D29E662528180355714F34A9028DFD7CD753A"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Meta\\ResultDetailPopup.cs",
+        "Hash":  "34E3D8A3C4F3AFFDF87F80CB84FB73F4B985DDFFD9B4617D9C901C2EEAF3987B"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Meta\\ResultDetailPopup.cs.meta",
+        "Hash":  "3F3C6029A07B0DA2C19ABF6B9D83E7A41826ED4E7437FDB72F93A4038E38403F"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Meta\\ResultEntry.cs",
+        "Hash":  "6216CBC81A34BAD86B35EF065BA8A57C6F7A6309630951E51AA356C96198F41A"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Meta\\ResultEntry.cs.meta",
+        "Hash":  "A7054B725F1F95C3B7CCEF27F5208DBABE84419F2FC87EFE6420D0A76E3749A1"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Meta\\ResultReportFormatter.cs",
+        "Hash":  "5FF5DEBDC4D752A3655E46EAD6E7A904F9FE7A04E305566D6D9E4C520559F516"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Meta\\ResultReportFormatter.cs.meta",
+        "Hash":  "1E471C689AD2588117177A61961843A0A6C64A2BAFAD034F0E35C818DC8CCBB9"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Meta\\TrapPreparationPanel.cs",
+        "Hash":  "DF6F3BAC5B89C4CC9452FCCA0FC35E39631B88A17DCFFBA79068EA2F1222F25D"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Meta\\TrapPreparationPanel.cs.meta",
+        "Hash":  "06D072A1136A5EF817DCC7D4672C73835482EF4ABDB5CDCA7FF37DB4CB4CA3DC"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Meta\\TrapPreparationTransactions.cs",
+        "Hash":  "FCFC60AB132FC35EADD110CC35A165C94888EBE9E3DAA147E1E44FB7C3E6D909"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Meta\\TrapPreparationTransactions.cs.meta",
+        "Hash":  "8A95FD9374D14A3492C37A8AA9B65C5C248E3C8AB48B7539438185108581C41B"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Scenes\\Battle.unity",
+        "Hash":  "2A12FBBD5334AEA3548B33AEDEF35DA7BB98EEE5F1DDF450FED121AF3E943DA9"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Scenes\\Battle.unity.meta",
+        "Hash":  "53DA81C7BFB10CDCBFE0DD4EB11683DA933AB10B7E4EF707CFBDAC1E9CE369D2"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Scenes\\Boot.unity",
+        "Hash":  "3808BAAAEE442BFE22BE9B7CD20B06809152830896F2CADA42BD5508186E203D"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Scenes\\Boot.unity.meta",
+        "Hash":  "949B1DC668AD06889D729C936E8145B67CE8A7D2E37926DE128089050DFCF367"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Scenes\\MainMenu.unity",
+        "Hash":  "50AC32BB10773D56854708A3DD5EBA2770B4A066B7E592CF167F66C7FE2DEBBB"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Scenes\\MainMenu.unity.meta",
+        "Hash":  "20139091BF6C5FFC8AF6EB34F355EE4A1F7224A63C4D5E1165465B241F0BC567"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Scenes\\Prep.unity",
+        "Hash":  "3C8BAC775059566AF47D0C32D9F17BE4EA4AB4FEA5891BD075AC39B0652F5A20"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Scenes\\Prep.unity.meta",
+        "Hash":  "E76DFD08B55964AF0E192FF36CE8ADCABD2F1F82EA8701B5439FDBADC46C2E47"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Scenes\\Result.unity",
+        "Hash":  "0A69A11B1D8CE1306675A3E96B78B0DBE66C89B78CE33076D0DF140CBFD771E8"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Scenes\\Result.unity.meta",
+        "Hash":  "3266A9AB6D79D3D2778DAEFE296B1533DEBC13A3FB64485C38B500DA8AB878A3"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Scenes\\Story.unity",
+        "Hash":  "CA1E32810A81A7A404D6187F04A89C5B69961556FFBAEFEC832F1FECC624FFC0"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Scenes\\Story.unity.meta",
+        "Hash":  "756D35FBA5CCCAA3EF059E33C1BCA43035F224271F2C42A785D22DF1FD7C901F"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Story\\HLR.Story.asmdef",
+        "Hash":  "5F11F7ADA2B015A56111038F7AC6717E8AA0CFE70CBD5679C6AA6A1C4A3F9F82"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Story\\HLR.Story.asmdef.meta",
+        "Hash":  "7D012BE45114328CD675D23F1303606998E5692B76F33CDD0DCDD21899C277ED"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Story\\Resources.meta",
+        "Hash":  "0C4DBF707F00072F374F8C98F05B8334D7710C842D5A82615C79DF0EB8D3A56E"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Story\\StoryEntry.cs",
+        "Hash":  "0ED34CF4DCD2070DC485A7F1FA0E1C34AB9BFED35FF0E6D603504751EA1A97A0"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Story\\StoryEntry.cs.meta",
+        "Hash":  "7E17497B0CE2BB91E0E312C60A087303C7450ED40348909E00A4DF7937EC74D6"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Story\\Resources\\StoryArt.meta",
+        "Hash":  "CD2BAD23985843BCAD793E08318A190475D1C28AE1B1F06ADBCB01B869967F0A"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Story\\Resources\\StoryArt\\wizard_front_chestnut.png",
+        "Hash":  "E3994C5F0D2BB08CE99FB0D75DD9AECDA3AF417ED1B03B6B1E7A02AE764BD511"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\Story\\Resources\\StoryArt\\wizard_front_chestnut.png.meta",
+        "Hash":  "9B68D453ABC39A53DFF4A6F3FD3DF7D411E7EE78420995AFA26EF19C17C176DF"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\UI\\HLR.UI.asmdef",
+        "Hash":  "80BBEDB4BD098AC54E74D9197AB084267B4D10D7F09461044560F82B328F100B"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\UI\\HLR.UI.asmdef.meta",
+        "Hash":  "A1AF6BEB05D5BF9850CF6D439E445A1987FD03303B8728F45DB15C509580D713"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\UI\\ScreenEntryBase.cs",
+        "Hash":  "A75849788430F25344D7EE59F796DA802D233C2D456E469626090B4604600142"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\UI\\ScreenEntryBase.cs.meta",
+        "Hash":  "69E399240720510472E458FC2613091E2F6CADB435E87F9389B6B9443E8DCC57"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\UI\\ScreenView.cs",
+        "Hash":  "6BF7BA917045DF87B0F70BC41DF8DD9F750ADDB8343AB0F1A66E5BACA5C1D630"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Assets\\_Project\\UI\\ScreenView.cs.meta",
+        "Hash":  "C48BFAD71F0F295FEE6627CB1FBE83024C1D7389482F78143651F037075CF64F"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Packages\\manifest.json",
+        "Hash":  "3AB25D468BC72DDD7BE6AAF82F0C81182DC0BA6323B43708E1C4FACC4561D1BA"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\Packages\\packages-lock.json",
+        "Hash":  "3B931B72D96A0BD81A9A6C832CB311B8B848D942BF02BCE24BD710925F601E66"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\ProjectSettings\\AudioManager.asset",
+        "Hash":  "282586EACD02FCA9B7B803B93641647ABEE5A9D1A7369381025546F0C9808CCF"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\ProjectSettings\\ClusterInputManager.asset",
+        "Hash":  "06A192320121E445DCFF1AE8DDAD2A948FF671CA134603C043D9F4E920427EA9"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\ProjectSettings\\DynamicsManager.asset",
+        "Hash":  "7BF32032957EB76DEA137D4521B8F057FFDB55259ACBF130D0954C2D201EEC68"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\ProjectSettings\\EditorBuildSettings.asset",
+        "Hash":  "83E47FE6AEE90923E647437776A2E598ABDB8D4FC856DCBD1CB931E9D3A839F5"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\ProjectSettings\\EditorSettings.asset",
+        "Hash":  "1542F5AFA07E387E04E72BDA4FD9D1F34B68544B23C95FF11E3B0DE9A486E2A4"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\ProjectSettings\\GraphicsSettings.asset",
+        "Hash":  "5E4DD7957AA67917F417E2C06F663C615E84A7B786EC20C06749BA3B5A014700"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\ProjectSettings\\InputManager.asset",
+        "Hash":  "776C8B6C71E1101973E1F3AB569CF9058B857372A8A19210B50B3C1C6A1A42A6"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\ProjectSettings\\MemorySettings.asset",
+        "Hash":  "A660CB9890D880DF92F3B80FA40723F183CC5EF2CB3ECC850B366191F05834C7"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\ProjectSettings\\MultiplayerManager.asset",
+        "Hash":  "83DED116CA3ED35A6ACAC9B0FED830F04DFE5C008C185BE50B1C132C88AEA505"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\ProjectSettings\\NavMeshAreas.asset",
+        "Hash":  "DECA65F3094943A1AF148CF64FD6C0DEB503219D12DE0E172B7F948D07A8E6A8"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\ProjectSettings\\PackageManagerSettings.asset",
+        "Hash":  "6A05EF78104CC0F3D23AF145E478955BF980709437E91BFBDDB7196457EB80C5"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\ProjectSettings\\Physics2DSettings.asset",
+        "Hash":  "F8853353AAC1BC6A33D1999B08EC2661ABC374402ED4790A0B82EB64585B731E"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\ProjectSettings\\PresetManager.asset",
+        "Hash":  "6BA879310E2BE2E5BA18702578CDA93B26B030ECD88E883FEF22AB456A9F9697"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\ProjectSettings\\ProjectSettings.asset",
+        "Hash":  "C79095BAB63A55A6C2FAE1A89BB8D39376AB13AFA587E565940742FE4BD4CA66"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\ProjectSettings\\ProjectVersion.txt",
+        "Hash":  "56009BD4624CDA7117405011DD01ECDA09583F50226D7E2FA69356A60EEB6D3D"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\ProjectSettings\\QualitySettings.asset",
+        "Hash":  "231535DCFDCDF9FE8EED24CD1D5891696CFF9CB526FBF80A463AE2D815065329"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\ProjectSettings\\ShaderGraphSettings.asset",
+        "Hash":  "A0B37628E34D4AB97DCC1A26369B7C7E773C55C4CD2A86CD3F5FA37E88543FF0"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\ProjectSettings\\TagManager.asset",
+        "Hash":  "7A14B6F084609B7639FBAC8BED702C3516661ECAD739C815A76712C5DE84C0FC"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\ProjectSettings\\TimeManager.asset",
+        "Hash":  "6C320EE59AE1E55AA74558F012437F63CB9DE59D69FDA62FC321C4F1971C52CB"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\ProjectSettings\\UnityConnectSettings.asset",
+        "Hash":  "EDBC2C8B4E180CA0734F320B51D6F560342563862923509D94D15492B200AD27"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\ProjectSettings\\URPProjectSettings.asset",
+        "Hash":  "C7FB928E0AABAB57310310D78F03B61C028A8818EE6F183FC150B8EB6CA249A5"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\ProjectSettings\\VersionControlSettings.asset",
+        "Hash":  "B693342EB84FB0378D21CD2A4557D900777709AD00C2FF5041C2D8451B6DA246"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\ProjectSettings\\VFXManager.asset",
+        "Hash":  "A8950860670C6FA8F83A43E37DEB966BEACFD7B535721C4CD9C2A7E5B46305E8"
+    },
+    {
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-028\\Game\\ProjectSettings\\XRSettings.asset",
+        "Hash":  "71F175773593BA28D42BF1AF0543B2A465E0316D3B8F435AEBF48EA66B31B621"
+    }
+]

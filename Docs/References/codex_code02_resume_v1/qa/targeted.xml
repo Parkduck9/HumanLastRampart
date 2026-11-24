@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="8" result="Passed" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-20 11:52:19Z" end-time="2026-10-20 11:52:20Z" duration="1.067059">
+  <test-suite type="TestSuite" id="1000" name="HumanLastRampart" fullname="HumanLastRampart" runstate="Runnable" testcasecount="109" result="Passed" start-time="2026-10-20 11:52:19Z" end-time="2026-10-20 11:52:20Z" duration="1.067059" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1090" name="HLR.Combat.Tests.dll" fullname="C:/Unity/1/HumanLastRampart/Game/Library/ScriptAssemblies/HLR.Combat.Tests.dll" runstate="Runnable" testcasecount="42" result="Passed" start-time="2026-10-20 11:52:19Z" end-time="2026-10-20 11:52:20Z" duration="1.052299" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="60212" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1091" name="HumanLastRampart" fullname="HumanLastRampart" runstate="Runnable" testcasecount="42" result="Passed" start-time="2026-10-20 11:52:19Z" end-time="2026-10-20 11:52:20Z" duration="1.050073" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1092" name="Combat" fullname="HumanLastRampart.Combat" runstate="Runnable" testcasecount="42" result="Passed" start-time="2026-10-20 11:52:19Z" end-time="2026-10-20 11:52:20Z" duration="1.048342" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1093" name="Tests" fullname="HumanLastRampart.Combat.Tests" runstate="Runnable" testcasecount="42" result="Passed" start-time="2026-10-20 11:52:19Z" end-time="2026-10-20 11:52:20Z" duration="1.045721" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1061" name="BattleStartCrowdingTests" fullname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests" classname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-10-20 11:52:19Z" end-time="2026-10-20 11:52:20Z" duration="1.040049" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="ParameterizedMethod" id="1066" name="FirstGroup_SpawnsNearWallWithinTwoSeconds_EnemyPresentAtFive" fullname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests.FirstGroup_SpawnsNearWallWithinTwoSeconds_EnemyPresentAtFive" classname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-20 11:52:19Z" end-time="2026-10-20 11:52:20Z" duration="0.856043" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1062" name="FirstGroup_SpawnsNearWallWithinTwoSeconds_EnemyPresentAtFive(1)" fullname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests.FirstGroup_SpawnsNearWallWithinTwoSeconds_EnemyPresentAtFive(1)" methodname="FirstGroup_SpawnsNearWallWithinTwoSeconds_EnemyPresentAtFive" classname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests" runstate="Runnable" seed="1374481206" result="Passed" start-time="2026-10-20 11:52:19Z" end-time="2026-10-20 11:52:20Z" duration="0.521101" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1063" name="FirstGroup_SpawnsNearWallWithinTwoSeconds_EnemyPresentAtFive(2)" fullname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests.FirstGroup_SpawnsNearWallWithinTwoSeconds_EnemyPresentAtFive(2)" methodname="FirstGroup_SpawnsNearWallWithinTwoSeconds_EnemyPresentAtFive" classname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests" runstate="Runnable" seed="2028451906" result="Passed" start-time="2026-10-20 11:52:20Z" end-time="2026-10-20 11:52:20Z" duration="0.075910" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1064" name="FirstGroup_SpawnsNearWallWithinTwoSeconds_EnemyPresentAtFive(3)" fullname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests.FirstGroup_SpawnsNearWallWithinTwoSeconds_EnemyPresentAtFive(3)" methodname="FirstGroup_SpawnsNearWallWithinTwoSeconds_EnemyPresentAtFive" classname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests" runstate="Runnable" seed="203114560" result="Passed" start-time="2026-10-20 11:52:20Z" end-time="2026-10-20 11:52:20Z" duration="0.133084" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1065" name="FirstGroup_SpawnsNearWallWithinTwoSeconds_EnemyPresentAtFive(4)" fullname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests.FirstGroup_SpawnsNearWallWithinTwoSeconds_EnemyPresentAtFive(4)" methodname="FirstGroup_SpawnsNearWallWithinTwoSeconds_EnemyPresentAtFive" classname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests" runstate="Runnable" seed="993274615" result="Passed" start-time="2026-10-20 11:52:20Z" end-time="2026-10-20 11:52:20Z" duration="0.116604" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-case id="1067" name="FullWall_SpreadsBeyondOriginalSlots_WithoutStacking" fullname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests.FullWall_SpreadsBeyondOriginalSlots_WithoutStacking" methodname="FullWall_SpreadsBeyondOriginalSlots_WithoutStacking" classname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests" runstate="Runnable" seed="1205031562" result="Passed" start-time="2026-10-20 11:52:20Z" end-time="2026-10-20 11:52:20Z" duration="0.039369" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-suite type="ParameterizedMethod" id="1070" name="MinimumSpacing_OnlyRoomMoves_OverflowStaysOnSource" fullname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests.MinimumSpacing_OnlyRoomMoves_OverflowStaysOnSource" classname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-20 11:52:20Z" end-time="2026-10-20 11:52:20Z" duration="0.092574" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1068" name="MinimumSpacing_OnlyRoomMoves_OverflowStaysOnSource(True)" fullname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests.MinimumSpacing_OnlyRoomMoves_OverflowStaysOnSource(True)" methodname="MinimumSpacing_OnlyRoomMoves_OverflowStaysOnSource" classname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests" runstate="Runnable" seed="1267070061" result="Passed" start-time="2026-10-20 11:52:20Z" end-time="2026-10-20 11:52:20Z" duration="0.045439" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1069" name="MinimumSpacing_OnlyRoomMoves_OverflowStaysOnSource(False)" fullname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests.MinimumSpacing_OnlyRoomMoves_OverflowStaysOnSource(False)" methodname="MinimumSpacing_OnlyRoomMoves_OverflowStaysOnSource" classname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests" runstate="Runnable" seed="104897870" result="Passed" start-time="2026-10-20 11:52:20Z" end-time="2026-10-20 11:52:20Z" duration="0.045124" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-case id="1071" name="WallCommand_ReportsRefusedCount_AndKeepsMinimumGarrison" fullname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests.WallCommand_ReportsRefusedCount_AndKeepsMinimumGarrison" methodname="WallCommand_ReportsRefusedCount_AndKeepsMinimumGarrison" classname="HumanLastRampart.Combat.Tests.BattleStartCrowdingTests" runstate="Runnable" seed="648564673" result="Passed" start-time="2026-10-20 11:52:20Z" end-time="2026-10-20 11:52:20Z" duration="0.043054" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Saving results to: C:/Users/User/AppData/LocalLow/DefaultCompany/HumanLastRampart\TestResults.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

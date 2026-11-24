@@ -1,0 +1,56 @@
+"""정적 생성 원본 보존, 최근접 규격 포장, 서버 없는 검토 HTML 생성."""
+from pathlib import Path
+from PIL import Image
+import json,hashlib,base64,html,re
+HERE=Path(__file__).resolve().parent;ROOT=HERE.parents[2]
+SPECS=[('cannon','대포','장비',(512,384)),('wall_straight','직선 성벽','환경',(768,384)),('wall_corner','성벽 모서리','환경',(512,512)),('arrow','화살','투사체',(256,64)),('cannonball','포탄','투사체',(64,64)),('bullet','총탄','투사체',(32,32)),('trap','폭발 함정','장비',(128,128)),('ground','들판 바닥','환경',(256,256))]
+sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+dump=lambda p,v:p.write_text(json.dumps(v,ensure_ascii=False,indent=2),encoding='utf-8')
+def data(p,mime):return 'data:'+mime+';base64,'+base64.b64encode(p.read_bytes()).decode()
+def pack(ident,label,category,size):
+ folder=HERE/ident;source=folder/'source.png';raw=Image.open(source).convert('RGBA')
+ if ident=='ground':box=(0,0,*raw.size);packed=raw.resize(size,Image.Resampling.NEAREST);rect=[0,0,*size];pivot=[size[0]//2,size[1]//2]
+ else:
+  box=raw.getchannel('A').point(lambda v:255 if v>32 else 0).getbbox();assert box
+  patch=raw.crop(box);margin=4 if category=='투사체' else 12
+  scale=min((size[0]-2*margin)/patch.width,(size[1]-2*margin)/patch.height)
+  wh=(max(1,round(patch.width*scale)),max(1,round(patch.height*scale)));patch=patch.resize(wh,Image.Resampling.NEAREST)
+  x=(size[0]-wh[0])//2;y=(size[1]-wh[1])//2;packed=Image.new('RGBA',size);packed.paste(patch,(x,y));rect=[x,y,*wh]
+  pivot=[size[0]//2,size[1]//2] if category=='투사체' else [size[0]//2,y+wh[1]]
+  assert x>0 and y>0 and x+wh[0]<size[0] and y+wh[1]<size[1]
+  assert raw.getchannel('A').getextrema()[0]==0,(ident,'transparent background missing')
+ packed.save(folder/'static_grid.png');assert Image.open(folder/'static_grid.png').convert('RGBA').tobytes()==packed.tobytes()
+ meta=dict(id=ident,label=label,category=category,status='review-draft',columns=1,rows=1,frames=1,fps=0,cell=list(size),size=list(size),pivotTopLeft=pivot,sourceSize=list(raw.size),sourceCrop=list(box),packedRect=rect,sourceSha256=sha(source),imageSha256=sha(folder/'static_grid.png'),unityPlayVerified=False,gameConnected=False,tilingVerified=False)
+ dump(folder/'asset.json',meta);return meta
+TEMPLATE='''<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>전투 정적 에셋 목록 v1</title><style>
+*{box-sizing:border-box}body{margin:0;background:#131c26;color:#ecf1f5;font:15px/1.6 "Malgun Gothic",sans-serif}main{max-width:1440px;margin:auto;padding:24px}h1{margin-bottom:6px}p{margin:8px 0 16px}.muted{color:#becbd4}.bar{display:flex;gap:12px;flex-wrap:wrap;align-items:center;padding:14px;background:#283847;border-radius:10px;position:sticky;top:0;z-index:4}button,select,input,a{font:inherit}button,select,.download{background:#354c60;color:#fff;border:1px solid #6d8192;padding:7px 12px;border-radius:6px;cursor:pointer}.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:22px}.card{border:1px solid #485b69;border-radius:12px;padding:16px;background:#21303d;min-width:0}h2{font-size:21px;margin:0 0 5px}.stage{height:240px;background:#0c151e;display:flex;justify-content:center;align-items:center;overflow:hidden;border-radius:8px}.stage img{display:block;max-width:94%;max-height:94%;object-fit:contain;image-rendering:pixelated}.light .stage{background:#dcd7c9}.checker .stage{background-color:#344656;background-image:conic-gradient(#526575 25%,transparent 0 50%,#526575 0 75%,transparent 0);background-size:24px 24px}.small .stage img{max-width:45%;max-height:45%}.meta{font-size:13px;color:#c9d6df;min-height:50px;margin:8px 0}.badge{color:#ffe09e;font-size:13px}.links{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px}.download{font-size:13px;text-decoration:none;padding:5px 9px}.replace{display:block;font-size:13px;margin-top:12px}.replace input{max-width:100%;font-size:12px}.note{font-size:13px;min-height:48px}.replaced{color:#ffdfa2}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#21303d;padding:16px;border-radius:10px}.repeat{height:220px;overflow:auto;background:#293a2b;border:1px solid #485b69}.strip{width:1800px;display:flex;align-items:flex-end;height:200px}.strip img{width:600px;height:200px;object-fit:fill;image-rendering:pixelated}.terrain{height:180px;border:1px solid #485b69;image-rendering:pixelated;background-size:128px 128px}.checks{display:flex;gap:16px;flex-wrap:wrap}.checks>div{flex:1;min-width:260px}table{width:100%;border-collapse:collapse}td,th{padding:9px;border-bottom:1px solid #465b69;text-align:left}details{margin:20px 0}summary{cursor:pointer}.hidden,[hidden]{display:none!important}button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #ffdc8e}@media(max-width:1050px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:660px){main{padding:12px}.cards{grid-template-columns:1fr}.bar{position:static}h1{font-size:24px}}
+</style></head><body><main><h1>전투 정적 에셋 목록 · v1</h1><p class="muted">대포 · 성벽 · 투사체 · 함정 · 바닥 | 새 시안 8종 / 모두 정적 1칸 | 마음에 들지 않는 ID만 교체</p><p>현재 게임 적용 전 검토용입니다. 아래 크기는 파일 포장 규격이며 실제 게임 크기 비율은 아닙니다.</p><div class="bar"><label>분류 <select id="filter"><option value="all">전체 8종</option><option>환경</option><option>장비</option><option>투사체</option></select></label><label>배경 <select id="background"><option value="dark">어둡게</option><option value="light">밝게</option><option value="checker">투명 격자</option></select></label><label><input id="small" type="checkbox"> 작게 보기</label><span id="count">8종 표시</span></div><div id="cards" class="cards"></div>
+<h2 style="margin-top:30px">성벽 반복 · 바닥 반복 확인</h2><p class="muted">성벽 3구간을 나란히 배치한 검토입니다. 연결 각도와 이음새를 확인해 주세요. 완전한 접합·타일링 검증 전입니다.</p><div class="checks"><div><div class="repeat"><div id="wallRepeat" class="strip"></div></div><p>직선 성벽 3회 반복 — 가로 스크롤</p></div><div><div id="groundRepeat" class="terrain"></div><p>들판 바닥 반복 — 128px 표시</p></div></div>
+<h2 style="margin-top:24px">추가로 만들 것</h2><table><thead><tr><th>순서</th><th>묶음</th><th>현재 상태</th></tr></thead><tbody><tr><td>다음</td><td>손상 성벽·잔해·함정 폭발 뒤 구덩이</td><td>미제작</td></tr><tr><td>다음</td><td>안쪽 통로·성벽 연결 이음새·원경 들판·하늘</td><td>미제작 / 구도 검토</td></tr><tr><td>후속</td><td>발사·명중·폭발·마법·피격·사망 효과</td><td>정적 시안 이후 별도 모션 작업</td></tr><tr><td>후속</td><td>병사 사격·장전·시전 / 적 공격·등반</td><td>현재 정적·이동 자료와 별도</td></tr><tr><td>별도</td><td>지도·상점·병종 아이콘, 스토리·메인 배경</td><td>화면 설계별 제작</td></tr></tbody></table><details><summary>전체 MD 목록·규격·교체 방법</summary><a class="download" id="mdDownload">MD 내려받기</a><pre>__MD__</pre></details><p class="muted">파일 선택은 현재 탭의 임시 비교입니다. 프로젝트 파일과 원본을 덮어쓰지 않습니다. 새로 열면 원래 시안으로 돌아옵니다.</p></main><script>
+const assets=__ASSETS__;
+document.getElementById('mdDownload').href=__MDURL__;document.getElementById('mdDownload').download='ASSET_LIST.md';
+for(const a of assets){const card=document.createElement('section');card.className='card';card.dataset.category=a.category;
+ const title=document.createElement('h2');title.textContent=a.label;card.append(title);const tag=document.createElement('div');tag.className='badge';tag.textContent=a.id+' · '+a.category+' · 정적 시안';card.append(tag);
+ const stage=document.createElement('div');stage.className='stage';const img=document.createElement('img');img.src=a.image;img.alt=a.label+' 정적 시안';stage.append(img);card.append(stage);
+ const meta=document.createElement('div');meta.className='meta';meta.textContent=a.size.join('×')+' PNG · 1열×1행 · 1프레임 · 기준점 '+a.pivot.join(', ');card.append(meta);
+ const note=document.createElement('p');note.className='note';note.textContent=a.note;card.append(note);
+ const links=document.createElement('div');links.className='links';for(const [label,url,name] of [['포장 PNG',a.image,a.id+'_static_grid.png'],['생성 원본',a.source,a.id+'_source.png'],['규격 JSON',a.json,a.id+'_asset.json']]){const link=document.createElement('a');link.className='download';link.href=url;link.download=name;link.textContent=label;links.append(link);}card.append(links);
+ const inputLabel=document.createElement('label');inputLabel.className='replace';inputLabel.append(document.createTextNode('임시 대체 그림 비교 '));const input=document.createElement('input');input.type='file';input.accept='image/png,image/jpeg,image/webp';input.setAttribute('aria-label',a.label+' 대체 그림');inputLabel.append(input);card.append(inputLabel);
+ const reset=document.createElement('button');reset.textContent='원본 복원';reset.onclick=()=>{img.src=a.image;note.textContent=a.note;note.classList.remove('replaced');input.value='';};card.append(reset);
+ input.onchange=()=>{const file=input.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{img.src=reader.result;note.textContent='임시 비교: '+file.name+' — 저장된 에셋은 그대로입니다.';note.classList.add('replaced');};reader.readAsDataURL(file);};document.getElementById('cards').append(card);
+}
+const wall=assets.find(a=>a.id==='wall_straight');for(let i=0;i<3;i++){const image=document.createElement('img');image.src=wall.image;image.alt='성벽 반복 '+(i+1);document.getElementById('wallRepeat').append(image);}document.getElementById('groundRepeat').style.backgroundImage='url('+assets.find(a=>a.id==='ground').image+')';
+document.getElementById('filter').onchange=e=>{let n=0;for(const card of document.querySelectorAll('.card')){card.hidden=e.target.value!=='all'&&card.dataset.category!==e.target.value;if(!card.hidden)n++;}document.getElementById('count').textContent=n+'종 표시';};
+document.getElementById('background').onchange=e=>{document.body.classList.remove('light','checker');if(e.target.value!=='dark')document.body.classList.add(e.target.value);};document.getElementById('small').onchange=e=>document.body.classList.toggle('small',e.target.checked);
+</script></body></html>'''
+if __name__=='__main__':
+ infos=[pack(*s) for s in SPECS]
+ notes={'cannon':'뒤쪽 사선에서 본 대포. 포구는 들판 방향. 병사와의 비율은 게임 화면에서 추후 확인.','wall_straight':'긴 성벽용 가로 구간. 반복 경계·상단 통로와 캐릭터 가림 검토 필요.','wall_corner':'네 면 연결용 모서리. 직선 성벽과 각도·높이를 맞추는 후속 단계 필요.','arrow':'오른쪽을 향한 화살 한 발. 게임 방향에 맞춘 회전·실제 크기는 연결 단계.','cannonball':'철제 구형 포탄. 검은색 실루엣이 들판에서 보이는지 검토.','bullet':'머스킷용 밝은 구형 납탄. 실제 게임에선 작은 점 크기, 궤적은 별도.','trap':'폭발 전 설치 형태를 보이는 시안. 발동·은폐·폭발 뒤 모습은 별도.','ground':'들판 반복용 정적 잔디·흙. 반복 패턴과 적 실루엣 대비 확인 필요.'}
+ assets=[]
+ for i in infos:
+  folder=HERE/i['id'];assets.append(dict(id=i['id'],label=i['label'],category=i['category'],size=i['size'],pivot=i['pivotTopLeft'],note=notes[i['id']],image=data(folder/'static_grid.png','image/png'),source=data(folder/'source.png','image/png'),json=data(folder/'asset.json','application/json')))
+ md=(HERE/'ASSET_LIST.md').read_text(encoding='utf-8');text=TEMPLATE.replace('__MD__',html.escape(md)).replace('__ASSETS__',json.dumps(assets,ensure_ascii=False)).replace('__MDURL__',json.dumps(data(HERE/'ASSET_LIST.md','text/markdown')))
+ (HERE/'preview.html').write_text(text,encoding='utf-8');(ROOT/'_HTML/codex_전투정적에셋목록_v1.html').write_text(text,encoding='utf-8')
+ dump(HERE/'manifest.json',dict(status='review-draft',items=infos,existingGameModified=False))
+ dump(HERE/'qa.json',dict(status='PASS',newAssets=8,rgba=True,sourcePreserved=True,nearestOnly=True,savedPixelsExact=True,noPackedClipping=True,unityPlayVerified=False,gameConnected=False,seamlessTilingVerified=False))
+ print('PASS: 8 static assets + MD + standalone HTML')

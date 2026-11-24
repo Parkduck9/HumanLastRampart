@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UI 슬롭 정의</title>
+<style>
+  :root { --bg:#101613; --panel:#1b2620; --deep:#18211c; --brass:#d5b16b; --body:#eee4cf; --dim:#b9c2b0; --danger:#c37e70; --good:#73b86b; --line:#3a4a40; --paper:#e8d9b5; --ink:#3a2a1e; --wood:#3b2a1f; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--body); font-family:"Malgun Gothic","맑은 고딕",sans-serif; line-height:1.65; }
+  main { max-width:1080px; margin:0 auto; padding:32px 16px 64px; }
+  h1 { color:var(--brass); font-size:30px; margin:0 0 6px; }
+  h2 { color:var(--brass); font-size:22px; margin:40px 0 10px; border-bottom:1px solid var(--line); padding-bottom:6px; }
+  h3 { font-size:18px; margin:26px 0 6px; color:var(--brass); }
+  .sub { color:var(--dim); margin:0 0 20px; }
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:16px 20px; margin:12px 0; }
+  .lead { border-left:4px solid var(--brass); font-size:18px; }
+  table { width:100%; border-collapse:collapse; margin:10px 0; font-size:15px; }
+  th, td { border:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top; }
+  th { background:var(--deep); color:var(--brass); }
+  code { background:var(--deep); padding:1px 5px; border-radius:4px; font-size:14px; }
+  .sym { background:var(--panel); border:1px solid var(--line); border-radius:8px; margin:12px 0; overflow:hidden; }
+  .sym > .hd { display:flex; gap:12px; align-items:baseline; padding:12px 18px; background:var(--deep); }
+  .sym .id { color:var(--brass); font-weight:bold; min-width:48px; }
+  .sym .nm { font-weight:bold; flex:1; }
+  .sev { font-size:13px; padding:2px 8px; border-radius:10px; white-space:nowrap; }
+  .s3 { background:#5a2a22; color:#ffd6cc; } .s2 { background:#4a4024; color:#f5e2b0; } .s1 { background:#2c3a30; color:var(--dim); }
+  .sym dl { display:grid; grid-template-columns:110px 1fr; margin:0; padding:10px 18px 14px; gap:6px 14px; }
+  .sym dt { color:var(--dim); font-size:14px; padding-top:2px; }
+  .sym dd { margin:0; }
+  .sym dd.chk { color:var(--brass); }
+  .group { color:var(--dim); font-size:15px; margin:28px 0 4px; letter-spacing:1px; }
+  .top5 li { margin:6px 0; }
+  .q { border-left:4px solid var(--brass); }
+  .q b { color:var(--brass); }
+  .swatch { display:inline-block; width:14px; height:14px; border-radius:3px; vertical-align:-2px; margin-right:6px; border:1px solid #0006; }
+  .toc a { color:var(--brass); text-decoration:none; margin-right:14px; white-space:nowrap; }
+  @media (max-width:640px) { .sym dl { grid-template-columns:1fr; } .sym dt { padding-top:8px; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>UI 슬롭 정의 — 무엇을 빼야 하나</h1>
+  <p class="sub">Claude · 2026-10-16 · 카드 K-047 1단계 · 원본 문서 <code>Docs/GDD/UI_NoSlop.md</code> · <b>정의 1판, 사용자 검토 전.</b> 다음 단계에서 모든 화면을 이 기준으로 다시 만들고, 사진마다 아래 검사표를 돌립니다.</p>
+  <p class="toc"><a href="#def">1. 정의</a><a href="#top5">2. 가장 심한 5개</a><a href="#sym">3. 증상 30개</a><a href="#lang">4. 이 게임의 시각 언어</a><a href="#check">5. 검사표</a><a href="#diag">6. 지금 화면 진단</a><a href="#ask">7. 결정 필요</a></p>
+
+  <h2 id="def">1. 슬롭이란</h2>
+  <div class="card lead"><b>슬롭 = "이 게임을 위해 누군가 고민해서 만든 화면"이 아니라 "기능을 일단 화면에 올려 둔 상태"로 보이는 것.</b></div>
+  <table>
+    <tr><th style="width:170px">냄새</th><th>알아보는 법</th></tr>
+    <tr><td><b>기본값 냄새</b></td><td>엔진이 처음 주는 모양 그대로 — 같은 크기 네모 단추, 1~2px 단색 테두리, 시스템 글꼴, 가운데 정렬, 반투명 단색 판. 어느 게임에 붙여도 똑같다.</td></tr>
+    <tr><td><b>개발자 화면 냄새</b></td><td>화면이 플레이어가 아니라 만드는 사람에게 말한다 — 조작 키 전부 나열, 내부 숫자(<code>투사체 57</code>, <code>terrain_1</code>), <code>[시험]</code> 단추, "판정 약속 보완 후 연결합니다".</td></tr>
+    <tr><td><b>세계 없음 냄새</b></td><td>장식·말투·아이콘이 성벽·장교·중세 전쟁과 관계가 없다. 그림(도트 병사, 횃불)은 세계 안에 있는데 그 위 UI는 사무용 프로그램이다.</td></tr>
+  </table>
+  <p>반대말은 <b>"손으로 만든 물건"</b>입니다. 옥토패스 트래블러의 창은 종이·금속·잉크로 만든 물건처럼 보이고, 글은 그 세계 사람이 쓴 것처럼 읽힙니다. 이 게임에서는 <b>장교가 성벽 위에서 쓰는 군용 도구</b>(작전 지도, 전령 쪽지, 나무 명령판, 황동 계기)가 그 물건입니다.</p>
+
+  <h2 id="top5">2. 가장 심한 증상 5개</h2>
+  <ol class="top5 card">
+    <li><b>S-16 개발·시험 흔적</b> — <code>[시험]</code> 단추 3개, <code>terrain_1</code>, "투사체 57", "판정 약속 보완 후 연결합니다". 완성품이 아니라는 신호를 가장 크게 보냅니다.</li>
+    <li><b>S-15 조작 키 전부 나열</b> — 전투·지도 맨 아래 한두 줄 가득한 키 목록.</li>
+    <li><b>S-09·S-11 단색 올리브 판 + 1px 황동 선</b> — 모든 판·단추가 재질 없는 같은 네모. "어두운 기본 테마" 느낌의 뿌리.</li>
+    <li><b>S-01·S-20 판 흩뿌리기 + 위계 없음</b> — 지도 화면에 판 8개, 상태판 숫자 6종이 한 줄.</li>
+    <li><b>S-06·S-30 시스템 글꼴 + 매끈한 UI가 도트 장면 위에</b> — 그림과 UI가 서로 다른 세계.</li>
+  </ol>
+
+  <h2 id="sym">3. 증상 30개</h2>
+  <p class="sub">심함: <span class="sev s3">●●● 첫인상을 망침</span> <span class="sev s2">●● 오래 보면 거슬림</span> <span class="sev s1">● 다듬기</span> · 검사 질문에 <b>'예'면 불합격</b>입니다.</p>
+
+  <div class="group">A. 배치·구성</div>
+  <div class="sym"><div class="hd"><span class="id">S-01</span><span class="nm">네 귀퉁이에 판 붙이기</span><span class="sev s3">●●●</span></div><dl>
+    <dt>왜 슬롭</dt><dd>정보가 늘면 남는 모서리에 네모 판을 하나씩 붙인다. 장면과 관계없이 "빈자리"에 놓였다는 게 보이고 판끼리 크기·끝선이 안 맞는다.</dd>
+    <dt>이 게임 예</dt><dd>전투 지도(<code>15_cannon_aim_side</code>): 상태판·병사 명령·속도 단추·알림 글·대포 판·[시험] 단추·마법 판·도움말 = 판 8개. 위쪽 "지도 — 시간이 흐릅니다" 띠가 상태판과 겹침.</dd>
+    <dt>대신</dt><dd>화면마다 구역 최대 3개(전투 = 위 상태 띠·아래 명령 띠·장면). 판은 장면 사물(지도판 가장자리·난간·명령판)에 붙여 자리에 이유를 준다. 같은 줄 판은 끝선을 맞춘다.</dd>
+    <dt>검사</dt><dd class="chk">떨어진 판이 4개 넘는가? 판이 겹치거나 끝선이 4px 넘게 어긋나는가?</dd></dl></div>
+  <div class="sym"><div class="hd"><span class="id">S-02</span><span class="nm">장면을 가리는 판</span><span class="sev s3">●●●</span></div><dl>
+    <dt>왜 슬롭</dt><dd>판을 장면 위에 얹고 끝 — 봐야 할 적·성벽·병사가 판 뒤에 묻힌다.</dd>
+    <dt>이 게임 예</dt><dd>지도에서 마법 판이 성 아래쪽과 남쪽 병사 아이콘을 덮음. 함정 공방(<code>64_preptrap_0_panel</code>)에서 판 아래로 뒤 화면의 "정비" 제목이 비침.</dd>
+    <dt>대신</dt><dd>전투 중 장면이 화면 70% 이상. 판은 접히거나 가장자리로. 판이 열리면 뒤 화면을 흐리고 어둡게 눌러 글이 비치지 않게.</dd>
+    <dt>검사</dt><dd class="chk">판 뒤로 다른 화면의 글이 비치는가? 전투에서 성·적 무리 위에 판이 겹치는가?</dd></dl></div>
+  <div class="sym"><div class="hd"><span class="id">S-03</span><span class="nm">세로로 쌓은 같은 단추 목록</span><span class="sev s2">●●</span></div><dl>
+    <dt>왜 슬롭</dt><dd>무엇이든 같은 긴 단추로 위에서 아래로 쌓는다(세로 목록 기본). 정보·설정·행동·닫기 구분이 없다.</dd>
+    <dt>이 게임 예</dt><dd>함정 공방: "함정: 폭발 함정…", "상점 구매·설치…", "지도 표시: 켜짐 (기본)", "한 번에 구매·설치", "선택 지우기", "닫기"가 모두 같은 단추. 메인·정비·결과의 <code>ScreenView.MakePanel</code>도 같은 세로 목록.</dd>
+    <dt>대신</dt><dd>모양으로 역할을 나눈다 — 고르기는 그림 카드·탭, 켜고 끄기는 스위치, 주 행동은 하나만 크게, 닫기는 모서리의 작은 표시. 같은 모양 단추 최대 4개.</dd>
+    <dt>검사</dt><dd class="chk">한 판에 크기·색이 똑같은 긴 단추가 5개 이상 세로로 쌓였는가?</dd></dl></div>
+
+  <div class="group">B. 간격·정렬</div>
+  <div class="sym"><div class="hd"><span class="id">S-04</span><span class="nm">규칙 없는 간격</span><span class="sev s2">●●</span></div><dl>
+    <dt>왜 슬롭</dt><dd>숫자를 그때그때 넣는다(20·28·30·34·40·56·62·70…). 판 안팎 여백이 화면마다 다르다.</dd>
+    <dt>이 게임 예</dt><dd><code>MakePanel</code> 여백 56/40, [시험] 단추 간격 62, <code>ResultBoard</code> 기둥 사이 28. 함정 공방 판은 단추 사이는 촘촘하고 아래 1/4이 빈칸.</dd>
+    <dt>대신</dt><dd>간격은 4·8·16·24·32·48만. 판 안 24, 화면 끝 32, 같은 무리 8, 다른 무리 24. 판 높이는 내용에 맞춘다.</dd>
+    <dt>검사</dt><dd class="chk">판 높이 20% 넘는 빈 꼬리가 있는가? 같은 판에서 단추 간격이 두 가지 이상인가?</dd></dl></div>
+  <div class="sym"><div class="hd"><span class="id">S-05</span><span class="nm">모든 글 가운데 정렬</span><span class="sev s2">●●</span></div><dl>
+    <dt>왜 슬롭</dt><dd>엔진 기본(가운데)을 그대로 쓴다. 여러 줄 글은 시작점이 들쭉날쭉해 읽기 어렵고 숫자 열이 서지 않는다.</dd>
+    <dt>이 게임 예</dt><dd><code>ScreenView.Label</code> 기본이 가운데. 함정 공방 설명 두 줄 "칸 5m · 성벽에서 10~80m / 밝은 칸 = …"이 가운데 정렬.</dd>
+    <dt>대신</dt><dd>제목·단추 글만 가운데. 설명·목록은 왼쪽, 숫자 열은 오른쪽 정렬.</dd>
+    <dt>검사</dt><dd class="chk">두 줄 넘는 설명이나 숫자 목록이 가운데 정렬인가?</dd></dl></div>
+
+  <div class="group">C. 글자</div>
+  <div class="sym"><div class="hd"><span class="id">S-06</span><span class="nm">시스템 기본 글꼴 하나로 전부</span><span class="sev s3">●●●</span></div><dl>
+    <dt>왜 슬롭</dt><dd>맑은 고딕은 윈도 사무용 글꼴. 도트 그림 위에 얹히면 바로 "임시 화면"으로 보인다. 제목·본문·숫자가 같은 글꼴·굵기.</dd>
+    <dt>이 게임 예</dt><dd><code>ScreenView.GetFont()</code> "시스템 글꼴을 임시 사용"(D-033). 모든 사진의 모든 글.</dd>
+    <dt>대신</dt><dd>두 벌 — 제목·이름·큰 숫자용 세계 글꼴(도트 또는 손글씨·명조, 장교 문서 느낌) + 본문용 또렷한 한글 글꼴. 숫자는 고정폭. 글꼴 선택은 사용자 결정(Q1).</dd>
+    <dt>검사</dt><dd class="chk">화면의 모든 글이 같은 글꼴로 보이는가?</dd></dl></div>
+  <div class="sym"><div class="hd"><span class="id">S-07</span><span class="nm">너무 작은 글·많은 크기 단계</span><span class="sev s3">●●●</span></div><dl>
+    <dt>왜 슬롭</dt><dd>넣을 말이 많아 글자를 줄인다. 17~20px 글이 안 읽히고, 크기가 17·18·20·22·27·28·30·34·46…으로 흩어진다.</dd>
+    <dt>이 게임 예</dt><dd>전투 사진 아래 도움말과 상태판 글(17/18px). 지도 오른쪽 위 알림 5줄, 명령 판 아래 "북: 체력 낮은 적부터…" 4줄.</dd>
+    <dt>대신</dt><dd>48 / 32 / 24 / 20 네 단계만. 20 미만 금지. 작게 써야 할 만큼 길면 줄이거나 아이콘으로.</dd>
+    <dt>검사</dt><dd class="chk">사진을 50%로 줄였을 때 안 읽히는 글이 있는가? 글자 크기가 5가지 넘는가?</dd></dl></div>
+  <div class="sym"><div class="hd"><span class="id">S-08</span><span class="nm">바탕에 묻히는 글</span><span class="sev s2">●●</span></div><dl>
+    <dt>왜 슬롭</dt><dd>반투명 판 위 연한 글, 판 없이 띄운 글. 안개·폭발로 배경이 밝아지면 사라진다.</dd>
+    <dt>이 게임 예</dt><dd>안개 마법(<code>71_spell_fire_battle</code>) 오른쪽 위 알림. 지도 아래 도움말이 판 없이 아이콘과 섞임. 함정 공방 아래 "A/D 걷기 · E 들어가기"가 어둠 위 어두운 글.</dd>
+    <dt>대신</dt><dd>장면 위 글은 불투명 바탕(판·띠·두루마리) 위에. 판이 없으면 도트식 짙은 외곽선. 대비 4.5:1 이상.</dd>
+    <dt>검사</dt><dd class="chk">장면 위에 판·외곽선 없이 직접 놓인 글이 있는가?</dd></dl></div>
+
+  <div class="group">D. 색</div>
+  <div class="sym"><div class="hd"><span class="id">S-09</span><span class="nm">짙은 올리브 단색 판 하나로 전부</span><span class="sev s3">●●●</span></div><dl>
+    <dt>왜 슬롭</dt><dd>판·단추·띠가 전부 같은 녹회색(<code>#26352d</code>/<code>#33473b</code>)에 투명도만 다르다. 재질 없는 평면이라 디자인 도구 기본 어두운 테마처럼 보이고, 밤 장면·풀밭 지도와 색이 섞여 탁하다.</dd>
+    <dt>이 게임 예</dt><dd><code>UiStyle</code>·<code>HudStyle</code> 전체. 함정 공방 판(녹색 지도 위 녹색 판), 지도의 모든 판, 속도 단추.</dd>
+    <dt>대신</dt><dd>판은 재질로 — 양피지·나무판·쇠 테두리 도트 9칸 그림. 단색은 화면 전체 어둠막에만. 판 바탕은 장면과 밝기·색이 분명히 다르게.</dd>
+    <dt>검사</dt><dd class="chk">판·단추가 재질 없는 단색 네모인가? 판 색이 뒤 장면과 비슷해 경계가 흐린가?</dd></dl></div>
+  <div class="sym"><div class="hd"><span class="id">S-10</span><span class="nm">뜻 없이 쓰인 색</span><span class="sev s2">●●</span></div><dl>
+    <dt>왜 슬롭</dt><dd>기능마다 눈에 띄는 색을 하나씩 집어 넣는다. 화면의 색 이야기(따뜻한 횃불 대 차가운 밤)와 관계없고 서로 싸운다.</dd>
+    <dt>이 게임 예</dt><dd>지도의 사거리 노란 점 수백 개, 보라 점선, 분홍 덩어리, 회색 원. 함정 공방 "파란 칸 = 고름"은 녹색 위에서 안 보임. 마법 단추만 보라 판.</dd>
+    <dt>대신</dt><dd>색 역할 표(4장)의 색만. 범위는 윤곽선 하나 + 옅은 채움. 고름 = 황동 빛, 위험 = 붉은 녹, 마법 = 그 마법의 빛.</dd>
+    <dt>검사</dt><dd class="chk">역할 표에 없는 강조색이 있는가? 범위가 점 무리로 그려져 장면을 덮는가?</dd></dl></div>
+
+  <div class="group">E. 테두리·모서리</div>
+  <div class="sym"><div class="hd"><span class="id">S-11</span><span class="nm">1~2px 단색 직선 테두리</span><span class="sev s3">●●●</span></div><dl>
+    <dt>왜 슬롭</dt><dd>판 둘레에 가는 황동 선 네 개. 모서리·두께 변화·그림자가 없어 웹 관리자 화면 표 테두리 같다. 단추마다 같은 선이 또 있어 선이 겹겹이 늘어선다.</dd>
+    <dt>이 게임 예</dt><dd><code>HudStyle.Border</code>, <code>UiStyle.Border</code>. 함정 공방은 판 테두리 안에 단추 테두리 6개 — 선만 14줄.</dd>
+    <dt>대신</dt><dd>옥토패스식 손그림 테두리 — 모서리 장식(리벳·접힌 귀·문양), 고르지 않은 굵기, 안쪽 어두운 띠, 바깥 짙은 그림자 1점. 단추는 테두리 대신 볼록함(위 밝은 줄·아래 어두운 줄). 테두리는 판에만, 고른 단추만 빛 테두리.</dd>
+    <dt>검사</dt><dd class="chk">판 모서리가 장식 없는 직각 선인가? 단추마다 판과 같은 가는 테두리가 있는가?</dd></dl></div>
+  <div class="sym"><div class="hd"><span class="id">S-12</span><span class="nm">섞인 모서리 모양</span><span class="sev s1">●</span></div><dl>
+    <dt>왜 슬롭</dt><dd>직각·둥근 모서리·그림 테두리가 섞여 출처가 다른 게 보인다.</dd>
+    <dt>이 게임 예</dt><dd>지도의 별 모양 성벽 표시(그림)와 직각 단색 판이 함께. 상태판 아이콘은 도트, 판은 매끈.</dd>
+    <dt>대신</dt><dd>도트 계단 모서리(2~3점 깎은 귀) 하나로 통일. 매끈한 원·둥근 모서리 금지.</dd>
+    <dt>검사</dt><dd class="chk">한 화면에 모서리 방식이 두 가지 넘는가?</dd></dl></div>
+
+  <div class="group">F. 아이콘·기호</div>
+  <div class="sym"><div class="hd"><span class="id">S-13</span><span class="nm">글자 기호를 아이콘 대신</span><span class="sev s2">●●</span></div><dl>
+    <dt>왜 슬롭</dt><dd>그림이 없어 ▶ ▲ ◆ × — 로 때운다. 글꼴마다 모양이 다르고 도트와 안 어울린다.</dd>
+    <dt>이 게임 예</dt><dd>"▶ 북 성벽", 속도 "×1 ×2 ×4", "◆ 주인공", "▲ 북쪽이 정면", 판 접기 "▲".</dd>
+    <dt>대신</dt><dd>재생·멈춤·속도·접기·닫기·방향·주인공은 같은 격자(16/24px) 도트 아이콘. 글자 기호는 본문 구분점(·)만.</dd>
+    <dt>검사</dt><dd class="chk">▶▲◆× 같은 글자 기호가 아이콘 노릇을 하는가?</dd></dl></div>
+  <div class="sym"><div class="hd"><span class="id">S-14</span><span class="nm">아이콘 출처·크기·화풍 섞임</span><span class="sev s2">●●</span></div><dl>
+    <dt>왜 슬롭</dt><dd>해상도·크기·밝기·외곽선이 제각각이다.</dd>
+    <dt>이 게임 예</dt><dd>상태판 아이콘이 작고 글 높이와 안 맞음(<code>44_look_B_on</code>). 지도의 명령 아이콘과 깃발·병사 얼굴 아이콘의 크기·화풍이 다름.</dd>
+    <dt>대신</dt><dd>한 벌 규칙 — 같은 격자, 같은 외곽선 색, 같은 빛 방향(왼쪽 위), 정수 배율(×2·×3)만. 그림은 Codex(D-074).</dd>
+    <dt>검사</dt><dd class="chk">같은 줄 아이콘 크기가 다르거나 글과 어긋나는가? 점이 흐리거나 정수 배율이 아닌가?</dd></dl></div>
+
+  <div class="group">G. 문구·말투</div>
+  <div class="sym"><div class="hd"><span class="id">S-15</span><span class="nm">조작 키 전부 나열</span><span class="sev s3">●●●</span></div><dl>
+    <dt>왜 슬롭</dt><dd>만든 사람의 기억용 메모다. 플레이어는 읽지 않고 화면 아래만 잡음으로 찬다.</dd>
+    <dt>이 게임 예</dt><dd><code>BattleHud.cs</code> "휠 버튼 명령 · A/D 달리기(모서리 돌기) · W/S 통로 앞뒤 · Tab 지도(…) · C 카메라 […] · 1/2/3 속도 · P 멈춤 · G 화면 효과 · H 상태판 자세히/간단히 (임시 조작, 투사체 57)". 지도에서는 두 줄.</dd>
+    <dt>대신</dt><dd>지금 할 수 있는 핵심 2~3개만, 키 아이콘 + 짧은 동사("[Tab] 지도"). 나머지는 일시정지 메뉴로. 상황에 따라 바뀐다.</dd>
+    <dt>검사</dt><dd class="chk">조작 안내가 3개 넘게 보이는가?</dd></dl></div>
+  <div class="sym"><div class="hd"><span class="id">S-16</span><span class="nm">개발·시험 흔적</span><span class="sev s3">●●●</span></div><dl>
+    <dt>왜 슬롭</dt><dd>개발자 도구가 플레이어 화면에 그대로 있다. 미완성 신호 가운데 가장 크다.</dd>
+    <dt>이 게임 예</dt><dd>"[시험] 패배 — 병력 70%", "[시험] 패배 — 성벽 붕괴", "[시험] 승리"(모든 전투 사진 오른쪽 아래). "전투 1 · terrain_1 · 쉬움 (적 ×0.75)", "투사체 57", "(임시 조작…)". "회수 기능은 판정 약속 보완 후 연결합니다.", "정비 오류 — 진행 데이터와 정비 가격을 확인해 주세요."</dd>
+    <dt>대신</dt><dd>시험 단추·내부 이름·작업 메모는 개발 표시(예: F12)를 켰을 때만. 오류도 플레이어 말로("전령이 길을 잃었습니다 — 메인으로").</dd>
+    <dt>검사</dt><dd class="chk">영문 내부 이름, [시험], "임시", "연결합니다", 디버그 숫자가 기본 화면에 보이는가?</dd></dl></div>
+  <div class="sym"><div class="hd"><span class="id">S-17</span><span class="nm">기계적인 말투·규칙 설명문</span><span class="sev s2">●●</span></div><dl>
+    <dt>왜 슬롭</dt><dd>시스템 동작을 문장으로 푼다. 말하는 사람이 없고 계산식·조건이 그대로 드러난다. 세계 안 누구도 이렇게 말하지 않는다.</dd>
+    <dt>이 게임 예</dt><dd>"가격은 구매 직전 전체 인원 600/1200 경계에서 변경", "벽별 10HP당 1골드 올림 · 골드 부족 시 무변경", "선택이 변경됐습니다. 견적을 다시 확인하세요.", "지도에서 설치할 칸을 여러 개 눌러 고른 뒤 한 번에 구매하세요. 환불은 불가능합니다.", "4번 선택됨 — 노란 점 구역(사거리 45m, 북동 들판)을 왼쪽 클릭".</dd>
+    <dt>대신</dt><dd>규칙은 숫자·그림으로 보여 주고 설명하지 않는다. 남는 말은 세계 안 인물(장인·하사관·전령)의 짧은 말로. "환불은 불가능합니다" → 구매 단추 옆 작은 "되돌릴 수 없음" 표시. 안내는 한 판에 한 줄, 15자 안팎.</dd>
+    <dt>검사</dt><dd class="chk">한 판에 두 문장 넘는 설명문이 있는가? 판마다 "~하세요 / ~됩니다" 안내가 붙어 있는가?</dd></dl></div>
+  <div class="sym"><div class="hd"><span class="id">S-18</span><span class="nm">괄호·구분점·줄표 남발</span><span class="sev s2">●●</span></div><dl>
+    <dt>왜 슬롭</dt><dd>한 줄에 다 넣으려고 ( ) · — : 를 겹겹이 쓴다. 문장이 아니라 자료 덤프다.</dd>
+    <dt>이 게임 예</dt><dd>"지도 표시: 켜짐 (기본)", "함정: 폭발 함정 · 상점 12개 · 보관 0개", "4번: 조준 — 대기(근처에 적 없음)", "병영 (모집·보충)", "성벽 계단 (다음 전투)", "명령하기 (이 성벽)", "북쪽 (왼쪽)", "날씨 안개 · 밤 (시야 150m) (공격 속도 −20%)".</dd>
+    <dt>대신</dt><dd>한 줄 = 한 가지. 괄호는 화면에 거의 없음. 이름과 값은 칸을 나눠 아이콘+숫자로. "(기본)"·"(이 성벽)" 같은 덧말은 지운다.</dd>
+    <dt>검사</dt><dd class="chk">괄호 있는 줄이나 구분점 3개 이상인 줄이 있는가? 화면 전체 괄호가 3쌍 넘는가?</dd></dl></div>
+  <div class="sym"><div class="hd"><span class="id">S-19</span><span class="nm">화면마다 다른 이름·말투</span><span class="sev s1">●</span></div><dl>
+    <dt>왜 슬롭</dt><dd>같은 것을 다르게 부른다 — 따로따로 만든 흔적.</dd>
+    <dt>이 게임 예</dt><dd>"영웅 상태"(결과) / "◆ 주인공"(지도). "병력 모집·보충" / "병영 (모집·보충)". "함정 구매·설치" / "함정 공방" / "상점 구매·설치". 말끝도 "~합니다", "~하세요", 명사형이 섞임.</dd>
+    <dt>대신</dt><dd>용어 표(4장) 한 이름만. 단추는 동사 하나, 인물 말은 그 인물 말투, 시스템 표시는 명사형.</dd>
+    <dt>검사</dt><dd class="chk">같은 대상이 두 이름으로 불리는가?</dd></dl></div>
+
+  <div class="group">H. 정보 위계</div>
+  <div class="sym"><div class="hd"><span class="id">S-20</span><span class="nm">모든 정보가 같은 무게</span><span class="sev s3">●●●</span></div><dl>
+    <dt>왜 슬롭</dt><dd>성벽 체력·처치·골드·속도·날씨·투사체 수가 같은 크기·색으로 한 줄. 가장 중요한 것(성벽이 무너지나?)을 읽어야 찾는다.</dd>
+    <dt>이 게임 예</dt><dd>상태판 "▶ 북 15000/15000 63/63 16/750 16 0:20 ×1". 자세히 모드 6줄("들판 · 벽 앞 · 오름 · 위 · 더미 0.0m [체력 낮은 적부터]"). 대포 4줄이 같은 모양.</dd>
+    <dt>대신</dt><dd>화면마다 1순위 하나를 가장 크게(전투 = 지금 성벽 체력 막대, 정비 = 골드, 결과 = 승패). 2순위는 아이콘+숫자, 3순위는 열어야 보임. 숫자는 막대·눈금으로.</dd>
+    <dt>검사</dt><dd class="chk">1초 보고 가장 중요한 것이 하나로 짚이지 않는가? 다른 종류 숫자 4개 넘게가 같은 크기로 한 줄인가?</dd></dl></div>
+  <div class="sym"><div class="hd"><span class="id">S-21</span><span class="nm">쓸모없는 빈 상태 글</span><span class="sev s1">●</span></div><dl>
+    <dt>왜 슬롭</dt><dd>아무 일 없을 때 "없음"을 굳이 적는다. 정보 0인 줄이 자리를 차지한다.</dd>
+    <dt>이 게임 예</dt><dd>"고른 칸 없음", "손실 없음", "참가 분대 없음", "영웅 없음", "운용병 없음", "마법사 — 이번 전투에 없음", "보관 0개".</dd>
+    <dt>대신</dt><dd>없으면 칸을 감추거나 흐리게. 할 일을 알려야 할 때만 한 줄("칸을 눌러 고르기").</dd>
+    <dt>검사</dt><dd class="chk">"없음"·"0개" 빈 값 줄이 2개 넘는가?</dd></dl></div>
+
+  <div class="group">I. 상호작용 피드백</div>
+  <div class="sym"><div class="hd"><span class="id">S-22</span><span class="nm">밝기만 바뀌는 단추</span><span class="sev s2">●●</span></div><dl>
+    <dt>왜 슬롭</dt><dd>올리면 1.3배 밝게, 누르면 0.8배 어둡게 — 엔진 기본 반응. 손맛이 없고 고른 것이 오래 안 보인다.</dd>
+    <dt>이 게임 예</dt><dd><code>UiStyle.StyleButton</code>·<code>StyleTintButton</code>, 모든 판 단추.</dd>
+    <dt>대신</dt><dd>올림 = 1~2점 떠오름 + 가장자리 황동 빛 + 작은 소리. 누름 = 눌려 들어감 + 딸깍. 고름 = 남는 표시(빛 테두리·깃발). 비활성 = 이유가 보이는 모양(골드 부족이면 가격이 붉게).</dd>
+    <dt>검사</dt><dd class="chk">고른 단추가 밝기 차이로만 구분되는가? 비활성 단추가 이유 없이 회색인가? (움직임·소리는 실행 확인)</dd></dl></div>
+  <div class="sym"><div class="hd"><span class="id">S-23</span><span class="nm">결과 확인이 글 한 줄</span><span class="sev s2">●●</span></div><dl>
+    <dt>왜 슬롭</dt><dd>무엇을 해도 판 아래 글 한 줄. 세계에는 아무 변화가 없다.</dd>
+    <dt>이 게임 예</dt><dd>"설치 완료 · 3칸 · 75골드 사용 · 환불 불가", "완료: 10명 · 120골드 사용", 지도 오른쪽 위 "북쪽 대포 1: 조준점 지정"이 5줄 쌓임.</dd>
+    <dt>대신</dt><dd>결과는 일어난 자리에서 — 함정이 칸에 박히는 그림, 골드가 줄어드는 움직임, 대포 위 조준 깃발. 글 알림은 중요한 것만 하나씩, 몇 초 뒤 사라짐.</dd>
+    <dt>검사</dt><dd class="chk">결과가 판 안 글로만 나오는가? 같은 종류 알림이 3줄 넘게 쌓였는가?</dd></dl></div>
+
+  <div class="group">J. 움직임</div>
+  <div class="sym"><div class="hd"><span class="id">S-24</span><span class="nm">즉시 켜고 끄기</span><span class="sev s2">●●</span></div><dl>
+    <dt>왜 슬롭</dt><dd>판이 한 장면 만에 툭 나타나고 사라진다. 손으로 만든 물건은 펼쳐지고 접힌다.</dd>
+    <dt>이 게임 예</dt><dd>지도 열기(Tab), 명령 판 접기(▲), 정비 판 열고 닫기, 전투 끝 판(<code>endPanel.SetActive</code>), 결과 화면 진입.</dd>
+    <dt>대신</dt><dd>판은 0.15~0.25초 펼쳐지거나(두루마리·지도) 미끄러져 들어옴. 화면 전환은 어둡게 닫혔다 열림(0.3초 안팎). 같은 종류는 같은 길이·곡선. 조작을 막을 만큼 길게 하지 않는다.</dd>
+    <dt>검사</dt><dd class="chk">(영상) 판이 한 장면 만에 나타나거나 사라지는가?</dd></dl></div>
+  <div class="sym"><div class="hd"><span class="id">S-25</span><span class="nm">뚝뚝 바뀌는 숫자</span><span class="sev s1">●</span></div><dl>
+    <dt>왜 슬롭</dt><dd>체력·골드가 0.2초마다 글로 다시 쓰여 무엇이 방금 줄었는지 모른다.</dd>
+    <dt>이 게임 예</dt><dd><code>BattleHud.Refresh</code>가 0.2초마다 상태 글 전체를 새로 만든다.</dd>
+    <dt>대신</dt><dd>지연 막대(줄어든 부분이 잠깐 밝게 남았다 따라 줄어듦), 큰 숫자는 짧게 굴러감, 위험하면 막대가 맥박.</dd>
+    <dt>검사</dt><dd class="chk">(영상) 성벽 피해 순간 무엇이 줄었는지 바로 안 보이는가?</dd></dl></div>
+
+  <div class="group">K. 상태 표시</div>
+  <div class="sym"><div class="hd"><span class="id">S-26</span><span class="nm">상태를 글로만</span><span class="sev s2">●●</span></div><dl>
+    <dt>왜 슬롭</dt><dd>"조준 — 포격 중", "조준 — 대기(근처에 적 없음)", "[Q] 폭발 — 준비", "(멈춤)". 읽어야 안다.</dd>
+    <dt>이 게임 예</dt><dd>지도의 대포 판 4줄, 마법 판, 상태판 " (멈춤)".</dd>
+    <dt>대신</dt><dd>준비 = 빛남, 재사용 대기 = 시계 방향으로 걷히는 어둠, 포격 중 = 대포 아이콘이 튐, 대기 = 흐림, 멈춤 = 화면 가장자리 어둡게 + 멈춤 표시. 글은 마우스를 올렸을 때만.</dd>
+    <dt>검사</dt><dd class="chk">대포·마법·속도 상태를 글을 읽어야 아는가?</dd></dl></div>
+  <div class="sym"><div class="hd"><span class="id">S-27</span><span class="nm">위험 신호가 보통 알림과 같음</span><span class="sev s2">●●</span></div><dl>
+    <dt>왜 슬롭</dt><dd>성벽이 무너져도 알림 목록 한 줄로 쌓인다.</dd>
+    <dt>이 게임 예</dt><dd><code>BattleHud.Commands.cs</code>가 "무너"·"뚫"·"전멸"로 위험을 가려 내지만 화면에선 다른 알림과 같은 목록(<code>71_spell_fire_battle</code> 오른쪽 위).</dd>
+    <dt>대신</dt><dd>보통 / 경고 / 위급 세 단계. 위급 = 화면 가장자리 붉은 빛 + 방향 표시 + 소리. 일반 알림과 자리를 나눈다.</dd>
+    <dt>검사</dt><dd class="chk">위험 알림과 보통 알림이 같은 자리·모양인가?</dd></dl></div>
+
+  <div class="group">L. 일관성</div>
+  <div class="sym"><div class="hd"><span class="id">S-28</span><span class="nm">같은 것을 두 번 만듦</span><span class="sev s2">●●</span></div><dl>
+    <dt>왜 슬롭</dt><dd>스타일이 두 군데 따로 있어 한쪽만 고치면 화면끼리 어긋난다.</dd>
+    <dt>이 게임 예</dt><dd><code>UiStyle.Border</code>와 <code>HudStyle.Border</code>, 색 상수 중복(Panel·Brass·Text…), 단추 만들기 <code>ScreenView.MakeButton</code>과 <code>BattleHud.NewButton</code>.</dd>
+    <dt>대신</dt><dd>UI 부품(판·단추·탭·막대·아이콘 줄·알림·확인창)을 한 벌만 만들고 모든 화면이 쓴다. 색·간격·글자 크기는 한 곳에서.</dd>
+    <dt>검사</dt><dd class="chk">(코드) 같은 부품 함수가 두 곳 넘는가? (사진) 같은 역할 단추가 화면마다 다른가?</dd></dl></div>
+  <div class="sym"><div class="hd"><span class="id">S-29</span><span class="nm">화면마다 다른 게임</span><span class="sev s2">●●</span></div><dl>
+    <dt>왜 슬롭</dt><dd>메인은 그림 + 반투명 판, 스토리는 색 띠 세 개로 만든 가짜 풍경, 마당은 그림, 함정 공방은 자료표, 결과는 도형 막대 — 만든 시기·방식이 다 보인다.</dd>
+    <dt>이 게임 예</dt><dd><code>ScreenView.MakeStory</code>(단색 띠 풍경), <code>MainMenuEntry</code>(영문 제목 "Human Last Rampart" 시스템 글꼴), <code>ResultBoard</code>(단색 네모 성·막대), 함정 공방(그림 마당 위 자료표).</dd>
+    <dt>대신</dt><dd>모든 화면이 같은 판 재질·테두리·글꼴·아이콘·색 역할. 화면마다 바뀌는 건 장면 그림과 판 배치뿐.</dd>
+    <dt>검사</dt><dd class="chk">두 화면 사진을 나란히 놓으면 판·단추 모양이 다른가?</dd></dl></div>
+  <div class="sym"><div class="hd"><span class="id">S-30</span><span class="nm">도트 그림 위의 매끈한 UI</span><span class="sev s3">●●●</span></div><dl>
+    <dt>왜 슬롭</dt><dd>장면은 큰 점의 도트인데 UI는 1px 선·매끈한 글꼴·부드러운 투명도. 두 세계가 따로 논다. 옥토패스도 UI 테두리는 도트 질감을 지킨다.</dd>
+    <dt>이 게임 예</dt><dd>모든 사진 — 도트 병사·성벽 위의 1px 황동 선 판과 맑은 고딕.</dd>
+    <dt>대신</dt><dd>UI도 같은 점 크기(화면상 한 점 = 3px 또는 4px). 테두리·아이콘·장식은 그 정수배. 부드러운 것은 빛(글로우·흐림)만.</dd>
+    <dt>검사</dt><dd class="chk">UI에 1px 가는 선이 보이거나 점 크기가 장면 도트와 눈에 띄게 다른가?</dd></dl></div>
+
+  <h2 id="lang">4. 이 게임 고유의 시각 언어</h2>
+  <div class="card lead"><b>"성벽 위 장교의 군용 도구"</b> — 상태판은 허리에 찬 <b>황동 계기판</b>, 지도는 펼친 <b>양피지 작전 지도</b>, 명령은 <b>나무 명령판과 깃발</b>, 알림은 <b>전령이 건네는 쪽지</b>, 정비는 <b>공방 간판과 장부</b>, 결과는 <b>도장 찍힌 전투 보고서</b>.</div>
+
+  <h3>재질 세 가지 (이것만)</h3>
+  <table>
+    <tr><th>재질</th><th>쓰는 곳</th><th>느낌</th></tr>
+    <tr><td><span class="swatch" style="background:var(--paper)"></span>양피지·종이</td><td>지도, 결과 보고서, 알림 쪽지, 대사창</td><td>밝은 갈색 종이, 손그림 잉크 테두리, 접힌 귀</td></tr>
+    <tr><td><span class="swatch" style="background:var(--wood)"></span>짙은 나무 + 쇠 띠</td><td>명령판, 정비 장부, 단추 바탕</td><td>나무결, 모서리 리벳</td></tr>
+    <tr><td><span class="swatch" style="background:var(--brass)"></span>황동</td><td>상태 계기 띠, 테두리 장식, 고름 표시, 주 행동</td><td>따뜻한 금빛, 밝은 반사 한 점</td></tr>
+  </table>
+  <p class="sub">단색 녹회색 판은 쓰지 않습니다. 재질 그림(도트 9칸 판)은 Codex가 그리고 Claude가 붙입니다(D-074).</p>
+
+  <h3>색 역할 표 (그 밖의 색 금지)</h3>
+  <table>
+    <tr><th>역할</th><th>색</th><th>쓰임</th></tr>
+    <tr><td>종이 바탕</td><td><span class="swatch" style="background:#e8d9b5"></span>따뜻한 밝은 갈색</td><td>지도·보고서·쪽지</td></tr>
+    <tr><td>잉크</td><td><span class="swatch" style="background:#3a2a1e"></span>짙은 밤색</td><td>종이 위 글·선</td></tr>
+    <tr><td>나무 바탕</td><td><span class="swatch" style="background:#3b2a1f"></span>짙은 갈색</td><td>명령판·장부</td></tr>
+    <tr><td>본문 글</td><td><span class="swatch" style="background:#eee4cf"></span>따뜻한 상아</td><td>나무·어둠 위 글</td></tr>
+    <tr><td>황동</td><td><span class="swatch" style="background:#d5b16b"></span><span class="swatch" style="background:#f5d99c"></span>금빛 + 반사</td><td>강조·고름·주 행동</td></tr>
+    <tr><td>위험</td><td><span class="swatch" style="background:#b4533c"></span>붉은 녹</td><td>위급·패배·되돌릴 수 없음</td></tr>
+    <tr><td>좋음</td><td><span class="swatch" style="background:#7fa35a"></span>바랜 풀색</td><td>남은 체력·승리</td></tr>
+    <tr><td>마법</td><td><span class="swatch" style="background:#ff9a3c"></span>그 마법의 빛</td><td>마법 단추·범위 (불 = 주황)</td></tr>
+    <tr><td>적</td><td><span class="swatch" style="background:#4b4370"></span>차가운 보라·남색</td><td>지도 위 적 무리</td></tr>
+  </table>
+  <p class="sub">정확한 값은 Codex 재질 그림과 맞춰 정합니다. <b>횃불(따뜻함) 대 밤(차가움)</b>이 화면의 색 이야기이고, UI는 따뜻한 쪽입니다.</p>
+
+  <h3>형태 규칙</h3>
+  <table>
+    <tr><th style="width:150px">항목</th><th>규칙</th></tr>
+    <tr><td>점 크기</td><td>UI 장식 한 점 = 화면 3px(1080p). 테두리 1~2점. <b>1px 선 금지.</b></td></tr>
+    <tr><td>모서리</td><td>도트 계단 모서리. 판 모서리에 장식 하나.</td></tr>
+    <tr><td>간격</td><td>4 · 8 · 16 · 24 · 32 · 48만.</td></tr>
+    <tr><td>글자 크기</td><td>48 / 32 / 24 / 20만. 20 미만 금지.</td></tr>
+    <tr><td>판 수</td><td>한 화면에 떨어진 판 최대 3개.</td></tr>
+    <tr><td>빛</td><td>고른 것에만 은은한 황동 빛, 판 안쪽 위가 살짝 밝음. 모든 것에 쓰지 않는다.</td></tr>
+    <tr><td>흐림</td><td>판이 열리면 뒤 장면을 미니어처 흐림처럼 흐리고 어둡게. UI 자체는 또렷하게.</td></tr>
+  </table>
+
+  <h3>말 규칙</h3>
+  <ul class="card">
+    <li><b>말하는 사람이 있다</b> — 전령("북쪽 성벽에 사다리가 붙었습니다!"), 병영 하사관, 공방 장인, 포병. 주인공은 장교이므로 부하는 존댓말로 보고한다.</li>
+    <li><b>단추는 동사 하나</b> — 모집, 수리, 설치, 발사, 출전.</li>
+    <li><b>숫자는 그림 옆에</b> — "골드 160" → [골드 아이콘] 160, "병력 63/63" → 막대.</li>
+    <li><b>규칙 설명 금지</b> — 계산식·조건은 결과 숫자로 보여 준다. 처음 한 번은 튜토리얼 인물이 말한다.</li>
+    <li><b>괄호는 거의 없게</b>, 구분점은 한 줄에 둘까지.</li>
+    <li><b>용어 표</b> — 주인공(영웅 ✕) · 성벽(벽 ✕) · 병영 · 함정 공방 · 대장간(수리) · 성벽 계단(출전) · 전령 · 대포 · 마법사 · 북/동/남/서 성벽.</li>
+  </ul>
+
+  <h3>화면별 물건 비유</h3>
+  <table>
+    <tr><th>화면</th><th>물건</th><th>1순위 정보</th></tr>
+    <tr><td>0 메인 메뉴</td><td>해 질 녘 성벽 그림 위 봉랍 찍힌 임명장, 제목은 세계 글꼴 한글</td><td>"출전" 한 단추</td></tr>
+    <tr><td>1 전투</td><td>위 황동 계기 띠(지금 성벽 막대·남은 적·시간) + 아래 나무 명령판(지금 할 행동 2~3개)</td><td>지금 보는 성벽 체력</td></tr>
+    <tr><td>2 전투 지도</td><td>탁자 위 양피지 작전 지도 + 대포·마법을 나타내는 나무 말과 깃발</td><td>적 무리 위치</td></tr>
+    <tr><td>3 정비 마당</td><td>마당 그림 + 장소 간판, 들어가면 그 공방의 장부·작업대</td><td>골드</td></tr>
+    <tr><td>4 결과</td><td>전투 보고서 한 장 — 승패 도장, 성 도식, 병력 표</td><td>승리/패배</td></tr>
+    <tr><td>5 스토리</td><td>옥토패스식 손그림 말풍선 대사창 + 인물 도트 그림</td><td>대사</td></tr>
+  </table>
+
+  <h2 id="check">5. 검사표 — 사진 한 장마다</h2>
+  <p class="sub">1920×1080 사진마다 30개를 예/아니오로 기록합니다. <b>●●● 항목이 하나라도 '예'면 그 화면은 다시 만듭니다.</b></p>
+  <table>
+    <tr><th style="width:60px">번호</th><th>질문 (예 = 불합격)</th><th style="width:70px">심함</th></tr>
+    <tr><td>S-01</td><td>떨어진 판이 4개 넘거나, 판이 겹치거나 끝선이 어긋나는가?</td><td>●●●</td></tr>
+    <tr><td>S-02</td><td>판 뒤로 다른 글이 비치거나, 성·적 무리를 판이 덮는가?</td><td>●●●</td></tr>
+    <tr><td>S-03</td><td>같은 모양 긴 단추가 5개 이상 세로로 쌓였는가?</td><td>●●</td></tr>
+    <tr><td>S-04</td><td>판에 20% 넘는 빈 꼬리가 있거나 단추 간격이 두 가지인가?</td><td>●●</td></tr>
+    <tr><td>S-05</td><td>두 줄 넘는 설명·숫자 목록이 가운데 정렬인가?</td><td>●●</td></tr>
+    <tr><td>S-06</td><td>모든 글이 한 글꼴(시스템 글꼴)인가?</td><td>●●●</td></tr>
+    <tr><td>S-07</td><td>50% 축소 시 안 읽히는 글이 있거나 크기가 5가지 넘는가?</td><td>●●●</td></tr>
+    <tr><td>S-08</td><td>장면 위에 바탕·외곽선 없이 놓인 글이 있는가?</td><td>●●</td></tr>
+    <tr><td>S-09</td><td>판·단추가 재질 없는 단색 네모이거나 장면 색과 섞이는가?</td><td>●●●</td></tr>
+    <tr><td>S-10</td><td>색 역할 표에 없는 강조색, 점 무리 범위 표시가 있는가?</td><td>●●</td></tr>
+    <tr><td>S-11</td><td>판 모서리가 장식 없는 직각 선이거나 단추마다 가는 테두리가 있는가?</td><td>●●●</td></tr>
+    <tr><td>S-12</td><td>모서리 방식이 두 가지 넘는가?</td><td>●</td></tr>
+    <tr><td>S-13</td><td>▶▲◆× 같은 글자 기호가 아이콘 노릇을 하는가?</td><td>●●</td></tr>
+    <tr><td>S-14</td><td>아이콘 크기·화풍이 섞이거나 정수 배율이 아닌가?</td><td>●●</td></tr>
+    <tr><td>S-15</td><td>조작 안내가 3개 넘게 보이는가?</td><td>●●●</td></tr>
+    <tr><td>S-16</td><td>[시험]·내부 이름·"임시"·디버그 숫자가 보이는가?</td><td>●●●</td></tr>
+    <tr><td>S-17</td><td>두 문장 넘는 설명문, 판마다 "~하세요" 안내가 있는가?</td><td>●●</td></tr>
+    <tr><td>S-18</td><td>괄호 있는 줄·구분점 3개 이상 줄이 있거나 괄호가 3쌍 넘는가?</td><td>●●</td></tr>
+    <tr><td>S-19</td><td>같은 대상을 두 이름으로 부르는가?</td><td>●</td></tr>
+    <tr><td>S-20</td><td>1순위 정보가 1초에 안 짚이거나, 다른 종류 숫자 4개 넘게가 한 줄인가?</td><td>●●●</td></tr>
+    <tr><td>S-21</td><td>"없음"·"0개" 빈 값 줄이 2개 넘는가?</td><td>●</td></tr>
+    <tr><td>S-22</td><td>고름이 밝기 차이로만 보이거나 비활성 이유가 안 보이는가?</td><td>●●</td></tr>
+    <tr><td>S-23</td><td>결과가 글로만 나오거나 같은 알림이 3줄 넘게 쌓이는가?</td><td>●●</td></tr>
+    <tr><td>S-24</td><td>(영상) 판이 한 장면 만에 켜지고 꺼지는가?</td><td>●●</td></tr>
+    <tr><td>S-25</td><td>(영상) 피해 순간 무엇이 줄었는지 안 보이는가?</td><td>●</td></tr>
+    <tr><td>S-26</td><td>대포·마법·속도 상태를 글을 읽어야 아는가?</td><td>●●</td></tr>
+    <tr><td>S-27</td><td>위험 알림이 보통 알림과 같은 자리·모양인가?</td><td>●●</td></tr>
+    <tr><td>S-28</td><td>같은 부품 함수가 두 곳 넘거나, 같은 역할 단추가 화면마다 다른가?</td><td>●●</td></tr>
+    <tr><td>S-29</td><td>두 화면을 나란히 놓으면 판·단추 모양이 다른가?</td><td>●●</td></tr>
+    <tr><td>S-30</td><td>UI에 1px 가는 선이 보이거나 점 크기가 장면 도트와 다른가?</td><td>●●●</td></tr>
+  </table>
+
+  <h2 id="diag">6. 지금 화면 진단 (사진 4장 기준)</h2>
+  <table>
+    <tr><th>화면</th><th>걸린 ●●● 항목</th><th>가장 큰 문제</th></tr>
+    <tr><td>전투 밤 <code>44_look_B_on</code></td><td>S-06 07 09 11 15 16 20 30</td><td>장면은 좋은데 위·아래 UI가 개발자 화면 — 시험 단추 3개와 키 나열</td></tr>
+    <tr><td>전투 마법 <code>71_spell_fire_battle</code></td><td>S-06 07 09 11 15 16 20 30</td><td>안개 속 알림이 묻히고 위험·보통 알림이 한 목록</td></tr>
+    <tr><td>전투 지도 <code>15_cannon_aim_side</code></td><td>S-01 02 06 07 09 11 15 16 20 30</td><td class="warn">판 8개가 흩어지고 노란 점 수백 개가 지도를 덮음 — 가장 심함</td></tr>
+    <tr><td>함정 공방 <code>64_preptrap_0_panel</code></td><td>S-02 06 09 11 16 30</td><td>녹색 지도 + 녹색 자료표 판, 같은 단추 6개, 규칙 설명문</td></tr>
+    <tr><td>메인·결과·스토리 (코드 기준)</td><td>S-06 09 11 30 예상</td><td>세로 단추 목록·단색 띠 가짜 풍경 — 다음 단계에서 사진으로 확인</td></tr>
+  </table>
+
+  <h2 id="ask">7. 결정이 필요한 것 (다음 단계 전에)</h2>
+  <div class="card q"><b>Q1 글꼴</b> — 제목용 세계 글꼴을 도트 한글 글꼴로 할지, 손글씨·명조 계열로 할지. 무료·상업 허락 후보 2~3개를 다음 단계에서 보여 드립니다(배포 허락 확인 포함, D-033).</div>
+  <div class="card q"><b>Q2 재질 그림</b> — 양피지·나무·황동 9칸 판과 아이콘 한 벌을 Codex 그림 카드로 요청할지(D-074). 그림이 오기 전엔 Claude가 같은 규칙을 지킨 임시 도트 판으로 만듭니다.</div>
+  <div class="card q"><b>Q3 개발 표시</b> — [시험] 단추·키 목록·내부 숫자를 기본 화면에서 빼고 F12 같은 키로만 보이게 해도 되는지. 시험 자동화가 단추를 쓰므로 숨김 상태로 남깁니다.</div>
+  <div class="card q"><b>Q4 인물 말투</b> — 안내를 전령·하사관·장인의 말로 바꾸는 데 동의하시는지. 동의하시면 짧은 대사 목록을 만들어 검토받겠습니다.</div>
+</main>
+</body>
+</html>

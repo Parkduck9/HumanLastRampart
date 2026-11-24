@@ -1,0 +1,1076 @@
+{
+  "pixel_processing": "nearest-neighbor; alpha threshold 224; 33-color shared palette; dark 1-native-pixel outline; remove 8-connected islands <=2 native pixels",
+  "card": "K-082",
+  "assets": [
+    {
+      "source": "Docs/References/codex_k028_v1/result/codex_portrait_hero.png",
+      "height": 512,
+      "id": "portrait_hero",
+      "preview": "previews/portrait_hero_4x.png",
+      "frames": [
+        {
+          "anchor_top_left_px": [
+            256,
+            480
+          ],
+          "removed_isolated_native_pixels": 0,
+          "placed_bounds": [
+            64,
+            40,
+            384,
+            440
+          ],
+          "source_bounds": [
+            120,
+            62,
+            1015,
+            1173
+          ],
+          "old_bounds": [
+            76,
+            40,
+            360,
+            440
+          ],
+          "index": 0
+        }
+      ],
+      "frame_count": 1,
+      "native_cell": [
+        64,
+        64
+      ],
+      "width": 512,
+      "cell_size": [
+        512,
+        512
+      ],
+      "anchor_policy": "center x=256; bust bottom y=480",
+      "file": "result/codex_portrait_hero.png",
+      "frame_order": [
+        "front_bust"
+      ],
+      "pivot_top_left_px": [
+        256,
+        480
+      ]
+    },
+    {
+      "source": "Docs/References/codex_k028_v1/result/codex_portrait_wizard.png",
+      "height": 512,
+      "id": "portrait_wizard",
+      "preview": "previews/portrait_wizard_4x.png",
+      "frames": [
+        {
+          "anchor_top_left_px": [
+            256,
+            480
+          ],
+          "removed_isolated_native_pixels": 0,
+          "placed_bounds": [
+            64,
+            40,
+            376,
+            440
+          ],
+          "source_bounds": [
+            130,
+            52,
+            1008,
+            1177
+          ],
+          "old_bounds": [
+            65,
+            40,
+            382,
+            440
+          ],
+          "index": 0
+        }
+      ],
+      "frame_count": 1,
+      "native_cell": [
+        64,
+        64
+      ],
+      "width": 512,
+      "cell_size": [
+        512,
+        512
+      ],
+      "anchor_policy": "center x=256; bust bottom y=480",
+      "file": "result/codex_portrait_wizard.png",
+      "frame_order": [
+        "front_bust"
+      ],
+      "pivot_top_left_px": [
+        256,
+        480
+      ]
+    },
+    {
+      "source": "Docs/References/codex_k028_v1/result/codex_portrait_archer.png",
+      "height": 512,
+      "id": "portrait_archer",
+      "preview": "previews/portrait_archer_4x.png",
+      "frames": [
+        {
+          "anchor_top_left_px": [
+            256,
+            480
+          ],
+          "removed_isolated_native_pixels": 0,
+          "placed_bounds": [
+            56,
+            40,
+            400,
+            440
+          ],
+          "source_bounds": [
+            99,
+            60,
+            1096,
+            1194
+          ],
+          "old_bounds": [
+            62,
+            40,
+            390,
+            440
+          ],
+          "index": 0
+        }
+      ],
+      "frame_count": 1,
+      "native_cell": [
+        64,
+        64
+      ],
+      "width": 512,
+      "cell_size": [
+        512,
+        512
+      ],
+      "anchor_policy": "center x=256; bust bottom y=480",
+      "file": "result/codex_portrait_archer.png",
+      "frame_order": [
+        "front_bust"
+      ],
+      "pivot_top_left_px": [
+        256,
+        480
+      ]
+    },
+    {
+      "source": "Docs/References/codex_k028_v1/result/codex_portrait_gunner.png",
+      "height": 512,
+      "id": "portrait_gunner",
+      "preview": "previews/portrait_gunner_4x.png",
+      "frames": [
+        {
+          "anchor_top_left_px": [
+            256,
+            480
+          ],
+          "removed_isolated_native_pixels": 0,
+          "placed_bounds": [
+            48,
+            40,
+            424,
+            440
+          ],
+          "source_bounds": [
+            60,
+            79,
+            1135,
+            1175
+          ],
+          "old_bounds": [
+            65,
+            40,
+            383,
+            440
+          ],
+          "index": 0
+        }
+      ],
+      "frame_count": 1,
+      "native_cell": [
+        64,
+        64
+      ],
+      "width": 512,
+      "cell_size": [
+        512,
+        512
+      ],
+      "anchor_policy": "center x=256; bust bottom y=480",
+      "file": "result/codex_portrait_gunner.png",
+      "frame_order": [
+        "front_bust"
+      ],
+      "pivot_top_left_px": [
+        256,
+        480
+      ]
+    },
+    {
+      "source": "Docs/References/codex_k028_v1/result/codex_portrait_cannon.png",
+      "height": 512,
+      "id": "portrait_cannon",
+      "preview": "previews/portrait_cannon_4x.png",
+      "frames": [
+        {
+          "anchor_top_left_px": [
+            256,
+            480
+          ],
+          "removed_isolated_native_pixels": 0,
+          "placed_bounds": [
+            56,
+            40,
+            400,
+            440
+          ],
+          "source_bounds": [
+            89,
+            57,
+            1076,
+            1181
+          ],
+          "old_bounds": [
+            69,
+            40,
+            375,
+            440
+          ],
+          "index": 0
+        }
+      ],
+      "frame_count": 1,
+      "native_cell": [
+        64,
+        64
+      ],
+      "width": 512,
+      "cell_size": [
+        512,
+        512
+      ],
+      "anchor_policy": "center x=256; bust bottom y=480",
+      "file": "result/codex_portrait_cannon.png",
+      "frame_order": [
+        "front_bust"
+      ],
+      "pivot_top_left_px": [
+        256,
+        480
+      ]
+    },
+    {
+      "source": "Game/Assets/_Project/Art/UI/Resources/TrapMap/worker_dig_archer.png",
+      "height": 384,
+      "id": "worker_dig_archer",
+      "preview": "previews/worker_dig_archer_4x.png",
+      "frames": [
+        {
+          "anchor_top_left_px": [
+            156,
+            352
+          ],
+          "removed_isolated_native_pixels": 0,
+          "placed_bounds": [
+            28,
+            72,
+            196,
+            280
+          ],
+          "source_bounds": [
+            39,
+            119,
+            406,
+            575
+          ],
+          "old_bounds": [
+            36,
+            71,
+            184,
+            281
+          ],
+          "index": 0
+        },
+        {
+          "anchor_top_left_px": [
+            144,
+            352
+          ],
+          "removed_isolated_native_pixels": 0,
+          "placed_bounds": [
+            20,
+            96,
+            192,
+            256
+          ],
+          "source_bounds": [
+            63,
+            187,
+            384,
+            509
+          ],
+          "old_bounds": [
+            40,
+            97,
+            176,
+            255
+          ],
+          "index": 1
+        },
+        {
+          "anchor_top_left_px": [
+            96,
+            352
+          ],
+          "removed_isolated_native_pixels": 0,
+          "placed_bounds": [
+            28,
+            72,
+            224,
+            280
+          ],
+          "source_bounds": [
+            21,
+            121,
+            463,
+            575
+          ],
+          "old_bounds": [
+            23,
+            71,
+            210,
+            281
+          ],
+          "index": 2
+        },
+        {
+          "anchor_top_left_px": [
+            120,
+            352
+          ],
+          "removed_isolated_native_pixels": 0,
+          "placed_bounds": [
+            8,
+            72,
+            236,
+            280
+          ],
+          "source_bounds": [
+            18,
+            123,
+            481,
+            573
+          ],
+          "old_bounds": [
+            12,
+            71,
+            232,
+            281
+          ],
+          "index": 3
+        }
+      ],
+      "frame_count": 4,
+      "native_cell": [
+        64,
+        96
+      ],
+      "width": 1024,
+      "cell_size": [
+        256,
+        384
+      ],
+      "anchor_policy": "existing torso alignment; foot baseline y=352",
+      "file": "TrapMap/worker_dig_archer.png",
+      "frame_order": [
+        "plant_shovel",
+        "push_shovel",
+        "lift_soil",
+        "throw_soil"
+      ],
+      "pivot_top_left_px": [
+        128,
+        352
+      ]
+    },
+    {
+      "source": "Game/Assets/_Project/Art/UI/Resources/TrapMap/worker_dig_gunner.png",
+      "height": 384,
+      "id": "worker_dig_gunner",
+      "preview": "previews/worker_dig_gunner_4x.png",
+      "frames": [
+        {
+          "anchor_top_left_px": [
+            104,
+            352
+          ],
+          "removed_isolated_native_pixels": 0,
+          "placed_bounds": [
+            20,
+            56,
+            232,
+            296
+          ],
+          "source_bounds": [
+            34,
+            102,
+            467,
+            594
+          ],
+          "old_bounds": [
+            15,
+            55,
+            226,
+            297
+          ],
+          "index": 0
+        },
+        {
+          "anchor_top_left_px": [
+            96,
+            352
+          ],
+          "removed_isolated_native_pixels": 0,
+          "placed_bounds": [
+            28,
+            60,
+            200,
+            292
+          ],
+          "source_bounds": [
+            67,
+            102,
+            404,
+            594
+          ],
+          "old_bounds": [
+            33,
+            60,
+            189,
+            292
+          ],
+          "index": 1
+        },
+        {
+          "anchor_top_left_px": [
+            96,
+            352
+          ],
+          "removed_isolated_native_pixels": 0,
+          "placed_bounds": [
+            4,
+            56,
+            224,
+            296
+          ],
+          "source_bounds": [
+            29,
+            102,
+            452,
+            594
+          ],
+          "old_bounds": [
+            23,
+            57,
+            210,
+            295
+          ],
+          "index": 2
+        },
+        {
+          "anchor_top_left_px": [
+            132,
+            352
+          ],
+          "removed_isolated_native_pixels": 0,
+          "placed_bounds": [
+            16,
+            56,
+            236,
+            296
+          ],
+          "source_bounds": [
+            14,
+            102,
+            476,
+            594
+          ],
+          "old_bounds": [
+            12,
+            54,
+            232,
+            298
+          ],
+          "index": 3
+        }
+      ],
+      "frame_count": 4,
+      "native_cell": [
+        64,
+        96
+      ],
+      "width": 1024,
+      "cell_size": [
+        256,
+        384
+      ],
+      "anchor_policy": "existing torso alignment; foot baseline y=352",
+      "file": "TrapMap/worker_dig_gunner.png",
+      "frame_order": [
+        "plant_shovel",
+        "push_shovel",
+        "lift_soil",
+        "throw_soil"
+      ],
+      "pivot_top_left_px": [
+        128,
+        352
+      ]
+    },
+    {
+      "source": "Game/Assets/_Project/Art/UI/Resources/TrapMap/worker_earth_archer.png",
+      "height": 384,
+      "id": "worker_earth_archer",
+      "preview": "previews/worker_earth_archer_4x.png",
+      "frames": [
+        {
+          "anchor_top_left_px": [
+            136,
+            352
+          ],
+          "removed_isolated_native_pixels": 0,
+          "placed_bounds": [
+            68,
+            56,
+            164,
+            296
+          ],
+          "source_bounds": [
+            69,
+            84,
+            358,
+            644
+          ],
+          "old_bounds": [
+            50,
+            56,
+            156,
+            296
+          ],
+          "index": 0
+        },
+        {
+          "anchor_top_left_px": [
+            128,
+            352
+          ],
+          "removed_isolated_native_pixels": 0,
+          "placed_bounds": [
+            60,
+            52,
+            164,
+            300
+          ],
+          "source_bounds": [
+            91,
+            84,
+            348,
+            644
+          ],
+          "old_bounds": [
+            49,
+            52,
+            157,
+            300
+          ],
+          "index": 1
+        },
+        {
+          "anchor_top_left_px": [
+            120,
+            352
+          ],
+          "removed_isolated_native_pixels": 0,
+          "placed_bounds": [
+            44,
+            52,
+            168,
+            300
+          ],
+          "source_bounds": [
+            80,
+            84,
+            361,
+            644
+          ],
+          "old_bounds": [
+            48,
+            52,
+            160,
+            300
+          ],
+          "index": 2
+        },
+        {
+          "anchor_top_left_px": [
+            124,
+            352
+          ],
+          "removed_isolated_native_pixels": 0,
+          "placed_bounds": [
+            52,
+            52,
+            164,
+            300
+          ],
+          "source_bounds": [
+            100,
+            84,
+            349,
+            643
+          ],
+          "old_bounds": [
+            50,
+            53,
+            156,
+            299
+          ],
+          "index": 3
+        }
+      ],
+      "frame_count": 4,
+      "native_cell": [
+        64,
+        96
+      ],
+      "width": 1024,
+      "cell_size": [
+        256,
+        384
+      ],
+      "anchor_policy": "existing torso alignment; foot baseline y=352",
+      "file": "TrapMap/worker_earth_archer.png",
+      "frame_order": [
+        "carry_step_1",
+        "carry_step_2",
+        "carry_step_3",
+        "carry_step_4"
+      ],
+      "pivot_top_left_px": [
+        128,
+        352
+      ]
+    },
+    {
+      "source": "Game/Assets/_Project/Art/UI/Resources/TrapMap/worker_earth_gunner.png",
+      "height": 384,
+      "id": "worker_earth_gunner",
+      "preview": "previews/worker_earth_gunner_4x.png",
+      "frames": [
+        {
+          "anchor_top_left_px": [
+            124,
+            352
+          ],
+          "removed_isolated_native_pixels": 0,
+          "placed_bounds": [
+            40,
+            56,
+            180,
+            296
+          ],
+          "source_bounds": [
+            61,
+            101,
+            375,
+            612
+          ],
+          "old_bounds": [
+            43,
+            57,
+            169,
+            295
+          ],
+          "index": 0
+        },
+        {
+          "anchor_top_left_px": [
+            140,
+            352
+          ],
+          "removed_isolated_native_pixels": 0,
+          "placed_bounds": [
+            72,
+            56,
+            164,
+            296
+          ],
+          "source_bounds": [
+            111,
+            101,
+            343,
+            612
+          ],
+          "old_bounds": [
+            30,
+            55,
+            196,
+            297
+          ],
+          "index": 1
+        },
+        {
+          "anchor_top_left_px": [
+            120,
+            352
+          ],
+          "removed_isolated_native_pixels": 0,
+          "placed_bounds": [
+            48,
+            52,
+            172,
+            300
+          ],
+          "source_bounds": [
+            90,
+            101,
+            351,
+            612
+          ],
+          "old_bounds": [
+            48,
+            52,
+            160,
+            300
+          ],
+          "index": 2
+        },
+        {
+          "anchor_top_left_px": [
+            120,
+            352
+          ],
+          "removed_isolated_native_pixels": 0,
+          "placed_bounds": [
+            48,
+            56,
+            172,
+            296
+          ],
+          "source_bounds": [
+            109,
+            101,
+            352,
+            612
+          ],
+          "old_bounds": [
+            49,
+            54,
+            157,
+            298
+          ],
+          "index": 3
+        }
+      ],
+      "frame_count": 4,
+      "native_cell": [
+        64,
+        96
+      ],
+      "width": 1024,
+      "cell_size": [
+        256,
+        384
+      ],
+      "anchor_policy": "existing torso alignment; foot baseline y=352",
+      "file": "TrapMap/worker_earth_gunner.png",
+      "frame_order": [
+        "carry_step_1",
+        "carry_step_2",
+        "carry_step_3",
+        "carry_step_4"
+      ],
+      "pivot_top_left_px": [
+        128,
+        352
+      ]
+    },
+    {
+      "source": "Game/Assets/_Project/Art/UI/Resources/TrapMap/worker_log_archer.png",
+      "height": 384,
+      "id": "worker_log_archer",
+      "preview": "previews/worker_log_archer_4x.png",
+      "frames": [
+        {
+          "anchor_top_left_px": [
+            136,
+            352
+          ],
+          "removed_isolated_native_pixels": 0,
+          "placed_bounds": [
+            36,
+            68,
+            188,
+            284
+          ],
+          "source_bounds": [
+            47,
+            120,
+            396,
+            592
+          ],
+          "old_bounds": [
+            35,
+            67,
+            186,
+            285
+          ],
+          "index": 0
+        },
+        {
+          "anchor_top_left_px": [
+            136,
+            352
+          ],
+          "removed_isolated_native_pixels": 0,
+          "placed_bounds": [
+            32,
+            64,
+            192,
+            288
+          ],
+          "source_bounds": [
+            60,
+            120,
+            399,
+            593
+          ],
+          "old_bounds": [
+            36,
+            63,
+            184,
+            289
+          ],
+          "index": 1
+        },
+        {
+          "anchor_top_left_px": [
+            132,
+            352
+          ],
+          "removed_isolated_native_pixels": 0,
+          "placed_bounds": [
+            32,
+            64,
+            192,
+            288
+          ],
+          "source_bounds": [
+            73,
+            120,
+            396,
+            592
+          ],
+          "old_bounds": [
+            35,
+            65,
+            186,
+            287
+          ],
+          "index": 2
+        },
+        {
+          "anchor_top_left_px": [
+            132,
+            352
+          ],
+          "removed_isolated_native_pixels": 0,
+          "placed_bounds": [
+            32,
+            60,
+            196,
+            292
+          ],
+          "source_bounds": [
+            80,
+            120,
+            396,
+            593
+          ],
+          "old_bounds": [
+            33,
+            60,
+            190,
+            292
+          ],
+          "index": 3
+        }
+      ],
+      "frame_count": 4,
+      "native_cell": [
+        64,
+        96
+      ],
+      "width": 1024,
+      "cell_size": [
+        256,
+        384
+      ],
+      "anchor_policy": "existing torso alignment; foot baseline y=352",
+      "file": "TrapMap/worker_log_archer.png",
+      "frame_order": [
+        "carry_step_1",
+        "carry_step_2",
+        "carry_step_3",
+        "carry_step_4"
+      ],
+      "pivot_top_left_px": [
+        128,
+        352
+      ]
+    },
+    {
+      "source": "Game/Assets/_Project/Art/UI/Resources/TrapMap/worker_log_gunner.png",
+      "height": 384,
+      "id": "worker_log_gunner",
+      "preview": "previews/worker_log_gunner_4x.png",
+      "frames": [
+        {
+          "anchor_top_left_px": [
+            136,
+            352
+          ],
+          "removed_isolated_native_pixels": 0,
+          "placed_bounds": [
+            36,
+            60,
+            200,
+            292
+          ],
+          "source_bounds": [
+            52,
+            101,
+            419,
+            607
+          ],
+          "old_bounds": [
+            31,
+            60,
+            193,
+            292
+          ],
+          "index": 0
+        },
+        {
+          "anchor_top_left_px": [
+            136,
+            352
+          ],
+          "removed_isolated_native_pixels": 0,
+          "placed_bounds": [
+            36,
+            64,
+            196,
+            288
+          ],
+          "source_bounds": [
+            55,
+            100,
+            415,
+            608
+          ],
+          "old_bounds": [
+            30,
+            62,
+            195,
+            290
+          ],
+          "index": 1
+        },
+        {
+          "anchor_top_left_px": [
+            116,
+            352
+          ],
+          "removed_isolated_native_pixels": 0,
+          "placed_bounds": [
+            12,
+            56,
+            204,
+            296
+          ],
+          "source_bounds": [
+            46,
+            100,
+            416,
+            608
+          ],
+          "old_bounds": [
+            29,
+            57,
+            197,
+            295
+          ],
+          "index": 2
+        },
+        {
+          "anchor_top_left_px": [
+            132,
+            352
+          ],
+          "removed_isolated_native_pixels": 0,
+          "placed_bounds": [
+            32,
+            60,
+            200,
+            292
+          ],
+          "source_bounds": [
+            49,
+            100,
+            418,
+            608
+          ],
+          "old_bounds": [
+            31,
+            60,
+            194,
+            292
+          ],
+          "index": 3
+        }
+      ],
+      "frame_count": 4,
+      "native_cell": [
+        64,
+        96
+      ],
+      "width": 1024,
+      "cell_size": [
+        256,
+        384
+      ],
+      "anchor_policy": "existing torso alignment; foot baseline y=352",
+      "file": "TrapMap/worker_log_gunner.png",
+      "frame_order": [
+        "carry_step_1",
+        "carry_step_2",
+        "carry_step_3",
+        "carry_step_4"
+      ],
+      "pivot_top_left_px": [
+        128,
+        352
+      ]
+    }
+  ],
+  "generator": "built-in image_gen"
+}

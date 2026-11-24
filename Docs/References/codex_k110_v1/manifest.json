@@ -1,0 +1,1019 @@
+{
+  "card": "K-110",
+  "version": 1,
+  "status": "assets_only_integration_pending",
+  "generation": "built-in image_gen; prompts.json; native extraction and nearest-neighbor packing",
+  "coordinate_system": "top-left pixels; Unity normalized pivot = [x/width,1-y/height]",
+  "worker_native_cell": [
+    96,
+    128
+  ],
+  "worker_game_cell": [
+    288,
+    384
+  ],
+  "worker_foot_native": [
+    48,
+    120
+  ],
+  "worker_foot_game": [
+    144,
+    360
+  ],
+  "worker_unity_pivot": [
+    0.5,
+    0.0625
+  ],
+  "human_standing_height": 73,
+  "variants": 2,
+  "scale": 3,
+  "frame_direction": "left_to_right",
+  "worker_facing": "right; mirror on X for left-facing placement",
+  "replacement": "none; no existing tower worker sheets found",
+  "tower_native_cell": [
+    384,
+    320
+  ],
+  "tower_game_cell": [
+    1152,
+    960
+  ],
+  "tower_foot_native": [
+    240,
+    288
+  ],
+  "tower_unity_pivot": [
+    0.625,
+    0.1
+  ],
+  "render_order": [
+    "burst behind lamp",
+    "tower_base",
+    "workers",
+    "optional capstan_contact_overlay",
+    "tower_foreground",
+    "hero"
+  ],
+  "rest_playback": "play once then hold frame 3; review repeats only to inspect all frames",
+  "push_playback": "8 frames at 8fps; repeat for commanded six-second turn",
+  "references": {
+    "battle": {
+      "path": "Docs/References/beacon_game_20261022/05_pf_night_clean.png",
+      "sha256": "8233352f29cfd95d16c493727a3b3afb95c5ecddb8a74c18e3b76f6f03cebb6b"
+    },
+    "day": {
+      "path": "Docs/References/beacon_game_20261022/01_pf_day_clean.png",
+      "sha256": "16d8c11be972c7eb4cf8b7767be06445e1f13beda9b3d2e4f56b7463ec82eda6"
+    },
+    "map": {
+      "path": "Docs/References/beacon_game_20261022/08_pf_map_side.png",
+      "sha256": "f1f40bb24610c97a5b18e63b34dbb4c65303a36e8a6129bbdf61436b061ec97b"
+    },
+    "ally": {
+      "path": "Game/Assets/_Project/Art/Characters/Fire/archer_fire.png",
+      "sha256": "f425d7e0d3191df7f9db66843112b86138c386f8e3984c221527a6c606702288"
+    },
+    "hero": {
+      "path": "Docs/References/codex_k070_v1/hero_native_96x128.png",
+      "sha256": "aafa47917a8674262efb91a47bd881bce0c84bb1749c9c8d872e854c9630e283"
+    },
+    "oldTower": {
+      "path": "Docs/References/codex_k102_v1/native/beacon_tower_lit.png",
+      "sha256": "789151fb970111aa76624c9df2a276bca9a311f391192b55c95e8ee459376f47"
+    }
+  },
+  "limitations": [
+    "Provided low battle camera does not show courtyard centre; battle mockup foreground placement is an illustrative cutaway, not validated world position.",
+    "Architecture enlarges K-102 bowl/base vocabulary to fit human-scale workers.",
+    "Contact overlay is static artwork; actual rotating capstan and collision/stair traversal belong to Claude integration.",
+    "No Unity import, Play, material or camera validation."
+  ],
+  "assets": [
+    {
+      "file": "native/worker_a_idle.png",
+      "size": [
+        384,
+        128
+      ],
+      "cell": [
+        96,
+        128
+      ],
+      "frames": 4,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "filter": "Point",
+      "alpha": "Straight RGBA",
+      "role": "worker",
+      "variant": "a",
+      "motion": "idle",
+      "fps": 4,
+      "loop": true,
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "center_x": 48,
+      "frame_labels": [
+        "숨 들이쉬기",
+        "가슴 펴기",
+        "숨 내쉬기",
+        "자세 회복"
+      ]
+    },
+    {
+      "file": "game/worker_a_idle.png",
+      "size": [
+        1152,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "frames": 4,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "filter": "Point",
+      "alpha": "Straight RGBA",
+      "role": "worker",
+      "variant": "a",
+      "motion": "idle",
+      "fps": 4,
+      "loop": true,
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "center_x": 48,
+      "frame_labels": [
+        "숨 들이쉬기",
+        "가슴 펴기",
+        "숨 내쉬기",
+        "자세 회복"
+      ]
+    },
+    {
+      "file": "previews/worker_a_idle_4x.png",
+      "size": [
+        1536,
+        512
+      ],
+      "role": "preview",
+      "source": "native/worker_a_idle.png"
+    },
+    {
+      "file": "native/worker_a_push.png",
+      "size": [
+        768,
+        128
+      ],
+      "cell": [
+        96,
+        128
+      ],
+      "frames": 8,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "filter": "Point",
+      "alpha": "Straight RGBA",
+      "role": "worker",
+      "variant": "a",
+      "motion": "push",
+      "fps": 8,
+      "loop": true,
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "center_x": 48,
+      "frame_labels": [
+        "힘 받기",
+        "밀기 시작",
+        "왼발 지지",
+        "체중 이동",
+        "오른발 전진",
+        "버티기",
+        "밀어내기",
+        "다음 보폭 준비"
+      ]
+    },
+    {
+      "file": "game/worker_a_push.png",
+      "size": [
+        2304,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "frames": 8,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "filter": "Point",
+      "alpha": "Straight RGBA",
+      "role": "worker",
+      "variant": "a",
+      "motion": "push",
+      "fps": 8,
+      "loop": true,
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "center_x": 48,
+      "frame_labels": [
+        "힘 받기",
+        "밀기 시작",
+        "왼발 지지",
+        "체중 이동",
+        "오른발 전진",
+        "버티기",
+        "밀어내기",
+        "다음 보폭 준비"
+      ]
+    },
+    {
+      "file": "previews/worker_a_push_4x.png",
+      "size": [
+        3072,
+        512
+      ],
+      "role": "preview",
+      "source": "native/worker_a_push.png"
+    },
+    {
+      "file": "native/worker_a_rest.png",
+      "size": [
+        384,
+        128
+      ],
+      "cell": [
+        96,
+        128
+      ],
+      "frames": 4,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "filter": "Point",
+      "alpha": "Straight RGBA",
+      "role": "worker",
+      "variant": "a",
+      "motion": "rest",
+      "fps": 3,
+      "loop": false,
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "center_x": 48,
+      "frame_labels": [
+        "숨 고르기",
+        "땀 닦기",
+        "주먹 환호",
+        "휴식"
+      ]
+    },
+    {
+      "file": "game/worker_a_rest.png",
+      "size": [
+        1152,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "frames": 4,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "filter": "Point",
+      "alpha": "Straight RGBA",
+      "role": "worker",
+      "variant": "a",
+      "motion": "rest",
+      "fps": 3,
+      "loop": false,
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "center_x": 48,
+      "frame_labels": [
+        "숨 고르기",
+        "땀 닦기",
+        "주먹 환호",
+        "휴식"
+      ]
+    },
+    {
+      "file": "previews/worker_a_rest_4x.png",
+      "size": [
+        1536,
+        512
+      ],
+      "role": "preview",
+      "source": "native/worker_a_rest.png"
+    },
+    {
+      "file": "native/worker_b_idle.png",
+      "size": [
+        384,
+        128
+      ],
+      "cell": [
+        96,
+        128
+      ],
+      "frames": 4,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "filter": "Point",
+      "alpha": "Straight RGBA",
+      "role": "worker",
+      "variant": "b",
+      "motion": "idle",
+      "fps": 4,
+      "loop": true,
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "center_x": 48,
+      "frame_labels": [
+        "숨 들이쉬기",
+        "가슴 펴기",
+        "숨 내쉬기",
+        "자세 회복"
+      ]
+    },
+    {
+      "file": "game/worker_b_idle.png",
+      "size": [
+        1152,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "frames": 4,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "filter": "Point",
+      "alpha": "Straight RGBA",
+      "role": "worker",
+      "variant": "b",
+      "motion": "idle",
+      "fps": 4,
+      "loop": true,
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "center_x": 48,
+      "frame_labels": [
+        "숨 들이쉬기",
+        "가슴 펴기",
+        "숨 내쉬기",
+        "자세 회복"
+      ]
+    },
+    {
+      "file": "previews/worker_b_idle_4x.png",
+      "size": [
+        1536,
+        512
+      ],
+      "role": "preview",
+      "source": "native/worker_b_idle.png"
+    },
+    {
+      "file": "native/worker_b_push.png",
+      "size": [
+        768,
+        128
+      ],
+      "cell": [
+        96,
+        128
+      ],
+      "frames": 8,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "filter": "Point",
+      "alpha": "Straight RGBA",
+      "role": "worker",
+      "variant": "b",
+      "motion": "push",
+      "fps": 8,
+      "loop": true,
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "center_x": 48,
+      "frame_labels": [
+        "힘 받기",
+        "밀기 시작",
+        "왼발 지지",
+        "체중 이동",
+        "오른발 전진",
+        "버티기",
+        "밀어내기",
+        "다음 보폭 준비"
+      ]
+    },
+    {
+      "file": "game/worker_b_push.png",
+      "size": [
+        2304,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "frames": 8,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "filter": "Point",
+      "alpha": "Straight RGBA",
+      "role": "worker",
+      "variant": "b",
+      "motion": "push",
+      "fps": 8,
+      "loop": true,
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "center_x": 48,
+      "frame_labels": [
+        "힘 받기",
+        "밀기 시작",
+        "왼발 지지",
+        "체중 이동",
+        "오른발 전진",
+        "버티기",
+        "밀어내기",
+        "다음 보폭 준비"
+      ]
+    },
+    {
+      "file": "previews/worker_b_push_4x.png",
+      "size": [
+        3072,
+        512
+      ],
+      "role": "preview",
+      "source": "native/worker_b_push.png"
+    },
+    {
+      "file": "native/worker_b_rest.png",
+      "size": [
+        384,
+        128
+      ],
+      "cell": [
+        96,
+        128
+      ],
+      "frames": 4,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "filter": "Point",
+      "alpha": "Straight RGBA",
+      "role": "worker",
+      "variant": "b",
+      "motion": "rest",
+      "fps": 3,
+      "loop": false,
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "center_x": 48,
+      "frame_labels": [
+        "숨 고르기",
+        "땀 닦기",
+        "주먹 환호",
+        "휴식"
+      ]
+    },
+    {
+      "file": "game/worker_b_rest.png",
+      "size": [
+        1152,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "frames": 4,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "filter": "Point",
+      "alpha": "Straight RGBA",
+      "role": "worker",
+      "variant": "b",
+      "motion": "rest",
+      "fps": 3,
+      "loop": false,
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "center_x": 48,
+      "frame_labels": [
+        "숨 고르기",
+        "땀 닦기",
+        "주먹 환호",
+        "휴식"
+      ]
+    },
+    {
+      "file": "previews/worker_b_rest_4x.png",
+      "size": [
+        1536,
+        512
+      ],
+      "role": "preview",
+      "source": "native/worker_b_rest.png"
+    },
+    {
+      "file": "native/tower_base.png",
+      "size": [
+        384,
+        320
+      ],
+      "cell": [
+        384,
+        320
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "filter": "Point",
+      "alpha": "Straight RGBA",
+      "role": "tower_base",
+      "pivot_px": [
+        240,
+        288
+      ],
+      "baseline_y": 288,
+      "attach_lamp_px": [
+        250,
+        72
+      ],
+      "door_px": [
+        160,
+        278
+      ],
+      "stair_top_px": [
+        144,
+        132
+      ],
+      "stair_bottom_px": [
+        63,
+        287
+      ]
+    },
+    {
+      "file": "game/tower_base.png",
+      "size": [
+        1152,
+        960
+      ],
+      "cell": [
+        1152,
+        960
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "filter": "Point",
+      "alpha": "Straight RGBA",
+      "role": "tower_base",
+      "pivot_px": [
+        720,
+        864
+      ],
+      "baseline_y": 864,
+      "attach_lamp_px": [
+        250,
+        72
+      ],
+      "door_px": [
+        160,
+        278
+      ],
+      "stair_top_px": [
+        144,
+        132
+      ],
+      "stair_bottom_px": [
+        63,
+        287
+      ]
+    },
+    {
+      "file": "previews/tower_base_4x.png",
+      "size": [
+        1536,
+        1280
+      ],
+      "role": "preview",
+      "source": "native/tower_base.png"
+    },
+    {
+      "file": "native/tower_foreground.png",
+      "size": [
+        384,
+        320
+      ],
+      "cell": [
+        384,
+        320
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "filter": "Point",
+      "alpha": "Straight RGBA",
+      "role": "occlusion_overlay",
+      "pivot_px": [
+        240,
+        288
+      ]
+    },
+    {
+      "file": "game/tower_foreground.png",
+      "size": [
+        1152,
+        960
+      ],
+      "cell": [
+        1152,
+        960
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "filter": "Point",
+      "alpha": "Straight RGBA",
+      "role": "occlusion_overlay",
+      "pivot_px": [
+        720,
+        864
+      ]
+    },
+    {
+      "file": "previews/tower_foreground_4x.png",
+      "size": [
+        1536,
+        1280
+      ],
+      "role": "preview",
+      "source": "native/tower_foreground.png"
+    },
+    {
+      "file": "native/capstan_contact_overlay.png",
+      "size": [
+        384,
+        320
+      ],
+      "cell": [
+        384,
+        320
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "filter": "Point",
+      "alpha": "Straight RGBA",
+      "role": "capstan_overlay",
+      "pivot_px": [
+        240,
+        288
+      ],
+      "note": "기본 탑에 이미 장치가 포함되어 있다. 손·막대 접촉을 보정하는 앞쪽 복제 레이어."
+    },
+    {
+      "file": "game/capstan_contact_overlay.png",
+      "size": [
+        1152,
+        960
+      ],
+      "cell": [
+        1152,
+        960
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "filter": "Point",
+      "alpha": "Straight RGBA",
+      "role": "capstan_overlay",
+      "pivot_px": [
+        720,
+        864
+      ],
+      "note": "기본 탑에 이미 장치가 포함되어 있다. 손·막대 접촉을 보정하는 앞쪽 복제 레이어."
+    },
+    {
+      "file": "previews/capstan_contact_overlay_4x.png",
+      "size": [
+        1536,
+        1280
+      ],
+      "role": "preview",
+      "source": "native/capstan_contact_overlay.png"
+    },
+    {
+      "file": "native/light_burst_low.png",
+      "size": [
+        128,
+        128
+      ],
+      "cell": [
+        128,
+        128
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "filter": "Point",
+      "alpha": "Straight RGBA",
+      "role": "additive_burst",
+      "pivot_px": [
+        64,
+        64
+      ],
+      "blend": "SrcAlpha One",
+      "intensity": "low",
+      "attach_to": "tower_base lamp anchor",
+      "attach_to_native_px": [
+        250,
+        72
+      ]
+    },
+    {
+      "file": "game/light_burst_low.png",
+      "size": [
+        384,
+        384
+      ],
+      "cell": [
+        384,
+        384
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "filter": "Point",
+      "alpha": "Straight RGBA",
+      "role": "additive_burst",
+      "pivot_px": [
+        192,
+        192
+      ],
+      "blend": "SrcAlpha One",
+      "intensity": "low",
+      "attach_to": "tower_base lamp anchor",
+      "attach_to_native_px": [
+        250,
+        72
+      ]
+    },
+    {
+      "file": "previews/light_burst_low_4x.png",
+      "size": [
+        512,
+        512
+      ],
+      "role": "preview",
+      "source": "native/light_burst_low.png"
+    },
+    {
+      "file": "native/light_burst_normal.png",
+      "size": [
+        128,
+        128
+      ],
+      "cell": [
+        128,
+        128
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "filter": "Point",
+      "alpha": "Straight RGBA",
+      "role": "additive_burst",
+      "pivot_px": [
+        64,
+        64
+      ],
+      "blend": "SrcAlpha One",
+      "intensity": "normal",
+      "attach_to": "tower_base lamp anchor",
+      "attach_to_native_px": [
+        250,
+        72
+      ]
+    },
+    {
+      "file": "game/light_burst_normal.png",
+      "size": [
+        384,
+        384
+      ],
+      "cell": [
+        384,
+        384
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "filter": "Point",
+      "alpha": "Straight RGBA",
+      "role": "additive_burst",
+      "pivot_px": [
+        192,
+        192
+      ],
+      "blend": "SrcAlpha One",
+      "intensity": "normal",
+      "attach_to": "tower_base lamp anchor",
+      "attach_to_native_px": [
+        250,
+        72
+      ]
+    },
+    {
+      "file": "previews/light_burst_normal_4x.png",
+      "size": [
+        512,
+        512
+      ],
+      "role": "preview",
+      "source": "native/light_burst_normal.png"
+    },
+    {
+      "file": "native/light_burst_high.png",
+      "size": [
+        128,
+        128
+      ],
+      "cell": [
+        128,
+        128
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "filter": "Point",
+      "alpha": "Straight RGBA",
+      "role": "additive_burst",
+      "pivot_px": [
+        64,
+        64
+      ],
+      "blend": "SrcAlpha One",
+      "intensity": "high",
+      "attach_to": "tower_base lamp anchor",
+      "attach_to_native_px": [
+        250,
+        72
+      ]
+    },
+    {
+      "file": "game/light_burst_high.png",
+      "size": [
+        384,
+        384
+      ],
+      "cell": [
+        384,
+        384
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "filter": "Point",
+      "alpha": "Straight RGBA",
+      "role": "additive_burst",
+      "pivot_px": [
+        192,
+        192
+      ],
+      "blend": "SrcAlpha One",
+      "intensity": "high",
+      "attach_to": "tower_base lamp anchor",
+      "attach_to_native_px": [
+        250,
+        72
+      ]
+    },
+    {
+      "file": "previews/light_burst_high_4x.png",
+      "size": [
+        512,
+        512
+      ],
+      "role": "preview",
+      "source": "native/light_burst_high.png"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "id": "tower_square_rubble",
+  "label": "사각 포탑 · 잔해",
+  "kind": "cutout_reference",
+  "family": "tower_square",
+  "state": "rubble",
+  "file": "tower_square_rubble/sprite.png",
+  "size": [
+    256,
+    384
+  ],
+  "pivotPixelsTopLeft": [
+    128,
+    352
+  ],
+  "pivotUnityNormalized": [
+    0.5,
+    0.08333333333333333
+  ],
+  "sourceSize": [
+    1024,
+    1536
+  ],
+  "sourceCrop": [
+    32,
+    809,
+    992,
+    1459
+  ],
+  "sharedSourceScale": 0.21940298507462686,
+  "packedBodySize": [
+    211,
+    143
+  ],
+  "pixelsPerMeter": null,
+  "normalMapIncluded": false,
+  "sha256": "1a8a2bc1625a42fa002f5c7b91ab154726739fcdc7dc8805232d03a3070931e2",
+  "sourceSha256": "5cd5040f25276213aaf27bbe5be2375bd4592b0058c7e540377bdacabb989eb5"
+}

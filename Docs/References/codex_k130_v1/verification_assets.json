@@ -1,0 +1,114 @@
+{
+  "poster_title": {
+    "text": "빛을 잇는 자들",
+    "syllables": [
+      "빛",
+      "을",
+      "잇",
+      "는",
+      "자",
+      "들"
+    ],
+    "korean_bounds_native": [
+      72,
+      14,
+      288,
+      47
+    ],
+    "bottom_native": 67,
+    "foreground": [
+      255,
+      237,
+      195
+    ],
+    "minimum_actual_background_contrast": 16.5189,
+    "font": "맑은 고딕 굵게, 1비트 마스크, 최근접 확대"
+  },
+  "box_title": {
+    "text": "빛을 잇는 자들",
+    "syllables": [
+      "빛",
+      "을",
+      "잇",
+      "는",
+      "자",
+      "들"
+    ],
+    "korean_bounds_native": [
+      135,
+      14,
+      405,
+      55
+    ],
+    "bottom_native": 77,
+    "foreground": [
+      255,
+      237,
+      195
+    ],
+    "minimum_actual_background_contrast": 16.5138,
+    "font": "맑은 고딕 굵게, 1비트 마스크, 최근접 확대"
+  },
+  "title_contrast_ratio": 16.5138,
+  "all_pngs_srgb": true,
+  "all_png_dimensions_checked": true,
+  "all_store_pngs_opaque": true,
+  "pixel_grid_4x_exact": true,
+  "animation_and_feet": "정지 홍보물 · 발 기준선과 동작 없음",
+  "browser": "별도 브라우저 검사 결과 참조",
+  "transparent_msix_components_8_connected": {
+    "Square150x150Logo.scale-100.png": [
+      7544
+    ],
+    "Square150x150Logo.scale-200.png": [
+      30176
+    ],
+    "Square44x44Logo.scale-100.png": [
+      619
+    ],
+    "Square44x44Logo.scale-200.png": [
+      2476
+    ],
+    "Square44x44Logo.targetsize-16_altform-unplated.png": [
+      130
+    ],
+    "Square44x44Logo.targetsize-24_altform-unplated.png": [
+      278
+    ],
+    "Square44x44Logo.targetsize-256_altform-unplated.png": [
+      33323
+    ],
+    "Square44x44Logo.targetsize-32_altform-unplated.png": [
+      525
+    ],
+    "Square44x44Logo.targetsize-48_altform-unplated.png": [
+      1178
+    ],
+    "Square44x44Logo.targetsize-512_altform-unplated.png": [
+      133844
+    ],
+    "Square44x44Logo.targetsize-64_altform-unplated.png": [
+      2075
+    ],
+    "Square44x44Logo.targetsize-96_altform-unplated.png": [
+      4693
+    ],
+    "StoreLogo.scale-100.png": [
+      827
+    ],
+    "StoreLogo.scale-200.png": [
+      3308
+    ]
+  },
+  "transparent_msix_no_isolated_alpha_pixels": true,
+  "all_pngs_count_including_review_captures": 52,
+  "store_submission_count": 25,
+  "unity_run": false,
+  "git_writes": false,
+  "visual_checks": [
+    "?? ?? ??? ?? ?? ?? ??",
+    "????????? ?? ?? ?? ??",
+    "?? ??? ?? ??? ?? ? ?? ??",
+    "?? ????? ??????? ?? ??"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "tool": "built-in image_gen",
+  "initial_prompt": "Use case: stylized-concept. Asset: pre-rendered game environment panorama for Human Last Rampart, HD-2D chunky pixel art. Create ONE continuous extremely wide image, aspect 32:9, ideally 3840x1080. Fixed elevated camera looking downward about 30 degrees, warm late-afternoon daylight at dusk, medieval inner castle courtyard. Strong readable depth, broad cobblestone ground occupies bottom 55% of image, from far doorway foot row around 570 to near foreground around 1030. Ground is 8 metres deep, perspective paving lines and smaller far stones, large near stones. Upper half a long connected stone wall with FIVE visually distinct stations left to right: (1) left 8-20% wall repair, visibly damaged breach being patched with scaffolding, mason tools and cut stone piles, (2) 28-39% barracks, open arched door with visible bunks and recruiting table outside, burgundy banners, (3) 47-59% trap workshop with wooden workbench, clearly visible large iron spikes and barrels, (4) 66-79% merchant shop with sage-green canvas stall, supplies on counter, roof support posts, (5) 87-97% broad stairs leading up to wall battlements as exit. ALL five station entrances along far edge of walkable ground, all five must be present and clearly legible. Do not crowd the central wide open walkable floor. A few well separated foreground props at bottom edges and between stations for depth and occlusion: stone pillar at left edge, barrel pair near lower middle-left, single banner pole near middle-right, merchant roof posts. Leave free vertical walking lanes in front of all stations. Close-set castle towers above walls with warm sky, restrained soft atmospheric light, crisp square pixel clusters, dark outlines, simplified 3-tone material shading, slate gray stone, warm umber cobbles, golden light, muted moss green and burgundy cloth. Environment pixel vocabulary compatible with a chunky chibi hero, ~73 native pixels tall, gray hair black-and-gold officer coat. No people or characters, no UI, no lettering, no symbols floating over floor, no watermark, no borders, no panels. Not photorealistic, not smooth digital painting. Full bleed continuous panorama.",
+  "edit_prompt": "Edit this panorama to a much wider 32:9 panoramic composition, final intended 3840x1080 landscape. EXTEND THE LEFT AND RIGHT EDGES with extra courtyard, preserve all five existing stations, the foreground cobbled ground and foreground objects fully. Do not crop top or bottom and do not stretch objects. Inner castle pixel art game background, dusk warm daylight, camera looking downward30 degrees. All existing important stations must fit with more horizontal breathing room: wall repair, barracks open bunks, spike trap workshop, sage green merchant, wall stairs left to right. Keep ground open and deep from the far station fronts to near bottom. Crisp chunky square pixel clusters and 3-step shading, no smooth photo textures. No characters, no text, no UI. Make the image as wide as possible; a 32:9 strip panorama.",
+  "final_generator_size": [
+    2048,
+    768
+  ],
+  "final_crop": [
+    0,
+    160,
+    2048,
+    736
+  ],
+  "note_ko": "생성 도구가 두 번 모두 2048×768을 반환했다. 두 번째 원안에서 여분의 상부 풍경과 앞 가장자리를 잘라 32:9를 얻었다. 가로세로 비율 왜곡은 없다."
+}

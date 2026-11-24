@@ -1,0 +1,37 @@
+{
+  "id": "cannon_right",
+  "label": "대포 오른쪽 조준",
+  "size": [
+    512,
+    384
+  ],
+  "columns": 1,
+  "rows": 1,
+  "frames": 1,
+  "fps": 0,
+  "pivotTopLeft": [
+    256,
+    352
+  ],
+  "packedRect": [
+    87,
+    32,
+    338,
+    320
+  ],
+  "sourceRect": [
+    174,
+    106,
+    1211,
+    1087
+  ],
+  "sourceSha256": "efd14ec685fb7547e03bfa0eed02d39dac55c277d058703ef79d0eeb934441bf",
+  "packedSha256": "067acdc136bb40ea6e28bb071840653c14639fbc275fad2b58a9f938d75ac166",
+  "demoMuzzle": [
+    365,
+    55
+  ],
+  "demoMuzzleVerified": false,
+  "status": "user-review",
+  "unityPlayVerified": false
+}

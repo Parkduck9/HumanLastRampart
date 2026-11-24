@@ -1,0 +1,229 @@
+{
+  "passed": true,
+  "asset_count": 9,
+  "assets": [
+    {
+      "id": "muzzle_flash_right",
+      "passed": true,
+      "frames": [
+        {
+          "frame": 0,
+          "bounds": [
+            48,
+            77,
+            58,
+            84
+          ],
+          "alpha_levels": 2
+        },
+        {
+          "frame": 1,
+          "bounds": [
+            48,
+            75,
+            65,
+            86
+          ],
+          "alpha_levels": 2
+        },
+        {
+          "frame": 2,
+          "bounds": [
+            51,
+            76,
+            60,
+            84
+          ],
+          "alpha_levels": 2
+        }
+      ]
+    },
+    {
+      "id": "muzzle_flash_back",
+      "passed": true,
+      "frames": [
+        {
+          "frame": 0,
+          "bounds": [
+            44,
+            71,
+            52,
+            81
+          ],
+          "alpha_levels": 2
+        },
+        {
+          "frame": 1,
+          "bounds": [
+            43,
+            65,
+            54,
+            81
+          ],
+          "alpha_levels": 2
+        },
+        {
+          "frame": 2,
+          "bounds": [
+            44,
+            70,
+            52,
+            78
+          ],
+          "alpha_levels": 2
+        }
+      ]
+    },
+    {
+      "id": "smoke_up",
+      "passed": true,
+      "frames": [
+        {
+          "frame": 0,
+          "bounds": [
+            44,
+            74,
+            51,
+            82
+          ],
+          "alpha_levels": 2
+        },
+        {
+          "frame": 1,
+          "bounds": [
+            44,
+            71,
+            53,
+            79
+          ],
+          "alpha_levels": 2
+        },
+        {
+          "frame": 2,
+          "bounds": [
+            43,
+            63,
+            57,
+            75
+          ],
+          "alpha_levels": 2
+        },
+        {
+          "frame": 3,
+          "bounds": [
+            44,
+            56,
+            61,
+            70
+          ],
+          "alpha_levels": 2
+        }
+      ]
+    },
+    {
+      "id": "contact_shadow_small",
+      "passed": true,
+      "frames": [
+        {
+          "frame": 0,
+          "bounds": [
+            3,
+            13,
+            61,
+            51
+          ],
+          "alpha_levels": 128
+        }
+      ]
+    },
+    {
+      "id": "contact_shadow_medium",
+      "passed": true,
+      "frames": [
+        {
+          "frame": 0,
+          "bounds": [
+            7,
+            8,
+            121,
+            56
+          ],
+          "alpha_levels": 146
+        }
+      ]
+    },
+    {
+      "id": "contact_shadow_wall_5m",
+      "passed": true,
+      "frames": [
+        {
+          "frame": 0,
+          "bounds": [
+            10,
+            8,
+            182,
+            56
+          ],
+          "alpha_levels": 151
+        }
+      ]
+    },
+    {
+      "id": "contact_shadow_wall_7m",
+      "passed": true,
+      "frames": [
+        {
+          "frame": 0,
+          "bounds": [
+            14,
+            8,
+            242,
+            56
+          ],
+          "alpha_levels": 151
+        }
+      ]
+    },
+    {
+      "id": "dirt_skirt_5m",
+      "passed": true,
+      "frames": [
+        {
+          "frame": 0,
+          "bounds": [
+            6,
+            12,
+            186,
+            52
+          ],
+          "alpha_levels": 2
+        }
+      ]
+    },
+    {
+      "id": "dirt_skirt_7m",
+      "passed": true,
+      "frames": [
+        {
+          "frame": 0,
+          "bounds": [
+            6,
+            12,
+            250,
+            52
+          ],
+          "alpha_levels": 2
+        }
+      ]
+    }
+  ],
+  "foot_line": "N/A: VFX have no feet; y=120 reference grid preserved and no alpha reaches it.",
+  "socket_anchor_consistent": true,
+  "smoke_rises": true,
+  "no_disconnected_pixels": true,
+  "nearest_neighbor_3x_exact": true,
+  "previews_4x_exact": true,
+  "smooth_shadows": true,
+  "reference_files_unchanged": true,
+  "unity_tested": false
+}

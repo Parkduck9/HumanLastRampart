@@ -1,0 +1,37 @@
+{
+  "tool": "image_gen.imagegen",
+  "requests": [
+    {
+      "id": "tower_square_damaged",
+      "family": "tower_square",
+      "state": "damaged",
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-26518a2e-6b95-4a67-98e0-06f7bb3d87dc.png",
+      "prompt": "Edit this exact isolated fortress prop into its DAMAGED static state. Preserve identical camera, original full canvas size, object scale, base footprint and ground contact, stone hue, pixel art texture and cannon identity. Break a few crenellations and the upper right wall corner; add a localized breach and cracks, several fallen stones immediately at base. Building remains standing, recognizable as SAME original, cannon still present. Genuine transparent background, REMOVE ALL BACKGROUND HALO or haze completely, no shadow cloud/gradient, no scene/text, no fire/explosion/floating debris. Keep original full-canvas framing, do not enlarge the damaged building.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-f49daf5f-8258-4376-8871-95435d54f025.png"
+    },
+    {
+      "id": "tower_square_rubble",
+      "family": "tower_square",
+      "state": "rubble",
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-26518a2e-6b95-4a67-98e0-06f7bb3d87dc.png",
+      "prompt": "Edit this exact isolated fortress prop into its COLLAPSED RUBBLE static state. Same original full canvas size, original camera, material, physical scale and base footprint / ground contact, but original building has collapsed to a LOW mound of irregular broken gray stone and base foundation remnants with recognizable broken iron cannon barrel and wooden carriage remains. Rubble MUST remain much LOWER on original canvas than intact structure, mostly empty transparent space above, DO NOT zoom or enlarge to fill frame. Match pixel-art texture. Truly transparent background, REMOVE ALL HALO/haze, no floor slab/scene/shadow cloud, text, fire, smoke or explosion. One rubble object only.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-b34b10f1-9876-401e-982d-fea1e798ea3a.png"
+    },
+    {
+      "id": "battery_low_damaged",
+      "family": "battery_low",
+      "state": "damaged",
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-eca4c239-61d9-4ddd-8a1b-dbc3b52391f5.png",
+      "prompt": "Edit this exact isolated fortress prop into its DAMAGED static state. Preserve identical camera, original full canvas size, object scale, base footprint and ground contact, stone hue, pixel art texture and cannon identity. Break a few crenellations and the upper right wall corner; add a localized breach and cracks, several fallen stones immediately at base. Building remains standing, recognizable as SAME original, cannon still present. Genuine transparent background, REMOVE ALL BACKGROUND HALO or haze completely, no shadow cloud/gradient, no scene/text, no fire/explosion/floating debris. Keep original full-canvas framing, do not enlarge the damaged building.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-5dc3b3fe-f1bf-43f3-a2da-84787d4d1c75.png"
+    },
+    {
+      "id": "battery_low_rubble",
+      "family": "battery_low",
+      "state": "rubble",
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-eca4c239-61d9-4ddd-8a1b-dbc3b52391f5.png",
+      "prompt": "Edit this exact isolated fortress prop into its COLLAPSED RUBBLE static state. Same original full canvas size, original camera, material, physical scale and base footprint / ground contact, but original building has collapsed to a LOW mound of irregular broken gray stone and base foundation remnants with recognizable broken iron cannon barrel and wooden carriage remains. Rubble MUST remain much LOWER on original canvas than intact structure, mostly empty transparent space above, DO NOT zoom or enlarge to fill frame. Match pixel-art texture. Truly transparent background, REMOVE ALL HALO/haze, no floor slab/scene/shadow cloud, text, fire, smoke or explosion. One rubble object only.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-172b42da-8e43-4334-a2b7-de5712fcbcec.png"
+    }
+  ]
+}

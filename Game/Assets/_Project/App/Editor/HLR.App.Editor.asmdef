@@ -1,0 +1,19 @@
+{
+    "name": "HLR.App.Editor",
+    "rootNamespace": "HumanLastRampart.App.Editor",
+    "references": [
+        "HLR.Core",
+        "HLR.App"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

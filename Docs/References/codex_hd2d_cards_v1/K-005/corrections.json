@@ -1,0 +1,56 @@
+{
+  "tool": "image_gen.imagegen",
+  "requests": [
+    {
+      "id": "wall_stone",
+      "name": "성벽 바깥면",
+      "size": [
+        128,
+        128
+      ],
+      "meters": [
+        4,
+        4
+      ],
+      "surface": "weathered neutral gray medieval limestone ashlar, irregular large rectangular broad stones, quiet surfaces and shallow subdued mortar, faint sparse moss only in cracks",
+      "prompt": "Use case: stylized-concept / 3D pixel game material technical sheet. ONE material pair ONLY in a perfectly aligned two-panel sheet, overall landscape 2:1 canvas. LEFT EXACT HALF is square seamless diffuse ALBEDO texture; RIGHT EXACT HALF is square tangent-space NORMAL MAP of EXACT SAME stone/grass shapes and boundaries, not a different texture. Both panels fill entire respective halves without gutter, border, text, labels, lighting demo or objects. Surface: weathered neutral gray medieval limestone ashlar, irregular large rectangular broad stones, quiet surfaces and shallow subdued mortar, faint sparse moss only in cracks. Intended HD-2D background for low camera 3D fortress plus 2D pixel characters, crisp coarse pixels and readable restrained clusters, no photorealistic micrograin, no cartoon black lattice. Albedo neutral unlit no baked directional shadows or AO. Normal map flat baseline RGB128,128,255, shallow realistic surface relief, red right green UP Unity convention; most of broad faces near-flat blue. Both square panels must naturally repeat seamlessly on all four edges, irregular non-mirrored pattern, no kaleidoscope or frame. Native export 128x128 pixels represents 4x4m at32px/m; whole panel is only one continuous surface. For rectangular output capstones, keep seamless generic surface safe to resample rect. No full tower, wall silhouette, horizon, numbered legend, logos. Matching shape geometry in both panels is critical.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-3b906cde-bfd9-4f21-b19a-e966a28688d5.png",
+      "correctionPrompt": "Edit this exact TWO-PANEL material pair. Preserve material/style, panel arrangement, same stones and matching normal geometry. Fix SEAMLESS VERTICAL WRAP: top edge and bottom edge of EACH panel must meet naturally when this tile is repeated vertically, currently a seam line is visible because stone courses/mortar heights do not join. Continue the SAME stone row across top/bottom, with consistent gray tone and matching normal relief at the join. Also maintain left/right seamless wrap independently within each panel (left albedo/right normal are two separate matching tiles). No mirrored halves or kaleidoscope. Keep neutral-gray subtle worn stones, shallow blue normal on right, unlit color left. Exactly 2:1 landscape full sheet, exact halves, no borders or letters. No new scenery, floor slab, 3D wall, sample sphere, side panels or frame. Only improve tile continuity, retain geometry alignment of color and normal.",
+      "correctedSourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-7e76f77c-3cc6-40c2-bb70-5bf906429267.png"
+    },
+    {
+      "id": "parapet_top",
+      "name": "난간 윗면",
+      "size": [
+        128,
+        64
+      ],
+      "meters": [
+        4,
+        2
+      ],
+      "surface": "top surface of wide neutral gray limestone parapet capstones, long broad slabs with occasional natural chips and fine shallow joints, uniform stone material only without any silhouette edges or border",
+      "prompt": "Use case: stylized-concept / 3D pixel game material technical sheet. ONE material pair ONLY in a perfectly aligned two-panel sheet, overall landscape 2:1 canvas. LEFT EXACT HALF is square seamless diffuse ALBEDO texture; RIGHT EXACT HALF is square tangent-space NORMAL MAP of EXACT SAME stone/grass shapes and boundaries, not a different texture. Both panels fill entire respective halves without gutter, border, text, labels, lighting demo or objects. Surface: top surface of wide neutral gray limestone parapet capstones, long broad slabs with occasional natural chips and fine shallow joints, uniform stone material only without any silhouette edges or border. Intended HD-2D background for low camera 3D fortress plus 2D pixel characters, crisp coarse pixels and readable restrained clusters, no photorealistic micrograin, no cartoon black lattice. Albedo neutral unlit no baked directional shadows or AO. Normal map flat baseline RGB128,128,255, shallow realistic surface relief, red right green UP Unity convention; most of broad faces near-flat blue. Both square panels must naturally repeat seamlessly on all four edges, irregular non-mirrored pattern, no kaleidoscope or frame. Native export 128x64 pixels represents 4x2m at32px/m; whole panel is only one continuous surface. For rectangular output capstones, keep seamless generic surface safe to resample rect. No full tower, wall silhouette, horizon, numbered legend, logos. Matching shape geometry in both panels is critical.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-e832d146-a3c9-476e-9f04-66110175db58.png",
+      "correctionPrompt": "Edit this exact TWO-PANEL material pair. Preserve material/style, panel arrangement, same stones and matching normal geometry. Fix SEAMLESS VERTICAL WRAP: top edge and bottom edge of EACH panel must meet naturally when this tile is repeated vertically, currently a seam line is visible because stone courses/mortar heights do not join. Continue the SAME stone row across top/bottom, with consistent gray tone and matching normal relief at the join. Also maintain left/right seamless wrap independently within each panel (left albedo/right normal are two separate matching tiles). No mirrored halves or kaleidoscope. Keep neutral-gray subtle worn stones, shallow blue normal on right, unlit color left. Exactly 2:1 landscape full sheet, exact halves, no borders or letters. No new scenery, floor slab, 3D wall, sample sphere, side panels or frame. Only improve tile continuity, retain geometry alignment of color and normal.",
+      "correctedSourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-d2657c99-dda9-4f2d-afd5-3b1b6c197c86.png"
+    },
+    {
+      "id": "parapet_side",
+      "name": "난간 옆면",
+      "size": [
+        128,
+        64
+      ],
+      "meters": [
+        4,
+        2
+      ],
+      "surface": "neutral gray limestone side face of low parapet, two or three irregular horizontal courses of broad ashlar, subtle low contrast gray mortar, worn edges no thick black lines",
+      "prompt": "Use case: stylized-concept / 3D pixel game material technical sheet. ONE material pair ONLY in a perfectly aligned two-panel sheet, overall landscape 2:1 canvas. LEFT EXACT HALF is square seamless diffuse ALBEDO texture; RIGHT EXACT HALF is square tangent-space NORMAL MAP of EXACT SAME stone/grass shapes and boundaries, not a different texture. Both panels fill entire respective halves without gutter, border, text, labels, lighting demo or objects. Surface: neutral gray limestone side face of low parapet, two or three irregular horizontal courses of broad ashlar, subtle low contrast gray mortar, worn edges no thick black lines. Intended HD-2D background for low camera 3D fortress plus 2D pixel characters, crisp coarse pixels and readable restrained clusters, no photorealistic micrograin, no cartoon black lattice. Albedo neutral unlit no baked directional shadows or AO. Normal map flat baseline RGB128,128,255, shallow realistic surface relief, red right green UP Unity convention; most of broad faces near-flat blue. Both square panels must naturally repeat seamlessly on all four edges, irregular non-mirrored pattern, no kaleidoscope or frame. Native export 128x64 pixels represents 4x2m at32px/m; whole panel is only one continuous surface. For rectangular output capstones, keep seamless generic surface safe to resample rect. No full tower, wall silhouette, horizon, numbered legend, logos. Matching shape geometry in both panels is critical.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-2449ca77-e8a7-4734-9f57-364a097daa1e.png",
+      "correctionPrompt": "Edit this exact TWO-PANEL material pair. Preserve material/style, panel arrangement, same stones and matching normal geometry. Fix SEAMLESS VERTICAL WRAP: top edge and bottom edge of EACH panel must meet naturally when this tile is repeated vertically, currently a seam line is visible because stone courses/mortar heights do not join. Continue the SAME stone row across top/bottom, with consistent gray tone and matching normal relief at the join. Also maintain left/right seamless wrap independently within each panel (left albedo/right normal are two separate matching tiles). No mirrored halves or kaleidoscope. Keep neutral-gray subtle worn stones, shallow blue normal on right, unlit color left. Exactly 2:1 landscape full sheet, exact halves, no borders or letters. No new scenery, floor slab, 3D wall, sample sphere, side panels or frame. Only improve tile continuity, retain geometry alignment of color and normal.",
+      "correctedSourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-d31b086e-8cca-4fa6-8f66-2b89baaf3af1.png"
+    }
+  ]
+}

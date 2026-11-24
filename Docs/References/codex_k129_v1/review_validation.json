@@ -1,0 +1,87 @@
+{
+  "url_scheme": "file",
+  "motion_sections": 17,
+  "animation_advanced": true,
+  "step_all_motions": true,
+  "all_images_decoded": true,
+  "zoom_2x": true,
+  "modes_checked": [
+    "기본 색",
+    "밤의 광선",
+    "검은 실루엣",
+    "노멀 방향",
+    "노멀 조명"
+  ],
+  "mobile_page_overflow": false,
+  "final_frames": [
+    {
+      "motion": "wallhand_walk_front",
+      "frame": 7
+    },
+    {
+      "motion": "wallhand_walk_back",
+      "frame": 7
+    },
+    {
+      "motion": "wallhand_walk_right",
+      "frame": 7
+    },
+    {
+      "motion": "wallhand_walk_left",
+      "frame": 7
+    },
+    {
+      "motion": "wallhand_punch_front",
+      "frame": 5
+    },
+    {
+      "motion": "wallhand_punch_side",
+      "frame": 5
+    },
+    {
+      "motion": "wallhand_climb_back",
+      "frame": 7
+    },
+    {
+      "motion": "wallhand_climb_front",
+      "frame": 7
+    },
+    {
+      "motion": "wallhand_lose_grip_fall",
+      "frame": 5
+    },
+    {
+      "motion": "wallhand_land_stagger",
+      "frame": 5
+    },
+    {
+      "motion": "wallhand_trap_fall",
+      "frame": 3
+    },
+    {
+      "motion": "wallhand_trap_lie",
+      "frame": 1
+    },
+    {
+      "motion": "wallhand_get_up",
+      "frame": 5
+    },
+    {
+      "motion": "wallhand_parapet_smash_front",
+      "frame": 7
+    },
+    {
+      "motion": "wallhand_parapet_smash_back",
+      "frame": 7
+    },
+    {
+      "motion": "wallhand_death_front",
+      "frame": 9
+    },
+    {
+      "motion": "wallhand_death_side",
+      "frame": 9
+    }
+  ],
+  "script_errors": []
+}

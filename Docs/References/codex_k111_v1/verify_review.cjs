@@ -1,0 +1,26 @@
+const fs=require('fs'),path=require('path'),{pathToFileURL}=require('url');
+const {chromium}=require('C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+(async()=>{
+const root=__dirname,repo=path.resolve(root,'../../..');
+const browser=await chromium.launch({channel:'msedge',headless:true});
+const page=await browser.newPage({viewport:{width:1440,height:1080}}),errors=[];
+page.on('pageerror',e=>errors.push(String(e)));
+await page.goto(pathToFileURL(path.join(repo,'_HTML/6_그림_화면/codex_K-111_사용자의견수정_v1.html')).href);
+await page.locator('img').evaluateAll(xs=>Promise.all(xs.map(x=>x.decode())));
+const images=await page.locator('img').evaluateAll(xs=>xs.map(x=>({alt:x.alt,loaded:x.complete&&x.naturalWidth>0,embedded:x.src.startsWith('data:')})));
+const backgrounds=await page.locator('[style*="background-image"]').evaluateAll(xs=>Promise.all(xs.map(x=>new Promise(r=>{const im=new Image();im.onload=()=>r({loaded:true,embedded:im.src.startsWith('data:'),size:[im.width,im.height]});im.onerror=()=>r({loaded:false});im.src=x.style.backgroundImage.slice(5,-2)}))));
+const before=await page.locator('.motion').evaluateAll(xs=>xs.map(x=>x.dataset.frame));
+await page.waitForTimeout(1125);
+const after=await page.locator('.motion').evaluateAll(xs=>xs.map(x=>x.dataset.frame));
+const animated=after.every((x,i)=>x!==before[i]);
+const storyBefore=await page.locator('#storyCycle').getAttribute('src');await page.waitForFunction(s=>document.querySelector('#storyCycle').src!==s,storyBefore,{timeout:10000});const storyChanges=true;
+await page.locator('#pause').click();const frozen=await page.locator('.motion').evaluateAll(xs=>xs.map(x=>x.style.backgroundPosition));
+await page.waitForTimeout(1150);const pauseWorks=JSON.stringify(frozen)===JSON.stringify(await page.locator('.motion').evaluateAll(xs=>xs.map(x=>x.style.backgroundPosition)));
+await page.locator('#dialogue').click();const dialogueVisible=await page.locator('.dialogue').first().isVisible();
+await page.locator('#hagen').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(root,'review_desktop.png'),fullPage:true});
+await page.locator('#night').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(root,'review_night.png')});
+await page.setViewportSize({width:390,height:844});await page.locator('#hagen').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(root,'review_mobile.png'),fullPage:true});
+const noOverflow=await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth);
+const result={passed:images.every(x=>x.loaded&&x.embedded)&&backgrounds.every(x=>x.loaded&&x.embedded)&&animated&&storyChanges&&pauseWorks&&dialogueVisible&&noOverflow&&errors.length===0,images,backgrounds,motion_count:after.length,animated,storyChanges,pauseWorks,dialogueVisible,mobileNoOverflow:noOverflow,errors};
+fs.writeFileSync(path.join(root,'review_validation.json'),JSON.stringify(result,null,2));console.log(JSON.stringify(result));await browser.close();if(!result.passed)process.exitCode=1;
+})().catch(e=>{console.error(e);process.exitCode=1});

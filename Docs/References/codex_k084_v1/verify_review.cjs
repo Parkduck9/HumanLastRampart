@@ -1,0 +1,28 @@
+const fs = require('fs');
+const path = require('path');
+const {pathToFileURL} = require('url');
+const {chromium} = require('C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+(async () => {
+  const browser = await chromium.launch({channel: 'chrome', headless: true});
+  const page = await browser.newPage({viewport: {width:1440,height:1080}});
+  const errors = [];
+  page.on('pageerror', e => errors.push(String(e)));
+  await page.goto(pathToFileURL(path.resolve(__dirname, '../../../_HTML/6_그림_화면/codex_K-084_UI2판_기대사진1_v1.html')).href);
+  await page.locator('img').evaluateAll(a => Promise.all(a.map(i => i.decode())));
+  const loaded = await page.locator('img').evaluateAll(a => a.every(i => i.complete && i.naturalWidth > 0 && i.src.startsWith('data:image/png;base64,')));
+  const imageCount = await page.locator('img').count();
+  await page.screenshot({path:path.join(__dirname,'review_desktop.png'), fullPage:true});
+  await page.locator('details').first().locator('summary').click();
+  const expands = await page.locator('details').first().evaluate(e => e.open);
+  await page.locator('#actual').click();
+  const actualSize = await page.locator('.after').first().evaluate(e => e.getBoundingClientRect().width === 1920);
+  await page.locator('#actual').click();
+  await page.setViewportSize({width:390,height:844});
+  const mobileOverflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth);
+  await page.screenshot({path:path.join(__dirname,'review_mobile.png'), fullPage:true});
+  const result = {browser:'Chrome headless',loaded,imageCount,expands,actualSize,mobileOverflow,errors};
+  fs.writeFileSync(path.join(__dirname,'review_validation.json'),JSON.stringify(result,null,2));
+  console.log(result);
+  await browser.close();
+  if (!loaded || !expands || !actualSize || mobileOverflow || errors.length) process.exitCode=1;
+})().catch(e => {console.error(e);process.exitCode=1;});

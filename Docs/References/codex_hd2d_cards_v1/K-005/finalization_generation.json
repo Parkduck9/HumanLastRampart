@@ -1,0 +1,54 @@
+{
+  "tool": "image_gen.imagegen",
+  "decision": "D-068",
+  "requests": [
+    {
+      "id": "wall_stone",
+      "label": "성벽 바깥면",
+      "size": [
+        128,
+        128
+      ],
+      "meters": [
+        4,
+        4
+      ],
+      "rows": 8,
+      "desc": "eight horizontal courses of neutral gray weathered limestone, each stone about 0.5m high, varied widths, fine gray mortar at regular course heights. Full tile contains exactly8 even-height courses so vertical wrap is consistent",
+      "prompt": "Use case: stylized-concept, technical seamless 3D pixel-art material. Generate ONE 2:1 landscape sheet with EXACTLY TWO equally sized square panels, left diffuse albedo and right tangent normal of identical geometry. No margins, text, boxes, other previews or gutter. eight horizontal courses of neutral gray weathered limestone, each stone about 0.5m high, varied widths, fine gray mortar at regular course heights. Full tile contains exactly8 even-height courses so vertical wrap is consistent. CRITICAL this is a periodic TILE, top and bottom must wrap: place the SAME thin gray horizontal mortar line on both top and bottom edges and align every course so repeating vertically continues like a single surface. Left and right edges must connect every stone and mortar course with same neutral gray tone. Do not add a dark outline or a special border. Do not mirror halves. Avoid irregular bright chipped outer boundary which caused seams in previous attempts. Restrained pixel clusters, native final128x128, not photographic grain, not large dramatic cracks, no directional shading in albedo. Right half is shallow tangent normal EXACT SAME stone grid/shape as left, flat facesRGB128128255, greenup, no dark outline, gentle normals. New approved fortress: gray3D volumes with2Ddotcharacters,32px/m, smallmerlons0.105mhigh and0.26mwide, parapet0.30m thick. Do not draw buildings or silhouettes. Surface only, no elevation, no lighting spheres. Give inherently periodic readable stone pattern with QUIET edge colors and consistent gray mortar. Actual stone color/material must match between all3 variants.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-21c4400b-d6e8-4722-8e39-feba792318a7.png"
+    },
+    {
+      "id": "parapet_top",
+      "label": "난간 윗면",
+      "size": [
+        128,
+        64
+      ],
+      "meters": [
+        4,
+        2
+      ],
+      "rows": 8,
+      "desc": "quiet capstone surface of neutral gray limestone, broad flat gray areas, subdued small joints and almost no moss, gray material consistent on all borders; surface must read on narrow0.30m top face",
+      "prompt": "Use case: stylized-concept, technical seamless 3D pixel-art material. Generate ONE 2:1 landscape sheet with EXACTLY TWO equally sized square panels, left diffuse albedo and right tangent normal of identical geometry. No margins, text, boxes, other previews or gutter. quiet capstone surface of neutral gray limestone, broad flat gray areas, subdued small joints and almost no moss, gray material consistent on all borders; surface must read on narrow0.30m top face. CRITICAL this is a periodic TILE, top and bottom must wrap: place the SAME thin gray horizontal mortar line on both top and bottom edges and align every course so repeating vertically continues like a single surface. Left and right edges must connect every stone and mortar course with same neutral gray tone. Do not add a dark outline or a special border. Do not mirror halves. Avoid irregular bright chipped outer boundary which caused seams in previous attempts. Restrained pixel clusters, native final128x64, not photographic grain, not large dramatic cracks, no directional shading in albedo. Right half is shallow tangent normal EXACT SAME stone grid/shape as left, flat facesRGB128128255, greenup, no dark outline, gentle normals. New approved fortress: gray3D volumes with2Ddotcharacters,32px/m, smallmerlons0.105mhigh and0.26mwide, parapet0.30m thick. Do not draw buildings or silhouettes. Surface only, no elevation, no lighting spheres. Give inherently periodic readable stone pattern with QUIET edge colors and consistent gray mortar. Actual stone color/material must match between all3 variants.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-bdb4518b-e5a4-4c40-9ce4-81d3e7643c7a.png"
+    },
+    {
+      "id": "parapet_side",
+      "label": "난간 옆면",
+      "size": [
+        128,
+        64
+      ],
+      "meters": [
+        4,
+        2
+      ],
+      "rows": 8,
+      "desc": "shallow neutral gray ashlar stone with8even horizontal courses, tiny subtle gray mortar, very low contrast so a0.105m strip stays gray not black; fine modest stone variation",
+      "prompt": "Use case: stylized-concept, technical seamless 3D pixel-art material. Generate ONE 2:1 landscape sheet with EXACTLY TWO equally sized square panels, left diffuse albedo and right tangent normal of identical geometry. No margins, text, boxes, other previews or gutter. shallow neutral gray ashlar stone with8even horizontal courses, tiny subtle gray mortar, very low contrast so a0.105m strip stays gray not black; fine modest stone variation. CRITICAL this is a periodic TILE, top and bottom must wrap: place the SAME thin gray horizontal mortar line on both top and bottom edges and align every course so repeating vertically continues like a single surface. Left and right edges must connect every stone and mortar course with same neutral gray tone. Do not add a dark outline or a special border. Do not mirror halves. Avoid irregular bright chipped outer boundary which caused seams in previous attempts. Restrained pixel clusters, native final128x64, not photographic grain, not large dramatic cracks, no directional shading in albedo. Right half is shallow tangent normal EXACT SAME stone grid/shape as left, flat facesRGB128128255, greenup, no dark outline, gentle normals. New approved fortress: gray3D volumes with2Ddotcharacters,32px/m, smallmerlons0.105mhigh and0.26mwide, parapet0.30m thick. Do not draw buildings or silhouettes. Surface only, no elevation, no lighting spheres. Give inherently periodic readable stone pattern with QUIET edge colors and consistent gray mortar. Actual stone color/material must match between all3 variants.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-3ecec5fb-abe2-4ce6-8448-edce63a9df96.png"
+    }
+  ]
+}

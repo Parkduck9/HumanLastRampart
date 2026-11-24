@@ -1,0 +1,154 @@
+﻿{
+    "method":  "RGB mean absolute neighbour delta; periodic seam versus interior; four-connected alpha components",
+    "sprites":  [
+                    {
+                        "width":  64,
+                        "height":  36,
+                        "opaque_pixels":  1511,
+                        "components":  1,
+                        "palette_colors":  32,
+                        "border_opaque":  0,
+                        "removed_stray_pixels":  0,
+                        "last_opaque_y":  33,
+                        "partial_alpha":  0,
+                        "smallest_component":  1511,
+                        "file":  "arrow_bundles_native.png"
+                    },
+                    {
+                        "width":  96,
+                        "height":  88,
+                        "opaque_pixels":  3815,
+                        "components":  1,
+                        "palette_colors":  32,
+                        "border_opaque":  0,
+                        "removed_stray_pixels":  0,
+                        "last_opaque_y":  85,
+                        "partial_alpha":  0,
+                        "smallest_component":  3815,
+                        "file":  "cart_native.png"
+                    },
+                    {
+                        "width":  64,
+                        "height":  64,
+                        "opaque_pixels":  2018,
+                        "components":  5,
+                        "palette_colors":  32,
+                        "border_opaque":  0,
+                        "removed_stray_pixels":  0,
+                        "last_opaque_y":  61,
+                        "partial_alpha":  0,
+                        "smallest_component":  12,
+                        "file":  "decal_cracked_native.png"
+                    },
+                    {
+                        "width":  96,
+                        "height":  64,
+                        "opaque_pixels":  2663,
+                        "components":  8,
+                        "palette_colors":  32,
+                        "border_opaque":  0,
+                        "removed_stray_pixels":  0,
+                        "last_opaque_y":  61,
+                        "partial_alpha":  0,
+                        "smallest_component":  13,
+                        "file":  "decal_dirt_native.png"
+                    },
+                    {
+                        "width":  96,
+                        "height":  64,
+                        "opaque_pixels":  2629,
+                        "components":  8,
+                        "palette_colors":  32,
+                        "border_opaque":  0,
+                        "removed_stray_pixels":  0,
+                        "last_opaque_y":  61,
+                        "partial_alpha":  0,
+                        "smallest_component":  6,
+                        "file":  "decal_puddle_native.png"
+                    },
+                    {
+                        "width":  80,
+                        "height":  64,
+                        "opaque_pixels":  1567,
+                        "components":  10,
+                        "palette_colors":  32,
+                        "border_opaque":  0,
+                        "removed_stray_pixels":  0,
+                        "last_opaque_y":  61,
+                        "partial_alpha":  0,
+                        "smallest_component":  14,
+                        "file":  "decal_straw_native.png"
+                    },
+                    {
+                        "width":  72,
+                        "height":  80,
+                        "opaque_pixels":  2357,
+                        "components":  1,
+                        "palette_colors":  32,
+                        "border_opaque":  0,
+                        "removed_stray_pixels":  0,
+                        "last_opaque_y":  77,
+                        "partial_alpha":  0,
+                        "smallest_component":  2357,
+                        "file":  "weapon_rack_native.png"
+                    }
+                ],
+    "unity_run":  false,
+    "textures":  [
+                     {
+                         "width":  512,
+                         "height":  512,
+                         "opaque_pixels":  262144,
+                         "edge_delta_x":  17.942,
+                         "interior_delta_x":  13.26,
+                         "palette_colors":  32,
+                         "interior_delta_y":  13.449,
+                         "edge_delta_y":  14.786,
+                         "file":  "courtyard_cobble_512.png"
+                     },
+                     {
+                         "width":  100,
+                         "height":  32,
+                         "opaque_pixels":  3200,
+                         "edge_delta_x":  4.979,
+                         "interior_delta_x":  17.431,
+                         "palette_colors":  32,
+                         "interior_delta_y":  12.424,
+                         "edge_delta_y":  49.063,
+                         "file":  "barrel_side_100x32.png"
+                     },
+                     {
+                         "width":  64,
+                         "height":  10,
+                         "opaque_pixels":  640,
+                         "edge_delta_x":  3.5,
+                         "interior_delta_x":  5.46,
+                         "palette_colors":  31,
+                         "interior_delta_y":  13.642,
+                         "edge_delta_y":  25.036,
+                         "file":  "stair_tread_64x10.png"
+                     },
+                     {
+                         "width":  64,
+                         "height":  6,
+                         "opaque_pixels":  384,
+                         "edge_delta_x":  2.056,
+                         "interior_delta_x":  6.399,
+                         "palette_colors":  32,
+                         "interior_delta_y":  22.345,
+                         "edge_delta_y":  32.12,
+                         "file":  "stair_riser_64x6.png"
+                     },
+                     {
+                         "width":  128,
+                         "height":  64,
+                         "opaque_pixels":  8192,
+                         "edge_delta_x":  18.771,
+                         "interior_delta_x":  13.106,
+                         "palette_colors":  32,
+                         "interior_delta_y":  18.886,
+                         "edge_delta_y":  28.898,
+                         "file":  "stair_flank_128x64.png"
+                     }
+                 ]
+}

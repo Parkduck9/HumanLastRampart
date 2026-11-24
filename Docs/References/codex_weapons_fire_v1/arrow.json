@@ -1,0 +1,65 @@
+{
+  "id": "arrow",
+  "title": "화살",
+  "kind": "projectile",
+  "frames": 1,
+  "w": 256,
+  "h": 128,
+  "pivot": [
+    128,
+    64
+  ],
+  "fps": 0,
+  "ref": null,
+  "prompt": "Use case: stylized-concept. ONE small projectile sprite concept for a16-bit pixel defensegame: a single small thin wooden arrow with pale ivory feather fletching at LEFT and a dark iron triangular point at RIGHT. Straight horizontal shaft. No bow. Center the single object in actual transparent PNG, generous empty margins. Crisp chunky square pixels, flat limited palette, dark steppedoutline. No realisticpainting, smooth glow, gradients,shadow,background,floor,text,grid,duplicates or extra items. Object only. Aim right +X as canonical rotation direction. Gameplay rotation/size set later, this is only art reference.",
+  "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-d44494ae-d34b-4634-a90b-329c78f19be9.png",
+  "tool": "built-in imagegen",
+  "source": "arrow_source.png",
+  "sourceSize": [
+    2172,
+    724
+  ],
+  "sourceSha256": "48835dc3cdcc0ab628d3282e2520fd86075a5fca8aacd91e8e42f90619483914",
+  "sheet": "arrow_sheet.png",
+  "sheetSize": [
+    256,
+    128
+  ],
+  "sheetSha256": "f4459006db5a56e975ca58a48e265a5472f44192543cc0dd3c63acafe5408141",
+  "sourceColumnBounds": [
+    0,
+    2172
+  ],
+  "commonScale": 0.16682113067655235,
+  "framesMeta": [
+    {
+      "index": 0,
+      "rect": [
+        0,
+        0,
+        256,
+        128
+      ],
+      "pivotPixels": [
+        128,
+        64
+      ],
+      "alphaBBox": [
+        37,
+        48,
+        218,
+        80
+      ],
+      "rgbaSha256": "855c08a5f0f5937c08608b6cc1e030cdf4e44c0290fea3f60359eab4bf2efccf",
+      "sourceRect": [
+        0,
+        276,
+        2172,
+        465
+      ],
+      "sourceAnchorX": 1088.0
+    }
+  ],
+  "reviewStatus": "외형사용자검토대기·게임연결없음",
+  "processing": "원안분리·동일시트공통배율·최근접정렬만. 병사발/대포바퀴접지 기준. 내용덧칠/프레임복제없음."
+}

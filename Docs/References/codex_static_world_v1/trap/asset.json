@@ -1,0 +1,43 @@
+{
+  "id": "trap",
+  "label": "폭발 함정",
+  "category": "장비",
+  "status": "review-draft",
+  "columns": 1,
+  "rows": 1,
+  "frames": 1,
+  "fps": 0,
+  "cell": [
+    128,
+    128
+  ],
+  "size": [
+    128,
+    128
+  ],
+  "pivotTopLeft": [
+    64,
+    96
+  ],
+  "sourceSize": [
+    1536,
+    1024
+  ],
+  "sourceCrop": [
+    217,
+    214,
+    1345,
+    908
+  ],
+  "packedRect": [
+    12,
+    32,
+    104,
+    64
+  ],
+  "sourceSha256": "e84efc405d3e7f9eacbe0b766bfc1351664235912dfdcf316d1b987837440f43",
+  "imageSha256": "c3f496f819c0c9c286f11e4fd46a78ce9cb3da6365bf529bb95eafd09b3590f2",
+  "unityPlayVerified": false,
+  "gameConnected": false,
+  "tilingVerified": false
+}

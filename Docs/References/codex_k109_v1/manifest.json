@@ -1,0 +1,569 @@
+﻿{
+    "card":  "K-109",
+    "hero":  "Lumen Pharos",
+    "variant":  "A",
+    "stage":  "asset_delivery_integration_pending",
+    "generation_tool":  "image_gen.imagegen built-in",
+    "design_basis":  "K-107 selected comparison A; existing hero proportions. Not variant_a_generated.png as a proportion reference.",
+    "native":  {
+                   "figure_height":  73,
+                   "cell":  [
+                                96,
+                                128
+                            ],
+                   "last_opaque_y":  119,
+                   "body_axis_x":  48,
+                   "foot_pivot_top_left":  [
+                                               48,
+                                               120
+                                           ]
+               },
+    "game":  {
+                 "filter":  "nearest",
+                 "cell":  [
+                              288,
+                              384
+                          ],
+                 "existing_game_cell_already_same":  true,
+                 "foot_pivot_top_left":  [
+                                             144,
+                                             360
+                                         ],
+                 "last_opaque_y":  359,
+                 "unity_normalized_bottom_left_pivot":  [
+                                                            0.5,
+                                                            0.0625
+                                                        ],
+                 "scale":  3
+             },
+    "sheets":  [
+                   {
+                       "existing_walk_mirror_phase":  [
+                                                          2,
+                                                          3,
+                                                          0,
+                                                          1
+                                                      ],
+                       "native":  "hero_walk_run_grid_native.png",
+                       "columns":  4,
+                       "mirror_right":  true,
+                       "frame_order":  "row-major, left to right; preserve existing four gait phases in each row",
+                       "row_order":  [
+                                         "back_walk",
+                                         "left_walk",
+                                         "left_run",
+                                         "front_walk"
+                                     ],
+                       "frame_count":  16,
+                       "rows":  4,
+                       "fps_by_row":  [
+                                          6,
+                                          6,
+                                          8,
+                                          6
+                                      ],
+                       "file":  "hero_walk_run_grid.png"
+                   },
+                   {
+                       "rows":  1,
+                       "frame_order":  [
+                                           "back_idle"
+                                       ],
+                       "columns":  1,
+                       "derived_from":  "hero_command_native.png frame 0",
+                       "native":  "hero_back_idle_native.png",
+                       "frame_count":  1,
+                       "file":  "hero_back_idle.png"
+                   },
+                   {
+                       "native":  "hero_command_native.png",
+                       "columns":  3,
+                       "mirror_right":  false,
+                       "fps":  6,
+                       "frame_order":  [
+                                           "back_ready",
+                                           "right_hand_to_temple",
+                                           "right_arm_command"
+                                       ],
+                       "frame_count":  3,
+                       "rows":  1,
+                       "playback":  "hold_last",
+                       "file":  "hero_command.png"
+                   }
+               ],
+    "maps":  {
+                 "spec_encoding":  "opaque grayscale; cloth 12/255, brass and trim 220/255, warm lantern glass 150/255; restrict metal classification to torso/belt",
+                 "same_layout_as_color":  true,
+                 "normal_encoding":  "RGB tangent-space, +Y up; opaque flat background (128,128,255), silhouette-derived inward bevel; use color alpha",
+                 "normal_color_space":  "linear",
+                 "spec_naming":  "[sheet]_spec.png",
+                 "spec_color_space":  "linear",
+                 "normal_naming":  "[sheet]_normal.png"
+             },
+    "portraits":  {
+                      "foot_boundary_y":  356,
+                      "working_grid":  [
+                                           64,
+                                           96
+                                       ],
+                      "scale":  4,
+                      "framing":  "full body, same legacy canvas and approximate head/foot margins",
+                      "canvas":  [
+                                     256,
+                                     384
+                                 ],
+                      "order":  [
+                                    "neutral",
+                                    "determined",
+                                    "surprised",
+                                    "tired"
+                                ]
+                  },
+    "tutorial":  {
+                     "canvas":  [
+                                    576,
+                                    144
+                                ],
+                     "frame_order":  [
+                                         "neutral",
+                                         "explaining_raised_finger",
+                                         "urgent",
+                                         "pleased"
+                                     ],
+                     "file":  "officer_expressions.png",
+                     "scale":  3,
+                     "columns":  4,
+                     "working_cell":  [
+                                          48,
+                                          48
+                                      ],
+                     "rows":  1,
+                     "cell":  [
+                                  144,
+                                  144
+                              ]
+                 },
+    "review":  {
+                   "runtime_verification":  "review_validation.json",
+                   "self_contained":  true,
+                   "composite_not_unity_capture":  true,
+                   "browser_render_verified":  false,
+                   "background_already_lit":  true,
+                   "path":  "_HTML/6_그림_화면/codex_K-109_루멘전체그림_v1.html",
+                   "background":  "Docs/References/beacon_game_20261022/05_pf_night_clean.png",
+                   "night_rgb_multiplier":  0.65
+               },
+    "source_art":  [
+                       {
+                           "sha256":  "752ab17a8d9431f2356c733709d9ad89fad296724bee26994939ff5bd3653f3f",
+                           "path":  "Docs/GDD/Concept_Beacon_v1.md"
+                       },
+                       {
+                           "sha256":  "bf617807adc06f45840a168584a1a0ef679b18ff5cf0f134b0f88a250702bb39",
+                           "path":  "Docs/References/codex_k107_v1/comparison_front_night065_game_4x.png"
+                       },
+                       {
+                           "sha256":  "dcc26af59388ed5aeb8f32e1c84b0001b4aea8e850a60799963425651e8a7926",
+                           "path":  "Docs/References/codex_k107_v1/variant_a_front_native.png"
+                       },
+                       {
+                           "sha256":  "feca5e2e3a33f7bc2836d8dac0a829b0d6547a18820b65141e8b48e02f2f3c2f",
+                           "path":  "Docs/References/codex_k107_v1/variant_a_portrait.png"
+                       },
+                       {
+                           "sha256":  "8233352f29cfd95d16c493727a3b3afb95c5ecddb8a74c18e3b76f6f03cebb6b",
+                           "path":  "Docs/References/beacon_game_20261022/05_pf_night_clean.png"
+                       },
+                       {
+                           "sha256":  "5587d9d2e62d69b2e7a24de3015e0635d54264a3d9c669e2878a72d517d82fd6",
+                           "path":  "Game/Assets/_Project/Art/Characters/Hero/hero_walk_run_grid.png"
+                       },
+                       {
+                           "sha256":  "fea5d6e4c9c59657826a7339f03b43cc71ac37052c547abeb77e2d8349c31bc0",
+                           "path":  "Game/Assets/_Project/Art/Characters/Hero/hero_walk_run_grid_normal.png"
+                       },
+                       {
+                           "sha256":  "670ebcdb7e0a2ebc8e5c068257ddf9bcd21c3f1e9f4c38df254d71bc090d5806",
+                           "path":  "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Spec/hero_walk_run_grid_spec.png"
+                       },
+                       {
+                           "sha256":  "1bda81fed1caf6598540eab6c02a6fe2d24264a884afd2ff6ec7903b039ffa94",
+                           "path":  "Game/Assets/_Project/Art/Characters/Hero/hero_back_idle.png"
+                       },
+                       {
+                           "sha256":  "7c552d1a23c391bd84955896fa67caad150c63fef902a433fca4021b5ae61646",
+                           "path":  "Game/Assets/_Project/Art/Characters/Hero/hero_back_idle_normal.png"
+                       },
+                       {
+                           "sha256":  "65e22b353a1dd4f96f5ec809c2d9afbb6e7a63aa7fb9133fd01bce6fac5364fe",
+                           "path":  "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Spec/hero_back_idle_spec.png"
+                       },
+                       {
+                           "sha256":  "e7997c7b3c4a9c7ac6c34130a47d0eab9ff8bcca378809ceea5812387a615fc8",
+                           "path":  "Game/Assets/_Project/Art/Characters/Hero/hero_command.png"
+                       },
+                       {
+                           "sha256":  "0aeeb3eedbf3e3cc3c60e0b560656c36d08813ee31caf672ceb88ad201ed77e3",
+                           "path":  "Game/Assets/_Project/Art/Characters/Hero/hero_command_normal.png"
+                       },
+                       {
+                           "sha256":  "97c37be23abc8d43426c4463a5c5559b039848d89dc3a9314b57b5847166e01d",
+                           "path":  "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Spec/hero_command_spec.png"
+                       },
+                       {
+                           "sha256":  "04a39504d7b5928d09ff1a9527e975001fa95adb13f6795baa41b2f669fa993a",
+                           "path":  "Game/Assets/_Project/Story/Resources/StoryArt/portrait_hero_neutral.png"
+                       },
+                       {
+                           "sha256":  "3d72d3c8b5566b3e0e098b7e194598b7049638f4c260c759cf03945a5c130e53",
+                           "path":  "Game/Assets/_Project/Story/Resources/StoryArt/portrait_hero_determined.png"
+                       },
+                       {
+                           "sha256":  "17d7c30b4407a5ec7980291522ada8e32cd020d7e1bc00741d0328ab027be72c",
+                           "path":  "Game/Assets/_Project/Story/Resources/StoryArt/portrait_hero_surprised.png"
+                       },
+                       {
+                           "sha256":  "a4aece95d6f0d6f3b792e483b9286d2b233b79c95baf3f2505c01fd8bc05edfb",
+                           "path":  "Game/Assets/_Project/Story/Resources/StoryArt/portrait_hero_tired.png"
+                       },
+                       {
+                           "sha256":  "982ad79cc04e53df28367f4f3c6dcfbb508508d0d354f383fea9358ec827970f",
+                           "path":  "Game/Assets/_Project/Art/UI/Resources/HudArt/Tutorial/officer_expressions.png"
+                       }
+                   ],
+    "files":  [
+                  {
+                      "sha256":  "3c918d7e97cca60e852bca1e6f7d572aea3778bd88017d9db252858395afc3f0",
+                      "file":  "command_generated.png",
+                      "size":  [
+                                   2172,
+                                   724
+                               ],
+                      "kind":  "generated_source"
+                  },
+                  {
+                      "sha256":  "7821186416a96d88fb645a6199922fad6bb4311c28a442db914b6b1acf36d881",
+                      "file":  "hero_back_idle.png",
+                      "size":  [
+                                   288,
+                                   384
+                               ],
+                      "kind":  "delivery"
+                  },
+                  {
+                      "sha256":  "5aa0d6e9e5c4e2140c45e66631bc2b0af0039c15661eefb20635775e24666a32",
+                      "file":  "hero_back_idle_native.png",
+                      "size":  [
+                                   96,
+                                   128
+                               ],
+                      "kind":  "native"
+                  },
+                  {
+                      "sha256":  "8360cf1397419d3874c6f7e97b3dbb9a123101f3fc505f4af63854a0d85042a8",
+                      "file":  "hero_back_idle_native_4x.png",
+                      "size":  [
+                                   384,
+                                   512
+                               ],
+                      "kind":  "preview"
+                  },
+                  {
+                      "sha256":  "72ba9225080707e2646e281f6573a16c4289fdf87a0797414eef575238fcfcbb",
+                      "file":  "hero_back_idle_normal.png",
+                      "size":  [
+                                   288,
+                                   384
+                               ],
+                      "kind":  "delivery"
+                  },
+                  {
+                      "sha256":  "05f6e5b2f38a6f62dbff3d4ff44a7d16a5e80414d729ed59bbd0e86cd582cf47",
+                      "file":  "hero_back_idle_normal_native.png",
+                      "size":  [
+                                   96,
+                                   128
+                               ],
+                      "kind":  "native"
+                  },
+                  {
+                      "sha256":  "417e856387e4e7d6e4552a616feac0c5bfc19290aa2be85635f49b848bfc7004",
+                      "file":  "hero_back_idle_spec.png",
+                      "size":  [
+                                   288,
+                                   384
+                               ],
+                      "kind":  "delivery"
+                  },
+                  {
+                      "sha256":  "0e885df0167362abd48798a7928595c74624f2a9ac6dc9ec4dc02051238c3a25",
+                      "file":  "hero_back_idle_spec_native.png",
+                      "size":  [
+                                   96,
+                                   128
+                               ],
+                      "kind":  "native"
+                  },
+                  {
+                      "sha256":  "67b2f08dbfd18da62d259f9a5398a3d155cb6a6fe300784849ffd0059e43a036",
+                      "file":  "hero_command.png",
+                      "size":  [
+                                   864,
+                                   384
+                               ],
+                      "kind":  "delivery"
+                  },
+                  {
+                      "sha256":  "2918a02f28c88215736c39a4ba65f03411a8e72311c18af0f9eb6bd55b0d8d96",
+                      "file":  "hero_command_native.png",
+                      "size":  [
+                                   288,
+                                   128
+                               ],
+                      "kind":  "native"
+                  },
+                  {
+                      "sha256":  "d1160494100647d4e26c05227d7bc10ec90f816ba5151c289d93954b3c910309",
+                      "file":  "hero_command_native_4x.png",
+                      "size":  [
+                                   1152,
+                                   512
+                               ],
+                      "kind":  "preview"
+                  },
+                  {
+                      "sha256":  "a0c07673902966c89ce50d8f13e817df844bac728fea958b2da072b35434534f",
+                      "file":  "hero_command_normal.png",
+                      "size":  [
+                                   864,
+                                   384
+                               ],
+                      "kind":  "delivery"
+                  },
+                  {
+                      "sha256":  "57730b0fbc34f4b507c0a232bf8f35928095a4552931ca9867b2d0a3347fd6cd",
+                      "file":  "hero_command_normal_native.png",
+                      "size":  [
+                                   288,
+                                   128
+                               ],
+                      "kind":  "native"
+                  },
+                  {
+                      "sha256":  "69d0835d963dfd4fccd0b28340464b64579b36bb13705b63d1c36263d5bae453",
+                      "file":  "hero_command_spec.png",
+                      "size":  [
+                                   864,
+                                   384
+                               ],
+                      "kind":  "delivery"
+                  },
+                  {
+                      "sha256":  "aee9bbedba9ae85f813fa9db06cef0461424e698f42f4aaafb44c6b45784218d",
+                      "file":  "hero_command_spec_native.png",
+                      "size":  [
+                                   288,
+                                   128
+                               ],
+                      "kind":  "native"
+                  },
+                  {
+                      "sha256":  "2d2e52a0252e2ce6be477a06b705f3cbc28035c715f685e2381ca7e7e21e9954",
+                      "file":  "hero_walk_run_grid.png",
+                      "size":  [
+                                   1152,
+                                   1536
+                               ],
+                      "kind":  "delivery"
+                  },
+                  {
+                      "sha256":  "22ec477beb77236f1c369ae59f82aaa6a0fbe04e3305d077ecd4968e3caa8a27",
+                      "file":  "hero_walk_run_grid_native.png",
+                      "size":  [
+                                   384,
+                                   512
+                               ],
+                      "kind":  "native"
+                  },
+                  {
+                      "sha256":  "38ff13cc2131d941c19c6f28c7c6aad59e196886ba313ef4e881bc381f5e7b80",
+                      "file":  "hero_walk_run_grid_native_4x.png",
+                      "size":  [
+                                   1536,
+                                   2048
+                               ],
+                      "kind":  "preview"
+                  },
+                  {
+                      "sha256":  "6a19e8839c42dc277dcc823dcead08dd636137aeea8fbad2ca5e766954f828ee",
+                      "file":  "hero_walk_run_grid_normal.png",
+                      "size":  [
+                                   1152,
+                                   1536
+                               ],
+                      "kind":  "delivery"
+                  },
+                  {
+                      "sha256":  "e18f0d643f8c799cca7d4d4a53cf39aaec137d263a7660256d1c71ffee2c2944",
+                      "file":  "hero_walk_run_grid_normal_native.png",
+                      "size":  [
+                                   384,
+                                   512
+                               ],
+                      "kind":  "native"
+                  },
+                  {
+                      "sha256":  "39104dd1e2fedd1d23432dafb343f64e8305a89fd228fa2a8b835d8bc614564d",
+                      "file":  "hero_walk_run_grid_spec.png",
+                      "size":  [
+                                   1152,
+                                   1536
+                               ],
+                      "kind":  "delivery"
+                  },
+                  {
+                      "sha256":  "c265538fb9845e407865c2766c0fb7e6de1ee4bb906a80f66f770a87e33fabdf",
+                      "file":  "hero_walk_run_grid_spec_native.png",
+                      "size":  [
+                                   384,
+                                   512
+                               ],
+                      "kind":  "native"
+                  },
+                  {
+                      "sha256":  "e4ffcdec3ed27667e8320b4e22379412b658f9b1f6cc2f1fe0336c1f0287d039",
+                      "file":  "officer_expressions.png",
+                      "size":  [
+                                   576,
+                                   144
+                               ],
+                      "kind":  "delivery"
+                  },
+                  {
+                      "sha256":  "2c41a614d352d66e6c37b9062b43dd4a9fe36332a4230829db51ddd756ad4b19",
+                      "file":  "officer_expressions_4x.png",
+                      "size":  [
+                                   2304,
+                                   576
+                               ],
+                      "kind":  "preview"
+                  },
+                  {
+                      "sha256":  "5f70af901b364b6fd9209f08f7db43149d0d796958419063d1e0356aa5bb0c2e",
+                      "file":  "portraits_final_source.png",
+                      "size":  [
+                                   1536,
+                                   1024
+                               ],
+                      "kind":  "generated_source"
+                  },
+                  {
+                      "sha256":  "f91d8c8d2349df11be0620323898b2e81003aa6e928f05ca6afb95b96d0ee579",
+                      "file":  "portraits_generated.png",
+                      "size":  [
+                                   1536,
+                                   1024
+                               ],
+                      "kind":  "generated_source"
+                  },
+                  {
+                      "sha256":  "55cad2d42c73f979d79b836fd7688a0361dd1d628745c40ad00fbf29c407196a",
+                      "file":  "portrait_hero_determined.png",
+                      "size":  [
+                                   256,
+                                   384
+                               ],
+                      "kind":  "delivery"
+                  },
+                  {
+                      "sha256":  "cbb3ba7a5a0a4a7e66810549a238c0db2580ccb34d2c2e37bba9bb0481a6e579",
+                      "file":  "portrait_hero_determined_4x.png",
+                      "size":  [
+                                   1024,
+                                   1536
+                               ],
+                      "kind":  "preview"
+                  },
+                  {
+                      "sha256":  "8ac0f1db310035742603df542c262a73f95cce312ac1a468d99bdf9f4348a211",
+                      "file":  "portrait_hero_neutral.png",
+                      "size":  [
+                                   256,
+                                   384
+                               ],
+                      "kind":  "delivery"
+                  },
+                  {
+                      "sha256":  "9cc4e14dd5abcb3eee3d014574e35889ae6b1531ff2e172b477f3ce19752f625",
+                      "file":  "portrait_hero_neutral_4x.png",
+                      "size":  [
+                                   1024,
+                                   1536
+                               ],
+                      "kind":  "preview"
+                  },
+                  {
+                      "sha256":  "c94a9f3e8044d24a5c925ce9bdb361b3f9ee7ae64fcd3cbf95a3e182e7ebad33",
+                      "file":  "portrait_hero_surprised.png",
+                      "size":  [
+                                   256,
+                                   384
+                               ],
+                      "kind":  "delivery"
+                  },
+                  {
+                      "sha256":  "2d653f9d2e3ab1ac6f0a6ae1709535bf613a76eaf99fb83f0c8346712d86cb5b",
+                      "file":  "portrait_hero_surprised_4x.png",
+                      "size":  [
+                                   1024,
+                                   1536
+                               ],
+                      "kind":  "preview"
+                  },
+                  {
+                      "sha256":  "f3db5c5e1a16aa8616a8541e16ae6b00a8fd61cfe5ae4832fcef8287c3607b78",
+                      "file":  "portrait_hero_tired.png",
+                      "size":  [
+                                   256,
+                                   384
+                               ],
+                      "kind":  "delivery"
+                  },
+                  {
+                      "sha256":  "597c6cd4cc1c4aec9585cd08d06f4cd2755ffb864a68d8bae7e399e5303e2596",
+                      "file":  "portrait_hero_tired_4x.png",
+                      "size":  [
+                                   1024,
+                                   1536
+                               ],
+                      "kind":  "preview"
+                  },
+                  {
+                      "sha256":  "5eb8319b9999f35b084cf281e441bc0e08119ebe9d98122177ea75341f841199",
+                      "file":  "walk_final_source.png",
+                      "size":  [
+                                   1086,
+                                   1448
+                               ],
+                      "kind":  "generated_source"
+                  },
+                  {
+                      "sha256":  "64d25634e8835895154926bc9689ebbfffbc9ad39465fe64b21fd63953c2a0d6",
+                      "file":  "walk_generated.png",
+                      "size":  [
+                                   1086,
+                                   1448
+                               ],
+                      "kind":  "generated_source"
+                  }
+              ],
+    "verification":  "validation.json",
+    "game_modified":  false,
+    "unity_executed":  false,
+    "git_writes":  false,
+    "leftovers":  [
+                      "Claude integration and actual Unity lighting/motion verification",
+                      "User visual approval",
+                      "Browser screenshot verification unavailable in this session"
+                  ]
+}

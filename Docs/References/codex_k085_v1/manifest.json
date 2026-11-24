@@ -1,0 +1,90 @@
+{
+  "card": "K-085",
+  "purpose": "검토용 목업 · 게임 연결 전",
+  "native_canvas": [
+    640,
+    360
+  ],
+  "screen_canvas": [
+    1920,
+    1080
+  ],
+  "screen_pixel_scale": 3,
+  "preview_scale": 4,
+  "alpha": "모든 목업 완전 불투명 RGBA",
+  "sprite_sheets": "해당 없음 · UI 목업 카드",
+  "pivots": "해당 없음",
+  "item_icon_native": [
+    64,
+    64
+  ],
+  "item_icon_screen": [
+    192,
+    192
+  ],
+  "selected_lift_native": 4,
+  "selected_lift_screen": 12,
+  "fonts": {
+    "used": "굴림 11/12/16px, 이진화 후 최근접 3배",
+    "diagnostic": "굴림·돋움 12px 1배/3배",
+    "unavailable": [
+      "Galmuri11",
+      "Galmuri14",
+      "NeoDunggeunmo",
+      "DungGeunMo"
+    ],
+    "searched": [
+      "카드 저장소 전체",
+      "Windows 설치 글꼴 목록",
+      "Windows Fonts",
+      "사용자 Fonts",
+      "원본 저장소 후보 파일명"
+    ]
+  },
+  "contrast": [
+    {
+      "role": "나무 본문",
+      "foreground": "#eee4cf",
+      "background": "#38271b",
+      "ratio": 11.28
+    },
+    {
+      "role": "황동 보조",
+      "foreground": "#d5b16b",
+      "background": "#38271b",
+      "ratio": 7.01
+    },
+    {
+      "role": "꼬리표 먹글",
+      "foreground": "#21170f",
+      "background": "#bda16c",
+      "ratio": 7.1
+    },
+    {
+      "role": "황동 단추 먹글",
+      "foreground": "#21170f",
+      "background": "#d5b16b",
+      "ratio": 8.65
+    },
+    {
+      "role": "위험 글",
+      "foreground": "#ffb29c",
+      "background": "#48281f",
+      "ratio": 7.57
+    }
+  ],
+  "training_levels": {
+    "궁수": 2,
+    "총병": 1,
+    "대포병": 3
+  },
+  "notes": [
+    "가격·효과는 K-067 manifest에서 읽음",
+    "훈련 현재 단계와 위험 체력은 설명용 예시",
+    "훈련 현재 게임 사진은 제공되지 않아 전후쌍을 만들지 않음",
+    "64px와 4px는 원본 단위로 해석하여 3px 격자 유지",
+    "공용 물건의 선반 배치는 장착 규칙을 뜻하지 않음",
+    "전투 아이콘 18 원본 px = 54 화면 px; 기존 약30 화면 px ×1080/900 대비 1.5배",
+    "배경 96색 감색 · 전체 캔버스 3배 최근접"
+  ]
+}

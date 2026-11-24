@@ -1,0 +1,40 @@
+{
+  "date": "2026-10-21",
+  "method": "Unity 6000.3.25f1 CLI",
+  "tests": {
+    "edit": {
+      "result": "Passed",
+      "total": "6",
+      "passed": "6",
+      "failed": "0",
+      "inconclusive": "0"
+    },
+    "play": {
+      "result": "Passed",
+      "total": "1",
+      "passed": "1",
+      "failed": "0",
+      "inconclusive": "0"
+    }
+  },
+  "assets": [
+    {
+      "path": "Game\\Assets\\_Project\\Art\\Characters\\Fire\\cannon_crew_ignite6.png",
+      "sha256": "5132d551a86960a7f95884e804534c79244847f260c2c8bd047866f0da4496e9"
+    },
+    {
+      "path": "Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\Cannon\\cannon_recoil.png",
+      "sha256": "d7e43fee91e85b900b73fc0f5bb0314e7cdd2dec3e45ff71188ef45403b6733f"
+    }
+  ],
+  "captures": [
+    "01_ignite_contact_frame_1.png",
+    "02_ignite_contact_frame_2.png",
+    "03_ignite_contact_frame_3.png",
+    "04_ignite_contact_frame_4.png",
+    "05_ignite_contact_frame_5.png",
+    "06_ignite_contact_frame_6.png",
+    "07_ignite_contact_preset_1.png",
+    "08_ignite_contact_preset_2.png"
+  ]
+}

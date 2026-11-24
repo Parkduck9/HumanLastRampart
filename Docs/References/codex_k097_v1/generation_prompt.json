@@ -1,0 +1,9 @@
+{
+  "tool": "built-in image_gen.imagegen",
+  "transparent_background": true,
+  "reference_images": [
+    "Docs/References/codex_hero_octopath_review_v6/generated.png",
+    "Docs/References/codex_k093_v1/officer_bust_4x.png"
+  ],
+  "prompt": "Create a production pixel-art SPRITESHEET of four bust portraits of the SAME young male officer hero. Reference 1 is approved identity: spiky white hair, very clear blue irises with white catchlights, chunky pixels, thick very dark outline, black officer coat with gold epaulettes and gold trim, white cravat. Reference 2 gives prior bust framing only. Use case: identity-preserve. ONE HORIZONTAL ROW of FOUR equal square cells, no gaps between cells, transparent background, no text. Each cell has SAME head size, same head position, front-facing/slight three-quarter face, chest cropped at same level near bottom. Left to right: neutral closed mouth; explaining with one hand raised beside shoulder, index finger up and mouth talking; urgent with lowered brows and open mouth; pleased with soft smile and clearly open blue eyes. Full hair and raised hand must fit inside respective cells without touching edges or crossing cell boundaries. Pixel art with an effective 48x48 pixel grid per cell, no anti-aliasing, no gradients or glow, about 3 shading steps per material, thick 1 native pixel dark outline. The portrait head is intentionally large to match approved hero, white hair occupies upper half, gold uniform shoulders lower third. Keep identical face identity and body anchor in all four frames. Output wide 4:1 aspect ratio if possible. These are interface bust portraits, not full body sprites."
+}

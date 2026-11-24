@@ -1,0 +1,10 @@
+{
+  "bullet": {
+    "prompt": "Create ONE 16-bit PIXEL ART sprite of a ROUND LEAD MUSKET BALL. This is a tiny game projectile, NOT a realistic photograph. Draw using a clearly visible 12 by 12 pixel grid expanded into large sharp square blocks: just FOUR flat grey shades, darkoutline, small square highlight top-left. NO microtexture or gradients. Circular silhouette, transparent surrounding space, no shadow, no text. Center whole sphere and leave margin.",
+    "generatedSource": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-d11b0bf6-fc92-4db7-95e3-5e7df19b3dbe.png"
+  },
+  "trap": {
+    "prompt": "Create ONE small 16-bit PIXEL ART sprite of a medieval explosive trap, visible untriggered static state for a pixel game. A squat brown wooden box with dark iron rim and flat dark metal top plate, tiny UNLIT fuse on side, a FEW clods of earth on top. Low oblique view. Readable 48 by 32 pixel sprite expanded with sharp coarse square blocks, limited palette of brown and grey, only THREE FLAT shades per material, darkpixel outline. Isolated object on TRUE TRANSPARENT BACKGROUND. NO surrounding ground scene, NO photography, NO photorealistic texture, NO blur, NO grass photograph, no explosion, no fire, no shadows, no words.",
+    "generatedSource": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-7b472a2c-429f-40ee-8c49-65627049ef35.png"
+  }
+}

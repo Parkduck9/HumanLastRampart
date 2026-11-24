@@ -1,0 +1,625 @@
+{
+  "passed": true,
+  "asset_count": 34,
+  "embedded_images_checked": 18,
+  "checks": [
+    {
+      "file": "native/beacon_tower_dead.png",
+      "size": [
+        96,
+        128
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "frame_bounds": [
+        [
+          11,
+          23,
+          85,
+          121
+        ]
+      ],
+      "component_cleanup": [
+        true
+      ]
+    },
+    {
+      "file": "game/beacon_tower_dead.png",
+      "size": [
+        288,
+        384
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "frame_bounds": [
+        [
+          33,
+          69,
+          255,
+          363
+        ]
+      ],
+      "component_cleanup": [
+        true
+      ],
+      "exact_nearest_3x": true
+    },
+    {
+      "file": "previews/beacon_tower_dead_4x.png",
+      "size": [
+        384,
+        512
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "file": "native/beacon_tower_warming.png",
+      "size": [
+        96,
+        128
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "frame_bounds": [
+        [
+          11,
+          23,
+          85,
+          121
+        ]
+      ],
+      "component_cleanup": [
+        true
+      ]
+    },
+    {
+      "file": "game/beacon_tower_warming.png",
+      "size": [
+        288,
+        384
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "frame_bounds": [
+        [
+          33,
+          69,
+          255,
+          363
+        ]
+      ],
+      "component_cleanup": [
+        true
+      ],
+      "exact_nearest_3x": true
+    },
+    {
+      "file": "previews/beacon_tower_warming_4x.png",
+      "size": [
+        384,
+        512
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "file": "native/beacon_tower_lit.png",
+      "size": [
+        96,
+        128
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "frame_bounds": [
+        [
+          11,
+          23,
+          85,
+          121
+        ]
+      ],
+      "component_cleanup": [
+        true
+      ]
+    },
+    {
+      "file": "game/beacon_tower_lit.png",
+      "size": [
+        288,
+        384
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "frame_bounds": [
+        [
+          33,
+          69,
+          255,
+          363
+        ]
+      ],
+      "component_cleanup": [
+        true
+      ],
+      "exact_nearest_3x": true
+    },
+    {
+      "file": "previews/beacon_tower_lit_4x.png",
+      "size": [
+        384,
+        512
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "file": "native/beacon_tower_states.png",
+      "size": [
+        288,
+        128
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "frame_bounds": [
+        [
+          11,
+          23,
+          85,
+          121
+        ],
+        [
+          11,
+          23,
+          85,
+          121
+        ],
+        [
+          11,
+          23,
+          85,
+          121
+        ]
+      ],
+      "component_cleanup": [
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "file": "game/beacon_tower_states.png",
+      "size": [
+        864,
+        384
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "frame_bounds": [
+        [
+          33,
+          69,
+          255,
+          363
+        ],
+        [
+          33,
+          69,
+          255,
+          363
+        ],
+        [
+          33,
+          69,
+          255,
+          363
+        ]
+      ],
+      "component_cleanup": [
+        true,
+        true,
+        true
+      ],
+      "exact_nearest_3x": true
+    },
+    {
+      "file": "previews/beacon_tower_states_4x.png",
+      "size": [
+        1152,
+        512
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "file": "native/beacon_flame_warming.png",
+      "size": [
+        576,
+        128
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "frame_bounds": [
+        [
+          42,
+          26,
+          55,
+          42
+        ],
+        [
+          42,
+          24,
+          55,
+          42
+        ],
+        [
+          42,
+          23,
+          55,
+          42
+        ],
+        [
+          42,
+          24,
+          55,
+          42
+        ],
+        [
+          42,
+          25,
+          56,
+          42
+        ],
+        [
+          42,
+          26,
+          56,
+          42
+        ]
+      ],
+      "component_cleanup": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "file": "game/beacon_flame_warming.png",
+      "size": [
+        1728,
+        384
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "frame_bounds": [
+        [
+          126,
+          78,
+          165,
+          126
+        ],
+        [
+          126,
+          72,
+          165,
+          126
+        ],
+        [
+          126,
+          69,
+          165,
+          126
+        ],
+        [
+          126,
+          72,
+          165,
+          126
+        ],
+        [
+          126,
+          75,
+          168,
+          126
+        ],
+        [
+          126,
+          78,
+          168,
+          126
+        ]
+      ],
+      "component_cleanup": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "exact_nearest_3x": true
+    },
+    {
+      "file": "previews/beacon_flame_warming_4x.png",
+      "size": [
+        2304,
+        512
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "file": "native/beacon_flame_lit.png",
+      "size": [
+        576,
+        128
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "frame_bounds": [
+        [
+          36,
+          8,
+          60,
+          42
+        ],
+        [
+          36,
+          6,
+          61,
+          42
+        ],
+        [
+          36,
+          5,
+          60,
+          42
+        ],
+        [
+          36,
+          7,
+          60,
+          42
+        ],
+        [
+          35,
+          9,
+          60,
+          42
+        ],
+        [
+          36,
+          8,
+          60,
+          42
+        ]
+      ],
+      "component_cleanup": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "file": "game/beacon_flame_lit.png",
+      "size": [
+        1728,
+        384
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "frame_bounds": [
+        [
+          108,
+          24,
+          180,
+          126
+        ],
+        [
+          108,
+          18,
+          183,
+          126
+        ],
+        [
+          108,
+          15,
+          180,
+          126
+        ],
+        [
+          108,
+          21,
+          180,
+          126
+        ],
+        [
+          105,
+          27,
+          180,
+          126
+        ],
+        [
+          108,
+          24,
+          180,
+          126
+        ]
+      ],
+      "component_cleanup": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "exact_nearest_3x": true
+    },
+    {
+      "file": "previews/beacon_flame_lit_4x.png",
+      "size": [
+        2304,
+        512
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "file": "native/beacon_light_pillar.png",
+      "size": [
+        96,
+        256
+      ],
+      "alpha_min": 0,
+      "alpha_max": 253
+    },
+    {
+      "file": "game/beacon_light_pillar.png",
+      "size": [
+        288,
+        768
+      ],
+      "alpha_min": 0,
+      "alpha_max": 253,
+      "exact_nearest_3x": true
+    },
+    {
+      "file": "previews/beacon_light_pillar_4x.png",
+      "size": [
+        384,
+        1024
+      ],
+      "alpha_min": 0,
+      "alpha_max": 253
+    },
+    {
+      "file": "icons/beacon_dead_48.png",
+      "size": [
+        48,
+        48
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "file": "icons/beacon_dead_96.png",
+      "size": [
+        96,
+        96
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "file": "previews/beacon_icon_dead_4x.png",
+      "size": [
+        192,
+        192
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "file": "icons/beacon_warming_48.png",
+      "size": [
+        48,
+        48
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "file": "icons/beacon_warming_96.png",
+      "size": [
+        96,
+        96
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "file": "previews/beacon_icon_warming_4x.png",
+      "size": [
+        192,
+        192
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "file": "icons/beacon_lit_48.png",
+      "size": [
+        48,
+        48
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "file": "icons/beacon_lit_96.png",
+      "size": [
+        96,
+        96
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "file": "previews/beacon_icon_lit_4x.png",
+      "size": [
+        192,
+        192
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "file": "mockup_battle_night_1920x1080.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "alpha_min": 255,
+      "alpha_max": 255
+    },
+    {
+      "file": "mockup_prep_day_1920x1080.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "alpha_min": 255,
+      "alpha_max": 255
+    },
+    {
+      "file": "previews/scale_comparison_4x.png",
+      "size": [
+        1440,
+        512
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "file": "previews/beacon_lit_full_4x.png",
+      "size": [
+        384,
+        1336
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255
+    }
+  ],
+  "notes": [
+    "불꽃의 기준점은 화로이며 발 픽셀 없음.",
+    "빛기둥의 분리된 불티와 반투명 광륜은 의도한 효과.",
+    "Unity 실행·게임 연결은 수행하지 않음."
+  ]
+}

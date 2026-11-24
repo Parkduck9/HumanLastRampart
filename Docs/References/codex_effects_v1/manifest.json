@@ -1,0 +1,1238 @@
+{
+  "card": "K-012",
+  "task": "T-CX-055",
+  "status": "외형 사용자 검토 대기",
+  "cellSize": [
+    256,
+    256
+  ],
+  "pivotPixels": [
+    128,
+    256
+  ],
+  "fps": 10,
+  "assets": [
+    {
+      "id": "magic_burst",
+      "title": "마법 폭발",
+      "loop": false,
+      "prompt": "Create a STRICT hard-pixel 16-bit videogame sprite sheet of a blue magical impact explosion, six DIFFERENT sequential frames in ONE horizontal row. Transparent PNG1536x1024, six equal256px columns, all artwork centered vertically on row y512. Flat EIGHT-COLOR sprite palette only: navy outline, purple, blue, cyan and white. Solid opaque square pixels with hard stair-step edges and deliberate dark navy outlines around the effect. No gradients of any kind, no atmospheric or diffuse light halo, no translucent haze, no bloom. Everything outside the discrete pixel shapes must be alpha0. Frame1 small navy/cyan spark,2 expanding purpleblast,3 large cyan sharpburst,4 fragmentedbluearc,5 scatteredsmallbluespecks,6 finalfewpixels. Same baseliney640. Entireartfitsinsideeach256column leaving24px padding. Do not fill background black. This is unlit sprite art, NOT an emissive render. Do not draw shadows, texts, characters, grid, floor. Each frame visibly DIFFERENT; preserve peak growth and decay.",
+      "tool": "built-in imagegen",
+      "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-99240622-367f-4f46-bf99-5712b772ab29.png",
+      "targetMaxExtent": 232,
+      "styleReferenceNote": "기존 주인공 도트 굵기 직접 확인. 채택된 재생성에는 참조 이미지 없이 제한색/도트 외곽선 프롬프트 사용.",
+      "rejectedInitialSource": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-f75bf597-22cb-4a3a-b5f3-1f394e021493.png",
+      "rejectedReason": "첫 원안은 부드러운 빛 번짐이 강해 제외. 원안 편집보다 새 제한색 원안을 채택.",
+      "source": "magic_burst_source.png",
+      "sourceSize": [
+        2172,
+        724
+      ],
+      "sourceSha256": "676934f44b3df090c72e54bd1cf2b98e90ada080b02a04675cb6d868fe9a7b6e",
+      "sheet": "magic_burst_sheet.png",
+      "sheetSize": [
+        1536,
+        256
+      ],
+      "sheetSha256": "3846fb47dd2f81906426d2665c099daaf598609be63177e3ba1e97863eec9adf",
+      "cellSize": [
+        256,
+        256
+      ],
+      "columns": 6,
+      "rows": 1,
+      "fps": 10,
+      "pivotPixels": [
+        128,
+        256
+      ],
+      "pivotNormalized": [
+        0.5,
+        0
+      ],
+      "sourceCommonCropY": [
+        154,
+        616
+      ],
+      "sourceColumnBounds": [
+        0,
+        261,
+        641,
+        1106,
+        1500,
+        1885,
+        2172
+      ],
+      "sourceColumnWidth": 465,
+      "commonScale": 0.4989247311827957,
+      "processing": "이미지 원안의 가로6칸을 같은 배율·같은 세로 범위로 최근접 정렬. 내용 덧칠/복제 프레임 없음. 아래 경계는 의도한 접지 피벗.",
+      "frames": [
+        {
+          "index": 0,
+          "rect": [
+            0,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            256
+          ],
+          "pivotNormalized": [
+            0.5,
+            0.0
+          ],
+          "rgbaSha256": "ffa90c442c27b14b0757268293be0bf8e4bd78682e5cf18c35f6ed1c60267b36",
+          "alphaBBox": [
+            63,
+            57,
+            192,
+            253
+          ]
+        },
+        {
+          "index": 1,
+          "rect": [
+            256,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            256
+          ],
+          "pivotNormalized": [
+            0.5,
+            0.0
+          ],
+          "rgbaSha256": "de924e5951233251d7e97807f0f2191266afbbb8da74ffbc856436317935ae77",
+          "alphaBBox": [
+            35,
+            33,
+            222,
+            237
+          ]
+        },
+        {
+          "index": 2,
+          "rect": [
+            512,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            256
+          ],
+          "pivotNormalized": [
+            0.5,
+            0.0
+          ],
+          "rgbaSha256": "56be380e3fd13c8c474109a6e5d37424dec9ee2d1c0be988db91f0540900a697",
+          "alphaBBox": [
+            13,
+            25,
+            238,
+            256
+          ]
+        },
+        {
+          "index": 3,
+          "rect": [
+            768,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            256
+          ],
+          "pivotNormalized": [
+            0.5,
+            0.0
+          ],
+          "rgbaSha256": "681dfc38dca23e8570098fda86b32ffdca72102110218ad666a1b661738a8ee0",
+          "alphaBBox": [
+            32,
+            44,
+            217,
+            241
+          ]
+        },
+        {
+          "index": 4,
+          "rect": [
+            1024,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            256
+          ],
+          "pivotNormalized": [
+            0.5,
+            0.0
+          ],
+          "rgbaSha256": "b091a420e27778c3f7e2070d8edbb1fc9439c5a557e4518064f597ff0838bb75",
+          "alphaBBox": [
+            41,
+            27,
+            224,
+            250
+          ]
+        },
+        {
+          "index": 5,
+          "rect": [
+            1280,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            256
+          ],
+          "pivotNormalized": [
+            0.5,
+            0.0
+          ],
+          "rgbaSha256": "09cb32d7a2fa6006f0d2aad7d349f416da423610e8b0e305def59549a054ff7d",
+          "alphaBBox": [
+            65,
+            46,
+            163,
+            245
+          ]
+        }
+      ],
+      "approval": "외형 사용자 검토 대기 / 게임 미연결"
+    },
+    {
+      "id": "fire_field",
+      "title": "불바다",
+      "loop": true,
+      "prompt": "Create a STRICT hard-pixel 16-bit videogame sprite sheet, exactly SIX DIFFERENT sequential frames in ONE horizontal row. Actual transparent PNG, panoramic3:1 canvas, six cells equally spaced with generous completely empty transparent gaps between objects. A LOW WIDE carpet of fire in six different seamless-loop poses. Palette: opaque dark maroon outline, darkred, orange, yellow, ivory. Flame tongues shift left/right, same broad ground footprint, sixth flows back to first. Every shape consists of solid opaque square pixels with hard stair-step edges and deliberate dark outlines. NO gradients of any kind, NO atmospheric or diffuse light halo, NO translucent haze, NO bloom, NO light rays. Everything outside discrete pixel shapes is ALPHA ZERO. Same common scale and baseline across all6frames. Keep every particle well inside its cell. Do not draw black background, shadows, text, labels, grid, ground, objects, character. This is unlit flat-color sprite art, NOT an emissive render. Six poses must differ visibly. Entire effect fully visible in every frame with generous margins.",
+      "tool": "built-in imagegen",
+      "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-e8a385cb-84cc-454d-b851-af43650b0b69.png",
+      "targetMaxExtent": 232,
+      "styleReferenceNote": "기존 주인공 도트 굵기 직접 확인. 채택된 재생성에는 참조 이미지 없이 제한색/도트 외곽선 프롬프트 사용.",
+      "rejectedInitialSource": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-2bdb54fb-45a7-4bda-8230-769ac3d4da79.png",
+      "rejectedReason": "첫 원안은 부드러운 빛 번짐이 강해 제외. 원안 편집보다 새 제한색 원안을 채택.",
+      "source": "fire_field_source.png",
+      "sourceSize": [
+        2172,
+        724
+      ],
+      "sourceSha256": "2e254b93b09a02974eb96ee8adbded7c13620538a51ebe246b972372978e9b4e",
+      "sheet": "fire_field_sheet.png",
+      "sheetSize": [
+        1536,
+        256
+      ],
+      "sheetSha256": "d9f0293e91026d2574a262b989de2c9f15dc6ee6625f37aede66ae616361fdc7",
+      "cellSize": [
+        256,
+        256
+      ],
+      "columns": 6,
+      "rows": 1,
+      "fps": 10,
+      "pivotPixels": [
+        128,
+        256
+      ],
+      "pivotNormalized": [
+        0.5,
+        0
+      ],
+      "sourceCommonCropY": [
+        249,
+        482
+      ],
+      "sourceColumnBounds": [
+        0,
+        372,
+        734,
+        1086,
+        1437,
+        1801,
+        2172
+      ],
+      "sourceColumnWidth": 372,
+      "commonScale": 0.6236559139784946,
+      "processing": "이미지 원안의 가로6칸을 같은 배율·같은 세로 범위로 최근접 정렬. 내용 덧칠/복제 프레임 없음. 아래 경계는 의도한 접지 피벗.",
+      "frames": [
+        {
+          "index": 0,
+          "rect": [
+            0,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            256
+          ],
+          "pivotNormalized": [
+            0.5,
+            0.0
+          ],
+          "rgbaSha256": "0a3a7be0aca6a0a377bcc4cf409b34438751c58f3103453651a3ac13f70454fd",
+          "alphaBBox": [
+            22,
+            116,
+            234,
+            256
+          ]
+        },
+        {
+          "index": 1,
+          "rect": [
+            256,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            256
+          ],
+          "pivotNormalized": [
+            0.5,
+            0.0
+          ],
+          "rgbaSha256": "6da8aa332684dcd139e25b22d6ba7cfd9b51561265817f402da27499ab13e17d",
+          "alphaBBox": [
+            24,
+            111,
+            241,
+            256
+          ]
+        },
+        {
+          "index": 2,
+          "rect": [
+            512,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            256
+          ],
+          "pivotNormalized": [
+            0.5,
+            0.0
+          ],
+          "rgbaSha256": "5f2168fd6282b4a24df972211cef36400af816429d219e485a680c1c11a6c480",
+          "alphaBBox": [
+            21,
+            111,
+            232,
+            256
+          ]
+        },
+        {
+          "index": 3,
+          "rect": [
+            768,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            256
+          ],
+          "pivotNormalized": [
+            0.5,
+            0.0
+          ],
+          "rgbaSha256": "15840e291878d48317c216ceff72b1391f7b9e04d56fc380819d6259b2a662dc",
+          "alphaBBox": [
+            25,
+            119,
+            227,
+            256
+          ]
+        },
+        {
+          "index": 4,
+          "rect": [
+            1024,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            256
+          ],
+          "pivotNormalized": [
+            0.5,
+            0.0
+          ],
+          "rgbaSha256": "cbc58c82e993d11146b54a54606d5ab007899778a16cc0a2a5e3256f906b6e37",
+          "alphaBBox": [
+            22,
+            111,
+            233,
+            256
+          ]
+        },
+        {
+          "index": 5,
+          "rect": [
+            1280,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            256
+          ],
+          "pivotNormalized": [
+            0.5,
+            0.0
+          ],
+          "rgbaSha256": "a07c2e1ed08c39fb549561c73f97c3f1efbe0beb33e73c38c83cc40ba7ea938f",
+          "alphaBBox": [
+            19,
+            117,
+            234,
+            256
+          ]
+        }
+      ],
+      "approval": "외형 사용자 검토 대기 / 게임 미연결"
+    },
+    {
+      "id": "trap_burst",
+      "title": "함정 폭발",
+      "loop": false,
+      "prompt": "Create a STRICT hard-pixel 16-bit videogame sprite sheet, exactly SIX DIFFERENT sequential frames in ONE horizontal row. Actual transparent PNG, panoramic3:1 canvas, six cells equally spaced with generous completely empty transparent gaps between objects. Ground trap blast sequence: small gold ignition, rising orange plume, large orange/brown debris burst, breaking angular gray-brown dust cloud, falling tiny chips, last few dust dots. Opaque flat darkbrown outline, brown, gray, orange, yellow, ivory palette. Every shape consists of solid opaque square pixels with hard stair-step edges and deliberate dark outlines. NO gradients of any kind, NO atmospheric or diffuse light halo, NO translucent haze, NO bloom, NO light rays. Everything outside discrete pixel shapes is ALPHA ZERO. Same common scale and baseline across all6frames. Keep every particle well inside its cell. Do not draw black background, shadows, text, labels, grid, ground, objects, character. This is unlit flat-color sprite art, NOT an emissive render. Six poses must differ visibly. Entire effect fully visible in every frame with generous margins.",
+      "tool": "built-in imagegen",
+      "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-485ed9fa-6208-4322-9a14-4da4b77e6946.png",
+      "targetMaxExtent": 232,
+      "styleReferenceNote": "기존 주인공 도트 굵기 직접 확인. 채택된 재생성에는 참조 이미지 없이 제한색/도트 외곽선 프롬프트 사용.",
+      "rejectedInitialSource": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-e34fa40e-2771-43b2-b936-bf8be32c437f.png",
+      "rejectedReason": "첫 원안은 부드러운 빛 번짐이 강해 제외. 원안 편집보다 새 제한색 원안을 채택.",
+      "source": "trap_burst_source.png",
+      "sourceSize": [
+        2172,
+        724
+      ],
+      "sourceSha256": "b1dda3e53bb1d42f470bdb98ab228fb053ad7132b43120d74f81b33ae22d60f9",
+      "sheet": "trap_burst_sheet.png",
+      "sheetSize": [
+        1536,
+        256
+      ],
+      "sheetSha256": "a58f5d32f4ad1ab9372d843377065c9afa6777539a979d9b330bc9e354674c71",
+      "cellSize": [
+        256,
+        256
+      ],
+      "columns": 6,
+      "rows": 1,
+      "fps": 10,
+      "pivotPixels": [
+        128,
+        256
+      ],
+      "pivotNormalized": [
+        0.5,
+        0
+      ],
+      "sourceCommonCropY": [
+        171,
+        628
+      ],
+      "sourceColumnBounds": [
+        0,
+        291,
+        619,
+        1105,
+        1525,
+        1882,
+        2172
+      ],
+      "sourceColumnWidth": 486,
+      "commonScale": 0.4773662551440329,
+      "processing": "이미지 원안의 가로6칸을 같은 배율·같은 세로 범위로 최근접 정렬. 내용 덧칠/복제 프레임 없음. 아래 경계는 의도한 접지 피벗.",
+      "frames": [
+        {
+          "index": 0,
+          "rect": [
+            0,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            256
+          ],
+          "pivotNormalized": [
+            0.5,
+            0.0
+          ],
+          "rgbaSha256": "e170bad4661a5c7c3cefe9c21ceaef2ed7ad420f071879cd6b567e8db222d264",
+          "alphaBBox": [
+            89,
+            86,
+            192,
+            256
+          ]
+        },
+        {
+          "index": 1,
+          "rect": [
+            256,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            256
+          ],
+          "pivotNormalized": [
+            0.5,
+            0.0
+          ],
+          "rgbaSha256": "86ea25fda828eef324e2986005b80f74d88d60d6cbe386c1fea177ce6c384651",
+          "alphaBBox": [
+            61,
+            43,
+            196,
+            256
+          ]
+        },
+        {
+          "index": 2,
+          "rect": [
+            512,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            256
+          ],
+          "pivotNormalized": [
+            0.5,
+            0.0
+          ],
+          "rgbaSha256": "af79c096a10c6eb2537dff50150405865a113759dfabe02f03fd3aec60af1a74",
+          "alphaBBox": [
+            23,
+            38,
+            243,
+            256
+          ]
+        },
+        {
+          "index": 3,
+          "rect": [
+            768,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            256
+          ],
+          "pivotNormalized": [
+            0.5,
+            0.0
+          ],
+          "rgbaSha256": "b35af7ee441473a2440bcdb8e6cbfa4e7039e1fa96c2f77a70a89a322821abb7",
+          "alphaBBox": [
+            34,
+            40,
+            228,
+            256
+          ]
+        },
+        {
+          "index": 4,
+          "rect": [
+            1024,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            256
+          ],
+          "pivotNormalized": [
+            0.5,
+            0.0
+          ],
+          "rgbaSha256": "0880a0aa41cddd6648cfacff2cbce1012b25ff1b4fb9ac31c943b90ec36a460c",
+          "alphaBBox": [
+            48,
+            38,
+            198,
+            256
+          ]
+        },
+        {
+          "index": 5,
+          "rect": [
+            1280,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            256
+          ],
+          "pivotNormalized": [
+            0.5,
+            0.0
+          ],
+          "rgbaSha256": "703b36094cfcfe3ab90c1555ce7d204f20a7640dc194e19e09c56869d48eff20",
+          "alphaBBox": [
+            62,
+            76,
+            167,
+            256
+          ]
+        }
+      ],
+      "approval": "외형 사용자 검토 대기 / 게임 미연결"
+    },
+    {
+      "id": "arrow_hit",
+      "title": "화살 명중 불꽃",
+      "loop": false,
+      "prompt": "Create a STRICT hard-pixel 16-bit videogame sprite sheet, exactly SIX DIFFERENT sequential frames in ONE horizontal row. Actual transparent PNG, panoramic3:1 canvas, six cells equally spaced with generous completely empty transparent gaps between objects. TINY arrow hit spark sequence, no arrow drawn: pinpoint, short ivory-gold star, tan chips flying, separated tan splinters, few specks, last speck. Flat opaque darkbrown outline/ochre/tan/ivory pixels. Much smaller than256px cells, peak about70px. Every shape consists of solid opaque square pixels with hard stair-step edges and deliberate dark outlines. NO gradients of any kind, NO atmospheric or diffuse light halo, NO translucent haze, NO bloom, NO light rays. Everything outside discrete pixel shapes is ALPHA ZERO. Same common scale and baseline across all6frames. Keep every particle well inside its cell. Do not draw black background, shadows, text, labels, grid, ground, objects, character. This is unlit flat-color sprite art, NOT an emissive render. Six poses must differ visibly. Entire effect fully visible in every frame with generous margins.",
+      "tool": "built-in imagegen",
+      "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-7dc749cb-89fe-4834-8fd4-45bf75981e81.png",
+      "targetMaxExtent": 80,
+      "styleReferenceNote": "기존 주인공 도트 굵기 직접 확인. 채택된 재생성에는 참조 이미지 없이 제한색/도트 외곽선 프롬프트 사용.",
+      "rejectedInitialSource": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-33aea0c1-80af-4d49-ba29-2034c1edb60f.png",
+      "rejectedReason": "첫 원안은 부드러운 빛 번짐이 강해 제외. 원안 편집보다 새 제한색 원안을 채택.",
+      "source": "arrow_hit_source.png",
+      "sourceSize": [
+        2172,
+        724
+      ],
+      "sourceSha256": "bedb734b84bbb80c31c6d491d97b475fb8d9cdf62d3e3464b73219f89dd3f98b",
+      "sheet": "arrow_hit_sheet.png",
+      "sheetSize": [
+        1536,
+        256
+      ],
+      "sheetSha256": "e10f6db61b5315efe60073d766ce6cdcdce5b8b5b977adcb410fb1c5085e0058",
+      "cellSize": [
+        256,
+        256
+      ],
+      "columns": 6,
+      "rows": 1,
+      "fps": 10,
+      "pivotPixels": [
+        128,
+        256
+      ],
+      "pivotNormalized": [
+        0.5,
+        0
+      ],
+      "sourceCommonCropY": [
+        239,
+        507
+      ],
+      "sourceColumnBounds": [
+        0,
+        289,
+        675,
+        1095,
+        1515,
+        1906,
+        2172
+      ],
+      "sourceColumnWidth": 420,
+      "commonScale": 0.29850746268656714,
+      "processing": "이미지 원안의 가로6칸을 같은 배율·같은 세로 범위로 최근접 정렬. 내용 덧칠/복제 프레임 없음. 아래 경계는 의도한 접지 피벗.",
+      "frames": [
+        {
+          "index": 0,
+          "rect": [
+            0,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            256
+          ],
+          "pivotNormalized": [
+            0.5,
+            0.0
+          ],
+          "rgbaSha256": "7ee46ab8ba8a68a040bb956d9422b416a7d4a282a45a9bc121cd4abf90d48eda",
+          "alphaBBox": [
+            91,
+            211,
+            134,
+            225
+          ]
+        },
+        {
+          "index": 1,
+          "rect": [
+            256,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            256
+          ],
+          "pivotNormalized": [
+            0.5,
+            0.0
+          ],
+          "rgbaSha256": "1f40213b7b6be4f228cb65a49ea61b0ca84a2b772ec16e6ec9241d1251d3f419",
+          "alphaBBox": [
+            73,
+            193,
+            158,
+            243
+          ]
+        },
+        {
+          "index": 2,
+          "rect": [
+            512,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            256
+          ],
+          "pivotNormalized": [
+            0.5,
+            0.0
+          ],
+          "rgbaSha256": "44e494a6af38af748fc9cf27c84ba0dc0667430e47a122bc83a60549a6767c2b",
+          "alphaBBox": [
+            94,
+            178,
+            171,
+            253
+          ]
+        },
+        {
+          "index": 3,
+          "rect": [
+            768,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            256
+          ],
+          "pivotNormalized": [
+            0.5,
+            0.0
+          ],
+          "rgbaSha256": "422fdaea84dd6d83d54d104cd50311bc15b159eb59af9eda02a787eefa857313",
+          "alphaBBox": [
+            85,
+            176,
+            170,
+            256
+          ]
+        },
+        {
+          "index": 4,
+          "rect": [
+            1024,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            256
+          ],
+          "pivotNormalized": [
+            0.5,
+            0.0
+          ],
+          "rgbaSha256": "0f3611bc0838e57a0471d25886cdefdf6547eea3a8c21aba8b552556c17fa45a",
+          "alphaBBox": [
+            91,
+            188,
+            186,
+            256
+          ]
+        },
+        {
+          "index": 5,
+          "rect": [
+            1280,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            256
+          ],
+          "pivotNormalized": [
+            0.5,
+            0.0
+          ],
+          "rgbaSha256": "6928b823ddd66ce596bfa5eaf203675ca85ada9c11ad90d88ba22f2644f5d3d3",
+          "alphaBBox": [
+            89,
+            182,
+            134,
+            224
+          ]
+        }
+      ],
+      "approval": "외형 사용자 검토 대기 / 게임 미연결"
+    },
+    {
+      "id": "bullet_hit",
+      "title": "총알 명중 불꽃",
+      "loop": false,
+      "prompt": "Create a STRICT hard-pixel 16-bit videogame sprite sheet, exactly SIX DIFFERENT sequential frames in ONE horizontal row. Actual transparent PNG, panoramic3:1 canvas, six cells equally spaced with generous completely empty transparent gaps between objects. TINY musket bullet hit spark sequence, no gun: pinpoint, white/gold sharpstar, gold sparks and small angular gray puff, scattered sparks and gray chunks, tiny dim orange specks, finalgraydot. Opaque charcoal outline,gray,gold,ivory palette. Peak about85px. Every shape consists of solid opaque square pixels with hard stair-step edges and deliberate dark outlines. NO gradients of any kind, NO atmospheric or diffuse light halo, NO translucent haze, NO bloom, NO light rays. Everything outside discrete pixel shapes is ALPHA ZERO. Same common scale and baseline across all6frames. Keep every particle well inside its cell. Do not draw black background, shadows, text, labels, grid, ground, objects, character. This is unlit flat-color sprite art, NOT an emissive render. Six poses must differ visibly. Entire effect fully visible in every frame with generous margins.",
+      "tool": "built-in imagegen",
+      "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-0a3230d2-b118-4bef-9c45-eba80ccad3ba.png",
+      "targetMaxExtent": 96,
+      "styleReferenceNote": "기존 주인공 도트 굵기 직접 확인. 채택된 재생성에는 참조 이미지 없이 제한색/도트 외곽선 프롬프트 사용.",
+      "rejectedInitialSource": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-4b1dbce7-e251-40b7-a463-b2030383b01a.png",
+      "rejectedReason": "첫 원안은 부드러운 빛 번짐이 강해 제외. 원안 편집보다 새 제한색 원안을 채택.",
+      "source": "bullet_hit_source.png",
+      "sourceSize": [
+        2172,
+        724
+      ],
+      "sourceSha256": "e3a184471f2c0fa2c4e1e3e824289dfb91ee091153b74affdd77abb91dd74ed7",
+      "sheet": "bullet_hit_sheet.png",
+      "sheetSize": [
+        1536,
+        256
+      ],
+      "sheetSha256": "805c6deea35ee7f7f5e52ba96297c3ee0dd6a1cacf2fc2ac91cf787fd57c4b8d",
+      "cellSize": [
+        256,
+        256
+      ],
+      "columns": 6,
+      "rows": 1,
+      "fps": 10,
+      "pivotPixels": [
+        128,
+        256
+      ],
+      "pivotNormalized": [
+        0.5,
+        0
+      ],
+      "sourceCommonCropY": [
+        208,
+        534
+      ],
+      "sourceColumnBounds": [
+        0,
+        277,
+        660,
+        1086,
+        1494,
+        1891,
+        2172
+      ],
+      "sourceColumnWidth": 426,
+      "commonScale": 0.294478527607362,
+      "processing": "이미지 원안의 가로6칸을 같은 배율·같은 세로 범위로 최근접 정렬. 내용 덧칠/복제 프레임 없음. 아래 경계는 의도한 접지 피벗.",
+      "frames": [
+        {
+          "index": 0,
+          "rect": [
+            0,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            256
+          ],
+          "pivotNormalized": [
+            0.5,
+            0.0
+          ],
+          "rgbaSha256": "761665eed3037efc1f76e4a477ac8147eb0508a08521be3e46811a2fe8998c5e",
+          "alphaBBox": [
+            100,
+            161,
+            168,
+            255
+          ]
+        },
+        {
+          "index": 1,
+          "rect": [
+            256,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            256
+          ],
+          "pivotNormalized": [
+            0.5,
+            0.0
+          ],
+          "rgbaSha256": "54b9d7e80c9080a39c509ddcbe269f4ffe19c409863e9bffcd76dff7c11c744c",
+          "alphaBBox": [
+            74,
+            168,
+            181,
+            249
+          ]
+        },
+        {
+          "index": 2,
+          "rect": [
+            512,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            256
+          ],
+          "pivotNormalized": [
+            0.5,
+            0.0
+          ],
+          "rgbaSha256": "bec8070838aef0861b7cd072cfdb76ce4f645e9b7e88589f775f5625eac3db0c",
+          "alphaBBox": [
+            66,
+            160,
+            189,
+            256
+          ]
+        },
+        {
+          "index": 3,
+          "rect": [
+            768,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            256
+          ],
+          "pivotNormalized": [
+            0.5,
+            0.0
+          ],
+          "rgbaSha256": "363a446635db56f1016dfd30837487f36592d5f65723f92cb3e720542787f6d2",
+          "alphaBBox": [
+            72,
+            162,
+            173,
+            255
+          ]
+        },
+        {
+          "index": 4,
+          "rect": [
+            1024,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            256
+          ],
+          "pivotNormalized": [
+            0.5,
+            0.0
+          ],
+          "rgbaSha256": "f07783b1f866426c4d41844a812ea8f5f21f85dbe9a6b61cee5e3897eb99ba10",
+          "alphaBBox": [
+            77,
+            161,
+            176,
+            246
+          ]
+        },
+        {
+          "index": 5,
+          "rect": [
+            1280,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            256
+          ],
+          "pivotNormalized": [
+            0.5,
+            0.0
+          ],
+          "rgbaSha256": "57122ffcaaa83bfc99c048cd3817150a206c8c73a47c4c323fa404ef62981406",
+          "alphaBBox": [
+            87,
+            197,
+            137,
+            236
+          ]
+        }
+      ],
+      "approval": "외형 사용자 검토 대기 / 게임 미연결"
+    },
+    {
+      "id": "torch_flame",
+      "title": "성벽 횃불 불꽃",
+      "loop": true,
+      "prompt": "Create a STRICT hard-pixel 16-bit videogame sprite sheet, exactly SIX DIFFERENT sequential frames in ONE horizontal row. Actual transparent PNG, panoramic3:1 canvas, six cells equally spaced with generous completely empty transparent gaps between objects. ONE upright torch FLAME ONLY in six different seamless-loop poses. No wooden handle or sconce. Flat opaque dark maroon outline,red,orange,yellow,ivory. Narrow curved tongues sway mildly with a few square embers, same base, sixth pose flows to first. Every shape consists of solid opaque square pixels with hard stair-step edges and deliberate dark outlines. NO gradients of any kind, NO atmospheric or diffuse light halo, NO translucent haze, NO bloom, NO light rays. Everything outside discrete pixel shapes is ALPHA ZERO. Same common scale and baseline across all6frames. Keep every particle well inside its cell. Do not draw black background, shadows, text, labels, grid, ground, objects, character. This is unlit flat-color sprite art, NOT an emissive render. Six poses must differ visibly. Entire effect fully visible in every frame with generous margins.",
+      "tool": "built-in imagegen",
+      "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-022ca5d3-21cd-4f78-b7de-167454df1015.png",
+      "targetMaxExtent": 180,
+      "styleReferenceNote": "기존 주인공 도트 굵기 직접 확인. 채택된 재생성에는 참조 이미지 없이 제한색/도트 외곽선 프롬프트 사용.",
+      "rejectedInitialSource": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-017d-7d51-9bb0-f2bbf0db14dc\\exec-ab0c70c3-8915-4c2e-8f73-d7f641833c52.png",
+      "rejectedReason": "첫 원안은 부드러운 빛 번짐이 강해 제외. 원안 편집보다 새 제한색 원안을 채택.",
+      "source": "torch_flame_source.png",
+      "sourceSize": [
+        2172,
+        724
+      ],
+      "sourceSha256": "96b7f52fed403267abec73e10f5233193eeb1c8b3d3abd3b7944a23bddd37305",
+      "sheet": "torch_flame_sheet.png",
+      "sheetSize": [
+        1536,
+        256
+      ],
+      "sheetSha256": "21b26184607e5b8ccd1c493eb792b1fb60e00348855c55adc2d0f3d00ab50a40",
+      "cellSize": [
+        256,
+        256
+      ],
+      "columns": 6,
+      "rows": 1,
+      "fps": 10,
+      "pivotPixels": [
+        128,
+        256
+      ],
+      "pivotNormalized": [
+        0.5,
+        0
+      ],
+      "sourceCommonCropY": [
+        113,
+        621
+      ],
+      "sourceColumnBounds": [
+        0,
+        367,
+        733,
+        1090,
+        1461,
+        1825,
+        2172
+      ],
+      "sourceColumnWidth": 371,
+      "commonScale": 0.3543307086614173,
+      "processing": "이미지 원안의 가로6칸을 같은 배율·같은 세로 범위로 최근접 정렬. 내용 덧칠/복제 프레임 없음. 아래 경계는 의도한 접지 피벗.",
+      "frames": [
+        {
+          "index": 0,
+          "rect": [
+            0,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            256
+          ],
+          "pivotNormalized": [
+            0.5,
+            0.0
+          ],
+          "rgbaSha256": "c1fbb5b3b7f45c6db55adf5276528b3834e3baa8bb5e7e30c66d7e74341364c3",
+          "alphaBBox": [
+            85,
+            76,
+            173,
+            256
+          ]
+        },
+        {
+          "index": 1,
+          "rect": [
+            256,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            256
+          ],
+          "pivotNormalized": [
+            0.5,
+            0.0
+          ],
+          "rgbaSha256": "d91e7f2bcd987a980f1508f04f07bec91c5cbb24f16219654567179d45e723cd",
+          "alphaBBox": [
+            64,
+            84,
+            173,
+            256
+          ]
+        },
+        {
+          "index": 2,
+          "rect": [
+            512,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            256
+          ],
+          "pivotNormalized": [
+            0.5,
+            0.0
+          ],
+          "rgbaSha256": "f1baa15688c10926df081136fc879f7f93a0346ab553ab862148b609d892583c",
+          "alphaBBox": [
+            76,
+            80,
+            170,
+            256
+          ]
+        },
+        {
+          "index": 3,
+          "rect": [
+            768,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            256
+          ],
+          "pivotNormalized": [
+            0.5,
+            0.0
+          ],
+          "rgbaSha256": "bf3243c196f2c90ad8e3b45b1995cde80964e2e3ed108b37a6639b52aadb260d",
+          "alphaBBox": [
+            64,
+            94,
+            180,
+            256
+          ]
+        },
+        {
+          "index": 4,
+          "rect": [
+            1024,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            256
+          ],
+          "pivotNormalized": [
+            0.5,
+            0.0
+          ],
+          "rgbaSha256": "28cc4c4f80d713ad1528492f085d210e01d30dbd60d0e9f18606836382a8b805",
+          "alphaBBox": [
+            82,
+            86,
+            185,
+            256
+          ]
+        },
+        {
+          "index": 5,
+          "rect": [
+            1280,
+            0,
+            256,
+            256
+          ],
+          "pivotPixels": [
+            128,
+            256
+          ],
+          "pivotNormalized": [
+            0.5,
+            0.0
+          ],
+          "rgbaSha256": "32e09320ee27877af7d37fe5f5be8a700c68830b40b10e32ce317c3c6e7c24da",
+          "alphaBBox": [
+            78,
+            79,
+            173,
+            256
+          ]
+        }
+      ],
+      "approval": "외형 사용자 검토 대기 / 게임 미연결"
+    }
+  ],
+  "notPerformed": [
+    "Unity 실행",
+    "게임 연결",
+    "실제 전투 크기/빛 확인"
+  ],
+  "limits": [
+    "AI 원안의 프레임간 도트·실루엣 일관성은 육안 검토 대상",
+    "루프 두 종의6→1 연결은 사용자 확인 필요",
+    "효과에는 노멀맵/실시간 발광/빛 데이터가 포함되지 않음"
+  ]
+}

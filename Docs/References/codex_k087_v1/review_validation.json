@@ -1,0 +1,130 @@
+{
+  "card": "K-087",
+  "protocol": "file://",
+  "imageCount": 23,
+  "images": [
+    {
+      "alt": "같은 토벽 배치의 네 손상 상태 전환",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "전투 배치 예시",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "지도 배치 예시",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "전투 배치 예시",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "지도 배치 예시",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "전투 배치 예시",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "지도 배치 예시",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "전투 배치 예시",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "지도 배치 예시",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "전투 배치 예시",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "지도 배치 예시",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "현재 토벽 온전함",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "새 토벽 온전함 부품 시트",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "현재 토벽 균열",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "새 토벽 균열 부품 시트",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "현재 토벽 붕괴",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "새 토벽 붕괴 부품 시트",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "현재 토벽 잔해",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "새 토벽 잔해 부품 시트",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "현재 지도 그림",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "중심과 여덟 방향 팔",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "현재 지도 그림",
+      "loaded": true,
+      "embedded": true
+    },
+    {
+      "alt": "중심과 여덟 방향 팔",
+      "loaded": true,
+      "embedded": true
+    }
+  ],
+  "animationChanges": true,
+  "pauseWorks": true,
+  "allWorks": true,
+  "noneWorks": true,
+  "canvasNonempty": true,
+  "mobileOverflow": false,
+  "errors": [],
+  "unityRun": false
+}

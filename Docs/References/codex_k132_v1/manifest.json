@@ -1,0 +1,383 @@
+﻿{
+    "coordinates":  "x0,y0 inclusive; x1,y1 exclusive",
+    "title":  "빛을 잇는 자",
+    "contrast_method":  "minimum foreground against all non-foreground pixels in title rectangle, WCAG relative luminance",
+    "files":  [
+                  {
+                      "width":  300,
+                      "file":  "store/app_tile_300x300.png",
+                      "contrast_min":  null,
+                      "title_area":  [
+                                         0,
+                                         0,
+                                         0,
+                                         0
+                                     ],
+                      "height":  300,
+                      "outside_changed_pixels":  0,
+                      "alpha_changed_pixels":  0,
+                      "changed_pixels":  0
+                  },
+                  {
+                      "width":  1080,
+                      "file":  "store/box_1080x1080.png",
+                      "contrast_min":  14.511333922222452,
+                      "title_area":  [
+                                         280,
+                                         20,
+                                         802,
+                                         120
+                                     ],
+                      "height":  1080,
+                      "outside_changed_pixels":  0,
+                      "alpha_changed_pixels":  0,
+                      "changed_pixels":  16684
+                  },
+                  {
+                      "width":  2160,
+                      "file":  "store/box_2160x2160.png",
+                      "contrast_min":  14.511333922222452,
+                      "title_area":  [
+                                         560,
+                                         40,
+                                         1604,
+                                         240
+                                     ],
+                      "height":  2160,
+                      "outside_changed_pixels":  0,
+                      "alpha_changed_pixels":  0,
+                      "changed_pixels":  66736
+                  },
+                  {
+                      "width":  1440,
+                      "file":  "store/poster_1440x2160.png",
+                      "contrast_min":  16.518878440038335,
+                      "title_area":  [
+                                         308,
+                                         40,
+                                         1140,
+                                         192
+                                     ],
+                      "height":  2160,
+                      "outside_changed_pixels":  0,
+                      "alpha_changed_pixels":  0,
+                      "changed_pixels":  41104
+                  },
+                  {
+                      "width":  720,
+                      "file":  "store/poster_720x1080.png",
+                      "contrast_min":  16.518878440038335,
+                      "title_area":  [
+                                         154,
+                                         20,
+                                         570,
+                                         96
+                                     ],
+                      "height":  1080,
+                      "outside_changed_pixels":  0,
+                      "alpha_changed_pixels":  0,
+                      "changed_pixels":  10276
+                  },
+                  {
+                      "width":  1920,
+                      "file":  "store/super_hero_1920x1080.png",
+                      "contrast_min":  null,
+                      "title_area":  [
+                                         0,
+                                         0,
+                                         0,
+                                         0
+                                     ],
+                      "height":  1080,
+                      "outside_changed_pixels":  0,
+                      "alpha_changed_pixels":  0,
+                      "changed_pixels":  0
+                  },
+                  {
+                      "width":  3840,
+                      "file":  "store/super_hero_3840x2160.png",
+                      "contrast_min":  null,
+                      "title_area":  [
+                                         0,
+                                         0,
+                                         0,
+                                         0
+                                     ],
+                      "height":  2160,
+                      "outside_changed_pixels":  0,
+                      "alpha_changed_pixels":  0,
+                      "changed_pixels":  0
+                  },
+                  {
+                      "width":  620,
+                      "file":  "msix/SplashScreen.scale-100.png",
+                      "contrast_min":  15.844168131973598,
+                      "title_area":  [
+                                         275,
+                                         115,
+                                         497,
+                                         160
+                                     ],
+                      "height":  300,
+                      "outside_changed_pixels":  0,
+                      "alpha_changed_pixels":  0,
+                      "changed_pixels":  3153
+                  },
+                  {
+                      "width":  1240,
+                      "file":  "msix/SplashScreen.scale-200.png",
+                      "contrast_min":  15.844168131973598,
+                      "title_area":  [
+                                         550,
+                                         230,
+                                         994,
+                                         320
+                                     ],
+                      "height":  600,
+                      "outside_changed_pixels":  0,
+                      "alpha_changed_pixels":  0,
+                      "changed_pixels":  12612
+                  },
+                  {
+                      "width":  150,
+                      "file":  "msix/Square150x150Logo.scale-100.png",
+                      "contrast_min":  null,
+                      "title_area":  [
+                                         0,
+                                         0,
+                                         0,
+                                         0
+                                     ],
+                      "height":  150,
+                      "outside_changed_pixels":  0,
+                      "alpha_changed_pixels":  0,
+                      "changed_pixels":  0
+                  },
+                  {
+                      "width":  300,
+                      "file":  "msix/Square150x150Logo.scale-200.png",
+                      "contrast_min":  null,
+                      "title_area":  [
+                                         0,
+                                         0,
+                                         0,
+                                         0
+                                     ],
+                      "height":  300,
+                      "outside_changed_pixels":  0,
+                      "alpha_changed_pixels":  0,
+                      "changed_pixels":  0
+                  },
+                  {
+                      "width":  44,
+                      "file":  "msix/Square44x44Logo.scale-100.png",
+                      "contrast_min":  null,
+                      "title_area":  [
+                                         0,
+                                         0,
+                                         0,
+                                         0
+                                     ],
+                      "height":  44,
+                      "outside_changed_pixels":  0,
+                      "alpha_changed_pixels":  0,
+                      "changed_pixels":  0
+                  },
+                  {
+                      "width":  88,
+                      "file":  "msix/Square44x44Logo.scale-200.png",
+                      "contrast_min":  null,
+                      "title_area":  [
+                                         0,
+                                         0,
+                                         0,
+                                         0
+                                     ],
+                      "height":  88,
+                      "outside_changed_pixels":  0,
+                      "alpha_changed_pixels":  0,
+                      "changed_pixels":  0
+                  },
+                  {
+                      "width":  16,
+                      "file":  "msix/Square44x44Logo.targetsize-16_altform-unplated.png",
+                      "contrast_min":  null,
+                      "title_area":  [
+                                         0,
+                                         0,
+                                         0,
+                                         0
+                                     ],
+                      "height":  16,
+                      "outside_changed_pixels":  0,
+                      "alpha_changed_pixels":  0,
+                      "changed_pixels":  0
+                  },
+                  {
+                      "width":  24,
+                      "file":  "msix/Square44x44Logo.targetsize-24_altform-unplated.png",
+                      "contrast_min":  null,
+                      "title_area":  [
+                                         0,
+                                         0,
+                                         0,
+                                         0
+                                     ],
+                      "height":  24,
+                      "outside_changed_pixels":  0,
+                      "alpha_changed_pixels":  0,
+                      "changed_pixels":  0
+                  },
+                  {
+                      "width":  256,
+                      "file":  "msix/Square44x44Logo.targetsize-256_altform-unplated.png",
+                      "contrast_min":  null,
+                      "title_area":  [
+                                         0,
+                                         0,
+                                         0,
+                                         0
+                                     ],
+                      "height":  256,
+                      "outside_changed_pixels":  0,
+                      "alpha_changed_pixels":  0,
+                      "changed_pixels":  0
+                  },
+                  {
+                      "width":  32,
+                      "file":  "msix/Square44x44Logo.targetsize-32_altform-unplated.png",
+                      "contrast_min":  null,
+                      "title_area":  [
+                                         0,
+                                         0,
+                                         0,
+                                         0
+                                     ],
+                      "height":  32,
+                      "outside_changed_pixels":  0,
+                      "alpha_changed_pixels":  0,
+                      "changed_pixels":  0
+                  },
+                  {
+                      "width":  48,
+                      "file":  "msix/Square44x44Logo.targetsize-48_altform-unplated.png",
+                      "contrast_min":  null,
+                      "title_area":  [
+                                         0,
+                                         0,
+                                         0,
+                                         0
+                                     ],
+                      "height":  48,
+                      "outside_changed_pixels":  0,
+                      "alpha_changed_pixels":  0,
+                      "changed_pixels":  0
+                  },
+                  {
+                      "width":  512,
+                      "file":  "msix/Square44x44Logo.targetsize-512_altform-unplated.png",
+                      "contrast_min":  null,
+                      "title_area":  [
+                                         0,
+                                         0,
+                                         0,
+                                         0
+                                     ],
+                      "height":  512,
+                      "outside_changed_pixels":  0,
+                      "alpha_changed_pixels":  0,
+                      "changed_pixels":  0
+                  },
+                  {
+                      "width":  64,
+                      "file":  "msix/Square44x44Logo.targetsize-64_altform-unplated.png",
+                      "contrast_min":  null,
+                      "title_area":  [
+                                         0,
+                                         0,
+                                         0,
+                                         0
+                                     ],
+                      "height":  64,
+                      "outside_changed_pixels":  0,
+                      "alpha_changed_pixels":  0,
+                      "changed_pixels":  0
+                  },
+                  {
+                      "width":  96,
+                      "file":  "msix/Square44x44Logo.targetsize-96_altform-unplated.png",
+                      "contrast_min":  null,
+                      "title_area":  [
+                                         0,
+                                         0,
+                                         0,
+                                         0
+                                     ],
+                      "height":  96,
+                      "outside_changed_pixels":  0,
+                      "alpha_changed_pixels":  0,
+                      "changed_pixels":  0
+                  },
+                  {
+                      "width":  50,
+                      "file":  "msix/StoreLogo.scale-100.png",
+                      "contrast_min":  null,
+                      "title_area":  [
+                                         0,
+                                         0,
+                                         0,
+                                         0
+                                     ],
+                      "height":  50,
+                      "outside_changed_pixels":  0,
+                      "alpha_changed_pixels":  0,
+                      "changed_pixels":  0
+                  },
+                  {
+                      "width":  100,
+                      "file":  "msix/StoreLogo.scale-200.png",
+                      "contrast_min":  null,
+                      "title_area":  [
+                                         0,
+                                         0,
+                                         0,
+                                         0
+                                     ],
+                      "height":  100,
+                      "outside_changed_pixels":  0,
+                      "alpha_changed_pixels":  0,
+                      "changed_pixels":  0
+                  },
+                  {
+                      "width":  310,
+                      "file":  "msix/Wide310x150Logo.scale-100.png",
+                      "contrast_min":  15.844168131973598,
+                      "title_area":  [
+                                         145,
+                                         50,
+                                         256,
+                                         76
+                                     ],
+                      "height":  150,
+                      "outside_changed_pixels":  0,
+                      "alpha_changed_pixels":  0,
+                      "changed_pixels":  578
+                  },
+                  {
+                      "width":  620,
+                      "file":  "msix/Wide310x150Logo.scale-200.png",
+                      "contrast_min":  15.844168131973598,
+                      "title_area":  [
+                                         290,
+                                         100,
+                                         512,
+                                         152
+                                     ],
+                      "height":  300,
+                      "outside_changed_pixels":  0,
+                      "alpha_changed_pixels":  0,
+                      "changed_pixels":  2312
+                  }
+              ],
+    "english_title":  "LIGHTBEARERS"
+}

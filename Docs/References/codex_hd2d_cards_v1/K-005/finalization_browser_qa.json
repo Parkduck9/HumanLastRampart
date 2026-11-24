@@ -1,0 +1,68 @@
+{
+  "combinations": [
+    {
+      "aspect": "128 / 128",
+      "caption": "현재 경계/내부 차이 비: 가로 0.81, 세로 0.85 · 실제 Unity 합격 판정과 구분합니다.",
+      "downloads": [
+        "wall_stone_albedo.png",
+        "wall_stone_normal.png"
+      ],
+      "id": "wall_stone",
+      "repeat": "1"
+    },
+    {
+      "aspect": "128 / 128",
+      "caption": "현재 경계/내부 차이 비: 가로 0.81, 세로 0.85 · 실제 Unity 합격 판정과 구분합니다.",
+      "downloads": [
+        "wall_stone_albedo.png",
+        "wall_stone_normal.png"
+      ],
+      "id": "wall_stone",
+      "repeat": "3"
+    },
+    {
+      "aspect": "128 / 64",
+      "caption": "현재 경계/내부 차이 비: 가로 0.79, 세로 0.71 · 실제 Unity 합격 판정과 구분합니다.",
+      "downloads": [
+        "parapet_top_albedo.png",
+        "parapet_top_normal.png"
+      ],
+      "id": "parapet_top",
+      "repeat": "1"
+    },
+    {
+      "aspect": "128 / 64",
+      "caption": "현재 경계/내부 차이 비: 가로 0.79, 세로 0.71 · 실제 Unity 합격 판정과 구분합니다.",
+      "downloads": [
+        "parapet_top_albedo.png",
+        "parapet_top_normal.png"
+      ],
+      "id": "parapet_top",
+      "repeat": "3"
+    },
+    {
+      "aspect": "128 / 64",
+      "caption": "현재 경계/내부 차이 비: 가로 0.63, 세로 0.65 · 실제 Unity 합격 판정과 구분합니다.",
+      "downloads": [
+        "parapet_side_albedo.png",
+        "parapet_side_normal.png"
+      ],
+      "id": "parapet_side",
+      "repeat": "1"
+    },
+    {
+      "aspect": "128 / 64",
+      "caption": "현재 경계/내부 차이 비: 가로 0.63, 세로 0.65 · 실제 Unity 합격 판정과 구분합니다.",
+      "downloads": [
+        "parapet_side_albedo.png",
+        "parapet_side_normal.png"
+      ],
+      "id": "parapet_side",
+      "repeat": "3"
+    }
+  ],
+  "consoleErrors": 0,
+  "overflow": false,
+  "unityTested": false,
+  "fileProtocolTested": false
+}

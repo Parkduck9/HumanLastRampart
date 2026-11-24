@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b40580c59794e2cb5dc45219f045e69, type: 3}
+  m_Name: unit_cannon_crew
+  m_EditorClassIdentifier:
+  id: unit_cannon_crew
+  displayName: 대포 운용병
+  kind: 6
+  maxHp: 12
+  defaultWeaponId: weapon_cannon
+  recruitCost: 10
+  sheet: {fileID: 2800000, guid: 7f645c3e19234801a7ff1e384a13b293, type: 3}
+  runSheet: {fileID: 2800000, guid: 1e75ca3ef8ba4eefb256edfa72eca636, type: 3}
+  normalSheet: {fileID: 2800000, guid: b42713b1b74f40a7a3b0ca8e40bbd6f4, type: 3}
+  deathSheet: {fileID: 2800000, guid: ae478026414744898e758701ec76fd64, type: 3}
+  projectileSheet: {fileID: 2800000, guid: 249f70e2bcd14dbb88fee641b3fa01eb, type: 3}
+  igniteSheet: {fileID: 2800000, guid: b75ab3c5093e4f079e2ee21e56b399f7, type: 3}
+  runNormalSheet: {fileID: 2800000, guid: b6bf4ab43e9a40c3a417854ee7e8975e, type: 3}
+  poseNormals:
+  - Sheet: {fileID: 2800000, guid: 7f645c3e19234801a7ff1e384a13b293, type: 3}
+    Normal: {fileID: 2800000, guid: b42713b1b74f40a7a3b0ca8e40bbd6f4, type: 3}
+  - Sheet: {fileID: 2800000, guid: 1e75ca3ef8ba4eefb256edfa72eca636, type: 3}
+    Normal: {fileID: 2800000, guid: b6bf4ab43e9a40c3a417854ee7e8975e, type: 3}
+  - Sheet: {fileID: 2800000, guid: ae478026414744898e758701ec76fd64, type: 3}
+    Normal: {fileID: 2800000, guid: f44081e03ad44928943c2b260f0f9512, type: 3}
+  - Sheet: {fileID: 2800000, guid: b75ab3c5093e4f079e2ee21e56b399f7, type: 3}
+    Normal: {fileID: 2800000, guid: cbe6c7b2c1c643bdbec7d777b1d02d9f, type: 3}

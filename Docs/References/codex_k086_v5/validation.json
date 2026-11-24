@@ -1,0 +1,32 @@
+{
+  "exact_nearest_3x": true,
+  "foot_bottom_all_120": true,
+  "first_last_identical": true,
+  "unchanged_previous_frames_1_2_3_5": true,
+  "cannon_outside_patch_unchanged": true,
+  "cannon_alpha_unchanged": true,
+  "contact_flame_bounds": [
+    7,
+    54,
+    19,
+    69
+  ],
+  "fixture_2d": [
+    12.571428571428555,
+    62.957051282051275
+  ],
+  "wick_tip_2d": [
+    15.80027472527471,
+    57.57564102564102
+  ],
+  "flame_bounds_include_fixture_2d": true,
+  "flame_bounds_include_wick_tip_2d": true,
+  "actual_camera_contact_verified": true,
+  "game_integrated": true,
+  "actual_camera_inspected": true,
+  "actual_camera_technical_test_passed": true,
+  "camera_contact_status": "aligned_with_depth_clearance",
+  "camera_test_result": "../codex_ignite_alignment_v1/qa/attempt3/play.xml",
+  "camera_review_frame": "../codex_ignite_alignment_v1/qa/attempt3/captures/82_ignite_contact_frame_4.png",
+  "review_ko": "점화병을 기존 자리보다 0.23m 앞으로, 대포 그림보다 0.02m 뒤에 두어 정적 접촉과 가림을 보정했다. A/B/C 실제 투영 검사 및 사진에서 불꽃과 도화선 겹침을 확인했다. 전체 동작의 자루 길이·자연스러움 최종 외형 평가는 별도다."
+}

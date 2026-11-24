@@ -1,0 +1,35 @@
+{
+    "card":  "K-021",
+    "status":  "사용자 확정 전 시안",
+    "style":  "_HTML/codex_공통UI_화면시안_v1.html",
+    "references":  [
+                       {
+                           "path":  "Game/Assets/_Project/Art/Battle/Resources/BattleArt/World/field_grass_albedo.png",
+                           "width":  256,
+                           "height":  256,
+                           "sha256":  "928D68BBF035563CB15C797DC84DF819782A452B345A8C24C3DC2272C5093302",
+                           "usage":  "읽기 전용 참조"
+                       },
+                       {
+                           "path":  "Game/Assets/_Project/Art/Battle/Resources/BattleArt/World/walkway_stone_albedo.png",
+                           "width":  128,
+                           "height":  128,
+                           "sha256":  "7A48C2577F7D90246E461DE84503193CC05F27AC8FFA0A7CD25AC6447E586BDF",
+                           "usage":  "읽기 전용 참조"
+                       },
+                       {
+                           "path":  "Game/Assets/_Project/Art/Battle/Resources/BattleArt/cannon_aim3.png",
+                           "width":  1536,
+                           "height":  384,
+                           "sha256":  "B0900407E26994B630B9AD3C1316B4E68BBC24305443E56787542CF8B70D300A",
+                           "usage":  "읽기 전용 참조"
+                       },
+                       {
+                           "path":  "Game/Assets/_Project/Art/Characters/Hero/hero_back_idle.png",
+                           "width":  256,
+                           "height":  384,
+                           "sha256":  "DC29ADD2BE5BEB8661B24E6CA9EB1152294FB54EFF312218636F71284CE37067",
+                           "usage":  "읽기 전용 참조"
+                       }
+                   ]
+}

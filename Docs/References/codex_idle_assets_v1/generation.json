@@ -1,0 +1,18 @@
+{
+  "tool": "image_gen.imagegen",
+  "requests": [
+    {
+      "key": "hero",
+      "path": "C:/Unity/1/HumanLastRampart/Docs/References/codex_hero_grid_v2/hero_walk_run_grid.png",
+      "prompt": "Use case: precise-object-edit. Create ONE standalone pixel-art sprite using ONLY the top row rear-facing hero in the reference sheet as edit target. A true idle standing BACK view, full body, both boots planted on the SAME baseline, equal weight, arms relaxed at sides, coat still. Preserve exactly the white/silver hair silhouette and direction, black officer coat with gold epaulettes and trim, brown belt/boots, compact 2.2-head-tall proportions, colors and chunky pixel clusters of the reference top row. Do not produce a walking pose, raised foot, side view, face, sheet, captions, shadows, floor or labels. One centered full-body sprite with transparent empty margin. Crisp visible nearest-neighbor pixel-art, no smoothing or painterly lines. Back of head/back of uniform only. The image will be uniformly packed into a 256x384 cell with feet pivot (128,352), so keep all extremities inside and both soles level. Output exactly one character, transparent background."
+    },
+    {
+      "key": "wizard",
+      "paths": [
+        "C:/Unity/1/HumanLastRampart/Docs/References/codex_character_grids_v1/wizard_static_grid.png",
+        "C:/Unity/1/HumanLastRampart/Docs/References/codex_wizard_back_chestnut_v1/wizard_back_chestnut_grid.png"
+      ],
+      "prompt": "Use case: precise-object-edit. Image 1 is the FRONT wizard sprite edit target. Image 2 is ONLY approved warm chestnut-brown hair color reference from the back view. Recolor only the white/silver hair in image1 to warm chestnut brown matching image2, with darker reddish-brown shadows and warm copper highlights. Keep FRONT view, exact hair shape/direction, blue eyes, purple robe, gold trim, belt, brown boots, blue gem on wooden staff, pose and compact 2.2-head-tall proportions. Both boots planted level, full-body single static idle sprite. Do not copy back view or flip, add a hat, change the outfit, add other objects, text, shadow, floor or labels. Preserve coarse pixel clusters with crisp hard edges, no smooth illustration. Exactly one front-facing character on genuinely transparent background with empty margin for packing to 256x384 feet pivot128,352."
+    }
+  ]
+}

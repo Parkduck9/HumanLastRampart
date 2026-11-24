@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>강화와 상점 설계</title>
+<style>
+:root { --bg:#101613; --panel:#1b2620; --deep:#18211c; --brass:#d5b16b; --body:#eee4cf; --dim:#b9c2b0; --danger:#c37e70; --good:#73b86b; --line:#3a4a40; }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--body); font-family:"Malgun Gothic","맑은 고딕",sans-serif; line-height:1.65; }
+main { max-width:1080px; margin:0 auto; padding:32px 16px 64px; }
+h1 { color:var(--brass); font-size:30px; margin:0 0 6px; }
+h2 { color:var(--brass); font-size:22px; margin:36px 0 10px; border-bottom:1px solid var(--line); padding-bottom:6px; }
+h3 { font-size:17px; margin:20px 0 6px; }
+.sub { color:var(--dim); margin:0 0 20px; }
+.sub p { margin:2px 0; }
+.scroll { overflow-x:auto; }
+table { width:100%; border-collapse:collapse; margin:10px 0; font-size:15px; }
+th, td { border:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top; }
+th { background:var(--deep); color:var(--brass); white-space:nowrap; }
+tr.pick td { background:#1f2e22; }
+b { color:#f2dca8; }
+.rec { color:var(--good); font-weight:bold; }
+code { background:var(--deep); padding:1px 5px; border-radius:4px; font-size:13px; }
+li { margin:4px 0; }
+.inli { margin:4px 0 4px 24px; }</style>
+</head>
+<body>
+<main>
+<h1>강화&#183;상점&#183;용병 설계 제안 1판</h1>
+<div class="sub"><p>카드 K-055 &#183; Claude &#183; 2026-10-16 &#183; 상태: <b>제안 — 사용자 검토 전, 구현하지 않음</b></p><p>사용자용 페이지: <code>_HTML/2_설계/19_강화와상점설계.html</code> (내용 같음)</p><p>근거: FirstRead(&quot;주인공&#183;특수 장교&#183;조연은 아이템으로, 일반&#183;특수 병사는 전체 훈련과 단체 아이템으로 강화&quot;, &quot;3번 화면에 상점, 용병&#183;군인 모집&quot;), D-015(1회차 화폐 = 골드 하나), D-050(함정), D-075&#183;D-078(난이도 기준), D-076(정비 마당), D-077(지형 손질은 골드만), UI_NoSlop(K-047)</p></div>
+<h2>0. 먼저 답해 주실 질문 (추측으로 정하지 않은 것)</h2>
+<p>각 질문의 자세한 선택지는 본문 해당 절에 있습니다. <b>추천</b>은 1회차를 한 바퀴 돌리는 데 가장 짧은 길 기준입니다.</p>
+<div class="scroll"><table><thead><tr><th>번호</th><th>질문</th><th>선택지</th><th>추천</th></tr></thead><tbody>
+<tr><td>U1</td><td>영웅 장비 칸 수</td><td>A 주인공&#183;마법사 각 2칸 / B 주인공 3칸&#183;마법사 2칸 / C 칸 없이 &#39;영구 강화 목록&#39;</td><td><b>A 2칸씩</b> (1회차 품목이 적다)</td></tr>
+<tr><td>U2</td><td>영웅 아이템 얻는 방법</td><td>A 상점 구매만 / B 상점 + 전투 보상(특수 적&#183;승리) / C 대장간 제작(재료)</td><td><b>A 상점 구매만</b> — 보상&#183;제작은 2회차 이후</td></tr>
+<tr><td>U3</td><td>주인공(장교)은 직접 싸우는가</td><td>A 지금처럼 안 싸움(지휘만) → 아이템은 지휘 효과 / B 장교 군도&#183;권총으로 싸움 → 아이템에 공격력</td><td><b>A 지휘만</b> — 주인공은 무기가 없고 체력이 줄어드는 규칙도 아직 없다</td></tr>
+<tr><td>U4</td><td>병사 훈련 값 매기는 방식</td><td>A 단계마다 고정가 / B 그 병종 인원 &#215; 1인 값 / C 고정가 + 정원(2,000) 다 차면 할인</td><td><b>A 고정가</b> (간단, 아래 7절 경고 참고)</td></tr>
+<tr><td>U5</td><td>훈련이 새로 뽑은 병사에게도 적용되는가</td><td>A 병종 전체에 계속 적용 / B 훈련 때 있던 병사만(신병은 다시 훈련)</td><td><b>A 병종 전체</b> (화면에 &#39;이 병종 2단계&#39;만 보이면 됨)</td></tr>
+<tr><td>U6</td><td>상점 자리</td><td>A 마당에 새 장소 &#39;상점&#39;(간판) / B 병영 안 탭 / C 함정 공방을 &#39;공방&#183;상점&#39;으로 넓힘</td><td><b>A 새 장소</b> — 성벽 수리&#183;병영&#183;함정 공방&#183;계단 사이</td></tr>
+<tr><td>U7</td><td>1차 상점 품목</td><td>아래 5절 후보 6개 중 2~4개</td><td><b>망원경 렌즈, 보석 지팡이, 불화살 꾸러미, 군의관 천막</b></td></tr>
+<tr><td>U8</td><td>용병이 일반 군인과 다른 점</td><td>A 정원 밖으로 더 고용 + 전투마다 급료 / B 계약금 한 번 + 정해진 전투 수만 / C 같은 병종의 정예(훈련 2단계)를 비싸게</td><td><b>A + C 섞기</b>: 정원 밖&#183;정예&#183;전투마다 급료</td></tr>
+<tr><td>U9</td><td>용병이 죽거나 떠나면 &#39;병력 70% 손실 패배&#39; 계산에 넣는가</td><td>A 넣지 않음 / B 넣음</td><td><b>A 넣지 않음</b> — 용병은 덤 병력</td></tr>
+<tr><td>U10</td><td>강화가 난이도를 바꿔도 되는가</td><td>A 현실 4번은 계속 &#39;거의 짐&#39;으로 맞춤(필요하면 적 늘림) / B 강화를 잘 쓰면 현실 4번도 이길 수 있게</td><td><b>B</b> — 단, 강화 없이 이기면 안 됨 (7절)</td></tr>
+<tr><td>U11</td><td>단체 아이템은 소모품인가</td><td>A 한 전투 쓰고 사라짐 / B 영구 / C 품목마다 다름</td><td><b>C</b> (불화살 = 한 전투, 군의관 천막 = 영구 시설)</td></tr>
+<tr><td>U12</td><td>&#39;특수 장교&#39;&#183;&#39;조연(강력한 병사)&#39;은 1회차에 넣는가</td><td>A 1회차에 없음(자리만 설계) / B 1명 넣음</td><td><b>A</b> — 지금 영웅은 주인공&#183;마법사 둘뿐</td></tr>
+</tbody></table></div>
+<h2>1. 지금 코드에 있는 것</h2>
+<div class="scroll"><table><thead><tr><th>구분</th><th>지금 상태</th><th>코드&#183;데이터</th></tr></thead><tbody>
+<tr><td>영웅</td><td><b>주인공</b>(체력 100, 무기 없음 — 지휘&#183;전령&#183;외침), <b>마법사</b>(체력 60, 마법 2개: 폭발 피해 150&#183;반경 12m&#183;대기 40초 / 불바다 초당 3&#183;반경 10m&#183;15초&#183;대기 50초&#183;화상). 영웅 장비&#183;아이템 없음. 영웅 체력이 회복되는 규칙 없음</td><td><code>unit_hero</code>, <code>unit_wizard</code>, <code>spell_explosion</code>, <code>spell_firefield</code>, <code>HeroState{Hp, IsAlive}</code></td></tr>
+<tr><td>병종</td><td><b>궁수</b>(체력 10, 활 사거리 50m, 모집 5골드), <b>총병</b>(체력 12, 총 30m, 8골드), <b>대포 운용병</b>(체력 12, 대포 45m&#183;범위 4m, 10골드, 대포마다 2명)</td><td><code>unit_archer/gunner/cannon_crew</code>, <code>weapon_*</code></td></tr>
+<tr><td>시작 병력</td><td>성벽마다 궁수 40&#183;총병 15&#183;대포병 8 = 63명 &#215; 4 = <b>252명</b>, 골드 <b>100</b></td><td><code>campaign_start</code></td></tr>
+<tr><td>병영(모집&#183;보충)</td><td>성벽&#183;지점을 골라 병종 모집. 값은 전체 인원 단계로 오른다: 0~599명 궁수 5&#183;총병 8&#183;대포병 10 / 600~1,199명 8&#183;12&#183;15 / 1,200명~ 12&#183;18&#183;20. <b>정원: 전체 2,000 &#183; 성벽마다 500 &#183; 분대 지점 160 &#183; 대포 지점 2</b></td><td><code>economy_preparation_1</code>, <code>PreparationTransactions</code>, <code>PreparationEconomyRules</code></td></tr>
+<tr><td>성벽 수리</td><td>10HP = 1골드</td><td>같은 곳</td></tr>
+<tr><td>상점</td><td><b>없음</b>. <code>ItemDef</code>(가격&#183;설명만) 형태만 있고 품목&#183;화면&#183;진행 데이터가 없다</td><td><code>Core/Definitions/ItemDef.cs</code></td></tr>
+<tr><td>함정</td><td>폭발 함정 25골드, 상점 재고 12개 → 정비마다 +6 (최대치 있음), 함정 공방에서 여러 칸 한 번에 설치</td><td><code>trap_bomb</code>, <code>TrapPreparationTransactions</code></td></tr>
+<tr><td>지형 손질</td><td>토벽 20골드(체력 80), 언덕 10골드 (D-078, K-049/K-051 진행 중)</td><td>—</td></tr>
+<tr><td>골드 얻기</td><td><b>승리하면</b> 그 전투에서 죽인 적의 보상 합계(고블린 1&#183;사다리 고블린 2&#183;오우거 30). 지면 0</td><td><code>BattleSim.BuildResult</code>, <code>EnemyDef.rewardGold</code></td></tr>
+<tr><td>훈련&#183;용병</td><td>없음</td><td>—</td></tr>
+</tbody></table></div>
+<h2>2. 골드 흐름 (측정)</h2>
+<p>최근 측정(<code>probe.txt</code>, 2026-10-16, 쉬움, &#39;정면으로 옮기기 + 남은 골드 전부 궁수&#39; 플레이):</p>
+<div class="scroll"><table><thead><tr><th>전투</th><th>시작 병력</th><th>승리 보상</th><th>정비 지출</th><th>다음 전투 병력</th></tr></thead><tbody>
+<tr><td>1</td><td>252</td><td>750</td><td>수리 0 &#183; 궁수 168명</td><td>420</td></tr>
+<tr><td>2</td><td>420</td><td>2,429</td><td>수리 54 &#183; 궁수 476명</td><td>896</td></tr>
+<tr><td>3</td><td>896</td><td>6,658</td><td>수리 228 &#183; 궁수 1,284명</td><td>2,054</td></tr>
+<tr><td>4</td><td>2,054</td><td>15,760</td><td>(1회차 끝)</td><td>—</td></tr>
+</tbody></table></div>
+<ul><li>쉬움(적 0.75배)은 이 플레이로 4번까지 손실이 거의 없다(3번 손실 100~126명). 같은 파일의 적 1배 기록(1번 처치 1,000)은 3번에서 지는 경우가 섞여 있다. 현실(1.5배)의 기준은 D-078(1~3 승리&#183;4 패배)을 따른다.</li>
+<li><b>주의: 측정 도구는 병력 정원을 지키지 않는다.</b> 3번 뒤 2,054명은 실제 게임의 전체 정원 2,000&#183;지점 160을 넘는다. 실제 게임에서는 <b>3번 뒤부터 골드가 남기 시작</b>한다(지점 12곳 &#215; 160 + 대포 32 ≈ 1,950명이 상한). 남는 골드를 쓸 곳이 지금은 수리&#183;함정뿐 → <b>강화&#183;상점&#183;용병은 이 남는 골드를 쓰는 자리</b>가 된다.</li>
+<li>모집 값 단계(5 → 8 → 12)를 넣으면 실제로 3번 뒤 6,658골드로 뽑을 수 있는 수는 약 650명(896 → 약 1,550명)이다. 측정 도구는 값 단계도 무시하는 것으로 보인다(3번 뒤 1,284명 &#215; 5골드 = 6,420골드 — 600명 넘으면 8&#183;12골드여야 함).</li>
+</ul>
+<h2>3. 영웅 아이템 강화</h2>
+<h3>3.1 장비 칸 (U1)</h3>
+<div class="scroll"><table><thead><tr><th>안</th><th>내용</th><th>좋은 점</th><th>걱정</th></tr></thead><tbody>
+<tr class="pick"><td><b>A 2칸씩</b> (추천)</td><td>주인공: 소지품&#183;휘장 / 마법사: 지팡이&#183;부적</td><td>화면&#183;데이터가 작다</td><td>품목이 늘면 칸이 모자람</td></tr>
+<tr><td>B 주인공 3칸&#183;마법사 2칸</td><td>주인공에 &#39;검&#39; 칸 추가</td><td>장교 옷&#183;검의 멋</td><td>U3에서 싸우지 않으면 검 칸이 할 일이 없음</td></tr>
+<tr><td>C 칸 없음</td><td>산 강화가 목록으로 쌓임</td><td>가장 간단</td><td>고르는 재미&#183;바꿔 끼우기 없음</td></tr>
+</tbody></table></div>
+<h3>3.2 아이템 종류와 효과 예시 (수치는 시작값, 측정 뒤 조정)</h3>
+<p><b>주인공</b> — 직접 싸우지 않으므로(U3-A) <b>지휘가 빨라지고 넓어지는</b> 효과:</p>
+<div class="scroll"><table><thead><tr><th>아이템</th><th>칸</th><th>효과</th><th>값(예)</th></tr></thead><tbody>
+<tr><td>망원경 렌즈</td><td>소지품</td><td>망원경 반경 +40%, 확인한 무리의 &#39;먼 거리 명중 감소 없음&#39;이 더 오래</td><td>400</td></tr>
+<tr><td>전령 나팔</td><td>소지품</td><td>전령 달리기 +30% (지금 초당 3.5m → 4.5m)</td><td>300</td></tr>
+<tr><td>지휘 휘장</td><td>휘장</td><td>주인공이 서 있는 성벽 병사 공격 간격 −10%</td><td>600</td></tr>
+<tr><td>큰 목청 호루라기</td><td>휘장</td><td>소리 지르기가 잘못 들릴 확률 절반</td><td>250</td></tr>
+</tbody></table></div>
+<p><b>마법사</b> — 마법이 세지는 효과:</p>
+<div class="scroll"><table><thead><tr><th>아이템</th><th>칸</th><th>효과</th><th>값(예)</th></tr></thead><tbody>
+<tr><td>보석 지팡이</td><td>지팡이</td><td>폭발 피해 150 → 200, 반경 12 → 14m</td><td>600</td></tr>
+<tr><td>불씨 부적</td><td>부적</td><td>불바다 15 → 20초, 화상 확률 0.6 → 0.75</td><td>500</td></tr>
+<tr><td>모래시계 부적</td><td>부적</td><td>두 마법 대기 시간 −20%</td><td>700</td></tr>
+</tbody></table></div>
+<ul><li>다음 단계(1회차 밖): 같은 아이템 +1~+3 강화(대장간), 특수 장교&#183;조연 칸(U12).</li>
+</ul>
+<h3>3.3 얻는 방법 (U2)</h3>
+<div class="scroll"><table><thead><tr><th>안</th><th>내용</th><th>추천</th></tr></thead><tbody>
+<tr class="pick"><td><b>A 상점 구매만</b></td><td>정비 때 골드로 산다</td><td><span class="rec">✔</span> 1회차</td></tr>
+<tr><td>B 상점 + 전투 보상</td><td>오우거 처치&#183;무손실 승리 때 상자</td><td>2회차 이후 — 보상 화면(4번)에 &#39;얻은 물건&#39; 칸이 필요</td></tr>
+<tr><td>C 대장간 제작</td><td>재료(적이 떨어뜨림) + 골드</td><td>재료라는 새 자원 → D-015(골드 하나)와 충돌, 사용자 결정 필요</td></tr>
+</tbody></table></div>
+<h2>4. 병사 단체 훈련&#183;단체 아이템</h2>
+<h3>4.1 병종별 훈련 단계 (예시, 3단계)</h3>
+<div class="scroll"><table><thead><tr><th>병종</th><th>1단계</th><th>2단계</th><th>3단계</th></tr></thead><tbody>
+<tr><td>궁수</td><td>먼 거리 명중 +10%p</td><td>공격 간격 −10%</td><td>화살 피해 +25%</td></tr>
+<tr><td>총병</td><td>가까운 거리 명중 +10%p</td><td>총 피해 +20%</td><td>사거리 30 → 36m</td></tr>
+<tr><td>대포 운용병</td><td>장전(공격 간격) −10%</td><td>범위 4 → 5m</td><td>대포 피해 +25%</td></tr>
+</tbody></table></div>
+<ul><li>훈련 장소: <b>병영 안</b>(모집 옆 탭). 훈련한 병종은 지도&#183;결과 화면에서 계급 줄무늬(1~3줄)로 보인다.</li>
+</ul>
+<h3>4.2 값 매기기 (U4)</h3>
+<div class="scroll"><table><thead><tr><th>안</th><th>값</th><th>좋은 점</th><th>걱정</th></tr></thead><tbody>
+<tr class="pick"><td><b>A 고정가</b> (추천)</td><td>1단계 300 &#183; 2단계 900 &#183; 3단계 2,500 (병종마다)</td><td>간단, 결과가 바로 보임</td><td>병력이 많을수록 같은 값에 효과가 커짐 → 늦게 살수록 이득</td></tr>
+<tr><td>B 인원 &#215; 1인 값</td><td>1단계 1인 1골드 &#183; 2단계 2 &#183; 3단계 4</td><td>언제 사도 &#39;병사 더 뽑기&#39;와 비슷한 가치 → 균형 쉬움</td><td>값이 계속 바뀌어 보기 어렵고, 병력이 2,000이면 3단계가 8,000</td></tr>
+<tr><td>C 고정가 + 정원 다 차면 할인</td><td>A + 정원이 가득하면 30% 싸게</td><td>남는 골드의 쓸 곳이 분명</td><td>규칙이 하나 더</td></tr>
+</tbody></table></div>
+<h3>4.3 단체 아이템 (U11)</h3>
+<div class="scroll"><table><thead><tr><th>아이템</th><th>대상</th><th>종류</th><th>효과</th><th>값(예)</th></tr></thead><tbody>
+<tr><td>불화살 꾸러미</td><td>궁수 전원</td><td>한 전투</td><td>화살에 화상(불바다 화상 규칙 재사용, 확률 20%)</td><td>200</td></tr>
+<tr><td>화약 통</td><td>총병 전원</td><td>한 전투</td><td>총 피해 +30%</td><td>250</td></tr>
+<tr><td>군의관 천막</td><td>전체</td><td>영구 시설</td><td>승리한 전투에서 잃은 병사의 10%가 돌아옴</td><td>800</td></tr>
+<tr><td>방패 난간</td><td>한 성벽</td><td>영구</td><td>성벽 위 적이 병사에게 주는 피해 −30%</td><td>500</td></tr>
+</tbody></table></div>
+<h2>5. 상점 품목 1차 목록 (U6&#183;U7)</h2>
+<p>1회차 한 바퀴에 필요한 최소: <b>4개</b>(주인공 1&#183;마법사 1&#183;병사 단체 2). 함정은 함정 공방에 그대로 둔다.</p>
+<div class="scroll"><table><thead><tr><th>순서</th><th>품목</th><th>왜 1차에</th><th>값</th></tr></thead><tbody>
+<tr><td>1</td><td>망원경 렌즈 (주인공)</td><td>지도 망원경(MAP-5)을 쓸 이유가 생김, 균형 영향 작음</td><td>400</td></tr>
+<tr><td>2</td><td>보석 지팡이 (마법사)</td><td>마법이 4번 전투(오우거 600마리)에 도움</td><td>600</td></tr>
+<tr><td>3</td><td>불화살 꾸러미 (궁수, 한 전투)</td><td>매 정비마다 다시 살 소모품 → 남는 골드의 쓸 곳</td><td>200</td></tr>
+<tr><td>4</td><td>군의관 천막 (영구)</td><td>손실을 줄이는 다른 길 — 모집만 하는 플레이와 다른 선택</td><td>800</td></tr>
+</tbody></table></div>
+<ul><li>장소(U6 추천 A): 마당에 <b>&#39;보급 상인&#39;</b> 간판을 새로 놓는다. 들어가면 장부(나무판) 한 장: 품목 그림 + 값 + [구매] 하나. 재고는 정비마다 고정(소모품만 수량 있음).</li>
+<li>다음 후보: 전령 나팔, 지휘 휘장, 불씨 부적, 화약 통.</li>
+</ul>
+<h2>6. 용병 모집 (U8&#183;U9)</h2>
+<div class="scroll"><table><thead><tr><th>항목</th><th>일반 군인(지금 병영)</th><th>용병 (추천안)</th></tr></thead><tbody>
+<tr><td>정원</td><td>전체 2,000&#183;성벽 500&#183;지점 160 안</td><td><b>정원 밖</b> (용병 칸 따로, 성벽마다 최대 50)</td></tr>
+<tr><td>비용</td><td>한 번 모집비(5~20)</td><td><b>계약금 + 전투마다 급료</b> (예: 궁수 용병 계약 15&#183;급료 3/전투) — 전투 시작 때 자동으로 빠지고, 못 주면 그 전투 전에 떠남</td></tr>
+<tr><td>능력</td><td>훈련 단계에 따름</td><td><b>정예</b>: 해당 병종 훈련 2단계와 같은 능력(훈련과 겹치지 않음 — 더 높은 쪽)</td></tr>
+<tr><td>계약 기간</td><td>끝없음</td><td>고용한 날부터 1회차 끝까지(또는 급료를 끊을 때까지)</td></tr>
+<tr><td>손실</td><td>70% 손실 패배 계산에 들어감</td><td><b>안 들어감</b>(U9-A) — 결과 화면에 따로 &#39;용병 손실&#39;</td></tr>
+<tr><td>병종</td><td>궁수&#183;총병&#183;대포병</td><td>1차: 궁수&#183;총병 용병(새 그림 없이 색 띠만 다르게). 석궁병은 D-072 ③대로 없음</td></tr>
+</tbody></table></div>
+<p>다른 안:</p>
+<ul><li>B 계약금 한 번 + 정해진 전투 수(예: 2전투)만 — 급료 계산이 없어 단순하지만, 남는 골드를 계속 쓰게 하는 힘이 약하다.</li>
+<li>C 정원 안의 비싼 정예 — 정원이 막혔을 때의 답이 되지 못한다.</li>
+</ul>
+<h2>7. 골드 균형 경고</h2>
+<ol start="1"><li><b>강화는 &#39;궁수 더 뽑기&#39;와 경쟁한다.</b> 공격력 +10% 강화의 가치 ≈ 지금 병력의 10%를 더 뽑는 값.</li>
+</ol>
+<div class="scroll"><table><thead><tr><th>시점</th><th>병력(실제 정원 안)</th><th>+10%에 해당하는 궁수</th><th>그 값</th></tr></thead><tbody>
+<tr><td>2번 전</td><td>약 420</td><td>42명</td><td>약 210골드</td></tr>
+<tr><td>3번 전</td><td>약 900</td><td>90명</td><td>약 700골드</td></tr>
+<tr><td>4번 전</td><td>약 1,550</td><td>155명</td><td>약 1,850골드</td></tr>
+</tbody></table></div>
+<p>→ 4.2 A안 고정가(1단계 300&#183;2단계 900)는 <b>3번 뒤에 사면 모집보다 이득</b>, 2번 전에는 손해. 의도한 흐름(초반 모집, 후반 강화)과 맞는다.</p>
+<ol start="2"><li><b>쉬움은 이미 손실 없이 이긴다.</b> 강화는 쉬움을 더 쉽게 만들 뿐 → 쉬움 수치는 그대로 두고, 측정은 현실 기준으로.</li>
+<li><b>현실 4번(D-075 &#39;오우거 600마리로 짐&#39;)이 강화로 이길 수 있게 될 가능성이 크다.</b> 마법 강화(보석 지팡이 +33% 피해)&#183;궁수 3단계(+25% 피해)&#183;용병(정원 밖 +200명)을 다 쓰면 전체 화력 약 +40~50%. U10-B를 고르면 &#39;강화 없이는 지고, 잘 쓰면 겨우 이긴다&#39;로 다시 맞춘다 — 구현 뒤 측정 도구에 <b>&#39;강화 사용&#39; 플레이</b>를 추가해 쉬움&#183;현실 1~4를 다시 잰다.</li>
+<li><b>측정 도구가 정원과 모집 값 단계를 지키도록 먼저 고쳐야</b> 남는 골드 크기를 정확히 알 수 있다(지금은 정원을 넘기고 모두 5골드로 모집).</li>
+<li>영웅 아이템(지휘&#183;마법)은 전체 화력보다 &#39;조작 재미&#39; 쪽이라 균형 영향이 작다 — 1차 품목에 먼저 넣기 좋다.</li>
+</ol>
+<h2>8. 그림 요청 (Codex — 확정 뒤 <code>Docs/GDD/Codex_그림할일.md</code>로 옮김)</h2>
+<p>UI_NoSlop 규칙(도트, 같은 격자, 가장 짙은 색 외곽선, 왼쪽 위 빛, 정수 배율)과 K-026 아이콘 격자(24/32/48)를 따른다.</p>
+<div class="scroll"><table><thead><tr><th>#</th><th>그림</th><th>크기</th><th>비고</th></tr></thead><tbody>
+<tr><td>1</td><td>아이템 아이콘 7종: 망원경 렌즈&#183;전령 나팔&#183;지휘 휘장&#183;호루라기&#183;보석 지팡이&#183;불씨 부적&#183;모래시계 부적</td><td>24&#183;48</td><td>1차는 망원경 렌즈&#183;보석 지팡이 둘만 있어도 됨</td></tr>
+<tr><td>2</td><td>단체 아이템 아이콘 4종: 불화살 꾸러미&#183;화약 통&#183;군의관 천막&#183;방패 난간</td><td>24&#183;48</td><td></td></tr>
+<tr><td>3</td><td>훈련 계급 줄무늬 1~3줄</td><td>16&#183;24</td><td>지도 병력 깃발(K-020) 옆에 붙음</td></tr>
+<tr><td>4</td><td>용병 표시(색 띠 또는 깃발 무늬)</td><td>24</td><td>지도 깃발과 결과 화면</td></tr>
+<tr><td>5</td><td>마당 &#39;보급 상인&#39; 간판 + 가게 몸체</td><td>K-028 마당 규격</td><td>U6-A일 때</td></tr>
+<tr><td>6</td><td>장비 칸 틀(빈 칸&#183;찬 칸)</td><td>48</td><td>영웅 장비 창</td></tr>
+</tbody></table></div>
+<h2>9. 확정 뒤 만들 것 (참고)</h2>
+<ul><li>데이터: <code>ItemDef</code> 확장(칸&#183;효과 종류&#183;수치&#183;소모 여부), <code>TrainingDef</code>(병종&#183;단계&#183;값&#183;효과), <code>MercenaryDef</code>(병종&#183;계약금&#183;급료&#183;능력)</li>
+<li>진행 데이터(<code>CampaignState</code>, 약속 C-004 새 판): 영웅 장비, 병종 훈련 단계, 용병 목록, 소모품 보유 — 계약 문서 작업(K-054)과 맞춘다</li>
+<li>전투 준비(<code>BattleSetup</code>)에 강화 수치 전달 → <code>BattleSim</code>이 무기&#183;마법&#183;전령 수치에 곱함</li>
+<li>정비: 보급 상인 장소&#183;장부 창, 병영 &#39;훈련&#39; 탭, 용병 탭 / 결과: 용병 손실 줄</li>
+<li>측정 도구: 정원 지키기 + &#39;강화 사용&#39; 플레이</li>
+</ul>
+</main>
+</body>
+</html>

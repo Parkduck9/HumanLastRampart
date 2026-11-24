@@ -1,0 +1,143 @@
+{
+    "asset_checks":  [
+                         {
+                             "id":  "instruction_box_9slice",
+                             "dimensions":  true,
+                             "binary_alpha":  true,
+                             "nearest_3x":  true,
+                             "nearest_4x":  true,
+                             "frames":  1
+                         },
+                         {
+                             "id":  "hint_chip_9slice",
+                             "dimensions":  true,
+                             "binary_alpha":  true,
+                             "nearest_3x":  true,
+                             "nearest_4x":  true,
+                             "frames":  1
+                         },
+                         {
+                             "id":  "officer_expressions",
+                             "dimensions":  true,
+                             "binary_alpha":  true,
+                             "nearest_3x":  true,
+                             "nearest_4x":  true,
+                             "frames":  4
+                         },
+                         {
+                             "id":  "highlight_ring_pulse",
+                             "dimensions":  true,
+                             "binary_alpha":  true,
+                             "nearest_3x":  true,
+                             "nearest_4x":  true,
+                             "frames":  6
+                         },
+                         {
+                             "id":  "pointer_bounce_up",
+                             "dimensions":  true,
+                             "binary_alpha":  true,
+                             "nearest_3x":  true,
+                             "nearest_4x":  true,
+                             "frames":  4
+                         },
+                         {
+                             "id":  "pointer_bounce_right",
+                             "dimensions":  true,
+                             "binary_alpha":  true,
+                             "nearest_3x":  true,
+                             "nearest_4x":  true,
+                             "frames":  4
+                         },
+                         {
+                             "id":  "pointer_bounce_down",
+                             "dimensions":  true,
+                             "binary_alpha":  true,
+                             "nearest_3x":  true,
+                             "nearest_4x":  true,
+                             "frames":  4
+                         },
+                         {
+                             "id":  "pointer_bounce_left",
+                             "dimensions":  true,
+                             "binary_alpha":  true,
+                             "nearest_3x":  true,
+                             "nearest_4x":  true,
+                             "frames":  4
+                         },
+                         {
+                             "id":  "input_chips_24",
+                             "dimensions":  true,
+                             "binary_alpha":  true,
+                             "nearest_3x":  true,
+                             "nearest_4x":  true,
+                             "frames":  5
+                         },
+                         {
+                             "id":  "input_chips_32",
+                             "dimensions":  true,
+                             "binary_alpha":  true,
+                             "nearest_3x":  true,
+                             "nearest_4x":  true,
+                             "frames":  5
+                         },
+                         {
+                             "id":  "step_icons_24",
+                             "dimensions":  true,
+                             "binary_alpha":  true,
+                             "nearest_3x":  true,
+                             "nearest_4x":  true,
+                             "frames":  8
+                         },
+                         {
+                             "id":  "step_pips",
+                             "dimensions":  true,
+                             "binary_alpha":  true,
+                             "nearest_3x":  true,
+                             "nearest_4x":  true,
+                             "frames":  24
+                         },
+                         {
+                             "id":  "step_progress_strip",
+                             "dimensions":  true,
+                             "binary_alpha":  true,
+                             "nearest_3x":  true,
+                             "nearest_4x":  true,
+                             "frames":  9
+                         }
+                     ],
+    "frame_count":  79,
+    "foot_line":  "not applicable: UI/bust only",
+    "bust_bottom_y_exclusive":  46,
+    "browser":  "See review_verification.json. Browser unavailable; Node VM checks only. Unity not tested.",
+    "asset_count":  13,
+    "source_hashes":  [
+                          {
+                              "sha256":  "0026367083018C4A484E769D2D04E0D9F2FAEE675D62098B2DEF0DB63BEBFC68",
+                              "path":  "Docs/References/codex_hero_octopath_review_v6/generated.png"
+                          },
+                          {
+                              "sha256":  "E7997C7B3C4A9C7AC6C34130A47D0EAB9FF8BCCA378809CEEA5812387A615FC8",
+                              "path":  "Game/Assets/_Project/Art/Characters/Hero/hero_command.png"
+                          },
+                          {
+                              "sha256":  "81C07F0118CFFE367309680688493766D43588144358F2DFAE49538FA0EEFCEE",
+                              "path":  "Docs/References/codex_k093_v1/build.ps1"
+                          },
+                          {
+                              "sha256":  "0D8C9C3FCF1BE6454F7AB5972DA58C777FD2AB5EBB9347D5358E2F85E832D593",
+                              "path":  "Docs/References/codex_k093_v1/officer_bust_native.png"
+                          },
+                          {
+                              "sha256":  "DD27730F652164BA2BAD421EE2033A362E12CEB3B0B9612256285A813880DEBF",
+                              "path":  "Docs/References/codex_k093_v1/highlight_ring_native.png"
+                          },
+                          {
+                              "sha256":  "BF1B7B07A67B4AF0B935AF882F805E96386B1AD5186717F783F02033161B7B55",
+                              "path":  "Docs/References/codex_k093_v1/input_chips_24_native.png"
+                          },
+                          {
+                              "sha256":  "A4DD68E6FDFEE50D17AAFF3786D5486D55CD1083B7BB024C0E7A06A4A16314F5",
+                              "path":  "Docs/References/codex_k093_v1/input_chips_32_native.png"
+                          }
+                      ]
+}

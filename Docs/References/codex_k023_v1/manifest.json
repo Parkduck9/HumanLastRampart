@@ -1,0 +1,507 @@
+{
+  "card": "K-023",
+  "status": "사용자 확정 전 시안",
+  "unityVerified": false,
+  "assets": [
+    {
+      "id": "archer_fall",
+      "label": "궁수 쓰러짐",
+      "count": 4,
+      "fps": 6,
+      "cell": [
+        256,
+        384
+      ],
+      "size": [
+        1024,
+        384
+      ],
+      "pivotTopLeft": [
+        128,
+        352
+      ],
+      "pivotUnity": [
+        0.5,
+        0.08333333333333333
+      ],
+      "playback": "마지막 칸에서 정지",
+      "sheet": "sheets/archer_fall.png",
+      "sourceSha256": "8aa68990720e4270c42ea3307d0261fe850db622afcd5914c256a04bf81479c9",
+      "sheetSha256": "d5fb12e3e53f7cd7536bd3b4b608698513b2bb0e6374112ee1697fb4af077a65",
+      "scale": 0.484375,
+      "registration": [
+        {
+          "sourceRect": [
+            75,
+            174,
+            412,
+            698
+          ],
+          "packedRect": [
+            46,
+            98,
+            163,
+            254
+          ]
+        },
+        {
+          "sourceRect": [
+            539,
+            247,
+            895,
+            698
+          ],
+          "packedRect": [
+            42,
+            134,
+            172,
+            218
+          ]
+        },
+        {
+          "sourceRect": [
+            1007,
+            337,
+            1519,
+            706
+          ],
+          "packedRect": [
+            4,
+            173,
+            248,
+            179
+          ]
+        },
+        {
+          "sourceRect": [
+            1546,
+            481,
+            2032,
+            727
+          ],
+          "packedRect": [
+            10,
+            233,
+            235,
+            119
+          ]
+        }
+      ],
+      "groundPolicy": "최하단 공통 지면 y352; 시전·명령은 아래 12화소의 발 중심을 x128에 맞춤; 쓰러짐은 포즈 가로 중심 정렬",
+      "referencePath": "Game/Assets/_Project/Art/Characters/Static/archer_static.png",
+      "referenceSha256": "2d9fcc469018d73d48b2e044c2388f0ba74de8c9f958366ad20bd1ffe44a7e06"
+    },
+    {
+      "id": "gunner_fall",
+      "label": "총병 쓰러짐",
+      "count": 4,
+      "fps": 6,
+      "cell": [
+        256,
+        384
+      ],
+      "size": [
+        1024,
+        384
+      ],
+      "pivotTopLeft": [
+        128,
+        352
+      ],
+      "pivotUnity": [
+        0.5,
+        0.08333333333333333
+      ],
+      "playback": "마지막 칸에서 정지",
+      "sheet": "sheets/gunner_fall.png",
+      "sourceSha256": "b7a9e04ec570bc4a5e12f66f7dd920ff45adcdd50e9a7c79967ea275c6085e99",
+      "sheetSha256": "2a20c68e7a8a45b329d6b2502c2bb5cf222aab9aa2b436fde6d63b41269c1fdb",
+      "scale": 0.453382084095064,
+      "registration": [
+        {
+          "sourceRect": [
+            61,
+            192,
+            467,
+            681
+          ],
+          "packedRect": [
+            36,
+            130,
+            184,
+            222
+          ]
+        },
+        {
+          "sourceRect": [
+            582,
+            263,
+            963,
+            687
+          ],
+          "packedRect": [
+            42,
+            160,
+            173,
+            192
+          ]
+        },
+        {
+          "sourceRect": [
+            957,
+            351,
+            1504,
+            687
+          ],
+          "packedRect": [
+            4,
+            200,
+            248,
+            152
+          ]
+        },
+        {
+          "sourceRect": [
+            1533,
+            455,
+            2033,
+            708
+          ],
+          "packedRect": [
+            15,
+            237,
+            227,
+            115
+          ]
+        }
+      ],
+      "groundPolicy": "최하단 공통 지면 y352; 시전·명령은 아래 12화소의 발 중심을 x128에 맞춤; 쓰러짐은 포즈 가로 중심 정렬",
+      "referencePath": "Game/Assets/_Project/Art/Characters/Static/gunner_static.png",
+      "referenceSha256": "f513d4261420d4d9709e9513cc2f4e640459eb8407ee060ffaaf49cf8db9c46c"
+    },
+    {
+      "id": "cannon_crew_fall",
+      "label": "대포병 쓰러짐",
+      "count": 4,
+      "fps": 6,
+      "cell": [
+        256,
+        384
+      ],
+      "size": [
+        1024,
+        384
+      ],
+      "pivotTopLeft": [
+        128,
+        352
+      ],
+      "pivotUnity": [
+        0.5,
+        0.08333333333333333
+      ],
+      "playback": "마지막 칸에서 정지",
+      "sheet": "sheets/cannon_crew_fall.png",
+      "sourceSha256": "56afc1a21bc1a25a4402155ea814a32a9d1c51d55837dcb79489c6264cb34073",
+      "sheetSha256": "bec2bf5224b50e84faf9cc577615e331a6aacda469489e196239b57804eb35bf",
+      "scale": 0.45925925925925926,
+      "registration": [
+        {
+          "sourceRect": [
+            52,
+            124,
+            442,
+            693
+          ],
+          "packedRect": [
+            38,
+            91,
+            179,
+            261
+          ]
+        },
+        {
+          "sourceRect": [
+            504,
+            196,
+            876,
+            704
+          ],
+          "packedRect": [
+            43,
+            119,
+            171,
+            233
+          ]
+        },
+        {
+          "sourceRect": [
+            922,
+            284,
+            1436,
+            718
+          ],
+          "packedRect": [
+            10,
+            153,
+            236,
+            199
+          ]
+        },
+        {
+          "sourceRect": [
+            1472,
+            488,
+            2012,
+            715
+          ],
+          "packedRect": [
+            4,
+            248,
+            248,
+            104
+          ]
+        }
+      ],
+      "groundPolicy": "최하단 공통 지면 y352; 시전·명령은 아래 12화소의 발 중심을 x128에 맞춤; 쓰러짐은 포즈 가로 중심 정렬",
+      "referencePath": "Game/Assets/_Project/Art/Characters/Static/cannon_crew_static.png",
+      "referenceSha256": "5ee84f511a5351aa9e93cc6e4a22adbb063b2c54f7993a5557eb039c17122ea3"
+    },
+    {
+      "id": "wizard_cast",
+      "label": "마법사 후면 시전",
+      "count": 4,
+      "fps": 6,
+      "cell": [
+        256,
+        384
+      ],
+      "size": [
+        1024,
+        384
+      ],
+      "pivotTopLeft": [
+        128,
+        352
+      ],
+      "pivotUnity": [
+        0.5,
+        0.08333333333333333
+      ],
+      "playback": "마지막 칸에서 정지",
+      "sheet": "sheets/wizard_cast.png",
+      "sourceSha256": "3b0ff200f15a7e2c3c4c2dd8fab25bf5c18c9faf70c6b8299a0f68ff337da396",
+      "sheetSha256": "1f502ae2b03dd5b82eeb7b75ea6153fa80af72f2da417f569c3535571f957973",
+      "scale": 0.46441947565543074,
+      "registration": [
+        {
+          "sourceRect": [
+            111,
+            168,
+            491,
+            721
+          ],
+          "packedRect": [
+            60,
+            95,
+            176,
+            257
+          ]
+        },
+        {
+          "sourceRect": [
+            609,
+            168,
+            1003,
+            721
+          ],
+          "packedRect": [
+            69,
+            95,
+            183,
+            257
+          ]
+        },
+        {
+          "sourceRect": [
+            1112,
+            83,
+            1471,
+            721
+          ],
+          "packedRect": [
+            64,
+            56,
+            167,
+            296
+          ]
+        },
+        {
+          "sourceRect": [
+            1642,
+            16,
+            1967,
+            721
+          ],
+          "packedRect": [
+            68,
+            25,
+            151,
+            327
+          ]
+        }
+      ],
+      "groundPolicy": "최하단 공통 지면 y352; 시전·명령은 아래 12화소의 발 중심을 x128에 맞춤; 쓰러짐은 포즈 가로 중심 정렬",
+      "referencePath": "Game/Assets/_Project/Art/Characters/Static/wizard_back_static.png",
+      "referenceSha256": "e8c581155516d8b85563627d14fcbfd1a40acc0d90a3b08483943ba0f485e6a6"
+    },
+    {
+      "id": "hero_command",
+      "label": "주인공 후면 명령",
+      "count": 3,
+      "fps": 6,
+      "cell": [
+        256,
+        384
+      ],
+      "size": [
+        768,
+        384
+      ],
+      "pivotTopLeft": [
+        128,
+        352
+      ],
+      "pivotUnity": [
+        0.5,
+        0.08333333333333333
+      ],
+      "playback": "마지막 칸에서 정지",
+      "sheet": "sheets/hero_command.png",
+      "sourceSha256": "69702c0b33b841fdd6cd5506d0ffe1c418afb9b9d9b93e214207e3501e38dd62",
+      "sheetSha256": "1da7d9a82b63c0aabb2603cc48f1004ffa1a75ccaa2e8ca6ece97243496155d7",
+      "scale": 0.40456769983686786,
+      "registration": [
+        {
+          "sourceRect": [
+            125,
+            93,
+            491,
+            812
+          ],
+          "packedRect": [
+            50,
+            61,
+            148,
+            291
+          ]
+        },
+        {
+          "sourceRect": [
+            681,
+            93,
+            1101,
+            812
+          ],
+          "packedRect": [
+            60,
+            61,
+            170,
+            291
+          ]
+        },
+        {
+          "sourceRect": [
+            1236,
+            93,
+            1737,
+            812
+          ],
+          "packedRect": [
+            49,
+            61,
+            203,
+            291
+          ]
+        }
+      ],
+      "groundPolicy": "최하단 공통 지면 y352; 시전·명령은 아래 12화소의 발 중심을 x128에 맞춤; 쓰러짐은 포즈 가로 중심 정렬",
+      "referencePath": "Game/Assets/_Project/Art/Characters/Hero/hero_back_idle.png",
+      "referenceSha256": "dc29add2be5beb8661b24e6ca9eb1152294fb54eff312218636f71284ce37067"
+    }
+  ],
+  "normalSamples": [
+    {
+      "id": "gunner",
+      "label": "총병",
+      "size": [
+        256,
+        384
+      ],
+      "pivotTopLeft": [
+        128,
+        352
+      ],
+      "path": "normals/gunner_normal.png",
+      "albedoPath": "normals/gunner_albedo.png",
+      "sourceSha256": "ac356cdc61f3b944bab925d676200d6370d8ac9c2333b4a40da6309756b06d5e",
+      "referencePath": "Game/Assets/_Project/Art/Characters/Static/gunner_static.png",
+      "referenceSha256": "f513d4261420d4d9709e9513cc2f4e640459eb8407ee060ffaaf49cf8db9c46c",
+      "strength": 0.45,
+      "format": "RGB +Y; 투명색 영역 평면(128,128,255)",
+      "registration": "원안 전체 캔버스 최근접 맞춤; 배경 XY 중간값 중심화; 내부 표면 대응은 근사",
+      "backgroundXY": [
+        0.41568627450980394,
+        0.4588235294117647
+      ]
+    },
+    {
+      "id": "cannon_crew",
+      "label": "대포병",
+      "size": [
+        256,
+        384
+      ],
+      "pivotTopLeft": [
+        128,
+        352
+      ],
+      "path": "normals/cannon_crew_normal.png",
+      "albedoPath": "normals/cannon_crew_albedo.png",
+      "sourceSha256": "acd0e6b1880b10eac8391cc493fb437083693f5623169f6f97aabf0c834572f1",
+      "referencePath": "Game/Assets/_Project/Art/Characters/Static/cannon_crew_static.png",
+      "referenceSha256": "5ee84f511a5351aa9e93cc6e4a22adbb063b2c54f7993a5557eb039c17122ea3",
+      "strength": 0.45,
+      "format": "RGB +Y; 투명색 영역 평면(128,128,255)",
+      "registration": "원안 전체 캔버스 최근접 맞춤; 배경 XY 중간값 중심화; 내부 표면 대응은 근사",
+      "backgroundXY": [
+        0.4470588235294118,
+        0.4823529411764706
+      ]
+    },
+    {
+      "id": "wizard",
+      "label": "마법사 후면",
+      "size": [
+        256,
+        384
+      ],
+      "pivotTopLeft": [
+        128,
+        352
+      ],
+      "path": "normals/wizard_normal.png",
+      "albedoPath": "normals/wizard_albedo.png",
+      "sourceSha256": "31263db5a1038602a6ee8d049072c7c9dac8993ead84991877b19eefcdf8d138",
+      "referencePath": "Game/Assets/_Project/Art/Characters/Static/wizard_back_static.png",
+      "referenceSha256": "e8c581155516d8b85563627d14fcbfd1a40acc0d90a3b08483943ba0f485e6a6",
+      "strength": 0.45,
+      "format": "RGB +Y; 투명색 영역 평면(128,128,255)",
+      "registration": "원안 전체 캔버스 최근접 맞춤; 배경 XY 중간값 중심화; 내부 표면 대응은 근사",
+      "backgroundXY": [
+        0.4235294117647059,
+        0.47058823529411764
+      ]
+    }
+  ]
+}

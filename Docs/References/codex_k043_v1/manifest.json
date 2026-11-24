@@ -1,0 +1,416 @@
+{
+  "status": "사용자 확정 전 시안 · 게임 미연결",
+  "coordinates": "좌상단 원점, 픽셀 좌표",
+  "assets": {
+    "crew_pull6": {
+      "file": "crew_pull6.png",
+      "cell": [
+        256,
+        384
+      ],
+      "frames": 6,
+      "pivot": [
+        128,
+        352
+      ],
+      "scale": 0.5,
+      "source": "crew_pull_source.png",
+      "frameDetails": [
+        {
+          "index": 0,
+          "sourceRect": [
+            85,
+            74,
+            408,
+            491
+          ],
+          "sourceFootX": 250,
+          "alphaHeight": 208,
+          "placed": [
+            46,
+            144,
+            162,
+            208
+          ]
+        },
+        {
+          "index": 1,
+          "sourceRect": [
+            598,
+            76,
+            920,
+            491
+          ],
+          "sourceFootX": 250,
+          "alphaHeight": 208,
+          "placed": [
+            46,
+            144,
+            161,
+            208
+          ]
+        },
+        {
+          "index": 2,
+          "sourceRect": [
+            1128,
+            77,
+            1432,
+            491
+          ],
+          "sourceFootX": 260,
+          "alphaHeight": 207,
+          "placed": [
+            50,
+            145,
+            152,
+            207
+          ]
+        },
+        {
+          "index": 3,
+          "sourceRect": [
+            99,
+            547,
+            423,
+            966
+          ],
+          "sourceFootX": 260,
+          "alphaHeight": 210,
+          "placed": [
+            48,
+            142,
+            162,
+            210
+          ]
+        },
+        {
+          "index": 4,
+          "sourceRect": [
+            595,
+            547,
+            920,
+            966
+          ],
+          "sourceFootX": 250,
+          "alphaHeight": 210,
+          "placed": [
+            44,
+            142,
+            162,
+            210
+          ]
+        },
+        {
+          "index": 5,
+          "sourceRect": [
+            1127,
+            547,
+            1433,
+            964
+          ],
+          "sourceFootX": 255,
+          "alphaHeight": 208,
+          "placed": [
+            52,
+            144,
+            153,
+            208
+          ]
+        }
+      ]
+    },
+    "crew_rear6": {
+      "file": "crew_rear6.png",
+      "cell": [
+        256,
+        384
+      ],
+      "frames": 6,
+      "pivot": [
+        128,
+        352
+      ],
+      "scale": 0.483,
+      "source": "crew_rear_source.png",
+      "frameDetails": [
+        {
+          "index": 0,
+          "sourceRect": [
+            105,
+            62,
+            474,
+            497
+          ],
+          "sourceFootX": 330,
+          "alphaHeight": 210,
+          "placed": [
+            19,
+            142,
+            178,
+            210
+          ]
+        },
+        {
+          "index": 1,
+          "sourceRect": [
+            597,
+            62,
+            959,
+            497
+          ],
+          "sourceFootX": 325,
+          "alphaHeight": 210,
+          "placed": [
+            12,
+            142,
+            175,
+            210
+          ]
+        },
+        {
+          "index": 2,
+          "sourceRect": [
+            1116,
+            62,
+            1474,
+            497
+          ],
+          "sourceFootX": 330,
+          "alphaHeight": 210,
+          "placed": [
+            13,
+            142,
+            173,
+            210
+          ]
+        },
+        {
+          "index": 3,
+          "sourceRect": [
+            105,
+            545,
+            474,
+            977
+          ],
+          "sourceFootX": 330,
+          "alphaHeight": 209,
+          "placed": [
+            19,
+            143,
+            178,
+            209
+          ]
+        },
+        {
+          "index": 4,
+          "sourceRect": [
+            597,
+            545,
+            968,
+            977
+          ],
+          "sourceFootX": 325,
+          "alphaHeight": 209,
+          "placed": [
+            12,
+            143,
+            179,
+            209
+          ]
+        },
+        {
+          "index": 5,
+          "sourceRect": [
+            1095,
+            548,
+            1467,
+            977
+          ],
+          "sourceFootX": 315,
+          "alphaHeight": 207,
+          "placed": [
+            10,
+            145,
+            180,
+            207
+          ]
+        }
+      ]
+    },
+    "crew_ignite6": {
+      "file": "crew_ignite6.png",
+      "cell": [
+        256,
+        384
+      ],
+      "frames": 6,
+      "pivot": [
+        128,
+        352
+      ],
+      "scale": 0.54,
+      "source": "crew_ignite_short_source.png",
+      "frameDetails": [
+        {
+          "index": 0,
+          "sourceRect": [
+            128,
+            88,
+            417,
+            478
+          ],
+          "sourceFootX": 280,
+          "alphaHeight": 211,
+          "placed": [
+            46,
+            141,
+            156,
+            211
+          ]
+        },
+        {
+          "index": 1,
+          "sourceRect": [
+            581,
+            88,
+            929,
+            478
+          ],
+          "sourceFootX": 280,
+          "alphaHeight": 211,
+          "placed": [
+            14,
+            141,
+            188,
+            211
+          ]
+        },
+        {
+          "index": 2,
+          "sourceRect": [
+            1108,
+            88,
+            1473,
+            478
+          ],
+          "sourceFootX": 310,
+          "alphaHeight": 211,
+          "placed": [
+            6,
+            141,
+            197,
+            211
+          ]
+        },
+        {
+          "index": 3,
+          "sourceRect": [
+            149,
+            571,
+            435,
+            961
+          ],
+          "sourceFootX": 305,
+          "alphaHeight": 211,
+          "placed": [
+            44,
+            141,
+            154,
+            211
+          ]
+        },
+        {
+          "index": 4,
+          "sourceRect": [
+            667,
+            571,
+            946,
+            961
+          ],
+          "sourceFootX": 305,
+          "alphaHeight": 211,
+          "placed": [
+            47,
+            141,
+            151,
+            211
+          ]
+        },
+        {
+          "index": 5,
+          "sourceRect": [
+            1170,
+            571,
+            1473,
+            961
+          ],
+          "sourceFootX": 310,
+          "alphaHeight": 211,
+          "placed": [
+            39,
+            141,
+            164,
+            211
+          ]
+        }
+      ],
+      "contact": [
+        51,
+        257
+      ]
+    },
+    "cannon_body": {
+      "file": "cannon_body.png",
+      "cell": [
+        384,
+        384
+      ],
+      "frames": 1,
+      "pivot": [
+        192,
+        352
+      ],
+      "source": "cannon_source.png",
+      "sourceRect": [
+        208,
+        329,
+        1384,
+        895
+      ],
+      "scale": 0.205,
+      "wheelCenter": [
+        227,
+        313
+      ],
+      "wheelRadius": 39,
+      "frontHandle": [
+        79,
+        286
+      ],
+      "rearHandle": [
+        301,
+        318
+      ],
+      "fuse": [
+        285,
+        239
+      ],
+      "fuseContact": [
+        269,
+        257
+      ],
+      "muzzle": [
+        104,
+        259
+      ]
+    }
+  },
+  "sequence": {
+    "contactSeconds": 0.5,
+    "fireSeconds": 1.5,
+    "delaySeconds": 1,
+    "smokeFps": 10,
+    "cycleSeconds": 3.2
+  }
+}

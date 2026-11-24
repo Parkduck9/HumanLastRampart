@@ -1,0 +1,31 @@
+{
+  "id": "walkway_stone",
+  "label": "성벽 통로 바닥",
+  "albedo": "walkway_stone/albedo.png",
+  "normal": "walkway_stone/normal.png",
+  "size": [
+    128,
+    128
+  ],
+  "worldMeters": [
+    4,
+    4
+  ],
+  "pixelsPerMeter": 32,
+  "source": "walkway_stone_source.png",
+  "sourceSha256": "3cd769b1ccce4a1374aa7009757589d63fd56905ca5e45b1f9637f625cf7cb7c",
+  "albedoSha256": "b092a97f7c6933b4d7db7fb76091486c7f3351809366771630aea365f27cb61a",
+  "normalSha256": "2226e1558896b79b02296331d322b03ac413effd0147374515bd8bd6081e2b7c",
+  "normalSpace": "tangent OpenGL Y+",
+  "normalStrength": 0.55,
+  "normalMaxUnitError": 0.004979719062408017,
+  "wrap": "Repeat",
+  "filter": "Point",
+  "seamMethod": "mirrored periodization of AI material quarter; reflected normal XY corrected; reflection-axis tangent=0",
+  "edgesExact": true,
+  "normalEdgesExact": true,
+  "albedoColorSpace": "sRGB",
+  "normalColorSpace": "Linear",
+  "status": "reference-sample-user-review-pending",
+  "unityPlayVerified": false
+}

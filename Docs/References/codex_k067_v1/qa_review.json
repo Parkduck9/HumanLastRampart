@@ -1,0 +1,52 @@
+﻿{
+    "layout":  [
+                   {
+                       "width":  1440,
+                       "document":  1425,
+                       "overflow":  0
+                   },
+                   {
+                       "width":  390,
+                       "document":  375,
+                       "overflow":  0
+                   }
+               ],
+    "result":  "통과",
+    "basic":  {
+                  "language":  "ko",
+                  "cards":  26,
+                  "samples":  156,
+                  "broken":  0,
+                  "external":  0,
+                  "rows":  10
+              },
+    "filters":  {
+                    "checks":  [
+                                   {
+                                       "group":  "전체",
+                                       "count":  26,
+                                       "pressed":  1
+                                   },
+                                   {
+                                       "group":  "상점",
+                                       "count":  11,
+                                       "pressed":  1
+                                   },
+                                   {
+                                       "group":  "훈련",
+                                       "count":  9,
+                                       "pressed":  1
+                                   },
+                                   {
+                                       "group":  "용병",
+                                       "count":  2,
+                                       "pressed":  1
+                                   },
+                                   {
+                                       "group":  "공용 표시",
+                                       "count":  4,
+                                       "pressed":  1
+                                   }
+                               ]
+                }
+}

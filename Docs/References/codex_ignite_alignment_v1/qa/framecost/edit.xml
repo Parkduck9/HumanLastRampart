@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="1" result="Failed(Child)" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-21 07:00:10Z" end-time="2026-10-21 07:00:12Z" duration="2.5583891">
+  <test-suite type="TestSuite" id="1000" name="HumanLastRampart" fullname="HumanLastRampart" runstate="Runnable" testcasecount="131" result="Failed" site="Child" start-time="2026-10-21 07:00:10Z" end-time="2026-10-21 07:00:12Z" duration="2.558389" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <failure>
+      <message><![CDATA[One or more child tests had errors]]></message>
+    </failure>
+    <test-suite type="Assembly" id="1179" name="HLR.SimProbe.dll" fullname="C:/Unity/1/HumanLastRampart/Game/Library/ScriptAssemblies/HLR.SimProbe.dll" runstate="Runnable" testcasecount="15" result="Failed" site="Child" start-time="2026-10-21 07:00:10Z" end-time="2026-10-21 07:00:12Z" duration="2.552933" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="25828" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <failure>
+        <message><![CDATA[One or more child tests had errors]]></message>
+      </failure>
+      <test-suite type="TestFixture" id="1163" name="SimProbe" fullname="SimProbe" classname="SimProbe" runstate="Runnable" testcasecount="15" result="Failed" site="Child" start-time="2026-10-21 07:00:10Z" end-time="2026-10-21 07:00:12Z" duration="2.552008" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <failure>
+          <message><![CDATA[One or more child tests had errors]]></message>
+        </failure>
+        <test-case id="1166" name="FrameCost" fullname="SimProbe.FrameCost" methodname="FrameCost" classname="SimProbe" runstate="Runnable" seed="1565506941" result="Failed" label="Error" start-time="2026-10-21 07:00:10Z" end-time="2026-10-21 07:00:12Z" duration="2.542809" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <failure>
+            <message><![CDATA[System.InvalidOperationException : 초기 병력이 성벽의 최소 간격 정원을 넘었습니다]]></message>
+            <stack-trace><![CDATA[  at HumanLastRampart.Combat.Battle.BattleSim.ClaimSlot (System.Int32 soldier, System.Int32 side, System.Single lo, System.Single hi, System.Single center) [0x00120] in C:\Unity\1\HumanLastRampart\Game\Assets\_Project\Combat\Battle\BattleSim.Slots.cs:128 
+  at HumanLastRampart.Combat.Battle.BattleSim.BuildSoldiers (HumanLastRampart.Core.Definitions.IDefinitionLookup defs, Unity.Collections.Allocator p) [0x0080e] in C:\Unity\1\HumanLastRampart\Game\Assets\_Project\Combat\Battle\BattleSim.cs:558 
+  at HumanLastRampart.Combat.Battle.BattleSim..ctor (HumanLastRampart.Core.CombatContracts.BattleSetup setup, HumanLastRampart.Core.Definitions.IDefinitionLookup defs) [0x00370] in C:\Unity\1\HumanLastRampart\Game\Assets\_Project\Combat\Battle\BattleSim.cs:221 
+  at SimProbe.RunCampaign (HumanLastRampart.App.Data.DefinitionLookup lookup, HumanLastRampart.Core.Flow.Difficulty difficulty, System.String economy, System.Text.StringBuilder log) [0x0013f] in C:\Unity\1\HumanLastRampart\Game\Assets\_Project\Combat\_SimProbe\SimProbe.cs:372 
+  at SimProbe.FrameCost () [0x0016a] in C:\Unity\1\HumanLastRampart\Game\Assets\_Project\Combat\_SimProbe\SimProbe.cs:144 
+  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)
+  at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo culture) [0x0006a] in <d49d4cb128564ee1b54a84338c98d353>:0 ]]></stack-trace>
+          </failure>
+          <output><![CDATA[Saving results to: C:/Users/User/AppData/LocalLow/DefaultCompany/HumanLastRampart\TestResults.xml
+]]></output>
+        </test-case>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

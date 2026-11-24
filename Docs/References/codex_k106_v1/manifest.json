@@ -1,0 +1,1226 @@
+{
+  "card": "K-106",
+  "version": 1,
+  "status": "assets_only",
+  "generation": "기하학 마스크·픽셀 도형 제작, 승인된 기존 그림 합성",
+  "coordinates": "top-left pixels; Unity pivot = [x/width, 1-y/height]",
+  "ground": {
+    "native_cell": [
+      384,
+      256
+    ],
+    "game_cell": [
+      1152,
+      768
+    ],
+    "native_pivot": [
+      192,
+      248
+    ],
+    "game_pivot": [
+      576,
+      744
+    ],
+    "unity_pivot": [
+      0.5,
+      0.03125
+    ],
+    "range_m": 60,
+    "radius_px": 232,
+    "quad_size_m": [
+      99.3103448275862,
+      66.20689655172414
+    ],
+    "direction": "texture up = north; image clockwise angles N0 E90 S180 W270; convert sign for chosen Unity ground axes",
+    "angular_soft_edge_inside_deg": 3,
+    "radial_soft_edge_inside_px": 18,
+    "blend": "SrcAlpha One",
+    "alpha": "straight",
+    "rotation_seconds": 3
+  },
+  "lens": {
+    "native_cell": [
+      96,
+      128
+    ],
+    "game_cell": [
+      288,
+      384
+    ],
+    "pivot_px": [
+      48,
+      42
+    ],
+    "unity_pivot": [
+      0.5,
+      0.671875
+    ],
+    "attach_to": "K-102 bowl (48,42), not ground foot",
+    "billboard_note": "Ground yaw and billboard rotation require camera mapping by integrator."
+  },
+  "ui": {
+    "sizes": [
+      48,
+      64
+    ],
+    "labels": [
+      "북",
+      "동",
+      "남",
+      "서"
+    ],
+    "nine_slice_lbrt": [
+      8,
+      8,
+      8,
+      8
+    ],
+    "palette_source": "Game/Assets/_Project/Art/UI/Resources/HudArt/Map/compass_back.png"
+  },
+  "notes": [
+    "신규 시트로 기존 시트 대체 없음",
+    "지면·렌즈·UI는 인물 발선 예외. 발선 검사는 해당 없음",
+    "실제 카메라 및 월드 축 연결은 Claude 담당",
+    "미터와 화면 투영은 런타임 미검증",
+    "원본은 전부 PNG 투명 RGBA. 게임판은 3배 최근접"
+  ],
+  "assets": [
+    {
+      "file": "native/beam_40.png",
+      "size": [
+        384,
+        256
+      ],
+      "mode": "RGBA",
+      "cell": [
+        384,
+        256
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "role": "ground_beam",
+      "angle_deg": 40,
+      "pivot_px": [
+        192,
+        248
+      ],
+      "radius_px": 232,
+      "range_m": 60,
+      "quad_size_m": [
+        99.3103448275862,
+        66.20689655172414
+      ],
+      "blend": "SrcAlpha One",
+      "filter": "Bilinear",
+      "baseline_y": null
+    },
+    {
+      "file": "game/beam_40.png",
+      "size": [
+        1152,
+        768
+      ],
+      "mode": "RGBA",
+      "cell": [
+        1152,
+        768
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "role": "ground_beam",
+      "angle_deg": 40,
+      "pivot_px": [
+        576,
+        744
+      ],
+      "radius_px": 232,
+      "range_m": 60,
+      "quad_size_m": [
+        99.3103448275862,
+        66.20689655172414
+      ],
+      "blend": "SrcAlpha One",
+      "filter": "Bilinear",
+      "baseline_y": null
+    },
+    {
+      "file": "previews/beam_40_4x.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/beam_60.png",
+      "size": [
+        384,
+        256
+      ],
+      "mode": "RGBA",
+      "cell": [
+        384,
+        256
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "role": "ground_beam",
+      "angle_deg": 60,
+      "pivot_px": [
+        192,
+        248
+      ],
+      "radius_px": 232,
+      "range_m": 60,
+      "quad_size_m": [
+        99.3103448275862,
+        66.20689655172414
+      ],
+      "blend": "SrcAlpha One",
+      "filter": "Bilinear",
+      "baseline_y": null
+    },
+    {
+      "file": "game/beam_60.png",
+      "size": [
+        1152,
+        768
+      ],
+      "mode": "RGBA",
+      "cell": [
+        1152,
+        768
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "role": "ground_beam",
+      "angle_deg": 60,
+      "pivot_px": [
+        576,
+        744
+      ],
+      "radius_px": 232,
+      "range_m": 60,
+      "quad_size_m": [
+        99.3103448275862,
+        66.20689655172414
+      ],
+      "blend": "SrcAlpha One",
+      "filter": "Bilinear",
+      "baseline_y": null
+    },
+    {
+      "file": "previews/beam_60_4x.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/beam_80.png",
+      "size": [
+        384,
+        256
+      ],
+      "mode": "RGBA",
+      "cell": [
+        384,
+        256
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "role": "ground_beam",
+      "angle_deg": 80,
+      "pivot_px": [
+        192,
+        248
+      ],
+      "radius_px": 232,
+      "range_m": 60,
+      "quad_size_m": [
+        99.3103448275862,
+        66.20689655172414
+      ],
+      "blend": "SrcAlpha One",
+      "filter": "Bilinear",
+      "baseline_y": null
+    },
+    {
+      "file": "game/beam_80.png",
+      "size": [
+        1152,
+        768
+      ],
+      "mode": "RGBA",
+      "cell": [
+        1152,
+        768
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "role": "ground_beam",
+      "angle_deg": 80,
+      "pivot_px": [
+        576,
+        744
+      ],
+      "radius_px": 232,
+      "range_m": 60,
+      "quad_size_m": [
+        99.3103448275862,
+        66.20689655172414
+      ],
+      "blend": "SrcAlpha One",
+      "filter": "Bilinear",
+      "baseline_y": null
+    },
+    {
+      "file": "previews/beam_80_4x.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/shimmer_40.png",
+      "size": [
+        2304,
+        256
+      ],
+      "mode": "RGBA",
+      "cell": [
+        384,
+        256
+      ],
+      "frames": 6,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "role": "dust_shimmer",
+      "angle_deg": 40,
+      "pivot_px": [
+        192,
+        248
+      ],
+      "radius_px": 232,
+      "range_m": 60,
+      "quad_size_m": [
+        99.3103448275862,
+        66.20689655172414
+      ],
+      "blend": "SrcAlpha One",
+      "fps": 6,
+      "loop": true,
+      "baseline_y": null,
+      "filter": "Bilinear"
+    },
+    {
+      "file": "game/shimmer_40.png",
+      "size": [
+        6912,
+        768
+      ],
+      "mode": "RGBA",
+      "cell": [
+        1152,
+        768
+      ],
+      "frames": 6,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "role": "dust_shimmer",
+      "angle_deg": 40,
+      "pivot_px": [
+        576,
+        744
+      ],
+      "radius_px": 232,
+      "range_m": 60,
+      "quad_size_m": [
+        99.3103448275862,
+        66.20689655172414
+      ],
+      "blend": "SrcAlpha One",
+      "fps": 6,
+      "loop": true,
+      "baseline_y": null,
+      "filter": "Bilinear"
+    },
+    {
+      "file": "previews/shimmer_40_4x.png",
+      "size": [
+        9216,
+        1024
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/shimmer_60.png",
+      "size": [
+        2304,
+        256
+      ],
+      "mode": "RGBA",
+      "cell": [
+        384,
+        256
+      ],
+      "frames": 6,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "role": "dust_shimmer",
+      "angle_deg": 60,
+      "pivot_px": [
+        192,
+        248
+      ],
+      "radius_px": 232,
+      "range_m": 60,
+      "quad_size_m": [
+        99.3103448275862,
+        66.20689655172414
+      ],
+      "blend": "SrcAlpha One",
+      "fps": 6,
+      "loop": true,
+      "baseline_y": null,
+      "filter": "Bilinear"
+    },
+    {
+      "file": "game/shimmer_60.png",
+      "size": [
+        6912,
+        768
+      ],
+      "mode": "RGBA",
+      "cell": [
+        1152,
+        768
+      ],
+      "frames": 6,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "role": "dust_shimmer",
+      "angle_deg": 60,
+      "pivot_px": [
+        576,
+        744
+      ],
+      "radius_px": 232,
+      "range_m": 60,
+      "quad_size_m": [
+        99.3103448275862,
+        66.20689655172414
+      ],
+      "blend": "SrcAlpha One",
+      "fps": 6,
+      "loop": true,
+      "baseline_y": null,
+      "filter": "Bilinear"
+    },
+    {
+      "file": "previews/shimmer_60_4x.png",
+      "size": [
+        9216,
+        1024
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/shimmer_80.png",
+      "size": [
+        2304,
+        256
+      ],
+      "mode": "RGBA",
+      "cell": [
+        384,
+        256
+      ],
+      "frames": 6,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "role": "dust_shimmer",
+      "angle_deg": 80,
+      "pivot_px": [
+        192,
+        248
+      ],
+      "radius_px": 232,
+      "range_m": 60,
+      "quad_size_m": [
+        99.3103448275862,
+        66.20689655172414
+      ],
+      "blend": "SrcAlpha One",
+      "fps": 6,
+      "loop": true,
+      "baseline_y": null,
+      "filter": "Bilinear"
+    },
+    {
+      "file": "game/shimmer_80.png",
+      "size": [
+        6912,
+        768
+      ],
+      "mode": "RGBA",
+      "cell": [
+        1152,
+        768
+      ],
+      "frames": 6,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "role": "dust_shimmer",
+      "angle_deg": 80,
+      "pivot_px": [
+        576,
+        744
+      ],
+      "radius_px": 232,
+      "range_m": 60,
+      "quad_size_m": [
+        99.3103448275862,
+        66.20689655172414
+      ],
+      "blend": "SrcAlpha One",
+      "fps": 6,
+      "loop": true,
+      "baseline_y": null,
+      "filter": "Bilinear"
+    },
+    {
+      "file": "previews/shimmer_80_4x.png",
+      "size": [
+        9216,
+        1024
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/beam_head_north.png",
+      "size": [
+        96,
+        128
+      ],
+      "mode": "RGBA",
+      "cell": [
+        96,
+        128
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "role": "lens_glow",
+      "pivot_px": [
+        48,
+        42
+      ],
+      "attach_to_tower_native_px": [
+        48,
+        42
+      ],
+      "tower_foot_native_px": [
+        48,
+        120
+      ],
+      "baseline_y": null,
+      "blend": "SrcAlpha One",
+      "filter": "Bilinear",
+      "rotation": "north_up; clockwise 0/90/180/270 in image space"
+    },
+    {
+      "file": "game/beam_head_north.png",
+      "size": [
+        288,
+        384
+      ],
+      "mode": "RGBA",
+      "cell": [
+        288,
+        384
+      ],
+      "frames": 1,
+      "frame_order": [
+        0
+      ],
+      "role": "lens_glow",
+      "pivot_px": [
+        144,
+        126
+      ],
+      "attach_to_tower_native_px": [
+        48,
+        42
+      ],
+      "tower_foot_native_px": [
+        48,
+        120
+      ],
+      "baseline_y": null,
+      "blend": "SrcAlpha One",
+      "filter": "Bilinear",
+      "rotation": "north_up; clockwise 0/90/180/270 in image space"
+    },
+    {
+      "file": "previews/beam_head_north_4x.png",
+      "size": [
+        384,
+        512
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "map/beam_40_96.png",
+      "size": [
+        96,
+        96
+      ],
+      "mode": "RGBA",
+      "role": "map_wedge",
+      "angle_deg": 40,
+      "pivot_px": [
+        48,
+        90
+      ],
+      "radius_px": 68,
+      "range_m": 60,
+      "blend": "alpha",
+      "filter": "Bilinear"
+    },
+    {
+      "file": "previews/map_beam_40_4x.png",
+      "size": [
+        384,
+        384
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "map/beam_60_96.png",
+      "size": [
+        96,
+        96
+      ],
+      "mode": "RGBA",
+      "role": "map_wedge",
+      "angle_deg": 60,
+      "pivot_px": [
+        48,
+        90
+      ],
+      "radius_px": 68,
+      "range_m": 60,
+      "blend": "alpha",
+      "filter": "Bilinear"
+    },
+    {
+      "file": "previews/map_beam_60_4x.png",
+      "size": [
+        384,
+        384
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "map/beam_80_96.png",
+      "size": [
+        96,
+        96
+      ],
+      "mode": "RGBA",
+      "role": "map_wedge",
+      "angle_deg": 80,
+      "pivot_px": [
+        48,
+        90
+      ],
+      "radius_px": 68,
+      "range_m": 60,
+      "blend": "alpha",
+      "filter": "Bilinear"
+    },
+    {
+      "file": "previews/map_beam_80_4x.png",
+      "size": [
+        384,
+        384
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "ui/direction_inactive_48.png",
+      "size": [
+        192,
+        48
+      ],
+      "mode": "RGBA",
+      "role": "direction_buttons",
+      "cell": [
+        48,
+        48
+      ],
+      "frames": 4,
+      "frame_order": [
+        "north",
+        "east",
+        "south",
+        "west"
+      ],
+      "state": "inactive",
+      "blend": "alpha",
+      "filter": "Point"
+    },
+    {
+      "file": "ui/compass_inactive_48.png",
+      "size": [
+        48,
+        48
+      ],
+      "mode": "RGBA",
+      "role": "compass_dial",
+      "state": "inactive",
+      "cell": [
+        48,
+        48
+      ],
+      "frames": 1,
+      "pivot_px": [
+        24,
+        24
+      ],
+      "filter": "Point",
+      "orientation": "north_up; rotate pointer only"
+    },
+    {
+      "file": "ui/direction_active_48.png",
+      "size": [
+        192,
+        48
+      ],
+      "mode": "RGBA",
+      "role": "direction_buttons",
+      "cell": [
+        48,
+        48
+      ],
+      "frames": 4,
+      "frame_order": [
+        "north",
+        "east",
+        "south",
+        "west"
+      ],
+      "state": "active",
+      "blend": "alpha",
+      "filter": "Point"
+    },
+    {
+      "file": "ui/compass_active_48.png",
+      "size": [
+        48,
+        48
+      ],
+      "mode": "RGBA",
+      "role": "compass_dial",
+      "state": "active",
+      "cell": [
+        48,
+        48
+      ],
+      "frames": 1,
+      "pivot_px": [
+        24,
+        24
+      ],
+      "filter": "Point",
+      "orientation": "north_up; rotate pointer only"
+    },
+    {
+      "file": "ui/direction_rotating_48.png",
+      "size": [
+        192,
+        48
+      ],
+      "mode": "RGBA",
+      "role": "direction_buttons",
+      "cell": [
+        48,
+        48
+      ],
+      "frames": 4,
+      "frame_order": [
+        "north",
+        "east",
+        "south",
+        "west"
+      ],
+      "state": "rotating",
+      "blend": "alpha",
+      "filter": "Point"
+    },
+    {
+      "file": "ui/compass_rotating_48.png",
+      "size": [
+        48,
+        48
+      ],
+      "mode": "RGBA",
+      "role": "compass_dial",
+      "state": "rotating",
+      "cell": [
+        48,
+        48
+      ],
+      "frames": 1,
+      "pivot_px": [
+        24,
+        24
+      ],
+      "filter": "Point",
+      "orientation": "north_up; rotate pointer only"
+    },
+    {
+      "file": "ui/beam_width_48.png",
+      "size": [
+        144,
+        48
+      ],
+      "mode": "RGBA",
+      "role": "width_indicator",
+      "cell": [
+        48,
+        48
+      ],
+      "frames": 3,
+      "frame_order": [
+        40,
+        60,
+        80
+      ],
+      "filter": "Point"
+    },
+    {
+      "file": "ui/control_frame_9slice_48.png",
+      "size": [
+        48,
+        48
+      ],
+      "mode": "RGBA",
+      "role": "nine_slice",
+      "border_lbrt": [
+        8,
+        8,
+        8,
+        8
+      ],
+      "minimum_size": [
+        24,
+        24
+      ],
+      "filter": "Point",
+      "center": "transparent"
+    },
+    {
+      "file": "ui/direction_inactive_64.png",
+      "size": [
+        256,
+        64
+      ],
+      "mode": "RGBA",
+      "role": "direction_buttons",
+      "cell": [
+        64,
+        64
+      ],
+      "frames": 4,
+      "frame_order": [
+        "north",
+        "east",
+        "south",
+        "west"
+      ],
+      "state": "inactive",
+      "blend": "alpha",
+      "filter": "Point"
+    },
+    {
+      "file": "ui/compass_inactive_64.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "role": "compass_dial",
+      "state": "inactive",
+      "cell": [
+        64,
+        64
+      ],
+      "frames": 1,
+      "pivot_px": [
+        32,
+        32
+      ],
+      "filter": "Point",
+      "orientation": "north_up; rotate pointer only"
+    },
+    {
+      "file": "ui/direction_active_64.png",
+      "size": [
+        256,
+        64
+      ],
+      "mode": "RGBA",
+      "role": "direction_buttons",
+      "cell": [
+        64,
+        64
+      ],
+      "frames": 4,
+      "frame_order": [
+        "north",
+        "east",
+        "south",
+        "west"
+      ],
+      "state": "active",
+      "blend": "alpha",
+      "filter": "Point"
+    },
+    {
+      "file": "ui/compass_active_64.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "role": "compass_dial",
+      "state": "active",
+      "cell": [
+        64,
+        64
+      ],
+      "frames": 1,
+      "pivot_px": [
+        32,
+        32
+      ],
+      "filter": "Point",
+      "orientation": "north_up; rotate pointer only"
+    },
+    {
+      "file": "ui/direction_rotating_64.png",
+      "size": [
+        256,
+        64
+      ],
+      "mode": "RGBA",
+      "role": "direction_buttons",
+      "cell": [
+        64,
+        64
+      ],
+      "frames": 4,
+      "frame_order": [
+        "north",
+        "east",
+        "south",
+        "west"
+      ],
+      "state": "rotating",
+      "blend": "alpha",
+      "filter": "Point"
+    },
+    {
+      "file": "ui/compass_rotating_64.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "role": "compass_dial",
+      "state": "rotating",
+      "cell": [
+        64,
+        64
+      ],
+      "frames": 1,
+      "pivot_px": [
+        32,
+        32
+      ],
+      "filter": "Point",
+      "orientation": "north_up; rotate pointer only"
+    },
+    {
+      "file": "ui/beam_width_64.png",
+      "size": [
+        192,
+        64
+      ],
+      "mode": "RGBA",
+      "role": "width_indicator",
+      "cell": [
+        64,
+        64
+      ],
+      "frames": 3,
+      "frame_order": [
+        40,
+        60,
+        80
+      ],
+      "filter": "Point"
+    },
+    {
+      "file": "ui/control_frame_9slice_64.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "role": "nine_slice",
+      "border_lbrt": [
+        8,
+        8,
+        8,
+        8
+      ],
+      "minimum_size": [
+        24,
+        24
+      ],
+      "filter": "Point",
+      "center": "transparent"
+    },
+    {
+      "file": "mockup_north_high_1920x1080.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "mode": "RGBA",
+      "role": "concept_mockup",
+      "source": "Docs/References/codex_k085_v1/battle_before.png",
+      "projection": "illustrative; not camera calibrated",
+      "ground_pivot_screen_px": [
+        960,
+        802
+      ],
+      "tower_lens_screen_px": [
+        960,
+        646
+      ],
+      "angle_deg": 80,
+      "direction": "north",
+      "fog_source": "K-103",
+      "unity_capture": false
+    },
+    {
+      "file": "previews/direction_inactive_48_4x.png",
+      "size": [
+        768,
+        192
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "previews/compass_inactive_48_4x.png",
+      "size": [
+        192,
+        192
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "previews/direction_active_48_4x.png",
+      "size": [
+        768,
+        192
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "previews/compass_active_48_4x.png",
+      "size": [
+        192,
+        192
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "previews/direction_rotating_48_4x.png",
+      "size": [
+        768,
+        192
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "previews/compass_rotating_48_4x.png",
+      "size": [
+        192,
+        192
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "previews/beam_width_48_4x.png",
+      "size": [
+        576,
+        192
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "previews/control_frame_9slice_48_4x.png",
+      "size": [
+        192,
+        192
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "previews/direction_inactive_64_4x.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "previews/compass_inactive_64_4x.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "previews/direction_active_64_4x.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "previews/compass_active_64_4x.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "previews/direction_rotating_64_4x.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "previews/compass_rotating_64_4x.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "previews/beam_width_64_4x.png",
+      "size": [
+        768,
+        256
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "previews/control_frame_9slice_64_4x.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "role": "preview"
+    }
+  ]
+}

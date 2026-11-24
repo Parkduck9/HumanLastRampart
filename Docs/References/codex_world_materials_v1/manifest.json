@@ -1,0 +1,281 @@
+[
+  {
+    "id": "wall_stone",
+    "label": "성벽 바깥면",
+    "albedo": "wall_stone/albedo.png",
+    "normal": "wall_stone/normal.png",
+    "size": [
+      128,
+      128
+    ],
+    "worldMeters": [
+      4,
+      4
+    ],
+    "pixelsPerMeter": 32,
+    "source": "wall_stone_source.png",
+    "sourceSha256": "422d0e5c0d38be60dbc49c17b9c6dcf8e968da25929e1d30675301335d8e7b57",
+    "albedoSha256": "ea16797359227969dbb0d0d0c35912029b3bd6ccef69784a068a9daf3693bb87",
+    "normalSha256": "36b7c7d488698419a7a3190649d201252a2a6ae648aec109809427f1cdd99bea",
+    "normalSpace": "tangent OpenGL Y+",
+    "normalStrength": 0.55,
+    "normalMaxUnitError": 0.005103372068672063,
+    "wrap": "Repeat",
+    "filter": "Point",
+    "seamMethod": "mirrored periodization of AI material quarter; reflected normal XY corrected; reflection-axis tangent=0",
+    "edgesExact": true,
+    "normalEdgesExact": true,
+    "albedoColorSpace": "sRGB",
+    "normalColorSpace": "Linear",
+    "status": "reference-sample-user-review-pending",
+    "unityPlayVerified": false
+  },
+  {
+    "id": "walkway_stone",
+    "label": "성벽 통로 바닥",
+    "albedo": "walkway_stone/albedo.png",
+    "normal": "walkway_stone/normal.png",
+    "size": [
+      128,
+      128
+    ],
+    "worldMeters": [
+      4,
+      4
+    ],
+    "pixelsPerMeter": 32,
+    "source": "walkway_stone_source.png",
+    "sourceSha256": "3cd769b1ccce4a1374aa7009757589d63fd56905ca5e45b1f9637f625cf7cb7c",
+    "albedoSha256": "b092a97f7c6933b4d7db7fb76091486c7f3351809366771630aea365f27cb61a",
+    "normalSha256": "2226e1558896b79b02296331d322b03ac413effd0147374515bd8bd6081e2b7c",
+    "normalSpace": "tangent OpenGL Y+",
+    "normalStrength": 0.55,
+    "normalMaxUnitError": 0.004979719062408017,
+    "wrap": "Repeat",
+    "filter": "Point",
+    "seamMethod": "mirrored periodization of AI material quarter; reflected normal XY corrected; reflection-axis tangent=0",
+    "edgesExact": true,
+    "normalEdgesExact": true,
+    "albedoColorSpace": "sRGB",
+    "normalColorSpace": "Linear",
+    "status": "reference-sample-user-review-pending",
+    "unityPlayVerified": false
+  },
+  {
+    "id": "parapet_top",
+    "label": "난간 윗면",
+    "albedo": "parapet_top/albedo.png",
+    "normal": "parapet_top/normal.png",
+    "size": [
+      128,
+      64
+    ],
+    "worldMeters": [
+      4,
+      2
+    ],
+    "pixelsPerMeter": 32,
+    "source": "parapet_top_source.png",
+    "sourceSha256": "7900e034bed4024525c2ea0b0fca5919f38a7e7df0fa2e446e3f30ba9391076a",
+    "albedoSha256": "54a5a1e594b59f10002adb0e55aceb77492d967874b6befb0e1119c82cde8f63",
+    "normalSha256": "072b7c7cc700c8e71eb32c251531d57fb05ecab6f266e24d3facad32a9eeb280",
+    "normalSpace": "tangent OpenGL Y+",
+    "normalStrength": 0.55,
+    "normalMaxUnitError": 0.004423470589472789,
+    "wrap": "Repeat",
+    "filter": "Point",
+    "seamMethod": "mirrored periodization of AI material quarter; reflected normal XY corrected; reflection-axis tangent=0",
+    "edgesExact": true,
+    "normalEdgesExact": true,
+    "albedoColorSpace": "sRGB",
+    "normalColorSpace": "Linear",
+    "status": "reference-sample-user-review-pending",
+    "unityPlayVerified": false
+  },
+  {
+    "id": "parapet_side",
+    "label": "난간 옆면",
+    "albedo": "parapet_side/albedo.png",
+    "normal": "parapet_side/normal.png",
+    "size": [
+      128,
+      128
+    ],
+    "worldMeters": [
+      4,
+      4
+    ],
+    "pixelsPerMeter": 32,
+    "source": "parapet_side_source.png",
+    "sourceSha256": "8b423999d124773fe2cb42f42dabba6052f4df4aed0b418a63827125de0a3d67",
+    "albedoSha256": "a33d7c110d952cd26e1096ba26d430965f0cfe0723866e870ad45ca044e972ab",
+    "normalSha256": "ab6cf227da04bc00b28097e799693b524ec3881272d6a67cd3d1cce6c0fe3a30",
+    "normalSpace": "tangent OpenGL Y+",
+    "normalStrength": 0.55,
+    "normalMaxUnitError": 0.004979719062408239,
+    "wrap": "Repeat",
+    "filter": "Point",
+    "seamMethod": "mirrored periodization of AI material quarter; reflected normal XY corrected; reflection-axis tangent=0",
+    "edgesExact": true,
+    "normalEdgesExact": true,
+    "albedoColorSpace": "sRGB",
+    "normalColorSpace": "Linear",
+    "status": "reference-sample-user-review-pending",
+    "unityPlayVerified": false
+  },
+  {
+    "id": "tower_wall",
+    "label": "모서리 탑 벽",
+    "albedo": "tower_wall/albedo.png",
+    "normal": "tower_wall/normal.png",
+    "size": [
+      128,
+      192
+    ],
+    "worldMeters": [
+      4,
+      6
+    ],
+    "pixelsPerMeter": 32,
+    "source": "tower_wall_source.png",
+    "sourceSha256": "348e6f24e956581eaa7f8eab83fe5de1bc18071d22a660946e2545b570f539e2",
+    "albedoSha256": "a3d0c55a46902e252904baf886ab89a024d3abe3be9ed84e5f66d6e98b6250ab",
+    "normalSha256": "8a3d3792658345eb9e2ec3bc64af2ab1cfbe672ab455e99ea1952871358cfcb2",
+    "normalSpace": "tangent OpenGL Y+",
+    "normalStrength": 0.55,
+    "normalMaxUnitError": 0.005597559347107817,
+    "wrap": "Repeat",
+    "filter": "Point",
+    "seamMethod": "mirrored periodization of AI material quarter; reflected normal XY corrected; reflection-axis tangent=0",
+    "edgesExact": true,
+    "normalEdgesExact": true,
+    "albedoColorSpace": "sRGB",
+    "normalColorSpace": "Linear",
+    "status": "reference-sample-user-review-pending",
+    "unityPlayVerified": false
+  },
+  {
+    "id": "tower_roof",
+    "label": "모서리 탑 지붕",
+    "albedo": "tower_roof/albedo.png",
+    "normal": "tower_roof/normal.png",
+    "size": [
+      128,
+      128
+    ],
+    "worldMeters": [
+      4,
+      4
+    ],
+    "pixelsPerMeter": 32,
+    "source": "tower_roof_source.png",
+    "sourceSha256": "681449b40c9bc4ee665d4d33d5413ff30ff9a1cb9b161b8f8b86754a124b9836",
+    "albedoSha256": "e5f17f9aca5b3ab0048e83722b5b21c832fde6a75940de9ae90ad40b71bc52e2",
+    "normalSha256": "c5c1c92d7171d23c62c60acfb5cd640938577895a66255332fe903346e06cedf",
+    "normalSpace": "tangent OpenGL Y+",
+    "normalStrength": 0.55,
+    "normalMaxUnitError": 0.0051652043353486166,
+    "wrap": "Repeat",
+    "filter": "Point",
+    "seamMethod": "mirrored periodization of AI material quarter; reflected normal XY corrected; reflection-axis tangent=0",
+    "edgesExact": true,
+    "normalEdgesExact": true,
+    "albedoColorSpace": "sRGB",
+    "normalColorSpace": "Linear",
+    "status": "reference-sample-user-review-pending",
+    "unityPlayVerified": false
+  },
+  {
+    "id": "field_grass",
+    "label": "들판 풀",
+    "albedo": "field_grass/albedo.png",
+    "normal": "field_grass/normal.png",
+    "size": [
+      256,
+      256
+    ],
+    "worldMeters": [
+      8,
+      8
+    ],
+    "pixelsPerMeter": 32,
+    "source": "field_grass_source.png",
+    "sourceSha256": "093f023ab79b12a21edb9715a9afed0624d78091bc052ce418a15794e801308f",
+    "albedoSha256": "a436c29c8c2cca07ee2248266500fc3de8bf3c49b8088b065087fbbcba1cebf2",
+    "normalSha256": "70effd0dd97442da55c3c8a0ac5cc247ea1691ef1d2ada292a474de216276718",
+    "normalSpace": "tangent OpenGL Y+",
+    "normalStrength": 0.55,
+    "normalMaxUnitError": 0.005414025440695802,
+    "wrap": "Repeat",
+    "filter": "Point",
+    "seamMethod": "mirrored periodization of AI material quarter; reflected normal XY corrected; reflection-axis tangent=0",
+    "edgesExact": true,
+    "normalEdgesExact": true,
+    "albedoColorSpace": "sRGB",
+    "normalColorSpace": "Linear",
+    "status": "reference-sample-user-review-pending",
+    "unityPlayVerified": false
+  },
+  {
+    "id": "field_dirt",
+    "label": "들판 흙",
+    "albedo": "field_dirt/albedo.png",
+    "normal": "field_dirt/normal.png",
+    "size": [
+      256,
+      256
+    ],
+    "worldMeters": [
+      8,
+      8
+    ],
+    "pixelsPerMeter": 32,
+    "source": "field_dirt_source.png",
+    "sourceSha256": "5c334a67cee08d3c2673dd0585964bd83b7b827722dfd83a19d90a5b7590e11c",
+    "albedoSha256": "7cb76690d713b6bba42b14147755e7dba8915bb93912fd8aa85191b48af57374",
+    "normalSha256": "7b418726b4b165da0935291f768fee59019963d5a3ee083d79bdd38edd21e881",
+    "normalSpace": "tangent OpenGL Y+",
+    "normalStrength": 0.55,
+    "normalMaxUnitError": 0.005414025440695802,
+    "wrap": "Repeat",
+    "filter": "Point",
+    "seamMethod": "mirrored periodization of AI material quarter; reflected normal XY corrected; reflection-axis tangent=0",
+    "edgesExact": true,
+    "normalEdgesExact": true,
+    "albedoColorSpace": "sRGB",
+    "normalColorSpace": "Linear",
+    "status": "reference-sample-user-review-pending",
+    "unityPlayVerified": false
+  },
+  {
+    "id": "hill_grass",
+    "label": "언덕 풀",
+    "albedo": "hill_grass/albedo.png",
+    "normal": "hill_grass/normal.png",
+    "size": [
+      256,
+      256
+    ],
+    "worldMeters": [
+      8,
+      8
+    ],
+    "pixelsPerMeter": 32,
+    "source": "hill_grass_source.png",
+    "sourceSha256": "0b142f63676cf306881b9908cf2a8ac07202319c12006568425e977354c718ba",
+    "albedoSha256": "2b5880acaa961cc6d112183d4263f7410c5abc25152f2ae9441d136de70bec4f",
+    "normalSha256": "8d3f59f9647536e0f0d2df8fc53b438a87b97eab65c1d672949f160881154403",
+    "normalSpace": "tangent OpenGL Y+",
+    "normalStrength": 0.55,
+    "normalMaxUnitError": 0.005719896677428116,
+    "wrap": "Repeat",
+    "filter": "Point",
+    "seamMethod": "mirrored periodization of AI material quarter; reflected normal XY corrected; reflection-axis tangent=0",
+    "edgesExact": true,
+    "normalEdgesExact": true,
+    "albedoColorSpace": "sRGB",
+    "normalColorSpace": "Linear",
+    "status": "reference-sample-user-review-pending",
+    "unityPlayVerified": false
+  }
+]

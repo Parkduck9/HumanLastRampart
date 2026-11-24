@@ -1,0 +1,1707 @@
+{
+  "card": "K-081",
+  "encoding": "RGBA8, tangent +X right +Y up +Z viewer",
+  "transparent_rgb": [
+    128,
+    128,
+    255
+  ],
+  "alpha": "? ??? ??? ??. ?? RGB ?? ??? ?? RGBA? ???? ??. ??? ???? ? ?? ?? ??.",
+  "method": "???? ??? ?? ???? ?? ?? ?? ???? ?? ??. 3D ???? ???? ??? ?? ??.",
+  "reference_samples": [
+    "Game/Assets/_Project/Art/Characters/Static/archer_static_normal.png",
+    "Docs/References/codex_k023_v1/normals/cannon_crew_normal.png"
+  ],
+  "layout_policy": "?? ?? ??? ????????? ??? ??. ??? 128?192?256?384(2?), ??? ?? 64?384?256?1536(4?)? ?? ?? ??.",
+  "sheets": [
+    {
+      "source_card": "K-073",
+      "sheet": "archer_static.png",
+      "source_native": "Docs/References/codex_k073_v1/archer_static_native.png",
+      "source_game": "Docs/References/codex_k073_v1/archer_static.png",
+      "source_sha256": "0a7c35db020d1805bbdadacde6362bf7c990448298a61bae618879efdddfc9f2",
+      "native": "native/archer_static_native_normal.png",
+      "game": "game/archer_static_normal.png",
+      "preview_4x": "previews/archer_static_normal_4x.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "game_cell": [
+        288,
+        384
+      ],
+      "native_size": [
+        96,
+        128
+      ],
+      "game_size": [
+        288,
+        384
+      ],
+      "native_pivot_top_left": [
+        48,
+        120
+      ],
+      "game_pivot_top_left": [
+        144,
+        360
+      ],
+      "columns": 1,
+      "rows": 1,
+      "frame_count": 1,
+      "frame_order": [
+        "후면 대기"
+      ],
+      "source_manifest": "Docs/References/codex_k073_v1/manifest.json",
+      "scale": 3,
+      "current_game": "Game/Assets/_Project/Art/Characters/Static/archer_static.png",
+      "lit_upper_left": "previews/archer_static_upper_left.png",
+      "lit_torch_lower_right": "previews/archer_static_torch_lower_right.png"
+    },
+    {
+      "source_card": "K-073",
+      "sheet": "archer_run.png",
+      "source_native": "Docs/References/codex_k073_v1/archer_run_native.png",
+      "source_game": "Docs/References/codex_k073_v1/archer_run.png",
+      "source_sha256": "98808a08f186b08f4500f7827c9ed7821f854efc0716a8cbcca76c954b4e3925",
+      "native": "native/archer_run_native_normal.png",
+      "game": "game/archer_run_normal.png",
+      "preview_4x": "previews/archer_run_normal_4x.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "game_cell": [
+        288,
+        384
+      ],
+      "native_size": [
+        384,
+        128
+      ],
+      "game_size": [
+        1152,
+        384
+      ],
+      "native_pivot_top_left": [
+        48,
+        120
+      ],
+      "game_pivot_top_left": [
+        144,
+        360
+      ],
+      "columns": 4,
+      "rows": 1,
+      "frame_count": 4,
+      "frame_order": [
+        "오른발 전진",
+        "교차·오른발 지지",
+        "왼발 전진",
+        "교차·왼발 지지"
+      ],
+      "source_manifest": "Docs/References/codex_k073_v1/manifest.json",
+      "scale": 3,
+      "current_game": "Game/Assets/_Project/Art/Characters/Run/archer_run.png",
+      "lit_upper_left": "previews/archer_run_upper_left.png",
+      "lit_torch_lower_right": "previews/archer_run_torch_lower_right.png"
+    },
+    {
+      "source_card": "K-073",
+      "sheet": "archer_fire.png",
+      "source_native": "Docs/References/codex_k073_v1/archer_fire_native.png",
+      "source_game": "Docs/References/codex_k073_v1/archer_fire.png",
+      "source_sha256": "f425d7e0d3191df7f9db66843112b86138c386f8e3984c221527a6c606702288",
+      "native": "native/archer_fire_native_normal.png",
+      "game": "game/archer_fire_normal.png",
+      "preview_4x": "previews/archer_fire_normal_4x.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "game_cell": [
+        288,
+        384
+      ],
+      "native_size": [
+        576,
+        128
+      ],
+      "game_size": [
+        1728,
+        384
+      ],
+      "native_pivot_top_left": [
+        48,
+        120
+      ],
+      "game_pivot_top_left": [
+        144,
+        360
+      ],
+      "columns": 6,
+      "rows": 1,
+      "frame_count": 6,
+      "frame_order": [
+        "준비",
+        "당기기",
+        "조준",
+        "발사",
+        "회복",
+        "다음 화살 준비"
+      ],
+      "source_manifest": "Docs/References/codex_k073_v1/manifest.json",
+      "scale": 3,
+      "current_game": "Game/Assets/_Project/Art/Characters/Fire/archer_fire.png",
+      "lit_upper_left": "previews/archer_fire_upper_left.png",
+      "lit_torch_lower_right": "previews/archer_fire_torch_lower_right.png"
+    },
+    {
+      "source_card": "K-073",
+      "sheet": "archer_fall.png",
+      "source_native": "Docs/References/codex_k073_v1/archer_fall_native.png",
+      "source_game": "Docs/References/codex_k073_v1/archer_fall.png",
+      "source_sha256": "879f9d36ac90a89a61040a12a460815e7e529d0b7c5e5f8337e570f0888d48d3",
+      "native": "native/archer_fall_native_normal.png",
+      "game": "game/archer_fall_normal.png",
+      "preview_4x": "previews/archer_fall_normal_4x.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "game_cell": [
+        288,
+        384
+      ],
+      "native_size": [
+        384,
+        128
+      ],
+      "game_size": [
+        1152,
+        384
+      ],
+      "native_pivot_top_left": [
+        48,
+        120
+      ],
+      "game_pivot_top_left": [
+        144,
+        360
+      ],
+      "columns": 4,
+      "rows": 1,
+      "frame_count": 4,
+      "frame_order": [
+        "피격",
+        "무릎 꺾임",
+        "옆으로 넘어짐",
+        "쓰러짐"
+      ],
+      "source_manifest": "Docs/References/codex_k073_v1/manifest.json",
+      "scale": 3,
+      "current_game": "Game/Assets/_Project/Art/Characters/Fall/archer_fall.png",
+      "lit_upper_left": "previews/archer_fall_upper_left.png",
+      "lit_torch_lower_right": "previews/archer_fall_torch_lower_right.png"
+    },
+    {
+      "source_card": "K-074",
+      "sheet": "gunner_static.png",
+      "source_native": "Docs/References/codex_k074_v1/gunner_static_native.png",
+      "source_game": "Docs/References/codex_k074_v1/gunner_static.png",
+      "source_sha256": "0570db03f345ef9c9bc05346ed010e7cfd082fe6a01c0103fb74e7cdce6910f5",
+      "native": "native/gunner_static_native_normal.png",
+      "game": "game/gunner_static_normal.png",
+      "preview_4x": "previews/gunner_static_normal_4x.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "game_cell": [
+        288,
+        384
+      ],
+      "native_size": [
+        96,
+        128
+      ],
+      "game_size": [
+        288,
+        384
+      ],
+      "native_pivot_top_left": [
+        48,
+        120
+      ],
+      "game_pivot_top_left": [
+        144,
+        360
+      ],
+      "columns": 1,
+      "rows": 1,
+      "frame_count": 1,
+      "frame_order": [
+        "후면 대기"
+      ],
+      "source_manifest": "Docs/References/codex_k074_v1/manifest.json",
+      "scale": 3,
+      "current_game": "Game/Assets/_Project/Art/Characters/Static/gunner_static.png",
+      "lit_upper_left": "previews/gunner_static_upper_left.png",
+      "lit_torch_lower_right": "previews/gunner_static_torch_lower_right.png"
+    },
+    {
+      "source_card": "K-074",
+      "sheet": "gunner_run.png",
+      "source_native": "Docs/References/codex_k074_v1/gunner_run_native.png",
+      "source_game": "Docs/References/codex_k074_v1/gunner_run.png",
+      "source_sha256": "6132a2797bcc63f51a67c771a7801c8428b92f0f5c380c3e87a36b1d07e8d70d",
+      "native": "native/gunner_run_native_normal.png",
+      "game": "game/gunner_run_normal.png",
+      "preview_4x": "previews/gunner_run_normal_4x.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "game_cell": [
+        288,
+        384
+      ],
+      "native_size": [
+        384,
+        128
+      ],
+      "game_size": [
+        1152,
+        384
+      ],
+      "native_pivot_top_left": [
+        48,
+        120
+      ],
+      "game_pivot_top_left": [
+        144,
+        360
+      ],
+      "columns": 4,
+      "rows": 1,
+      "frame_count": 4,
+      "frame_order": [
+        "오른발 전진",
+        "교차·오른발 지지",
+        "왼발 전진",
+        "교차·왼발 지지"
+      ],
+      "source_manifest": "Docs/References/codex_k074_v1/manifest.json",
+      "scale": 3,
+      "current_game": "Game/Assets/_Project/Art/Characters/Run/gunner_run.png",
+      "lit_upper_left": "previews/gunner_run_upper_left.png",
+      "lit_torch_lower_right": "previews/gunner_run_torch_lower_right.png"
+    },
+    {
+      "source_card": "K-074",
+      "sheet": "gunner_fire.png",
+      "source_native": "Docs/References/codex_k074_v1/gunner_fire_native.png",
+      "source_game": "Docs/References/codex_k074_v1/gunner_fire.png",
+      "source_sha256": "10a7906f436ea393c5ba68abb28ae7f497edcbacdb4b24fcf85c58c377613f21",
+      "native": "native/gunner_fire_native_normal.png",
+      "game": "game/gunner_fire_normal.png",
+      "preview_4x": "previews/gunner_fire_normal_4x.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "game_cell": [
+        288,
+        384
+      ],
+      "native_size": [
+        576,
+        128
+      ],
+      "game_size": [
+        1728,
+        384
+      ],
+      "native_pivot_top_left": [
+        48,
+        120
+      ],
+      "game_pivot_top_left": [
+        144,
+        360
+      ],
+      "columns": 6,
+      "rows": 1,
+      "frame_count": 6,
+      "frame_order": [
+        "견착",
+        "조준",
+        "발사·총구 화염",
+        "반동",
+        "총 내리기",
+        "재장전 암시"
+      ],
+      "source_manifest": "Docs/References/codex_k074_v1/manifest.json",
+      "scale": 3,
+      "current_game": "Game/Assets/_Project/Art/Characters/Fire/gunner_fire.png",
+      "lit_upper_left": "previews/gunner_fire_upper_left.png",
+      "lit_torch_lower_right": "previews/gunner_fire_torch_lower_right.png"
+    },
+    {
+      "source_card": "K-074",
+      "sheet": "gunner_fall.png",
+      "source_native": "Docs/References/codex_k074_v1/gunner_fall_native.png",
+      "source_game": "Docs/References/codex_k074_v1/gunner_fall.png",
+      "source_sha256": "4ef6863f35be19cdd1a0d67bc929074927f9e398c92086a113a6435e4a7f55eb",
+      "native": "native/gunner_fall_native_normal.png",
+      "game": "game/gunner_fall_normal.png",
+      "preview_4x": "previews/gunner_fall_normal_4x.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "game_cell": [
+        288,
+        384
+      ],
+      "native_size": [
+        384,
+        128
+      ],
+      "game_size": [
+        1152,
+        384
+      ],
+      "native_pivot_top_left": [
+        48,
+        120
+      ],
+      "game_pivot_top_left": [
+        144,
+        360
+      ],
+      "columns": 4,
+      "rows": 1,
+      "frame_count": 4,
+      "frame_order": [
+        "피격",
+        "무릎 꺾임",
+        "옆으로 넘어짐",
+        "쓰러짐"
+      ],
+      "source_manifest": "Docs/References/codex_k074_v1/manifest.json",
+      "scale": 3,
+      "current_game": "Game/Assets/_Project/Art/Characters/Fall/gunner_fall.png",
+      "lit_upper_left": "previews/gunner_fall_upper_left.png",
+      "lit_torch_lower_right": "previews/gunner_fall_torch_lower_right.png"
+    },
+    {
+      "source_card": "K-075",
+      "sheet": "cannon_crew_static.png",
+      "source_native": "Docs/References/codex_k075_v1/native/Characters/Static/cannon_crew_static.png",
+      "source_game": "Docs/References/codex_k075_v1/game/Characters/Static/cannon_crew_static.png",
+      "source_sha256": "3836ce50297502e9899df0d2a8a432b2d6e8244a9d34998c12819f711358251e",
+      "native": "native/cannon_crew_static_normal.png",
+      "game": "game/cannon_crew_static_normal.png",
+      "preview_4x": "previews/cannon_crew_static_normal_4x.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "game_cell": [
+        288,
+        384
+      ],
+      "native_size": [
+        96,
+        128
+      ],
+      "game_size": [
+        288,
+        384
+      ],
+      "native_pivot_top_left": [
+        48,
+        120
+      ],
+      "game_pivot_top_left": [
+        144,
+        360
+      ],
+      "columns": 1,
+      "rows": 1,
+      "frame_count": 1,
+      "frame_order": [
+        "뒷모습 대기"
+      ],
+      "source_manifest": "Docs/References/codex_k075_v1/manifest.json",
+      "scale": 3,
+      "current_game": "Game/Assets/_Project/Art/Characters/Static/cannon_crew_static.png",
+      "lit_upper_left": "previews/cannon_crew_static_upper_left.png",
+      "lit_torch_lower_right": "previews/cannon_crew_static_torch_lower_right.png"
+    },
+    {
+      "source_card": "K-075",
+      "sheet": "cannon_crew_run.png",
+      "source_native": "Docs/References/codex_k075_v1/native/Characters/Run/cannon_crew_run.png",
+      "source_game": "Docs/References/codex_k075_v1/game/Characters/Run/cannon_crew_run.png",
+      "source_sha256": "94cfa6a2205a2cdaef28a7f99280ede26109f2ee894ee3f252d370234930be51",
+      "native": "native/cannon_crew_run_normal.png",
+      "game": "game/cannon_crew_run_normal.png",
+      "preview_4x": "previews/cannon_crew_run_normal_4x.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "game_cell": [
+        288,
+        384
+      ],
+      "native_size": [
+        384,
+        128
+      ],
+      "game_size": [
+        1152,
+        384
+      ],
+      "native_pivot_top_left": [
+        48,
+        120
+      ],
+      "game_pivot_top_left": [
+        144,
+        360
+      ],
+      "columns": 4,
+      "rows": 1,
+      "frame_count": 4,
+      "frame_order": [
+        "왼발 디딤",
+        "오른발 통과",
+        "오른발 디딤",
+        "왼발 통과"
+      ],
+      "source_manifest": "Docs/References/codex_k075_v1/manifest.json",
+      "scale": 3,
+      "current_game": "Game/Assets/_Project/Art/Characters/Run/cannon_crew_run.png",
+      "lit_upper_left": "previews/cannon_crew_run_upper_left.png",
+      "lit_torch_lower_right": "previews/cannon_crew_run_torch_lower_right.png"
+    },
+    {
+      "source_card": "K-075",
+      "sheet": "cannon_crew_ignite6.png",
+      "source_native": "Docs/References/codex_k075_v1/native/Characters/Fire/cannon_crew_ignite6.png",
+      "source_game": "Docs/References/codex_k075_v1/game/Characters/Fire/cannon_crew_ignite6.png",
+      "source_sha256": "0f832d3c457690d52dad34fd1a99cd52a413a00c357ed1341e83e5b2e4d1b133",
+      "native": "native/cannon_crew_ignite6_normal.png",
+      "game": "game/cannon_crew_ignite6_normal.png",
+      "preview_4x": "previews/cannon_crew_ignite6_normal_4x.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "game_cell": [
+        288,
+        384
+      ],
+      "native_size": [
+        576,
+        128
+      ],
+      "game_size": [
+        1728,
+        384
+      ],
+      "native_pivot_top_left": [
+        48,
+        120
+      ],
+      "game_pivot_top_left": [
+        144,
+        360
+      ],
+      "columns": 6,
+      "rows": 1,
+      "frame_count": 6,
+      "frame_order": [
+        "막대 내림",
+        "들기",
+        "도화선 접근",
+        "도화선 접촉",
+        "거두기",
+        "대기 복귀"
+      ],
+      "source_manifest": "Docs/References/codex_k075_v1/manifest.json",
+      "scale": 3,
+      "current_game": "Game/Assets/_Project/Art/Characters/Fire/cannon_crew_ignite6.png",
+      "lit_upper_left": "previews/cannon_crew_ignite6_upper_left.png",
+      "lit_torch_lower_right": "previews/cannon_crew_ignite6_torch_lower_right.png"
+    },
+    {
+      "source_card": "K-075",
+      "sheet": "cannon_crew_fall.png",
+      "source_native": "Docs/References/codex_k075_v1/native/Characters/Fall/cannon_crew_fall.png",
+      "source_game": "Docs/References/codex_k075_v1/game/Characters/Fall/cannon_crew_fall.png",
+      "source_sha256": "b258a6de2a54a55d72def698b9fb996b22fbf7f1ec0d10782d8f061c3069cf6d",
+      "native": "native/cannon_crew_fall_normal.png",
+      "game": "game/cannon_crew_fall_normal.png",
+      "preview_4x": "previews/cannon_crew_fall_normal_4x.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "game_cell": [
+        288,
+        384
+      ],
+      "native_size": [
+        384,
+        128
+      ],
+      "game_size": [
+        1152,
+        384
+      ],
+      "native_pivot_top_left": [
+        48,
+        120
+      ],
+      "game_pivot_top_left": [
+        144,
+        360
+      ],
+      "columns": 4,
+      "rows": 1,
+      "frame_count": 4,
+      "frame_order": [
+        "무릎 꺾임",
+        "무릎 꿇음",
+        "옆으로 쓰러짐",
+        "옆으로 누움"
+      ],
+      "source_manifest": "Docs/References/codex_k075_v1/manifest.json",
+      "scale": 3,
+      "current_game": "Game/Assets/_Project/Art/Characters/Fall/cannon_crew_fall.png",
+      "lit_upper_left": "previews/cannon_crew_fall_upper_left.png",
+      "lit_torch_lower_right": "previews/cannon_crew_fall_torch_lower_right.png"
+    },
+    {
+      "source_card": "K-075",
+      "sheet": "crew_push6.png",
+      "source_native": "Docs/References/codex_k075_v1/native/Battle/Resources/BattleArt/Cannon/crew_push6.png",
+      "source_game": "Docs/References/codex_k075_v1/game/Battle/Resources/BattleArt/Cannon/crew_push6.png",
+      "source_sha256": "73b51b2e4840f1f6243267e0dbe21e0c21efe556c54a973ea3589bd7afa4cfab",
+      "native": "native/crew_push6_normal.png",
+      "game": "game/crew_push6_normal.png",
+      "preview_4x": "previews/crew_push6_normal_4x.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "game_cell": [
+        288,
+        384
+      ],
+      "native_size": [
+        576,
+        128
+      ],
+      "game_size": [
+        1728,
+        384
+      ],
+      "native_pivot_top_left": [
+        48,
+        120
+      ],
+      "game_pivot_top_left": [
+        144,
+        360
+      ],
+      "columns": 6,
+      "rows": 1,
+      "frame_count": 6,
+      "frame_order": [
+        "왼발 앞 디딤",
+        "왼발 가운데 디딤",
+        "왼발 뒤 디딤",
+        "오른발 앞 디딤",
+        "오른발 가운데 디딤",
+        "오른발 뒤 디딤"
+      ],
+      "source_manifest": "Docs/References/codex_k075_v1/manifest.json",
+      "scale": 3,
+      "current_game": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/crew_push6.png",
+      "lit_upper_left": "previews/crew_push6_upper_left.png",
+      "lit_torch_lower_right": "previews/crew_push6_torch_lower_right.png"
+    },
+    {
+      "source_card": "K-075",
+      "sheet": "crew_pull6.png",
+      "source_native": "Docs/References/codex_k075_v1/native/Battle/Resources/BattleArt/Cannon/crew_pull6.png",
+      "source_game": "Docs/References/codex_k075_v1/game/Battle/Resources/BattleArt/Cannon/crew_pull6.png",
+      "source_sha256": "ea60ccd1c7ec25c702e317160dfc70c185d883022d9f2b2c4728dbf56a78bef9",
+      "native": "native/crew_pull6_normal.png",
+      "game": "game/crew_pull6_normal.png",
+      "preview_4x": "previews/crew_pull6_normal_4x.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "game_cell": [
+        288,
+        384
+      ],
+      "native_size": [
+        576,
+        128
+      ],
+      "game_size": [
+        1728,
+        384
+      ],
+      "native_pivot_top_left": [
+        48,
+        120
+      ],
+      "game_pivot_top_left": [
+        144,
+        360
+      ],
+      "columns": 6,
+      "rows": 1,
+      "frame_count": 6,
+      "frame_order": [
+        "왼발 앞 디딤",
+        "왼발 가운데 디딤",
+        "왼발 뒤 디딤",
+        "오른발 앞 디딤",
+        "오른발 가운데 디딤",
+        "오른발 뒤 디딤"
+      ],
+      "source_manifest": "Docs/References/codex_k075_v1/manifest.json",
+      "scale": 3,
+      "current_game": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/crew_pull6.png",
+      "lit_upper_left": "previews/crew_pull6_upper_left.png",
+      "lit_torch_lower_right": "previews/crew_pull6_torch_lower_right.png"
+    },
+    {
+      "source_card": "K-076",
+      "sheet": "wizard_back_static.png",
+      "source_native": "Docs/References/codex_k076_v1/native/wizard_back_static.png",
+      "source_game": "Docs/References/codex_k076_v1/wizard_back_static.png",
+      "source_sha256": "3f96cd668def6932e33d1339c2c8c2d9d4516f9e02b16c159717623fcd993aa3",
+      "native": "native/resume_v2/wizard_back_static_native_normal.png",
+      "game": "game/resume_v2/wizard_back_static_normal.png",
+      "preview_4x": "previews/resume_v2/wizard_back_static_normal_4x.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "game_cell": [
+        288,
+        384
+      ],
+      "native_size": [
+        96,
+        128
+      ],
+      "game_size": [
+        288,
+        384
+      ],
+      "native_pivot_top_left": [
+        48,
+        120
+      ],
+      "game_pivot_top_left": [
+        144,
+        360
+      ],
+      "columns": 1,
+      "rows": 1,
+      "frame_count": 1,
+      "frame_order": [
+        "후면 서기"
+      ],
+      "source_manifest": "Docs/References/codex_k076_v1/manifest.json",
+      "scale": 3,
+      "current_game": "Game/Assets/_Project/Art/Characters/Static/wizard_back_static.png",
+      "lit_upper_left": "previews/resume_v2/wizard_back_static_upper_left.png",
+      "lit_torch_lower_right": "previews/resume_v2/wizard_back_static_torch_lower_right.png"
+    },
+    {
+      "source_card": "K-076",
+      "sheet": "wizard_static.png",
+      "source_native": "Docs/References/codex_k076_v1/native/wizard_static.png",
+      "source_game": "Docs/References/codex_k076_v1/wizard_static.png",
+      "source_sha256": "97523b2c8eac6c0ddd70b11fefee47516396b5d0167a939f301f16d7769facd7",
+      "native": "native/resume_v2/wizard_static_native_normal.png",
+      "game": "game/resume_v2/wizard_static_normal.png",
+      "preview_4x": "previews/resume_v2/wizard_static_normal_4x.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "game_cell": [
+        288,
+        384
+      ],
+      "native_size": [
+        96,
+        128
+      ],
+      "game_size": [
+        288,
+        384
+      ],
+      "native_pivot_top_left": [
+        48,
+        120
+      ],
+      "game_pivot_top_left": [
+        144,
+        360
+      ],
+      "columns": 1,
+      "rows": 1,
+      "frame_count": 1,
+      "frame_order": [
+        "정면 서기"
+      ],
+      "source_manifest": "Docs/References/codex_k076_v1/manifest.json",
+      "scale": 3,
+      "current_game": "Game/Assets/_Project/Art/Characters/Static/wizard_static.png",
+      "lit_upper_left": "previews/resume_v2/wizard_static_upper_left.png",
+      "lit_torch_lower_right": "previews/resume_v2/wizard_static_torch_lower_right.png"
+    },
+    {
+      "source_card": "K-076",
+      "sheet": "wizard_cast.png",
+      "source_native": "Docs/References/codex_k076_v1/native/wizard_cast.png",
+      "source_game": "Docs/References/codex_k076_v1/wizard_cast.png",
+      "source_sha256": "2780e400d9e2183cab0444a9b413c05af2a0c2b87d0592825579cf5ea3c2ec2a",
+      "native": "native/resume_v2/wizard_cast_native_normal.png",
+      "game": "game/resume_v2/wizard_cast_normal.png",
+      "preview_4x": "previews/resume_v2/wizard_cast_normal_4x.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "game_cell": [
+        288,
+        384
+      ],
+      "native_size": [
+        384,
+        128
+      ],
+      "game_size": [
+        1152,
+        384
+      ],
+      "native_pivot_top_left": [
+        48,
+        120
+      ],
+      "game_pivot_top_left": [
+        144,
+        360
+      ],
+      "columns": 4,
+      "rows": 1,
+      "frame_count": 4,
+      "frame_order": [
+        "지팡이 들기",
+        "빛 모으기",
+        "방출",
+        "자세 회복"
+      ],
+      "source_manifest": "Docs/References/codex_k076_v1/manifest.json",
+      "scale": 3,
+      "current_game": "Game/Assets/_Project/Art/Characters/Static/wizard_cast.png",
+      "lit_upper_left": "previews/resume_v2/wizard_cast_upper_left.png",
+      "lit_torch_lower_right": "previews/resume_v2/wizard_cast_torch_lower_right.png"
+    },
+    {
+      "source_card": "K-076",
+      "sheet": "wizard_walk.png",
+      "source_native": "Docs/References/codex_k076_v1/native/wizard_walk.png",
+      "source_game": "Docs/References/codex_k076_v1/wizard_walk.png",
+      "source_sha256": "8f45fa038b0e6ead0caf2fd271d99bde19bc58d0bef4ea1637e089f2a90903aa",
+      "native": "native/resume_v2/wizard_walk_native_normal.png",
+      "game": "game/resume_v2/wizard_walk_normal.png",
+      "preview_4x": "previews/resume_v2/wizard_walk_normal_4x.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "game_cell": [
+        288,
+        384
+      ],
+      "native_size": [
+        384,
+        128
+      ],
+      "game_size": [
+        1152,
+        384
+      ],
+      "native_pivot_top_left": [
+        48,
+        120
+      ],
+      "game_pivot_top_left": [
+        144,
+        360
+      ],
+      "columns": 4,
+      "rows": 1,
+      "frame_count": 4,
+      "frame_order": [
+        "오른발 내딛기",
+        "다리 모으기",
+        "왼발 내딛기",
+        "다리 모으기 반복"
+      ],
+      "source_manifest": "Docs/References/codex_k076_v1/manifest.json",
+      "scale": 3,
+      "current_game": "Game/Assets/_Project/Art/Characters/Static/wizard_walk.png",
+      "lit_upper_left": "previews/resume_v2/wizard_walk_upper_left.png",
+      "lit_torch_lower_right": "previews/resume_v2/wizard_walk_torch_lower_right.png"
+    },
+    {
+      "source_card": "K-077",
+      "sheet": "goblin_walk_attack4.png",
+      "source_native": "Docs/References/codex_k077_v1/goblin_walk_attack4_native.png",
+      "source_game": "Docs/References/codex_k077_v1/goblin_walk_attack4.png",
+      "source_sha256": "a58b0ffb89e69d65747bddc6c6487f38ba3317685f7acc06cd33af7d596aa7ef",
+      "native": "native/goblin_walk_attack4_native_normal.png",
+      "game": "game/goblin_walk_attack4_normal.png",
+      "preview_4x": "previews/goblin_walk_attack4_normal_4x.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "game_cell": [
+        288,
+        384
+      ],
+      "native_size": [
+        384,
+        256
+      ],
+      "game_size": [
+        1152,
+        768
+      ],
+      "native_pivot_top_left": [
+        48,
+        120
+      ],
+      "game_pivot_top_left": [
+        144,
+        360
+      ],
+      "columns": 4,
+      "rows": 2,
+      "frame_count": 8,
+      "frame_order": [
+        "걷기: 왼발 지지",
+        "걷기: 통과",
+        "걷기: 오른발 지지",
+        "걷기: 반대 통과",
+        "공격: 준비",
+        "공격: 들어 올리기",
+        "공격: 내려치기",
+        "공격: 회복"
+      ],
+      "source_manifest": "Docs/References/codex_k077_v1/manifest.json",
+      "scale": 3,
+      "current_game": "Game/Assets/_Project/Art/Characters/Goblin/goblin_walk_attack4.png",
+      "lit_upper_left": "previews/goblin_walk_attack4_upper_left.png",
+      "lit_torch_lower_right": "previews/goblin_walk_attack4_torch_lower_right.png"
+    },
+    {
+      "source_card": "K-077",
+      "sheet": "goblin_fall4.png",
+      "source_native": "Docs/References/codex_k077_v1/goblin_fall4_native.png",
+      "source_game": "Docs/References/codex_k077_v1/goblin_fall4.png",
+      "source_sha256": "7353e2ae7093551c4f2a9852057ef295846f03109526c84e226289fc519f31e2",
+      "native": "native/goblin_fall4_native_normal.png",
+      "game": "game/goblin_fall4_normal.png",
+      "preview_4x": "previews/goblin_fall4_normal_4x.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "game_cell": [
+        288,
+        384
+      ],
+      "native_size": [
+        384,
+        128
+      ],
+      "game_size": [
+        1152,
+        384
+      ],
+      "native_pivot_top_left": [
+        48,
+        120
+      ],
+      "game_pivot_top_left": [
+        144,
+        360
+      ],
+      "columns": 4,
+      "rows": 1,
+      "frame_count": 4,
+      "frame_order": [
+        "피격 반동",
+        "무릎 꺾임",
+        "옆으로 넘어짐",
+        "옆으로 누움"
+      ],
+      "source_manifest": "Docs/References/codex_k077_v1/manifest.json",
+      "scale": 3,
+      "current_game": "Game/Assets/_Project/Art/Characters/Fall/goblin_fall4.png",
+      "lit_upper_left": "previews/goblin_fall4_upper_left.png",
+      "lit_torch_lower_right": "previews/goblin_fall4_torch_lower_right.png"
+    },
+    {
+      "source_card": "K-077",
+      "sheet": "goblin_wallhit4.png",
+      "source_native": "Docs/References/codex_k077_v1/goblin_wallhit4_native.png",
+      "source_game": "Docs/References/codex_k077_v1/goblin_wallhit4.png",
+      "source_sha256": "3874cb622fa9ebc797cdb48498754a18421a41f58e8a532b4ac695f0d482c6e5",
+      "native": "native/goblin_wallhit4_native_normal.png",
+      "game": "game/goblin_wallhit4_normal.png",
+      "preview_4x": "previews/goblin_wallhit4_normal_4x.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "game_cell": [
+        288,
+        384
+      ],
+      "native_size": [
+        384,
+        128
+      ],
+      "game_size": [
+        1152,
+        384
+      ],
+      "native_pivot_top_left": [
+        48,
+        120
+      ],
+      "game_pivot_top_left": [
+        144,
+        360
+      ],
+      "columns": 4,
+      "rows": 1,
+      "frame_count": 4,
+      "frame_order": [
+        "토벽 타격: 준비",
+        "토벽 타격: 머리 위로 들기",
+        "토벽 타격: 내려치기",
+        "토벽 타격: 회복"
+      ],
+      "source_manifest": "Docs/References/codex_k077_v1/manifest.json",
+      "scale": 3,
+      "current_game": null,
+      "lit_upper_left": "previews/goblin_wallhit4_upper_left.png",
+      "lit_torch_lower_right": "previews/goblin_wallhit4_torch_lower_right.png"
+    },
+    {
+      "source_card": "K-078",
+      "sheet": "ladder_goblin_static.png",
+      "source_native": "Docs/References/codex_k078_v1/ladder_goblin_static_native.png",
+      "source_game": "Docs/References/codex_k078_v1/ladder_goblin_static.png",
+      "source_sha256": "df4177cf4cfd1aab010f401f693198588483591a72ed9cff6e7665d19933961c",
+      "native": "native/ladder_goblin_static_native_normal.png",
+      "game": "game/ladder_goblin_static_normal.png",
+      "preview_4x": "previews/ladder_goblin_static_normal_4x.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "game_cell": [
+        288,
+        384
+      ],
+      "native_size": [
+        96,
+        128
+      ],
+      "game_size": [
+        288,
+        384
+      ],
+      "native_pivot_top_left": [
+        48,
+        120
+      ],
+      "game_pivot_top_left": [
+        144,
+        360
+      ],
+      "columns": 1,
+      "rows": 1,
+      "frame_count": 1,
+      "frame_order": [
+        "사다리 들고 서기"
+      ],
+      "source_manifest": "Docs/References/codex_k078_v1/manifest.json",
+      "scale": 3,
+      "current_game": "Game/Assets/_Project/Art/Characters/Static/ladder_goblin_static.png",
+      "lit_upper_left": "previews/ladder_goblin_static_upper_left.png",
+      "lit_torch_lower_right": "previews/ladder_goblin_static_torch_lower_right.png"
+    },
+    {
+      "source_card": "K-078",
+      "sheet": "ladder_goblin_walk.png",
+      "source_native": "Docs/References/codex_k078_v1/ladder_goblin_walk_native.png",
+      "source_game": "Docs/References/codex_k078_v1/ladder_goblin_walk.png",
+      "source_sha256": "6e2771e9f84b279250225e885d5d44b9c8e191389690636e0336994bd25372fb",
+      "native": "native/ladder_goblin_walk_native_normal.png",
+      "game": "game/ladder_goblin_walk_normal.png",
+      "preview_4x": "previews/ladder_goblin_walk_normal_4x.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "game_cell": [
+        288,
+        384
+      ],
+      "native_size": [
+        384,
+        128
+      ],
+      "game_size": [
+        1152,
+        384
+      ],
+      "native_pivot_top_left": [
+        48,
+        120
+      ],
+      "game_pivot_top_left": [
+        144,
+        360
+      ],
+      "columns": 4,
+      "rows": 1,
+      "frame_count": 4,
+      "frame_order": [
+        "왼발 내딛기",
+        "엇갈림",
+        "오른발 내딛기",
+        "반대 엇갈림"
+      ],
+      "source_manifest": "Docs/References/codex_k078_v1/manifest.json",
+      "scale": 3,
+      "current_game": "Game/Assets/_Project/Art/Characters/Walk/ladder_goblin_walk.png",
+      "lit_upper_left": "previews/ladder_goblin_walk_upper_left.png",
+      "lit_torch_lower_right": "previews/ladder_goblin_walk_torch_lower_right.png"
+    },
+    {
+      "source_card": "K-078",
+      "sheet": "ladder_goblin_carry_run4.png",
+      "source_native": "Docs/References/codex_k078_v1/ladder_goblin_carry_run4_native.png",
+      "source_game": "Docs/References/codex_k078_v1/ladder_goblin_carry_run4.png",
+      "source_sha256": "228ba937b69248bd153d7c485fc407247b6f8d51b6eaab9cdc7636af87824a74",
+      "native": "native/ladder_goblin_carry_run4_native_normal.png",
+      "game": "game/ladder_goblin_carry_run4_normal.png",
+      "preview_4x": "previews/ladder_goblin_carry_run4_normal_4x.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "game_cell": [
+        288,
+        384
+      ],
+      "native_size": [
+        384,
+        128
+      ],
+      "game_size": [
+        1152,
+        384
+      ],
+      "native_pivot_top_left": [
+        48,
+        120
+      ],
+      "game_pivot_top_left": [
+        144,
+        360
+      ],
+      "columns": 4,
+      "rows": 1,
+      "frame_count": 4,
+      "frame_order": [
+        "왼발 지지·오른무릎 들기",
+        "오른발 지지·왼무릎 들기",
+        "왼발 지지·오른무릎 들기",
+        "오른발 지지·왼무릎 들기"
+      ],
+      "source_manifest": "Docs/References/codex_k078_v1/manifest.json",
+      "scale": 3,
+      "current_game": "Game/Assets/_Project/Art/Characters/Ladder/ladder_goblin_carry_run4.png",
+      "lit_upper_left": "previews/ladder_goblin_carry_run4_upper_left.png",
+      "lit_torch_lower_right": "previews/ladder_goblin_carry_run4_torch_lower_right.png"
+    },
+    {
+      "source_card": "K-078",
+      "sheet": "ladder_goblin_deploy4.png",
+      "source_native": "Docs/References/codex_k078_v1/ladder_goblin_deploy4_native.png",
+      "source_game": "Docs/References/codex_k078_v1/ladder_goblin_deploy4.png",
+      "source_sha256": "ea42b6ba6ef8cb1e5620da6f3e215e1e361234347f1f9c8e1c015b56da3b3f8d",
+      "native": "native/ladder_goblin_deploy4_native_normal.png",
+      "game": "game/ladder_goblin_deploy4_normal.png",
+      "preview_4x": "previews/ladder_goblin_deploy4_normal_4x.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "game_cell": [
+        288,
+        384
+      ],
+      "native_size": [
+        384,
+        128
+      ],
+      "game_size": [
+        1152,
+        384
+      ],
+      "native_pivot_top_left": [
+        48,
+        120
+      ],
+      "game_pivot_top_left": [
+        144,
+        360
+      ],
+      "columns": 4,
+      "rows": 1,
+      "frame_count": 4,
+      "frame_order": [
+        "준비",
+        "앞으로 잡기",
+        "위로 세우기",
+        "성벽에 밀어 기대기"
+      ],
+      "source_manifest": "Docs/References/codex_k078_v1/manifest.json",
+      "scale": 3,
+      "current_game": "Game/Assets/_Project/Art/Characters/Ladder/ladder_goblin_deploy4.png",
+      "lit_upper_left": "previews/ladder_goblin_deploy4_upper_left.png",
+      "lit_torch_lower_right": "previews/ladder_goblin_deploy4_torch_lower_right.png"
+    },
+    {
+      "source_card": "K-078",
+      "sheet": "ladder_goblin_climb4.png",
+      "source_native": "Docs/References/codex_k078_v1/ladder_goblin_climb4_native.png",
+      "source_game": "Docs/References/codex_k078_v1/ladder_goblin_climb4.png",
+      "source_sha256": "aa21e873540a0fb0057b51dfd763bee233df059028dc76401e1e07459e3c43bd",
+      "native": "native/ladder_goblin_climb4_native_normal.png",
+      "game": "game/ladder_goblin_climb4_normal.png",
+      "preview_4x": "previews/ladder_goblin_climb4_normal_4x.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "game_cell": [
+        288,
+        384
+      ],
+      "native_size": [
+        384,
+        128
+      ],
+      "game_size": [
+        1152,
+        384
+      ],
+      "native_pivot_top_left": [
+        48,
+        120
+      ],
+      "game_pivot_top_left": [
+        144,
+        360
+      ],
+      "columns": 4,
+      "rows": 1,
+      "frame_count": 4,
+      "frame_order": [
+        "화면 오른쪽 손·무릎 올림",
+        "화면 왼쪽 손으로 옮겨 잡기",
+        "화면 왼쪽 손·무릎 올림",
+        "화면 오른쪽으로 다시 잡기"
+      ],
+      "source_manifest": "Docs/References/codex_k078_v1/manifest.json",
+      "scale": 3,
+      "current_game": "Game/Assets/_Project/Art/Characters/Ladder/ladder_goblin_climb4.png",
+      "lit_upper_left": "previews/ladder_goblin_climb4_upper_left.png",
+      "lit_torch_lower_right": "previews/ladder_goblin_climb4_torch_lower_right.png"
+    },
+    {
+      "source_card": "K-078",
+      "sheet": "ladder_front.png",
+      "source_native": "Docs/References/codex_k078_v1/ladder_front_native.png",
+      "source_game": "Docs/References/codex_k078_v1/ladder_front.png",
+      "source_sha256": "7892c618ff48430388b622b886083d30b433a6ea1c8e4788938e3cd8d9c308e6",
+      "native": "native/ladder_front_native_normal.png",
+      "game": "game/ladder_front_normal.png",
+      "preview_4x": "previews/ladder_front_normal_4x.png",
+      "native_cell": [
+        64,
+        384
+      ],
+      "game_cell": [
+        256,
+        1536
+      ],
+      "native_size": [
+        64,
+        384
+      ],
+      "game_size": [
+        256,
+        1536
+      ],
+      "native_pivot_top_left": [
+        32,
+        368
+      ],
+      "game_pivot_top_left": [
+        128,
+        1472
+      ],
+      "columns": 1,
+      "rows": 1,
+      "frame_count": 1,
+      "frame_order": [
+        "정면"
+      ],
+      "source_manifest": "Docs/References/codex_k078_v1/manifest.json",
+      "scale": 4,
+      "current_game": "Game/Assets/_Project/Art/Characters/Ladder/ladder_front.png",
+      "lit_upper_left": "previews/ladder_front_upper_left.png",
+      "lit_torch_lower_right": "previews/ladder_front_torch_lower_right.png"
+    },
+    {
+      "source_card": "K-078",
+      "sheet": "ladder_side.png",
+      "source_native": "Docs/References/codex_k078_v1/ladder_side_native.png",
+      "source_game": "Docs/References/codex_k078_v1/ladder_side.png",
+      "source_sha256": "c87bb7abebcbf4add38148b71621446a3094fa690ddfe8f9f55d225a53fbe86b",
+      "native": "native/ladder_side_native_normal.png",
+      "game": "game/ladder_side_normal.png",
+      "preview_4x": "previews/ladder_side_normal_4x.png",
+      "native_cell": [
+        64,
+        384
+      ],
+      "game_cell": [
+        256,
+        1536
+      ],
+      "native_size": [
+        64,
+        384
+      ],
+      "game_size": [
+        256,
+        1536
+      ],
+      "native_pivot_top_left": [
+        32,
+        368
+      ],
+      "game_pivot_top_left": [
+        128,
+        1472
+      ],
+      "columns": 1,
+      "rows": 1,
+      "frame_count": 1,
+      "frame_order": [
+        "측면"
+      ],
+      "source_manifest": "Docs/References/codex_k078_v1/manifest.json",
+      "scale": 4,
+      "current_game": "Game/Assets/_Project/Art/Characters/Ladder/ladder_side.png",
+      "lit_upper_left": "previews/ladder_side_upper_left.png",
+      "lit_torch_lower_right": "previews/ladder_side_torch_lower_right.png"
+    },
+    {
+      "source_card": "K-079",
+      "sheet": "ogre_static.png",
+      "source_native": "Docs/References/codex_k079_v1/ogre_static_native.png",
+      "source_game": "Docs/References/codex_k079_v1/ogre_static.png",
+      "source_sha256": "b2fead452612250ad05ca074b86bac8bccfa4858c1846cd6497fe8312f8c13af",
+      "native": "native/ogre_static_native_normal.png",
+      "game": "game/ogre_static_normal.png",
+      "preview_4x": "previews/ogre_static_normal_4x.png",
+      "native_cell": [
+        128,
+        192
+      ],
+      "game_cell": [
+        256,
+        384
+      ],
+      "native_size": [
+        128,
+        192
+      ],
+      "game_size": [
+        256,
+        384
+      ],
+      "native_pivot_top_left": [
+        64,
+        176
+      ],
+      "game_pivot_top_left": [
+        128,
+        352
+      ],
+      "columns": 1,
+      "rows": 1,
+      "frame_count": 1,
+      "frame_order": [
+        "가만히 서기"
+      ],
+      "source_manifest": "Docs/References/codex_k079_v1/manifest.json",
+      "scale": 2,
+      "current_game": "Game/Assets/_Project/Art/Characters/Static/ogre_static.png",
+      "lit_upper_left": "previews/ogre_static_upper_left.png",
+      "lit_torch_lower_right": "previews/ogre_static_torch_lower_right.png"
+    },
+    {
+      "source_card": "K-079",
+      "sheet": "ogre_walk.png",
+      "source_native": "Docs/References/codex_k079_v1/ogre_walk_native.png",
+      "source_game": "Docs/References/codex_k079_v1/ogre_walk.png",
+      "source_sha256": "5eaabb2f9a89e59996778a27a3cfe592d81e0c039c19a3f825af608ecb38e3a8",
+      "native": "native/ogre_walk_native_normal.png",
+      "game": "game/ogre_walk_normal.png",
+      "preview_4x": "previews/ogre_walk_normal_4x.png",
+      "native_cell": [
+        128,
+        192
+      ],
+      "game_cell": [
+        256,
+        384
+      ],
+      "native_size": [
+        512,
+        192
+      ],
+      "game_size": [
+        1024,
+        384
+      ],
+      "native_pivot_top_left": [
+        64,
+        176
+      ],
+      "game_pivot_top_left": [
+        128,
+        352
+      ],
+      "columns": 4,
+      "rows": 1,
+      "frame_count": 4,
+      "frame_order": [
+        "왼발 전진",
+        "중간 디딤",
+        "오른발 전진",
+        "반대쪽 중간 디딤"
+      ],
+      "source_manifest": "Docs/References/codex_k079_v1/manifest.json",
+      "scale": 2,
+      "current_game": "Game/Assets/_Project/Art/Characters/Walk/ogre_walk.png",
+      "lit_upper_left": "previews/ogre_walk_upper_left.png",
+      "lit_torch_lower_right": "previews/ogre_walk_torch_lower_right.png"
+    },
+    {
+      "source_card": "K-079",
+      "sheet": "ogre_attack4.png",
+      "source_native": "Docs/References/codex_k079_v1/ogre_attack4_native.png",
+      "source_game": "Docs/References/codex_k079_v1/ogre_attack4.png",
+      "source_sha256": "0cb8cb05c79651b54c32073c5215339efe76561c95c287a2a8d60f1e0ecd7bcc",
+      "native": "native/ogre_attack4_native_normal.png",
+      "game": "game/ogre_attack4_normal.png",
+      "preview_4x": "previews/ogre_attack4_normal_4x.png",
+      "native_cell": [
+        128,
+        192
+      ],
+      "game_cell": [
+        256,
+        384
+      ],
+      "native_size": [
+        512,
+        192
+      ],
+      "game_size": [
+        1024,
+        384
+      ],
+      "native_pivot_top_left": [
+        64,
+        176
+      ],
+      "game_pivot_top_left": [
+        128,
+        352
+      ],
+      "columns": 4,
+      "rows": 1,
+      "frame_count": 4,
+      "frame_order": [
+        "공격 준비",
+        "머리 위로 들기",
+        "성벽 내려치기",
+        "준비 자세 복귀"
+      ],
+      "source_manifest": "Docs/References/codex_k079_v1/manifest.json",
+      "scale": 2,
+      "current_game": "Game/Assets/_Project/Art/Characters/Walk/ogre_attack4.png",
+      "lit_upper_left": "previews/ogre_attack4_upper_left.png",
+      "lit_torch_lower_right": "previews/ogre_attack4_torch_lower_right.png"
+    },
+    {
+      "source_card": "K-079",
+      "sheet": "ogre_fall4.png",
+      "source_native": "Docs/References/codex_k079_v1/ogre_fall4_native.png",
+      "source_game": "Docs/References/codex_k079_v1/ogre_fall4.png",
+      "source_sha256": "886add16e6aaffb5fd3ec9d3e973598ecaadde526d632ad54e27bab3d82b7ab2",
+      "native": "native/ogre_fall4_native_normal.png",
+      "game": "game/ogre_fall4_normal.png",
+      "preview_4x": "previews/ogre_fall4_normal_4x.png",
+      "native_cell": [
+        128,
+        192
+      ],
+      "game_cell": [
+        256,
+        384
+      ],
+      "native_size": [
+        512,
+        192
+      ],
+      "game_size": [
+        1024,
+        384
+      ],
+      "native_pivot_top_left": [
+        64,
+        176
+      ],
+      "game_pivot_top_left": [
+        128,
+        352
+      ],
+      "columns": 4,
+      "rows": 1,
+      "frame_count": 4,
+      "frame_order": [
+        "뒤로 휘청임",
+        "무릎 꺾임",
+        "옆으로 넘어짐",
+        "바닥 정지"
+      ],
+      "source_manifest": "Docs/References/codex_k079_v1/manifest.json",
+      "scale": 2,
+      "current_game": "Game/Assets/_Project/Art/Characters/Fall/ogre_fall4.png",
+      "lit_upper_left": "previews/ogre_fall4_upper_left.png",
+      "lit_torch_lower_right": "previews/ogre_fall4_torch_lower_right.png"
+    },
+    {
+      "source_card": "K-080",
+      "sheet": "hero_back_idle.png",
+      "source_native": "Docs/References/codex_k080_v1/hero_back_idle_native.png",
+      "source_game": "Docs/References/codex_k080_v1/hero_back_idle.png",
+      "source_sha256": "1bda81fed1caf6598540eab6c02a6fe2d24264a884afd2ff6ec7903b039ffa94",
+      "native": "native/hero_back_idle_native_normal.png",
+      "game": "game/hero_back_idle_normal.png",
+      "preview_4x": "previews/hero_back_idle_normal_4x.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "game_cell": [
+        288,
+        384
+      ],
+      "native_size": [
+        96,
+        128
+      ],
+      "game_size": [
+        288,
+        384
+      ],
+      "native_pivot_top_left": [
+        48,
+        120
+      ],
+      "game_pivot_top_left": [
+        144,
+        360
+      ],
+      "columns": 1,
+      "rows": 1,
+      "frame_count": 1,
+      "frame_order": [
+        "후면 대기"
+      ],
+      "source_manifest": "Docs/References/codex_k080_v1/manifest.json",
+      "scale": 3,
+      "current_game": "Game/Assets/_Project/Art/Characters/Hero/hero_back_idle.png",
+      "lit_upper_left": "previews/hero_back_idle_upper_left.png",
+      "lit_torch_lower_right": "previews/hero_back_idle_torch_lower_right.png"
+    },
+    {
+      "source_card": "K-080",
+      "sheet": "hero_walk_run_grid.png",
+      "source_native": "Docs/References/codex_k080_v1/hero_walk_run_grid_native.png",
+      "source_game": "Docs/References/codex_k080_v1/hero_walk_run_grid.png",
+      "source_sha256": "5587d9d2e62d69b2e7a24de3015e0635d54264a3d9c669e2878a72d517d82fd6",
+      "native": "native/hero_walk_run_grid_native_normal.png",
+      "game": "game/hero_walk_run_grid_normal.png",
+      "preview_4x": "previews/hero_walk_run_grid_normal_4x.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "game_cell": [
+        288,
+        384
+      ],
+      "native_size": [
+        384,
+        512
+      ],
+      "game_size": [
+        1152,
+        1536
+      ],
+      "native_pivot_top_left": [
+        48,
+        120
+      ],
+      "game_pivot_top_left": [
+        144,
+        360
+      ],
+      "columns": 4,
+      "rows": 4,
+      "frame_count": 16,
+      "frame_order": [
+        [
+          "후면 걷기 1",
+          "후면 걷기 2",
+          "후면 걷기 3",
+          "후면 걷기 4"
+        ],
+        [
+          "왼쪽 걷기 1",
+          "왼쪽 걷기 2",
+          "왼쪽 걷기 3",
+          "왼쪽 걷기 4"
+        ],
+        [
+          "왼쪽 달리기 1",
+          "왼쪽 달리기 2",
+          "왼쪽 달리기 3",
+          "왼쪽 달리기 4"
+        ],
+        [
+          "정면 걷기 1",
+          "정면 걷기 2",
+          "정면 걷기 3",
+          "정면 걷기 4"
+        ]
+      ],
+      "source_manifest": "Docs/References/codex_k080_v1/manifest.json",
+      "scale": 3,
+      "current_game": "Game/Assets/_Project/Art/Characters/Hero/hero_walk_run_grid.png",
+      "lit_upper_left": "previews/hero_walk_run_grid_upper_left.png",
+      "lit_torch_lower_right": "previews/hero_walk_run_grid_torch_lower_right.png"
+    },
+    {
+      "source_card": "K-080",
+      "sheet": "hero_command.png",
+      "source_native": "Docs/References/codex_k080_v1/hero_command_native.png",
+      "source_game": "Docs/References/codex_k080_v1/hero_command.png",
+      "source_sha256": "e7997c7b3c4a9c7ac6c34130a47d0eab9ff8bcca378809ceea5812387a615fc8",
+      "native": "native/hero_command_native_normal.png",
+      "game": "game/hero_command_normal.png",
+      "preview_4x": "previews/hero_command_normal_4x.png",
+      "native_cell": [
+        96,
+        128
+      ],
+      "game_cell": [
+        288,
+        384
+      ],
+      "native_size": [
+        288,
+        128
+      ],
+      "game_size": [
+        864,
+        384
+      ],
+      "native_pivot_top_left": [
+        48,
+        120
+      ],
+      "game_pivot_top_left": [
+        144,
+        360
+      ],
+      "columns": 3,
+      "rows": 1,
+      "frame_count": 3,
+      "frame_order": [
+        "후면 대기",
+        "손 올리기",
+        "팔 뻗어 지휘"
+      ],
+      "source_manifest": "Docs/References/codex_k080_v1/manifest.json",
+      "scale": 3,
+      "current_game": "Game/Assets/_Project/Art/Characters/Hero/hero_command.png",
+      "lit_upper_left": "previews/hero_command_upper_left.png",
+      "lit_torch_lower_right": "previews/hero_command_torch_lower_right.png"
+    }
+  ],
+  "resume_note_ko": "최신 K076 마법사 4시트만 별도 resume_v2 기술 법선으로 대체. 옛 manifest와 기존 PNG 보존.",
+  "description_ko": "최신 제작 색 원본35시트에 정합한 근사 기술 법선. 기존 Game에 연결 완료한 자료라는 뜻은 아님.",
+  "alpha_policy_ko": "source_game/native 원색의 알파를 같은 좌표로 보존. 투명RGB는128,128,255. 옛 손실문구는 추측 복원하지 않고 이 설명을 보충함.",
+  "method_ko": "실루엣 블러와 약한 밝기 높이장의 미분으로 계산한 근사 노멀. 3D베이크 아님. 재현식은 resume_wizard_normals.py 참조.",
+  "layout_policy_ko": "시트별 native/game 칸·피벗·scale을 사용. 일반인물3배,사다리물체4배,최신오우거2배. 구형 Game원색과 동일 여부는 별도 hash 등록표로 확인.",
+  "source_register": "../codex_art_source_register_20261021/register.json"
+}

@@ -1,0 +1,86 @@
+﻿{
+    "atlas_region_bounds_pass":  true,
+    "scale_checks":  [
+                         {
+                             "scale":  3,
+                             "native":  "arrow_bundles_native.png",
+                             "pixel_mismatches":  0
+                         },
+                         {
+                             "scale":  4,
+                             "native":  "arrow_bundles_native.png",
+                             "pixel_mismatches":  0
+                         },
+                         {
+                             "scale":  3,
+                             "native":  "cart_native.png",
+                             "pixel_mismatches":  0
+                         },
+                         {
+                             "scale":  4,
+                             "native":  "cart_native.png",
+                             "pixel_mismatches":  0
+                         },
+                         {
+                             "scale":  3,
+                             "native":  "decal_cracked_native.png",
+                             "pixel_mismatches":  0
+                         },
+                         {
+                             "scale":  4,
+                             "native":  "decal_cracked_native.png",
+                             "pixel_mismatches":  0
+                         },
+                         {
+                             "scale":  3,
+                             "native":  "decal_dirt_native.png",
+                             "pixel_mismatches":  0
+                         },
+                         {
+                             "scale":  4,
+                             "native":  "decal_dirt_native.png",
+                             "pixel_mismatches":  0
+                         },
+                         {
+                             "scale":  3,
+                             "native":  "decal_puddle_native.png",
+                             "pixel_mismatches":  0
+                         },
+                         {
+                             "scale":  4,
+                             "native":  "decal_puddle_native.png",
+                             "pixel_mismatches":  0
+                         },
+                         {
+                             "scale":  3,
+                             "native":  "decal_straw_native.png",
+                             "pixel_mismatches":  0
+                         },
+                         {
+                             "scale":  4,
+                             "native":  "decal_straw_native.png",
+                             "pixel_mismatches":  0
+                         },
+                         {
+                             "scale":  3,
+                             "native":  "props_box_atlas_native.png",
+                             "pixel_mismatches":  0
+                         },
+                         {
+                             "scale":  4,
+                             "native":  "props_box_atlas_native.png",
+                             "pixel_mismatches":  0
+                         },
+                         {
+                             "scale":  3,
+                             "native":  "weapon_rack_native.png",
+                             "pixel_mismatches":  0
+                         },
+                         {
+                             "scale":  4,
+                             "native":  "weapon_rack_native.png",
+                             "pixel_mismatches":  0
+                         }
+                     ],
+    "all_scale_checks_pass":  true
+}

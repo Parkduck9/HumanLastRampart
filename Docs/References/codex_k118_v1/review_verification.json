@@ -1,0 +1,17 @@
+{
+  "result": "pass",
+  "method": "PNG IDAT decode, manifest dimensions, Node VM with minimal DOM stubs",
+  "embedded_png_references": 38,
+  "external_resource_references": 0,
+  "facade_switches": 4,
+  "controls_checked": [
+    "day",
+    "night",
+    "automatic tick",
+    "pause",
+    "resume"
+  ],
+  "browser_render_checked": false,
+  "browser_blocker": "cua.getState returned apps=[] and browsers=[]; iab unavailable",
+  "limitation": "DOM stubs validate script behavior, not browser rendering, image.decode behavior, layout or real mouse interaction."
+}

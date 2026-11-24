@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b40580c59794e2cb5dc45219f045e69, type: 3}
+  m_Name: unit_wizard
+  m_EditorClassIdentifier:
+  id: unit_wizard
+  displayName: 마법사
+  kind: 3
+  maxHp: 60
+  sheet: {fileID: 2800000, guid: 04a5da04782849b793241d496223d40b, type: 3}
+  normalSheet: {fileID: 2800000, guid: eff6c8f52b9b4c94bd730ada77fb899a, type: 3}
+  castSheet: {fileID: 2800000, guid: 3ea33aa64d5f4fb5a070b5d76aa53dc3, type: 3}
+  runSheet: {fileID: 2800000, guid: dcbdb2e1ee2e4c32ae18b4726c57cc95, type: 3}
+  frontSheet: {fileID: 2800000, guid: 01dc04a024d34e08b29ec75ba6216e56, type: 3}
+  runNormalSheet: {fileID: 2800000, guid: 4099b0abb2ff49dda2a6a3ae7fdb091f, type: 3}
+  poseNormals:
+  - Sheet: {fileID: 2800000, guid: 04a5da04782849b793241d496223d40b, type: 3}
+    Normal: {fileID: 2800000, guid: eff6c8f52b9b4c94bd730ada77fb899a, type: 3}
+  - Sheet: {fileID: 2800000, guid: 3ea33aa64d5f4fb5a070b5d76aa53dc3, type: 3}
+    Normal: {fileID: 2800000, guid: eb67234429c1410ca97af74f115a17bc, type: 3}
+  - Sheet: {fileID: 2800000, guid: dcbdb2e1ee2e4c32ae18b4726c57cc95, type: 3}
+    Normal: {fileID: 2800000, guid: 4099b0abb2ff49dda2a6a3ae7fdb091f, type: 3}
+  - Sheet: {fileID: 2800000, guid: 01dc04a024d34e08b29ec75ba6216e56, type: 3}
+    Normal: {fileID: 2800000, guid: 5c3f0f84a1dc4bbbbd5cc759f2d8e57c, type: 3}

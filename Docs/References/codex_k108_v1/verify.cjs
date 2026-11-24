@@ -1,0 +1,20 @@
+const fs=require('fs'),path=require('path');
+const {pathToFileURL}=require('url');
+const {chromium}=require('C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+(async()=>{
+const browser=await chromium.launch({channel:'chrome',headless:true});
+const page=await browser.newPage({viewport:{width:1280,height:1000}}),errors=[];
+page.on('pageerror',e=>errors.push(String(e)));
+await page.goto(pathToFileURL(path.resolve(__dirname,'../../../_HTML/6_그림_화면/codex_K-108_부관하겐초상_v1.html')).href);
+await page.locator('img').evaluateAll(xs=>Promise.all(xs.map(x=>x.decode())));
+const images=await page.locator('img').evaluateAll(xs=>xs.map(x=>({decoded:x.complete&&x.naturalWidth>0,embedded:x.src.startsWith('data:'),width:x.naturalWidth,height:x.naturalHeight})));
+await page.locator('[data-frame="2"]').click();
+const manual=await page.locator('#expression-name').textContent()==='경계';
+await page.locator('#auto').click();const before=await page.locator('#hagen').getAttribute('src');await page.waitForTimeout(1200);const automatic=before!==await page.locator('#hagen').getAttribute('src');await page.locator('#auto').click();
+await page.locator('#back').selectOption('#d8d1bd');const background=await page.locator('.stage').first().evaluate(e=>getComputedStyle(e).backgroundColor)==='rgb(216, 209, 189)';
+await page.screenshot({path:path.join(__dirname,'review_desktop.png'),fullPage:true});
+await page.setViewportSize({width:390,height:844});const mobileOverflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth);await page.screenshot({path:path.join(__dirname,'review_mobile.png'),fullPage:true});
+const result={images,manual_expression:manual,automatic_expression:automatic,background_switch:background,mobile_page_overflow:mobileOverflow,script_errors:errors};
+fs.writeFileSync(path.join(__dirname,'review_validation.json'),JSON.stringify(result,null,2));await browser.close();console.log(JSON.stringify(result));
+if(images.some(x=>!x.decoded||!x.embedded)||!manual||!automatic||!background||mobileOverflow||errors.length)process.exit(1);
+})().catch(e=>{console.error(e);process.exit(1)});

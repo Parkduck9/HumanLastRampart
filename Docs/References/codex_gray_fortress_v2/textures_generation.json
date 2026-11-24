@@ -1,0 +1,50 @@
+{
+  "tool": "image_gen.imagegen",
+  "requests": [
+    {
+      "id": "wall_gray",
+      "label": "낡은 회색 성벽",
+      "kind": "texture",
+      "size": [
+        128,
+        128
+      ],
+      "meters": [
+        4,
+        4
+      ],
+      "prompt": "Use case: stylized-concept / game surface texture. Make ONE seamless square texture swatch, straight-on flat material view, filling entire canvas, no scene or architecture. Weathered old medieval fortress limestone, genuinely NEUTRAL COOL-WARM GRAY not beige/brown, fine irregular ashlar stones, varied rectangular widths, chipped softened edges, chalky porous worn surfaces, subtle gray-green moss concentrated only in a few cracks. HD-2D-style textured pixel art intended for a 3D model, not flat cartoon bricks. Low-contrast gray mortar about one native pixel wide, no black outlines around every stone. Broad restrained tonal variation, a few larger quiet stone faces; no mirror symmetry, no cross motifs, no stamped repeating moss. Native final tile128x128 represents4x4m at32px/m; target coarse readable pixel clusters as if authored at128px, not photographic micrograin. Diffuse ALBEDO only, neutral uniform lighting, no baked directional shadows/highlights/AO, no perspective, no bevelled border, no labels, no normal-map panel, no objects. Opposite edges naturally wrap with consistent courses as a seamless tiling material; no mirror-flipped quadrants.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-fbc396e1-fd71-4d3f-9f2c-f19ce34c3cb0.png"
+    },
+    {
+      "id": "walkway_gray",
+      "label": "낡은 회색 통로",
+      "kind": "texture",
+      "size": [
+        128,
+        128
+      ],
+      "meters": [
+        4,
+        4
+      ],
+      "prompt": "Use case: stylized-concept / game surface texture. ONE seamless square texture swatch of OLD GRAY STONE WALKWAY viewed straight down, flat full canvas. Same neutral weathered gray limestone as a medieval fortress, broad worn flagstone slabs of varied rectangles, rounded chipped corners, fine subdued gray mortar, faint earth in occasional joints. Mature HD-2D-like restrained textured pixel art for3D game geometry, not cartoonoutlined bricks. Quiet midtone surfaces dominate so small pixel characters read clearly; sparse cracks/scuffs, no black lattice, no all-over fine noise, no mirror symmetry. Final128x128 represents4x4m32px/m, coarse crisp pixel clusters, no bilinear blur or photorealism. Neutral diffuse albedo, no directional illumination, no steps, walls, battlements, objects, perspective, border, labels or normal-map panels. Every edge should naturally wrap for tiling. Fill canvas with surface only.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-6459c3a9-d4b5-4139-857c-d2cba32d6d01.png"
+    },
+    {
+      "id": "grass_muted",
+      "label": "성긴 올리브 풀",
+      "kind": "texture",
+      "size": [
+        256,
+        256
+      ],
+      "meters": [
+        8,
+        8
+      ],
+      "prompt": "Use case: stylized-concept / game surface texture. ONE seamless square top-down muted OLIVE GRASS FIELD albedo swatch. Sparse low broad grass clumps separated by calm moss-green midtone ground; large quiet patches and occasional dull earth peeking through. Avoid covering every pixel with bright leaf tufts. Restrained desaturated greens, very few ochre tips, no yellow sparkling dots, no hard black holes. Natural irregular organic clump rhythm, no mirrored or kaleidoscopic quadrants, no obvious repeated stamps or grid. Finely textured but readable HD-2D pixel game material for3D environment, final256x256 represents8x8m32px/m, actual pixel clusters not smooth photos. Flat unlit diffuse, seamless wrap all four edges, full canvas texture only, no horizon, tree, tall props, road endpoints, rocks, scene, directional lighting, shadows, frames, labels or normal-map panels.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-5983d02a-e6d8-416c-bbd5-6e949fca772d.png"
+    }
+  ]
+}

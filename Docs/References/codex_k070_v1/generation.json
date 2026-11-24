@@ -1,0 +1,5 @@
+{
+  "archer_back": {"height": 73, "axis": 550, "chin_y": 600, "old": "Docs/References/codex_k065_v1/archer_back_64x96.png"},
+  "archer_front": {"height": 73, "axis": 540, "chin_y": 555, "old": "Docs/References/codex_k065_v1/archer_front_64x96.png"},
+  "goblin_front": {"height": 73, "axis": 550, "chin_y": 720, "old": "Docs/References/codex_k066_v1/goblin_front.png"}
+}

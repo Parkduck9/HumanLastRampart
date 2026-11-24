@@ -1,0 +1,470 @@
+{
+    "version":  1,
+    "card":  "K-079",
+    "sheets":  [
+                   {
+                       "frames":  [
+                                      {
+                                          "native_ground_y":  176,
+                                          "components":  1,
+                                          "source_body_anchor_x":  791,
+                                          "native_bounds":  [
+                                                                6,
+                                                                56,
+                                                                107,
+                                                                120
+                                                            ],
+                                          "pose":  "가만히 서기",
+                                          "native_opaque_bottom":  176,
+                                          "index":  0,
+                                          "removed_stray_pixels":  0,
+                                          "source_bounds":  [
+                                                                545,
+                                                                173,
+                                                                455,
+                                                                509
+                                                            ]
+                                      }
+                                  ],
+                       "frame_order":  [
+                                           "가만히 서기"
+                                       ],
+                       "native_pivot_top_left":  [
+                                                     64,
+                                                     176
+                                                 ],
+                       "native_sheet":  [
+                                            128,
+                                            192
+                                        ],
+                       "game_pivot_top_left":  [
+                                                   128,
+                                                   352
+                                               ],
+                       "native_cell":  [
+                                           128,
+                                           192
+                                       ],
+                       "name":  "ogre_static",
+                       "source_sha256":  "ae75c2b19fc2ded77a0714f81be5176cb7701605ff70f430ef478571a264d06f",
+                       "frame_count":  1,
+                       "game_sheet":  [
+                                          256,
+                                          384
+                                      ],
+                       "source_game_path":  "Game/Assets/_Project/Art/Characters/Static/ogre_static.png",
+                       "nearest_neighbor_scale":  2,
+                       "game_cell":  [
+                                         256,
+                                         384
+                                     ],
+                       "unity_pivot_bottom_left_normalized":  [
+                                                                  0.5,
+                                                                  0.083333333333333329
+                                                              ]
+                   },
+                   {
+                       "frames":  [
+                                      {
+                                          "native_ground_y":  176,
+                                          "source_body_anchor_x":  286,
+                                          "native_bounds":  [
+                                                                6,
+                                                                56,
+                                                                107,
+                                                                120
+                                                            ],
+                                          "pose":  "왼발 전진",
+                                          "native_opaque_bottom":  176,
+                                          "removed_stray_pixels":  0,
+                                          "index":  0,
+                                          "components":  1,
+                                          "source_bounds":  [
+                                                                36,
+                                                                173,
+                                                                458,
+                                                                516
+                                                            ]
+                                      },
+                                      {
+                                          "native_ground_y":  176,
+                                          "source_body_anchor_x":  791,
+                                          "native_bounds":  [
+                                                                6,
+                                                                56,
+                                                                107,
+                                                                120
+                                                            ],
+                                          "pose":  "중간 디딤",
+                                          "native_opaque_bottom":  176,
+                                          "removed_stray_pixels":  0,
+                                          "index":  1,
+                                          "components":  1,
+                                          "source_bounds":  [
+                                                                545,
+                                                                173,
+                                                                455,
+                                                                509
+                                                            ]
+                                      },
+                                      {
+                                          "native_ground_y":  176,
+                                          "source_body_anchor_x":  1279,
+                                          "native_bounds":  [
+                                                                4,
+                                                                56,
+                                                                110,
+                                                                120
+                                                            ],
+                                          "pose":  "오른발 전진",
+                                          "native_opaque_bottom":  176,
+                                          "removed_stray_pixels":  0,
+                                          "index":  2,
+                                          "components":  1,
+                                          "source_bounds":  [
+                                                                1018,
+                                                                172,
+                                                                474,
+                                                                518
+                                                            ]
+                                      },
+                                      {
+                                          "native_ground_y":  176,
+                                          "source_body_anchor_x":  1790,
+                                          "native_bounds":  [
+                                                                6,
+                                                                56,
+                                                                107,
+                                                                120
+                                                            ],
+                                          "pose":  "반대쪽 중간 디딤",
+                                          "native_opaque_bottom":  176,
+                                          "removed_stray_pixels":  0,
+                                          "index":  3,
+                                          "components":  1,
+                                          "source_bounds":  [
+                                                                1544,
+                                                                172,
+                                                                456,
+                                                                511
+                                                            ]
+                                      }
+                                  ],
+                       "frame_order":  [
+                                           "왼발 전진",
+                                           "중간 디딤",
+                                           "오른발 전진",
+                                           "반대쪽 중간 디딤"
+                                       ],
+                       "native_pivot_top_left":  [
+                                                     64,
+                                                     176
+                                                 ],
+                       "native_sheet":  [
+                                            512,
+                                            192
+                                        ],
+                       "game_pivot_top_left":  [
+                                                   128,
+                                                   352
+                                               ],
+                       "source_game_cell":  [
+                                                256,
+                                                384
+                                            ],
+                       "native_cell":  [
+                                           128,
+                                           192
+                                       ],
+                       "name":  "ogre_walk",
+                       "source_sha256":  "a91fbecd19a355eaf2ee032dbce4bdc0ce96c3c93468fe1dbee3a877b405088d",
+                       "frame_count":  4,
+                       "game_sheet":  [
+                                          1024,
+                                          384
+                                      ],
+                       "source_game_path":  "Game/Assets/_Project/Art/Characters/Walk/ogre_walk.png",
+                       "nearest_neighbor_scale":  2,
+                       "game_cell":  [
+                                         256,
+                                         384
+                                     ],
+                       "unity_pivot_bottom_left_normalized":  [
+                                                                  0.5,
+                                                                  0.083333333333333329
+                                                              ]
+                   },
+                   {
+                       "frames":  [
+                                      {
+                                          "native_ground_y":  176,
+                                          "source_body_anchor_x":  275,
+                                          "native_bounds":  [
+                                                                7,
+                                                                68,
+                                                                102,
+                                                                108
+                                                            ],
+                                          "pose":  "공격 준비",
+                                          "native_opaque_bottom":  176,
+                                          "removed_stray_pixels":  0,
+                                          "index":  0,
+                                          "components":  1,
+                                          "source_bounds":  [
+                                                                33,
+                                                                229,
+                                                                431,
+                                                                456
+                                                            ]
+                                      },
+                                      {
+                                          "native_ground_y":  176,
+                                          "source_body_anchor_x":  751,
+                                          "native_bounds":  [
+                                                                19,
+                                                                33,
+                                                                96,
+                                                                143
+                                                            ],
+                                          "pose":  "머리 위로 들기",
+                                          "native_opaque_bottom":  176,
+                                          "removed_stray_pixels":  0,
+                                          "index":  1,
+                                          "components":  1,
+                                          "source_bounds":  [
+                                                                559,
+                                                                80,
+                                                                408,
+                                                                606
+                                                            ]
+                                      },
+                                      {
+                                          "native_ground_y":  176,
+                                          "source_body_anchor_x":  1274,
+                                          "native_bounds":  [
+                                                                16,
+                                                                80,
+                                                                97,
+                                                                105
+                                                            ],
+                                          "pose":  "성벽 내려치기",
+                                          "native_opaque_bottom":  185,
+                                          "removed_stray_pixels":  0,
+                                          "index":  2,
+                                          "components":  1,
+                                          "source_bounds":  [
+                                                                1072,
+                                                                277,
+                                                                414,
+                                                                446
+                                                            ]
+                                      },
+                                      {
+                                          "native_ground_y":  176,
+                                          "source_body_anchor_x":  1811,
+                                          "native_bounds":  [
+                                                                7,
+                                                                68,
+                                                                101,
+                                                                108
+                                                            ],
+                                          "pose":  "준비 자세 복귀",
+                                          "native_opaque_bottom":  176,
+                                          "removed_stray_pixels":  0,
+                                          "index":  3,
+                                          "components":  1,
+                                          "source_bounds":  [
+                                                                1569,
+                                                                228,
+                                                                430,
+                                                                458
+                                                            ]
+                                      }
+                                  ],
+                       "frame_order":  [
+                                           "공격 준비",
+                                           "머리 위로 들기",
+                                           "성벽 내려치기",
+                                           "준비 자세 복귀"
+                                       ],
+                       "native_pivot_top_left":  [
+                                                     64,
+                                                     176
+                                                 ],
+                       "native_sheet":  [
+                                            512,
+                                            192
+                                        ],
+                       "game_pivot_top_left":  [
+                                                   128,
+                                                   352
+                                               ],
+                       "source_game_cell":  [
+                                                256,
+                                                384
+                                            ],
+                       "native_cell":  [
+                                           128,
+                                           192
+                                       ],
+                       "name":  "ogre_attack4",
+                       "source_sha256":  "d9671bcb22509579bdd060e262cd5fe8ed87b4f9948d0d0ea71efa0961d33e7c",
+                       "frame_count":  4,
+                       "game_sheet":  [
+                                          1024,
+                                          384
+                                      ],
+                       "source_game_path":  "Game/Assets/_Project/Art/Characters/Walk/ogre_attack4.png",
+                       "nearest_neighbor_scale":  2,
+                       "game_cell":  [
+                                         256,
+                                         384
+                                     ],
+                       "unity_pivot_bottom_left_normalized":  [
+                                                                  0.5,
+                                                                  0.083333333333333329
+                                                              ]
+                   },
+                   {
+                       "frames":  [
+                                      {
+                                          "native_ground_y":  176,
+                                          "source_body_anchor_x":  265,
+                                          "native_bounds":  [
+                                                                10,
+                                                                74,
+                                                                113,
+                                                                102
+                                                            ],
+                                          "pose":  "뒤로 휘청임",
+                                          "native_opaque_bottom":  176,
+                                          "removed_stray_pixels":  0,
+                                          "index":  0,
+                                          "components":  1,
+                                          "source_bounds":  [
+                                                                34,
+                                                                213,
+                                                                484,
+                                                                435
+                                                            ]
+                                      },
+                                      {
+                                          "native_ground_y":  176,
+                                          "source_body_anchor_x":  784,
+                                          "native_bounds":  [
+                                                                7,
+                                                                91,
+                                                                107,
+                                                                85
+                                                            ],
+                                          "pose":  "무릎 꺾임",
+                                          "native_opaque_bottom":  176,
+                                          "removed_stray_pixels":  0,
+                                          "index":  1,
+                                          "components":  1,
+                                          "source_bounds":  [
+                                                                541,
+                                                                292,
+                                                                455,
+                                                                361
+                                                            ]
+                                      },
+                                      {
+                                          "native_ground_y":  176,
+                                          "source_body_anchor_x":  1280,
+                                          "native_bounds":  [
+                                                                6,
+                                                                108,
+                                                                112,
+                                                                68
+                                                            ],
+                                          "pose":  "옆으로 넘어짐",
+                                          "native_opaque_bottom":  176,
+                                          "removed_stray_pixels":  0,
+                                          "index":  2,
+                                          "components":  1,
+                                          "source_bounds":  [
+                                                                1033,
+                                                                369,
+                                                                480,
+                                                                291
+                                                            ]
+                                      },
+                                      {
+                                          "native_ground_y":  176,
+                                          "source_body_anchor_x":  1772,
+                                          "native_bounds":  [
+                                                                8,
+                                                                120,
+                                                                113,
+                                                                56
+                                                            ],
+                                          "pose":  "바닥 정지",
+                                          "native_opaque_bottom":  176,
+                                          "removed_stray_pixels":  0,
+                                          "index":  3,
+                                          "components":  1,
+                                          "source_bounds":  [
+                                                                1530,
+                                                                420,
+                                                                485,
+                                                                240
+                                                            ]
+                                      }
+                                  ],
+                       "frame_order":  [
+                                           "뒤로 휘청임",
+                                           "무릎 꺾임",
+                                           "옆으로 넘어짐",
+                                           "바닥 정지"
+                                       ],
+                       "native_pivot_top_left":  [
+                                                     64,
+                                                     176
+                                                 ],
+                       "native_sheet":  [
+                                            512,
+                                            192
+                                        ],
+                       "game_pivot_top_left":  [
+                                                   128,
+                                                   352
+                                               ],
+                       "source_game_cell":  [
+                                                256,
+                                                384
+                                            ],
+                       "native_cell":  [
+                                           128,
+                                           192
+                                       ],
+                       "name":  "ogre_fall4",
+                       "source_sha256":  "6c06484c8d54f61f4afbf48e7b94252bced2ebc8ba41f28b83052e116d056a12",
+                       "frame_count":  4,
+                       "game_sheet":  [
+                                          1024,
+                                          384
+                                      ],
+                       "source_game_path":  "Game/Assets/_Project/Art/Characters/Fall/ogre_fall4.png",
+                       "nearest_neighbor_scale":  2,
+                       "game_cell":  [
+                                         256,
+                                         384
+                                     ],
+                       "unity_pivot_bottom_left_normalized":  [
+                                                                  0.5,
+                                                                  0.083333333333333329
+                                                              ]
+                   }
+               ],
+    "notes":  [
+                  "서 있는 인물 약 120점/게임 240px로 일반 인물 게임 219px보다 큼.",
+                  "공격 3번 칸은 장화 발선 y=176, 철퇴만 y=185까지 내려감.",
+                  "쓰러짐은 같은 지면선과 고정 피벗을 유지하며 몸과 발이 회전함.",
+                  "서기는 걷기 2번 칸의 양발 디딤 자세를 재사용.",
+                  "생성본의 알파를 이진화하고 고립 조각을 제거. 제한 팔레트 및 파란 홍채 정리."
+              ],
+    "size_basis":  "카드 개별 조건에 따라 기존 게임 칸 256×384 및 발 기준 (128,352) 유지. 오우거 예외 원본 128×192, 최근접 2배. 일반 인물 96×128/3배와 다름.",
+    "tool":  "built-in image_gen",
+    "coordinates":  "왼쪽 위 원점, 경계 오른쪽·아래는 배타적. 발선 y=176은 장화 아래 경계이며 마지막 픽셀 행은 175."
+}

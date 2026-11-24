@@ -1,0 +1,37 @@
+{
+  "staticChecks": "PASS",
+  "jsSyntax": true,
+  "standaloneHtmlCopiesExact": true,
+  "externalAssets": false,
+  "browserQa": {
+    "views": [
+      "style",
+      "main",
+      "story",
+      "result",
+      "prep"
+    ],
+    "styleButtonFeedback": true,
+    "storyNext": true,
+    "resultExpand": true,
+    "resultToPrep": true,
+    "mapLinkNavigation": true,
+    "keyboardArrowRightAndHome": true,
+    "visiblePanels": 1,
+    "consoleErrors": 0,
+    "horizontalOverflow": false,
+    "visualFixes": [
+      "mainTitleWordWrap",
+      "storyPortraitAboveDialogue"
+    ],
+    "screenshots": [
+      "browser_style.png",
+      "browser_main.png",
+      "browser_story.png",
+      "browser_result.png",
+      "browser_prep.png"
+    ]
+  },
+  "unityPlay": false,
+  "fileSchemeTested": false
+}

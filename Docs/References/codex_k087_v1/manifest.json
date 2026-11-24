@@ -1,0 +1,2651 @@
+{
+  "card": "K-087",
+  "version": 1,
+  "generator": "built-in image_gen; technical crop, alpha threshold, nearest-neighbour registration and atlas assembly",
+  "cell_size_m": 5,
+  "placement_cell_count": 2,
+  "rotation_step_deg": 45,
+  "pixel_origin": "top_left unless explicitly stated",
+  "battle": {
+    "nominal_px_per_metre": 40,
+    "game_px_per_metre": 120,
+    "board_height_m": 2.8,
+    "canvas_height_native_px": 128,
+    "baseline_native_y": 128,
+    "pivot_normalized_bottom_left": [
+      0.5,
+      0
+    ],
+    "diagonal_length_m": 7.0710678118654755,
+    "diagonal_raster_length_px": 283,
+    "rendering": "upright vertical axis; orient length along neighbour vector in XZ; do not roll billboard in screen plane",
+    "compositing_order": [
+      "segments back to front",
+      "end caps at exposed terminals",
+      "joint at every connected cell centre and shared seam"
+    ],
+    "joint_native_width_px": 48,
+    "terrain_exception_to_character_cells": true
+  },
+  "map": {
+    "px_per_metre": 6.4,
+    "cell_px": [
+      32,
+      32
+    ],
+    "pivot_px_top_left": [
+      16,
+      16
+    ],
+    "mask_bit_order": [
+      "N",
+      "NE",
+      "E",
+      "SE",
+      "S",
+      "SW",
+      "W",
+      "NW"
+    ],
+    "composition_order": [
+      "all hubs",
+      "all connected arms"
+    ],
+    "opposite_arm_rule": "enable opposite direction in adjacent cell; diagonals fill shared corner",
+    "anchor_coordinates_are_pixel_edges": true
+  },
+  "layouts": [
+    {
+      "id": "straight",
+      "label_ko": "직선 · 두 칸 조각 3개",
+      "cells": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ]
+      ],
+      "placement_pairs": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        [
+          [
+            2,
+            1
+          ],
+          [
+            3,
+            1
+          ]
+        ],
+        [
+          [
+            4,
+            1
+          ],
+          [
+            5,
+            1
+          ]
+        ]
+      ],
+      "map": "previews/straight_map.png",
+      "battle": "previews/straight_battle.png"
+    },
+    {
+      "id": "corner",
+      "label_ko": "직각 · 두 칸 조각 3개",
+      "cells": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "placement_pairs": [
+        [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        [
+          [
+            2,
+            0
+          ],
+          [
+            2,
+            1
+          ]
+        ],
+        [
+          [
+            2,
+            2
+          ],
+          [
+            2,
+            3
+          ]
+        ]
+      ],
+      "map": "previews/corner_map.png",
+      "battle": "previews/corner_battle.png"
+    },
+    {
+      "id": "diagonal",
+      "label_ko": "대각 · 모서리까지 막힌 연결",
+      "cells": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          4,
+          4
+        ],
+        [
+          5,
+          5
+        ]
+      ],
+      "placement_pairs": [
+        [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        [
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            3
+          ]
+        ],
+        [
+          [
+            4,
+            4
+          ],
+          [
+            5,
+            5
+          ]
+        ]
+      ],
+      "map": "previews/diagonal_map.png",
+      "battle": "previews/diagonal_battle.png"
+    },
+    {
+      "id": "mixed",
+      "label_ko": "대각 + 직선 · 두 칸 조각 3개",
+      "cells": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          3
+        ]
+      ],
+      "placement_pairs": [
+        [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        [
+          [
+            2,
+            1
+          ],
+          [
+            3,
+            1
+          ]
+        ],
+        [
+          [
+            4,
+            2
+          ],
+          [
+            5,
+            3
+          ]
+        ]
+      ],
+      "map": "previews/mixed_map.png",
+      "battle": "previews/mixed_battle.png"
+    },
+    {
+      "id": "hill",
+      "label_ko": "언덕 · 연속 능선",
+      "cells": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ]
+      ],
+      "placement_pairs": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        [
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        [
+          [
+            4,
+            1
+          ],
+          [
+            5,
+            1
+          ]
+        ]
+      ],
+      "map": "previews/hill_map.png",
+      "battle": "previews/hill_battle.png"
+    }
+  ],
+  "assets": [
+    {
+      "file": "native/earthwall_intact.png",
+      "size_px": [
+        200,
+        128
+      ],
+      "alpha": "binary_0_255",
+      "kind": "legacy_filename_single_frame",
+      "frame_count": 1,
+      "source_part": "native/earthwall_intact_straight.png",
+      "scale": 1,
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "baseline_y_top_left": 128,
+      "px_per_metre": 40
+    },
+    {
+      "file": "game/earthwall_intact.png",
+      "size_px": [
+        600,
+        384
+      ],
+      "alpha": "binary_0_255",
+      "kind": "legacy_filename_single_frame",
+      "frame_count": 1,
+      "source_part": "native/earthwall_intact_straight.png",
+      "scale": 3,
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "baseline_y_top_left": 384,
+      "px_per_metre": 120
+    },
+    {
+      "file": "native/earthwall_intact_straight.png",
+      "size_px": [
+        200,
+        128
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_part",
+      "stage": "intact",
+      "part": "straight",
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "pivot_px_bottom_left": [
+        100.0,
+        0
+      ],
+      "baseline_y_top_left": 128,
+      "px_per_metre": 40,
+      "registration_height_px": 112,
+      "visible_height_px": 112,
+      "visible_height_m": 2.8,
+      "nominal_board_height_m": 2.8,
+      "length_m": 5,
+      "anchors_px_top_left": [
+        [
+          0,
+          128
+        ],
+        [
+          200,
+          128
+        ]
+      ],
+      "raster_length_m": 5.0
+    },
+    {
+      "file": "game/earthwall_intact_straight.png",
+      "size_px": [
+        600,
+        384
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_part_3x",
+      "native_file": "native/earthwall_intact_straight.png",
+      "scale": 3,
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "pivot_px_bottom_left": [
+        300.0,
+        0
+      ],
+      "baseline_y_top_left": 384,
+      "px_per_metre": 120
+    },
+    {
+      "file": "native/earthwall_intact_diagonal.png",
+      "size_px": [
+        283,
+        128
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_part",
+      "stage": "intact",
+      "part": "diagonal",
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "pivot_px_bottom_left": [
+        141.5,
+        0
+      ],
+      "baseline_y_top_left": 128,
+      "px_per_metre": 40,
+      "registration_height_px": 112,
+      "visible_height_px": 112,
+      "visible_height_m": 2.8,
+      "nominal_board_height_m": 2.8,
+      "length_m": 7.0710678118654755,
+      "anchors_px_top_left": [
+        [
+          0,
+          128
+        ],
+        [
+          283,
+          128
+        ]
+      ],
+      "raster_length_m": 7.075
+    },
+    {
+      "file": "game/earthwall_intact_diagonal.png",
+      "size_px": [
+        849,
+        384
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_part_3x",
+      "native_file": "native/earthwall_intact_diagonal.png",
+      "scale": 3,
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "pivot_px_bottom_left": [
+        424.5,
+        0
+      ],
+      "baseline_y_top_left": 384,
+      "px_per_metre": 120
+    },
+    {
+      "file": "native/earthwall_intact_end_left.png",
+      "size_px": [
+        32,
+        128
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_part",
+      "stage": "intact",
+      "part": "end_left",
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "pivot_px_bottom_left": [
+        16.0,
+        0
+      ],
+      "baseline_y_top_left": 128,
+      "px_per_metre": 40,
+      "registration_height_px": 112,
+      "visible_height_px": 112,
+      "visible_height_m": 2.8,
+      "nominal_board_height_m": 2.8
+    },
+    {
+      "file": "game/earthwall_intact_end_left.png",
+      "size_px": [
+        96,
+        384
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_part_3x",
+      "native_file": "native/earthwall_intact_end_left.png",
+      "scale": 3,
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "pivot_px_bottom_left": [
+        48.0,
+        0
+      ],
+      "baseline_y_top_left": 384,
+      "px_per_metre": 120
+    },
+    {
+      "file": "native/earthwall_intact_end_right.png",
+      "size_px": [
+        32,
+        128
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_part",
+      "stage": "intact",
+      "part": "end_right",
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "pivot_px_bottom_left": [
+        16.0,
+        0
+      ],
+      "baseline_y_top_left": 128,
+      "px_per_metre": 40,
+      "registration_height_px": 112,
+      "visible_height_px": 112,
+      "visible_height_m": 2.8,
+      "nominal_board_height_m": 2.8
+    },
+    {
+      "file": "game/earthwall_intact_end_right.png",
+      "size_px": [
+        96,
+        384
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_part_3x",
+      "native_file": "native/earthwall_intact_end_right.png",
+      "scale": 3,
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "pivot_px_bottom_left": [
+        48.0,
+        0
+      ],
+      "baseline_y_top_left": 384,
+      "px_per_metre": 120
+    },
+    {
+      "file": "native/earthwall_intact_joint.png",
+      "size_px": [
+        48,
+        128
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_part",
+      "stage": "intact",
+      "part": "joint",
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "pivot_px_bottom_left": [
+        24.0,
+        0
+      ],
+      "baseline_y_top_left": 128,
+      "px_per_metre": 40,
+      "registration_height_px": 112,
+      "visible_height_px": 112,
+      "visible_height_m": 2.8,
+      "nominal_board_height_m": 2.8
+    },
+    {
+      "file": "game/earthwall_intact_joint.png",
+      "size_px": [
+        144,
+        384
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_part_3x",
+      "native_file": "native/earthwall_intact_joint.png",
+      "scale": 3,
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "pivot_px_bottom_left": [
+        72.0,
+        0
+      ],
+      "baseline_y_top_left": 384,
+      "px_per_metre": 120
+    },
+    {
+      "file": "native/earthwall_intact_sheet.png",
+      "size_px": [
+        1440,
+        128
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_sheet",
+      "cell_px": [
+        288,
+        128
+      ],
+      "frame_order": [
+        "straight",
+        "diagonal",
+        "end_left",
+        "end_right",
+        "joint"
+      ],
+      "frame_count": 5,
+      "pivot_px_bottom_left": [
+        144,
+        0
+      ],
+      "part_rects_top_left": [
+        [
+          44,
+          0,
+          200,
+          128
+        ],
+        [
+          290,
+          0,
+          283,
+          128
+        ],
+        [
+          704,
+          0,
+          32,
+          128
+        ],
+        [
+          992,
+          0,
+          32,
+          128
+        ],
+        [
+          1272,
+          0,
+          48,
+          128
+        ]
+      ],
+      "part_pivots_px_bottom_left": [
+        [
+          144.0,
+          0
+        ],
+        [
+          143.5,
+          0
+        ],
+        [
+          144.0,
+          0
+        ],
+        [
+          144.0,
+          0
+        ],
+        [
+          144.0,
+          0
+        ]
+      ]
+    },
+    {
+      "file": "game/earthwall_intact_sheet.png",
+      "size_px": [
+        4320,
+        384
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_sheet_3x",
+      "cell_px": [
+        864,
+        384
+      ],
+      "frame_order": [
+        "straight",
+        "diagonal",
+        "end_left",
+        "end_right",
+        "joint"
+      ],
+      "frame_count": 5,
+      "pivot_px_bottom_left": [
+        432,
+        0
+      ],
+      "part_rects_top_left": [
+        [
+          132,
+          0,
+          600,
+          384
+        ],
+        [
+          870,
+          0,
+          849,
+          384
+        ],
+        [
+          2112,
+          0,
+          96,
+          384
+        ],
+        [
+          2976,
+          0,
+          96,
+          384
+        ],
+        [
+          3816,
+          0,
+          144,
+          384
+        ]
+      ],
+      "part_pivots_px_bottom_left": [
+        [
+          432.0,
+          0
+        ],
+        [
+          430.5,
+          0
+        ],
+        [
+          432.0,
+          0
+        ],
+        [
+          432.0,
+          0
+        ],
+        [
+          432.0,
+          0
+        ]
+      ]
+    },
+    {
+      "file": "native/earthwall_cracked.png",
+      "size_px": [
+        200,
+        128
+      ],
+      "alpha": "binary_0_255",
+      "kind": "legacy_filename_single_frame",
+      "frame_count": 1,
+      "source_part": "native/earthwall_cracked_straight.png",
+      "scale": 1,
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "baseline_y_top_left": 128,
+      "px_per_metre": 40
+    },
+    {
+      "file": "game/earthwall_cracked.png",
+      "size_px": [
+        600,
+        384
+      ],
+      "alpha": "binary_0_255",
+      "kind": "legacy_filename_single_frame",
+      "frame_count": 1,
+      "source_part": "native/earthwall_cracked_straight.png",
+      "scale": 3,
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "baseline_y_top_left": 384,
+      "px_per_metre": 120
+    },
+    {
+      "file": "native/earthwall_cracked_straight.png",
+      "size_px": [
+        200,
+        128
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_part",
+      "stage": "cracked",
+      "part": "straight",
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "pivot_px_bottom_left": [
+        100.0,
+        0
+      ],
+      "baseline_y_top_left": 128,
+      "px_per_metre": 40,
+      "registration_height_px": 112,
+      "visible_height_px": 112,
+      "visible_height_m": 2.8,
+      "nominal_board_height_m": 2.8,
+      "length_m": 5,
+      "anchors_px_top_left": [
+        [
+          0,
+          128
+        ],
+        [
+          200,
+          128
+        ]
+      ],
+      "raster_length_m": 5.0
+    },
+    {
+      "file": "game/earthwall_cracked_straight.png",
+      "size_px": [
+        600,
+        384
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_part_3x",
+      "native_file": "native/earthwall_cracked_straight.png",
+      "scale": 3,
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "pivot_px_bottom_left": [
+        300.0,
+        0
+      ],
+      "baseline_y_top_left": 384,
+      "px_per_metre": 120
+    },
+    {
+      "file": "native/earthwall_cracked_diagonal.png",
+      "size_px": [
+        283,
+        128
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_part",
+      "stage": "cracked",
+      "part": "diagonal",
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "pivot_px_bottom_left": [
+        141.5,
+        0
+      ],
+      "baseline_y_top_left": 128,
+      "px_per_metre": 40,
+      "registration_height_px": 112,
+      "visible_height_px": 112,
+      "visible_height_m": 2.8,
+      "nominal_board_height_m": 2.8,
+      "length_m": 7.0710678118654755,
+      "anchors_px_top_left": [
+        [
+          0,
+          128
+        ],
+        [
+          283,
+          128
+        ]
+      ],
+      "raster_length_m": 7.075
+    },
+    {
+      "file": "game/earthwall_cracked_diagonal.png",
+      "size_px": [
+        849,
+        384
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_part_3x",
+      "native_file": "native/earthwall_cracked_diagonal.png",
+      "scale": 3,
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "pivot_px_bottom_left": [
+        424.5,
+        0
+      ],
+      "baseline_y_top_left": 384,
+      "px_per_metre": 120
+    },
+    {
+      "file": "native/earthwall_cracked_end_left.png",
+      "size_px": [
+        32,
+        128
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_part",
+      "stage": "cracked",
+      "part": "end_left",
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "pivot_px_bottom_left": [
+        16.0,
+        0
+      ],
+      "baseline_y_top_left": 128,
+      "px_per_metre": 40,
+      "registration_height_px": 112,
+      "visible_height_px": 112,
+      "visible_height_m": 2.8,
+      "nominal_board_height_m": 2.8
+    },
+    {
+      "file": "game/earthwall_cracked_end_left.png",
+      "size_px": [
+        96,
+        384
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_part_3x",
+      "native_file": "native/earthwall_cracked_end_left.png",
+      "scale": 3,
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "pivot_px_bottom_left": [
+        48.0,
+        0
+      ],
+      "baseline_y_top_left": 384,
+      "px_per_metre": 120
+    },
+    {
+      "file": "native/earthwall_cracked_end_right.png",
+      "size_px": [
+        32,
+        128
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_part",
+      "stage": "cracked",
+      "part": "end_right",
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "pivot_px_bottom_left": [
+        16.0,
+        0
+      ],
+      "baseline_y_top_left": 128,
+      "px_per_metre": 40,
+      "registration_height_px": 112,
+      "visible_height_px": 112,
+      "visible_height_m": 2.8,
+      "nominal_board_height_m": 2.8
+    },
+    {
+      "file": "game/earthwall_cracked_end_right.png",
+      "size_px": [
+        96,
+        384
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_part_3x",
+      "native_file": "native/earthwall_cracked_end_right.png",
+      "scale": 3,
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "pivot_px_bottom_left": [
+        48.0,
+        0
+      ],
+      "baseline_y_top_left": 384,
+      "px_per_metre": 120
+    },
+    {
+      "file": "native/earthwall_cracked_joint.png",
+      "size_px": [
+        48,
+        128
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_part",
+      "stage": "cracked",
+      "part": "joint",
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "pivot_px_bottom_left": [
+        24.0,
+        0
+      ],
+      "baseline_y_top_left": 128,
+      "px_per_metre": 40,
+      "registration_height_px": 112,
+      "visible_height_px": 112,
+      "visible_height_m": 2.8,
+      "nominal_board_height_m": 2.8
+    },
+    {
+      "file": "game/earthwall_cracked_joint.png",
+      "size_px": [
+        144,
+        384
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_part_3x",
+      "native_file": "native/earthwall_cracked_joint.png",
+      "scale": 3,
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "pivot_px_bottom_left": [
+        72.0,
+        0
+      ],
+      "baseline_y_top_left": 384,
+      "px_per_metre": 120
+    },
+    {
+      "file": "native/earthwall_cracked_sheet.png",
+      "size_px": [
+        1440,
+        128
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_sheet",
+      "cell_px": [
+        288,
+        128
+      ],
+      "frame_order": [
+        "straight",
+        "diagonal",
+        "end_left",
+        "end_right",
+        "joint"
+      ],
+      "frame_count": 5,
+      "pivot_px_bottom_left": [
+        144,
+        0
+      ],
+      "part_rects_top_left": [
+        [
+          44,
+          0,
+          200,
+          128
+        ],
+        [
+          290,
+          0,
+          283,
+          128
+        ],
+        [
+          704,
+          0,
+          32,
+          128
+        ],
+        [
+          992,
+          0,
+          32,
+          128
+        ],
+        [
+          1272,
+          0,
+          48,
+          128
+        ]
+      ],
+      "part_pivots_px_bottom_left": [
+        [
+          144.0,
+          0
+        ],
+        [
+          143.5,
+          0
+        ],
+        [
+          144.0,
+          0
+        ],
+        [
+          144.0,
+          0
+        ],
+        [
+          144.0,
+          0
+        ]
+      ]
+    },
+    {
+      "file": "game/earthwall_cracked_sheet.png",
+      "size_px": [
+        4320,
+        384
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_sheet_3x",
+      "cell_px": [
+        864,
+        384
+      ],
+      "frame_order": [
+        "straight",
+        "diagonal",
+        "end_left",
+        "end_right",
+        "joint"
+      ],
+      "frame_count": 5,
+      "pivot_px_bottom_left": [
+        432,
+        0
+      ],
+      "part_rects_top_left": [
+        [
+          132,
+          0,
+          600,
+          384
+        ],
+        [
+          870,
+          0,
+          849,
+          384
+        ],
+        [
+          2112,
+          0,
+          96,
+          384
+        ],
+        [
+          2976,
+          0,
+          96,
+          384
+        ],
+        [
+          3816,
+          0,
+          144,
+          384
+        ]
+      ],
+      "part_pivots_px_bottom_left": [
+        [
+          432.0,
+          0
+        ],
+        [
+          430.5,
+          0
+        ],
+        [
+          432.0,
+          0
+        ],
+        [
+          432.0,
+          0
+        ],
+        [
+          432.0,
+          0
+        ]
+      ]
+    },
+    {
+      "file": "native/earthwall_collapsed.png",
+      "size_px": [
+        200,
+        128
+      ],
+      "alpha": "binary_0_255",
+      "kind": "legacy_filename_single_frame",
+      "frame_count": 1,
+      "source_part": "native/earthwall_collapsed_straight.png",
+      "scale": 1,
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "baseline_y_top_left": 128,
+      "px_per_metre": 40
+    },
+    {
+      "file": "game/earthwall_collapsed.png",
+      "size_px": [
+        600,
+        384
+      ],
+      "alpha": "binary_0_255",
+      "kind": "legacy_filename_single_frame",
+      "frame_count": 1,
+      "source_part": "native/earthwall_collapsed_straight.png",
+      "scale": 3,
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "baseline_y_top_left": 384,
+      "px_per_metre": 120
+    },
+    {
+      "file": "native/earthwall_collapsed_straight.png",
+      "size_px": [
+        200,
+        128
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_part",
+      "stage": "collapsed",
+      "part": "straight",
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "pivot_px_bottom_left": [
+        100.0,
+        0
+      ],
+      "baseline_y_top_left": 128,
+      "px_per_metre": 40,
+      "registration_height_px": 72,
+      "visible_height_px": 59,
+      "visible_height_m": 1.475,
+      "nominal_board_height_m": 2.8,
+      "length_m": 5,
+      "anchors_px_top_left": [
+        [
+          0,
+          128
+        ],
+        [
+          200,
+          128
+        ]
+      ],
+      "raster_length_m": 5.0
+    },
+    {
+      "file": "game/earthwall_collapsed_straight.png",
+      "size_px": [
+        600,
+        384
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_part_3x",
+      "native_file": "native/earthwall_collapsed_straight.png",
+      "scale": 3,
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "pivot_px_bottom_left": [
+        300.0,
+        0
+      ],
+      "baseline_y_top_left": 384,
+      "px_per_metre": 120
+    },
+    {
+      "file": "native/earthwall_collapsed_diagonal.png",
+      "size_px": [
+        283,
+        128
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_part",
+      "stage": "collapsed",
+      "part": "diagonal",
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "pivot_px_bottom_left": [
+        141.5,
+        0
+      ],
+      "baseline_y_top_left": 128,
+      "px_per_metre": 40,
+      "registration_height_px": 72,
+      "visible_height_px": 59,
+      "visible_height_m": 1.475,
+      "nominal_board_height_m": 2.8,
+      "length_m": 7.0710678118654755,
+      "anchors_px_top_left": [
+        [
+          0,
+          128
+        ],
+        [
+          283,
+          128
+        ]
+      ],
+      "raster_length_m": 7.075
+    },
+    {
+      "file": "game/earthwall_collapsed_diagonal.png",
+      "size_px": [
+        849,
+        384
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_part_3x",
+      "native_file": "native/earthwall_collapsed_diagonal.png",
+      "scale": 3,
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "pivot_px_bottom_left": [
+        424.5,
+        0
+      ],
+      "baseline_y_top_left": 384,
+      "px_per_metre": 120
+    },
+    {
+      "file": "native/earthwall_collapsed_end_left.png",
+      "size_px": [
+        32,
+        128
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_part",
+      "stage": "collapsed",
+      "part": "end_left",
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "pivot_px_bottom_left": [
+        16.0,
+        0
+      ],
+      "baseline_y_top_left": 128,
+      "px_per_metre": 40,
+      "registration_height_px": 72,
+      "visible_height_px": 72,
+      "visible_height_m": 1.8,
+      "nominal_board_height_m": 2.8
+    },
+    {
+      "file": "game/earthwall_collapsed_end_left.png",
+      "size_px": [
+        96,
+        384
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_part_3x",
+      "native_file": "native/earthwall_collapsed_end_left.png",
+      "scale": 3,
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "pivot_px_bottom_left": [
+        48.0,
+        0
+      ],
+      "baseline_y_top_left": 384,
+      "px_per_metre": 120
+    },
+    {
+      "file": "native/earthwall_collapsed_end_right.png",
+      "size_px": [
+        32,
+        128
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_part",
+      "stage": "collapsed",
+      "part": "end_right",
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "pivot_px_bottom_left": [
+        16.0,
+        0
+      ],
+      "baseline_y_top_left": 128,
+      "px_per_metre": 40,
+      "registration_height_px": 72,
+      "visible_height_px": 72,
+      "visible_height_m": 1.8,
+      "nominal_board_height_m": 2.8
+    },
+    {
+      "file": "game/earthwall_collapsed_end_right.png",
+      "size_px": [
+        96,
+        384
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_part_3x",
+      "native_file": "native/earthwall_collapsed_end_right.png",
+      "scale": 3,
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "pivot_px_bottom_left": [
+        48.0,
+        0
+      ],
+      "baseline_y_top_left": 384,
+      "px_per_metre": 120
+    },
+    {
+      "file": "native/earthwall_collapsed_joint.png",
+      "size_px": [
+        48,
+        128
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_part",
+      "stage": "collapsed",
+      "part": "joint",
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "pivot_px_bottom_left": [
+        24.0,
+        0
+      ],
+      "baseline_y_top_left": 128,
+      "px_per_metre": 40,
+      "registration_height_px": 72,
+      "visible_height_px": 72,
+      "visible_height_m": 1.8,
+      "nominal_board_height_m": 2.8
+    },
+    {
+      "file": "game/earthwall_collapsed_joint.png",
+      "size_px": [
+        144,
+        384
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_part_3x",
+      "native_file": "native/earthwall_collapsed_joint.png",
+      "scale": 3,
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "pivot_px_bottom_left": [
+        72.0,
+        0
+      ],
+      "baseline_y_top_left": 384,
+      "px_per_metre": 120
+    },
+    {
+      "file": "native/earthwall_collapsed_sheet.png",
+      "size_px": [
+        1440,
+        128
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_sheet",
+      "cell_px": [
+        288,
+        128
+      ],
+      "frame_order": [
+        "straight",
+        "diagonal",
+        "end_left",
+        "end_right",
+        "joint"
+      ],
+      "frame_count": 5,
+      "pivot_px_bottom_left": [
+        144,
+        0
+      ],
+      "part_rects_top_left": [
+        [
+          44,
+          0,
+          200,
+          128
+        ],
+        [
+          290,
+          0,
+          283,
+          128
+        ],
+        [
+          704,
+          0,
+          32,
+          128
+        ],
+        [
+          992,
+          0,
+          32,
+          128
+        ],
+        [
+          1272,
+          0,
+          48,
+          128
+        ]
+      ],
+      "part_pivots_px_bottom_left": [
+        [
+          144.0,
+          0
+        ],
+        [
+          143.5,
+          0
+        ],
+        [
+          144.0,
+          0
+        ],
+        [
+          144.0,
+          0
+        ],
+        [
+          144.0,
+          0
+        ]
+      ]
+    },
+    {
+      "file": "game/earthwall_collapsed_sheet.png",
+      "size_px": [
+        4320,
+        384
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_sheet_3x",
+      "cell_px": [
+        864,
+        384
+      ],
+      "frame_order": [
+        "straight",
+        "diagonal",
+        "end_left",
+        "end_right",
+        "joint"
+      ],
+      "frame_count": 5,
+      "pivot_px_bottom_left": [
+        432,
+        0
+      ],
+      "part_rects_top_left": [
+        [
+          132,
+          0,
+          600,
+          384
+        ],
+        [
+          870,
+          0,
+          849,
+          384
+        ],
+        [
+          2112,
+          0,
+          96,
+          384
+        ],
+        [
+          2976,
+          0,
+          96,
+          384
+        ],
+        [
+          3816,
+          0,
+          144,
+          384
+        ]
+      ],
+      "part_pivots_px_bottom_left": [
+        [
+          432.0,
+          0
+        ],
+        [
+          430.5,
+          0
+        ],
+        [
+          432.0,
+          0
+        ],
+        [
+          432.0,
+          0
+        ],
+        [
+          432.0,
+          0
+        ]
+      ]
+    },
+    {
+      "file": "native/earthwall_rubble.png",
+      "size_px": [
+        200,
+        128
+      ],
+      "alpha": "binary_0_255",
+      "kind": "legacy_filename_single_frame",
+      "frame_count": 1,
+      "source_part": "native/earthwall_rubble_straight.png",
+      "scale": 1,
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "baseline_y_top_left": 128,
+      "px_per_metre": 40
+    },
+    {
+      "file": "game/earthwall_rubble.png",
+      "size_px": [
+        600,
+        384
+      ],
+      "alpha": "binary_0_255",
+      "kind": "legacy_filename_single_frame",
+      "frame_count": 1,
+      "source_part": "native/earthwall_rubble_straight.png",
+      "scale": 3,
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "baseline_y_top_left": 384,
+      "px_per_metre": 120
+    },
+    {
+      "file": "native/earthwall_rubble_straight.png",
+      "size_px": [
+        200,
+        128
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_part",
+      "stage": "rubble",
+      "part": "straight",
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "pivot_px_bottom_left": [
+        100.0,
+        0
+      ],
+      "baseline_y_top_left": 128,
+      "px_per_metre": 40,
+      "registration_height_px": 36,
+      "visible_height_px": 35,
+      "visible_height_m": 0.875,
+      "nominal_board_height_m": 2.8,
+      "length_m": 5,
+      "anchors_px_top_left": [
+        [
+          0,
+          128
+        ],
+        [
+          200,
+          128
+        ]
+      ],
+      "raster_length_m": 5.0
+    },
+    {
+      "file": "game/earthwall_rubble_straight.png",
+      "size_px": [
+        600,
+        384
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_part_3x",
+      "native_file": "native/earthwall_rubble_straight.png",
+      "scale": 3,
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "pivot_px_bottom_left": [
+        300.0,
+        0
+      ],
+      "baseline_y_top_left": 384,
+      "px_per_metre": 120
+    },
+    {
+      "file": "native/earthwall_rubble_diagonal.png",
+      "size_px": [
+        283,
+        128
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_part",
+      "stage": "rubble",
+      "part": "diagonal",
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "pivot_px_bottom_left": [
+        141.5,
+        0
+      ],
+      "baseline_y_top_left": 128,
+      "px_per_metre": 40,
+      "registration_height_px": 36,
+      "visible_height_px": 35,
+      "visible_height_m": 0.875,
+      "nominal_board_height_m": 2.8,
+      "length_m": 7.0710678118654755,
+      "anchors_px_top_left": [
+        [
+          0,
+          128
+        ],
+        [
+          283,
+          128
+        ]
+      ],
+      "raster_length_m": 7.075
+    },
+    {
+      "file": "game/earthwall_rubble_diagonal.png",
+      "size_px": [
+        849,
+        384
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_part_3x",
+      "native_file": "native/earthwall_rubble_diagonal.png",
+      "scale": 3,
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "pivot_px_bottom_left": [
+        424.5,
+        0
+      ],
+      "baseline_y_top_left": 384,
+      "px_per_metre": 120
+    },
+    {
+      "file": "native/earthwall_rubble_end_left.png",
+      "size_px": [
+        32,
+        128
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_part",
+      "stage": "rubble",
+      "part": "end_left",
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "pivot_px_bottom_left": [
+        16.0,
+        0
+      ],
+      "baseline_y_top_left": 128,
+      "px_per_metre": 40,
+      "registration_height_px": 36,
+      "visible_height_px": 36,
+      "visible_height_m": 0.9,
+      "nominal_board_height_m": 2.8
+    },
+    {
+      "file": "game/earthwall_rubble_end_left.png",
+      "size_px": [
+        96,
+        384
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_part_3x",
+      "native_file": "native/earthwall_rubble_end_left.png",
+      "scale": 3,
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "pivot_px_bottom_left": [
+        48.0,
+        0
+      ],
+      "baseline_y_top_left": 384,
+      "px_per_metre": 120
+    },
+    {
+      "file": "native/earthwall_rubble_end_right.png",
+      "size_px": [
+        32,
+        128
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_part",
+      "stage": "rubble",
+      "part": "end_right",
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "pivot_px_bottom_left": [
+        16.0,
+        0
+      ],
+      "baseline_y_top_left": 128,
+      "px_per_metre": 40,
+      "registration_height_px": 36,
+      "visible_height_px": 36,
+      "visible_height_m": 0.9,
+      "nominal_board_height_m": 2.8
+    },
+    {
+      "file": "game/earthwall_rubble_end_right.png",
+      "size_px": [
+        96,
+        384
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_part_3x",
+      "native_file": "native/earthwall_rubble_end_right.png",
+      "scale": 3,
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "pivot_px_bottom_left": [
+        48.0,
+        0
+      ],
+      "baseline_y_top_left": 384,
+      "px_per_metre": 120
+    },
+    {
+      "file": "native/earthwall_rubble_joint.png",
+      "size_px": [
+        48,
+        128
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_part",
+      "stage": "rubble",
+      "part": "joint",
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "pivot_px_bottom_left": [
+        24.0,
+        0
+      ],
+      "baseline_y_top_left": 128,
+      "px_per_metre": 40,
+      "registration_height_px": 36,
+      "visible_height_px": 36,
+      "visible_height_m": 0.9,
+      "nominal_board_height_m": 2.8
+    },
+    {
+      "file": "game/earthwall_rubble_joint.png",
+      "size_px": [
+        144,
+        384
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_part_3x",
+      "native_file": "native/earthwall_rubble_joint.png",
+      "scale": 3,
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0
+      ],
+      "pivot_px_bottom_left": [
+        72.0,
+        0
+      ],
+      "baseline_y_top_left": 384,
+      "px_per_metre": 120
+    },
+    {
+      "file": "native/earthwall_rubble_sheet.png",
+      "size_px": [
+        1440,
+        128
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_sheet",
+      "cell_px": [
+        288,
+        128
+      ],
+      "frame_order": [
+        "straight",
+        "diagonal",
+        "end_left",
+        "end_right",
+        "joint"
+      ],
+      "frame_count": 5,
+      "pivot_px_bottom_left": [
+        144,
+        0
+      ],
+      "part_rects_top_left": [
+        [
+          44,
+          0,
+          200,
+          128
+        ],
+        [
+          290,
+          0,
+          283,
+          128
+        ],
+        [
+          704,
+          0,
+          32,
+          128
+        ],
+        [
+          992,
+          0,
+          32,
+          128
+        ],
+        [
+          1272,
+          0,
+          48,
+          128
+        ]
+      ],
+      "part_pivots_px_bottom_left": [
+        [
+          144.0,
+          0
+        ],
+        [
+          143.5,
+          0
+        ],
+        [
+          144.0,
+          0
+        ],
+        [
+          144.0,
+          0
+        ],
+        [
+          144.0,
+          0
+        ]
+      ]
+    },
+    {
+      "file": "game/earthwall_rubble_sheet.png",
+      "size_px": [
+        4320,
+        384
+      ],
+      "alpha": "binary_0_255",
+      "kind": "battle_sheet_3x",
+      "cell_px": [
+        864,
+        384
+      ],
+      "frame_order": [
+        "straight",
+        "diagonal",
+        "end_left",
+        "end_right",
+        "joint"
+      ],
+      "frame_count": 5,
+      "pivot_px_bottom_left": [
+        432,
+        0
+      ],
+      "part_rects_top_left": [
+        [
+          132,
+          0,
+          600,
+          384
+        ],
+        [
+          870,
+          0,
+          849,
+          384
+        ],
+        [
+          2112,
+          0,
+          96,
+          384
+        ],
+        [
+          2976,
+          0,
+          96,
+          384
+        ],
+        [
+          3816,
+          0,
+          144,
+          384
+        ]
+      ],
+      "part_pivots_px_bottom_left": [
+        [
+          432.0,
+          0
+        ],
+        [
+          430.5,
+          0
+        ],
+        [
+          432.0,
+          0
+        ],
+        [
+          432.0,
+          0
+        ],
+        [
+          432.0,
+          0
+        ]
+      ]
+    },
+    {
+      "file": "map/earthwall_hub.png",
+      "size_px": [
+        32,
+        32
+      ],
+      "alpha": "binary_0_255",
+      "kind": "map_hub",
+      "pivot_px_top_left": [
+        16,
+        16
+      ],
+      "px_per_metre": 6.4
+    },
+    {
+      "file": "map/earthwall_arm_N.png",
+      "size_px": [
+        32,
+        32
+      ],
+      "alpha": "binary_0_255",
+      "kind": "map_arm",
+      "direction": "N",
+      "mask_bit": 1,
+      "px_per_metre": 6.4,
+      "pivot_px_top_left": [
+        16,
+        16
+      ],
+      "anchor_start_px_top_left": [
+        16,
+        16
+      ],
+      "anchor_end_px_top_left": [
+        16,
+        0
+      ],
+      "arm_width_px": 10
+    },
+    {
+      "file": "map/earthwall_arm_NE.png",
+      "size_px": [
+        32,
+        32
+      ],
+      "alpha": "binary_0_255",
+      "kind": "map_arm",
+      "direction": "NE",
+      "mask_bit": 2,
+      "px_per_metre": 6.4,
+      "pivot_px_top_left": [
+        16,
+        16
+      ],
+      "anchor_start_px_top_left": [
+        16,
+        16
+      ],
+      "anchor_end_px_top_left": [
+        32,
+        0
+      ],
+      "arm_width_px": 10
+    },
+    {
+      "file": "map/earthwall_arm_E.png",
+      "size_px": [
+        32,
+        32
+      ],
+      "alpha": "binary_0_255",
+      "kind": "map_arm",
+      "direction": "E",
+      "mask_bit": 4,
+      "px_per_metre": 6.4,
+      "pivot_px_top_left": [
+        16,
+        16
+      ],
+      "anchor_start_px_top_left": [
+        16,
+        16
+      ],
+      "anchor_end_px_top_left": [
+        32,
+        16
+      ],
+      "arm_width_px": 10
+    },
+    {
+      "file": "map/earthwall_arm_SE.png",
+      "size_px": [
+        32,
+        32
+      ],
+      "alpha": "binary_0_255",
+      "kind": "map_arm",
+      "direction": "SE",
+      "mask_bit": 8,
+      "px_per_metre": 6.4,
+      "pivot_px_top_left": [
+        16,
+        16
+      ],
+      "anchor_start_px_top_left": [
+        16,
+        16
+      ],
+      "anchor_end_px_top_left": [
+        32,
+        32
+      ],
+      "arm_width_px": 10
+    },
+    {
+      "file": "map/earthwall_arm_S.png",
+      "size_px": [
+        32,
+        32
+      ],
+      "alpha": "binary_0_255",
+      "kind": "map_arm",
+      "direction": "S",
+      "mask_bit": 16,
+      "px_per_metre": 6.4,
+      "pivot_px_top_left": [
+        16,
+        16
+      ],
+      "anchor_start_px_top_left": [
+        16,
+        16
+      ],
+      "anchor_end_px_top_left": [
+        16,
+        32
+      ],
+      "arm_width_px": 10
+    },
+    {
+      "file": "map/earthwall_arm_SW.png",
+      "size_px": [
+        32,
+        32
+      ],
+      "alpha": "binary_0_255",
+      "kind": "map_arm",
+      "direction": "SW",
+      "mask_bit": 32,
+      "px_per_metre": 6.4,
+      "pivot_px_top_left": [
+        16,
+        16
+      ],
+      "anchor_start_px_top_left": [
+        16,
+        16
+      ],
+      "anchor_end_px_top_left": [
+        0,
+        32
+      ],
+      "arm_width_px": 10
+    },
+    {
+      "file": "map/earthwall_arm_W.png",
+      "size_px": [
+        32,
+        32
+      ],
+      "alpha": "binary_0_255",
+      "kind": "map_arm",
+      "direction": "W",
+      "mask_bit": 64,
+      "px_per_metre": 6.4,
+      "pivot_px_top_left": [
+        16,
+        16
+      ],
+      "anchor_start_px_top_left": [
+        16,
+        16
+      ],
+      "anchor_end_px_top_left": [
+        0,
+        16
+      ],
+      "arm_width_px": 10
+    },
+    {
+      "file": "map/earthwall_arm_NW.png",
+      "size_px": [
+        32,
+        32
+      ],
+      "alpha": "binary_0_255",
+      "kind": "map_arm",
+      "direction": "NW",
+      "mask_bit": 128,
+      "px_per_metre": 6.4,
+      "pivot_px_top_left": [
+        16,
+        16
+      ],
+      "anchor_start_px_top_left": [
+        16,
+        16
+      ],
+      "anchor_end_px_top_left": [
+        0,
+        0
+      ],
+      "arm_width_px": 10
+    },
+    {
+      "file": "map/earthwall_autotile_sheet.png",
+      "size_px": [
+        288,
+        32
+      ],
+      "alpha": "binary_0_255",
+      "kind": "map_sheet",
+      "cell_px": [
+        32,
+        32
+      ],
+      "frame_order": [
+        "hub",
+        "N",
+        "NE",
+        "E",
+        "SE",
+        "S",
+        "SW",
+        "W",
+        "NW"
+      ],
+      "frame_count": 9
+    },
+    {
+      "file": "map/hill_hub.png",
+      "size_px": [
+        32,
+        32
+      ],
+      "alpha": "binary_0_255",
+      "kind": "map_hub",
+      "pivot_px_top_left": [
+        16,
+        16
+      ],
+      "px_per_metre": 6.4
+    },
+    {
+      "file": "map/hill_arm_N.png",
+      "size_px": [
+        32,
+        32
+      ],
+      "alpha": "binary_0_255",
+      "kind": "map_arm",
+      "direction": "N",
+      "mask_bit": 1,
+      "px_per_metre": 6.4,
+      "pivot_px_top_left": [
+        16,
+        16
+      ],
+      "anchor_start_px_top_left": [
+        16,
+        16
+      ],
+      "anchor_end_px_top_left": [
+        16,
+        0
+      ],
+      "arm_width_px": 16
+    },
+    {
+      "file": "map/hill_arm_NE.png",
+      "size_px": [
+        32,
+        32
+      ],
+      "alpha": "binary_0_255",
+      "kind": "map_arm",
+      "direction": "NE",
+      "mask_bit": 2,
+      "px_per_metre": 6.4,
+      "pivot_px_top_left": [
+        16,
+        16
+      ],
+      "anchor_start_px_top_left": [
+        16,
+        16
+      ],
+      "anchor_end_px_top_left": [
+        32,
+        0
+      ],
+      "arm_width_px": 16
+    },
+    {
+      "file": "map/hill_arm_E.png",
+      "size_px": [
+        32,
+        32
+      ],
+      "alpha": "binary_0_255",
+      "kind": "map_arm",
+      "direction": "E",
+      "mask_bit": 4,
+      "px_per_metre": 6.4,
+      "pivot_px_top_left": [
+        16,
+        16
+      ],
+      "anchor_start_px_top_left": [
+        16,
+        16
+      ],
+      "anchor_end_px_top_left": [
+        32,
+        16
+      ],
+      "arm_width_px": 16
+    },
+    {
+      "file": "map/hill_arm_SE.png",
+      "size_px": [
+        32,
+        32
+      ],
+      "alpha": "binary_0_255",
+      "kind": "map_arm",
+      "direction": "SE",
+      "mask_bit": 8,
+      "px_per_metre": 6.4,
+      "pivot_px_top_left": [
+        16,
+        16
+      ],
+      "anchor_start_px_top_left": [
+        16,
+        16
+      ],
+      "anchor_end_px_top_left": [
+        32,
+        32
+      ],
+      "arm_width_px": 16
+    },
+    {
+      "file": "map/hill_arm_S.png",
+      "size_px": [
+        32,
+        32
+      ],
+      "alpha": "binary_0_255",
+      "kind": "map_arm",
+      "direction": "S",
+      "mask_bit": 16,
+      "px_per_metre": 6.4,
+      "pivot_px_top_left": [
+        16,
+        16
+      ],
+      "anchor_start_px_top_left": [
+        16,
+        16
+      ],
+      "anchor_end_px_top_left": [
+        16,
+        32
+      ],
+      "arm_width_px": 16
+    },
+    {
+      "file": "map/hill_arm_SW.png",
+      "size_px": [
+        32,
+        32
+      ],
+      "alpha": "binary_0_255",
+      "kind": "map_arm",
+      "direction": "SW",
+      "mask_bit": 32,
+      "px_per_metre": 6.4,
+      "pivot_px_top_left": [
+        16,
+        16
+      ],
+      "anchor_start_px_top_left": [
+        16,
+        16
+      ],
+      "anchor_end_px_top_left": [
+        0,
+        32
+      ],
+      "arm_width_px": 16
+    },
+    {
+      "file": "map/hill_arm_W.png",
+      "size_px": [
+        32,
+        32
+      ],
+      "alpha": "binary_0_255",
+      "kind": "map_arm",
+      "direction": "W",
+      "mask_bit": 64,
+      "px_per_metre": 6.4,
+      "pivot_px_top_left": [
+        16,
+        16
+      ],
+      "anchor_start_px_top_left": [
+        16,
+        16
+      ],
+      "anchor_end_px_top_left": [
+        0,
+        16
+      ],
+      "arm_width_px": 16
+    },
+    {
+      "file": "map/hill_arm_NW.png",
+      "size_px": [
+        32,
+        32
+      ],
+      "alpha": "binary_0_255",
+      "kind": "map_arm",
+      "direction": "NW",
+      "mask_bit": 128,
+      "px_per_metre": 6.4,
+      "pivot_px_top_left": [
+        16,
+        16
+      ],
+      "anchor_start_px_top_left": [
+        16,
+        16
+      ],
+      "anchor_end_px_top_left": [
+        0,
+        0
+      ],
+      "arm_width_px": 16
+    },
+    {
+      "file": "map/hill_autotile_sheet.png",
+      "size_px": [
+        288,
+        32
+      ],
+      "alpha": "binary_0_255",
+      "kind": "map_sheet",
+      "cell_px": [
+        32,
+        32
+      ],
+      "frame_order": [
+        "hub",
+        "N",
+        "NE",
+        "E",
+        "SE",
+        "S",
+        "SW",
+        "W",
+        "NW"
+      ],
+      "frame_count": 9
+    }
+  ]
+}

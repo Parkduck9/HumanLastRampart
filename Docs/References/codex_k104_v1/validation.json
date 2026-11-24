@@ -1,0 +1,298 @@
+﻿{
+    "card":  "K-104",
+    "all_passed":  true,
+    "asset_count":  19,
+    "checks":  [
+                   {
+                       "file":  "beacon_button_frame_340x52.png",
+                       "size":  [
+                                    340,
+                                    52
+                                ],
+                       "size_pass":  true,
+                       "transparent_pixels":  3276,
+                       "opaque_pixels":  464,
+                       "last_alpha_row":  47,
+                       "border_alpha_pixels":  0,
+                       "exact_4x_preview_pass":  true,
+                       "pass":  true
+                   },
+                   {
+                       "file":  "beacon_map_1920x1080.png",
+                       "size":  [
+                                    1920,
+                                    1080
+                                ],
+                       "size_pass":  true,
+                       "transparent_pixels":  0,
+                       "opaque_pixels":  2073600,
+                       "last_alpha_row":  1079,
+                       "border_alpha_pixels":  5996,
+                       "fully_opaque_pass":  true,
+                       "pass":  true
+                   },
+                   {
+                       "file":  "beacon_route_mockup_1920x1080.png",
+                       "size":  [
+                                    1920,
+                                    1080
+                                ],
+                       "size_pass":  true,
+                       "transparent_pixels":  0,
+                       "opaque_pixels":  2073600,
+                       "last_alpha_row":  1079,
+                       "border_alpha_pixels":  5996,
+                       "fully_opaque_pass":  true,
+                       "pass":  true
+                   },
+                   {
+                       "file":  "beacon_title_frame_640x96.png",
+                       "size":  [
+                                    640,
+                                    96
+                                ],
+                       "size_pass":  true,
+                       "transparent_pixels":  6028,
+                       "opaque_pixels":  899,
+                       "last_alpha_row":  91,
+                       "border_alpha_pixels":  0,
+                       "exact_4x_preview_pass":  true,
+                       "pass":  true
+                   },
+                   {
+                       "file":  "current_fortress_ring_128.png",
+                       "size":  [
+                                    128,
+                                    128
+                                ],
+                       "size_pass":  true,
+                       "transparent_pixels":  14903,
+                       "opaque_pixels":  1481,
+                       "last_alpha_row":  126,
+                       "border_alpha_pixels":  0,
+                       "exact_4x_preview_pass":  true,
+                       "pass":  true
+                   },
+                   {
+                       "file":  "fortress_dead_64.png",
+                       "size":  [
+                                    64,
+                                    64
+                                ],
+                       "size_pass":  true,
+                       "transparent_pixels":  2472,
+                       "opaque_pixels":  3,
+                       "last_alpha_row":  57,
+                       "border_alpha_pixels":  0,
+                       "single_component":  true,
+                       "baseline_pass":  true,
+                       "transparent_margin_pass":  true,
+                       "exact_4x_preview_pass":  true,
+                       "pass":  true
+                   },
+                   {
+                       "file":  "fortress_dead_96.png",
+                       "size":  [
+                                    96,
+                                    96
+                                ],
+                       "size_pass":  true,
+                       "transparent_pixels":  5573,
+                       "opaque_pixels":  8,
+                       "last_alpha_row":  89,
+                       "border_alpha_pixels":  0,
+                       "single_component":  true,
+                       "baseline_pass":  true,
+                       "transparent_margin_pass":  true,
+                       "exact_4x_preview_pass":  true,
+                       "pass":  true
+                   },
+                   {
+                       "file":  "fortress_fogged_64.png",
+                       "size":  [
+                                    64,
+                                    64
+                                ],
+                       "size_pass":  true,
+                       "transparent_pixels":  2309,
+                       "opaque_pixels":  3,
+                       "last_alpha_row":  57,
+                       "border_alpha_pixels":  0,
+                       "single_component":  true,
+                       "baseline_pass":  true,
+                       "transparent_margin_pass":  true,
+                       "exact_4x_preview_pass":  true,
+                       "pass":  true
+                   },
+                   {
+                       "file":  "fortress_fogged_96.png",
+                       "size":  [
+                                    96,
+                                    96
+                                ],
+                       "size_pass":  true,
+                       "transparent_pixels":  5204,
+                       "opaque_pixels":  7,
+                       "last_alpha_row":  89,
+                       "border_alpha_pixels":  0,
+                       "single_component":  true,
+                       "baseline_pass":  true,
+                       "transparent_margin_pass":  true,
+                       "exact_4x_preview_pass":  true,
+                       "pass":  true
+                   },
+                   {
+                       "file":  "fortress_lit_64.png",
+                       "size":  [
+                                    64,
+                                    64
+                                ],
+                       "size_pass":  true,
+                       "transparent_pixels":  2078,
+                       "opaque_pixels":  3,
+                       "last_alpha_row":  57,
+                       "border_alpha_pixels":  0,
+                       "single_component":  true,
+                       "baseline_pass":  true,
+                       "transparent_margin_pass":  true,
+                       "exact_4x_preview_pass":  true,
+                       "pass":  true
+                   },
+                   {
+                       "file":  "fortress_lit_96.png",
+                       "size":  [
+                                    96,
+                                    96
+                                ],
+                       "size_pass":  true,
+                       "transparent_pixels":  4674,
+                       "opaque_pixels":  5,
+                       "last_alpha_row":  89,
+                       "border_alpha_pixels":  0,
+                       "single_component":  true,
+                       "baseline_pass":  true,
+                       "transparent_margin_pass":  true,
+                       "exact_4x_preview_pass":  true,
+                       "pass":  true
+                   },
+                   {
+                       "file":  "fortress_states_64_sheet.png",
+                       "size":  [
+                                    192,
+                                    64
+                                ],
+                       "size_pass":  true,
+                       "transparent_pixels":  6859,
+                       "opaque_pixels":  9,
+                       "last_alpha_row":  57,
+                       "border_alpha_pixels":  0,
+                       "exact_4x_preview_pass":  true,
+                       "pass":  true
+                   },
+                   {
+                       "file":  "fortress_states_96_sheet.png",
+                       "size":  [
+                                    288,
+                                    96
+                                ],
+                       "size_pass":  true,
+                       "transparent_pixels":  15451,
+                       "opaque_pixels":  20,
+                       "last_alpha_row":  89,
+                       "border_alpha_pixels":  0,
+                       "exact_4x_preview_pass":  true,
+                       "pass":  true
+                   },
+                   {
+                       "file":  "garrison_count_frame_112x40.png",
+                       "size":  [
+                                    112,
+                                    40
+                                ],
+                       "size_pass":  true,
+                       "transparent_pixels":  0,
+                       "opaque_pixels":  4480,
+                       "last_alpha_row":  39,
+                       "border_alpha_pixels":  300,
+                       "exact_4x_preview_pass":  true,
+                       "pass":  true
+                   },
+                   {
+                       "file":  "garrison_shield_32.png",
+                       "size":  [
+                                    32,
+                                    32
+                                ],
+                       "size_pass":  true,
+                       "transparent_pixels":  493,
+                       "opaque_pixels":  531,
+                       "last_alpha_row":  29,
+                       "border_alpha_pixels":  0,
+                       "exact_4x_preview_pass":  true,
+                       "pass":  true
+                   },
+                   {
+                       "file":  "light_route_dim_96x24.png",
+                       "size":  [
+                                    96,
+                                    24
+                                ],
+                       "size_pass":  true,
+                       "transparent_pixels":  1920,
+                       "opaque_pixels":  384,
+                       "last_alpha_row":  15,
+                       "border_alpha_pixels":  0,
+                       "tile_period_16_pass":  true,
+                       "exact_4x_preview_pass":  true,
+                       "pass":  true
+                   },
+                   {
+                       "file":  "light_route_lit_96x24.png",
+                       "size":  [
+                                    96,
+                                    24
+                                ],
+                       "size_pass":  true,
+                       "transparent_pixels":  1920,
+                       "opaque_pixels":  384,
+                       "last_alpha_row":  15,
+                       "border_alpha_pixels":  0,
+                       "tile_period_16_pass":  true,
+                       "exact_4x_preview_pass":  true,
+                       "pass":  true
+                   },
+                   {
+                       "file":  "light_travels_6f_96x24_sheet.png",
+                       "size":  [
+                                    576,
+                                    24
+                                ],
+                       "size_pass":  true,
+                       "transparent_pixels":  11520,
+                       "opaque_pixels":  2304,
+                       "last_alpha_row":  15,
+                       "border_alpha_pixels":  0,
+                       "six_unique_frames_identical_alpha_footprint_pass":  true,
+                       "exact_4x_preview_pass":  true,
+                       "pass":  true
+                   },
+                   {
+                       "file":  "route_arrow_32x24.png",
+                       "size":  [
+                                    32,
+                                    24
+                                ],
+                       "size_pass":  true,
+                       "transparent_pixels":  693,
+                       "opaque_pixels":  75,
+                       "last_alpha_row":  19,
+                       "border_alpha_pixels":  0,
+                       "exact_4x_preview_pass":  true,
+                       "pass":  true
+                   }
+               ],
+    "stray_pixel_scope":  "요새 6개는 알파 연결 성분이 정확히 하나임을 검사. 점선·링·화살표는 의도적인 분리 도형이므로 시각 검토.",
+    "character_footline":  "인물 없음. 요새 UI 바닥 경계 y=58/90 검사로 대체.",
+    "unity_play_performed":  false,
+    "game_modified":  false
+}

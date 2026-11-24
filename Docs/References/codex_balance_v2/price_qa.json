@@ -1,0 +1,185 @@
+{
+  "status": "시험안, 실제Unity승패미측정",
+  "plans": {
+    "A": {
+      "archer": [
+        5,
+        8,
+        12
+      ],
+      "gunner": [
+        8,
+        12,
+        18
+      ],
+      "cannon_crew": [
+        10,
+        15,
+        20
+      ]
+    },
+    "B": {
+      "archer": [
+        8,
+        12,
+        16
+      ],
+      "gunner": [
+        12,
+        18,
+        24
+      ],
+      "cannon_crew": [
+        15,
+        20,
+        25
+      ]
+    }
+  },
+  "thresholds": [
+    600,
+    1200
+  ],
+  "caps": {
+    "global": 2000,
+    "wall": 500,
+    "normal_post": 160,
+    "cannon_post": 5
+  },
+  "repair": {
+    "hp_per_gold": 10,
+    "default_click_hp": 100
+  },
+  "quotes": [
+    {
+      "plan": "A",
+      "from": 300,
+      "recruit": 100,
+      "gold": 500
+    },
+    {
+      "plan": "A",
+      "from": 300,
+      "recruit": 300,
+      "gold": 1500
+    },
+    {
+      "plan": "A",
+      "from": 590,
+      "recruit": 30,
+      "gold": 210
+    },
+    {
+      "plan": "A",
+      "from": 1000,
+      "recruit": 400,
+      "gold": 4000
+    },
+    {
+      "plan": "B",
+      "from": 300,
+      "recruit": 100,
+      "gold": 800
+    },
+    {
+      "plan": "B",
+      "from": 300,
+      "recruit": 300,
+      "gold": 2400
+    },
+    {
+      "plan": "B",
+      "from": 590,
+      "recruit": 30,
+      "gold": 320
+    },
+    {
+      "plan": "B",
+      "from": 1000,
+      "recruit": 400,
+      "gold": 5600
+    }
+  ],
+  "qa": {
+    "passed": 19,
+    "failed": 0,
+    "checks": [
+      {
+        "name": "A300명에서300명모집1500",
+        "result": "통과"
+      },
+      {
+        "name": "A599경계2명13골드",
+        "result": "통과"
+      },
+      {
+        "name": "A1199경계2명20골드",
+        "result": "통과"
+      },
+      {
+        "name": "분할주문가격동일",
+        "result": "통과"
+      },
+      {
+        "name": "B가A보다비쌈",
+        "result": "통과"
+      },
+      {
+        "name": "골드부족무변경",
+        "result": "통과"
+      },
+      {
+        "name": "정확금액성공",
+        "result": "통과"
+      },
+      {
+        "name": "성벽정원거부",
+        "result": "통과"
+      },
+      {
+        "name": "슬롯정원거부",
+        "result": "통과"
+      },
+      {
+        "name": "전체정원거부",
+        "result": "통과"
+      },
+      {
+        "name": "대포5명한도",
+        "result": "통과"
+      },
+      {
+        "name": "부족대포보충",
+        "result": "통과"
+      },
+      {
+        "name": "수리초과클램프",
+        "result": "통과"
+      },
+      {
+        "name": "수리부족무변경",
+        "result": "통과"
+      },
+      {
+        "name": "만피무료",
+        "result": "통과"
+      },
+      {
+        "name": "두번째만피수리무료",
+        "result": "통과"
+      },
+      {
+        "name": "음수요청",
+        "result": "통과"
+      },
+      {
+        "name": "알수없는병종",
+        "result": "통과"
+      },
+      {
+        "name": "HP초과오류",
+        "result": "통과"
+      }
+    ]
+  }
+}

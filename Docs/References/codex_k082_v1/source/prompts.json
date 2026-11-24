@@ -1,0 +1,112 @@
+[
+  {
+    "id": "portrait_hero",
+    "prompt": "Use case: style-transfer. Create ONE transparent square 512x512 RPG result-board bust portrait. Image 1 is the mandatory style AND hero identity reference, image 2 is only the old portrait composition/anchor reference. Redraw the white spiky-haired blue-eyed young officer from image 1 as a front-facing head-and-shoulders portrait, black uniform, restrained gold epaulettes and lapel trim, white cravat. True chunky pixel art on a 64x64 logical pixel grid enlarged nearest neighbor 8x, thick single logical pixel dark outline, only three shades per material, clearly visible blue irises and white eye highlights. Head large, rounded youthful face. Center x=256, top hair about y=40, bust bottom y=480, transparent margins. No smooth illustration, no fine hair strands, no gradient, no glow, no background, no text. Preserve the centered bust anchor of image 2.",
+    "tool": "image_gen",
+    "transparent_background": true,
+    "references": [
+      "Docs/References/codex_hero_octopath_review_v6/generated.png",
+      "Docs/References/codex_k028_v1/result/codex_portrait_hero.png"
+    ]
+  },
+  {
+    "id": "portrait_wizard",
+    "prompt": "Use case: style-transfer. ONE transparent square RPG result-board bust portrait, 512x512 composition. Image 1 is mandatory chunky pixel-art style, image 2 is old portrait identity, subject and layout only. Redraw image 2 in image 1's style: brown hair, purple gold-trimmed coat, small blue gemstone staff over shoulder. Front facing large youthful head, clear blue irises with white highlights, thick dark single logical pixel outline, only 3 shades per material, chunky block clusters on 64x64 logical pixel grid enlarged nearest-neighbor 8x. Center x=256, hair top around y=40 and shoulders ending around y=480; preserve image 2 centered bust anchor and transparent margins. No small linework, no smooth anime illustration, no gradients, glow, background, text or border. This is a single character portrait, not a sheet.",
+    "tool": "image_gen",
+    "transparent_background": true,
+    "references": [
+      "Docs/References/codex_hero_octopath_review_v6/generated.png",
+      "Docs/References/codex_k028_v1/result/codex_portrait_wizard.png"
+    ]
+  },
+  {
+    "id": "portrait_archer",
+    "prompt": "Use case: style-transfer. ONE transparent square RPG result-board bust portrait, 512x512 composition. Image 1 is mandatory chunky pixel-art style, image 2 is old portrait identity, subject and layout only. Redraw image 2 in image 1's style: warm auburn hair, navy tunic, cream scarf, arrow quiver behind shoulder. Front facing large youthful head, clear blue irises with white highlights, thick dark single logical pixel outline, only 3 shades per material, chunky block clusters on 64x64 logical pixel grid enlarged nearest-neighbor 8x. Center x=256, hair top around y=40 and shoulders ending around y=480; preserve image 2 centered bust anchor and transparent margins. No small linework, no smooth anime illustration, no gradients, glow, background, text or border. This is a single character portrait, not a sheet.",
+    "tool": "image_gen",
+    "transparent_background": true,
+    "references": [
+      "Docs/References/codex_hero_octopath_review_v6/generated.png",
+      "Docs/References/codex_k028_v1/result/codex_portrait_archer.png"
+    ]
+  },
+  {
+    "id": "portrait_gunner",
+    "prompt": "Use case: style-transfer. ONE transparent square RPG result-board bust portrait, 512x512 composition. Image 1 is mandatory chunky pixel-art style, image 2 is old portrait identity, subject and layout only. Redraw image 2 in image 1's style: dark brown hair, navy high collar uniform, cream trim, silver shoulder guard, rifle behind shoulder. Front facing large youthful head, clear blue irises with white highlights, thick dark single logical pixel outline, only 3 shades per material, chunky block clusters on 64x64 logical pixel grid enlarged nearest-neighbor 8x. Center x=256, hair top around y=40 and shoulders ending around y=480; preserve image 2 centered bust anchor and transparent margins. No small linework, no smooth anime illustration, no gradients, glow, background, text or border. This is a single character portrait, not a sheet.",
+    "tool": "image_gen",
+    "transparent_background": true,
+    "references": [
+      "Docs/References/codex_hero_octopath_review_v6/generated.png",
+      "Docs/References/codex_k028_v1/result/codex_portrait_gunner.png"
+    ]
+  },
+  {
+    "id": "portrait_cannon",
+    "prompt": "Use case: style-transfer. ONE transparent square RPG result-board bust portrait, 512x512 composition. Image 1 is mandatory chunky pixel-art style, image 2 is old portrait identity, subject and layout only. Redraw image 2 in image 1's style: charcoal gray hair, navy coat, brown leather harness and gloves, ramrod over shoulder. Front facing large youthful head, clear blue irises with white highlights, thick dark single logical pixel outline, only 3 shades per material, chunky block clusters on 64x64 logical pixel grid enlarged nearest-neighbor 8x. Center x=256, hair top around y=40 and shoulders ending around y=480; preserve image 2 centered bust anchor and transparent margins. No small linework, no smooth anime illustration, no gradients, glow, background, text or border. This is a single character portrait, not a sheet.",
+    "tool": "image_gen",
+    "transparent_background": true,
+    "references": [
+      "Docs/References/codex_hero_octopath_review_v6/generated.png",
+      "Docs/References/codex_k028_v1/result/codex_portrait_cannon.png"
+    ]
+  },
+  {
+    "id": "worker_dig_archer",
+    "prompt": "Use case: style-transfer. Redraw ONE production pixel-art worker animation sheet. Image 1 is mandatory chunky pixel-art rendering style; image 2 is the exact four-frame sheet target: preserve four poses, camera facing away/back three-quarter, order left to right, tools and silhouette placement. auburn hair, navy tunic, cream scarf, brown belt and big brown boots. Action: digging with a shovel: plant shovel, push down, lift soil, throw soil. Output ONE horizontal 1024x384 transparent sheet, FOUR equal 256x384 cells. Each cell represents a 64x96 logical art grid scaled 4x nearest-neighbor. Same current figure size: person roughly 70 logical pixels tall, head about one third of body, foot baseline at y352 in every cell, torso centered x128 within each cell, no jitter. Thick dark 1 logical pixel outline, short sturdy body, chunky pixels, three flat shades per material. No smooth anime linework, no gradients, no glow, no drop shadows, no labels, no floor or background. All tools contained within cells. Match pose sequence from image 2 exactly. Do not enlarge the workers.",
+    "tool": "image_gen",
+    "transparent_background": true,
+    "references": [
+      "Docs/References/codex_hero_octopath_review_v6/generated.png",
+      "Game/Assets/_Project/Art/UI/Resources/TrapMap/worker_dig_archer.png"
+    ]
+  },
+  {
+    "id": "worker_dig_gunner",
+    "prompt": "Use case: style-transfer. Redraw ONE production pixel-art worker animation sheet. Image 1 is mandatory chunky pixel-art rendering style; image 2 is the exact four-frame sheet target: preserve four poses, camera facing away/back three-quarter, order left to right, tools and silhouette placement. dark brown hair, navy coat with cream trim, leather cross strap, silver shoulder pad, big brown boots. Action: digging with a shovel: plant shovel, push down, lift soil, throw soil. Output ONE horizontal 1024x384 transparent sheet, FOUR equal 256x384 cells. Each cell represents a 64x96 logical art grid scaled 4x nearest-neighbor. Same current figure size: person roughly 70 logical pixels tall, head about one third of body, foot baseline at y352 in every cell, torso centered x128 within each cell, no jitter. Thick dark 1 logical pixel outline, short sturdy body, chunky pixels, three flat shades per material. No smooth anime linework, no gradients, no glow, no drop shadows, no labels, no floor or background. All tools contained within cells. Match pose sequence from image 2 exactly. Do not enlarge the workers.",
+    "tool": "image_gen",
+    "transparent_background": true,
+    "references": [
+      "Docs/References/codex_hero_octopath_review_v6/generated.png",
+      "Game/Assets/_Project/Art/UI/Resources/TrapMap/worker_dig_gunner.png"
+    ]
+  },
+  {
+    "id": "worker_earth_archer",
+    "prompt": "Use case: style-transfer. Redraw ONE production pixel-art worker animation sheet. Image 1 is mandatory chunky pixel-art rendering style; image 2 is the exact four-frame sheet target: preserve four poses, camera facing away/back three-quarter, order left to right, tools and silhouette placement. auburn hair, navy tunic, cream scarf, brown belt and big brown boots. Action: carrying a soil-filled basket: four alternating walking poses. Output ONE horizontal 1024x384 transparent sheet, FOUR equal 256x384 cells. Each cell represents a 64x96 logical art grid scaled 4x nearest-neighbor. Same current figure size: person roughly 70 logical pixels tall, head about one third of body, foot baseline at y352 in every cell, torso centered x128 within each cell, no jitter. Thick dark 1 logical pixel outline, short sturdy body, chunky pixels, three flat shades per material. No smooth anime linework, no gradients, no glow, no drop shadows, no labels, no floor or background. All tools contained within cells. Match pose sequence from image 2 exactly. Do not enlarge the workers.",
+    "tool": "image_gen",
+    "transparent_background": true,
+    "references": [
+      "Docs/References/codex_hero_octopath_review_v6/generated.png",
+      "Game/Assets/_Project/Art/UI/Resources/TrapMap/worker_earth_archer.png"
+    ]
+  },
+  {
+    "id": "worker_earth_gunner",
+    "prompt": "Use case: style-transfer. Redraw ONE production pixel-art worker animation sheet. Image 1 is mandatory chunky pixel-art rendering style; image 2 is the exact four-frame sheet target: preserve four poses, camera facing away/back three-quarter, order left to right, tools and silhouette placement. dark brown hair, navy coat with cream trim, leather cross strap, silver shoulder pad, big brown boots. Action: carrying a soil-filled basket: four alternating walking poses. Output ONE horizontal 1024x384 transparent sheet, FOUR equal 256x384 cells. Each cell represents a 64x96 logical art grid scaled 4x nearest-neighbor. Same current figure size: person roughly 70 logical pixels tall, head about one third of body, foot baseline at y352 in every cell, torso centered x128 within each cell, no jitter. Thick dark 1 logical pixel outline, short sturdy body, chunky pixels, three flat shades per material. No smooth anime linework, no gradients, no glow, no drop shadows, no labels, no floor or background. All tools contained within cells. Match pose sequence from image 2 exactly. Do not enlarge the workers.",
+    "tool": "image_gen",
+    "transparent_background": true,
+    "references": [
+      "Docs/References/codex_hero_octopath_review_v6/generated.png",
+      "Game/Assets/_Project/Art/UI/Resources/TrapMap/worker_earth_gunner.png"
+    ]
+  },
+  {
+    "id": "worker_log_archer",
+    "prompt": "Use case: style-transfer. Redraw ONE production pixel-art worker animation sheet. Image 1 is mandatory chunky pixel-art rendering style; image 2 is the exact four-frame sheet target: preserve four poses, camera facing away/back three-quarter, order left to right, tools and silhouette placement. auburn hair, navy tunic, cream scarf, brown belt and big brown boots. Action: carrying a horizontal log on shoulders: four alternating walking poses. Output ONE horizontal 1024x384 transparent sheet, FOUR equal 256x384 cells. Each cell represents a 64x96 logical art grid scaled 4x nearest-neighbor. Same current figure size: person roughly 70 logical pixels tall, head about one third of body, foot baseline at y352 in every cell, torso centered x128 within each cell, no jitter. Thick dark 1 logical pixel outline, short sturdy body, chunky pixels, three flat shades per material. No smooth anime linework, no gradients, no glow, no drop shadows, no labels, no floor or background. All tools contained within cells. Match pose sequence from image 2 exactly. Do not enlarge the workers.",
+    "tool": "image_gen",
+    "transparent_background": true,
+    "references": [
+      "Docs/References/codex_hero_octopath_review_v6/generated.png",
+      "Game/Assets/_Project/Art/UI/Resources/TrapMap/worker_log_archer.png"
+    ]
+  },
+  {
+    "id": "worker_log_gunner",
+    "prompt": "Use case: style-transfer. Redraw ONE production pixel-art worker animation sheet. Image 1 is mandatory chunky pixel-art rendering style; image 2 is the exact four-frame sheet target: preserve four poses, camera facing away/back three-quarter, order left to right, tools and silhouette placement. dark brown hair, navy coat with cream trim, leather cross strap, silver shoulder pad, big brown boots. Action: carrying a horizontal log on shoulders: four alternating walking poses. Output ONE horizontal 1024x384 transparent sheet, FOUR equal 256x384 cells. Each cell represents a 64x96 logical art grid scaled 4x nearest-neighbor. Same current figure size: person roughly 70 logical pixels tall, head about one third of body, foot baseline at y352 in every cell, torso centered x128 within each cell, no jitter. Thick dark 1 logical pixel outline, short sturdy body, chunky pixels, three flat shades per material. No smooth anime linework, no gradients, no glow, no drop shadows, no labels, no floor or background. All tools contained within cells. Match pose sequence from image 2 exactly. Do not enlarge the workers.",
+    "tool": "image_gen",
+    "transparent_background": true,
+    "references": [
+      "Docs/References/codex_hero_octopath_review_v6/generated.png",
+      "Game/Assets/_Project/Art/UI/Resources/TrapMap/worker_log_gunner.png"
+    ]
+  }
+]

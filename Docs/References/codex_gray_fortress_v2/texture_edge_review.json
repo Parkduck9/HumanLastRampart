@@ -1,0 +1,50 @@
+[
+  {
+    "id": "wall_gray",
+    "edgeMeanDifference": [
+      27.3671875,
+      24.625
+    ],
+    "interiorMeanDifference": [
+      25.50063566272966,
+      30.31545275590551
+    ],
+    "edgeToInterior": [
+      1.0731962866321167,
+      0.8122920082466194
+    ],
+    "seamlessCertified": false
+  },
+  {
+    "id": "walkway_gray",
+    "edgeMeanDifference": [
+      14.341145833333334,
+      26.411458333333332
+    ],
+    "interiorMeanDifference": [
+      19.756459153543307,
+      20.759637467191602
+    ],
+    "edgeToInterior": [
+      0.7258965648589545,
+      1.2722504607835194
+    ],
+    "seamlessCertified": false
+  },
+  {
+    "id": "grass_muted",
+    "edgeMeanDifference": [
+      21.309895833333332,
+      19.8203125
+    ],
+    "interiorMeanDifference": [
+      22.083078022875817,
+      22.115349264705884
+    ],
+    "edgeToInterior": [
+      0.9649875715359268,
+      0.8962242586704902
+    ],
+    "seamlessCertified": false
+  }
+]

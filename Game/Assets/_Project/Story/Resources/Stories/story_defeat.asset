@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0268e8913dd84207865c3fdbe8b9fdeb, type: 3}
+  m_Name: story_defeat
+  m_EditorClassIdentifier: 
+  id: story_defeat
+  title: "패배 엔딩"
+  kind: 1
+  note: "Story_Beacon_v1 7장. TODO: 하겐 초상은 임시(궁수 초상). 새 그림이 오면 StoryArt/portrait_hagen_neutral.png 파일만 덮어쓴다."
+  scenes:
+  - name: "무너진 성벽"
+    background: {fileID: 2800000, guid: b7c1d2e3f4a54b6c8d9e0f1a2b3c4d5e, type: 3}
+    lines:
+    - speaker: ""
+      side: 0
+      portrait: {fileID: 0}
+      cell: 0
+      text: "성벽이 무너지고, 등불이 하나둘 꺼져 갔다."
+      background: {fileID: 0}
+      effect: 2
+    - speaker: "하겐"
+      side: 2
+      portrait: {fileID: 2800000, guid: c6ff621d6fae4e329156fbdb88091de1, type: 3}
+      cell: 2
+      text: "대장님, 물러나야 합니다! 불빛이 남은 곳으로!"
+      background: {fileID: 0}
+      effect: 1
+    - speaker: "루멘"
+      side: 1
+      portrait: {fileID: 2800000, guid: 9d9ce593b1ca4fc3b655b0e5ffc0b85f, type: 3}
+      cell: 0
+      text: "……다음엔, 꼭 켜 낼게요."
+      background: {fileID: 0}
+      effect: 0

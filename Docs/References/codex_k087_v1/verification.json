@@ -1,0 +1,2695 @@
+{
+  "card": "K-087",
+  "checks": [
+    {
+      "check": "native/earthwall_intact.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_intact.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_intact.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_intact.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_intact.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_straight.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_straight.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_straight.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_straight.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_straight.png:single_connected_component",
+      "passed": true,
+      "detail": {
+        "component_sizes": [
+          18697
+        ]
+      }
+    },
+    {
+      "check": "native/earthwall_intact_straight.png:declared_visible_height",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_straight.png:baseline",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_straight.png:bottom_centre_contact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_straight.png:periodic_edge",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_straight.png:continuous_bottom_12px_at_seam",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_intact_straight.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_intact_straight.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_intact_straight.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_intact_straight.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_intact_straight.png:nearest_3x_exact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_diagonal.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_diagonal.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_diagonal.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_diagonal.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_diagonal.png:single_connected_component",
+      "passed": true,
+      "detail": {
+        "component_sizes": [
+          26363
+        ]
+      }
+    },
+    {
+      "check": "native/earthwall_intact_diagonal.png:declared_visible_height",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_diagonal.png:baseline",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_diagonal.png:bottom_centre_contact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_diagonal.png:periodic_edge",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_diagonal.png:continuous_bottom_12px_at_seam",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_intact_diagonal.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_intact_diagonal.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_intact_diagonal.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_intact_diagonal.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_intact_diagonal.png:nearest_3x_exact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_end_left.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_end_left.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_end_left.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_end_left.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_end_left.png:single_connected_component",
+      "passed": true,
+      "detail": {
+        "component_sizes": [
+          3133
+        ]
+      }
+    },
+    {
+      "check": "native/earthwall_intact_end_left.png:declared_visible_height",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_end_left.png:baseline",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_end_left.png:bottom_centre_contact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_intact_end_left.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_intact_end_left.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_intact_end_left.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_intact_end_left.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_intact_end_left.png:nearest_3x_exact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_end_right.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_end_right.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_end_right.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_end_right.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_end_right.png:single_connected_component",
+      "passed": true,
+      "detail": {
+        "component_sizes": [
+          3133
+        ]
+      }
+    },
+    {
+      "check": "native/earthwall_intact_end_right.png:declared_visible_height",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_end_right.png:baseline",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_end_right.png:bottom_centre_contact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_intact_end_right.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_intact_end_right.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_intact_end_right.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_intact_end_right.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_intact_end_right.png:nearest_3x_exact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_joint.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_joint.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_joint.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_joint.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_joint.png:single_connected_component",
+      "passed": true,
+      "detail": {
+        "component_sizes": [
+          4703
+        ]
+      }
+    },
+    {
+      "check": "native/earthwall_intact_joint.png:declared_visible_height",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_joint.png:baseline",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_joint.png:bottom_centre_contact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_intact_joint.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_intact_joint.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_intact_joint.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_intact_joint.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_intact_joint.png:nearest_3x_exact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_sheet.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_sheet.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_sheet.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_intact_sheet.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_intact_sheet.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_intact_sheet.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_intact_sheet.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_intact_sheet.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_cracked.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_cracked.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_cracked.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_cracked.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_straight.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_straight.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_straight.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_straight.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_straight.png:single_connected_component",
+      "passed": true,
+      "detail": {
+        "component_sizes": [
+          18723
+        ]
+      }
+    },
+    {
+      "check": "native/earthwall_cracked_straight.png:declared_visible_height",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_straight.png:baseline",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_straight.png:bottom_centre_contact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_straight.png:periodic_edge",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_straight.png:continuous_bottom_12px_at_seam",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_cracked_straight.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_cracked_straight.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_cracked_straight.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_cracked_straight.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_cracked_straight.png:nearest_3x_exact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_diagonal.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_diagonal.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_diagonal.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_diagonal.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_diagonal.png:single_connected_component",
+      "passed": true,
+      "detail": {
+        "component_sizes": [
+          26324
+        ]
+      }
+    },
+    {
+      "check": "native/earthwall_cracked_diagonal.png:declared_visible_height",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_diagonal.png:baseline",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_diagonal.png:bottom_centre_contact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_diagonal.png:periodic_edge",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_diagonal.png:continuous_bottom_12px_at_seam",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_cracked_diagonal.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_cracked_diagonal.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_cracked_diagonal.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_cracked_diagonal.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_cracked_diagonal.png:nearest_3x_exact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_end_left.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_end_left.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_end_left.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_end_left.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_end_left.png:single_connected_component",
+      "passed": true,
+      "detail": {
+        "component_sizes": [
+          3170
+        ]
+      }
+    },
+    {
+      "check": "native/earthwall_cracked_end_left.png:declared_visible_height",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_end_left.png:baseline",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_end_left.png:bottom_centre_contact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_cracked_end_left.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_cracked_end_left.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_cracked_end_left.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_cracked_end_left.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_cracked_end_left.png:nearest_3x_exact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_end_right.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_end_right.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_end_right.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_end_right.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_end_right.png:single_connected_component",
+      "passed": true,
+      "detail": {
+        "component_sizes": [
+          3170
+        ]
+      }
+    },
+    {
+      "check": "native/earthwall_cracked_end_right.png:declared_visible_height",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_end_right.png:baseline",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_end_right.png:bottom_centre_contact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_cracked_end_right.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_cracked_end_right.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_cracked_end_right.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_cracked_end_right.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_cracked_end_right.png:nearest_3x_exact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_joint.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_joint.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_joint.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_joint.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_joint.png:single_connected_component",
+      "passed": true,
+      "detail": {
+        "component_sizes": [
+          4755
+        ]
+      }
+    },
+    {
+      "check": "native/earthwall_cracked_joint.png:declared_visible_height",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_joint.png:baseline",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_joint.png:bottom_centre_contact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_cracked_joint.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_cracked_joint.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_cracked_joint.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_cracked_joint.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_cracked_joint.png:nearest_3x_exact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_sheet.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_sheet.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_sheet.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_cracked_sheet.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_cracked_sheet.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_cracked_sheet.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_cracked_sheet.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_cracked_sheet.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_collapsed.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_collapsed.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_collapsed.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_collapsed.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_straight.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_straight.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_straight.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_straight.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_straight.png:single_connected_component",
+      "passed": true,
+      "detail": {
+        "component_sizes": [
+          8983
+        ]
+      }
+    },
+    {
+      "check": "native/earthwall_collapsed_straight.png:declared_visible_height",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_straight.png:baseline",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_straight.png:bottom_centre_contact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_straight.png:periodic_edge",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_straight.png:continuous_bottom_12px_at_seam",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_collapsed_straight.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_collapsed_straight.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_collapsed_straight.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_collapsed_straight.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_collapsed_straight.png:nearest_3x_exact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_diagonal.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_diagonal.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_diagonal.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_diagonal.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_diagonal.png:single_connected_component",
+      "passed": true,
+      "detail": {
+        "component_sizes": [
+          12795
+        ]
+      }
+    },
+    {
+      "check": "native/earthwall_collapsed_diagonal.png:declared_visible_height",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_diagonal.png:baseline",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_diagonal.png:bottom_centre_contact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_diagonal.png:periodic_edge",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_diagonal.png:continuous_bottom_12px_at_seam",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_collapsed_diagonal.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_collapsed_diagonal.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_collapsed_diagonal.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_collapsed_diagonal.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_collapsed_diagonal.png:nearest_3x_exact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_end_left.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_end_left.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_end_left.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_end_left.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_end_left.png:single_connected_component",
+      "passed": true,
+      "detail": {
+        "component_sizes": [
+          2011
+        ]
+      }
+    },
+    {
+      "check": "native/earthwall_collapsed_end_left.png:declared_visible_height",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_end_left.png:baseline",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_end_left.png:bottom_centre_contact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_collapsed_end_left.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_collapsed_end_left.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_collapsed_end_left.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_collapsed_end_left.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_collapsed_end_left.png:nearest_3x_exact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_end_right.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_end_right.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_end_right.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_end_right.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_end_right.png:single_connected_component",
+      "passed": true,
+      "detail": {
+        "component_sizes": [
+          2011
+        ]
+      }
+    },
+    {
+      "check": "native/earthwall_collapsed_end_right.png:declared_visible_height",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_end_right.png:baseline",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_end_right.png:bottom_centre_contact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_collapsed_end_right.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_collapsed_end_right.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_collapsed_end_right.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_collapsed_end_right.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_collapsed_end_right.png:nearest_3x_exact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_joint.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_joint.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_joint.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_joint.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_joint.png:single_connected_component",
+      "passed": true,
+      "detail": {
+        "component_sizes": [
+          3016
+        ]
+      }
+    },
+    {
+      "check": "native/earthwall_collapsed_joint.png:declared_visible_height",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_joint.png:baseline",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_joint.png:bottom_centre_contact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_collapsed_joint.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_collapsed_joint.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_collapsed_joint.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_collapsed_joint.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_collapsed_joint.png:nearest_3x_exact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_sheet.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_sheet.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_sheet.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_collapsed_sheet.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_collapsed_sheet.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_collapsed_sheet.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_collapsed_sheet.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_collapsed_sheet.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_rubble.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_rubble.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_rubble.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_rubble.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_straight.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_straight.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_straight.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_straight.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_straight.png:single_connected_component",
+      "passed": true,
+      "detail": {
+        "component_sizes": [
+          5096
+        ]
+      }
+    },
+    {
+      "check": "native/earthwall_rubble_straight.png:declared_visible_height",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_straight.png:baseline",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_straight.png:bottom_centre_contact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_straight.png:periodic_edge",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_straight.png:continuous_bottom_12px_at_seam",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_rubble_straight.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_rubble_straight.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_rubble_straight.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_rubble_straight.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_rubble_straight.png:nearest_3x_exact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_diagonal.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_diagonal.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_diagonal.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_diagonal.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_diagonal.png:single_connected_component",
+      "passed": true,
+      "detail": {
+        "component_sizes": [
+          7336
+        ]
+      }
+    },
+    {
+      "check": "native/earthwall_rubble_diagonal.png:declared_visible_height",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_diagonal.png:baseline",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_diagonal.png:bottom_centre_contact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_diagonal.png:periodic_edge",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_diagonal.png:continuous_bottom_12px_at_seam",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_rubble_diagonal.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_rubble_diagonal.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_rubble_diagonal.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_rubble_diagonal.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_rubble_diagonal.png:nearest_3x_exact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_end_left.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_end_left.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_end_left.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_end_left.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_end_left.png:single_connected_component",
+      "passed": true,
+      "detail": {
+        "component_sizes": [
+          801
+        ]
+      }
+    },
+    {
+      "check": "native/earthwall_rubble_end_left.png:declared_visible_height",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_end_left.png:baseline",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_end_left.png:bottom_centre_contact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_rubble_end_left.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_rubble_end_left.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_rubble_end_left.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_rubble_end_left.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_rubble_end_left.png:nearest_3x_exact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_end_right.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_end_right.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_end_right.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_end_right.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_end_right.png:single_connected_component",
+      "passed": true,
+      "detail": {
+        "component_sizes": [
+          801
+        ]
+      }
+    },
+    {
+      "check": "native/earthwall_rubble_end_right.png:declared_visible_height",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_end_right.png:baseline",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_end_right.png:bottom_centre_contact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_rubble_end_right.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_rubble_end_right.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_rubble_end_right.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_rubble_end_right.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_rubble_end_right.png:nearest_3x_exact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_joint.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_joint.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_joint.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_joint.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_joint.png:single_connected_component",
+      "passed": true,
+      "detail": {
+        "component_sizes": [
+          1200
+        ]
+      }
+    },
+    {
+      "check": "native/earthwall_rubble_joint.png:declared_visible_height",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_joint.png:baseline",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_joint.png:bottom_centre_contact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_rubble_joint.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_rubble_joint.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_rubble_joint.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_rubble_joint.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_rubble_joint.png:nearest_3x_exact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_sheet.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_sheet.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_sheet.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "native/earthwall_rubble_sheet.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_rubble_sheet.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_rubble_sheet.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_rubble_sheet.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "game/earthwall_rubble_sheet.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/earthwall_hub.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/earthwall_hub.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/earthwall_hub.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/earthwall_hub.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/earthwall_hub.png:single_connected_component",
+      "passed": true,
+      "detail": {
+        "component_sizes": [
+          308
+        ]
+      }
+    },
+    {
+      "check": "map/earthwall_arm_N.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/earthwall_arm_N.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/earthwall_arm_N.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/earthwall_arm_N.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/earthwall_arm_N.png:single_connected_component",
+      "passed": true,
+      "detail": {
+        "component_sizes": [
+          180
+        ]
+      }
+    },
+    {
+      "check": "map/earthwall_arm_NE.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/earthwall_arm_NE.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/earthwall_arm_NE.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/earthwall_arm_NE.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/earthwall_arm_NE.png:single_connected_component",
+      "passed": true,
+      "detail": {
+        "component_sizes": [
+          229
+        ]
+      }
+    },
+    {
+      "check": "map/earthwall_arm_E.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/earthwall_arm_E.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/earthwall_arm_E.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/earthwall_arm_E.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/earthwall_arm_E.png:single_connected_component",
+      "passed": true,
+      "detail": {
+        "component_sizes": [
+          180
+        ]
+      }
+    },
+    {
+      "check": "map/earthwall_arm_SE.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/earthwall_arm_SE.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/earthwall_arm_SE.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/earthwall_arm_SE.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/earthwall_arm_SE.png:single_connected_component",
+      "passed": true,
+      "detail": {
+        "component_sizes": [
+          229
+        ]
+      }
+    },
+    {
+      "check": "map/earthwall_arm_S.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/earthwall_arm_S.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/earthwall_arm_S.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/earthwall_arm_S.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/earthwall_arm_S.png:single_connected_component",
+      "passed": true,
+      "detail": {
+        "component_sizes": [
+          180
+        ]
+      }
+    },
+    {
+      "check": "map/earthwall_arm_SW.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/earthwall_arm_SW.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/earthwall_arm_SW.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/earthwall_arm_SW.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/earthwall_arm_SW.png:single_connected_component",
+      "passed": true,
+      "detail": {
+        "component_sizes": [
+          229
+        ]
+      }
+    },
+    {
+      "check": "map/earthwall_arm_W.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/earthwall_arm_W.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/earthwall_arm_W.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/earthwall_arm_W.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/earthwall_arm_W.png:single_connected_component",
+      "passed": true,
+      "detail": {
+        "component_sizes": [
+          180
+        ]
+      }
+    },
+    {
+      "check": "map/earthwall_arm_NW.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/earthwall_arm_NW.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/earthwall_arm_NW.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/earthwall_arm_NW.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/earthwall_arm_NW.png:single_connected_component",
+      "passed": true,
+      "detail": {
+        "component_sizes": [
+          229
+        ]
+      }
+    },
+    {
+      "check": "map/earthwall_autotile_sheet.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/earthwall_autotile_sheet.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/earthwall_autotile_sheet.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/earthwall_autotile_sheet.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/hill_hub.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/hill_hub.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/hill_hub.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/hill_hub.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/hill_hub.png:single_connected_component",
+      "passed": true,
+      "detail": {
+        "component_sizes": [
+          583
+        ]
+      }
+    },
+    {
+      "check": "map/hill_arm_N.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/hill_arm_N.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/hill_arm_N.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/hill_arm_N.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/hill_arm_N.png:single_connected_component",
+      "passed": true,
+      "detail": {
+        "component_sizes": [
+          297
+        ]
+      }
+    },
+    {
+      "check": "map/hill_arm_NE.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/hill_arm_NE.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/hill_arm_NE.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/hill_arm_NE.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/hill_arm_NE.png:single_connected_component",
+      "passed": true,
+      "detail": {
+        "component_sizes": [
+          344
+        ]
+      }
+    },
+    {
+      "check": "map/hill_arm_E.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/hill_arm_E.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/hill_arm_E.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/hill_arm_E.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/hill_arm_E.png:single_connected_component",
+      "passed": true,
+      "detail": {
+        "component_sizes": [
+          297
+        ]
+      }
+    },
+    {
+      "check": "map/hill_arm_SE.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/hill_arm_SE.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/hill_arm_SE.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/hill_arm_SE.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/hill_arm_SE.png:single_connected_component",
+      "passed": true,
+      "detail": {
+        "component_sizes": [
+          344
+        ]
+      }
+    },
+    {
+      "check": "map/hill_arm_S.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/hill_arm_S.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/hill_arm_S.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/hill_arm_S.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/hill_arm_S.png:single_connected_component",
+      "passed": true,
+      "detail": {
+        "component_sizes": [
+          297
+        ]
+      }
+    },
+    {
+      "check": "map/hill_arm_SW.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/hill_arm_SW.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/hill_arm_SW.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/hill_arm_SW.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/hill_arm_SW.png:single_connected_component",
+      "passed": true,
+      "detail": {
+        "component_sizes": [
+          344
+        ]
+      }
+    },
+    {
+      "check": "map/hill_arm_W.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/hill_arm_W.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/hill_arm_W.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/hill_arm_W.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/hill_arm_W.png:single_connected_component",
+      "passed": true,
+      "detail": {
+        "component_sizes": [
+          297
+        ]
+      }
+    },
+    {
+      "check": "map/hill_arm_NW.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/hill_arm_NW.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/hill_arm_NW.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/hill_arm_NW.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/hill_arm_NW.png:single_connected_component",
+      "passed": true,
+      "detail": {
+        "component_sizes": [
+          344
+        ]
+      }
+    },
+    {
+      "check": "map/hill_autotile_sheet.png:size",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/hill_autotile_sheet.png:rgba",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/hill_autotile_sheet.png:binary_alpha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "map/hill_autotile_sheet.png:transparent_rgb_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "earthwall:paired_N_connected",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "earthwall:paired_NE_connected",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "earthwall:paired_NE_corner_closed",
+      "passed": true,
+      "detail": [
+        true,
+        true
+      ]
+    },
+    {
+      "check": "earthwall:paired_E_connected",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "earthwall:paired_SE_connected",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "earthwall:paired_SE_corner_closed",
+      "passed": true,
+      "detail": [
+        true,
+        true
+      ]
+    },
+    {
+      "check": "earthwall:paired_S_connected",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "earthwall:paired_SW_connected",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "earthwall:paired_SW_corner_closed",
+      "passed": true,
+      "detail": [
+        true,
+        true
+      ]
+    },
+    {
+      "check": "earthwall:paired_W_connected",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "earthwall:paired_NW_connected",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "earthwall:paired_NW_corner_closed",
+      "passed": true,
+      "detail": [
+        true,
+        true
+      ]
+    },
+    {
+      "check": "earthwall:all_256_masks_connected",
+      "passed": true,
+      "detail": {
+        "tested": 256,
+        "failed_masks": []
+      }
+    },
+    {
+      "check": "hill:paired_N_connected",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "hill:paired_NE_connected",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "hill:paired_NE_corner_closed",
+      "passed": true,
+      "detail": [
+        true,
+        true
+      ]
+    },
+    {
+      "check": "hill:paired_E_connected",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "hill:paired_SE_connected",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "hill:paired_SE_corner_closed",
+      "passed": true,
+      "detail": [
+        true,
+        true
+      ]
+    },
+    {
+      "check": "hill:paired_S_connected",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "hill:paired_SW_connected",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "hill:paired_SW_corner_closed",
+      "passed": true,
+      "detail": [
+        true,
+        true
+      ]
+    },
+    {
+      "check": "hill:paired_W_connected",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "hill:paired_NW_connected",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "hill:paired_NW_corner_closed",
+      "passed": true,
+      "detail": [
+        true,
+        true
+      ]
+    },
+    {
+      "check": "hill:all_256_masks_connected",
+      "passed": true,
+      "detail": {
+        "tested": 256,
+        "failed_masks": []
+      }
+    },
+    {
+      "check": "straight:exact_two_cell_placements",
+      "passed": true,
+      "detail": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        [
+          [
+            2,
+            1
+          ],
+          [
+            3,
+            1
+          ]
+        ],
+        [
+          [
+            4,
+            1
+          ],
+          [
+            5,
+            1
+          ]
+        ]
+      ]
+    },
+    {
+      "check": "corner:exact_two_cell_placements",
+      "passed": true,
+      "detail": [
+        [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        [
+          [
+            2,
+            0
+          ],
+          [
+            2,
+            1
+          ]
+        ],
+        [
+          [
+            2,
+            2
+          ],
+          [
+            2,
+            3
+          ]
+        ]
+      ]
+    },
+    {
+      "check": "diagonal:exact_two_cell_placements",
+      "passed": true,
+      "detail": [
+        [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        [
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            3
+          ]
+        ],
+        [
+          [
+            4,
+            4
+          ],
+          [
+            5,
+            5
+          ]
+        ]
+      ]
+    },
+    {
+      "check": "mixed:exact_two_cell_placements",
+      "passed": true,
+      "detail": [
+        [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        [
+          [
+            2,
+            1
+          ],
+          [
+            3,
+            1
+          ]
+        ],
+        [
+          [
+            4,
+            2
+          ],
+          [
+            5,
+            3
+          ]
+        ]
+      ]
+    },
+    {
+      "check": "hill:exact_two_cell_placements",
+      "passed": true,
+      "detail": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        [
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        [
+          [
+            4,
+            1
+          ],
+          [
+            5,
+            1
+          ]
+        ]
+      ]
+    },
+    {
+      "check": "diagonal_raster_error_less_than_one_pixel",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "passed": 470,
+  "failed": [],
+  "unity_run": false
+}

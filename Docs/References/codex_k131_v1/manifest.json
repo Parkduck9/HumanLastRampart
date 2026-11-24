@@ -1,0 +1,121 @@
+﻿{
+    "tool":  "내장 image_gen",
+    "foot_baseline":  "정지 홍보 그림이므로 시트 피벗은 적용하지 않음. 기존 인물 위치의 발 접촉을 육안 확인",
+    "review":  "_HTML/6_그림_화면/codex_K-131_스토어그림_주인공수정_v1.html",
+    "hero_authority":  "현재 Game 주인공 시트 및 w45_smoke 전투 캡처",
+    "files":  [
+                  {
+                      "roi_native":  [
+                                         82,
+                                         146,
+                                         88,
+                                         153
+                                     ],
+                      "alpha":  "불투명",
+                      "width":  1440,
+                      "native":  [
+                                     360,
+                                     540
+                                 ],
+                      "height":  2160,
+                      "scale":  4,
+                      "file":  "store/poster_1440x2160.png"
+                  },
+                  {
+                      "roi_native":  [
+                                         82,
+                                         146,
+                                         88,
+                                         153
+                                     ],
+                      "alpha":  "불투명",
+                      "width":  720,
+                      "native":  [
+                                     360,
+                                     540
+                                 ],
+                      "height":  1080,
+                      "scale":  2,
+                      "file":  "store/poster_720x1080.png"
+                  },
+                  {
+                      "roi_native":  [
+                                         120,
+                                         148,
+                                         99,
+                                         159
+                                     ],
+                      "alpha":  "불투명",
+                      "width":  2160,
+                      "native":  [
+                                     540,
+                                     540
+                                 ],
+                      "height":  2160,
+                      "scale":  4,
+                      "file":  "store/box_2160x2160.png"
+                  },
+                  {
+                      "roi_native":  [
+                                         120,
+                                         148,
+                                         99,
+                                         159
+                                     ],
+                      "alpha":  "불투명",
+                      "width":  1080,
+                      "native":  [
+                                     540,
+                                     540
+                                 ],
+                      "height":  1080,
+                      "scale":  2,
+                      "file":  "store/box_1080x1080.png"
+                  },
+                  {
+                      "roi_native":  [
+                                         459,
+                                         230,
+                                         35,
+                                         40
+                                     ],
+                      "alpha":  "불투명",
+                      "width":  3840,
+                      "native":  [
+                                     960,
+                                     540
+                                 ],
+                      "height":  2160,
+                      "scale":  4,
+                      "file":  "store/super_hero_3840x2160.png"
+                  },
+                  {
+                      "roi_native":  [
+                                         459,
+                                         230,
+                                         35,
+                                         40
+                                     ],
+                      "alpha":  "불투명",
+                      "width":  1920,
+                      "native":  [
+                                     960,
+                                     540
+                                 ],
+                      "height":  1080,
+                      "scale":  2,
+                      "file":  "store/super_hero_1920x1080.png"
+                  },
+                  {
+                      "copied_unchanged_from":  "codex_k130_v1/store/app_tile_300x300.png",
+                      "width":  300,
+                      "file":  "store/app_tile_300x300.png",
+                      "height":  300
+                  }
+              ],
+    "unchanged":  "수정 사각형 밖의 제목·배경·병사·하단은 원본 픽셀 보존",
+    "sprite_sheets_replaced":  false,
+    "card":  "K-131",
+    "title":  "스토어 그림 주인공 수정",
+    "assembly":  "생성 도구의 인물 수정 영역만 원본에 반영하고 최근접 4배·2배 확대"
+}

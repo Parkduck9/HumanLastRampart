@@ -1,0 +1,139 @@
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>바퀴 1 검토</title><style>body{margin:0;background:#141b21;color:#eaf0f3;font:16px/1.7 'Malgun Gothic',sans-serif}main{max-width:1180px;margin:auto;padding:30px}a{color:#9ad8ff}nav{display:flex;gap:22px;flex-wrap:wrap}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:18px}article{border:1px solid #40515e;padding:18px;border-radius:12px;background:#202c35}img{width:100%;height:310px;object-fit:contain;image-rendering:pixelated;background:#303f4a}pre{white-space:pre-wrap;font:14px/1.8 'Malgun Gothic',sans-serif;max-height:500px;overflow:auto}summary{cursor:pointer;color:#9ad8ff}.notice{border-left:4px solid #d7ae69;background:#342d23;padding:18px}h2{margin-top:36px}li{margin:12px 0}</style><main><h1>바퀴 1 · 검토와 Play 준비</h1><p>2026-10-14 08:28 KST · Codex 담당 산출물</p><nav><a href="#art">캐릭터 6종</a><a href="#design">화면·스토리 설계</a><a href="#play">Play 확인</a><a href="codex_hero_walk_preview_v1.html">선택한 플레이어</a><a href="codex_goblin_preview_v1.html">선택한 고블린</a></nav><div class="notice"><strong>직접 QA: 일부 통과 · Unity Play 미완료</strong><br>현재 결과 반영 시험 41/41, 캐릭터 이미지 6/6 로드·설계 펼치기·브라우저 오류 0 확인. 성벽 체력 변경은 커밋됐습니다. Unity 배치 실행은 라이선스 오류, 화면 실행은 대화상자 입력 문제로 실제 전투 확인까지 완료하지 못했습니다. <a href="codex_cycle1_qa.md">QA 상세 결과</a></div><h2 id="art">외형 후보 6종</h2><p>각각 정면 한 포즈입니다. 애니메이션·정식 도트 규격·게임 내 크기는 미확정입니다. <a href="codex_cy1_art_v1/preview.html">배경을 바꾸며 자세히 보기</a></p><div class="grid"><article><h3>오우거</h3><a href="codex_cy1_art_v1/ogre.png"><img src="codex_cy1_art_v1/ogre.png" alt="오우거 외형 후보"></a></article><article><h3>사다리 고블린</h3><a href="codex_cy1_art_v1/ladder_goblin.png"><img src="codex_cy1_art_v1/ladder_goblin.png" alt="사다리 고블린 외형 후보"></a></article><article><h3>궁수</h3><a href="codex_cy1_art_v1/archer.png"><img src="codex_cy1_art_v1/archer.png" alt="궁수 외형 후보"></a></article><article><h3>총병</h3><a href="codex_cy1_art_v1/gunner.png"><img src="codex_cy1_art_v1/gunner.png" alt="총병 외형 후보"></a></article><article><h3>대포병</h3><a href="codex_cy1_art_v1/cannon_crew.png"><img src="codex_cy1_art_v1/cannon_crew.png" alt="대포병 외형 후보"></a></article><article><h3>마법사</h3><a href="codex_cy1_art_v1/wizard.png"><img src="codex_cy1_art_v1/wizard.png" alt="마법사 외형 후보"></a></article></div><h2 id="design">화면·스토리 설계 제안</h2><p>원문을 펼쳐 검토할 수 있습니다. 메인/스토리/결과/정비의 기존 뼈대와 결과 반영은 구현돼 있으며, 아래 상세 설계는 제안입니다.</p><div class="grid"><article><h3>스토리 데이터</h3><p>대사·인물·배경 목록을 에셋으로 보관. 첫 스토리와 패배 엔딩을 같은 화면으로 재생. 날씨 힌트는 초기 날씨·밤낮만.</p><details><summary>설계 원문 읽기</summary><pre># C-009 스토리 데이터 제안 r1
+
+- 상태: **제안 — 사용자 승인 전 구현하지 않음**
+- 작성자: Codex / 2026-10-13 / T-CX-012·CY1-X2·P1-X03
+- 근거: D-014 패배 엔딩, D-031 예보 힌트, D-036 작업 목록, C-001~004·C-010 승인분.
+- CONTRACTS.md 정식 반영은 Claude에게 요청한다. 이 파일은 Codex 제안 원본이다.
+
+## 첫 범위
+
+일반 첫 스토리와 패배 엔딩을 대사 목록으로 재생한다. 인물 초상·배경·이름·대사를 표시하고 다음 버튼으로 한 줄씩 진행한다. 마지막 줄에서 Complete(Done)을 한 번 보낸다. 이동할 화면은 App이 정한다. 분기 선택·보이스·영상·자동 재생·진행 저장은 후속 범위다.
+
+임시 ID story_intro와 story_defeat를 **첫 정식 데이터 ID로 유지**하는 것을 추천한다. 둘은 이미 App·시작 데이터에 쓰이며 값 변경만으로 얻는 이익이 없다. 임시 코드 대사 대신 이 ID의 실제 정의 에셋을 등록하면 임시 상태를 끝낼 수 있다. 이름 변경을 원하면 사용자 승인 뒤 Claude가 App/시작 데이터와 함께 바꾼다.
+
+## 제안 데이터와 위치
+
+| 항목 | 제안 | 작성자/위치 |
+|---|---|---|
+| StorySequenceDef | DefinitionBase 상속, Id·DisplayName, Kind(StoryKind), Lines | Codex Story/ 코드 |
+| StoryLine | LineId, Kind(Dialogue 또는 ForecastHint), SpeakerName, Text, Portrait(Sprite 선택), Background(Sprite 선택) | Codex Story/ 코드 |
+| 스토리 정의 에셋 | story_intro, story_defeat | Codex Data/Story/ |
+| StoryCatalog | 기존 DefinitionCatalog에 위 정의 등록 | Codex Data/Story/ |
+| 툴 | Story.Editor 전용 asmdef, 순서 편집·검사·미리보기 | Codex Story/Editor/ |
+
+StorySequenceDef를 Core에 추가하지 않는다. Story는 Core의 DefinitionBase와 StoryRequest를 읽고 context.Definitions.Get&lt;StorySequenceDef&gt;(StoryId)로 자기 타입을 가져온다. App은 구체적인 Story 타입을 참조하지 않는다. Boot 카탈로그 연결은 Claude에게 경로로 요청한다. Story 데이터의 추가 유효성 검사는 Story 진입과 제작 툴이 담당한다.
+
+LineId는 시퀀스 안에서 고유한 문자열이다. 현재는 재생 위치 추적과 편집 오류 위치를 찾는 용도이며 저장/스킵 이력은 만들지 않는다. 배경/초상 참조는 기존 에셋을 읽어 사용한다. UI 테마나 스프라이트를 이 약속으로 확정하지 않는다.
+
+## 예보 힌트
+
+ForecastHint 줄은 다음 전투의 초기 날씨·밤낮을 말하는 한 줄을 생성한다. BattleForecast.Get(campaign.RngSeed, campaign.BattleNumber, rules)를 사용하고 독립 난수 추첨이나 시드 변경을 하지 않는다. 첫 범위는 InitialWeather와 TimeOfDay만 사용하며 변화 시각·규모·구체적인 적 배치는 공개하지 않는다.
+
+rules는 Definitions.All&lt;BattleRulesDef&gt;()의 유일한 정의를 사용한다. 0개/2개 이상이거나 판 데이터가 없으면 데이터 오류로 처리한다. 힌트는 전투 준비와 같은 seed·번호·규칙으로 계산되어야 한다. 패배 엔딩에는 예보 줄을 허용하지 않는다.
+
+예시 문구(본문 확정 아님): 맑음 ‘하늘이 맑다’, 흐림 ‘먹구름이 드리웠다’, 비 ‘빗속에서 방어를 준비한다’, 안개 ‘성 밖이 안개에 가려졌다’. 밤이면 ‘야간 경계가 필요하다’를 덧붙인다. 대사 내용·인물 이름은 사용자가 나중에 작성한다.
+
+## 수명·오류 처리
+
+OnEnter 뒤 StoryRequest/Kind/StoryId와 정의를 대조한다. ID 없음·잘못된 종류·빈 대사·중복 LineId·잘못된 줄 enum·예보 규칙 오류는 ReportDataError로 전달하고 다음 입력을 차단한다. 누락 데이터를 빈 화면으로 넘어가며 숨기지 않는다.
+
+정상 줄은 목록 순서로 한 번씩 진행한다. 마지막 클릭 직전에 입력을 막고 Done만 전달한다. OnExit에서 버튼 구독·초상/배경 표시·재생 인덱스·컨텍스트를 정리한다. 대사 재생으로 Campaign의 Gold/병력/결과/난이도를 변경하지 않는다. None Portrait는 인물 이미지를 숨기고, None Background는 기본 바탕을 사용한다.
+
+## 승인 요청
+
+S1 위 데이터 타입·필드·소유권, S2 story_intro/story_defeat를 정식 ID로 유지, S3 예보는 초기 날씨·밤낮만, S4 누락/불일치는 Boot E2 안내. 모두 위 추천안으로 제안한다. 사용자 승인 후 Story 코드·데이터·Editor 툴을 순차 구현한다.
+</pre></details></article><article><h3>0번 메인</h3><p>시작·설정·종료. 시작 뒤 쉬움/현실 선택. 설정 범위·저장 방식은 후속 결정.</p><details><summary>설계 원문 읽기</summary><pre># 메인 화면 설계 제안 r1
+
+- 상태: **제안 — 구현 승인 아님**
+- 작성자: Codex / T-CX-013·CY1-X3·P1-X01 / 2026-10-13
+- 기존 Phase2 뼈대의 시작·난이도·종료 동작은 승인 구현이다. 아래 배치·설정 내용은 새 제안이다.
+
+## 구성과 입력
+
+게임 제목과 성벽 배경을 중심에 두고 시작·설정·종료를 세로로 배치한다. 첫 선택은 게임 시작이며 마우스/키보드 UI 탐색을 함께 지원한다. 낮은 성벽 시점과 선택된 도트 방향을 배경에 적용하되 카메라 수치·완성 그림은 별도 시안 검토로 정한다.
+
+게임 시작 → 난이도 모달(쉬움·현실·돌아가기). 쉬움에는 ‘적 수 절반 · 전투 지도에서 시간 정지’, 현실에는 ‘전투 지도에서도 시간 진행’을 표시한다. 난이도를 고를 때만 CompleteNewGame을 보낸다. 돌아가기는 판을 만들지 않고 메인으로 복귀한다. 모달 동안 뒤쪽 시작/설정/종료 입력을 막는다. 난이도는 새 판에서만 고른다.
+
+설정은 첫 범위에서 마스터 음량과 화면 모드 정도를 추천하나 저장 위치·설정 소유권·적용 API를 추가로 승인받아야 한다. 현재 뼈대에는 설정 버튼을 추가하지 않는다. 종료는 QuitGame만 전달하며 실제 종료/에디터 Play 종료는 App 담당이다.
+
+## 정상·오류·검증
+
+메인은 Campaign이 null일 수 있으며 진행 데이터를 읽어야 시작하는 구조로 만들지 않는다. 완료 이후 버튼 입력을 차단한다. 새 게임 정의 오류는 Boot E2 안내가 담당한다. 복귀하면 새 컨텍스트로 메뉴를 다시 만든다.
+
+검증: 난이도 취소 후 판 데이터 미생성, 선택값 전달, 연타에도 새 게임 1회, 모달 뒤쪽 클릭 차단, 종료 처리, 한글 가독성·4K 출력/내부 해상도 정책에서 UI 유지. Phase2 화면과 완성 디자인을 같은 검증으로 간주하지 않는다.
+</pre></details></article><article><h3>5번 스토리</h3><p>위쪽 배경·인물, 아래 이름·대사·다음. 마지막 줄에서 화면 전환 신호 한 번.</p><details><summary>설계 원문 읽기</summary><pre># 스토리 화면 설계 제안 r1
+
+- 상태: **제안 — 구현 승인 아님**
+- 작성자: Codex / T-CX-013·CY1-X3·P1-X02 / 2026-10-13
+- 데이터 연결은 StoryDataProposal.md의 C-009 승인 후 구현한다.
+
+## 구성
+
+위쪽은 배경과 인물 초상, 아래쪽은 이름·대사 패널·다음 버튼이다. 인물 없는 줄에는 초상을 숨긴다. 처음에는 대사 전체를 바로 보여 주며 타이핑 연출·자동 넘김·전체 건너뛰기는 뒤로 미룬다. 마우스 클릭과 UI Submit은 같은 다음 동작으로 연결한다.
+
+한 줄을 누르면 다음 줄을 표시하고 마지막 줄에서는 입력 차단 후 Done을 한 번 보낸다. 스토리는 다음 씬을 직접 열지 않는다. 첫 스토리와 패배 엔딩 모두 같은 화면을 사용하되 Kind와 데이터가 맞아야 한다. 패배 엔딩은 보상/정비를 열지 않고 App이 메인으로 복귀한다.
+
+## 예보·오류
+
+날씨 힌트는 C-009 ForecastHint 줄에만 표시한다. 일반 대사마다 예보를 추첨하지 않고 Core BattleForecast를 사용한다. 초기 날씨/밤낮 전달만 추천하며 예보 변화 시각은 노출하지 않는다.
+
+StoryId 없음, 잘못된 Kind, 정의·줄 누락은 다음을 막고 ReportDataError로 Boot 안내에 전달한다. 스토리를 종료했다고 보상이나 전투 번호를 직접 변경하지 않는다. OnExit에 UI 구독·인물·배경·읽기 상태를 정리한다.
+
+검증: 1줄/여러줄/패배 엔딩, 연타·Submit으로 마지막 완료 중복 없음, 빈/잘못된 데이터의 E2 안내, 같은 입력의 같은 날씨 힌트, 배경/초상 없는 줄, 긴 한글 대사가 패널 밖으로 나가지 않음. 시각 배치는 승인 시안을 따로 확인한다.
+</pre></details></article><article><h3>4번 결과</h3><p>전투 번호·처치·획득 골드 요약, 성벽·분대·영웅 상세. 중복 보상 방지 구현은 완료, 상세 표시 배치는 제안.</p><details><summary>설계 원문 읽기</summary><pre># 결과 화면 설계 제안 r1
+
+- 상태: **시각 설계 제안**. D-035 최소 결과 반영은 승인 구현 범위.
+- 작성자: Codex / T-CX-013·CY1-X3·P1-X04 / 2026-10-13
+
+## 구성
+
+위쪽에 끝난 전투 번호와 처치/획득 골드 요약을 둔다. 아래에 성벽 4개의 피해, 분대별 손실, 영웅 생존·남은 체력을 목록으로 펼친다. 상세 목록은 접어서 요약만 볼 수 있게 제안한다. 행을 만들 때 안정된 고유 ID로 시작 스냅샷과 결과를 맞추며 같은 병종이라고 합쳐서 손실 대상을 바꾸지 않는다.
+
+화면 하단 다음 버튼은 Done만 보낸다. 결과는 OnEnter에서 검증 후 표시 전에 한 번 반영하며 버튼 클릭으로 다시 지급하지 않는다. 이미 반영된 실행 ID이면 현재 상태를 시작 상태와 다시 대조하지 않고 보관 결과를 보여 준다. 반영된 후의 현재 체력을 원래 체력으로 되돌리지 않는다.
+
+## 오류·범위
+
+골드 오버플로, 잘못된 ID, 참가 영웅 결과 누락, 음수/초과 손실·체력, 시작 상태 불일치면 아무 값도 적용하지 않는다. 다음을 비활성화하고 ReportDataError를 부른다. Boot의 메인 복귀 안내만 사용할 수 있으며 자동으로 판을 폐기하지 않는다.
+
+정상 패배는 이 화면을 건너뛴다. 4번째 승리에서도 결과와 정비를 보여 준 뒤 App이 메인으로 복귀한다. Phase2는 골드·영웅·분대·성벽만 반영한다. 함정 소비·이동은 Phase3에 별도 검증과 함께 넣고 실제 위치를 바꾸어도 낡은 지도 표시는 유지한다.
+
+검증: 끝난 번호/다음 번호 구분, 영웅 사망 유지, 0명 분대 제거, 같은 결과 재진입 무변경, 마지막 잘못된 항목에도 부분 적용 없음, 오류 대기와 사용자 복귀, 읽기 목록·버튼의 한글 표시. 실제 큰 목록에는 가상화/선택 대상 갱신을 적용하고 전투 개체별 이벤트로 UI 행을 갱신하지 않는다.
+</pre></details></article><article><h3>3번 정비</h3><p>수리·병력·함정 탭, 4면 성벽별 배치. 함정 회수는 처음에는 결과 목록으로 확인.</p><details><summary>설계 원문 읽기</summary><pre># 정비 화면 설계 제안 r1
+
+- 상태: **제안 — 구현 승인 아님**
+- 작성자: Codex / T-CX-013·CY1-X3·P1-X05 / 2026-10-13
+- 근거: 4면 방어·P1-C14/r1·P1-C15/r2·1회차 범위 D-021.
+
+## 구성과 순서
+
+상단에 다음 전투 번호·보유 골드·현재 지형을 고정하고, 수리/병력/함정 패널을 탭으로 전환한다. 오른쪽은 선택한 항목의 비용·효과·확인 버튼, 아래는 전투 준비 완료 버튼이다. 성벽 북/동/남/서를 선택하고 해당 성벽의 체력·지점·병력을 보여 준다. 큰 병력 인원을 얼굴 수만큼 UI 오브젝트로 만들지 않고 분대·지점 요약으로 나타낸다.
+
+수리: 4개 성벽의 현재/최대 체력과 비용 확인 → 구매 전 골드/범위 검증 → 성공 후 갱신. 병력: 병종별 모집·가용/배치 인원 → 성벽 지점 배정. 대포 지점에는 대포 운용병만, 일반 분대 지점은 허용 병종 규칙을 따른다. 죽은 영웅의 회복/퇴장은 별도 정책 확정 전 조작하지 않는다. 가격·모집 수·수리 비율은 데이터 약속 추가 승인 후 구현한다.
+
+함정: 현재 지형 설치 지점 선택 → 보관함 재설치 또는 골드 구매 → 지도 표시 여부 선택 → 고유 TrapId 발급. 첫 지점·실제 위치·지도 기록을 분리한다. 함정은 해당 지형에 남으며 다른 지형 전투에서 임의로 소비하지 않는다. 다음 전투 지형은 기존 CampaignStartDef 순서로 계산한다.
+
+## 1회차 회수와 확장
+
+첫 범위는 지형·분대 하나·지도에 표시된 회수 목표를 고르고 예상 선택을 확인한다. 회수하지 않음도 제공한다. Core TrapRules의 결과를 목록으로 보여 주고 검증→일괄 적용→RecoveryId 마지막 기록 순으로 처리한다. 새 계산을 하려고 화면을 다시 여는 방식으로 결과를 재추첨하지 않는다.
+
+지도 위 동시 파견·얼굴 원형 아이콘 이동·폭발 연출·오른쪽 접이식 실시간 보고서·귀환 보너스·제한 지형 편집은 다음 마일스톤의 사용자 요구로 보관한다. 현재 순수 계산 방식으로 이미 구현된 것처럼 표시하지 않는다. 소규모 경로 위험·전멸 뒤 회수 중단 정책은 C14 검토 사항을 확정한 뒤 연결한다.
+
+## 완료·검증
+
+전투 준비 완료는 Done만 전달한다. App이 새 BattleSetup을 생성하며 정비가 이전 전투 번호나 결과를 직접 교체하지 않는다. 현재 판 난이도를 이 화면에서 바꾸지 않는다. 마지막 정비 이후 메인 복귀는 App 담당이다.
+
+검증: 골드 부족·잘못된 지점·0명 분대·중복 배치·재설치 재고 부족 시 무변경, 다른 지형 함정 보존, 표시/실제 위치 분리, 같은 회수 결과 중복 무변경, 회수 포기, 마지막 전투 이후 정상 종료. 함정 소비/회수 API 추가는 Phase3에서 별도 검증한다.
+</pre></details></article><article><h3>스토리 제작 툴</h3><p>줄 추가·삭제·순서 변경, Undo/Redo, 오류 검사·정적 미리보기. 분기·음성은 후속 범위.</p><details><summary>설계 원문 읽기</summary><pre># 스토리 제작 툴 최소 기능 제안 r1
+
+- 상태: **제안 — C-009/툴 범위 사용자 승인 후 구현**
+- 작성자: Codex / T-CX-013·CY1-X3·P1-X06 / 2026-10-13
+- 위치: Story/Editor/, HLR.Story.Editor(에디터 전용, Core·Story 참조).
+
+기존 Unity 정의 에셋을 선택해 스토리 ID·종류·줄 목록을 편집하는 작은 툴을 만든다. 왼쪽은 줄 순서 목록, 오른쪽은 선택한 줄의 이름·대사·초상·배경·줄 종류다. 줄 추가/삭제/위아래 이동, Undo/Redo, 저장 전 검사, 정적 미리보기를 첫 범위로 추천한다. 그래프 편집·분기·음성·번역·이벤트 호출은 제외한다.
+
+검사는 빈/중복 스토리 ID·LineId, 빈 대사, 잘못된 Kind, 패배 엔딩의 ForecastHint를 찾고 줄 위치를 보여 준다. 오류가 있으면 제작 데이터 완성 표시를 하지 않는다. 검사는 데이터 변경을 대신하지 않는다. 저장은 사용자가 버튼을 눌러 Unity 에셋에 반영하며 미리보기로 런타임 Campaign을 바꾸지 않는다.
+
+날씨 힌트 미리보기는 사용자가 고른 시험 시드·전투 번호와 규칙으로 계산하고 ‘시험 예보’로 구분한다. 실제 판의 예보를 새로 추첨하거나 저장하지 않는다. 툴의 에셋 작성은 Codex Data/Story 아래에 한정하고 Core/App 정의나 카탈로그 연결을 자동으로 덮어쓰지 않는다.
+
+완료 기준: 줄 순서 보존·Undo·재열기 동일, 오류 위치/수정 후 검사 해제, 선택 초상/배경 반영, 런타임 재생과 동일한 줄 순서, 에디터 전용 코드가 플레이어 빌드에서 제외됨. C-009 승인 뒤 실제 데이터와 함께 검증한다.
+</pre></details></article></div><h2 id="play">검증 준비 완료 후 확인 순서</h2><ol><li>Claude가 미커밋 게임 변경을 정리하고 검증 기준 커밋 X를 제시한다.</li><li>사용자가 X를 대상으로 “검증 시작”을 알린다. 양쪽 AI 중단 기록과 Game/X 일치를 조정 담당이 확인한다.</li><li>“검증 준비 완료” 안내 후 Unity에서 Game/Assets/_Project/Scenes/Boot.unity를 열고 Play한다.</li><li>게임 시작 → 쉬움 → 스토리 진행 → 실제 전투: 4면 적 등장과 아군 사격을 확인한다.</li><li>첫 전투 승리 시 결과 화면의 전투 번호·처치 수·획득 골드를 확인한다. 현재 화면은 요약 표시이며 손실 상세 UI는 제안 단계다.</li><li>다음 → 정비 → 다음 전투 연결을 확인한다. 패배 시에는 결과를 건너뛰고 패배 엔딩 → 메인으로 돌아오는지 확인한다.</li><li>골드·병력·성벽 및 중복 반영은 개발용 진입/상태 확인을 포함한 별도 절차로 검증한다. 요약 화면만 보고 전부 통과했다고 기록하지 않는다.</li><li>콘솔 오류와 전투/결과 화면을 사용자 캡처로 전달한다. 확인·main 승인 절차 뒤 사용자가 “검증 끝”을 알린다.</li></ol><p><a href="codex_cycle1_review.md">검토·확인 절차 MD</a></p></main></html>

@@ -1,0 +1,6132 @@
+{
+  "schema_version": 1,
+  "card": "K-123",
+  "version": "v1",
+  "language": "ko-KR",
+  "asset_count": 99,
+  "art_pixel_to_screen_pixel": 3,
+  "scale_filter": "nearest-neighbor",
+  "nine_slice_order": [
+    "left",
+    "bottom",
+    "right",
+    "top"
+  ],
+  "ui_baseline": "UI 에셋에는 인물 발 기준선이 적용되지 않음",
+  "palette": {
+    "paper": "#e8d9b5",
+    "paper_shade": "#c9b48a",
+    "ink": "#3a2a1e",
+    "wood": "#3b2a1f",
+    "wood_light": "#5e4430",
+    "wood_dark": "#23170f",
+    "brass": "#d5b16b",
+    "brass_light": "#f5d99c",
+    "brass_dark": "#8a6a32",
+    "danger": "#b4533c",
+    "good": "#7fa35a",
+    "outline": "#150e09",
+    "body": "#eee4cf"
+  },
+  "sources": [
+    "Docs/GDD/UI_Art_Spec_v1.md",
+    "Game/Assets/_Project/UI/Kit/UiTokens.cs",
+    "Game/Assets/_Project/UI/Kit/UiArt.cs",
+    "Game/Assets/_Project/UI/Kit/Ui.cs",
+    "Game/Assets/_Project/UI/Kit/UiButtonFeel.cs",
+    "Game/Assets/_Project/Art/UI/Resources/HudArt"
+  ],
+  "integration_notes": [
+    "현재 UiArt.Size와 Sprite 생성은 1배 그림을 화면 3배로 다룸. 기존 로더를 유지한다면 1x/를 선택한다. 3x/를 선택한다면 Claude가 크기·PPU·9분할 경계를 함께 조정해야 한다.",
+    "색이 들어간 PNG는 Image.color를 흰색으로 사용한다. 아이콘·도장·위험 테두리에 기존 색 곱셈을 그대로 적용하면 색이 달라진다.",
+    "기존 UiButtonFeel은 Normal/Down+Glow 및 꺼짐 색 곱셈만 지원한다. 별도 hover/disabled/on 그림을 쓸 때 상태 연결과 중복 색 처리는 Claude가 담당한다.",
+    "일반 PNG의 알파는 0/255. frame_glow와 vignette만 반투명 허용. Point, Clamp, 압축 없음, 밉맵 없음.",
+    "K-122 자료가 이 작업 폴더에 없어 임시 등대 표식을 도장·확인 창 모서리 판금에만 사용했다.",
+    "성벽 16종은 같은 64×64 투명 캔버스에 등록됨. 투명 영역을 자르지 말고 같은 원점으로 겹친다. 등대는 원본 (24,22), 3배 (72,66)에 놓는다.",
+    "말풍선 꼬리는 독립 PNG. 연결되는 윗변에 판을 겹치고 말하는 쪽에 따라 회전·반전한다.",
+    "PNG 에셋에 문자 없음. 속도 숫자는 한 개·두 개·네 개의 점으로 표현. 시안의 글자는 기존 게임 글꼴로 별도 합성했다."
+  ],
+  "assets": [
+    {
+      "id": "panel_parchment",
+      "role": "양피지 명령서·장부",
+      "state": "normal",
+      "category": "panels",
+      "native": {
+        "path": "1x/panel_parchment.png",
+        "size_px": [
+          32,
+          32
+        ],
+        "nine_slice_lbrt_px": [
+          6,
+          6,
+          6,
+          6
+        ]
+      },
+      "game": {
+        "path": "3x/panel_parchment.png",
+        "size_px": [
+          96,
+          96
+        ],
+        "nine_slice_lbrt_px": [
+          18,
+          18,
+          18,
+          18
+        ]
+      },
+      "preview_4x": "previews/panel_parchment_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "반복",
+      "notes": ""
+    },
+    {
+      "id": "panel_wood",
+      "role": "리벳 박힌 명령판",
+      "state": "normal",
+      "category": "panels",
+      "native": {
+        "path": "1x/panel_wood.png",
+        "size_px": [
+          32,
+          32
+        ],
+        "nine_slice_lbrt_px": [
+          6,
+          6,
+          6,
+          6
+        ]
+      },
+      "game": {
+        "path": "3x/panel_wood.png",
+        "size_px": [
+          96,
+          96
+        ],
+        "nine_slice_lbrt_px": [
+          18,
+          18,
+          18,
+          18
+        ]
+      },
+      "preview_4x": "previews/panel_wood_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "반복",
+      "notes": ""
+    },
+    {
+      "id": "panel_band",
+      "role": "황동 테 계기 띠",
+      "state": "normal",
+      "category": "panels",
+      "native": {
+        "path": "1x/panel_band.png",
+        "size_px": [
+          32,
+          32
+        ],
+        "nine_slice_lbrt_px": [
+          6,
+          6,
+          6,
+          6
+        ]
+      },
+      "game": {
+        "path": "3x/panel_band.png",
+        "size_px": [
+          96,
+          96
+        ],
+        "nine_slice_lbrt_px": [
+          18,
+          18,
+          18,
+          18
+        ]
+      },
+      "preview_4x": "previews/panel_band_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "반복",
+      "notes": ""
+    },
+    {
+      "id": "slip",
+      "role": "접힌 전령 쪽지",
+      "state": "normal",
+      "category": "panels",
+      "native": {
+        "path": "1x/slip.png",
+        "size_px": [
+          20,
+          14
+        ],
+        "nine_slice_lbrt_px": [
+          4,
+          4,
+          6,
+          6
+        ]
+      },
+      "game": {
+        "path": "3x/slip.png",
+        "size_px": [
+          60,
+          42
+        ],
+        "nine_slice_lbrt_px": [
+          12,
+          12,
+          18,
+          18
+        ]
+      },
+      "preview_4x": "previews/slip_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "9분할 늘이기",
+      "notes": ""
+    },
+    {
+      "id": "slip_danger",
+      "role": "접힌 전령 쪽지",
+      "state": "danger",
+      "category": "panels",
+      "native": {
+        "path": "1x/slip_danger.png",
+        "size_px": [
+          20,
+          14
+        ],
+        "nine_slice_lbrt_px": [
+          6,
+          4,
+          6,
+          6
+        ]
+      },
+      "game": {
+        "path": "3x/slip_danger.png",
+        "size_px": [
+          60,
+          42
+        ],
+        "nine_slice_lbrt_px": [
+          18,
+          12,
+          18,
+          18
+        ]
+      },
+      "preview_4x": "previews/slip_danger_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "danger"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "9분할 늘이기",
+      "notes": ""
+    },
+    {
+      "id": "bubble",
+      "role": "이야기 대사판",
+      "state": "normal",
+      "category": "panels",
+      "native": {
+        "path": "1x/bubble.png",
+        "size_px": [
+          32,
+          32
+        ],
+        "nine_slice_lbrt_px": [
+          8,
+          8,
+          8,
+          8
+        ]
+      },
+      "game": {
+        "path": "3x/bubble.png",
+        "size_px": [
+          96,
+          96
+        ],
+        "nine_slice_lbrt_px": [
+          24,
+          24,
+          24,
+          24
+        ]
+      },
+      "preview_4x": "previews/bubble_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "9분할 늘이기",
+      "notes": ""
+    },
+    {
+      "id": "bubble_tail",
+      "role": "대사판 꼬리·윗변 연결",
+      "state": "normal",
+      "category": "panels",
+      "native": {
+        "path": "1x/bubble_tail.png",
+        "size_px": [
+          12,
+          9
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/bubble_tail.png",
+        "size_px": [
+          36,
+          27
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/bubble_tail_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "plate",
+      "role": "말하는 이·마당 이름판",
+      "state": "normal",
+      "category": "panels",
+      "native": {
+        "path": "1x/plate.png",
+        "size_px": [
+          16,
+          16
+        ],
+        "nine_slice_lbrt_px": [
+          5,
+          5,
+          5,
+          5
+        ]
+      },
+      "game": {
+        "path": "3x/plate.png",
+        "size_px": [
+          48,
+          48
+        ],
+        "nine_slice_lbrt_px": [
+          15,
+          15,
+          15,
+          15
+        ]
+      },
+      "preview_4x": "previews/plate_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "9분할 늘이기",
+      "notes": ""
+    },
+    {
+      "id": "confirm_frame",
+      "role": "확인 상자 테",
+      "state": "normal",
+      "category": "panels",
+      "native": {
+        "path": "1x/confirm_frame.png",
+        "size_px": [
+          32,
+          32
+        ],
+        "nine_slice_lbrt_px": [
+          11,
+          6,
+          6,
+          13
+        ]
+      },
+      "game": {
+        "path": "3x/confirm_frame.png",
+        "size_px": [
+          96,
+          96
+        ],
+        "nine_slice_lbrt_px": [
+          33,
+          18,
+          18,
+          39
+        ]
+      },
+      "preview_4x": "previews/confirm_frame_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "9분할 늘이기",
+      "notes": "상단 왼쪽 등대 판금이므로 넓은 경계 유지"
+    },
+    {
+      "id": "button_wood",
+      "role": "나무 단추",
+      "state": "normal",
+      "category": "buttons",
+      "native": {
+        "path": "1x/button_wood.png",
+        "size_px": [
+          12,
+          12
+        ],
+        "nine_slice_lbrt_px": [
+          4,
+          4,
+          4,
+          4
+        ]
+      },
+      "game": {
+        "path": "3x/button_wood.png",
+        "size_px": [
+          36,
+          36
+        ],
+        "nine_slice_lbrt_px": [
+          12,
+          12,
+          12,
+          12
+        ]
+      },
+      "preview_4x": "previews/button_wood_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "9분할 늘이기",
+      "notes": ""
+    },
+    {
+      "id": "button_wood_hover",
+      "role": "나무 단추",
+      "state": "hover",
+      "category": "buttons",
+      "native": {
+        "path": "1x/button_wood_hover.png",
+        "size_px": [
+          12,
+          12
+        ],
+        "nine_slice_lbrt_px": [
+          4,
+          4,
+          4,
+          4
+        ]
+      },
+      "game": {
+        "path": "3x/button_wood_hover.png",
+        "size_px": [
+          36,
+          36
+        ],
+        "nine_slice_lbrt_px": [
+          12,
+          12,
+          12,
+          12
+        ]
+      },
+      "preview_4x": "previews/button_wood_hover_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "hover"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "9분할 늘이기",
+      "notes": ""
+    },
+    {
+      "id": "button_wood_down",
+      "role": "나무 단추",
+      "state": "pressed",
+      "category": "buttons",
+      "native": {
+        "path": "1x/button_wood_down.png",
+        "size_px": [
+          12,
+          12
+        ],
+        "nine_slice_lbrt_px": [
+          4,
+          4,
+          4,
+          4
+        ]
+      },
+      "game": {
+        "path": "3x/button_wood_down.png",
+        "size_px": [
+          36,
+          36
+        ],
+        "nine_slice_lbrt_px": [
+          12,
+          12,
+          12,
+          12
+        ]
+      },
+      "preview_4x": "previews/button_wood_down_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "pressed"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "9분할 늘이기",
+      "notes": ""
+    },
+    {
+      "id": "button_wood_disabled",
+      "role": "나무 단추",
+      "state": "disabled",
+      "category": "buttons",
+      "native": {
+        "path": "1x/button_wood_disabled.png",
+        "size_px": [
+          12,
+          12
+        ],
+        "nine_slice_lbrt_px": [
+          4,
+          4,
+          4,
+          4
+        ]
+      },
+      "game": {
+        "path": "3x/button_wood_disabled.png",
+        "size_px": [
+          36,
+          36
+        ],
+        "nine_slice_lbrt_px": [
+          12,
+          12,
+          12,
+          12
+        ]
+      },
+      "preview_4x": "previews/button_wood_disabled_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "disabled"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "9분할 늘이기",
+      "notes": ""
+    },
+    {
+      "id": "button_wood_on",
+      "role": "나무 단추",
+      "state": "on",
+      "category": "buttons",
+      "native": {
+        "path": "1x/button_wood_on.png",
+        "size_px": [
+          12,
+          12
+        ],
+        "nine_slice_lbrt_px": [
+          4,
+          4,
+          4,
+          4
+        ]
+      },
+      "game": {
+        "path": "3x/button_wood_on.png",
+        "size_px": [
+          36,
+          36
+        ],
+        "nine_slice_lbrt_px": [
+          12,
+          12,
+          12,
+          12
+        ]
+      },
+      "preview_4x": "previews/button_wood_on_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "on"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "9분할 늘이기",
+      "notes": ""
+    },
+    {
+      "id": "button_brass",
+      "role": "황동 주 행동 단추",
+      "state": "normal",
+      "category": "buttons",
+      "native": {
+        "path": "1x/button_brass.png",
+        "size_px": [
+          12,
+          12
+        ],
+        "nine_slice_lbrt_px": [
+          4,
+          4,
+          4,
+          4
+        ]
+      },
+      "game": {
+        "path": "3x/button_brass.png",
+        "size_px": [
+          36,
+          36
+        ],
+        "nine_slice_lbrt_px": [
+          12,
+          12,
+          12,
+          12
+        ]
+      },
+      "preview_4x": "previews/button_brass_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "9분할 늘이기",
+      "notes": ""
+    },
+    {
+      "id": "button_brass_hover",
+      "role": "황동 주 행동 단추",
+      "state": "hover",
+      "category": "buttons",
+      "native": {
+        "path": "1x/button_brass_hover.png",
+        "size_px": [
+          12,
+          12
+        ],
+        "nine_slice_lbrt_px": [
+          4,
+          4,
+          4,
+          4
+        ]
+      },
+      "game": {
+        "path": "3x/button_brass_hover.png",
+        "size_px": [
+          36,
+          36
+        ],
+        "nine_slice_lbrt_px": [
+          12,
+          12,
+          12,
+          12
+        ]
+      },
+      "preview_4x": "previews/button_brass_hover_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "hover"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "9분할 늘이기",
+      "notes": ""
+    },
+    {
+      "id": "button_brass_down",
+      "role": "황동 주 행동 단추",
+      "state": "pressed",
+      "category": "buttons",
+      "native": {
+        "path": "1x/button_brass_down.png",
+        "size_px": [
+          12,
+          12
+        ],
+        "nine_slice_lbrt_px": [
+          4,
+          4,
+          4,
+          4
+        ]
+      },
+      "game": {
+        "path": "3x/button_brass_down.png",
+        "size_px": [
+          36,
+          36
+        ],
+        "nine_slice_lbrt_px": [
+          12,
+          12,
+          12,
+          12
+        ]
+      },
+      "preview_4x": "previews/button_brass_down_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "pressed"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "9분할 늘이기",
+      "notes": ""
+    },
+    {
+      "id": "button_brass_disabled",
+      "role": "황동 주 행동 단추",
+      "state": "disabled",
+      "category": "buttons",
+      "native": {
+        "path": "1x/button_brass_disabled.png",
+        "size_px": [
+          12,
+          12
+        ],
+        "nine_slice_lbrt_px": [
+          4,
+          4,
+          4,
+          4
+        ]
+      },
+      "game": {
+        "path": "3x/button_brass_disabled.png",
+        "size_px": [
+          36,
+          36
+        ],
+        "nine_slice_lbrt_px": [
+          12,
+          12,
+          12,
+          12
+        ]
+      },
+      "preview_4x": "previews/button_brass_disabled_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "disabled"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "9분할 늘이기",
+      "notes": ""
+    },
+    {
+      "id": "button_brass_on",
+      "role": "황동 주 행동 단추",
+      "state": "on",
+      "category": "buttons",
+      "native": {
+        "path": "1x/button_brass_on.png",
+        "size_px": [
+          12,
+          12
+        ],
+        "nine_slice_lbrt_px": [
+          4,
+          4,
+          4,
+          4
+        ]
+      },
+      "game": {
+        "path": "3x/button_brass_on.png",
+        "size_px": [
+          36,
+          36
+        ],
+        "nine_slice_lbrt_px": [
+          12,
+          12,
+          12,
+          12
+        ]
+      },
+      "preview_4x": "previews/button_brass_on_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "on"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "9분할 늘이기",
+      "notes": ""
+    },
+    {
+      "id": "tab_off",
+      "role": "탭",
+      "state": "off",
+      "category": "buttons",
+      "native": {
+        "path": "1x/tab_off.png",
+        "size_px": [
+          12,
+          12
+        ],
+        "nine_slice_lbrt_px": [
+          4,
+          4,
+          4,
+          4
+        ]
+      },
+      "game": {
+        "path": "3x/tab_off.png",
+        "size_px": [
+          36,
+          36
+        ],
+        "nine_slice_lbrt_px": [
+          12,
+          12,
+          12,
+          12
+        ]
+      },
+      "preview_4x": "previews/tab_off_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "off"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "9분할 늘이기",
+      "notes": ""
+    },
+    {
+      "id": "tab_on",
+      "role": "탭",
+      "state": "on",
+      "category": "buttons",
+      "native": {
+        "path": "1x/tab_on.png",
+        "size_px": [
+          12,
+          12
+        ],
+        "nine_slice_lbrt_px": [
+          4,
+          4,
+          4,
+          4
+        ]
+      },
+      "game": {
+        "path": "3x/tab_on.png",
+        "size_px": [
+          36,
+          36
+        ],
+        "nine_slice_lbrt_px": [
+          12,
+          12,
+          12,
+          12
+        ]
+      },
+      "preview_4x": "previews/tab_on_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "on"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "9분할 늘이기",
+      "notes": ""
+    },
+    {
+      "id": "icon_button_frame",
+      "role": "48화소 아이콘 단추 틀",
+      "state": "normal",
+      "category": "buttons",
+      "native": {
+        "path": "1x/icon_button_frame.png",
+        "size_px": [
+          16,
+          16
+        ],
+        "nine_slice_lbrt_px": [
+          4,
+          4,
+          4,
+          4
+        ]
+      },
+      "game": {
+        "path": "3x/icon_button_frame.png",
+        "size_px": [
+          48,
+          48
+        ],
+        "nine_slice_lbrt_px": [
+          12,
+          12,
+          12,
+          12
+        ]
+      },
+      "preview_4x": "previews/icon_button_frame_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "9분할 늘이기",
+      "notes": ""
+    },
+    {
+      "id": "frame_glow",
+      "role": "초점·고름 테",
+      "state": "focus",
+      "category": "buttons",
+      "native": {
+        "path": "1x/frame_glow.png",
+        "size_px": [
+          12,
+          12
+        ],
+        "nine_slice_lbrt_px": [
+          4,
+          4,
+          4,
+          4
+        ]
+      },
+      "game": {
+        "path": "3x/frame_glow.png",
+        "size_px": [
+          36,
+          36
+        ],
+        "nine_slice_lbrt_px": [
+          12,
+          12,
+          12,
+          12
+        ]
+      },
+      "preview_4x": "previews/frame_glow_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "focus"
+      ],
+      "alpha_mode": "단계형 반투명",
+      "center_mode": "9분할 늘이기",
+      "notes": ""
+    },
+    {
+      "id": "keycap",
+      "role": "조작 힌트 키캡",
+      "state": "normal",
+      "category": "bars",
+      "native": {
+        "path": "1x/keycap.png",
+        "size_px": [
+          10,
+          11
+        ],
+        "nine_slice_lbrt_px": [
+          3,
+          4,
+          3,
+          3
+        ]
+      },
+      "game": {
+        "path": "3x/keycap.png",
+        "size_px": [
+          30,
+          33
+        ],
+        "nine_slice_lbrt_px": [
+          9,
+          12,
+          9,
+          9
+        ]
+      },
+      "preview_4x": "previews/keycap_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "9분할 늘이기",
+      "notes": ""
+    },
+    {
+      "id": "bar_track",
+      "role": "기존 막대 홈 이름",
+      "state": "normal",
+      "category": "bars",
+      "native": {
+        "path": "1x/bar_track.png",
+        "size_px": [
+          8,
+          8
+        ],
+        "nine_slice_lbrt_px": [
+          3,
+          3,
+          3,
+          3
+        ]
+      },
+      "game": {
+        "path": "3x/bar_track.png",
+        "size_px": [
+          24,
+          24
+        ],
+        "nine_slice_lbrt_px": [
+          9,
+          9,
+          9,
+          9
+        ]
+      },
+      "preview_4x": "previews/bar_track_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "9분할 늘이기",
+      "notes": ""
+    },
+    {
+      "id": "bar_track_small",
+      "role": "막대 홈",
+      "state": "small",
+      "category": "bars",
+      "native": {
+        "path": "1x/bar_track_small.png",
+        "size_px": [
+          16,
+          5
+        ],
+        "nine_slice_lbrt_px": [
+          2,
+          2,
+          2,
+          2
+        ]
+      },
+      "game": {
+        "path": "3x/bar_track_small.png",
+        "size_px": [
+          48,
+          15
+        ],
+        "nine_slice_lbrt_px": [
+          6,
+          6,
+          6,
+          6
+        ]
+      },
+      "preview_4x": "previews/bar_track_small_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "small"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "9분할 늘이기",
+      "notes": ""
+    },
+    {
+      "id": "bar_fill_good_small",
+      "role": "막대 채움·잔상",
+      "state": "good",
+      "category": "bars",
+      "native": {
+        "path": "1x/bar_fill_good_small.png",
+        "size_px": [
+          16,
+          5
+        ],
+        "nine_slice_lbrt_px": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "game": {
+        "path": "3x/bar_fill_good_small.png",
+        "size_px": [
+          48,
+          15
+        ],
+        "nine_slice_lbrt_px": [
+          3,
+          3,
+          3,
+          3
+        ]
+      },
+      "preview_4x": "previews/bar_fill_good_small_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "good"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "9분할 늘이기",
+      "notes": ""
+    },
+    {
+      "id": "bar_fill_danger_small",
+      "role": "막대 채움·잔상",
+      "state": "danger",
+      "category": "bars",
+      "native": {
+        "path": "1x/bar_fill_danger_small.png",
+        "size_px": [
+          16,
+          5
+        ],
+        "nine_slice_lbrt_px": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "game": {
+        "path": "3x/bar_fill_danger_small.png",
+        "size_px": [
+          48,
+          15
+        ],
+        "nine_slice_lbrt_px": [
+          3,
+          3,
+          3,
+          3
+        ]
+      },
+      "preview_4x": "previews/bar_fill_danger_small_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "danger"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "9분할 늘이기",
+      "notes": ""
+    },
+    {
+      "id": "bar_fill_brass_small",
+      "role": "막대 채움·잔상",
+      "state": "brass",
+      "category": "bars",
+      "native": {
+        "path": "1x/bar_fill_brass_small.png",
+        "size_px": [
+          16,
+          5
+        ],
+        "nine_slice_lbrt_px": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "game": {
+        "path": "3x/bar_fill_brass_small.png",
+        "size_px": [
+          48,
+          15
+        ],
+        "nine_slice_lbrt_px": [
+          3,
+          3,
+          3,
+          3
+        ]
+      },
+      "preview_4x": "previews/bar_fill_brass_small_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "brass"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "9분할 늘이기",
+      "notes": ""
+    },
+    {
+      "id": "bar_fill_lag_small",
+      "role": "막대 채움·잔상",
+      "state": "lag",
+      "category": "bars",
+      "native": {
+        "path": "1x/bar_fill_lag_small.png",
+        "size_px": [
+          16,
+          5
+        ],
+        "nine_slice_lbrt_px": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "game": {
+        "path": "3x/bar_fill_lag_small.png",
+        "size_px": [
+          48,
+          15
+        ],
+        "nine_slice_lbrt_px": [
+          3,
+          3,
+          3,
+          3
+        ]
+      },
+      "preview_4x": "previews/bar_fill_lag_small_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "lag"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "9분할 늘이기",
+      "notes": ""
+    },
+    {
+      "id": "bar_track_large",
+      "role": "막대 홈",
+      "state": "large",
+      "category": "bars",
+      "native": {
+        "path": "1x/bar_track_large.png",
+        "size_px": [
+          16,
+          8
+        ],
+        "nine_slice_lbrt_px": [
+          2,
+          2,
+          2,
+          2
+        ]
+      },
+      "game": {
+        "path": "3x/bar_track_large.png",
+        "size_px": [
+          48,
+          24
+        ],
+        "nine_slice_lbrt_px": [
+          6,
+          6,
+          6,
+          6
+        ]
+      },
+      "preview_4x": "previews/bar_track_large_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "large"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "9분할 늘이기",
+      "notes": ""
+    },
+    {
+      "id": "bar_fill_good_large",
+      "role": "막대 채움·잔상",
+      "state": "good",
+      "category": "bars",
+      "native": {
+        "path": "1x/bar_fill_good_large.png",
+        "size_px": [
+          16,
+          8
+        ],
+        "nine_slice_lbrt_px": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "game": {
+        "path": "3x/bar_fill_good_large.png",
+        "size_px": [
+          48,
+          24
+        ],
+        "nine_slice_lbrt_px": [
+          3,
+          3,
+          3,
+          3
+        ]
+      },
+      "preview_4x": "previews/bar_fill_good_large_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "good"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "9분할 늘이기",
+      "notes": ""
+    },
+    {
+      "id": "bar_fill_danger_large",
+      "role": "막대 채움·잔상",
+      "state": "danger",
+      "category": "bars",
+      "native": {
+        "path": "1x/bar_fill_danger_large.png",
+        "size_px": [
+          16,
+          8
+        ],
+        "nine_slice_lbrt_px": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "game": {
+        "path": "3x/bar_fill_danger_large.png",
+        "size_px": [
+          48,
+          24
+        ],
+        "nine_slice_lbrt_px": [
+          3,
+          3,
+          3,
+          3
+        ]
+      },
+      "preview_4x": "previews/bar_fill_danger_large_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "danger"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "9분할 늘이기",
+      "notes": ""
+    },
+    {
+      "id": "bar_fill_brass_large",
+      "role": "막대 채움·잔상",
+      "state": "brass",
+      "category": "bars",
+      "native": {
+        "path": "1x/bar_fill_brass_large.png",
+        "size_px": [
+          16,
+          8
+        ],
+        "nine_slice_lbrt_px": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "game": {
+        "path": "3x/bar_fill_brass_large.png",
+        "size_px": [
+          48,
+          24
+        ],
+        "nine_slice_lbrt_px": [
+          3,
+          3,
+          3,
+          3
+        ]
+      },
+      "preview_4x": "previews/bar_fill_brass_large_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "brass"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "9분할 늘이기",
+      "notes": ""
+    },
+    {
+      "id": "bar_fill_lag_large",
+      "role": "막대 채움·잔상",
+      "state": "lag",
+      "category": "bars",
+      "native": {
+        "path": "1x/bar_fill_lag_large.png",
+        "size_px": [
+          16,
+          8
+        ],
+        "nine_slice_lbrt_px": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "game": {
+        "path": "3x/bar_fill_lag_large.png",
+        "size_px": [
+          48,
+          24
+        ],
+        "nine_slice_lbrt_px": [
+          3,
+          3,
+          3,
+          3
+        ]
+      },
+      "preview_4x": "previews/bar_fill_lag_large_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "lag"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "9분할 늘이기",
+      "notes": ""
+    },
+    {
+      "id": "seal",
+      "role": "문자 없는 황동 도장",
+      "state": "blank",
+      "category": "other",
+      "native": {
+        "path": "1x/seal.png",
+        "size_px": [
+          32,
+          32
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/seal.png",
+        "size_px": [
+          96,
+          96
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/seal_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "blank"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": "중앙 승·패 글은 런타임 글자"
+    },
+    {
+      "id": "vignette",
+      "role": "절제된 위험 가장자리",
+      "state": "danger",
+      "category": "other",
+      "native": {
+        "path": "1x/vignette.png",
+        "size_px": [
+          64,
+          36
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/vignette.png",
+        "size_px": [
+          192,
+          108
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/vignette_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "danger"
+      ],
+      "alpha_mode": "단계형 반투명",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "icon_close",
+      "role": "24화소 닫기",
+      "state": "normal",
+      "category": "icons24",
+      "native": {
+        "path": "1x/icon_close.png",
+        "size_px": [
+          8,
+          8
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/icon_close.png",
+        "size_px": [
+          24,
+          24
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/icon_close_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "icon_close_48",
+      "role": "48화소 닫기",
+      "state": "normal",
+      "category": "icons48",
+      "native": {
+        "path": "1x/icon_close_48.png",
+        "size_px": [
+          16,
+          16
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/icon_close_48.png",
+        "size_px": [
+          48,
+          48
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/icon_close_48_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "icon_up",
+      "role": "24화소 접기",
+      "state": "normal",
+      "category": "icons24",
+      "native": {
+        "path": "1x/icon_up.png",
+        "size_px": [
+          8,
+          8
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/icon_up.png",
+        "size_px": [
+          24,
+          24
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/icon_up_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "icon_up_48",
+      "role": "48화소 접기",
+      "state": "normal",
+      "category": "icons48",
+      "native": {
+        "path": "1x/icon_up_48.png",
+        "size_px": [
+          16,
+          16
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/icon_up_48.png",
+        "size_px": [
+          48,
+          48
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/icon_up_48_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "icon_down",
+      "role": "24화소 펼치기",
+      "state": "normal",
+      "category": "icons24",
+      "native": {
+        "path": "1x/icon_down.png",
+        "size_px": [
+          8,
+          8
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/icon_down.png",
+        "size_px": [
+          24,
+          24
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/icon_down_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "icon_down_48",
+      "role": "48화소 펼치기",
+      "state": "normal",
+      "category": "icons48",
+      "native": {
+        "path": "1x/icon_down_48.png",
+        "size_px": [
+          16,
+          16
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/icon_down_48.png",
+        "size_px": [
+          48,
+          48
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/icon_down_48_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "icon_play",
+      "role": "24화소 다음",
+      "state": "normal",
+      "category": "icons24",
+      "native": {
+        "path": "1x/icon_play.png",
+        "size_px": [
+          8,
+          8
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/icon_play.png",
+        "size_px": [
+          24,
+          24
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/icon_play_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "icon_play_48",
+      "role": "48화소 다음",
+      "state": "normal",
+      "category": "icons48",
+      "native": {
+        "path": "1x/icon_play_48.png",
+        "size_px": [
+          16,
+          16
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/icon_play_48.png",
+        "size_px": [
+          48,
+          48
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/icon_play_48_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "icon_pause",
+      "role": "24화소 멈춤",
+      "state": "normal",
+      "category": "icons24",
+      "native": {
+        "path": "1x/icon_pause.png",
+        "size_px": [
+          8,
+          8
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/icon_pause.png",
+        "size_px": [
+          24,
+          24
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/icon_pause_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "icon_pause_48",
+      "role": "48화소 멈춤",
+      "state": "normal",
+      "category": "icons48",
+      "native": {
+        "path": "1x/icon_pause_48.png",
+        "size_px": [
+          16,
+          16
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/icon_pause_48.png",
+        "size_px": [
+          48,
+          48
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/icon_pause_48_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "icon_speed1",
+      "role": "24화소 1배속",
+      "state": "normal",
+      "category": "icons24",
+      "native": {
+        "path": "1x/icon_speed1.png",
+        "size_px": [
+          8,
+          8
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/icon_speed1.png",
+        "size_px": [
+          24,
+          24
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/icon_speed1_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "icon_speed1_48",
+      "role": "48화소 1배속",
+      "state": "normal",
+      "category": "icons48",
+      "native": {
+        "path": "1x/icon_speed1_48.png",
+        "size_px": [
+          16,
+          16
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/icon_speed1_48.png",
+        "size_px": [
+          48,
+          48
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/icon_speed1_48_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "icon_speed2",
+      "role": "24화소 2배속",
+      "state": "normal",
+      "category": "icons24",
+      "native": {
+        "path": "1x/icon_speed2.png",
+        "size_px": [
+          8,
+          8
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/icon_speed2.png",
+        "size_px": [
+          24,
+          24
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/icon_speed2_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "icon_speed2_48",
+      "role": "48화소 2배속",
+      "state": "normal",
+      "category": "icons48",
+      "native": {
+        "path": "1x/icon_speed2_48.png",
+        "size_px": [
+          16,
+          16
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/icon_speed2_48.png",
+        "size_px": [
+          48,
+          48
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/icon_speed2_48_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "icon_speed4",
+      "role": "24화소 4배속",
+      "state": "normal",
+      "category": "icons24",
+      "native": {
+        "path": "1x/icon_speed4.png",
+        "size_px": [
+          8,
+          8
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/icon_speed4.png",
+        "size_px": [
+          24,
+          24
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/icon_speed4_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "icon_speed4_48",
+      "role": "48화소 4배속",
+      "state": "normal",
+      "category": "icons48",
+      "native": {
+        "path": "1x/icon_speed4_48.png",
+        "size_px": [
+          16,
+          16
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/icon_speed4_48.png",
+        "size_px": [
+          48,
+          48
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/icon_speed4_48_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "icon_hero",
+      "role": "24화소 주인공 장교모",
+      "state": "normal",
+      "category": "icons24",
+      "native": {
+        "path": "1x/icon_hero.png",
+        "size_px": [
+          8,
+          8
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/icon_hero.png",
+        "size_px": [
+          24,
+          24
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/icon_hero_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "icon_hero_48",
+      "role": "48화소 주인공 장교모",
+      "state": "normal",
+      "category": "icons48",
+      "native": {
+        "path": "1x/icon_hero_48.png",
+        "size_px": [
+          16,
+          16
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/icon_hero_48.png",
+        "size_px": [
+          48,
+          48
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/icon_hero_48_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "icon_check",
+      "role": "24화소 확인",
+      "state": "normal",
+      "category": "icons24",
+      "native": {
+        "path": "1x/icon_check.png",
+        "size_px": [
+          8,
+          8
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/icon_check.png",
+        "size_px": [
+          24,
+          24
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/icon_check_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "icon_check_48",
+      "role": "48화소 확인",
+      "state": "normal",
+      "category": "icons48",
+      "native": {
+        "path": "1x/icon_check_48.png",
+        "size_px": [
+          16,
+          16
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/icon_check_48.png",
+        "size_px": [
+          48,
+          48
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/icon_check_48_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "icon_flag",
+      "role": "24화소 조준 깃발",
+      "state": "normal",
+      "category": "icons24",
+      "native": {
+        "path": "1x/icon_flag.png",
+        "size_px": [
+          8,
+          8
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/icon_flag.png",
+        "size_px": [
+          24,
+          24
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/icon_flag_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "icon_flag_48",
+      "role": "48화소 조준 깃발",
+      "state": "normal",
+      "category": "icons48",
+      "native": {
+        "path": "1x/icon_flag_48.png",
+        "size_px": [
+          16,
+          16
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/icon_flag_48.png",
+        "size_px": [
+          48,
+          48
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/icon_flag_48_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "icon_auto",
+      "role": "24화소 자동 조준",
+      "state": "normal",
+      "category": "icons24",
+      "native": {
+        "path": "1x/icon_auto.png",
+        "size_px": [
+          8,
+          8
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/icon_auto.png",
+        "size_px": [
+          24,
+          24
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/icon_auto_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "icon_auto_48",
+      "role": "48화소 자동 조준",
+      "state": "normal",
+      "category": "icons48",
+      "native": {
+        "path": "1x/icon_auto_48.png",
+        "size_px": [
+          16,
+          16
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/icon_auto_48.png",
+        "size_px": [
+          48,
+          48
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/icon_auto_48_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "icon_idle",
+      "role": "24화소 대기",
+      "state": "normal",
+      "category": "icons24",
+      "native": {
+        "path": "1x/icon_idle.png",
+        "size_px": [
+          8,
+          8
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/icon_idle.png",
+        "size_px": [
+          24,
+          24
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/icon_idle_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "icon_idle_48",
+      "role": "48화소 대기",
+      "state": "normal",
+      "category": "icons48",
+      "native": {
+        "path": "1x/icon_idle_48.png",
+        "size_px": [
+          16,
+          16
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/icon_idle_48.png",
+        "size_px": [
+          48,
+          48
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/icon_idle_48_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "icon_plus",
+      "role": "24화소 더하기",
+      "state": "normal",
+      "category": "icons24",
+      "native": {
+        "path": "1x/icon_plus.png",
+        "size_px": [
+          8,
+          8
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/icon_plus.png",
+        "size_px": [
+          24,
+          24
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/icon_plus_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "icon_plus_48",
+      "role": "48화소 더하기",
+      "state": "normal",
+      "category": "icons48",
+      "native": {
+        "path": "1x/icon_plus_48.png",
+        "size_px": [
+          16,
+          16
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/icon_plus_48.png",
+        "size_px": [
+          48,
+          48
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/icon_plus_48_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "icon_minus",
+      "role": "24화소 빼기",
+      "state": "normal",
+      "category": "icons24",
+      "native": {
+        "path": "1x/icon_minus.png",
+        "size_px": [
+          8,
+          8
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/icon_minus.png",
+        "size_px": [
+          24,
+          24
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/icon_minus_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "icon_minus_48",
+      "role": "48화소 빼기",
+      "state": "normal",
+      "category": "icons48",
+      "native": {
+        "path": "1x/icon_minus_48.png",
+        "size_px": [
+          16,
+          16
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/icon_minus_48.png",
+        "size_px": [
+          48,
+          48
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/icon_minus_48_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "icon_warn",
+      "role": "24화소 경고",
+      "state": "normal",
+      "category": "icons24",
+      "native": {
+        "path": "1x/icon_warn.png",
+        "size_px": [
+          8,
+          8
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/icon_warn.png",
+        "size_px": [
+          24,
+          24
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/icon_warn_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "icon_warn_48",
+      "role": "48화소 경고",
+      "state": "normal",
+      "category": "icons48",
+      "native": {
+        "path": "1x/icon_warn_48.png",
+        "size_px": [
+          16,
+          16
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/icon_warn_48.png",
+        "size_px": [
+          48,
+          48
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/icon_warn_48_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "icon_north",
+      "role": "24화소 북쪽",
+      "state": "normal",
+      "category": "icons24",
+      "native": {
+        "path": "1x/icon_north.png",
+        "size_px": [
+          8,
+          8
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/icon_north.png",
+        "size_px": [
+          24,
+          24
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/icon_north_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "icon_north_48",
+      "role": "48화소 북쪽",
+      "state": "normal",
+      "category": "icons48",
+      "native": {
+        "path": "1x/icon_north_48.png",
+        "size_px": [
+          16,
+          16
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/icon_north_48.png",
+        "size_px": [
+          48,
+          48
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/icon_north_48_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "icon_right",
+      "role": "24화소 오른쪽",
+      "state": "normal",
+      "category": "icons24",
+      "native": {
+        "path": "1x/icon_right.png",
+        "size_px": [
+          8,
+          8
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/icon_right.png",
+        "size_px": [
+          24,
+          24
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/icon_right_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "icon_right_48",
+      "role": "48화소 오른쪽",
+      "state": "normal",
+      "category": "icons48",
+      "native": {
+        "path": "1x/icon_right_48.png",
+        "size_px": [
+          16,
+          16
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/icon_right_48.png",
+        "size_px": [
+          48,
+          48
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/icon_right_48_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "icon_special",
+      "role": "24화소 특수 적",
+      "state": "normal",
+      "category": "icons24",
+      "native": {
+        "path": "1x/icon_special.png",
+        "size_px": [
+          8,
+          8
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/icon_special.png",
+        "size_px": [
+          24,
+          24
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/icon_special_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "icon_special_48",
+      "role": "48화소 특수 적",
+      "state": "normal",
+      "category": "icons48",
+      "native": {
+        "path": "1x/icon_special_48.png",
+        "size_px": [
+          16,
+          16
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/icon_special_48.png",
+        "size_px": [
+          48,
+          48
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/icon_special_48_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "fortress_courtyard",
+      "role": "결과 도식 마당·공통 64×64 등록",
+      "state": "normal",
+      "category": "fortress",
+      "native": {
+        "path": "1x/fortress_courtyard.png",
+        "size_px": [
+          64,
+          64
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/fortress_courtyard.png",
+        "size_px": [
+          192,
+          192
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/fortress_courtyard_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "fortress_wall_north_intact",
+      "role": "결과 도식 north 성벽",
+      "state": "intact",
+      "category": "fortress",
+      "native": {
+        "path": "1x/fortress_wall_north_intact.png",
+        "size_px": [
+          64,
+          64
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/fortress_wall_north_intact.png",
+        "size_px": [
+          192,
+          192
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/fortress_wall_north_intact_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "intact"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": "",
+      "registration": {
+        "native_canvas_px": [
+          64,
+          64
+        ],
+        "game_canvas_px": [
+          192,
+          192
+        ],
+        "overlay_origin_px": [
+          0,
+          0
+        ],
+        "trim_transparent": false
+      }
+    },
+    {
+      "id": "fortress_wall_north_damaged",
+      "role": "결과 도식 north 성벽",
+      "state": "damaged",
+      "category": "fortress",
+      "native": {
+        "path": "1x/fortress_wall_north_damaged.png",
+        "size_px": [
+          64,
+          64
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/fortress_wall_north_damaged.png",
+        "size_px": [
+          192,
+          192
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/fortress_wall_north_damaged_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "damaged"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": "",
+      "registration": {
+        "native_canvas_px": [
+          64,
+          64
+        ],
+        "game_canvas_px": [
+          192,
+          192
+        ],
+        "overlay_origin_px": [
+          0,
+          0
+        ],
+        "trim_transparent": false
+      }
+    },
+    {
+      "id": "fortress_wall_north_critical",
+      "role": "결과 도식 north 성벽",
+      "state": "critical",
+      "category": "fortress",
+      "native": {
+        "path": "1x/fortress_wall_north_critical.png",
+        "size_px": [
+          64,
+          64
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/fortress_wall_north_critical.png",
+        "size_px": [
+          192,
+          192
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/fortress_wall_north_critical_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "critical"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": "",
+      "registration": {
+        "native_canvas_px": [
+          64,
+          64
+        ],
+        "game_canvas_px": [
+          192,
+          192
+        ],
+        "overlay_origin_px": [
+          0,
+          0
+        ],
+        "trim_transparent": false
+      }
+    },
+    {
+      "id": "fortress_wall_north_broken",
+      "role": "결과 도식 north 성벽",
+      "state": "broken",
+      "category": "fortress",
+      "native": {
+        "path": "1x/fortress_wall_north_broken.png",
+        "size_px": [
+          64,
+          64
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/fortress_wall_north_broken.png",
+        "size_px": [
+          192,
+          192
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/fortress_wall_north_broken_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "broken"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": "",
+      "registration": {
+        "native_canvas_px": [
+          64,
+          64
+        ],
+        "game_canvas_px": [
+          192,
+          192
+        ],
+        "overlay_origin_px": [
+          0,
+          0
+        ],
+        "trim_transparent": false
+      }
+    },
+    {
+      "id": "fortress_wall_east_intact",
+      "role": "결과 도식 east 성벽",
+      "state": "intact",
+      "category": "fortress",
+      "native": {
+        "path": "1x/fortress_wall_east_intact.png",
+        "size_px": [
+          64,
+          64
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/fortress_wall_east_intact.png",
+        "size_px": [
+          192,
+          192
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/fortress_wall_east_intact_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "intact"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": "",
+      "registration": {
+        "native_canvas_px": [
+          64,
+          64
+        ],
+        "game_canvas_px": [
+          192,
+          192
+        ],
+        "overlay_origin_px": [
+          0,
+          0
+        ],
+        "trim_transparent": false
+      }
+    },
+    {
+      "id": "fortress_wall_east_damaged",
+      "role": "결과 도식 east 성벽",
+      "state": "damaged",
+      "category": "fortress",
+      "native": {
+        "path": "1x/fortress_wall_east_damaged.png",
+        "size_px": [
+          64,
+          64
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/fortress_wall_east_damaged.png",
+        "size_px": [
+          192,
+          192
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/fortress_wall_east_damaged_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "damaged"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": "",
+      "registration": {
+        "native_canvas_px": [
+          64,
+          64
+        ],
+        "game_canvas_px": [
+          192,
+          192
+        ],
+        "overlay_origin_px": [
+          0,
+          0
+        ],
+        "trim_transparent": false
+      }
+    },
+    {
+      "id": "fortress_wall_east_critical",
+      "role": "결과 도식 east 성벽",
+      "state": "critical",
+      "category": "fortress",
+      "native": {
+        "path": "1x/fortress_wall_east_critical.png",
+        "size_px": [
+          64,
+          64
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/fortress_wall_east_critical.png",
+        "size_px": [
+          192,
+          192
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/fortress_wall_east_critical_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "critical"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": "",
+      "registration": {
+        "native_canvas_px": [
+          64,
+          64
+        ],
+        "game_canvas_px": [
+          192,
+          192
+        ],
+        "overlay_origin_px": [
+          0,
+          0
+        ],
+        "trim_transparent": false
+      }
+    },
+    {
+      "id": "fortress_wall_east_broken",
+      "role": "결과 도식 east 성벽",
+      "state": "broken",
+      "category": "fortress",
+      "native": {
+        "path": "1x/fortress_wall_east_broken.png",
+        "size_px": [
+          64,
+          64
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/fortress_wall_east_broken.png",
+        "size_px": [
+          192,
+          192
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/fortress_wall_east_broken_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "broken"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": "",
+      "registration": {
+        "native_canvas_px": [
+          64,
+          64
+        ],
+        "game_canvas_px": [
+          192,
+          192
+        ],
+        "overlay_origin_px": [
+          0,
+          0
+        ],
+        "trim_transparent": false
+      }
+    },
+    {
+      "id": "fortress_wall_south_intact",
+      "role": "결과 도식 south 성벽",
+      "state": "intact",
+      "category": "fortress",
+      "native": {
+        "path": "1x/fortress_wall_south_intact.png",
+        "size_px": [
+          64,
+          64
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/fortress_wall_south_intact.png",
+        "size_px": [
+          192,
+          192
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/fortress_wall_south_intact_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "intact"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": "",
+      "registration": {
+        "native_canvas_px": [
+          64,
+          64
+        ],
+        "game_canvas_px": [
+          192,
+          192
+        ],
+        "overlay_origin_px": [
+          0,
+          0
+        ],
+        "trim_transparent": false
+      }
+    },
+    {
+      "id": "fortress_wall_south_damaged",
+      "role": "결과 도식 south 성벽",
+      "state": "damaged",
+      "category": "fortress",
+      "native": {
+        "path": "1x/fortress_wall_south_damaged.png",
+        "size_px": [
+          64,
+          64
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/fortress_wall_south_damaged.png",
+        "size_px": [
+          192,
+          192
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/fortress_wall_south_damaged_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "damaged"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": "",
+      "registration": {
+        "native_canvas_px": [
+          64,
+          64
+        ],
+        "game_canvas_px": [
+          192,
+          192
+        ],
+        "overlay_origin_px": [
+          0,
+          0
+        ],
+        "trim_transparent": false
+      }
+    },
+    {
+      "id": "fortress_wall_south_critical",
+      "role": "결과 도식 south 성벽",
+      "state": "critical",
+      "category": "fortress",
+      "native": {
+        "path": "1x/fortress_wall_south_critical.png",
+        "size_px": [
+          64,
+          64
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/fortress_wall_south_critical.png",
+        "size_px": [
+          192,
+          192
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/fortress_wall_south_critical_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "critical"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": "",
+      "registration": {
+        "native_canvas_px": [
+          64,
+          64
+        ],
+        "game_canvas_px": [
+          192,
+          192
+        ],
+        "overlay_origin_px": [
+          0,
+          0
+        ],
+        "trim_transparent": false
+      }
+    },
+    {
+      "id": "fortress_wall_south_broken",
+      "role": "결과 도식 south 성벽",
+      "state": "broken",
+      "category": "fortress",
+      "native": {
+        "path": "1x/fortress_wall_south_broken.png",
+        "size_px": [
+          64,
+          64
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/fortress_wall_south_broken.png",
+        "size_px": [
+          192,
+          192
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/fortress_wall_south_broken_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "broken"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": "",
+      "registration": {
+        "native_canvas_px": [
+          64,
+          64
+        ],
+        "game_canvas_px": [
+          192,
+          192
+        ],
+        "overlay_origin_px": [
+          0,
+          0
+        ],
+        "trim_transparent": false
+      }
+    },
+    {
+      "id": "fortress_wall_west_intact",
+      "role": "결과 도식 west 성벽",
+      "state": "intact",
+      "category": "fortress",
+      "native": {
+        "path": "1x/fortress_wall_west_intact.png",
+        "size_px": [
+          64,
+          64
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/fortress_wall_west_intact.png",
+        "size_px": [
+          192,
+          192
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/fortress_wall_west_intact_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "intact"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": "",
+      "registration": {
+        "native_canvas_px": [
+          64,
+          64
+        ],
+        "game_canvas_px": [
+          192,
+          192
+        ],
+        "overlay_origin_px": [
+          0,
+          0
+        ],
+        "trim_transparent": false
+      }
+    },
+    {
+      "id": "fortress_wall_west_damaged",
+      "role": "결과 도식 west 성벽",
+      "state": "damaged",
+      "category": "fortress",
+      "native": {
+        "path": "1x/fortress_wall_west_damaged.png",
+        "size_px": [
+          64,
+          64
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/fortress_wall_west_damaged.png",
+        "size_px": [
+          192,
+          192
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/fortress_wall_west_damaged_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "damaged"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": "",
+      "registration": {
+        "native_canvas_px": [
+          64,
+          64
+        ],
+        "game_canvas_px": [
+          192,
+          192
+        ],
+        "overlay_origin_px": [
+          0,
+          0
+        ],
+        "trim_transparent": false
+      }
+    },
+    {
+      "id": "fortress_wall_west_critical",
+      "role": "결과 도식 west 성벽",
+      "state": "critical",
+      "category": "fortress",
+      "native": {
+        "path": "1x/fortress_wall_west_critical.png",
+        "size_px": [
+          64,
+          64
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/fortress_wall_west_critical.png",
+        "size_px": [
+          192,
+          192
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/fortress_wall_west_critical_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "critical"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": "",
+      "registration": {
+        "native_canvas_px": [
+          64,
+          64
+        ],
+        "game_canvas_px": [
+          192,
+          192
+        ],
+        "overlay_origin_px": [
+          0,
+          0
+        ],
+        "trim_transparent": false
+      }
+    },
+    {
+      "id": "fortress_wall_west_broken",
+      "role": "결과 도식 west 성벽",
+      "state": "broken",
+      "category": "fortress",
+      "native": {
+        "path": "1x/fortress_wall_west_broken.png",
+        "size_px": [
+          64,
+          64
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/fortress_wall_west_broken.png",
+        "size_px": [
+          192,
+          192
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/fortress_wall_west_broken_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "broken"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": "",
+      "registration": {
+        "native_canvas_px": [
+          64,
+          64
+        ],
+        "game_canvas_px": [
+          192,
+          192
+        ],
+        "overlay_origin_px": [
+          0,
+          0
+        ],
+        "trim_transparent": false
+      }
+    },
+    {
+      "id": "fortress_tower",
+      "role": "결과 도식 등대",
+      "state": "normal",
+      "category": "fortress",
+      "native": {
+        "path": "1x/fortress_tower.png",
+        "size_px": [
+          16,
+          20
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "game": {
+        "path": "3x/fortress_tower.png",
+        "size_px": [
+          48,
+          60
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "preview_4x": "previews/fortress_tower_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "normal"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": ""
+    },
+    {
+      "id": "map_group_plate",
+      "role": "지도 무리 숫자판",
+      "state": "blank",
+      "category": "other",
+      "native": {
+        "path": "1x/map_group_plate.png",
+        "size_px": [
+          16,
+          10
+        ],
+        "nine_slice_lbrt_px": [
+          3,
+          3,
+          3,
+          3
+        ]
+      },
+      "game": {
+        "path": "3x/map_group_plate.png",
+        "size_px": [
+          48,
+          30
+        ],
+        "nine_slice_lbrt_px": [
+          9,
+          9,
+          9,
+          9
+        ]
+      },
+      "preview_4x": "previews/map_group_plate_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "blank"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "9분할 늘이기",
+      "notes": ""
+    },
+    {
+      "id": "drag_selection_frame",
+      "role": "끌기 선택 모서리·가운데 투명",
+      "state": "selected",
+      "category": "other",
+      "native": {
+        "path": "1x/drag_selection_frame.png",
+        "size_px": [
+          16,
+          16
+        ],
+        "nine_slice_lbrt_px": [
+          5,
+          5,
+          5,
+          5
+        ]
+      },
+      "game": {
+        "path": "3x/drag_selection_frame.png",
+        "size_px": [
+          48,
+          48
+        ],
+        "nine_slice_lbrt_px": [
+          15,
+          15,
+          15,
+          15
+        ]
+      },
+      "preview_4x": "previews/drag_selection_frame_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 1,
+      "frame_order": [
+        "selected"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "9분할 늘이기",
+      "notes": ""
+    },
+    {
+      "id": "button_wood_states",
+      "role": "단추 다섯 상태 시트",
+      "state": "sheet",
+      "category": "sheets",
+      "native": {
+        "path": "1x/button_wood_states.png",
+        "size_px": [
+          60,
+          12
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "cell_size_px": [
+          12,
+          12
+        ],
+        "cell_nine_slice_lbrt_px": [
+          4,
+          4,
+          4,
+          4
+        ]
+      },
+      "game": {
+        "path": "3x/button_wood_states.png",
+        "size_px": [
+          180,
+          36
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "cell_size_px": [
+          36,
+          36
+        ],
+        "cell_nine_slice_lbrt_px": [
+          12,
+          12,
+          12,
+          12
+        ]
+      },
+      "preview_4x": "previews/button_wood_states_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 5,
+      "frame_order": [
+        "normal",
+        "hover",
+        "pressed",
+        "disabled",
+        "on"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": "보통·올림·눌림·꺼짐·고름 순서",
+      "sheet_layout": "가로 한 줄, 왼쪽부터"
+    },
+    {
+      "id": "button_brass_states",
+      "role": "단추 다섯 상태 시트",
+      "state": "sheet",
+      "category": "sheets",
+      "native": {
+        "path": "1x/button_brass_states.png",
+        "size_px": [
+          60,
+          12
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "cell_size_px": [
+          12,
+          12
+        ],
+        "cell_nine_slice_lbrt_px": [
+          4,
+          4,
+          4,
+          4
+        ]
+      },
+      "game": {
+        "path": "3x/button_brass_states.png",
+        "size_px": [
+          180,
+          36
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "cell_size_px": [
+          36,
+          36
+        ],
+        "cell_nine_slice_lbrt_px": [
+          12,
+          12,
+          12,
+          12
+        ]
+      },
+      "preview_4x": "previews/button_brass_states_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 5,
+      "frame_order": [
+        "normal",
+        "hover",
+        "pressed",
+        "disabled",
+        "on"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": "보통·올림·눌림·꺼짐·고름 순서",
+      "sheet_layout": "가로 한 줄, 왼쪽부터"
+    },
+    {
+      "id": "tab_states",
+      "role": "탭 두 상태 시트",
+      "state": "sheet",
+      "category": "sheets",
+      "native": {
+        "path": "1x/tab_states.png",
+        "size_px": [
+          24,
+          12
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "cell_size_px": [
+          12,
+          12
+        ],
+        "cell_nine_slice_lbrt_px": [
+          4,
+          4,
+          4,
+          4
+        ]
+      },
+      "game": {
+        "path": "3x/tab_states.png",
+        "size_px": [
+          72,
+          36
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "cell_size_px": [
+          36,
+          36
+        ],
+        "cell_nine_slice_lbrt_px": [
+          12,
+          12,
+          12,
+          12
+        ]
+      },
+      "preview_4x": "previews/tab_states_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 2,
+      "frame_order": [
+        "off",
+        "on"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": "꺼짐·고름 순서",
+      "sheet_layout": "가로 한 줄, 왼쪽부터"
+    },
+    {
+      "id": "fortress_states",
+      "role": "성벽 체력 네 단계 합성 시트",
+      "state": "sheet",
+      "category": "sheets",
+      "native": {
+        "path": "1x/fortress_states.png",
+        "size_px": [
+          256,
+          64
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "cell_size_px": [
+          64,
+          64
+        ]
+      },
+      "game": {
+        "path": "3x/fortress_states.png",
+        "size_px": [
+          768,
+          192
+        ],
+        "nine_slice_lbrt_px": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "cell_size_px": [
+          192,
+          192
+        ]
+      },
+      "preview_4x": "previews/fortress_states_4x.png",
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "frames": 4,
+      "frame_order": [
+        "intact",
+        "damaged",
+        "critical",
+        "broken"
+      ],
+      "alpha_mode": "이진 알파",
+      "center_mode": "단일 그림",
+      "notes": "온전함·손상·위급·붕괴 순서; 각 벽은 별도 에셋으로 독립 교체",
+      "sheet_layout": "가로 한 줄, 왼쪽부터"
+    }
+  ],
+  "screens": [
+    {
+      "id": "main",
+      "title": "메인",
+      "source": "Docs/References/ui_20261023/smoke_00_main.png",
+      "before": "previews/main_before.png",
+      "after": "previews/main_after.png",
+      "size_px": [
+        1600,
+        900
+      ],
+      "kind": "실제 캡처 위 합성 시안 · 실행 화면 아님"
+    },
+    {
+      "id": "prep",
+      "title": "정비 마당",
+      "source": "Docs/References/ui_20261023/smoke_04_prep.png",
+      "before": "previews/prep_before.png",
+      "after": "previews/prep_after.png",
+      "size_px": [
+        1600,
+        900
+      ],
+      "kind": "실제 캡처 위 합성 시안 · 실행 화면 아님"
+    },
+    {
+      "id": "trap",
+      "title": "함정 공방",
+      "source": "Docs/References/ui_20261023/prep_trap_panel.png",
+      "before": "previews/trap_before.png",
+      "after": "previews/trap_after.png",
+      "size_px": [
+        1600,
+        900
+      ],
+      "kind": "실제 캡처 위 합성 시안 · 실행 화면 아님"
+    },
+    {
+      "id": "battle",
+      "title": "전투",
+      "source": "Docs/References/ui_20261023/smoke_02_battle.png",
+      "before": "previews/battle_before.png",
+      "after": "previews/battle_after.png",
+      "size_px": [
+        1600,
+        900
+      ],
+      "kind": "실제 캡처 위 합성 시안 · 실행 화면 아님"
+    },
+    {
+      "id": "map",
+      "title": "전투 지도",
+      "source": "Docs/References/ui_20261023/map_full.png",
+      "before": "previews/map_before.png",
+      "after": "previews/map_after.png",
+      "size_px": [
+        1920,
+        1080
+      ],
+      "kind": "실제 캡처 위 합성 시안 · 실행 화면 아님"
+    },
+    {
+      "id": "result",
+      "title": "결과 보고",
+      "source": "Docs/References/ui_20261023/smoke_03_result.png",
+      "before": "previews/result_before.png",
+      "after": "previews/result_after.png",
+      "size_px": [
+        1600,
+        900
+      ],
+      "kind": "실제 캡처 위 합성 시안 · 실행 화면 아님"
+    },
+    {
+      "id": "story",
+      "title": "이야기",
+      "source": "Docs/References/ui_20261023/02_story_1_speaker.png",
+      "before": "previews/story_before.png",
+      "after": "previews/story_after.png",
+      "size_px": [
+        1600,
+        900
+      ],
+      "kind": "실제 캡처 위 합성 시안 · 실행 화면 아님"
+    }
+  ],
+  "mockup_edit_regions_xywh": {
+    "main": [
+      [
+        108,
+        246,
+        516,
+        423
+      ],
+      [
+        145,
+        290,
+        320,
+        80
+      ],
+      [
+        146,
+        382,
+        176,
+        44
+      ],
+      [
+        147,
+        426,
+        439,
+        54
+      ],
+      [
+        226,
+        442,
+        414,
+        36
+      ],
+      [
+        147,
+        499,
+        439,
+        55
+      ],
+      [
+        318,
+        513,
+        110,
+        44
+      ],
+      [
+        147,
+        573,
+        222,
+        54
+      ],
+      [
+        236,
+        587,
+        44,
+        44
+      ],
+      [
+        382,
+        573,
+        204,
+        54
+      ],
+      [
+        462,
+        587,
+        44,
+        44
+      ]
+    ],
+    "prep": [
+      [
+        154,
+        29,
+        1295,
+        183
+      ],
+      [
+        462,
+        39,
+        145,
+        42
+      ],
+      [
+        486,
+        49,
+        108,
+        36
+      ],
+      [
+        810,
+        159,
+        85,
+        42
+      ],
+      [
+        841,
+        167,
+        22,
+        44
+      ],
+      [
+        901,
+        156,
+        86,
+        47
+      ],
+      [
+        922,
+        166,
+        44,
+        44
+      ],
+      [
+        994,
+        159,
+        84,
+        42
+      ],
+      [
+        1025,
+        167,
+        22,
+        44
+      ],
+      [
+        1080,
+        159,
+        343,
+        42
+      ],
+      [
+        1144,
+        169,
+        306,
+        36
+      ],
+      [
+        192,
+        255,
+        194,
+        42
+      ],
+      [
+        777,
+        255,
+        196,
+        42
+      ],
+      [
+        1353,
+        255,
+        194,
+        42
+      ],
+      [
+        401,
+        514,
+        196,
+        43
+      ],
+      [
+        260,
+        261,
+        52,
+        52
+      ],
+      [
+        819,
+        261,
+        130,
+        52
+      ],
+      [
+        1424,
+        261,
+        52,
+        52
+      ],
+      [
+        474,
+        521,
+        52,
+        52
+      ],
+      [
+        537,
+        110,
+        216,
+        18
+      ],
+      [
+        540,
+        113,
+        105,
+        12
+      ]
+    ],
+    "trap": [
+      [
+        43,
+        65,
+        768,
+        770
+      ],
+      [
+        61,
+        83,
+        732,
+        734
+      ],
+      [
+        864,
+        202,
+        693,
+        497
+      ],
+      [
+        900,
+        236,
+        130,
+        52
+      ],
+      [
+        1320,
+        236,
+        132,
+        44
+      ],
+      [
+        1345,
+        302,
+        216,
+        36
+      ],
+      [
+        900,
+        288,
+        147,
+        45
+      ],
+      [
+        951,
+        297,
+        44,
+        44
+      ],
+      [
+        1051,
+        288,
+        149,
+        45
+      ],
+      [
+        1077,
+        297,
+        110,
+        44
+      ],
+      [
+        900,
+        353,
+        193,
+        61
+      ],
+      [
+        941,
+        360,
+        90,
+        36
+      ],
+      [
+        921,
+        386,
+        216,
+        36
+      ],
+      [
+        900,
+        434,
+        193,
+        45
+      ],
+      [
+        945,
+        445,
+        126,
+        36
+      ],
+      [
+        1100,
+        434,
+        140,
+        45
+      ],
+      [
+        1143,
+        445,
+        54,
+        36
+      ],
+      [
+        1247,
+        434,
+        208,
+        45
+      ],
+      [
+        1302,
+        445,
+        108,
+        36
+      ],
+      [
+        1260,
+        445,
+        24,
+        24
+      ],
+      [
+        923,
+        505,
+        468,
+        36
+      ],
+      [
+        899,
+        504,
+        24,
+        24
+      ],
+      [
+        898,
+        558,
+        468,
+        36
+      ],
+      [
+        900,
+        607,
+        240,
+        52
+      ],
+      [
+        998,
+        620,
+        44,
+        44
+      ],
+      [
+        1151,
+        607,
+        177,
+        52
+      ],
+      [
+        1191,
+        622,
+        108,
+        36
+      ],
+      [
+        1341,
+        621,
+        24,
+        24
+      ],
+      [
+        1373,
+        624,
+        126,
+        36
+      ],
+      [
+        1480,
+        227,
+        42,
+        42
+      ],
+      [
+        1489,
+        236,
+        24,
+        24
+      ]
+    ],
+    "battle": [
+      [
+        29,
+        810,
+        1016,
+        61
+      ],
+      [
+        50,
+        828,
+        22,
+        44
+      ],
+      [
+        92,
+        826,
+        236,
+        15
+      ],
+      [
+        95,
+        829,
+        230,
+        9
+      ],
+      [
+        92,
+        844,
+        270,
+        36
+      ],
+      [
+        355,
+        831,
+        682,
+        44
+      ],
+      [
+        340,
+        832,
+        19,
+        17
+      ],
+      [
+        449,
+        832,
+        18,
+        18
+      ],
+      [
+        602,
+        832,
+        20,
+        18
+      ],
+      [
+        846,
+        821,
+        60,
+        44
+      ],
+      [
+        902,
+        821,
+        60,
+        44
+      ],
+      [
+        963,
+        821,
+        60,
+        44
+      ],
+      [
+        852,
+        819,
+        24,
+        24
+      ],
+      [
+        908,
+        819,
+        24,
+        24
+      ],
+      [
+        969,
+        819,
+        24,
+        24
+      ]
+    ],
+    "map": [
+      [
+        34,
+        34,
+        1354,
+        76
+      ],
+      [
+        59,
+        52,
+        28,
+        56
+      ],
+      [
+        113,
+        49,
+        279,
+        15
+      ],
+      [
+        116,
+        52,
+        273,
+        9
+      ],
+      [
+        113,
+        78,
+        270,
+        36
+      ],
+      [
+        423,
+        62,
+        792,
+        44
+      ],
+      [
+        996,
+        62,
+        126,
+        36
+      ],
+      [
+        34,
+        131,
+        410,
+        397
+      ],
+      [
+        1489,
+        132,
+        397,
+        676
+      ],
+      [
+        58,
+        150,
+        150,
+        60
+      ],
+      [
+        1512,
+        150,
+        150,
+        60
+      ],
+      [
+        374,
+        143,
+        24,
+        24
+      ],
+      [
+        1815,
+        143,
+        24,
+        24
+      ],
+      [
+        56,
+        201,
+        65,
+        46
+      ],
+      [
+        66,
+        211,
+        44,
+        44
+      ],
+      [
+        130,
+        201,
+        60,
+        46
+      ],
+      [
+        149,
+        211,
+        22,
+        44
+      ],
+      [
+        204,
+        201,
+        60,
+        46
+      ],
+      [
+        223,
+        211,
+        22,
+        44
+      ],
+      [
+        276,
+        201,
+        60,
+        46
+      ],
+      [
+        295,
+        211,
+        22,
+        44
+      ],
+      [
+        349,
+        201,
+        60,
+        46
+      ],
+      [
+        368,
+        211,
+        22,
+        44
+      ],
+      [
+        56,
+        256,
+        183,
+        55
+      ],
+      [
+        110,
+        270,
+        88,
+        44
+      ],
+      [
+        245,
+        256,
+        183,
+        55
+      ],
+      [
+        288,
+        270,
+        110,
+        44
+      ],
+      [
+        56,
+        318,
+        183,
+        55
+      ],
+      [
+        99,
+        332,
+        110,
+        44
+      ],
+      [
+        245,
+        318,
+        183,
+        55
+      ],
+      [
+        288,
+        332,
+        110,
+        44
+      ],
+      [
+        56,
+        380,
+        183,
+        55
+      ],
+      [
+        110,
+        394,
+        88,
+        44
+      ],
+      [
+        245,
+        380,
+        183,
+        55
+      ],
+      [
+        288,
+        394,
+        110,
+        44
+      ],
+      [
+        58,
+        442,
+        418,
+        44
+      ],
+      [
+        58,
+        482,
+        288,
+        36
+      ],
+      [
+        1511,
+        202,
+        353,
+        45
+      ],
+      [
+        1532,
+        213,
+        22,
+        44
+      ],
+      [
+        1569,
+        212,
+        24,
+        24
+      ],
+      [
+        1613,
+        212,
+        24,
+        24
+      ],
+      [
+        1650,
+        213,
+        44,
+        44
+      ],
+      [
+        1511,
+        258,
+        353,
+        45
+      ],
+      [
+        1532,
+        269,
+        22,
+        44
+      ],
+      [
+        1569,
+        268,
+        24,
+        24
+      ],
+      [
+        1613,
+        268,
+        24,
+        24
+      ],
+      [
+        1650,
+        269,
+        44,
+        44
+      ],
+      [
+        1511,
+        314,
+        353,
+        45
+      ],
+      [
+        1532,
+        325,
+        22,
+        44
+      ],
+      [
+        1569,
+        324,
+        24,
+        24
+      ],
+      [
+        1613,
+        324,
+        24,
+        24
+      ],
+      [
+        1650,
+        325,
+        44,
+        44
+      ],
+      [
+        1511,
+        370,
+        353,
+        45
+      ],
+      [
+        1532,
+        381,
+        22,
+        44
+      ],
+      [
+        1569,
+        380,
+        24,
+        24
+      ],
+      [
+        1613,
+        380,
+        24,
+        24
+      ],
+      [
+        1650,
+        381,
+        44,
+        44
+      ],
+      [
+        1511,
+        425,
+        353,
+        46
+      ],
+      [
+        1639,
+        435,
+        110,
+        44
+      ],
+      [
+        1512,
+        488,
+        280,
+        40
+      ],
+      [
+        1512,
+        532,
+        72,
+        48
+      ],
+      [
+        1512,
+        570,
+        172,
+        56
+      ],
+      [
+        1542,
+        586,
+        160,
+        40
+      ],
+      [
+        1692,
+        570,
+        172,
+        56
+      ],
+      [
+        1712,
+        586,
+        180,
+        40
+      ],
+      [
+        1512,
+        647,
+        144,
+        48
+      ],
+      [
+        1512,
+        684,
+        95,
+        48
+      ],
+      [
+        1548,
+        695,
+        22,
+        44
+      ],
+      [
+        1616,
+        684,
+        95,
+        48
+      ],
+      [
+        1641,
+        695,
+        44,
+        44
+      ],
+      [
+        1720,
+        684,
+        95,
+        48
+      ],
+      [
+        1756,
+        695,
+        22,
+        44
+      ],
+      [
+        1512,
+        741,
+        75,
+        45
+      ],
+      [
+        1538,
+        750,
+        22,
+        44
+      ],
+      [
+        1592,
+        741,
+        75,
+        45
+      ],
+      [
+        1618,
+        750,
+        22,
+        44
+      ],
+      [
+        1672,
+        741,
+        75,
+        45
+      ],
+      [
+        1698,
+        750,
+        22,
+        44
+      ],
+      [
+        1752,
+        741,
+        75,
+        45
+      ],
+      [
+        1778,
+        750,
+        22,
+        44
+      ],
+      [
+        813,
+        819,
+        294,
+        51
+      ],
+      [
+        834,
+        835,
+        286,
+        44
+      ],
+      [
+        784,
+        880,
+        352,
+        51
+      ],
+      [
+        806,
+        896,
+        374,
+        44
+      ],
+      [
+        795,
+        939,
+        330,
+        51
+      ],
+      [
+        816,
+        955,
+        330,
+        44
+      ],
+      [
+        1144,
+        46,
+        64,
+        48
+      ],
+      [
+        1212,
+        46,
+        64,
+        48
+      ],
+      [
+        1291,
+        46,
+        64,
+        48
+      ],
+      [
+        1152,
+        46,
+        24,
+        24
+      ],
+      [
+        1220,
+        46,
+        24,
+        24
+      ],
+      [
+        1299,
+        46,
+        24,
+        24
+      ]
+    ],
+    "result": [
+      [
+        136,
+        84,
+        1328,
+        744
+      ],
+      [
+        173,
+        128,
+        520,
+        80
+      ],
+      [
+        172,
+        194,
+        1256,
+        495
+      ],
+      [
+        201,
+        243,
+        26,
+        52
+      ],
+      [
+        270,
+        237,
+        72,
+        72
+      ],
+      [
+        418,
+        247,
+        408,
+        48
+      ],
+      [
+        173,
+        326,
+        52,
+        52
+      ],
+      [
+        604,
+        326,
+        52,
+        52
+      ],
+      [
+        1033,
+        326,
+        208,
+        52
+      ],
+      [
+        337,
+        400,
+        100,
+        40
+      ],
+      [
+        207,
+        516,
+        20,
+        40
+      ],
+      [
+        508,
+        516,
+        20,
+        40
+      ],
+      [
+        354,
+        633,
+        20,
+        40
+      ],
+      [
+        631,
+        425,
+        35,
+        58
+      ],
+      [
+        631,
+        509,
+        35,
+        58
+      ],
+      [
+        631,
+        588,
+        35,
+        59
+      ],
+      [
+        1052,
+        427,
+        48,
+        79
+      ],
+      [
+        1049,
+        542,
+        53,
+        82
+      ],
+      [
+        690,
+        422,
+        352,
+        44
+      ],
+      [
+        690,
+        498,
+        132,
+        44
+      ],
+      [
+        690,
+        578,
+        110,
+        44
+      ],
+      [
+        1128,
+        435,
+        242,
+        44
+      ],
+      [
+        1128,
+        544,
+        198,
+        44
+      ],
+      [
+        691,
+        449,
+        266,
+        15
+      ],
+      [
+        694,
+        452,
+        250,
+        9
+      ],
+      [
+        944,
+        452,
+        10,
+        9
+      ],
+      [
+        691,
+        529,
+        266,
+        15
+      ],
+      [
+        694,
+        532,
+        260,
+        9
+      ],
+      [
+        691,
+        609,
+        266,
+        15
+      ],
+      [
+        694,
+        612,
+        260,
+        9
+      ],
+      [
+        1127,
+        463,
+        254,
+        15
+      ],
+      [
+        1130,
+        466,
+        248,
+        9
+      ],
+      [
+        1127,
+        571,
+        254,
+        15
+      ],
+      [
+        1130,
+        574,
+        248,
+        9
+      ],
+      [
+        676,
+        724,
+        396,
+        44
+      ],
+      [
+        1187,
+        770,
+        238,
+        54
+      ],
+      [
+        1246,
+        784,
+        132,
+        44
+      ]
+    ],
+    "story": [
+      [
+        100,
+        654,
+        1400,
+        216
+      ],
+      [
+        148,
+        698,
+        672,
+        48
+      ],
+      [
+        140,
+        634,
+        159,
+        43
+      ],
+      [
+        201,
+        643,
+        44,
+        44
+      ],
+      [
+        1438,
+        824,
+        24,
+        24
+      ],
+      [
+        1293,
+        28,
+        135,
+        44
+      ],
+      [
+        1338,
+        37,
+        44,
+        44
+      ],
+      [
+        1434,
+        28,
+        137,
+        44
+      ],
+      [
+        1469,
+        37,
+        66,
+        44
+      ]
+    ]
+  },
+  "verification": {
+    "status": "검사 대기"
+  }
+}

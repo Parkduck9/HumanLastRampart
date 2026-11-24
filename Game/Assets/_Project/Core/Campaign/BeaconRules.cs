@@ -1,0 +1,371 @@
+using System;
+using System.Collections.Generic;
+using HumanLastRampart.Core.CombatContracts;
+using HumanLastRampart.Core.Definitions;
+
+namespace HumanLastRampart.Core.Campaign
+{
+    // 요새 × 밤 진행 규칙 (W8, Concept_Beacon_v1 9.1·9.3·9.7, 2.4). 순수 계산 + 진행 데이터 갱신. 화면·정의 에셋을 모른다.
+    // 수치는 전부 시작값 — 조정(측정)은 조정 담당이 한다. 수치를 바꿀 때는 이 파일의 const만 고친다.
+    public static class BeaconRules
+    {
+        // ── 구조 ─────────────────────────────────────────────
+        public const int FortressCount = 2;                       // 1회차 요새 수 (9.7)
+        static readonly int[] NightsByFortress = { 2, 3 };        // 요새 1 = 밤 2번, 요새 2 = 밤 3번. 마지막 밤이 점화의 밤
+        public const int MaxConsecutiveLosses = 2;                // 연속 두 번 지면 패배 엔딩 (9.3)
+        public const string RunCompleteStoryId = "story_run1_complete";   // 1회차 완료 이야기 (글은 조정 담당)
+
+        // ── 이야기 연결 (W12, Story_Beacon_v1) ───────────────
+        // 새 게임 → 첫 이야기 → 요새 1 도착 → 전투. 요새 점화 → 점화 이야기 → 다음 요새 도착 → 낮(정비).
+        // 이야기 하나가 끝날 때 다음 이야기를 이 표로 찾는다 (없으면 null = 흐름이 다음 화면으로)
+        public const string IntroStoryId = "story_intro";
+        public static string ArriveStoryId(int fortress) => $"story_fortress{fortress}_arrive";
+        public static string RelitStoryId(int fortress) => $"story_fortress{fortress}_relit";
+
+        public static string NextStoryAfter(string storyId)
+        {
+            if (storyId == IntroStoryId) return ArriveStoryId(1);
+            for (int f = 1; f < FortressCount; f++)
+                if (storyId == RelitStoryId(f)) return ArriveStoryId(f + 1);
+            return null;
+        }
+
+        // 이어하기 때 다시 보여 줄 이야기인가: 점화 이야기·요새 도착(낮으로 가는 것)·1회차 완료. 첫 이야기 같은 옛 저장의 찌꺼기는 제외
+        public static bool IsPendingStory(StoryRequest request) =>
+            request != null && (request.Kind == StoryKind.RunComplete || IsRelitStory(request.StoryId) || StoryLeadsToDay(request.StoryId));
+
+        // 점화 이야기인가 (결과 화면 뒤에 열린다)
+        public static bool IsRelitStory(string storyId)
+        {
+            for (int f = 1; f < FortressCount; f++) if (storyId == RelitStoryId(f)) return true;
+            return false;
+        }
+
+        // 이 이야기가 끝나면 전투가 아니라 낮(정비)으로 가는가: 요새 2 이후의 도착 이야기 (요새 1 도착은 바로 첫 전투)
+        public static bool StoryLeadsToDay(string storyId)
+        {
+            for (int f = 2; f <= FortressCount; f++) if (storyId == ArriveStoryId(f)) return true;
+            return false;
+        }
+
+        // ── 밤 사이 한마디 (Story_Beacon_v1 3장) — 정비 화면에 짧은 줄로 보인다 ──
+        public const string LineFirstNightWon = "버텼습니다. 탑이 조금 따뜻해졌어요.";
+        public const string LineIgnitionTonight = "오늘 밤이 마지막이에요. 불, 끝까지 올려 봐요.";
+        public const string LineLostNight = "불이 꺼졌습니다. 다시 지피면 됩니다. 아직 끝난 게 아닙니다.";
+        public const string LineWallsNotReady = "등대는 준비됐는데 성벽이 버티질 못합니다. 낮 동안 고쳐야 합니다.";
+
+        // 지금 낮에 보일 한마디들 (화자, 글). 순서: 어젯밤 이야기(진 밤 > 요새 1 첫 밤) → 오늘 할 일(성벽 부족 > 점화의 밤). 없으면 빈 목록
+        public static List<(string speaker, string text)> DayLines(CampaignState campaign)
+        {
+            var lines = new List<(string, string)>();
+            if (campaign == null) return lines;
+            if (campaign.ConsecutiveNightLosses > 0)
+                lines.Add(("하겐", LineLostNight));
+            else if (campaign.FortressNumber == 1 && campaign.NightNumber == 2 && campaign.LastNightFortress == 1 && campaign.LastNightIndex == 1)
+                lines.Add(("하겐", LineFirstNightWon));
+
+            if (RepairReady(campaign) && !WallsReady(campaign)) lines.Add(("하겐", LineWallsNotReady));
+            else if (IsIgnitionNight(campaign)) lines.Add(("루멘", LineIgnitionTonight));
+            return lines;
+        }
+
+        // ── 등대 복구 ────────────────────────────────────────
+        public const float RepairMax = 100f;
+        public const float GainLow = 20f, GainNormal = 35f, GainHigh = 50f;   // 밝기별 밤당 기본 복구 (9.4)
+        public const float WallReadyRatio = 0.9f;                 // 점화 조건: 4면 성벽 모두 체력 90% 이상
+        public const float ReadyEpsilon = 0.01f;                  // 부동소수 비교 여유
+
+        // 낮 '등대 수리' (정비 행동). 시작값 — 측정 뒤 조정
+        public const int DayRepairGold = 200;                     // 이 값 골드로
+        public const float DayRepairAmount = 10f;                 // 이만큼 복구
+
+        // ── 수비대 (2.4 A안) ─────────────────────────────────
+        public const int GarrisonPercent = 20;                    // 이긴 요새에 남기는 살아남은 병력 비율
+        public const int SupportGoldPerSoldier = 2;               // 낮마다 수비대 1명당 지원금
+
+        // 밤 번호(이긴 밤 수 + 1) → 기존 전투 1~4번 자리. 1·2·3·4·4 (5번째 이후는 4번 자리 유지).
+        // 요새 1 = 자리 1·2, 요새 2 = 자리 3·4(·4). 요새 2는 적 변형 단계(EnemyTier)도 오른다. 측정은 조정 담당
+        public static int BattleSlot(int battleNumber, int slotCount = 4)
+        {
+            if (slotCount < 1) return 1;
+            return Math.Max(1, Math.Min(battleNumber, slotCount));
+        }
+
+        // 화면에 보이는 이름: "요새 1 · 밤 2" (총 밤 수를 넘어간 밤은 총 수를 붙이지 않는다)
+        public static string NightLabel(int fortress, int night, bool withTotal = false) =>
+            withTotal && night <= NightsIn(fortress) ? $"요새 {fortress} · 밤 {night}/{NightsIn(fortress)}" : $"요새 {fortress} · 밤 {night}";
+
+        public static int NightsIn(int fortress)
+        {
+            int i = Math.Max(1, fortress) - 1;
+            return NightsByFortress[Math.Min(i, NightsByFortress.Length - 1)];
+        }
+
+        public static int TotalNights
+        {
+            get { int sum = 0; foreach (int n in NightsByFortress) sum += n; return sum; }
+        }
+
+        // 요새별 복구 비례 상수: 보통 밝기로 이 요새의 밤 수만큼 지나면 정확히 100
+        public static float FortressScale(int fortress) => RepairMax / (NightsIn(fortress) * GainNormal);
+
+        // 밝기별 복구 기본값
+        public static float BaseGain(LampBrightness lamp)
+        {
+            switch (lamp)
+            {
+                case LampBrightness.Low: return GainLow;
+                case LampBrightness.High: return GainHigh;
+                default: return GainNormal;
+            }
+        }
+
+        // 이긴 밤의 등대 복구 증가 = Σ (밝기별 켠 시간 비율 × 기본값) × 요새 비례 상수.
+        // LampSeconds가 비었거나 합이 0이면 (전투 쪽이 아직 안 채움) 밤 전체를 보통으로 본다.
+        public static float RepairGain(float[] lampSeconds, int fortress)
+        {
+            float scale = FortressScale(fortress);
+            float total = 0f;
+            if (lampSeconds != null)
+                for (int i = 0; i < 3 && i < lampSeconds.Length; i++) total += Math.Max(0f, lampSeconds[i]);
+            if (total <= 0f) return GainNormal * scale;
+
+            float gain = 0f;
+            for (int i = 0; i < 3 && i < lampSeconds.Length; i++)
+                gain += Math.Max(0f, lampSeconds[i]) / total * BaseGain((LampBrightness)i);
+            return gain * scale;
+        }
+
+        // 점화의 밤에 들어갈 수 있는 복구 선: 보통 밝기로 마지막 밤 바로 앞까지 쌓이는 값 (= 100 − 보통 한 밤 몫).
+        // 센 밝기·낮 수리로 이 선을 넘으면 점화의 밤이 하루 일찍 온다 (9.3, B5)
+        public static float IgnitionRepairLine(int fortress) => RepairMax - RepairMax / NightsIn(fortress);
+
+        public static bool RepairReady(CampaignState campaign) =>
+            campaign != null && campaign.BeaconRepair + ReadyEpsilon >= IgnitionRepairLine(campaign.FortressNumber);
+
+        // 4면 성벽이 모두 90% 이상 (정수 비교)
+        public static bool WallsReady(CampaignState campaign)
+        {
+            if (campaign?.Wall == null || campaign.Wall.Count == 0) return false;
+            foreach (WallSegmentState wall in campaign.Wall)
+                if (wall == null || wall.MaxHp <= 0 || wall.Hp * 10L < wall.MaxHp * 9L) return false;
+            return true;
+        }
+
+        // 다음 밤이 점화의 밤인가: 복구가 선을 넘고 성벽도 90% 이상일 때만
+        // 등대 탑 불꽃 세기 0~1 (전투 화면·정비 마당이 같이 쓴다, W9 S4). 탑은 어느 쪽에서도 꺼짐이 없다 — 복구가 세기를 정하고 점화의 밤이면 완전 점화
+        public static float TowerFlameStrength(float repair, bool ignitionNight) =>
+            ignitionNight ? 1f : 0.35f + 0.5f * Math.Max(0f, Math.Min(1f, repair / RepairMax));
+
+        public static bool IsIgnitionNight(CampaignState campaign) => RepairReady(campaign) && WallsReady(campaign);
+
+        // 점화에 모자란 것을 알림으로 (정비 화면). 둘 다 되면 null
+        public static string MissingForIgnition(CampaignState campaign)
+        {
+            bool repair = RepairReady(campaign), walls = WallsReady(campaign);
+            if (repair && walls) return null;
+            if (!repair && !walls) return "등대 복구와 성벽 90%가 모자랍니다";
+            return repair ? "성벽 90%가 모자랍니다" : "등대 복구가 모자랍니다";
+        }
+
+        // 적 변형 단계: 요새 1 = 0 홀림, 요새 2 = 1 물듦, 요새 2 점화의 밤 = 2 변형 (9.5)
+        public static int EnemyTier(int fortress, bool ignitionNight)
+        {
+            if (fortress <= 1) return 0;
+            return ignitionNight ? 2 : 1;
+        }
+
+        // ── 낮 ───────────────────────────────────────────────
+
+        // 낮이 시작될 때 수비대 지원금 (인원당 SupportGoldPerSoldier). 받은 값을 LastSupportGold에 남긴다
+        public static int BeginDay(CampaignState campaign)
+        {
+            int support = GarrisonSoldiers(campaign) * SupportGoldPerSoldier;
+            campaign.Gold += support;
+            campaign.LastSupportGold = support;
+            campaign.BeaconRepairBoughtToday = 0;   // W11: 새 낮 = 등대 수리 하루 한도 새로
+            return support;
+        }
+
+        public static int GarrisonSoldiers(CampaignState campaign)
+        {
+            int sum = 0;
+            if (campaign?.Garrisons != null) foreach (GarrisonState g in campaign.Garrisons) sum += Math.Max(0, g.Count);
+            return sum;
+        }
+
+        // 낮 '등대 수리': 골드를 쓰고 복구를 더한다 (100에서 멈춤). 실패하면 이유
+        public static bool TryBuyRepair(CampaignState campaign, out string reason, int maxPerDay)   // W11: 하루 한도는 꼭 넘긴다 (규칙 데이터 BattleRulesDef.BeaconRepairsPerDay). 0 이하 = 제한 없음은 시험에서만 명시적으로
+        {
+            reason = null;
+            if (maxPerDay > 0 && campaign.BeaconRepairBoughtToday >= maxPerDay) { reason = "오늘은 이미 등대를 수리했습니다"; return false; }
+            if (campaign.BeaconRepair >= RepairMax) { reason = "등대가 이미 모두 복구됐습니다"; return false; }
+            if (campaign.Gold < DayRepairGold) { reason = $"골드 부족: 필요 {DayRepairGold:N0}, 보유 {campaign.Gold:N0}"; return false; }
+            campaign.Gold -= DayRepairGold;
+            campaign.BeaconRepair = Math.Min(RepairMax, campaign.BeaconRepair + DayRepairAmount);
+            campaign.BeaconRepairBoughtToday++;
+            return true;
+        }
+
+        // ── 밤 결과 ──────────────────────────────────────────
+
+        // 이긴 밤 반영 (결과 화면이 전투 결과 반영 뒤 한 번 부른다. 같은 실행 ID는 두 번 반영하지 않는다).
+        // 복구 증가 · 연속 패배 0 · 밤 번호 증가. 점화의 밤이면 요새 점화(수비대 남김) 뒤 다음 요새로 (또는 1회차 완료)
+        public static void ApplyWin(CampaignState campaign, BattleSetup setup, BattleResult result)
+        {
+            if (campaign == null || result == null || setup == null) return;
+            if (!string.IsNullOrEmpty(result.BattleRunId) && campaign.LastNightRunId == result.BattleRunId) return;
+
+            campaign.LastNightRunId = result.BattleRunId;
+            campaign.LastNightFortress = campaign.FortressNumber;
+            campaign.LastNightIndex = campaign.NightNumber;
+            campaign.ConsecutiveNightLosses = 0;
+            campaign.LastNightGain = 0f;
+            campaign.LastNightRelit = false;
+            campaign.LastNightGarrison = 0;
+
+            if (setup.IsIgnitionNight)
+            {
+                Relight(campaign);
+                return;
+            }
+
+            float gain = RepairGain(result.LampSeconds, campaign.FortressNumber);
+            float before = campaign.BeaconRepair;
+            campaign.BeaconRepair = Math.Min(RepairMax, before + gain);
+            campaign.LastNightGain = campaign.BeaconRepair - before;
+            campaign.NightNumber++;
+        }
+
+        // 진 밤 반영 (App이 한 번 부른다): 복구 절반(내림), 연속 패배 +1. 연속 한도에 닿으면 true (패배 엔딩)
+        public static bool ApplyLoss(CampaignState campaign)
+        {
+            campaign.BeaconRepair = (float)Math.Floor(campaign.BeaconRepair / 2f);
+            campaign.ConsecutiveNightLosses++;
+            return campaign.ConsecutiveNightLosses >= MaxConsecutiveLosses;
+        }
+
+        // 성벽 보강 (W11, 골드 쓸 곳): 값(보강 횟수에 따라 오름)을 내고 그 성벽 최대 체력을 올린다. 늘어난 만큼 현재 체력도 함께 오른다
+        public static bool TryReinforceWall(CampaignState campaign, string wallId, BattleRulesDef rules, out string reason)
+        {
+            reason = null;
+            WallSegmentState wall = campaign?.FindWall(wallId);
+            if (wall == null || rules == null) { reason = "성벽 정보가 없습니다"; return false; }
+            if (rules.WallReinforceHp <= 0) { reason = "성벽 보강이 꺼져 있습니다"; return false; }
+            if (wall.Reinforced >= rules.WallReinforceMaxPerWall) { reason = "이 성벽은 더 보강할 수 없습니다"; return false; }
+            int price = rules.WallReinforcePrice(wall.Reinforced);
+            if (campaign.Gold < price) { reason = $"골드 부족: 필요 {price:N0}, 보유 {campaign.Gold:N0}"; return false; }
+            campaign.Gold -= price;
+            wall.MaxHp += rules.WallReinforceHp;
+            wall.Hp += rules.WallReinforceHp;
+            wall.BonusMaxHp += rules.WallReinforceHp;
+            wall.Reinforced++;
+            return true;
+        }
+
+        // 진 밤 다음 낮 시작 (W11): 무너졌거나 심하게 상한 성벽을 최대 체력의 percent%까지 되돌린다 (이미 그 이상이면 그대로).
+        // percent는 전투 규칙 데이터(BattleRulesDef.LostNightWallFloorPercent)에서 온다. 바뀐 성벽 수를 돌려준다
+        public static int RaiseWallFloor(CampaignState campaign, int percent)
+        {
+            if (campaign?.Wall == null || percent <= 0) return 0;
+            int changed = 0;
+            foreach (WallSegmentState wall in campaign.Wall)
+            {
+                if (wall == null || wall.MaxHp <= 0) continue;
+                int floor = (int)(((long)wall.MaxHp * Math.Min(100, percent) + 99) / 100);
+                if (wall.Hp >= floor) continue;
+                wall.Hp = floor;
+                changed++;
+            }
+
+            return changed;
+        }
+
+        // 지금 진 밤이 연속 한도에 닿는가 (반영 전 판단용)
+        public static bool LossEndsRun(CampaignState campaign) => campaign.ConsecutiveNightLosses + 1 >= MaxConsecutiveLosses;
+
+        // 요새 점화 성공: 수비대 남김 → 다음 요새(밤 1·복구 0·성벽 가득) 또는 1회차 완료
+        static void Relight(CampaignState campaign)
+        {
+            campaign.LastNightRelit = true;
+            int left = TakeGarrison(campaign.Squads, GarrisonPercent);
+            campaign.LastNightGarrison = left;
+            if (left > 0)
+            {
+                GarrisonState entry = campaign.Garrisons.Find(g => g.FortressNumber == campaign.FortressNumber);
+                if (entry == null) campaign.Garrisons.Add(new GarrisonState { FortressNumber = campaign.FortressNumber, Count = left });
+                else entry.Count += left;
+            }
+
+            campaign.BeaconRepair = RepairMax;
+            if (campaign.FortressNumber >= FortressCount)
+            {
+                campaign.NextStory = new StoryRequest { Kind = StoryKind.RunComplete, StoryId = RunCompleteStoryId };
+                return;
+            }
+
+            // 새 요새: 성벽 가득, 복구 0, 밤 1. 새 지형 = 지형 씨앗을 바꿔 무작위 지형을 다시 만든다 (지형 손질·설치 함정은 옛 요새에 남음).
+            // 회수해 둔 함정(TrapStock)·상점 재고·병력·영웅은 그대로 들고 간다
+            // W12: 점화 이야기 → (끝나면 이어서) 다음 요새 도착 이야기. 결과 화면 뒤 App이 연다
+            campaign.NextStory = new StoryRequest { Kind = StoryKind.Normal, StoryId = RelitStoryId(campaign.FortressNumber) };
+            campaign.FortressNumber++;
+            campaign.NightNumber = 1;
+            campaign.BeaconRepair = 0f;
+            campaign.PlannedLamp = LampBrightness.Normal;
+            campaign.PlannedBeamSide = 0;
+            foreach (WallSegmentState wall in campaign.Wall)
+            {
+                wall.MaxHp -= wall.BonusMaxHp;   // W11: 성벽 보강은 새 요새로 넘어가지 않는다 — 기본 성벽·보강 횟수로 되돌린다
+                wall.BonusMaxHp = 0;
+                wall.Reinforced = 0;
+                wall.Hp = wall.MaxHp;
+            }
+            campaign.Traps.Clear();
+            campaign.TerrainWorks.Clear();
+            campaign.RngSeed = unchecked(campaign.RngSeed * 1103515245 + 12345 + campaign.FortressNumber * 7919);
+        }
+
+        // 살아남은 일반 병력의 percent%(내림)를 분대에서 비율대로 떼어 낸다. 큰 몫 우선 배분, 한 분대를 0으로 만들지는 않는다.
+        // 인원이 0인 분대는 목록에서 뺀다. 떼어 낸 인원 수를 돌려준다
+        public static int TakeGarrison(List<SquadState> squads, int percent)
+        {
+            if (squads == null) return 0;
+            squads.RemoveAll(s => s == null || s.Count <= 0);
+            long total = 0;
+            foreach (SquadState s in squads) total += s.Count;
+            long target = total * percent / 100;
+            if (target <= 0) return 0;
+
+            int n = squads.Count;
+            var take = new int[n];
+            var frac = new long[n];   // 나머지 (분대 인원 × percent % 100)
+            long given = 0;
+            for (int i = 0; i < n; i++)
+            {
+                long scaled = (long)squads[i].Count * percent;
+                take[i] = (int)Math.Min(scaled / 100, squads[i].Count - 1);
+                frac[i] = scaled % 100;
+                given += take[i];
+            }
+
+            // 모자란 인원은 나머지가 큰 분대부터 한 명씩
+            while (given < target)
+            {
+                int best = -1;
+                for (int i = 0; i < n; i++)
+                {
+                    if (take[i] >= squads[i].Count - 1) continue;
+                    if (best < 0 || frac[i] > frac[best]) best = i;
+                }
+                if (best < 0) break;   // 더 뗄 수 있는 분대가 없음
+                take[best]++;
+                frac[best] = -1;
+                given++;
+            }
+
+            for (int i = 0; i < n; i++) squads[i].Count -= take[i];
+            squads.RemoveAll(s => s.Count <= 0);
+            return (int)given;
+        }
+    }
+}

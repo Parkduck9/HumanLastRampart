@@ -1,0 +1,39 @@
+{
+  "id": "tower_square_intact",
+  "label": "사각 포탑·온전함",
+  "kind": "cutout_reference",
+  "family": "tower_square",
+  "state": "intact",
+  "file": "tower_square_intact/sprite.png",
+  "size": [
+    256,
+    384
+  ],
+  "pivotPixelsTopLeft": [
+    128,
+    352
+  ],
+  "pivotUnityNormalized": [
+    0.5,
+    0.08333333333333333
+  ],
+  "sourceSize": [
+    1024,
+    1536
+  ],
+  "sourceCrop": [
+    42,
+    151,
+    980,
+    1491
+  ],
+  "sharedSourceScale": 0.21940298507462686,
+  "packedBodySize": [
+    206,
+    294
+  ],
+  "pixelsPerMeter": null,
+  "normalMapIncluded": false,
+  "sha256": "6cbfa26af2d47dbcf6d883fa7e4f4333d5d41f5e28e69715018005202cfa5e97",
+  "sourceSha256": "223ef55784916fca37100e6d6a9e33266b467f419b37263451aa529f8f08c4d8"
+}

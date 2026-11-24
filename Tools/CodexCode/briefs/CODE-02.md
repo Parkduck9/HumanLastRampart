@@ -1,0 +1,6 @@
+CODE-02 — Battle start + crowding (items 20 and 2, user-confirmed 2026-10-20).
+
+1. Enemies visible within 5 s of battle start: the FIRST wave group of each battle (front, usually north) spawns 60–70 m from the wall and within 0–2 s (no 12 s spread for that first group). Later groups unchanged. See BattleSim.cs:48-49 (SpawnSpreadSeconds, FieldBand), :364 spread, :379-384 spawn depth/time; WaveDef.SpawnAtSeconds (Core/Definitions/WaveDef.cs:23). Prefer a rule in code ("first group of the battle") over editing every wave asset.
+2. Soldiers overlapping on a full wall ("squeeze into the gaps", user-confirmed): in Combat/Battle/BattleSim.Slots.cs, when soldiers exceed the free slots, do NOT pile overflow onto 9 spots 0.24 m apart (:116-120). Instead spread all soldiers on that wall evenly along the walkable span (shrinking spacing) down to a minimum spacing of ~0.25 m; only soldiers beyond that limit are refused when moving in (they stay on their original wall; show the existing notice style "북쪽 성벽 가득 참 — N명 남음"). Check MoveGroup / MoveWallGroups (BattleSim.Groups.cs:72-163) for the capacity check.
+
+Tests: EditMode/PlayProbe proving (1) at least one enemy is within 75 m of a wall after 5 s of sim time, (2) with soldiers above slot count no two soldiers on a wall are closer than 0.24 m and none stack on identical positions. Update handoff Progress rows 20 and 2.

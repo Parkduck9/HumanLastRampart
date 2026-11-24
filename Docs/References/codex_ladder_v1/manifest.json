@@ -1,0 +1,429 @@
+{
+  "card": "K-017",
+  "task": "T-CX-058",
+  "status": "시안·사용자확정전·Game연결없음",
+  "wallHeightMeters": 4,
+  "goblinHeightReferenceMeters": 0.35,
+  "ladderLengthProposalMeters": 4.3,
+  "assets": {
+    "ladder_front": {
+      "file": "assets/ladder_front.png",
+      "size": [
+        256,
+        1536
+      ],
+      "mode": "RGBA",
+      "sha256": "7c4ade7b17ddda39e7a06af87adeae1dec439a1ebc0dd3ca1c3604b169b0d5f7",
+      "kind": "prop",
+      "frames": 1,
+      "cell": [
+        256,
+        1536
+      ],
+      "pivot": [
+        128,
+        1472
+      ],
+      "unityPivotBottomLeft": [
+        0.5,
+        0.04166666666666663
+      ],
+      "ppuCandidate": 267.90697674418607,
+      "fullCanvasHeightMetersCandidate": 5.7333333333333325,
+      "body": [
+        16,
+        320,
+        224,
+        1152
+      ],
+      "sourceRect": [
+        368,
+        21,
+        656,
+        1505
+      ],
+      "proposalLengthMeters": 4.3,
+      "topHookReference": [
+        128,
+        320
+      ],
+      "anchorStatus": "하단 접지 중심/상단 갈고리 중심 제안; 정밀 hook contact는 3D 연결 검토",
+      "alphaCropThreshold": 16
+    },
+    "ladder_side": {
+      "file": "assets/ladder_side.png",
+      "size": [
+        256,
+        1536
+      ],
+      "mode": "RGBA",
+      "sha256": "32ae4f1b07abd9a2ceac321f9df160d0cdcd0a574248a89079306a2f877f49b4",
+      "kind": "prop",
+      "frames": 1,
+      "cell": [
+        256,
+        1536
+      ],
+      "pivot": [
+        128,
+        1472
+      ],
+      "unityPivotBottomLeft": [
+        0.5,
+        0.04166666666666663
+      ],
+      "ppuCandidate": 267.90697674418607,
+      "fullCanvasHeightMetersCandidate": 5.7333333333333325,
+      "body": [
+        60,
+        320,
+        136,
+        1152
+      ],
+      "sourceRect": [
+        471,
+        55,
+        639,
+        1482
+      ],
+      "proposalLengthMeters": 4.3,
+      "topHookReference": [
+        128,
+        320
+      ],
+      "anchorStatus": "하단 접지 중심/상단 갈고리 중심 제안; 정밀 hook contact는 3D 연결 검토",
+      "alphaCropThreshold": 16
+    },
+    "carry_run": {
+      "file": "assets/carry_run4.png",
+      "size": [
+        1024,
+        384
+      ],
+      "mode": "RGBA",
+      "sha256": "f20ef3eea6035e90d8a65302e5d3a284a440dcb34b516d0bfdce3dacc83a284e",
+      "kind": "character",
+      "frames": 4,
+      "cell": [
+        256,
+        384
+      ],
+      "pivot": [
+        128,
+        352
+      ],
+      "unityPivotBottomLeft": [
+        0.5,
+        0.08333333333333337
+      ],
+      "ppuCandidate": 742.8571428571429,
+      "framesData": [
+        {
+          "index": 0,
+          "sourceRect": [
+            49,
+            53,
+            447,
+            661
+          ],
+          "body": [
+            40,
+            92,
+            176,
+            260
+          ],
+          "pivot": [
+            128,
+            352
+          ]
+        },
+        {
+          "index": 1,
+          "sourceRect": [
+            553,
+            54,
+            447,
+            660
+          ],
+          "body": [
+            40,
+            92,
+            176,
+            260
+          ],
+          "pivot": [
+            128,
+            352
+          ]
+        },
+        {
+          "index": 2,
+          "sourceRect": [
+            1053,
+            54,
+            454,
+            660
+          ],
+          "body": [
+            39,
+            92,
+            179,
+            260
+          ],
+          "pivot": [
+            128,
+            352
+          ]
+        },
+        {
+          "index": 3,
+          "sourceRect": [
+            1566,
+            54,
+            449,
+            660
+          ],
+          "body": [
+            40,
+            92,
+            177,
+            260
+          ],
+          "pivot": [
+            128,
+            352
+          ]
+        }
+      ],
+      "maxBodyHeight": 260,
+      "source": "sources/carry_run_fixed.png",
+      "sharedScaleWithinClip": 0.39334341906202724,
+      "fpsProposal": 6,
+      "loop": true,
+      "alphaCropThreshold": 16
+    },
+    "deploy": {
+      "file": "assets/deploy4.png",
+      "size": [
+        1024,
+        384
+      ],
+      "mode": "RGBA",
+      "sha256": "27c6b2802bdfd6303c8097a10b325212ddcc54d54beef462da8753f8ffca0bef",
+      "kind": "character",
+      "frames": 4,
+      "cell": [
+        256,
+        384
+      ],
+      "pivot": [
+        128,
+        352
+      ],
+      "unityPivotBottomLeft": [
+        0.5,
+        0.08333333333333337
+      ],
+      "ppuCandidate": 742.8571428571429,
+      "framesData": [
+        {
+          "index": 0,
+          "sourceRect": [
+            58,
+            177,
+            373,
+            503
+          ],
+          "body": [
+            39,
+            110,
+            179,
+            242
+          ],
+          "pivot": [
+            128,
+            352
+          ]
+        },
+        {
+          "index": 1,
+          "sourceRect": [
+            542,
+            162,
+            415,
+            518
+          ],
+          "body": [
+            29,
+            103,
+            199,
+            249
+          ],
+          "pivot": [
+            128,
+            352
+          ]
+        },
+        {
+          "index": 2,
+          "sourceRect": [
+            1033,
+            147,
+            441,
+            533
+          ],
+          "body": [
+            22,
+            96,
+            212,
+            256
+          ],
+          "pivot": [
+            128,
+            352
+          ]
+        },
+        {
+          "index": 3,
+          "sourceRect": [
+            1559,
+            139,
+            449,
+            541
+          ],
+          "body": [
+            20,
+            92,
+            216,
+            260
+          ],
+          "pivot": [
+            128,
+            352
+          ]
+        }
+      ],
+      "maxBodyHeight": 260,
+      "source": "sources/deploy.png",
+      "sharedScaleWithinClip": 0.4805914972273567,
+      "fpsProposal": 6,
+      "loop": false,
+      "alphaCropThreshold": 16
+    },
+    "climb": {
+      "file": "assets/climb4.png",
+      "size": [
+        1024,
+        384
+      ],
+      "mode": "RGBA",
+      "sha256": "ac4a1ffe9ba8d6c2dbf1d259f7e1854b44fb699060b6e46fe3b0315c160e2aa2",
+      "kind": "character",
+      "frames": 4,
+      "cell": [
+        256,
+        384
+      ],
+      "pivot": [
+        128,
+        352
+      ],
+      "unityPivotBottomLeft": [
+        0.5,
+        0.08333333333333337
+      ],
+      "ppuCandidate": 742.8571428571429,
+      "framesData": [
+        {
+          "index": 0,
+          "sourceRect": [
+            105,
+            137,
+            379,
+            567
+          ],
+          "body": [
+            46,
+            106,
+            164,
+            246
+          ],
+          "pivot": [
+            128,
+            352
+          ]
+        },
+        {
+          "index": 1,
+          "sourceRect": [
+            580,
+            102,
+            371,
+            593
+          ],
+          "body": [
+            48,
+            95,
+            161,
+            257
+          ],
+          "pivot": [
+            128,
+            352
+          ]
+        },
+        {
+          "index": 2,
+          "sourceRect": [
+            1077,
+            102,
+            389,
+            595
+          ],
+          "body": [
+            44,
+            94,
+            169,
+            258
+          ],
+          "pivot": [
+            128,
+            352
+          ]
+        },
+        {
+          "index": 3,
+          "sourceRect": [
+            1586,
+            98,
+            379,
+            600
+          ],
+          "body": [
+            46,
+            92,
+            164,
+            260
+          ],
+          "pivot": [
+            128,
+            352
+          ]
+        }
+      ],
+      "maxBodyHeight": 260,
+      "source": "sources/climb_fixed.png",
+      "sharedScaleWithinClip": 0.43333333333333335,
+      "fpsProposal": 6,
+      "loop": true,
+      "alphaCropThreshold": 16
+    }
+  },
+  "technicalOperations": "기존 그림 복사 / alpha>16 실체 경계로 자르기 / 최근접 비율 축소 / 투명 격자 배치만. 픽셀 덧칠·색보정·알파 재작성 없음. 실체 crop 밖의 매우 낮은 알파 halo는 경계 자르기에서 빠질 수 있음.",
+  "limitations": [
+    "각 생성 시트의 손·가로대 정밀 접점과 후면 2번 프레임의 가려진 손은 사용자 검토 필요",
+    "정면/측면 소품은 개별 생성이라 가로대 수·위치의 완전한 3D 일치는 보장하지 않음",
+    "캐릭터 키0.35m 대비4m벽은 매우 커서 실제비율 합성에서 인물이 작게 보임. 상세 확대는 별도 표시",
+    "노멀맵·사다리 물리·최종 Unity 피벗/가림·게임 연결 미검증"
+  ]
+}

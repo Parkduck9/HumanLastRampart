@@ -1,0 +1,22 @@
+﻿[
+    {
+        "Algorithm":  "SHA256",
+        "Hash":  "B0900407E26994B630B9AD3C1316B4E68BBC24305443E56787542CF8B70D300A",
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-052\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\cannon_aim3.png"
+    },
+    {
+        "Algorithm":  "SHA256",
+        "Hash":  "C0B5A4CACB8839D3856DAA26390E6882F95E1375B8828C662D5C245DAF25D44D",
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-052\\Game\\Assets\\_Project\\Art\\Battle\\Resources\\BattleArt\\Cannon\\cannon_recoil.png"
+    },
+    {
+        "Algorithm":  "SHA256",
+        "Hash":  "7E4BD00D40549A19479FE738AD73C9A01EF70C0F8C272A5F7E17F6551270EEE3",
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-052\\Game\\Assets\\_Project\\Art\\Characters\\Run\\cannon_crew_run.png"
+    },
+    {
+        "Algorithm":  "SHA256",
+        "Hash":  "659D8820B5B01993D4005A10A09F384EA355F046A2EA677C90C3B8C02F2C9C05",
+        "Path":  "C:\\Unity\\1\\HLR-cards\\K-052\\Game\\Assets\\_Project\\Art\\Characters\\Fire\\cannon_crew_ignite6.png"
+    }
+]

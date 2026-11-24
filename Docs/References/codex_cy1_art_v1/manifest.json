@@ -1,0 +1,45 @@
+{
+  "status": "appearance_proposal",
+  "method": "built-in imagegen",
+  "assets": [
+    {
+      "key": "ogre",
+      "label": "오우거",
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a13349-5392-7c20-a320-9ed3f3fa4ed9\\exec-6aa0aab2-969b-4051-826f-4ea6297930ac.png",
+      "file": "ogre.png"
+    },
+    {
+      "key": "ladder_goblin",
+      "label": "사다리 고블린",
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a13349-5392-7c20-a320-9ed3f3fa4ed9\\exec-95b8bc66-7e74-4bf6-be14-5fe4ef241d0a.png",
+      "file": "ladder_goblin.png"
+    },
+    {
+      "key": "archer",
+      "label": "궁수",
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a13349-5392-7c20-a320-9ed3f3fa4ed9\\exec-eb6bfb4c-b673-49cd-b97e-ece5222b7ea4.png",
+      "file": "archer.png"
+    },
+    {
+      "key": "gunner",
+      "label": "총병",
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a13349-5392-7c20-a320-9ed3f3fa4ed9\\exec-fbe9bc36-5475-43dd-a3fe-f9dd1b2b20ac.png",
+      "file": "gunner.png"
+    },
+    {
+      "key": "cannon_crew",
+      "label": "대포병",
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a13349-5392-7c20-a320-9ed3f3fa4ed9\\exec-72163b6f-878b-48a2-9800-d25c18a1b85a.png",
+      "file": "cannon_crew.png"
+    },
+    {
+      "key": "wizard",
+      "label": "마법사",
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a13349-5392-7c20-a320-9ed3f3fa4ed9\\exec-d49a376f-21b4-4b98-b0f2-63110cdd8507.png",
+      "file": "wizard.png"
+    }
+  ],
+  "animationFrames": 0,
+  "nativePixelGrid": "unconfirmed",
+  "gameImported": false
+}

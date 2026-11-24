@@ -1,0 +1,39 @@
+{
+  "id": "battery_low_intact",
+  "label": "낮은 대포 포대·온전함",
+  "kind": "cutout_reference",
+  "family": "battery_low",
+  "state": "intact",
+  "file": "battery_low_intact/sprite.png",
+  "size": [
+    256,
+    384
+  ],
+  "pivotPixelsTopLeft": [
+    128,
+    352
+  ],
+  "pivotUnityNormalized": [
+    0.5,
+    0.08333333333333333
+  ],
+  "sourceSize": [
+    1024,
+    1536
+  ],
+  "sourceCrop": [
+    27,
+    659,
+    999,
+    1305
+  ],
+  "sharedSourceScale": 0.22764227642276422,
+  "packedBodySize": [
+    221,
+    147
+  ],
+  "pixelsPerMeter": null,
+  "normalMapIncluded": false,
+  "sha256": "a13c8956d6a44f5d2e64fd8adf0f7d7a6ec07a69b4b50992d7ef97d22ab6d980",
+  "sourceSha256": "4efbc82391ba9777fc602d06be404a1794f0437293dfe7cd2d421d66ba741d78"
+}

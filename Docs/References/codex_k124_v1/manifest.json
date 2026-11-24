@@ -1,0 +1,201 @@
+﻿{
+    "card":  "K-124",
+    "generator":  "built-in image_gen",
+    "source":  "sources/icon_redrawn.png",
+    "native_size":  [
+                        128,
+                        128
+                    ],
+    "sampling":  "nearest",
+    "background_rgba":  [
+                            11,
+                            21,
+                            40,
+                            255
+                        ],
+    "sprite_contract_applicable":  false,
+    "assets":  [
+                   {
+                       "file":  "icons/adaptive_background_432.png",
+                       "width":  432,
+                       "height":  432,
+                       "alpha_range":  [
+                                           255,
+                                           255
+                                       ],
+                       "frames":  1,
+                       "frame_order":  [
+                                           0
+                                       ],
+                       "pivot_normalized":  [
+                                                0.5,
+                                                0.5
+                                            ],
+                       "foot_baseline":  null
+                   },
+                   {
+                       "file":  "icons/adaptive_foreground_432.png",
+                       "width":  432,
+                       "height":  432,
+                       "alpha_range":  [
+                                           0,
+                                           255
+                                       ],
+                       "frames":  1,
+                       "frame_order":  [
+                                           0
+                                       ],
+                       "pivot_normalized":  [
+                                                0.5,
+                                                0.5
+                                            ],
+                       "foot_baseline":  null,
+                       "safe_circle":  {
+                                           "radius":  132,
+                                           "center":  [
+                                                          216,
+                                                          216
+                                                      ]
+                                       },
+                       "content_box":  [
+                                           120,
+                                           120,
+                                           192,
+                                           192
+                                       ]
+                   },
+                   {
+                       "file":  "icons/app_icon_1024.png",
+                       "width":  1024,
+                       "height":  1024,
+                       "alpha_range":  [
+                                           255,
+                                           255
+                                       ],
+                       "frames":  1,
+                       "frame_order":  [
+                                           0
+                                       ],
+                       "pivot_normalized":  [
+                                                0.5,
+                                                0.5
+                                            ],
+                       "foot_baseline":  null
+                   },
+                   {
+                       "file":  "icons/app_icon_128.png",
+                       "width":  128,
+                       "height":  128,
+                       "alpha_range":  [
+                                           255,
+                                           255
+                                       ],
+                       "frames":  1,
+                       "frame_order":  [
+                                           0
+                                       ],
+                       "pivot_normalized":  [
+                                                0.5,
+                                                0.5
+                                            ],
+                       "foot_baseline":  null
+                   },
+                   {
+                       "file":  "icons/app_icon_192.png",
+                       "width":  192,
+                       "height":  192,
+                       "alpha_range":  [
+                                           255,
+                                           255
+                                       ],
+                       "frames":  1,
+                       "frame_order":  [
+                                           0
+                                       ],
+                       "pivot_normalized":  [
+                                                0.5,
+                                                0.5
+                                            ],
+                       "foot_baseline":  null
+                   },
+                   {
+                       "file":  "icons/app_icon_256.png",
+                       "width":  256,
+                       "height":  256,
+                       "alpha_range":  [
+                                           255,
+                                           255
+                                       ],
+                       "frames":  1,
+                       "frame_order":  [
+                                           0
+                                       ],
+                       "pivot_normalized":  [
+                                                0.5,
+                                                0.5
+                                            ],
+                       "foot_baseline":  null
+                   },
+                   {
+                       "file":  "icons/app_icon_48.png",
+                       "width":  48,
+                       "height":  48,
+                       "alpha_range":  [
+                                           255,
+                                           255
+                                       ],
+                       "frames":  1,
+                       "frame_order":  [
+                                           0
+                                       ],
+                       "pivot_normalized":  [
+                                                0.5,
+                                                0.5
+                                            ],
+                       "foot_baseline":  null
+                   },
+                   {
+                       "file":  "icons/app_icon_512.png",
+                       "width":  512,
+                       "height":  512,
+                       "alpha_range":  [
+                                           255,
+                                           255
+                                       ],
+                       "frames":  1,
+                       "frame_order":  [
+                                           0
+                                       ],
+                       "pivot_normalized":  [
+                                                0.5,
+                                                0.5
+                                            ],
+                       "foot_baseline":  null
+                   },
+                   {
+                       "file":  "icons/lamp_foreground_128.png",
+                       "width":  128,
+                       "height":  128,
+                       "alpha_range":  [
+                                           0,
+                                           255
+                                       ],
+                       "frames":  1,
+                       "frame_order":  [
+                                           0
+                                       ],
+                       "pivot_normalized":  [
+                                                0.5,
+                                                0.5
+                                            ],
+                       "foot_baseline":  null
+                   }
+               ],
+    "adaptive_foreground_max_radius":  105.42295765154761,
+    "cleanup_removed_native_pixels":  0,
+    "notes":  [
+                  "기존 K-121 파일명·크기·적응형 배치를 유지했습니다.",
+                  "정지 아이콘이므로 발 기준선·동작 프레임 규칙은 적용하지 않습니다.",
+                  "기존 원본과 Game 폴더는 수정하지 않았습니다."
+              ]
+}

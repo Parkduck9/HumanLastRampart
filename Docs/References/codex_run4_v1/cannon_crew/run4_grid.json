@@ -1,0 +1,107 @@
+{
+  "id": "cannon_crew",
+  "label": "대포병",
+  "action": "run",
+  "facing": "side",
+  "columns": 4,
+  "rows": 1,
+  "cell": [
+    256,
+    384
+  ],
+  "size": [
+    1024,
+    384
+  ],
+  "frames": 4,
+  "fps": 8,
+  "frameOrder": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "footPivotTopLeft": [
+    128,
+    352
+  ],
+  "groundPolicy": "shared source baseline; airborne boots stay above ground",
+  "uniformScale": 0.35443037974683544,
+  "sourceSha256": "3bbe94e43b9da6c8f4a4bc578acdd9414dee3392276c97c25e083157d49ca188",
+  "sheetSha256": "7e4bd00d40549a19479fe738ad73c9a01ef70c0f8c272a5f7e17f6551270eee3",
+  "frameHashes": [
+    "8801fb76eea0363bfbb0c9d130d3d049fb6ff9e4c731ca2e3f22fe2250450315",
+    "bf4d1b428404c730b018856653c546b7f73a5fab7052ce1bbbd9e26f6c422cb0",
+    "de78fc0891ecaec0164167aed9f393c0a6defdde8b6e4d63a7615fb815535dd5",
+    "ba9e0f4c20191a999d3c16dd4c0ba058eb9d682eb47cf696bf52b727319de0ee"
+  ],
+  "framesData": [
+    {
+      "frame": 0,
+      "packedRect": [
+        56,
+        130,
+        184,
+        222
+      ],
+      "groundGap": 0,
+      "sourceRect": [
+        23,
+        47,
+        518,
+        627
+      ]
+    },
+    {
+      "frame": 1,
+      "packedRect": [
+        58,
+        129,
+        176,
+        203
+      ],
+      "groundGap": 20,
+      "sourceRect": [
+        571,
+        44,
+        497,
+        573
+      ]
+    },
+    {
+      "frame": 2,
+      "packedRect": [
+        55,
+        129,
+        183,
+        223
+      ],
+      "groundGap": 0,
+      "sourceRect": [
+        1079,
+        46,
+        517,
+        628
+      ]
+    },
+    {
+      "frame": 3,
+      "packedRect": [
+        54,
+        129,
+        165,
+        211
+      ],
+      "groundGap": 12,
+      "sourceRect": [
+        1661,
+        44,
+        466,
+        594
+      ]
+    }
+  ],
+  "rightPreview": "mirror",
+  "status": "user-review-draft",
+  "unityPlayVerified": false
+}

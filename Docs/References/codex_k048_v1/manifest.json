@@ -1,0 +1,534 @@
+{
+    "ignite":  {
+                   "contacts":  [
+                                    [
+                                        54,
+                                        191
+                                    ],
+                                    [
+                                        41,
+                                        157
+                                    ],
+                                    [
+                                        23,
+                                        182
+                                    ],
+                                    [
+                                        66,
+                                        133
+                                    ],
+                                    [
+                                        32,
+                                        176
+                                    ],
+                                    [
+                                        57,
+                                        188
+                                    ]
+                                ],
+                   "cell":  [
+                                256,
+                                384
+                            ],
+                   "fireSeconds":  1.5,
+                   "frames":  [
+                                  {
+                                      "sourceBounds":  [
+                                                           42,
+                                                           245,
+                                                           274,
+                                                           354
+                                                       ],
+                                      "scale":  0.59322033898305082,
+                                      "placed":  [
+                                                     43,
+                                                     142,
+                                                     163,
+                                                     210
+                                                 ],
+                                      "bodyTop":  245,
+                                      "index":  0
+                                  },
+                                  {
+                                      "sourceBounds":  [
+                                                           15,
+                                                           218,
+                                                           296,
+                                                           381
+                                                       ],
+                                      "scale":  0.59322033898305082,
+                                      "placed":  [
+                                                     29,
+                                                     126,
+                                                     176,
+                                                     226
+                                                 ],
+                                      "bodyTop":  245,
+                                      "index":  1
+                                  },
+                                  {
+                                      "sourceBounds":  [
+                                                           7,
+                                                           245,
+                                                           331,
+                                                           354
+                                                       ],
+                                      "scale":  0.59322033898305082,
+                                      "placed":  [
+                                                     8,
+                                                     142,
+                                                     196,
+                                                     210
+                                                 ],
+                                      "bodyTop":  245,
+                                      "index":  2
+                                  },
+                                  {
+                                      "sourceBounds":  [
+                                                           71,
+                                                           180,
+                                                           255,
+                                                           419
+                                                       ],
+                                      "scale":  0.59322033898305082,
+                                      "placed":  [
+                                                     54,
+                                                     103,
+                                                     151,
+                                                     249
+                                                 ],
+                                      "bodyTop":  245,
+                                      "index":  3
+                                  },
+                                  {
+                                      "sourceBounds":  [
+                                                           29,
+                                                           245,
+                                                           311,
+                                                           354
+                                                       ],
+                                      "scale":  0.59322033898305082,
+                                      "placed":  [
+                                                     20,
+                                                     142,
+                                                     184,
+                                                     210
+                                                 ],
+                                      "bodyTop":  245,
+                                      "index":  4
+                                  },
+                                  {
+                                      "sourceBounds":  [
+                                                           80,
+                                                           245,
+                                                           270,
+                                                           354
+                                                       ],
+                                      "scale":  0.59322033898305082,
+                                      "placed":  [
+                                                     45,
+                                                     142,
+                                                     160,
+                                                     210
+                                                 ],
+                                      "bodyTop":  245,
+                                      "index":  5
+                                  }
+                              ],
+                   "contactSeconds":  0.5,
+                   "cycleSeconds":  3.2,
+                   "pivot":  [
+                                 128,
+                                 352
+                             ]
+               },
+    "crew":  {
+                 "crew_pull6":  {
+                                    "cell":  [
+                                                 256,
+                                                 384
+                                             ],
+                                    "frames":  [
+                                                   {
+                                                       "stanceLeg":  "왼발",
+                                                       "stanceFoot":  [
+                                                                          84,
+                                                                          352
+                                                                      ],
+                                                       "hand":  [
+                                                                    219,
+                                                                    251
+                                                                ],
+                                                       "placed":  [
+                                                                      46,
+                                                                      142,
+                                                                      183,
+                                                                      210
+                                                                  ],
+                                                       "distance":  0,
+                                                       "sourceRect":  [
+                                                                          26,
+                                                                          124,
+                                                                          263,
+                                                                          302
+                                                                      ],
+                                                       "index":  0
+                                                   },
+                                                   {
+                                                       "stanceLeg":  "왼발",
+                                                       "stanceFoot":  [
+                                                                          124,
+                                                                          352
+                                                                      ],
+                                                       "hand":  [
+                                                                    223,
+                                                                    251
+                                                                ],
+                                                       "placed":  [
+                                                                      53,
+                                                                      142,
+                                                                      180,
+                                                                      210
+                                                                  ],
+                                                       "distance":  40,
+                                                       "sourceRect":  [
+                                                                          310,
+                                                                          122,
+                                                                          260,
+                                                                          304
+                                                                      ],
+                                                       "index":  1
+                                                   },
+                                                   {
+                                                       "stanceLeg":  "왼발",
+                                                       "stanceFoot":  [
+                                                                          164,
+                                                                          352
+                                                                      ],
+                                                       "hand":  [
+                                                                    199,
+                                                                    251
+                                                                ],
+                                                       "placed":  [
+                                                                      26,
+                                                                      142,
+                                                                      183,
+                                                                      210
+                                                                  ],
+                                                       "distance":  80,
+                                                       "sourceRect":  [
+                                                                          1486,
+                                                                          122,
+                                                                          266,
+                                                                          305
+                                                                      ],
+                                                       "index":  2
+                                                   },
+                                                   {
+                                                       "stanceLeg":  "오른발",
+                                                       "stanceFoot":  [
+                                                                          84,
+                                                                          352
+                                                                      ],
+                                                       "hand":  [
+                                                                    217,
+                                                                    251
+                                                                ],
+                                                       "placed":  [
+                                                                      43,
+                                                                      142,
+                                                                      184,
+                                                                      210
+                                                                  ],
+                                                       "distance":  120,
+                                                       "sourceRect":  [
+                                                                          908,
+                                                                          122,
+                                                                          267,
+                                                                          304
+                                                                      ],
+                                                       "index":  3
+                                                   },
+                                                   {
+                                                       "stanceLeg":  "오른발",
+                                                       "stanceFoot":  [
+                                                                          124,
+                                                                          352
+                                                                      ],
+                                                       "hand":  [
+                                                                    231,
+                                                                    251
+                                                                ],
+                                                       "placed":  [
+                                                                      59,
+                                                                      142,
+                                                                      182,
+                                                                      210
+                                                                  ],
+                                                       "distance":  160,
+                                                       "sourceRect":  [
+                                                                          1193,
+                                                                          122,
+                                                                          264,
+                                                                          305
+                                                                      ],
+                                                       "index":  4
+                                                   },
+                                                   {
+                                                       "stanceLeg":  "오른발",
+                                                       "stanceFoot":  [
+                                                                          164,
+                                                                          352
+                                                                      ],
+                                                       "hand":  [
+                                                                    199,
+                                                                    251
+                                                                ],
+                                                       "placed":  [
+                                                                      25,
+                                                                      142,
+                                                                      184,
+                                                                      210
+                                                                  ],
+                                                       "distance":  200,
+                                                       "sourceRect":  [
+                                                                          599,
+                                                                          122,
+                                                                          266,
+                                                                          304
+                                                                      ],
+                                                       "index":  5
+                                                   }
+                                               ],
+                                    "height":  210,
+                                    "pivot":  [
+                                                  128,
+                                                  352
+                                              ]
+                                },
+                 "crew_push6":  {
+                                    "cell":  [
+                                                 256,
+                                                 384
+                                             ],
+                                    "frames":  [
+                                                   {
+                                                       "stanceLeg":  "왼발",
+                                                       "stanceFoot":  [
+                                                                          84,
+                                                                          352
+                                                                      ],
+                                                       "hand":  [
+                                                                    42,
+                                                                    251
+                                                                ],
+                                                       "placed":  [
+                                                                      32,
+                                                                      142,
+                                                                      198,
+                                                                      210
+                                                                  ],
+                                                       "distance":  0,
+                                                       "sourceRect":  [
+                                                                          9,
+                                                                          524,
+                                                                          280,
+                                                                          297
+                                                                      ],
+                                                       "index":  0
+                                                   },
+                                                   {
+                                                       "stanceLeg":  "왼발",
+                                                       "stanceFoot":  [
+                                                                          124,
+                                                                          352
+                                                                      ],
+                                                       "hand":  [
+                                                                    45,
+                                                                    251
+                                                                ],
+                                                       "placed":  [
+                                                                      35,
+                                                                      142,
+                                                                      190,
+                                                                      210
+                                                                  ],
+                                                       "distance":  40,
+                                                       "sourceRect":  [
+                                                                          296,
+                                                                          524,
+                                                                          268,
+                                                                          296
+                                                                      ],
+                                                       "index":  1
+                                                   },
+                                                   {
+                                                       "stanceLeg":  "왼발",
+                                                       "stanceFoot":  [
+                                                                          164,
+                                                                          352
+                                                                      ],
+                                                       "hand":  [
+                                                                    22,
+                                                                    251
+                                                                ],
+                                                       "placed":  [
+                                                                      12,
+                                                                      142,
+                                                                      189,
+                                                                      210
+                                                                  ],
+                                                       "distance":  80,
+                                                       "sourceRect":  [
+                                                                          1479,
+                                                                          524,
+                                                                          267,
+                                                                          297
+                                                                      ],
+                                                       "index":  2
+                                                   },
+                                                   {
+                                                       "stanceLeg":  "오른발",
+                                                       "stanceFoot":  [
+                                                                          84,
+                                                                          352
+                                                                      ],
+                                                       "hand":  [
+                                                                    38,
+                                                                    251
+                                                                ],
+                                                       "placed":  [
+                                                                      28,
+                                                                      142,
+                                                                      199,
+                                                                      210
+                                                                  ],
+                                                       "distance":  120,
+                                                       "sourceRect":  [
+                                                                          890,
+                                                                          524,
+                                                                          281,
+                                                                          297
+                                                                      ],
+                                                       "index":  3
+                                                   },
+                                                   {
+                                                       "stanceLeg":  "오른발",
+                                                       "stanceFoot":  [
+                                                                          124,
+                                                                          352
+                                                                      ],
+                                                       "hand":  [
+                                                                    54,
+                                                                    251
+                                                                ],
+                                                       "placed":  [
+                                                                      44,
+                                                                      142,
+                                                                      189,
+                                                                      210
+                                                                  ],
+                                                       "distance":  160,
+                                                       "sourceRect":  [
+                                                                          1183,
+                                                                          524,
+                                                                          268,
+                                                                          297
+                                                                      ],
+                                                       "index":  4
+                                                   },
+                                                   {
+                                                       "stanceLeg":  "오른발",
+                                                       "stanceFoot":  [
+                                                                          164,
+                                                                          352
+                                                                      ],
+                                                       "hand":  [
+                                                                    21,
+                                                                    251
+                                                                ],
+                                                       "placed":  [
+                                                                      11,
+                                                                      142,
+                                                                      190,
+                                                                      210
+                                                                  ],
+                                                       "distance":  200,
+                                                       "sourceRect":  [
+                                                                          591,
+                                                                          524,
+                                                                          269,
+                                                                          297
+                                                                      ],
+                                                       "index":  5
+                                                   }
+                                               ],
+                                    "height":  210,
+                                    "pivot":  [
+                                                  128,
+                                                  352
+                                              ]
+                                }
+             },
+    "cannon":  {
+                   "wheelRadius":  71,
+                   "rearHandle":  [
+                                      374,
+                                      273
+                                  ],
+                   "wheelCenter":  [
+                                       258,
+                                       281
+                                   ],
+                   "sourceBounds":  [
+                                        83,
+                                        106,
+                                        1177,
+                                        1022
+                                    ],
+                   "fuse":  [
+                                346,
+                                133
+                            ],
+                   "muzzle":  [
+                                  151,
+                                  170
+                              ],
+                   "frontHandle":  [
+                                       174,
+                                       268
+                                   ],
+                   "pivot":  [
+                                 256,
+                                 352
+                             ],
+                   "bounds":  [
+                                  135,
+                                  128,
+                                  242,
+                                  224
+                              ],
+                   "cell":  [
+                                512,
+                                384
+                            ],
+                   "sourceScale":  [
+                                       0.205607476635514,
+                                       0.21917808219178081
+                                   ]
+               },
+    "walk":  {
+                 "stanceLocalX":  [
+                                      84,
+                                      124,
+                                      164,
+                                      84,
+                                      124,
+                                      164
+                                  ],
+                 "pixelsPerFrame":  40,
+                 "note":  "접지 좌표를 맞춘 여섯 칸 이동. 한 칸 안에서는 위치를 유지하며 칸 전환 때40px 이동한다.",
+                 "fps":  6,
+                 "cycleDistance":  240
+             }
+}

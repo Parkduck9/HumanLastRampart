@@ -1,0 +1,33 @@
+# 함정 전투 결과 반영 구현 (T-CX-035)
+
+- 작성 Codex. 구현/직접 소스 검증 완료, Claude Unity 연동 QA·커밋 허가 대기.
+- 근거: 사용자 진행 지시, M-CL-047/048/049, C-007 v1.1·C-008 r6 V4.
+
+## 변경 내용
+
+BattleResultApplier는 이번 전투 준비에 포함된 함정만 소비·이동 결과로 받는다. 소비된 함정은 설치 목록에서 제거하고 이동은 ActualX/Z만 갱신한다. 지도 Mark·원래 SlotId·다른 지형 함정·보관함·상점 재고는 유지한다. 불발 등 소비 목록에 없는 함정은 남긴다.
+
+중복/빈/모르는 ID, 소비와 이동의 교집합, 다른 지형 결과, 시작과 현재 함정 상태 불일치, NaN/무한대·성 안·들판 밖 이동을 거부한다. 모든 함정 검증과 복사 준비를 골드·병력·성벽 반영 전에 마치므로 오류 때 기존 목록과 값은 그대로다. 같은 BattleRunId 재진입은 이미 적용한 것으로 반환한다.
+
+TryApply의 선택적 세번째 인자 TerrainDef로 이동 범위를 검사한다. 기존 두 인자 호출은 소비만/함정 없는 결과에서 그대로 동작하며, 이동 결과가 있으면 맞는 지형 정의가 필요하다. ResultEntry는 현재 전투 지형 정의를 전달한다. 거리 검사는 Combat.ValidGround와 같이 max(abs(X),abs(Z))−CastleHalfSize가 TrapNear/2 이상, FieldSize 이하인지 확인한다. 이동2~5m·언덕 회피는 Combat의 보장이며 Meta에서는 약속의 필수 범위 검사를 수행한다.
+
+## 검증
+
+- 실제 Core/Meta 소스 검사 87/87: 기존57 + 새함정30. Unity 데이터 타입/반영기는 실제 소스이며 외부 시험의 Unity 속성·Vector·ScriptableObject만 최소 대체한다.
+- 소비+이동+보상 동시 반영·스냅샷 보존·낡은 표시 보존·다른 지형/재고 보존·중복 재진입·불발 잔존·허용경계·오류 시 전체 무변경 검사.
+- Unity6.3.25f1 및 프로젝트 Core/UI 참조로 Meta 모든 소스 직접 컴파일 오류0.
+- Unity 에디터/Play/실제 화면 QA는 실행하지 않았다. Claude에게 연결 QA 요청한다.
+- 로그/시험: Docs/collab/live/codex/qa/T-CX-035/ (Git 무시).
+
+## 다음 확인
+
+Claude는 함정이 설치된 전투를 끝낸 뒤 결과 화면에서 E2 오류 없이 소비 제거·이동 갱신이 반영되는지 확인한다. 같은 결과 화면 재진입에 보상/소비/이동 중복이 없는지도 확인한다. 정비 설치 UI는 후속 작업이다.
+
+## 변경 파일과 커밋 요청
+
+G-CX-022: Game/Assets/_Project/Meta/BattleResultApplier.cs, Game/Assets/_Project/Meta/ResultEntry.cs 두 파일만. 새 Unity 에셋/폴더가 없어 meta 추가 없음. develop 커밋 허가 대기.
+G-CX-023: 이 MD와 References HTML, _HTML/codex_함정결과반영_v1.html 세 문서 파일. 코드와 별도 허가 요청. main/원격 반영 없음.
+
+## 연동 QA 및 코드 커밋 완료
+
+M-CL-050 Claude 보고: 실제 전투 점화→승리→결과에서 소비된 함정만 제거, 남은 표시/칸 유지, 결과 상세 재열기 무중복, 정비 진입 정상. 균형 측정 쉬움·현실6판에서도 반영 오류0. Codex 직접 Unity 실행으로 오인하지 않는다. G-CX-022 허가에 따라 Meta2파일 develop cdf9f2c 커밋 완료. 문서 G-CX-023은 별도 허가 대기. main/원격 반영 없음.

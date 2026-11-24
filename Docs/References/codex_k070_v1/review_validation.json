@@ -1,0 +1,29 @@
+{
+  "decoded": true,
+  "one": [
+    480,
+    480,
+    480
+  ],
+  "four": [
+    1920,
+    1920,
+    1920
+  ],
+  "mocks": [
+    {
+      "width": 800,
+      "natural": 800
+    },
+    {
+      "width": 800,
+      "natural": 800
+    },
+    {
+      "width": 800,
+      "natural": 800
+    }
+  ],
+  "mobile_page_overflow": false,
+  "script_errors": []
+}

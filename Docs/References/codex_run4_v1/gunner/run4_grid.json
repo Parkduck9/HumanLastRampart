@@ -1,0 +1,107 @@
+{
+  "id": "gunner",
+  "label": "총병",
+  "action": "run",
+  "facing": "side",
+  "columns": 4,
+  "rows": 1,
+  "cell": [
+    256,
+    384
+  ],
+  "size": [
+    1024,
+    384
+  ],
+  "frames": 4,
+  "fps": 8,
+  "frameOrder": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "footPivotTopLeft": [
+    128,
+    352
+  ],
+  "groundPolicy": "shared source baseline; airborne boots stay above ground",
+  "uniformScale": 0.345679012345679,
+  "sourceSha256": "0b0e838355ad8d15b1a39ad2cbb6eb5f62a2e9af47243ca7c9a9287cf6a4573d",
+  "sheetSha256": "a631038dc80bf53f8e21465429fa0e1e4d50739f3bf9b4bc77ed431b32047c61",
+  "frameHashes": [
+    "7cc66923cf6578b24327759292d54d9324a24374217df0f7e895cc1aabe6ab8c",
+    "13535f620d0b0c72fabcdb553c95cc78a71e5a9b379b2272007472a108425f81",
+    "a60a7b54326f28fede8b7aeab52110e18ef3008b9d4f083d54592bae20b70e03",
+    "35dc61e2567e934ac96c6967f2a9acfe5a690af5c16b99651827625ecf8c1542"
+  ],
+  "framesData": [
+    {
+      "frame": 0,
+      "packedRect": [
+        65,
+        133,
+        171,
+        218
+      ],
+      "groundGap": 1,
+      "sourceRect": [
+        32,
+        90,
+        496,
+        631
+      ]
+    },
+    {
+      "frame": 1,
+      "packedRect": [
+        65,
+        127,
+        160,
+        217
+      ],
+      "groundGap": 8,
+      "sourceRect": [
+        528,
+        72,
+        463,
+        629
+      ]
+    },
+    {
+      "frame": 2,
+      "packedRect": [
+        66,
+        133,
+        174,
+        219
+      ],
+      "groundGap": 0,
+      "sourceRect": [
+        1032,
+        90,
+        504,
+        633
+      ]
+    },
+    {
+      "frame": 3,
+      "packedRect": [
+        66,
+        127,
+        148,
+        220
+      ],
+      "groundGap": 5,
+      "sourceRect": [
+        1576,
+        73,
+        429,
+        636
+      ]
+    }
+  ],
+  "rightPreview": "mirror",
+  "status": "user-review-draft",
+  "unityPlayVerified": false
+}

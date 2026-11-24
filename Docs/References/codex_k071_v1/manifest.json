@@ -1,0 +1,447 @@
+{
+  "card": "K-071",
+  "cell_size": [
+    256,
+    384
+  ],
+  "native_size": [
+    64,
+    96
+  ],
+  "pivot_top_left": [
+    128,
+    352
+  ],
+  "screen_rect_pivot": [
+    0.5,
+    0
+  ],
+  "screen_rect_size": [
+    512,
+    768
+  ],
+  "screen_anchors": [
+    [
+      0.25,
+      0
+    ],
+    [
+      0.75,
+      0
+    ]
+  ],
+  "screen_offset_y": 140,
+  "expressions": {
+    "hero": [
+      "neutral",
+      "determined",
+      "surprised",
+      "tired"
+    ],
+    "wizard": [
+      "neutral",
+      "determined",
+      "surprised",
+      "tired"
+    ],
+    "archer": [
+      "neutral",
+      "alarmed"
+    ]
+  },
+  "portraits": [
+    {
+      "speaker": "장교",
+      "expression": "neutral",
+      "file": "hero_neutral.png",
+      "size": [
+        256,
+        384
+      ],
+      "native_size": [
+        64,
+        96
+      ],
+      "alpha_bbox": [
+        40,
+        48,
+        192,
+        352
+      ],
+      "foot_pivot_top_left": [
+        128,
+        352
+      ],
+      "boot_region_bbox_center_x": 126.0,
+      "connected_components": 1,
+      "frame_order": [
+        "neutral"
+      ]
+    },
+    {
+      "speaker": "장교",
+      "expression": "determined",
+      "file": "hero_determined.png",
+      "size": [
+        256,
+        384
+      ],
+      "native_size": [
+        64,
+        96
+      ],
+      "alpha_bbox": [
+        48,
+        48,
+        200,
+        352
+      ],
+      "foot_pivot_top_left": [
+        128,
+        352
+      ],
+      "boot_region_bbox_center_x": 130.0,
+      "connected_components": 1,
+      "frame_order": [
+        "determined"
+      ]
+    },
+    {
+      "speaker": "장교",
+      "expression": "surprised",
+      "file": "hero_surprised.png",
+      "size": [
+        256,
+        384
+      ],
+      "native_size": [
+        64,
+        96
+      ],
+      "alpha_bbox": [
+        44,
+        48,
+        196,
+        352
+      ],
+      "foot_pivot_top_left": [
+        128,
+        352
+      ],
+      "boot_region_bbox_center_x": 128.0,
+      "connected_components": 1,
+      "frame_order": [
+        "surprised"
+      ]
+    },
+    {
+      "speaker": "장교",
+      "expression": "tired",
+      "file": "hero_tired.png",
+      "size": [
+        256,
+        384
+      ],
+      "native_size": [
+        64,
+        96
+      ],
+      "alpha_bbox": [
+        48,
+        48,
+        200,
+        352
+      ],
+      "foot_pivot_top_left": [
+        128,
+        352
+      ],
+      "boot_region_bbox_center_x": 128.0,
+      "connected_components": 1,
+      "frame_order": [
+        "tired"
+      ]
+    },
+    {
+      "speaker": "마법사",
+      "expression": "neutral",
+      "file": "wizard_neutral.png",
+      "size": [
+        256,
+        384
+      ],
+      "native_size": [
+        64,
+        96
+      ],
+      "alpha_bbox": [
+        32,
+        56,
+        192,
+        352
+      ],
+      "foot_pivot_top_left": [
+        128,
+        352
+      ],
+      "boot_region_bbox_center_x": 126.0,
+      "connected_components": 1,
+      "frame_order": [
+        "neutral"
+      ]
+    },
+    {
+      "speaker": "마법사",
+      "expression": "determined",
+      "file": "wizard_determined.png",
+      "size": [
+        256,
+        384
+      ],
+      "native_size": [
+        64,
+        96
+      ],
+      "alpha_bbox": [
+        32,
+        56,
+        192,
+        352
+      ],
+      "foot_pivot_top_left": [
+        128,
+        352
+      ],
+      "boot_region_bbox_center_x": 126.0,
+      "connected_components": 1,
+      "frame_order": [
+        "determined"
+      ]
+    },
+    {
+      "speaker": "마법사",
+      "expression": "surprised",
+      "file": "wizard_surprised.png",
+      "size": [
+        256,
+        384
+      ],
+      "native_size": [
+        64,
+        96
+      ],
+      "alpha_bbox": [
+        32,
+        56,
+        192,
+        352
+      ],
+      "foot_pivot_top_left": [
+        128,
+        352
+      ],
+      "boot_region_bbox_center_x": 126.0,
+      "connected_components": 1,
+      "frame_order": [
+        "surprised"
+      ]
+    },
+    {
+      "speaker": "마법사",
+      "expression": "tired",
+      "file": "wizard_tired.png",
+      "size": [
+        256,
+        384
+      ],
+      "native_size": [
+        64,
+        96
+      ],
+      "alpha_bbox": [
+        32,
+        56,
+        192,
+        352
+      ],
+      "foot_pivot_top_left": [
+        128,
+        352
+      ],
+      "boot_region_bbox_center_x": 126.0,
+      "connected_components": 1,
+      "frame_order": [
+        "tired"
+      ]
+    },
+    {
+      "speaker": "궁수",
+      "expression": "neutral",
+      "file": "archer_neutral.png",
+      "size": [
+        256,
+        384
+      ],
+      "native_size": [
+        64,
+        96
+      ],
+      "alpha_bbox": [
+        56,
+        52,
+        224,
+        352
+      ],
+      "foot_pivot_top_left": [
+        128,
+        352
+      ],
+      "boot_region_bbox_center_x": 130.0,
+      "connected_components": 1,
+      "frame_order": [
+        "neutral"
+      ]
+    },
+    {
+      "speaker": "궁수",
+      "expression": "alarmed",
+      "file": "archer_alarmed.png",
+      "size": [
+        256,
+        384
+      ],
+      "native_size": [
+        64,
+        96
+      ],
+      "alpha_bbox": [
+        56,
+        52,
+        224,
+        352
+      ],
+      "foot_pivot_top_left": [
+        128,
+        352
+      ],
+      "boot_region_bbox_center_x": 130.0,
+      "connected_components": 1,
+      "frame_order": [
+        "alarmed"
+      ]
+    }
+  ],
+  "source_files": {
+    "hero": "Game/Assets/_Project/Art/Characters/Hero/hero_walk_run_grid.png",
+    "wizard": "Game/Assets/_Project/Story/Resources/StoryArt/wizard_front_chestnut.png",
+    "archer": "Game/Assets/_Project/Art/Characters/Static/archer_static.png"
+  },
+  "source_cells": {
+    "hero": 12,
+    "archer": 0,
+    "wizard": 0
+  },
+  "swaps": [
+    {
+      "file": "hero_walk_run_grid.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "columns": 4,
+      "rows": 4,
+      "frame_count": 16,
+      "changed_cells": [
+        12
+      ],
+      "warning": "Story-only copy; other 15 battle cells retained byte-for-byte. Do not overwrite the shared battle sheet."
+    },
+    {
+      "file": "archer_static.png",
+      "size": [
+        256,
+        384
+      ],
+      "frame_count": 1
+    },
+    {
+      "file": "wizard_front_chestnut.png",
+      "size": [
+        256,
+        384
+      ],
+      "frame_count": 1
+    }
+  ],
+  "expression_sheets": [
+    {
+      "file": "hero_expressions.png",
+      "size": [
+        1024,
+        384
+      ],
+      "frame_count": 4,
+      "frame_order": [
+        "neutral",
+        "determined",
+        "surprised",
+        "tired"
+      ],
+      "pivot_per_cell_top_left": [
+        128,
+        352
+      ],
+      "preview_4x_size": [
+        4096,
+        1536
+      ]
+    },
+    {
+      "file": "wizard_expressions.png",
+      "size": [
+        1024,
+        384
+      ],
+      "frame_count": 4,
+      "frame_order": [
+        "neutral",
+        "determined",
+        "surprised",
+        "tired"
+      ],
+      "pivot_per_cell_top_left": [
+        128,
+        352
+      ],
+      "preview_4x_size": [
+        4096,
+        1536
+      ]
+    },
+    {
+      "file": "archer_expressions.png",
+      "size": [
+        512,
+        384
+      ],
+      "frame_count": 2,
+      "frame_order": [
+        "neutral",
+        "alarmed"
+      ],
+      "pivot_per_cell_top_left": [
+        128,
+        352
+      ],
+      "preview_4x_size": [
+        2048,
+        1536
+      ]
+    }
+  ],
+  "direction_references": [
+    "Docs/References/codex_hero_octopath_review_v6/generated.png",
+    "Docs/References/codex_k065_v1/wizard_front_4x.png",
+    "Docs/References/codex_k065_v1/archer_front_4x.png"
+  ]
+}

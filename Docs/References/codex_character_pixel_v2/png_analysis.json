@@ -1,0 +1,104 @@
+[
+  {
+    "name": "ogre",
+    "size": [
+      1312,
+      1199
+    ],
+    "transparent_pixels": 1127069,
+    "partial_alpha_pixels": 445119,
+    "solid_pixels": 900,
+    "visible_bounds": [
+      139,
+      228,
+      998,
+      1054
+    ],
+    "sha256": "7115b19b97609905770e7952ff56b56504d78d013927f26c2988fdab62fa2bf3"
+  },
+  {
+    "name": "ladder_goblin",
+    "size": [
+      1312,
+      1199
+    ],
+    "transparent_pixels": 1037317,
+    "partial_alpha_pixels": 534731,
+    "solid_pixels": 1040,
+    "visible_bounds": [
+      254,
+      119,
+      1077,
+      1123
+    ],
+    "sha256": "ff1a4a16038119ad54e798e067bc1b344b8131e4ced38704ed8e9018b9d6354f"
+  },
+  {
+    "name": "archer",
+    "size": [
+      1330,
+      1182
+    ],
+    "transparent_pixels": 1156349,
+    "partial_alpha_pixels": 412776,
+    "solid_pixels": 2935,
+    "visible_bounds": [
+      374,
+      94,
+      968,
+      1112
+    ],
+    "sha256": "2d975065749340a2798a64b3d1fd46deddd8c02d518e4068a1352b241d73f564"
+  },
+  {
+    "name": "gunner",
+    "size": [
+      1073,
+      1466
+    ],
+    "transparent_pixels": 1017096,
+    "partial_alpha_pixels": 553452,
+    "solid_pixels": 2470,
+    "visible_bounds": [
+      169,
+      123,
+      1002,
+      1345
+    ],
+    "sha256": "cec44073feeca09e1c34fbfbe8c166b0081cabe9df4e752a61f4b6390915e0eb"
+  },
+  {
+    "name": "cannon_crew",
+    "size": [
+      1103,
+      1426
+    ],
+    "transparent_pixels": 1087630,
+    "partial_alpha_pixels": 482430,
+    "solid_pixels": 2818,
+    "visible_bounds": [
+      181,
+      201,
+      851,
+      1246
+    ],
+    "sha256": "863ae511eb9feb7ca33d4780164c3656d796480b331ea4b70aafa9f2e77d4232"
+  },
+  {
+    "name": "wizard",
+    "size": [
+      1199,
+      1312
+    ],
+    "transparent_pixels": 1116989,
+    "partial_alpha_pixels": 455123,
+    "solid_pixels": 976,
+    "visible_bounds": [
+      198,
+      182,
+      883,
+      1206
+    ],
+    "sha256": "7b72a7da42ee25af60f08869525cbd9da478ceed58f9e75cfb8ceafb3b59440d"
+  }
+]

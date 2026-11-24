@@ -1,0 +1,4614 @@
+{
+  "card": "K-098",
+  "channels": {
+    "R": "반사 강도, 선형",
+    "G": "매끄러움, 선형",
+    "B": "미사용 0",
+    "A": "원본 알파 바이트 복사"
+  },
+  "materials": {
+    "matte": {
+      "label": "천·피부·목재·흙·잎",
+      "rg": [
+        13,
+        26
+      ]
+    },
+    "leather": {
+      "label": "가죽",
+      "rg": [
+        77,
+        64
+      ]
+    },
+    "stone": {
+      "label": "습기 있는 돌",
+      "rg": [
+        105,
+        96
+      ]
+    },
+    "iron": {
+      "label": "거친 철",
+      "rg": [
+        242,
+        140
+      ]
+    },
+    "polished": {
+      "label": "밝은 철",
+      "rg": [
+        255,
+        191
+      ]
+    },
+    "gold": {
+      "label": "금색 장식",
+      "rg": [
+        255,
+        217
+      ]
+    },
+    "effect": {
+      "label": "연기·그을음",
+      "rg": [
+        0,
+        0
+      ]
+    }
+  },
+  "normal_convention": "+X 오른쪽 / +Y 위 / +Z 관찰자, 투명 RGB 128·128·255",
+  "normal_method": "K-081과 동일 계열: 실루엣 Gaussian 2·5 + 약한 밝기 요철. 3D 베이크 아님. 칸별 독립 계산, 정확한 정수 격자만 복원.",
+  "import_mask": {
+    "sRGB": false,
+    "type": "Default",
+    "filter": "Point",
+    "mipmaps": false,
+    "compression": "None",
+    "wrap": "Clamp"
+  },
+  "import_normal": {
+    "sRGB": false,
+    "type": "Default",
+    "filter": "Point",
+    "mipmaps": false,
+    "compression": "None",
+    "flip_green": false,
+    "note": "PerfLabSprite가 RGB를 직접 해석하는 경우. Unity Normal map 형식은 셰이더 디코딩에 맞춰 Claude가 선택"
+  },
+  "import_shadow": {
+    "type": "Default",
+    "filter": "Bilinear",
+    "mipmaps": false,
+    "compression": "None",
+    "wrap": "Clamp",
+    "blend": "SrcAlpha OneMinusSrcAlpha",
+    "placement": "지면 XZ, 중앙 피벗, 원근 압축 없음"
+  },
+  "source_contract": "K-098 전용 1:1 크기·격자 보존. 캐릭터 규격으로 소품을 재배치하지 않음. native는 손실 없는 정수 격자만 축소; game은 source와 동일 크기.",
+  "sheets": [
+    {
+      "name": "cannon_recoil",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/cannon_recoil.png",
+      "source_sha256": "d7e43fee91e85b900b73fc0f5bb0314e7cdd2dec3e45ff71188ef45403b6733f",
+      "mask": "Docs/References/codex_k098_v1/masks/Cannon/cannon_recoil_spec.png",
+      "mask_sha256": "82a8bf2bd49bb1e0af724bf2d785ef6343fed76d4d737ddf9c5b5184486ee7ac",
+      "mask_status": "현재 원본과 다른 K-092 대신 새 마스크",
+      "normal": "Docs/References/codex_k098_v1/normals/Cannon/cannon_recoil_normal.png",
+      "normal_sha256": "b40cd2d430c3ac57f133460eff803ec3e5e5320019d5b2682a22e85f9b39d130",
+      "normal_status": "K-081 규약 근사 높이장 노멀 신규 제작",
+      "size": [
+        768,
+        256
+      ],
+      "cell": [
+        256,
+        256
+      ],
+      "frame_count": 3,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": [
+        128,
+        240
+      ],
+      "pivot_note": "기존 부착점 보존",
+      "note": "원본 단일 이미지 유지",
+      "native_cell": [
+        256,
+        256
+      ],
+      "native_scale": 1,
+      "native_mask": "Docs/References/codex_k098_v1/native/Cannon/cannon_recoil_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Cannon/cannon_recoil_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Cannon/cannon_recoil_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Cannon/cannon_recoil_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            11,
+            32,
+            245,
+            240
+          ],
+          "cutout_bottom_y": 240
+        },
+        {
+          "index": 1,
+          "alpha_bounds": [
+            11,
+            37,
+            244,
+            240
+          ],
+          "cutout_bottom_y": 240
+        },
+        {
+          "index": 2,
+          "alpha_bounds": [
+            10,
+            37,
+            245,
+            240
+          ],
+          "cutout_bottom_y": 240
+        }
+      ],
+      "material_pixels": {
+        "iron": 27694,
+        "matte": 51352,
+        "polished": 4399
+      },
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/cannon_recoil.png",
+        "source_size": [
+          768,
+          256
+        ],
+        "mask_size": [
+          768,
+          256
+        ],
+        "normal_size": [
+          768,
+          256
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "crew_pull6",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/crew_pull6.png",
+      "source_sha256": "ea60ccd1c7ec25c702e317160dfc70c185d883022d9f2b2c4728dbf56a78bef9",
+      "mask": "Docs/References/codex_k098_v1/masks/Cannon/crew_pull6_spec.png",
+      "mask_sha256": "06be7ea54f82d1c4190f7cdf244d4545e833887bfa833bc29d69628aa1b26cbf",
+      "mask_status": "현재 원본과 다른 K-092 대신 새 마스크",
+      "normal": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/crew_pull6_normal.png",
+      "normal_sha256": "93319db7ce7ef6c0c63505f6586de5ea2e5afdb85ea560c1bd367dd6758a0955",
+      "normal_status": "기존 노멀 재사용",
+      "size": [
+        1728,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "frame_count": 6,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": [
+        144,
+        360
+      ],
+      "pivot_note": "기존 부착점 보존",
+      "note": "현재 PNG는 288×384·6칸. CannonArt.cs와 K-092의 384px 표기는 구형이므로 연결 시 수정 필요",
+      "native_cell": [
+        96,
+        128
+      ],
+      "native_scale": 3,
+      "native_mask": "Docs/References/codex_k098_v1/native/Cannon/crew_pull6_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Cannon/crew_pull6_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Cannon/crew_pull6_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Cannon/crew_pull6_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            39,
+            141,
+            237,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 1,
+          "alpha_bounds": [
+            45,
+            138,
+            213,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 2,
+          "alpha_bounds": [
+            36,
+            141,
+            213,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 3,
+          "alpha_bounds": [
+            33,
+            138,
+            231,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 4,
+          "alpha_bounds": [
+            33,
+            138,
+            210,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 5,
+          "alpha_bounds": [
+            30,
+            138,
+            213,
+            360
+          ],
+          "cutout_bottom_y": 360
+        }
+      ],
+      "material_pixels": {
+        "matte": 10688,
+        "gold": 7,
+        "leather": 1779
+      },
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/crew_pull6.png",
+        "source_size": [
+          1728,
+          384
+        ],
+        "mask_size": [
+          1728,
+          384
+        ],
+        "normal_size": [
+          1728,
+          384
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "crew_push6",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/crew_push6.png",
+      "source_sha256": "73b51b2e4840f1f6243267e0dbe21e0c21efe556c54a973ea3589bd7afa4cfab",
+      "mask": "Docs/References/codex_k098_v1/masks/Cannon/crew_push6_spec.png",
+      "mask_sha256": "85e49733a33fe569558b898da9964704e44f00b06b18c3cc10b09f9c8ae0a4a7",
+      "mask_status": "현재 원본과 다른 K-092 대신 새 마스크",
+      "normal": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/crew_push6_normal.png",
+      "normal_sha256": "db8b9ce8e705556d6d3587665e9a8be470e9d406274b2b6c03cbb6e2322fafdc",
+      "normal_status": "기존 노멀 재사용",
+      "size": [
+        1728,
+        384
+      ],
+      "cell": [
+        288,
+        384
+      ],
+      "frame_count": 6,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": [
+        144,
+        360
+      ],
+      "pivot_note": "기존 부착점 보존",
+      "note": "현재 PNG는 288×384·6칸. CannonArt.cs와 K-092의 384px 표기는 구형이므로 연결 시 수정 필요",
+      "native_cell": [
+        96,
+        128
+      ],
+      "native_scale": 3,
+      "native_mask": "Docs/References/codex_k098_v1/native/Cannon/crew_push6_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Cannon/crew_push6_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Cannon/crew_push6_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Cannon/crew_push6_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            51,
+            141,
+            228,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 1,
+          "alpha_bounds": [
+            51,
+            141,
+            213,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 2,
+          "alpha_bounds": [
+            51,
+            138,
+            213,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 3,
+          "alpha_bounds": [
+            54,
+            138,
+            237,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 4,
+          "alpha_bounds": [
+            54,
+            138,
+            219,
+            360
+          ],
+          "cutout_bottom_y": 360
+        },
+        {
+          "index": 5,
+          "alpha_bounds": [
+            54,
+            141,
+            213,
+            360
+          ],
+          "cutout_bottom_y": 360
+        }
+      ],
+      "material_pixels": {
+        "matte": 9336,
+        "leather": 1574
+      },
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/crew_push6.png",
+        "source_size": [
+          1728,
+          384
+        ],
+        "mask_size": [
+          1728,
+          384
+        ],
+        "normal_size": [
+          1728,
+          384
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "haul_cannon_body",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/haul_cannon_body.png",
+      "source_sha256": "5416605290e1d45f95b325cf38e2ff368b5eb85f4305ca659ae8774f4720ef35",
+      "mask": "Docs/References/codex_k092_v1/Cannon/haul_cannon_body_spec.png",
+      "mask_sha256": "50df72491b935c20b473d67f1b3ff7de07eeb2f1446c3a6eefc7955fa9b41c6f",
+      "mask_status": "K-092 기존 마스크 재사용",
+      "normal": "Docs/References/codex_k098_v1/normals/Cannon/haul_cannon_body_normal.png",
+      "normal_sha256": "7475889d71cab1e35c12f549ee5b1dcdc10c8c6e3397cb9e9a8d0e4f856d550f",
+      "normal_status": "K-081 규약 근사 높이장 노멀 신규 제작",
+      "size": [
+        768,
+        384
+      ],
+      "cell": [
+        768,
+        384
+      ],
+      "frame_count": 1,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": [
+        336,
+        352
+      ],
+      "pivot_note": "기존 부착점 보존",
+      "note": "원본 단일 이미지 유지",
+      "native_cell": [
+        768,
+        384
+      ],
+      "native_scale": 1,
+      "native_mask": "Docs/References/codex_k098_v1/native/Cannon/haul_cannon_body_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Cannon/haul_cannon_body_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Cannon/haul_cannon_body_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Cannon/haul_cannon_body_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            163,
+            132,
+            722,
+            351
+          ],
+          "cutout_bottom_y": 351
+        }
+      ],
+      "material_pixels": {},
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/haul_cannon_body.png",
+        "source_size": [
+          768,
+          384
+        ],
+        "mask_size": [
+          768,
+          384
+        ],
+        "normal_size": [
+          768,
+          384
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "haul_cannon_chassis",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/haul_cannon_chassis.png",
+      "source_sha256": "804295f0b8104815c9cda6a389b13f558f76f69585c65ad077ac4efd16d15523",
+      "mask": "Docs/References/codex_k092_v1/Cannon/haul_cannon_chassis_spec.png",
+      "mask_sha256": "b660dcce2cc35845f42bf6486f0caf456a0617840be5b20c9efcfbddee5f9757",
+      "mask_status": "K-092 기존 마스크 재사용",
+      "normal": "Docs/References/codex_k098_v1/normals/Cannon/haul_cannon_chassis_normal.png",
+      "normal_sha256": "29fd2c358201f7aa9c8b361c8adfa97b8938beac7f7bf4f75c61005f40cf5060",
+      "normal_status": "K-081 규약 근사 높이장 노멀 신규 제작",
+      "size": [
+        768,
+        384
+      ],
+      "cell": [
+        768,
+        384
+      ],
+      "frame_count": 1,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": [
+        336,
+        352
+      ],
+      "pivot_note": "기존 부착점 보존",
+      "note": "원본 단일 이미지 유지",
+      "native_cell": [
+        768,
+        384
+      ],
+      "native_scale": 1,
+      "native_mask": "Docs/References/codex_k098_v1/native/Cannon/haul_cannon_chassis_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Cannon/haul_cannon_chassis_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Cannon/haul_cannon_chassis_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Cannon/haul_cannon_chassis_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            163,
+            132,
+            722,
+            343
+          ],
+          "cutout_bottom_y": 343
+        }
+      ],
+      "material_pixels": {},
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/haul_cannon_chassis.png",
+        "source_size": [
+          768,
+          384
+        ],
+        "mask_size": [
+          768,
+          384
+        ],
+        "normal_size": [
+          768,
+          384
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "haul_cannon_wheel",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/haul_cannon_wheel.png",
+      "source_sha256": "eb8fbc6a620fc24b8b1b07ea665a354879c36a44f03c771d8bedc3cfcffd4664",
+      "mask": "Docs/References/codex_k092_v1/Cannon/haul_cannon_wheel_spec.png",
+      "mask_sha256": "592139f43ca5d30523ffef0d9fa626d87fd15e349d5fd6b77f609c192dfbbdb7",
+      "mask_status": "K-092 기존 마스크 재사용",
+      "normal": "Docs/References/codex_k098_v1/normals/Cannon/haul_cannon_wheel_normal.png",
+      "normal_sha256": "63e68ec48c2b637a005d9b3918e39f41af4ada8415517c4ba5c90197f96db547",
+      "normal_status": "K-081 규약 근사 높이장 노멀 신규 제작",
+      "size": [
+        101,
+        101
+      ],
+      "cell": [
+        101,
+        101
+      ],
+      "frame_count": 1,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": [
+        50.5,
+        50.5
+      ],
+      "pivot_note": "기존 부착점 보존",
+      "note": "원본 단일 이미지 유지",
+      "native_cell": [
+        101,
+        101
+      ],
+      "native_scale": 1,
+      "native_mask": "Docs/References/codex_k098_v1/native/Cannon/haul_cannon_wheel_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Cannon/haul_cannon_wheel_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Cannon/haul_cannon_wheel_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Cannon/haul_cannon_wheel_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            0,
+            0,
+            101,
+            100
+          ],
+          "cutout_bottom_y": 100
+        }
+      ],
+      "material_pixels": {},
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/haul_cannon_wheel.png",
+        "source_size": [
+          101,
+          101
+        ],
+        "mask_size": [
+          101,
+          101
+        ],
+        "normal_size": [
+          101,
+          101
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "muzzle_smoke",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/muzzle_smoke.png",
+      "source_sha256": "82773ff6dfe13ac3d23b1c51d9584c967d2111aba2312b52d1408393f9131caa",
+      "mask": "Docs/References/codex_k092_v1/Cannon/muzzle_smoke_spec.png",
+      "mask_sha256": "a533e627f72a174a9a993e308a90ee1a8d872c6821fe5c16b3a29e7ba605eae1",
+      "mask_status": "K-092 기존 마스크 재사용",
+      "normal": "Docs/References/codex_k098_v1/normals/Cannon/muzzle_smoke_normal.png",
+      "normal_sha256": "0282a7c7f212caa9b44593abb61973028da437aa7e462f5c7c610feb7848f330",
+      "normal_status": "K-081 규약 근사 높이장 노멀 신규 제작",
+      "size": [
+        1536,
+        256
+      ],
+      "cell": [
+        256,
+        256
+      ],
+      "frame_count": 6,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": [
+        128,
+        240
+      ],
+      "pivot_note": "기존 부착점 보존",
+      "note": "원본 단일 이미지 유지",
+      "native_cell": [
+        256,
+        256
+      ],
+      "native_scale": 1,
+      "native_mask": "Docs/References/codex_k098_v1/native/Cannon/muzzle_smoke_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Cannon/muzzle_smoke_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Cannon/muzzle_smoke_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Cannon/muzzle_smoke_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            73,
+            187,
+            150,
+            234
+          ],
+          "cutout_bottom_y": 226
+        },
+        {
+          "index": 1,
+          "alpha_bounds": [
+            60,
+            122,
+            193,
+            236
+          ],
+          "cutout_bottom_y": 233
+        },
+        {
+          "index": 2,
+          "alpha_bounds": [
+            33,
+            32,
+            224,
+            240
+          ],
+          "cutout_bottom_y": 240
+        },
+        {
+          "index": 3,
+          "alpha_bounds": [
+            35,
+            41,
+            221,
+            240
+          ],
+          "cutout_bottom_y": 240
+        },
+        {
+          "index": 4,
+          "alpha_bounds": [
+            49,
+            51,
+            196,
+            238
+          ],
+          "cutout_bottom_y": 232
+        },
+        {
+          "index": 5,
+          "alpha_bounds": [
+            116,
+            185,
+            141,
+            208
+          ],
+          "cutout_bottom_y": 206
+        }
+      ],
+      "material_pixels": {},
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/muzzle_smoke.png",
+        "source_size": [
+          1536,
+          256
+        ],
+        "mask_size": [
+          1536,
+          256
+        ],
+        "normal_size": [
+          1536,
+          256
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "cannon_aim3",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/cannon_aim3.png",
+      "source_sha256": "b0900407e26994b630b9ad3c1316b4e68bbc24305443e56787542cf8b70d300a",
+      "mask": "Docs/References/codex_k098_v1/masks/Cannon/cannon_aim3_spec.png",
+      "mask_sha256": "8e34cadb54003f3bb772a43179bbcdcf800cac9d94feee144eafa54c102e82e0",
+      "mask_status": "누락 마스크 신규 제작",
+      "normal": "Docs/References/codex_k098_v1/normals/Cannon/cannon_aim3_normal.png",
+      "normal_sha256": "a7757c4fa9067f00a35b173c7d758eef40b6cf7655b51550ffd2167ebbf8332e",
+      "normal_status": "K-081 규약 근사 높이장 노멀 신규 제작",
+      "size": [
+        1536,
+        384
+      ],
+      "cell": [
+        512,
+        384
+      ],
+      "frame_count": 3,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": [
+        256,
+        360
+      ],
+      "pivot_note": "기존 부착점 보존",
+      "note": "기존 3방향 대포, 방향 순서를 유지",
+      "native_cell": [
+        512,
+        384
+      ],
+      "native_scale": 1,
+      "native_mask": "Docs/References/codex_k098_v1/native/Cannon/cannon_aim3_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Cannon/cannon_aim3_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Cannon/cannon_aim3_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Cannon/cannon_aim3_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            95,
+            32,
+            416,
+            352
+          ],
+          "cutout_bottom_y": 352
+        },
+        {
+          "index": 1,
+          "alpha_bounds": [
+            83,
+            32,
+            428,
+            352
+          ],
+          "cutout_bottom_y": 352
+        },
+        {
+          "index": 2,
+          "alpha_bounds": [
+            87,
+            32,
+            425,
+            352
+          ],
+          "cutout_bottom_y": 352
+        }
+      ],
+      "material_pixels": {
+        "iron": 65998,
+        "matte": 107227,
+        "polished": 13417
+      },
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/cannon_aim3.png",
+        "source_size": [
+          1536,
+          384
+        ],
+        "mask_size": [
+          1536,
+          384
+        ],
+        "normal_size": [
+          1536,
+          384
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "bush",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/bush.png",
+      "source_sha256": "7df22b5e5633129ed50081f24e770aaefa1cbef7966ff3b4cfe05d76ea69595e",
+      "mask": "Docs/References/codex_k098_v1/masks/Props/bush_spec.png",
+      "mask_sha256": "697ae21784953cefa5972aa15901702b78ada9bd07e040c009af7dd9ae77a271",
+      "mask_status": "누락 마스크 신규 제작",
+      "normal": "Docs/References/codex_k098_v1/normals/Props/bush_normal.png",
+      "normal_sha256": "ee6cb09f574000f617dea451a447a08d98d73ed4abcb5ad8be7df309081a9536",
+      "normal_status": "K-081 규약 근사 높이장 노멀 신규 제작",
+      "size": [
+        64,
+        48
+      ],
+      "cell": [
+        64,
+        48
+      ],
+      "frame_count": 1,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": null,
+      "pivot_note": "원본 피벗을 바꾸지 않음; 신규 피벗 지정 없음",
+      "note": "원본 단일 이미지 유지",
+      "native_cell": [
+        64,
+        48
+      ],
+      "native_scale": 1,
+      "native_mask": "Docs/References/codex_k098_v1/native/Props/bush_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Props/bush_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Props/bush_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Props/bush_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            8,
+            9,
+            56,
+            40
+          ],
+          "cutout_bottom_y": 40
+        }
+      ],
+      "material_pixels": {
+        "matte": 824
+      },
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/bush.png",
+        "source_size": [
+          64,
+          48
+        ],
+        "mask_size": [
+          64,
+          48
+        ],
+        "normal_size": [
+          64,
+          48
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "corpse_pile_1",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/corpse_pile_1.png",
+      "source_sha256": "7b2eb42bf0ed9df773820e2c66af5563bf6347b777000a7a0d01bf911b821c0b",
+      "mask": "Docs/References/codex_k098_v1/masks/Props/corpse_pile_1_spec.png",
+      "mask_sha256": "b0730b42bd8dc895a808746551387e233c179928c5315edb5552cee8ddefab8a",
+      "mask_status": "누락 마스크 신규 제작",
+      "normal": "Docs/References/codex_k098_v1/normals/Props/corpse_pile_1_normal.png",
+      "normal_sha256": "aca092de576ee183b2c5658847b8463058025f5fa27dd03c8f7c16666577e35f",
+      "normal_status": "K-081 규약 근사 높이장 노멀 신규 제작",
+      "size": [
+        64,
+        64
+      ],
+      "cell": [
+        64,
+        64
+      ],
+      "frame_count": 1,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": null,
+      "pivot_note": "원본 피벗을 바꾸지 않음; 신규 피벗 지정 없음",
+      "note": "원본 단일 이미지 유지",
+      "native_cell": [
+        64,
+        64
+      ],
+      "native_scale": 1,
+      "native_mask": "Docs/References/codex_k098_v1/native/Props/corpse_pile_1_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Props/corpse_pile_1_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Props/corpse_pile_1_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Props/corpse_pile_1_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            8,
+            41,
+            56,
+            56
+          ],
+          "cutout_bottom_y": 56
+        }
+      ],
+      "material_pixels": {
+        "matte": 389
+      },
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/corpse_pile_1.png",
+        "source_size": [
+          64,
+          64
+        ],
+        "mask_size": [
+          64,
+          64
+        ],
+        "normal_size": [
+          64,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "corpse_pile_2",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/corpse_pile_2.png",
+      "source_sha256": "71f9e11b70c3c113d923ff71314240956278d27e0c88f63a74d01a645487189c",
+      "mask": "Docs/References/codex_k098_v1/masks/Props/corpse_pile_2_spec.png",
+      "mask_sha256": "f10f726ba328ba582779c1a19985baa2218ce0d74b4c858ef6357cf28202507c",
+      "mask_status": "누락 마스크 신규 제작",
+      "normal": "Docs/References/codex_k098_v1/normals/Props/corpse_pile_2_normal.png",
+      "normal_sha256": "ed5131d60d135fad1fe825d35cee436e5db08d1798d0123c7a682d0017854aa2",
+      "normal_status": "K-081 규약 근사 높이장 노멀 신규 제작",
+      "size": [
+        64,
+        64
+      ],
+      "cell": [
+        64,
+        64
+      ],
+      "frame_count": 1,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": null,
+      "pivot_note": "원본 피벗을 바꾸지 않음; 신규 피벗 지정 없음",
+      "note": "원본 단일 이미지 유지",
+      "native_cell": [
+        64,
+        64
+      ],
+      "native_scale": 1,
+      "native_mask": "Docs/References/codex_k098_v1/native/Props/corpse_pile_2_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Props/corpse_pile_2_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Props/corpse_pile_2_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Props/corpse_pile_2_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            8,
+            31,
+            56,
+            56
+          ],
+          "cutout_bottom_y": 56
+        }
+      ],
+      "material_pixels": {
+        "matte": 661
+      },
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/corpse_pile_2.png",
+        "source_size": [
+          64,
+          64
+        ],
+        "mask_size": [
+          64,
+          64
+        ],
+        "normal_size": [
+          64,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "corpse_pile_3",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/corpse_pile_3.png",
+      "source_sha256": "121f27ecfa5ade6b2b2d27e641a28393ce215defa0de8f6cddde3fa10493ba12",
+      "mask": "Docs/References/codex_k098_v1/masks/Props/corpse_pile_3_spec.png",
+      "mask_sha256": "9bfa7141691e5f8aeaa997ec8a7f3e03ec2c5ce8279ad2d0b409455bceddc5ce",
+      "mask_status": "누락 마스크 신규 제작",
+      "normal": "Docs/References/codex_k098_v1/normals/Props/corpse_pile_3_normal.png",
+      "normal_sha256": "1d8bfcaa0c05014b3b189682d3793a91dc6ebe31f116aeaa3281664ccf95bc32",
+      "normal_status": "K-081 규약 근사 높이장 노멀 신규 제작",
+      "size": [
+        64,
+        64
+      ],
+      "cell": [
+        64,
+        64
+      ],
+      "frame_count": 1,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": null,
+      "pivot_note": "원본 피벗을 바꾸지 않음; 신규 피벗 지정 없음",
+      "note": "원본 단일 이미지 유지",
+      "native_cell": [
+        64,
+        64
+      ],
+      "native_scale": 1,
+      "native_mask": "Docs/References/codex_k098_v1/native/Props/corpse_pile_3_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Props/corpse_pile_3_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Props/corpse_pile_3_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Props/corpse_pile_3_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            8,
+            16,
+            56,
+            56
+          ],
+          "cutout_bottom_y": 56
+        }
+      ],
+      "material_pixels": {
+        "matte": 1180
+      },
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/corpse_pile_3.png",
+        "source_size": [
+          64,
+          64
+        ],
+        "mask_size": [
+          64,
+          64
+        ],
+        "normal_size": [
+          64,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "ground_crater_01",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_crater_01.png",
+      "source_sha256": "931652e94c36a0f41de457fd84e1728c7cf4a9fa9aa0c203c27e15394f7e274f",
+      "mask": "Docs/References/codex_k098_v1/masks/Props/ground_crater_01_spec.png",
+      "mask_sha256": "b44ef1c3e4ef3eba578c45a373eb8722996ce0d961c9644c0f79214ed52472a6",
+      "mask_status": "누락 마스크 신규 제작",
+      "normal": "Docs/References/codex_k098_v1/normals/Props/ground_crater_01_normal.png",
+      "normal_sha256": "c235597914a04ac13ba0bf666af13f73ba8ca9266728f99128af61a1eb825a48",
+      "normal_status": "K-081 규약 근사 높이장 노멀 신규 제작",
+      "size": [
+        128,
+        64
+      ],
+      "cell": [
+        128,
+        64
+      ],
+      "frame_count": 1,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": null,
+      "pivot_note": "원본 피벗을 바꾸지 않음; 신규 피벗 지정 없음",
+      "note": "원본 단일 이미지 유지",
+      "native_cell": [
+        128,
+        64
+      ],
+      "native_scale": 1,
+      "native_mask": "Docs/References/codex_k098_v1/native/Props/ground_crater_01_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Props/ground_crater_01_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Props/ground_crater_01_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Props/ground_crater_01_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            7,
+            5,
+            119,
+            57
+          ],
+          "cutout_bottom_y": 57
+        }
+      ],
+      "material_pixels": {
+        "matte": 3722
+      },
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_crater_01.png",
+        "source_size": [
+          128,
+          64
+        ],
+        "mask_size": [
+          128,
+          64
+        ],
+        "normal_size": [
+          128,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "ground_crater_02",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_crater_02.png",
+      "source_sha256": "f9eb7c6005277ab020e59a73da97e1792519d4f7350e4774e6ca5caf637180a3",
+      "mask": "Docs/References/codex_k098_v1/masks/Props/ground_crater_02_spec.png",
+      "mask_sha256": "5a2bf527109d3668499d32c0de5d0edc3f946634eb63440eae35e8ddf3871cee",
+      "mask_status": "누락 마스크 신규 제작",
+      "normal": "Docs/References/codex_k098_v1/normals/Props/ground_crater_02_normal.png",
+      "normal_sha256": "d49f1a7f40bd307870cc10bb361a9bb9b42fc71b56217fb4fd7d82bf21c2de57",
+      "normal_status": "K-081 규약 근사 높이장 노멀 신규 제작",
+      "size": [
+        128,
+        64
+      ],
+      "cell": [
+        128,
+        64
+      ],
+      "frame_count": 1,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": null,
+      "pivot_note": "원본 피벗을 바꾸지 않음; 신규 피벗 지정 없음",
+      "note": "원본 단일 이미지 유지",
+      "native_cell": [
+        128,
+        64
+      ],
+      "native_scale": 1,
+      "native_mask": "Docs/References/codex_k098_v1/native/Props/ground_crater_02_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Props/ground_crater_02_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Props/ground_crater_02_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Props/ground_crater_02_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            7,
+            5,
+            119,
+            57
+          ],
+          "cutout_bottom_y": 57
+        }
+      ],
+      "material_pixels": {
+        "matte": 3165
+      },
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_crater_02.png",
+        "source_size": [
+          128,
+          64
+        ],
+        "mask_size": [
+          128,
+          64
+        ],
+        "normal_size": [
+          128,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "ground_dirt_01",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_dirt_01.png",
+      "source_sha256": "f747a43a9cb4ad814292c8ba34938beb1819348a0dbb5a243e0b88a9dd03eaf6",
+      "mask": "Docs/References/codex_k098_v1/masks/Props/ground_dirt_01_spec.png",
+      "mask_sha256": "0d1c4541b47ed7a2297ada5a9e5e2c7bb81ad722d65448eadfdc49ff54204dec",
+      "mask_status": "누락 마스크 신규 제작",
+      "normal": "Docs/References/codex_k098_v1/normals/Props/ground_dirt_01_normal.png",
+      "normal_sha256": "bf5d29d2d9409edfb74716c1760742cd60c6e2ee5bb44aaa93761cd4effba5fc",
+      "normal_status": "K-081 규약 근사 높이장 노멀 신규 제작",
+      "size": [
+        128,
+        64
+      ],
+      "cell": [
+        128,
+        64
+      ],
+      "frame_count": 1,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": null,
+      "pivot_note": "원본 피벗을 바꾸지 않음; 신규 피벗 지정 없음",
+      "note": "원본 단일 이미지 유지",
+      "native_cell": [
+        128,
+        64
+      ],
+      "native_scale": 1,
+      "native_mask": "Docs/References/codex_k098_v1/native/Props/ground_dirt_01_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Props/ground_dirt_01_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Props/ground_dirt_01_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Props/ground_dirt_01_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            7,
+            5,
+            119,
+            57
+          ],
+          "cutout_bottom_y": 57
+        }
+      ],
+      "material_pixels": {
+        "matte": 3473
+      },
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_dirt_01.png",
+        "source_size": [
+          128,
+          64
+        ],
+        "mask_size": [
+          128,
+          64
+        ],
+        "normal_size": [
+          128,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "ground_dirt_02",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_dirt_02.png",
+      "source_sha256": "1c6b4e47d8f437ac131735087c7220b304a5eeb26096b052d448772616bfce72",
+      "mask": "Docs/References/codex_k098_v1/masks/Props/ground_dirt_02_spec.png",
+      "mask_sha256": "e6c471cd4eef525875afb9fbec67b3a95b5a43be0927226510f611f587fd2b1d",
+      "mask_status": "누락 마스크 신규 제작",
+      "normal": "Docs/References/codex_k098_v1/normals/Props/ground_dirt_02_normal.png",
+      "normal_sha256": "da5353f2fab8429cc41c1384fcf1db01dd00a4dfcac461764f3be60d8b0fc63a",
+      "normal_status": "K-081 규약 근사 높이장 노멀 신규 제작",
+      "size": [
+        128,
+        64
+      ],
+      "cell": [
+        128,
+        64
+      ],
+      "frame_count": 1,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": null,
+      "pivot_note": "원본 피벗을 바꾸지 않음; 신규 피벗 지정 없음",
+      "note": "원본 단일 이미지 유지",
+      "native_cell": [
+        128,
+        64
+      ],
+      "native_scale": 1,
+      "native_mask": "Docs/References/codex_k098_v1/native/Props/ground_dirt_02_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Props/ground_dirt_02_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Props/ground_dirt_02_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Props/ground_dirt_02_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            7,
+            5,
+            119,
+            57
+          ],
+          "cutout_bottom_y": 57
+        }
+      ],
+      "material_pixels": {
+        "matte": 4209
+      },
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_dirt_02.png",
+        "source_size": [
+          128,
+          64
+        ],
+        "mask_size": [
+          128,
+          64
+        ],
+        "normal_size": [
+          128,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "ground_dirt_03",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_dirt_03.png",
+      "source_sha256": "ab978dd7e3db197eff6d3397d0db6337f49070fe7c17fb48c5e71b3d6b763a1e",
+      "mask": "Docs/References/codex_k098_v1/masks/Props/ground_dirt_03_spec.png",
+      "mask_sha256": "53dd5c26b66ccf8a899efa991499350a369e851a70b0fde0aea5741c2a8a633b",
+      "mask_status": "누락 마스크 신규 제작",
+      "normal": "Docs/References/codex_k098_v1/normals/Props/ground_dirt_03_normal.png",
+      "normal_sha256": "70205012f82ff263976253b2fcddf8120b5485d055ff3be9ee38c9634200b4b5",
+      "normal_status": "K-081 규약 근사 높이장 노멀 신규 제작",
+      "size": [
+        128,
+        64
+      ],
+      "cell": [
+        128,
+        64
+      ],
+      "frame_count": 1,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": null,
+      "pivot_note": "원본 피벗을 바꾸지 않음; 신규 피벗 지정 없음",
+      "note": "원본 단일 이미지 유지",
+      "native_cell": [
+        128,
+        64
+      ],
+      "native_scale": 1,
+      "native_mask": "Docs/References/codex_k098_v1/native/Props/ground_dirt_03_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Props/ground_dirt_03_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Props/ground_dirt_03_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Props/ground_dirt_03_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            7,
+            5,
+            119,
+            57
+          ],
+          "cutout_bottom_y": 57
+        }
+      ],
+      "material_pixels": {
+        "matte": 3841
+      },
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_dirt_03.png",
+        "source_size": [
+          128,
+          64
+        ],
+        "mask_size": [
+          128,
+          64
+        ],
+        "normal_size": [
+          128,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "ground_flowers_01",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_flowers_01.png",
+      "source_sha256": "e66271532e21252a5f04b155b1b623f67517e504161736d9ef1171c828eb4d5d",
+      "mask": "Docs/References/codex_k098_v1/masks/Props/ground_flowers_01_spec.png",
+      "mask_sha256": "84a29945af7f692321e36236a744a2fb40eb32dd211c79eff3cf6126a776b66a",
+      "mask_status": "누락 마스크 신규 제작",
+      "normal": "Docs/References/codex_k098_v1/normals/Props/ground_flowers_01_normal.png",
+      "normal_sha256": "e639a30be086c27f712bc4c0a469fb3c682448040a0cd1a076b51610f6bad1e8",
+      "normal_status": "K-081 규약 근사 높이장 노멀 신규 제작",
+      "size": [
+        64,
+        32
+      ],
+      "cell": [
+        64,
+        32
+      ],
+      "frame_count": 1,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": null,
+      "pivot_note": "원본 피벗을 바꾸지 않음; 신규 피벗 지정 없음",
+      "note": "원본 단일 이미지 유지",
+      "native_cell": [
+        64,
+        32
+      ],
+      "native_scale": 1,
+      "native_mask": "Docs/References/codex_k098_v1/native/Props/ground_flowers_01_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Props/ground_flowers_01_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Props/ground_flowers_01_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Props/ground_flowers_01_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            3,
+            2,
+            59,
+            28
+          ],
+          "cutout_bottom_y": 28
+        }
+      ],
+      "material_pixels": {
+        "matte": 838
+      },
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_flowers_01.png",
+        "source_size": [
+          64,
+          32
+        ],
+        "mask_size": [
+          64,
+          32
+        ],
+        "normal_size": [
+          64,
+          32
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "ground_flowers_02",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_flowers_02.png",
+      "source_sha256": "cb2573decf4e419cd7d3b3149e2f9d4d4d600c3d923768a538381c6b6b152810",
+      "mask": "Docs/References/codex_k098_v1/masks/Props/ground_flowers_02_spec.png",
+      "mask_sha256": "fcac92b7a849866fb31b6334691d314d176458e930f608ca5a048d161778e68b",
+      "mask_status": "누락 마스크 신규 제작",
+      "normal": "Docs/References/codex_k098_v1/normals/Props/ground_flowers_02_normal.png",
+      "normal_sha256": "b3265a75e4435f0a0ee91b898ab11cb67b5b90eb3216f0dd9f36135f8e524440",
+      "normal_status": "K-081 규약 근사 높이장 노멀 신규 제작",
+      "size": [
+        64,
+        32
+      ],
+      "cell": [
+        64,
+        32
+      ],
+      "frame_count": 1,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": null,
+      "pivot_note": "원본 피벗을 바꾸지 않음; 신규 피벗 지정 없음",
+      "note": "원본 단일 이미지 유지",
+      "native_cell": [
+        64,
+        32
+      ],
+      "native_scale": 1,
+      "native_mask": "Docs/References/codex_k098_v1/native/Props/ground_flowers_02_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Props/ground_flowers_02_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Props/ground_flowers_02_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Props/ground_flowers_02_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            3,
+            2,
+            59,
+            28
+          ],
+          "cutout_bottom_y": 28
+        }
+      ],
+      "material_pixels": {
+        "matte": 901
+      },
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_flowers_02.png",
+        "source_size": [
+          64,
+          32
+        ],
+        "mask_size": [
+          64,
+          32
+        ],
+        "normal_size": [
+          64,
+          32
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "ground_grass_01",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_grass_01.png",
+      "source_sha256": "000bc45aacf2748e09829f582ef4417be8c74c580291d98f177b439cf8d4d074",
+      "mask": "Docs/References/codex_k098_v1/masks/Props/ground_grass_01_spec.png",
+      "mask_sha256": "fcf9de58ac6a18668b4ea865eb73b9a35c8cb4ee732e983ea44b7781eaca7013",
+      "mask_status": "누락 마스크 신규 제작",
+      "normal": "Docs/References/codex_k098_v1/normals/Props/ground_grass_01_normal.png",
+      "normal_sha256": "3f1129d4a8b2255373818f929e0efb50d3b95dc8fcd093ff6131bdbf5efe1fee",
+      "normal_status": "K-081 규약 근사 높이장 노멀 신규 제작",
+      "size": [
+        64,
+        32
+      ],
+      "cell": [
+        64,
+        32
+      ],
+      "frame_count": 1,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": null,
+      "pivot_note": "원본 피벗을 바꾸지 않음; 신규 피벗 지정 없음",
+      "note": "원본 단일 이미지 유지",
+      "native_cell": [
+        64,
+        32
+      ],
+      "native_scale": 1,
+      "native_mask": "Docs/References/codex_k098_v1/native/Props/ground_grass_01_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Props/ground_grass_01_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Props/ground_grass_01_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Props/ground_grass_01_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            3,
+            2,
+            59,
+            28
+          ],
+          "cutout_bottom_y": 28
+        }
+      ],
+      "material_pixels": {
+        "matte": 655
+      },
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_grass_01.png",
+        "source_size": [
+          64,
+          32
+        ],
+        "mask_size": [
+          64,
+          32
+        ],
+        "normal_size": [
+          64,
+          32
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "ground_grass_02",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_grass_02.png",
+      "source_sha256": "697560b94c85fecdbdb68612bce909d16e4a0b422365b0b62497927e09097bd1",
+      "mask": "Docs/References/codex_k098_v1/masks/Props/ground_grass_02_spec.png",
+      "mask_sha256": "53b3cbd434384241871f78f127c4a5581615c6d3e752ce79b5917c8276d52ffa",
+      "mask_status": "누락 마스크 신규 제작",
+      "normal": "Docs/References/codex_k098_v1/normals/Props/ground_grass_02_normal.png",
+      "normal_sha256": "bdcf699469b93153da6c65a48c2d4efb7cf9379b7cc94b3dc05286c535dc1fcc",
+      "normal_status": "K-081 규약 근사 높이장 노멀 신규 제작",
+      "size": [
+        64,
+        32
+      ],
+      "cell": [
+        64,
+        32
+      ],
+      "frame_count": 1,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": null,
+      "pivot_note": "원본 피벗을 바꾸지 않음; 신규 피벗 지정 없음",
+      "note": "원본 단일 이미지 유지",
+      "native_cell": [
+        64,
+        32
+      ],
+      "native_scale": 1,
+      "native_mask": "Docs/References/codex_k098_v1/native/Props/ground_grass_02_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Props/ground_grass_02_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Props/ground_grass_02_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Props/ground_grass_02_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            3,
+            2,
+            59,
+            28
+          ],
+          "cutout_bottom_y": 28
+        }
+      ],
+      "material_pixels": {
+        "matte": 853
+      },
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_grass_02.png",
+        "source_size": [
+          64,
+          32
+        ],
+        "mask_size": [
+          64,
+          32
+        ],
+        "normal_size": [
+          64,
+          32
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "ground_grass_03",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_grass_03.png",
+      "source_sha256": "926a1098632154f0d13bab8b685599692a406f02cd4c159e77a88933723a97f9",
+      "mask": "Docs/References/codex_k098_v1/masks/Props/ground_grass_03_spec.png",
+      "mask_sha256": "5365ddbecd162a2de1530edcc594d0a367aa23cf7aa12342d9c8e6f017edbc7a",
+      "mask_status": "누락 마스크 신규 제작",
+      "normal": "Docs/References/codex_k098_v1/normals/Props/ground_grass_03_normal.png",
+      "normal_sha256": "8130ef17b3adfe6bf3e1bec648c5853ea08612d0c5b1c1854ee05e1f28eedf4f",
+      "normal_status": "K-081 규약 근사 높이장 노멀 신규 제작",
+      "size": [
+        64,
+        32
+      ],
+      "cell": [
+        64,
+        32
+      ],
+      "frame_count": 1,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": null,
+      "pivot_note": "원본 피벗을 바꾸지 않음; 신규 피벗 지정 없음",
+      "note": "원본 단일 이미지 유지",
+      "native_cell": [
+        64,
+        32
+      ],
+      "native_scale": 1,
+      "native_mask": "Docs/References/codex_k098_v1/native/Props/ground_grass_03_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Props/ground_grass_03_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Props/ground_grass_03_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Props/ground_grass_03_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            3,
+            2,
+            59,
+            28
+          ],
+          "cutout_bottom_y": 28
+        }
+      ],
+      "material_pixels": {
+        "matte": 773
+      },
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_grass_03.png",
+        "source_size": [
+          64,
+          32
+        ],
+        "mask_size": [
+          64,
+          32
+        ],
+        "normal_size": [
+          64,
+          32
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "ground_pebbles_01",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_pebbles_01.png",
+      "source_sha256": "3fb44282e1a9fee58fa184188d8d708e2a75080c9150ca022f27de3ef638f612",
+      "mask": "Docs/References/codex_k098_v1/masks/Props/ground_pebbles_01_spec.png",
+      "mask_sha256": "f6bf00203a399c4116cba963e84c302223f03167ef60ce378ecda48fad626ed4",
+      "mask_status": "누락 마스크 신규 제작",
+      "normal": "Docs/References/codex_k098_v1/normals/Props/ground_pebbles_01_normal.png",
+      "normal_sha256": "a0743f069415698c028e598e2a79e9f2b5416c766ed741029b0030db14ef3bab",
+      "normal_status": "K-081 규약 근사 높이장 노멀 신규 제작",
+      "size": [
+        64,
+        32
+      ],
+      "cell": [
+        64,
+        32
+      ],
+      "frame_count": 1,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": null,
+      "pivot_note": "원본 피벗을 바꾸지 않음; 신규 피벗 지정 없음",
+      "note": "원본 단일 이미지 유지",
+      "native_cell": [
+        64,
+        32
+      ],
+      "native_scale": 1,
+      "native_mask": "Docs/References/codex_k098_v1/native/Props/ground_pebbles_01_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Props/ground_pebbles_01_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Props/ground_pebbles_01_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Props/ground_pebbles_01_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            3,
+            2,
+            59,
+            28
+          ],
+          "cutout_bottom_y": 28
+        }
+      ],
+      "material_pixels": {
+        "stone": 342,
+        "matte": 167
+      },
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_pebbles_01.png",
+        "source_size": [
+          64,
+          32
+        ],
+        "mask_size": [
+          64,
+          32
+        ],
+        "normal_size": [
+          64,
+          32
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "ground_pebbles_02",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_pebbles_02.png",
+      "source_sha256": "9146f89ff0c2ba7fc18a157cfa095d2c841af4b1f9d7980b58afcd1cca219064",
+      "mask": "Docs/References/codex_k098_v1/masks/Props/ground_pebbles_02_spec.png",
+      "mask_sha256": "312328a44d66eade8c46193c33d82a6b892c465fbf92dac631883bfaf5a6710f",
+      "mask_status": "누락 마스크 신규 제작",
+      "normal": "Docs/References/codex_k098_v1/normals/Props/ground_pebbles_02_normal.png",
+      "normal_sha256": "a2de0087e6c01073300a82c84f6a6dba55b8769f3e9d2ca6c47d58ccfb1326d6",
+      "normal_status": "K-081 규약 근사 높이장 노멀 신규 제작",
+      "size": [
+        64,
+        32
+      ],
+      "cell": [
+        64,
+        32
+      ],
+      "frame_count": 1,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": null,
+      "pivot_note": "원본 피벗을 바꾸지 않음; 신규 피벗 지정 없음",
+      "note": "원본 단일 이미지 유지",
+      "native_cell": [
+        64,
+        32
+      ],
+      "native_scale": 1,
+      "native_mask": "Docs/References/codex_k098_v1/native/Props/ground_pebbles_02_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Props/ground_pebbles_02_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Props/ground_pebbles_02_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Props/ground_pebbles_02_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            3,
+            2,
+            59,
+            28
+          ],
+          "cutout_bottom_y": 28
+        }
+      ],
+      "material_pixels": {
+        "matte": 348,
+        "stone": 91
+      },
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_pebbles_02.png",
+        "source_size": [
+          64,
+          32
+        ],
+        "mask_size": [
+          64,
+          32
+        ],
+        "normal_size": [
+          64,
+          32
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "ground_scorch_01",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_scorch_01.png",
+      "source_sha256": "b5e75501d5b19d9cc9b30c84104e34f025ed27bce4b8197261d073b899d04c17",
+      "mask": "Docs/References/codex_k098_v1/masks/Props/ground_scorch_01_spec.png",
+      "mask_sha256": "deadfb74670ff0233614a4f037ee2842d402feb4ef51d5bb2e7de3fc5885eea4",
+      "mask_status": "누락 마스크 신규 제작",
+      "normal": "Docs/References/codex_k098_v1/normals/Props/ground_scorch_01_normal.png",
+      "normal_sha256": "a5b2c459b5f26bd4bd8bdc8ca35f6f31d65baec0199ad47fdcf6a8fc7e0b9277",
+      "normal_status": "K-081 규약 근사 높이장 노멀 신규 제작",
+      "size": [
+        128,
+        64
+      ],
+      "cell": [
+        128,
+        64
+      ],
+      "frame_count": 1,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": null,
+      "pivot_note": "원본 피벗을 바꾸지 않음; 신규 피벗 지정 없음",
+      "note": "원본 단일 이미지 유지",
+      "native_cell": [
+        128,
+        64
+      ],
+      "native_scale": 1,
+      "native_mask": "Docs/References/codex_k098_v1/native/Props/ground_scorch_01_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Props/ground_scorch_01_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Props/ground_scorch_01_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Props/ground_scorch_01_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            7,
+            5,
+            119,
+            57
+          ],
+          "cutout_bottom_y": 57
+        }
+      ],
+      "material_pixels": {
+        "effect": 3601,
+        "matte": 140
+      },
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_scorch_01.png",
+        "source_size": [
+          128,
+          64
+        ],
+        "mask_size": [
+          128,
+          64
+        ],
+        "normal_size": [
+          128,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "ground_scorch_02",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_scorch_02.png",
+      "source_sha256": "e7a95454fa53e220490848d5ebd54ab8b5cee4afa8adb8292ce1d7c77f9d774f",
+      "mask": "Docs/References/codex_k098_v1/masks/Props/ground_scorch_02_spec.png",
+      "mask_sha256": "c2c63d350e2434e91874fdf0c75a664d43525ea8022af76e0086dabdb7674424",
+      "mask_status": "누락 마스크 신규 제작",
+      "normal": "Docs/References/codex_k098_v1/normals/Props/ground_scorch_02_normal.png",
+      "normal_sha256": "7eafb4430ee2067189fbcc05e79b55bae7895506e9a1f19c7ff4fae00c749d4c",
+      "normal_status": "K-081 규약 근사 높이장 노멀 신규 제작",
+      "size": [
+        128,
+        64
+      ],
+      "cell": [
+        128,
+        64
+      ],
+      "frame_count": 1,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": null,
+      "pivot_note": "원본 피벗을 바꾸지 않음; 신규 피벗 지정 없음",
+      "note": "원본 단일 이미지 유지",
+      "native_cell": [
+        128,
+        64
+      ],
+      "native_scale": 1,
+      "native_mask": "Docs/References/codex_k098_v1/native/Props/ground_scorch_02_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Props/ground_scorch_02_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Props/ground_scorch_02_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Props/ground_scorch_02_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            7,
+            5,
+            119,
+            57
+          ],
+          "cutout_bottom_y": 57
+        }
+      ],
+      "material_pixels": {
+        "effect": 3447,
+        "matte": 241
+      },
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_scorch_02.png",
+        "source_size": [
+          128,
+          64
+        ],
+        "mask_size": [
+          128,
+          64
+        ],
+        "normal_size": [
+          128,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "k068_bush_01",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/k068_bush_01.png",
+      "source_sha256": "b459c5e264f16352899de2f1e20153da2fd7860bff483fb6f839893fb7a81b3b",
+      "mask": "Docs/References/codex_k098_v1/masks/Props/k068_bush_01_spec.png",
+      "mask_sha256": "dd239b4bdf42808b1a574ced8f623be4130af9f730e4468e07874b45883f7e4c",
+      "mask_status": "누락 마스크 신규 제작",
+      "normal": "Docs/References/codex_k098_v1/normals/Props/k068_bush_01_normal.png",
+      "normal_sha256": "d796c3cb1a2422f7dd61d03345318e76097f9558bcf036f2a696de1093597b0b",
+      "normal_status": "K-081 규약 근사 높이장 노멀 신규 제작",
+      "size": [
+        64,
+        64
+      ],
+      "cell": [
+        64,
+        64
+      ],
+      "frame_count": 1,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": null,
+      "pivot_note": "원본 피벗을 바꾸지 않음; 신규 피벗 지정 없음",
+      "note": "원본 단일 이미지 유지",
+      "native_cell": [
+        64,
+        64
+      ],
+      "native_scale": 1,
+      "native_mask": "Docs/References/codex_k098_v1/native/Props/k068_bush_01_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Props/k068_bush_01_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Props/k068_bush_01_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Props/k068_bush_01_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            6,
+            29,
+            58,
+            64
+          ],
+          "cutout_bottom_y": 64
+        }
+      ],
+      "material_pixels": {
+        "matte": 1234
+      },
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/k068_bush_01.png",
+        "source_size": [
+          64,
+          64
+        ],
+        "mask_size": [
+          64,
+          64
+        ],
+        "normal_size": [
+          64,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "k068_bush_02",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/k068_bush_02.png",
+      "source_sha256": "30b5810bb472274d72e032281ba3100d9758e270e77493943777eceeec8a61d4",
+      "mask": "Docs/References/codex_k098_v1/masks/Props/k068_bush_02_spec.png",
+      "mask_sha256": "1147b7024b5af6ab131f3f532e3088d75dc71fe4a4c901e75a789bbbf6fb4e72",
+      "mask_status": "누락 마스크 신규 제작",
+      "normal": "Docs/References/codex_k098_v1/normals/Props/k068_bush_02_normal.png",
+      "normal_sha256": "2b4761ffa8c131392f92ade7f4a6e29a7f6089bc540e332b6f810911f67e9f3a",
+      "normal_status": "K-081 규약 근사 높이장 노멀 신규 제작",
+      "size": [
+        64,
+        64
+      ],
+      "cell": [
+        64,
+        64
+      ],
+      "frame_count": 1,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": null,
+      "pivot_note": "원본 피벗을 바꾸지 않음; 신규 피벗 지정 없음",
+      "note": "원본 단일 이미지 유지",
+      "native_cell": [
+        64,
+        64
+      ],
+      "native_scale": 1,
+      "native_mask": "Docs/References/codex_k098_v1/native/Props/k068_bush_02_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Props/k068_bush_02_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Props/k068_bush_02_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Props/k068_bush_02_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            6,
+            35,
+            58,
+            64
+          ],
+          "cutout_bottom_y": 64
+        }
+      ],
+      "material_pixels": {
+        "matte": 839
+      },
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/k068_bush_02.png",
+        "source_size": [
+          64,
+          64
+        ],
+        "mask_size": [
+          64,
+          64
+        ],
+        "normal_size": [
+          64,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "k068_bush_03",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/k068_bush_03.png",
+      "source_sha256": "bcadb8e3365a79107ab4e052159dc9a674147adfc01fa453ac4a2d3e8ebb2b47",
+      "mask": "Docs/References/codex_k098_v1/masks/Props/k068_bush_03_spec.png",
+      "mask_sha256": "10f6b9f2126d09b6eed851f3108729ac1e7ee30285f5441b4cc53d29ec2f0f72",
+      "mask_status": "누락 마스크 신규 제작",
+      "normal": "Docs/References/codex_k098_v1/normals/Props/k068_bush_03_normal.png",
+      "normal_sha256": "5829523518d8a786e4d0f7cf2ad64e942afa26232c542f11f0c1c61ef9dce05f",
+      "normal_status": "K-081 규약 근사 높이장 노멀 신규 제작",
+      "size": [
+        64,
+        64
+      ],
+      "cell": [
+        64,
+        64
+      ],
+      "frame_count": 1,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": null,
+      "pivot_note": "원본 피벗을 바꾸지 않음; 신규 피벗 지정 없음",
+      "note": "원본 단일 이미지 유지",
+      "native_cell": [
+        64,
+        64
+      ],
+      "native_scale": 1,
+      "native_mask": "Docs/References/codex_k098_v1/native/Props/k068_bush_03_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Props/k068_bush_03_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Props/k068_bush_03_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Props/k068_bush_03_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            6,
+            20,
+            58,
+            64
+          ],
+          "cutout_bottom_y": 64
+        }
+      ],
+      "material_pixels": {
+        "matte": 1257
+      },
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/k068_bush_03.png",
+        "source_size": [
+          64,
+          64
+        ],
+        "mask_size": [
+          64,
+          64
+        ],
+        "normal_size": [
+          64,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "k068_shield",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/k068_shield.png",
+      "source_sha256": "8c82e0faae8a2c5f4f36d16747cd943cac648f873d193dbc82a61a2c6b69ea29",
+      "mask": "Docs/References/codex_k098_v1/masks/Props/k068_shield_spec.png",
+      "mask_sha256": "4a852ee7a14c387cf9b28cabd9674fa57794b90cfbc79e0b3449c0c76d6dda42",
+      "mask_status": "누락 마스크 신규 제작",
+      "normal": "Docs/References/codex_k098_v1/normals/Props/k068_shield_normal.png",
+      "normal_sha256": "61023001e431c69699b4b7f7dd581328be8735309bcf9a17a27edb7a147c6c86",
+      "normal_status": "K-081 규약 근사 높이장 노멀 신규 제작",
+      "size": [
+        64,
+        64
+      ],
+      "cell": [
+        64,
+        64
+      ],
+      "frame_count": 1,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": null,
+      "pivot_note": "원본 피벗을 바꾸지 않음; 신규 피벗 지정 없음",
+      "note": "원본 단일 이미지 유지",
+      "native_cell": [
+        64,
+        64
+      ],
+      "native_scale": 1,
+      "native_mask": "Docs/References/codex_k098_v1/native/Props/k068_shield_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Props/k068_shield_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Props/k068_shield_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Props/k068_shield_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            6,
+            38,
+            58,
+            64
+          ],
+          "cutout_bottom_y": 64
+        }
+      ],
+      "material_pixels": {
+        "matte": 943,
+        "polished": 14,
+        "iron": 104
+      },
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/k068_shield.png",
+        "source_size": [
+          64,
+          64
+        ],
+        "mask_size": [
+          64,
+          64
+        ],
+        "normal_size": [
+          64,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "k068_signpost",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/k068_signpost.png",
+      "source_sha256": "8ff5457234ae06a0b53179793f80670ed117814a6bc75d02cbcbe47c41183dd7",
+      "mask": "Docs/References/codex_k098_v1/masks/Props/k068_signpost_spec.png",
+      "mask_sha256": "6035ffead30453b2375dcbf0d3650ccc8fdf094d699a431d50125bd73d64f9ef",
+      "mask_status": "누락 마스크 신규 제작",
+      "normal": "Docs/References/codex_k098_v1/normals/Props/k068_signpost_normal.png",
+      "normal_sha256": "0c43cba68b56d5cc345205540fec3d21afa7e0cc17e2738fbcf7355c710f2bee",
+      "normal_status": "K-081 규약 근사 높이장 노멀 신규 제작",
+      "size": [
+        64,
+        64
+      ],
+      "cell": [
+        64,
+        64
+      ],
+      "frame_count": 1,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": null,
+      "pivot_note": "원본 피벗을 바꾸지 않음; 신규 피벗 지정 없음",
+      "note": "원본 단일 이미지 유지",
+      "native_cell": [
+        64,
+        64
+      ],
+      "native_scale": 1,
+      "native_mask": "Docs/References/codex_k098_v1/native/Props/k068_signpost_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Props/k068_signpost_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Props/k068_signpost_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Props/k068_signpost_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            6,
+            11,
+            58,
+            64
+          ],
+          "cutout_bottom_y": 64
+        }
+      ],
+      "material_pixels": {
+        "matte": 1370
+      },
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/k068_signpost.png",
+        "source_size": [
+          64,
+          64
+        ],
+        "mask_size": [
+          64,
+          64
+        ],
+        "normal_size": [
+          64,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "k068_tallgrass_01",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/k068_tallgrass_01.png",
+      "source_sha256": "04b439401a17208e872b15cc975d345b9a5997c748b018af83fa1221b2dbd313",
+      "mask": "Docs/References/codex_k098_v1/masks/Props/k068_tallgrass_01_spec.png",
+      "mask_sha256": "dcba53f474f7af760e76d5978a1fb802940559723e2c138e64ce4172b5656881",
+      "mask_status": "누락 마스크 신규 제작",
+      "normal": "Docs/References/codex_k098_v1/normals/Props/k068_tallgrass_01_normal.png",
+      "normal_sha256": "4f05228d325b1067d3f49ce9c97ca04d3be47ee9d1c1f9b7e73117553d465275",
+      "normal_status": "K-081 규약 근사 높이장 노멀 신규 제작",
+      "size": [
+        64,
+        64
+      ],
+      "cell": [
+        64,
+        64
+      ],
+      "frame_count": 1,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": null,
+      "pivot_note": "원본 피벗을 바꾸지 않음; 신규 피벗 지정 없음",
+      "note": "원본 단일 이미지 유지",
+      "native_cell": [
+        64,
+        64
+      ],
+      "native_scale": 1,
+      "native_mask": "Docs/References/codex_k098_v1/native/Props/k068_tallgrass_01_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Props/k068_tallgrass_01_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Props/k068_tallgrass_01_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Props/k068_tallgrass_01_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            12,
+            8,
+            51,
+            64
+          ],
+          "cutout_bottom_y": 64
+        }
+      ],
+      "material_pixels": {
+        "matte": 1152
+      },
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/k068_tallgrass_01.png",
+        "source_size": [
+          64,
+          64
+        ],
+        "mask_size": [
+          64,
+          64
+        ],
+        "normal_size": [
+          64,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "k068_tallgrass_02",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/k068_tallgrass_02.png",
+      "source_sha256": "56c4ab260756b9e723fcffdf72607feb9861895e912761ad27a5f42204f96e3b",
+      "mask": "Docs/References/codex_k098_v1/masks/Props/k068_tallgrass_02_spec.png",
+      "mask_sha256": "b406d0c999d1d5a78deb51361ce465c3644ed78cd5ef9b742d075b9723951f0c",
+      "mask_status": "누락 마스크 신규 제작",
+      "normal": "Docs/References/codex_k098_v1/normals/Props/k068_tallgrass_02_normal.png",
+      "normal_sha256": "80513ab4e1777170a021c58c8a4b664319b00c4bb5c3fea1f26fd94a60d280aa",
+      "normal_status": "K-081 규약 근사 높이장 노멀 신규 제작",
+      "size": [
+        64,
+        64
+      ],
+      "cell": [
+        64,
+        64
+      ],
+      "frame_count": 1,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": null,
+      "pivot_note": "원본 피벗을 바꾸지 않음; 신규 피벗 지정 없음",
+      "note": "원본 단일 이미지 유지",
+      "native_cell": [
+        64,
+        64
+      ],
+      "native_scale": 1,
+      "native_mask": "Docs/References/codex_k098_v1/native/Props/k068_tallgrass_02_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Props/k068_tallgrass_02_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Props/k068_tallgrass_02_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Props/k068_tallgrass_02_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            6,
+            12,
+            58,
+            64
+          ],
+          "cutout_bottom_y": 64
+        }
+      ],
+      "material_pixels": {
+        "matte": 1346
+      },
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/k068_tallgrass_02.png",
+        "source_size": [
+          64,
+          64
+        ],
+        "mask_size": [
+          64,
+          64
+        ],
+        "normal_size": [
+          64,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "k068_weapon_01",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/k068_weapon_01.png",
+      "source_sha256": "aedbfd816a20a370bea33bdce74ec247aaa5e693c1c5c0c1ed9602287595c097",
+      "mask": "Docs/References/codex_k098_v1/masks/Props/k068_weapon_01_spec.png",
+      "mask_sha256": "61288eb2cf254f64ce44cc84df95531a329bfe0ea4e1cc332378cc489e1979ac",
+      "mask_status": "누락 마스크 신규 제작",
+      "normal": "Docs/References/codex_k098_v1/normals/Props/k068_weapon_01_normal.png",
+      "normal_sha256": "c6ba71795c1d57b03a6967b1610682c033bce23cf137edf5ae18fd635d36b2ed",
+      "normal_status": "K-081 규약 근사 높이장 노멀 신규 제작",
+      "size": [
+        64,
+        64
+      ],
+      "cell": [
+        64,
+        64
+      ],
+      "frame_count": 1,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": null,
+      "pivot_note": "원본 피벗을 바꾸지 않음; 신규 피벗 지정 없음",
+      "note": "원본 단일 이미지 유지",
+      "native_cell": [
+        64,
+        64
+      ],
+      "native_scale": 1,
+      "native_mask": "Docs/References/codex_k098_v1/native/Props/k068_weapon_01_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Props/k068_weapon_01_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Props/k068_weapon_01_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Props/k068_weapon_01_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            17,
+            8,
+            47,
+            64
+          ],
+          "cutout_bottom_y": 64
+        }
+      ],
+      "material_pixels": {
+        "matte": 503,
+        "polished": 13,
+        "iron": 68
+      },
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/k068_weapon_01.png",
+        "source_size": [
+          64,
+          64
+        ],
+        "mask_size": [
+          64,
+          64
+        ],
+        "normal_size": [
+          64,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "k068_weapon_02",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/k068_weapon_02.png",
+      "source_sha256": "fd9239ebd96d9f59da8b2ed6b584c593c6a86052def1ee326cc9db7844f8a857",
+      "mask": "Docs/References/codex_k098_v1/masks/Props/k068_weapon_02_spec.png",
+      "mask_sha256": "f95762f01c26d60811956494599a154ec1b01fd5bb22e9958f610e7fcd5c2b94",
+      "mask_status": "누락 마스크 신규 제작",
+      "normal": "Docs/References/codex_k098_v1/normals/Props/k068_weapon_02_normal.png",
+      "normal_sha256": "cfd454fab85949ed036b118b3c3165499e631faee69b5cabfc2ac21c69ca415c",
+      "normal_status": "K-081 규약 근사 높이장 노멀 신규 제작",
+      "size": [
+        64,
+        64
+      ],
+      "cell": [
+        64,
+        64
+      ],
+      "frame_count": 1,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": null,
+      "pivot_note": "원본 피벗을 바꾸지 않음; 신규 피벗 지정 없음",
+      "note": "원본 단일 이미지 유지",
+      "native_cell": [
+        64,
+        64
+      ],
+      "native_scale": 1,
+      "native_mask": "Docs/References/codex_k098_v1/native/Props/k068_weapon_02_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Props/k068_weapon_02_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Props/k068_weapon_02_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Props/k068_weapon_02_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            12,
+            8,
+            52,
+            64
+          ],
+          "cutout_bottom_y": 64
+        }
+      ],
+      "material_pixels": {
+        "matte": 652,
+        "polished": 2,
+        "iron": 9
+      },
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/k068_weapon_02.png",
+        "source_size": [
+          64,
+          64
+        ],
+        "mask_size": [
+          64,
+          64
+        ],
+        "normal_size": [
+          64,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "k068_weapon_03",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/k068_weapon_03.png",
+      "source_sha256": "e12350c7a1be69c69199fd2ce2af1c6dfdf375c9ef1aee86c340abd01e9d2c09",
+      "mask": "Docs/References/codex_k098_v1/masks/Props/k068_weapon_03_spec.png",
+      "mask_sha256": "197ac14815a340e507e9b1ff58a7a7f92ebce50d672186849626d1accd758078",
+      "mask_status": "누락 마스크 신규 제작",
+      "normal": "Docs/References/codex_k098_v1/normals/Props/k068_weapon_03_normal.png",
+      "normal_sha256": "a35c1d9528432695d5b330a4e0cda62d4df4206c91cbeb9b587eb138e1707c9b",
+      "normal_status": "K-081 규약 근사 높이장 노멀 신규 제작",
+      "size": [
+        64,
+        64
+      ],
+      "cell": [
+        64,
+        64
+      ],
+      "frame_count": 1,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": null,
+      "pivot_note": "원본 피벗을 바꾸지 않음; 신규 피벗 지정 없음",
+      "note": "원본 단일 이미지 유지",
+      "native_cell": [
+        64,
+        64
+      ],
+      "native_scale": 1,
+      "native_mask": "Docs/References/codex_k098_v1/native/Props/k068_weapon_03_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Props/k068_weapon_03_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Props/k068_weapon_03_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Props/k068_weapon_03_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            13,
+            8,
+            50,
+            64
+          ],
+          "cutout_bottom_y": 64
+        }
+      ],
+      "material_pixels": {
+        "matte": 641,
+        "iron": 87,
+        "polished": 5
+      },
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/k068_weapon_03.png",
+        "source_size": [
+          64,
+          64
+        ],
+        "mask_size": [
+          64,
+          64
+        ],
+        "normal_size": [
+          64,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "oak",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/oak.png",
+      "source_sha256": "e4bcbf41c2a8e820056c5ec5c9be9bad3cbe97464bc611309dab77c484941ecc",
+      "mask": "Docs/References/codex_k098_v1/masks/Props/oak_spec.png",
+      "mask_sha256": "85c9fd523b81452990ddac2e52cd25dd1da0c326b720fd445fa90386739b70eb",
+      "mask_status": "누락 마스크 신규 제작",
+      "normal": "Docs/References/codex_k098_v1/normals/Props/oak_normal.png",
+      "normal_sha256": "04df773ae39c931d9569fcd5a37a1675e4323afe70bb3d719b86ec327b629117",
+      "normal_status": "K-081 규약 근사 높이장 노멀 신규 제작",
+      "size": [
+        128,
+        160
+      ],
+      "cell": [
+        128,
+        160
+      ],
+      "frame_count": 1,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": null,
+      "pivot_note": "원본 피벗을 바꾸지 않음; 신규 피벗 지정 없음",
+      "note": "원본 단일 이미지 유지",
+      "native_cell": [
+        128,
+        160
+      ],
+      "native_scale": 1,
+      "native_mask": "Docs/References/codex_k098_v1/native/Props/oak_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Props/oak_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Props/oak_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Props/oak_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            8,
+            36,
+            120,
+            152
+          ],
+          "cutout_bottom_y": 152
+        }
+      ],
+      "material_pixels": {
+        "matte": 7384
+      },
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/oak.png",
+        "source_size": [
+          128,
+          160
+        ],
+        "mask_size": [
+          128,
+          160
+        ],
+        "normal_size": [
+          128,
+          160
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "pine",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/pine.png",
+      "source_sha256": "e3fd882d0771000bec09317db424a88c570fe61232ca39b7f479b35a712712b8",
+      "mask": "Docs/References/codex_k098_v1/masks/Props/pine_spec.png",
+      "mask_sha256": "08df412805c157fe936fd70252f56ca456814b7e877cd177771bae1d34d96ad1",
+      "mask_status": "누락 마스크 신규 제작",
+      "normal": "Docs/References/codex_k098_v1/normals/Props/pine_normal.png",
+      "normal_sha256": "e64b7c93040338c2abf170fcaaccb3f74c093ec1128279464a8352eddac7d162",
+      "normal_status": "K-081 규약 근사 높이장 노멀 신규 제작",
+      "size": [
+        128,
+        224
+      ],
+      "cell": [
+        128,
+        224
+      ],
+      "frame_count": 1,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": null,
+      "pivot_note": "원본 피벗을 바꾸지 않음; 신규 피벗 지정 없음",
+      "note": "원본 단일 이미지 유지",
+      "native_cell": [
+        128,
+        224
+      ],
+      "native_scale": 1,
+      "native_mask": "Docs/References/codex_k098_v1/native/Props/pine_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Props/pine_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Props/pine_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Props/pine_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            8,
+            21,
+            120,
+            216
+          ],
+          "cutout_bottom_y": 216
+        }
+      ],
+      "material_pixels": {
+        "matte": 10621
+      },
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/pine.png",
+        "source_size": [
+          128,
+          224
+        ],
+        "mask_size": [
+          128,
+          224
+        ],
+        "normal_size": [
+          128,
+          224
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "rock_a",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/rock_a.png",
+      "source_sha256": "986c70bbb81876f56f4e8f104cced8f61a2f4701953a827ab67dd6d42bc60b47",
+      "mask": "Docs/References/codex_k098_v1/masks/Props/rock_a_spec.png",
+      "mask_sha256": "feb162a103e1e421c6000525f0634ecb2021de76fbf043dc57aed73852de7cb6",
+      "mask_status": "누락 마스크 신규 제작",
+      "normal": "Docs/References/codex_k098_v1/normals/Props/rock_a_normal.png",
+      "normal_sha256": "e6bf4444c757a2fe6a2679712a93ad45c90dad365a51a7d35fe5dad9bd214b6a",
+      "normal_status": "K-081 규약 근사 높이장 노멀 신규 제작",
+      "size": [
+        96,
+        80
+      ],
+      "cell": [
+        96,
+        80
+      ],
+      "frame_count": 1,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": null,
+      "pivot_note": "원본 피벗을 바꾸지 않음; 신규 피벗 지정 없음",
+      "note": "원본 단일 이미지 유지",
+      "native_cell": [
+        96,
+        80
+      ],
+      "native_scale": 1,
+      "native_mask": "Docs/References/codex_k098_v1/native/Props/rock_a_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Props/rock_a_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Props/rock_a_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Props/rock_a_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            10,
+            8,
+            85,
+            72
+          ],
+          "cutout_bottom_y": 72
+        }
+      ],
+      "material_pixels": {
+        "stone": 2591,
+        "matte": 808
+      },
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/rock_a.png",
+        "source_size": [
+          96,
+          80
+        ],
+        "mask_size": [
+          96,
+          80
+        ],
+        "normal_size": [
+          96,
+          80
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "rock_b",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/rock_b.png",
+      "source_sha256": "7b27f5dbd2fcf86a72e22987827f6d8c5f1a3c342f2d249a146fee99d32bc5c4",
+      "mask": "Docs/References/codex_k098_v1/masks/Props/rock_b_spec.png",
+      "mask_sha256": "d58799f581c090bc65e86ca7b1e139bd2cd7226979607077f60566612da58a37",
+      "mask_status": "누락 마스크 신규 제작",
+      "normal": "Docs/References/codex_k098_v1/normals/Props/rock_b_normal.png",
+      "normal_sha256": "9422c2232e2e24993154e93bdfaa2cb7607f2ea7ee3f1b4d608da37a071b3766",
+      "normal_status": "K-081 규약 근사 높이장 노멀 신규 제작",
+      "size": [
+        64,
+        112
+      ],
+      "cell": [
+        64,
+        112
+      ],
+      "frame_count": 1,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": null,
+      "pivot_note": "원본 피벗을 바꾸지 않음; 신규 피벗 지정 없음",
+      "note": "원본 단일 이미지 유지",
+      "native_cell": [
+        64,
+        112
+      ],
+      "native_scale": 1,
+      "native_mask": "Docs/References/codex_k098_v1/native/Props/rock_b_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Props/rock_b_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Props/rock_b_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Props/rock_b_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            8,
+            29,
+            56,
+            104
+          ],
+          "cutout_bottom_y": 104
+        }
+      ],
+      "material_pixels": {
+        "matte": 619,
+        "stone": 1947
+      },
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/rock_b.png",
+        "source_size": [
+          64,
+          112
+        ],
+        "mask_size": [
+          64,
+          112
+        ],
+        "normal_size": [
+          64,
+          112
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "torch_mount_off",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/torch_mount_off.png",
+      "source_sha256": "6c74611beb21e06401cbb87c1c8ed5e7b6fbce4894e6adddc2bfca5af78a51bd",
+      "mask": "Docs/References/codex_k098_v1/masks/Props/torch_mount_off_spec.png",
+      "mask_sha256": "90c912c24fc978da6f1276a363e9e241379103003356a7759e07005429210fc1",
+      "mask_status": "누락 마스크 신규 제작",
+      "normal": "Docs/References/codex_k098_v1/normals/Props/torch_mount_off_normal.png",
+      "normal_sha256": "3b3d7ce072054b9749b4c8edf6d9788c777050db0d481b0b710f11c745fd03bc",
+      "normal_status": "K-081 규약 근사 높이장 노멀 신규 제작",
+      "size": [
+        128,
+        256
+      ],
+      "cell": [
+        128,
+        256
+      ],
+      "frame_count": 1,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": [
+        64,
+        224
+      ],
+      "pivot_note": "기존 부착점 보존",
+      "note": "원본 단일 이미지 유지",
+      "native_cell": [
+        64,
+        128
+      ],
+      "native_scale": 2,
+      "native_mask": "Docs/References/codex_k098_v1/native/Props/torch_mount_off_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Props/torch_mount_off_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Props/torch_mount_off_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Props/torch_mount_off_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            34,
+            32,
+            94,
+            224
+          ],
+          "cutout_bottom_y": 224
+        }
+      ],
+      "material_pixels": {
+        "matte": 940,
+        "iron": 356,
+        "polished": 16
+      },
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/torch_mount_off.png",
+        "source_size": [
+          128,
+          256
+        ],
+        "mask_size": [
+          128,
+          256
+        ],
+        "normal_size": [
+          128,
+          256
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "trap_1",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/trap_1.png",
+      "source_sha256": "f897446f81c9284cd2a719ca9a015f52701d0e10ec1e7e57c833e6f658f35f9b",
+      "mask": "Docs/References/codex_k098_v1/masks/Props/trap_1_spec.png",
+      "mask_sha256": "b71a44059a3f7add1c54a586d86050fb152f97ba42eb13516979fe230760953f",
+      "mask_status": "누락 마스크 신규 제작",
+      "normal": "Docs/References/codex_k098_v1/normals/Props/trap_1_normal.png",
+      "normal_sha256": "44671b55226876adffdb99799919a57703e242185afa02120a8ff6ff1a380589",
+      "normal_status": "K-081 규약 근사 높이장 노멀 신규 제작",
+      "size": [
+        64,
+        64
+      ],
+      "cell": [
+        64,
+        64
+      ],
+      "frame_count": 1,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": null,
+      "pivot_note": "원본 피벗을 바꾸지 않음; 신규 피벗 지정 없음",
+      "note": "원본 단일 이미지 유지",
+      "native_cell": [
+        64,
+        64
+      ],
+      "native_scale": 1,
+      "native_mask": "Docs/References/codex_k098_v1/native/Props/trap_1_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Props/trap_1_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Props/trap_1_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Props/trap_1_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            4,
+            28,
+            60,
+            56
+          ],
+          "cutout_bottom_y": 56
+        }
+      ],
+      "material_pixels": {
+        "matte": 901,
+        "iron": 186,
+        "polished": 2
+      },
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/trap_1.png",
+        "source_size": [
+          64,
+          64
+        ],
+        "mask_size": [
+          64,
+          64
+        ],
+        "normal_size": [
+          64,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    },
+    {
+      "name": "trap_2",
+      "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/trap_2.png",
+      "source_sha256": "98ae03c987958d5da0538105950faf8cba840771193fba124eb746ae2d7a2469",
+      "mask": "Docs/References/codex_k098_v1/masks/Props/trap_2_spec.png",
+      "mask_sha256": "491d6fb9258bda09b52667493f4d04d83dc4873f6843250f5946d440a64e6bb2",
+      "mask_status": "누락 마스크 신규 제작",
+      "normal": "Docs/References/codex_k098_v1/normals/Props/trap_2_normal.png",
+      "normal_sha256": "03441f150547eee4c7c03161f57d528618ef738054e2bdb614ffc1456382f91f",
+      "normal_status": "K-081 규약 근사 높이장 노멀 신규 제작",
+      "size": [
+        64,
+        64
+      ],
+      "cell": [
+        64,
+        64
+      ],
+      "frame_count": 1,
+      "frame_order": "원본 그대로, 왼쪽부터 오른쪽. cannon_aim3은 시간 동작이 아닌 방향 견본",
+      "pivot_top_left": null,
+      "pivot_note": "원본 피벗을 바꾸지 않음; 신규 피벗 지정 없음",
+      "note": "원본 단일 이미지 유지",
+      "native_cell": [
+        64,
+        64
+      ],
+      "native_scale": 1,
+      "native_mask": "Docs/References/codex_k098_v1/native/Props/trap_2_spec.png",
+      "native_normal": "Docs/References/codex_k098_v1/native/Props/trap_2_normal.png",
+      "preview_mask_4x": "Docs/References/codex_k098_v1/previews/Props/trap_2_spec_4x.png",
+      "preview_normal_4x": "Docs/References/codex_k098_v1/previews/Props/trap_2_normal_4x.png",
+      "frames": [
+        {
+          "index": 0,
+          "alpha_bounds": [
+            4,
+            26,
+            60,
+            56
+          ],
+          "cutout_bottom_y": 56
+        }
+      ],
+      "material_pixels": {
+        "matte": 833,
+        "iron": 372,
+        "polished": 4
+      },
+      "validation": {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/trap_2.png",
+        "source_size": [
+          64,
+          64
+        ],
+        "mask_size": [
+          64,
+          64
+        ],
+        "normal_size": [
+          64,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    }
+  ],
+  "shadows": [
+    {
+      "name": "soldier",
+      "label": "병사",
+      "path": "Docs/References/codex_k098_v1/shadows/contact_shadow_soldier_2x.png",
+      "preview_4x": "Docs/References/codex_k098_v1/previews/contact_shadow_soldier_4x.png",
+      "base_size": [
+        64,
+        32
+      ],
+      "size": [
+        128,
+        64
+      ],
+      "resolution_scale": 2,
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "recommended_world_width_m": 0.38,
+      "recommended_world_depth_m": 0.19,
+      "recommended_opacity": 0.65,
+      "checks": {
+        "rgb_pure_black": true,
+        "transparent_edges": true,
+        "center_alpha": 170,
+        "symmetric_x": true,
+        "symmetric_y": true
+      }
+    },
+    {
+      "name": "ogre",
+      "label": "오우거",
+      "path": "Docs/References/codex_k098_v1/shadows/contact_shadow_ogre_2x.png",
+      "preview_4x": "Docs/References/codex_k098_v1/previews/contact_shadow_ogre_4x.png",
+      "base_size": [
+        128,
+        64
+      ],
+      "size": [
+        256,
+        128
+      ],
+      "resolution_scale": 2,
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "recommended_world_width_m": 0.85,
+      "recommended_world_depth_m": 0.425,
+      "recommended_opacity": 0.65,
+      "checks": {
+        "rgb_pure_black": true,
+        "transparent_edges": true,
+        "center_alpha": 170,
+        "symmetric_x": true,
+        "symmetric_y": true
+      }
+    },
+    {
+      "name": "cannon",
+      "label": "대포",
+      "path": "Docs/References/codex_k098_v1/shadows/contact_shadow_cannon_2x.png",
+      "preview_4x": "Docs/References/codex_k098_v1/previews/contact_shadow_cannon_4x.png",
+      "base_size": [
+        160,
+        64
+      ],
+      "size": [
+        320,
+        128
+      ],
+      "resolution_scale": 2,
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "recommended_world_width_m": 0.75,
+      "recommended_world_depth_m": 0.3,
+      "recommended_opacity": 0.65,
+      "checks": {
+        "rgb_pure_black": true,
+        "transparent_edges": true,
+        "center_alpha": 170,
+        "symmetric_x": true,
+        "symmetric_y": true
+      }
+    },
+    {
+      "name": "ladder_pair",
+      "label": "사다리 운반 2인",
+      "path": "Docs/References/codex_k098_v1/shadows/contact_shadow_ladder_pair_2x.png",
+      "preview_4x": "Docs/References/codex_k098_v1/previews/contact_shadow_ladder_pair_4x.png",
+      "base_size": [
+        192,
+        64
+      ],
+      "size": [
+        384,
+        128
+      ],
+      "resolution_scale": 2,
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "recommended_world_width_m": 1.1,
+      "recommended_world_depth_m": 0.3666666666666667,
+      "recommended_opacity": 0.65,
+      "checks": {
+        "rgb_pure_black": true,
+        "transparent_edges": true,
+        "center_alpha": 170,
+        "symmetric_x": true,
+        "symmetric_y": true
+      }
+    },
+    {
+      "name": "prop_small",
+      "label": "작은 소품",
+      "path": "Docs/References/codex_k098_v1/shadows/contact_shadow_prop_small_2x.png",
+      "preview_4x": "Docs/References/codex_k098_v1/previews/contact_shadow_prop_small_4x.png",
+      "base_size": [
+        48,
+        24
+      ],
+      "size": [
+        96,
+        48
+      ],
+      "resolution_scale": 2,
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "recommended_world_width_m": 0.3,
+      "recommended_world_depth_m": 0.15,
+      "recommended_opacity": 0.65,
+      "checks": {
+        "rgb_pure_black": true,
+        "transparent_edges": true,
+        "center_alpha": 170,
+        "symmetric_x": true,
+        "symmetric_y": true
+      }
+    }
+  ],
+  "validation": {
+    "all_pass": true,
+    "sheet_count": 43,
+    "frame_count": 62,
+    "checks": [
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/cannon_recoil.png",
+        "source_size": [
+          768,
+          256
+        ],
+        "mask_size": [
+          768,
+          256
+        ],
+        "normal_size": [
+          768,
+          256
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/crew_pull6.png",
+        "source_size": [
+          1728,
+          384
+        ],
+        "mask_size": [
+          1728,
+          384
+        ],
+        "normal_size": [
+          1728,
+          384
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/crew_push6.png",
+        "source_size": [
+          1728,
+          384
+        ],
+        "mask_size": [
+          1728,
+          384
+        ],
+        "normal_size": [
+          1728,
+          384
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/haul_cannon_body.png",
+        "source_size": [
+          768,
+          384
+        ],
+        "mask_size": [
+          768,
+          384
+        ],
+        "normal_size": [
+          768,
+          384
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/haul_cannon_chassis.png",
+        "source_size": [
+          768,
+          384
+        ],
+        "mask_size": [
+          768,
+          384
+        ],
+        "normal_size": [
+          768,
+          384
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/haul_cannon_wheel.png",
+        "source_size": [
+          101,
+          101
+        ],
+        "mask_size": [
+          101,
+          101
+        ],
+        "normal_size": [
+          101,
+          101
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/muzzle_smoke.png",
+        "source_size": [
+          1536,
+          256
+        ],
+        "mask_size": [
+          1536,
+          256
+        ],
+        "normal_size": [
+          1536,
+          256
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/cannon_aim3.png",
+        "source_size": [
+          1536,
+          384
+        ],
+        "mask_size": [
+          1536,
+          384
+        ],
+        "normal_size": [
+          1536,
+          384
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/bush.png",
+        "source_size": [
+          64,
+          48
+        ],
+        "mask_size": [
+          64,
+          48
+        ],
+        "normal_size": [
+          64,
+          48
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/corpse_pile_1.png",
+        "source_size": [
+          64,
+          64
+        ],
+        "mask_size": [
+          64,
+          64
+        ],
+        "normal_size": [
+          64,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/corpse_pile_2.png",
+        "source_size": [
+          64,
+          64
+        ],
+        "mask_size": [
+          64,
+          64
+        ],
+        "normal_size": [
+          64,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/corpse_pile_3.png",
+        "source_size": [
+          64,
+          64
+        ],
+        "mask_size": [
+          64,
+          64
+        ],
+        "normal_size": [
+          64,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_crater_01.png",
+        "source_size": [
+          128,
+          64
+        ],
+        "mask_size": [
+          128,
+          64
+        ],
+        "normal_size": [
+          128,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_crater_02.png",
+        "source_size": [
+          128,
+          64
+        ],
+        "mask_size": [
+          128,
+          64
+        ],
+        "normal_size": [
+          128,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_dirt_01.png",
+        "source_size": [
+          128,
+          64
+        ],
+        "mask_size": [
+          128,
+          64
+        ],
+        "normal_size": [
+          128,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_dirt_02.png",
+        "source_size": [
+          128,
+          64
+        ],
+        "mask_size": [
+          128,
+          64
+        ],
+        "normal_size": [
+          128,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_dirt_03.png",
+        "source_size": [
+          128,
+          64
+        ],
+        "mask_size": [
+          128,
+          64
+        ],
+        "normal_size": [
+          128,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_flowers_01.png",
+        "source_size": [
+          64,
+          32
+        ],
+        "mask_size": [
+          64,
+          32
+        ],
+        "normal_size": [
+          64,
+          32
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_flowers_02.png",
+        "source_size": [
+          64,
+          32
+        ],
+        "mask_size": [
+          64,
+          32
+        ],
+        "normal_size": [
+          64,
+          32
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_grass_01.png",
+        "source_size": [
+          64,
+          32
+        ],
+        "mask_size": [
+          64,
+          32
+        ],
+        "normal_size": [
+          64,
+          32
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_grass_02.png",
+        "source_size": [
+          64,
+          32
+        ],
+        "mask_size": [
+          64,
+          32
+        ],
+        "normal_size": [
+          64,
+          32
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_grass_03.png",
+        "source_size": [
+          64,
+          32
+        ],
+        "mask_size": [
+          64,
+          32
+        ],
+        "normal_size": [
+          64,
+          32
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_pebbles_01.png",
+        "source_size": [
+          64,
+          32
+        ],
+        "mask_size": [
+          64,
+          32
+        ],
+        "normal_size": [
+          64,
+          32
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_pebbles_02.png",
+        "source_size": [
+          64,
+          32
+        ],
+        "mask_size": [
+          64,
+          32
+        ],
+        "normal_size": [
+          64,
+          32
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_scorch_01.png",
+        "source_size": [
+          128,
+          64
+        ],
+        "mask_size": [
+          128,
+          64
+        ],
+        "normal_size": [
+          128,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/ground_scorch_02.png",
+        "source_size": [
+          128,
+          64
+        ],
+        "mask_size": [
+          128,
+          64
+        ],
+        "normal_size": [
+          128,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/k068_bush_01.png",
+        "source_size": [
+          64,
+          64
+        ],
+        "mask_size": [
+          64,
+          64
+        ],
+        "normal_size": [
+          64,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/k068_bush_02.png",
+        "source_size": [
+          64,
+          64
+        ],
+        "mask_size": [
+          64,
+          64
+        ],
+        "normal_size": [
+          64,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/k068_bush_03.png",
+        "source_size": [
+          64,
+          64
+        ],
+        "mask_size": [
+          64,
+          64
+        ],
+        "normal_size": [
+          64,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/k068_shield.png",
+        "source_size": [
+          64,
+          64
+        ],
+        "mask_size": [
+          64,
+          64
+        ],
+        "normal_size": [
+          64,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/k068_signpost.png",
+        "source_size": [
+          64,
+          64
+        ],
+        "mask_size": [
+          64,
+          64
+        ],
+        "normal_size": [
+          64,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/k068_tallgrass_01.png",
+        "source_size": [
+          64,
+          64
+        ],
+        "mask_size": [
+          64,
+          64
+        ],
+        "normal_size": [
+          64,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/k068_tallgrass_02.png",
+        "source_size": [
+          64,
+          64
+        ],
+        "mask_size": [
+          64,
+          64
+        ],
+        "normal_size": [
+          64,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/k068_weapon_01.png",
+        "source_size": [
+          64,
+          64
+        ],
+        "mask_size": [
+          64,
+          64
+        ],
+        "normal_size": [
+          64,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/k068_weapon_02.png",
+        "source_size": [
+          64,
+          64
+        ],
+        "mask_size": [
+          64,
+          64
+        ],
+        "normal_size": [
+          64,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/k068_weapon_03.png",
+        "source_size": [
+          64,
+          64
+        ],
+        "mask_size": [
+          64,
+          64
+        ],
+        "normal_size": [
+          64,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/oak.png",
+        "source_size": [
+          128,
+          160
+        ],
+        "mask_size": [
+          128,
+          160
+        ],
+        "normal_size": [
+          128,
+          160
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/pine.png",
+        "source_size": [
+          128,
+          224
+        ],
+        "mask_size": [
+          128,
+          224
+        ],
+        "normal_size": [
+          128,
+          224
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/rock_a.png",
+        "source_size": [
+          96,
+          80
+        ],
+        "mask_size": [
+          96,
+          80
+        ],
+        "normal_size": [
+          96,
+          80
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/rock_b.png",
+        "source_size": [
+          64,
+          112
+        ],
+        "mask_size": [
+          64,
+          112
+        ],
+        "normal_size": [
+          64,
+          112
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/torch_mount_off.png",
+        "source_size": [
+          128,
+          256
+        ],
+        "mask_size": [
+          128,
+          256
+        ],
+        "normal_size": [
+          128,
+          256
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/trap_1.png",
+        "source_size": [
+          64,
+          64
+        ],
+        "mask_size": [
+          64,
+          64
+        ],
+        "normal_size": [
+          64,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      },
+      {
+        "source": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Props/trap_2.png",
+        "source_size": [
+          64,
+          64
+        ],
+        "mask_size": [
+          64,
+          64
+        ],
+        "normal_size": [
+          64,
+          64
+        ],
+        "size_match": true,
+        "mask_alpha_exact": true,
+        "normal_alpha_exact": true,
+        "blue_unused_zero": true,
+        "no_added_alpha_pixels": true,
+        "frame_bounds_and_bottom_exact": true,
+        "native_mask_roundtrip": true,
+        "native_normal_roundtrip": true,
+        "source_unchanged": true
+      }
+    ]
+  },
+  "leftovers": [
+    "Unity 조명·좌우 반전·최종 광택과 그림자 폭은 Claude 연결 후 확인",
+    "crew_pull6/push6 현재 PNG 288×384·6칸과 CannonArt.cs 384 표기 불일치: Game 코드는 이번 카드에서 수정하지 않음",
+    "선택 항목인 벽 albedo는 이번 카드에서 생략"
+  ]
+}

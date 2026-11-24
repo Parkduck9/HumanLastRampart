@@ -1,0 +1,43 @@
+{
+  "id": "wall_corner",
+  "label": "성벽 모서리",
+  "category": "환경",
+  "status": "review-draft",
+  "columns": 1,
+  "rows": 1,
+  "frames": 1,
+  "fps": 0,
+  "cell": [
+    512,
+    512
+  ],
+  "size": [
+    512,
+    512
+  ],
+  "pivotTopLeft": [
+    256,
+    400
+  ],
+  "sourceSize": [
+    1536,
+    1024
+  ],
+  "sourceCrop": [
+    15,
+    84,
+    1522,
+    978
+  ],
+  "packedRect": [
+    12,
+    111,
+    488,
+    289
+  ],
+  "sourceSha256": "68ab9bec4cfc9af56d6884919c62e2224ebab3bcfbc13304bef5bb244f03855a",
+  "imageSha256": "f2d0744d77f83eced0c787afee96e608899759e95f8ec3c2a031896358c52ccb",
+  "unityPlayVerified": false,
+  "gameConnected": false,
+  "tilingVerified": false
+}

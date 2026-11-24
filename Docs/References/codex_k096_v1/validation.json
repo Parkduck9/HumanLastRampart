@@ -1,0 +1,639 @@
+﻿{
+    "card":  "K-096",
+    "passed":  true,
+    "failed":  [
+
+               ],
+    "individual_asset_count":  29,
+    "individual_checks":  [
+                              {
+                                  "file":  "outlines/east_hover.png",
+                                  "passed":  true,
+                                  "analysis":  {
+                                                   "width":  256,
+                                                   "height":  256,
+                                                   "transparent_pixels":  64146,
+                                                   "opaque_pixels":  467,
+                                                   "partial_alpha_pixels":  923,
+                                                   "alpha_bounds_xywh":  [
+                                                                             198,
+                                                                             49,
+                                                                             52,
+                                                                             158
+                                                                         ],
+                                                   "canvas_edge_nontransparent":  0,
+                                                   "connected_components_8":  1,
+                                                   "smallest_component_pixels":  1390
+                                               },
+                                  "solid_wall_overlap_pixels":  0
+                              },
+                              {
+                                  "file":  "outlines/east_selected.png",
+                                  "passed":  true,
+                                  "analysis":  {
+                                                   "width":  256,
+                                                   "height":  256,
+                                                   "transparent_pixels":  63242,
+                                                   "opaque_pixels":  936,
+                                                   "partial_alpha_pixels":  1358,
+                                                   "alpha_bounds_xywh":  [
+                                                                             196,
+                                                                             47,
+                                                                             56,
+                                                                             162
+                                                                         ],
+                                                   "canvas_edge_nontransparent":  0,
+                                                   "connected_components_8":  1,
+                                                   "smallest_component_pixels":  2294
+                                               },
+                                  "solid_wall_overlap_pixels":  0
+                              },
+                              {
+                                  "file":  "outlines/north_hover.png",
+                                  "passed":  true,
+                                  "analysis":  {
+                                                   "width":  256,
+                                                   "height":  256,
+                                                   "transparent_pixels":  64203,
+                                                   "opaque_pixels":  442,
+                                                   "partial_alpha_pixels":  891,
+                                                   "alpha_bounds_xywh":  [
+                                                                             49,
+                                                                             18,
+                                                                             158,
+                                                                             37
+                                                                         ],
+                                                   "canvas_edge_nontransparent":  0,
+                                                   "connected_components_8":  1,
+                                                   "smallest_component_pixels":  1333
+                                               },
+                                  "solid_wall_overlap_pixels":  0
+                              },
+                              {
+                                  "file":  "outlines/north_selected.png",
+                                  "passed":  true,
+                                  "analysis":  {
+                                                   "width":  256,
+                                                   "height":  256,
+                                                   "transparent_pixels":  63401,
+                                                   "opaque_pixels":  888,
+                                                   "partial_alpha_pixels":  1247,
+                                                   "alpha_bounds_xywh":  [
+                                                                             47,
+                                                                             16,
+                                                                             162,
+                                                                             41
+                                                                         ],
+                                                   "canvas_edge_nontransparent":  0,
+                                                   "connected_components_8":  1,
+                                                   "smallest_component_pixels":  2135
+                                               },
+                                  "solid_wall_overlap_pixels":  0
+                              },
+                              {
+                                  "file":  "outlines/south_hover.png",
+                                  "passed":  true,
+                                  "analysis":  {
+                                                   "width":  256,
+                                                   "height":  256,
+                                                   "transparent_pixels":  64271,
+                                                   "opaque_pixels":  418,
+                                                   "partial_alpha_pixels":  847,
+                                                   "alpha_bounds_xywh":  [
+                                                                             49,
+                                                                             200,
+                                                                             158,
+                                                                             37
+                                                                         ],
+                                                   "canvas_edge_nontransparent":  0,
+                                                   "connected_components_8":  1,
+                                                   "smallest_component_pixels":  1265
+                                               },
+                                  "solid_wall_overlap_pixels":  0
+                              },
+                              {
+                                  "file":  "outlines/south_selected.png",
+                                  "passed":  true,
+                                  "analysis":  {
+                                                   "width":  256,
+                                                   "height":  256,
+                                                   "transparent_pixels":  63474,
+                                                   "opaque_pixels":  844,
+                                                   "partial_alpha_pixels":  1218,
+                                                   "alpha_bounds_xywh":  [
+                                                                             47,
+                                                                             198,
+                                                                             162,
+                                                                             41
+                                                                         ],
+                                                   "canvas_edge_nontransparent":  0,
+                                                   "connected_components_8":  1,
+                                                   "smallest_component_pixels":  2062
+                                               },
+                                  "solid_wall_overlap_pixels":  0
+                              },
+                              {
+                                  "file":  "outlines/west_hover.png",
+                                  "passed":  true,
+                                  "analysis":  {
+                                                   "width":  256,
+                                                   "height":  256,
+                                                   "transparent_pixels":  64138,
+                                                   "opaque_pixels":  470,
+                                                   "partial_alpha_pixels":  928,
+                                                   "alpha_bounds_xywh":  [
+                                                                             6,
+                                                                             49,
+                                                                             52,
+                                                                             158
+                                                                         ],
+                                                   "canvas_edge_nontransparent":  0,
+                                                   "connected_components_8":  1,
+                                                   "smallest_component_pixels":  1398
+                                               },
+                                  "solid_wall_overlap_pixels":  0
+                              },
+                              {
+                                  "file":  "outlines/west_selected.png",
+                                  "passed":  true,
+                                  "analysis":  {
+                                                   "width":  256,
+                                                   "height":  256,
+                                                   "transparent_pixels":  63233,
+                                                   "opaque_pixels":  941,
+                                                   "partial_alpha_pixels":  1362,
+                                                   "alpha_bounds_xywh":  [
+                                                                             4,
+                                                                             47,
+                                                                             56,
+                                                                             162
+                                                                         ],
+                                                   "canvas_edge_nontransparent":  0,
+                                                   "connected_components_8":  1,
+                                                   "smallest_component_pixels":  2303
+                                               },
+                                  "solid_wall_overlap_pixels":  0
+                              },
+                              {
+                                  "file":  "bars/hp_fill_ghost.png",
+                                  "passed":  true,
+                                  "analysis":  {
+                                                   "width":  320,
+                                                   "height":  28,
+                                                   "transparent_pixels":  4032,
+                                                   "opaque_pixels":  0,
+                                                   "partial_alpha_pixels":  4928,
+                                                   "alpha_bounds_xywh":  [
+                                                                             6,
+                                                                             6,
+                                                                             308,
+                                                                             16
+                                                                         ],
+                                                   "canvas_edge_nontransparent":  0,
+                                                   "connected_components_8":  1,
+                                                   "smallest_component_pixels":  4928
+                                               }
+                              },
+                              {
+                                  "file":  "bars/hp_fill_green.png",
+                                  "passed":  true,
+                                  "analysis":  {
+                                                   "width":  320,
+                                                   "height":  28,
+                                                   "transparent_pixels":  4032,
+                                                   "opaque_pixels":  4928,
+                                                   "partial_alpha_pixels":  0,
+                                                   "alpha_bounds_xywh":  [
+                                                                             6,
+                                                                             6,
+                                                                             308,
+                                                                             16
+                                                                         ],
+                                                   "canvas_edge_nontransparent":  0,
+                                                   "connected_components_8":  1,
+                                                   "smallest_component_pixels":  4928
+                                               }
+                              },
+                              {
+                                  "file":  "bars/hp_fill_red.png",
+                                  "passed":  true,
+                                  "analysis":  {
+                                                   "width":  320,
+                                                   "height":  28,
+                                                   "transparent_pixels":  4032,
+                                                   "opaque_pixels":  4928,
+                                                   "partial_alpha_pixels":  0,
+                                                   "alpha_bounds_xywh":  [
+                                                                             6,
+                                                                             6,
+                                                                             308,
+                                                                             16
+                                                                         ],
+                                                   "canvas_edge_nontransparent":  0,
+                                                   "connected_components_8":  1,
+                                                   "smallest_component_pixels":  4928
+                                               }
+                              },
+                              {
+                                  "file":  "bars/hp_fill_yellow.png",
+                                  "passed":  true,
+                                  "analysis":  {
+                                                   "width":  320,
+                                                   "height":  28,
+                                                   "transparent_pixels":  4032,
+                                                   "opaque_pixels":  4928,
+                                                   "partial_alpha_pixels":  0,
+                                                   "alpha_bounds_xywh":  [
+                                                                             6,
+                                                                             6,
+                                                                             308,
+                                                                             16
+                                                                         ],
+                                                   "canvas_edge_nontransparent":  0,
+                                                   "connected_components_8":  1,
+                                                   "smallest_component_pixels":  4928
+                                               }
+                              },
+                              {
+                                  "file":  "bars/hp_frame.png",
+                                  "passed":  true,
+                                  "analysis":  {
+                                                   "width":  320,
+                                                   "height":  28,
+                                                   "transparent_pixels":  692,
+                                                   "opaque_pixels":  8268,
+                                                   "partial_alpha_pixels":  0,
+                                                   "alpha_bounds_xywh":  [
+                                                                             1,
+                                                                             1,
+                                                                             318,
+                                                                             26
+                                                                         ],
+                                                   "canvas_edge_nontransparent":  0,
+                                                   "connected_components_8":  1,
+                                                   "smallest_component_pixels":  8268
+                                               }
+                              },
+                              {
+                                  "file":  "buttons/repair_medium_disabled.png",
+                                  "passed":  true,
+                                  "analysis":  {
+                                                   "width":  240,
+                                                   "height":  56,
+                                                   "transparent_pixels":  2525,
+                                                   "opaque_pixels":  7,
+                                                   "partial_alpha_pixels":  10908,
+                                                   "alpha_bounds_xywh":  [
+                                                                             4,
+                                                                             4,
+                                                                             232,
+                                                                             48
+                                                                         ],
+                                                   "canvas_edge_nontransparent":  0,
+                                                   "connected_components_8":  1,
+                                                   "smallest_component_pixels":  10915
+                                               }
+                              },
+                              {
+                                  "file":  "buttons/repair_medium_hover.png",
+                                  "passed":  true,
+                                  "analysis":  {
+                                                   "width":  240,
+                                                   "height":  56,
+                                                   "transparent_pixels":  2516,
+                                                   "opaque_pixels":  4,
+                                                   "partial_alpha_pixels":  10920,
+                                                   "alpha_bounds_xywh":  [
+                                                                             4,
+                                                                             4,
+                                                                             232,
+                                                                             48
+                                                                         ],
+                                                   "canvas_edge_nontransparent":  0,
+                                                   "connected_components_8":  1,
+                                                   "smallest_component_pixels":  10924
+                                               }
+                              },
+                              {
+                                  "file":  "buttons/repair_medium_normal.png",
+                                  "passed":  true,
+                                  "analysis":  {
+                                                   "width":  240,
+                                                   "height":  56,
+                                                   "transparent_pixels":  2508,
+                                                   "opaque_pixels":  317,
+                                                   "partial_alpha_pixels":  10615,
+                                                   "alpha_bounds_xywh":  [
+                                                                             4,
+                                                                             4,
+                                                                             232,
+                                                                             48
+                                                                         ],
+                                                   "canvas_edge_nontransparent":  0,
+                                                   "connected_components_8":  1,
+                                                   "smallest_component_pixels":  10932
+                                               }
+                              },
+                              {
+                                  "file":  "buttons/repair_medium_pressed.png",
+                                  "passed":  true,
+                                  "analysis":  {
+                                                   "width":  240,
+                                                   "height":  56,
+                                                   "transparent_pixels":  2527,
+                                                   "opaque_pixels":  8,
+                                                   "partial_alpha_pixels":  10905,
+                                                   "alpha_bounds_xywh":  [
+                                                                             4,
+                                                                             4,
+                                                                             232,
+                                                                             48
+                                                                         ],
+                                                   "canvas_edge_nontransparent":  0,
+                                                   "connected_components_8":  1,
+                                                   "smallest_component_pixels":  10913
+                                               }
+                              },
+                              {
+                                  "file":  "buttons/repair_small_disabled.png",
+                                  "passed":  true,
+                                  "analysis":  {
+                                                   "width":  160,
+                                                   "height":  56,
+                                                   "transparent_pixels":  1885,
+                                                   "opaque_pixels":  7,
+                                                   "partial_alpha_pixels":  7068,
+                                                   "alpha_bounds_xywh":  [
+                                                                             4,
+                                                                             4,
+                                                                             152,
+                                                                             48
+                                                                         ],
+                                                   "canvas_edge_nontransparent":  0,
+                                                   "connected_components_8":  1,
+                                                   "smallest_component_pixels":  7075
+                                               }
+                              },
+                              {
+                                  "file":  "buttons/repair_small_hover.png",
+                                  "passed":  true,
+                                  "analysis":  {
+                                                   "width":  160,
+                                                   "height":  56,
+                                                   "transparent_pixels":  1876,
+                                                   "opaque_pixels":  4,
+                                                   "partial_alpha_pixels":  7080,
+                                                   "alpha_bounds_xywh":  [
+                                                                             4,
+                                                                             4,
+                                                                             152,
+                                                                             48
+                                                                         ],
+                                                   "canvas_edge_nontransparent":  0,
+                                                   "connected_components_8":  1,
+                                                   "smallest_component_pixels":  7084
+                                               }
+                              },
+                              {
+                                  "file":  "buttons/repair_small_normal.png",
+                                  "passed":  true,
+                                  "analysis":  {
+                                                   "width":  160,
+                                                   "height":  56,
+                                                   "transparent_pixels":  1868,
+                                                   "opaque_pixels":  201,
+                                                   "partial_alpha_pixels":  6891,
+                                                   "alpha_bounds_xywh":  [
+                                                                             4,
+                                                                             4,
+                                                                             152,
+                                                                             48
+                                                                         ],
+                                                   "canvas_edge_nontransparent":  0,
+                                                   "connected_components_8":  1,
+                                                   "smallest_component_pixels":  7092
+                                               }
+                              },
+                              {
+                                  "file":  "buttons/repair_small_pressed.png",
+                                  "passed":  true,
+                                  "analysis":  {
+                                                   "width":  160,
+                                                   "height":  56,
+                                                   "transparent_pixels":  1887,
+                                                   "opaque_pixels":  8,
+                                                   "partial_alpha_pixels":  7065,
+                                                   "alpha_bounds_xywh":  [
+                                                                             4,
+                                                                             4,
+                                                                             152,
+                                                                             48
+                                                                         ],
+                                                   "canvas_edge_nontransparent":  0,
+                                                   "connected_components_8":  1,
+                                                   "smallest_component_pixels":  7073
+                                               }
+                              },
+                              {
+                                  "file":  "buttons/repair_wide_disabled.png",
+                                  "passed":  true,
+                                  "analysis":  {
+                                                   "width":  336,
+                                                   "height":  56,
+                                                   "transparent_pixels":  3293,
+                                                   "opaque_pixels":  7,
+                                                   "partial_alpha_pixels":  15516,
+                                                   "alpha_bounds_xywh":  [
+                                                                             4,
+                                                                             4,
+                                                                             328,
+                                                                             48
+                                                                         ],
+                                                   "canvas_edge_nontransparent":  0,
+                                                   "connected_components_8":  1,
+                                                   "smallest_component_pixels":  15523
+                                               }
+                              },
+                              {
+                                  "file":  "buttons/repair_wide_hover.png",
+                                  "passed":  true,
+                                  "analysis":  {
+                                                   "width":  336,
+                                                   "height":  56,
+                                                   "transparent_pixels":  3284,
+                                                   "opaque_pixels":  4,
+                                                   "partial_alpha_pixels":  15528,
+                                                   "alpha_bounds_xywh":  [
+                                                                             4,
+                                                                             4,
+                                                                             328,
+                                                                             48
+                                                                         ],
+                                                   "canvas_edge_nontransparent":  0,
+                                                   "connected_components_8":  1,
+                                                   "smallest_component_pixels":  15532
+                                               }
+                              },
+                              {
+                                  "file":  "buttons/repair_wide_normal.png",
+                                  "passed":  true,
+                                  "analysis":  {
+                                                   "width":  336,
+                                                   "height":  56,
+                                                   "transparent_pixels":  3276,
+                                                   "opaque_pixels":  459,
+                                                   "partial_alpha_pixels":  15081,
+                                                   "alpha_bounds_xywh":  [
+                                                                             4,
+                                                                             4,
+                                                                             328,
+                                                                             48
+                                                                         ],
+                                                   "canvas_edge_nontransparent":  0,
+                                                   "connected_components_8":  1,
+                                                   "smallest_component_pixels":  15540
+                                               }
+                              },
+                              {
+                                  "file":  "buttons/repair_wide_pressed.png",
+                                  "passed":  true,
+                                  "analysis":  {
+                                                   "width":  336,
+                                                   "height":  56,
+                                                   "transparent_pixels":  3295,
+                                                   "opaque_pixels":  8,
+                                                   "partial_alpha_pixels":  15513,
+                                                   "alpha_bounds_xywh":  [
+                                                                             4,
+                                                                             4,
+                                                                             328,
+                                                                             48
+                                                                         ],
+                                                   "canvas_edge_nontransparent":  0,
+                                                   "connected_components_8":  1,
+                                                   "smallest_component_pixels":  15521
+                                               }
+                              },
+                              {
+                                  "file":  "icons/coin_24.png",
+                                  "passed":  true,
+                                  "analysis":  {
+                                                   "width":  24,
+                                                   "height":  24,
+                                                   "transparent_pixels":  182,
+                                                   "opaque_pixels":  5,
+                                                   "partial_alpha_pixels":  389,
+                                                   "alpha_bounds_xywh":  [
+                                                                             1,
+                                                                             1,
+                                                                             22,
+                                                                             22
+                                                                         ],
+                                                   "canvas_edge_nontransparent":  0,
+                                                   "connected_components_8":  1,
+                                                   "smallest_component_pixels":  394
+                                               }
+                              },
+                              {
+                                  "file":  "icons/coin_32.png",
+                                  "passed":  true,
+                                  "analysis":  {
+                                                   "width":  32,
+                                                   "height":  32,
+                                                   "transparent_pixels":  283,
+                                                   "opaque_pixels":  8,
+                                                   "partial_alpha_pixels":  733,
+                                                   "alpha_bounds_xywh":  [
+                                                                             1,
+                                                                             1,
+                                                                             30,
+                                                                             30
+                                                                         ],
+                                                   "canvas_edge_nontransparent":  0,
+                                                   "connected_components_8":  1,
+                                                   "smallest_component_pixels":  741
+                                               }
+                              },
+                              {
+                                  "file":  "icons/hammer_24.png",
+                                  "passed":  true,
+                                  "analysis":  {
+                                                   "width":  24,
+                                                   "height":  24,
+                                                   "transparent_pixels":  357,
+                                                   "opaque_pixels":  5,
+                                                   "partial_alpha_pixels":  214,
+                                                   "alpha_bounds_xywh":  [
+                                                                             1,
+                                                                             1,
+                                                                             21,
+                                                                             22
+                                                                         ],
+                                                   "canvas_edge_nontransparent":  0,
+                                                   "connected_components_8":  1,
+                                                   "smallest_component_pixels":  219
+                                               }
+                              },
+                              {
+                                  "file":  "icons/hammer_32.png",
+                                  "passed":  true,
+                                  "analysis":  {
+                                                   "width":  32,
+                                                   "height":  32,
+                                                   "transparent_pixels":  621,
+                                                   "opaque_pixels":  9,
+                                                   "partial_alpha_pixels":  394,
+                                                   "alpha_bounds_xywh":  [
+                                                                             1,
+                                                                             1,
+                                                                             29,
+                                                                             30
+                                                                         ],
+                                                   "canvas_edge_nontransparent":  0,
+                                                   "connected_components_8":  1,
+                                                   "smallest_component_pixels":  403
+                                               }
+                              }
+                          ],
+    "nearest_4x_checks":  [
+                              {
+                                  "mismatched_pixels":  0,
+                                  "file":  "previews/hp_bar_sheet_4x.png",
+                                  "passed":  true
+                              },
+                              {
+                                  "mismatched_pixels":  0,
+                                  "file":  "previews/icon_24_sheet_4x.png",
+                                  "passed":  true
+                              },
+                              {
+                                  "mismatched_pixels":  0,
+                                  "file":  "previews/icon_32_sheet_4x.png",
+                                  "passed":  true
+                              },
+                              {
+                                  "mismatched_pixels":  0,
+                                  "file":  "previews/repair_button_medium_sheet_4x.png",
+                                  "passed":  true
+                              },
+                              {
+                                  "mismatched_pixels":  0,
+                                  "file":  "previews/repair_button_small_sheet_4x.png",
+                                  "passed":  true
+                              },
+                              {
+                                  "mismatched_pixels":  0,
+                                  "file":  "previews/repair_button_wide_sheet_4x.png",
+                                  "passed":  true
+                              },
+                              {
+                                  "mismatched_pixels":  0,
+                                  "file":  "previews/wall_outline_sheet_4x.png",
+                                  "passed":  true
+                              }
+                          ],
+    "base_reference_matches_current_game":  true,
+    "mockup_size_1920x1080":  true,
+    "foot_baseline":  "UI 전용: 발 기준선 검사 해당 없음",
+    "unity_test_performed":  false
+}

@@ -1,0 +1,150 @@
+{
+  "status": "PASS",
+  "cell": [
+    256,
+    384
+  ],
+  "pivot": [
+    128,
+    352
+  ],
+  "framesPerAsset": 1,
+  "transparent": true,
+  "noClipping": true,
+  "packingOnly": true,
+  "assets": [
+    {
+      "id": "hero_back_idle",
+      "label": "주인공 · 후면 서 있기",
+      "image": "hero_back_idle_grid.png",
+      "size": [
+        256,
+        384
+      ],
+      "cell": [
+        256,
+        384
+      ],
+      "columns": 1,
+      "rows": 1,
+      "frames": 1,
+      "animated": false,
+      "fps": 0,
+      "footPivotTopLeft": [
+        128,
+        352
+      ],
+      "unityPivotBottomLeft": [
+        0.5,
+        0.08333333333333333
+      ],
+      "facing": "back",
+      "source": "hero_back_idle_source.png",
+      "sourceSha256": "09864d16d713e8b0d2dc3cf58be5c23fdc1aa2cf26c99277f3c5bb2d527a0b98",
+      "sheetSha256": "dc29add2be5beb8661b24e6ca9eb1152294fb54eff312218636f71284ce37067",
+      "sourceRect": [
+        234,
+        225,
+        784,
+        1321
+      ],
+      "sourceBootRegions": [
+        [
+          114,
+          239
+        ],
+        [
+          317,
+          441
+        ]
+      ],
+      "sourceFootX": 277.5,
+      "packedRect": [
+        52,
+        52,
+        151,
+        300
+      ],
+      "scale": 0.2737226277372263,
+      "status": "user-review-pending",
+      "unityPlayVerified": false
+    },
+    {
+      "id": "wizard_front_chestnut",
+      "label": "마법사 · 밤색 정면",
+      "image": "wizard_front_chestnut_grid.png",
+      "size": [
+        256,
+        384
+      ],
+      "cell": [
+        256,
+        384
+      ],
+      "columns": 1,
+      "rows": 1,
+      "frames": 1,
+      "animated": false,
+      "fps": 0,
+      "footPivotTopLeft": [
+        128,
+        352
+      ],
+      "unityPivotBottomLeft": [
+        0.5,
+        0.08333333333333333
+      ],
+      "facing": "front",
+      "source": "wizard_front_chestnut_source.png",
+      "sourceSha256": "78353dfa61f9f80d27af3f5c760a30e11766c512017ec075cb619f5f5fcce41b",
+      "sheetSha256": "e3994c5f0d2bb08ce99fb0d75dd9aecda3af417ed1b03b6b1e7a02ae764bd511",
+      "sourceRect": [
+        73,
+        255,
+        862,
+        1428
+      ],
+      "sourceBootRegions": [
+        [
+          284,
+          430
+        ],
+        [
+          508,
+          635
+        ]
+      ],
+      "sourceFootX": 459.5,
+      "packedRect": [
+        12,
+        56,
+        199,
+        296
+      ],
+      "scale": 0.25244831338411317,
+      "status": "user-review-pending",
+      "unityPlayVerified": false
+    }
+  ],
+  "unityPlayVerified": false,
+  "staticChecks": "PASS",
+  "standaloneHtmlCopiesExact": true,
+  "jsSyntax": true,
+  "externalAssets": false,
+  "unityPlay": false,
+  "fileSchemeTested": false,
+  "browserQa": {
+    "imageLoads": 8,
+    "nativeCell": [
+      256,
+      384
+    ],
+    "smallSizes": [
+      48,
+      72,
+      96
+    ],
+    "horizontalOverflow": false,
+    "screenshot": "browser_review.png"
+  }
+}

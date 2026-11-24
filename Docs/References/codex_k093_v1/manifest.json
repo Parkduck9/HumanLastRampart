@@ -1,0 +1,1829 @@
+﻿{
+    "card":  "K-093",
+    "version":  1,
+    "coordinate_origin":  "top_left",
+    "alpha":  "RGBA, binary 0/255 for delivery UI sheets",
+    "filter":  "Point",
+    "compression_recommendation":  "None",
+    "mipmaps":  false,
+    "native_to_game_scale":  3,
+    "preview_scale":  4,
+    "preview_scale_basis":  "native",
+    "figure_sheet_contract":  "D-081 인물 동작 시트는 없음. 화면 안내 전용 칸이며 발 기준선은 적용하지 않음.",
+    "unity_integration":  "Claude 담당. 이 폴더는 제작 자료이며 Game 파일을 바꾸지 않음.",
+    "assets":  [
+                   {
+                       "id":  "instruction_box",
+                       "label_ko":  "명령서 말풍선",
+                       "native_file":  "instruction_box_native.png",
+                       "game_file":  "instruction_box.png",
+                       "preview_4x_file":  "instruction_box_4x.png",
+                       "native_cell":  [
+                                           96,
+                                           48
+                                       ],
+                       "game_cell":  [
+                                         288,
+                                         144
+                                     ],
+                       "native_sheet":  [
+                                            96,
+                                            48
+                                        ],
+                       "game_sheet":  [
+                                          288,
+                                          144
+                                      ],
+                       "columns":  1,
+                       "rows":  1,
+                       "frame_count":  1,
+                       "frame_order":  [
+                                           "기본"
+                                       ],
+                       "pivot_top_left_native":  [
+                                                     48,
+                                                     24
+                                                 ],
+                       "pivot_top_left_game":  [
+                                                   144,
+                                                   72
+                                               ],
+                       "fps":  0,
+                       "loop":  false,
+                       "frames":  [
+                                      {
+                                          "opaque_colors":  4,
+                                          "alpha_bbox_top_left":  [
+                                                                      0,
+                                                                      0,
+                                                                      95,
+                                                                      47
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  4433,
+                                          "index":  0
+                                      }
+                                  ],
+                       "nine_slice_border_native":  {
+                                                        "left":  8,
+                                                        "right":  8,
+                                                        "bottom":  8,
+                                                        "top":  8
+                                                    },
+                       "nine_slice_border_game":  {
+                                                      "left":  24,
+                                                      "right":  24,
+                                                      "bottom":  24,
+                                                      "top":  24
+                                                  },
+                       "center_mode":  "tile",
+                       "edge_mode":  "tile",
+                       "text_safe_inset_native":  [
+                                                      11,
+                                                      10,
+                                                      11,
+                                                      10
+                                                  ],
+                       "example_size_game":  [
+                                                 900,
+                                                 144
+                                             ]
+                   },
+                   {
+                       "id":  "officer_bust",
+                       "label_ko":  "장교 흉상",
+                       "native_file":  "officer_bust_native.png",
+                       "game_file":  "officer_bust.png",
+                       "preview_4x_file":  "officer_bust_4x.png",
+                       "native_cell":  [
+                                           48,
+                                           48
+                                       ],
+                       "game_cell":  [
+                                         144,
+                                         144
+                                     ],
+                       "native_sheet":  [
+                                            48,
+                                            48
+                                        ],
+                       "game_sheet":  [
+                                          144,
+                                          144
+                                      ],
+                       "columns":  1,
+                       "rows":  1,
+                       "frame_count":  1,
+                       "frame_order":  [
+                                           "기본"
+                                       ],
+                       "pivot_top_left_native":  [
+                                                     24,
+                                                     24
+                                                 ],
+                       "pivot_top_left_game":  [
+                                                   72,
+                                                   72
+                                               ],
+                       "fps":  0,
+                       "loop":  false,
+                       "frames":  [
+                                      {
+                                          "opaque_colors":  136,
+                                          "alpha_bbox_top_left":  [
+                                                                      4,
+                                                                      3,
+                                                                      44,
+                                                                      46
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  1118,
+                                          "index":  0
+                                      }
+                                  ]
+                   },
+                   {
+                       "id":  "next_tick",
+                       "label_ko":  "다음 표시",
+                       "native_file":  "next_tick_native.png",
+                       "game_file":  "next_tick.png",
+                       "preview_4x_file":  "next_tick_4x.png",
+                       "native_cell":  [
+                                           16,
+                                           16
+                                       ],
+                       "game_cell":  [
+                                         48,
+                                         48
+                                     ],
+                       "native_sheet":  [
+                                            16,
+                                            16
+                                        ],
+                       "game_sheet":  [
+                                          48,
+                                          48
+                                      ],
+                       "columns":  1,
+                       "rows":  1,
+                       "frame_count":  1,
+                       "frame_order":  [
+                                           "기본"
+                                       ],
+                       "pivot_top_left_native":  [
+                                                     8,
+                                                     8
+                                                 ],
+                       "pivot_top_left_game":  [
+                                                   24,
+                                                   24
+                                               ],
+                       "fps":  0,
+                       "loop":  false,
+                       "frames":  [
+                                      {
+                                          "opaque_colors":  2,
+                                          "alpha_bbox_top_left":  [
+                                                                      4,
+                                                                      4,
+                                                                      12,
+                                                                      13
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  44,
+                                          "index":  0
+                                      }
+                                  ]
+                   },
+                   {
+                       "id":  "highlight_ring",
+                       "label_ko":  "황동 강조 고리",
+                       "native_file":  "highlight_ring_native.png",
+                       "game_file":  "highlight_ring.png",
+                       "preview_4x_file":  "highlight_ring_4x.png",
+                       "native_cell":  [
+                                           64,
+                                           64
+                                       ],
+                       "game_cell":  [
+                                         192,
+                                         192
+                                     ],
+                       "native_sheet":  [
+                                            384,
+                                            64
+                                        ],
+                       "game_sheet":  [
+                                          1152,
+                                          192
+                                      ],
+                       "columns":  6,
+                       "rows":  1,
+                       "frame_count":  6,
+                       "frame_order":  [
+                                           "정지",
+                                           "접근 1",
+                                           "접근 2",
+                                           "최대",
+                                           "복귀 2",
+                                           "복귀 1"
+                                       ],
+                       "pivot_top_left_native":  [
+                                                     32,
+                                                     32
+                                                 ],
+                       "pivot_top_left_game":  [
+                                                   96,
+                                                   96
+                                               ],
+                       "fps":  6,
+                       "loop":  true,
+                       "frames":  [
+                                      {
+                                          "opaque_colors":  3,
+                                          "alpha_bbox_top_left":  [
+                                                                      9,
+                                                                      9,
+                                                                      55,
+                                                                      55
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  540,
+                                          "index":  0
+                                      },
+                                      {
+                                          "opaque_colors":  3,
+                                          "alpha_bbox_top_left":  [
+                                                                      8,
+                                                                      8,
+                                                                      56,
+                                                                      56
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  540,
+                                          "index":  1
+                                      },
+                                      {
+                                          "opaque_colors":  3,
+                                          "alpha_bbox_top_left":  [
+                                                                      7,
+                                                                      7,
+                                                                      57,
+                                                                      57
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  580,
+                                          "index":  2
+                                      },
+                                      {
+                                          "opaque_colors":  3,
+                                          "alpha_bbox_top_left":  [
+                                                                      6,
+                                                                      6,
+                                                                      58,
+                                                                      58
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  600,
+                                          "index":  3
+                                      },
+                                      {
+                                          "opaque_colors":  3,
+                                          "alpha_bbox_top_left":  [
+                                                                      7,
+                                                                      7,
+                                                                      57,
+                                                                      57
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  580,
+                                          "index":  4
+                                      },
+                                      {
+                                          "opaque_colors":  3,
+                                          "alpha_bbox_top_left":  [
+                                                                      8,
+                                                                      8,
+                                                                      56,
+                                                                      56
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  540,
+                                          "index":  5
+                                      }
+                                  ],
+                       "radii_native":  [
+                                            22,
+                                            23,
+                                            24,
+                                            25,
+                                            24,
+                                            23
+                                        ],
+                       "motion_center_native":  [
+                                                    31.5,
+                                                    31.5
+                                                ]
+                   },
+                   {
+                       "id":  "pointer_up",
+                       "label_ko":  "위쪽 화살표",
+                       "native_file":  "pointer_up_native.png",
+                       "game_file":  "pointer_up.png",
+                       "preview_4x_file":  "pointer_up_4x.png",
+                       "native_cell":  [
+                                           32,
+                                           32
+                                       ],
+                       "game_cell":  [
+                                         96,
+                                         96
+                                     ],
+                       "native_sheet":  [
+                                            192,
+                                            32
+                                        ],
+                       "game_sheet":  [
+                                          576,
+                                          96
+                                      ],
+                       "columns":  6,
+                       "rows":  1,
+                       "frame_count":  6,
+                       "frame_order":  [
+                                           "정지",
+                                           "접근 1",
+                                           "접근 2",
+                                           "최대",
+                                           "복귀 2",
+                                           "복귀 1"
+                                       ],
+                       "pivot_top_left_native":  [
+                                                     16,
+                                                     16
+                                                 ],
+                       "pivot_top_left_game":  [
+                                                   48,
+                                                   48
+                                               ],
+                       "fps":  6,
+                       "loop":  true,
+                       "frames":  [
+                                      {
+                                          "opaque_colors":  3,
+                                          "alpha_bbox_top_left":  [
+                                                                      7,
+                                                                      4,
+                                                                      25,
+                                                                      26
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  203,
+                                          "index":  0
+                                      },
+                                      {
+                                          "opaque_colors":  3,
+                                          "alpha_bbox_top_left":  [
+                                                                      7,
+                                                                      5,
+                                                                      25,
+                                                                      27
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  203,
+                                          "index":  1
+                                      },
+                                      {
+                                          "opaque_colors":  3,
+                                          "alpha_bbox_top_left":  [
+                                                                      7,
+                                                                      6,
+                                                                      25,
+                                                                      28
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  203,
+                                          "index":  2
+                                      },
+                                      {
+                                          "opaque_colors":  3,
+                                          "alpha_bbox_top_left":  [
+                                                                      7,
+                                                                      7,
+                                                                      25,
+                                                                      29
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  203,
+                                          "index":  3
+                                      },
+                                      {
+                                          "opaque_colors":  3,
+                                          "alpha_bbox_top_left":  [
+                                                                      7,
+                                                                      6,
+                                                                      25,
+                                                                      28
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  203,
+                                          "index":  4
+                                      },
+                                      {
+                                          "opaque_colors":  3,
+                                          "alpha_bbox_top_left":  [
+                                                                      7,
+                                                                      5,
+                                                                      25,
+                                                                      27
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  203,
+                                          "index":  5
+                                      }
+                                  ],
+                       "tip_top_left_native":  [
+                                                   15,
+                                                   3
+                                               ],
+                       "motion_offsets_native":  [
+                                                     0,
+                                                     1,
+                                                     2,
+                                                     3,
+                                                     2,
+                                                     1
+                                                 ]
+                   },
+                   {
+                       "id":  "pointer_right",
+                       "label_ko":  "오른쪽 화살표",
+                       "native_file":  "pointer_right_native.png",
+                       "game_file":  "pointer_right.png",
+                       "preview_4x_file":  "pointer_right_4x.png",
+                       "native_cell":  [
+                                           32,
+                                           32
+                                       ],
+                       "game_cell":  [
+                                         96,
+                                         96
+                                     ],
+                       "native_sheet":  [
+                                            192,
+                                            32
+                                        ],
+                       "game_sheet":  [
+                                          576,
+                                          96
+                                      ],
+                       "columns":  6,
+                       "rows":  1,
+                       "frame_count":  6,
+                       "frame_order":  [
+                                           "정지",
+                                           "접근 1",
+                                           "접근 2",
+                                           "최대",
+                                           "복귀 2",
+                                           "복귀 1"
+                                       ],
+                       "pivot_top_left_native":  [
+                                                     16,
+                                                     16
+                                                 ],
+                       "pivot_top_left_game":  [
+                                                   48,
+                                                   48
+                                               ],
+                       "fps":  6,
+                       "loop":  true,
+                       "frames":  [
+                                      {
+                                          "opaque_colors":  3,
+                                          "alpha_bbox_top_left":  [
+                                                                      6,
+                                                                      7,
+                                                                      28,
+                                                                      25
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  203,
+                                          "index":  0
+                                      },
+                                      {
+                                          "opaque_colors":  3,
+                                          "alpha_bbox_top_left":  [
+                                                                      5,
+                                                                      7,
+                                                                      27,
+                                                                      25
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  203,
+                                          "index":  1
+                                      },
+                                      {
+                                          "opaque_colors":  3,
+                                          "alpha_bbox_top_left":  [
+                                                                      4,
+                                                                      7,
+                                                                      26,
+                                                                      25
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  203,
+                                          "index":  2
+                                      },
+                                      {
+                                          "opaque_colors":  3,
+                                          "alpha_bbox_top_left":  [
+                                                                      3,
+                                                                      7,
+                                                                      25,
+                                                                      25
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  203,
+                                          "index":  3
+                                      },
+                                      {
+                                          "opaque_colors":  3,
+                                          "alpha_bbox_top_left":  [
+                                                                      4,
+                                                                      7,
+                                                                      26,
+                                                                      25
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  203,
+                                          "index":  4
+                                      },
+                                      {
+                                          "opaque_colors":  3,
+                                          "alpha_bbox_top_left":  [
+                                                                      5,
+                                                                      7,
+                                                                      27,
+                                                                      25
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  203,
+                                          "index":  5
+                                      }
+                                  ],
+                       "tip_top_left_native":  [
+                                                   28,
+                                                   15
+                                               ],
+                       "motion_offsets_native":  [
+                                                     0,
+                                                     1,
+                                                     2,
+                                                     3,
+                                                     2,
+                                                     1
+                                                 ]
+                   },
+                   {
+                       "id":  "pointer_down",
+                       "label_ko":  "아래쪽 화살표",
+                       "native_file":  "pointer_down_native.png",
+                       "game_file":  "pointer_down.png",
+                       "preview_4x_file":  "pointer_down_4x.png",
+                       "native_cell":  [
+                                           32,
+                                           32
+                                       ],
+                       "game_cell":  [
+                                         96,
+                                         96
+                                     ],
+                       "native_sheet":  [
+                                            192,
+                                            32
+                                        ],
+                       "game_sheet":  [
+                                          576,
+                                          96
+                                      ],
+                       "columns":  6,
+                       "rows":  1,
+                       "frame_count":  6,
+                       "frame_order":  [
+                                           "정지",
+                                           "접근 1",
+                                           "접근 2",
+                                           "최대",
+                                           "복귀 2",
+                                           "복귀 1"
+                                       ],
+                       "pivot_top_left_native":  [
+                                                     16,
+                                                     16
+                                                 ],
+                       "pivot_top_left_game":  [
+                                                   48,
+                                                   48
+                                               ],
+                       "fps":  6,
+                       "loop":  true,
+                       "frames":  [
+                                      {
+                                          "opaque_colors":  3,
+                                          "alpha_bbox_top_left":  [
+                                                                      7,
+                                                                      6,
+                                                                      25,
+                                                                      28
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  203,
+                                          "index":  0
+                                      },
+                                      {
+                                          "opaque_colors":  3,
+                                          "alpha_bbox_top_left":  [
+                                                                      7,
+                                                                      5,
+                                                                      25,
+                                                                      27
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  203,
+                                          "index":  1
+                                      },
+                                      {
+                                          "opaque_colors":  3,
+                                          "alpha_bbox_top_left":  [
+                                                                      7,
+                                                                      4,
+                                                                      25,
+                                                                      26
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  203,
+                                          "index":  2
+                                      },
+                                      {
+                                          "opaque_colors":  3,
+                                          "alpha_bbox_top_left":  [
+                                                                      7,
+                                                                      3,
+                                                                      25,
+                                                                      25
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  203,
+                                          "index":  3
+                                      },
+                                      {
+                                          "opaque_colors":  3,
+                                          "alpha_bbox_top_left":  [
+                                                                      7,
+                                                                      4,
+                                                                      25,
+                                                                      26
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  203,
+                                          "index":  4
+                                      },
+                                      {
+                                          "opaque_colors":  3,
+                                          "alpha_bbox_top_left":  [
+                                                                      7,
+                                                                      5,
+                                                                      25,
+                                                                      27
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  203,
+                                          "index":  5
+                                      }
+                                  ],
+                       "tip_top_left_native":  [
+                                                   16,
+                                                   28
+                                               ],
+                       "motion_offsets_native":  [
+                                                     0,
+                                                     1,
+                                                     2,
+                                                     3,
+                                                     2,
+                                                     1
+                                                 ]
+                   },
+                   {
+                       "id":  "pointer_left",
+                       "label_ko":  "왼쪽 화살표",
+                       "native_file":  "pointer_left_native.png",
+                       "game_file":  "pointer_left.png",
+                       "preview_4x_file":  "pointer_left_4x.png",
+                       "native_cell":  [
+                                           32,
+                                           32
+                                       ],
+                       "game_cell":  [
+                                         96,
+                                         96
+                                     ],
+                       "native_sheet":  [
+                                            192,
+                                            32
+                                        ],
+                       "game_sheet":  [
+                                          576,
+                                          96
+                                      ],
+                       "columns":  6,
+                       "rows":  1,
+                       "frame_count":  6,
+                       "frame_order":  [
+                                           "정지",
+                                           "접근 1",
+                                           "접근 2",
+                                           "최대",
+                                           "복귀 2",
+                                           "복귀 1"
+                                       ],
+                       "pivot_top_left_native":  [
+                                                     16,
+                                                     16
+                                                 ],
+                       "pivot_top_left_game":  [
+                                                   48,
+                                                   48
+                                               ],
+                       "fps":  6,
+                       "loop":  true,
+                       "frames":  [
+                                      {
+                                          "opaque_colors":  3,
+                                          "alpha_bbox_top_left":  [
+                                                                      4,
+                                                                      7,
+                                                                      26,
+                                                                      25
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  203,
+                                          "index":  0
+                                      },
+                                      {
+                                          "opaque_colors":  3,
+                                          "alpha_bbox_top_left":  [
+                                                                      5,
+                                                                      7,
+                                                                      27,
+                                                                      25
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  203,
+                                          "index":  1
+                                      },
+                                      {
+                                          "opaque_colors":  3,
+                                          "alpha_bbox_top_left":  [
+                                                                      6,
+                                                                      7,
+                                                                      28,
+                                                                      25
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  203,
+                                          "index":  2
+                                      },
+                                      {
+                                          "opaque_colors":  3,
+                                          "alpha_bbox_top_left":  [
+                                                                      7,
+                                                                      7,
+                                                                      29,
+                                                                      25
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  203,
+                                          "index":  3
+                                      },
+                                      {
+                                          "opaque_colors":  3,
+                                          "alpha_bbox_top_left":  [
+                                                                      6,
+                                                                      7,
+                                                                      28,
+                                                                      25
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  203,
+                                          "index":  4
+                                      },
+                                      {
+                                          "opaque_colors":  3,
+                                          "alpha_bbox_top_left":  [
+                                                                      5,
+                                                                      7,
+                                                                      27,
+                                                                      25
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  203,
+                                          "index":  5
+                                      }
+                                  ],
+                       "tip_top_left_native":  [
+                                                   3,
+                                                   16
+                                               ],
+                       "motion_offsets_native":  [
+                                                     0,
+                                                     1,
+                                                     2,
+                                                     3,
+                                                     2,
+                                                     1
+                                                 ]
+                   },
+                   {
+                       "id":  "input_chips_24",
+                       "label_ko":  "입력칩 24점",
+                       "native_file":  "input_chips_24_native.png",
+                       "game_file":  "input_chips_24.png",
+                       "preview_4x_file":  "input_chips_24_4x.png",
+                       "native_cell":  [
+                                           24,
+                                           24
+                                       ],
+                       "game_cell":  [
+                                         72,
+                                         72
+                                     ],
+                       "native_sheet":  [
+                                            480,
+                                            24
+                                        ],
+                       "game_sheet":  [
+                                          1440,
+                                          72
+                                      ],
+                       "columns":  20,
+                       "rows":  1,
+                       "frame_count":  20,
+                       "frame_order":  [
+                                           "mouse_left",
+                                           "mouse_right",
+                                           "mouse_middle",
+                                           "mouse_wheel",
+                                           "shift",
+                                           "e",
+                                           "a",
+                                           "d",
+                                           "ad",
+                                           "1",
+                                           "2",
+                                           "3",
+                                           "4",
+                                           "5",
+                                           "6",
+                                           "7",
+                                           "8",
+                                           "9",
+                                           "0",
+                                           "tab"
+                                       ],
+                       "pivot_top_left_native":  [
+                                                     12,
+                                                     12
+                                                 ],
+                       "pivot_top_left_game":  [
+                                                   36,
+                                                   36
+                                               ],
+                       "fps":  0,
+                       "loop":  false,
+                       "frames":  [
+                                      {
+                                          "opaque_colors":  6,
+                                          "alpha_bbox_top_left":  [
+                                                                      1,
+                                                                      1,
+                                                                      23,
+                                                                      23
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  468,
+                                          "index":  0
+                                      },
+                                      {
+                                          "opaque_colors":  6,
+                                          "alpha_bbox_top_left":  [
+                                                                      1,
+                                                                      1,
+                                                                      23,
+                                                                      23
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  468,
+                                          "index":  1
+                                      },
+                                      {
+                                          "opaque_colors":  6,
+                                          "alpha_bbox_top_left":  [
+                                                                      1,
+                                                                      1,
+                                                                      23,
+                                                                      23
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  468,
+                                          "index":  2
+                                      },
+                                      {
+                                          "opaque_colors":  6,
+                                          "alpha_bbox_top_left":  [
+                                                                      1,
+                                                                      1,
+                                                                      23,
+                                                                      23
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  468,
+                                          "index":  3
+                                      },
+                                      {
+                                          "opaque_colors":  5,
+                                          "alpha_bbox_top_left":  [
+                                                                      1,
+                                                                      1,
+                                                                      23,
+                                                                      23
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  468,
+                                          "index":  4
+                                      },
+                                      {
+                                          "opaque_colors":  5,
+                                          "alpha_bbox_top_left":  [
+                                                                      1,
+                                                                      1,
+                                                                      23,
+                                                                      23
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  468,
+                                          "index":  5
+                                      },
+                                      {
+                                          "opaque_colors":  5,
+                                          "alpha_bbox_top_left":  [
+                                                                      1,
+                                                                      1,
+                                                                      23,
+                                                                      23
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  468,
+                                          "index":  6
+                                      },
+                                      {
+                                          "opaque_colors":  5,
+                                          "alpha_bbox_top_left":  [
+                                                                      1,
+                                                                      1,
+                                                                      23,
+                                                                      23
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  468,
+                                          "index":  7
+                                      },
+                                      {
+                                          "opaque_colors":  5,
+                                          "alpha_bbox_top_left":  [
+                                                                      1,
+                                                                      1,
+                                                                      23,
+                                                                      23
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  468,
+                                          "index":  8
+                                      },
+                                      {
+                                          "opaque_colors":  5,
+                                          "alpha_bbox_top_left":  [
+                                                                      1,
+                                                                      1,
+                                                                      23,
+                                                                      23
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  468,
+                                          "index":  9
+                                      },
+                                      {
+                                          "opaque_colors":  5,
+                                          "alpha_bbox_top_left":  [
+                                                                      1,
+                                                                      1,
+                                                                      23,
+                                                                      23
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  468,
+                                          "index":  10
+                                      },
+                                      {
+                                          "opaque_colors":  5,
+                                          "alpha_bbox_top_left":  [
+                                                                      1,
+                                                                      1,
+                                                                      23,
+                                                                      23
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  468,
+                                          "index":  11
+                                      },
+                                      {
+                                          "opaque_colors":  5,
+                                          "alpha_bbox_top_left":  [
+                                                                      1,
+                                                                      1,
+                                                                      23,
+                                                                      23
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  468,
+                                          "index":  12
+                                      },
+                                      {
+                                          "opaque_colors":  5,
+                                          "alpha_bbox_top_left":  [
+                                                                      1,
+                                                                      1,
+                                                                      23,
+                                                                      23
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  468,
+                                          "index":  13
+                                      },
+                                      {
+                                          "opaque_colors":  5,
+                                          "alpha_bbox_top_left":  [
+                                                                      1,
+                                                                      1,
+                                                                      23,
+                                                                      23
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  468,
+                                          "index":  14
+                                      },
+                                      {
+                                          "opaque_colors":  5,
+                                          "alpha_bbox_top_left":  [
+                                                                      1,
+                                                                      1,
+                                                                      23,
+                                                                      23
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  468,
+                                          "index":  15
+                                      },
+                                      {
+                                          "opaque_colors":  5,
+                                          "alpha_bbox_top_left":  [
+                                                                      1,
+                                                                      1,
+                                                                      23,
+                                                                      23
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  468,
+                                          "index":  16
+                                      },
+                                      {
+                                          "opaque_colors":  5,
+                                          "alpha_bbox_top_left":  [
+                                                                      1,
+                                                                      1,
+                                                                      23,
+                                                                      23
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  468,
+                                          "index":  17
+                                      },
+                                      {
+                                          "opaque_colors":  5,
+                                          "alpha_bbox_top_left":  [
+                                                                      1,
+                                                                      1,
+                                                                      23,
+                                                                      23
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  468,
+                                          "index":  18
+                                      },
+                                      {
+                                          "opaque_colors":  5,
+                                          "alpha_bbox_top_left":  [
+                                                                      1,
+                                                                      1,
+                                                                      23,
+                                                                      23
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  468,
+                                          "index":  19
+                                      }
+                                  ]
+                   },
+                   {
+                       "id":  "input_chips_32",
+                       "label_ko":  "입력칩 32점",
+                       "native_file":  "input_chips_32_native.png",
+                       "game_file":  "input_chips_32.png",
+                       "preview_4x_file":  "input_chips_32_4x.png",
+                       "native_cell":  [
+                                           32,
+                                           32
+                                       ],
+                       "game_cell":  [
+                                         96,
+                                         96
+                                     ],
+                       "native_sheet":  [
+                                            640,
+                                            32
+                                        ],
+                       "game_sheet":  [
+                                          1920,
+                                          96
+                                      ],
+                       "columns":  20,
+                       "rows":  1,
+                       "frame_count":  20,
+                       "frame_order":  [
+                                           "mouse_left",
+                                           "mouse_right",
+                                           "mouse_middle",
+                                           "mouse_wheel",
+                                           "shift",
+                                           "e",
+                                           "a",
+                                           "d",
+                                           "ad",
+                                           "1",
+                                           "2",
+                                           "3",
+                                           "4",
+                                           "5",
+                                           "6",
+                                           "7",
+                                           "8",
+                                           "9",
+                                           "0",
+                                           "tab"
+                                       ],
+                       "pivot_top_left_native":  [
+                                                     16,
+                                                     16
+                                                 ],
+                       "pivot_top_left_game":  [
+                                                   48,
+                                                   48
+                                               ],
+                       "fps":  0,
+                       "loop":  false,
+                       "frames":  [
+                                      {
+                                          "opaque_colors":  6,
+                                          "alpha_bbox_top_left":  [
+                                                                      1,
+                                                                      1,
+                                                                      31,
+                                                                      31
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  884,
+                                          "index":  0
+                                      },
+                                      {
+                                          "opaque_colors":  6,
+                                          "alpha_bbox_top_left":  [
+                                                                      1,
+                                                                      1,
+                                                                      31,
+                                                                      31
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  884,
+                                          "index":  1
+                                      },
+                                      {
+                                          "opaque_colors":  6,
+                                          "alpha_bbox_top_left":  [
+                                                                      1,
+                                                                      1,
+                                                                      31,
+                                                                      31
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  884,
+                                          "index":  2
+                                      },
+                                      {
+                                          "opaque_colors":  6,
+                                          "alpha_bbox_top_left":  [
+                                                                      1,
+                                                                      1,
+                                                                      31,
+                                                                      31
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  884,
+                                          "index":  3
+                                      },
+                                      {
+                                          "opaque_colors":  5,
+                                          "alpha_bbox_top_left":  [
+                                                                      1,
+                                                                      1,
+                                                                      31,
+                                                                      31
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  884,
+                                          "index":  4
+                                      },
+                                      {
+                                          "opaque_colors":  5,
+                                          "alpha_bbox_top_left":  [
+                                                                      1,
+                                                                      1,
+                                                                      31,
+                                                                      31
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  884,
+                                          "index":  5
+                                      },
+                                      {
+                                          "opaque_colors":  5,
+                                          "alpha_bbox_top_left":  [
+                                                                      1,
+                                                                      1,
+                                                                      31,
+                                                                      31
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  884,
+                                          "index":  6
+                                      },
+                                      {
+                                          "opaque_colors":  5,
+                                          "alpha_bbox_top_left":  [
+                                                                      1,
+                                                                      1,
+                                                                      31,
+                                                                      31
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  884,
+                                          "index":  7
+                                      },
+                                      {
+                                          "opaque_colors":  5,
+                                          "alpha_bbox_top_left":  [
+                                                                      1,
+                                                                      1,
+                                                                      31,
+                                                                      31
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  884,
+                                          "index":  8
+                                      },
+                                      {
+                                          "opaque_colors":  5,
+                                          "alpha_bbox_top_left":  [
+                                                                      1,
+                                                                      1,
+                                                                      31,
+                                                                      31
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  884,
+                                          "index":  9
+                                      },
+                                      {
+                                          "opaque_colors":  5,
+                                          "alpha_bbox_top_left":  [
+                                                                      1,
+                                                                      1,
+                                                                      31,
+                                                                      31
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  884,
+                                          "index":  10
+                                      },
+                                      {
+                                          "opaque_colors":  5,
+                                          "alpha_bbox_top_left":  [
+                                                                      1,
+                                                                      1,
+                                                                      31,
+                                                                      31
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  884,
+                                          "index":  11
+                                      },
+                                      {
+                                          "opaque_colors":  5,
+                                          "alpha_bbox_top_left":  [
+                                                                      1,
+                                                                      1,
+                                                                      31,
+                                                                      31
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  884,
+                                          "index":  12
+                                      },
+                                      {
+                                          "opaque_colors":  5,
+                                          "alpha_bbox_top_left":  [
+                                                                      1,
+                                                                      1,
+                                                                      31,
+                                                                      31
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  884,
+                                          "index":  13
+                                      },
+                                      {
+                                          "opaque_colors":  5,
+                                          "alpha_bbox_top_left":  [
+                                                                      1,
+                                                                      1,
+                                                                      31,
+                                                                      31
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  884,
+                                          "index":  14
+                                      },
+                                      {
+                                          "opaque_colors":  5,
+                                          "alpha_bbox_top_left":  [
+                                                                      1,
+                                                                      1,
+                                                                      31,
+                                                                      31
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  884,
+                                          "index":  15
+                                      },
+                                      {
+                                          "opaque_colors":  5,
+                                          "alpha_bbox_top_left":  [
+                                                                      1,
+                                                                      1,
+                                                                      31,
+                                                                      31
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  884,
+                                          "index":  16
+                                      },
+                                      {
+                                          "opaque_colors":  5,
+                                          "alpha_bbox_top_left":  [
+                                                                      1,
+                                                                      1,
+                                                                      31,
+                                                                      31
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  884,
+                                          "index":  17
+                                      },
+                                      {
+                                          "opaque_colors":  5,
+                                          "alpha_bbox_top_left":  [
+                                                                      1,
+                                                                      1,
+                                                                      31,
+                                                                      31
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  884,
+                                          "index":  18
+                                      },
+                                      {
+                                          "opaque_colors":  5,
+                                          "alpha_bbox_top_left":  [
+                                                                      1,
+                                                                      1,
+                                                                      31,
+                                                                      31
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  884,
+                                          "index":  19
+                                      }
+                                  ]
+                   },
+                   {
+                       "id":  "locked_chain",
+                       "label_ko":  "잠금 사슬",
+                       "native_file":  "locked_chain_native.png",
+                       "game_file":  "locked_chain.png",
+                       "preview_4x_file":  "locked_chain_4x.png",
+                       "native_cell":  [
+                                           64,
+                                           24
+                                       ],
+                       "game_cell":  [
+                                         192,
+                                         72
+                                     ],
+                       "native_sheet":  [
+                                            64,
+                                            24
+                                        ],
+                       "game_sheet":  [
+                                          192,
+                                          72
+                                      ],
+                       "columns":  1,
+                       "rows":  1,
+                       "frame_count":  1,
+                       "frame_order":  [
+                                           "기본"
+                                       ],
+                       "pivot_top_left_native":  [
+                                                     32,
+                                                     12
+                                                 ],
+                       "pivot_top_left_game":  [
+                                                   96,
+                                                   36
+                                               ],
+                       "fps":  0,
+                       "loop":  false,
+                       "frames":  [
+                                      {
+                                          "opaque_colors":  3,
+                                          "alpha_bbox_top_left":  [
+                                                                      3,
+                                                                      5,
+                                                                      61,
+                                                                      17
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  478,
+                                          "index":  0
+                                      }
+                                  ]
+                   },
+                   {
+                       "id":  "locked_seal",
+                       "label_ko":  "잠금 봉인",
+                       "native_file":  "locked_seal_native.png",
+                       "game_file":  "locked_seal.png",
+                       "preview_4x_file":  "locked_seal_4x.png",
+                       "native_cell":  [
+                                           32,
+                                           32
+                                       ],
+                       "game_cell":  [
+                                         96,
+                                         96
+                                     ],
+                       "native_sheet":  [
+                                            32,
+                                            32
+                                        ],
+                       "game_sheet":  [
+                                          96,
+                                          96
+                                      ],
+                       "columns":  1,
+                       "rows":  1,
+                       "frame_count":  1,
+                       "frame_order":  [
+                                           "기본"
+                                       ],
+                       "pivot_top_left_native":  [
+                                                     16,
+                                                     16
+                                                 ],
+                       "pivot_top_left_game":  [
+                                                   48,
+                                                   48
+                                               ],
+                       "fps":  0,
+                       "loop":  false,
+                       "frames":  [
+                                      {
+                                          "opaque_colors":  3,
+                                          "alpha_bbox_top_left":  [
+                                                                      3,
+                                                                      3,
+                                                                      28,
+                                                                      28
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  547,
+                                          "index":  0
+                                      }
+                                  ]
+                   },
+                   {
+                       "id":  "complete_stamp",
+                       "label_ko":  "완료 도장",
+                       "native_file":  "complete_stamp_native.png",
+                       "game_file":  "complete_stamp.png",
+                       "preview_4x_file":  "complete_stamp_4x.png",
+                       "native_cell":  [
+                                           32,
+                                           32
+                                       ],
+                       "game_cell":  [
+                                         96,
+                                         96
+                                     ],
+                       "native_sheet":  [
+                                            32,
+                                            32
+                                        ],
+                       "game_sheet":  [
+                                          96,
+                                          96
+                                      ],
+                       "columns":  1,
+                       "rows":  1,
+                       "frame_count":  1,
+                       "frame_order":  [
+                                           "기본"
+                                       ],
+                       "pivot_top_left_native":  [
+                                                     16,
+                                                     16
+                                                 ],
+                       "pivot_top_left_game":  [
+                                                   48,
+                                                   48
+                                               ],
+                       "fps":  0,
+                       "loop":  false,
+                       "frames":  [
+                                      {
+                                          "opaque_colors":  3,
+                                          "alpha_bbox_top_left":  [
+                                                                      3,
+                                                                      3,
+                                                                      28,
+                                                                      28
+                                                                  ],
+                                          "connected_components":  1,
+                                          "smallest_component_pixels":  547,
+                                          "index":  0
+                                      }
+                                  ]
+                   }
+               ],
+    "input_chip_order":  [
+                             "mouse_left",
+                             "mouse_right",
+                             "mouse_middle",
+                             "mouse_wheel",
+                             "shift",
+                             "e",
+                             "a",
+                             "d",
+                             "ad",
+                             "1",
+                             "2",
+                             "3",
+                             "4",
+                             "5",
+                             "6",
+                             "7",
+                             "8",
+                             "9",
+                             "0",
+                             "tab"
+                         ],
+    "input_chip_labels_ko":  [
+                                 "왼쪽 버튼",
+                                 "오른쪽 버튼",
+                                 "가운데 버튼",
+                                 "휠 굴리기",
+                                 "Shift",
+                                 "E",
+                                 "A",
+                                 "D",
+                                 "A / D",
+                                 "1",
+                                 "2",
+                                 "3",
+                                 "4",
+                                 "5",
+                                 "6",
+                                 "7",
+                                 "8",
+                                 "9",
+                                 "0",
+                                 "Tab"
+                             ],
+    "tutorial_scope":  "1단계 · 북쪽 · 낮",
+    "tutorial_flow":  [
+                          {
+                              "completion":  "이동 확인",
+                              "step":  "걷기",
+                              "mode":  "직접 수행",
+                              "line":  "A와 D로 성벽 위를 걸어 보자."
+                          },
+                          {
+                              "completion":  "오른쪽 누르기 유지 확인",
+                              "step":  "망원경",
+                              "mode":  "직접 수행",
+                              "line":  "오른쪽 버튼을 꾹 눌러 정찰하자."
+                          },
+                          {
+                              "completion":  "지도 열림 확인",
+                              "step":  "지도",
+                              "mode":  "직접 수행",
+                              "line":  "Tab을 눌러 지도를 펼치자."
+                          },
+                          {
+                              "completion":  "선택이 아니라 실제 이동 완료",
+                              "step":  "분대",
+                              "mode":  "직접 수행",
+                              "line":  "분대를 골라 북쪽으로 보내자."
+                          },
+                          {
+                              "completion":  "설명 확인",
+                              "step":  "대포·집중 공격",
+                              "mode":  "설명만",
+                              "line":  "대포는 범위를, 집중 공격은 표적을 정한다."
+                          },
+                          {
+                              "completion":  "실제 마법 사용",
+                              "step":  "마법",
+                              "mode":  "직접 수행",
+                              "line":  "마법을 골라 들판에 사용하자."
+                          },
+                          {
+                              "completion":  "실제 함정 발동",
+                              "step":  "함정",
+                              "mode":  "직접 수행",
+                              "line":  "함정을 직접 발동해 보자."
+                          },
+                          {
+                              "completion":  "수리 완료",
+                              "step":  "성벽 수리",
+                              "mode":  "정비 강제 순서 1",
+                              "line":  "먼저 성벽을 수리하자."
+                          },
+                          {
+                              "completion":  "공방 작업 완료",
+                              "step":  "함정 공방",
+                              "mode":  "정비 강제 순서 2",
+                              "line":  "함정 공방에서 다음 전투를 준비하자."
+                          },
+                          {
+                              "completion":  "병력 +10",
+                              "step":  "병영",
+                              "mode":  "정비 강제 순서 3",
+                              "line":  "병영에서 병사 열 명을 모집하자."
+                          },
+                          {
+                              "completion":  "렌즈 구매와 영웅 장착 모두 확인",
+                              "step":  "상점",
+                              "mode":  "정비 강제 순서 4",
+                              "line":  "망원경 렌즈를 사고 장착하자."
+                          },
+                          {
+                              "completion":  "2단계 진입",
+                              "step":  "계단",
+                              "mode":  "정비 강제 순서 5",
+                              "line":  "계단으로 올라가 다음 전투를 준비하자."
+                          }
+                      ],
+    "mockups":  [
+                    {
+                        "source":  "Docs/References/ui_redesign_v2/now_battle.png",
+                        "actual_tutorial_capture":  false,
+                        "file":  "mockup_01_telescope.png",
+                        "size":  [
+                                     1920,
+                                     1080
+                                 ],
+                        "label_ko":  "망원경을 꾹 누르기"
+                    },
+                    {
+                        "source":  "Docs/References/ui_redesign_v2/now_battle.png",
+                        "actual_tutorial_capture":  false,
+                        "file":  "mockup_02_squad.png",
+                        "size":  [
+                                     1920,
+                                     1080
+                                 ],
+                        "label_ko":  "분대를 골라 보내기"
+                    },
+                    {
+                        "source":  "Docs/References/ui_redesign_v2/now_battle.png",
+                        "actual_tutorial_capture":  false,
+                        "file":  "mockup_03_magic.png",
+                        "size":  [
+                                     1920,
+                                     1080
+                                 ],
+                        "label_ko":  "마법 직접 사용"
+                    },
+                    {
+                        "source":  "Docs/References/ui_redesign_v2/now_battle.png",
+                        "actual_tutorial_capture":  false,
+                        "file":  "mockup_04_trap.png",
+                        "size":  [
+                                     1920,
+                                     1080
+                                 ],
+                        "label_ko":  "함정 직접 발동"
+                    },
+                    {
+                        "source":  "Docs/References/ui_redesign_v2/now_yard.png",
+                        "actual_tutorial_capture":  false,
+                        "file":  "mockup_05_repair.png",
+                        "size":  [
+                                     1920,
+                                     1080
+                                 ],
+                        "label_ko":  "성벽 먼저 수리"
+                    },
+                    {
+                        "source":  "Docs/References/ui_redesign_v2/now_yard.png",
+                        "actual_tutorial_capture":  false,
+                        "file":  "mockup_06_lens.png",
+                        "size":  [
+                                     1920,
+                                     1080
+                                 ],
+                        "label_ko":  "렌즈 구매와 장착"
+                    }
+                ],
+    "contact_sheet":  {
+                          "layout":  "2열 3행, 행 우선",
+                          "file":  "mockup_sheet_6steps.png",
+                          "size":  [
+                                       3840,
+                                       3240
+                                   ]
+                      },
+    "sources":  [
+                    {
+                        "sha256":  "D1C36F50A3DA91586AA4043CCB28197E654E391D5AA59966A4ED468777B4A90D",
+                        "path":  "Docs/References/codex_k071_v1/hero_neutral_generated.png"
+                    },
+                    {
+                        "sha256":  "0026367083018C4A484E769D2D04E0D9F2FAEE675D62098B2DEF0DB63BEBFC68",
+                        "path":  "Docs/References/codex_hero_octopath_review_v6/generated.png"
+                    },
+                    {
+                        "sha256":  "6FB73272E105530881A82213238774808E6DE1467915C154516B3213C0C4F627",
+                        "path":  "Docs/References/ui_redesign_v2/now_battle.png"
+                    },
+                    {
+                        "sha256":  "8F3457FA01510370D1FA630D4BCF42A6624EEAEAFB81F2C595AE980CA1FDFE2B",
+                        "path":  "Docs/References/ui_redesign_v2/now_yard.png"
+                    },
+                    {
+                        "sha256":  "201ABD5795F282C498EEBD20FCB92F55381E1C143E2ACDD0156E0D3A51590A38",
+                        "path":  "Game/Assets/_Project/Art/UI/Resources/HudArt/Command/command_circle.png"
+                    },
+                    {
+                        "sha256":  "CD80D052394A0D73171F66BCFAF3D3A210937CB4621AD2505BEA707D26A7CC73",
+                        "path":  "Game/Assets/_Project/Art/UI/Resources/HudArt/Command/command_number_1.png"
+                    }
+                ],
+    "limitations":  [
+                        "목업 배경은 현재 캡처를 사용했으며 새 튜토리얼의 낮·1단계·지도 화면을 증명하지 않음.",
+                        "장소·마법·함정 표식 좌표는 배치 예시. 실제 대상 RectTransform/월드 위치에 Claude가 연결.",
+                        "오른쪽 누르기 지속, 분대 이동, 마법·함정 수행 판정과 단계 잠금은 Claude가 구현.",
+                        "렌즈 구매·장착을 확인한 뒤 계단을 열 것. 초상/입력칩 텍스처에는 게임 글꼴을 포함하지 않음."
+                    ]
+}

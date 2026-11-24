@@ -1,0 +1,43 @@
+import fs from 'node:fs/promises';
+import path from 'node:path';
+export async function build(root) {
+  const out=path.join(root,'Docs/References/codex_k082_v1');
+  const manifest=JSON.parse((await fs.readFile(path.join(out,'manifest.json'),'utf8')).replace(/^\uFEFF/,''));
+  const data=async p=>'data:image/png;base64,'+(await fs.readFile(p)).toString('base64');
+  const names={hero:'주인공',wizard:'마법사',archer:'궁수',gunner:'총병',cannon:'대포병'};
+  const jobs={dig:'땅 파기',earth:'흙 나르기',log:'통나무 나르기'};
+  const sheets={hero:'Hero/hero_back_idle.png',wizard:'Static/wizard_back_static.png',archer:'Static/archer_static.png',gunner:'Static/gunner_static.png',cannon:'Static/cannon_crew_static.png'};
+  let portraits='',workers='';
+  for(const a of manifest.assets) {
+    const current=await data(path.join(root,a.source));
+    const next=await data(path.join(out,a.file));
+    if(a.frame_count===1) {
+      const id=a.id.replace('portrait_','');
+      const game=await data(path.join(root,'Game/Assets/_Project/Art/Characters',sheets[id]));
+      portraits+=`<article><h3>${names[id]}</h3><div class="triplet"><figure><figcaption>기존 초상 · K-028</figcaption><div class="stage"><img src="${current}" alt="기존 ${names[id]} 초상"></div></figure><figure><figcaption>현재 게임 · 시트 첫 칸</figcaption><div class="stage"><canvas class="game" width="256" height="384" data-sheet="${game}"></canvas></div></figure><figure><figcaption>새 초상 · 6판</figcaption><div class="stage"><img src="${next}" alt="6판 ${names[id]} 초상"></div></figure></div><p class="file">${a.file} · 512 × 512 · 중심 (256, 480)</p></article>`;
+    } else {
+      const [job,unit]=a.id.replace('worker_','').split('_');
+      workers+=`<article><h3>${names[unit]} · ${jobs[job]}</h3><div class="pair"><figure><figcaption>현재 게임</figcaption><div class="stage"><canvas class="motion" width="256" height="384" data-sheet="${current}"></canvas></div></figure><figure><figcaption>6판</figcaption><div class="stage"><canvas class="motion" width="256" height="384" data-sheet="${next}"></canvas></div></figure></div><p class="file">${a.file} · 1024 × 384 · 4칸 · 발 y = 352</p><details><summary>전체 시트 보기</summary><img class="strip" src="${next}" alt="${names[unit]} ${jobs[job]} 네 동작"></details></article>`;
+    }
+  }
+  const ref=await data(path.join(root,'Docs/References/codex_hero_octopath_review_v6/generated.png'));
+  const html=`<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>K-082 · 정비와 결과 인물 6판</title>
+<style>*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#151b20;color:#e9e1d2;font-family:Malgun Gothic,system-ui,sans-serif;line-height:1.7}header,main{max-width:1160px;margin:auto;padding:36px 24px}header{display:grid;grid-template-columns:1fr 130px;gap:28px;padding-bottom:20px}.eyebrow{color:#c0a577;letter-spacing:.12em;font-size:12px}h1{font-size:32px;line-height:1.35;margin:10px 0 20px}header img{width:120px;height:180px;object-fit:contain;background:#222a31;image-rendering:pixelated}p{margin:8px 0;color:#c1c4c4}.note{border-left:3px solid #b99b66;padding-left:16px;max-width:820px}nav{position:sticky;top:0;z-index:5;background:#20282ff5;border-block:1px solid #46505a;padding:12px 24px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;align-items:center}a{color:#dbc494}button,select,input{font:inherit}button,select{background:#303b45;color:#f0e5d5;border:1px solid #5c6a74;border-radius:3px;padding:5px 12px;cursor:pointer}button:hover{background:#43515d}h2{font-size:25px;margin:32px 0 8px}h3{font-size:17px;margin:0 0 14px}article{background:#20282f;border-top:1px solid #52606b;padding:20px;margin:20px 0 30px;break-inside:avoid}figure{margin:0;min-width:0}figcaption{font-size:13px;color:#c5b493;margin-bottom:8px}.triplet{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.pair{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}.stage{background-color:#303943;background-image:linear-gradient(45deg,#38434c 25%,transparent 25%),linear-gradient(-45deg,#38434c 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#38434c 75%),linear-gradient(-45deg,transparent 75%,#38434c 75%);background-size:24px 24px;background-position:0 0,0 12px,12px -12px,-12px 0;display:flex;align-items:center;justify-content:center;min-height:260px;position:relative;overflow:hidden}.stage img{width:100%;max-width:280px;image-rendering:pixelated}.stage canvas{width:256px;height:384px;max-width:100%;object-fit:contain;image-rendering:pixelated}.triplet .stage{height:288px}.triplet .game{width:176px;height:264px}.stage:has(.motion)::after{content:'';position:absolute;bottom:32px;width:100%;border-top:1px dashed #ddba6d80;pointer-events:none}.file{font-size:12px;overflow-wrap:anywhere;color:#9faeB8}.strip{width:100%;image-rendering:pixelated;margin-top:12px}details{margin-top:12px;color:#c9b994;cursor:pointer}body[data-bg="light"] .stage{background:#e6dfd1}body[data-bg="dark"] .stage{background:#111820}#status{font-size:12px;color:#c4d2b3}footer{border-top:1px solid #46505a;padding:24px 0;font-size:13px;color:#bac2c6}.badge{font-size:12px;padding:4px 8px;border:1px solid #807453;color:#d9c29a}@media(max-width:640px){header{grid-template-columns:1fr 80px;padding:24px 16px}header img{width:80px;height:130px}h1{font-size:25px}.triplet{grid-template-columns:1fr}.pair{gap:8px}.stage{min-height:220px}.pair .stage canvas{width:144px;height:216px}.pair .stage:after{bottom:18px}main{padding:10px}nav{padding:10px;gap:8px}article{padding:12px}.file{font-size:11px}}
+</style><body><header><div><div class="eyebrow">휴먼 라스트 램파트 · K-082</div><h1>정비 마당과 결과판<br>인물 그림 6판</h1><span class="badge">초상 5종 · 작업 동작 6종</span><p>흰 머리 주인공의 첫 생성본을 기준으로 머리·눈·외곽선과 큼직한 픽셀을 맞췄습니다.</p><p class="note">기존 배경은 그대로 사용합니다. 작업자의 화면 크기와 네 동작 순서를 유지했습니다. 현재 결과판은 병종 시트 첫 칸을 표시하므로 초상 연결은 별도 적용이 필요합니다.</p></div><figure><img src="${ref}" alt="사용자가 선택한 주인공 6판 첫 생성본"><figcaption>채택 기준 · 첫 생성본</figcaption></figure></header>
+<nav><a href="#portraits">결과 초상</a><a href="#workers">정비 작업자</a><button id="play">일시 정지</button><label>동작 <input id="frame" type="range" min="0" max="3" value="0" aria-label="동작 칸"></label><label>속도 <select id="speed"><option value="3">느리게</option><option value="6" selected>보통</option><option value="10">빠르게</option></select></label><label>배경 <select id="bg"><option value="check">격자</option><option value="light">밝게</option><option value="dark">어둡게</option></select></label><span id="status">그림 불러오는 중</span></nav>
+<main><section id="portraits"><h2>결과판 · 영웅과 병력 손실</h2><p>왼쪽은 기존 K-028 초상, 가운데는 현재 게임 시트의 첫 칸, 오른쪽은 새 초상입니다. 새 그림은 정면 흉상 한 칸입니다.</p>${portraits}</section><section id="workers"><h2>정비 마당 · 여섯 작업 동작</h2><p>현재 게임 그림과 새 그림을 같은 속도로 재생합니다. 점선은 발 기준선입니다. 슬라이더를 움직이면 원하는 동작에서 멈춥니다.</p>${workers}</section><footer>검토용 에셋 · Unity 미실행 · 게임 미연결<br>512 × 512 초상과 256 × 384 작업자 칸의 기존 규격을 유지했습니다. 생성 원본·확대본·기준점은 함께 제공한 자료 폴더에 보관했습니다.</footer></main>
+<script>
+let playing=true,frame=0,last=0,loaded=0;const sprites=[],canvases=[...document.querySelectorAll('canvas')];const allImages=[...document.querySelectorAll('img')];
+const setStatus=()=>document.getElementById('status').textContent='동작 '+(frame+1)+'/4 · 그림 '+loaded+'/'+canvases.length;
+function draw(){for(const s of sprites){const c=s.canvas,x=c.getContext('2d');x.imageSmoothingEnabled=false;x.clearRect(0,0,c.width,c.height);x.drawImage(s.image,s.motion?frame*256:0,0,256,384,0,0,256,384)}document.getElementById('frame').value=frame;setStatus()}
+for(const canvas of canvases){const image=new Image();image.onload=()=>{sprites.push({canvas,image,motion:canvas.classList.contains('motion')});loaded++;draw()};image.onerror=()=>{document.getElementById('status').textContent='그림 불러오기 오류'};image.src=canvas.dataset.sheet}
+document.getElementById('play').onclick=()=>{playing=!playing;document.getElementById('play').textContent=playing?'일시 정지':'재생'};
+document.getElementById('frame').oninput=e=>{playing=false;document.getElementById('play').textContent='재생';frame=+e.target.value;draw()};
+document.getElementById('bg').onchange=e=>document.body.dataset.bg=e.target.value;
+function tick(time){if(playing&&time-last>=1000/+document.getElementById('speed').value){frame=(frame+1)%4;last=time;draw()}requestAnimationFrame(tick)}requestAnimationFrame(tick);
+window.reviewState=()=>({loaded,total:canvases.length,frame,playing,broken:allImages.filter(i=>!i.complete||i.naturalWidth===0).length});
+</script></body></html>`;
+  const dest=path.join(root,'_HTML/6_그림_화면/codex_K-082_정비결과6판_v1.html');
+  await fs.mkdir(path.dirname(dest),{recursive:true});await fs.writeFile(dest,html);
+  return {dest,bytes:Buffer.byteLength(html),embeddedPngs:(html.match(/data:image\/png;base64,/g)||[]).length};
+}

@@ -1,0 +1,31 @@
+{
+  "id": "parapet_side",
+  "label": "난간 옆면",
+  "albedo": "parapet_side/albedo.png",
+  "normal": "parapet_side/normal.png",
+  "size": [
+    128,
+    128
+  ],
+  "worldMeters": [
+    4,
+    4
+  ],
+  "pixelsPerMeter": 32,
+  "source": "parapet_side_source.png",
+  "sourceSha256": "8b423999d124773fe2cb42f42dabba6052f4df4aed0b418a63827125de0a3d67",
+  "albedoSha256": "a33d7c110d952cd26e1096ba26d430965f0cfe0723866e870ad45ca044e972ab",
+  "normalSha256": "ab6cf227da04bc00b28097e799693b524ec3881272d6a67cd3d1cce6c0fe3a30",
+  "normalSpace": "tangent OpenGL Y+",
+  "normalStrength": 0.55,
+  "normalMaxUnitError": 0.004979719062408239,
+  "wrap": "Repeat",
+  "filter": "Point",
+  "seamMethod": "mirrored periodization of AI material quarter; reflected normal XY corrected; reflection-axis tangent=0",
+  "edgesExact": true,
+  "normalEdgesExact": true,
+  "albedoColorSpace": "sRGB",
+  "normalColorSpace": "Linear",
+  "status": "reference-sample-user-review-pending",
+  "unityPlayVerified": false
+}

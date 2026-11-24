@@ -1,0 +1,433 @@
+{
+  "allies": [
+    {
+      "id": "archer",
+      "label": "궁수",
+      "action": "run",
+      "facing": "side",
+      "columns": 4,
+      "rows": 1,
+      "cell": [
+        256,
+        384
+      ],
+      "size": [
+        1024,
+        384
+      ],
+      "frames": 4,
+      "fps": 8,
+      "frameOrder": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "footPivotTopLeft": [
+        128,
+        352
+      ],
+      "groundPolicy": "shared source baseline; airborne boots stay above ground",
+      "uniformScale": 0.35331230283911674,
+      "sourceSha256": "2d2a1737056e7b79ddd6599630dced4565303cbe7bd4867e5bd02a5f2ff3f20a",
+      "sheetSha256": "22accb9800c05ef2336296a0e55d692f9a969343c1b10c7dcc0f91a67c047419",
+      "frameHashes": [
+        "7a43e654a951f49bf01be18fafba7ce5e9b07974208c8821a235756837bdbd29",
+        "bb9090bef40c8955b56971c74a1a4606262283d8217be1c98748cf776ce9d6f8",
+        "104abeaa5341bf5d767fb9cd58c37cb470593dba16b841211b1c7928a91edf28",
+        "09cdfa4bd5562a688953e719d4fa107eb1e93fded17c679128974960f3aac2df"
+      ],
+      "framesData": [
+        {
+          "frame": 0,
+          "packedRect": [
+            68,
+            152,
+            167,
+            197
+          ],
+          "groundGap": 3,
+          "sourceRect": [
+            60,
+            116,
+            474,
+            558
+          ]
+        },
+        {
+          "frame": 1,
+          "packedRect": [
+            67,
+            151,
+            166,
+            177
+          ],
+          "groundGap": 24,
+          "sourceRect": [
+            591,
+            112,
+            469,
+            501
+          ]
+        },
+        {
+          "frame": 2,
+          "packedRect": [
+            67,
+            153,
+            173,
+            199
+          ],
+          "groundGap": 0,
+          "sourceRect": [
+            1126,
+            117,
+            490,
+            564
+          ]
+        },
+        {
+          "frame": 3,
+          "packedRect": [
+            67,
+            151,
+            150,
+            183
+          ],
+          "groundGap": 18,
+          "sourceRect": [
+            1686,
+            111,
+            425,
+            517
+          ]
+        }
+      ],
+      "rightPreview": "mirror",
+      "status": "user-review-draft",
+      "unityPlayVerified": false
+    },
+    {
+      "id": "gunner",
+      "label": "총병",
+      "action": "run",
+      "facing": "side",
+      "columns": 4,
+      "rows": 1,
+      "cell": [
+        256,
+        384
+      ],
+      "size": [
+        1024,
+        384
+      ],
+      "frames": 4,
+      "fps": 8,
+      "frameOrder": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "footPivotTopLeft": [
+        128,
+        352
+      ],
+      "groundPolicy": "shared source baseline; airborne boots stay above ground",
+      "uniformScale": 0.345679012345679,
+      "sourceSha256": "0b0e838355ad8d15b1a39ad2cbb6eb5f62a2e9af47243ca7c9a9287cf6a4573d",
+      "sheetSha256": "a631038dc80bf53f8e21465429fa0e1e4d50739f3bf9b4bc77ed431b32047c61",
+      "frameHashes": [
+        "7cc66923cf6578b24327759292d54d9324a24374217df0f7e895cc1aabe6ab8c",
+        "13535f620d0b0c72fabcdb553c95cc78a71e5a9b379b2272007472a108425f81",
+        "a60a7b54326f28fede8b7aeab52110e18ef3008b9d4f083d54592bae20b70e03",
+        "35dc61e2567e934ac96c6967f2a9acfe5a690af5c16b99651827625ecf8c1542"
+      ],
+      "framesData": [
+        {
+          "frame": 0,
+          "packedRect": [
+            65,
+            133,
+            171,
+            218
+          ],
+          "groundGap": 1,
+          "sourceRect": [
+            32,
+            90,
+            496,
+            631
+          ]
+        },
+        {
+          "frame": 1,
+          "packedRect": [
+            65,
+            127,
+            160,
+            217
+          ],
+          "groundGap": 8,
+          "sourceRect": [
+            528,
+            72,
+            463,
+            629
+          ]
+        },
+        {
+          "frame": 2,
+          "packedRect": [
+            66,
+            133,
+            174,
+            219
+          ],
+          "groundGap": 0,
+          "sourceRect": [
+            1032,
+            90,
+            504,
+            633
+          ]
+        },
+        {
+          "frame": 3,
+          "packedRect": [
+            66,
+            127,
+            148,
+            220
+          ],
+          "groundGap": 5,
+          "sourceRect": [
+            1576,
+            73,
+            429,
+            636
+          ]
+        }
+      ],
+      "rightPreview": "mirror",
+      "status": "user-review-draft",
+      "unityPlayVerified": false
+    },
+    {
+      "id": "cannon_crew",
+      "label": "대포병",
+      "action": "run",
+      "facing": "side",
+      "columns": 4,
+      "rows": 1,
+      "cell": [
+        256,
+        384
+      ],
+      "size": [
+        1024,
+        384
+      ],
+      "frames": 4,
+      "fps": 8,
+      "frameOrder": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "footPivotTopLeft": [
+        128,
+        352
+      ],
+      "groundPolicy": "shared source baseline; airborne boots stay above ground",
+      "uniformScale": 0.35443037974683544,
+      "sourceSha256": "3bbe94e43b9da6c8f4a4bc578acdd9414dee3392276c97c25e083157d49ca188",
+      "sheetSha256": "7e4bd00d40549a19479fe738ad73c9a01ef70c0f8c272a5f7e17f6551270eee3",
+      "frameHashes": [
+        "8801fb76eea0363bfbb0c9d130d3d049fb6ff9e4c731ca2e3f22fe2250450315",
+        "bf4d1b428404c730b018856653c546b7f73a5fab7052ce1bbbd9e26f6c422cb0",
+        "de78fc0891ecaec0164167aed9f393c0a6defdde8b6e4d63a7615fb815535dd5",
+        "ba9e0f4c20191a999d3c16dd4c0ba058eb9d682eb47cf696bf52b727319de0ee"
+      ],
+      "framesData": [
+        {
+          "frame": 0,
+          "packedRect": [
+            56,
+            130,
+            184,
+            222
+          ],
+          "groundGap": 0,
+          "sourceRect": [
+            23,
+            47,
+            518,
+            627
+          ]
+        },
+        {
+          "frame": 1,
+          "packedRect": [
+            58,
+            129,
+            176,
+            203
+          ],
+          "groundGap": 20,
+          "sourceRect": [
+            571,
+            44,
+            497,
+            573
+          ]
+        },
+        {
+          "frame": 2,
+          "packedRect": [
+            55,
+            129,
+            183,
+            223
+          ],
+          "groundGap": 0,
+          "sourceRect": [
+            1079,
+            46,
+            517,
+            628
+          ]
+        },
+        {
+          "frame": 3,
+          "packedRect": [
+            54,
+            129,
+            165,
+            211
+          ],
+          "groundGap": 12,
+          "sourceRect": [
+            1661,
+            44,
+            466,
+            594
+          ]
+        }
+      ],
+      "rightPreview": "mirror",
+      "status": "user-review-draft",
+      "unityPlayVerified": false
+    },
+    {
+      "id": "wizard",
+      "label": "마법사",
+      "action": "run",
+      "facing": "side",
+      "columns": 4,
+      "rows": 1,
+      "cell": [
+        256,
+        384
+      ],
+      "size": [
+        1024,
+        384
+      ],
+      "frames": 4,
+      "fps": 8,
+      "frameOrder": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "footPivotTopLeft": [
+        128,
+        352
+      ],
+      "groundPolicy": "shared source baseline; airborne boots stay above ground",
+      "uniformScale": 0.38095238095238093,
+      "sourceSha256": "769a2330e9ffae28683887dd23dde6e120af99b168c7dc21c600212196844d22",
+      "sheetSha256": "28270c7a35aeeaa519a041cadca84781d26fc7255bdd1876f3f83fb27f52bec4",
+      "frameHashes": [
+        "0bb78e41b8aa0fcf1105c98be178ffaaf21e79e56a11eaa21b267aac09aecfda",
+        "23d82f30f4640768f76e2dc9eacc45933962348c777a1c2564526fb8d42bc7b3",
+        "27df09b486309b8259386a64a0e9ff56f15ce70ad3283a4f8c02592dba1f05a7",
+        "0960c3ea92641fc89774bb6bfe5ba88f36fe06773208f1ae78cf4735d666d004"
+      ],
+      "framesData": [
+        {
+          "frame": 0,
+          "packedRect": [
+            60,
+            112,
+            180,
+            240
+          ],
+          "groundGap": 0,
+          "sourceRect": [
+            29,
+            96,
+            473,
+            630
+          ]
+        },
+        {
+          "frame": 1,
+          "packedRect": [
+            56,
+            106,
+            176,
+            237
+          ],
+          "groundGap": 9,
+          "sourceRect": [
+            516,
+            79,
+            463,
+            623
+          ]
+        },
+        {
+          "frame": 2,
+          "packedRect": [
+            59,
+            112,
+            178,
+            240
+          ],
+          "groundGap": 0,
+          "sourceRect": [
+            1014,
+            96,
+            467,
+            630
+          ]
+        },
+        {
+          "frame": 3,
+          "packedRect": [
+            52,
+            106,
+            175,
+            221
+          ],
+          "groundGap": 25,
+          "sourceRect": [
+            1506,
+            81,
+            460,
+            579
+          ]
+        }
+      ],
+      "rightPreview": "mirror",
+      "status": "user-review-draft",
+      "unityPlayVerified": false
+    }
+  ],
+  "enemies": "../codex_walk6_v1/{ogre,ladder_goblin} unchanged"
+}

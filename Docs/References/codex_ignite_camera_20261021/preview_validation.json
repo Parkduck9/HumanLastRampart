@@ -1,0 +1,79 @@
+{
+  "source": "Unity actual battle camera screenshots, attempt3",
+  "unity_test": {
+    "passed": 1,
+    "failed": 0
+  },
+  "images": [
+    {
+      "frame": 1,
+      "source": "qa\\attempt3\\captures\\01_ignite_contact_frame_1.png",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "9b8f39e5f337feafa4eaf6a37948c961b17940943914505012a9479ab6613d9d",
+      "embedded_bytes_identical": true
+    },
+    {
+      "frame": 2,
+      "source": "qa\\attempt3\\captures\\02_ignite_contact_frame_2.png",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "84198e3d169aed33cb56ee172a864f8ed5f0595a9fb3db535b6af0a20bd64cec",
+      "embedded_bytes_identical": true
+    },
+    {
+      "frame": 3,
+      "source": "qa\\attempt3\\captures\\03_ignite_contact_frame_3.png",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "dd6d6385088b02f1f61498dcb82615583e39f4a8add819330f2918fb4da08d44",
+      "embedded_bytes_identical": true
+    },
+    {
+      "frame": 4,
+      "source": "qa\\attempt3\\captures\\04_ignite_contact_frame_4.png",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "8d42504e32da1799127a4b8e4562898f3540854f29ca2bd07d56b7b257c10aaf",
+      "embedded_bytes_identical": true
+    },
+    {
+      "frame": 5,
+      "source": "qa\\attempt3\\captures\\05_ignite_contact_frame_5.png",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "15408bc02012c5e5fda4c042e74fb3c1864a20cd6fc10bac2a9e2309b338c4f7",
+      "embedded_bytes_identical": true
+    },
+    {
+      "frame": 6,
+      "source": "qa\\attempt3\\captures\\06_ignite_contact_frame_6.png",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "71655604e31ea854a3273d5069b187d0b52b24e4cca22d47d22e99f869543217",
+      "embedded_bytes_identical": true
+    }
+  ],
+  "external_resources": false,
+  "browser_interaction_checked": false,
+  "visual_contact": "incomplete: flame appears below fuse; manual observation only",
+  "node_vm_interaction_checks": {
+    "passed": 13,
+    "checks": [
+      "initial frame 4 paused",
+      "next frame",
+      "previous frame",
+      "play starts interval",
+      "play advances frame",
+      "pause stops interval",
+      "frame 4 button stops playback",
+      "wrap 6 to 1",
+      "wrap 1 to 6",
+      "zoom on",
+      "zoom off",
+      "keyboard next",
+      "keyboard previous"
+    ],
+    "limitation": "Mock DOM script checks; not an actual browser layout or interaction test"
+  }
+}

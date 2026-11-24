@@ -1,0 +1,683 @@
+{
+    "passed":  90,
+    "files":  [
+                  {
+                      "sha256":  "7D9170D0936C3CE161E6E2533060CB5E426DA3B004D52C244745C421F2BBA7CA",
+                      "frames":  [
+                                     {
+                                         "cornersAlpha":  [
+                                                              0,
+                                                              0,
+                                                              0,
+                                                              0
+                                                          ],
+                                         "alphaBounds":  [
+                                                             46,
+                                                             142,
+                                                             183,
+                                                             210
+                                                         ],
+                                         "index":  0
+                                     },
+                                     {
+                                         "cornersAlpha":  [
+                                                              0,
+                                                              0,
+                                                              0,
+                                                              0
+                                                          ],
+                                         "alphaBounds":  [
+                                                             53,
+                                                             142,
+                                                             180,
+                                                             210
+                                                         ],
+                                         "index":  1
+                                     },
+                                     {
+                                         "cornersAlpha":  [
+                                                              0,
+                                                              0,
+                                                              0,
+                                                              0
+                                                          ],
+                                         "alphaBounds":  [
+                                                             26,
+                                                             142,
+                                                             183,
+                                                             210
+                                                         ],
+                                         "index":  2
+                                     },
+                                     {
+                                         "cornersAlpha":  [
+                                                              0,
+                                                              0,
+                                                              0,
+                                                              0
+                                                          ],
+                                         "alphaBounds":  [
+                                                             43,
+                                                             142,
+                                                             184,
+                                                             210
+                                                         ],
+                                         "index":  3
+                                     },
+                                     {
+                                         "cornersAlpha":  [
+                                                              0,
+                                                              0,
+                                                              0,
+                                                              0
+                                                          ],
+                                         "alphaBounds":  [
+                                                             59,
+                                                             142,
+                                                             182,
+                                                             210
+                                                         ],
+                                         "index":  4
+                                     },
+                                     {
+                                         "cornersAlpha":  [
+                                                              0,
+                                                              0,
+                                                              0,
+                                                              0
+                                                          ],
+                                         "alphaBounds":  [
+                                                             25,
+                                                             142,
+                                                             184,
+                                                             210
+                                                         ],
+                                         "index":  5
+                                     }
+                                 ],
+                      "file":  "crew_pull6.png",
+                      "size":  [
+                                   1536,
+                                   384
+                               ]
+                  },
+                  {
+                      "sha256":  "FBBE689104C36F8047C512D3D993834E731BEE0FB6BB09945113C3094FA5B41B",
+                      "frames":  [
+                                     {
+                                         "cornersAlpha":  [
+                                                              0,
+                                                              0,
+                                                              0,
+                                                              0
+                                                          ],
+                                         "alphaBounds":  [
+                                                             32,
+                                                             142,
+                                                             198,
+                                                             210
+                                                         ],
+                                         "index":  0
+                                     },
+                                     {
+                                         "cornersAlpha":  [
+                                                              0,
+                                                              0,
+                                                              0,
+                                                              0
+                                                          ],
+                                         "alphaBounds":  [
+                                                             35,
+                                                             142,
+                                                             190,
+                                                             210
+                                                         ],
+                                         "index":  1
+                                     },
+                                     {
+                                         "cornersAlpha":  [
+                                                              0,
+                                                              0,
+                                                              0,
+                                                              0
+                                                          ],
+                                         "alphaBounds":  [
+                                                             12,
+                                                             142,
+                                                             189,
+                                                             210
+                                                         ],
+                                         "index":  2
+                                     },
+                                     {
+                                         "cornersAlpha":  [
+                                                              0,
+                                                              0,
+                                                              0,
+                                                              0
+                                                          ],
+                                         "alphaBounds":  [
+                                                             28,
+                                                             142,
+                                                             199,
+                                                             210
+                                                         ],
+                                         "index":  3
+                                     },
+                                     {
+                                         "cornersAlpha":  [
+                                                              0,
+                                                              0,
+                                                              0,
+                                                              0
+                                                          ],
+                                         "alphaBounds":  [
+                                                             44,
+                                                             142,
+                                                             189,
+                                                             210
+                                                         ],
+                                         "index":  4
+                                     },
+                                     {
+                                         "cornersAlpha":  [
+                                                              0,
+                                                              0,
+                                                              0,
+                                                              0
+                                                          ],
+                                         "alphaBounds":  [
+                                                             11,
+                                                             142,
+                                                             190,
+                                                             210
+                                                         ],
+                                         "index":  5
+                                     }
+                                 ],
+                      "file":  "crew_push6.png",
+                      "size":  [
+                                   1536,
+                                   384
+                               ]
+                  },
+                  {
+                      "sha256":  "38FA30804D7BF7F6CD155231151068368DD79B309A99C03CDF232D56F7728A94",
+                      "frames":  [
+                                     {
+                                         "cornersAlpha":  [
+                                                              0,
+                                                              0,
+                                                              0,
+                                                              0
+                                                          ],
+                                         "alphaBounds":  [
+                                                             43,
+                                                             142,
+                                                             163,
+                                                             210
+                                                         ],
+                                         "index":  0
+                                     },
+                                     {
+                                         "cornersAlpha":  [
+                                                              0,
+                                                              0,
+                                                              0,
+                                                              0
+                                                          ],
+                                         "alphaBounds":  [
+                                                             29,
+                                                             126,
+                                                             176,
+                                                             226
+                                                         ],
+                                         "index":  1
+                                     },
+                                     {
+                                         "cornersAlpha":  [
+                                                              0,
+                                                              0,
+                                                              0,
+                                                              0
+                                                          ],
+                                         "alphaBounds":  [
+                                                             8,
+                                                             142,
+                                                             196,
+                                                             210
+                                                         ],
+                                         "index":  2
+                                     },
+                                     {
+                                         "cornersAlpha":  [
+                                                              0,
+                                                              0,
+                                                              0,
+                                                              0
+                                                          ],
+                                         "alphaBounds":  [
+                                                             54,
+                                                             103,
+                                                             151,
+                                                             249
+                                                         ],
+                                         "index":  3
+                                     },
+                                     {
+                                         "cornersAlpha":  [
+                                                              0,
+                                                              0,
+                                                              0,
+                                                              0
+                                                          ],
+                                         "alphaBounds":  [
+                                                             20,
+                                                             142,
+                                                             184,
+                                                             210
+                                                         ],
+                                         "index":  4
+                                     },
+                                     {
+                                         "cornersAlpha":  [
+                                                              0,
+                                                              0,
+                                                              0,
+                                                              0
+                                                          ],
+                                         "alphaBounds":  [
+                                                             45,
+                                                             142,
+                                                             160,
+                                                             210
+                                                         ],
+                                         "index":  5
+                                     }
+                                 ],
+                      "file":  "crew_ignite6.png",
+                      "size":  [
+                                   1536,
+                                   384
+                               ]
+                  },
+                  {
+                      "sha256":  "A2664CFF45A4C93095F67A593E8054B33F118D7BB4D7702CC6829E706714F9CA",
+                      "frames":  [
+                                     {
+                                         "cornersAlpha":  [
+                                                              0,
+                                                              0,
+                                                              0,
+                                                              0
+                                                          ],
+                                         "alphaBounds":  [
+                                                             135,
+                                                             128,
+                                                             242,
+                                                             224
+                                                         ],
+                                         "index":  0
+                                     }
+                                 ],
+                      "file":  "cannon_body.png",
+                      "size":  [
+                                   512,
+                                   384
+                               ]
+                  },
+                  {
+                      "sha256":  "5EE84F511A5351AA9E93CC6E4A22ADBB063B2C54F7993A5557EB039C17122EA3",
+                      "frames":  [
+                                     {
+                                         "cornersAlpha":  [
+                                                              0,
+                                                              0,
+                                                              0,
+                                                              0
+                                                          ],
+                                         "alphaBounds":  [
+                                                             47,
+                                                             52,
+                                                             186,
+                                                             300
+                                                         ],
+                                         "index":  0
+                                     }
+                                 ],
+                      "file":  "installed_crew.png",
+                      "size":  [
+                                   256,
+                                   384
+                               ]
+                  },
+                  {
+                      "sha256":  "B0900407E26994B630B9AD3C1316B4E68BBC24305443E56787542CF8B70D300A",
+                      "frames":  [
+                                     {
+                                         "cornersAlpha":  [
+                                                              0,
+                                                              0,
+                                                              0,
+                                                              0
+                                                          ],
+                                         "alphaBounds":  [
+                                                             95,
+                                                             32,
+                                                             321,
+                                                             320
+                                                         ],
+                                         "index":  0
+                                     },
+                                     {
+                                         "cornersAlpha":  [
+                                                              0,
+                                                              0,
+                                                              0,
+                                                              0
+                                                          ],
+                                         "alphaBounds":  [
+                                                             83,
+                                                             32,
+                                                             345,
+                                                             320
+                                                         ],
+                                         "index":  1
+                                     },
+                                     {
+                                         "cornersAlpha":  [
+                                                              0,
+                                                              0,
+                                                              0,
+                                                              0
+                                                          ],
+                                         "alphaBounds":  [
+                                                             87,
+                                                             32,
+                                                             338,
+                                                             320
+                                                         ],
+                                         "index":  2
+                                     }
+                                 ],
+                      "file":  "installed_aim3.png",
+                      "size":  [
+                                   1536,
+                                   384
+                               ]
+                  },
+                  {
+                      "sha256":  "C0B5A4CACB8839D3856DAA26390E6882F95E1375B8828C662D5C245DAF25D44D",
+                      "frames":  [
+                                     {
+                                         "cornersAlpha":  [
+                                                              0,
+                                                              0,
+                                                              0,
+                                                              0
+                                                          ],
+                                         "alphaBounds":  [
+                                                             13,
+                                                             32,
+                                                             230,
+                                                             208
+                                                         ],
+                                         "index":  0
+                                     },
+                                     {
+                                         "cornersAlpha":  [
+                                                              0,
+                                                              0,
+                                                              0,
+                                                              0
+                                                          ],
+                                         "alphaBounds":  [
+                                                             13,
+                                                             38,
+                                                             230,
+                                                             202
+                                                         ],
+                                         "index":  1
+                                     },
+                                     {
+                                         "cornersAlpha":  [
+                                                              0,
+                                                              0,
+                                                              0,
+                                                              0
+                                                          ],
+                                         "alphaBounds":  [
+                                                             13,
+                                                             38,
+                                                             230,
+                                                             202
+                                                         ],
+                                         "index":  2
+                                     }
+                                 ],
+                      "file":  "installed_recoil3.png",
+                      "size":  [
+                                   768,
+                                   256
+                               ]
+                  },
+                  {
+                      "sha256":  "3B0C3F1BC1416DC63BD17A7001C6031AC4EC2C390A10076E03749BF293CD2FBF",
+                      "frames":  [
+                                     {
+                                         "cornersAlpha":  [
+                                                              0,
+                                                              0,
+                                                              0,
+                                                              0
+                                                          ],
+                                         "alphaBounds":  [
+                                                             71,
+                                                             236,
+                                                             241,
+                                                             116
+                                                         ],
+                                         "index":  0
+                                     }
+                                 ],
+                      "file":  "previous_cannon.png",
+                      "size":  [
+                                   384,
+                                   384
+                               ]
+                  },
+                  {
+                      "sha256":  "82773FF6DFE13AC3D23B1C51D9584C967D2111ABA2312B52D1408393F9131CAA",
+                      "frames":  [
+                                     {
+                                         "cornersAlpha":  [
+                                                              0,
+                                                              0,
+                                                              0,
+                                                              0
+                                                          ],
+                                         "alphaBounds":  [
+                                                             109,
+                                                             189,
+                                                             39,
+                                                             37
+                                                         ],
+                                         "index":  0
+                                     },
+                                     {
+                                         "cornersAlpha":  [
+                                                              0,
+                                                              0,
+                                                              0,
+                                                              0
+                                                          ],
+                                         "alphaBounds":  [
+                                                             64,
+                                                             124,
+                                                             128,
+                                                             109
+                                                         ],
+                                         "index":  1
+                                     },
+                                     {
+                                         "cornersAlpha":  [
+                                                              0,
+                                                              0,
+                                                              0,
+                                                              0
+                                                          ],
+                                         "alphaBounds":  [
+                                                             34,
+                                                             32,
+                                                             188,
+                                                             208
+                                                         ],
+                                         "index":  2
+                                     },
+                                     {
+                                         "cornersAlpha":  [
+                                                              0,
+                                                              0,
+                                                              0,
+                                                              0
+                                                          ],
+                                         "alphaBounds":  [
+                                                             38,
+                                                             44,
+                                                             179,
+                                                             196
+                                                         ],
+                                         "index":  3
+                                     },
+                                     {
+                                         "cornersAlpha":  [
+                                                              0,
+                                                              0,
+                                                              0,
+                                                              0
+                                                          ],
+                                         "alphaBounds":  [
+                                                             61,
+                                                             98,
+                                                             135,
+                                                             134
+                                                         ],
+                                         "index":  4
+                                     },
+                                     {
+                                         "cornersAlpha":  [
+                                                              0,
+                                                              0,
+                                                              0,
+                                                              0
+                                                          ],
+                                         "alphaBounds":  [
+                                                             118,
+                                                             187,
+                                                             21,
+                                                             19
+                                                         ],
+                                         "index":  5
+                                     }
+                                 ],
+                      "file":  "muzzle_smoke.png",
+                      "size":  [
+                                   1536,
+                                   256
+                               ]
+                  }
+              ],
+    "checks":  [
+                   "crew_pull6 시트 폭",
+                   "crew_pull6 0 모서리 투명",
+                   "crew_pull6 0 실측 인물210px",
+                   "crew_pull6 0 실측 발 높이",
+                   "crew_pull6 0 실측 접지 x",
+                   "crew_pull6 1 모서리 투명",
+                   "crew_pull6 1 실측 인물210px",
+                   "crew_pull6 1 실측 발 높이",
+                   "crew_pull6 1 실측 접지 x",
+                   "crew_pull6 2 모서리 투명",
+                   "crew_pull6 2 실측 인물210px",
+                   "crew_pull6 2 실측 발 높이",
+                   "crew_pull6 2 실측 접지 x",
+                   "crew_pull6 3 모서리 투명",
+                   "crew_pull6 3 실측 인물210px",
+                   "crew_pull6 3 실측 발 높이",
+                   "crew_pull6 3 실측 접지 x",
+                   "crew_pull6 4 모서리 투명",
+                   "crew_pull6 4 실측 인물210px",
+                   "crew_pull6 4 실측 발 높이",
+                   "crew_pull6 4 실측 접지 x",
+                   "crew_pull6 5 모서리 투명",
+                   "crew_pull6 5 실측 인물210px",
+                   "crew_pull6 5 실측 발 높이",
+                   "crew_pull6 5 실측 접지 x",
+                   "crew_pull6 0 실측 부츠의 세계좌표 고정",
+                   "crew_pull6 3 실측 부츠의 세계좌표 고정",
+                   "crew_push6 시트 폭",
+                   "crew_push6 0 모서리 투명",
+                   "crew_push6 0 실측 인물210px",
+                   "crew_push6 0 실측 발 높이",
+                   "crew_push6 0 실측 접지 x",
+                   "crew_push6 1 모서리 투명",
+                   "crew_push6 1 실측 인물210px",
+                   "crew_push6 1 실측 발 높이",
+                   "crew_push6 1 실측 접지 x",
+                   "crew_push6 2 모서리 투명",
+                   "crew_push6 2 실측 인물210px",
+                   "crew_push6 2 실측 발 높이",
+                   "crew_push6 2 실측 접지 x",
+                   "crew_push6 3 모서리 투명",
+                   "crew_push6 3 실측 인물210px",
+                   "crew_push6 3 실측 발 높이",
+                   "crew_push6 3 실측 접지 x",
+                   "crew_push6 4 모서리 투명",
+                   "crew_push6 4 실측 인물210px",
+                   "crew_push6 4 실측 발 높이",
+                   "crew_push6 4 실측 접지 x",
+                   "crew_push6 5 모서리 투명",
+                   "crew_push6 5 실측 인물210px",
+                   "crew_push6 5 실측 발 높이",
+                   "crew_push6 5 실측 접지 x",
+                   "crew_push6 0 실측 부츠의 세계좌표 고정",
+                   "crew_push6 3 실측 부츠의 세계좌표 고정",
+                   "crew_ignite6 시트 폭",
+                   "crew_ignite6 0 모서리 투명",
+                   "crew_ignite6 1 모서리 투명",
+                   "crew_ignite6 2 모서리 투명",
+                   "crew_ignite6 3 모서리 투명",
+                   "crew_ignite6 4 모서리 투명",
+                   "crew_ignite6 5 모서리 투명",
+                   "cannon_body 시트 폭",
+                   "cannon_body 0 모서리 투명",
+                   "대포 실체242×224",
+                   "대포 접지352",
+                   "installed_crew 시트 폭",
+                   "installed_crew 0 모서리 투명",
+                   "installed_aim3 시트 폭",
+                   "installed_aim3 0 모서리 투명",
+                   "installed_aim3 1 모서리 투명",
+                   "installed_aim3 2 모서리 투명",
+                   "installed_recoil3 시트 폭",
+                   "installed_recoil3 0 모서리 투명",
+                   "installed_recoil3 1 모서리 투명",
+                   "installed_recoil3 2 모서리 투명",
+                   "previous_cannon 시트 폭",
+                   "previous_cannon 0 모서리 투명",
+                   "muzzle_smoke 시트 폭",
+                   "muzzle_smoke 0 모서리 투명",
+                   "muzzle_smoke 1 모서리 투명",
+                   "muzzle_smoke 2 모서리 투명",
+                   "muzzle_smoke 3 모서리 투명",
+                   "muzzle_smoke 4 모서리 투명",
+                   "muzzle_smoke 5 모서리 투명",
+                   "installed_crew.png 읽기 원본과 일치",
+                   "installed_aim3.png 읽기 원본과 일치",
+                   "installed_recoil3.png 읽기 원본과 일치",
+                   "muzzle_smoke.png 읽기 원본과 일치",
+                   "점화4칸과 도화선의 높이 일치",
+                   "점화4칸 접점이 칸 안쪽"
+               ],
+    "kind":  "저장한 PNG 픽셀 직접 실측"
+}

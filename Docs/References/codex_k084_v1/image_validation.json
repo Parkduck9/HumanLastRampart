@@ -1,0 +1,52 @@
+﻿{
+    "after_main.png":  {
+                           "size":  [
+                                        1920,
+                                        1080
+                                    ],
+                           "alpha":  [
+                                         255,
+                                         255
+                                     ],
+                           "non_uniform_3px_blocks":  0,
+                           "transparent_pixels":  0
+                       },
+    "after_result.png":  {
+                             "size":  [
+                                          1920,
+                                          1080
+                                      ],
+                             "alpha":  [
+                                           255,
+                                           255
+                                       ],
+                             "non_uniform_3px_blocks":  0,
+                             "transparent_pixels":  0
+                         },
+    "after_story_paper.png":  {
+                                  "size":  [
+                                               1920,
+                                               1080
+                                           ],
+                                  "alpha":  [
+                                                255,
+                                                255
+                                            ],
+                                  "non_uniform_3px_blocks":  0,
+                                  "transparent_pixels":  0
+                              },
+    "after_story_wood.png":  {
+                                 "size":  [
+                                              1920,
+                                              1080
+                                          ],
+                                 "alpha":  [
+                                               255,
+                                               255
+                                           ],
+                                 "non_uniform_3px_blocks":  0,
+                                 "transparent_pixels":  0
+                             },
+    "minimum_text_contrast":  6.409,
+    "static_mockups_only":  true
+}

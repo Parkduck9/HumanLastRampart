@@ -1,0 +1,49 @@
+{
+  "id": "gunner",
+  "label": "총병",
+  "facing": "back",
+  "image": "gunner_static_grid.png",
+  "size": [
+    256,
+    384
+  ],
+  "columns": 1,
+  "rows": 1,
+  "cell": [
+    256,
+    384
+  ],
+  "footPivotTopLeft": [
+    128,
+    352
+  ],
+  "unityPivotBottomLeft": [
+    0.5,
+    0.08333333333333333
+  ],
+  "aspect": 0.6666666666666666,
+  "frameIndex": 0,
+  "frames": 1,
+  "animated": false,
+  "fps": 0,
+  "status": "demo-static-only",
+  "source": "codex_soldier_back_v1/gunner_back.png",
+  "sourceSha256": "e87d0615649ac6310e57534f220a10b75cffc6b7b69681a1dfed3c896c2f2e57",
+  "sourceRect": [
+    85,
+    122,
+    914,
+    1364
+  ],
+  "sourceFootX": 454.0,
+  "pivotMethod": "lower boot-color quantiles; demo inference, review in Unity",
+  "uniformScale": 0.24154589371980675,
+  "packedRect": [
+    18,
+    52,
+    200,
+    300
+  ],
+  "sheetSha256": "f513d4261420d4d9709e9513cc2f4e640459eb8407ee060ffaaf49cf8db9c46c",
+  "unityPlayVerified": false
+}

@@ -1,0 +1,953 @@
+{
+  "date": "2026-10-21",
+  "manifest": "Docs/References/codex_k081_v1/manifest_current.json",
+  "source_sheets": 35,
+  "source_frames": 135,
+  "copied_sheets": 34,
+  "held_sheets": 1,
+  "scope_ko": "PNG 그대로 복사·크기·알파·해시·기존metaGUID 확인. 정의 참조/렌더링/Unity시험은 부모 작업이며 이 보고서의 완료 항목이 아님.",
+  "sheets": [
+    {
+      "sheet": "archer_static.png",
+      "source_color": "Docs/References/codex_k073_v1/archer_static.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/archer_static_normal.png",
+      "target_color": "Game/Assets/_Project/Art/Characters/Static/archer_static.png",
+      "target_normal": "Game/Assets/_Project/Art/Characters/Static/archer_static_normal.png",
+      "source_color_sha256": "0a7c35db020d1805bbdadacde6362bf7c990448298a61bae618879efdddfc9f2",
+      "source_normal_sha256": "d3f0f9baf81f6ada20ef0d8f6cf00dbb274f8db12c0d10d50826038d21541e41",
+      "source_size": [
+        288,
+        384
+      ],
+      "source_alpha_equal": true,
+      "frames": 1,
+      "status": "installed_copy_verified",
+      "existed_before": true,
+      "target_normal_sha256": "d3f0f9baf81f6ada20ef0d8f6cf00dbb274f8db12c0d10d50826038d21541e41",
+      "meta_guid_before": "01f399281c8b4d828bee32c603d44974",
+      "meta_guid_after": "01f399281c8b4d828bee32c603d44974",
+      "installed_color_size": [
+        288,
+        384
+      ],
+      "installed_color_sha256": "0a7c35db020d1805bbdadacde6362bf7c990448298a61bae618879efdddfc9f2",
+      "installed_color_matches_source": true,
+      "installed_color_normal_alpha_equal": true
+    },
+    {
+      "sheet": "archer_run.png",
+      "source_color": "Docs/References/codex_k073_v1/archer_run.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/archer_run_normal.png",
+      "target_color": "Game/Assets/_Project/Art/Characters/Run/archer_run.png",
+      "target_normal": "Game/Assets/_Project/Art/Characters/Run/archer_run_normal.png",
+      "source_color_sha256": "98808a08f186b08f4500f7827c9ed7821f854efc0716a8cbcca76c954b4e3925",
+      "source_normal_sha256": "34df0cbbcf16c980dbfe048cd3bf85ea2f273f19c9be6082a678ca5217d605af",
+      "source_size": [
+        1152,
+        384
+      ],
+      "source_alpha_equal": true,
+      "frames": 4,
+      "status": "installed_copy_verified",
+      "existed_before": false,
+      "target_normal_sha256": "34df0cbbcf16c980dbfe048cd3bf85ea2f273f19c9be6082a678ca5217d605af",
+      "meta_guid_before": null,
+      "meta_guid_after": null,
+      "installed_color_size": [
+        1152,
+        384
+      ],
+      "installed_color_sha256": "98808a08f186b08f4500f7827c9ed7821f854efc0716a8cbcca76c954b4e3925",
+      "installed_color_matches_source": true,
+      "installed_color_normal_alpha_equal": true
+    },
+    {
+      "sheet": "archer_fire.png",
+      "source_color": "Docs/References/codex_k073_v1/archer_fire.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/archer_fire_normal.png",
+      "target_color": "Game/Assets/_Project/Art/Characters/Fire/archer_fire.png",
+      "target_normal": "Game/Assets/_Project/Art/Characters/Fire/archer_fire_normal.png",
+      "source_color_sha256": "f425d7e0d3191df7f9db66843112b86138c386f8e3984c221527a6c606702288",
+      "source_normal_sha256": "9e788a68995161c7a5d57edfe7366722939dc63fbc6a1a253d3116de9343cbdb",
+      "source_size": [
+        1728,
+        384
+      ],
+      "source_alpha_equal": true,
+      "frames": 6,
+      "status": "installed_copy_verified",
+      "existed_before": false,
+      "target_normal_sha256": "9e788a68995161c7a5d57edfe7366722939dc63fbc6a1a253d3116de9343cbdb",
+      "meta_guid_before": null,
+      "meta_guid_after": null,
+      "installed_color_size": [
+        1728,
+        384
+      ],
+      "installed_color_sha256": "f425d7e0d3191df7f9db66843112b86138c386f8e3984c221527a6c606702288",
+      "installed_color_matches_source": true,
+      "installed_color_normal_alpha_equal": true
+    },
+    {
+      "sheet": "archer_fall.png",
+      "source_color": "Docs/References/codex_k073_v1/archer_fall.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/archer_fall_normal.png",
+      "target_color": "Game/Assets/_Project/Art/Characters/Fall/archer_fall.png",
+      "target_normal": "Game/Assets/_Project/Art/Characters/Fall/archer_fall_normal.png",
+      "source_color_sha256": "879f9d36ac90a89a61040a12a460815e7e529d0b7c5e5f8337e570f0888d48d3",
+      "source_normal_sha256": "bfff7b14d0b9c42e7a57e8acdaa7c73edc6cbcdd2f433e426f165d281d37da48",
+      "source_size": [
+        1152,
+        384
+      ],
+      "source_alpha_equal": true,
+      "frames": 4,
+      "status": "installed_copy_verified",
+      "existed_before": false,
+      "target_normal_sha256": "bfff7b14d0b9c42e7a57e8acdaa7c73edc6cbcdd2f433e426f165d281d37da48",
+      "meta_guid_before": null,
+      "meta_guid_after": null,
+      "installed_color_size": [
+        1152,
+        384
+      ],
+      "installed_color_sha256": "879f9d36ac90a89a61040a12a460815e7e529d0b7c5e5f8337e570f0888d48d3",
+      "installed_color_matches_source": true,
+      "installed_color_normal_alpha_equal": true
+    },
+    {
+      "sheet": "gunner_static.png",
+      "source_color": "Docs/References/codex_k074_v1/gunner_static.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/gunner_static_normal.png",
+      "target_color": "Game/Assets/_Project/Art/Characters/Static/gunner_static.png",
+      "target_normal": "Game/Assets/_Project/Art/Characters/Static/gunner_static_normal.png",
+      "source_color_sha256": "0570db03f345ef9c9bc05346ed010e7cfd082fe6a01c0103fb74e7cdce6910f5",
+      "source_normal_sha256": "f260a9225093245dd8b700fbe6fdfa1fe1790e2fd5f6835f747881f99fd5895d",
+      "source_size": [
+        288,
+        384
+      ],
+      "source_alpha_equal": true,
+      "frames": 1,
+      "status": "installed_copy_verified",
+      "existed_before": true,
+      "target_normal_sha256": "f260a9225093245dd8b700fbe6fdfa1fe1790e2fd5f6835f747881f99fd5895d",
+      "meta_guid_before": "f0e818b3ce2345b8af31485e55a68f21",
+      "meta_guid_after": "f0e818b3ce2345b8af31485e55a68f21",
+      "installed_color_size": [
+        288,
+        384
+      ],
+      "installed_color_sha256": "0570db03f345ef9c9bc05346ed010e7cfd082fe6a01c0103fb74e7cdce6910f5",
+      "installed_color_matches_source": true,
+      "installed_color_normal_alpha_equal": true
+    },
+    {
+      "sheet": "gunner_run.png",
+      "source_color": "Docs/References/codex_k074_v1/gunner_run.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/gunner_run_normal.png",
+      "target_color": "Game/Assets/_Project/Art/Characters/Run/gunner_run.png",
+      "target_normal": "Game/Assets/_Project/Art/Characters/Run/gunner_run_normal.png",
+      "source_color_sha256": "6132a2797bcc63f51a67c771a7801c8428b92f0f5c380c3e87a36b1d07e8d70d",
+      "source_normal_sha256": "01d6c373d9fe11e7cbf64a5c0ece7c8ff0deeb8654a2cfc47697e20c75773bf1",
+      "source_size": [
+        1152,
+        384
+      ],
+      "source_alpha_equal": true,
+      "frames": 4,
+      "status": "installed_copy_verified",
+      "existed_before": false,
+      "target_normal_sha256": "01d6c373d9fe11e7cbf64a5c0ece7c8ff0deeb8654a2cfc47697e20c75773bf1",
+      "meta_guid_before": null,
+      "meta_guid_after": null,
+      "installed_color_size": [
+        1152,
+        384
+      ],
+      "installed_color_sha256": "6132a2797bcc63f51a67c771a7801c8428b92f0f5c380c3e87a36b1d07e8d70d",
+      "installed_color_matches_source": true,
+      "installed_color_normal_alpha_equal": true
+    },
+    {
+      "sheet": "gunner_fire.png",
+      "source_color": "Docs/References/codex_k074_v1/gunner_fire.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/gunner_fire_normal.png",
+      "target_color": "Game/Assets/_Project/Art/Characters/Fire/gunner_fire.png",
+      "target_normal": "Game/Assets/_Project/Art/Characters/Fire/gunner_fire_normal.png",
+      "source_color_sha256": "10a7906f436ea393c5ba68abb28ae7f497edcbacdb4b24fcf85c58c377613f21",
+      "source_normal_sha256": "da4e7c27056feac1d7bafc35d756e8001a8375156aba86c2def7cde52e908220",
+      "source_size": [
+        1728,
+        384
+      ],
+      "source_alpha_equal": true,
+      "frames": 6,
+      "status": "installed_copy_verified",
+      "existed_before": false,
+      "target_normal_sha256": "da4e7c27056feac1d7bafc35d756e8001a8375156aba86c2def7cde52e908220",
+      "meta_guid_before": null,
+      "meta_guid_after": null,
+      "installed_color_size": [
+        1728,
+        384
+      ],
+      "installed_color_sha256": "10a7906f436ea393c5ba68abb28ae7f497edcbacdb4b24fcf85c58c377613f21",
+      "installed_color_matches_source": true,
+      "installed_color_normal_alpha_equal": true
+    },
+    {
+      "sheet": "gunner_fall.png",
+      "source_color": "Docs/References/codex_k074_v1/gunner_fall.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/gunner_fall_normal.png",
+      "target_color": "Game/Assets/_Project/Art/Characters/Fall/gunner_fall.png",
+      "target_normal": "Game/Assets/_Project/Art/Characters/Fall/gunner_fall_normal.png",
+      "source_color_sha256": "4ef6863f35be19cdd1a0d67bc929074927f9e398c92086a113a6435e4a7f55eb",
+      "source_normal_sha256": "907675d6f4505d489f0ae12a834837fc014e5230d815a96dde0e8b16dad68797",
+      "source_size": [
+        1152,
+        384
+      ],
+      "source_alpha_equal": true,
+      "frames": 4,
+      "status": "installed_copy_verified",
+      "existed_before": false,
+      "target_normal_sha256": "907675d6f4505d489f0ae12a834837fc014e5230d815a96dde0e8b16dad68797",
+      "meta_guid_before": null,
+      "meta_guid_after": null,
+      "installed_color_size": [
+        1152,
+        384
+      ],
+      "installed_color_sha256": "4ef6863f35be19cdd1a0d67bc929074927f9e398c92086a113a6435e4a7f55eb",
+      "installed_color_matches_source": true,
+      "installed_color_normal_alpha_equal": true
+    },
+    {
+      "sheet": "cannon_crew_static.png",
+      "source_color": "Docs/References/codex_k075_v1/game/Characters/Static/cannon_crew_static.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/cannon_crew_static_normal.png",
+      "target_color": "Game/Assets/_Project/Art/Characters/Static/cannon_crew_static.png",
+      "target_normal": "Game/Assets/_Project/Art/Characters/Static/cannon_crew_static_normal.png",
+      "source_color_sha256": "3836ce50297502e9899df0d2a8a432b2d6e8244a9d34998c12819f711358251e",
+      "source_normal_sha256": "c315cf7f71e7740af40cd2b700dd745780f7f9499920ee6e21ad7b08e965ece1",
+      "source_size": [
+        288,
+        384
+      ],
+      "source_alpha_equal": true,
+      "frames": 1,
+      "status": "installed_copy_verified",
+      "existed_before": true,
+      "target_normal_sha256": "c315cf7f71e7740af40cd2b700dd745780f7f9499920ee6e21ad7b08e965ece1",
+      "meta_guid_before": "b42713b1b74f40a7a3b0ca8e40bbd6f4",
+      "meta_guid_after": "b42713b1b74f40a7a3b0ca8e40bbd6f4",
+      "installed_color_size": [
+        288,
+        384
+      ],
+      "installed_color_sha256": "3836ce50297502e9899df0d2a8a432b2d6e8244a9d34998c12819f711358251e",
+      "installed_color_matches_source": true,
+      "installed_color_normal_alpha_equal": true
+    },
+    {
+      "sheet": "cannon_crew_run.png",
+      "source_color": "Docs/References/codex_k075_v1/game/Characters/Run/cannon_crew_run.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/cannon_crew_run_normal.png",
+      "target_color": "Game/Assets/_Project/Art/Characters/Run/cannon_crew_run.png",
+      "target_normal": "Game/Assets/_Project/Art/Characters/Run/cannon_crew_run_normal.png",
+      "source_color_sha256": "94cfa6a2205a2cdaef28a7f99280ede26109f2ee894ee3f252d370234930be51",
+      "source_normal_sha256": "862b85e2a4fe4160caa9eb408d321c67765f0c251fb2f5f4e28774e1e039cc8f",
+      "source_size": [
+        1152,
+        384
+      ],
+      "source_alpha_equal": true,
+      "frames": 4,
+      "status": "installed_copy_verified",
+      "existed_before": false,
+      "target_normal_sha256": "862b85e2a4fe4160caa9eb408d321c67765f0c251fb2f5f4e28774e1e039cc8f",
+      "meta_guid_before": null,
+      "meta_guid_after": null,
+      "installed_color_size": [
+        1152,
+        384
+      ],
+      "installed_color_sha256": "94cfa6a2205a2cdaef28a7f99280ede26109f2ee894ee3f252d370234930be51",
+      "installed_color_matches_source": true,
+      "installed_color_normal_alpha_equal": true
+    },
+    {
+      "sheet": "cannon_crew_ignite6.png",
+      "source_color": "Docs/References/codex_k075_v1/game/Characters/Fire/cannon_crew_ignite6.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/cannon_crew_ignite6_normal.png",
+      "target_color": "Game/Assets/_Project/Art/Characters/Fire/cannon_crew_ignite6.png",
+      "target_normal": "Game/Assets/_Project/Art/Characters/Fire/cannon_crew_ignite6_normal.png",
+      "source_color_sha256": "0f832d3c457690d52dad34fd1a99cd52a413a00c357ed1341e83e5b2e4d1b133",
+      "source_normal_sha256": "d99398a3983585d078106f6e11c0d05d177a5095286c380e6962b1edb26591e4",
+      "source_size": [
+        1728,
+        384
+      ],
+      "source_alpha_equal": true,
+      "frames": 6,
+      "status": "held_latest_expanded_ignite",
+      "reason_ko": "현재 Game v5는 2592×384, K081 구형은 1728×384. 구형 법선 복사·연결 금지.",
+      "installed_color_size": [
+        2592,
+        384
+      ],
+      "installed_color_sha256": "5132d551a86960a7f95884e804534c79244847f260c2c8bd047866f0da4496e9"
+    },
+    {
+      "sheet": "cannon_crew_fall.png",
+      "source_color": "Docs/References/codex_k075_v1/game/Characters/Fall/cannon_crew_fall.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/cannon_crew_fall_normal.png",
+      "target_color": "Game/Assets/_Project/Art/Characters/Fall/cannon_crew_fall.png",
+      "target_normal": "Game/Assets/_Project/Art/Characters/Fall/cannon_crew_fall_normal.png",
+      "source_color_sha256": "b258a6de2a54a55d72def698b9fb996b22fbf7f1ec0d10782d8f061c3069cf6d",
+      "source_normal_sha256": "19515cb0942fd307f64b62d6eac79b2397add3467f3296db6dddccd6cea1e900",
+      "source_size": [
+        1152,
+        384
+      ],
+      "source_alpha_equal": true,
+      "frames": 4,
+      "status": "installed_copy_verified",
+      "existed_before": false,
+      "target_normal_sha256": "19515cb0942fd307f64b62d6eac79b2397add3467f3296db6dddccd6cea1e900",
+      "meta_guid_before": null,
+      "meta_guid_after": null,
+      "installed_color_size": [
+        1152,
+        384
+      ],
+      "installed_color_sha256": "b258a6de2a54a55d72def698b9fb996b22fbf7f1ec0d10782d8f061c3069cf6d",
+      "installed_color_matches_source": true,
+      "installed_color_normal_alpha_equal": true
+    },
+    {
+      "sheet": "crew_push6.png",
+      "source_color": "Docs/References/codex_k075_v1/game/Battle/Resources/BattleArt/Cannon/crew_push6.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/crew_push6_normal.png",
+      "target_color": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/crew_push6.png",
+      "target_normal": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/crew_push6_normal.png",
+      "source_color_sha256": "73b51b2e4840f1f6243267e0dbe21e0c21efe556c54a973ea3589bd7afa4cfab",
+      "source_normal_sha256": "db8b9ce8e705556d6d3587665e9a8be470e9d406274b2b6c03cbb6e2322fafdc",
+      "source_size": [
+        1728,
+        384
+      ],
+      "source_alpha_equal": true,
+      "frames": 6,
+      "status": "installed_copy_verified",
+      "existed_before": false,
+      "target_normal_sha256": "db8b9ce8e705556d6d3587665e9a8be470e9d406274b2b6c03cbb6e2322fafdc",
+      "meta_guid_before": null,
+      "meta_guid_after": null,
+      "installed_color_size": [
+        1728,
+        384
+      ],
+      "installed_color_sha256": "73b51b2e4840f1f6243267e0dbe21e0c21efe556c54a973ea3589bd7afa4cfab",
+      "installed_color_matches_source": true,
+      "installed_color_normal_alpha_equal": true
+    },
+    {
+      "sheet": "crew_pull6.png",
+      "source_color": "Docs/References/codex_k075_v1/game/Battle/Resources/BattleArt/Cannon/crew_pull6.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/crew_pull6_normal.png",
+      "target_color": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/crew_pull6.png",
+      "target_normal": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/crew_pull6_normal.png",
+      "source_color_sha256": "ea60ccd1c7ec25c702e317160dfc70c185d883022d9f2b2c4728dbf56a78bef9",
+      "source_normal_sha256": "93319db7ce7ef6c0c63505f6586de5ea2e5afdb85ea560c1bd367dd6758a0955",
+      "source_size": [
+        1728,
+        384
+      ],
+      "source_alpha_equal": true,
+      "frames": 6,
+      "status": "installed_copy_verified",
+      "existed_before": false,
+      "target_normal_sha256": "93319db7ce7ef6c0c63505f6586de5ea2e5afdb85ea560c1bd367dd6758a0955",
+      "meta_guid_before": null,
+      "meta_guid_after": null,
+      "installed_color_size": [
+        1728,
+        384
+      ],
+      "installed_color_sha256": "ea60ccd1c7ec25c702e317160dfc70c185d883022d9f2b2c4728dbf56a78bef9",
+      "installed_color_matches_source": true,
+      "installed_color_normal_alpha_equal": true
+    },
+    {
+      "sheet": "wizard_back_static.png",
+      "source_color": "Docs/References/codex_k076_v1/wizard_back_static.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/resume_v2/wizard_back_static_normal.png",
+      "target_color": "Game/Assets/_Project/Art/Characters/Static/wizard_back_static.png",
+      "target_normal": "Game/Assets/_Project/Art/Characters/Static/wizard_back_static_normal.png",
+      "source_color_sha256": "3f96cd668def6932e33d1339c2c8c2d9d4516f9e02b16c159717623fcd993aa3",
+      "source_normal_sha256": "7764905850bb808520e4a0df8cb9d39afb6d1f7a0d1ce3bc8e098ebcb4b2ec59",
+      "source_size": [
+        288,
+        384
+      ],
+      "source_alpha_equal": true,
+      "frames": 1,
+      "status": "installed_copy_verified",
+      "existed_before": true,
+      "target_normal_sha256": "7764905850bb808520e4a0df8cb9d39afb6d1f7a0d1ce3bc8e098ebcb4b2ec59",
+      "meta_guid_before": "eff6c8f52b9b4c94bd730ada77fb899a",
+      "meta_guid_after": "eff6c8f52b9b4c94bd730ada77fb899a",
+      "installed_color_size": [
+        288,
+        384
+      ],
+      "installed_color_sha256": "3f96cd668def6932e33d1339c2c8c2d9d4516f9e02b16c159717623fcd993aa3",
+      "installed_color_matches_source": true,
+      "installed_color_normal_alpha_equal": true
+    },
+    {
+      "sheet": "wizard_static.png",
+      "source_color": "Docs/References/codex_k076_v1/wizard_static.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/resume_v2/wizard_static_normal.png",
+      "target_color": "Game/Assets/_Project/Art/Characters/Static/wizard_static.png",
+      "target_normal": "Game/Assets/_Project/Art/Characters/Static/wizard_static_normal.png",
+      "source_color_sha256": "97523b2c8eac6c0ddd70b11fefee47516396b5d0167a939f301f16d7769facd7",
+      "source_normal_sha256": "d734d35cbf5f5e24b90ad7bf13224e853e819fcaab96040eccc300d9aff4f219",
+      "source_size": [
+        288,
+        384
+      ],
+      "source_alpha_equal": true,
+      "frames": 1,
+      "status": "installed_copy_verified",
+      "existed_before": false,
+      "target_normal_sha256": "d734d35cbf5f5e24b90ad7bf13224e853e819fcaab96040eccc300d9aff4f219",
+      "meta_guid_before": null,
+      "meta_guid_after": null,
+      "installed_color_size": [
+        288,
+        384
+      ],
+      "installed_color_sha256": "97523b2c8eac6c0ddd70b11fefee47516396b5d0167a939f301f16d7769facd7",
+      "installed_color_matches_source": true,
+      "installed_color_normal_alpha_equal": true
+    },
+    {
+      "sheet": "wizard_cast.png",
+      "source_color": "Docs/References/codex_k076_v1/wizard_cast.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/resume_v2/wizard_cast_normal.png",
+      "target_color": "Game/Assets/_Project/Art/Characters/Static/wizard_cast.png",
+      "target_normal": "Game/Assets/_Project/Art/Characters/Static/wizard_cast_normal.png",
+      "source_color_sha256": "2780e400d9e2183cab0444a9b413c05af2a0c2b87d0592825579cf5ea3c2ec2a",
+      "source_normal_sha256": "9f6f129d92e7c66c93600537e0d7467c2adc42705c2faa1ef0f2c1355787d301",
+      "source_size": [
+        1152,
+        384
+      ],
+      "source_alpha_equal": true,
+      "frames": 4,
+      "status": "installed_copy_verified",
+      "existed_before": false,
+      "target_normal_sha256": "9f6f129d92e7c66c93600537e0d7467c2adc42705c2faa1ef0f2c1355787d301",
+      "meta_guid_before": null,
+      "meta_guid_after": null,
+      "installed_color_size": [
+        1152,
+        384
+      ],
+      "installed_color_sha256": "2780e400d9e2183cab0444a9b413c05af2a0c2b87d0592825579cf5ea3c2ec2a",
+      "installed_color_matches_source": true,
+      "installed_color_normal_alpha_equal": true
+    },
+    {
+      "sheet": "wizard_walk.png",
+      "source_color": "Docs/References/codex_k076_v1/wizard_walk.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/resume_v2/wizard_walk_normal.png",
+      "target_color": "Game/Assets/_Project/Art/Characters/Static/wizard_walk.png",
+      "target_normal": "Game/Assets/_Project/Art/Characters/Static/wizard_walk_normal.png",
+      "source_color_sha256": "8f45fa038b0e6ead0caf2fd271d99bde19bc58d0bef4ea1637e089f2a90903aa",
+      "source_normal_sha256": "0b08b2f7c2c7400b993b7922330659c6ca8425fc753479dbaf675acb7f8ae567",
+      "source_size": [
+        1152,
+        384
+      ],
+      "source_alpha_equal": true,
+      "frames": 4,
+      "status": "installed_copy_verified",
+      "existed_before": false,
+      "target_normal_sha256": "0b08b2f7c2c7400b993b7922330659c6ca8425fc753479dbaf675acb7f8ae567",
+      "meta_guid_before": null,
+      "meta_guid_after": null,
+      "installed_color_size": [
+        1152,
+        384
+      ],
+      "installed_color_sha256": "8f45fa038b0e6ead0caf2fd271d99bde19bc58d0bef4ea1637e089f2a90903aa",
+      "installed_color_matches_source": true,
+      "installed_color_normal_alpha_equal": true
+    },
+    {
+      "sheet": "goblin_walk_attack4.png",
+      "source_color": "Docs/References/codex_k077_v1/goblin_walk_attack4.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/goblin_walk_attack4_normal.png",
+      "target_color": "Game/Assets/_Project/Art/Characters/Goblin/goblin_walk_attack4.png",
+      "target_normal": "Game/Assets/_Project/Art/Characters/Goblin/goblin_walk_attack4_normal.png",
+      "source_color_sha256": "a58b0ffb89e69d65747bddc6c6487f38ba3317685f7acc06cd33af7d596aa7ef",
+      "source_normal_sha256": "4c556dd6184e7a2d6b0061d57059f3cc9b6dd4cd2b4ffff0c00069ac958f2044",
+      "source_size": [
+        1152,
+        768
+      ],
+      "source_alpha_equal": true,
+      "frames": 8,
+      "status": "installed_copy_verified",
+      "existed_before": true,
+      "target_normal_sha256": "4c556dd6184e7a2d6b0061d57059f3cc9b6dd4cd2b4ffff0c00069ac958f2044",
+      "meta_guid_before": "9fb5251f82fe44c99d0a66f7004038c4",
+      "meta_guid_after": "9fb5251f82fe44c99d0a66f7004038c4",
+      "installed_color_size": [
+        1152,
+        768
+      ],
+      "installed_color_sha256": "a58b0ffb89e69d65747bddc6c6487f38ba3317685f7acc06cd33af7d596aa7ef",
+      "installed_color_matches_source": true,
+      "installed_color_normal_alpha_equal": true
+    },
+    {
+      "sheet": "goblin_fall4.png",
+      "source_color": "Docs/References/codex_k077_v1/goblin_fall4.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/goblin_fall4_normal.png",
+      "target_color": "Game/Assets/_Project/Art/Characters/Fall/goblin_fall4.png",
+      "target_normal": "Game/Assets/_Project/Art/Characters/Fall/goblin_fall4_normal.png",
+      "source_color_sha256": "7353e2ae7093551c4f2a9852057ef295846f03109526c84e226289fc519f31e2",
+      "source_normal_sha256": "099a62d75995a84743b9ff4c7bc032c3437ce2bbef00400ead921801042e2fb7",
+      "source_size": [
+        1152,
+        384
+      ],
+      "source_alpha_equal": true,
+      "frames": 4,
+      "status": "installed_copy_verified",
+      "existed_before": false,
+      "target_normal_sha256": "099a62d75995a84743b9ff4c7bc032c3437ce2bbef00400ead921801042e2fb7",
+      "meta_guid_before": null,
+      "meta_guid_after": null,
+      "installed_color_size": [
+        1152,
+        384
+      ],
+      "installed_color_sha256": "7353e2ae7093551c4f2a9852057ef295846f03109526c84e226289fc519f31e2",
+      "installed_color_matches_source": true,
+      "installed_color_normal_alpha_equal": true
+    },
+    {
+      "sheet": "goblin_wallhit4.png",
+      "source_color": "Docs/References/codex_k077_v1/goblin_wallhit4.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/goblin_wallhit4_normal.png",
+      "target_color": "Game/Assets/_Project/Art/Characters/Walk/goblin_wallhit4.png",
+      "target_normal": "Game/Assets/_Project/Art/Characters/Walk/goblin_wallhit4_normal.png",
+      "source_color_sha256": "3874cb622fa9ebc797cdb48498754a18421a41f58e8a532b4ac695f0d482c6e5",
+      "source_normal_sha256": "195834f41db810f9860b1e24946aabb3e21658ac87c4f4b0d0b205393ace274f",
+      "source_size": [
+        1152,
+        384
+      ],
+      "source_alpha_equal": true,
+      "frames": 4,
+      "status": "installed_copy_verified",
+      "existed_before": false,
+      "target_normal_sha256": "195834f41db810f9860b1e24946aabb3e21658ac87c4f4b0d0b205393ace274f",
+      "meta_guid_before": null,
+      "meta_guid_after": null,
+      "installed_color_size": [
+        1152,
+        384
+      ],
+      "installed_color_sha256": "3874cb622fa9ebc797cdb48498754a18421a41f58e8a532b4ac695f0d482c6e5",
+      "installed_color_matches_source": true,
+      "installed_color_normal_alpha_equal": true
+    },
+    {
+      "sheet": "ladder_goblin_static.png",
+      "source_color": "Docs/References/codex_k078_v1/ladder_goblin_static.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/ladder_goblin_static_normal.png",
+      "target_color": "Game/Assets/_Project/Art/Characters/Static/ladder_goblin_static.png",
+      "target_normal": "Game/Assets/_Project/Art/Characters/Static/ladder_goblin_static_normal.png",
+      "source_color_sha256": "df4177cf4cfd1aab010f401f693198588483591a72ed9cff6e7665d19933961c",
+      "source_normal_sha256": "207a52d607130519fe11a2d180abc3f7b06c742d9329b8d01b2598f3c47bd101",
+      "source_size": [
+        288,
+        384
+      ],
+      "source_alpha_equal": true,
+      "frames": 1,
+      "status": "installed_copy_verified",
+      "existed_before": false,
+      "target_normal_sha256": "207a52d607130519fe11a2d180abc3f7b06c742d9329b8d01b2598f3c47bd101",
+      "meta_guid_before": null,
+      "meta_guid_after": null,
+      "installed_color_size": [
+        288,
+        384
+      ],
+      "installed_color_sha256": "df4177cf4cfd1aab010f401f693198588483591a72ed9cff6e7665d19933961c",
+      "installed_color_matches_source": true,
+      "installed_color_normal_alpha_equal": true
+    },
+    {
+      "sheet": "ladder_goblin_walk.png",
+      "source_color": "Docs/References/codex_k078_v1/ladder_goblin_walk.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/ladder_goblin_walk_normal.png",
+      "target_color": "Game/Assets/_Project/Art/Characters/Walk/ladder_goblin_walk.png",
+      "target_normal": "Game/Assets/_Project/Art/Characters/Walk/ladder_goblin_walk_normal.png",
+      "source_color_sha256": "6e2771e9f84b279250225e885d5d44b9c8e191389690636e0336994bd25372fb",
+      "source_normal_sha256": "667ae488c688ed88c02193c702f14086a3c6853790eade46bd10abec0524d5a3",
+      "source_size": [
+        1152,
+        384
+      ],
+      "source_alpha_equal": true,
+      "frames": 4,
+      "status": "installed_copy_verified",
+      "existed_before": false,
+      "target_normal_sha256": "667ae488c688ed88c02193c702f14086a3c6853790eade46bd10abec0524d5a3",
+      "meta_guid_before": null,
+      "meta_guid_after": null,
+      "installed_color_size": [
+        1152,
+        384
+      ],
+      "installed_color_sha256": "6e2771e9f84b279250225e885d5d44b9c8e191389690636e0336994bd25372fb",
+      "installed_color_matches_source": true,
+      "installed_color_normal_alpha_equal": true
+    },
+    {
+      "sheet": "ladder_goblin_carry_run4.png",
+      "source_color": "Docs/References/codex_k078_v1/ladder_goblin_carry_run4.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/ladder_goblin_carry_run4_normal.png",
+      "target_color": "Game/Assets/_Project/Art/Characters/Ladder/ladder_goblin_carry_run4.png",
+      "target_normal": "Game/Assets/_Project/Art/Characters/Ladder/ladder_goblin_carry_run4_normal.png",
+      "source_color_sha256": "228ba937b69248bd153d7c485fc407247b6f8d51b6eaab9cdc7636af87824a74",
+      "source_normal_sha256": "e9115d9d6c2939b52f7df80cea28e5ec4d6fc9ed37faa5e416b6a0f64473ac64",
+      "source_size": [
+        1152,
+        384
+      ],
+      "source_alpha_equal": true,
+      "frames": 4,
+      "status": "installed_copy_verified",
+      "existed_before": false,
+      "target_normal_sha256": "e9115d9d6c2939b52f7df80cea28e5ec4d6fc9ed37faa5e416b6a0f64473ac64",
+      "meta_guid_before": null,
+      "meta_guid_after": null,
+      "installed_color_size": [
+        1152,
+        384
+      ],
+      "installed_color_sha256": "228ba937b69248bd153d7c485fc407247b6f8d51b6eaab9cdc7636af87824a74",
+      "installed_color_matches_source": true,
+      "installed_color_normal_alpha_equal": true
+    },
+    {
+      "sheet": "ladder_goblin_deploy4.png",
+      "source_color": "Docs/References/codex_k078_v1/ladder_goblin_deploy4.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/ladder_goblin_deploy4_normal.png",
+      "target_color": "Game/Assets/_Project/Art/Characters/Ladder/ladder_goblin_deploy4.png",
+      "target_normal": "Game/Assets/_Project/Art/Characters/Ladder/ladder_goblin_deploy4_normal.png",
+      "source_color_sha256": "ea42b6ba6ef8cb1e5620da6f3e215e1e361234347f1f9c8e1c015b56da3b3f8d",
+      "source_normal_sha256": "b117f03bcb55ef7ab4e5468f1b5f860d7283daf7c04b725a40943bb4489b9ad1",
+      "source_size": [
+        1152,
+        384
+      ],
+      "source_alpha_equal": true,
+      "frames": 4,
+      "status": "installed_copy_verified",
+      "existed_before": false,
+      "target_normal_sha256": "b117f03bcb55ef7ab4e5468f1b5f860d7283daf7c04b725a40943bb4489b9ad1",
+      "meta_guid_before": null,
+      "meta_guid_after": null,
+      "installed_color_size": [
+        1152,
+        384
+      ],
+      "installed_color_sha256": "ea42b6ba6ef8cb1e5620da6f3e215e1e361234347f1f9c8e1c015b56da3b3f8d",
+      "installed_color_matches_source": true,
+      "installed_color_normal_alpha_equal": true
+    },
+    {
+      "sheet": "ladder_goblin_climb4.png",
+      "source_color": "Docs/References/codex_k078_v1/ladder_goblin_climb4.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/ladder_goblin_climb4_normal.png",
+      "target_color": "Game/Assets/_Project/Art/Characters/Ladder/ladder_goblin_climb4.png",
+      "target_normal": "Game/Assets/_Project/Art/Characters/Ladder/ladder_goblin_climb4_normal.png",
+      "source_color_sha256": "aa21e873540a0fb0057b51dfd763bee233df059028dc76401e1e07459e3c43bd",
+      "source_normal_sha256": "ef17525c5e10bd3a4ba433e4ef4e0d4ddf66447c35cca6cb89f2f3addc02af52",
+      "source_size": [
+        1152,
+        384
+      ],
+      "source_alpha_equal": true,
+      "frames": 4,
+      "status": "installed_copy_verified",
+      "existed_before": false,
+      "target_normal_sha256": "ef17525c5e10bd3a4ba433e4ef4e0d4ddf66447c35cca6cb89f2f3addc02af52",
+      "meta_guid_before": null,
+      "meta_guid_after": null,
+      "installed_color_size": [
+        1152,
+        384
+      ],
+      "installed_color_sha256": "aa21e873540a0fb0057b51dfd763bee233df059028dc76401e1e07459e3c43bd",
+      "installed_color_matches_source": true,
+      "installed_color_normal_alpha_equal": true
+    },
+    {
+      "sheet": "ladder_front.png",
+      "source_color": "Docs/References/codex_k078_v1/ladder_front.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/ladder_front_normal.png",
+      "target_color": "Game/Assets/_Project/Art/Characters/Ladder/ladder_front.png",
+      "target_normal": "Game/Assets/_Project/Art/Characters/Ladder/ladder_front_normal.png",
+      "source_color_sha256": "7892c618ff48430388b622b886083d30b433a6ea1c8e4788938e3cd8d9c308e6",
+      "source_normal_sha256": "96bdc53dd5d891f7e5e84236caebbc2a50e11b79148dbe52dd9397429848f903",
+      "source_size": [
+        256,
+        1536
+      ],
+      "source_alpha_equal": true,
+      "frames": 1,
+      "status": "installed_copy_verified",
+      "existed_before": false,
+      "target_normal_sha256": "96bdc53dd5d891f7e5e84236caebbc2a50e11b79148dbe52dd9397429848f903",
+      "meta_guid_before": null,
+      "meta_guid_after": null,
+      "installed_color_size": [
+        256,
+        1536
+      ],
+      "installed_color_sha256": "7892c618ff48430388b622b886083d30b433a6ea1c8e4788938e3cd8d9c308e6",
+      "installed_color_matches_source": true,
+      "installed_color_normal_alpha_equal": true
+    },
+    {
+      "sheet": "ladder_side.png",
+      "source_color": "Docs/References/codex_k078_v1/ladder_side.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/ladder_side_normal.png",
+      "target_color": "Game/Assets/_Project/Art/Characters/Ladder/ladder_side.png",
+      "target_normal": "Game/Assets/_Project/Art/Characters/Ladder/ladder_side_normal.png",
+      "source_color_sha256": "c87bb7abebcbf4add38148b71621446a3094fa690ddfe8f9f55d225a53fbe86b",
+      "source_normal_sha256": "e6484942d5386370b494c2a4ce39a1c56a0adc940339a8fa86167da3f0ab1d1d",
+      "source_size": [
+        256,
+        1536
+      ],
+      "source_alpha_equal": true,
+      "frames": 1,
+      "status": "installed_copy_verified",
+      "existed_before": false,
+      "target_normal_sha256": "e6484942d5386370b494c2a4ce39a1c56a0adc940339a8fa86167da3f0ab1d1d",
+      "meta_guid_before": null,
+      "meta_guid_after": null,
+      "installed_color_size": [
+        256,
+        1536
+      ],
+      "installed_color_sha256": "c87bb7abebcbf4add38148b71621446a3094fa690ddfe8f9f55d225a53fbe86b",
+      "installed_color_matches_source": true,
+      "installed_color_normal_alpha_equal": true
+    },
+    {
+      "sheet": "ogre_static.png",
+      "source_color": "Docs/References/codex_k079_v1/ogre_static.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/ogre_static_normal.png",
+      "target_color": "Game/Assets/_Project/Art/Characters/Static/ogre_static.png",
+      "target_normal": "Game/Assets/_Project/Art/Characters/Static/ogre_static_normal.png",
+      "source_color_sha256": "b2fead452612250ad05ca074b86bac8bccfa4858c1846cd6497fe8312f8c13af",
+      "source_normal_sha256": "9560d12d75ab5a21e36395cb9b6f5ac7da7d6795ea3ae52d7f24b26b62b19744",
+      "source_size": [
+        256,
+        384
+      ],
+      "source_alpha_equal": true,
+      "frames": 1,
+      "status": "installed_copy_verified",
+      "existed_before": true,
+      "target_normal_sha256": "9560d12d75ab5a21e36395cb9b6f5ac7da7d6795ea3ae52d7f24b26b62b19744",
+      "meta_guid_before": "31967d1dbbcc41608ffb098552818283",
+      "meta_guid_after": "31967d1dbbcc41608ffb098552818283",
+      "installed_color_size": [
+        256,
+        384
+      ],
+      "installed_color_sha256": "b2fead452612250ad05ca074b86bac8bccfa4858c1846cd6497fe8312f8c13af",
+      "installed_color_matches_source": true,
+      "installed_color_normal_alpha_equal": true
+    },
+    {
+      "sheet": "ogre_walk.png",
+      "source_color": "Docs/References/codex_k079_v1/ogre_walk.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/ogre_walk_normal.png",
+      "target_color": "Game/Assets/_Project/Art/Characters/Walk/ogre_walk.png",
+      "target_normal": "Game/Assets/_Project/Art/Characters/Walk/ogre_walk_normal.png",
+      "source_color_sha256": "5eaabb2f9a89e59996778a27a3cfe592d81e0c039c19a3f825af608ecb38e3a8",
+      "source_normal_sha256": "c42212462b1b86aca59a6cacea287ed6cc35a6fa5a706dcc63a2f31b258b4d67",
+      "source_size": [
+        1024,
+        384
+      ],
+      "source_alpha_equal": true,
+      "frames": 4,
+      "status": "installed_copy_verified",
+      "existed_before": false,
+      "target_normal_sha256": "c42212462b1b86aca59a6cacea287ed6cc35a6fa5a706dcc63a2f31b258b4d67",
+      "meta_guid_before": null,
+      "meta_guid_after": null,
+      "installed_color_size": [
+        1024,
+        384
+      ],
+      "installed_color_sha256": "5eaabb2f9a89e59996778a27a3cfe592d81e0c039c19a3f825af608ecb38e3a8",
+      "installed_color_matches_source": true,
+      "installed_color_normal_alpha_equal": true
+    },
+    {
+      "sheet": "ogre_attack4.png",
+      "source_color": "Docs/References/codex_k079_v1/ogre_attack4.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/ogre_attack4_normal.png",
+      "target_color": "Game/Assets/_Project/Art/Characters/Walk/ogre_attack4.png",
+      "target_normal": "Game/Assets/_Project/Art/Characters/Walk/ogre_attack4_normal.png",
+      "source_color_sha256": "0cb8cb05c79651b54c32073c5215339efe76561c95c287a2a8d60f1e0ecd7bcc",
+      "source_normal_sha256": "d3d5489e52f338f725cbc0b9e8dfd76fb6fc56e1e4255c04707774c7a6c45514",
+      "source_size": [
+        1024,
+        384
+      ],
+      "source_alpha_equal": true,
+      "frames": 4,
+      "status": "installed_copy_verified",
+      "existed_before": false,
+      "target_normal_sha256": "d3d5489e52f338f725cbc0b9e8dfd76fb6fc56e1e4255c04707774c7a6c45514",
+      "meta_guid_before": null,
+      "meta_guid_after": null,
+      "installed_color_size": [
+        1024,
+        384
+      ],
+      "installed_color_sha256": "0cb8cb05c79651b54c32073c5215339efe76561c95c287a2a8d60f1e0ecd7bcc",
+      "installed_color_matches_source": true,
+      "installed_color_normal_alpha_equal": true
+    },
+    {
+      "sheet": "ogre_fall4.png",
+      "source_color": "Docs/References/codex_k079_v1/ogre_fall4.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/ogre_fall4_normal.png",
+      "target_color": "Game/Assets/_Project/Art/Characters/Fall/ogre_fall4.png",
+      "target_normal": "Game/Assets/_Project/Art/Characters/Fall/ogre_fall4_normal.png",
+      "source_color_sha256": "886add16e6aaffb5fd3ec9d3e973598ecaadde526d632ad54e27bab3d82b7ab2",
+      "source_normal_sha256": "a0bdeccb20504123f9309e5f07491346c5cca81a9bbf211d865224c384755924",
+      "source_size": [
+        1024,
+        384
+      ],
+      "source_alpha_equal": true,
+      "frames": 4,
+      "status": "installed_copy_verified",
+      "existed_before": false,
+      "target_normal_sha256": "a0bdeccb20504123f9309e5f07491346c5cca81a9bbf211d865224c384755924",
+      "meta_guid_before": null,
+      "meta_guid_after": null,
+      "installed_color_size": [
+        1024,
+        384
+      ],
+      "installed_color_sha256": "886add16e6aaffb5fd3ec9d3e973598ecaadde526d632ad54e27bab3d82b7ab2",
+      "installed_color_matches_source": true,
+      "installed_color_normal_alpha_equal": true
+    },
+    {
+      "sheet": "hero_back_idle.png",
+      "source_color": "Docs/References/codex_k080_v1/hero_back_idle.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/hero_back_idle_normal.png",
+      "target_color": "Game/Assets/_Project/Art/Characters/Hero/hero_back_idle.png",
+      "target_normal": "Game/Assets/_Project/Art/Characters/Hero/hero_back_idle_normal.png",
+      "source_color_sha256": "1bda81fed1caf6598540eab6c02a6fe2d24264a884afd2ff6ec7903b039ffa94",
+      "source_normal_sha256": "7c552d1a23c391bd84955896fa67caad150c63fef902a433fca4021b5ae61646",
+      "source_size": [
+        288,
+        384
+      ],
+      "source_alpha_equal": true,
+      "frames": 1,
+      "status": "installed_copy_verified",
+      "existed_before": false,
+      "target_normal_sha256": "7c552d1a23c391bd84955896fa67caad150c63fef902a433fca4021b5ae61646",
+      "meta_guid_before": null,
+      "meta_guid_after": null,
+      "installed_color_size": [
+        288,
+        384
+      ],
+      "installed_color_sha256": "1bda81fed1caf6598540eab6c02a6fe2d24264a884afd2ff6ec7903b039ffa94",
+      "installed_color_matches_source": true,
+      "installed_color_normal_alpha_equal": true
+    },
+    {
+      "sheet": "hero_walk_run_grid.png",
+      "source_color": "Docs/References/codex_k080_v1/hero_walk_run_grid.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/hero_walk_run_grid_normal.png",
+      "target_color": "Game/Assets/_Project/Art/Characters/Hero/hero_walk_run_grid.png",
+      "target_normal": "Game/Assets/_Project/Art/Characters/Hero/hero_walk_run_grid_normal.png",
+      "source_color_sha256": "5587d9d2e62d69b2e7a24de3015e0635d54264a3d9c669e2878a72d517d82fd6",
+      "source_normal_sha256": "fea5d6e4c9c59657826a7339f03b43cc71ac37052c547abeb77e2d8349c31bc0",
+      "source_size": [
+        1152,
+        1536
+      ],
+      "source_alpha_equal": true,
+      "frames": 16,
+      "status": "installed_copy_verified",
+      "existed_before": true,
+      "target_normal_sha256": "fea5d6e4c9c59657826a7339f03b43cc71ac37052c547abeb77e2d8349c31bc0",
+      "meta_guid_before": "cac8495632e14c56b0e5e429000b757f",
+      "meta_guid_after": "cac8495632e14c56b0e5e429000b757f",
+      "installed_color_size": [
+        1152,
+        1536
+      ],
+      "installed_color_sha256": "5587d9d2e62d69b2e7a24de3015e0635d54264a3d9c669e2878a72d517d82fd6",
+      "installed_color_matches_source": true,
+      "installed_color_normal_alpha_equal": true
+    },
+    {
+      "sheet": "hero_command.png",
+      "source_color": "Docs/References/codex_k080_v1/hero_command.png",
+      "source_normal": "Docs/References/codex_k081_v1/game/hero_command_normal.png",
+      "target_color": "Game/Assets/_Project/Art/Characters/Hero/hero_command.png",
+      "target_normal": "Game/Assets/_Project/Art/Characters/Hero/hero_command_normal.png",
+      "source_color_sha256": "e7997c7b3c4a9c7ac6c34130a47d0eab9ff8bcca378809ceea5812387a615fc8",
+      "source_normal_sha256": "0aeeb3eedbf3e3cc3c60e0b560656c36d08813ee31caf672ceb88ad201ed77e3",
+      "source_size": [
+        864,
+        384
+      ],
+      "source_alpha_equal": true,
+      "frames": 3,
+      "status": "installed_copy_verified",
+      "existed_before": false,
+      "target_normal_sha256": "0aeeb3eedbf3e3cc3c60e0b560656c36d08813ee31caf672ceb88ad201ed77e3",
+      "meta_guid_before": null,
+      "meta_guid_after": null,
+      "installed_color_size": [
+        864,
+        384
+      ],
+      "installed_color_sha256": "e7997c7b3c4a9c7ac6c34130a47d0eab9ff8bcca378809ceea5812387a615fc8",
+      "installed_color_matches_source": true,
+      "installed_color_normal_alpha_equal": true
+    }
+  ],
+  "copied_frames": 129,
+  "held_frames": 6
+}

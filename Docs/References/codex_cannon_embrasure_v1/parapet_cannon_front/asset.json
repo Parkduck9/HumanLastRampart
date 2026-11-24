@@ -1,0 +1,30 @@
+{
+  "id": "parapet_cannon_front",
+  "label": "대포 앞난간 레이어",
+  "size": [
+    1024,
+    512
+  ],
+  "columns": 1,
+  "rows": 1,
+  "frames": 1,
+  "fps": 0,
+  "packedRect": [
+    16,
+    135,
+    992,
+    242
+  ],
+  "sourceCrop": [
+    3,
+    124,
+    2170,
+    653
+  ],
+  "sourceSha256": "bf42e52979d4e8cff335320ca79b119505716be534a8574ce66b007f3ffe64a0",
+  "packedSha256": "49188cf06d3f77a840b60aeab2d8ce847746d052170236583a742e0db63135f7",
+  "centralOpeningAlpha": 0,
+  "status": "review-draft",
+  "gameConnected": false,
+  "unityPlayVerified": false
+}

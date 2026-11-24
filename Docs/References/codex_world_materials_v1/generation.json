@@ -1,0 +1,135 @@
+{
+  "tool": "image_gen.imagegen",
+  "reference": "Docs/References/codex_cannon_wall_v2/wall_a/source.png (석재6종)",
+  "requests": [
+    {
+      "id": "wall_stone",
+      "label": "성벽 바깥면",
+      "size": [
+        128,
+        128
+      ],
+      "worldMeters": [
+        4,
+        4
+      ],
+      "prompt": "Technical pixel-art game MATERIAL SET, square output 1024x1024 with EXACT 2x2 grid of equal512x512 quadrants, NO gutters, labels, frame, margins or perspective. TOP LEFT and TOP RIGHT: identical seamless repeating ALBEDO tile of same material. BOTTOM LEFT and BOTTOM RIGHT: identical precisely spatially corresponding tangent-space NORMAL map tile of that exact albedo. Each normal tile corresponds pixel-for-pixel to albedo above. No panel lines. Albedo neutral diffuse unlit surface, no baked shadows, ambient occlusion or highlights; normals OpenGL +Y (green up), mostly neutral(128,128,255), gentle positive-Z surface normals, no diffuse color. Both maps seamlessly tile on all edges with no discontinuities, no border motifs. Crisp chunky native pixel clusters as if final resolution128x128, not smooth photographic or painterly noise. Opaque square image. Material: Large coursed gray-beige limestone fortress blocks with offset joints, a few chips, restrained olive moss in cracks. Match supplied wall A neutral warm gray stone palette. Rectangular ashlar masonry, viewed straight-on. No crenellations or architectural silhouette.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-db5b4e6c-5156-4130-b14d-e8af11371917.png"
+    },
+    {
+      "id": "walkway_stone",
+      "label": "성벽 통로 바닥",
+      "size": [
+        128,
+        128
+      ],
+      "worldMeters": [
+        4,
+        4
+      ],
+      "prompt": "Square pixel-art technical material sheet, exactly 2x2 equal quadrants with no gutters or labels. Upper two quadrants identical seamless repeating ALBEDO tiles; lower two quadrants identical corresponding OpenGL Y+ tangent-space NORMAL maps pixel-aligned to above albedo. Neutral flat blue normals with subtle bevels. Unlit diffuse albedo with no baked highlights or shadows, neutral diffuse color. All edges repeat seamlessly. Coarse native pixel clusters appropriate final128px swatches, restrained contrast and limited palette, no photorealistic grain. NO reference architecture, only material. A TOP-DOWN FLAT FLOOR MATERIAL of worn irregular rectangular gray stone paving slabs, haphazard staggered joints like a courtyard floor. Equal-scale paving over whole tile, no wall face, no masonry elevation, no building. Muted gray beige limestone matching fortress stone.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-5c8d784a-1eae-4b4f-be4c-63bb491341d2.png",
+      "corrected": true
+    },
+    {
+      "id": "parapet_top",
+      "label": "난간 윗면",
+      "size": [
+        128,
+        64
+      ],
+      "worldMeters": [
+        4,
+        2
+      ],
+      "prompt": "Square pixel-art technical material sheet, exactly 2x2 equal quadrants with no gutters or labels. Upper two quadrants identical seamless repeating ALBEDO tiles; lower two quadrants identical corresponding OpenGL Y+ tangent-space NORMAL maps pixel-aligned to above albedo. Neutral flat blue normals with subtle bevels. Unlit diffuse albedo with no baked highlights or shadows, neutral diffuse color. All edges repeat seamlessly. Coarse native pixel clusters appropriate final128px swatches, restrained contrast and limited palette, no photorealistic grain. NO reference architecture, only material. A TOP-DOWN FLAT STONE COPING SURFACE MATERIAL. Broad gray-beige flat limestone paving slabs seen straight down, shallow narrow joints, subtle chipped edges, wear. ONLY surface material covering entire square. ABSOLUTELY no crenellations, battlements, silhouette, parapet shape, architecture, walls, ledges, empty sky, black void or perspective.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-7509d5a3-8c76-4fab-b0ed-f3eac8707182.png",
+      "corrected": true
+    },
+    {
+      "id": "parapet_side",
+      "label": "난간 옆면",
+      "size": [
+        128,
+        128
+      ],
+      "worldMeters": [
+        4,
+        4
+      ],
+      "prompt": "Square pixel-art technical material sheet, exactly 2x2 equal quadrants with no gutters or labels. Upper two quadrants identical seamless repeating ALBEDO tiles; lower two quadrants identical corresponding OpenGL Y+ tangent-space NORMAL maps pixel-aligned to above albedo. Neutral flat blue normals with subtle bevels. Unlit diffuse albedo with no baked highlights or shadows, neutral diffuse color. All edges repeat seamlessly. Coarse native pixel clusters appropriate final128px swatches, restrained contrast and limited palette, no photorealistic grain. NO reference architecture, only material. A FLAT VERTICAL MASONRY SURFACE MATERIAL: small gray-beige rectangular limestone blocks and shallow mortar joints, exactly straight-on. ONLY masonry surface filling every pixel. ABSOLUTELY no battlements/crenellations/whole wall silhouette/pillars/ledges/architectural profiles/sky/background. Do not depict a parapet object, only the plain surface swatch.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-d36a9518-bbba-4b97-bb39-dbf0c0a7984c.png",
+      "corrected": true
+    },
+    {
+      "id": "tower_wall",
+      "label": "모서리 탑 벽",
+      "size": [
+        128,
+        192
+      ],
+      "worldMeters": [
+        4,
+        6
+      ],
+      "prompt": "Create technical pixel-art game material set: square1024x1024 exactly2x2 equal quadrant grid, no gutters labels or framing. TOP LEFT/TOP RIGHT identical repeated seamless ALBEDO tiles, BOTTOM LEFT/BOTTOM RIGHT identical corresponding tangent-space NORMAL maps of EXACT albedo above, same pixel positions. Albedo is flat unlit diffuse, no highlights/shadows/AO baked. Normals OpenGL +Y green up, mostly neutral(128,128,255), modest positive-Z sculpted bevels. Tile boundaries must repeat seamlessly all edges. Crisp chunky low-resolution pixel clusters, no smooth photographic detail. Opaque flat textures, no perspective/whole objects. Material: Straight-on tall fortress tower masonry, larger rectangular gray limestone blocks, offset courses, vertical wear marks, only stone no windows doors roof or architecture silhouette.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-aa5e5759-1297-4f0d-9154-3a0786ed68d4.png"
+    },
+    {
+      "id": "tower_roof",
+      "label": "모서리 탑 지붕",
+      "size": [
+        128,
+        128
+      ],
+      "worldMeters": [
+        4,
+        4
+      ],
+      "prompt": "Create technical pixel-art game material set: square1024x1024 exactly2x2 equal quadrant grid, no gutters labels or framing. TOP LEFT/TOP RIGHT identical repeated seamless ALBEDO tiles, BOTTOM LEFT/BOTTOM RIGHT identical corresponding tangent-space NORMAL maps of EXACT albedo above, same pixel positions. Albedo is flat unlit diffuse, no highlights/shadows/AO baked. Normals OpenGL +Y green up, mostly neutral(128,128,255), modest positive-Z sculpted bevels. Tile boundaries must repeat seamlessly all edges. Crisp chunky low-resolution pixel clusters, no smooth photographic detail. Opaque flat textures, no perspective/whole objects. Material: Top-down weathered dark slate roof tiles, muted blue-charcoal gray with olive weathering, staggered small shingles, no ridge no eaves, restrained contrast.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-d5c66687-89ae-49bc-a5ee-1badbe76a1bb.png"
+    },
+    {
+      "id": "field_grass",
+      "label": "들판 풀",
+      "size": [
+        256,
+        256
+      ],
+      "worldMeters": [
+        8,
+        8
+      ],
+      "prompt": "Technical pixel-art game MATERIAL SET, square output 1024x1024 with EXACT 2x2 grid of equal512x512 quadrants, NO gutters, labels, frame, margins or perspective. TOP LEFT and TOP RIGHT: identical seamless repeating ALBEDO tile of same material. BOTTOM LEFT and BOTTOM RIGHT: identical precisely spatially corresponding tangent-space NORMAL map tile of that exact albedo. Each normal tile corresponds pixel-for-pixel to albedo above. No panel lines. Albedo neutral diffuse unlit surface, no baked shadows, ambient occlusion or highlights; normals OpenGL +Y (green up), mostly neutral(128,128,255), gentle positive-Z surface normals, no diffuse color. Both maps seamlessly tile on all edges with no discontinuities, no border motifs. Crisp chunky native pixel clusters as if final resolution128x128, not smooth photographic or painterly noise. Opaque square image. Material: Top-down desaturated olive green grass field, small readable pixel clumps, low contrast variations with sparse ochre blades, no flowers rocks objects or directional lighting.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-d45f1f30-06eb-45ab-b043-f4a550df4748.png"
+    },
+    {
+      "id": "field_dirt",
+      "label": "들판 흙",
+      "size": [
+        256,
+        256
+      ],
+      "worldMeters": [
+        8,
+        8
+      ],
+      "prompt": "Technical pixel-art game MATERIAL SET, square output 1024x1024 with EXACT 2x2 grid of equal512x512 quadrants, NO gutters, labels, frame, margins or perspective. TOP LEFT and TOP RIGHT: identical seamless repeating ALBEDO tile of same material. BOTTOM LEFT and BOTTOM RIGHT: identical precisely spatially corresponding tangent-space NORMAL map tile of that exact albedo. Each normal tile corresponds pixel-for-pixel to albedo above. No panel lines. Albedo neutral diffuse unlit surface, no baked shadows, ambient occlusion or highlights; normals OpenGL +Y (green up), mostly neutral(128,128,255), gentle positive-Z surface normals, no diffuse color. Both maps seamlessly tile on all edges with no discontinuities, no border motifs. Crisp chunky native pixel clusters as if final resolution128x128, not smooth photographic or painterly noise. Opaque square image. Material: Top-down subdued brown earth, small clods and tiny stones, dry soil speckles, low contrast, no tracks or paths with special endpoints.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-61b215fa-3e92-4751-804f-846037eb32f6.png"
+    },
+    {
+      "id": "hill_grass",
+      "label": "언덕 풀",
+      "size": [
+        256,
+        256
+      ],
+      "worldMeters": [
+        8,
+        8
+      ],
+      "prompt": "Technical pixel-art game MATERIAL SET, square output 1024x1024 with EXACT 2x2 grid of equal512x512 quadrants, NO gutters, labels, frame, margins or perspective. TOP LEFT and TOP RIGHT: identical seamless repeating ALBEDO tile of same material. BOTTOM LEFT and BOTTOM RIGHT: identical precisely spatially corresponding tangent-space NORMAL map tile of that exact albedo. Each normal tile corresponds pixel-for-pixel to albedo above. No panel lines. Albedo neutral diffuse unlit surface, no baked shadows, ambient occlusion or highlights; normals OpenGL +Y (green up), mostly neutral(128,128,255), gentle positive-Z surface normals, no diffuse color. Both maps seamlessly tile on all edges with no discontinuities, no border motifs. Crisp chunky native pixel clusters as if final resolution128x128, not smooth photographic or painterly noise. Opaque square image. Material: Top-down subdued mossy olive grass with slightly rockier earth flecks than flat field, suitable for wrapping a low-poly hill. Flat material texture only, NOT a whole hill or landscape, no large slope or shadows.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-7a54be93-00cf-4972-b722-787450cd82b2.png"
+    }
+  ]
+}

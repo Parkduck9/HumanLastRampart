@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>K-029 함정 지도 · 1판</title>
+<style>
+:root{color-scheme:dark;font:15px/1.7 'Malgun Gothic',sans-serif;background:#101613;color:#eee4cf}*{box-sizing:border-box}body{margin:0}main{max-width:1260px;margin:auto;padding:32px 24px 80px}header{border-top:2px solid #d5b16b;padding:24px 0}h1{font-size:36px;line-height:1.3;margin:12px 0}h2{font-size:23px;margin:0 0 10px}p{margin:8px 0 18px}.tag,small{color:#b8c6b7}.tag{color:#d5b16b;letter-spacing:2px}section{background:#1c2823;border:1px solid #405046;padding:24px;margin-top:26px}.tools{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin:16px 0}button,select{font:inherit;color:inherit;background:#26352d;border:1px solid #8e8762;padding:9px 14px;min-height:44px;cursor:pointer}input{accent-color:#d5b16b}button:focus-visible,select:focus-visible,input:focus-visible,canvas:focus-visible{outline:3px solid #d5b16b;outline-offset:3px}.scroll{overflow:auto}.map{display:block;width:100%;height:auto;image-rendering:pixelated;cursor:crosshair}.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:14px}.tile{background:#15201b;border:1px solid #405046;padding:12px}.tile img{display:block;image-rendering:pixelated;width:96px;height:96px;margin:8px auto;background:#4a5738}.tile small{display:block;font-size:12px}#repeat{max-width:100%;height:auto;image-rendering:pixelated}#castle{width:512px;max-width:100%;image-rendering:pixelated;background:#4a5738}.note{border-left:3px solid #d5b16b;padding:8px 16px;background:#26352d}a{color:#d5b16b}footer{color:#a9b8aa;margin-top:24px}#status{color:#e9ca89}@media(max-width:650px){main{padding:20px 12px}section{padding:16px}h1{font-size:28px}.gallery{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style><main>
+<header><div class="tag">사람의 마지막 보루 / K-029</div><h1>함정을 놓을 땅을<br>한 칸씩 읽는 지도</h1><p>풀과 흙 · 높이 세 단계 · 나무와 바위 · 네 면의 성벽</p><small>1판 / D-064 사용자 확정 전 시안 / 게임 미연결</small></header>
+<section><h2>01 / 조합 지도와 격자</h2><p>1칸 5m = 32×32화소. 북쪽이 위입니다. 지도는 160×120m 설명용 견본이며 실제 게임의 지형·설치 규칙을 재현한 화면이 아닙니다.</p>
+<div class="tools"><button id="new">새 지형 조합</button><label><input id="grid" type="checkbox" checked> 격자 겉칠</label><label><input id="icons" type="checkbox" checked> 함정 표시</label><label>검토 배율 <select id="zoom"><option value="1">화면에 맞춤</option><option value="2">2배 · 가로 이동</option></select></label></div>
+<p id="status" role="status">그림을 읽고 있습니다.</p><div class="scroll"><canvas id="map" class="map" width="1024" height="768" tabindex="0" aria-label="조합 지도. 클릭하거나 방향키로 검토 칸을 고릅니다."></canvas></div>
+<small>클릭 또는 방향키로 선택 칸을 옮깁니다. 선택은 그림 비교용이며 설치·구매·저장을 실행하지 않습니다. 설치 불가 표시는 예시입니다.</small></section>
+<section><h2>02 / 다섯 격자 상태와 두 함정 표시</h2><p>반투명 겉칠은 지형 위 별도 층입니다. 설치 불가는 빗금과 ×, 선택은 굵은 금빛 테두리, 설치됨은 파란색과 ✓로 구분합니다. 묻힌 함정의 금빛 마름모는 위치 기록용 지도 기호입니다.</p><div id="states" class="gallery"></div></section>
+<section><h2>03 / 반복과 연결</h2><div class="tools"><label>반복 견본 <select id="tileSelect"></select></label><label>바탕 <select id="back"><option value="#4a5738">풀빛</option><option value="#ded7c3">밝은색</option><option value="#121a26">어두운색</option></select></label></div><canvas id="repeat" width="512" height="256" aria-label="같은 타일 4×2 반복"></canvas><p class="note">풀·언덕은 공통 한 화소 경계를 씁니다. 언덕은 각 칸 안의 독립 둔덕이며, 여러 칸에 걸친 연속 등고선은 이번 시안 범위 밖입니다. 길은 북·동·남·서 연결 16종으로 같은 방향끼리 맞춥니다. 한 화소 경계 일치가 자연스러운 반복 외형을 보장하지는 않습니다.</p><div id="terrain" class="gallery"></div></section>
+<section><h2>04 / 성 둘레 · 네 면</h2><img id="castle" alt="위에서 본 성벽 네 면과 모서리"><p>40×40m, 8×8칸 완성 견본과 원위치 조립용 32×32 조각을 함께 제공합니다. 전체 지도에서는 같은 조각을 원위치에 조립합니다. 네 면과 모서리는 원안 그대로 이어지고, 그림 크기를 바꿔 성벽 길이를 늘리는 용도는 검증하지 않았습니다.</p><p class="note">생성 원안에 아래쪽 옆면이 조금 보입니다. 엄격한 수직 도면 느낌으로 더 평평하게 다듬을지 사용자 검토가 필요합니다. 색감·수관·석재는 K-024·K-025와 기존 Game 그림을 참고했습니다.</p></section>
+<footer>지도 규격 6.4화소/m는 전투용 그림의 32화소/m와 다릅니다. 중심 피벗·점 필터 제안. 노멀맵·Unity 임포트·실제 전투 연결·Play·게임 캡처는 수행하지 않았습니다. 원안·정확한 프롬프트·파일 규격·남은 질문은 Docs/References/codex_k029_v1/와 루트 CARD_RESULT.md에 보관합니다. 이 페이지는 모든 그림을 내장하여 서버 없이 직접 열 수 있습니다.</footer>
+</main><script>
+const manifest=__MANIFEST__;
+const sources=__IMAGES__;
+const images={},el=id=>document.getElementById(id);
+let seed=29,chosen=[16,5],ready=false;
+let cells=[],blocked=new Set(),placed=new Set(['14,5','16,18']);
+const key=(x,y)=>x+','+y;
+function gallery(target,entries){for(const a of entries){const div=document.createElement('div');div.className='tile';const title=document.createElement('strong');title.textContent=a.label;const img=new Image();img.src=sources[a.id];img.alt=a.label;const small=document.createElement('small');small.textContent=a.width+'×'+a.height+' / '+a.id;div.append(title,img,small);el(target).append(div)}}
+gallery('states',manifest.assets.filter(a=>['격자','표시'].includes(a.group)));
+gallery('terrain',manifest.assets.filter(a=>['지형','소품'].includes(a.group)));
+for(const a of manifest.assets.filter(a=>['지형','소품','길'].includes(a.group))){const opt=document.createElement('option');opt.value=a.id;opt.textContent=a.label;el('tileSelect').append(opt)}
+function random(){seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296}
+function castleCell(x,y){return x>=12&&x<20&&y>=8&&y<16}
+function make(){cells=[];blocked=new Set();for(let y=0;y<24;y++)for(let x=0;x<32;x++){let ground=random()<.6?'grass_a':'grass_b',prop=null;if((x===16)&&(y<8||y>=16))ground='path_5';if(!castleCell(x,y)&&x!==16){const r=random();if(r<.045){ground='hill_'+(1+Math.floor(random()*3));blocked.add(key(x,y))}else if(r<.11){prop=random()<.6?'trees':'rocks';blocked.add(key(x,y))}}if(castleCell(x,y))blocked.add(key(x,y));cells.push({x,y,ground,prop})}draw()}
+function stamp(g,id,x,y){g.drawImage(images[id],x*32,y*32)}
+function stateFor(x,y){const k=key(x,y);if(x===chosen[0]&&y===chosen[1])return 'selected';if(placed.has(k))return 'placed';if(blocked.has(k))return 'blocked';if(y<6||y>17||x<10||x>21)return 'allowed';return 'empty'}
+function draw(){if(!ready)return;const g=el('map').getContext('2d');g.imageSmoothingEnabled=false;g.clearRect(0,0,1024,768);for(const c of cells){stamp(g,c.ground,c.x,c.y);if(c.prop)stamp(g,c.prop,c.x,c.y)}for(const a of manifest.assets.filter(a=>a.group==='성 조각'))stamp(g,a.id,12+a.cell[0],8+a.cell[1]);if(el('grid').checked)for(const c of cells)stamp(g,'grid_'+stateFor(c.x,c.y),c.x,c.y);if(el('icons').checked){for(const p of placed){const[x,y]=p.split(',').map(Number);stamp(g,'trap_buried',x,y)}stamp(g,'trap_spent',18,4)}el('status').textContent='그림 '+manifest.assets.length+'장 준비 / 검토 칸 '+(chosen[0]+1)+', '+(chosen[1]+1)+' / '+({empty:'빈 칸',allowed:'설치 가능',blocked:'설치 불가',placed:'설치됨'}[stateFor(...chosen)]||'선택')+' · 실제 설치 판정 아님';repeat()}
+function repeat(){if(!ready)return;const g=el('repeat').getContext('2d');g.imageSmoothingEnabled=false;g.fillStyle=el('back').value;g.fillRect(0,0,512,256);for(let y=0;y<2;y++)for(let x=0;x<4;x++)g.drawImage(images[el('tileSelect').value],x*128,y*128,128,128)}
+el('new').onclick=make;
+for(const id of ['grid','icons'])el(id).onchange=draw;
+for(const id of ['tileSelect','back'])el(id).onchange=repeat;
+el('zoom').onchange=()=>el('map').style.width=el('zoom').value==='2'?'2048px':'100%';
+el('map').onclick=e=>{const r=el('map').getBoundingClientRect();chosen=[Math.max(0,Math.min(31,Math.floor((e.clientX-r.left)/r.width*32))),Math.max(0,Math.min(23,Math.floor((e.clientY-r.top)/r.height*24)))];draw()};
+el('map').onkeydown=e=>{const d={ArrowUp:[0,-1],ArrowDown:[0,1],ArrowLeft:[-1,0],ArrowRight:[1,0]}[e.key];if(!d)return;e.preventDefault();chosen=[Math.max(0,Math.min(31,chosen[0]+d[0])),Math.max(0,Math.min(23,chosen[1]+d[1]))];draw()};
+Promise.all(Object.entries(sources).map(([id,src])=>new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>{images[id]=img;resolve()};img.onerror=()=>reject(new Error(id));img.src=src}))).then(()=>{ready=true;el('castle').src=sources.castle_perimeter;make()}).catch(e=>el('status').textContent='그림 로드 실패: '+e.message);
+</script></html>

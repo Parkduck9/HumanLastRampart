@@ -1,0 +1,57 @@
+{
+  "images": [
+    {
+      "decoded": true,
+      "embedded": true,
+      "width": 256,
+      "height": 384
+    },
+    {
+      "decoded": true,
+      "embedded": true,
+      "width": 256,
+      "height": 384
+    },
+    {
+      "decoded": true,
+      "embedded": true,
+      "width": 256,
+      "height": 384
+    },
+    {
+      "decoded": true,
+      "embedded": true,
+      "width": 256,
+      "height": 384
+    },
+    {
+      "decoded": true,
+      "embedded": true,
+      "width": 256,
+      "height": 384
+    },
+    {
+      "decoded": true,
+      "embedded": true,
+      "width": 256,
+      "height": 384
+    },
+    {
+      "decoded": true,
+      "embedded": true,
+      "width": 256,
+      "height": 384
+    },
+    {
+      "decoded": true,
+      "embedded": true,
+      "width": 768,
+      "height": 384
+    }
+  ],
+  "manual_expression": true,
+  "automatic_expression": true,
+  "background_switch": true,
+  "mobile_page_overflow": false,
+  "script_errors": []
+}

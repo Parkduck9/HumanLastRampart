@@ -1,0 +1,106 @@
+{
+  "version": 1,
+  "date": "2026-10-21",
+  "before": {
+    "path": "Docs/References/codex_ignite_camera_20261021/qa/attempt3/captures/04_ignite_contact_frame_4.png",
+    "sha256": "8d42504e32da1799127a4b8e4562898f3540854f29ca2bd07d56b7b257c10aaf",
+    "width": 1920,
+    "height": 1080
+  },
+  "frames": [
+    {
+      "path": "Docs/References/codex_ignite_alignment_v1/qa/attempt3/captures/79_ignite_contact_frame_1.png",
+      "sha256": "24da1b346832a6b219ab77d6f74a9e16f43c6ee0a92e2c56dc9e32574a82f206",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "path": "Docs/References/codex_ignite_alignment_v1/qa/attempt3/captures/80_ignite_contact_frame_2.png",
+      "sha256": "aed5c4a2fce8a21a52664f75cea09c815f43913a8eb995248fb9dc4c78765e90",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "path": "Docs/References/codex_ignite_alignment_v1/qa/attempt3/captures/81_ignite_contact_frame_3.png",
+      "sha256": "056e79877d1b4b40dfcff6d2ded6658d277fb178f610fc3189caa41ff97ce3e6",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "path": "Docs/References/codex_ignite_alignment_v1/qa/attempt3/captures/82_ignite_contact_frame_4.png",
+      "sha256": "44190c2534e3cc923af8ebbcbd8b2bb88cc0ed2e84ffe27b8a2800f5c1e6809a",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "path": "Docs/References/codex_ignite_alignment_v1/qa/attempt3/captures/83_ignite_contact_frame_5.png",
+      "sha256": "63941aa6010e50984cb2221a88ac32dd348e2be0342d0b8430f42cc585bf6fdc",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "path": "Docs/References/codex_ignite_alignment_v1/qa/attempt3/captures/84_ignite_contact_frame_6.png",
+      "sha256": "5ba4469a8fbbc48142c4773e1bdef47182154e5f77cbb62396426c571704e787",
+      "width": 1920,
+      "height": 1080
+    }
+  ],
+  "presets": [
+    {
+      "path": "Docs/References/codex_ignite_alignment_v1/qa/attempt3/captures/82_ignite_contact_frame_4.png",
+      "sha256": "44190c2534e3cc923af8ebbcbd8b2bb88cc0ed2e84ffe27b8a2800f5c1e6809a",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "path": "Docs/References/codex_ignite_alignment_v1/qa/attempt3/captures/85_ignite_contact_preset_1.png",
+      "sha256": "8ac26a1131862c780b3da7166e2d74d878cfe2f55663af520f999bfb30002115",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "path": "Docs/References/codex_ignite_alignment_v1/qa/attempt3/captures/86_ignite_contact_preset_2.png",
+      "sha256": "21312a6b779f470fd15c46f66409ed8b11fecfb5984e16518f4f6fdbac941ad6",
+      "width": 1920,
+      "height": 1080
+    }
+  ],
+  "game_assets": [
+    {
+      "path": "Game/Assets/_Project/Art/Characters/Fire/cannon_crew_ignite6.png",
+      "sha256": "5132d551a86960a7f95884e804534c79244847f260c2c8bd047866f0da4496e9",
+      "width": 2592,
+      "height": 384
+    },
+    {
+      "path": "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/cannon_recoil.png",
+      "sha256": "d7e43fee91e85b900b73fc0f5bb0314e7cdd2dec3e45ff71188ef45403b6733f",
+      "width": 768,
+      "height": 256
+    }
+  ],
+  "tests": {
+    "edit": {
+      "total": 116,
+      "passed": 115,
+      "failed": 0,
+      "inconclusive": 1
+    },
+    "play": {
+      "total": 47,
+      "passed": 47,
+      "failed": 0,
+      "inconclusive": 0
+    }
+  },
+  "placement": {
+    "installed_forward_m": 0.25,
+    "clearance_m": 0.02,
+    "shooter_forward_m": 0.23
+  },
+  "limitations": [
+    "정적 접점과 화면 투영 범위 확인. 3→4 자루 길이의 동작 연속성 최종 선택은 별도.",
+    "새 이미지 생성 없음. 원본 PNG를 HTML 제작 과정에서 변경하지 않음.",
+    "FrameCost 정원 초과로 측정 전 실패. FrameTiming 초반만 측정; 성능 향상·FPS 보장 아님."
+  ]
+}

@@ -1,0 +1,4935 @@
+{
+  "card": "K-119",
+  "version": 1,
+  "status": "assets_only_integration_pending",
+  "generation": "built-in image_gen, threshold alpha 200, largest component, K-110 palette mapping, nearest-neighbor extraction and packing",
+  "worker_native_cell": [
+    96,
+    128
+  ],
+  "worker_game_cell": [
+    288,
+    384
+  ],
+  "worker_foot_native": [
+    48,
+    120
+  ],
+  "worker_foot_game": [
+    144,
+    360
+  ],
+  "worker_unity_pivot": [
+    0.5,
+    0.0625
+  ],
+  "coordinate_system": "top-left pixel coordinates; visible contact row native 120 / game 360..362; pivot stays at y=120 / 360",
+  "variants": [
+    "a",
+    "b"
+  ],
+  "game_worker_variant_assignment": [
+    "a",
+    "b",
+    "b"
+  ],
+  "variant_assignment_source": "Game/Assets/_Project/Combat/Battle/BattleBeaconView.cs: WorkerVariant = {0,1,1}",
+  "scale": 3,
+  "frame_direction": "left_to_right",
+  "prop": "small iron oil can",
+  "mirroring": "All left views are reflected right views about native x=48; no logos or handedness-critical equipment. Lighting reflects too.",
+  "root_motion": "none; integrate position and stair elevation externally; visible support foot remains at y=120",
+  "tend_playback": "one action cycle in six frames; loop allowed while tending",
+  "replacement": "none; existing push/idle/rest files untouched",
+  "limitations": [
+    "Generated directional extensions, not exact copied K-110 face pixels. User visual acceptance remains required.",
+    "No staircase, brazier or world scene baked into sprites.",
+    "No Unity import, Play, camera or in-game animation verification."
+  ],
+  "assets": [
+    {
+      "file": "native/worker_a_walk_front.png",
+      "variant": "a",
+      "motion": "walk",
+      "direction": "front",
+      "frames": 8,
+      "cell": [
+        96,
+        128
+      ],
+      "size": [
+        768,
+        128
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기",
+        "왼발 체중 받기",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기",
+        "오른발 체중 받기",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "game/worker_a_walk_front.png",
+      "variant": "a",
+      "motion": "walk",
+      "direction": "front",
+      "frames": 8,
+      "cell": [
+        288,
+        384
+      ],
+      "size": [
+        2304,
+        384
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기",
+        "왼발 체중 받기",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기",
+        "오른발 체중 받기",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "previews/worker_a_walk_front_4x.png",
+      "variant": "a",
+      "motion": "walk",
+      "direction": "front",
+      "frames": 8,
+      "cell": [
+        384,
+        512
+      ],
+      "size": [
+        3072,
+        512
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "baseline_y": 480,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기",
+        "왼발 체중 받기",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기",
+        "오른발 체중 받기",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/worker_a_walk_back.png",
+      "variant": "a",
+      "motion": "walk",
+      "direction": "back",
+      "frames": 8,
+      "cell": [
+        96,
+        128
+      ],
+      "size": [
+        768,
+        128
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기",
+        "왼발 체중 받기",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기",
+        "오른발 체중 받기",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "game/worker_a_walk_back.png",
+      "variant": "a",
+      "motion": "walk",
+      "direction": "back",
+      "frames": 8,
+      "cell": [
+        288,
+        384
+      ],
+      "size": [
+        2304,
+        384
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기",
+        "왼발 체중 받기",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기",
+        "오른발 체중 받기",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "previews/worker_a_walk_back_4x.png",
+      "variant": "a",
+      "motion": "walk",
+      "direction": "back",
+      "frames": 8,
+      "cell": [
+        384,
+        512
+      ],
+      "size": [
+        3072,
+        512
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "baseline_y": 480,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기",
+        "왼발 체중 받기",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기",
+        "오른발 체중 받기",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/worker_a_walk_right.png",
+      "variant": "a",
+      "motion": "walk",
+      "direction": "right",
+      "frames": 8,
+      "cell": [
+        96,
+        128
+      ],
+      "size": [
+        768,
+        128
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기",
+        "왼발 체중 받기",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기",
+        "오른발 체중 받기",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "game/worker_a_walk_right.png",
+      "variant": "a",
+      "motion": "walk",
+      "direction": "right",
+      "frames": 8,
+      "cell": [
+        288,
+        384
+      ],
+      "size": [
+        2304,
+        384
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기",
+        "왼발 체중 받기",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기",
+        "오른발 체중 받기",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "previews/worker_a_walk_right_4x.png",
+      "variant": "a",
+      "motion": "walk",
+      "direction": "right",
+      "frames": 8,
+      "cell": [
+        384,
+        512
+      ],
+      "size": [
+        3072,
+        512
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "baseline_y": 480,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기",
+        "왼발 체중 받기",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기",
+        "오른발 체중 받기",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/worker_a_walk_left.png",
+      "variant": "a",
+      "motion": "walk",
+      "direction": "left",
+      "frames": 8,
+      "cell": [
+        96,
+        128
+      ],
+      "size": [
+        768,
+        128
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기",
+        "왼발 체중 받기",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기",
+        "오른발 체중 받기",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": "worker_a_walk_right",
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "game/worker_a_walk_left.png",
+      "variant": "a",
+      "motion": "walk",
+      "direction": "left",
+      "frames": 8,
+      "cell": [
+        288,
+        384
+      ],
+      "size": [
+        2304,
+        384
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기",
+        "왼발 체중 받기",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기",
+        "오른발 체중 받기",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": "worker_a_walk_right",
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "previews/worker_a_walk_left_4x.png",
+      "variant": "a",
+      "motion": "walk",
+      "direction": "left",
+      "frames": 8,
+      "cell": [
+        384,
+        512
+      ],
+      "size": [
+        3072,
+        512
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "baseline_y": 480,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기",
+        "왼발 체중 받기",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기",
+        "오른발 체중 받기",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": "worker_a_walk_right",
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/worker_a_climb_up_right.png",
+      "variant": "a",
+      "motion": "climb_up",
+      "direction": "right",
+      "frames": 6,
+      "cell": [
+        96,
+        128
+      ],
+      "size": [
+        576,
+        128
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "발 올리기",
+        "높은 무릎",
+        "발 내딛기",
+        "체중 올리기",
+        "반대 무릎",
+        "다음 디딤 준비"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "game/worker_a_climb_up_right.png",
+      "variant": "a",
+      "motion": "climb_up",
+      "direction": "right",
+      "frames": 6,
+      "cell": [
+        288,
+        384
+      ],
+      "size": [
+        1728,
+        384
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "발 올리기",
+        "높은 무릎",
+        "발 내딛기",
+        "체중 올리기",
+        "반대 무릎",
+        "다음 디딤 준비"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "previews/worker_a_climb_up_right_4x.png",
+      "variant": "a",
+      "motion": "climb_up",
+      "direction": "right",
+      "frames": 6,
+      "cell": [
+        384,
+        512
+      ],
+      "size": [
+        2304,
+        512
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "baseline_y": 480,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "발 올리기",
+        "높은 무릎",
+        "발 내딛기",
+        "체중 올리기",
+        "반대 무릎",
+        "다음 디딤 준비"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/worker_a_climb_up_left.png",
+      "variant": "a",
+      "motion": "climb_up",
+      "direction": "left",
+      "frames": 6,
+      "cell": [
+        96,
+        128
+      ],
+      "size": [
+        576,
+        128
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "발 올리기",
+        "높은 무릎",
+        "발 내딛기",
+        "체중 올리기",
+        "반대 무릎",
+        "다음 디딤 준비"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": "worker_a_climb_up_right",
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "game/worker_a_climb_up_left.png",
+      "variant": "a",
+      "motion": "climb_up",
+      "direction": "left",
+      "frames": 6,
+      "cell": [
+        288,
+        384
+      ],
+      "size": [
+        1728,
+        384
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "발 올리기",
+        "높은 무릎",
+        "발 내딛기",
+        "체중 올리기",
+        "반대 무릎",
+        "다음 디딤 준비"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": "worker_a_climb_up_right",
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "previews/worker_a_climb_up_left_4x.png",
+      "variant": "a",
+      "motion": "climb_up",
+      "direction": "left",
+      "frames": 6,
+      "cell": [
+        384,
+        512
+      ],
+      "size": [
+        2304,
+        512
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "baseline_y": 480,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "발 올리기",
+        "높은 무릎",
+        "발 내딛기",
+        "체중 올리기",
+        "반대 무릎",
+        "다음 디딤 준비"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": "worker_a_climb_up_right",
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/worker_a_climb_up_back.png",
+      "variant": "a",
+      "motion": "climb_up",
+      "direction": "back",
+      "frames": 6,
+      "cell": [
+        96,
+        128
+      ],
+      "size": [
+        576,
+        128
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "발 올리기",
+        "높은 무릎",
+        "발 내딛기",
+        "체중 올리기",
+        "반대 무릎",
+        "다음 디딤 준비"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "game/worker_a_climb_up_back.png",
+      "variant": "a",
+      "motion": "climb_up",
+      "direction": "back",
+      "frames": 6,
+      "cell": [
+        288,
+        384
+      ],
+      "size": [
+        1728,
+        384
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "발 올리기",
+        "높은 무릎",
+        "발 내딛기",
+        "체중 올리기",
+        "반대 무릎",
+        "다음 디딤 준비"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "previews/worker_a_climb_up_back_4x.png",
+      "variant": "a",
+      "motion": "climb_up",
+      "direction": "back",
+      "frames": 6,
+      "cell": [
+        384,
+        512
+      ],
+      "size": [
+        2304,
+        512
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "baseline_y": 480,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "발 올리기",
+        "높은 무릎",
+        "발 내딛기",
+        "체중 올리기",
+        "반대 무릎",
+        "다음 디딤 준비"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/worker_a_climb_down_right.png",
+      "variant": "a",
+      "motion": "climb_down",
+      "direction": "right",
+      "frames": 6,
+      "cell": [
+        96,
+        128
+      ],
+      "size": [
+        576,
+        128
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "아래 발 찾기",
+        "앞발 내밀기",
+        "무릎 굽히기",
+        "체중 내리기",
+        "반대 발 회수",
+        "다음 디딤 준비"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "game/worker_a_climb_down_right.png",
+      "variant": "a",
+      "motion": "climb_down",
+      "direction": "right",
+      "frames": 6,
+      "cell": [
+        288,
+        384
+      ],
+      "size": [
+        1728,
+        384
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "아래 발 찾기",
+        "앞발 내밀기",
+        "무릎 굽히기",
+        "체중 내리기",
+        "반대 발 회수",
+        "다음 디딤 준비"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "previews/worker_a_climb_down_right_4x.png",
+      "variant": "a",
+      "motion": "climb_down",
+      "direction": "right",
+      "frames": 6,
+      "cell": [
+        384,
+        512
+      ],
+      "size": [
+        2304,
+        512
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "baseline_y": 480,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "아래 발 찾기",
+        "앞발 내밀기",
+        "무릎 굽히기",
+        "체중 내리기",
+        "반대 발 회수",
+        "다음 디딤 준비"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/worker_a_climb_down_left.png",
+      "variant": "a",
+      "motion": "climb_down",
+      "direction": "left",
+      "frames": 6,
+      "cell": [
+        96,
+        128
+      ],
+      "size": [
+        576,
+        128
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "아래 발 찾기",
+        "앞발 내밀기",
+        "무릎 굽히기",
+        "체중 내리기",
+        "반대 발 회수",
+        "다음 디딤 준비"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": "worker_a_climb_down_right",
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "game/worker_a_climb_down_left.png",
+      "variant": "a",
+      "motion": "climb_down",
+      "direction": "left",
+      "frames": 6,
+      "cell": [
+        288,
+        384
+      ],
+      "size": [
+        1728,
+        384
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "아래 발 찾기",
+        "앞발 내밀기",
+        "무릎 굽히기",
+        "체중 내리기",
+        "반대 발 회수",
+        "다음 디딤 준비"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": "worker_a_climb_down_right",
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "previews/worker_a_climb_down_left_4x.png",
+      "variant": "a",
+      "motion": "climb_down",
+      "direction": "left",
+      "frames": 6,
+      "cell": [
+        384,
+        512
+      ],
+      "size": [
+        2304,
+        512
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "baseline_y": 480,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "아래 발 찾기",
+        "앞발 내밀기",
+        "무릎 굽히기",
+        "체중 내리기",
+        "반대 발 회수",
+        "다음 디딤 준비"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": "worker_a_climb_down_right",
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/worker_a_climb_down_back.png",
+      "variant": "a",
+      "motion": "climb_down",
+      "direction": "back",
+      "frames": 6,
+      "cell": [
+        96,
+        128
+      ],
+      "size": [
+        576,
+        128
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "아래 발 찾기",
+        "앞발 내밀기",
+        "무릎 굽히기",
+        "체중 내리기",
+        "반대 발 회수",
+        "다음 디딤 준비"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "game/worker_a_climb_down_back.png",
+      "variant": "a",
+      "motion": "climb_down",
+      "direction": "back",
+      "frames": 6,
+      "cell": [
+        288,
+        384
+      ],
+      "size": [
+        1728,
+        384
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "아래 발 찾기",
+        "앞발 내밀기",
+        "무릎 굽히기",
+        "체중 내리기",
+        "반대 발 회수",
+        "다음 디딤 준비"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "previews/worker_a_climb_down_back_4x.png",
+      "variant": "a",
+      "motion": "climb_down",
+      "direction": "back",
+      "frames": 6,
+      "cell": [
+        384,
+        512
+      ],
+      "size": [
+        2304,
+        512
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "baseline_y": 480,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "아래 발 찾기",
+        "앞발 내밀기",
+        "무릎 굽히기",
+        "체중 내리기",
+        "반대 발 회수",
+        "다음 디딤 준비"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/worker_a_tend_front.png",
+      "variant": "a",
+      "motion": "tend",
+      "direction": "front",
+      "frames": 6,
+      "cell": [
+        96,
+        128
+      ],
+      "size": [
+        576,
+        128
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "기름통 잡기",
+        "들어 올리기",
+        "주둥이 기울이기",
+        "기름 붓기",
+        "통 세우기",
+        "허리로 내리기"
+      ],
+      "fps": 6,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "game/worker_a_tend_front.png",
+      "variant": "a",
+      "motion": "tend",
+      "direction": "front",
+      "frames": 6,
+      "cell": [
+        288,
+        384
+      ],
+      "size": [
+        1728,
+        384
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "기름통 잡기",
+        "들어 올리기",
+        "주둥이 기울이기",
+        "기름 붓기",
+        "통 세우기",
+        "허리로 내리기"
+      ],
+      "fps": 6,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "previews/worker_a_tend_front_4x.png",
+      "variant": "a",
+      "motion": "tend",
+      "direction": "front",
+      "frames": 6,
+      "cell": [
+        384,
+        512
+      ],
+      "size": [
+        2304,
+        512
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "baseline_y": 480,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "기름통 잡기",
+        "들어 올리기",
+        "주둥이 기울이기",
+        "기름 붓기",
+        "통 세우기",
+        "허리로 내리기"
+      ],
+      "fps": 6,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/worker_a_tend_right.png",
+      "variant": "a",
+      "motion": "tend",
+      "direction": "right",
+      "frames": 6,
+      "cell": [
+        96,
+        128
+      ],
+      "size": [
+        576,
+        128
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "기름통 잡기",
+        "들어 올리기",
+        "주둥이 기울이기",
+        "기름 붓기",
+        "통 세우기",
+        "허리로 내리기"
+      ],
+      "fps": 6,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "game/worker_a_tend_right.png",
+      "variant": "a",
+      "motion": "tend",
+      "direction": "right",
+      "frames": 6,
+      "cell": [
+        288,
+        384
+      ],
+      "size": [
+        1728,
+        384
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "기름통 잡기",
+        "들어 올리기",
+        "주둥이 기울이기",
+        "기름 붓기",
+        "통 세우기",
+        "허리로 내리기"
+      ],
+      "fps": 6,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "previews/worker_a_tend_right_4x.png",
+      "variant": "a",
+      "motion": "tend",
+      "direction": "right",
+      "frames": 6,
+      "cell": [
+        384,
+        512
+      ],
+      "size": [
+        2304,
+        512
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "baseline_y": 480,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "기름통 잡기",
+        "들어 올리기",
+        "주둥이 기울이기",
+        "기름 붓기",
+        "통 세우기",
+        "허리로 내리기"
+      ],
+      "fps": 6,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/worker_a_tend_left.png",
+      "variant": "a",
+      "motion": "tend",
+      "direction": "left",
+      "frames": 6,
+      "cell": [
+        96,
+        128
+      ],
+      "size": [
+        576,
+        128
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "기름통 잡기",
+        "들어 올리기",
+        "주둥이 기울이기",
+        "기름 붓기",
+        "통 세우기",
+        "허리로 내리기"
+      ],
+      "fps": 6,
+      "loop": true,
+      "mirror_of": "worker_a_tend_right",
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "game/worker_a_tend_left.png",
+      "variant": "a",
+      "motion": "tend",
+      "direction": "left",
+      "frames": 6,
+      "cell": [
+        288,
+        384
+      ],
+      "size": [
+        1728,
+        384
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "기름통 잡기",
+        "들어 올리기",
+        "주둥이 기울이기",
+        "기름 붓기",
+        "통 세우기",
+        "허리로 내리기"
+      ],
+      "fps": 6,
+      "loop": true,
+      "mirror_of": "worker_a_tend_right",
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "previews/worker_a_tend_left_4x.png",
+      "variant": "a",
+      "motion": "tend",
+      "direction": "left",
+      "frames": 6,
+      "cell": [
+        384,
+        512
+      ],
+      "size": [
+        2304,
+        512
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "baseline_y": 480,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "기름통 잡기",
+        "들어 올리기",
+        "주둥이 기울이기",
+        "기름 붓기",
+        "통 세우기",
+        "허리로 내리기"
+      ],
+      "fps": 6,
+      "loop": true,
+      "mirror_of": "worker_a_tend_right",
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/worker_a_carry_front.png",
+      "variant": "a",
+      "motion": "carry",
+      "direction": "front",
+      "frames": 8,
+      "cell": [
+        96,
+        128
+      ],
+      "size": [
+        768,
+        128
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기·기름통 유지",
+        "왼발 지지",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기·기름통 유지",
+        "오른발 지지",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "game/worker_a_carry_front.png",
+      "variant": "a",
+      "motion": "carry",
+      "direction": "front",
+      "frames": 8,
+      "cell": [
+        288,
+        384
+      ],
+      "size": [
+        2304,
+        384
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기·기름통 유지",
+        "왼발 지지",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기·기름통 유지",
+        "오른발 지지",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "previews/worker_a_carry_front_4x.png",
+      "variant": "a",
+      "motion": "carry",
+      "direction": "front",
+      "frames": 8,
+      "cell": [
+        384,
+        512
+      ],
+      "size": [
+        3072,
+        512
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "baseline_y": 480,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기·기름통 유지",
+        "왼발 지지",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기·기름통 유지",
+        "오른발 지지",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/worker_a_carry_back.png",
+      "variant": "a",
+      "motion": "carry",
+      "direction": "back",
+      "frames": 8,
+      "cell": [
+        96,
+        128
+      ],
+      "size": [
+        768,
+        128
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기·기름통 유지",
+        "왼발 지지",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기·기름통 유지",
+        "오른발 지지",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "game/worker_a_carry_back.png",
+      "variant": "a",
+      "motion": "carry",
+      "direction": "back",
+      "frames": 8,
+      "cell": [
+        288,
+        384
+      ],
+      "size": [
+        2304,
+        384
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기·기름통 유지",
+        "왼발 지지",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기·기름통 유지",
+        "오른발 지지",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "previews/worker_a_carry_back_4x.png",
+      "variant": "a",
+      "motion": "carry",
+      "direction": "back",
+      "frames": 8,
+      "cell": [
+        384,
+        512
+      ],
+      "size": [
+        3072,
+        512
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "baseline_y": 480,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기·기름통 유지",
+        "왼발 지지",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기·기름통 유지",
+        "오른발 지지",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/worker_a_carry_right.png",
+      "variant": "a",
+      "motion": "carry",
+      "direction": "right",
+      "frames": 8,
+      "cell": [
+        96,
+        128
+      ],
+      "size": [
+        768,
+        128
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기·기름통 유지",
+        "왼발 지지",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기·기름통 유지",
+        "오른발 지지",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "game/worker_a_carry_right.png",
+      "variant": "a",
+      "motion": "carry",
+      "direction": "right",
+      "frames": 8,
+      "cell": [
+        288,
+        384
+      ],
+      "size": [
+        2304,
+        384
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기·기름통 유지",
+        "왼발 지지",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기·기름통 유지",
+        "오른발 지지",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "previews/worker_a_carry_right_4x.png",
+      "variant": "a",
+      "motion": "carry",
+      "direction": "right",
+      "frames": 8,
+      "cell": [
+        384,
+        512
+      ],
+      "size": [
+        3072,
+        512
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "baseline_y": 480,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기·기름통 유지",
+        "왼발 지지",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기·기름통 유지",
+        "오른발 지지",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/worker_a_carry_left.png",
+      "variant": "a",
+      "motion": "carry",
+      "direction": "left",
+      "frames": 8,
+      "cell": [
+        96,
+        128
+      ],
+      "size": [
+        768,
+        128
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기·기름통 유지",
+        "왼발 지지",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기·기름통 유지",
+        "오른발 지지",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": "worker_a_carry_right",
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "game/worker_a_carry_left.png",
+      "variant": "a",
+      "motion": "carry",
+      "direction": "left",
+      "frames": 8,
+      "cell": [
+        288,
+        384
+      ],
+      "size": [
+        2304,
+        384
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기·기름통 유지",
+        "왼발 지지",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기·기름통 유지",
+        "오른발 지지",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": "worker_a_carry_right",
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "previews/worker_a_carry_left_4x.png",
+      "variant": "a",
+      "motion": "carry",
+      "direction": "left",
+      "frames": 8,
+      "cell": [
+        384,
+        512
+      ],
+      "size": [
+        3072,
+        512
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "baseline_y": 480,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기·기름통 유지",
+        "왼발 지지",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기·기름통 유지",
+        "오른발 지지",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": "worker_a_carry_right",
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/worker_b_walk_front.png",
+      "variant": "b",
+      "motion": "walk",
+      "direction": "front",
+      "frames": 8,
+      "cell": [
+        96,
+        128
+      ],
+      "size": [
+        768,
+        128
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기",
+        "왼발 체중 받기",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기",
+        "오른발 체중 받기",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "game/worker_b_walk_front.png",
+      "variant": "b",
+      "motion": "walk",
+      "direction": "front",
+      "frames": 8,
+      "cell": [
+        288,
+        384
+      ],
+      "size": [
+        2304,
+        384
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기",
+        "왼발 체중 받기",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기",
+        "오른발 체중 받기",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "previews/worker_b_walk_front_4x.png",
+      "variant": "b",
+      "motion": "walk",
+      "direction": "front",
+      "frames": 8,
+      "cell": [
+        384,
+        512
+      ],
+      "size": [
+        3072,
+        512
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "baseline_y": 480,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기",
+        "왼발 체중 받기",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기",
+        "오른발 체중 받기",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/worker_b_walk_back.png",
+      "variant": "b",
+      "motion": "walk",
+      "direction": "back",
+      "frames": 8,
+      "cell": [
+        96,
+        128
+      ],
+      "size": [
+        768,
+        128
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기",
+        "왼발 체중 받기",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기",
+        "오른발 체중 받기",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "game/worker_b_walk_back.png",
+      "variant": "b",
+      "motion": "walk",
+      "direction": "back",
+      "frames": 8,
+      "cell": [
+        288,
+        384
+      ],
+      "size": [
+        2304,
+        384
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기",
+        "왼발 체중 받기",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기",
+        "오른발 체중 받기",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "previews/worker_b_walk_back_4x.png",
+      "variant": "b",
+      "motion": "walk",
+      "direction": "back",
+      "frames": 8,
+      "cell": [
+        384,
+        512
+      ],
+      "size": [
+        3072,
+        512
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "baseline_y": 480,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기",
+        "왼발 체중 받기",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기",
+        "오른발 체중 받기",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/worker_b_walk_right.png",
+      "variant": "b",
+      "motion": "walk",
+      "direction": "right",
+      "frames": 8,
+      "cell": [
+        96,
+        128
+      ],
+      "size": [
+        768,
+        128
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기",
+        "왼발 체중 받기",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기",
+        "오른발 체중 받기",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "game/worker_b_walk_right.png",
+      "variant": "b",
+      "motion": "walk",
+      "direction": "right",
+      "frames": 8,
+      "cell": [
+        288,
+        384
+      ],
+      "size": [
+        2304,
+        384
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기",
+        "왼발 체중 받기",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기",
+        "오른발 체중 받기",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "previews/worker_b_walk_right_4x.png",
+      "variant": "b",
+      "motion": "walk",
+      "direction": "right",
+      "frames": 8,
+      "cell": [
+        384,
+        512
+      ],
+      "size": [
+        3072,
+        512
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "baseline_y": 480,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기",
+        "왼발 체중 받기",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기",
+        "오른발 체중 받기",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/worker_b_walk_left.png",
+      "variant": "b",
+      "motion": "walk",
+      "direction": "left",
+      "frames": 8,
+      "cell": [
+        96,
+        128
+      ],
+      "size": [
+        768,
+        128
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기",
+        "왼발 체중 받기",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기",
+        "오른발 체중 받기",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": "worker_b_walk_right",
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "game/worker_b_walk_left.png",
+      "variant": "b",
+      "motion": "walk",
+      "direction": "left",
+      "frames": 8,
+      "cell": [
+        288,
+        384
+      ],
+      "size": [
+        2304,
+        384
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기",
+        "왼발 체중 받기",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기",
+        "오른발 체중 받기",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": "worker_b_walk_right",
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "previews/worker_b_walk_left_4x.png",
+      "variant": "b",
+      "motion": "walk",
+      "direction": "left",
+      "frames": 8,
+      "cell": [
+        384,
+        512
+      ],
+      "size": [
+        3072,
+        512
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "baseline_y": 480,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기",
+        "왼발 체중 받기",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기",
+        "오른발 체중 받기",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": "worker_b_walk_right",
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/worker_b_climb_up_right.png",
+      "variant": "b",
+      "motion": "climb_up",
+      "direction": "right",
+      "frames": 6,
+      "cell": [
+        96,
+        128
+      ],
+      "size": [
+        576,
+        128
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "발 올리기",
+        "높은 무릎",
+        "발 내딛기",
+        "체중 올리기",
+        "반대 무릎",
+        "다음 디딤 준비"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "game/worker_b_climb_up_right.png",
+      "variant": "b",
+      "motion": "climb_up",
+      "direction": "right",
+      "frames": 6,
+      "cell": [
+        288,
+        384
+      ],
+      "size": [
+        1728,
+        384
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "발 올리기",
+        "높은 무릎",
+        "발 내딛기",
+        "체중 올리기",
+        "반대 무릎",
+        "다음 디딤 준비"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "previews/worker_b_climb_up_right_4x.png",
+      "variant": "b",
+      "motion": "climb_up",
+      "direction": "right",
+      "frames": 6,
+      "cell": [
+        384,
+        512
+      ],
+      "size": [
+        2304,
+        512
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "baseline_y": 480,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "발 올리기",
+        "높은 무릎",
+        "발 내딛기",
+        "체중 올리기",
+        "반대 무릎",
+        "다음 디딤 준비"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/worker_b_climb_up_left.png",
+      "variant": "b",
+      "motion": "climb_up",
+      "direction": "left",
+      "frames": 6,
+      "cell": [
+        96,
+        128
+      ],
+      "size": [
+        576,
+        128
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "발 올리기",
+        "높은 무릎",
+        "발 내딛기",
+        "체중 올리기",
+        "반대 무릎",
+        "다음 디딤 준비"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": "worker_b_climb_up_right",
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "game/worker_b_climb_up_left.png",
+      "variant": "b",
+      "motion": "climb_up",
+      "direction": "left",
+      "frames": 6,
+      "cell": [
+        288,
+        384
+      ],
+      "size": [
+        1728,
+        384
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "발 올리기",
+        "높은 무릎",
+        "발 내딛기",
+        "체중 올리기",
+        "반대 무릎",
+        "다음 디딤 준비"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": "worker_b_climb_up_right",
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "previews/worker_b_climb_up_left_4x.png",
+      "variant": "b",
+      "motion": "climb_up",
+      "direction": "left",
+      "frames": 6,
+      "cell": [
+        384,
+        512
+      ],
+      "size": [
+        2304,
+        512
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "baseline_y": 480,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "발 올리기",
+        "높은 무릎",
+        "발 내딛기",
+        "체중 올리기",
+        "반대 무릎",
+        "다음 디딤 준비"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": "worker_b_climb_up_right",
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/worker_b_climb_up_back.png",
+      "variant": "b",
+      "motion": "climb_up",
+      "direction": "back",
+      "frames": 6,
+      "cell": [
+        96,
+        128
+      ],
+      "size": [
+        576,
+        128
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "발 올리기",
+        "높은 무릎",
+        "발 내딛기",
+        "체중 올리기",
+        "반대 무릎",
+        "다음 디딤 준비"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "game/worker_b_climb_up_back.png",
+      "variant": "b",
+      "motion": "climb_up",
+      "direction": "back",
+      "frames": 6,
+      "cell": [
+        288,
+        384
+      ],
+      "size": [
+        1728,
+        384
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "발 올리기",
+        "높은 무릎",
+        "발 내딛기",
+        "체중 올리기",
+        "반대 무릎",
+        "다음 디딤 준비"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "previews/worker_b_climb_up_back_4x.png",
+      "variant": "b",
+      "motion": "climb_up",
+      "direction": "back",
+      "frames": 6,
+      "cell": [
+        384,
+        512
+      ],
+      "size": [
+        2304,
+        512
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "baseline_y": 480,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "발 올리기",
+        "높은 무릎",
+        "발 내딛기",
+        "체중 올리기",
+        "반대 무릎",
+        "다음 디딤 준비"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/worker_b_climb_down_right.png",
+      "variant": "b",
+      "motion": "climb_down",
+      "direction": "right",
+      "frames": 6,
+      "cell": [
+        96,
+        128
+      ],
+      "size": [
+        576,
+        128
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "아래 발 찾기",
+        "앞발 내밀기",
+        "무릎 굽히기",
+        "체중 내리기",
+        "반대 발 회수",
+        "다음 디딤 준비"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "game/worker_b_climb_down_right.png",
+      "variant": "b",
+      "motion": "climb_down",
+      "direction": "right",
+      "frames": 6,
+      "cell": [
+        288,
+        384
+      ],
+      "size": [
+        1728,
+        384
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "아래 발 찾기",
+        "앞발 내밀기",
+        "무릎 굽히기",
+        "체중 내리기",
+        "반대 발 회수",
+        "다음 디딤 준비"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "previews/worker_b_climb_down_right_4x.png",
+      "variant": "b",
+      "motion": "climb_down",
+      "direction": "right",
+      "frames": 6,
+      "cell": [
+        384,
+        512
+      ],
+      "size": [
+        2304,
+        512
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "baseline_y": 480,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "아래 발 찾기",
+        "앞발 내밀기",
+        "무릎 굽히기",
+        "체중 내리기",
+        "반대 발 회수",
+        "다음 디딤 준비"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/worker_b_climb_down_left.png",
+      "variant": "b",
+      "motion": "climb_down",
+      "direction": "left",
+      "frames": 6,
+      "cell": [
+        96,
+        128
+      ],
+      "size": [
+        576,
+        128
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "아래 발 찾기",
+        "앞발 내밀기",
+        "무릎 굽히기",
+        "체중 내리기",
+        "반대 발 회수",
+        "다음 디딤 준비"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": "worker_b_climb_down_right",
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "game/worker_b_climb_down_left.png",
+      "variant": "b",
+      "motion": "climb_down",
+      "direction": "left",
+      "frames": 6,
+      "cell": [
+        288,
+        384
+      ],
+      "size": [
+        1728,
+        384
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "아래 발 찾기",
+        "앞발 내밀기",
+        "무릎 굽히기",
+        "체중 내리기",
+        "반대 발 회수",
+        "다음 디딤 준비"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": "worker_b_climb_down_right",
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "previews/worker_b_climb_down_left_4x.png",
+      "variant": "b",
+      "motion": "climb_down",
+      "direction": "left",
+      "frames": 6,
+      "cell": [
+        384,
+        512
+      ],
+      "size": [
+        2304,
+        512
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "baseline_y": 480,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "아래 발 찾기",
+        "앞발 내밀기",
+        "무릎 굽히기",
+        "체중 내리기",
+        "반대 발 회수",
+        "다음 디딤 준비"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": "worker_b_climb_down_right",
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/worker_b_climb_down_back.png",
+      "variant": "b",
+      "motion": "climb_down",
+      "direction": "back",
+      "frames": 6,
+      "cell": [
+        96,
+        128
+      ],
+      "size": [
+        576,
+        128
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "아래 발 찾기",
+        "앞발 내밀기",
+        "무릎 굽히기",
+        "체중 내리기",
+        "반대 발 회수",
+        "다음 디딤 준비"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "game/worker_b_climb_down_back.png",
+      "variant": "b",
+      "motion": "climb_down",
+      "direction": "back",
+      "frames": 6,
+      "cell": [
+        288,
+        384
+      ],
+      "size": [
+        1728,
+        384
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "아래 발 찾기",
+        "앞발 내밀기",
+        "무릎 굽히기",
+        "체중 내리기",
+        "반대 발 회수",
+        "다음 디딤 준비"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "previews/worker_b_climb_down_back_4x.png",
+      "variant": "b",
+      "motion": "climb_down",
+      "direction": "back",
+      "frames": 6,
+      "cell": [
+        384,
+        512
+      ],
+      "size": [
+        2304,
+        512
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "baseline_y": 480,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "아래 발 찾기",
+        "앞발 내밀기",
+        "무릎 굽히기",
+        "체중 내리기",
+        "반대 발 회수",
+        "다음 디딤 준비"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/worker_b_tend_front.png",
+      "variant": "b",
+      "motion": "tend",
+      "direction": "front",
+      "frames": 6,
+      "cell": [
+        96,
+        128
+      ],
+      "size": [
+        576,
+        128
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "기름통 잡기",
+        "들어 올리기",
+        "주둥이 기울이기",
+        "기름 붓기",
+        "통 세우기",
+        "허리로 내리기"
+      ],
+      "fps": 6,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "game/worker_b_tend_front.png",
+      "variant": "b",
+      "motion": "tend",
+      "direction": "front",
+      "frames": 6,
+      "cell": [
+        288,
+        384
+      ],
+      "size": [
+        1728,
+        384
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "기름통 잡기",
+        "들어 올리기",
+        "주둥이 기울이기",
+        "기름 붓기",
+        "통 세우기",
+        "허리로 내리기"
+      ],
+      "fps": 6,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "previews/worker_b_tend_front_4x.png",
+      "variant": "b",
+      "motion": "tend",
+      "direction": "front",
+      "frames": 6,
+      "cell": [
+        384,
+        512
+      ],
+      "size": [
+        2304,
+        512
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "baseline_y": 480,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "기름통 잡기",
+        "들어 올리기",
+        "주둥이 기울이기",
+        "기름 붓기",
+        "통 세우기",
+        "허리로 내리기"
+      ],
+      "fps": 6,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/worker_b_tend_right.png",
+      "variant": "b",
+      "motion": "tend",
+      "direction": "right",
+      "frames": 6,
+      "cell": [
+        96,
+        128
+      ],
+      "size": [
+        576,
+        128
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "기름통 잡기",
+        "들어 올리기",
+        "주둥이 기울이기",
+        "기름 붓기",
+        "통 세우기",
+        "허리로 내리기"
+      ],
+      "fps": 6,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "game/worker_b_tend_right.png",
+      "variant": "b",
+      "motion": "tend",
+      "direction": "right",
+      "frames": 6,
+      "cell": [
+        288,
+        384
+      ],
+      "size": [
+        1728,
+        384
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "기름통 잡기",
+        "들어 올리기",
+        "주둥이 기울이기",
+        "기름 붓기",
+        "통 세우기",
+        "허리로 내리기"
+      ],
+      "fps": 6,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "previews/worker_b_tend_right_4x.png",
+      "variant": "b",
+      "motion": "tend",
+      "direction": "right",
+      "frames": 6,
+      "cell": [
+        384,
+        512
+      ],
+      "size": [
+        2304,
+        512
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "baseline_y": 480,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "기름통 잡기",
+        "들어 올리기",
+        "주둥이 기울이기",
+        "기름 붓기",
+        "통 세우기",
+        "허리로 내리기"
+      ],
+      "fps": 6,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/worker_b_tend_left.png",
+      "variant": "b",
+      "motion": "tend",
+      "direction": "left",
+      "frames": 6,
+      "cell": [
+        96,
+        128
+      ],
+      "size": [
+        576,
+        128
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "기름통 잡기",
+        "들어 올리기",
+        "주둥이 기울이기",
+        "기름 붓기",
+        "통 세우기",
+        "허리로 내리기"
+      ],
+      "fps": 6,
+      "loop": true,
+      "mirror_of": "worker_b_tend_right",
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "game/worker_b_tend_left.png",
+      "variant": "b",
+      "motion": "tend",
+      "direction": "left",
+      "frames": 6,
+      "cell": [
+        288,
+        384
+      ],
+      "size": [
+        1728,
+        384
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "기름통 잡기",
+        "들어 올리기",
+        "주둥이 기울이기",
+        "기름 붓기",
+        "통 세우기",
+        "허리로 내리기"
+      ],
+      "fps": 6,
+      "loop": true,
+      "mirror_of": "worker_b_tend_right",
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "previews/worker_b_tend_left_4x.png",
+      "variant": "b",
+      "motion": "tend",
+      "direction": "left",
+      "frames": 6,
+      "cell": [
+        384,
+        512
+      ],
+      "size": [
+        2304,
+        512
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "baseline_y": 480,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "frame_labels": [
+        "기름통 잡기",
+        "들어 올리기",
+        "주둥이 기울이기",
+        "기름 붓기",
+        "통 세우기",
+        "허리로 내리기"
+      ],
+      "fps": 6,
+      "loop": true,
+      "mirror_of": "worker_b_tend_right",
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/worker_b_carry_front.png",
+      "variant": "b",
+      "motion": "carry",
+      "direction": "front",
+      "frames": 8,
+      "cell": [
+        96,
+        128
+      ],
+      "size": [
+        768,
+        128
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기·기름통 유지",
+        "왼발 지지",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기·기름통 유지",
+        "오른발 지지",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "game/worker_b_carry_front.png",
+      "variant": "b",
+      "motion": "carry",
+      "direction": "front",
+      "frames": 8,
+      "cell": [
+        288,
+        384
+      ],
+      "size": [
+        2304,
+        384
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기·기름통 유지",
+        "왼발 지지",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기·기름통 유지",
+        "오른발 지지",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "previews/worker_b_carry_front_4x.png",
+      "variant": "b",
+      "motion": "carry",
+      "direction": "front",
+      "frames": 8,
+      "cell": [
+        384,
+        512
+      ],
+      "size": [
+        3072,
+        512
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "baseline_y": 480,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기·기름통 유지",
+        "왼발 지지",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기·기름통 유지",
+        "오른발 지지",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/worker_b_carry_back.png",
+      "variant": "b",
+      "motion": "carry",
+      "direction": "back",
+      "frames": 8,
+      "cell": [
+        96,
+        128
+      ],
+      "size": [
+        768,
+        128
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기·기름통 유지",
+        "왼발 지지",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기·기름통 유지",
+        "오른발 지지",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "game/worker_b_carry_back.png",
+      "variant": "b",
+      "motion": "carry",
+      "direction": "back",
+      "frames": 8,
+      "cell": [
+        288,
+        384
+      ],
+      "size": [
+        2304,
+        384
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기·기름통 유지",
+        "왼발 지지",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기·기름통 유지",
+        "오른발 지지",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "previews/worker_b_carry_back_4x.png",
+      "variant": "b",
+      "motion": "carry",
+      "direction": "back",
+      "frames": 8,
+      "cell": [
+        384,
+        512
+      ],
+      "size": [
+        3072,
+        512
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "baseline_y": 480,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기·기름통 유지",
+        "왼발 지지",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기·기름통 유지",
+        "오른발 지지",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/worker_b_carry_right.png",
+      "variant": "b",
+      "motion": "carry",
+      "direction": "right",
+      "frames": 8,
+      "cell": [
+        96,
+        128
+      ],
+      "size": [
+        768,
+        128
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기·기름통 유지",
+        "왼발 지지",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기·기름통 유지",
+        "오른발 지지",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "game/worker_b_carry_right.png",
+      "variant": "b",
+      "motion": "carry",
+      "direction": "right",
+      "frames": 8,
+      "cell": [
+        288,
+        384
+      ],
+      "size": [
+        2304,
+        384
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기·기름통 유지",
+        "왼발 지지",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기·기름통 유지",
+        "오른발 지지",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "previews/worker_b_carry_right_4x.png",
+      "variant": "b",
+      "motion": "carry",
+      "direction": "right",
+      "frames": 8,
+      "cell": [
+        384,
+        512
+      ],
+      "size": [
+        3072,
+        512
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "baseline_y": 480,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기·기름통 유지",
+        "왼발 지지",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기·기름통 유지",
+        "오른발 지지",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": null,
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "preview"
+    },
+    {
+      "file": "native/worker_b_carry_left.png",
+      "variant": "b",
+      "motion": "carry",
+      "direction": "left",
+      "frames": 8,
+      "cell": [
+        96,
+        128
+      ],
+      "size": [
+        768,
+        128
+      ],
+      "pivot_px": [
+        48,
+        120
+      ],
+      "baseline_y": 120,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기·기름통 유지",
+        "왼발 지지",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기·기름통 유지",
+        "오른발 지지",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": "worker_b_carry_right",
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "game/worker_b_carry_left.png",
+      "variant": "b",
+      "motion": "carry",
+      "direction": "left",
+      "frames": 8,
+      "cell": [
+        288,
+        384
+      ],
+      "size": [
+        2304,
+        384
+      ],
+      "pivot_px": [
+        144,
+        360
+      ],
+      "baseline_y": 360,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기·기름통 유지",
+        "왼발 지지",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기·기름통 유지",
+        "오른발 지지",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": "worker_b_carry_right",
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "worker"
+    },
+    {
+      "file": "previews/worker_b_carry_left_4x.png",
+      "variant": "b",
+      "motion": "carry",
+      "direction": "left",
+      "frames": 8,
+      "cell": [
+        384,
+        512
+      ],
+      "size": [
+        3072,
+        512
+      ],
+      "pivot_px": [
+        192,
+        480
+      ],
+      "baseline_y": 480,
+      "unity_pivot": [
+        0.5,
+        0.0625
+      ],
+      "frame_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frame_labels": [
+        "왼발 닿기·기름통 유지",
+        "왼발 지지",
+        "오른발 통과",
+        "오른발 전진",
+        "오른발 닿기·기름통 유지",
+        "오른발 지지",
+        "왼발 통과",
+        "왼발 전진"
+      ],
+      "fps": 8,
+      "loop": true,
+      "mirror_of": "worker_b_carry_right",
+      "filter": "Point",
+      "alpha": "binary straight RGBA",
+      "role": "preview"
+    }
+  ]
+}

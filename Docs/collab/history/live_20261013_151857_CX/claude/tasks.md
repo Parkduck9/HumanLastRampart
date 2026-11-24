@@ -1,0 +1,177 @@
+# Claude 작업 기록 (tasks)
+
+- 작성자: Claude만. 맨 아래에만 추가한다. 상태 변경도 새 줄로 기록한다 (RULES 7장).
+- 이 파일은 조정 담당의 예약·Git 허가 기록도 담는다 (RULES 5·10.3).
+- 이 파일을 바꾸면 `status.js`도 갱신한다.
+
+---
+
+## T-CL-001 15장 초기 준비
+- 상태: 진행중
+- 화면/영역: 협업 기반 / 저장소 루트, Docs/collab
+- 수정 범위: `.gitignore`, `CLAUDE.md`, `Docs/collab/DECISIONS.md`, `Docs/collab/CONTRACTS.md`, `Docs/collab/live/status.html`, `Docs/collab/live/claude/*`, `Docs/collab/live/review/` (폴더)
+- 의존: D-001 (RULES v0.3 확정)
+- 완료 기준: Claude 담당 초기 파일 생성, gitignore 대상 확인, main 초기 커밋, develop 생성과 최초 전환 1회, Codex 차례 안내
+- 기준 커밋: 716540d90f86e50517aaa9777403dadfde4ac43c (main, "Initial commit", .gitattributes만 포함)
+- 시작: 2026-10-13
+- Git 실행 확인 [AI 직접 확인]: Claude 환경 PATH에는 git 없음. Codex 런타임의 절대 경로 `C:\Users\User\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\git\cmd\git.exe`로 실행 성공 (git version 2.53.0.windows.3)
+- 준비 시점 저장소 상태 [AI 직접 확인]: 현재 브랜치 main, 원격 origin(GitHub), 추적 파일은 .gitattributes 하나. 미추적 파일 6개(FirstRead.md, Docs/collab/PROPOSAL_Claude_to_Codex.md, RULES.md, RULES.html, archive/RULES_v0.1.md, archive/RULES_v0.2.md). 스테이징·수정된 추적 파일 없음
+- 진행: Claude 담당 파일 생성 완료 (.gitignore, CLAUDE.md, DECISIONS.md, CONTRACTS.md, live/status.html, live/claude/*, live/review/)
+- Git 요청 G-CL-001: 2026-10-13 12:22 KST main 초기 커밋 (10.5-4, Claude 소유 파일과 협업 확정 문서. FirstRead.md는 사용자 소유라 제외)
+- Git 허가 G-CL-001: 2026-10-13 12:22 KST (조정 담당 자체 작업, 이전 미종료 허가 없음)
+- Git 시작 G-CL-001: 2026-10-13 12:22 KST
+- Git 종료 G-CL-001: 2026-10-13 12:22 KST 성공. 결과 커밋 d3a99d9ad14aff398b89f7a9b32d92016c5fca99 (main). 10개 파일. 미추적 FirstRead.md 보존
+- Git 요청 G-CL-002: 2026-10-13 12:22 KST develop 브랜치 생성 (전환 없음, 10.5-5 앞부분)
+- Git 허가 G-CL-002: 2026-10-13 12:22 KST (G-CL-001 종료 확인)
+- Git 시작 G-CL-002: 2026-10-13 12:22 KST
+- Git 종료 G-CL-002: 2026-10-13 12:22 KST 성공. develop = d3a99d9 생성. 현재 브랜치는 main 그대로 (전환 전)
+- 최초 전환 보류: 2026-10-13 12:22 KST 미추적 파일 FirstRead.md(사용자 소유)가 있어 10.1에 따라 사용자 판단을 기다림
+- 사용자 답변 Q-CL-001: 2026-10-13 12:25 KST (가) 선택. FirstRead.md를 내용 변경 없이 main에 커밋 후 develop 최초 전환 (Codex도 (가) 추천)
+- Git 요청 G-CL-003: 2026-10-13 12:25 KST FirstRead.md main 커밋 → develop을 main까지 fast-forward → develop 최초 전환 1회 (10.1 예외, 10.5-4·5)
+- Git 허가 G-CL-003: 2026-10-13 12:25 KST (G-CL-002 종료 확인)
+- Git 시작 G-CL-003: 2026-10-13 12:25 KST FirstRead.md SHA256 457A8C3078FE4F2260C09EEFD7BEA9B773FB466D0D937C864A61CEE884FC079E
+- Git 종료 G-CL-003: 2026-10-13 12:25 KST 성공. FirstRead.md 커밋 d69c53b8776b300b4edacdef0b9025092e9b2dfb (main), develop을 d69c53b로 fast-forward, 최초 전환 완료(현재 develop). 전환 전 작업 폴더 깨끗함, 강제 옵션·삭제 없음. FirstRead.md SHA256 전후 동일 457A8C3078FE4F2260C09EEFD7BEA9B773FB466D0D937C864A61CEE884FC079E
+- 진행: 2026-10-13 12:25 KST Claude 담당 3~5단계 완료. 이후 브랜치 전환 금지 (10.1). 남은 것: Codex 6단계(AGENTS.md, live/codex) → G-CX-001 허가 → 사용자 Unity 프로젝트 생성(7단계)
+- 협업 확인: 2026-10-13 12:29 KST M-CX-001·M-CX-002 확인. Codex T-CX-001 파일 5개 확인(AGENTS.md 검토 이상 없음, live/codex/ gitignore 확인). 작업 폴더 develop, 미추적은 AGENTS.md뿐
+- Git 허가 G-CX-001: 2026-10-13 12:29 KST AGENTS.md만 파일 단위로 develop에 커밋 허가 (Claude 미종료 허가 없음, G-CL-003 종료 확인). Codex 종료 기록 확인 전 다음 허가 발급하지 않음
+- 예정: M-CX-002 반영. RULES.md·RULES.html 상단 표기를 '확정 v0.3 (D-001)'로 정리. 커밋은 G-CX-001 종료 확인 후 G-CL-004로 요청
+- 진행: 2026-10-13 12:32 KST 사용자 요청으로 협업 문서 폴더 정리 (D-010, 용도별 선택). 파일만 이동(git mv 미사용, G-CX-001 진행 중이라 Git 쓰기 보류): rules/(RULES, DECISIONS, CONTRACTS), view/(RULES.html), history/(PROPOSAL, RULES_v0.1·v0.2), archive/ 삭제(빈 폴더). RULES.md·RULES.html·CLAUDE.md·live/status.html 경로 수정, DECISIONS에 D-010 추가. 이동 커밋은 G-CX-001 종료 후 G-CL-004에 포함
+- 협업 확인: 2026-10-13 12:35 KST M-CX-003 확인. G-CX-001 종료 기록 확인(결과 55a8b81, AGENTS.md 단독, develop 유지, main 미변경을 git log로 직접 확인). Codex AGENTS.md 경로 수정 반영 확인. 미종료 허가 없음, 공용 예약 없음
+- Git 요청 G-CL-004: 2026-10-13 12:35 KST develop에 폴더 정리(D-010)와 RULES 확정 표기 정리 커밋. 대상: CLAUDE.md, live/status.html, 옛 경로 7개 삭제, rules/ 3개, view/RULES.html, history/ 3개 (파일 단위 지정)
+- Git 허가 G-CL-004: 2026-10-13 12:35 KST (G-CX-001 종료 확인)
+- Git 시작 G-CL-004: 2026-10-13 12:35 KST 기준 55a8b819ef2e439fb5cf440c484e5b2e610ff103
+- Git 종료 G-CL-004: 2026-10-13 12:36 KST 성공. 결과 커밋 69a0af67edf72789832f12fd95c5881839015d71 (develop). 9개 파일(이동 7, 수정 2). 사전 스테이징 없음, 커밋 후 작업 폴더 깨끗함, develop 유지, main(d69c53b) 미변경
+- 상태 변경: 2026-10-13 12:36 KST 진행중 → 통합 대기 (15장 Claude·Codex 단계 develop 커밋 완료. 남은 것: main 반영 묶음 R-001 사용자 승인, 사용자 7단계 Unity 프로젝트 생성)
+- main 반영 승인 요청 R-001: 2026-10-13 12:36 KST 대상 X = 69a0af67edf72789832f12fd95c5881839015d71, 현재 main = d69c53b8776b300b4edacdef0b9025092e9b2dfb. 포함 커밋: 55a8b81 [T-CX-001] AGENTS.md, 69a0af6 [T-CL-001] 폴더 정리·RULES 표기. 사용자 승인 대기
+- 사용자 승인 R-001: 2026-10-13 KST 사용자 메시지 "R-001 승인" (대상 X 69a0af67edf72789832f12fd95c5881839015d71 고정)
+- Git 요청 G-CL-005: 2026-10-13 KST R-001 main 반영 (10.4, 브랜치 전환 없이 fast-forward)
+- Git 허가 G-CL-005: 2026-10-13 KST (G-CL-004 종료 확인, 미종료 허가 없음)
+- Git 시작 G-CL-005: 2026-10-13 KST
+- Git 종료 G-CL-005: 2026-10-13 12:37 KST 성공. 실행 직전 main = d69c53b(승인 요청과 동일), X는 develop 이력에 속함, main은 X의 조상(종료 코드 0) 확인 후 `git fetch --no-tags . X:refs/heads/main` (종료 코드 0). 실행 후 main = 69a0af67edf72789832f12fd95c5881839015d71, 현재 브랜치 develop 유지. 로컬 반영이며 원격(origin)에는 게시하지 않음
+- R-001 결과: 이전 main d69c53b → 새 main 69a0af6. 포함 T-CX-001(55a8b81), T-CL-001(69a0af6)
+- 발견 [AI 직접 확인]: 2026-10-13 12:37 KST 작업 폴더에 새 미추적 파일 다수. (1) 사용자가 만든 Unity 프로젝트가 `Game/`이 아니라 `Game/HumanLastRampart/`에 있음(D-003과 다름). (2) .gitignore에 Unity 생성물(Library/Temp/Logs/UserSettings/*.csproj/*.sln) 규칙이 없어 약 3만 개 파일이 미추적으로 표시됨. (3) `Docs/GDD/ARCHITECTURE.md`(12:36 생성, 작성자 표기 Claude)가 있으나 이 세션에서 만든 파일이 아님. 세 가지 모두 사용자 확인 전까지 손대지 않음
+- 사용자 답변: 2026-10-13 12:40 KST (1) 사용자가 Unity 내용을 Game/ 바로 아래로 직접 옮김 → D-003 유지. (2) gitignore 정리 허가. (3) ARCHITECTURE.md는 다른 Claude 세션 작업 → 이 세션은 손대지 않음
+- 확인 [AI 직접 확인]: 2026-10-13 12:40 KST 기존 .gitignore에 /Game/ 기준 Unity 규칙이 이미 있음. 생성물이 잡힌 원인은 프로젝트가 Game/HumanLastRampart/에 있어서임. `git check-ignore --no-index`로 옮긴 뒤 경로를 확인: Game/Library·Temp·Logs·UserSettings·obj·*.sln·*.csproj 무시, Game/Assets·Packages·ProjectSettings·.vsconfig 추적. 따라서 .gitignore 변경 불필요(변경하지 않음). 이동 후 git status 재확인 예정
+
+## T-CL-002 아키텍처 초안과 진행 체크리스트 (ROADMAP P1-C01, P1-C02)
+- 상태: 사용자 검토 대기
+- 화면/영역: 설계 / Docs/GDD, Docs/collab/view
+- 수정 범위: Docs/GDD/ARCHITECTURE.md, Docs/GDD/ROADMAP.md, Docs/collab/view/ROADMAP.html (신규), RULES.md 7.3·RULES.html·CLAUDE.md·live/status.html 주석 (D-011 반영), DECISIONS D-011
+- 승인 근거: 사용자 지시 (2026-10-13 12:40 KST, "아키텍처 초안부터 작성, 순서·분담 설계, md와 html 체크리스트, 작업마다 갱신")
+- 완료 기준: 아키텍처 제안 v0.1, 단계별 세부 체크리스트(md·html), 갱신 규칙 문서화
+- 결과 [AI 직접 확인]: ROADMAP.html 로직 확인(항목 84개, 단계 6개, 담당별 진행률·다음 할 일 표시). 미리보기 창은 data: 스냅샷이라 status.js 덧씌우기 표시는 실제 더블클릭 열기에서만 동작(미검증)
+- 남은 문제: 사용자 승인(P1-U01, Q-A1~A7) 전에는 구현 근거로 쓰지 않음. Git 커밋은 G-CX-001 종료 후 G-CL-004에 포함 예정
+- 상태 변경: 2026-10-13 12:40 KST 진행중 → 사용자 검토 대기
+- 정정: 2026-10-13 12:42 KST T-CL-002 파일은 G-CL-004(69a0af6)에 포함되지 않았다(다른 Claude 세션이 먼저 커밋). ARCHITECTURE/ROADMAP/ROADMAP.html, RULES 7.3, D-011, CLAUDE.md·RULES.html·status.html 수정은 미커밋 상태이며 Unity 폴더 이동이 끝난 뒤 별도 Git 요청으로 커밋한다. 특이: Claude 세션 두 개가 같은 live/claude 파일과 ID 계열을 함께 쓰고 있어 M-CL-005가 겹침 → 이 세션 알림은 M-CL-006으로 기록. 조정 담당 세션 일원화는 사용자 결정 대기
+- [T-CL-001] 이동 확인 [AI 직접 확인]: 2026-10-13 12:43 KST Unity 프로젝트가 Game/가 아니라 저장소 루트로 옮겨짐(Assets, Packages, ProjectSettings, Library, Logs, UserSettings, *.sln, *.csproj, .vsconfig가 루트에 있음, Game/ 폴더 없음). D-003(Game/)과 다르고, .gitignore 규칙(/Game/ 기준)이 적용되지 않아 생성물 수만 개가 미추적으로 표시됨. Unity 프로세스 실행 중(PID 30868). 사용자 확인 전까지 파일 이동·.gitignore 변경·커밋 하지 않음
+- [T-CL-001] 이동 재확인 [AI 직접 확인]: 2026-10-13 KST Unity 프로젝트가 다시 Game/HumanLastRampart/ 아래에 있음(처음 상태와 같음). Game/ 바로 아래에는 HumanLastRampart 폴더 하나뿐. .gitignore(/Game/ 기준)가 적용되지 않아 미추적 약 3.1만 개. Unity 프로세스 실행 중(PID 30868). 파일 이동·변경·커밋 하지 않음, 사용자 안내
+- [T-CL-001] 이동 재확인 2 [AI 직접 확인]: 2026-10-13 KST 변화 없음. Game/HumanLastRampart/ 폴더 수정 시각 12:44:01 이후 변경 없음, Game/ 바로 아래 ProjectSettings 없음. 정정: 앞 기록의 'Unity 프로세스 실행 중(PID 30868)'은 2026-10-08 Unity Hub와 함께 시작된 프로세스로, 에디터 실행 여부는 확실하지 않음
+- [T-CL-001] Unity 위치 정리 [AI 직접 확인]: 2026-10-13 KST 사용자 지시(Claude가 옮김)로 Game/HumanLastRampart/ 안의 10개 항목(Assets, Library, Logs, Packages, ProjectSettings, UserSettings, .vsconfig, *.csproj 2개, .sln)을 Game/ 바로 아래로 이동하고 빈 폴더 삭제. 이동 전 Temp 폴더 없음(에디터 미사용) 확인, 이름 충돌 없음, 삭제된 내용 없음. 결과: Unity 6000.3.25f1, Asset Serialization Force Text(모드 2), Visible Meta Files 확인(RULES 9.6). git status 69개로 감소: Game 미추적 61개(Assets·Packages·ProjectSettings·.vsconfig), Library·Logs·UserSettings·sln·csproj는 .gitignore로 무시됨. D-003 유지. Unity 초기 파일 커밋은 별도 Git 요청으로 진행 예정(사용자 확인 후)
+
+## T-CL-003 Unity 기본 프로젝트 파일 커밋 (15장 7단계 마무리)
+- 상태: 진행중
+- 화면/영역: 통합 / Game/
+- 승인 근거: 사용자 지시 (2026-10-13 12:46 KST, 'Unity 기본 파일 커밋 진행해줘')
+- 수정 범위: Unity 템플릿이 만든 Game/ 미추적 파일 61개 (Assets 기본 파일, Packages/manifest.json·packages-lock.json, ProjectSettings/*, .vsconfig). 내용 변경 없이 커밋만
+- 기준 커밋: 69a0af67edf72789832f12fd95c5881839015d71
+- 남은 문제: 템플릿 기본 에셋(SampleScene, TutorialInfo, Readme, Settings, InputSystem_Actions)의 소유자·유지 여부는 아키텍처 승인 때 CONTRACTS에 정함
+- 공용 경로 예약: 담당 Claude, 작업 T-CL-003, 경로 Game/ProjectSettings/, Game/Packages/manifest.json, Game/Packages/packages-lock.json, 기준 커밋 69a0af6, 예약 2026-10-13 12:46 KST, 해제 조건 G-CL-006 종료
+- Git 요청 G-CL-006: 2026-10-13 12:46 KST Game/ Unity 기본 파일 61개를 파일 단위로 develop에 커밋 (다른 세션의 Docs 변경 제외)
+- Git 허가 G-CL-006: 2026-10-13 12:46 KST (G-CL-005 종료 확인, 미종료 허가 없음)
+- Git 시작 G-CL-006: 2026-10-13 12:46 KST 기준 69a0af6
+- 확인 [AI 직접 확인]: 2026-10-13 12:46 KST 사용자가 Unity 프로젝트를 Game/ 바로 아래로 이동 완료. 저장소 루트의 Assets/·Library/ 없음, Game/HumanLastRampart/ 없음. Unity 6000.3.25f1, URP 17.3.0, Input System 1.20.0, uGUI 2.0.0. Asset Serialization = Force Text(m_SerializationMode 2), Version Control = Visible Meta Files. gitignore: Game/Library·Logs·UserSettings·Temp·*.sln·*.csproj 무시, Assets·Packages·ProjectSettings·.vsconfig 추적 대상(61개, 5MB 초과 파일 없음). P0-U02 완료, P0-C07은 설정 확인 완료·커밋 대기(Claude 세션 일원화 후 Git 요청)
+- Git 종료 G-CL-006: 2026-10-13 12:46 KST 성공. 결과 커밋 cf004c29178508a6f6ec1d3d2cfa7a3e76470153 (develop). 61개 파일, 사전 스테이징 없음, 대상 수 61 확인 후 파일 단위 지정. develop 유지, main(69a0af6) 미변경. 다른 세션의 Docs 변경(CLAUDE.md, RULES/DECISIONS/RULES.html/status.html 수정, ARCHITECTURE·ROADMAP·ROADMAP.html, Docs/References/codex_hero_reference_v1.html)은 포함하지 않음
+- 공용 경로 예약 해제: 2026-10-13 12:46 KST T-CL-003 (Game/ProjectSettings/, Game/Packages/manifest.json·packages-lock.json) G-CL-006 종료
+- 상태 변경: 2026-10-13 12:46 KST 진행중 → 통합 대기 (main 반영은 다음 승인 묶음에 포함)
+- 인계 메모 (세션 A → 아키텍처 세션): 2026-10-13 12:47 KST 이 세션은 T-CL-001·T-CL-003 담당으로 Git 작업 G-CL-001~006을 모두 종료했다. 미종료 Git 허가 없음, 유효한 공용 예약 없음. develop = cf004c2, main = 69a0af6. 남은 일: (1) 아키텍처 세션의 미커밋 문서(CLAUDE.md, RULES.md 7.3, RULES.html, DECISIONS D-011, live/status.html, ARCHITECTURE.md, ROADMAP.md, view/ROADMAP.html) 커밋은 G-CL-007로 진행. Docs/References/codex_hero_reference_v1.html은 작성자 확인 필요(Codex 파일이면 Codex가 커밋) (2) 그 뒤 R-002(55a8b81 이후~최신) main 반영 승인 요청 (3) 메시지 ID 겹침(M-CL-005 두 번 사용 여부) 정리. 사용자가 조정 담당 세션을 하나로 정하기 전까지 이 세션은 새 Git 작업을 하지 않는다
+- 정정: 바로 위 인계 메모의 'R-002(55a8b81 이후~최신)'는 'R-002(현재 main 69a0af6 이후~G-CL-007 결과 커밋)'이 맞다
+- 협업 확인: 2026-10-13 12:49 KST 사용자 결정 '여기서 계속할게' → 이 세션을 단일 Claude 조정 담당으로 일원화. 아키텍처 세션 작업(T-CL-002)을 이어받음. RULES 7.3·D-011(아키텍처 세션 추가분) 확인. M-CX-004(Codex 주인공 레퍼런스 HTML, Docs/References/, Codex 소유) 확인. Codex 미종료 Git 요청 없음. ROADMAP md·html 갱신(P0-C07 완료, P0-C09·C10·U03 추가, 세션 결정 기록, R-001 중복 표기 정정)
+- Git 요청 G-CL-007: 2026-10-13 12:49 KST T-CL-002 문서 커밋: CLAUDE.md, Docs/collab/rules/RULES.md·DECISIONS.md, Docs/collab/view/RULES.html·ROADMAP.html, Docs/collab/live/status.html, Docs/GDD/ARCHITECTURE.md·ROADMAP.md (Docs/References/는 Codex 소유라 제외)
+- Git 허가 G-CL-007: 2026-10-13 12:49 KST (G-CL-006 종료 확인, 미종료 허가 없음)
+- Git 시작 G-CL-007: 2026-10-13 12:49 KST 기준 cf004c29178508a6f6ec1d3d2cfa7a3e76470153
+- Git 종료 G-CL-007: 2026-10-13 12:49 KST 성공. 결과 커밋 7043218b6e66c99870ef2afa00a81242efed56ba (develop). 8개 파일. 사전 스테이징 없음, develop 유지, main(69a0af6) 미변경. 남은 미추적: Docs/References/codex_hero_reference_v1.html (Codex 소유)
+- [T-CL-002] 상태 변경: 2026-10-13 12:49 KST 사용자 검토 대기 유지 (문서 커밋 완료, 아키텍처 승인 P1-U01 대기)
+- main 반영 승인 요청 R-002: 2026-10-13 12:49 KST 대상 X = 7043218b6e66c99870ef2afa00a81242efed56ba, 현재 main = 69a0af67edf72789832f12fd95c5881839015d71. 포함 커밋: cf004c2 [T-CL-003] Unity 기본 파일 61개, 7043218 [T-CL-002] 아키텍처 초안·ROADMAP·D-011. 아키텍처는 '제안 v0.1' 문서로 반영되는 것이며 승인은 별도. 사용자 승인 대기
+
+## T-CL-004 사용자용 HTML 바로가기 폴더
+- 상태: 진행중
+- 승인 근거: 사용자 요청 (2026-10-13 12:52 KST, 'html은 다 모아서 폴더 하나 만들어서 정리')
+- 수정 범위: _HTML/ (신규, 바로가기 4개 + 0_전체목록.html), DECISIONS D-012, ROADMAP md·html 기록
+- 확인 [AI 직접 확인]: 바로가기 4개의 대상 경로가 모두 존재함(Test-Path). 미리보기 창은 data: 스냅샷이라 링크 클릭 동작은 확인 못 함 → 사용자 더블클릭 확인 필요
+- Git 요청 G-CL-008: 2026-10-13 12:52 KST _HTML/ 5개, DECISIONS.md, ROADMAP.md, view/ROADMAP.html 커밋
+- Git 허가 G-CL-008: 2026-10-13 12:52 KST (G-CL-007 종료 확인, 미종료 허가 없음)
+- Git 시작 G-CL-008: 2026-10-13 12:52 KST 기준 7043218
+- Git 종료 G-CL-008: 2026-10-13 12:52 KST 성공. 결과 커밋 42b86aa93d85da7a3839cfda2f56b218f9c0878b (develop). 8개 파일, develop 유지, main 미변경
+- 상태 변경: 2026-10-13 12:52 KST 진행중 → 사용자 검토 대기 (바로가기 더블클릭 확인)
+- 참고: R-002 승인 요청(대상 7043218)은 그대로 유지. 승인 대상을 최신 커밋으로 바꾸지 않음(10.4-3). G-CL-008 커밋은 다음 묶음
+- 사용자 승인 R-002: 2026-10-13 12:53 KST 사용자 메시지 'R-002 승인' (대상 X 7043218b6e66c99870ef2afa00a81242efed56ba 고정)
+- Git 요청 G-CL-009: 2026-10-13 12:53 KST R-002 main 반영 (10.4, 전환 없이 fast-forward)
+- Git 허가 G-CL-009: 2026-10-13 12:53 KST (G-CL-008 종료 확인, 미종료 허가 없음)
+- Git 시작 G-CL-009: 2026-10-13 12:53 KST
+- Git 종료 G-CL-009: 2026-10-13 12:54 KST 성공. 실행 직전 main = 69a0af6(승인 요청과 동일), X는 develop 이력에 속함, main은 X의 조상 확인 후 fetch(종료 코드 0). 실행 후 main = 7043218b6e66c99870ef2afa00a81242efed56ba, 현재 브랜치 develop 유지. 로컬 반영, 원격 미게시
+- R-002 결과: 이전 main 69a0af6 → 새 main 7043218. 포함 T-CL-003(cf004c2), T-CL-002(7043218). develop에는 42b86aa(T-CL-004)가 남음(다음 묶음)
+- [T-CL-002] 사용자 검토: 2026-10-13 13:15 KST Q-A1~A7 쉬운 설명 제공 후 사용자가 모두 제안대로 선택, 최종 확인 '확정' → 아키텍처 승인 v1.0 (D-013). 사용자 지시: 아직 구현 시작하지 않음
+- [T-CL-002] 상태 변경: 2026-10-13 13:15 KST 사용자 검토 대기 → 완료 (아키텍처 구조 승인. 데이터 약속 세부는 CONTRACTS 작업 P1-C03~C06에서 별도 승인)
+- Git 요청 G-CL-010: 2026-10-13 13:15 KST D-013 반영 커밋: CLAUDE.md, Docs/GDD/ARCHITECTURE.md·ROADMAP.md, Docs/collab/rules/DECISIONS.md, Docs/collab/view/ROADMAP.html
+- Git 허가 G-CL-010: 2026-10-13 13:15 KST (G-CL-009 종료 확인, 미종료 허가 없음)
+- Git 시작 G-CL-010: 2026-10-13 13:15 KST 기준 42b86aa
+- Git 종료 G-CL-010: 2026-10-13 13:15 KST 성공. 결과 커밋 ab86aeadca184409d25fdbdf5ef4b0b69cdfc6b8 (develop). 5개 파일, develop 유지, main(7043218) 미변경
+
+## T-CL-005 CONTRACTS 초안 C-001~C-003 (ROADMAP P1-C03)
+- 상태: 진행중
+- 화면/영역: 설계 / Docs/collab/rules/CONTRACTS.md
+- 승인 근거: 사용자 지시 (2026-10-13 13:17 KST, 'CONTRACTS 초안 작성 시작해줘'), D-013
+- 수정 범위: CONTRACTS.md (C-001 폴더·씬 소유권, C-002 어셈블리 의존, C-003 화면 전환. 상태 '제안'), ROADMAP md·html
+- 완료 기준: 세 약속을 '제안' 상태로 작성, 사용자에게 결정 필요 항목 정리. 코드·Game/ 변경 없음
+- 기준 커밋: ab86aea
+- 시작: 2026-10-13 13:17 KST
+- 진행: 2026-10-13 13:17 KST CONTRACTS.md에 C-001·C-002·C-003 '제안' 상태로 작성. 템플릿 에셋 위치·manifest(inputsystem 1.20.0, ugui 2.0.0)·activeInputHandler=1(Input System 전용)·빌드 씬 목록(SampleScene) 직접 확인 후 반영. 결정 필요 C1~C4 정리. Game/ 변경 없음
+- 상태 변경: 2026-10-13 13:17 KST 진행중 → 사용자 검토 대기
+- Git 요청 G-CL-011: 2026-10-13 13:17 KST CONTRACTS.md, ROADMAP.md, view/ROADMAP.html 커밋
+- Git 허가 G-CL-011: 2026-10-13 13:17 KST (G-CL-010 종료 확인, 미종료 허가 없음)
+- Git 시작 G-CL-011: 2026-10-13 13:17 KST 기준 ab86aea
+- Git 종료 G-CL-011: 2026-10-13 13:17 KST 성공. 결과 커밋 edbc4edd4cb67a87fe4b722e2a262bf9a2eddbbc (develop). 3개 파일, develop 유지, main(7043218) 미변경
+- 협업 확인: 2026-10-13 13:28 KST M-CX-005(R-002·세션 일원화 확인, P0-C10 표시 동기화 요청 → 이미 G-CL-009 때 완료 처리됨), M-CX-006(SpriteFlow 4방향 정적 생성 완료, 원본 다운로드는 유료 제한 → ROADMAP 기록 요청), M-CX-007(C-001~C-003 검토: C3 동의, ScreenOutcome 4값 충분, 보완 요청 3건) 확인. Codex T-CX-003 구현 완료, Git 쓰기 없음. 미종료 Git 허가·공용 예약 없음. develop edbc4ed, main 7043218
+- [T-CL-005] 진행: 2026-10-13 13:28 KST M-CX-007 보완 1~3을 CONTRACTS 초안(r2)에 반영 시작. 상태 사용자 검토 대기 → 진행중
+- [T-CL-005] 진행: 2026-10-13 13:28 KST CONTRACTS r2 작성 (C-001 4) 공용 경로 파일별 작성자, C-003 3-1) App 방어 규칙, 3-2) EventSystem·카메라·AudioListener, 3-3) 오류 처리, 변경 기록). ROADMAP md·html에 r2와 M-CX-006 기록. Game/ 변경 없음
+- [T-CL-005] 상태 변경: 2026-10-13 13:28 KST 진행중 → 사용자 검토 대기 (C1~C4)
+- Git 요청 G-CL-012: 2026-10-13 13:28 KST CONTRACTS.md, ROADMAP.md, view/ROADMAP.html 커밋
+- Git 허가 G-CL-012: 2026-10-13 13:28 KST (G-CL-011 종료 확인, 미종료 허가 없음)
+- Git 시작 G-CL-012: 2026-10-13 13:28 KST 기준 edbc4ed
+- Git 종료 G-CL-012: 2026-10-13 13:28 KST 성공. 결과 커밋 9bfa5b644a157c4b61e5eddf92a1d4cb07ad136e (develop). 3개 파일, develop 유지, main(7043218) 미변경
+- [T-CL-005] 사용자 결정: 2026-10-13 13:33 KST C1~C4 쉬운 설명 제공. 답변 C1 Claude 소유, C2 Phase 2 시작 때 삭제, C3 허용, C4 '실패 시 바로 엔딩 띄우고 다시 처음부터(메인화면)' → 확인 질문으로 스토리 화면 패배 엔딩 + 결과 화면 건너뜀 확정. 초안 r3 반영 후 최종 확인 '확정' → C-001~C-003 승인 (D-014). ARCHITECTURE 1장 원칙 2·2.1 흐름·3장 표 맞춤. 구현 시작 안 함
+- [T-CL-005] 상태 변경: 2026-10-13 13:33 KST 사용자 검토 대기 → 완료
+- 남은 요구사항: C-004(CampaignState)에 '스토리 재생 대상(일반/패배 엔딩)', C-006(BattleResult)에 '승패', C-009에 패배 엔딩 데이터 반영
+- Git 요청 G-CL-013: 2026-10-13 13:33 KST CONTRACTS.md, DECISIONS.md, ARCHITECTURE.md, ROADMAP.md, view/ROADMAP.html 커밋
+- Git 허가 G-CL-013: 2026-10-13 13:33 KST (G-CL-012 종료 확인, 미종료 허가 없음)
+- Git 시작 G-CL-013: 2026-10-13 13:33 KST 기준 9bfa5b6
+- Git 종료 G-CL-013: 2026-10-13 13:33 KST 성공. 결과 커밋 872b48abf012ad91545c559c4b7fcf92425d3def (develop). 5개 파일, develop 유지, main(7043218) 미변경
+
+## T-CL-006 CONTRACTS 초안 C-004 CampaignState, C-010 정의 데이터 (ROADMAP P1-C04)
+- 상태: 진행중
+- 화면/영역: 설계 / Docs/collab/rules/CONTRACTS.md
+- 승인 근거: 사용자 지시 (2026-10-13 13:34 KST, '진행해보자'), D-013, D-014
+- 수정 범위: CONTRACTS.md (C-004, C-010 '제안'), ROADMAP md·html. 코드·Game/ 변경 없음
+- 포함 요구사항: D-014 C4 패배 흐름(전투 승패, 스토리 재생 대상), D-013 Q-A5 표적 설정 유지, Q-A7 저장 없음
+- 기준 커밋: 872b48a
+- 시작: 2026-10-13 13:34 KST
+- 진행: 2026-10-13 13:36 KST CONTRACTS.md에 C-004·C-010 '제안' r1 작성. 결정 필요 D1(병사 세는 방식), D2(화폐), D3(시작 설정 작성자), D4(IScreenContext에 Definitions 추가 = C-003 변경) 정리. Game/ 변경 없음
+- 상태 변경: 2026-10-13 13:36 KST 진행중 → 사용자 검토 대기
+- Git 요청 G-CL-014: 2026-10-13 13:36 KST CONTRACTS.md, ROADMAP.md, view/ROADMAP.html 커밋
+- Git 허가 G-CL-014: 2026-10-13 13:36 KST (G-CL-013 종료 확인, 미종료 허가 없음)
+- Git 시작 G-CL-014: 2026-10-13 13:36 KST 기준 872b48a
+- Git 종료 G-CL-014: 2026-10-13 13:36 KST 성공. 결과 커밋 5e53c012a0c598ba4ec8cc02add3357be4e02a3d (develop). 3개 파일, develop 유지, main(7043218) 미변경
+- 협업 확인: 2026-10-13 13:39 KST M-CX-008(주인공 걷기 미리보기 HTML Docs/References/codex_hero_walk_preview_v1.html, _HTML 추가 요청), M-CX-009(C-004·C-010 검토: 경계 동의, 보완 요청 3건 + C-006 후속) 확인. Codex T-CX-004·005 Git 쓰기 없음. 미종료 Git 허가·공용 예약 없음. develop 5e53c01
+- [T-CL-006] 진행: 2026-10-13 13:39 KST M-CX-009 반영 r2 시작 (Traps 소비 반영, 분대·영웅 식별자와 배치, 카탈로그 검증, LastBattle 번호). 상태 사용자 검토 대기 → 진행중
+- [T-CL-006] 진행: 2026-10-13 13:40 KST CONTRACTS C-004·C-010 r2 작성(M-CX-009 요청 1~3 + C-006 후속 요구사항), 결정 D5 추가. _HTML에 5_주인공걷기미리보기.html과 목록 카드 추가(대상 경로 존재 확인, M-CX-008). ROADMAP md·html 기록. Game/ 변경 없음
+- [T-CL-006] 상태 변경: 2026-10-13 13:40 KST 진행중 → 사용자 검토 대기 (D1~D5)
+- Git 요청 G-CL-015: 2026-10-13 13:40 KST CONTRACTS.md, ROADMAP.md, view/ROADMAP.html, _HTML/0_전체목록.html, _HTML/5_주인공걷기미리보기.html 커밋
+- Git 허가 G-CL-015: 2026-10-13 13:40 KST (G-CL-014 종료 확인, 미종료 허가 없음)
+- Git 시작 G-CL-015: 2026-10-13 13:40 KST 기준 5e53c01
+- Git 종료 G-CL-015: 2026-10-13 13:40 KST 성공. 결과 커밋 eafa09d3635470b32a7db348af113b1fae8b9c38 (develop). 5개 파일, develop 유지, main(7043218) 미변경
+- [T-CL-006] 사용자 결정: 2026-10-13 13:43 KST D1~D5 쉬운 설명 제공 → 모두 제안대로(D1 분대별, D2 골드, D3 Claude, D4 추가, D5 정비 화면) → 최종 확인 '확정'. C-004·C-010 r3 승인, C-003 v1.1 추가(승인된 약속은 새 버전으로 추가, 기존 C-003 유지) (D-015). 구현 시작 안 함
+- [T-CL-006] 상태 변경: 2026-10-13 13:43 KST 사용자 검토 대기 → 완료
+- Git 요청 G-CL-016: 2026-10-13 13:43 KST CONTRACTS.md, DECISIONS.md, ROADMAP.md, view/ROADMAP.html 커밋
+- Git 허가 G-CL-016: 2026-10-13 13:43 KST (G-CL-015 종료 확인, 미종료 허가 없음)
+- Git 시작 G-CL-016: 2026-10-13 13:43 KST 기준 eafa09d
+- Git 종료 G-CL-016: 2026-10-13 13:43 KST 성공. 결과 커밋 d56311779dbf50c84f7cc5e6063dd16db7950e26 (develop). 4개 파일, develop 유지, main(7043218) 미변경

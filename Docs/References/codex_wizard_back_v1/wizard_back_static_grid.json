@@ -1,0 +1,59 @@
+{
+  "id": "wizard_back",
+  "label": "마법사 뒷모습",
+  "facing": "back",
+  "image": "wizard_back_static_grid.png",
+  "size": [
+    256,
+    384
+  ],
+  "columns": 1,
+  "rows": 1,
+  "cell": [
+    256,
+    384
+  ],
+  "footPivotTopLeft": [
+    128,
+    352
+  ],
+  "unityPivotBottomLeft": [
+    0.5,
+    0.08333333333333333
+  ],
+  "aspect": 0.6666666666666666,
+  "frameIndex": 0,
+  "frames": 1,
+  "animated": false,
+  "fps": 0,
+  "status": "demo-static-only",
+  "source": "wizard_back_source.png",
+  "sourceSha256": "f0507603069b4f3fea6d7be2001f4b41749335b2367bf57720a70a9b835d2cd8",
+  "sourceRect": [
+    341,
+    178,
+    984,
+    1205
+  ],
+  "sourceFootX": 256.0,
+  "pivotMethod": "lower boot-width regions; demo inference, confirm in Unity",
+  "bootRegions": [
+    [
+      112,
+      221
+    ],
+    [
+      295,
+      400
+    ]
+  ],
+  "uniformScale": 0.28940568475452194,
+  "packedRect": [
+    54,
+    55,
+    186,
+    297
+  ],
+  "sheetSha256": "a716888edfd09aabf1bce31c11831c31bdf104f72d8f383133522107c5bc543b",
+  "unityPlayVerified": false
+}

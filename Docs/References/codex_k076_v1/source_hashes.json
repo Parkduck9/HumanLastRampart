@@ -1,0 +1,14 @@
+﻿[
+    {
+        "sha256":  "E3994C5F0D2BB08CE99FB0D75DD9AECDA3AF417ED1B03B6B1E7A02AE764BD511",
+        "path":  "Game\\Assets\\_Project\\Art\\Characters\\Static\\wizard_static.png"
+    },
+    {
+        "sha256":  "E8C581155516D8B85563627D14FCBFD1A40ACC0D90A3B08483943BA0F485E6A6",
+        "path":  "Game\\Assets\\_Project\\Art\\Characters\\Static\\wizard_back_static.png"
+    },
+    {
+        "sha256":  "1F502AE2B03DD5B82EEB7B75EA6153FA80AF72F2DA417F569C3535571F957973",
+        "path":  "Game\\Assets\\_Project\\Art\\Characters\\Static\\wizard_cast.png"
+    }
+]

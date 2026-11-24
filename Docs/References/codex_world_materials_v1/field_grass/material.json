@@ -1,0 +1,31 @@
+{
+  "id": "field_grass",
+  "label": "들판 풀",
+  "albedo": "field_grass/albedo.png",
+  "normal": "field_grass/normal.png",
+  "size": [
+    256,
+    256
+  ],
+  "worldMeters": [
+    8,
+    8
+  ],
+  "pixelsPerMeter": 32,
+  "source": "field_grass_source.png",
+  "sourceSha256": "093f023ab79b12a21edb9715a9afed0624d78091bc052ce418a15794e801308f",
+  "albedoSha256": "a436c29c8c2cca07ee2248266500fc3de8bf3c49b8088b065087fbbcba1cebf2",
+  "normalSha256": "70effd0dd97442da55c3c8a0ac5cc247ea1691ef1d2ada292a474de216276718",
+  "normalSpace": "tangent OpenGL Y+",
+  "normalStrength": 0.55,
+  "normalMaxUnitError": 0.005414025440695802,
+  "wrap": "Repeat",
+  "filter": "Point",
+  "seamMethod": "mirrored periodization of AI material quarter; reflected normal XY corrected; reflection-axis tangent=0",
+  "edgesExact": true,
+  "normalEdgesExact": true,
+  "albedoColorSpace": "sRGB",
+  "normalColorSpace": "Linear",
+  "status": "reference-sample-user-review-pending",
+  "unityPlayVerified": false
+}

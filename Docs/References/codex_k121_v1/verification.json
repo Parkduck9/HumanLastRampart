@@ -1,0 +1,611 @@
+{
+  "assets": [
+    {
+      "file": "layers/0_sky_640x360.png",
+      "size": [
+        640,
+        360
+      ],
+      "size_ok": true,
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "file": "layers/0_sky_1920x1080.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "size_ok": true,
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "file": "layers/0_sky_2560x1440.png",
+      "size": [
+        2560,
+        1440
+      ],
+      "size_ok": true,
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "file": "layers/1_field_640x360.png",
+      "size": [
+        640,
+        360
+      ],
+      "size_ok": true,
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "layers/1_field_1920x1080.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "size_ok": true,
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "layers/1_field_2560x1440.png",
+      "size": [
+        2560,
+        1440
+      ],
+      "size_ok": true,
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "layers/2_fortress_640x360.png",
+      "size": [
+        640,
+        360
+      ],
+      "size_ok": true,
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "layers/2_fortress_1920x1080.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "size_ok": true,
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "layers/2_fortress_2560x1440.png",
+      "size": [
+        2560,
+        1440
+      ],
+      "size_ok": true,
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "layers/3_foreground_640x360.png",
+      "size": [
+        640,
+        360
+      ],
+      "size_ok": true,
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "layers/3_foreground_1920x1080.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "size_ok": true,
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "layers/3_foreground_2560x1440.png",
+      "size": [
+        2560,
+        1440
+      ],
+      "size_ok": true,
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "main_menu_1920x1080.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "size_ok": true,
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "file": "main_menu_2560x1440.png",
+      "size": [
+        2560,
+        1440
+      ],
+      "size_ok": true,
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "file": "icons/lamp_foreground_128.png",
+      "size": [
+        128,
+        128
+      ],
+      "size_ok": true,
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "icons/app_icon_1024.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "size_ok": true,
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "file": "icons/app_icon_512.png",
+      "size": [
+        512,
+        512
+      ],
+      "size_ok": true,
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "file": "icons/app_icon_256.png",
+      "size": [
+        256,
+        256
+      ],
+      "size_ok": true,
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "file": "icons/app_icon_192.png",
+      "size": [
+        192,
+        192
+      ],
+      "size_ok": true,
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "file": "icons/app_icon_128.png",
+      "size": [
+        128,
+        128
+      ],
+      "size_ok": true,
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "file": "icons/app_icon_48.png",
+      "size": [
+        48,
+        48
+      ],
+      "size_ok": true,
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "file": "icons/adaptive_foreground_432.png",
+      "size": [
+        432,
+        432
+      ],
+      "size_ok": true,
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "icons/adaptive_background_432.png",
+      "size": [
+        432,
+        432
+      ],
+      "size_ok": true,
+      "alpha_range": [
+        255,
+        255
+      ]
+    }
+  ],
+  "nearest_expansions": [
+    {
+      "layer": "sky",
+      "size": [
+        1920,
+        1080
+      ],
+      "exact": true
+    },
+    {
+      "layer": "sky",
+      "size": [
+        2560,
+        1440
+      ],
+      "exact": true
+    },
+    {
+      "layer": "field",
+      "size": [
+        1920,
+        1080
+      ],
+      "exact": true
+    },
+    {
+      "layer": "field",
+      "size": [
+        2560,
+        1440
+      ],
+      "exact": true
+    },
+    {
+      "layer": "fortress",
+      "size": [
+        1920,
+        1080
+      ],
+      "exact": true
+    },
+    {
+      "layer": "fortress",
+      "size": [
+        2560,
+        1440
+      ],
+      "exact": true
+    },
+    {
+      "layer": "foreground",
+      "size": [
+        1920,
+        1080
+      ],
+      "exact": true
+    },
+    {
+      "layer": "foreground",
+      "size": [
+        2560,
+        1440
+      ],
+      "exact": true
+    }
+  ],
+  "previews": [
+    {
+      "layer": "sky",
+      "size": [
+        7680,
+        4320
+      ],
+      "exact_4x": true
+    },
+    {
+      "layer": "field",
+      "size": [
+        7680,
+        4320
+      ],
+      "exact_4x": true
+    },
+    {
+      "layer": "fortress",
+      "size": [
+        7680,
+        4320
+      ],
+      "exact_4x": true
+    },
+    {
+      "layer": "foreground",
+      "size": [
+        7680,
+        4320
+      ],
+      "exact_4x": true
+    }
+  ],
+  "foot_baseline": "not applicable: scenery and icon, no character frames",
+  "composite_equals_layers": true,
+  "menu_2560_exact_nearest": true,
+  "preview_main_exact_4x": true,
+  "preview_icon_exact_4x": true,
+  "adaptive": {
+    "safe_circle_center": [
+      216,
+      216
+    ],
+    "radius": 132,
+    "max_content_radius": 116.91236033884526,
+    "bbox": [
+      138,
+      127,
+      308,
+      310
+    ],
+    "nontransparent_pixels": 18952,
+    "inside_safe_circle": true
+  },
+  "cleanup": {
+    "field": {
+      "removed_isolated_pixels": 0,
+      "min_component_area": 3,
+      "alpha_below_32_removed": true
+    },
+    "fortress": {
+      "removed_isolated_pixels": 0,
+      "min_component_area": 3,
+      "alpha_below_32_removed": true
+    },
+    "foreground": {
+      "removed_isolated_pixels": 0,
+      "min_component_area": 3,
+      "alpha_below_32_removed": true
+    },
+    "icon": {
+      "removed_isolated_pixels": 0,
+      "min_component_area": 3,
+      "alpha_below_32_removed": true
+    }
+  },
+  "parallax_edge_coverage": {
+    "overscan": 1.035,
+    "horizontal_margin_1920": 33.6,
+    "vertical_margin_1080": 18.9,
+    "max_x": 10,
+    "max_y": 3,
+    "opaque_sky_under_all_layers": true
+  },
+  "browser": {
+    "images": [
+      {
+        "alt": "하늘",
+        "loaded": true,
+        "embedded": true
+      },
+      {
+        "alt": "먼 들판",
+        "loaded": true,
+        "embedded": true
+      },
+      {
+        "alt": "요새와 등대",
+        "loaded": true,
+        "embedded": true
+      },
+      {
+        "alt": "앞쪽 바위",
+        "loaded": true,
+        "embedded": true
+      },
+      {
+        "alt": "현재 게임에서 사용하는 메인 배경",
+        "loaded": true,
+        "embedded": true
+      },
+      {
+        "alt": "1920×1080 완성 배경",
+        "loaded": true,
+        "embedded": true
+      },
+      {
+        "alt": "하늘",
+        "loaded": true,
+        "embedded": true
+      },
+      {
+        "alt": "먼 들판",
+        "loaded": true,
+        "embedded": true
+      },
+      {
+        "alt": "요새와 등대",
+        "loaded": true,
+        "embedded": true
+      },
+      {
+        "alt": "앞쪽 바위",
+        "loaded": true,
+        "embedded": true
+      },
+      {
+        "alt": "1024픽셀 앱 아이콘",
+        "loaded": true,
+        "embedded": true
+      },
+      {
+        "alt": "512픽셀 앱 아이콘",
+        "loaded": true,
+        "embedded": true
+      },
+      {
+        "alt": "256픽셀 앱 아이콘",
+        "loaded": true,
+        "embedded": true
+      },
+      {
+        "alt": "192픽셀 앱 아이콘",
+        "loaded": true,
+        "embedded": true
+      },
+      {
+        "alt": "128픽셀 앱 아이콘",
+        "loaded": true,
+        "embedded": true
+      },
+      {
+        "alt": "48픽셀 앱 아이콘",
+        "loaded": true,
+        "embedded": true
+      },
+      {
+        "alt": "1024픽셀 앱 아이콘",
+        "loaded": true,
+        "embedded": true
+      },
+      {
+        "alt": "512픽셀 앱 아이콘",
+        "loaded": true,
+        "embedded": true
+      },
+      {
+        "alt": "256픽셀 앱 아이콘",
+        "loaded": true,
+        "embedded": true
+      },
+      {
+        "alt": "192픽셀 앱 아이콘",
+        "loaded": true,
+        "embedded": true
+      },
+      {
+        "alt": "128픽셀 앱 아이콘",
+        "loaded": true,
+        "embedded": true
+      },
+      {
+        "alt": "48픽셀 앱 아이콘",
+        "loaded": true,
+        "embedded": true
+      },
+      {
+        "alt": "1024픽셀 원본 아이콘",
+        "loaded": true,
+        "embedded": true
+      },
+      {
+        "alt": "512픽셀 원본 아이콘",
+        "loaded": true,
+        "embedded": true
+      },
+      {
+        "alt": "48픽셀 아이콘의 최근접 4배 확대",
+        "loaded": true,
+        "embedded": true
+      },
+      {
+        "alt": "적응형 전경",
+        "loaded": true,
+        "embedded": true
+      },
+      {
+        "alt": "적응형 배경",
+        "loaded": true,
+        "embedded": true
+      },
+      {
+        "alt": "안전 원 검토",
+        "loaded": true,
+        "embedded": true
+      },
+      {
+        "alt": "원형 마스크 검토",
+        "loaded": true,
+        "embedded": true
+      },
+      {
+        "alt": "둥근 사각형 마스크 검토",
+        "loaded": true,
+        "embedded": true
+      }
+    ],
+    "all_images_loaded": true,
+    "all_images_embedded": true,
+    "font_loaded": true,
+    "animation_transform_changed": true,
+    "pause_state": "paused",
+    "overlay_hidden_when_toggled": true,
+    "mobile_horizontal_overflow": false,
+    "errors": []
+  },
+  "readonly_source_hashes": [
+    {
+      "file": "Game/Assets/_Project/Art/UI/Resources/ScreenArt/main.png",
+      "unchanged": true
+    },
+    {
+      "file": "Game/ProjectSettings/ProjectSettings.asset",
+      "unchanged": true
+    },
+    {
+      "file": "Game/Assets/_Project/Frontend/MainMenuEntry.cs",
+      "unchanged": true
+    },
+    {
+      "file": "Game/Assets/_Project/UI/ScreenView.cs",
+      "unchanged": true
+    }
+  ]
+}

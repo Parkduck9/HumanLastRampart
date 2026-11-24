@@ -1,0 +1,1200 @@
+﻿{
+    "card":  "K-096",
+    "version":  1,
+    "purpose":  "수리 지도 UI 부품 · 게임 연결은 Claude 담당",
+    "game_modified":  false,
+    "unity_run":  false,
+    "user_approved":  false,
+    "coordinate_system":  "픽셀 좌표는 좌상단 원점. pivot_pixels는 중심이므로 Unity 하단 원점에서도 동일. slice_border_lbrt는 Unity 순서: 좌, 아래, 우, 위.",
+    "character_contract":  "UI 전용이므로 96×128 캐릭터 셀, 발 기준선, 3배 게임 시트는 해당 없음. 납품 PNG는 UI 원본 픽셀 크기. 4배 확대본은 검토용.",
+    "import_hint":  {
+                        "alpha_is_transparency":  true,
+                        "filter":  "Point",
+                        "pixels_per_unit":  "기존 UI 배율에 맞춰 통합 담당이 설정",
+                        "wrap":  "Clamp",
+                        "compression":  "None",
+                        "packing":  "개별 PNG 권장. 시트를 잘라 사용할 경우 프레임마다 동일한 피벗·경계 적용",
+                        "texture_type":  "Sprite (2D and UI)"
+                    },
+    "references":  {
+                       "generation_mode":  "내장 image_gen. 생성 원안에서 연결된 주 부품을 추출하고 최근접 축소. 외곽선은 고정 좌표 실루엣의 형태학적 테두리, 체력 막대는 정확한 UI 도형으로 제작.",
+                       "castle_game_path":  "Game/Assets/_Project/Art/UI/Resources/TrapMap/castle_perimeter.png",
+                       "k091_v2":  "원본 프로젝트의 Docs/References/codex_k091_v2에서 읽기 전용으로 확인. 카드 worktree에는 해당 폴더가 없어 검토에 필요한 5장과 원본 manifest를 reference/에 복사.",
+                       "source_ui_atlas":  "source/generated_ui_atlas.png",
+                       "castle_sha256":  "0CA2CCA526CFFB893F392F5C498A34A23AE30B7CECFA84D07AAC83B693CD5C20"
+                   },
+    "composition":  {
+                        "wall_order":  [
+                                           "north",
+                                           "east",
+                                           "south",
+                                           "west"
+                                       ],
+                        "base":  "reference/castle_perimeter.png",
+                        "outline_rule":  "손상 패치 합성 후 full-canvas 테두리를 source-over 합성. 테두리에는 replace_rect 지우기 금지. 정상 실루엣을 감싸므로 붕괴 상태에서도 선택 영역을 유지.",
+                        "patch_rule":  "base를 그린 뒤 해당 replace_rect를 알파 0으로 지우고 패치를 합성. 붕괴 틈 아래 기존 벽을 남기지 않음.",
+                        "tint_rule":  "목업에서는 교체 사각형 안의 돌벽 RGB에 체력색을 30% 혼합하고 원래 알파는 보존. 색 표시는 런타임 별도 레이어로 처리 가능. 원본 패치 PNG는 변경 없음.",
+                        "replace_rect_xywh":  {
+                                                  "north":  [
+                                                                52,
+                                                                8,
+                                                                152,
+                                                                52
+                                                            ],
+                                                  "south":  [
+                                                                52,
+                                                                196,
+                                                                152,
+                                                                52
+                                                            ],
+                                                  "west":  [
+                                                               8,
+                                                               52,
+                                                               52,
+                                                               152
+                                                           ],
+                                                  "east":  [
+                                                               196,
+                                                               52,
+                                                               52,
+                                                               152
+                                                           ]
+                                              }
+                    },
+    "hp_bar":  {
+                   "border_lbrt":  [
+                                       8,
+                                       8,
+                                       8,
+                                       8
+                                   ],
+                   "inset":  6,
+                   "horizontal_fill":  "왼쪽 정렬. frame 폭 W, 비율 p\u003e0일 때 fill의 전체 폭은 max(16, round((W-12)*p)+12). p=0은 숨김. 높이 28 고정 권장. 0~약 1.3% 극소량은 4px 최소 채움으로 표시되므로 정확한 수치는 별도 텍스트 사용.",
+                   "inner_rect_xywh":  [
+                                           6,
+                                           6,
+                                           308,
+                                           16
+                                       ],
+                   "layers":  [
+                                  "frame",
+                                  "ghost",
+                                  "current_fill"
+                              ],
+                   "thresholds_status":  "검토 예시. 확정 게임 로직 아님",
+                   "ghost_alpha":  155,
+                   "canvas":  [
+                                  320,
+                                  28
+                              ],
+                   "example_thresholds":  {
+                                              "red":  "33% 이하",
+                                              "yellow":  "34~66%",
+                                              "green":  "67% 이상"
+                                          }
+               },
+    "buttons":  {
+                    "widths":  [
+                                   160,
+                                   240,
+                                   336
+                               ],
+                    "state_order":  [
+                                        "normal",
+                                        "hover",
+                                        "pressed",
+                                        "disabled"
+                                    ],
+                    "labels_example":  [
+                                           "+100",
+                                           "이 성벽 전부",
+                                           "모든 성벽 전부"
+                                       ],
+                    "border_lbrt":  [
+                                        28,
+                                        16,
+                                        28,
+                                        16
+                                    ],
+                    "text_baked":  false,
+                    "height":  56
+                },
+    "mockup":  {
+                   "selected":  "north",
+                   "pricing_status":  "검토 예시: 회복 체력당 0.4금화. 실제 가격·버튼 동작은 통합 시 확정.",
+                   "hp_by_wall":  {
+                                      "north":  420,
+                                      "south":  180,
+                                      "west":  0,
+                                      "east":  920
+                                  },
+                   "hp_before":  420,
+                   "size":  [
+                                1920,
+                                1080
+                            ],
+                   "not_game_capture":  true,
+                   "hp_after":  520,
+                   "costs_example":  {
+                                         "plus100":  40,
+                                         "selected_full":  232,
+                                         "all_full":  992
+                                     },
+                   "hp_max":  1000,
+                   "file":  "repair_screen_mockup_1920x1080.png"
+               },
+    "entries":  [
+                    {
+                        "file":  "outlines/east_hover.png",
+                        "size":  [
+                                     256,
+                                     256
+                                 ],
+                        "pivot_pixels":  [
+                                             128,
+                                             128
+                                         ],
+                        "pivot_normalized":  [
+                                                 0.5,
+                                                 0.5
+                                             ],
+                        "alpha":  "straight RGBA",
+                        "sha256":  "6DD9F38B63738F5B19804476FA1AD050B1C9A6229C14CD48F91F57AA3324F79E",
+                        "side":  "east",
+                        "state":  "hover",
+                        "slice_border_lbrt":  [
+                                                  0,
+                                                  0,
+                                                  0,
+                                                  0
+                                              ],
+                        "solid_outline_pixels":  1,
+                        "glow_outer_radius_pixels":  3,
+                        "mask_source":  "K-091 v2 patches/east_healthy.png"
+                    },
+                    {
+                        "file":  "outlines/east_selected.png",
+                        "size":  [
+                                     256,
+                                     256
+                                 ],
+                        "pivot_pixels":  [
+                                             128,
+                                             128
+                                         ],
+                        "pivot_normalized":  [
+                                                 0.5,
+                                                 0.5
+                                             ],
+                        "alpha":  "straight RGBA",
+                        "sha256":  "1BF8D44E726A9C0A2A4FF872C55D67E067BF888169D3F357DBD04FC9A26C7FAE",
+                        "side":  "east",
+                        "state":  "selected",
+                        "slice_border_lbrt":  [
+                                                  0,
+                                                  0,
+                                                  0,
+                                                  0
+                                              ],
+                        "solid_outline_pixels":  2,
+                        "glow_outer_radius_pixels":  5,
+                        "mask_source":  "K-091 v2 patches/east_healthy.png"
+                    },
+                    {
+                        "file":  "outlines/north_hover.png",
+                        "size":  [
+                                     256,
+                                     256
+                                 ],
+                        "pivot_pixels":  [
+                                             128,
+                                             128
+                                         ],
+                        "pivot_normalized":  [
+                                                 0.5,
+                                                 0.5
+                                             ],
+                        "alpha":  "straight RGBA",
+                        "sha256":  "79950BCB0663DBB155239C1724FF1C9AC36A017233AEB91FBA89E07BE2FDB962",
+                        "side":  "north",
+                        "state":  "hover",
+                        "slice_border_lbrt":  [
+                                                  0,
+                                                  0,
+                                                  0,
+                                                  0
+                                              ],
+                        "solid_outline_pixels":  1,
+                        "glow_outer_radius_pixels":  3,
+                        "mask_source":  "K-091 v2 patches/north_healthy.png"
+                    },
+                    {
+                        "file":  "outlines/north_selected.png",
+                        "size":  [
+                                     256,
+                                     256
+                                 ],
+                        "pivot_pixels":  [
+                                             128,
+                                             128
+                                         ],
+                        "pivot_normalized":  [
+                                                 0.5,
+                                                 0.5
+                                             ],
+                        "alpha":  "straight RGBA",
+                        "sha256":  "804FAFED81DA45B995408F453C533A334F90F1373D4184F3C2A333461B2919E4",
+                        "side":  "north",
+                        "state":  "selected",
+                        "slice_border_lbrt":  [
+                                                  0,
+                                                  0,
+                                                  0,
+                                                  0
+                                              ],
+                        "solid_outline_pixels":  2,
+                        "glow_outer_radius_pixels":  5,
+                        "mask_source":  "K-091 v2 patches/north_healthy.png"
+                    },
+                    {
+                        "file":  "outlines/south_hover.png",
+                        "size":  [
+                                     256,
+                                     256
+                                 ],
+                        "pivot_pixels":  [
+                                             128,
+                                             128
+                                         ],
+                        "pivot_normalized":  [
+                                                 0.5,
+                                                 0.5
+                                             ],
+                        "alpha":  "straight RGBA",
+                        "sha256":  "20DFC738C2D8B2B0AD70D21B676EE1BF3A77AA857B9D0CEB30A9386B31745944",
+                        "side":  "south",
+                        "state":  "hover",
+                        "slice_border_lbrt":  [
+                                                  0,
+                                                  0,
+                                                  0,
+                                                  0
+                                              ],
+                        "solid_outline_pixels":  1,
+                        "glow_outer_radius_pixels":  3,
+                        "mask_source":  "K-091 v2 patches/south_healthy.png"
+                    },
+                    {
+                        "file":  "outlines/south_selected.png",
+                        "size":  [
+                                     256,
+                                     256
+                                 ],
+                        "pivot_pixels":  [
+                                             128,
+                                             128
+                                         ],
+                        "pivot_normalized":  [
+                                                 0.5,
+                                                 0.5
+                                             ],
+                        "alpha":  "straight RGBA",
+                        "sha256":  "967FEA6D41AEC7F65FF4D7419F5164CA9D3580BEE66BB7EF9CE6FC1E00DDE5E8",
+                        "side":  "south",
+                        "state":  "selected",
+                        "slice_border_lbrt":  [
+                                                  0,
+                                                  0,
+                                                  0,
+                                                  0
+                                              ],
+                        "solid_outline_pixels":  2,
+                        "glow_outer_radius_pixels":  5,
+                        "mask_source":  "K-091 v2 patches/south_healthy.png"
+                    },
+                    {
+                        "file":  "outlines/west_hover.png",
+                        "size":  [
+                                     256,
+                                     256
+                                 ],
+                        "pivot_pixels":  [
+                                             128,
+                                             128
+                                         ],
+                        "pivot_normalized":  [
+                                                 0.5,
+                                                 0.5
+                                             ],
+                        "alpha":  "straight RGBA",
+                        "sha256":  "BB379A82AF21BC4D9FF130749F0E5EF134836DE0BCA99C5AB6647CC9D736175C",
+                        "side":  "west",
+                        "state":  "hover",
+                        "slice_border_lbrt":  [
+                                                  0,
+                                                  0,
+                                                  0,
+                                                  0
+                                              ],
+                        "solid_outline_pixels":  1,
+                        "glow_outer_radius_pixels":  3,
+                        "mask_source":  "K-091 v2 patches/west_healthy.png"
+                    },
+                    {
+                        "file":  "outlines/west_selected.png",
+                        "size":  [
+                                     256,
+                                     256
+                                 ],
+                        "pivot_pixels":  [
+                                             128,
+                                             128
+                                         ],
+                        "pivot_normalized":  [
+                                                 0.5,
+                                                 0.5
+                                             ],
+                        "alpha":  "straight RGBA",
+                        "sha256":  "8C198D21632744353AC7DD58CD9544AB6CF572B00FB409BB9014E9A7A1345D57",
+                        "side":  "west",
+                        "state":  "selected",
+                        "slice_border_lbrt":  [
+                                                  0,
+                                                  0,
+                                                  0,
+                                                  0
+                                              ],
+                        "solid_outline_pixels":  2,
+                        "glow_outer_radius_pixels":  5,
+                        "mask_source":  "K-091 v2 patches/west_healthy.png"
+                    },
+                    {
+                        "file":  "bars/hp_fill_ghost.png",
+                        "size":  [
+                                     320,
+                                     28
+                                 ],
+                        "pivot_pixels":  [
+                                             160,
+                                             14
+                                         ],
+                        "pivot_normalized":  [
+                                                 0.5,
+                                                 0.5
+                                             ],
+                        "alpha":  "straight RGBA",
+                        "sha256":  "B69191EF7C5B1013EFC63ACE3DEE2133F9991273A9965E764B9E685FB0AC4436",
+                        "slice_border_lbrt":  [
+                                                  8,
+                                                  8,
+                                                  8,
+                                                  8
+                                              ],
+                        "minimum_size":  [
+                                             16,
+                                             16
+                                         ],
+                        "fill_rect_xywh":  [
+                                               6,
+                                               6,
+                                               308,
+                                               16
+                                           ]
+                    },
+                    {
+                        "file":  "bars/hp_fill_green.png",
+                        "size":  [
+                                     320,
+                                     28
+                                 ],
+                        "pivot_pixels":  [
+                                             160,
+                                             14
+                                         ],
+                        "pivot_normalized":  [
+                                                 0.5,
+                                                 0.5
+                                             ],
+                        "alpha":  "straight RGBA",
+                        "sha256":  "C7EDAA44DEC1AE610280DA208CA1E9CEB4F3379E328D544D5F3C98858E700175",
+                        "slice_border_lbrt":  [
+                                                  8,
+                                                  8,
+                                                  8,
+                                                  8
+                                              ],
+                        "minimum_size":  [
+                                             16,
+                                             16
+                                         ],
+                        "fill_rect_xywh":  [
+                                               6,
+                                               6,
+                                               308,
+                                               16
+                                           ]
+                    },
+                    {
+                        "file":  "bars/hp_fill_red.png",
+                        "size":  [
+                                     320,
+                                     28
+                                 ],
+                        "pivot_pixels":  [
+                                             160,
+                                             14
+                                         ],
+                        "pivot_normalized":  [
+                                                 0.5,
+                                                 0.5
+                                             ],
+                        "alpha":  "straight RGBA",
+                        "sha256":  "7AE7779DE199D03A23DE96A391E59CF00F67E6577FE0C34CA65B8147A7A5A106",
+                        "slice_border_lbrt":  [
+                                                  8,
+                                                  8,
+                                                  8,
+                                                  8
+                                              ],
+                        "minimum_size":  [
+                                             16,
+                                             16
+                                         ],
+                        "fill_rect_xywh":  [
+                                               6,
+                                               6,
+                                               308,
+                                               16
+                                           ]
+                    },
+                    {
+                        "file":  "bars/hp_fill_yellow.png",
+                        "size":  [
+                                     320,
+                                     28
+                                 ],
+                        "pivot_pixels":  [
+                                             160,
+                                             14
+                                         ],
+                        "pivot_normalized":  [
+                                                 0.5,
+                                                 0.5
+                                             ],
+                        "alpha":  "straight RGBA",
+                        "sha256":  "5ED14DC0D1136B0C7C9263234AC598B1F9C92D4D79052BD850B924932AA13ADC",
+                        "slice_border_lbrt":  [
+                                                  8,
+                                                  8,
+                                                  8,
+                                                  8
+                                              ],
+                        "minimum_size":  [
+                                             16,
+                                             16
+                                         ],
+                        "fill_rect_xywh":  [
+                                               6,
+                                               6,
+                                               308,
+                                               16
+                                           ]
+                    },
+                    {
+                        "file":  "bars/hp_frame.png",
+                        "size":  [
+                                     320,
+                                     28
+                                 ],
+                        "pivot_pixels":  [
+                                             160,
+                                             14
+                                         ],
+                        "pivot_normalized":  [
+                                                 0.5,
+                                                 0.5
+                                             ],
+                        "alpha":  "straight RGBA",
+                        "sha256":  "955D4CD7910D86775B77BF8BA986D43BCBA5A1D0C222C4E62B339A41E3463403",
+                        "slice_border_lbrt":  [
+                                                  8,
+                                                  8,
+                                                  8,
+                                                  8
+                                              ],
+                        "minimum_size":  [
+                                             16,
+                                             16
+                                         ],
+                        "fill_rect_xywh":  [
+                                               6,
+                                               6,
+                                               308,
+                                               16
+                                           ]
+                    },
+                    {
+                        "file":  "buttons/repair_medium_disabled.png",
+                        "size":  [
+                                     240,
+                                     56
+                                 ],
+                        "pivot_pixels":  [
+                                             120,
+                                             28
+                                         ],
+                        "pivot_normalized":  [
+                                                 0.5,
+                                                 0.5
+                                             ],
+                        "alpha":  "straight RGBA",
+                        "sha256":  "53DE17FC76DD1B3C66DEBE3659B060D7D85966696A5BA4E9D317573CD33E6486",
+                        "slice_border_lbrt":  [
+                                                  28,
+                                                  16,
+                                                  28,
+                                                  16
+                                              ],
+                        "content_inset_lbrt":  [
+                                                   30,
+                                                   16,
+                                                   30,
+                                                   16
+                                               ],
+                        "minimum_size":  [
+                                             80,
+                                             40
+                                         ],
+                        "state":  "disabled"
+                    },
+                    {
+                        "file":  "buttons/repair_medium_hover.png",
+                        "size":  [
+                                     240,
+                                     56
+                                 ],
+                        "pivot_pixels":  [
+                                             120,
+                                             28
+                                         ],
+                        "pivot_normalized":  [
+                                                 0.5,
+                                                 0.5
+                                             ],
+                        "alpha":  "straight RGBA",
+                        "sha256":  "BB2A63F05238083914E3272F7AB6139DD47A2F8A672FEDA1CB90B2C5151DA6C4",
+                        "slice_border_lbrt":  [
+                                                  28,
+                                                  16,
+                                                  28,
+                                                  16
+                                              ],
+                        "content_inset_lbrt":  [
+                                                   30,
+                                                   16,
+                                                   30,
+                                                   16
+                                               ],
+                        "minimum_size":  [
+                                             80,
+                                             40
+                                         ],
+                        "state":  "hover"
+                    },
+                    {
+                        "file":  "buttons/repair_medium_normal.png",
+                        "size":  [
+                                     240,
+                                     56
+                                 ],
+                        "pivot_pixels":  [
+                                             120,
+                                             28
+                                         ],
+                        "pivot_normalized":  [
+                                                 0.5,
+                                                 0.5
+                                             ],
+                        "alpha":  "straight RGBA",
+                        "sha256":  "788B5EA13759E2A2CB9693A7135EAFE28CFA7012EEE77166FC481902FD7D8807",
+                        "slice_border_lbrt":  [
+                                                  28,
+                                                  16,
+                                                  28,
+                                                  16
+                                              ],
+                        "content_inset_lbrt":  [
+                                                   30,
+                                                   16,
+                                                   30,
+                                                   16
+                                               ],
+                        "minimum_size":  [
+                                             80,
+                                             40
+                                         ],
+                        "state":  "normal"
+                    },
+                    {
+                        "file":  "buttons/repair_medium_pressed.png",
+                        "size":  [
+                                     240,
+                                     56
+                                 ],
+                        "pivot_pixels":  [
+                                             120,
+                                             28
+                                         ],
+                        "pivot_normalized":  [
+                                                 0.5,
+                                                 0.5
+                                             ],
+                        "alpha":  "straight RGBA",
+                        "sha256":  "A8F89FC9CA549AC1AB02D38D702C1245185E261B665791EBFA6121791AE996B2",
+                        "slice_border_lbrt":  [
+                                                  28,
+                                                  16,
+                                                  28,
+                                                  16
+                                              ],
+                        "content_inset_lbrt":  [
+                                                   30,
+                                                   16,
+                                                   30,
+                                                   16
+                                               ],
+                        "minimum_size":  [
+                                             80,
+                                             40
+                                         ],
+                        "state":  "pressed"
+                    },
+                    {
+                        "file":  "buttons/repair_small_disabled.png",
+                        "size":  [
+                                     160,
+                                     56
+                                 ],
+                        "pivot_pixels":  [
+                                             80,
+                                             28
+                                         ],
+                        "pivot_normalized":  [
+                                                 0.5,
+                                                 0.5
+                                             ],
+                        "alpha":  "straight RGBA",
+                        "sha256":  "E72D44E1B370CEBEB08981BEBFF8779E539E00082A490BCA19150411993F7D0A",
+                        "slice_border_lbrt":  [
+                                                  28,
+                                                  16,
+                                                  28,
+                                                  16
+                                              ],
+                        "content_inset_lbrt":  [
+                                                   30,
+                                                   16,
+                                                   30,
+                                                   16
+                                               ],
+                        "minimum_size":  [
+                                             80,
+                                             40
+                                         ],
+                        "state":  "disabled"
+                    },
+                    {
+                        "file":  "buttons/repair_small_hover.png",
+                        "size":  [
+                                     160,
+                                     56
+                                 ],
+                        "pivot_pixels":  [
+                                             80,
+                                             28
+                                         ],
+                        "pivot_normalized":  [
+                                                 0.5,
+                                                 0.5
+                                             ],
+                        "alpha":  "straight RGBA",
+                        "sha256":  "7E0CF9AAF0B329D83CAD032EE3E1C593D9A2A0D151035E5C0722DFE8537918E3",
+                        "slice_border_lbrt":  [
+                                                  28,
+                                                  16,
+                                                  28,
+                                                  16
+                                              ],
+                        "content_inset_lbrt":  [
+                                                   30,
+                                                   16,
+                                                   30,
+                                                   16
+                                               ],
+                        "minimum_size":  [
+                                             80,
+                                             40
+                                         ],
+                        "state":  "hover"
+                    },
+                    {
+                        "file":  "buttons/repair_small_normal.png",
+                        "size":  [
+                                     160,
+                                     56
+                                 ],
+                        "pivot_pixels":  [
+                                             80,
+                                             28
+                                         ],
+                        "pivot_normalized":  [
+                                                 0.5,
+                                                 0.5
+                                             ],
+                        "alpha":  "straight RGBA",
+                        "sha256":  "E84F07F9D7A14F7FF2DB70529EC671721938F3482456D136D8A5186E6D7A7A45",
+                        "slice_border_lbrt":  [
+                                                  28,
+                                                  16,
+                                                  28,
+                                                  16
+                                              ],
+                        "content_inset_lbrt":  [
+                                                   30,
+                                                   16,
+                                                   30,
+                                                   16
+                                               ],
+                        "minimum_size":  [
+                                             80,
+                                             40
+                                         ],
+                        "state":  "normal"
+                    },
+                    {
+                        "file":  "buttons/repair_small_pressed.png",
+                        "size":  [
+                                     160,
+                                     56
+                                 ],
+                        "pivot_pixels":  [
+                                             80,
+                                             28
+                                         ],
+                        "pivot_normalized":  [
+                                                 0.5,
+                                                 0.5
+                                             ],
+                        "alpha":  "straight RGBA",
+                        "sha256":  "D7AD869D8C9630F3011C83F819CE28DD60319AFC82AFD4E94DD5BA04091752CD",
+                        "slice_border_lbrt":  [
+                                                  28,
+                                                  16,
+                                                  28,
+                                                  16
+                                              ],
+                        "content_inset_lbrt":  [
+                                                   30,
+                                                   16,
+                                                   30,
+                                                   16
+                                               ],
+                        "minimum_size":  [
+                                             80,
+                                             40
+                                         ],
+                        "state":  "pressed"
+                    },
+                    {
+                        "file":  "buttons/repair_wide_disabled.png",
+                        "size":  [
+                                     336,
+                                     56
+                                 ],
+                        "pivot_pixels":  [
+                                             168,
+                                             28
+                                         ],
+                        "pivot_normalized":  [
+                                                 0.5,
+                                                 0.5
+                                             ],
+                        "alpha":  "straight RGBA",
+                        "sha256":  "222E5E2AED2A5AED610F3432C2E3C37D58A233ADA811FE1E7F51DED8DA72AAC9",
+                        "slice_border_lbrt":  [
+                                                  28,
+                                                  16,
+                                                  28,
+                                                  16
+                                              ],
+                        "content_inset_lbrt":  [
+                                                   30,
+                                                   16,
+                                                   30,
+                                                   16
+                                               ],
+                        "minimum_size":  [
+                                             80,
+                                             40
+                                         ],
+                        "state":  "disabled"
+                    },
+                    {
+                        "file":  "buttons/repair_wide_hover.png",
+                        "size":  [
+                                     336,
+                                     56
+                                 ],
+                        "pivot_pixels":  [
+                                             168,
+                                             28
+                                         ],
+                        "pivot_normalized":  [
+                                                 0.5,
+                                                 0.5
+                                             ],
+                        "alpha":  "straight RGBA",
+                        "sha256":  "B0E0289F9FA7D89E9B3968DFE1A901D02E69BC34DDFFBA5A3033224AE19D048E",
+                        "slice_border_lbrt":  [
+                                                  28,
+                                                  16,
+                                                  28,
+                                                  16
+                                              ],
+                        "content_inset_lbrt":  [
+                                                   30,
+                                                   16,
+                                                   30,
+                                                   16
+                                               ],
+                        "minimum_size":  [
+                                             80,
+                                             40
+                                         ],
+                        "state":  "hover"
+                    },
+                    {
+                        "file":  "buttons/repair_wide_normal.png",
+                        "size":  [
+                                     336,
+                                     56
+                                 ],
+                        "pivot_pixels":  [
+                                             168,
+                                             28
+                                         ],
+                        "pivot_normalized":  [
+                                                 0.5,
+                                                 0.5
+                                             ],
+                        "alpha":  "straight RGBA",
+                        "sha256":  "BB69E27D92D95636CCA5AF9C1CB3425499638C338E0F16652EF5289230C40066",
+                        "slice_border_lbrt":  [
+                                                  28,
+                                                  16,
+                                                  28,
+                                                  16
+                                              ],
+                        "content_inset_lbrt":  [
+                                                   30,
+                                                   16,
+                                                   30,
+                                                   16
+                                               ],
+                        "minimum_size":  [
+                                             80,
+                                             40
+                                         ],
+                        "state":  "normal"
+                    },
+                    {
+                        "file":  "buttons/repair_wide_pressed.png",
+                        "size":  [
+                                     336,
+                                     56
+                                 ],
+                        "pivot_pixels":  [
+                                             168,
+                                             28
+                                         ],
+                        "pivot_normalized":  [
+                                                 0.5,
+                                                 0.5
+                                             ],
+                        "alpha":  "straight RGBA",
+                        "sha256":  "624F0CB2116B794674D04976BA29CA9C748ED8BC7D7CCFA2D08BE77ACE774C73",
+                        "slice_border_lbrt":  [
+                                                  28,
+                                                  16,
+                                                  28,
+                                                  16
+                                              ],
+                        "content_inset_lbrt":  [
+                                                   30,
+                                                   16,
+                                                   30,
+                                                   16
+                                               ],
+                        "minimum_size":  [
+                                             80,
+                                             40
+                                         ],
+                        "state":  "pressed"
+                    },
+                    {
+                        "file":  "icons/coin_24.png",
+                        "size":  [
+                                     24,
+                                     24
+                                 ],
+                        "pivot_pixels":  [
+                                             12,
+                                             12
+                                         ],
+                        "pivot_normalized":  [
+                                                 0.5,
+                                                 0.5
+                                             ],
+                        "alpha":  "straight RGBA",
+                        "sha256":  "EBF8CBDF1FBCD0C28E126C37DBC2D87FAECA2DC7C9486744186203C48B03CA3F",
+                        "slice_border_lbrt":  [
+                                                  0,
+                                                  0,
+                                                  0,
+                                                  0
+                                              ],
+                        "safe_padding_min_pixels":  1
+                    },
+                    {
+                        "file":  "icons/coin_32.png",
+                        "size":  [
+                                     32,
+                                     32
+                                 ],
+                        "pivot_pixels":  [
+                                             16,
+                                             16
+                                         ],
+                        "pivot_normalized":  [
+                                                 0.5,
+                                                 0.5
+                                             ],
+                        "alpha":  "straight RGBA",
+                        "sha256":  "5835F1B4619B99DE437F0C22327E2906A5C9E03A6B1099B34F6387DE50E5AE4B",
+                        "slice_border_lbrt":  [
+                                                  0,
+                                                  0,
+                                                  0,
+                                                  0
+                                              ],
+                        "safe_padding_min_pixels":  1
+                    },
+                    {
+                        "file":  "icons/hammer_24.png",
+                        "size":  [
+                                     24,
+                                     24
+                                 ],
+                        "pivot_pixels":  [
+                                             12,
+                                             12
+                                         ],
+                        "pivot_normalized":  [
+                                                 0.5,
+                                                 0.5
+                                             ],
+                        "alpha":  "straight RGBA",
+                        "sha256":  "D82347F492F834E20C85C541E35D5131913635C39139EBB8534F94A1F82D9DDA",
+                        "slice_border_lbrt":  [
+                                                  0,
+                                                  0,
+                                                  0,
+                                                  0
+                                              ],
+                        "safe_padding_min_pixels":  1
+                    },
+                    {
+                        "file":  "icons/hammer_32.png",
+                        "size":  [
+                                     32,
+                                     32
+                                 ],
+                        "pivot_pixels":  [
+                                             16,
+                                             16
+                                         ],
+                        "pivot_normalized":  [
+                                                 0.5,
+                                                 0.5
+                                             ],
+                        "alpha":  "straight RGBA",
+                        "sha256":  "522A211A424FFD0250D6112265A2706433C32A756AA6643E52E4033EAF305FE7",
+                        "slice_border_lbrt":  [
+                                                  0,
+                                                  0,
+                                                  0,
+                                                  0
+                                              ],
+                        "safe_padding_min_pixels":  1
+                    }
+                ],
+    "sheets":  [
+                   {
+                       "size":  [
+                                    320,
+                                    140
+                                ],
+                       "preview_4x":  "previews/hp_bar_sheet_4x.png",
+                       "grid_columns_rows":  [
+                                                 1,
+                                                 5
+                                             ],
+                       "frame_order_row_major":  [
+                                                     "frame",
+                                                     "fill_green",
+                                                     "fill_yellow",
+                                                     "fill_red",
+                                                     "fill_ghost"
+                                                 ],
+                       "cell_size":  [
+                                         320,
+                                         28
+                                     ],
+                       "file":  "hp_bar_sheet.png"
+                   },
+                   {
+                       "size":  [
+                                    48,
+                                    24
+                                ],
+                       "preview_4x":  "previews/icon_24_sheet_4x.png",
+                       "grid_columns_rows":  [
+                                                 2,
+                                                 1
+                                             ],
+                       "frame_order_row_major":  [
+                                                     "coin",
+                                                     "hammer"
+                                                 ],
+                       "cell_size":  [
+                                         24,
+                                         24
+                                     ],
+                       "file":  "icon_24_sheet.png"
+                   },
+                   {
+                       "size":  [
+                                    64,
+                                    32
+                                ],
+                       "preview_4x":  "previews/icon_32_sheet_4x.png",
+                       "grid_columns_rows":  [
+                                                 2,
+                                                 1
+                                             ],
+                       "frame_order_row_major":  [
+                                                     "coin",
+                                                     "hammer"
+                                                 ],
+                       "cell_size":  [
+                                         32,
+                                         32
+                                     ],
+                       "file":  "icon_32_sheet.png"
+                   },
+                   {
+                       "size":  [
+                                    960,
+                                    56
+                                ],
+                       "preview_4x":  "previews/repair_button_medium_sheet_4x.png",
+                       "grid_columns_rows":  [
+                                                 4,
+                                                 1
+                                             ],
+                       "frame_order_row_major":  [
+                                                     "normal",
+                                                     "hover",
+                                                     "pressed",
+                                                     "disabled"
+                                                 ],
+                       "cell_size":  [
+                                         240,
+                                         56
+                                     ],
+                       "file":  "repair_button_medium_sheet.png"
+                   },
+                   {
+                       "size":  [
+                                    640,
+                                    56
+                                ],
+                       "preview_4x":  "previews/repair_button_small_sheet_4x.png",
+                       "grid_columns_rows":  [
+                                                 4,
+                                                 1
+                                             ],
+                       "frame_order_row_major":  [
+                                                     "normal",
+                                                     "hover",
+                                                     "pressed",
+                                                     "disabled"
+                                                 ],
+                       "cell_size":  [
+                                         160,
+                                         56
+                                     ],
+                       "file":  "repair_button_small_sheet.png"
+                   },
+                   {
+                       "size":  [
+                                    1344,
+                                    56
+                                ],
+                       "preview_4x":  "previews/repair_button_wide_sheet_4x.png",
+                       "grid_columns_rows":  [
+                                                 4,
+                                                 1
+                                             ],
+                       "frame_order_row_major":  [
+                                                     "normal",
+                                                     "hover",
+                                                     "pressed",
+                                                     "disabled"
+                                                 ],
+                       "cell_size":  [
+                                         336,
+                                         56
+                                     ],
+                       "file":  "repair_button_wide_sheet.png"
+                   },
+                   {
+                       "size":  [
+                                    1024,
+                                    512
+                                ],
+                       "preview_4x":  "previews/wall_outline_sheet_4x.png",
+                       "grid_columns_rows":  [
+                                                 4,
+                                                 2
+                                             ],
+                       "frame_order_row_major":  [
+                                                     "north_hover",
+                                                     "east_hover",
+                                                     "south_hover",
+                                                     "west_hover",
+                                                     "north_selected",
+                                                     "east_selected",
+                                                     "south_selected",
+                                                     "west_selected"
+                                                 ],
+                       "cell_size":  [
+                                         256,
+                                         256
+                                     ],
+                       "file":  "wall_outline_sheet.png"
+                   }
+               ],
+    "review_page":  "_HTML/6_그림_화면/codex_K-096_수리지도UI_v1.html",
+    "review_self_contained":  true
+}

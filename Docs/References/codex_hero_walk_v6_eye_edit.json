@@ -1,0 +1,15 @@
+{
+  "source": {
+    "x": 271,
+    "y": 155
+  },
+  "target": {
+    "x": 1441,
+    "y": 155
+  },
+  "width": 21,
+  "height": 23,
+  "changedPixels": 483,
+  "changedPixelsOutsideEye": 0,
+  "base": "codex_hero_walk_v5_front_back.png"
+}

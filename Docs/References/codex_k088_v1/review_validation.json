@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "imageCount": 11,
+  "allImagesDecoded": true,
+  "canvasSourceCount": 12,
+  "animationAdvances": true,
+  "pauseResume": true,
+  "restart": true,
+  "speedSelect": true,
+  "backgroundSelect": true,
+  "mobileOverflow": false,
+  "errors": [],
+  "externalRequests": [],
+  "captures": [
+    "review/frame_10ms.png",
+    "review/frame_50ms.png",
+    "review/frame_100ms.png",
+    "review/frame_250ms.png"
+  ],
+  "unityTested": false
+}

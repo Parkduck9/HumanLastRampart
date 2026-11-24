@@ -1,0 +1,5 @@
+{
+  "tool": "내장 image_gen",
+  "prompt": "EDIT TARGET: the attached white-haired officer four-frame running strip. Change ONLY frames 2 and 4 so the NEAR ARM AND NEAR LEG ARE IN THE OPPOSITE RUNNING PHASE from frames1/3. Keep frames1/3 untouched. In frame2 and frame4 the large visible GOLD EPAULETTE (on the viewer-facing shoulder, currently on right) MUST MOVE TO THE LEFT with its elbow, its black sleeve and fist extended FORWARD TO THE LEFT in front of chest. The visible near boot MUST EXTEND BACKWARDS TO THE RIGHT. The far leg goes forward LEFT. This is the opposite half of the running cycle. Do not simply vary coat hem or bend the same forward leg. Entire visible NEAR ARM goes FORWARD LEFT, entire near LEG goes BACK RIGHT. Same head pose left profile, white hair, black coat gold trim brown boots, scale, THREE HEADS TALL, transparent background. Four equal cells strip, 1-pixel coarse pixel art. Make frames2/4 slightly distinct passing and flight poses. No extra limbs.",
+  "result": "generated_run_v2.png. 팔 교대 보완. 다리 위상과 접지 자연스러움은 사용자 검토 필요."
+}

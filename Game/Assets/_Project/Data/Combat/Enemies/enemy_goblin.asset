@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b213dba238c84de29ff412c3840cee5e, type: 3}
+  m_Name: enemy_goblin
+  m_EditorClassIdentifier:
+  id: enemy_goblin
+  displayName: 곤봉 고블린
+  maxHp: 30
+  moveSpeed: 4
+  wallDamage: 1
+  rewardGold: 1
+  onWallAttack: 5
+  sheet: {fileID: 2800000, guid: b3d4ea76535e4d6d85ca1a232a8d7b12, type: 3}
+  normalSheet: {fileID: 2800000, guid: 9fb5251f82fe44c99d0a66f7004038c4, type: 3}
+  deathSheet: {fileID: 2800000, guid: a090547155244c3dab2e40b2668f082c, type: 3}
+  attackSheet: {fileID: 2800000, guid: fe60191f0e09405294d9bb82dca91637, type: 3}
+  poseNormals:
+  - Sheet: {fileID: 2800000, guid: b3d4ea76535e4d6d85ca1a232a8d7b12, type: 3}
+    Normal: {fileID: 2800000, guid: 9fb5251f82fe44c99d0a66f7004038c4, type: 3}
+  - Sheet: {fileID: 2800000, guid: a090547155244c3dab2e40b2668f082c, type: 3}
+    Normal: {fileID: 2800000, guid: 3efb7ef487b34449b5330c2a5fa45fc8, type: 3}
+  - Sheet: {fileID: 2800000, guid: fe60191f0e09405294d9bb82dca91637, type: 3}
+    Normal: {fileID: 2800000, guid: 2b774412f2a04d439a57d885d210f613, type: 3}

@@ -1,0 +1,183 @@
+using HumanLastRampart.Combat.PerfLab;
+using HumanLastRampart.Core.CombatContracts;
+using Unity.Mathematics;
+using UnityEngine;
+
+namespace HumanLastRampart.Combat.Battle
+{
+    // 등불 밝기와 등대 빛줄기 (Concept_Beacon_v1 9.3·9.4)
+    // - 밝기는 적 수(시작 때만)와 빛줄기 폭·효과를 정한다. 전투 중 바꿔도 적 수는 그대로
+    // - 빛줄기는 성 가운데에서 한 방향으로 뻗는 부채꼴. 방향을 바꾸면 BeamRotateSeconds(6초)에 걸쳐 돌아간다 (도는 중에도 그 순간의 각도로 적용)
+    // - 방향 명령은 가운데 등대 탑의 일꾼에게만 내린다 (W9: 주인공이 계단으로 내려가 명령, BattleCameraRig·BattleEntry). 시뮬레이션은 누가 부르든 RotateBeam 하나
+    // - 빛 안 적: 이동 느려짐 + 받는 피해 증가 (모든 피해가 지나는 ApplyBattleHitsJob에서 한 번에 곱한다)
+    // - 밝기별 켜 둔 시간(LampSeconds)을 쌓아 결과에 넣는다 (등대 복구 계산용)
+    public sealed partial class BattleSim
+    {
+        // 90도 한 번 도는 데 걸리는 시간 — 일꾼이 탑을 미는 속도. 조정 가능한 값 (사용자 4차 결정: 6초, 측정 뒤 다시 정한다)
+        public const float BeamRotateSeconds = 6f;
+
+        public static readonly float[] BeamWidthDegrees = { 60f, 40f, 80f };      // 인덱스 = (int)LampBrightness (보통·약·강)
+        public static readonly float[] BeamSlowAmount = { 0.25f, 0.15f, 0.35f };   // 이동 감소
+        public static readonly float[] BeamDamageBonus = { 0.20f, 0.10f, 0.30f };  // 받는 피해 증가
+        public static readonly float[] LampCountMultiplier = { 1f, 0.8f, 1.15f };   // 전체 적 수 (시작 때만). 옛 저장·시험용 대체값 — 실제 값은 battle_rules.asset(setup.LampCountMultiplier)이 우선
+
+        public LampBrightness Lamp { get; private set; }
+        public int BeamSide { get; private set; }
+        public bool BeamRotating => beamRotateLeft > 0f;
+        public float BeamAngleDegrees { get; private set; }   // 수평 각도: +x = 0°, +z(북) = 90°
+        public float BeamTargetDegrees => beamTo;             // 도는 중이면 도착할 각도 (지도에 목표 방향을 보여 주는 데 쓴다). 서 있으면 지금 각도와 같다
+        // 지금 도는 명령의 전체 각도가 180도 이상(반대쪽으로 돌리기)이면 도는 내내 true — 일꾼이 힘을 주는 그림(K-127 힘줌)의 기준. 프레임 길이와 무관 (W39)
+        public bool BeamReverseTurn => BeamRotating && Mathf.Abs(beamTo - beamFrom) >= 180f - 0.01f;
+        public float BeamRotateProgress => BeamRotating ? 1f - beamRotateLeft / beamTotal : 1f;
+        public float BeamSecondsLeft => beamRotateLeft;
+        // 등불 밝기별 빛 세기 배율 (탑 뒤 빛 번쩍·탑 불빛이 함께 쓴다). 인덱스 = (int)LampBrightness (보통·약·강)
+        public static readonly float[] LampGlowLevel = { 1f, 0.7f, 1.45f };
+        public static float GlowLevel(LampBrightness b) => LampGlowLevel[Mathf.Clamp((int)b, 0, 2)];
+        public float BeaconRepair => setup != null ? setup.BeaconRepair : 0f;
+        public bool IsIgnitionNight => setup != null && setup.IsIgnitionNight;   // 점화의 밤: 등대 탑이 완전히 켜진 모습
+        public float BeamWidth => BeamWidthDegrees[(int)Lamp];
+        // 지금 밝기의 빛줄기가 변형 체력·속도 보너스를 없애는가: 준비 정보(규칙 데이터)가 있으면 그것, 없으면 기본 (보통 = 체력, 강 = 체력+속도, 약 = 없음)
+        public bool BeamRemovesTierHp => setup != null && setup.BeamRemovesTierHp != null && setup.BeamRemovesTierHp.Length == 3 ? setup.BeamRemovesTierHp[(int)Lamp] : Lamp != LampBrightness.Low;
+        public bool BeamRemovesTierSpeed => setup != null && setup.BeamRemovesTierSpeed != null && setup.BeamRemovesTierSpeed.Length == 3 ? setup.BeamRemovesTierSpeed[(int)Lamp] : Lamp == LampBrightness.High;
+        public bool BeamSuppressesTiers => BeamRemovesTierHp || BeamRemovesTierSpeed;   // 강 밝기 빛 안에서는 변형 단계 효과를 끈다 (9.4·9.5, UpdateTierBeam)
+
+        readonly float[] lampSeconds = new float[3];
+        float beamFrom, beamTo, beamRotateLeft, beamTotal = BeamRotateSeconds;
+
+        public float GetLampSeconds(LampBrightness b) => lampSeconds[(int)b];
+
+        // 이 전투의 등불 적 수 배율: 준비 정보에 데이터 값이 있으면 그것, 없으면 기본표 (W11)
+        float LampCountFactor => setup.LampCountMultiplier > 0f ? setup.LampCountMultiplier : LampCountMul(setup.LampBrightness);
+
+        public static float LampCountMul(LampBrightness b) => LampCountMultiplier[Mathf.Clamp((int)b, 0, 2)];
+
+        // 면 번호 → 수평 각도 (0 북 90° · 1 동 0° · 2 남 -90° · 3 서 180°)
+        public static float SideAngle(int side)
+        {
+            switch (((side % 4) + 4) % 4)
+            {
+                case 0: return 90f;
+                case 1: return 0f;
+                case 2: return -90f;
+                default: return 180f;
+            }
+        }
+
+        void InitLamp()
+        {
+            Lamp = setup.LampBrightness;
+            BeamSide = ((setup.BeamSide % 4) + 4) % 4;
+            BeamAngleDegrees = beamFrom = beamTo = SideAngle(BeamSide);
+            beamRotateLeft = 0f;
+        }
+
+        public void SetLamp(LampBrightness brightness)
+        {
+            if (Ended) return;
+            Lamp = brightness;
+        }
+
+        // 빛줄기 방향 바꾸기: 지금 각도에서 가까운 쪽으로 돈다. 걸리는 시간 = BeamRotateSeconds × 돌 각도 ÷ 90도 (90도 6초, 180도 12초).
+        // 이미 그 방향을 향하거나 향해 도는 중이면 아무것도 안 한다 (도는 시간이 다시 길어지지 않게)
+        public void RotateBeam(int side)
+        {
+            if (Ended) return;
+            side = ((side % 4) + 4) % 4;
+            if (side == BeamSide) return;
+            BeamSide = side;
+            beamFrom = BeamAngleDegrees;
+            float delta = Mathf.DeltaAngle(beamFrom, SideAngle(side));
+            beamTo = beamFrom + delta;
+            beamTotal = Mathf.Max(0.05f, BeamRotateSeconds * Mathf.Abs(delta) / 90f);
+            beamRotateLeft = beamTotal;
+        }
+
+        // 매 프레임 (BeginFrame): 켜 둔 시간 쌓기 + 빛줄기 각도 갱신
+        void UpdateLamp(float dt)
+        {
+            lampSeconds[(int)Lamp] += dt;
+            if (beamRotateLeft > 0f)
+            {
+                beamRotateLeft = Mathf.Max(0f, beamRotateLeft - dt);
+                float t = 1f - beamRotateLeft / beamTotal;
+                BeamAngleDegrees = Mathf.Lerp(beamFrom, beamTo, t);
+            }
+        }
+
+        // 작업에 넘기는 빛줄기 값
+        BeamField CurrentBeam()
+        {
+            int k = (int)Lamp;
+            float rad = math.radians(BeamAngleDegrees);
+            return new BeamField
+            {
+                Dir = new float2(math.cos(rad), math.sin(rad)),
+                CosHalf = math.cos(math.radians(BeamWidthDegrees[k] * 0.5f)),
+                SlowMul = 1f - BeamSlowAmount[k],
+                DamageMul = 1f + BeamDamageBonus[k],
+            };
+        }
+
+        // 시험·훅용: 이 적이 지금 빛 안에 있는가 (살아 있는 적만)
+        public bool InBeam(int enemyIndex)
+        {
+            if (enemyIndex < 0 || enemyIndex >= enemyCount || !EnemyState.IsAlive(eState[enemyIndex])) return false;
+            return CurrentBeam().Contains(ePos[enemyIndex]);
+        }
+
+        // 시험용: 적 위치를 직접 놓는다
+        public void DebugPlaceEnemy(int enemyIndex, float3 position)
+        {
+            ePos[enemyIndex] = position;
+        }
+
+        // 시험용: 적 체력 읽기·피해 넣기 (작업이 끝난 뒤에만). 피해는 다음 Schedule의 사건 처리에서 빛 배율이 곱해져 들어간다
+        public bool DebugAlive(int enemyIndex) => enemyIndex >= 0 && enemyIndex < enemyCount && EnemyState.IsAlive(eState[enemyIndex]);
+
+        public int DebugSide(int enemyIndex) => eSide[enemyIndex];
+
+        public int DebugEnemyHp(int enemyIndex) => eHp[enemyIndex];
+
+        public void DebugHit(int enemyIndex, int damage)
+        {
+            hitQueue.Enqueue(new HitEvent { Enemy = new EnemyHandle { Index = enemyIndex, Generation = eGen[enemyIndex] }, Damage = damage });
+        }
+
+        // Complete 뒤 매 프레임: 변형된 적이 강 밝기 빛 안이면 변형 효과(체력·속도·크기·색)를 끄고, 빛을 벗어나면 다시 켠다.
+        // 변형 없는 전투(1단계)에서는 아무것도 하지 않는다
+        void UpdateTierBeam()
+        {
+            if (EnemyTier <= 0) return;
+            bool removeHp = BeamRemovesTierHp, removeSpeed = BeamRemovesTierSpeed;
+            BeamField beam = CurrentBeam();
+            for (int i = 0; i < enemyCount; i++)
+            {
+                if (!EnemyState.IsAlive(eState[i])) continue;
+                bool inside = (removeHp || removeSpeed) && beam.Contains(ePos[i]);
+                SetTierBonus(i, !(inside && removeHp), !(inside && removeSpeed));
+            }
+        }
+
+        void CopyLampSeconds(BattleResult result)
+        {
+            for (int i = 0; i < 3; i++) result.LampSeconds[i] = lampSeconds[i];
+        }
+    }
+
+    // 빛줄기 부채꼴 (성 가운데 기준, 길이는 들판 전체). 각도 검사는 내적 한 번
+    public struct BeamField
+    {
+        public float2 Dir;
+        public float CosHalf;
+        public float SlowMul;
+        public float DamageMul;
+
+        public bool Contains(float3 p)
+        {
+            float2 xz = new float2(p.x, p.z);
+            float len = math.length(xz);
+            if (len < 1e-3f) return true;   // 성 한가운데는 빛 안
+            return math.dot(xz, Dir) >= CosHalf * len;
+        }
+    }
+}

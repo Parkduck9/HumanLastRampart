@@ -1,0 +1,117 @@
+{
+  "date": "2026-10-21",
+  "method_ko": "K081 resume_wizard_normals.py의 smooth/gradient 수식을 동일하게 재사용한 근사 기술 법선. 3D 베이크·새 그림 생성 아님.",
+  "source_color": "Game/Assets/_Project/Art/Characters/Fire/cannon_crew_ignite6.png",
+  "source_color_sha256": "5132d551a86960a7f95884e804534c79244847f260c2c8bd047866f0da4496e9",
+  "source_color_unmodified": true,
+  "native_cell": [
+    144,
+    128
+  ],
+  "game_cell": [
+    432,
+    384
+  ],
+  "native_pivot_top_left": [
+    96,
+    120
+  ],
+  "game_pivot_top_left": [
+    288,
+    360
+  ],
+  "columns": 6,
+  "rows": 1,
+  "normal_sha256": "138964aeaa9eb392e5ec7d9684a5b353e173d7f86961c5ad300174e2a2884616",
+  "target_normal": "Game/Assets/_Project/Art/Characters/Fire/cannon_crew_ignite6_normal.png",
+  "native_size": [
+    864,
+    128
+  ],
+  "game_size": [
+    2592,
+    384
+  ],
+  "scale": 3,
+  "exact_grid_verified": true,
+  "game_alpha_equal": true,
+  "copy_hash_equal": true,
+  "frames": [
+    {
+      "frame": 1,
+      "checks": {
+        "size_equal": true,
+        "alpha_equal": true,
+        "transparent_rgb_flat": true,
+        "vector_length_valid": true,
+        "positive_z": true
+      },
+      "vector_length_min": 0.994279627259834,
+      "vector_length_max": 1.0055645291675939
+    },
+    {
+      "frame": 2,
+      "checks": {
+        "size_equal": true,
+        "alpha_equal": true,
+        "transparent_rgb_flat": true,
+        "vector_length_valid": true,
+        "positive_z": true
+      },
+      "vector_length_min": 0.9941549057807608,
+      "vector_length_max": 1.0055645291675939
+    },
+    {
+      "frame": 3,
+      "checks": {
+        "size_equal": true,
+        "alpha_equal": true,
+        "transparent_rgb_flat": true,
+        "vector_length_valid": true,
+        "positive_z": true
+      },
+      "vector_length_min": 0.9946536978627071,
+      "vector_length_max": 1.0057186599343009
+    },
+    {
+      "frame": 4,
+      "checks": {
+        "size_equal": true,
+        "alpha_equal": true,
+        "transparent_rgb_flat": true,
+        "vector_length_valid": true,
+        "positive_z": true
+      },
+      "vector_length_min": 0.9944043330959269,
+      "vector_length_max": 1.005441207542263
+    },
+    {
+      "frame": 5,
+      "checks": {
+        "size_equal": true,
+        "alpha_equal": true,
+        "transparent_rgb_flat": true,
+        "vector_length_valid": true,
+        "positive_z": true
+      },
+      "vector_length_min": 0.9941860876173804,
+      "vector_length_max": 1.005472039366607
+    },
+    {
+      "frame": 6,
+      "checks": {
+        "size_equal": true,
+        "alpha_equal": true,
+        "transparent_rgb_flat": true,
+        "vector_length_valid": true,
+        "positive_z": true
+      },
+      "vector_length_min": 0.994279627259834,
+      "vector_length_max": 1.0055645291675939
+    }
+  ],
+  "all_pass": true,
+  "passed_checks": 30,
+  "total_checks": 30,
+  "unity_verified": false
+}

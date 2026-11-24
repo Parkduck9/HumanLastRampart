@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "walkPixelsUnchanged": true,
+  "runFramesDistinct": 4,
+  "noClipping": true,
+  "commonPivot": [
+    128,
+    352
+  ],
+  "exactExport": true,
+  "unityPlayVerified": false
+}

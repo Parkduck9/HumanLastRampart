@@ -1,0 +1,180 @@
+[
+  {
+    "name": "ladder_goblin_static",
+    "sizes_alpha_baseline_nearest": true,
+    "unique_frames": 1,
+    "body_anchors": [
+      [
+        47.5,
+        96
+      ]
+    ],
+    "components": [
+      [
+        1556
+      ]
+    ]
+  },
+  {
+    "name": "ladder_goblin_walk",
+    "sizes_alpha_baseline_nearest": true,
+    "unique_frames": 4,
+    "body_anchors": [
+      [
+        48.0,
+        96
+      ],
+      [
+        48.0,
+        96
+      ],
+      [
+        48.0,
+        96
+      ],
+      [
+        47.5,
+        96
+      ]
+    ],
+    "components": [
+      [
+        1474
+      ],
+      [
+        1456
+      ],
+      [
+        1514
+      ],
+      [
+        1398
+      ]
+    ]
+  },
+  {
+    "name": "ladder_goblin_carry_run4",
+    "sizes_alpha_baseline_nearest": true,
+    "unique_frames": 4,
+    "body_anchors": [
+      [
+        47.5,
+        97
+      ],
+      [
+        48.0,
+        97
+      ],
+      [
+        47.5,
+        97
+      ],
+      [
+        48.5,
+        97
+      ]
+    ],
+    "components": [
+      [
+        1115
+      ],
+      [
+        1161
+      ],
+      [
+        1118
+      ],
+      [
+        1172
+      ]
+    ]
+  },
+  {
+    "name": "ladder_goblin_deploy4",
+    "sizes_alpha_baseline_nearest": true,
+    "unique_frames": 4,
+    "body_anchors": [
+      [
+        47.5,
+        97
+      ],
+      [
+        47.5,
+        97
+      ],
+      [
+        48.0,
+        97
+      ],
+      [
+        48.5,
+        97
+      ]
+    ],
+    "components": [
+      [
+        1246
+      ],
+      [
+        1220
+      ],
+      [
+        1261
+      ],
+      [
+        1222
+      ]
+    ]
+  },
+  {
+    "name": "ladder_goblin_climb4",
+    "sizes_alpha_baseline_nearest": true,
+    "unique_frames": 4,
+    "body_anchors": [
+      [
+        48.0,
+        93
+      ],
+      [
+        48.5,
+        93
+      ],
+      [
+        48.5,
+        91
+      ],
+      [
+        47.5,
+        93
+      ]
+    ],
+    "components": [
+      [
+        1217
+      ],
+      [
+        1165
+      ],
+      [
+        1211
+      ],
+      [
+        1228
+      ]
+    ]
+  },
+  {
+    "name": "ladder_front",
+    "size_alpha_baseline": true,
+    "components": [
+      8586
+    ]
+  },
+  {
+    "name": "ladder_side",
+    "size_alpha_baseline": true,
+    "components": [
+      4296
+    ]
+  }
+]

@@ -1,0 +1,1515 @@
+{
+  "card": "K-100",
+  "version": 1,
+  "palette": {
+    "ink": "#171512",
+    "panel": "#302219",
+    "brass": "#d5b16b",
+    "text": "#eee4cf",
+    "phase_colors": [
+      "#d5b16b",
+      "#e2be77",
+      "#e99a78",
+      "#d98680"
+    ]
+  },
+  "coordinate_system": "top_left_pixels; border_lbrt = Unity left,bottom,right,top",
+  "filter": "Point",
+  "compression": "None",
+  "alpha": "Straight RGBA",
+  "assets": [
+    {
+      "file": "warning_vanguard_N_32.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot_px": [
+        16.0,
+        16.0
+      ],
+      "role": "direction_warning",
+      "level": 1,
+      "direction": "N",
+      "cell": [
+        32,
+        32
+      ]
+    },
+    {
+      "file": "warning_vanguard_N_32_pulse.png",
+      "size": [
+        128,
+        32
+      ],
+      "pivot_px": [
+        64.0,
+        16.0
+      ],
+      "role": "pulse_sheet",
+      "cell": [
+        32,
+        32
+      ],
+      "frame_pivot_px": [
+        16.0,
+        16.0
+      ],
+      "frames": [
+        "dim",
+        "rise",
+        "peak",
+        "fall"
+      ],
+      "fps": 4,
+      "loop": true,
+      "level": 1,
+      "direction": "N"
+    },
+    {
+      "file": "warning_vanguard_E_32.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot_px": [
+        16.0,
+        16.0
+      ],
+      "role": "direction_warning",
+      "level": 1,
+      "direction": "E",
+      "cell": [
+        32,
+        32
+      ]
+    },
+    {
+      "file": "warning_vanguard_E_32_pulse.png",
+      "size": [
+        128,
+        32
+      ],
+      "pivot_px": [
+        64.0,
+        16.0
+      ],
+      "role": "pulse_sheet",
+      "cell": [
+        32,
+        32
+      ],
+      "frame_pivot_px": [
+        16.0,
+        16.0
+      ],
+      "frames": [
+        "dim",
+        "rise",
+        "peak",
+        "fall"
+      ],
+      "fps": 4,
+      "loop": true,
+      "level": 1,
+      "direction": "E"
+    },
+    {
+      "file": "warning_vanguard_S_32.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot_px": [
+        16.0,
+        16.0
+      ],
+      "role": "direction_warning",
+      "level": 1,
+      "direction": "S",
+      "cell": [
+        32,
+        32
+      ]
+    },
+    {
+      "file": "warning_vanguard_S_32_pulse.png",
+      "size": [
+        128,
+        32
+      ],
+      "pivot_px": [
+        64.0,
+        16.0
+      ],
+      "role": "pulse_sheet",
+      "cell": [
+        32,
+        32
+      ],
+      "frame_pivot_px": [
+        16.0,
+        16.0
+      ],
+      "frames": [
+        "dim",
+        "rise",
+        "peak",
+        "fall"
+      ],
+      "fps": 4,
+      "loop": true,
+      "level": 1,
+      "direction": "S"
+    },
+    {
+      "file": "warning_vanguard_W_32.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot_px": [
+        16.0,
+        16.0
+      ],
+      "role": "direction_warning",
+      "level": 1,
+      "direction": "W",
+      "cell": [
+        32,
+        32
+      ]
+    },
+    {
+      "file": "warning_vanguard_W_32_pulse.png",
+      "size": [
+        128,
+        32
+      ],
+      "pivot_px": [
+        64.0,
+        16.0
+      ],
+      "role": "pulse_sheet",
+      "cell": [
+        32,
+        32
+      ],
+      "frame_pivot_px": [
+        16.0,
+        16.0
+      ],
+      "frames": [
+        "dim",
+        "rise",
+        "peak",
+        "fall"
+      ],
+      "fps": 4,
+      "loop": true,
+      "level": 1,
+      "direction": "W"
+    },
+    {
+      "file": "warning_main_N_32.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot_px": [
+        16.0,
+        16.0
+      ],
+      "role": "direction_warning",
+      "level": 2,
+      "direction": "N",
+      "cell": [
+        32,
+        32
+      ]
+    },
+    {
+      "file": "warning_main_N_32_pulse.png",
+      "size": [
+        128,
+        32
+      ],
+      "pivot_px": [
+        64.0,
+        16.0
+      ],
+      "role": "pulse_sheet",
+      "cell": [
+        32,
+        32
+      ],
+      "frame_pivot_px": [
+        16.0,
+        16.0
+      ],
+      "frames": [
+        "dim",
+        "rise",
+        "peak",
+        "fall"
+      ],
+      "fps": 4,
+      "loop": true,
+      "level": 2,
+      "direction": "N"
+    },
+    {
+      "file": "warning_main_E_32.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot_px": [
+        16.0,
+        16.0
+      ],
+      "role": "direction_warning",
+      "level": 2,
+      "direction": "E",
+      "cell": [
+        32,
+        32
+      ]
+    },
+    {
+      "file": "warning_main_E_32_pulse.png",
+      "size": [
+        128,
+        32
+      ],
+      "pivot_px": [
+        64.0,
+        16.0
+      ],
+      "role": "pulse_sheet",
+      "cell": [
+        32,
+        32
+      ],
+      "frame_pivot_px": [
+        16.0,
+        16.0
+      ],
+      "frames": [
+        "dim",
+        "rise",
+        "peak",
+        "fall"
+      ],
+      "fps": 4,
+      "loop": true,
+      "level": 2,
+      "direction": "E"
+    },
+    {
+      "file": "warning_main_S_32.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot_px": [
+        16.0,
+        16.0
+      ],
+      "role": "direction_warning",
+      "level": 2,
+      "direction": "S",
+      "cell": [
+        32,
+        32
+      ]
+    },
+    {
+      "file": "warning_main_S_32_pulse.png",
+      "size": [
+        128,
+        32
+      ],
+      "pivot_px": [
+        64.0,
+        16.0
+      ],
+      "role": "pulse_sheet",
+      "cell": [
+        32,
+        32
+      ],
+      "frame_pivot_px": [
+        16.0,
+        16.0
+      ],
+      "frames": [
+        "dim",
+        "rise",
+        "peak",
+        "fall"
+      ],
+      "fps": 4,
+      "loop": true,
+      "level": 2,
+      "direction": "S"
+    },
+    {
+      "file": "warning_main_W_32.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot_px": [
+        16.0,
+        16.0
+      ],
+      "role": "direction_warning",
+      "level": 2,
+      "direction": "W",
+      "cell": [
+        32,
+        32
+      ]
+    },
+    {
+      "file": "warning_main_W_32_pulse.png",
+      "size": [
+        128,
+        32
+      ],
+      "pivot_px": [
+        64.0,
+        16.0
+      ],
+      "role": "pulse_sheet",
+      "cell": [
+        32,
+        32
+      ],
+      "frame_pivot_px": [
+        16.0,
+        16.0
+      ],
+      "frames": [
+        "dim",
+        "rise",
+        "peak",
+        "fall"
+      ],
+      "fps": 4,
+      "loop": true,
+      "level": 2,
+      "direction": "W"
+    },
+    {
+      "file": "warning_siege_N_32.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot_px": [
+        16.0,
+        16.0
+      ],
+      "role": "direction_warning",
+      "level": 3,
+      "direction": "N",
+      "cell": [
+        32,
+        32
+      ]
+    },
+    {
+      "file": "warning_siege_N_32_pulse.png",
+      "size": [
+        128,
+        32
+      ],
+      "pivot_px": [
+        64.0,
+        16.0
+      ],
+      "role": "pulse_sheet",
+      "cell": [
+        32,
+        32
+      ],
+      "frame_pivot_px": [
+        16.0,
+        16.0
+      ],
+      "frames": [
+        "dim",
+        "rise",
+        "peak",
+        "fall"
+      ],
+      "fps": 4,
+      "loop": true,
+      "level": 3,
+      "direction": "N"
+    },
+    {
+      "file": "warning_siege_E_32.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot_px": [
+        16.0,
+        16.0
+      ],
+      "role": "direction_warning",
+      "level": 3,
+      "direction": "E",
+      "cell": [
+        32,
+        32
+      ]
+    },
+    {
+      "file": "warning_siege_E_32_pulse.png",
+      "size": [
+        128,
+        32
+      ],
+      "pivot_px": [
+        64.0,
+        16.0
+      ],
+      "role": "pulse_sheet",
+      "cell": [
+        32,
+        32
+      ],
+      "frame_pivot_px": [
+        16.0,
+        16.0
+      ],
+      "frames": [
+        "dim",
+        "rise",
+        "peak",
+        "fall"
+      ],
+      "fps": 4,
+      "loop": true,
+      "level": 3,
+      "direction": "E"
+    },
+    {
+      "file": "warning_siege_S_32.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot_px": [
+        16.0,
+        16.0
+      ],
+      "role": "direction_warning",
+      "level": 3,
+      "direction": "S",
+      "cell": [
+        32,
+        32
+      ]
+    },
+    {
+      "file": "warning_siege_S_32_pulse.png",
+      "size": [
+        128,
+        32
+      ],
+      "pivot_px": [
+        64.0,
+        16.0
+      ],
+      "role": "pulse_sheet",
+      "cell": [
+        32,
+        32
+      ],
+      "frame_pivot_px": [
+        16.0,
+        16.0
+      ],
+      "frames": [
+        "dim",
+        "rise",
+        "peak",
+        "fall"
+      ],
+      "fps": 4,
+      "loop": true,
+      "level": 3,
+      "direction": "S"
+    },
+    {
+      "file": "warning_siege_W_32.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot_px": [
+        16.0,
+        16.0
+      ],
+      "role": "direction_warning",
+      "level": 3,
+      "direction": "W",
+      "cell": [
+        32,
+        32
+      ]
+    },
+    {
+      "file": "warning_siege_W_32_pulse.png",
+      "size": [
+        128,
+        32
+      ],
+      "pivot_px": [
+        64.0,
+        16.0
+      ],
+      "role": "pulse_sheet",
+      "cell": [
+        32,
+        32
+      ],
+      "frame_pivot_px": [
+        16.0,
+        16.0
+      ],
+      "frames": [
+        "dim",
+        "rise",
+        "peak",
+        "fall"
+      ],
+      "fps": 4,
+      "loop": true,
+      "level": 3,
+      "direction": "W"
+    },
+    {
+      "file": "emblem_vanguard_32.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot_px": [
+        16.0,
+        16.0
+      ],
+      "role": "phase_emblem",
+      "phase": "선봉"
+    },
+    {
+      "file": "emblem_main_32.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot_px": [
+        16.0,
+        16.0
+      ],
+      "role": "phase_emblem",
+      "phase": "본대"
+    },
+    {
+      "file": "emblem_siege_32.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot_px": [
+        16.0,
+        16.0
+      ],
+      "role": "phase_emblem",
+      "phase": "공성"
+    },
+    {
+      "file": "emblem_final_32.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot_px": [
+        16.0,
+        16.0
+      ],
+      "role": "phase_emblem",
+      "phase": "최후 돌격"
+    },
+    {
+      "file": "warning_vanguard_N_48.png",
+      "size": [
+        48,
+        48
+      ],
+      "pivot_px": [
+        24.0,
+        24.0
+      ],
+      "role": "direction_warning",
+      "level": 1,
+      "direction": "N",
+      "cell": [
+        48,
+        48
+      ]
+    },
+    {
+      "file": "warning_vanguard_N_48_pulse.png",
+      "size": [
+        192,
+        48
+      ],
+      "pivot_px": [
+        96.0,
+        24.0
+      ],
+      "role": "pulse_sheet",
+      "cell": [
+        48,
+        48
+      ],
+      "frame_pivot_px": [
+        24.0,
+        24.0
+      ],
+      "frames": [
+        "dim",
+        "rise",
+        "peak",
+        "fall"
+      ],
+      "fps": 4,
+      "loop": true,
+      "level": 1,
+      "direction": "N"
+    },
+    {
+      "file": "warning_vanguard_E_48.png",
+      "size": [
+        48,
+        48
+      ],
+      "pivot_px": [
+        24.0,
+        24.0
+      ],
+      "role": "direction_warning",
+      "level": 1,
+      "direction": "E",
+      "cell": [
+        48,
+        48
+      ]
+    },
+    {
+      "file": "warning_vanguard_E_48_pulse.png",
+      "size": [
+        192,
+        48
+      ],
+      "pivot_px": [
+        96.0,
+        24.0
+      ],
+      "role": "pulse_sheet",
+      "cell": [
+        48,
+        48
+      ],
+      "frame_pivot_px": [
+        24.0,
+        24.0
+      ],
+      "frames": [
+        "dim",
+        "rise",
+        "peak",
+        "fall"
+      ],
+      "fps": 4,
+      "loop": true,
+      "level": 1,
+      "direction": "E"
+    },
+    {
+      "file": "warning_vanguard_S_48.png",
+      "size": [
+        48,
+        48
+      ],
+      "pivot_px": [
+        24.0,
+        24.0
+      ],
+      "role": "direction_warning",
+      "level": 1,
+      "direction": "S",
+      "cell": [
+        48,
+        48
+      ]
+    },
+    {
+      "file": "warning_vanguard_S_48_pulse.png",
+      "size": [
+        192,
+        48
+      ],
+      "pivot_px": [
+        96.0,
+        24.0
+      ],
+      "role": "pulse_sheet",
+      "cell": [
+        48,
+        48
+      ],
+      "frame_pivot_px": [
+        24.0,
+        24.0
+      ],
+      "frames": [
+        "dim",
+        "rise",
+        "peak",
+        "fall"
+      ],
+      "fps": 4,
+      "loop": true,
+      "level": 1,
+      "direction": "S"
+    },
+    {
+      "file": "warning_vanguard_W_48.png",
+      "size": [
+        48,
+        48
+      ],
+      "pivot_px": [
+        24.0,
+        24.0
+      ],
+      "role": "direction_warning",
+      "level": 1,
+      "direction": "W",
+      "cell": [
+        48,
+        48
+      ]
+    },
+    {
+      "file": "warning_vanguard_W_48_pulse.png",
+      "size": [
+        192,
+        48
+      ],
+      "pivot_px": [
+        96.0,
+        24.0
+      ],
+      "role": "pulse_sheet",
+      "cell": [
+        48,
+        48
+      ],
+      "frame_pivot_px": [
+        24.0,
+        24.0
+      ],
+      "frames": [
+        "dim",
+        "rise",
+        "peak",
+        "fall"
+      ],
+      "fps": 4,
+      "loop": true,
+      "level": 1,
+      "direction": "W"
+    },
+    {
+      "file": "warning_main_N_48.png",
+      "size": [
+        48,
+        48
+      ],
+      "pivot_px": [
+        24.0,
+        24.0
+      ],
+      "role": "direction_warning",
+      "level": 2,
+      "direction": "N",
+      "cell": [
+        48,
+        48
+      ]
+    },
+    {
+      "file": "warning_main_N_48_pulse.png",
+      "size": [
+        192,
+        48
+      ],
+      "pivot_px": [
+        96.0,
+        24.0
+      ],
+      "role": "pulse_sheet",
+      "cell": [
+        48,
+        48
+      ],
+      "frame_pivot_px": [
+        24.0,
+        24.0
+      ],
+      "frames": [
+        "dim",
+        "rise",
+        "peak",
+        "fall"
+      ],
+      "fps": 4,
+      "loop": true,
+      "level": 2,
+      "direction": "N"
+    },
+    {
+      "file": "warning_main_E_48.png",
+      "size": [
+        48,
+        48
+      ],
+      "pivot_px": [
+        24.0,
+        24.0
+      ],
+      "role": "direction_warning",
+      "level": 2,
+      "direction": "E",
+      "cell": [
+        48,
+        48
+      ]
+    },
+    {
+      "file": "warning_main_E_48_pulse.png",
+      "size": [
+        192,
+        48
+      ],
+      "pivot_px": [
+        96.0,
+        24.0
+      ],
+      "role": "pulse_sheet",
+      "cell": [
+        48,
+        48
+      ],
+      "frame_pivot_px": [
+        24.0,
+        24.0
+      ],
+      "frames": [
+        "dim",
+        "rise",
+        "peak",
+        "fall"
+      ],
+      "fps": 4,
+      "loop": true,
+      "level": 2,
+      "direction": "E"
+    },
+    {
+      "file": "warning_main_S_48.png",
+      "size": [
+        48,
+        48
+      ],
+      "pivot_px": [
+        24.0,
+        24.0
+      ],
+      "role": "direction_warning",
+      "level": 2,
+      "direction": "S",
+      "cell": [
+        48,
+        48
+      ]
+    },
+    {
+      "file": "warning_main_S_48_pulse.png",
+      "size": [
+        192,
+        48
+      ],
+      "pivot_px": [
+        96.0,
+        24.0
+      ],
+      "role": "pulse_sheet",
+      "cell": [
+        48,
+        48
+      ],
+      "frame_pivot_px": [
+        24.0,
+        24.0
+      ],
+      "frames": [
+        "dim",
+        "rise",
+        "peak",
+        "fall"
+      ],
+      "fps": 4,
+      "loop": true,
+      "level": 2,
+      "direction": "S"
+    },
+    {
+      "file": "warning_main_W_48.png",
+      "size": [
+        48,
+        48
+      ],
+      "pivot_px": [
+        24.0,
+        24.0
+      ],
+      "role": "direction_warning",
+      "level": 2,
+      "direction": "W",
+      "cell": [
+        48,
+        48
+      ]
+    },
+    {
+      "file": "warning_main_W_48_pulse.png",
+      "size": [
+        192,
+        48
+      ],
+      "pivot_px": [
+        96.0,
+        24.0
+      ],
+      "role": "pulse_sheet",
+      "cell": [
+        48,
+        48
+      ],
+      "frame_pivot_px": [
+        24.0,
+        24.0
+      ],
+      "frames": [
+        "dim",
+        "rise",
+        "peak",
+        "fall"
+      ],
+      "fps": 4,
+      "loop": true,
+      "level": 2,
+      "direction": "W"
+    },
+    {
+      "file": "warning_siege_N_48.png",
+      "size": [
+        48,
+        48
+      ],
+      "pivot_px": [
+        24.0,
+        24.0
+      ],
+      "role": "direction_warning",
+      "level": 3,
+      "direction": "N",
+      "cell": [
+        48,
+        48
+      ]
+    },
+    {
+      "file": "warning_siege_N_48_pulse.png",
+      "size": [
+        192,
+        48
+      ],
+      "pivot_px": [
+        96.0,
+        24.0
+      ],
+      "role": "pulse_sheet",
+      "cell": [
+        48,
+        48
+      ],
+      "frame_pivot_px": [
+        24.0,
+        24.0
+      ],
+      "frames": [
+        "dim",
+        "rise",
+        "peak",
+        "fall"
+      ],
+      "fps": 4,
+      "loop": true,
+      "level": 3,
+      "direction": "N"
+    },
+    {
+      "file": "warning_siege_E_48.png",
+      "size": [
+        48,
+        48
+      ],
+      "pivot_px": [
+        24.0,
+        24.0
+      ],
+      "role": "direction_warning",
+      "level": 3,
+      "direction": "E",
+      "cell": [
+        48,
+        48
+      ]
+    },
+    {
+      "file": "warning_siege_E_48_pulse.png",
+      "size": [
+        192,
+        48
+      ],
+      "pivot_px": [
+        96.0,
+        24.0
+      ],
+      "role": "pulse_sheet",
+      "cell": [
+        48,
+        48
+      ],
+      "frame_pivot_px": [
+        24.0,
+        24.0
+      ],
+      "frames": [
+        "dim",
+        "rise",
+        "peak",
+        "fall"
+      ],
+      "fps": 4,
+      "loop": true,
+      "level": 3,
+      "direction": "E"
+    },
+    {
+      "file": "warning_siege_S_48.png",
+      "size": [
+        48,
+        48
+      ],
+      "pivot_px": [
+        24.0,
+        24.0
+      ],
+      "role": "direction_warning",
+      "level": 3,
+      "direction": "S",
+      "cell": [
+        48,
+        48
+      ]
+    },
+    {
+      "file": "warning_siege_S_48_pulse.png",
+      "size": [
+        192,
+        48
+      ],
+      "pivot_px": [
+        96.0,
+        24.0
+      ],
+      "role": "pulse_sheet",
+      "cell": [
+        48,
+        48
+      ],
+      "frame_pivot_px": [
+        24.0,
+        24.0
+      ],
+      "frames": [
+        "dim",
+        "rise",
+        "peak",
+        "fall"
+      ],
+      "fps": 4,
+      "loop": true,
+      "level": 3,
+      "direction": "S"
+    },
+    {
+      "file": "warning_siege_W_48.png",
+      "size": [
+        48,
+        48
+      ],
+      "pivot_px": [
+        24.0,
+        24.0
+      ],
+      "role": "direction_warning",
+      "level": 3,
+      "direction": "W",
+      "cell": [
+        48,
+        48
+      ]
+    },
+    {
+      "file": "warning_siege_W_48_pulse.png",
+      "size": [
+        192,
+        48
+      ],
+      "pivot_px": [
+        96.0,
+        24.0
+      ],
+      "role": "pulse_sheet",
+      "cell": [
+        48,
+        48
+      ],
+      "frame_pivot_px": [
+        24.0,
+        24.0
+      ],
+      "frames": [
+        "dim",
+        "rise",
+        "peak",
+        "fall"
+      ],
+      "fps": 4,
+      "loop": true,
+      "level": 3,
+      "direction": "W"
+    },
+    {
+      "file": "emblem_vanguard_48.png",
+      "size": [
+        48,
+        48
+      ],
+      "pivot_px": [
+        24.0,
+        24.0
+      ],
+      "role": "phase_emblem",
+      "phase": "선봉"
+    },
+    {
+      "file": "emblem_main_48.png",
+      "size": [
+        48,
+        48
+      ],
+      "pivot_px": [
+        24.0,
+        24.0
+      ],
+      "role": "phase_emblem",
+      "phase": "본대"
+    },
+    {
+      "file": "emblem_siege_48.png",
+      "size": [
+        48,
+        48
+      ],
+      "pivot_px": [
+        24.0,
+        24.0
+      ],
+      "role": "phase_emblem",
+      "phase": "공성"
+    },
+    {
+      "file": "emblem_final_48.png",
+      "size": [
+        48,
+        48
+      ],
+      "pivot_px": [
+        24.0,
+        24.0
+      ],
+      "role": "phase_emblem",
+      "phase": "최후 돌격"
+    },
+    {
+      "file": "phase_banner_9slice.png",
+      "size": [
+        96,
+        32
+      ],
+      "pivot_px": [
+        48.0,
+        16.0
+      ],
+      "role": "nine_slice",
+      "border_lbrt": [
+        10,
+        8,
+        10,
+        8
+      ],
+      "min_size": [
+        96,
+        32
+      ],
+      "text_safe_inset_ltrb": [
+        40,
+        8,
+        14,
+        8
+      ]
+    },
+    {
+      "file": "timeline_track_9slice.png",
+      "size": [
+        64,
+        24
+      ],
+      "pivot_px": [
+        32.0,
+        12.0
+      ],
+      "role": "nine_slice",
+      "border_lbrt": [
+        8,
+        7,
+        8,
+        7
+      ],
+      "min_size": [
+        64,
+        24
+      ],
+      "content_inset_ltrb": [
+        9,
+        8,
+        9,
+        8
+      ]
+    },
+    {
+      "file": "timeline_segment_vanguard_9slice.png",
+      "size": [
+        16,
+        8
+      ],
+      "pivot_px": [
+        8.0,
+        4.0
+      ],
+      "role": "nine_slice",
+      "border_lbrt": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "phase": "선봉",
+      "min_size": [
+        4,
+        4
+      ]
+    },
+    {
+      "file": "timeline_segment_main_9slice.png",
+      "size": [
+        16,
+        8
+      ],
+      "pivot_px": [
+        8.0,
+        4.0
+      ],
+      "role": "nine_slice",
+      "border_lbrt": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "phase": "본대",
+      "min_size": [
+        4,
+        4
+      ]
+    },
+    {
+      "file": "timeline_segment_siege_9slice.png",
+      "size": [
+        16,
+        8
+      ],
+      "pivot_px": [
+        8.0,
+        4.0
+      ],
+      "role": "nine_slice",
+      "border_lbrt": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "phase": "공성",
+      "min_size": [
+        4,
+        4
+      ]
+    },
+    {
+      "file": "timeline_segment_final_9slice.png",
+      "size": [
+        16,
+        8
+      ],
+      "pivot_px": [
+        8.0,
+        4.0
+      ],
+      "role": "nine_slice",
+      "border_lbrt": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "phase": "최후 돌격",
+      "min_size": [
+        4,
+        4
+      ]
+    },
+    {
+      "file": "enemy_remaining_fill_9slice.png",
+      "size": [
+        16,
+        4
+      ],
+      "pivot_px": [
+        8.0,
+        2.0
+      ],
+      "role": "nine_slice",
+      "border_lbrt": [
+        2,
+        1,
+        2,
+        1
+      ],
+      "min_size": [
+        4,
+        2
+      ],
+      "fill_direction": "left_to_right",
+      "value": "(alive + unspawned) / total"
+    },
+    {
+      "file": "mockup_battle_night_1920x1080.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "pivot_px": [
+        960.0,
+        540.0
+      ],
+      "role": "mockup",
+      "brightness_world": 0.65,
+      "brightness_ui": 1.0,
+      "source": "Docs/References/codex_k085_v1/battle_before.png",
+      "runtime_capture": false
+    },
+    {
+      "file": "mockup_map_timeline.png",
+      "size": [
+        960,
+        540
+      ],
+      "pivot_px": [
+        480.0,
+        270.0
+      ],
+      "role": "mockup",
+      "enemy_remaining_example": 0.62,
+      "phase_segment_widths": "equal_visual_example_not_time_proportions",
+      "runtime_capture": false
+    }
+  ],
+  "preview_scale": 4,
+  "preview_filter": "nearest_neighbor",
+  "warning_semantics": "Arrow points TOWARD incoming source, not enemy travel; N up E right S down W left. Glyph remains upright.",
+  "pulse": {
+    "frame_order": [
+      "dim",
+      "rise",
+      "peak",
+      "fall"
+    ],
+    "duration_ms": [
+      250,
+      250,
+      250,
+      250
+    ],
+    "frame_layout": "left_to_right",
+    "anchoring": "cell_center_fixed_no_translation"
+  },
+  "timeline": {
+    "phases": [
+      "선봉",
+      "본대",
+      "공성",
+      "최후 돌격"
+    ],
+    "phase_segments": "Separate nine-slice pieces; widths controlled by integration, not timing values.",
+    "enemy_remaining": "(alive + unspawned) / total; crop fill to fraction, hide at zero; do not squeeze borders below minimum size."
+  },
+  "ui_contract_note": "UI-only card: character 96x128 cells and foot baselines are not applicable. No existing game sheet is replaced.",
+  "source_reference": {
+    "file": "Docs/References/codex_k085_v1/battle_before.png",
+    "sha256": "6fb73272e105530881a82213238774808e6de1467915c154516b3213c0c4f627"
+  }
+}

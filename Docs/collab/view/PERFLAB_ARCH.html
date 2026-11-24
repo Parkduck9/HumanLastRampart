@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>성능 시제품 구조</title>
+<style>
+  :root {
+    --bg:#f6f5f2; --card:#ffffff; --text:#1f1d1a; --muted:#6b675f; --line:#dedad2;
+    --accent:#7a4b1e; --claude:#b4643c; --gpu:#2f6f8f; --cpu:#4f7a3a; --data:#8a5aa8; --warn:#b3261e;
+    --soft:#f0ece4;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:#1a1917; --card:#24231f; --text:#ece9e3; --muted:#a39e94; --line:#3a3832;
+      --accent:#e0a868; --claude:#e0946a; --gpu:#6fb3d6; --cpu:#9ccf7f; --data:#c79be3; --warn:#ff8a80;
+      --soft:#2c2a25;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#1a1917; --card:#24231f; --text:#ece9e3; --muted:#a39e94; --line:#3a3832;
+    --accent:#e0a868; --claude:#e0946a; --gpu:#6fb3d6; --cpu:#9ccf7f; --data:#c79be3; --warn:#ff8a80;
+    --soft:#2c2a25;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font-family:"Malgun Gothic","Apple SD Gothic Neo",sans-serif; line-height:1.6; }
+  main { max-width:960px; margin:0 auto; padding:32px 16px 64px; }
+  h1 { font-size:24px; margin:0 0 4px; }
+  h2 { font-size:19px; margin:40px 0 10px; padding-top:8px; border-top:1px solid var(--line); }
+  h3 { font-size:16px; margin:20px 0 6px; }
+  p, li { font-size:15px; }
+  .sub { color:var(--muted); font-size:14px; margin:0 0 20px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px 18px; margin:12px 0; }
+  .answer { border-left:4px solid var(--accent); }
+  table { width:100%; border-collapse:collapse; font-size:14px; }
+  th, td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { color:var(--muted); font-weight:600; }
+  code { font-family:Consolas,monospace; font-size:13px; background:var(--soft); padding:1px 5px; border-radius:4px; }
+  .tag { display:inline-block; font-size:12px; padding:1px 8px; border-radius:10px; border:1px solid var(--line); color:var(--muted); }
+  .ok { color:var(--cpu); font-weight:600; }
+  .risk { color:var(--warn); font-weight:600; }
+  .mid { color:var(--gpu); font-weight:600; }
+  svg { width:100%; height:auto; display:block; }
+  svg text { font-family:"Malgun Gothic","Apple SD Gothic Neo",sans-serif; fill:var(--text); }
+  .scroll { overflow-x:auto; }
+  .note { color:var(--muted); font-size:13px; }
+  .toc a { color:var(--accent); text-decoration:none; }
+  .toc li { font-size:14px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>대량 전투 성능 시제품 구조</h1>
+  <p class="sub">작성: Claude · 2026-10-13 · 근거: <code>Docs/GDD/PERF_PROTOTYPE.md</code>(승인 D-022), D-020·D-021 · 숫자는 모두 <b>추정</b>이며 아직 측정하지 않았습니다.</p>
+
+  <div class="card toc">
+    <ol>
+      <li><a href="#q">질문: DOTS처럼 DOD로 처리해도 힘들까?</a></li>
+      <li><a href="#dod">객체 방식과 DOD 방식의 차이</a></li>
+      <li><a href="#frame">한 프레임의 흐름 (코드 구조)</a></li>
+      <li><a href="#data">데이터 배치</a></li>
+      <li><a href="#files">파일 지도와 진행 순서</a></li>
+      <li><a href="#budget">프레임 예산 추정과 위험</a></li>
+      <li><a href="#later">실제 게임으로 옮길 때</a></li>
+    </ol>
+  </div>
+
+  <h2 id="q">1. 질문: DOTS처럼 DOD로 처리해도 힘들까?</h2>
+  <div class="card answer">
+    <p><b>지금 시제품이 바로 DOD(데이터 중심 설계) 방식입니다.</b> Unity DOTS는 다섯 부품의 묶음이고, 시제품은 그중 네 개를 이미 씁니다.</p>
+    <table>
+      <tr><th>DOTS 부품</th><th>하는 일</th><th>시제품</th></tr>
+      <tr><td>Burst</td><td>C# 계산 코드를 아주 빠른 기계어로 바꿈</td><td class="ok">사용</td></tr>
+      <tr><td>Jobs</td><td>계산을 CPU 여러 코어에 나눠 동시에 돌림</td><td class="ok">사용</td></tr>
+      <tr><td>Collections</td><td>Job이 안전하게 쓰는 배열(<code>NativeArray</code>)</td><td class="ok">사용</td></tr>
+      <tr><td>Mathematics</td><td>Burst에 맞춘 수학 타입(<code>float3</code> 등)</td><td class="ok">사용</td></tr>
+      <tr><td>Entities (ECS)</td><td>개체를 "엔티티 + 컴포넌트"로 관리하는 틀</td><td class="mid">사용 안 함 (D-021 G2)</td></tr>
+    </table>
+    <p><b>그럼 힘든가?</b></p>
+    <ul>
+      <li><b>CPU 쪽(이동·표적·화살·피해):</b> DOD로 하면 6만 개체도 가능성이 높습니다. 개체 하나에 하는 일이 단순하고, 같은 일을 배열 전체에 반복하기 때문입니다. 추정 합계는 <span class="ok">약 5~8ms</span>입니다(6장).</li>
+      <li><b>진짜 어려운 곳은 GPU 그리기입니다.</b> 화면에 적이 빽빽하게 몰리거나 화살·폭발 효과가 겹칠 때가 문제입니다. Entities를 써도 이 부분은 똑같습니다. 그래서 1080p로 그리고 2배로 키우는 방식(D-021 G1)을 기본으로 정했습니다.</li>
+      <li><b>Entities를 빼는 이유:</b> Entities의 기본 그리기 기능(Entities Graphics)은 2D 스프라이트를 직접 그리지 않는 것으로 알고 있습니다. 어차피 "같은 그림 수만 개를 한 번에 그리기"는 직접 만들어야 하니, Entities의 이점이 작고 배울 것은 많습니다. <span class="note">(이 판단은 문서 지식 기준이며, 시제품 결과가 목표에 못 미치면 Entities와 비교합니다.)</span></li>
+      <li><b>결론:</b> DOD로 처리하는 것은 "힘든 방법"이 아니라 <b>이 목표에 맞는 유일한 현실적 방법</b>입니다. 남은 위험은 GPU 그리기와 설계 복잡도이고, 시제품이 그것을 숫자로 확인합니다.</li>
+    </ul>
+  </div>
+
+  <h2 id="dod">2. 객체 방식과 DOD 방식의 차이</h2>
+  <div class="card scroll">
+    <svg viewBox="0 0 900 330" role="img" aria-label="객체 방식은 적마다 GameObject가 있고, DOD 방식은 종류별 배열에 모아 둔다">
+      <text x="20" y="28" font-size="16" font-weight="700">일반 객체 방식 (적 하나 = GameObject 하나)</text>
+      <g font-size="12">
+        <rect x="20" y="44" width="120" height="80" rx="8" fill="none" stroke="var(--line)" stroke-width="2"/>
+        <text x="32" y="66">적 #1</text><text x="32" y="86" fill="var(--muted)">Transform</text><text x="32" y="104" fill="var(--muted)">Update()</text><text x="32" y="120" fill="var(--muted)">SpriteRenderer</text>
+        <rect x="150" y="44" width="120" height="80" rx="8" fill="none" stroke="var(--line)" stroke-width="2"/>
+        <text x="162" y="66">적 #2</text><text x="162" y="86" fill="var(--muted)">Transform</text><text x="162" y="104" fill="var(--muted)">Update()</text><text x="162" y="120" fill="var(--muted)">SpriteRenderer</text>
+        <text x="290" y="90" font-size="20">…</text>
+        <rect x="320" y="44" width="120" height="80" rx="8" fill="none" stroke="var(--line)" stroke-width="2"/>
+        <text x="332" y="66">적 #50,000</text><text x="332" y="86" fill="var(--muted)">Transform</text><text x="332" y="104" fill="var(--muted)">Update()</text><text x="332" y="120" fill="var(--muted)">SpriteRenderer</text>
+      </g>
+      <text x="20" y="150" font-size="13" fill="var(--warn)">→ Update 호출 5만 번, 메모리 여기저기 흩어짐, 그리기 준비도 개체마다</text>
+
+      <text x="20" y="190" font-size="16" font-weight="700">DOD 방식 (같은 정보끼리 배열로)</text>
+      <g font-size="12">
+        <text x="20" y="218" fill="var(--muted)">위치</text>
+        <rect x="70" y="204" width="380" height="22" rx="4" fill="var(--soft)" stroke="var(--data)"/>
+        <text x="80" y="220">p1 p2 p3 p4 p5 p6 p7 … p50000</text>
+        <text x="20" y="248" fill="var(--muted)">속도</text>
+        <rect x="70" y="234" width="380" height="22" rx="4" fill="var(--soft)" stroke="var(--data)"/>
+        <text x="80" y="250">s1 s2 s3 s4 s5 s6 s7 … s50000</text>
+        <text x="20" y="278" fill="var(--muted)">체력</text>
+        <rect x="70" y="264" width="380" height="22" rx="4" fill="var(--soft)" stroke="var(--data)"/>
+        <text x="80" y="280">h1 h2 h3 h4 h5 h6 h7 … h50000</text>
+      </g>
+      <text x="20" y="312" font-size="13" fill="var(--cpu)">→ 계산 함수 1개가 배열을 쭉 훑음 · 코어 8개가 나눠서 · 그리기는 종류별 1번</text>
+
+      <g font-size="13">
+        <rect x="490" y="44" width="390" height="250" rx="10" fill="none" stroke="var(--line)"/>
+        <text x="506" y="70" font-weight="700">왜 빠른가</text>
+        <text x="506" y="100">① CPU가 메모리를 연속으로 읽음 (캐시 적중)</text>
+        <text x="506" y="128">② Burst가 한 번에 4~8개씩 계산 (SIMD)</text>
+        <text x="506" y="156">③ Jobs가 코어 여러 개에 나눔</text>
+        <text x="506" y="184">④ 개체마다 함수 호출·객체 생성 없음 (GC 0)</text>
+        <text x="506" y="212">⑤ GPU에 "그릴 목록"을 통째로 한 번에 보냄</text>
+        <text x="506" y="250" fill="var(--muted)">DOTS 소개 페이지가 말하는 장점과 같은 원리입니다.</text>
+        <text x="506" y="272" fill="var(--muted)">ECS(Entities)는 이 배열들을 관리해 주는 틀입니다.</text>
+      </g>
+    </svg>
+  </div>
+
+  <h2 id="frame">3. 한 프레임의 흐름 (코드 구조)</h2>
+  <p>매 프레임 <code>PerfLabBootstrap</code>이 아래 순서로 일을 시킵니다. <span class="tag">순서 2 구현됨</span> 표시가 없는 칸은 순서 3에서 만듭니다.</p>
+  <div class="card scroll">
+    <svg viewBox="0 0 900 560" role="img" aria-label="Update에서 Job을 예약하고 LateUpdate에서 완료 후 GPU에 그린다">
+      <defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="var(--muted)"/>
+        </marker>
+      </defs>
+
+      <!-- lanes -->
+      <rect x="10" y="10" width="200" height="540" rx="10" fill="var(--soft)"/>
+      <text x="24" y="34" font-size="14" font-weight="700">메인 스레드</text>
+      <rect x="230" y="10" width="440" height="540" rx="10" fill="var(--soft)"/>
+      <text x="244" y="34" font-size="14" font-weight="700" fill="var(--cpu)">작업 스레드 (Jobs + Burst, 코어 여러 개)</text>
+      <rect x="690" y="10" width="200" height="540" rx="10" fill="var(--soft)"/>
+      <text x="704" y="34" font-size="14" font-weight="700" fill="var(--gpu)">GPU</text>
+
+      <g font-size="13">
+        <!-- main: Update -->
+        <rect x="24" y="52" width="172" height="60" rx="8" fill="var(--card)" stroke="var(--claude)" stroke-width="2"/>
+        <text x="36" y="76" font-weight="700">Update()</text>
+        <text x="36" y="96" fill="var(--muted)">입력(1/2/3, C) → Job 예약</text>
+
+        <!-- jobs -->
+        <rect x="250" y="60" width="400" height="44" rx="8" fill="var(--card)" stroke="var(--cpu)" stroke-width="2"/>
+        <text x="264" y="80" font-weight="700">① EnemyMoveJob</text>
+        <text x="264" y="97" fill="var(--muted)">적 위치 += 속도 × 시간, 성벽 닿으면 멈춤</text>
+        <text x="560" y="80" font-size="11" fill="var(--cpu)">순서 2 구현됨</text>
+
+        <rect x="250" y="118" width="400" height="44" rx="8" fill="var(--card)" stroke="var(--cpu)" stroke-dasharray="5 4"/>
+        <text x="264" y="138" font-weight="700">② 공간 격자 만들기</text>
+        <text x="264" y="155" fill="var(--muted)">바닥을 칸으로 나눠 칸마다 적 번호 목록</text>
+
+        <rect x="250" y="176" width="400" height="44" rx="8" fill="var(--card)" stroke="var(--cpu)" stroke-dasharray="5 4"/>
+        <text x="264" y="196" font-weight="700">③ 표적 고르기 (아군)</text>
+        <text x="264" y="213" fill="var(--muted)">사거리 안 칸만 조회 → 체력 비율 낮은 적 (D-019)</text>
+
+        <rect x="250" y="234" width="400" height="44" rx="8" fill="var(--card)" stroke="var(--cpu)" stroke-dasharray="5 4"/>
+        <text x="264" y="254" font-weight="700">④ 발사 → 화살 풀</text>
+        <text x="264" y="271" fill="var(--muted)">빈 슬롯 재사용 (슬롯 번호 + 세대값)</text>
+
+        <rect x="250" y="292" width="400" height="44" rx="8" fill="var(--card)" stroke="var(--cpu)" stroke-dasharray="5 4"/>
+        <text x="264" y="312" font-weight="700">⑤ 화살 이동·명중</text>
+        <text x="264" y="329" fill="var(--muted)">이동한 구간 전체로 판정 → 명중 사건을 버퍼에</text>
+
+        <rect x="250" y="350" width="400" height="44" rx="8" fill="var(--card)" stroke="var(--data)" stroke-dasharray="5 4"/>
+        <text x="264" y="370" font-weight="700">⑥ 사건 처리</text>
+        <text x="264" y="387" fill="var(--muted)">피해 한꺼번에 → 사망은 한 번만 확정 → 슬롯 반납</text>
+
+        <rect x="250" y="408" width="400" height="44" rx="8" fill="var(--card)" stroke="var(--cpu)" stroke-width="2"/>
+        <text x="264" y="428" font-weight="700">⑦ WriteEnemyInstancesJob</text>
+        <text x="264" y="445" fill="var(--muted)">위치 + 걷기 프레임 → 그리기 데이터</text>
+        <text x="560" y="428" font-size="11" fill="var(--cpu)">순서 2 구현됨</text>
+
+        <!-- main: LateUpdate -->
+        <rect x="24" y="420" width="172" height="110" rx="8" fill="var(--card)" stroke="var(--claude)" stroke-width="2"/>
+        <text x="36" y="444" font-weight="700">LateUpdate()</text>
+        <text x="36" y="464" fill="var(--muted)">Job 완료 기다림</text>
+        <text x="36" y="484" fill="var(--muted)">GPU 버퍼에 복사</text>
+        <text x="36" y="504" fill="var(--muted)">종류별 그리기 1회</text>
+        <text x="36" y="522" fill="var(--muted)">F8 표시 0.5초마다</text>
+
+        <!-- gpu -->
+        <rect x="704" y="420" width="172" height="110" rx="8" fill="var(--card)" stroke="var(--gpu)" stroke-width="2"/>
+        <text x="716" y="444" font-weight="700">PerfLabSprite 셰이더</text>
+        <text x="716" y="464" fill="var(--muted)">개체 번호로 버퍼 읽기</text>
+        <text x="716" y="484" fill="var(--muted)">세로 빌보드</text>
+        <text x="716" y="504" fill="var(--muted)">아틀라스 칸 선택</text>
+        <text x="716" y="522" fill="var(--muted)">알파 잘라내기</text>
+      </g>
+
+      <!-- arrows -->
+      <path d="M196 82 L250 82" stroke="var(--muted)" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
+      <path d="M450 104 L450 118" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <path d="M450 162 L450 176" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <path d="M450 220 L450 234" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <path d="M450 278 L450 292" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <path d="M450 336 L450 350" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <path d="M450 394 L450 408" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <path d="M250 440 L196 460" stroke="var(--muted)" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
+      <path d="M196 500 L704 480" stroke="var(--gpu)" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
+      <text x="420" y="508" font-size="12" fill="var(--gpu)">그리기 호출: 적 1회 · 아군 1회 · 화살 1회</text>
+    </svg>
+    <p class="note">메인 스레드는 Update에서 일을 맡기고 바로 다른 일을 합니다. LateUpdate에서 결과를 받아 그립니다. Job 사이의 화살표는 "앞 Job이 끝나야 다음 Job이 시작"이라는 의존 관계입니다.</p>
+  </div>
+
+  <h2 id="data">4. 데이터 배치</h2>
+  <div class="card">
+    <table>
+      <tr><th>묶음</th><th>배열 (NativeArray)</th><th>개수</th><th>상태</th></tr>
+      <tr><td>적</td><td><code>positions(float3)</code> <code>speeds</code> <code>animPhases</code> <code>atWall(byte)</code></td><td>최대 50,000</td><td class="ok">순서 2</td></tr>
+      <tr><td>적 (추가)</td><td><code>hp</code> <code>maxHp</code> <code>generation</code> <code>alive</code></td><td>최대 50,000</td><td>순서 3</td></tr>
+      <tr><td>아군</td><td>그리기 데이터만 (고정 위치)</td><td>최대 10,000</td><td class="ok">순서 2</td></tr>
+      <tr><td>아군 (추가)</td><td><code>positions</code> <code>cooldown</code> <code>range</code> <code>targetHandle</code></td><td>최대 10,000</td><td>순서 3</td></tr>
+      <tr><td>공간 격자</td><td><code>cellStart</code> <code>cellCount</code> <code>sortedEnemyIndex</code></td><td>칸 수 + 50,000</td><td>순서 3</td></tr>
+      <tr><td>화살 풀</td><td><code>position</code> <code>velocity</code> <code>life</code> <code>damage</code> <code>generation</code> + 빈 슬롯 목록</td><td>예산 측정 후 (추정 2~4만)</td><td>순서 3</td></tr>
+      <tr><td>사건 버퍼</td><td><code>HitEvent{enemy, damage}</code> 목록 → 적별 피해 합산</td><td>프레임마다 비움</td><td>순서 3</td></tr>
+      <tr><td>그리기 데이터</td><td><code>PerfLabInstance{posFrame, tintSize}</code> 32바이트</td><td>종류별</td><td class="ok">순서 2</td></tr>
+    </table>
+    <p class="note"><b>핸들 = 슬롯 번호 + 세대값:</b> 죽은 적의 칸을 새 적이 다시 쓸 때 세대값이 1 올라갑니다. 예전 화살이 "3번 칸 1세대 적"을 노리고 있었다면, 지금 3번 칸은 2세대이므로 다른 적으로 알고 무시합니다(C-013).</p>
+  </div>
+
+  <h2 id="files">5. 파일 지도와 진행 순서</h2>
+  <div class="card scroll">
+    <svg viewBox="0 0 900 250" role="img" aria-label="Combat 폴더의 파일 구성">
+      <g font-size="13">
+        <rect x="20" y="20" width="860" height="210" rx="10" fill="none" stroke="var(--line)"/>
+        <text x="36" y="46" font-weight="700">Game/Assets/_Project/Combat/  <tspan fill="var(--muted)" font-weight="400">(Claude 소유, 어셈블리 HLR.Combat)</tspan></text>
+        <text x="52" y="74">HLR.Combat.asmdef</text><text x="300" y="74" fill="var(--muted)">참조: Burst · Collections · Mathematics · InputSystem · UI</text>
+        <text x="52" y="100" font-weight="700">PerfLab/</text><text x="300" y="100" fill="var(--muted)">시험 전용. 빌드 씬 목록에 넣지 않음</text>
+        <text x="72" y="124">PerfLabBootstrap.cs</text><text x="300" y="124" fill="var(--muted)">지휘자: 생성, 단계 전환, Job 예약, 그리기, 카메라</text>
+        <text x="72" y="146">PerfLabJobs.cs</text><text x="300" y="146" fill="var(--muted)">Burst Job과 그리기 데이터 구조</text>
+        <text x="72" y="168">PerfLabSprite.shader</text><text x="300" y="168" fill="var(--muted)">버퍼를 읽어 수만 개를 한 번에 그림</text>
+        <text x="72" y="190">PerfLabArt.cs · PerfLabOverlay.cs</text><text x="300" y="190" fill="var(--muted)">임시 그림 · F8 표시</text>
+        <text x="72" y="212">PerfLabSceneMenu.cs (에디터 전용)</text><text x="300" y="212" fill="var(--muted)">메뉴 HLR > 성능 시제품 > PerfLab 씬 만들기</text>
+      </g>
+    </svg>
+    <table>
+      <tr><th>순서</th><th>내용</th><th>상태</th></tr>
+      <tr><td>1</td><td>패키지 3개 명시</td><td class="ok">완료 (908acd7)</td></tr>
+      <tr><td>2</td><td>적 행군 + 그리기 + F8</td><td class="mid">코드 작성, 사용자 Unity 열기 대기</td></tr>
+      <tr><td>3</td><td>격자 · 표적 · 화살 풀 · 사건 처리 (위 ②~⑥)</td><td>대기</td></tr>
+      <tr><td>4</td><td>S2·S3, 카메라·해상도 전환, 측정</td><td>대기</td></tr>
+      <tr><td>5</td><td>결과 보고 · 구조 확정 (필요하면 Entities 비교)</td><td>대기</td></tr>
+    </table>
+  </div>
+
+  <h2 id="budget">6. 프레임 예산 추정과 위험 (60 FPS = 16.7ms)</h2>
+  <div class="card">
+    <p class="note">모두 비슷한 DOD 구현의 일반적인 규모를 바탕으로 한 <b>추정</b>입니다. 5800X급 8코어를 가정했습니다. 실제 값은 순서 4 측정으로 바꿉니다.</p>
+    <table>
+      <tr><th>항목 (최대 S3)</th><th>추정 CPU 시간</th><th>위험</th></tr>
+      <tr><td>적 5만 이동</td><td>~0.3ms</td><td class="ok">낮음</td></tr>
+      <tr><td>공간 격자 만들기</td><td>~1ms</td><td class="ok">낮음</td></tr>
+      <tr><td>아군 1만 표적 고르기</td><td>~1~2ms</td><td class="mid">중간 (밀집 칸 조회량)</td></tr>
+      <tr><td>화살 2~4만 이동·명중</td><td>~1~2ms</td><td class="mid">중간 (화살 수 예산)</td></tr>
+      <tr><td>사건 처리·사망</td><td>~0.5ms</td><td class="ok">낮음</td></tr>
+      <tr><td>GPU로 데이터 복사 (약 3MB/프레임)</td><td>~1ms</td><td class="mid">중간</td></tr>
+      <tr><td><b>CPU 합계</b></td><td><b>약 5~8ms</b></td><td class="ok">여유 있음 (추정)</td></tr>
+      <tr><td>GPU: 1080p 내부 렌더링</td><td colspan="2" class="mid">빽빽한 군중 + 화살 겹침 → 측정 필요</td></tr>
+      <tr><td>GPU: 네이티브 4K</td><td colspan="2" class="risk">점 4배. RTX 2060에서 가장 큰 위험 → 고품질 옵션으로만 (D-021 G1)</td></tr>
+      <tr><td>폭발·마법 이펙트</td><td colspan="2" class="risk">겹치는 반투명 효과가 많으면 GPU 부담 → 표시 예산으로 조절 (피해 계산은 그대로)</td></tr>
+    </table>
+  </div>
+
+  <h2 id="later">7. 실제 게임으로 옮길 때</h2>
+  <div class="card">
+    <ul>
+      <li>시제품에서 합격한 <b>Job·격자·화살 풀·사건 처리·그리기</b>를 실제 전투 코드(<code>Combat/</code>)로 옮깁니다. 생성기·단계 전환·시험 카메라는 옮기지 않습니다.</li>
+      <li>전투 시작 정보는 <code>BattleSetup</code>(C-005)에서 배열로 풀고, 끝나면 배열에서 <code>BattleResult</code>(C-006)를 만듭니다. 다른 화면은 배열을 직접 보지 않습니다.</li>
+      <li>함정 판정은 같은 반경 규칙을 Core의 <code>TrapRules</code>(C-015)와 공유합니다. 전투 중 함정 감지는 공간 격자를 그대로 씁니다.</li>
+      <li>UI는 6만 개체를 직접 훑지 않고 요약 숫자만 받습니다(C-013).</li>
+    </ul>
+  </div>
+
+  <p class="note">원본 계획: <code>Docs/GDD/PERF_PROTOTYPE.md</code> · 결정: <code>Docs/collab/rules/DECISIONS.md</code> D-020~D-022 · 파일이 바뀌면 F5로 새로고침하세요.</p>
+</main>
+</body>
+</html>

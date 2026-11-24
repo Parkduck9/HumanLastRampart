@@ -1,0 +1,64 @@
+{
+  "card": "K-017",
+  "task": "T-CX-058",
+  "tool": "built-in imagegen",
+  "status": "시안·사용자확정전",
+  "records": [
+    {
+      "id": "ladder_front",
+      "prompt": "Use case: stylized-concept. Game prop sprite: a SINGLE complete medieval wooden siege ladder in exact straight-on FRONT view, no characters. Material palette and crisp chunky pixels match the brown ladder carried by the green goblin in the reference. Two straight rough medium-brown wooden rails, 15 evenly spaced sturdy rectangular rungs, a dark iron hook curving FORWARD over the top of EACH rail to hook onto a wall. Total ladder length about 4.3 meters, rung span about 0.55 meters; tall slender silhouette, width/height about 1/7.5. View reveals both parallel rails and all rungs. Entire prop fully visible centered on portrait 1024x1536 transparent canvas, top y80 bottom y1450. Do not add perspective wall, terrain, characters, labels, measurements, background, duplicate ladders, ladder shadows. Pixel art, hard stepped 4-8px macro-pixel clusters, no smooth photoreal wood grain. Real alpha transparent background.",
+      "referencePath": "Game/Assets/_Project/Art/Characters/Static/ladder_goblin_static.png",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-4119-7f70-8718-e1eb3c7739be\\exec-f595c675-20d1-4143-9682-aac84e19d840.png",
+      "savedSource": "sources/ladder_front.png",
+      "sourceSha256": "26eb7739def2a43012c67383e44e2803c5e0e6f8e127bce09fd8bb876a343042"
+    },
+    {
+      "id": "ladder_side",
+      "prompt": "Use case: stylized-concept. Game prop sprite: a SINGLE complete medieval wooden siege ladder in exact SIDE elevation, no characters. Material palette and crisp chunky pixels match the brown ladder in the goblin reference. Side elevation of the same ladder: overlapping near/far wooden rails seen edge-on, rung cross sections at 15 evenly spaced positions, ONE visible dark iron top hook curving right to catch a wall edge. This is an unleaned straight prop in local upright coordinates; game can rotate it. Length about4.3meters, total side-profile width including hook about0.28meters, tall thin silhouette. Entire prop centered on portrait1024x1536 transparentcanvas topy80 bottomy1450. No wall, terrain, character, labels, dimensions, duplicate ladders or cast shadows. Hard stepped4-8px macro-pixel clusters, no painterly blur or photoreal grain. Real alpha transparent background.",
+      "referencePath": "Game/Assets/_Project/Art/Characters/Static/ladder_goblin_static.png",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-4119-7f70-8718-e1eb3c7739be\\exec-134e782a-dc2f-497e-a4ee-df09d4288494.png",
+      "savedSource": "sources/ladder_side.png",
+      "sourceSha256": "e54bdfcb54a4761d4c74383f65a3e3be3a2c0a9588ae17442275c8cbeb6c59ee"
+    },
+    {
+      "id": "carry_run",
+      "prompt": "Use case: stylized-concept. Asset type: crisp low-resolution PIXEL ART sprite for a medieval HD-2D defense game. Input reference is IDENTITY AND PALETTE LOCK: same squat 2.2-head tall green goblin, large pointed ears, black short mohawk, yellow eyes, two little white lower tusks, brown scarf, ragged brown leather tunic, rope belt, brown short boots. Maintain face and clothing silhouette exactly. Hard square pixel clusters, limited palette, no painterly blur, no antialiasing, no gradient halo, no cast shadow, real alpha-transparent backdrop. Draw a FOUR-frame FRONT-facing RUN CYCLE sprite sheet, one horizontal row of four evenly spaced identical-size cells on 2048x768 canvas. All four frames face forward, same head hair ear orientation, same screen centerline, similar head height. The goblin runs TOWARD viewer while CARRYING A SEPARATE LADDER (prop is rendered by game). Do NOT draw any ladder, pole, weapon or other prop in these character-only frames. Both hands hold the invisible vertical ladder at the character's right shoulder/side, near lowerchest andwaist; hands keep a plausible gripping pose instead of swinging freely. Legs alternate clearly: frame1 leftlegforward/rightback, frame2 leftunderbody/rightrising, frame3 rightlegforward/leftback, frame4 rightunderbody/leftrising. Strong running knee lift, slight natural body bounce, torso/head stable. Draw exactly four complete whole goblins with full ears, fingers and boots separated by ample transparent gutters. No text, no frame labels, no background.",
+      "referencePath": "Game/Assets/_Project/Art/Characters/Static/ladder_goblin_static.png",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-4119-7f70-8718-e1eb3c7739be\\exec-1d1a66e0-c03c-4e72-908a-93880cc27110.png",
+      "savedSource": "sources/carry_run.png",
+      "sourceSha256": "24b0267fa2e058caaf940855f3cdd4c9804b0381832e129917c16f5f318a46b3"
+    },
+    {
+      "id": "deploy",
+      "prompt": "Use case: stylized-concept. Asset type: crisp low-resolution PIXEL ART sprite for a medieval HD-2D defense game. Input reference is IDENTITY AND PALETTE LOCK: same squat 2.2-head tall green goblin, large pointed ears, black short mohawk, yellow eyes, two little white lower tusks, brown scarf, ragged brown leather tunic, rope belt, brown short boots. Maintain face and clothing silhouette exactly. Hard square pixel clusters, limited palette, no painterly blur, no antialiasing, no gradient halo, no cast shadow, real alpha-transparent backdrop. Draw FOUR sequential poses of the goblin SETTING UP A SEPARATE HEAVY LADDER, a one-shot deployment sprite sheet in ONE horizontal row of four evenly spaced cells on2048x768 canvas. Same front-threequarter view in all four frames with goblin facing slightly right. Feet remain planted on the SAME bottom baseline, same overall body scale. Frame1 knees slightly bent and hands gripping low in front of waist; frame2 hands at chest height as he lifts and pushes; frame3 arms raised near face and hands above forehead; frame4 arms extended upward and slightly forward, leaning subtly forward to settle the ladder hooks. The invisible ladder is a separately rendered4.3m prop rising up from below; draw character only, NO ladder/pole/wall/ground and no action effects. Same face/hair/clothes in every frame. Complete ears hands boots, transparent gutter between four frames. Not an attack, no weapon, no text or labels.",
+      "referencePath": "Game/Assets/_Project/Art/Characters/Static/ladder_goblin_static.png",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-4119-7f70-8718-e1eb3c7739be\\exec-aaa86a12-25c5-46b1-ac44-eca2860dfee7.png",
+      "savedSource": "sources/deploy.png",
+      "sourceSha256": "3769a6a033b655a597b80fd6b36bc892b5bcd673746ca86af162d9bd62840ddf"
+    },
+    {
+      "id": "climb",
+      "prompt": "Use case: stylized-concept. Asset type: crisp low-resolution PIXEL ART sprite for a medieval HD-2D defense game. Input reference is IDENTITY AND PALETTE LOCK: same squat 2.2-head tall green goblin, large pointed ears, black short mohawk, yellow eyes, two little white lower tusks, brown scarf, ragged brown leather tunic, rope belt, brown short boots. Maintain face and clothing silhouette exactly. Hard square pixel clusters, limited palette, no painterly blur, no antialiasing, no gradient halo, no cast shadow, real alpha-transparent backdrop. Draw a FOUR-frame CLIMBING LOOP sprite sheet, one horizontal row of four evenly spaced cells on2048x768 canvas. BACK VIEW: goblin faces AWAY toward a wall, so black mohawk back and large green pointed ears, brown scarf and ragged tunic back and ropebelt/brownboots identify the same goblin. He climbs an INVISIBLE SEPARATE LADDER. Draw only the goblin, no ladder, no pole, no wall. Both hands grip in front of body, visible near head-sides: frame1 LEFT hand reaching higher and RIGHT knee raised; frame2 leftgrip pullsbody upward/rightleg steps; frame3 RIGHT hand reaching higher and LEFT knee raised; frame4 rightgrip pullsbody upward/leftleg steps. Clearly opposite arm and leg pairs alternate, silhouette changes on left and right, shoulders shift subtly but headmohawk orientation never flips. Four whole bodies at consistent scale, each centered with similar hipheight, no cumulative vertical travel in image (game supplies upward motion). Transparent gutters, no text/labels.",
+      "referencePath": "Game/Assets/_Project/Art/Characters/Static/ladder_goblin_static.png",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-4119-7f70-8718-e1eb3c7739be\\exec-c85e40a0-1feb-42d3-9cb9-23a0bcb1a044.png",
+      "savedSource": "sources/climb.png",
+      "sourceSha256": "08cd9ea718c4908979f8502f3bdfc5715dbf9d15c2651c324d5b043b508916ca"
+    },
+    {
+      "id": "carry_run_fixed",
+      "prompt": "Use case: precise-object-edit. Edit the attached four-frame transparent goblin running sheet. Preserve character identity, head orientation, black mohawk, yellow eyes, tusks, clothes, gripping hands, pixel art style and FOUR equal cell positions. The current sheet incorrectly repeats the SAME leading leg in frames 1 and 3. CHANGE ONLY THE LEGS IN THE THIRD AND FOURTH CELLS. Count cells left-to-right 1,2,3,4. Keep cell1 andcell2 unchanged. Cell3 must have the boot on the VIEWER'S RIGHT extended DOWN and FORWARD, visibly lower than the other boot; the boot on the VIEWER'S LEFT must be HIGH and bent BACK behind the body. Cell4 must have the VIEWER'S RIGHT boot directly below pelvis supporting the body, with VIEWER'S LEFT knee lifting high to transition toward cell1. Do NOT mirror or flip the entire goblin, head, face, scarf, or hands. Only exchange the lower-body running phase for cells3and4. Ensure the image shows alternating long low boot silhouette LEFT,LEFT,RIGHT,RIGHT across four cells. Crisp blocky square pixels, no smearing, no text, real alpha transparency, remove any ambient glow halo outside solid sprites.",
+      "referencePath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-4119-7f70-8718-e1eb3c7739be\\exec-1d1a66e0-c03c-4e72-908a-93880cc27110.png",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-4119-7f70-8718-e1eb3c7739be\\exec-1bc14161-a33b-4dc3-8afb-ca33e3856524.png",
+      "savedSource": "sources/carry_run_fixed.png",
+      "sourceSha256": "7c07b70a999aa952cb245844ac21b3435e2abea72ad504cd0274c7f357ee8425"
+    },
+    {
+      "id": "climb_fixed",
+      "prompt": "Use case: precise-object-edit. Fix ONLY climbing arm alternation in this BACK-view four-cell goblin sprite sheet. Preserve face-hidden/back identity, black mohawk, ears, brown scarf, ropebelt, boots, scale and 4 equal cell positions. In cells1AND2 the SCREEN-LEFT HAND must be higher than the SCREEN-RIGHT HAND. In cells3AND4 the SCREEN-RIGHT HAND must be higher than the SCREEN-LEFT HAND. CURRENT CELL2 is wrong because right hand is above the head. Specifically redraw ONLY cell2 upper arms so LEFT hand stays above shoulder/head and bends pulling, while RIGHT hand is BELOW shoulder at chest/rib level. For cell4, make raised RIGHT elbow more bent than cell3 to show pulling. Keep legs as they are, body back view, no ladder or other props. Keep cells1and3 unchanged. Four phases left-reach,left-pull,right-reach,right-pull. Do not flip entire sprite or hair. Hard square pixel clusters matching reference. Actual transparent background, no glow/shadow/text.",
+      "referencePath": "sources/climb.png",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a13e59-4119-7f70-8718-e1eb3c7739be\\exec-72764fdd-774f-4022-b2ae-d92c5c5b370a.png",
+      "savedSource": "sources/climb_fixed.png",
+      "sourceSha256": "b451c1c8d0c40a65f31f7f0976a139ee65bf1dd5b1e44db36732d583f392fadf"
+    }
+  ]
+}

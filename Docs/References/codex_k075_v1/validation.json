@@ -1,0 +1,966 @@
+﻿{
+    "passed":  154,
+    "checks":  [
+                   {
+                       "passed":  true,
+                       "check":  "static 원본 크기"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "static 게임 크기"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "static 3배 최근접 픽셀 일치"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "static 4배 미리보기 픽셀 일치"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "static 이진 알파"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "static 원본 게임 파일 해시 유지"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "static 0 발선"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "static 0 칸 가장자리 여백"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "static 0 고립 잔여 픽셀 없음"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "static 프레임별 그림 구분"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "run 원본 크기"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "run 게임 크기"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "run 3배 최근접 픽셀 일치"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "run 4배 미리보기 픽셀 일치"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "run 이진 알파"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "run 원본 게임 파일 해시 유지"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "run 0 발선"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "run 0 칸 가장자리 여백"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "run 0 고립 잔여 픽셀 없음"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "run 1 발선"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "run 1 칸 가장자리 여백"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "run 1 고립 잔여 픽셀 없음"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "run 2 발선"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "run 2 칸 가장자리 여백"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "run 2 고립 잔여 픽셀 없음"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "run 3 발선"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "run 3 칸 가장자리 여백"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "run 3 고립 잔여 픽셀 없음"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "run 프레임별 그림 구분"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "ignite 원본 크기"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "ignite 게임 크기"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "ignite 3배 최근접 픽셀 일치"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "ignite 4배 미리보기 픽셀 일치"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "ignite 이진 알파"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "ignite 원본 게임 파일 해시 유지"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "ignite 0 발선"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "ignite 0 칸 가장자리 여백"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "ignite 0 고립 잔여 픽셀 없음"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "ignite 1 발선"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "ignite 1 칸 가장자리 여백"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "ignite 1 고립 잔여 픽셀 없음"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "점화 1 하체 고정"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "ignite 2 발선"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "ignite 2 칸 가장자리 여백"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "ignite 2 고립 잔여 픽셀 없음"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "점화 2 하체 고정"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "ignite 3 발선"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "ignite 3 칸 가장자리 여백"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "ignite 3 고립 잔여 픽셀 없음"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "점화 3 하체 고정"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "ignite 4 발선"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "ignite 4 칸 가장자리 여백"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "ignite 4 고립 잔여 픽셀 없음"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "점화 4 하체 고정"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "ignite 5 발선"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "ignite 5 칸 가장자리 여백"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "ignite 5 고립 잔여 픽셀 없음"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "점화 5 하체 고정"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "ignite 프레임별 그림 구분"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "fall 원본 크기"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "fall 게임 크기"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "fall 3배 최근접 픽셀 일치"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "fall 4배 미리보기 픽셀 일치"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "fall 이진 알파"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "fall 원본 게임 파일 해시 유지"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "fall 0 발선"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "fall 0 칸 가장자리 여백"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "fall 0 고립 잔여 픽셀 없음"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "fall 1 발선"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "fall 1 칸 가장자리 여백"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "fall 1 고립 잔여 픽셀 없음"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "fall 2 발선"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "fall 2 칸 가장자리 여백"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "fall 2 고립 잔여 픽셀 없음"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "fall 3 발선"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "fall 3 칸 가장자리 여백"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "fall 3 고립 잔여 픽셀 없음"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "fall 프레임별 그림 구분"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "push 원본 크기"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "push 게임 크기"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "push 3배 최근접 픽셀 일치"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "push 4배 미리보기 픽셀 일치"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "push 이진 알파"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "push 원본 게임 파일 해시 유지"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "push 0 발선"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "push 0 칸 가장자리 여백"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "push 0 고립 잔여 픽셀 없음"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "push 0 실제 접지 x"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "push 0 지면 고정"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "push 1 발선"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "push 1 칸 가장자리 여백"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "push 1 고립 잔여 픽셀 없음"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "push 1 실제 접지 x"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "push 1 지면 고정"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "push 2 발선"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "push 2 칸 가장자리 여백"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "push 2 고립 잔여 픽셀 없음"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "push 2 실제 접지 x"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "push 2 지면 고정"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "push 3 발선"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "push 3 칸 가장자리 여백"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "push 3 고립 잔여 픽셀 없음"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "push 3 실제 접지 x"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "push 3 지면 고정"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "push 4 발선"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "push 4 칸 가장자리 여백"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "push 4 고립 잔여 픽셀 없음"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "push 4 실제 접지 x"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "push 4 지면 고정"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "push 5 발선"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "push 5 칸 가장자리 여백"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "push 5 고립 잔여 픽셀 없음"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "push 5 실제 접지 x"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "push 5 지면 고정"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "push 프레임별 그림 구분"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "pull 원본 크기"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "pull 게임 크기"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "pull 3배 최근접 픽셀 일치"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "pull 4배 미리보기 픽셀 일치"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "pull 이진 알파"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "pull 원본 게임 파일 해시 유지"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "pull 0 발선"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "pull 0 칸 가장자리 여백"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "pull 0 고립 잔여 픽셀 없음"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "pull 0 실제 접지 x"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "pull 0 지면 고정"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "pull 1 발선"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "pull 1 칸 가장자리 여백"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "pull 1 고립 잔여 픽셀 없음"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "pull 1 실제 접지 x"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "pull 1 지면 고정"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "pull 2 발선"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "pull 2 칸 가장자리 여백"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "pull 2 고립 잔여 픽셀 없음"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "pull 2 실제 접지 x"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "pull 2 지면 고정"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "pull 3 발선"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "pull 3 칸 가장자리 여백"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "pull 3 고립 잔여 픽셀 없음"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "pull 3 실제 접지 x"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "pull 3 지면 고정"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "pull 4 발선"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "pull 4 칸 가장자리 여백"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "pull 4 고립 잔여 픽셀 없음"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "pull 4 실제 접지 x"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "pull 4 지면 고정"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "pull 5 발선"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "pull 5 칸 가장자리 여백"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "pull 5 고립 잔여 픽셀 없음"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "pull 5 실제 접지 x"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "pull 5 지면 고정"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "pull 프레임별 그림 구분"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "점화 접촉 높이 140에 불씨 픽셀 존재"
+                   },
+                   {
+                       "passed":  true,
+                       "check":  "대포 원본 해시 유지"
+                   }
+               ],
+    "performed":  [
+                      "PNG 실제 픽셀·크기·접지 검사",
+                      "최근접 3배·4배 대조",
+                      "Game 원본 해시 대조"
+                  ],
+    "not_performed":  [
+                          "Unity 실행 / Play / 실제 게임 캡처",
+                          "실제 게임의 연속 이동 접지",
+                          "노멀맵 제작"
+                      ],
+    "source_hashes":  {
+                          "Characters/Run/cannon_crew_run.png":  "7E4BD00D40549A19479FE738AD73C9A01EF70C0F8C272A5F7E17F6551270EEE3",
+                          "cannon":  "5416605290E1D45F95B325CF38E2FF368B5EB85F4305CA659AE8774F4720EF35",
+                          "Battle/Resources/BattleArt/Cannon/crew_pull6.png":  "906E0C9AEF8A351BE30E5624F434DEF424C1D215D34693F1DE06CF23095200A2",
+                          "Characters/Fall/cannon_crew_fall.png":  "BEC2BF5224B50E84FAF9CC577615E331A6AACDA469489E196239B57804EB35BF",
+                          "Characters/Fire/cannon_crew_ignite6.png":  "7A2602E4B72B04DC4C1FAD460FC6FE7A1A7E925D0F66875B72B4D18418D1AF68",
+                          "Battle/Resources/BattleArt/Cannon/crew_push6.png":  "666BAF673EDCE403C0C2B5340558E9ABA4228B0C850495C2DAFA387B53AB61B0",
+                          "Characters/Static/cannon_crew_static.png":  "5EE84F511A5351AA9E93CC6E4A22ADBB063B2C54F7993A5557EB039C17122EA3"
+                      },
+    "frames":  [
+                   {
+                       "sole_x":  36,
+                       "frame":  0,
+                       "bounds":  [
+                                      28,
+                                      47,
+                                      46,
+                                      73
+                                  ],
+                       "sha256_base64":  "heCXlidhqgSNqVpLloxbUpnduFU6vv1HNrKC/uwwyeU=",
+                       "kind":  "static"
+                   },
+                   {
+                       "sole_x":  34,
+                       "frame":  0,
+                       "bounds":  [
+                                      16,
+                                      46,
+                                      69,
+                                      74
+                                  ],
+                       "sha256_base64":  "MgXMxNtRk/YzCE8vO8C7nwsWcdoT2H8Kn9FvW44UZOg=",
+                       "kind":  "run"
+                   },
+                   {
+                       "sole_x":  56,
+                       "frame":  1,
+                       "bounds":  [
+                                      14,
+                                      46,
+                                      61,
+                                      74
+                                  ],
+                       "sha256_base64":  "TT4oCO2bb5yJ9GHcnhKszidAO6n70AL0HaR9N18mbgE=",
+                       "kind":  "run"
+                   },
+                   {
+                       "sole_x":  40,
+                       "frame":  2,
+                       "bounds":  [
+                                      16,
+                                      46,
+                                      71,
+                                      74
+                                  ],
+                       "sha256_base64":  "QRdmNWTY4zjKdl5WBGvTCUDYSFxe2P6+hJbgS4KSxZw=",
+                       "kind":  "run"
+                   },
+                   {
+                       "sole_x":  54,
+                       "frame":  3,
+                       "bounds":  [
+                                      15,
+                                      46,
+                                      61,
+                                      74
+                                  ],
+                       "sha256_base64":  "5Gt+uMUsBNPWFWqC0HWd/ZIG53eMGjByALLriUjVnhc=",
+                       "kind":  "run"
+                   },
+                   {
+                       "sole_x":  38,
+                       "frame":  0,
+                       "bounds":  [
+                                      26,
+                                      46,
+                                      45,
+                                      74
+                                  ],
+                       "sha256_base64":  "re2A6RlnxMzS1zLWYkyikJDUCZ8ob06w9IVxe8fFKAY=",
+                       "kind":  "ignite"
+                   },
+                   {
+                       "sole_x":  38,
+                       "frame":  1,
+                       "bounds":  [
+                                      23,
+                                      46,
+                                      48,
+                                      74
+                                  ],
+                       "sha256_base64":  "8OgtnGV15M6LODLX5D3CRZAuAeXlvdyQAtfV5Dhd21k=",
+                       "kind":  "ignite"
+                   },
+                   {
+                       "sole_x":  58,
+                       "frame":  2,
+                       "bounds":  [
+                                      19,
+                                      45,
+                                      51,
+                                      75
+                                  ],
+                       "sha256_base64":  "CjdhJYcPRmbIpEZoHZWiWwHN8WDNc74jN82JIQI9KdQ=",
+                       "kind":  "ignite"
+                   },
+                   {
+                       "sole_x":  38,
+                       "frame":  3,
+                       "bounds":  [
+                                      28,
+                                      45,
+                                      43,
+                                      75
+                                  ],
+                       "sha256_base64":  "tHgKv9WkoV+ogLN7cWpVY8pFuYLPepCgT2eL8+pw5yc=",
+                       "kind":  "ignite"
+                   },
+                   {
+                       "sole_x":  38,
+                       "frame":  4,
+                       "bounds":  [
+                                      19,
+                                      46,
+                                      51,
+                                      74
+                                  ],
+                       "sha256_base64":  "e76ylxZwy4g5oUrIMS3WfqCFYYi/0S9ZpLvRYOo8ANc=",
+                       "kind":  "ignite"
+                   },
+                   {
+                       "sole_x":  58,
+                       "frame":  5,
+                       "bounds":  [
+                                      26,
+                                      46,
+                                      42,
+                                      74
+                                  ],
+                       "sha256_base64":  "r8/9gyw5mAKPrpjYCBHo8TWp4Ns72draCp+DCoguK5E=",
+                       "kind":  "ignite"
+                   },
+                   {
+                       "sole_x":  31,
+                       "frame":  0,
+                       "bounds":  [
+                                      22,
+                                      47,
+                                      52,
+                                      73
+                                  ],
+                       "sha256_base64":  "ezsYUQ/SaQ4riZNm3PLnvJaTRHKxX57Y/Y4WyxkOCc0=",
+                       "kind":  "fall"
+                   },
+                   {
+                       "sole_x":  46,
+                       "frame":  1,
+                       "bounds":  [
+                                      21,
+                                      55,
+                                      54,
+                                      65
+                                  ],
+                       "sha256_base64":  "8iQqd5r+wP7TEJCgO73giHpq7ba7XPlBlwWysDBMRmo=",
+                       "kind":  "fall"
+                   },
+                   {
+                       "sole_x":  76,
+                       "frame":  2,
+                       "bounds":  [
+                                      15,
+                                      66,
+                                      66,
+                                      54
+                                  ],
+                       "sha256_base64":  "YPJKC9eZ+QP1UAoc700G1qpclGNSHb6kdUuC/01pBRg=",
+                       "kind":  "fall"
+                   },
+                   {
+                       "sole_x":  28,
+                       "frame":  3,
+                       "bounds":  [
+                                      14,
+                                      89,
+                                      68,
+                                      31
+                                  ],
+                       "sha256_base64":  "BzgZJaYI4hD+/heYjlahJRBxoZCNh8TbgtHhL2wlb4U=",
+                       "kind":  "fall"
+                   },
+                   {
+                       "sole_x":  36,
+                       "frame":  0,
+                       "bounds":  [
+                                      17,
+                                      47,
+                                      59,
+                                      73
+                                  ],
+                       "sha256_base64":  "3t2bkHw4LtFgzYxUKozUpCjoSuelrxbrYfncTolNWqM=",
+                       "kind":  "push"
+                   },
+                   {
+                       "sole_x":  48,
+                       "frame":  1,
+                       "bounds":  [
+                                      17,
+                                      47,
+                                      54,
+                                      73
+                                  ],
+                       "sha256_base64":  "iAVjoL5Lo/KBJbQuoIaZ6sKYSm+ZrH0wuTTCOAfR+Y0=",
+                       "kind":  "push"
+                   },
+                   {
+                       "sole_x":  60,
+                       "frame":  2,
+                       "bounds":  [
+                                      17,
+                                      46,
+                                      54,
+                                      74
+                                  ],
+                       "sha256_base64":  "19PIKKpEp3Ukf5RBXf11qlmZ1N33Kvhkkq5XJvYgc2o=",
+                       "kind":  "push"
+                   },
+                   {
+                       "sole_x":  36,
+                       "frame":  3,
+                       "bounds":  [
+                                      18,
+                                      46,
+                                      61,
+                                      74
+                                  ],
+                       "sha256_base64":  "JsvP0FdcnQ3y0H/jq6G2zUEf1XsvxtDuxNmQZltMUnI=",
+                       "kind":  "push"
+                   },
+                   {
+                       "sole_x":  48,
+                       "frame":  4,
+                       "bounds":  [
+                                      18,
+                                      46,
+                                      55,
+                                      74
+                                  ],
+                       "sha256_base64":  "IVqsSXniOrwe2nxY1L49r3HcnjA3i0YYTqrFNQTm/Bc=",
+                       "kind":  "push"
+                   },
+                   {
+                       "sole_x":  60,
+                       "frame":  5,
+                       "bounds":  [
+                                      18,
+                                      47,
+                                      53,
+                                      73
+                                  ],
+                       "sha256_base64":  "YsdTlFwat1lg6fBLvMmqbF/cfejxRHARBjW96tBEJU8=",
+                       "kind":  "push"
+                   },
+                   {
+                       "sole_x":  36,
+                       "frame":  0,
+                       "bounds":  [
+                                      13,
+                                      47,
+                                      66,
+                                      73
+                                  ],
+                       "sha256_base64":  "ai+SRsm18KtAECnDKxshOBq0CAiE/XwHgA1Y2rUChTY=",
+                       "kind":  "pull"
+                   },
+                   {
+                       "sole_x":  48,
+                       "frame":  1,
+                       "bounds":  [
+                                      15,
+                                      46,
+                                      56,
+                                      74
+                                  ],
+                       "sha256_base64":  "KPrvQfXI0h5ELclTYJce+qMC7IVa3lglgIiBuffQilU=",
+                       "kind":  "pull"
+                   },
+                   {
+                       "sole_x":  60,
+                       "frame":  2,
+                       "bounds":  [
+                                      12,
+                                      47,
+                                      59,
+                                      73
+                                  ],
+                       "sha256_base64":  "wSmbTV9/XK5gFoks+aG+yMY1HVFRiCFybBdl5eROQnQ=",
+                       "kind":  "pull"
+                   },
+                   {
+                       "sole_x":  36,
+                       "frame":  3,
+                       "bounds":  [
+                                      11,
+                                      46,
+                                      66,
+                                      74
+                                  ],
+                       "sha256_base64":  "yuxaiiYGEBtt+5YV19Yf8MEmGkT1SXPG2caU472Y8T8=",
+                       "kind":  "pull"
+                   },
+                   {
+                       "sole_x":  48,
+                       "frame":  4,
+                       "bounds":  [
+                                      11,
+                                      46,
+                                      59,
+                                      74
+                                  ],
+                       "sha256_base64":  "5Ng9fXizwE/qHT4TgmM8uksgyX3NuAtildkG0W9/4gQ=",
+                       "kind":  "pull"
+                   },
+                   {
+                       "sole_x":  60,
+                       "frame":  5,
+                       "bounds":  [
+                                      10,
+                                      46,
+                                      61,
+                                      74
+                                  ],
+                       "sha256_base64":  "CUpgan0Iqi2Ho7g8bzNN5qZEq24hVmiMgS+9tDzJFGM=",
+                       "kind":  "pull"
+                   }
+               ]
+}

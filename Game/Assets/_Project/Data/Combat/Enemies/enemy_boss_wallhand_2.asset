@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b213dba238c84de29ff412c3840cee5e, type: 3}
+  m_Name: enemy_boss_wallhand_2
+  m_EditorClassIdentifier:
+  id: enemy_boss_wallhand_2
+  displayName: 성벽손 오우거
+  isSpecial: 1
+  maxHp: 105000
+  moveSpeed: 1.8
+  wallDamage: 40
+  rewardGold: 300
+  climbSpeed: 0.5
+  onWallAttack: 80
+  sheet: {fileID: 2800000, guid: 66768a11424c46e18ebf47a6236d46f7, type: 3}
+  attackSheet: {fileID: 2800000, guid: 950740006b1b4e93af480ba8376186be, type: 3}
+  deathSheet: {fileID: 2800000, guid: 78a0e7b2a3ad4dbcac9ee81260abec90, type: 3}
+  normalSheet: {fileID: 2800000, guid: f28583b84c324e5da805547d686ec2c6, type: 3}
+  poseNormals:
+  - Sheet: {fileID: 2800000, guid: 66768a11424c46e18ebf47a6236d46f7, type: 3}
+    Normal: {fileID: 2800000, guid: f28583b84c324e5da805547d686ec2c6, type: 3}
+  - Sheet: {fileID: 2800000, guid: 950740006b1b4e93af480ba8376186be, type: 3}
+    Normal: {fileID: 2800000, guid: a317b7ab5a094a86bcffc4c383e8dceb, type: 3}
+  - Sheet: {fileID: 2800000, guid: 78a0e7b2a3ad4dbcac9ee81260abec90, type: 3}
+    Normal: {fileID: 2800000, guid: 906e3e85b32842b3a5f042eded3423aa, type: 3}
+  isBoss: 1
+  drawScale: 1.6
+  unlitPointDamageMul: 0.15
+  litSpeedMul: 1.2
+  climbAreaDamageMul: 2
+  knockOffRatio: 0.15
+  knockdownSeconds: 6
+  trapKnockdownSeconds: 4
+  onWallWallDamage: 80
+  easyHpMul: 0.55
+  beamDamagePerSec: 525

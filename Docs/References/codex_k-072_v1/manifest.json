@@ -1,0 +1,1168 @@
+{
+    "verification":  {
+                         "previewGrid4x":  "passed",
+                         "sheetDimensions":  "passed",
+                         "binaryAlpha":  "passed",
+                         "framePivotAndBottomBaseline":  "passed",
+                         "noIsolatedNativePixels":  "passed",
+                         "embeddedPngDecodeCount":  21,
+                         "matchesCurrentSizesAndFrameCounts":  "passed",
+                         "unity":  "not run",
+                         "browserRuntime":  "not run: no available browsers in cua inventory",
+                         "externalResources":  0,
+                         "nativeGrid4x":  "passed"
+                     },
+    "artDirection":  "D-080 generated.png",
+    "coordinateSystem":  "top-left pixels; Unity normalized pivot is bottom-left",
+    "filter":  "nearest",
+    "version":  1,
+    "previewScaleRelativeToGameSheet":  4,
+    "alpha":  "binary 0/255",
+    "card":  "K-072",
+    "nativeScale":  4,
+    "generator":  "built-in image_gen",
+    "effects":  [
+                    {
+                        "pivotUnityNormalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                        "file":  "sheets/arrow.png",
+                        "emissive":  false,
+                        "sourceGameSize":  [
+                                               256,
+                                               128
+                                           ],
+                        "sourceGameSha256":  "f4459006db5a56e975ca58a48e265a5472f44192543cc0dd3c63acafe5408141",
+                        "opaqueBaselineBottomExclusive":  null,
+                        "label":  "화살",
+                        "frames":  [
+                                       {
+                                           "connectedClusters":  1,
+                                           "rectTopLeft":  [
+                                                               0,
+                                                               0,
+                                                               256,
+                                                               128
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        36,
+                                                                        48,
+                                                                        215,
+                                                                        75
+                                                                    ],
+                                           "nativeOpaquePixels":  165,
+                                           "index":  0
+                                       }
+                                   ],
+                        "fps":  0,
+                        "forward":  "+X",
+                        "sourceGamePath":  "Game/Assets/_Project/Art/Characters/Projectiles/arrow.png",
+                        "pivotTopLeftPx":  [
+                                               128,
+                                               64
+                                           ],
+                        "playback":  "static",
+                        "layout":  "left-to-right",
+                        "cellSize":  [
+                                         256,
+                                         128
+                                     ],
+                        "sheetSize":  [
+                                          256,
+                                          128
+                                      ],
+                        "newSha256":  "80708bd44eee198ca7ef45c4b8af96767ce4f78420489198ec83d2462c555c83",
+                        "frameOrder":  "한 칸 고정 · 오른쪽이 진행 방향",
+                        "name":  "arrow",
+                        "frameCount":  1
+                    },
+                    {
+                        "pivotUnityNormalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                        "file":  "sheets/bullet_trace.png",
+                        "emissive":  true,
+                        "sourceGameSize":  [
+                                               256,
+                                               128
+                                           ],
+                        "sourceGameSha256":  "b65fec4ee29fccab7acba06d7da9fb8942d5a7129da5ee75b7243ea6f58fbc07",
+                        "opaqueBaselineBottomExclusive":  null,
+                        "label":  "총알 궤적",
+                        "frames":  [
+                                       {
+                                           "connectedClusters":  1,
+                                           "rectTopLeft":  [
+                                                               0,
+                                                               0,
+                                                               256,
+                                                               128
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        40,
+                                                                        48,
+                                                                        215,
+                                                                        79
+                                                                    ],
+                                           "nativeOpaquePixels":  158,
+                                           "index":  0
+                                       }
+                                   ],
+                        "fps":  0,
+                        "forward":  "+X",
+                        "sourceGamePath":  "Game/Assets/_Project/Art/Characters/Projectiles/bullet_trace.png",
+                        "pivotTopLeftPx":  [
+                                               128,
+                                               64
+                                           ],
+                        "playback":  "static",
+                        "layout":  "left-to-right",
+                        "cellSize":  [
+                                         256,
+                                         128
+                                     ],
+                        "sheetSize":  [
+                                          256,
+                                          128
+                                      ],
+                        "newSha256":  "821c956ce33dab9a59f8ab65cc24eb09ab96a8a69d2d3619ce764969e4e0f761",
+                        "frameOrder":  "한 칸 고정 · 오른쪽의 밝은 끝이 진행 방향",
+                        "name":  "bullet_trace",
+                        "frameCount":  1
+                    },
+                    {
+                        "pivotUnityNormalized":  [
+                                                     0.5,
+                                                     0.5
+                                                 ],
+                        "file":  "sheets/cannonball.png",
+                        "emissive":  false,
+                        "sourceGameSize":  [
+                                               256,
+                                               128
+                                           ],
+                        "sourceGameSha256":  "0bc24da3d582b2a1ebf6408e7899ba1b73b0d86373856bda63fe86e52a0f95e7",
+                        "opaqueBaselineBottomExclusive":  null,
+                        "label":  "대포알",
+                        "frames":  [
+                                       {
+                                           "connectedClusters":  1,
+                                           "rectTopLeft":  [
+                                                               0,
+                                                               0,
+                                                               256,
+                                                               128
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        92,
+                                                                        28,
+                                                                        163,
+                                                                        99
+                                                                    ],
+                                           "nativeOpaquePixels":  249,
+                                           "index":  0
+                                       }
+                                   ],
+                        "fps":  0,
+                        "forward":  "+X",
+                        "sourceGamePath":  "Game/Assets/_Project/Art/Characters/Projectiles/cannonball.png",
+                        "pivotTopLeftPx":  [
+                                               128,
+                                               64
+                                           ],
+                        "playback":  "static",
+                        "layout":  "left-to-right",
+                        "cellSize":  [
+                                         256,
+                                         128
+                                     ],
+                        "sheetSize":  [
+                                          256,
+                                          128
+                                      ],
+                        "newSha256":  "e6c5336a530b2336bd5dc9953b92baf4e8c7239acd71de849b496195e86d7668",
+                        "frameOrder":  "한 칸 고정 · 굵은 테두리와 쇠의 세 단계 명암",
+                        "name":  "cannonball",
+                        "frameCount":  1
+                    },
+                    {
+                        "pivotUnityNormalized":  [
+                                                     0.5,
+                                                     0
+                                                 ],
+                        "file":  "sheets/arrow_hit.png",
+                        "emissive":  true,
+                        "sourceGameSize":  [
+                                               1536,
+                                               256
+                                           ],
+                        "sourceGameSha256":  "e10f6db61b5315efe60073d766ce6cdcdce5b8b5b977adcb410fb1c5085e0058",
+                        "opaqueBaselineBottomExclusive":  256,
+                        "label":  "타격 불티",
+                        "frames":  [
+                                       {
+                                           "connectedClusters":  1,
+                                           "rectTopLeft":  [
+                                                               0,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        112,
+                                                                        228,
+                                                                        143,
+                                                                        255
+                                                                    ],
+                                           "nativeOpaquePixels":  27,
+                                           "index":  0
+                                       },
+                                       {
+                                           "connectedClusters":  1,
+                                           "rectTopLeft":  [
+                                                               256,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        100,
+                                                                        216,
+                                                                        155,
+                                                                        255
+                                                                    ],
+                                           "nativeOpaquePixels":  63,
+                                           "index":  1
+                                       },
+                                       {
+                                           "connectedClusters":  5,
+                                           "rectTopLeft":  [
+                                                               512,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        88,
+                                                                        208,
+                                                                        163,
+                                                                        255
+                                                                    ],
+                                           "nativeOpaquePixels":  78,
+                                           "index":  2
+                                       },
+                                       {
+                                           "connectedClusters":  6,
+                                           "rectTopLeft":  [
+                                                               768,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        84,
+                                                                        208,
+                                                                        171,
+                                                                        255
+                                                                    ],
+                                           "nativeOpaquePixels":  61,
+                                           "index":  3
+                                       },
+                                       {
+                                           "connectedClusters":  2,
+                                           "rectTopLeft":  [
+                                                               1024,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        104,
+                                                                        236,
+                                                                        147,
+                                                                        255
+                                                                    ],
+                                           "nativeOpaquePixels":  17,
+                                           "index":  4
+                                       },
+                                       {
+                                           "connectedClusters":  1,
+                                           "rectTopLeft":  [
+                                                               1280,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        124,
+                                                                        244,
+                                                                        131,
+                                                                        255
+                                                                    ],
+                                           "nativeOpaquePixels":  4,
+                                           "index":  5
+                                       }
+                                   ],
+                        "fps":  10,
+                        "forward":  null,
+                        "sourceGamePath":  "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Effects/arrow_hit.png",
+                        "pivotTopLeftPx":  [
+                                               128,
+                                               256
+                                           ],
+                        "playback":  "one-shot",
+                        "layout":  "left-to-right",
+                        "cellSize":  [
+                                         256,
+                                         256
+                                     ],
+                        "sheetSize":  [
+                                          1536,
+                                          256
+                                      ],
+                        "newSha256":  "505ee5a5e2452af1674815ec352bb5fb4606e169909ed93a8a03fc224f07fb04",
+                        "frameOrder":  "점화 → 짧은 섬광 → 불티 확산 → 조각 분리 → 잔불 → 소멸 직전",
+                        "name":  "arrow_hit",
+                        "frameCount":  6
+                    },
+                    {
+                        "pivotUnityNormalized":  [
+                                                     0.5,
+                                                     0
+                                                 ],
+                        "file":  "sheets/fire_field.png",
+                        "emissive":  true,
+                        "sourceGameSize":  [
+                                               1536,
+                                               256
+                                           ],
+                        "sourceGameSha256":  "d9f0293e91026d2574a262b989de2c9f15dc6ee6625f37aede66ae616361fdc7",
+                        "opaqueBaselineBottomExclusive":  256,
+                        "label":  "불바다",
+                        "frames":  [
+                                       {
+                                           "connectedClusters":  7,
+                                           "rectTopLeft":  [
+                                                               0,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        48,
+                                                                        140,
+                                                                        207,
+                                                                        255
+                                                                    ],
+                                           "nativeOpaquePixels":  564,
+                                           "index":  0
+                                       },
+                                       {
+                                           "connectedClusters":  4,
+                                           "rectTopLeft":  [
+                                                               256,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        52,
+                                                                        116,
+                                                                        203,
+                                                                        255
+                                                                    ],
+                                           "nativeOpaquePixels":  630,
+                                           "index":  1
+                                       },
+                                       {
+                                           "connectedClusters":  4,
+                                           "rectTopLeft":  [
+                                                               512,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        48,
+                                                                        140,
+                                                                        207,
+                                                                        255
+                                                                    ],
+                                           "nativeOpaquePixels":  646,
+                                           "index":  2
+                                       },
+                                       {
+                                           "connectedClusters":  7,
+                                           "rectTopLeft":  [
+                                                               768,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        44,
+                                                                        136,
+                                                                        207,
+                                                                        255
+                                                                    ],
+                                           "nativeOpaquePixels":  581,
+                                           "index":  3
+                                       },
+                                       {
+                                           "connectedClusters":  7,
+                                           "rectTopLeft":  [
+                                                               1024,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        52,
+                                                                        112,
+                                                                        203,
+                                                                        255
+                                                                    ],
+                                           "nativeOpaquePixels":  643,
+                                           "index":  4
+                                       },
+                                       {
+                                           "connectedClusters":  6,
+                                           "rectTopLeft":  [
+                                                               1280,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        52,
+                                                                        136,
+                                                                        203,
+                                                                        255
+                                                                    ],
+                                           "nativeOpaquePixels":  597,
+                                           "index":  5
+                                       }
+                                   ],
+                        "fps":  10,
+                        "forward":  null,
+                        "sourceGamePath":  "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Effects/fire_field.png",
+                        "pivotTopLeftPx":  [
+                                               128,
+                                               256
+                                           ],
+                        "playback":  "loop",
+                        "layout":  "left-to-right",
+                        "cellSize":  [
+                                         256,
+                                         256
+                                     ],
+                        "sheetSize":  [
+                                          1536,
+                                          256
+                                      ],
+                        "newSha256":  "a0244967570ba92ce4cdcbaa7dfd0da75349e23eb91f475ce93c9af691d1001a",
+                        "frameOrder":  "왼쪽으로 흔들림 → 가운데 솟음 → 퍼짐 → 오른쪽으로 흔들림 → 다시 솟음 → 첫 칸으로 연결",
+                        "name":  "fire_field",
+                        "frameCount":  6
+                    },
+                    {
+                        "pivotUnityNormalized":  [
+                                                     0.5,
+                                                     0
+                                                 ],
+                        "file":  "sheets/magic_burst.png",
+                        "emissive":  true,
+                        "sourceGameSize":  [
+                                               1536,
+                                               256
+                                           ],
+                        "sourceGameSha256":  "3846fb47dd2f81906426d2665c099daaf598609be63177e3ba1e97863eec9adf",
+                        "opaqueBaselineBottomExclusive":  256,
+                        "label":  "마법 폭발",
+                        "frames":  [
+                                       {
+                                           "connectedClusters":  9,
+                                           "rectTopLeft":  [
+                                                               0,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        68,
+                                                                        160,
+                                                                        187,
+                                                                        255
+                                                                    ],
+                                           "nativeOpaquePixels":  291,
+                                           "index":  0
+                                       },
+                                       {
+                                           "connectedClusters":  12,
+                                           "rectTopLeft":  [
+                                                               256,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        32,
+                                                                        72,
+                                                                        223,
+                                                                        255
+                                                                    ],
+                                           "nativeOpaquePixels":  956,
+                                           "index":  1
+                                       },
+                                       {
+                                           "connectedClusters":  9,
+                                           "rectTopLeft":  [
+                                                               512,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        24,
+                                                                        68,
+                                                                        231,
+                                                                        255
+                                                                    ],
+                                           "nativeOpaquePixels":  1770,
+                                           "index":  2
+                                       },
+                                       {
+                                           "connectedClusters":  15,
+                                           "rectTopLeft":  [
+                                                               768,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        24,
+                                                                        56,
+                                                                        231,
+                                                                        255
+                                                                    ],
+                                           "nativeOpaquePixels":  1717,
+                                           "index":  3
+                                       },
+                                       {
+                                           "connectedClusters":  21,
+                                           "rectTopLeft":  [
+                                                               1024,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        20,
+                                                                        76,
+                                                                        235,
+                                                                        255
+                                                                    ],
+                                           "nativeOpaquePixels":  1272,
+                                           "index":  4
+                                       },
+                                       {
+                                           "connectedClusters":  8,
+                                           "rectTopLeft":  [
+                                                               1280,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        60,
+                                                                        128,
+                                                                        191,
+                                                                        255
+                                                                    ],
+                                           "nativeOpaquePixels":  363,
+                                           "index":  5
+                                       }
+                                   ],
+                        "fps":  10,
+                        "forward":  null,
+                        "sourceGamePath":  "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Effects/magic_burst.png",
+                        "pivotTopLeftPx":  [
+                                               128,
+                                               256
+                                           ],
+                        "playback":  "one-shot",
+                        "layout":  "left-to-right",
+                        "cellSize":  [
+                                         256,
+                                         256
+                                     ],
+                        "sheetSize":  [
+                                          1536,
+                                          256
+                                      ],
+                        "newSha256":  "a70efe48dcaaecfd6866c3d707e50da5441184b05b89c9ccb82199a13ff86e44",
+                        "frameOrder":  "점화 → 상승 → 최대 폭발 → 불덩이 분열 → 잔불과 연기 → 연기 잔상",
+                        "name":  "magic_burst",
+                        "frameCount":  6
+                    },
+                    {
+                        "pivotUnityNormalized":  [
+                                                     0.5,
+                                                     0.0625
+                                                 ],
+                        "file":  "sheets/muzzle_smoke.png",
+                        "emissive":  false,
+                        "sourceGameSize":  [
+                                               1536,
+                                               256
+                                           ],
+                        "sourceGameSha256":  "82773ff6dfe13ac3d23b1c51d9584c967d2111aba2312b52d1408393f9131caa",
+                        "opaqueBaselineBottomExclusive":  240,
+                        "label":  "포구·공용 연기",
+                        "frames":  [
+                                       {
+                                           "connectedClusters":  2,
+                                           "rectTopLeft":  [
+                                                               0,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        88,
+                                                                        168,
+                                                                        167,
+                                                                        239
+                                                                    ],
+                                           "nativeOpaquePixels":  174,
+                                           "index":  0
+                                       },
+                                       {
+                                           "connectedClusters":  3,
+                                           "rectTopLeft":  [
+                                                               256,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        60,
+                                                                        120,
+                                                                        191,
+                                                                        239
+                                                                    ],
+                                           "nativeOpaquePixels":  635,
+                                           "index":  1
+                                       },
+                                       {
+                                           "connectedClusters":  1,
+                                           "rectTopLeft":  [
+                                                               512,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        24,
+                                                                        48,
+                                                                        231,
+                                                                        239
+                                                                    ],
+                                           "nativeOpaquePixels":  1723,
+                                           "index":  2
+                                       },
+                                       {
+                                           "connectedClusters":  9,
+                                           "rectTopLeft":  [
+                                                               768,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        32,
+                                                                        80,
+                                                                        219,
+                                                                        239
+                                                                    ],
+                                           "nativeOpaquePixels":  1016,
+                                           "index":  3
+                                       },
+                                       {
+                                           "connectedClusters":  6,
+                                           "rectTopLeft":  [
+                                                               1024,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        72,
+                                                                        124,
+                                                                        179,
+                                                                        239
+                                                                    ],
+                                           "nativeOpaquePixels":  244,
+                                           "index":  4
+                                       },
+                                       {
+                                           "connectedClusters":  3,
+                                           "rectTopLeft":  [
+                                                               1280,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        104,
+                                                                        172,
+                                                                        147,
+                                                                        239
+                                                                    ],
+                                           "nativeOpaquePixels":  68,
+                                           "index":  5
+                                       }
+                                   ],
+                        "fps":  10,
+                        "forward":  null,
+                        "sourceGamePath":  "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Cannon/muzzle_smoke.png",
+                        "pivotTopLeftPx":  [
+                                               128,
+                                               240
+                                           ],
+                        "playback":  "one-shot",
+                        "layout":  "left-to-right",
+                        "cellSize":  [
+                                         256,
+                                         256
+                                     ],
+                        "sheetSize":  [
+                                          1536,
+                                          256
+                                      ],
+                        "newSha256":  "9c9c6ef4be307046c71e8d2c85d679c1f7ed607cc8531e2d76ab5389ff6db2eb",
+                        "frameOrder":  "작은 섬광 → 작은 연기 → 최대 연기 → 구름 분리 → 작은 조각 → 잔상",
+                        "name":  "muzzle_smoke",
+                        "frameCount":  6
+                    },
+                    {
+                        "pivotUnityNormalized":  [
+                                                     0.5,
+                                                     0
+                                                 ],
+                        "file":  "sheets/torch_flame.png",
+                        "emissive":  true,
+                        "sourceGameSize":  [
+                                               1536,
+                                               256
+                                           ],
+                        "sourceGameSha256":  "21b26184607e5b8ccd1c493eb792b1fb60e00348855c55adc2d0f3d00ab50a40",
+                        "opaqueBaselineBottomExclusive":  256,
+                        "label":  "횃불 불꽃",
+                        "frames":  [
+                                       {
+                                           "connectedClusters":  1,
+                                           "rectTopLeft":  [
+                                                               0,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        88,
+                                                                        108,
+                                                                        167,
+                                                                        255
+                                                                    ],
+                                           "nativeOpaquePixels":  404,
+                                           "index":  0
+                                       },
+                                       {
+                                           "connectedClusters":  1,
+                                           "rectTopLeft":  [
+                                                               256,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        92,
+                                                                        92,
+                                                                        163,
+                                                                        255
+                                                                    ],
+                                           "nativeOpaquePixels":  410,
+                                           "index":  1
+                                       },
+                                       {
+                                           "connectedClusters":  1,
+                                           "rectTopLeft":  [
+                                                               512,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        92,
+                                                                        152,
+                                                                        163,
+                                                                        255
+                                                                    ],
+                                           "nativeOpaquePixels":  274,
+                                           "index":  2
+                                       },
+                                       {
+                                           "connectedClusters":  1,
+                                           "rectTopLeft":  [
+                                                               768,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        84,
+                                                                        96,
+                                                                        171,
+                                                                        255
+                                                                    ],
+                                           "nativeOpaquePixels":  431,
+                                           "index":  3
+                                       },
+                                       {
+                                           "connectedClusters":  1,
+                                           "rectTopLeft":  [
+                                                               1024,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        84,
+                                                                        156,
+                                                                        167,
+                                                                        255
+                                                                    ],
+                                           "nativeOpaquePixels":  295,
+                                           "index":  4
+                                       },
+                                       {
+                                           "connectedClusters":  1,
+                                           "rectTopLeft":  [
+                                                               1280,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        84,
+                                                                        108,
+                                                                        167,
+                                                                        255
+                                                                    ],
+                                           "nativeOpaquePixels":  406,
+                                           "index":  5
+                                       }
+                                   ],
+                        "fps":  10,
+                        "forward":  null,
+                        "sourceGamePath":  "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Effects/torch_flame.png",
+                        "pivotTopLeftPx":  [
+                                               128,
+                                               256
+                                           ],
+                        "playback":  "loop",
+                        "layout":  "left-to-right",
+                        "cellSize":  [
+                                         256,
+                                         256
+                                     ],
+                        "sheetSize":  [
+                                          1536,
+                                          256
+                                      ],
+                        "newSha256":  "b35961ce479dfdf9ec3be93169b021c5119a4a522d6aae84aeb952dc58f0a3fb",
+                        "frameOrder":  "왼쪽 기울기 → 길게 솟음 → 두 갈래 → 오른쪽 기울기 → 짧은 두 불꽃 → 첫 칸으로 연결",
+                        "name":  "torch_flame",
+                        "frameCount":  6
+                    },
+                    {
+                        "pivotUnityNormalized":  [
+                                                     0.5,
+                                                     0
+                                                 ],
+                        "file":  "sheets/trap_burst.png",
+                        "emissive":  true,
+                        "sourceGameSize":  [
+                                               1536,
+                                               256
+                                           ],
+                        "sourceGameSha256":  "a58f5d32f4ad1ab9372d843377065c9afa6777539a979d9b330bc9e354674c71",
+                        "opaqueBaselineBottomExclusive":  256,
+                        "label":  "함정 폭발",
+                        "frames":  [
+                                       {
+                                           "connectedClusters":  9,
+                                           "rectTopLeft":  [
+                                                               0,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        68,
+                                                                        164,
+                                                                        187,
+                                                                        255
+                                                                    ],
+                                           "nativeOpaquePixels":  241,
+                                           "index":  0
+                                       },
+                                       {
+                                           "connectedClusters":  13,
+                                           "rectTopLeft":  [
+                                                               256,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        32,
+                                                                        72,
+                                                                        223,
+                                                                        255
+                                                                    ],
+                                           "nativeOpaquePixels":  942,
+                                           "index":  1
+                                       },
+                                       {
+                                           "connectedClusters":  11,
+                                           "rectTopLeft":  [
+                                                               512,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        20,
+                                                                        48,
+                                                                        231,
+                                                                        255
+                                                                    ],
+                                           "nativeOpaquePixels":  1866,
+                                           "index":  2
+                                       },
+                                       {
+                                           "connectedClusters":  18,
+                                           "rectTopLeft":  [
+                                                               768,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        20,
+                                                                        72,
+                                                                        231,
+                                                                        255
+                                                                    ],
+                                           "nativeOpaquePixels":  1459,
+                                           "index":  3
+                                       },
+                                       {
+                                           "connectedClusters":  14,
+                                           "rectTopLeft":  [
+                                                               1024,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        24,
+                                                                        128,
+                                                                        231,
+                                                                        255
+                                                                    ],
+                                           "nativeOpaquePixels":  737,
+                                           "index":  4
+                                       },
+                                       {
+                                           "connectedClusters":  5,
+                                           "rectTopLeft":  [
+                                                               1280,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        68,
+                                                                        192,
+                                                                        187,
+                                                                        255
+                                                                    ],
+                                           "nativeOpaquePixels":  208,
+                                           "index":  5
+                                       }
+                                   ],
+                        "fps":  10,
+                        "forward":  null,
+                        "sourceGamePath":  "Game/Assets/_Project/Art/Battle/Resources/BattleArt/Effects/trap_burst.png",
+                        "pivotTopLeftPx":  [
+                                               128,
+                                               256
+                                           ],
+                        "playback":  "one-shot",
+                        "layout":  "left-to-right",
+                        "cellSize":  [
+                                         256,
+                                         256
+                                     ],
+                        "sheetSize":  [
+                                          1536,
+                                          256
+                                      ],
+                        "newSha256":  "97de1bcdd5f2d916763926a620c7e421c98a463b9e73e7d866b2fe4bbd914c70",
+                        "frameOrder":  "섬광 → 불길 상승 → 돌조각과 최대 폭발 → 먼지 분열 → 잔해 → 잔상",
+                        "name":  "trap_burst",
+                        "frameCount":  6
+                    },
+                    {
+                        "pivotUnityNormalized":  [
+                                                     0.5,
+                                                     0
+                                                 ],
+                        "file":  "sheets/dust_puff.png",
+                        "emissive":  false,
+                        "sourceGameSize":  null,
+                        "sourceGameSha256":  null,
+                        "opaqueBaselineBottomExclusive":  256,
+                        "label":  "쓰러짐 먼지",
+                        "frames":  [
+                                       {
+                                           "connectedClusters":  4,
+                                           "rectTopLeft":  [
+                                                               0,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        84,
+                                                                        232,
+                                                                        167,
+                                                                        255
+                                                                    ],
+                                           "nativeOpaquePixels":  52,
+                                           "index":  0
+                                       },
+                                       {
+                                           "connectedClusters":  4,
+                                           "rectTopLeft":  [
+                                                               256,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        60,
+                                                                        216,
+                                                                        195,
+                                                                        255
+                                                                    ],
+                                           "nativeOpaquePixels":  219,
+                                           "index":  1
+                                       },
+                                       {
+                                           "connectedClusters":  2,
+                                           "rectTopLeft":  [
+                                                               512,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        48,
+                                                                        204,
+                                                                        203,
+                                                                        255
+                                                                    ],
+                                           "nativeOpaquePixels":  319,
+                                           "index":  2
+                                       },
+                                       {
+                                           "connectedClusters":  5,
+                                           "rectTopLeft":  [
+                                                               768,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        52,
+                                                                        220,
+                                                                        199,
+                                                                        255
+                                                                    ],
+                                           "nativeOpaquePixels":  131,
+                                           "index":  3
+                                       },
+                                       {
+                                           "connectedClusters":  4,
+                                           "rectTopLeft":  [
+                                                               1024,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        76,
+                                                                        232,
+                                                                        179,
+                                                                        255
+                                                                    ],
+                                           "nativeOpaquePixels":  40,
+                                           "index":  4
+                                       },
+                                       {
+                                           "connectedClusters":  1,
+                                           "rectTopLeft":  [
+                                                               1280,
+                                                               0,
+                                                               256,
+                                                               256
+                                                           ],
+                                           "alphaBoundsInclusive":  [
+                                                                        120,
+                                                                        240,
+                                                                        135,
+                                                                        255
+                                                                    ],
+                                           "nativeOpaquePixels":  13,
+                                           "index":  5
+                                       }
+                                   ],
+                        "fps":  10,
+                        "forward":  null,
+                        "sourceGamePath":  null,
+                        "pivotTopLeftPx":  [
+                                               128,
+                                               256
+                                           ],
+                        "playback":  "one-shot",
+                        "layout":  "left-to-right",
+                        "cellSize":  [
+                                         256,
+                                         256
+                                     ],
+                        "sheetSize":  [
+                                          1536,
+                                          256
+                                      ],
+                        "newSha256":  "d7da2e1e4bbb347489ff1d902bf3de2a2c0d1fb0e4f5779f365cce2cafeba113",
+                        "frameOrder":  "작은 충격 → 두 덩어리 → 낮고 넓은 먼지 → 덩어리 분리 → 작은 조각 → 소멸 직전",
+                        "name":  "dust_puff",
+                        "frameCount":  6
+                    }
+                ]
+}

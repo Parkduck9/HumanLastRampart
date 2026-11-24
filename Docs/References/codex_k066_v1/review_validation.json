@@ -1,0 +1,11 @@
+{
+  "browser": "Chrome headless",
+  "imageCount": 55,
+  "allImagesDecoded": true,
+  "allImagesEmbedded": true,
+  "scaleButtonWorks": true,
+  "footLinesAligned4x": true,
+  "footLinesAligned1x": true,
+  "pageErrors": [],
+  "mobilePageOverflow": false
+}

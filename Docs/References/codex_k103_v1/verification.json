@@ -1,0 +1,1376 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "check": "image_size_and_rgba:native/brazier_unlit.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:native/brazier_unlit.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "exact_3x_nearest:native/brazier_unlit.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:game/brazier_unlit.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:game/brazier_unlit.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:previews/brazier_unlit_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:previews/brazier_unlit_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:native/brazier_low.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:native/brazier_low.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "exact_3x_nearest:native/brazier_low.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:game/brazier_low.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:game/brazier_low.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:previews/brazier_low_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:previews/brazier_low_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:native/flame_low.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:native/flame_low.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "exact_3x_nearest:native/flame_low.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:game/flame_low.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:game/flame_low.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:previews/flame_low_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:previews/flame_low_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:native/glow_low.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:native/glow_low.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "exact_3x_nearest:native/glow_low.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:game/glow_low.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:game/glow_low.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:previews/glow_low_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:previews/glow_low_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:native/brazier_normal.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:native/brazier_normal.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "exact_3x_nearest:native/brazier_normal.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:game/brazier_normal.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:game/brazier_normal.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:previews/brazier_normal_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:previews/brazier_normal_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:native/flame_normal.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:native/flame_normal.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "exact_3x_nearest:native/flame_normal.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:game/flame_normal.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:game/flame_normal.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:previews/flame_normal_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:previews/flame_normal_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:native/glow_normal.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:native/glow_normal.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "exact_3x_nearest:native/glow_normal.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:game/glow_normal.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:game/glow_normal.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:previews/glow_normal_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:previews/glow_normal_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:native/brazier_high.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:native/brazier_high.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "exact_3x_nearest:native/brazier_high.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:game/brazier_high.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:game/brazier_high.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:previews/brazier_high_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:previews/brazier_high_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:native/flame_high.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:native/flame_high.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "exact_3x_nearest:native/flame_high.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:game/flame_high.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:game/flame_high.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:previews/flame_high_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:previews/flame_high_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:native/glow_high.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:native/glow_high.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "exact_3x_nearest:native/glow_high.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:game/glow_high.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:game/glow_high.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:previews/glow_high_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:previews/glow_high_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:native/fog_band.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:native/fog_band.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "exact_3x_nearest:native/fog_band.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:game/fog_band.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:game/fog_band.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:previews/fog_band_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:previews/fog_band_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:native/fog_corner_nw.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:native/fog_corner_nw.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "exact_3x_nearest:native/fog_corner_nw.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:game/fog_corner_nw.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:game/fog_corner_nw.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:previews/fog_corner_nw_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:previews/fog_corner_nw_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:native/fog_wisp.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:native/fog_wisp.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "exact_3x_nearest:native/fog_wisp.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:game/fog_wisp.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:game/fog_wisp.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:previews/fog_wisp_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:previews/fog_wisp_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:icons/lamp_low_32.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:icons/lamp_low_32.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:previews/lamp_low_32_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:previews/lamp_low_32_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:icons/lamp_low_48.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:icons/lamp_low_48.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:previews/lamp_low_48_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:previews/lamp_low_48_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:icons/lamp_normal_32.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:icons/lamp_normal_32.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:previews/lamp_normal_32_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:previews/lamp_normal_32_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:icons/lamp_normal_48.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:icons/lamp_normal_48.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:previews/lamp_normal_48_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:previews/lamp_normal_48_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:icons/lamp_high_32.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:icons/lamp_high_32.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:previews/lamp_high_32_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:previews/lamp_high_32_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:icons/lamp_high_48.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:icons/lamp_high_48.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:previews/lamp_high_48_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:previews/lamp_high_48_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:hud/lamp_frame_9slice.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:hud/lamp_frame_9slice.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:hud/lamp_toggle_low.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:hud/lamp_toggle_low.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:previews/lamp_toggle_low_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:previews/lamp_toggle_low_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:hud/lamp_toggle_normal.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:hud/lamp_toggle_normal.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:previews/lamp_toggle_normal_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:previews/lamp_toggle_normal_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:hud/lamp_toggle_high.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:hud/lamp_toggle_high.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:previews/lamp_toggle_high_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:previews/lamp_toggle_high_4x.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:mockup_north_wall_high_1920x1080.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:mockup_north_wall_high_1920x1080.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:previews/fog_clear_field_proof.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:previews/fog_clear_field_proof.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "image_size_and_rgba:previews/scale_comparison.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "alpha_present:previews/scale_comparison.png",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "baseline_and_center:unlit:0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "fixed_base:unlit:0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no_canvas_clipping:unlit:0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no_single_pixel_islands:unlit:0",
+      "passed": true,
+      "detail": [
+        1591
+      ]
+    },
+    {
+      "check": "baseline_and_center:low:0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "fixed_base:low:0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no_canvas_clipping:low:0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no_single_pixel_islands:low:0",
+      "passed": true,
+      "detail": [
+        1630,
+        3,
+        4
+      ]
+    },
+    {
+      "check": "baseline_and_center:low:1",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "fixed_base:low:1",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no_canvas_clipping:low:1",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no_single_pixel_islands:low:1",
+      "passed": true,
+      "detail": [
+        1643,
+        3,
+        4
+      ]
+    },
+    {
+      "check": "baseline_and_center:low:2",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "fixed_base:low:2",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no_canvas_clipping:low:2",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no_single_pixel_islands:low:2",
+      "passed": true,
+      "detail": [
+        1616,
+        5,
+        4,
+        3
+      ]
+    },
+    {
+      "check": "baseline_and_center:low:3",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "fixed_base:low:3",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no_canvas_clipping:low:3",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no_single_pixel_islands:low:3",
+      "passed": true,
+      "detail": [
+        1629,
+        4,
+        4
+      ]
+    },
+    {
+      "check": "baseline_and_center:low:4",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "fixed_base:low:4",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no_canvas_clipping:low:4",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no_single_pixel_islands:low:4",
+      "passed": true,
+      "detail": [
+        1622,
+        4,
+        3,
+        4
+      ]
+    },
+    {
+      "check": "baseline_and_center:low:5",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "fixed_base:low:5",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no_canvas_clipping:low:5",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no_single_pixel_islands:low:5",
+      "passed": true,
+      "detail": [
+        1628,
+        4
+      ]
+    },
+    {
+      "check": "baseline_and_center:normal:0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "fixed_base:normal:0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no_canvas_clipping:normal:0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no_single_pixel_islands:normal:0",
+      "passed": true,
+      "detail": [
+        1764
+      ]
+    },
+    {
+      "check": "baseline_and_center:normal:1",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "fixed_base:normal:1",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no_canvas_clipping:normal:1",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no_single_pixel_islands:normal:1",
+      "passed": true,
+      "detail": [
+        1787
+      ]
+    },
+    {
+      "check": "baseline_and_center:normal:2",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "fixed_base:normal:2",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no_canvas_clipping:normal:2",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no_single_pixel_islands:normal:2",
+      "passed": true,
+      "detail": [
+        1765
+      ]
+    },
+    {
+      "check": "baseline_and_center:normal:3",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "fixed_base:normal:3",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no_canvas_clipping:normal:3",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no_single_pixel_islands:normal:3",
+      "passed": true,
+      "detail": [
+        1783
+      ]
+    },
+    {
+      "check": "baseline_and_center:normal:4",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "fixed_base:normal:4",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no_canvas_clipping:normal:4",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no_single_pixel_islands:normal:4",
+      "passed": true,
+      "detail": [
+        1771
+      ]
+    },
+    {
+      "check": "baseline_and_center:normal:5",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "fixed_base:normal:5",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no_canvas_clipping:normal:5",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no_single_pixel_islands:normal:5",
+      "passed": true,
+      "detail": [
+        1787
+      ]
+    },
+    {
+      "check": "baseline_and_center:high:0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "fixed_base:high:0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no_canvas_clipping:high:0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no_single_pixel_islands:high:0",
+      "passed": true,
+      "detail": [
+        2166,
+        3
+      ]
+    },
+    {
+      "check": "baseline_and_center:high:1",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "fixed_base:high:1",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no_canvas_clipping:high:1",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no_single_pixel_islands:high:1",
+      "passed": true,
+      "detail": [
+        2135
+      ]
+    },
+    {
+      "check": "baseline_and_center:high:2",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "fixed_base:high:2",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no_canvas_clipping:high:2",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no_single_pixel_islands:high:2",
+      "passed": true,
+      "detail": [
+        2130
+      ]
+    },
+    {
+      "check": "baseline_and_center:high:3",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "fixed_base:high:3",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no_canvas_clipping:high:3",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no_single_pixel_islands:high:3",
+      "passed": true,
+      "detail": [
+        2104
+      ]
+    },
+    {
+      "check": "baseline_and_center:high:4",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "fixed_base:high:4",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no_canvas_clipping:high:4",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no_single_pixel_islands:high:4",
+      "passed": true,
+      "detail": [
+        10,
+        2085,
+        8
+      ]
+    },
+    {
+      "check": "baseline_and_center:high:5",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "fixed_base:high:5",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no_canvas_clipping:high:5",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no_single_pixel_islands:high:5",
+      "passed": true,
+      "detail": [
+        2177,
+        8,
+        3
+      ]
+    },
+    {
+      "check": "fog_exact_horizontal_seam",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "corner_right_matches_band_start",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "corner_bottom_matches_rotated_band",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "fog_inner_edge_fully_clear",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "glow_soft_alpha_and_clear_border:low",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "glow_soft_alpha_and_clear_border:normal",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "glow_soft_alpha_and_clear_border:high",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "placement_proof_enemies_uncovered",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "review_self_contained",
+      "passed": true,
+      "detail": 23
+    }
+  ],
+  "baseline_frames": [
+    {
+      "state": "unlit",
+      "frame": 0,
+      "bottom": 120,
+      "bounds": [
+        24,
+        77,
+        72,
+        121
+      ]
+    },
+    {
+      "state": "low",
+      "frame": 0,
+      "bottom": 120,
+      "bounds": [
+        24,
+        71,
+        72,
+        121
+      ]
+    },
+    {
+      "state": "low",
+      "frame": 1,
+      "bottom": 120,
+      "bounds": [
+        24,
+        69,
+        72,
+        121
+      ]
+    },
+    {
+      "state": "low",
+      "frame": 2,
+      "bottom": 120,
+      "bounds": [
+        24,
+        72,
+        72,
+        121
+      ]
+    },
+    {
+      "state": "low",
+      "frame": 3,
+      "bottom": 120,
+      "bounds": [
+        24,
+        71,
+        72,
+        121
+      ]
+    },
+    {
+      "state": "low",
+      "frame": 4,
+      "bottom": 120,
+      "bounds": [
+        24,
+        71,
+        72,
+        121
+      ]
+    },
+    {
+      "state": "low",
+      "frame": 5,
+      "bottom": 120,
+      "bounds": [
+        24,
+        69,
+        72,
+        121
+      ]
+    },
+    {
+      "state": "normal",
+      "frame": 0,
+      "bottom": 120,
+      "bounds": [
+        24,
+        61,
+        72,
+        121
+      ]
+    },
+    {
+      "state": "normal",
+      "frame": 1,
+      "bottom": 120,
+      "bounds": [
+        24,
+        59,
+        72,
+        121
+      ]
+    },
+    {
+      "state": "normal",
+      "frame": 2,
+      "bottom": 120,
+      "bounds": [
+        24,
+        62,
+        72,
+        121
+      ]
+    },
+    {
+      "state": "normal",
+      "frame": 3,
+      "bottom": 120,
+      "bounds": [
+        24,
+        60,
+        72,
+        121
+      ]
+    },
+    {
+      "state": "normal",
+      "frame": 4,
+      "bottom": 120,
+      "bounds": [
+        24,
+        59,
+        72,
+        121
+      ]
+    },
+    {
+      "state": "normal",
+      "frame": 5,
+      "bottom": 120,
+      "bounds": [
+        24,
+        56,
+        72,
+        121
+      ]
+    },
+    {
+      "state": "high",
+      "frame": 0,
+      "bottom": 120,
+      "bounds": [
+        24,
+        45,
+        72,
+        121
+      ]
+    },
+    {
+      "state": "high",
+      "frame": 1,
+      "bottom": 120,
+      "bounds": [
+        24,
+        45,
+        72,
+        121
+      ]
+    },
+    {
+      "state": "high",
+      "frame": 2,
+      "bottom": 120,
+      "bounds": [
+        24,
+        48,
+        72,
+        121
+      ]
+    },
+    {
+      "state": "high",
+      "frame": 3,
+      "bottom": 120,
+      "bounds": [
+        24,
+        49,
+        72,
+        121
+      ]
+    },
+    {
+      "state": "high",
+      "frame": 4,
+      "bottom": 120,
+      "bounds": [
+        24,
+        45,
+        72,
+        121
+      ]
+    },
+    {
+      "state": "high",
+      "frame": 5,
+      "bottom": 120,
+      "bounds": [
+        24,
+        44,
+        72,
+        121
+      ]
+    }
+  ],
+  "not_tested": [
+    "Unity import, Play, runtime lighting/sorting, world-space 45m mask and final camera scale"
+  ],
+  "visual_inspection": "Native 4x brazier loops, HUD 4x and 1920x1080 mockup inspected separately."
+}

@@ -1,0 +1,73 @@
+{
+  "id": "wall_stone",
+  "label": "성벽 바깥면",
+  "size": [
+    128,
+    128
+  ],
+  "meters": [
+    4,
+    4
+  ],
+  "pixelsPerMeter": 32,
+  "albedo": "K-005/wall_stone/albedo.png",
+  "normal": "K-005/wall_stone/normal.png",
+  "source": "K-005/wall_stone/source.png",
+  "sourceSize": [
+    1774,
+    887
+  ],
+  "sourceSha256": "c734e7ca2ad45d7349986aba4a1c7ce0168c4d8cdf6aec9f01710c63f2ce7a30",
+  "albedoSha256": "207226d53c8a8b414d621422506d1a1f81d6e48d649e75c1f4ae3a25d686093f",
+  "normalSha256": "796641b39607635bbe67ce3c282a19a61a8cab3f91ca739fbc8071126ee38c19",
+  "normalMaxUnitError": 0.005783738502963209,
+  "normalConvention": "tangent Y+ requested; Unity orientation not verified",
+  "wrap": "Repeat",
+  "filter": "Point",
+  "normalStrengthSuggestion": 0.45,
+  "seam": {
+    "edgeX": 10.385416666666666,
+    "edgeY": 13.651041666666666,
+    "interiorX": 12.867659120734908,
+    "interiorY": 16.096948818897637,
+    "ratioX": 0.8070944815387312,
+    "ratioY": 0.8480515046827071
+  },
+  "seamlessCertified": false,
+  "normalShapeAlignmentCertified": false,
+  "unityVerified": false,
+  "processing": "same crop coordinates in left/right panels when D068 selected, nearest resize, normalize normals; no mirror/blend/repaint",
+  "selectedCropPixels": [
+    21,
+    84,
+    868,
+    861
+  ],
+  "D068Finalization": {
+    "id": "wall_stone",
+    "cropPixels": [
+      21,
+      84,
+      868,
+      861
+    ],
+    "colorRatios": [
+      0.8070944815387312,
+      0.8480515046827071
+    ],
+    "normalRatiosBeforeEncoding": [
+      0.7895806565409748,
+      0.582091535106171
+    ],
+    "sourcePairSize": [
+      1774,
+      887
+    ],
+    "method": "same-window crop only; no pixel painting, blending, mirroring or source modification",
+    "generatedSource": "C:\\Users\\User\\.codex\\generated_images\\01a1331e-99b0-7811-8751-cad0561a4e6e\\exec-21c4400b-d6e8-4722-8e39-feba792318a7.png",
+    "generationRecord": "K-005/finalization_generation.json",
+    "visualReviewPassed": true,
+    "visualReview": "3x3 color/normal contact sheet reviewed; no distinct boundary stripe; repeated brick motif remains visible; actual Unity unverified"
+  },
+  "repeatBoundaryMetricsPass": true
+}

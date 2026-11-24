@@ -1,0 +1,49 @@
+{
+  "id": "ladder_goblin",
+  "label": "사다리 고블린",
+  "facing": "front",
+  "image": "ladder_goblin_static_grid.png",
+  "size": [
+    256,
+    384
+  ],
+  "columns": 1,
+  "rows": 1,
+  "cell": [
+    256,
+    384
+  ],
+  "footPivotTopLeft": [
+    128,
+    352
+  ],
+  "unityPivotBottomLeft": [
+    0.5,
+    0.08333333333333333
+  ],
+  "aspect": 0.6666666666666666,
+  "frameIndex": 0,
+  "frames": 1,
+  "animated": false,
+  "fps": 0,
+  "status": "demo-static-only",
+  "source": "codex_character_pixel_v2/ladder_goblin.png",
+  "sourceSha256": "ff1a4a16038119ad54e798e067bc1b344b8131e4ced38704ed8e9018b9d6354f",
+  "sourceRect": [
+    253,
+    119,
+    1078,
+    1124
+  ],
+  "sourceFootX": 414.0,
+  "pivotMethod": "lower boot-color quantiles; demo inference, review in Unity",
+  "uniformScale": 0.27053140096618356,
+  "packedRect": [
+    16,
+    80,
+    223,
+    272
+  ],
+  "sheetSha256": "f6fa814cdb4521e775d99f6da685656519e6e89bca9158473498d5c6fa6118db",
+  "unityPlayVerified": false
+}

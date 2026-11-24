@@ -1,0 +1,54 @@
+﻿{
+    "game_source_hashes_unchanged":  true,
+    "unity":  "미실시",
+    "embedded_png_decodes":  11,
+    "sheets":  [
+                   {
+                       "name":  "wizard_static.png",
+                       "baseline":  [
+                                        120
+                                    ],
+                       "binary_alpha":  true,
+                       "nearest_3x_exact":  true,
+                       "single_connected_component_per_frame":  true,
+                       "frames":  1
+                   },
+                   {
+                       "name":  "wizard_back_static.png",
+                       "baseline":  [
+                                        120
+                                    ],
+                       "binary_alpha":  true,
+                       "nearest_3x_exact":  true,
+                       "single_connected_component_per_frame":  true,
+                       "frames":  1
+                   },
+                   {
+                       "name":  "wizard_cast.png",
+                       "baseline":  [
+                                        120,
+                                        120,
+                                        120,
+                                        120
+                                    ],
+                       "binary_alpha":  true,
+                       "nearest_3x_exact":  true,
+                       "single_connected_component_per_frame":  true,
+                       "frames":  4
+                   },
+                   {
+                       "name":  "wizard_walk.png",
+                       "baseline":  [
+                                        120,
+                                        120,
+                                        120,
+                                        120
+                                    ],
+                       "binary_alpha":  true,
+                       "nearest_3x_exact":  true,
+                       "single_connected_component_per_frame":  true,
+                       "frames":  4
+                   }
+               ],
+    "browser_visual_check":  "미실시: 연결 가능한 브라우저 없음"
+}

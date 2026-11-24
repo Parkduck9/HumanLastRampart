@@ -1,0 +1,72 @@
+{
+  "id": "archer",
+  "label": "궁수 뒷모습",
+  "albedo": "archer_albedo.png",
+  "normal": "archer_normal.png",
+  "size": [
+    256,
+    384
+  ],
+  "cell": [
+    256,
+    384
+  ],
+  "columns": 1,
+  "rows": 1,
+  "footPivotTopLeft": [
+    128,
+    352
+  ],
+  "unityPivotBottomLeft": [
+    0.5,
+    0.08333333333333333
+  ],
+  "rowOrder": [
+    "후면 정지"
+  ],
+  "normalSpace": "tangent OpenGL Y+",
+  "neutral": [
+    128,
+    128,
+    255
+  ],
+  "normalAlpha": "opaque RGB; diffuse alpha controls visibility",
+  "aiSource": "archer_normal_source.png",
+  "sourceColorSha256": "2d9fcc469018d73d48b2e044c2388f0ba74de8c9f958366ad20bd1ffe44a7e06",
+  "colorCopyExact": true,
+  "normalSha256": "f745e54d9e2dea6ce0a21b28387b6d0ea4ae350f5f947faa210c64b660f1d851",
+  "normalSourceSha256": "d3629c862c45e7a36492a8347a6cd63b4f421aaa67451b775034971d779734ff",
+  "normalSourceSize": [
+    1024,
+    1536
+  ],
+  "backgroundMedian": [
+    116.0,
+    122.0,
+    253.0
+  ],
+  "xyStrength": 0.55,
+  "blankMaskThreshold": 32,
+  "maxUnitLengthError": 0.006650333382466123,
+  "geometry": "source grid unchanged; AI internal surface alignment needs user/Unity review",
+  "status": "sample-user-review-pending",
+  "unityPlayVerified": false,
+  "cellRegistration": [
+    {
+      "column": 0,
+      "row": 0,
+      "colorBounds": [
+        41,
+        52,
+        204,
+        352
+      ],
+      "normalSourceBounds": [
+        43,
+        54,
+        209,
+        358
+      ]
+    }
+  ]
+}

@@ -1,0 +1,306 @@
+﻿{
+    "checks":  [
+                   {
+                       "pass":  true,
+                       "name":  "pull 팔레트 외 색상",
+                       "actual":  [
+
+                                  ]
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "pull 시트 규격"
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "pull 0 발 높이",
+                       "actual":  352
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "pull 0 접지 실측",
+                       "actual":  128
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "pull 0 인물 높이",
+                       "actual":  210
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "pull 1 발 높이",
+                       "actual":  352
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "pull 1 접지 실측",
+                       "actual":  160
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "pull 1 인물 높이",
+                       "actual":  210
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "pull 2 발 높이",
+                       "actual":  352
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "pull 2 접지 실측",
+                       "actual":  192
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "pull 2 인물 높이",
+                       "actual":  210
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "pull 3 발 높이",
+                       "actual":  352
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "pull 3 접지 실측",
+                       "actual":  128
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "pull 3 인물 높이",
+                       "actual":  210
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "pull 4 발 높이",
+                       "actual":  352
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "pull 4 접지 실측",
+                       "actual":  160
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "pull 4 인물 높이",
+                       "actual":  210
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "pull 5 발 높이",
+                       "actual":  352
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "pull 5 접지 실측",
+                       "actual":  192
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "pull 5 인물 높이",
+                       "actual":  210
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "push 팔레트 외 색상",
+                       "actual":  [
+
+                                  ]
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "push 시트 규격"
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "push 0 발 높이",
+                       "actual":  352
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "push 0 접지 실측",
+                       "actual":  128
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "push 0 인물 높이",
+                       "actual":  210
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "push 1 발 높이",
+                       "actual":  352
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "push 1 접지 실측",
+                       "actual":  160
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "push 1 인물 높이",
+                       "actual":  210
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "push 2 발 높이",
+                       "actual":  352
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "push 2 접지 실측",
+                       "actual":  192
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "push 2 인물 높이",
+                       "actual":  210
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "push 3 발 높이",
+                       "actual":  352
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "push 3 접지 실측",
+                       "actual":  128
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "push 3 인물 높이",
+                       "actual":  210
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "push 4 발 높이",
+                       "actual":  352
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "push 4 접지 실측",
+                       "actual":  160
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "push 4 인물 높이",
+                       "actual":  210
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "push 5 발 높이",
+                       "actual":  352
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "push 5 접지 실측",
+                       "actual":  192
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "push 5 인물 높이",
+                       "actual":  210
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "ignite 팔레트 외 색상",
+                       "actual":  [
+
+                                  ]
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "ignite 시트 규격"
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "ignite 0 발 높이",
+                       "actual":  352
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "점화 0 하체 픽셀 고정"
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "ignite 1 발 높이",
+                       "actual":  352
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "점화 1 하체 픽셀 고정"
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "ignite 2 발 높이",
+                       "actual":  352
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "점화 2 하체 픽셀 고정"
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "ignite 3 발 높이",
+                       "actual":  352
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "점화 3 하체 픽셀 고정"
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "ignite 4 발 높이",
+                       "actual":  352
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "점화 4 하체 픽셀 고정"
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "ignite 5 발 높이",
+                       "actual":  352
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "점화 5 하체 픽셀 고정"
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "대포 팔레트 외 색상"
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "앞바퀴 101px"
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "접촉 0.5초 후 1초 대기"
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "불씨와 도화선 높이",
+                       "actual":  132
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "원본 해시 cannon_aim3.png"
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "원본 해시 cannon_recoil.png"
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "원본 해시 cannon_crew_run.png"
+                   },
+                   {
+                       "pass":  true,
+                       "name":  "원본 해시 cannon_crew_ignite6.png"
+                   }
+               ],
+    "failed":  0,
+    "passed":  62
+}

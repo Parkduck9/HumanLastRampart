@@ -1,0 +1,243 @@
+{
+    "card":  "K-024",
+    "version":  1,
+    "status":  "사용자 확정 전",
+    "pixelsPerMeter":  32,
+    "assets":  [
+                   {
+                       "id":  "wall_stone",
+                       "label":  "성벽 바깥면",
+                       "kind":  "texture",
+                       "stages":  [
+                                      {
+                                          "label":  "멀쩡",
+                                          "path":  "references/wall_stone_albedo.png",
+                                          "width":  128,
+                                          "height":  128,
+                                          "source":  "기존 승인 그림의 동일 사본"
+                                      },
+                                      {
+                                          "label":  "금감",
+                                          "path":  "textures/wall_stone_damage1_albedo.png",
+                                          "width":  128,
+                                          "height":  128,
+                                          "source":  "sources/stone_damage_source.png",
+                                          "crop":  [
+                                                       0,
+                                                       0,
+                                                       627,
+                                                       570
+                                                   ],
+                                          "borderPixels":  4
+                                      },
+                                      {
+                                          "label":  "부서짐",
+                                          "path":  "textures/wall_stone_damage2_albedo.png",
+                                          "width":  128,
+                                          "height":  128,
+                                          "source":  "sources/stone_damage_source.png",
+                                          "crop":  [
+                                                       627,
+                                                       0,
+                                                       627,
+                                                       570
+                                                   ],
+                                          "borderPixels":  4
+                                      }
+                                  ]
+                   },
+                   {
+                       "id":  "parapet_side",
+                       "label":  "난간 옆면",
+                       "kind":  "texture",
+                       "stages":  [
+                                      {
+                                          "label":  "멀쩡",
+                                          "path":  "references/parapet_side_albedo.png",
+                                          "width":  128,
+                                          "height":  64,
+                                          "source":  "기존 승인 그림의 동일 사본"
+                                      },
+                                      {
+                                          "label":  "금감",
+                                          "path":  "textures/parapet_side_damage1_albedo.png",
+                                          "width":  128,
+                                          "height":  64,
+                                          "source":  "sources/stone_damage_source.png",
+                                          "crop":  [
+                                                       0,
+                                                       630,
+                                                       627,
+                                                       320
+                                                   ],
+                                          "borderPixels":  4
+                                      },
+                                      {
+                                          "label":  "부서짐",
+                                          "path":  "textures/parapet_side_damage2_albedo.png",
+                                          "width":  128,
+                                          "height":  64,
+                                          "source":  "sources/stone_damage_source.png",
+                                          "crop":  [
+                                                       627,
+                                                       760,
+                                                       627,
+                                                       320
+                                                   ],
+                                          "borderPixels":  4
+                                      }
+                                  ]
+                   },
+                   {
+                       "id":  "parapet_top",
+                       "label":  "난간 윗면",
+                       "kind":  "texture",
+                       "stages":  [
+                                      {
+                                          "label":  "멀쩡",
+                                          "path":  "references/parapet_top_albedo.png",
+                                          "width":  128,
+                                          "height":  64,
+                                          "source":  "기존 승인 그림의 동일 사본"
+                                      },
+                                      {
+                                          "label":  "금감",
+                                          "path":  "textures/parapet_top_damage1_albedo.png",
+                                          "width":  128,
+                                          "height":  64,
+                                          "source":  "sources/stone_damage_source.png",
+                                          "crop":  [
+                                                       0,
+                                                       630,
+                                                       627,
+                                                       320
+                                                   ],
+                                          "borderPixels":  4
+                                      },
+                                      {
+                                          "label":  "부서짐",
+                                          "path":  "textures/parapet_top_damage2_albedo.png",
+                                          "width":  128,
+                                          "height":  64,
+                                          "source":  "sources/stone_damage_source.png",
+                                          "crop":  [
+                                                       627,
+                                                       760,
+                                                       627,
+                                                       320
+                                                   ],
+                                          "borderPixels":  4
+                                      }
+                                  ]
+                   },
+                   {
+                       "id":  "corpse_pile",
+                       "label":  "시체 더미",
+                       "kind":  "sprite",
+                       "stages":  [
+                                      {
+                                          "label":  "낮음",
+                                          "path":  "sprites/corpse_pile_1.png",
+                                          "width":  64,
+                                          "height":  64,
+                                          "contentWidth":  48,
+                                          "contentHeight":  15,
+                                          "pivotPixels":  [
+                                                              32,
+                                                              56
+                                                          ],
+                                          "source":  "sources/corpse_pile_source.png",
+                                          "crop":  [
+                                                       83,
+                                                       508,
+                                                       539,
+                                                       163
+                                                   ]
+                                      },
+                                      {
+                                          "label":  "중간",
+                                          "path":  "sprites/corpse_pile_2.png",
+                                          "width":  64,
+                                          "height":  64,
+                                          "contentWidth":  48,
+                                          "contentHeight":  25,
+                                          "pivotPixels":  [
+                                                              32,
+                                                              56
+                                                          ],
+                                          "source":  "sources/corpse_pile_source.png",
+                                          "crop":  [
+                                                       752,
+                                                       319,
+                                                       665,
+                                                       351
+                                                   ]
+                                      },
+                                      {
+                                          "label":  "높음",
+                                          "path":  "sprites/corpse_pile_3.png",
+                                          "width":  64,
+                                          "height":  64,
+                                          "contentWidth":  48,
+                                          "contentHeight":  40,
+                                          "pivotPixels":  [
+                                                              32,
+                                                              56
+                                                          ],
+                                          "source":  "sources/corpse_pile_source.png",
+                                          "crop":  [
+                                                       1474,
+                                                       126,
+                                                       666,
+                                                       559
+                                                   ]
+                                      }
+                                  ]
+                   },
+                   {
+                       "id":  "trap",
+                       "label":  "설치된 함정",
+                       "kind":  "sprite",
+                       "stages":  [
+                                      {
+                                          "label":  "묻힌 표시",
+                                          "path":  "sprites/trap_1.png",
+                                          "width":  64,
+                                          "height":  64,
+                                          "contentWidth":  56,
+                                          "contentHeight":  28,
+                                          "pivotPixels":  [
+                                                              32,
+                                                              56
+                                                          ],
+                                          "source":  "sources/trap_source.png",
+                                          "crop":  [
+                                                       28,
+                                                       306,
+                                                       845,
+                                                       424
+                                                   ]
+                                      },
+                                      {
+                                          "label":  "터진 구덩이",
+                                          "path":  "sprites/trap_2.png",
+                                          "width":  64,
+                                          "height":  64,
+                                          "contentWidth":  56,
+                                          "contentHeight":  31,
+                                          "pivotPixels":  [
+                                                              32,
+                                                              56
+                                                          ],
+                                          "source":  "sources/trap_source.png",
+                                          "crop":  [
+                                                       901,
+                                                       288,
+                                                       857,
+                                                       468
+                                                   ]
+                                      }
+                                  ]
+                   }
+               ]
+}

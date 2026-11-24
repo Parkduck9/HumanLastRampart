@@ -1,0 +1,271 @@
+﻿diff --git a/Game/Assets/_Project/Combat/Battle/BattleSim.Flank.cs b/Game/Assets/_Project/Combat/Battle/BattleSim.Flank.cs
+index 205e9b6..ae19d80 100644
+--- a/Game/Assets/_Project/Combat/Battle/BattleSim.Flank.cs
++++ b/Game/Assets/_Project/Combat/Battle/BattleSim.Flank.cs
+@@ -100,7 +100,7 @@ namespace HumanLastRampart.Combat.Battle
+             {
+                 attackPlan.Add(flank[g]
+                     ? new GroupPlan { Side = flankSides[random.NextInt(0, flankSides.Count)], SpawnAt = random.NextFloat(0f, FlankLatestSeconds), Flank = true, Count = groups[g].count }
+-                    : new GroupPlan { Side = FrontSide, SpawnAt = groups[g].group.SpawnAtSeconds, Flank = false, Count = groups[g].count });
++                    : new GroupPlan { Side = FrontSide, SpawnAt = g == 0 ? 0f : groups[g].group.SpawnAtSeconds, Flank = false, Count = groups[g].count });
+             }
+ 
+             groupDiscovered = new bool[groups.Count];
+diff --git a/Game/Assets/_Project/Combat/Battle/BattleSim.Groups.cs b/Game/Assets/_Project/Combat/Battle/BattleSim.Groups.cs
+index fa51df4..2f789bd 100644
+--- a/Game/Assets/_Project/Combat/Battle/BattleSim.Groups.cs
++++ b/Game/Assets/_Project/Combat/Battle/BattleSim.Groups.cs
+@@ -83,6 +83,25 @@ namespace HumanLastRampart.Combat.Battle
+             }
+ 
+             int from = squad.Side;
++            int room = WallRoom(targetSide);
++            int remaining = math.max(0, squad.Alive - room);
++            if (room == 0)
++            {
++                Notice?.Invoke($"{SideNames[targetSide]} 성벽 가득 참 — {remaining}명 남음");
++                return false;
++            }
++            if (remaining > 0)
++            {
++                // 묶음 일부만 들어가면 뒤쪽 병사는 원래 성벽에 남긴다. 분대 손실 합계도 보존한다
++                SquadInfo stayed = squad;
++                stayed.FirstSoldier += room;
++                stayed.Alive = stayed.Start = remaining;
++                squads.Add(stayed);
++                squad.Alive = room;
++                squad.Start -= remaining;
++                squads[index] = squad;
++            }
++            EnsureWallRoom(targetSide, squad.Alive);
+             LeaveSide(index, from);   // 원래 성벽 자리를 비운다
+             // 설 자리를 떠나기 전에 정해 맡아 둔다 — 병사마다 자기 총안 자리로 곧장 달려간다 (사용자 2차 피드백 10, K-045).
+             // 묶음 구간 = 빈 앞줄 자리가 가장 많은 곳, 그 안에서 가까운 빈 총안부터
+@@ -93,6 +112,7 @@ namespace HumanLastRampart.Combat.Battle
+             {
+                 ArriveSide(index, targetSide, spots);
+                 Notice?.Invoke($"{squad.UnitName} {squad.Alive}명이 {SideNames[from]}에서 {SideNames[targetSide]}으로");
++                if (remaining > 0) Notice?.Invoke($"{SideNames[targetSide]} 성벽 가득 참 — {remaining}명 남음");
+                 return true;
+             }
+ 
+@@ -123,6 +143,7 @@ namespace HumanLastRampart.Combat.Battle
+ 
+             groupMoves.Add(move);
+             Notice?.Invoke($"{squad.UnitName} {squad.Alive}명이 {SideNames[targetSide]}으로 달려갑니다 · 약 {longest / MessengerSpeed():0}초");
++            if (remaining > 0) Notice?.Invoke($"{SideNames[targetSide]} 성벽 가득 참 — {remaining}명 남음");
+             return true;
+         }
+ 
+@@ -130,7 +151,19 @@ namespace HumanLastRampart.Combat.Battle
+         // 그 성벽에 옮길 수 있는 병사를 최소 KeepPerWall명(방어 10 + 전령용 10) 남긴다. 대포 분대는 원래 안 옮긴다
+         public const int KeepPerWall = 20;
+ 
+-        public int MoveWallGroups(int fromSide, int toSide, bool instant)
++        // 수량 바퀴: 한 묶음 / 절반(올림) / 전체. 최소 잔류 병력은 실제 이동 때 다시 검사한다
++        public int WallMoveGroupCount(int side, int choice)
++        {
++            int count = 0;
++            for (int g = 0; g < GroupCount; g++)
++            {
++                GroupInfo info = GetGroup(g);
++                if (info.Side == side && info.Movable && !info.Moving && info.Alive > 0) count++;
++            }
++            return choice == 0 ? Mathf.Min(1, count) : choice == 1 ? (count + 1) / 2 : count;
++        }
++
++        public int MoveWallGroups(int fromSide, int toSide, bool instant, int maxGroups = int.MaxValue)
+         {
+             if (Ended || fromSide == toSide || fromSide < 0 || fromSide > 3 || toSide < 0 || toSide > 3) return 0;
+             var candidates = new List<int>();
+@@ -147,17 +180,22 @@ namespace HumanLastRampart.Combat.Battle
+             float3 right = WallGeometry.Right(fromSide), toward = WallGeometry.Outward(toSide);
+             float sign = math.sign(math.dot(right, toward));
+             candidates.Sort((a, b) => (sign * GroupLateral(b, fromSide)).CompareTo(sign * GroupLateral(a, fromSide)));
+-            int moved = 0;
++            int moved = 0, movedGroups = 0, refused = 0;
+             foreach (int g in candidates)
+             {
++                if (movedGroups >= maxGroups) break;
+                 int alive = squads[g].Alive;
+                 if (movable - alive < KeepPerWall) continue;   // 이 묶음까지 보내면 최소 병력보다 적어짐
++                if (WallRoom(toSide) < alive) refused += alive - WallRoom(toSide);
+                 if (!MoveGroup(g, toSide, instant)) continue;
++                alive = squads[g].Alive;   // 최소 간격까지 들어간 인원만 이동한 것으로 센다
+                 movable -= alive;
+                 moved += alive;
++                movedGroups++;
+             }
+ 
+-            if (moved == 0) Notice?.Invoke($"{SideNames[fromSide]}: 최소 {KeepPerWall}명을 남기면 더 보낼 병력이 없습니다");
++            if (refused > 0) Notice?.Invoke($"{SideNames[toSide]} 성벽 가득 참 — {refused}명 남음");
++            else if (moved == 0) Notice?.Invoke($"{SideNames[fromSide]}: 최소 {KeepPerWall}명을 남기면 더 보낼 병력이 없습니다");
+             else Notice?.Invoke($"{SideNames[fromSide]}에서 {SideNames[toSide]}으로 {moved}명 보냄 · {movable}명 지킴");
+             return moved;
+         }
+diff --git a/Game/Assets/_Project/Combat/Battle/BattleSim.Slots.cs b/Game/Assets/_Project/Combat/Battle/BattleSim.Slots.cs
+index e35fe30..a17d1cd 100644
+--- a/Game/Assets/_Project/Combat/Battle/BattleSim.Slots.cs
++++ b/Game/Assets/_Project/Combat/Battle/BattleSim.Slots.cs
+@@ -6,7 +6,7 @@ namespace HumanLastRampart.Combat.Battle
+ {
+     // 성벽 위 병사 자리 (K-045, 사용자 확정 2026-10-16)
+     // - 앞줄은 난간 돌출부 사이 총안(빈칸)마다 1명. 총안·돌출부 자리는 성벽 3D와 같은 계산 (BattleWallLayout)
+-    // - 총안이 모자라면 한 줄 뒤 돌출부 뒤에 엇갈려 서고, 그래도 넘치면 그 뒤 줄도 엇갈려. 달리는 길(안쪽 1.4m)은 비운다. 뒷줄도 쏜다
++    // - 총안이 모자라면 뒷줄로, 모든 줄이 차면 성벽 전체 간격을 고르게 좁힌다(최소 0.25m). 달리는 길은 비운다. 뒷줄도 쏜다
+     // - 분대·10명 묶음은 자기 구간 안에서 가까운 빈 자리부터 (구간 안 앞줄 → 구간 안 뒷줄 → 구간 밖)
+     // - 병사가 쓰러지면 그 자리를 가까운 뒷줄 병사가 걸어 들어와 메운다. 전령·우회 보고는 자리를 맡겨 두고 그 자리로 돌아온다
+     // - 대포 운용병은 자리 표를 쓰지 않는다 (대포 사격구 양옆, K-039 CannonSpot). 횃불을 단 돌출부 뒤에는 자리를 두지 않는다
+@@ -30,7 +30,7 @@ namespace HumanLastRampart.Combat.Battle
+         int[] sSlot;            // 병사 → 자리 (side × SlotStride + 번호), -1 = 없음
+         float3[] sWalkFrom, sWalkTo;
+         float[] sWalkT;         // 0~1 걷는 중, -1 = 아님
+-        int overflowCount;
++        const float MinimumSlotSpacing = 0.25f;
+         const int SlotStride = 100000;
+ 
+         // 성벽 따라 대포 사격구 자리 (성벽 3D가 난간을 낮추는 곳) / 횃불을 단 돌출부 자리 (BattleLights·BattleEffectsView)
+@@ -97,7 +97,7 @@ namespace HumanLastRampart.Combat.Battle
+         }
+ 
+         // 구간 [lo, hi] 안에서 center에 가까운 빈자리를 맡는다: 구간 안 앞줄 → 구간 안 뒷줄 → 구간 밖 가까운 곳(앞줄 먼저)
+-        // 성벽에 빈자리가 하나도 없으면 안쪽 끝에 겹쳐 세운다(정원 500명을 다 채운 성벽 — 자리 약 270개)
++        // 자리가 부족할 때는 호출 전에 EnsureWallRoom으로 성벽 전체를 좁혀 둔다
+         float3 ClaimSlot(int soldier, int side, float lo, float hi, float center)
+         {
+             ReleaseSlot(soldier);
+@@ -115,8 +115,7 @@ namespace HumanLastRampart.Combat.Battle
+ 
+             if (best < 0)
+             {
+-                float lateral = math.clamp(center + ((overflowCount++ % 9) - 4) * 0.24f, -CastleHalf + 1f, CastleHalf - 1f);
+-                return WallGeometry.Outward(side) * (CastleHalf - SlotRowInset[SlotRowInset.Length - 1]) + WallGeometry.Right(side) * lateral + new float3(0f, WallHeight, 0f);
++                throw new System.InvalidOperationException("성벽 병사 자리 부족");
+             }
+ 
+             WallSlot taken = list[best];
+@@ -126,6 +125,82 @@ namespace HumanLastRampart.Combat.Battle
+             return SlotPosition(sSlot[soldier]);
+         }
+ 
++        // 대포 사격구·횃불 자리를 빼고, 각 줄을 성벽 전체에 같은 간격으로 펼친다
++        List<WallSlot> SqueezedSlots(int side, int columns)
++        {
++            var list = new List<WallSlot>();
++            float from = BattleWallLayout.From(CastleHalf), to = BattleWallLayout.To(CastleHalf);
++            for (int row = 0; row < SlotRowInset.Length; row++)
++                for (int col = 0; col < columns; col++)
++                {
++                    float lateral = math.lerp(from, to, col / (float)(columns - 1));
++                    if (BattleWallLayout.InBay(lateral, cannonBays[side])) continue;
++                    if (row % 2 != 0 && torchSpots[side].Exists(t => math.abs(t - lateral) < MinimumSlotSpacing)) continue;
++                    list.Add(new WallSlot { Lateral = lateral, Row = row, Occupant = -1 });
++                }
++            return list;
++        }
++
++        int MaximumSlotColumns => math.max(2, (int)math.floor((BattleWallLayout.To(CastleHalf) - BattleWallLayout.From(CastleHalf)) / MinimumSlotSpacing) + 1);
++
++        // 이동 중 맡아 둔 자리도 정원에 포함한다. 남는 인원만 원래 성벽에 남긴다
++        int WallRoom(int side)
++        {
++            int occupied = 0;
++            foreach (WallSlot slot in wallSlots[side]) if (slot.Occupant >= 0) occupied++;
++            return math.max(0, math.max(wallSlots[side].Count, SqueezedSlots(side, MaximumSlotColumns).Count) - occupied);
++        }
++
++        void EnsureWallRoom(int side, int incoming)
++        {
++            var occupants = new List<int>();
++            foreach (WallSlot slot in wallSlots[side]) if (slot.Occupant >= 0) occupants.Add(slot.Occupant);
++            int needed = occupants.Count + incoming;
++            if (needed <= wallSlots[side].Count) return;
++            List<WallSlot> expanded = null;
++            for (int columns = math.max(2, (needed + SlotRowInset.Length - 1) / SlotRowInset.Length); columns <= MaximumSlotColumns; columns++)
++            {
++                expanded = SqueezedSlots(side, columns);
++                if (expanded.Count >= needed) break;
++            }
++            if (expanded == null || expanded.Count < needed) throw new System.InvalidOperationException("성벽 최소 간격 초과");
++
++            wallSlots[side] = expanded;
++            for (int k = 0; k < occupants.Count; k++)
++            {
++                int soldier = occupants[k];
++                WallSlot slot = expanded[k];
++                slot.Occupant = soldier;
++                expanded[k] = slot;
++                sSlot[soldier] = side * SlotStride + k;
++                float3 spot = SlotPosition(sSlot[soldier]);
++                StopWalk(soldier);
++                if (sAway[soldier] == 0) sPos[soldier] = spot;
++            }
++            // 먼저 출발한 묶음도 새 자리로 들어오게 한다
++            foreach (GroupMove move in groupMoves)
++            {
++                if (move.TargetSide != side) continue;
++                SquadInfo squad = squads[move.Group];
++                for (int k = 0; k < squad.Alive; k++)
++                {
++                    int soldier = squad.FirstSoldier + k;
++                    move.EndSpot[k] = HomeSpot(soldier);
++                    float endU = RingU(side, math.dot(move.EndSpot[k], WallGeometry.Right(side)));
++                    move.Distance[k] = Mod(move.Direction[k] * (endU - move.StartU[k]), CastleHalf * 8f);
++                }
++            }
++            foreach (Messenger messenger in messengers)
++                if (sSlot[messenger.Soldier] / SlotStride == side) messenger.Home = HomeSpot(messenger.Soldier);
++            foreach (RunnerPair pair in runners)
++            {
++                if (pair == null) continue;
++                for (int k = 0; k < pair.Soldiers.Length; k++)
++                    if (pair.Soldiers[k] >= 0 && sSlot[pair.Soldiers[k]] / SlotStride == side) pair.Home[k] = HomeSpot(pair.Soldiers[k]);
++            }
++            SoldiersDirty = true;
++        }
++
+         void ReleaseSlot(int soldier)
+         {
+             if (sSlot == null || soldier < 0 || soldier >= sSlot.Length || sSlot[soldier] < 0) return;
+diff --git a/Game/Assets/_Project/Combat/Battle/BattleSim.cs b/Game/Assets/_Project/Combat/Battle/BattleSim.cs
+index 0dedf92..994f84b 100644
+--- a/Game/Assets/_Project/Combat/Battle/BattleSim.cs
++++ b/Game/Assets/_Project/Combat/Battle/BattleSim.cs
+@@ -362,6 +362,8 @@ namespace HumanLastRampart.Combat.Battle
+                 GroupPlan plan = attackPlan[groupIndex];
+                 // 무리가 나오는 데 걸리는 시간: 규칙에 속도가 있으면 수에 맞춰 길게 (작은 무리는 최소 12초)
+                 float spread = rules != null && rules.SpawnPerSecond > 0f ? Mathf.Max(SpawnSpreadSeconds, count / rules.SpawnPerSecond) : SpawnSpreadSeconds;
++                bool firstGroup = groupIndex == 0;   // 전투 첫 무리는 기다리지 않고 성벽 가까이서 시작한다 (피드백 20)
++                if (firstGroup) spread = 2f;
+                 waveGroups.Add((plan.Side, def.IsSpecial));
+                 groupSlots.Add((cursor[k], count));   // 한 무리의 슬롯은 이어져 있다 (발견 판정용)
+                 for (int j = 0; j < count; j++)
+@@ -376,12 +378,12 @@ namespace HumanLastRampart.Combat.Battle
+                     eAnim[slot] = phase;
+                     eStop[slot] = CastleHalf + 1.5f + phase * 6f;   // 성벽 앞에 여러 줄로
+                     eSide[slot] = (byte)plan.Side;
+-                    float depth = random.NextFloat(FieldSize - FieldBand, FieldSize);
++                    float depth = firstGroup ? CastleHalf + random.NextFloat(60f, 70f) : random.NextFloat(FieldSize - FieldBand, FieldSize);
+                     float halfWidth = funnelBase + (depth - CastleHalf) * funnelSlope;   // D-065: 들판에서는 넓게
+                     entries.Add(new SpawnEntry
+                     {
+                         Slot = slot,
+-                        Time = plan.SpawnAt + random.NextFloat(0f, spread),
++                        Time = (firstGroup ? 0f : plan.SpawnAt) + random.NextFloat(0f, spread),
+                         Side = plan.Side,
+                         Lateral = random.NextFloat(-halfWidth, halfWidth),
+                         Depth = depth,
+@@ -511,6 +513,13 @@ namespace HumanLastRampart.Combat.Battle
+                     cannonBays[(int)post.Wall].Add((post.PositionAlongWall - 0.5f) * 2f * CastleHalf);
+             AddSpareCannonBays();   // 대포를 옮겨 받을 빈 사격구 (K-060, BattleSim.Haul.cs)
+             BuildWallSlots(n);
++            for (int side = 0; side < 4; side++)
++            {
++                int standing = 0;
++                foreach (var entry in placed)
++                    if ((int)entry.post.Wall == side && weapons[entry.weapon].AreaRadius <= 0f) standing += entry.squad.Count;
++                EnsureWallRoom(side, standing);
++            }
+ 
+             var random = new Unity.Mathematics.Random(seed ^ 0x9E3779B9u);
+             int index = 0;

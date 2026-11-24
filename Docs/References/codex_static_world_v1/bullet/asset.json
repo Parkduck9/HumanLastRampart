@@ -1,0 +1,43 @@
+{
+  "id": "bullet",
+  "label": "총탄",
+  "category": "투사체",
+  "status": "review-draft",
+  "columns": 1,
+  "rows": 1,
+  "frames": 1,
+  "fps": 0,
+  "cell": [
+    32,
+    32
+  ],
+  "size": [
+    32,
+    32
+  ],
+  "pivotTopLeft": [
+    16,
+    16
+  ],
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "sourceCrop": [
+    313,
+    323,
+    941,
+    943
+  ],
+  "packedRect": [
+    4,
+    4,
+    24,
+    24
+  ],
+  "sourceSha256": "7ec11cd582cf51ac327c584b24410ee97e64e415e7edb25671b73447b9b9e7d3",
+  "imageSha256": "07f2c555d8be147e8e7edb826b2c97a2efda5bffcb5dcce7fbe486341cf29741",
+  "unityPlayVerified": false,
+  "gameConnected": false,
+  "tilingVerified": false
+}

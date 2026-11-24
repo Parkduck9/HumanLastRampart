@@ -1,0 +1,51 @@
+﻿[
+    {
+        "sha256":  "7E5C51E2EEAE188C9AD4B65E316BFF0F73CDA903E8189DAC35C20163286802E8",
+        "width":  1536,
+        "file":  "cannon_pull6.png",
+        "height":  384,
+        "cornerAlpha":  0
+    },
+    {
+        "sha256":  "6C6F615012EAD326FC7C6B28A81AD4FD6AA5B03DB1AF1CD757446A9608F9087C",
+        "width":  1536,
+        "file":  "burn_small6.png",
+        "height":  256,
+        "cornerAlpha":  0
+    },
+    {
+        "sha256":  "B8AD49F284058C2D64D1FE337C62FFCD78875B00DD62AC25DBE7F98A9857DF00",
+        "width":  1536,
+        "file":  "burn_large6.png",
+        "height":  256,
+        "cornerAlpha":  0
+    },
+    {
+        "sha256":  "E3C245B65B614439971865C9999EBC7801CFCB09BF2D59C059BA52B1B41665DB",
+        "width":  512,
+        "file":  "range_burst_in.png",
+        "height":  512,
+        "cornerAlpha":  0
+    },
+    {
+        "sha256":  "DADF106188EF59F116FA5CDB7669140C2AA0F93B8777CB368BB95B0BEED51D1B",
+        "width":  512,
+        "file":  "range_burst_out.png",
+        "height":  512,
+        "cornerAlpha":  0
+    },
+    {
+        "sha256":  "4A0A7DB60C923D8C567DF252900D0C479A26228AEF58B85D9A34CD9441AD90D5",
+        "width":  512,
+        "file":  "range_field_in.png",
+        "height":  512,
+        "cornerAlpha":  0
+    },
+    {
+        "sha256":  "F02D5D140CC7103BE0E3F71CAE3E30E19C8E2802D4E081EB9F63E55F5454BE91",
+        "width":  512,
+        "file":  "range_field_out.png",
+        "height":  512,
+        "cornerAlpha":  0
+    }
+]

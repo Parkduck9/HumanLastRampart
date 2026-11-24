@@ -1,0 +1,49 @@
+{
+  "id": "archer",
+  "label": "궁수",
+  "facing": "back",
+  "image": "archer_static_grid.png",
+  "size": [
+    256,
+    384
+  ],
+  "columns": 1,
+  "rows": 1,
+  "cell": [
+    256,
+    384
+  ],
+  "footPivotTopLeft": [
+    128,
+    352
+  ],
+  "unityPivotBottomLeft": [
+    0.5,
+    0.08333333333333333
+  ],
+  "aspect": 0.6666666666666666,
+  "frameIndex": 0,
+  "frames": 1,
+  "animated": false,
+  "fps": 0,
+  "status": "demo-static-only",
+  "source": "codex_soldier_back_v1/archer_back.png",
+  "sourceSha256": "1e7db7dd02060382d35c627f2ad1260fdcd93b63ec442d4a38752baab7cda1ed",
+  "sourceRect": [
+    387,
+    113,
+    926,
+    1108
+  ],
+  "sourceFootX": 287.0,
+  "pivotMethod": "lower boot-color quantiles; demo inference, review in Unity",
+  "uniformScale": 0.3015075376884422,
+  "packedRect": [
+    41,
+    52,
+    163,
+    300
+  ],
+  "sheetSha256": "2d9fcc469018d73d48b2e044c2388f0ba74de8c9f958366ad20bd1ffe44a7e06",
+  "unityPlayVerified": false
+}

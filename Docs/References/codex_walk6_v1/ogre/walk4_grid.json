@@ -1,0 +1,113 @@
+{
+  "id": "ogre",
+  "label": "오우거",
+  "facing": "front",
+  "source": "source.png",
+  "sourceSha256": "1cfd243fdd3b39ef3f443982e46584eeb5b433220f2d8d287af161301015b7f3",
+  "image": "walk4_grid.png",
+  "columns": 4,
+  "rows": 1,
+  "size": [
+    1024,
+    384
+  ],
+  "cell": [
+    256,
+    384
+  ],
+  "frames": 4,
+  "footPivotTopLeft": [
+    128,
+    352
+  ],
+  "unityPivotBottomLeft": [
+    0.5,
+    0.08333333333333333
+  ],
+  "aspect": 0.6666666666666666,
+  "frameOrder": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "fps": 6,
+  "loop": "1-2-3-4",
+  "rightPreview": null,
+  "uniformScale": 0.4148148148148148,
+  "framesData": [
+    {
+      "frame": 0,
+      "sourceRect": [
+        24,
+        127,
+        481,
+        562
+      ],
+      "sourceBodyX": 251.0,
+      "packedRect": [
+        34,
+        119,
+        200,
+        233
+      ]
+    },
+    {
+      "frame": 1,
+      "sourceRect": [
+        538,
+        127,
+        498,
+        553
+      ],
+      "sourceBodyX": 770,
+      "packedRect": [
+        32,
+        123,
+        207,
+        229
+      ]
+    },
+    {
+      "frame": 2,
+      "sourceRect": [
+        1036,
+        127,
+        504,
+        562
+      ],
+      "sourceBodyX": 1270.0,
+      "packedRect": [
+        31,
+        119,
+        209,
+        233
+      ]
+    },
+    {
+      "frame": 3,
+      "sourceRect": [
+        1557,
+        127,
+        472,
+        553
+      ],
+      "sourceBodyX": 1791,
+      "packedRect": [
+        31,
+        123,
+        196,
+        229
+      ]
+    }
+  ],
+  "frameHashes": [
+    "13eea02ffa360019e0f972f1c53e9ee8a0f13f1a0a29bb4ed72facac53ec1c6f",
+    "134c910c7fd4f9099fd47bc32e0932eb81702775781faabb565dec1ec3679e05",
+    "d7d7cd5d9887b6acd7ba6f0351914740d33bccdc523dfb636beb3e223cc96a2d",
+    "f6bc4670c9c9e01e881804a14a0e38b46b1a53a9d0951adcdb50f8e58c629e4b"
+  ],
+  "sheetSha256": "a91fbecd19a355eaf2ee032dbce4bdc0ce96c3c93468fe1dbee3a877b405088d",
+  "status": "animation-draft-user-review",
+  "unityPlayVerified": false
+}

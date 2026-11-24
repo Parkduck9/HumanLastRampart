@@ -1,0 +1,349 @@
+{
+  "frames": [
+    {
+      "id": "goblin_half",
+      "all_feet_end_at_pivot_y": true,
+      "bounds": [
+        [
+          36,
+          96,
+          104,
+          180
+        ],
+        [
+          37,
+          96,
+          104,
+          180
+        ],
+        [
+          30,
+          96,
+          96,
+          180
+        ],
+        [
+          40,
+          96,
+          108,
+          180
+        ],
+        [
+          31,
+          94,
+          102,
+          180
+        ],
+        [
+          34,
+          82,
+          104,
+          180
+        ],
+        [
+          36,
+          115,
+          113,
+          180
+        ],
+        [
+          28,
+          96,
+          98,
+          180
+        ]
+      ],
+      "removed_isolated_pixels": 0,
+      "remaining_component_sizes": [
+        [
+          3156
+        ],
+        [
+          3170
+        ],
+        [
+          3254
+        ],
+        [
+          3219
+        ],
+        [
+          3578
+        ],
+        [
+          3828
+        ],
+        [
+          3007
+        ],
+        [
+          3463
+        ]
+      ]
+    },
+    {
+      "id": "goblin_quarter",
+      "all_feet_end_at_pivot_y": true,
+      "bounds": [
+        [
+          18,
+          48,
+          52,
+          90
+        ],
+        [
+          15,
+          48,
+          48,
+          90
+        ]
+      ],
+      "removed_isolated_pixels": 0,
+      "remaining_component_sizes": [
+        [
+          795
+        ],
+        [
+          821
+        ]
+      ]
+    },
+    {
+      "id": "ladder_goblin_half",
+      "all_feet_end_at_pivot_y": true,
+      "bounds": [
+        [
+          48,
+          90,
+          102,
+          180
+        ],
+        [
+          48,
+          90,
+          102,
+          180
+        ],
+        [
+          46,
+          90,
+          104,
+          180
+        ],
+        [
+          48,
+          90,
+          99,
+          180
+        ]
+      ],
+      "removed_isolated_pixels": 0,
+      "remaining_component_sizes": [
+        [
+          3422
+        ],
+        [
+          3383
+        ],
+        [
+          3529
+        ],
+        [
+          3258
+        ]
+      ]
+    },
+    {
+      "id": "ladder_goblin_quarter",
+      "all_feet_end_at_pivot_y": true,
+      "bounds": [
+        [
+          24,
+          45,
+          51,
+          90
+        ],
+        [
+          23,
+          45,
+          52,
+          90
+        ]
+      ],
+      "removed_isolated_pixels": 0,
+      "remaining_component_sizes": [
+        [
+          861
+        ],
+        [
+          884
+        ]
+      ]
+    },
+    {
+      "id": "ladder_carry_half",
+      "all_feet_end_at_pivot_y": true,
+      "bounds": [
+        [
+          45,
+          96,
+          92,
+          180
+        ],
+        [
+          40,
+          96,
+          92,
+          180
+        ],
+        [
+          43,
+          96,
+          92,
+          180
+        ],
+        [
+          42,
+          96,
+          93,
+          180
+        ]
+      ],
+      "removed_isolated_pixels": 0,
+      "remaining_component_sizes": [
+        [
+          2586
+        ],
+        [
+          2689
+        ],
+        [
+          2588
+        ],
+        [
+          2708
+        ]
+      ]
+    },
+    {
+      "id": "ladder_carry_quarter",
+      "all_feet_end_at_pivot_y": true,
+      "bounds": [
+        [
+          22,
+          48,
+          46,
+          90
+        ],
+        [
+          20,
+          48,
+          46,
+          90
+        ]
+      ],
+      "removed_isolated_pixels": 0,
+      "remaining_component_sizes": [
+        [
+          648
+        ],
+        [
+          684
+        ]
+      ]
+    },
+    {
+      "id": "ogre_half",
+      "all_feet_end_at_pivot_y": true,
+      "bounds": [
+        [
+          6,
+          56,
+          113,
+          176
+        ],
+        [
+          6,
+          56,
+          113,
+          176
+        ],
+        [
+          4,
+          56,
+          114,
+          176
+        ],
+        [
+          6,
+          56,
+          113,
+          176
+        ]
+      ],
+      "removed_isolated_pixels": 0,
+      "remaining_component_sizes": [
+        [
+          7748
+        ],
+        [
+          7960
+        ],
+        [
+          7957
+        ],
+        [
+          7864
+        ]
+      ]
+    },
+    {
+      "id": "ogre_quarter",
+      "all_feet_end_at_pivot_y": true,
+      "bounds": [
+        [
+          3,
+          28,
+          57,
+          88
+        ],
+        [
+          2,
+          28,
+          57,
+          88
+        ]
+      ],
+      "removed_isolated_pixels": 0,
+      "remaining_component_sizes": [
+        [
+          1974
+        ],
+        [
+          2025
+        ]
+      ]
+    }
+  ],
+  "unity_run": false,
+  "performance_measured": false,
+  "review_embedded_png_count": 18,
+  "checked_sheet_count": 8,
+  "checked_frame_count": 28,
+  "alpha_binary": true,
+  "atlas_rects_nonoverlapping": true,
+  "atlas_crops_match_sheets_exactly": true,
+  "preview_4x_exact_nearest_neighbor": true,
+  "source_hashes_unchanged": true,
+  "embedded_pngs_decode": 18,
+  "browser": {
+    "engine": "Microsoft Edge, headless Playwright",
+    "canvas_count": 24,
+    "animation_changes": true,
+    "pause_stable": true,
+    "all_images_loaded": true,
+    "night_selector_and_goblin_attack_exercised": true,
+    "javascript_errors": [],
+    "mobile_480px_horizontal_overflow": false
+  }
+}

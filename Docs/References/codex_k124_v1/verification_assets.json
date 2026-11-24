@@ -1,0 +1,137 @@
+﻿{
+    "isolated_components_under_3_native_pixels":  0,
+    "visual_review":  [
+                          "중앙 색조 분할 제거 확인",
+                          "48px 지붕·창살·등불·돌 받침 구별 확인",
+                          "밝고 어두운 바탕의 투명 가장자리 확인"
+                      ],
+    "nearest_exports":  [
+                            {
+                                "mismatched_pixels":  0,
+                                "size":  1024
+                            },
+                            {
+                                "mismatched_pixels":  0,
+                                "size":  512
+                            },
+                            {
+                                "mismatched_pixels":  0,
+                                "size":  256
+                            },
+                            {
+                                "mismatched_pixels":  0,
+                                "size":  192
+                            },
+                            {
+                                "mismatched_pixels":  0,
+                                "size":  48
+                            }
+                        ],
+    "unity_run":  false,
+    "fourfold_previews":  [
+                              {
+                                  "mismatched_pixels":  0,
+                                  "file":  "previews/icon_48_4x.png"
+                              },
+                              {
+                                  "mismatched_pixels":  0,
+                                  "file":  "previews/lamp_foreground_4x.png"
+                              }
+                          ],
+    "adaptive_max_radius":  105.42295765154761,
+    "card":  "K-124",
+    "asset_checks":  [
+                         {
+                             "passed":  true,
+                             "width":  432,
+                             "file":  "icons/adaptive_background_432.png",
+                             "height":  432,
+                             "alpha_range":  [
+                                                 255,
+                                                 255
+                                             ]
+                         },
+                         {
+                             "passed":  true,
+                             "width":  432,
+                             "file":  "icons/adaptive_foreground_432.png",
+                             "height":  432,
+                             "alpha_range":  [
+                                                 0,
+                                                 255
+                                             ]
+                         },
+                         {
+                             "passed":  true,
+                             "width":  1024,
+                             "file":  "icons/app_icon_1024.png",
+                             "height":  1024,
+                             "alpha_range":  [
+                                                 255,
+                                                 255
+                                             ]
+                         },
+                         {
+                             "passed":  true,
+                             "width":  128,
+                             "file":  "icons/app_icon_128.png",
+                             "height":  128,
+                             "alpha_range":  [
+                                                 255,
+                                                 255
+                                             ]
+                         },
+                         {
+                             "passed":  true,
+                             "width":  192,
+                             "file":  "icons/app_icon_192.png",
+                             "height":  192,
+                             "alpha_range":  [
+                                                 255,
+                                                 255
+                                             ]
+                         },
+                         {
+                             "passed":  true,
+                             "width":  256,
+                             "file":  "icons/app_icon_256.png",
+                             "height":  256,
+                             "alpha_range":  [
+                                                 255,
+                                                 255
+                                             ]
+                         },
+                         {
+                             "passed":  true,
+                             "width":  48,
+                             "file":  "icons/app_icon_48.png",
+                             "height":  48,
+                             "alpha_range":  [
+                                                 255,
+                                                 255
+                                             ]
+                         },
+                         {
+                             "passed":  true,
+                             "width":  512,
+                             "file":  "icons/app_icon_512.png",
+                             "height":  512,
+                             "alpha_range":  [
+                                                 255,
+                                                 255
+                                             ]
+                         },
+                         {
+                             "passed":  true,
+                             "width":  128,
+                             "file":  "icons/lamp_foreground_128.png",
+                             "height":  128,
+                             "alpha_range":  [
+                                                 0,
+                                                 255
+                                             ]
+                         }
+                     ],
+    "adaptive_safe_radius":  132,
+    "git_writes":  false
+}

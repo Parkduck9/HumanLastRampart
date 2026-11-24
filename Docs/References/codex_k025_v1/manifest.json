@@ -1,0 +1,270 @@
+﻿{
+    "backgrounds":  {
+                        "skyNight":  "backgrounds/sky_night.png",
+                        "width":  1024,
+                        "repeat":  "직접 반복은 이음새 미해결. HTML의 반사 반복은 비교용 제안",
+                        "height":  352,
+                        "night":  "backgrounds/horizon_night.png",
+                        "skySize":  [
+                                        32,
+                                        256
+                                    ],
+                        "skyDay":  "backgrounds/sky_day.png",
+                        "day":  "backgrounds/horizon_day.png"
+                    },
+    "status":  "시안 · 사용자 방향 미확정 · 게임 미연결",
+    "card":  "K-025",
+    "assets":  [
+                   {
+                       "source":  "originals/oak.png",
+                       "height":  160,
+                       "id":  "oak",
+                       "cropAndPlacement":  [
+                                                24,
+                                                18,
+                                                1190,
+                                                1232,
+                                                8,
+                                                36,
+                                                112,
+                                                116
+                                            ],
+                       "ppuProposal":  32,
+                       "label":  "넓은잎나무",
+                       "pivotTopLeft":  [
+                                            64,
+                                            152
+                                        ],
+                       "view":  "oblique",
+                       "width":  128,
+                       "status":  "사용자 확정 전 경사 시점 판 시안",
+                       "file":  "sprites/oak.png"
+                   },
+                   {
+                       "source":  "originals/pine_clean.png",
+                       "height":  224,
+                       "id":  "pine",
+                       "cropAndPlacement":  [
+                                                125,
+                                                12,
+                                                848,
+                                                1480,
+                                                8,
+                                                21,
+                                                112,
+                                                195
+                                            ],
+                       "ppuProposal":  32,
+                       "label":  "침엽수",
+                       "pivotTopLeft":  [
+                                            64,
+                                            216
+                                        ],
+                       "view":  "oblique",
+                       "width":  128,
+                       "status":  "사용자 확정 전 경사 시점 판 시안",
+                       "file":  "sprites/pine.png"
+                   },
+                   {
+                       "source":  "originals/rock_a_clean.png",
+                       "height":  80,
+                       "id":  "rock_a",
+                       "cropAndPlacement":  [
+                                                235,
+                                                35,
+                                                1107,
+                                                945,
+                                                10,
+                                                8,
+                                                75,
+                                                64
+                                            ],
+                       "ppuProposal":  32,
+                       "label":  "낮은 바위",
+                       "pivotTopLeft":  [
+                                            48,
+                                            72
+                                        ],
+                       "view":  "oblique",
+                       "width":  96,
+                       "status":  "사용자 확정 전 경사 시점 판 시안",
+                       "file":  "sprites/rock_a.png"
+                   },
+                   {
+                       "source":  "originals/rock_b.png",
+                       "height":  112,
+                       "id":  "rock_b",
+                       "cropAndPlacement":  [
+                                                281,
+                                                93,
+                                                718,
+                                                1122,
+                                                8,
+                                                29,
+                                                48,
+                                                75
+                                            ],
+                       "ppuProposal":  32,
+                       "label":  "갈라진 바위",
+                       "pivotTopLeft":  [
+                                            32,
+                                            104
+                                        ],
+                       "view":  "oblique",
+                       "width":  64,
+                       "status":  "사용자 확정 전 경사 시점 판 시안",
+                       "file":  "sprites/rock_b.png"
+                   },
+                   {
+                       "source":  "originals/bush_clean.png",
+                       "height":  48,
+                       "id":  "bush",
+                       "cropAndPlacement":  [
+                                                14,
+                                                15,
+                                                1516,
+                                                994,
+                                                8,
+                                                9,
+                                                48,
+                                                31
+                                            ],
+                       "ppuProposal":  32,
+                       "label":  "풀숲",
+                       "pivotTopLeft":  [
+                                            32,
+                                            40
+                                        ],
+                       "view":  "oblique",
+                       "width":  64,
+                       "status":  "사용자 확정 전 경사 시점 판 시안",
+                       "file":  "sprites/bush.png"
+                   },
+                   {
+                       "source":  "originals/oak_top.png",
+                       "height":  128,
+                       "id":  "oak_top",
+                       "cropAndPlacement":  [
+                                                39,
+                                                57,
+                                                1203,
+                                                1123,
+                                                8,
+                                                11,
+                                                112,
+                                                105
+                                            ],
+                       "ppuProposal":  32,
+                       "label":  "넓은잎나무 윗면",
+                       "pivotTopLeft":  [
+                                            64,
+                                            64
+                                        ],
+                       "view":  "top",
+                       "width":  128,
+                       "status":  "사용자 확정 전 수평 윗면 판 시안",
+                       "file":  "sprites/oak_top.png"
+                   },
+                   {
+                       "source":  "originals/pine_top.png",
+                       "height":  128,
+                       "id":  "pine_top",
+                       "cropAndPlacement":  [
+                                                41,
+                                                47,
+                                                1212,
+                                                1123,
+                                                8,
+                                                12,
+                                                112,
+                                                104
+                                            ],
+                       "ppuProposal":  32,
+                       "label":  "침엽수 윗면",
+                       "pivotTopLeft":  [
+                                            64,
+                                            64
+                                        ],
+                       "view":  "top",
+                       "width":  128,
+                       "status":  "사용자 확정 전 수평 윗면 판 시안",
+                       "file":  "sprites/pine_top.png"
+                   },
+                   {
+                       "source":  "originals/rock_a_top.png",
+                       "height":  96,
+                       "id":  "rock_a_top",
+                       "cropAndPlacement":  [
+                                                217,
+                                                28,
+                                                1171,
+                                                979,
+                                                8,
+                                                14,
+                                                80,
+                                                67
+                                            ],
+                       "ppuProposal":  32,
+                       "label":  "낮은 바위 윗면",
+                       "pivotTopLeft":  [
+                                            48,
+                                            48
+                                        ],
+                       "view":  "top",
+                       "width":  96,
+                       "status":  "사용자 확정 전 수평 윗면 판 시안",
+                       "file":  "sprites/rock_a_top.png"
+                   },
+                   {
+                       "source":  "originals/rock_b_top.png",
+                       "height":  64,
+                       "id":  "rock_b_top",
+                       "cropAndPlacement":  [
+                                                299,
+                                                143,
+                                                816,
+                                                945,
+                                                11,
+                                                8,
+                                                41,
+                                                48
+                                            ],
+                       "ppuProposal":  32,
+                       "label":  "갈라진 바위 윗면",
+                       "pivotTopLeft":  [
+                                            32,
+                                            32
+                                        ],
+                       "view":  "top",
+                       "width":  64,
+                       "status":  "사용자 확정 전 수평 윗면 판 시안",
+                       "file":  "sprites/rock_b_top.png"
+                   },
+                   {
+                       "source":  "originals/bush_top.png",
+                       "height":  64,
+                       "id":  "bush_top",
+                       "cropAndPlacement":  [
+                                                26,
+                                                18,
+                                                1495,
+                                                995,
+                                                8,
+                                                16,
+                                                48,
+                                                32
+                                            ],
+                       "ppuProposal":  32,
+                       "label":  "풀숲 윗면",
+                       "pivotTopLeft":  [
+                                            32,
+                                            32
+                                        ],
+                       "view":  "top",
+                       "width":  64,
+                       "status":  "사용자 확정 전 수평 윗면 판 시안",
+                       "file":  "sprites/bush_top.png"
+                   }
+               ],
+    "processing":  "생성 도구로 제작·보정. 알파 유지 자르기와 최근접 축소. 하늘은 단순 수직 그라데이션 수식."
+}

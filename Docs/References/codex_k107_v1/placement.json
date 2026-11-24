@@ -1,0 +1,314 @@
+[
+  {
+    "variant": "a",
+    "pose": "front",
+    "source_crop": [
+      106,
+      174,
+      392,
+      770
+    ],
+    "source_region": 0,
+    "axis": 141.5,
+    "native_bbox": [
+      31,
+      47,
+      66,
+      120
+    ],
+    "cell": [
+      96,
+      128
+    ],
+    "foot": [
+      48,
+      120
+    ]
+  },
+  {
+    "variant": "a",
+    "pose": "side",
+    "source_crop": [
+      73,
+      174,
+      332,
+      770
+    ],
+    "source_region": 1,
+    "axis": 120.5,
+    "native_bbox": [
+      33,
+      47,
+      65,
+      120
+    ],
+    "cell": [
+      96,
+      128
+    ],
+    "foot": [
+      48,
+      120
+    ]
+  },
+  {
+    "variant": "a",
+    "pose": "back",
+    "source_crop": [
+      55,
+      174,
+      333,
+      770
+    ],
+    "source_region": 2,
+    "axis": 137.5,
+    "native_bbox": [
+      31,
+      47,
+      65,
+      120
+    ],
+    "cell": [
+      96,
+      128
+    ],
+    "foot": [
+      48,
+      120
+    ]
+  },
+  {
+    "variant": "a",
+    "pose": "command",
+    "source_crop": [
+      55,
+      174,
+      445,
+      770
+    ],
+    "source_region": 3,
+    "axis": 137.5,
+    "native_bbox": [
+      31,
+      47,
+      79,
+      120
+    ],
+    "cell": [
+      96,
+      128
+    ],
+    "foot": [
+      48,
+      120
+    ]
+  },
+  {
+    "variant": "b",
+    "pose": "front",
+    "source_crop": [
+      75,
+      144,
+      428,
+      772
+    ],
+    "source_region": 0,
+    "axis": 161.0,
+    "native_bbox": [
+      29,
+      47,
+      70,
+      120
+    ],
+    "cell": [
+      96,
+      128
+    ],
+    "foot": [
+      48,
+      120
+    ]
+  },
+  {
+    "variant": "b",
+    "pose": "side",
+    "source_crop": [
+      44,
+      144,
+      350,
+      772
+    ],
+    "source_region": 1,
+    "axis": 135.0,
+    "native_bbox": [
+      32,
+      47,
+      68,
+      120
+    ],
+    "cell": [
+      96,
+      128
+    ],
+    "foot": [
+      48,
+      120
+    ]
+  },
+  {
+    "variant": "b",
+    "pose": "back",
+    "source_crop": [
+      14,
+      144,
+      339,
+      772
+    ],
+    "source_region": 2,
+    "axis": 158.5,
+    "native_bbox": [
+      30,
+      47,
+      68,
+      120
+    ],
+    "cell": [
+      96,
+      128
+    ],
+    "foot": [
+      48,
+      120
+    ]
+  },
+  {
+    "variant": "b",
+    "pose": "command",
+    "source_crop": [
+      25,
+      144,
+      456,
+      772
+    ],
+    "source_region": 3,
+    "axis": 159.0,
+    "native_bbox": [
+      30,
+      47,
+      80,
+      120
+    ],
+    "cell": [
+      96,
+      128
+    ],
+    "foot": [
+      48,
+      120
+    ]
+  },
+  {
+    "variant": "c",
+    "pose": "front",
+    "source_crop": [
+      100,
+      170,
+      393,
+      763
+    ],
+    "source_region": 0,
+    "axis": 146.5,
+    "native_bbox": [
+      30,
+      47,
+      66,
+      120
+    ],
+    "cell": [
+      96,
+      128
+    ],
+    "foot": [
+      48,
+      120
+    ]
+  },
+  {
+    "variant": "c",
+    "pose": "side",
+    "source_crop": [
+      71,
+      170,
+      341,
+      763
+    ],
+    "source_region": 1,
+    "axis": 125.5,
+    "native_bbox": [
+      33,
+      47,
+      66,
+      120
+    ],
+    "cell": [
+      96,
+      128
+    ],
+    "foot": [
+      48,
+      120
+    ]
+  },
+  {
+    "variant": "c",
+    "pose": "back",
+    "source_crop": [
+      53,
+      171,
+      341,
+      763
+    ],
+    "source_region": 2,
+    "axis": 142.5,
+    "native_bbox": [
+      30,
+      47,
+      66,
+      120
+    ],
+    "cell": [
+      96,
+      128
+    ],
+    "foot": [
+      48,
+      120
+    ]
+  },
+  {
+    "variant": "c",
+    "pose": "command",
+    "source_crop": [
+      53,
+      170,
+      448,
+      763
+    ],
+    "source_region": 3,
+    "axis": 142.0,
+    "native_bbox": [
+      31,
+      47,
+      80,
+      120
+    ],
+    "cell": [
+      96,
+      128
+    ],
+    "foot": [
+      48,
+      120
+    ]
+  }
+]

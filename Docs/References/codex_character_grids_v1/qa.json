@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "sheets": 6,
+  "transparent": true,
+  "noClipping": true,
+  "commonCell": [
+    256,
+    384
+  ],
+  "commonPivot": [
+    128,
+    352
+  ],
+  "sourceHashesUnchanged": true,
+  "noNewColors": true,
+  "exactExport": true,
+  "unityPlayVerified": false
+}

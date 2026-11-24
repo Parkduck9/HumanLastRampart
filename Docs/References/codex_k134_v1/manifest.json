@@ -1,0 +1,13 @@
+﻿{
+  "card": "K-134",
+  "sheet": "hero_walk_run_grid.png",
+  "normal": "hero_walk_run_grid_normal.png",
+  "sheet_size": [1152, 1536],
+  "cell_size": [288, 384],
+  "grid": [4, 4],
+  "pivot": [144, 360],
+  "foot_last_row": 359,
+  "frame_order": "left to right, rows top to bottom; unchanged from source",
+  "changed_cells_zero_based": [[1, 1], [1, 3]],
+  "native_sheet": "not generated: this card is a pixel-local repair of the existing game sheet"
+}

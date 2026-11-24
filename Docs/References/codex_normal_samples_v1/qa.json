@@ -1,0 +1,34 @@
+{
+  "status": "PASS",
+  "colorSourcesUnchanged": true,
+  "sizesExact": true,
+  "gridAndPivotMetadataExact": true,
+  "blankPixelsExactNeutral": true,
+  "unitNormals": true,
+  "aiInteriorPixelAlignment": "visual review only, not baked geometry",
+  "unityPlayVerified": false,
+  "browser": {
+    "status": "PASS",
+    "consoleErrors": 0,
+    "horizontalOverflow": false,
+    "lightAzimuthAndElevation": true,
+    "flatComparison": true,
+    "heroRowsVisited": 4,
+    "heroFramesVisited": 16,
+    "autoplayRenderCounter": [
+      23,
+      125
+    ],
+    "archerLoaded": true,
+    "archerFrameButtonsDisabled": true,
+    "cellBoundsRegistrationVerified": true,
+    "screenshots": [
+      "browser_hero.png",
+      "browser_archer.png"
+    ]
+  },
+  "standaloneHtmlCopiesExact": true,
+  "jsSyntax": true,
+  "noExternalAssets": true,
+  "fileSchemeTested": false
+}

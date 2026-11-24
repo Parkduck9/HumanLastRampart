@@ -1,0 +1,3 @@
+# 밤 시험 (NightTest)
+
+퇴근할 때 유니티를 모두 닫고 `powershell -NoProfile -ExecutionPolicy Bypass -File Tools\NightTest\run-night.ps1` 를 실행하면, 메인 프로젝트(`C:\Unity\1\HumanLastRampart\Game`, 다른 곳이면 `-ProjectPath`로 지정)에서 편집 시험(SimProbe 제외) → 화면 시험(PlayMode, 사진은 `Game/playprobe`) → 측정 `SimProbe.Fuzz10` · `SimProbe.Funnel40Sweep` 을 차례로 일괄 실행합니다. 결과는 `Tools/NightTest/reports/<날짜_시각>/`에 시험 결과 xml·로그·측정 파일·새 화면 사진(`shots/`)으로 모이고, 아침에는 같은 폴더의 `report.html`(또는 `report.md`)만 열면 시험별 통과·실패 수, 실패한 시험과 메시지, 로그의 오류 줄(error CS·Exception), 측정 결과, 새 화면 사진을 한눈에 볼 수 있습니다. 유니티가 이미 켜져 있으면 시작하지 않고 멈추며, 단계 하나가 `-TimeoutMinutes`(기본 120분)를 넘으면 유니티를 끄고 다음 단계로 넘어갑니다. 일부만 돌리려면 `-SkipEdit`·`-SkipPlay`·`-SkipProbe`를 붙입니다. `reports/` 폴더는 커밋하지 않습니다.

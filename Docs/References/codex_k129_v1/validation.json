@@ -1,0 +1,2520 @@
+{
+  "checks": [
+    {
+      "check": "동작 수17",
+      "passed": true
+    },
+    {
+      "check": "프레임 합계120",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_front 원본 칸",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_front 알파0/255",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_front 투명색0",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_front 투명 노멀",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_front 게임3배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_front 노멀3배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_front 미리보기4배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_front 단위 노멀",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_front 0 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_front 0 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_front 0 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_front 0 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_front 1 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_front 1 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_front 1 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_front 1 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_front 2 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_front 2 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_front 2 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_front 2 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_front 3 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_front 3 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_front 3 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_front 3 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_front 4 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_front 4 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_front 4 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_front 4 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_front 5 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_front 5 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_front 5 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_front 5 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_front 6 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_front 6 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_front 6 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_front 6 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_front 7 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_front 7 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_front 7 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_front 7 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_back 원본 칸",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_back 알파0/255",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_back 투명색0",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_back 투명 노멀",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_back 게임3배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_back 노멀3배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_back 미리보기4배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_back 단위 노멀",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_back 0 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_back 0 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_back 0 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_back 0 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_back 1 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_back 1 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_back 1 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_back 1 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_back 2 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_back 2 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_back 2 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_back 2 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_back 3 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_back 3 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_back 3 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_back 3 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_back 4 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_back 4 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_back 4 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_back 4 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_back 5 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_back 5 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_back 5 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_back 5 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_back 6 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_back 6 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_back 6 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_back 6 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_back 7 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_back 7 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_back 7 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_back 7 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_right 원본 칸",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_right 알파0/255",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_right 투명색0",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_right 투명 노멀",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_right 게임3배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_right 노멀3배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_right 미리보기4배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_right 단위 노멀",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_right 0 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_right 0 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_right 0 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_right 0 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_right 1 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_right 1 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_right 1 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_right 1 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_right 2 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_right 2 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_right 2 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_right 2 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_right 3 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_right 3 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_right 3 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_right 3 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_right 4 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_right 4 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_right 4 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_right 4 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_right 5 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_right 5 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_right 5 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_right 5 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_right 6 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_right 6 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_right 6 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_right 6 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_right 7 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_right 7 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_right 7 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_right 7 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_left 원본 칸",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_left 알파0/255",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_left 투명색0",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_left 투명 노멀",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_left 게임3배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_left 노멀3배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_left 미리보기4배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_left 단위 노멀",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_left 0 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_left 0 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_left 0 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_left 0 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_left 1 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_left 1 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_left 1 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_left 1 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_left 2 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_left 2 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_left 2 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_left 2 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_left 3 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_left 3 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_left 3 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_left 3 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_left 4 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_left 4 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_left 4 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_left 4 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_left 5 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_left 5 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_left 5 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_left 5 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_left 6 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_left 6 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_left 6 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_left 6 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_left 7 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_left 7 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_left 7 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_walk_left 7 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_front 원본 칸",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_front 알파0/255",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_front 투명색0",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_front 투명 노멀",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_front 게임3배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_front 노멀3배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_front 미리보기4배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_front 단위 노멀",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_front 0 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_front 0 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_front 0 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_front 0 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_front 1 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_front 1 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_front 1 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_front 1 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_front 2 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_front 2 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_front 2 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_front 2 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_front 3 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_front 3 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_front 3 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_front 3 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_front 4 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_front 4 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_front 4 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_front 4 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_front 5 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_front 5 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_front 5 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_front 5 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_side 원본 칸",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_side 알파0/255",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_side 투명색0",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_side 투명 노멀",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_side 게임3배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_side 노멀3배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_side 미리보기4배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_side 단위 노멀",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_side 0 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_side 0 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_side 0 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_side 0 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_side 1 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_side 1 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_side 1 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_side 1 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_side 2 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_side 2 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_side 2 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_side 2 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_side 3 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_side 3 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_side 3 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_side 3 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_side 4 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_side 4 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_side 4 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_side 4 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_side 5 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_side 5 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_side 5 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_punch_side 5 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_back 원본 칸",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_back 알파0/255",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_back 투명색0",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_back 투명 노멀",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_back 게임3배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_back 노멀3배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_back 미리보기4배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_back 단위 노멀",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_back 0 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_back 0 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_back 0 손 기준",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_back 0 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_back 1 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_back 1 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_back 1 손 기준",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_back 1 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_back 2 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_back 2 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_back 2 손 기준",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_back 2 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_back 3 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_back 3 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_back 3 손 기준",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_back 3 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_back 4 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_back 4 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_back 4 손 기준",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_back 4 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_back 5 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_back 5 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_back 5 손 기준",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_back 5 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_back 6 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_back 6 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_back 6 손 기준",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_back 6 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_back 7 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_back 7 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_back 7 손 기준",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_back 7 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_front 원본 칸",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_front 알파0/255",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_front 투명색0",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_front 투명 노멀",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_front 게임3배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_front 노멀3배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_front 미리보기4배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_front 단위 노멀",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_front 0 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_front 0 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_front 0 손 기준",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_front 0 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_front 1 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_front 1 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_front 1 손 기준",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_front 1 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_front 2 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_front 2 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_front 2 손 기준",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_front 2 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_front 3 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_front 3 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_front 3 손 기준",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_front 3 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_front 4 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_front 4 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_front 4 손 기준",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_front 4 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_front 5 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_front 5 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_front 5 손 기준",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_front 5 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_front 6 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_front 6 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_front 6 손 기준",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_front 6 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_front 7 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_front 7 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_front 7 손 기준",
+      "passed": true
+    },
+    {
+      "check": "wallhand_climb_front 7 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_lose_grip_fall 원본 칸",
+      "passed": true
+    },
+    {
+      "check": "wallhand_lose_grip_fall 알파0/255",
+      "passed": true
+    },
+    {
+      "check": "wallhand_lose_grip_fall 투명색0",
+      "passed": true
+    },
+    {
+      "check": "wallhand_lose_grip_fall 투명 노멀",
+      "passed": true
+    },
+    {
+      "check": "wallhand_lose_grip_fall 게임3배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_lose_grip_fall 노멀3배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_lose_grip_fall 미리보기4배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_lose_grip_fall 단위 노멀",
+      "passed": true
+    },
+    {
+      "check": "wallhand_lose_grip_fall 0 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_lose_grip_fall 0 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_lose_grip_fall 0 몸 기준",
+      "passed": true
+    },
+    {
+      "check": "wallhand_lose_grip_fall 0 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_lose_grip_fall 1 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_lose_grip_fall 1 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_lose_grip_fall 1 몸 기준",
+      "passed": true
+    },
+    {
+      "check": "wallhand_lose_grip_fall 1 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_lose_grip_fall 2 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_lose_grip_fall 2 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_lose_grip_fall 2 몸 기준",
+      "passed": true
+    },
+    {
+      "check": "wallhand_lose_grip_fall 2 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_lose_grip_fall 3 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_lose_grip_fall 3 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_lose_grip_fall 3 몸 기준",
+      "passed": true
+    },
+    {
+      "check": "wallhand_lose_grip_fall 3 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_lose_grip_fall 4 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_lose_grip_fall 4 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_lose_grip_fall 4 몸 기준",
+      "passed": true
+    },
+    {
+      "check": "wallhand_lose_grip_fall 4 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_lose_grip_fall 5 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_lose_grip_fall 5 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_lose_grip_fall 5 몸 기준",
+      "passed": true
+    },
+    {
+      "check": "wallhand_lose_grip_fall 5 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_land_stagger 원본 칸",
+      "passed": true
+    },
+    {
+      "check": "wallhand_land_stagger 알파0/255",
+      "passed": true
+    },
+    {
+      "check": "wallhand_land_stagger 투명색0",
+      "passed": true
+    },
+    {
+      "check": "wallhand_land_stagger 투명 노멀",
+      "passed": true
+    },
+    {
+      "check": "wallhand_land_stagger 게임3배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_land_stagger 노멀3배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_land_stagger 미리보기4배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_land_stagger 단위 노멀",
+      "passed": true
+    },
+    {
+      "check": "wallhand_land_stagger 0 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_land_stagger 0 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_land_stagger 0 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_land_stagger 0 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_land_stagger 1 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_land_stagger 1 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_land_stagger 1 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_land_stagger 1 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_land_stagger 2 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_land_stagger 2 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_land_stagger 2 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_land_stagger 2 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_land_stagger 3 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_land_stagger 3 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_land_stagger 3 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_land_stagger 3 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_land_stagger 4 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_land_stagger 4 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_land_stagger 4 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_land_stagger 4 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_land_stagger 5 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_land_stagger 5 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_land_stagger 5 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_land_stagger 5 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_trap_fall 원본 칸",
+      "passed": true
+    },
+    {
+      "check": "wallhand_trap_fall 알파0/255",
+      "passed": true
+    },
+    {
+      "check": "wallhand_trap_fall 투명색0",
+      "passed": true
+    },
+    {
+      "check": "wallhand_trap_fall 투명 노멀",
+      "passed": true
+    },
+    {
+      "check": "wallhand_trap_fall 게임3배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_trap_fall 노멀3배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_trap_fall 미리보기4배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_trap_fall 단위 노멀",
+      "passed": true
+    },
+    {
+      "check": "wallhand_trap_fall 0 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_trap_fall 0 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_trap_fall 0 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_trap_fall 0 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_trap_fall 1 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_trap_fall 1 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_trap_fall 1 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_trap_fall 1 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_trap_fall 2 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_trap_fall 2 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_trap_fall 2 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_trap_fall 2 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_trap_fall 3 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_trap_fall 3 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_trap_fall 3 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_trap_fall 3 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_trap_lie 원본 칸",
+      "passed": true
+    },
+    {
+      "check": "wallhand_trap_lie 알파0/255",
+      "passed": true
+    },
+    {
+      "check": "wallhand_trap_lie 투명색0",
+      "passed": true
+    },
+    {
+      "check": "wallhand_trap_lie 투명 노멀",
+      "passed": true
+    },
+    {
+      "check": "wallhand_trap_lie 게임3배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_trap_lie 노멀3배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_trap_lie 미리보기4배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_trap_lie 단위 노멀",
+      "passed": true
+    },
+    {
+      "check": "wallhand_trap_lie 0 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_trap_lie 0 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_trap_lie 0 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_trap_lie 0 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_trap_lie 1 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_trap_lie 1 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_trap_lie 1 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_trap_lie 1 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_get_up 원본 칸",
+      "passed": true
+    },
+    {
+      "check": "wallhand_get_up 알파0/255",
+      "passed": true
+    },
+    {
+      "check": "wallhand_get_up 투명색0",
+      "passed": true
+    },
+    {
+      "check": "wallhand_get_up 투명 노멀",
+      "passed": true
+    },
+    {
+      "check": "wallhand_get_up 게임3배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_get_up 노멀3배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_get_up 미리보기4배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_get_up 단위 노멀",
+      "passed": true
+    },
+    {
+      "check": "wallhand_get_up 0 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_get_up 0 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_get_up 0 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_get_up 0 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_get_up 1 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_get_up 1 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_get_up 1 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_get_up 1 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_get_up 2 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_get_up 2 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_get_up 2 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_get_up 2 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_get_up 3 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_get_up 3 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_get_up 3 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_get_up 3 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_get_up 4 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_get_up 4 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_get_up 4 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_get_up 4 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_get_up 5 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_get_up 5 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_get_up 5 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_get_up 5 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_front 원본 칸",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_front 알파0/255",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_front 투명색0",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_front 투명 노멀",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_front 게임3배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_front 노멀3배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_front 미리보기4배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_front 단위 노멀",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_front 0 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_front 0 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_front 0 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_front 0 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_front 1 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_front 1 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_front 1 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_front 1 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_front 2 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_front 2 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_front 2 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_front 2 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_front 3 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_front 3 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_front 3 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_front 3 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_front 4 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_front 4 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_front 4 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_front 4 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_front 5 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_front 5 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_front 5 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_front 5 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_front 6 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_front 6 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_front 6 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_front 6 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_front 7 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_front 7 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_front 7 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_front 7 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_back 원본 칸",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_back 알파0/255",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_back 투명색0",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_back 투명 노멀",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_back 게임3배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_back 노멀3배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_back 미리보기4배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_back 단위 노멀",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_back 0 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_back 0 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_back 0 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_back 0 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_back 1 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_back 1 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_back 1 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_back 1 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_back 2 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_back 2 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_back 2 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_back 2 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_back 3 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_back 3 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_back 3 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_back 3 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_back 4 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_back 4 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_back 4 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_back 4 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_back 5 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_back 5 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_back 5 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_back 5 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_back 6 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_back 6 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_back 6 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_back 6 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_back 7 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_back 7 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_back 7 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_parapet_smash_back 7 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 원본 칸",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 알파0/255",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 투명색0",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 투명 노멀",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 게임3배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 노멀3배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 미리보기4배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 단위 노멀",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 0 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 0 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 0 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 0 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 1 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 1 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 1 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 1 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 2 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 2 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 2 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 2 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 3 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 3 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 3 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 3 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 4 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 4 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 4 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 4 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 5 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 5 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 5 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 5 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 6 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 6 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 6 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 6 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 7 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 7 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 7 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 7 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 8 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 8 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 8 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 8 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 9 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 9 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 9 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_front 9 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 원본 칸",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 알파0/255",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 투명색0",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 투명 노멀",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 게임3배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 노멀3배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 미리보기4배",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 단위 노멀",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 0 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 0 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 0 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 0 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 1 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 1 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 1 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 1 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 2 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 2 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 2 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 2 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 3 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 3 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 3 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 3 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 4 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 4 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 4 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 4 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 5 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 5 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 5 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 5 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 6 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 6 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 6 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 6 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 7 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 7 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 7 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 7 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 8 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 8 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 8 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 8 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 9 바운드",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 9 단일 윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 9 지면",
+      "passed": true
+    },
+    {
+      "check": "wallhand_death_side 9 빈 칸 아님",
+      "passed": true
+    },
+    {
+      "check": "좌우 반전",
+      "passed": true
+    },
+    {
+      "check": "wallhand_map_icon 크기",
+      "passed": true
+    },
+    {
+      "check": "wallhand_map_icon 이진알파",
+      "passed": true
+    },
+    {
+      "check": "wallhand_map_icon 단일윤곽",
+      "passed": true
+    },
+    {
+      "check": "wallhand_hud_portrait 크기",
+      "passed": true
+    },
+    {
+      "check": "wallhand_hud_portrait 이진알파",
+      "passed": true
+    },
+    {
+      "check": "wallhand_hud_portrait 단일윤곽",
+      "passed": true
+    },
+    {
+      "check": "입력 및 Game 해시 보존",
+      "passed": true
+    },
+    {
+      "check": "HTML 내장 그림수",
+      "passed": true
+    }
+  ],
+  "failed": [],
+  "total_checks": 627,
+  "source_files_hashed": 2635,
+  "changed_sources": [],
+  "embedded_pngs_decoded": 44,
+  "max_normal_unit_length_error": 0.0048020036369751384,
+  "unity_run": false,
+  "git_writes": false
+}

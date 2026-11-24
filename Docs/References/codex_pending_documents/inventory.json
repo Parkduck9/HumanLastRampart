@@ -1,0 +1,583 @@
+{
+  "status": "G-CX-020 request; no staging/commit",
+  "count": 96,
+  "note": "Index recursive hashes omitted; exact final hashes in live/codex/qa/G-CX-020-files.json",
+  "files": [
+    {
+      "path": "Docs/GDD/screens/EconomyContractProposal.md",
+      "bytes": 9710,
+      "sha256": "5c17915dfdced2e7206ae5c6ec400ddd7ebc9bab4d7913f91935b328014e38e6",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/GDD/screens/PrepTrapsProposal.md",
+      "bytes": 13344,
+      "sha256": "c4db22a895cf2d9035358a3e0f5366c800a4844fb2543faa2349a910c657b5ae",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/References/codex_balance_v1/BALANCING.md",
+      "bytes": 7339,
+      "sha256": "6d21bdf16814bfcea643847b10c4c2032b3f2d71b88b94cb72b4d65ca7ab86c1",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/References/codex_balance_v1/preview.html",
+      "bytes": 10243,
+      "sha256": "9c24c70957aa03673b0d00a4a68bfd966b8a5224db6c46d3cbc35db298baa4dd",
+      "kind": "preview"
+    },
+    {
+      "path": "Docs/References/codex_balance_v1/results.json",
+      "bytes": 13404,
+      "sha256": "057c9d11fd314368613ce7d85ce60739dfd84c44a9df653ef92383d627acc405",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/References/codex_balance_v1/run_balance.py",
+      "bytes": 5452,
+      "sha256": "c37b35890fff43ea63e6e86f732561fe61c15af6012d43eeb24e4e4592b686eb",
+      "kind": "source"
+    },
+    {
+      "path": "Docs/References/codex_balance_v2/BALANCING_v2.md",
+      "bytes": 8025,
+      "sha256": "08a73866d49a0822a6b30ba08b2dc30822d3283bdb02e3fd7944d4744d226d72",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/References/codex_balance_v2/preview.html",
+      "bytes": 8785,
+      "sha256": "15a9237b68265d8f756f0e300a89ccf0f932dfea8aefa5709216d2ac6912f410",
+      "kind": "preview"
+    },
+    {
+      "path": "Docs/References/codex_balance_v2/price_qa.json",
+      "bytes": 3284,
+      "sha256": "cbfbfaa58e70dc20a8afe0ba8300ce427f1d835b3592c2320dab9fe72c77c1a7",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/References/codex_balance_v2/price_qa.py",
+      "bytes": 3420,
+      "sha256": "a60fd1685204a475a693d7b408e5befbc45b909d173336cb2049b300350b8b54",
+      "kind": "source"
+    },
+    {
+      "path": "Docs/References/codex_character_grids_v1/README.md",
+      "bytes": 2121,
+      "sha256": "df2213a5ccc5db87fc4ec7b0d88ba6d1ee4806fce103fc37fef628cabda164e0",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/References/codex_character_grids_v1/archer_static_grid.json",
+      "bytes": 997,
+      "sha256": "07d7a67bf99549deb3118e754db7bf1c2099e19aa414eb8408cca9ea381a88bd",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/References/codex_character_grids_v1/archer_static_grid.png",
+      "bytes": 64771,
+      "sha256": "2d9fcc469018d73d48b2e044c2388f0ba74de8c9f958366ad20bd1ffe44a7e06",
+      "kind": "media"
+    },
+    {
+      "path": "Docs/References/codex_character_grids_v1/build_sheets.py",
+      "bytes": 3783,
+      "sha256": "7f494ff1cbdc5d51c4a93852f7be35c3f3f0a148bc7fcc1875d13cb43cae3aec",
+      "kind": "source"
+    },
+    {
+      "path": "Docs/References/codex_character_grids_v1/cannon_crew_static_grid.json",
+      "bytes": 1016,
+      "sha256": "628cf160afda27a3278c51b34abe7cb8f9700b28a114e959eff9e9826d3aa928",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/References/codex_character_grids_v1/cannon_crew_static_grid.png",
+      "bytes": 68863,
+      "sha256": "5ee84f511a5351aa9e93cc6e4a22adbb063b2c54f7993a5557eb039c17122ea3",
+      "kind": "media"
+    },
+    {
+      "path": "Docs/References/codex_character_grids_v1/gunner_static_grid.json",
+      "bytes": 997,
+      "sha256": "5258e65b849c94b628b089d22ba9a5da81e1d7edc0038c2f4fd718c6ec0d0fc8",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/References/codex_character_grids_v1/gunner_static_grid.png",
+      "bytes": 60447,
+      "sha256": "f513d4261420d4d9709e9513cc2f4e640459eb8407ee060ffaaf49cf8db9c46c",
+      "kind": "media"
+    },
+    {
+      "path": "Docs/References/codex_character_grids_v1/ladder_goblin_static_grid.json",
+      "bytes": 1032,
+      "sha256": "9328e189311159d2cc3e7c83a36ad08275ff010b040019a793e5a904f4f1db23",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/References/codex_character_grids_v1/ladder_goblin_static_grid.png",
+      "bytes": 70372,
+      "sha256": "f6fa814cdb4521e775d99f6da685656519e6e89bca9158473498d5c6fa6118db",
+      "kind": "media"
+    },
+    {
+      "path": "Docs/References/codex_character_grids_v1/manifest.json",
+      "bytes": 7276,
+      "sha256": "bb8925e8ee48d79df1713c3052924941fe7800c1e2481d549796b4bb79cea166",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/References/codex_character_grids_v1/ogre_static_grid.json",
+      "bytes": 995,
+      "sha256": "b997b40047129175345af784eabe06738c155c2592c2d1c09234e085eb0fc36a",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/References/codex_character_grids_v1/ogre_static_grid.png",
+      "bytes": 43342,
+      "sha256": "ae75c2b19fc2ded77a0714f81be5176cb7701605ff70f430ef478571a264d06f",
+      "kind": "media"
+    },
+    {
+      "path": "Docs/References/codex_character_grids_v1/preview.html",
+      "bytes": 2027524,
+      "sha256": "622f5540e1992b590205a52699d194166fa4246a200fd6a20b01d1f1b8585af0",
+      "kind": "preview"
+    },
+    {
+      "path": "Docs/References/codex_character_grids_v1/qa.json",
+      "bytes": 289,
+      "sha256": "be2bfdebd6fe8d657cd453045e16bc8dd734d1a836767485c14d308e117b7ec2",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/References/codex_character_grids_v1/wizard_static_grid.json",
+      "bytes": 999,
+      "sha256": "5621fac726b25a853032ca620adfb9d76c209c7323163f7487047ae360232c83",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/References/codex_character_grids_v1/wizard_static_grid.png",
+      "bytes": 71526,
+      "sha256": "37bd3496149413cf2fbf50cec0221408a58cc6774995ab7926c9290d101a7705",
+      "kind": "media"
+    },
+    {
+      "path": "Docs/References/codex_character_pixel_v2/README.md",
+      "bytes": 2253,
+      "sha256": "cc058a748e813a40faa73215695fe65a78c9c0714a586ff99cba01dc80fa65d7",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/References/codex_character_pixel_v2/archer.png",
+      "bytes": 539622,
+      "sha256": "2d975065749340a2798a64b3d1fd46deddd8c02d518e4068a1352b241d73f564",
+      "kind": "media"
+    },
+    {
+      "path": "Docs/References/codex_character_pixel_v2/cannon_crew.png",
+      "bytes": 596787,
+      "sha256": "863ae511eb9feb7ca33d4780164c3656d796480b331ea4b70aafa9f2e77d4232",
+      "kind": "media"
+    },
+    {
+      "path": "Docs/References/codex_character_pixel_v2/check_assets.py",
+      "bytes": 960,
+      "sha256": "9ce8150bea545a60d8a8e244602b7b4245627396f8c17b8499f644953abf77f3",
+      "kind": "source"
+    },
+    {
+      "path": "Docs/References/codex_character_pixel_v2/gunner.png",
+      "bytes": 680789,
+      "sha256": "cec44073feeca09e1c34fbfbe8c166b0081cabe9df4e752a61f4b6390915e0eb",
+      "kind": "media"
+    },
+    {
+      "path": "Docs/References/codex_character_pixel_v2/ladder_goblin.png",
+      "bytes": 639416,
+      "sha256": "ff1a4a16038119ad54e798e067bc1b344b8131e4ced38704ed8e9018b9d6354f",
+      "kind": "media"
+    },
+    {
+      "path": "Docs/References/codex_character_pixel_v2/manifest.json",
+      "bytes": 1371,
+      "sha256": "09f588a74882cbd12b0053cf858d7e51de92fe661d85727a9a7414447b2eccbb",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/References/codex_character_pixel_v2/ogre.png",
+      "bytes": 566790,
+      "sha256": "7115b19b97609905770e7952ff56b56504d78d013927f26c2988fdab62fa2bf3",
+      "kind": "media"
+    },
+    {
+      "path": "Docs/References/codex_character_pixel_v2/png_analysis.json",
+      "bytes": 2084,
+      "sha256": "5125a14f00299d9b7794c1f36d1ccedbac63afc66b8450a0860868f8520eb058",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/References/codex_character_pixel_v2/preview.html",
+      "bytes": 4891,
+      "sha256": "05089643d6273b4ed0eff336a644919e01a0f1cf53d961f256f0ea95de4e3ae5",
+      "kind": "preview"
+    },
+    {
+      "path": "Docs/References/codex_character_pixel_v2/prompts.json",
+      "bytes": 12332,
+      "sha256": "ae4a71e2672bd6af28caed393fe2fdfb1ccaa03fe95c2dec378d8ce69d454c2e",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/References/codex_character_pixel_v2/prompts_initial.json",
+      "bytes": 7142,
+      "sha256": "3d83b6af786641830f26524954df69034531f6dd108c4ba7d472f441717fa88e",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/References/codex_character_pixel_v2/wizard.png",
+      "bytes": 590668,
+      "sha256": "7b72a7da42ee25af60f08869525cbd9da478ceed58f9e75cfb8ceafb3b59440d",
+      "kind": "media"
+    },
+    {
+      "path": "Docs/References/codex_cycle1_qa.md",
+      "bytes": 2356,
+      "sha256": "bc2e654c81949e485a75c8440dc28e18f384106daf50f99b986d45c6a9699ffb",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/References/codex_cycle1_review.html",
+      "bytes": 21068,
+      "sha256": "e565081a7c894674c36702a28432fd91a35aff46a1a40730d2f6a330e5033ae2",
+      "kind": "preview"
+    },
+    {
+      "path": "Docs/References/codex_cycle1_review.md",
+      "bytes": 2253,
+      "sha256": "b75edbb94d3de7c088218b87fc494e0aa8d7f030272cb9352f8f65e1f360c8ab",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/References/codex_cycle2_preview.html",
+      "bytes": 3621,
+      "sha256": "23433014f22993448397948d9e0725b6f5133a53582793b9d97559cff95c7c47",
+      "kind": "preview"
+    },
+    {
+      "path": "Docs/References/codex_cycle2_scope.md",
+      "bytes": 2368,
+      "sha256": "22f0176af8c6c17d767565f1f415680ff2ffc28c8259f21a18d963a17f501f72",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/References/codex_economy_contract_v1.html",
+      "bytes": 24270,
+      "sha256": "81234aec847a444c48c2355adb8151198bd02826107f47c463b94d1d8576b35c",
+      "kind": "preview"
+    },
+    {
+      "path": "Docs/References/codex_goblin_preview_v1.html",
+      "bytes": 682221,
+      "sha256": "7236627bdd09c1477c2e8d8f825c1cec7131fee04c9da6113b3e7e39b8915fb2",
+      "kind": "preview"
+    },
+    {
+      "path": "Docs/References/codex_goblin_reference_v1.md",
+      "bytes": 2391,
+      "sha256": "6d53cc5995d180a8532bb8c60ee035e4ceea1fc941b08f1421a98125301cf24e",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/References/codex_goblin_walk_attack4_v1.json",
+      "bytes": 4054,
+      "sha256": "d2ed0978f91ce07e5efad514317562b5e5729ac547d4a60337ef6400b9ab961a",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/References/codex_goblin_walk_attack4_v1.png",
+      "bytes": 503362,
+      "sha256": "0e2e311ea0d214fae8c46605a1e58a7f8e8f8815bd2cd05d34b6cb1fe0f359cf",
+      "kind": "media"
+    },
+    {
+      "path": "Docs/References/codex_hero_grid_v1/README.md",
+      "bytes": 2860,
+      "sha256": "b8e1db56d40ad47d64913b3976e7aaa277b60b2c38aa319372f9a490c330bfb4",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/References/codex_hero_grid_v1/build_sheet.py",
+      "bytes": 4269,
+      "sha256": "9ac546cac75ba2f9f3c432510b93160f96112cc4c802286ec618d82b3ae060ac",
+      "kind": "source"
+    },
+    {
+      "path": "Docs/References/codex_hero_grid_v1/hero_walk_grid.json",
+      "bytes": 7429,
+      "sha256": "6416ede0e24db5af65602ff4908f4b3e4cee95fb60858284cffa0eb1cdde2130",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/References/codex_hero_grid_v1/hero_walk_grid.png",
+      "bytes": 797199,
+      "sha256": "08cb477b4754eb406c2b98cd6e8a7362339c77f1ae8edd3de892d9f16e17fae6",
+      "kind": "media"
+    },
+    {
+      "path": "Docs/References/codex_hero_grid_v1/preview.html",
+      "bytes": 1067216,
+      "sha256": "1e69b0537b9ddefbe77b01ec7ca758f9b283fc72ce59dad424f2efef88569806",
+      "kind": "preview"
+    },
+    {
+      "path": "Docs/References/codex_hero_grid_v1/qa.json",
+      "bytes": 337,
+      "sha256": "6af4a9f0c5dd57e9b98743ad131fafc5c13354f283460e425d0c6c53e07b2c04",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/References/codex_hero_grid_v2/README.md",
+      "bytes": 3096,
+      "sha256": "d37ab93a8b32739b57b38dc8e6fefdc8ed5450193431e72e0b381f4730c4d192",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/References/codex_hero_grid_v2/build_append.py",
+      "bytes": 1092,
+      "sha256": "3056cb4adfc6b7f668667505878fd5171b74c96a15fabb2de1fb611e86c396e5",
+      "kind": "source"
+    },
+    {
+      "path": "Docs/References/codex_hero_grid_v2/build_sheet.py",
+      "bytes": 3541,
+      "sha256": "0f1c19b64db492a3e0686738b04a4ee0a718d842d946ec1ec26cbad0ffd311e6",
+      "kind": "source"
+    },
+    {
+      "path": "Docs/References/codex_hero_grid_v2/generation.json",
+      "bytes": 5207,
+      "sha256": "42a97a1a8e3ed641116f1d0a16284f9613fc3ba434ef0258e5cf5b741e437322",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/References/codex_hero_grid_v2/hero_walk_run_append_grid.json",
+      "bytes": 2847,
+      "sha256": "80c9f9dda91b16499551fff06333a68e7554cf63c77c1bbfea08efe705446b4b",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/References/codex_hero_grid_v2/hero_walk_run_append_grid.png",
+      "bytes": 1006851,
+      "sha256": "7983f37e394528709b9e02dc0152e2788c878c8671ec803671ae28abeb8ad1f5",
+      "kind": "media"
+    },
+    {
+      "path": "Docs/References/codex_hero_grid_v2/hero_walk_run_grid.json",
+      "bytes": 2838,
+      "sha256": "3df13f55c86abb0cbe38162d00d104a4ef389126e3bf63fdb6abe2a0a8676da2",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/References/codex_hero_grid_v2/hero_walk_run_grid.png",
+      "bytes": 1006724,
+      "sha256": "3ac773e6922c1ae1a3281730fec4ed26679fff808f448e0d0e3e96550d085c15",
+      "kind": "media"
+    },
+    {
+      "path": "Docs/References/codex_hero_grid_v2/preview.html",
+      "bytes": 1347044,
+      "sha256": "fae8e5ab3843d5bca803152fbc063c2f384d7c72a7025762197a954f81f8d179",
+      "kind": "preview"
+    },
+    {
+      "path": "Docs/References/codex_hero_grid_v2/qa.json",
+      "bytes": 206,
+      "sha256": "9339108985f23f70af1deddc1254008755226d789f2cca09277d36095fceea97",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/References/codex_hero_grid_v2/run_pose_0.png",
+      "bytes": 490061,
+      "sha256": "294136ddf0aa83fe36f2470e7da472b0d32220925cd4d15585bcc15f30914038",
+      "kind": "media"
+    },
+    {
+      "path": "Docs/References/codex_hero_grid_v2/run_pose_1.png",
+      "bytes": 410955,
+      "sha256": "198c54804c2a53d48a8d72c726ff18121d33130d2b5ef0516cb1ded388f03a20",
+      "kind": "media"
+    },
+    {
+      "path": "Docs/References/codex_hero_grid_v2/run_pose_2.png",
+      "bytes": 523881,
+      "sha256": "95f8a03f4e8559ae7289a44bb5346486bb0e90535587f3c869deb20f415b10d6",
+      "kind": "media"
+    },
+    {
+      "path": "Docs/References/codex_hero_grid_v2/run_pose_3.png",
+      "bytes": 428726,
+      "sha256": "b1c51b0efd65a4b8491f6b5358259fcdcb03b6543a9e19b358f583f40de2da0c",
+      "kind": "media"
+    },
+    {
+      "path": "Docs/References/codex_hero_reference_v1.html",
+      "bytes": 312,
+      "sha256": "7b6a0935b2e4ef02367ef6df1999c5b5785a7f18a1c6017e5cbd63abb8f106e2",
+      "kind": "preview"
+    },
+    {
+      "path": "Docs/References/codex_hero_walk4_v8.json",
+      "bytes": 5807,
+      "sha256": "a54b25bfd359f4d3e21e5bb1c2a5a24eb54d9f16e13b13407617131bc161caf9",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/References/codex_hero_walk4_v8.md",
+      "bytes": 1267,
+      "sha256": "25032c47fb99109e5a84dba4e7aff7083c511b1afdc2ba8f19cbd4ec51bc8985",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/References/codex_hero_walk_preview_v1.html",
+      "bytes": 2066901,
+      "sha256": "25900b14d3373cc0cc8230e82833d2c43719346467121cdd7c626aeb770bc639",
+      "kind": "preview"
+    },
+    {
+      "path": "Docs/References/codex_hero_walk_v4_side.png",
+      "bytes": 670150,
+      "sha256": "f3c4babba2c925f0fbda73180a6d2fdfcac3c63cfc75684b215a64916d30cbfd",
+      "kind": "media"
+    },
+    {
+      "path": "Docs/References/codex_hero_walk_v6_eye_edit.json",
+      "bytes": 229,
+      "sha256": "83d24038018fde1d5641f115b529eb502dc30fccc9a9ce0d7a39e68413d45412",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/References/codex_hero_walk_v6_front_back.png",
+      "bytes": 866927,
+      "sha256": "908c3637ac0673c43397eea9e8af79227f7259007754fb72c3c6c0159203364d",
+      "kind": "media"
+    },
+    {
+      "path": "Docs/References/codex_pending_documents/README.md",
+      "bytes": null,
+      "sha256": null,
+      "kind": "index"
+    },
+    {
+      "path": "Docs/References/codex_pending_documents/inventory.json",
+      "bytes": null,
+      "sha256": null,
+      "kind": "index"
+    },
+    {
+      "path": "Docs/References/codex_pending_documents/preview.html",
+      "bytes": null,
+      "sha256": null,
+      "kind": "index"
+    },
+    {
+      "path": "Docs/References/codex_player_asset_issue.html",
+      "bytes": 5814,
+      "sha256": "43476a39671f7a802de304c34e2e313a0a03da4ab97f633cabd7b3559dd26677",
+      "kind": "preview"
+    },
+    {
+      "path": "Docs/References/codex_player_asset_issue.md",
+      "bytes": 4960,
+      "sha256": "1e125959fed93141499b09d047a43d38449eb0dcce7841e23854d22b8aa9503e",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/References/codex_prep_traps_proposal.html",
+      "bytes": 35520,
+      "sha256": "e5041b5ab0d4f9cd69232ecb0244854674f70d093b11312a4e6df3f85c97e71c",
+      "kind": "preview"
+    },
+    {
+      "path": "Docs/References/codex_prep_traps_v1/README.md",
+      "bytes": 634,
+      "sha256": "47b32612e0b65850f32442550d4e9abce8a558b8a51ca7d6f3f4bf3624f79932",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/References/codex_prep_traps_v1/preview.html",
+      "bytes": 35520,
+      "sha256": "e5041b5ab0d4f9cd69232ecb0244854674f70d093b11312a4e6df3f85c97e71c",
+      "kind": "preview"
+    },
+    {
+      "path": "Docs/References/codex_preparation_implementation.html",
+      "bytes": 2860,
+      "sha256": "a7084206544b523bb39d7f29950670d19377ed013142fc8ed4f1ab806548cbdd",
+      "kind": "preview"
+    },
+    {
+      "path": "Docs/References/codex_preparation_implementation.md",
+      "bytes": 2114,
+      "sha256": "2b50cf9483ccba13e58ac7ec78a4c257958059793b2140b7e06f9f8ca03345cc",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/References/codex_result_details.html",
+      "bytes": 4107,
+      "sha256": "b6dd5dacc83d6d3a534688835af09fbc0f2d35f2790f2059fad3739099a2d362",
+      "kind": "preview"
+    },
+    {
+      "path": "Docs/References/codex_result_details.md",
+      "bytes": 3356,
+      "sha256": "dac16b3655f650c2e7386dd5df418898b70b04d0d544f7b9bd5076efb76027fa",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/References/codex_soldier_back_v1/README.md",
+      "bytes": 1829,
+      "sha256": "7c15e9f38258b8aabbc474a51ff5569195296dbfc30fadd748e9b9c5689a1ccc",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/References/codex_soldier_back_v1/archer_back.png",
+      "bytes": 485998,
+      "sha256": "1e7db7dd02060382d35c627f2ad1260fdcd93b63ec442d4a38752baab7cda1ed",
+      "kind": "media"
+    },
+    {
+      "path": "Docs/References/codex_soldier_back_v1/cannon_crew_back.png",
+      "bytes": 575894,
+      "sha256": "e9e3aa7bcdd59fdc32149b890fabe40119cebe8495a81dcc8962177c8b726e82",
+      "kind": "media"
+    },
+    {
+      "path": "Docs/References/codex_soldier_back_v1/gunner_back.png",
+      "bytes": 632568,
+      "sha256": "e87d0615649ac6310e57534f220a10b75cffc6b7b69681a1dfed3c896c2f2e57",
+      "kind": "media"
+    },
+    {
+      "path": "Docs/References/codex_soldier_back_v1/png_analysis.json",
+      "bytes": 1143,
+      "sha256": "25ceee4e8dac9c9b360f068f8e65c630f49af776797c88a8853e98070aa0c827",
+      "kind": "document/data"
+    },
+    {
+      "path": "Docs/References/codex_soldier_back_v1/preview.html",
+      "bytes": 3874,
+      "sha256": "c48a962c815eae61abc9d3ab102a18d104631c33e8fcdea1b55917b474c67a77",
+      "kind": "preview"
+    },
+    {
+      "path": "Docs/References/codex_soldier_back_v1/prompts.json",
+      "bytes": 3926,
+      "sha256": "819f9faca823efea3307b1fbf64c311db938135ecf916d002ead4f7c64199ab4",
+      "kind": "document/data"
+    }
+  ]
+}
